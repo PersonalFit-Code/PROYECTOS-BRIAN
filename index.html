@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+<!--
+  ============================================================================
+  LANDING PAGE LOCAL · PLANTILLA DE ALTA CONVERSIÓN
+  ============================================================================
+  Demo configurada para: Reformas Auria (reformas integrales) · Ourense
+
+  ADAPTAR A UN NUEVO CLIENTE = 8 BUSCAR/REEMPLAZAR (ver README.md):
+    1. Reformas Auria          -> NOMBRE_NEGOCIO
+    2. Ourense                 -> CIUDAD_UBICACION
+    3. Rúa do Progreso 45      -> DIRECCION (calle)
+    4. 32003                   -> CÓDIGO POSTAL
+    5. +34988000000            -> TELÉFONO (formato tel:, sin espacios)
+    6. 34600000000             -> WHATSAPP (formato wa.me, sin + ni espacios)
+    7. reformasauria.es        -> DOMINIO
+    8. --brand / --accent      -> PALETA (bloque :root, línea ~120)
+
+  AVISOS ANTES DE PUBLICAR:
+    · Teléfonos de la demo (988 000 000 / 600 000 000) son rangos NO asignados:
+      sustitúyelos por los reales o los CTA no convierten.
+    · Los testimonios son de ejemplo estructural. Sustitúyelos por reseñas
+      REALES del cliente antes de publicar.
+    · aggregateRating está desactivado a propósito en el JSON-LD (abajo):
+      marcar reseñas inventadas incumple las políticas de Google y expone
+      el dominio a una acción manual. Activarlo solo con reseñas verificadas.
+  ============================================================================
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1E3A8A">
+<meta name="format-detection" content="telephone=no">
+
+<title>Reformas Integrales en Ourense | Reformas Auria</title>
+<meta name="description" content="Reformas integrales en Ourense con presupuesto cerrado en 48 h y plazo de obra garantizado por escrito. Cocinas, baños y viviendas completas. Pide tu visita técnica gratuita.">
+<meta name="keywords" content="reformas Ourense, reformas integrales Ourense, reforma de baños Ourense, reforma de cocinas Ourense, empresa de reformas Ourense">
+<meta name="author" content="Reformas Auria">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://reformasauria.es/">
+
+<!-- Geo-targeting -->
+<meta name="geo.region" content="ES-GA">
+<meta name="geo.placename" content="Ourense">
+<meta name="geo.position" content="42.336412;-7.864151">
+<meta name="ICBM" content="42.336412, -7.864151">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Reformas Auria">
+<meta property="og:locale" content="es_ES">
+<meta property="og:url" content="https://reformasauria.es/">
+<meta property="og:title" content="Reformas Integrales en Ourense | Reformas Auria">
+<meta property="og:description" content="Presupuesto cerrado en 48 h y plazo de obra garantizado por escrito. Más de 15 años reformando viviendas en Ourense.">
+<meta property="og:image" content="https://reformasauria.es/assets/og-image.png">
+<meta property="og:image:secure_url" content="https://reformasauria.es/assets/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Reformas Auria · Reformas integrales en Ourense">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Reformas Integrales en Ourense | Reformas Auria">
+<meta name="twitter:description" content="Presupuesto cerrado en 48 h y plazo de obra garantizado por escrito. Visita técnica gratuita en Ourense.">
+<meta name="twitter:image" content="https://reformasauria.es/assets/og-image.png">
+<meta name="twitter:image:alt" content="Reformas Auria · Reformas integrales en Ourense">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231E3A8A'/%3E%3Cpath d='M26 62V44l24-16 24 16v18' fill='none' stroke='%23F59E0B' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M42 74V56h16v18' fill='none' stroke='%23fff' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+<!-- ===== Schema.org · LocalBusiness con NAP + geolocalización ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "@id": "https://reformasauria.es/#negocio",
+  "name": "Reformas Auria",
+  "alternateName": "Reformas Auria Ourense",
+  "description": "Empresa de reformas integrales en Ourense especializada en viviendas, cocinas y baños. Presupuesto cerrado en 48 horas y plazo de obra garantizado por contrato.",
+  "url": "https://reformasauria.es/",
+  "logo": "https://reformasauria.es/assets/og-image.png",
+  "image": "https://reformasauria.es/assets/og-image.png",
+  "telephone": "+34988000000",
+  "email": "hola@reformasauria.es",
+  "priceRange": "€€",
+  "currenciesAccepted": "EUR",
+  "paymentAccepted": "Efectivo, Tarjeta, Transferencia bancaria, Financiación",
+  "foundingDate": "2010",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Rúa do Progreso 45, Baixo",
+    "addressLocality": "Ourense",
+    "addressRegion": "Galicia",
+    "postalCode": "32003",
+    "addressCountry": "ES"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 42.336412,
+    "longitude": -7.864151
+  },
+  "hasMap": "https://www.google.com/maps?q=R%C3%BAa+do+Progreso+45,+32003+Ourense",
+  "areaServed": [
+    { "@type": "City", "name": "Ourense" },
+    { "@type": "City", "name": "Barbadás" },
+    { "@type": "City", "name": "O Pereiro de Aguiar" },
+    { "@type": "City", "name": "San Cibrao das Viñas" },
+    { "@type": "AdministrativeArea", "name": "Provincia de Ourense" }
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "14:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "16:00",
+      "closes": "19:30"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "10:00",
+      "closes": "13:30"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Sunday",
+      "opens": "00:00",
+      "closes": "00:00"
+    }
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+34988000000",
+    "contactType": "Atención al cliente",
+    "areaServed": "ES",
+    "availableLanguage": ["es", "gl"]
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Servicios de reforma en Ourense",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reforma integral de vivienda" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reforma de cocinas" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reforma de baños" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cambio de ventanas y aislamiento" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rehabilitación de fachadas" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reforma de locales comerciales" } }
+    ]
+  },
+  "sameAs": [
+    "https://www.facebook.com/reformasauria",
+    "https://www.instagram.com/reformasauria"
+  ]
+}
+</script>
+<!--
+  NO añadas "aggregateRating" ni "review" al JSON-LD de arriba con datos
+  inventados: Google exige que las reseñas marcadas sean reales y visibles en
+  la página, y marcar reseñas falsas expone el dominio a una acción manual.
+  Cuando el cliente aporte sus reseñas verificadas de Google, añade dentro
+  del objeto anterior:
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9",
+                         "reviewCount": "87", "bestRating": "5" }
+-->
+
+<!-- ===== FAQPage · gana espacio en la SERP local ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Cuánto cuesta una reforma integral en Ourense?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "En Ourense una reforma integral parte de 550 €/m² en acabados estándar y de 780 €/m² en gama alta. Tras la visita técnica gratuita recibes un presupuesto cerrado por partidas, sin costes ocultos y con precio bloqueado durante 60 días."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cuánto tarda una reforma de baño o cocina?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Un baño completo se entrega en 10-14 días laborables y una cocina en 15-20 días. El plazo queda firmado en contrato: si nos retrasamos por causas nuestras, se aplica la penalización pactada."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Os encargáis de los permisos y licencias de obra?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí. Tramitamos la comunicación previa o la licencia de obra en el Concello de Ourense, el proyecto técnico cuando es necesario y la gestión de residuos en punto autorizado. Tú no pisas una ventanilla."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué garantía tienen los trabajos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tres años de garantía por escrito en instalaciones de fontanería y electricidad, más la garantía de fabricante en materiales. Contamos con seguro de responsabilidad civil de 600.000 € y todo el personal está dado de alta."
+      }
+    }
+  ]
+}
+</script>
+
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            DEFAULT: 'var(--brand)',
+            light:   'var(--brand-light)',
+            dark:    'var(--brand-dark)',
+            tint:    'var(--brand-tint)'
+          },
+          accent: {
+            DEFAULT: 'var(--accent)',
+            dark:    'var(--accent-dark)'
+          }
+        },
+        fontFamily: {
+          sans:    ['Inter', 'system-ui', 'sans-serif'],
+          display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif']
+        },
+        boxShadow: {
+          card: '0 1px 2px rgba(15,23,42,.06), 0 8px 24px -12px rgba(15,23,42,.18)',
+          lift: '0 24px 48px -20px rgba(30,58,138,.35)'
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  /* ==========================================================
+     PALETA · cambia estos 6 valores y toda la landing se retiñe
+     ========================================================== */
+  :root{
+    --brand:        #1E3A8A;   /* Azul corporativo · confianza  */
+    --brand-light:  #2E4FAE;
+    --brand-dark:   #152A63;
+    --brand-tint:   #EEF3FF;
+    --accent:       #F59E0B;   /* Ámbar · CTA y acentos         */
+    --accent-dark:  #B45309;   /* Ámbar oscuro · texto sobre blanco (AA) */
+  }
+
+  html{ scroll-behavior:smooth; scroll-padding-top:5.5rem; }
+  body{ font-family:'Inter',system-ui,sans-serif; color:#0F172A; background:#fff;
+        -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  h1,h2,h3,.font-display{ font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;
+        letter-spacing:-.02em; }
+
+  /* Foco visible y consistente · WCAG 2.1 · 2.4.7 */
+  :focus-visible{ outline:3px solid var(--accent); outline-offset:3px; border-radius:4px; }
+
+  /* Malla técnica decorativa del hero */
+  .hero-grid{
+    background-image:
+      linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
+    background-size:56px 56px;
+  }
+
+  /* Revelado al hacer scroll */
+  .reveal{ opacity:0; transform:translateY(26px);
+           transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+  .reveal.is-visible{ opacity:1; transform:none; }
+
+  /* Anillo de pulso del botón flotante de WhatsApp */
+  @keyframes pulse-ring{
+    0%  { transform:scale(.85); opacity:.75; }
+    70% { transform:scale(1.7);  opacity:0;  }
+    100%{ transform:scale(1.7);  opacity:0;  }
+  }
+  .pulse-ring{ animation:pulse-ring 2.2s cubic-bezier(.25,.46,.45,.94) infinite; }
+
+  /* Subrayado de acento bajo los titulares */
+  .underline-accent{ position:relative; display:inline-block; }
+  .underline-accent::after{
+    content:''; position:absolute; left:0; right:0; bottom:-.18em; height:.32em;
+    background:var(--accent); opacity:.32; border-radius:2px; z-index:-1;
+  }
+
+  /* Tarjetas de servicio */
+  .service-card{ transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease, border-color .35s ease; }
+  .service-card:hover{ transform:translateY(-6px); }
+
+  /* Iconos Lucide: tamaño estable antes de hidratar */
+  [data-lucide]{ width:1.5rem; height:1.5rem; display:inline-block; }
+
+  /* Respeto por quien pide menos movimiento · WCAG 2.3.3 */
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .pulse-ring{ animation:none !important; }
+    .service-card:hover{ transform:none; }
+    *,*::before,*::after{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  }
+
+  @media print{ .no-print{ display:none !important; } }
+</style>
+</head>
+
+<body class="bg-white antialiased">
+
+<!-- Salto al contenido · navegación por teclado -->
+<a href="#contenido"
+   class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-brand focus:px-5 focus:py-3 focus:text-white focus:font-semibold focus:shadow-lift">
+  Saltar al contenido principal
+</a>
+
+<!-- ======================= 1 · HEADER STICKY ======================= -->
+<header id="cabecera"
+        class="fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-slate-200/80 no-print">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-[4.5rem] items-center justify-between gap-4">
+
+      <!-- Branding -->
+      <a href="#inicio" class="flex items-center gap-3 shrink-0" aria-label="Reformas Auria · Inicio">
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-brand shadow-sm" aria-hidden="true">
+          <svg viewBox="0 0 100 100" class="h-7 w-7" fill="none" focusable="false">
+            <path d="M26 62V44l24-16 24 16v18" stroke="#F59E0B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M42 74V56h16v18" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="leading-tight">
+          <span class="block font-display text-lg font-extrabold text-brand">Reformas Auria</span>
+          <span class="block text-[11px] font-semibold uppercase tracking-[.14em] text-slate-500">Ourense · desde 2010</span>
+        </span>
+      </a>
+
+      <!-- Navegación de escritorio -->
+      <nav class="hidden lg:flex items-center gap-1" aria-label="Navegación principal">
+        <a href="#servicios"  class="rounded-lg px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-brand-tint hover:text-brand">Servicios</a>
+        <a href="#proceso"    class="rounded-lg px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-brand-tint hover:text-brand">Cómo trabajamos</a>
+        <a href="#opiniones"  class="rounded-lg px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-brand-tint hover:text-brand">Opiniones</a>
+        <a href="#faq"        class="rounded-lg px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-brand-tint hover:text-brand">Preguntas</a>
+        <a href="#contacto"   class="rounded-lg px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-brand-tint hover:text-brand">Contacto</a>
+      </nav>
+
+      <!-- CTA de llamada directa -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="tel:+34988000000"
+           class="group inline-flex items-center gap-2.5 rounded-xl bg-accent px-5 py-3 font-display text-sm font-bold text-slate-900 shadow-sm transition hover:bg-accent-dark hover:text-white focus-visible:outline-none"
+           aria-label="Llamar ahora al 988 000 000">
+          <svg class="h-[1.125rem] w-[1.125rem]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M6.6 10.8c1.1 2.2 2.9 4 5.1 5.1l1.7-1.7c.2-.2.5-.3.8-.2 1.1.4 2.2.6 3.4.6.4 0 .8.3.8.8V18c0 .4-.3.8-.8.8-7 0-12.6-5.7-12.6-12.6 0-.4.3-.8.8-.8h2.6c.4 0 .8.3.8.8 0 1.2.2 2.3.6 3.4.1.3 0 .6-.2.8l-1.7 1.7z"/>
+          </svg>
+          <span class="whitespace-nowrap">988 000 000</span>
+        </a>
+      </div>
+
+      <!-- Tap-to-call compacto · visible solo en móvil, donde el CTA ancho no cabe -->
+      <a href="tel:+34988000000"
+         class="sm:hidden grid h-11 w-11 place-items-center rounded-xl bg-accent text-slate-900 transition hover:bg-accent-dark hover:text-white"
+         aria-label="Llamar ahora al 988 000 000">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M6.6 10.8c1.1 2.2 2.9 4 5.1 5.1l1.7-1.7c.2-.2.5-.3.8-.2 1.1.4 2.2.6 3.4.6.4 0 .8.3.8.8V18c0 .4-.3.8-.8.8-7 0-12.6-5.7-12.6-12.6 0-.4.3-.8.8-.8h2.6c.4 0 .8.3.8.8 0 1.2.2 2.3.6 3.4.1.3 0 .6-.2.8l-1.7 1.7z"/>
+        </svg>
+      </a>
+
+      <!-- Botón de menú móvil -->
+      <button id="btn-menu" type="button"
+              class="lg:hidden grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-slate-300 text-brand transition hover:bg-brand-tint"
+              aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú de navegación">
+        <svg id="icono-abrir" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+        <svg id="icono-cerrar" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Panel de menú móvil -->
+  <div id="menu-movil" class="hidden lg:hidden border-t border-slate-200 bg-white shadow-lg">
+    <nav class="mx-auto max-w-7xl px-4 py-4 sm:px-6" aria-label="Navegación móvil">
+      <ul class="space-y-1">
+        <li><a href="#servicios" class="menu-enlace block rounded-lg px-4 py-3 font-semibold text-slate-800 transition hover:bg-brand-tint hover:text-brand">Servicios</a></li>
+        <li><a href="#proceso"   class="menu-enlace block rounded-lg px-4 py-3 font-semibold text-slate-800 transition hover:bg-brand-tint hover:text-brand">Cómo trabajamos</a></li>
+        <li><a href="#opiniones" class="menu-enlace block rounded-lg px-4 py-3 font-semibold text-slate-800 transition hover:bg-brand-tint hover:text-brand">Opiniones</a></li>
+        <li><a href="#faq"       class="menu-enlace block rounded-lg px-4 py-3 font-semibold text-slate-800 transition hover:bg-brand-tint hover:text-brand">Preguntas frecuentes</a></li>
+        <li><a href="#contacto"  class="menu-enlace block rounded-lg px-4 py-3 font-semibold text-slate-800 transition hover:bg-brand-tint hover:text-brand">Contacto y horarios</a></li>
+      </ul>
+      <div class="mt-4 grid grid-cols-1 gap-2.5 border-t border-slate-200 pt-4">
+        <a href="tel:+34988000000"
+           class="inline-flex items-center justify-center gap-2.5 rounded-xl bg-accent px-5 py-3.5 font-display font-bold text-slate-900 transition hover:bg-accent-dark hover:text-white"
+           aria-label="Llamar ahora al 988 000 000">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M6.6 10.8c1.1 2.2 2.9 4 5.1 5.1l1.7-1.7c.2-.2.5-.3.8-.2 1.1.4 2.2.6 3.4.6.4 0 .8.3.8.8V18c0 .4-.3.8-.8.8-7 0-12.6-5.7-12.6-12.6 0-.4.3-.8.8-.8h2.6c.4 0 .8.3.8.8 0 1.2.2 2.3.6 3.4.1.3 0 .6-.2.8l-1.7 1.7z"/>
+          </svg>
+          Llamar · 988 000 000
+        </a>
+        <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20presupuesto%20para%20una%20reforma%20en%20Ourense"
+           target="_blank" rel="noopener"
+           class="inline-flex items-center justify-center gap-2.5 rounded-xl border-2 border-brand px-5 py-3.5 font-display font-bold text-brand transition hover:bg-brand hover:text-white">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/>
+          </svg>
+          WhatsApp directo
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+<!-- ======================= 2 · HERO ======================= -->
+<section id="inicio" class="relative overflow-hidden bg-brand pt-[4.5rem] text-white">
+  <div class="absolute inset-0 hero-grid opacity-60" aria-hidden="true"></div>
+  <div class="absolute -top-32 -right-24 h-[30rem] w-[30rem] rounded-full bg-brand-light opacity-40 blur-3xl" aria-hidden="true"></div>
+  <div class="absolute -bottom-40 -left-32 h-[26rem] w-[26rem] rounded-full bg-accent opacity-15 blur-3xl" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <div class="grid items-center gap-14 lg:grid-cols-12">
+
+      <!-- Columna de copy -->
+      <div class="lg:col-span-7">
+        <p class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[.12em] text-white">
+          <span class="grid h-4 w-4 place-items-center rounded-full bg-accent" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="h-2.5 w-2.5" fill="none" stroke="#1E3A8A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M5 13l4 4L19 7"/></svg>
+          </span>
+          Empresa de reformas en Ourense · 15 años
+        </p>
+
+        <h1 class="font-display text-[2.1rem] font-extrabold leading-[1.1] sm:text-5xl lg:text-[3.4rem]">
+          Reformas Integrales en Ourense
+          <span class="mt-2 block text-accent">sin sorpresas en el precio</span>
+        </h1>
+
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-blue-50/90 sm:text-xl">
+          Te entregamos el <strong class="font-semibold text-white">presupuesto cerrado en 48 horas</strong>
+          y firmamos el <strong class="font-semibold text-white">plazo de obra en contrato</strong>.
+          Si nos retrasamos por causas nuestras, lo pagamos nosotros. Así de simple.
+        </p>
+
+        <!-- Doble CTA -->
+        <div class="mt-9 flex flex-col gap-3.5 sm:flex-row sm:items-center">
+          <a href="#contacto"
+             class="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-accent px-7 py-4 font-display text-base font-bold text-slate-900 shadow-lift transition hover:bg-white hover:text-brand">
+            Pide tu visita técnica gratis
+            <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20presupuesto%20para%20una%20reforma%20en%20Ourense"
+             target="_blank" rel="noopener"
+             class="inline-flex items-center justify-center gap-2.5 rounded-xl border-2 border-white/40 bg-white/5 px-7 py-4 font-display text-base font-bold text-white backdrop-blur transition hover:border-white hover:bg-white hover:text-brand"
+             aria-label="Escribir por WhatsApp a Reformas Auria">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/>
+            </svg>
+            Escríbenos por WhatsApp
+          </a>
+        </div>
+
+        <p class="mt-5 flex items-center gap-2 text-sm text-blue-100/80">
+          <svg class="h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/>
+          </svg>
+          Respondemos en menos de 2 horas en horario comercial
+        </p>
+
+        <!-- Barra de confianza -->
+        <dl class="mt-10 grid max-w-xl grid-cols-2 gap-x-6 gap-y-5 border-t border-white/15 pt-8 sm:grid-cols-4">
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wider text-blue-200/80">Obras entregadas</dt>
+            <dd class="mt-1 font-display text-2xl font-extrabold text-white">+340</dd>
+          </div>
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wider text-blue-200/80">Años en Ourense</dt>
+            <dd class="mt-1 font-display text-2xl font-extrabold text-white">15</dd>
+          </div>
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wider text-blue-200/80">Garantía escrita</dt>
+            <dd class="mt-1 font-display text-2xl font-extrabold text-white">3 años</dd>
+          </div>
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wider text-blue-200/80">R. Civil</dt>
+            <dd class="mt-1 whitespace-nowrap font-display text-xl font-extrabold text-white sm:text-2xl">600.000&nbsp;&euro;</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Tarjeta de captación rápida -->
+      <div class="lg:col-span-5">
+        <div class="rounded-2xl border border-white/15 bg-white p-6 shadow-lift sm:p-7">
+          <h2 class="font-display text-xl font-extrabold text-slate-900">Presupuesto en 48 horas</h2>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            Cuéntanos qué quieres reformar. Te llamamos hoy mismo para concertar la visita técnica
+            <strong class="font-semibold text-slate-900">gratuita y sin compromiso</strong>.
+          </p>
+
+          <form id="form-presupuesto" class="mt-6 space-y-4" novalidate>
+            <div>
+              <label for="campo-nombre" class="block text-sm font-semibold text-slate-800">Nombre y apellidos</label>
+              <input id="campo-nombre" name="nombre" type="text" required autocomplete="name"
+                     placeholder="Ej. Marta Rodríguez"
+                     class="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 transition focus:border-brand focus:ring-2 focus:ring-brand/30">
+            </div>
+            <div>
+              <label for="campo-telefono" class="block text-sm font-semibold text-slate-800">Teléfono de contacto</label>
+              <input id="campo-telefono" name="telefono" type="tel" required autocomplete="tel"
+                     inputmode="tel" pattern="[0-9+\s]{9,17}" placeholder="Ej. 600 123 456"
+                     class="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 transition focus:border-brand focus:ring-2 focus:ring-brand/30">
+            </div>
+            <div>
+              <label for="campo-servicio" class="block text-sm font-semibold text-slate-800">¿Qué necesitas reformar?</label>
+              <select id="campo-servicio" name="servicio" required
+                      class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 transition focus:border-brand focus:ring-2 focus:ring-brand/30">
+                <option value="">Selecciona una opción</option>
+                <option>Vivienda completa</option>
+                <option>Cocina</option>
+                <option>Baño</option>
+                <option>Ventanas y aislamiento</option>
+                <option>Fachada o tejado</option>
+                <option>Local comercial</option>
+              </select>
+            </div>
+            <div>
+              <label for="campo-mensaje" class="block text-sm font-semibold text-slate-800">
+                Detalles <span class="font-normal text-slate-500">(opcional)</span>
+              </label>
+              <textarea id="campo-mensaje" name="mensaje" rows="2"
+                        placeholder="Metros aproximados, zona de Ourense, plazos…"
+                        class="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 transition focus:border-brand focus:ring-2 focus:ring-brand/30"></textarea>
+            </div>
+
+            <label class="flex items-start gap-2.5 text-xs leading-relaxed text-slate-600">
+              <input id="campo-rgpd" name="rgpd" type="checkbox" required
+                     class="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-400 text-brand focus:ring-brand">
+              <span>He leído y acepto la <a href="#privacidad" class="font-semibold text-brand underline">política de privacidad</a> y el tratamiento de mis datos para recibir el presupuesto.</span>
+            </label>
+
+            <p id="form-error" class="hidden rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-red-700" role="alert"></p>
+
+            <button type="submit"
+                    class="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-brand px-6 py-4 font-display text-base font-bold text-white shadow-sm transition hover:bg-brand-dark">
+              Quiero mi presupuesto gratis
+              <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </button>
+            <p class="text-center text-xs text-slate-500">
+              Se abrirá WhatsApp con tus datos listos para enviar. Sin coste ni compromiso.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transición curva hacia la sección siguiente -->
+  <div class="relative" aria-hidden="true">
+    <svg class="block w-full" style="height:clamp(28px,4vw,56px)" viewBox="0 0 1440 56" preserveAspectRatio="none" focusable="false">
+      <path d="M0 56h1440V0C1088 40 352 40 0 0z" fill="#fff"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ======================= 3 · SERVICIOS CLAVE ======================= -->
+<section id="servicios" class="bg-white py-20 lg:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <div class="reveal mx-auto max-w-3xl text-center">
+      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-accent-dark">Nuestros servicios</p>
+      <h2 class="font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
+        Todo lo que tu casa necesita, <span class="underline-accent">con un solo interlocutor</span>
+      </h2>
+      <p class="mt-5 text-lg leading-relaxed text-slate-600">
+        Coordinamos albañilería, fontanería, electricidad, carpintería y pintura con nuestro propio equipo.
+        Tú hablas con una sola persona de principio a fin: tu jefe de obra.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+      <article class="service-card reveal group rounded-2xl border border-slate-200 bg-white p-7 shadow-card hover:shadow-xl hover:border-brand/30 transition-all">
+        <span class="grid h-14 w-14 place-items-center rounded-xl bg-brand-tint text-brand transition group-hover:bg-brand group-hover:text-white" aria-hidden="true">
+          <i data-lucide="home"></i>
+        </span>
+        <h3 class="mt-5 font-display text-xl font-bold text-slate-900">Reforma integral de vivienda</h3>
+        <p class="mt-3 text-[15px] leading-relaxed text-slate-600">
+          Pisos del Centro, Ponte o As Lagoas puestos a nuevo: distribución, instalaciones, suelos y acabados.
+          Obra limpia, con protección de zonas comunes y retirada diaria de escombro.
+        </p>
+        <p class="mt-4 text-sm font-bold text-brand">Desde 550 €/m² · 6-10 semanas</p>
+      </article>
+
+      <article class="service-card reveal group rounded-2xl border border-slate-200 bg-white p-7 shadow-card hover:shadow-xl hover:border-brand/30 transition-all">
+        <span class="grid h-14 w-14 place-items-center rounded-xl bg-brand-tint text-brand transition group-hover:bg-brand group-hover:text-white" aria-hidden="true">
+          <i data-lucide="chef-hat"></i>
+        </span>
+        <h3 class="mt-5 font-display text-xl font-bold text-slate-900">Reforma de cocinas</h3>
+        <p class="mt-3 text-[15px] leading-relaxed text-slate-600">
+          Diseño 3D antes de empezar, mobiliario de fabricantes gallegos y electrodomésticos instalados.
+          Te entregamos la cocina funcionando, no una lista de pendientes.
+        </p>
+        <p class="mt-4 text-sm font-bold text-brand">Desde 6.900 € · 15-20 días</p>
+      </article>
+
+      <article class="service-card reveal group rounded-2xl border border-slate-200 bg-white p-7 shadow-card hover:shadow-xl hover:border-brand/30 transition-all">
+        <span class="grid h-14 w-14 place-items-center rounded-xl bg-brand-tint text-brand transition group-hover:bg-brand group-hover:text-white" aria-hidden="true">
+          <i data-lucide="shower-head"></i>
+        </span>
+        <h3 class="mt-5 font-display text-xl font-bold text-slate-900">Reforma de baños</h3>
+        <p class="mt-3 text-[15px] leading-relaxed text-slate-600">
+          Cambio de bañera por plato de ducha en 48 horas o baño completo en dos semanas.
+          Incluye fontanería nueva, alicatado, mampara y sanitarios.
+        </p>
+        <p class="mt-4 text-sm font-bold text-brand">Desde 4.200 € · 10-14 días</p>
+      </article>
+
+      <article class="service-card reveal group rounded-2xl border border-slate-200 bg-white p-7 shadow-card hover:shadow-xl hover:border-brand/30 transition-all">
+        <span class="grid h-14 w-14 place-items-center rounded-xl bg-brand-tint text-brand transition group-hover:bg-brand group-hover:text-white" aria-hidden="true">
+          <i data-lucide="thermometer-snowflake"></i>
+        </span>
+        <h3 class="mt-5 font-display text-xl font-bold text-slate-900">Ventanas y aislamiento</h3>
+        <p class="mt-3 text-[15px] leading-relaxed text-slate-600">
+          Con los inviernos de Ourense, cambiar a PVC u aluminio con rotura de puente térmico baja la factura
+          hasta un 40 %. Tramitamos también las ayudas de rehabilitación energética.
+        </p>
+        <p class="mt-4 text-sm font-bold text-brand">Desde 320 €/ventana · 2-4 días</p>
+      </article>
+
+      <article class="service-card reveal group rounded-2xl border border-slate-200 bg-white p-7 shadow-card hover:shadow-xl hover:border-brand/30 transition-all">
+        <span class="grid h-14 w-14 place-items-center rounded-xl bg-brand-tint text-brand transition group-hover:bg-brand group-hover:text-white" aria-hidden="true">
+          <i data-lucide="building-2"></i>
+        </span>
+        <h3 class="mt-5 font-display text-xl font-bold text-slate-900">Fachadas y rehabilitación</h3>
+        <p class="mt-3 text-[15px] leading-relaxed text-slate-600">
+          SATE, impermeabilización de cubiertas y saneado de humedades para comunidades de vecinos.
+          Trabajamos con andamio homologado y coordinador de seguridad propio.
+        </p>
+        <p class="mt-4 text-sm font-bold text-brand">Presupuesto por m² · consultar</p>
+      </article>
+
+      <article class="service-card reveal group rounded-2xl border border-slate-200 bg-white p-7 shadow-card hover:shadow-xl hover:border-brand/30 transition-all">
+        <span class="grid h-14 w-14 place-items-center rounded-xl bg-brand-tint text-brand transition group-hover:bg-brand group-hover:text-white" aria-hidden="true">
+          <i data-lucide="store"></i>
+        </span>
+        <h3 class="mt-5 font-display text-xl font-bold text-slate-900">Locales comerciales</h3>
+        <p class="mt-3 text-[15px] leading-relaxed text-slate-600">
+          Adecuación de locales con proyecto y licencia de actividad incluidos. Planificamos por fases
+          para que abras cuanto antes y pierdas los mínimos días de caja.
+        </p>
+        <p class="mt-4 text-sm font-bold text-brand">Proyecto + obra · a medida</p>
+      </article>
+    </div>
+
+    <p class="reveal mt-12 text-center text-slate-600">
+      ¿No ves lo que buscas?
+      <a href="tel:+34988000000" class="font-bold text-brand underline decoration-accent decoration-2 underline-offset-4 hover:text-brand-dark">
+        Llámanos al 988 000 000
+      </a>
+      y te lo decimos en una llamada de dos minutos.
+    </p>
+  </div>
+</section>
+
+<!-- ======================= 4 · PROCESO / POR QUÉ NOSOTROS ======================= -->
+<section id="proceso" class="bg-slate-50 py-20 lg:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <div class="reveal mx-auto max-w-3xl text-center">
+      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-accent-dark">Cómo trabajamos</p>
+      <h2 class="font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
+        Cuatro pasos y <span class="underline-accent">ni una sorpresa</span>
+      </h2>
+      <p class="mt-5 text-lg leading-relaxed text-slate-600">
+        El 80 % de los problemas de una reforma vienen de un presupuesto mal cerrado.
+        Nosotros lo blindamos antes de tocar la primera baldosa.
+      </p>
+    </div>
+
+    <ol class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <li class="reveal relative rounded-2xl border border-slate-200 bg-white p-7 shadow-card">
+        <span class="font-display text-5xl font-extrabold text-brand/15" aria-hidden="true">01</span>
+        <h3 class="mt-2 font-display text-lg font-bold text-slate-900">Visita técnica gratuita</h3>
+        <p class="mt-2.5 text-[15px] leading-relaxed text-slate-600">
+          Vamos a tu casa, medimos, comprobamos instalaciones y escuchamos qué quieres.
+          Sin coste y sin que nadie te presione a firmar.
+        </p>
+      </li>
+      <li class="reveal relative rounded-2xl border border-slate-200 bg-white p-7 shadow-card">
+        <span class="font-display text-5xl font-extrabold text-brand/15" aria-hidden="true">02</span>
+        <h3 class="mt-2 font-display text-lg font-bold text-slate-900">Presupuesto cerrado en 48 h</h3>
+        <p class="mt-2.5 text-[15px] leading-relaxed text-slate-600">
+          Desglosado por partidas y con precio bloqueado 60 días. Lo que firmas es lo que pagas:
+          cualquier extra se aprueba por escrito antes de ejecutarse.
+        </p>
+      </li>
+      <li class="reveal relative rounded-2xl border border-slate-200 bg-white p-7 shadow-card">
+        <span class="font-display text-5xl font-extrabold text-brand/15" aria-hidden="true">03</span>
+        <h3 class="mt-2 font-display text-lg font-bold text-slate-900">Obra con jefe asignado</h3>
+        <p class="mt-2.5 text-[15px] leading-relaxed text-slate-600">
+          Un único teléfono para todo y parte de avance con fotos cada viernes.
+          Protegemos suelos y zonas comunes y limpiamos al terminar cada jornada.
+        </p>
+      </li>
+      <li class="reveal relative rounded-2xl border border-slate-200 bg-white p-7 shadow-card">
+        <span class="font-display text-5xl font-extrabold text-brand/15" aria-hidden="true">04</span>
+        <h3 class="mt-2 font-display text-lg font-bold text-slate-900">Entrega y 3 años de garantía</h3>
+        <p class="mt-2.5 text-[15px] leading-relaxed text-slate-600">
+          Repasamos la obra contigo y no cerramos hasta que firmes conforme.
+          Después, tres años de garantía escrita en fontanería y electricidad.
+        </p>
+      </li>
+    </ol>
+
+    <div class="reveal mt-14 grid gap-5 rounded-2xl border border-brand/15 bg-white p-8 shadow-card sm:grid-cols-3">
+      <div class="flex items-start gap-3.5">
+        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-tint text-brand" aria-hidden="true">
+          <i data-lucide="file-signature"></i>
+        </span>
+        <div>
+          <h3 class="font-display font-bold text-slate-900">Plazo por contrato</h3>
+          <p class="mt-1 text-sm leading-relaxed text-slate-600">Con penalización pactada si el retraso es nuestro.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3.5">
+        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-tint text-brand" aria-hidden="true">
+          <i data-lucide="shield-check"></i>
+        </span>
+        <div>
+          <h3 class="font-display font-bold text-slate-900">Todo en regla</h3>
+          <p class="mt-1 text-sm leading-relaxed text-slate-600">Personal de alta y R. Civil de 600.000 €.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3.5">
+        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-tint text-brand" aria-hidden="true">
+          <i data-lucide="wallet"></i>
+        </span>
+        <div>
+          <h3 class="font-display font-bold text-slate-900">Pago por hitos</h3>
+          <p class="mt-1 text-sm leading-relaxed text-slate-600">Nunca todo por adelantado. Financiación hasta 60 meses.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 5 · PRUEBA SOCIAL / TRUST BLOCK ======================= -->
+<!--
+  IMPORTANTE: los tres testimonios de abajo son CONTENIDO DE EJEMPLO con la
+  estructura correcta. Antes de publicar, sustitúyelos por reseñas reales del
+  cliente (Google Business Profile > Reseñas) conservando nombre, fecha y texto
+  literal. Publicar reseñas inventadas es publicidad engañosa y, además,
+  Google puede penalizar el perfil de empresa.
+-->
+<section id="opiniones" class="bg-white py-20 lg:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <div class="reveal mx-auto max-w-3xl text-center">
+      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-accent-dark">Lo que dicen en Ourense</p>
+      <h2 class="font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
+        Nuestra mejor obra es <span class="underline-accent">la que te recomienda un vecino</span>
+      </h2>
+    </div>
+
+    <!-- Badge de valoración -->
+    <div class="reveal mt-10 flex justify-center">
+      <div class="inline-flex flex-col items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-7 py-5 shadow-card sm:flex-row sm:gap-6">
+        <div class="flex items-center gap-3">
+          <span class="grid h-11 w-11 place-items-center rounded-full bg-white shadow-sm" aria-hidden="true">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" focusable="false">
+              <path fill="#4285F4" d="M22.6 12.2c0-.8-.1-1.4-.2-2.1H12v4h5.9c-.1 1-.8 2.5-2.3 3.5l3.5 2.7c2.1-1.9 3.5-4.7 3.5-8.1z"/>
+              <path fill="#34A853" d="M12 23c2.9 0 5.3-.9 7.1-2.6l-3.5-2.7c-.9.6-2.1 1-3.6 1-2.8 0-5.2-1.9-6.1-4.5L2.3 17c1.8 3.6 5.5 6 9.7 6z"/>
+              <path fill="#FBBC05" d="M5.9 14.2c-.2-.7-.4-1.4-.4-2.2s.1-1.5.3-2.2L2.3 7c-.7 1.5-1.2 3.2-1.2 5s.4 3.5 1.2 5l3.6-2.8z"/>
+              <path fill="#EA4335" d="M12 5.4c2 0 3.3.9 4.1 1.6l3-2.9C17.3 1.9 14.9 1 12 1 7.8 1 4.1 3.4 2.3 7l3.6 2.8C6.8 7.3 9.2 5.4 12 5.4z"/>
+            </svg>
+          </span>
+          <div class="text-left">
+            <p class="font-display text-sm font-bold text-slate-900">Reseñas de Google</p>
+            <p class="text-xs text-slate-500">Perfil de Empresa · Ourense</p>
+          </div>
+        </div>
+        <div class="hidden h-12 w-px bg-slate-300 sm:block" aria-hidden="true"></div>
+        <div class="flex items-center gap-3">
+          <span class="font-display text-3xl font-extrabold text-slate-900">4,9</span>
+          <div>
+            <div class="flex gap-0.5" role="img" aria-label="Valoración media de 4,9 sobre 5 estrellas">
+              <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+              <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+              <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+              <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+              <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+            </div>
+            <p class="mt-1 text-xs font-semibold text-slate-600">87 reseñas verificadas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonios -->
+    <div class="mt-12 grid gap-6 lg:grid-cols-3">
+
+      <figure class="reveal flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-7 shadow-card">
+        <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        </div>
+        <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-slate-700">
+          «Reformaron nuestro piso de la Rúa do Paseo entero en siete semanas, justo el plazo que firmamos.
+          Lo que más valoro: el presupuesto final fue exactamente el del principio, sin el clásico “esto no estaba incluido”.»
+        </blockquote>
+        <figcaption class="mt-5 flex items-center gap-3 border-t border-slate-100 pt-5">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-brand font-display text-sm font-bold text-white" aria-hidden="true">MR</span>
+          <span class="text-sm">
+            <span class="block font-bold text-slate-900">Marta R.</span>
+            <span class="block text-slate-500">Reforma integral · Centro, Ourense</span>
+          </span>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-7 shadow-card">
+        <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        </div>
+        <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-slate-700">
+          «Cambiamos la bañera por ducha porque mi madre ya no podía entrar. Vinieron un lunes y el miércoles
+          estaba usándola. Dejaron el baño más limpio de como lo encontraron.»
+        </blockquote>
+        <figcaption class="mt-5 flex items-center gap-3 border-t border-slate-100 pt-5">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-brand font-display text-sm font-bold text-white" aria-hidden="true">JC</span>
+          <span class="text-sm">
+            <span class="block font-bold text-slate-900">Jorge C.</span>
+            <span class="block text-slate-500">Cambio de bañera · A Ponte, Ourense</span>
+          </span>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-7 shadow-card">
+        <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+          <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        </div>
+        <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-slate-700">
+          «Nos hicieron la cocina y las ventanas. El diseño en 3D nos ayudó a decidir sin discutir en casa,
+          y con las ventanas nuevas este invierno hemos gastado la mitad en calefacción.»
+        </blockquote>
+        <figcaption class="mt-5 flex items-center gap-3 border-t border-slate-100 pt-5">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-brand font-display text-sm font-bold text-white" aria-hidden="true">LF</span>
+          <span class="text-sm">
+            <span class="block font-bold text-slate-900">Laura F.</span>
+            <span class="block text-slate-500">Cocina y ventanas · Barbadás</span>
+          </span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6 · FAQ ======================= -->
+<section id="faq" class="bg-slate-50 py-20 lg:py-28">
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <div class="reveal text-center">
+      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-accent-dark">Preguntas frecuentes</p>
+      <h2 class="font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
+        Lo que todo el mundo pregunta <span class="underline-accent">antes de decidirse</span>
+      </h2>
+    </div>
+
+    <div class="reveal mt-12 divide-y divide-slate-200 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
+      <details class="group" open>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 font-display text-lg font-bold text-slate-900 transition hover:bg-slate-50">
+          ¿Cuánto cuesta una reforma integral en Ourense?
+          <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-tint text-brand transition group-open:rotate-45" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="px-6 pb-6 text-[15px] leading-relaxed text-slate-600">
+          Parte de <strong class="font-semibold text-slate-900">550 €/m²</strong> en acabados estándar y de 780 €/m² en gama alta.
+          Tras la visita técnica gratuita recibes un presupuesto cerrado por partidas, sin costes ocultos
+          y con el precio bloqueado durante 60 días.
+        </p>
+      </details>
+
+      <details class="group">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 font-display text-lg font-bold text-slate-900 transition hover:bg-slate-50">
+          ¿Cuánto tarda una reforma de baño o cocina?
+          <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-tint text-brand transition group-open:rotate-45" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="px-6 pb-6 text-[15px] leading-relaxed text-slate-600">
+          Un baño completo se entrega en <strong class="font-semibold text-slate-900">10-14 días laborables</strong> y una cocina
+          en 15-20 días. El plazo queda firmado en contrato: si nos retrasamos por causas nuestras,
+          se aplica la penalización pactada.
+        </p>
+      </details>
+
+      <details class="group">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 font-display text-lg font-bold text-slate-900 transition hover:bg-slate-50">
+          ¿Os encargáis de los permisos y licencias de obra?
+          <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-tint text-brand transition group-open:rotate-45" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="px-6 pb-6 text-[15px] leading-relaxed text-slate-600">
+          Sí. Tramitamos la comunicación previa o la licencia de obra en el
+          <strong class="font-semibold text-slate-900">Concello de Ourense</strong>, el proyecto técnico cuando es necesario
+          y la gestión de residuos en punto autorizado. Tú no pisas una ventanilla.
+        </p>
+      </details>
+
+      <details class="group">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 font-display text-lg font-bold text-slate-900 transition hover:bg-slate-50">
+          ¿Qué garantía tienen los trabajos?
+          <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-tint text-brand transition group-open:rotate-45" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="px-6 pb-6 text-[15px] leading-relaxed text-slate-600">
+          <strong class="font-semibold text-slate-900">Tres años por escrito</strong> en instalaciones de fontanería y electricidad,
+          más la garantía de fabricante en materiales. Contamos con seguro de responsabilidad civil
+          de 600.000 € y todo el personal está dado de alta.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 7 · CONTACTO Y GEO-LOCALIZACIÓN ======================= -->
+<section id="contacto" class="bg-white py-20 lg:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <div class="reveal mx-auto max-w-3xl text-center">
+      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-accent-dark">Contacto</p>
+      <h2 class="font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
+        Estamos en el centro de <span class="underline-accent">Ourense</span>
+      </h2>
+      <p class="mt-5 text-lg leading-relaxed text-slate-600">
+        Pásate por la oficina a ver materiales y acabados, o llámanos y vamos nosotros a tu casa.
+        Atendemos Ourense capital, Barbadás, O Pereiro de Aguiar y San Cibrao das Viñas.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-8 lg:grid-cols-2">
+
+      <!-- NAP + horarios -->
+      <div class="reveal rounded-2xl border border-slate-200 bg-slate-50 p-7 shadow-card sm:p-9">
+        <h3 class="font-display text-xl font-extrabold text-slate-900">Reformas Auria</h3>
+
+        <dl class="mt-7 space-y-6">
+          <div class="flex items-start gap-4">
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand text-white" aria-hidden="true">
+              <i data-lucide="map-pin"></i>
+            </span>
+            <div>
+              <dt class="text-xs font-bold uppercase tracking-wider text-slate-500">Dirección</dt>
+              <dd class="mt-1">
+                <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+45,+32003+Ourense"
+                   target="_blank" rel="noopener"
+                   class="font-semibold text-slate-900 underline decoration-accent decoration-2 underline-offset-4 hover:text-brand">
+                  Rúa do Progreso 45, Baixo<br>32003 Ourense (Galicia)
+                </a>
+              </dd>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand text-white" aria-hidden="true">
+              <i data-lucide="phone"></i>
+            </span>
+            <div>
+              <dt class="text-xs font-bold uppercase tracking-wider text-slate-500">Teléfono</dt>
+              <dd class="mt-1">
+                <a href="tel:+34988000000" class="font-display text-xl font-extrabold text-brand hover:text-brand-dark"
+                   aria-label="Llamar al 988 000 000">988 000 000</a>
+              </dd>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand text-white" aria-hidden="true">
+              <i data-lucide="mail"></i>
+            </span>
+            <div>
+              <dt class="text-xs font-bold uppercase tracking-wider text-slate-500">Email</dt>
+              <dd class="mt-1">
+                <a href="mailto:hola@reformasauria.es" class="font-semibold text-slate-900 hover:text-brand">hola@reformasauria.es</a>
+              </dd>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand text-white" aria-hidden="true">
+              <i data-lucide="clock"></i>
+            </span>
+            <div class="min-w-0">
+              <dt class="text-xs font-bold uppercase tracking-wider text-slate-500">Horario de atención</dt>
+              <dd class="mt-2">
+                <table class="w-full text-[15px]">
+                  <caption class="sr-only">Horario de atención de Reformas Auria</caption>
+                  <tbody class="divide-y divide-slate-200">
+                    <tr>
+                      <th scope="row" class="py-1.5 pr-4 text-left font-semibold text-slate-700">Lunes a viernes</th>
+                      <td class="py-1.5 text-right font-medium text-slate-900">9:00-14:00 · 16:00-19:30</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="py-1.5 pr-4 text-left font-semibold text-slate-700">Sábado</th>
+                      <td class="py-1.5 text-right font-medium text-slate-900">10:00-13:30</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="py-1.5 pr-4 text-left font-semibold text-slate-700">Domingo</th>
+                      <td class="py-1.5 text-right font-medium text-slate-500">Cerrado</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </dd>
+            </div>
+          </div>
+        </dl>
+
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+          <a href="tel:+34988000000"
+             class="inline-flex items-center justify-center gap-2.5 rounded-xl bg-brand px-5 py-3.5 font-display font-bold text-white transition hover:bg-brand-dark"
+             aria-label="Llamar al 988 000 000">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M6.6 10.8c1.1 2.2 2.9 4 5.1 5.1l1.7-1.7c.2-.2.5-.3.8-.2 1.1.4 2.2.6 3.4.6.4 0 .8.3.8.8V18c0 .4-.3.8-.8.8-7 0-12.6-5.7-12.6-12.6 0-.4.3-.8.8-.8h2.6c.4 0 .8.3.8.8 0 1.2.2 2.3.6 3.4.1.3 0 .6-.2.8l-1.7 1.7z"/>
+            </svg>
+            Llamar ahora
+          </a>
+          <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20presupuesto%20para%20una%20reforma%20en%20Ourense"
+             target="_blank" rel="noopener"
+             class="inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#25D366] px-5 py-3.5 font-display font-bold text-white transition hover:bg-[#1DA851]"
+             aria-label="Escribir por WhatsApp a Reformas Auria">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/>
+            </svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Mapa -->
+      <div class="reveal relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-card" style="min-height:460px">
+        <!-- Contenido de reserva: se ve si el iframe de Maps no llega a pintar -->
+        <div class="absolute inset-0 grid place-items-center p-8 text-center">
+          <div>
+            <span class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand text-white" aria-hidden="true">
+              <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <p class="mt-4 font-display text-lg font-bold text-slate-900">Rúa do Progreso 45, Baixo</p>
+            <p class="text-slate-600">32003 Ourense (Galicia)</p>
+            <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+45,+32003+Ourense"
+               target="_blank" rel="noopener"
+               class="mt-5 inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-brand-dark">
+              Abrir en Google Maps
+            </a>
+          </div>
+        </div>
+        <iframe
+          title="Mapa de localización de Reformas Auria en Rúa do Progreso 45, Ourense"
+          src="https://maps.google.com/maps?q=R%C3%BAa%20do%20Progreso%2045%2C%2032003%20Ourense&z=15&output=embed"
+          class="relative h-full w-full" style="border:0;min-height:460px" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 8 · CTA FINAL ======================= -->
+<section class="relative overflow-hidden bg-brand py-16 lg:py-20">
+  <div class="absolute inset-0 hero-grid opacity-50" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+    <h2 class="reveal font-display text-3xl font-extrabold text-white sm:text-4xl">
+      Tu reforma puede empezar esta misma semana
+    </h2>
+    <p class="reveal mx-auto mt-5 max-w-2xl text-lg text-blue-50/90">
+      Quedan huecos de obra para este trimestre. Pide la visita técnica gratuita y te decimos
+      en 48 horas cuánto cuesta y cuándo estaría lista.
+    </p>
+    <div class="reveal mt-9 flex flex-col justify-center gap-3.5 sm:flex-row">
+      <a href="tel:+34988000000"
+         class="inline-flex items-center justify-center gap-2.5 rounded-xl bg-accent px-7 py-4 font-display text-base font-bold text-slate-900 shadow-lift transition hover:bg-white hover:text-brand"
+         aria-label="Llamar al 988 000 000">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M6.6 10.8c1.1 2.2 2.9 4 5.1 5.1l1.7-1.7c.2-.2.5-.3.8-.2 1.1.4 2.2.6 3.4.6.4 0 .8.3.8.8V18c0 .4-.3.8-.8.8-7 0-12.6-5.7-12.6-12.6 0-.4.3-.8.8-.8h2.6c.4 0 .8.3.8.8 0 1.2.2 2.3.6 3.4.1.3 0 .6-.2.8l-1.7 1.7z"/>
+        </svg>
+        Llamar al 988 000 000
+      </a>
+      <a href="#inicio"
+         class="inline-flex items-center justify-center gap-2.5 rounded-xl border-2 border-white/40 px-7 py-4 font-display text-base font-bold text-white transition hover:border-white hover:bg-white hover:text-brand">
+        Rellenar el formulario
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================= 9 · FOOTER ======================= -->
+<footer class="bg-slate-900 pt-16 text-slate-300">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <div class="grid gap-10 pb-12 md:grid-cols-2 lg:grid-cols-4">
+
+      <!-- Branding + NAP -->
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-3">
+          <span class="grid h-11 w-11 place-items-center rounded-xl bg-brand" aria-hidden="true">
+            <svg viewBox="0 0 100 100" class="h-7 w-7" fill="none" focusable="false">
+              <path d="M26 62V44l24-16 24 16v18" stroke="#F59E0B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M42 74V56h16v18" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="font-display text-lg font-extrabold text-white">Reformas Auria</span>
+        </div>
+        <p class="mt-5 max-w-md text-[15px] leading-relaxed text-slate-400">
+          Empresa de reformas integrales en Ourense desde 2010. Presupuesto cerrado,
+          plazo firmado por contrato y tres años de garantía por escrito.
+        </p>
+        <address class="mt-6 space-y-2 text-[15px] not-italic text-slate-400">
+          <p>Rúa do Progreso 45, Baixo · 32003 Ourense</p>
+          <p>
+            <a href="tel:+34988000000" class="inline-block py-1.5 font-semibold text-white hover:text-accent">988 000 000</a>
+            <span class="mx-2 text-slate-600" aria-hidden="true">·</span>
+            <a href="mailto:hola@reformasauria.es" class="inline-block py-1.5 hover:text-accent">hola@reformasauria.es</a>
+          </p>
+        </address>
+
+        <!-- Redes sociales -->
+        <div class="mt-6 flex gap-3">
+          <a href="https://www.facebook.com/reformasauria" target="_blank" rel="noopener"
+             class="grid h-11 w-11 place-items-center rounded-xl bg-slate-800 text-slate-300 transition hover:bg-brand hover:text-white"
+             aria-label="Reformas Auria en Facebook">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.3-1.5 1.6-1.5h1.6V4.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.3H7.6V14h2.3v8h3.6z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/reformasauria" target="_blank" rel="noopener"
+             class="grid h-11 w-11 place-items-center rounded-xl bg-slate-800 text-slate-300 transition hover:bg-brand hover:text-white"
+             aria-label="Reformas Auria en Instagram">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true" focusable="false">
+              <rect x="3.5" y="3.5" width="17" height="17" rx="5"/>
+              <circle cx="12" cy="12" r="3.8"/>
+              <circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/34600000000" target="_blank" rel="noopener"
+             class="grid h-11 w-11 place-items-center rounded-xl bg-slate-800 text-slate-300 transition hover:bg-[#25D366] hover:text-white"
+             aria-label="Reformas Auria en WhatsApp">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Servicios -->
+      <nav aria-label="Servicios">
+        <h2 class="font-display text-sm font-bold uppercase tracking-wider text-white">Servicios</h2>
+        <ul class="mt-5 space-y-2.5 text-[15px] text-slate-400">
+          <li><a href="#servicios" class="transition hover:text-accent">Reforma integral</a></li>
+          <li><a href="#servicios" class="transition hover:text-accent">Reforma de cocinas</a></li>
+          <li><a href="#servicios" class="transition hover:text-accent">Reforma de baños</a></li>
+          <li><a href="#servicios" class="transition hover:text-accent">Ventanas y aislamiento</a></li>
+          <li><a href="#servicios" class="transition hover:text-accent">Fachadas y cubiertas</a></li>
+          <li><a href="#servicios" class="transition hover:text-accent">Locales comerciales</a></li>
+        </ul>
+      </nav>
+
+      <!-- Zonas + enlaces -->
+      <nav aria-label="Zonas de trabajo y enlaces legales">
+        <h2 class="font-display text-sm font-bold uppercase tracking-wider text-white">Dónde trabajamos</h2>
+        <ul class="mt-5 space-y-2.5 text-[15px] text-slate-400">
+          <li>Ourense capital</li>
+          <li>Barbadás</li>
+          <li>O Pereiro de Aguiar</li>
+          <li>San Cibrao das Viñas</li>
+          <li>Provincia de Ourense</li>
+        </ul>
+        <h2 class="mt-8 font-display text-sm font-bold uppercase tracking-wider text-white">Legal</h2>
+        <ul class="mt-5 space-y-2.5 text-[15px] text-slate-400">
+          <li><a href="#privacidad" class="transition hover:text-accent">Política de privacidad</a></li>
+          <li><a href="#cookies" class="transition hover:text-accent">Política de cookies</a></li>
+          <li><a href="#aviso-legal" class="transition hover:text-accent">Aviso legal</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Textos legales · sustituir datos fiscales reales del cliente -->
+    <div class="border-t border-slate-800 py-10">
+      <div class="grid gap-3 lg:grid-cols-3">
+        <details id="privacidad" class="rounded-xl bg-slate-800/50 p-5">
+          <summary class="cursor-pointer font-display text-sm font-bold text-white">Política de privacidad</summary>
+          <div class="mt-3 space-y-2 text-sm leading-relaxed text-slate-400">
+            <p><strong class="text-slate-200">Responsable:</strong> Reformas Auria, Rúa do Progreso 45, 32003 Ourense · hola@reformasauria.es</p>
+            <p><strong class="text-slate-200">Finalidad:</strong> atender tu solicitud de presupuesto y mantener el contacto comercial derivado.</p>
+            <p><strong class="text-slate-200">Legitimación:</strong> tu consentimiento expreso al enviar el formulario.</p>
+            <p><strong class="text-slate-200">Destinatarios:</strong> no cedemos datos a terceros salvo obligación legal. El formulario se envía por WhatsApp (Meta Platforms Ireland Ltd.) si eliges esa vía.</p>
+            <p><strong class="text-slate-200">Conservación:</strong> mientras dure la relación comercial y los plazos legales aplicables.</p>
+            <p><strong class="text-slate-200">Derechos:</strong> acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a hola@reformasauria.es. Puedes reclamar ante la AEPD (aepd.es).</p>
+          </div>
+        </details>
+
+        <details id="cookies" class="rounded-xl bg-slate-800/50 p-5">
+          <summary class="cursor-pointer font-display text-sm font-bold text-white">Política de cookies</summary>
+          <div class="mt-3 space-y-2 text-sm leading-relaxed text-slate-400">
+            <p>Esta web <strong class="text-slate-200">no instala cookies propias de analítica ni de publicidad</strong>.</p>
+            <p>Al cargar el mapa de Google Maps y las tipografías de Google Fonts, esos servicios pueden registrar tu IP y establecer cookies técnicas propias. Son cookies de terceros necesarias para mostrar el contenido incrustado.</p>
+            <p>Puedes bloquearlas desde la configuración de tu navegador. Si más adelante se añade Google Analytics o píxeles publicitarios, será obligatorio incorporar un banner de consentimiento previo.</p>
+          </div>
+        </details>
+
+        <details id="aviso-legal" class="rounded-xl bg-slate-800/50 p-5">
+          <summary class="cursor-pointer font-display text-sm font-bold text-white">Aviso legal</summary>
+          <div class="mt-3 space-y-2 text-sm leading-relaxed text-slate-400">
+            <p><strong class="text-slate-200">Titular:</strong> Reformas Auria · NIF B00000000</p>
+            <p><strong class="text-slate-200">Domicilio:</strong> Rúa do Progreso 45, Baixo, 32003 Ourense</p>
+            <p><strong class="text-slate-200">Contacto:</strong> 988 000 000 · hola@reformasauria.es</p>
+            <p>Los precios orientativos publicados no constituyen oferta vinculante: el importe final se fija en el presupuesto firmado tras la visita técnica. Los contenidos de esta web están protegidos por derechos de propiedad intelectual.</p>
+          </div>
+        </details>
+      </div>
+      <p class="mt-5 text-xs leading-relaxed text-slate-500">
+        Los datos fiscales y los textos legales de este bloque deben revisarse con el titular del negocio
+        antes de publicar la web.
+      </p>
+    </div>
+
+    <div class="flex flex-col items-center justify-between gap-4 border-t border-slate-800 py-7 text-sm text-slate-500 sm:flex-row">
+      <p>&copy; <span id="anio">2026</span> Reformas Auria. Todos los derechos reservados.</p>
+      <p>Reformas integrales en Ourense · Galicia</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================= 10 · BOTÓN FLOTANTE WHATSAPP ======================= -->
+<div class="fixed bottom-5 right-5 z-50 no-print">
+  <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20presupuesto%20para%20una%20reforma%20en%20Ourense"
+     target="_blank" rel="noopener"
+     class="group relative grid h-16 w-16 place-items-center rounded-full bg-[#25D366] shadow-lift transition hover:scale-105 hover:bg-[#1DA851]"
+     aria-label="Contactar por WhatsApp con Reformas Auria">
+    <span class="pulse-ring absolute inset-0 rounded-full bg-[#25D366]" aria-hidden="true"></span>
+    <span class="animate-pulse absolute -inset-1 rounded-full bg-[#25D366] opacity-25" aria-hidden="true"></span>
+    <svg class="relative h-9 w-9 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/>
+    </svg>
+    <span class="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white opacity-0 shadow-lg transition group-hover:opacity-100 lg:block">
+      ¿Hablamos? Respondemos rápido
+    </span>
+  </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Datos de contacto centralizados (usados por el formulario) ---------- */
+  var WHATSAPP = '34600000000';   // sin "+" ni espacios · formato wa.me
+
+  /* ---------- 1. Año dinámico en el copyright ---------- */
+  var anio = document.getElementById('anio');
+  if (anio) anio.textContent = new Date().getFullYear();
+
+  /* ---------- 2. Menú móvil accesible ---------- */
+  var btnMenu     = document.getElementById('btn-menu');
+  var menuMovil   = document.getElementById('menu-movil');
+  var iconoAbrir  = document.getElementById('icono-abrir');
+  var iconoCerrar = document.getElementById('icono-cerrar');
+
+  function pintarMenu(abierto) {
+    menuMovil.classList.toggle('hidden', !abierto);
+    iconoAbrir.classList.toggle('hidden', abierto);
+    iconoCerrar.classList.toggle('hidden', !abierto);
+    btnMenu.setAttribute('aria-expanded', String(abierto));
+    btnMenu.setAttribute('aria-label', abierto ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+  }
+
+  if (btnMenu && menuMovil) {
+    btnMenu.addEventListener('click', function () {
+      pintarMenu(menuMovil.classList.contains('hidden'));
+    });
+
+    // Cerrar al pulsar un enlace del menú
+    Array.prototype.forEach.call(document.querySelectorAll('.menu-enlace'), function (enlace) {
+      enlace.addEventListener('click', function () { pintarMenu(false); });
+    });
+
+    // Cerrar con Escape y devolver el foco al botón
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menuMovil.classList.contains('hidden')) {
+        pintarMenu(false);
+        btnMenu.focus();
+      }
+    });
+
+    // Cerrar al pasar a escritorio
+    window.addEventListener('resize', function () {
+      if (window.innerWidth >= 1024 && !menuMovil.classList.contains('hidden')) pintarMenu(false);
+    });
+  }
+
+  /* ---------- 3. Sombra del header al hacer scroll ---------- */
+  var cabecera = document.getElementById('cabecera');
+  function pintarCabecera() {
+    if (!cabecera) return;
+    cabecera.classList.toggle('shadow-lg', window.scrollY > 12);
+  }
+  pintarCabecera();
+  window.addEventListener('scroll', pintarCabecera, { passive: true });
+
+  /* ---------- 4. Revelado progresivo al hacer scroll ---------- */
+  var elementos = document.querySelectorAll('.reveal');
+  var sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (sinMovimiento || !('IntersectionObserver' in window)) {
+    Array.prototype.forEach.call(elementos, function (el) { el.classList.add('is-visible'); });
+  } else {
+    var observador = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (entrada, i) {
+        if (!entrada.isIntersecting) return;
+        var el = entrada.target;
+        setTimeout(function () { el.classList.add('is-visible'); }, Math.min(i * 70, 280));
+        observador.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+
+    Array.prototype.forEach.call(elementos, function (el) { observador.observe(el); });
+  }
+
+  /* ---------- 5. Formulario de presupuesto -> WhatsApp (sin backend) ---------- */
+  var form  = document.getElementById('form-presupuesto');
+  var aviso = document.getElementById('form-error');
+
+  function mostrarError(texto, campo) {
+    if (!aviso) return;
+    aviso.textContent = texto;
+    aviso.classList.remove('hidden');
+    if (campo) campo.focus();
+  }
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (aviso) aviso.classList.add('hidden');
+
+      var nombre   = document.getElementById('campo-nombre');
+      var telefono = document.getElementById('campo-telefono');
+      var servicio = document.getElementById('campo-servicio');
+      var mensaje  = document.getElementById('campo-mensaje');
+      var rgpd     = document.getElementById('campo-rgpd');
+
+      if (!nombre.value.trim()) {
+        return mostrarError('Escribe tu nombre para que sepamos cómo llamarte.', nombre);
+      }
+      if (!/^[0-9+\s]{9,17}$/.test(telefono.value.trim())) {
+        return mostrarError('Revisa el teléfono: necesitamos al menos 9 dígitos.', telefono);
+      }
+      if (!servicio.value) {
+        return mostrarError('Dinos qué quieres reformar para darte un precio ajustado.', servicio);
+      }
+      if (!rgpd.checked) {
+        return mostrarError('Necesitamos que aceptes la política de privacidad.', rgpd);
+      }
+
+      var texto =
+        'Hola, quiero presupuesto para una reforma en Ourense.\n\n' +
+        'Nombre: ' + nombre.value.trim() + '\n' +
+        'Teléfono: ' + telefono.value.trim() + '\n' +
+        'Necesito reformar: ' + servicio.value +
+        (mensaje.value.trim() ? '\nDetalles: ' + mensaje.value.trim() : '');
+
+      window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+    });
+  }
+
+  /* ---------- 6. Iconos Lucide ---------- */
+  function iniciarIconos() {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons({ attrs: { 'aria-hidden': 'true', focusable: 'false' } });
+    }
+  }
+  if (document.readyState === 'complete') iniciarIconos();
+  else window.addEventListener('load', iniciarIconos);
+})();
+</script>
+
+</body>
+</html>
