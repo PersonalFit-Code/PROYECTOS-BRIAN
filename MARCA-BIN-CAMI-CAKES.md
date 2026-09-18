@@ -228,18 +228,63 @@ decorativa más luminosa.
 
 ## 4. Identidad visual
 
-- **Logo**: cupcake kawaii con cara, guinda arriba, en pegatina con borde blanco.
-  Lettering «Bin & Cami» en script rosa oscuro y «Cakes» en dorado.
-- **Estilo**: pegatina — cada elemento lleva contorno blanco grueso y sombra
-  suave. Es el rasgo más reconocible del flyer y conviene llevarlo a la web en
-  las tarjetas y el logo.
-- **Tipografía del flyer**: manuscrita redondeada para los textos y una display
-  muy gruesa con relieve para «TARTAS». El `index.html` usa Playfair Display,
-  que es elegante pero **no se parece**: Playfair es una serif de revista, el
-  flyer es dulce y manuscrito. Alternativas más fieles en Google Fonts:
-  *Baloo 2*, *Fredoka* o *Quicksand* para titulares, con *Plus Jakarta Sans*
-  para el texto corrido.
-- **Corazones** como elemento decorativo recurrente, en contorno.
+### 4.1 Logo recibido
+
+Archivo: **225×225 px, PNG con transparencia real** (47% del lienzo). Es la
+mascota: el cupcake kawaii con guinda. Guardado en
+`assets/bin-cami-cakes/logo-mascota.png`.
+
+Venía con dos defectos de recorte:
+
+1. **Fragmentos sueltos de las letras.** El recorte partió el logotipo completo y
+   dejó flotando trozos de la «B» rosa y la «C» dorada junto al cupcake. A 32 px
+   no se aprecian; a partir de 96 px se ven claramente. Eran 18 componentes
+   sueltos pegados al borde derecho, así que se han podido eliminar sin tocar el
+   dibujo. Versión corregida en `logo-mascota-limpio.png` (191×222 px), con los
+   destellos decorativos conservados.
+2. **El rabito de la guinda queda cortado** por arriba. Viene del recorte de
+   origen y no se puede reconstruir sin inventar.
+
+**Límites de uso.** A 225 px sirve para favicon, cabecera (44–56 px) y pie
+(96 px), incluso en pantallas retina. No da para la imagen de compartir en
+WhatsApp y redes (1200×630) ni para nada grande: ampliado se ve blando.
+
+**Nunca sobre fondo frambuesa ni tinta**: el contorno del logo es casi negro y se
+queda en 2,39:1 sobre `--frambuesa`, o sea que se apaga. Sobre `--crema`,
+`--rosa-nube` o `--rosa-palo` va perfecto (9,5:1 o mejor).
+
+**En la cabecera, el nombre irá como texto, no como imagen**: se ve nítido a
+cualquier tamaño, lo lee Google y se adapta solo en móvil. La mascota acompaña.
+
+### 4.2 Colores exactos del logo
+
+Primera fuente digital de la marca, sin papel ni fotografía de por medio:
+
+| Hex | Elemento | Tono |
+|---|---|---|
+| `#D74673` | Guinda y rosa de acento | 341° |
+| `#E8A9AA` | Crema rosa, tono medio | 359° |
+| `#FADDD7` | Crema rosa, tono claro | 10° |
+| `#FCE599` | Magdalena, base amarilla | 46° |
+| `#E0A359` | Barquillo dorado | 33° |
+| `#120503` | Contorno y ojos | — |
+
+**Esto valida la paleta de §3.** El rosa del logo cae en 341° y el que se midió
+sobre el flyer impreso, en 342°: un grado de diferencia. La medición a través del
+papel era correcta, así que los tokens se quedan como están.
+
+El `#FCE599` de la magdalena no estaba en la paleta y merece entrar como acento
+cálido puntual: es lo que da el aire goloso al logo.
+
+### 4.3 Resto de la identidad
+
+- **Estilo pegatina**: cada elemento lleva contorno blanco grueso y sombra suave.
+  Es el rasgo más reconocible de la marca y conviene llevarlo a las tarjetas.
+- **Tipografía del flyer**: manuscrita redondeada, y una display muy gruesa con
+  relieve para «TARTAS». El `index.html` recibido usa Playfair Display, que es
+  una serif de revista y no se parece. Más fieles en Google Fonts: *Baloo 2*,
+  *Fredoka* o *Quicksand* para titulares, con *Plus Jakarta Sans* para el texto.
+- **Corazones** de contorno como elemento decorativo recurrente.
 
 ## 5. Fiabilidad del color
 
@@ -257,6 +302,7 @@ recortarlo de la foto daría un logo con textura de papel y bordes sucios.
 
 - [ ] Fotos de producto **en resolución original** (bloqueante: las recibidas son miniaturas)
 - [ ] Reenviar como archivo la foto de la pastelera en el local, y confirmar derechos
-- [ ] Logo en PNG con transparencia o SVG **(bloqueante: no vale recortarlo de la foto)**
+- [x] Logo en PNG con transparencia (225 px, limpiado)
+- [ ] Ideal: logotipo completo en vectorial o a 1000 px, para la imagen de compartir
 - [ ] Confirmar qué especialidades siguen ofreciendo
 - [ ] ¿Tienen dominio contratado? El HTML apunta a bincamicakesourense.com
