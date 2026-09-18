@@ -92,6 +92,98 @@ terceros; si alguna ya no se ofrece, sobra en la web.
 
 ---
 
+## 2.1 Reseñas reales de Google
+
+**4,9 / 5 · 18 reseñas** (verificado en su ficha). 17 de cinco estrellas y una de tres.
+
+Esto desbloquea el `aggregateRating` del Schema, que hasta ahora estaba desactivado
+por no tener datos reales:
+
+```json
+"aggregateRating": { "@type": "AggregateRating",
+                     "ratingValue": "4.9", "reviewCount": "18", "bestRating": "5" }
+```
+
+Hay que revisar la cifra antes de publicar y cada pocos meses: si suben reseñas y
+el número se queda viejo, el marcado deja de coincidir con la ficha.
+
+### Seleccionadas para la web
+
+Se descartan seis que Google corta con «… Más»: no se puede publicar media frase
+como si fuera la reseña entera. Estas seis están completas y cubren ángulos
+distintos:
+
+> «Muy buen sitio, la atención increíble y **la tarta que encargué tal cual la
+> pedí** 10 de 10» — *ibrahin eduardo*
+
+> «Ayer fuimos a probar la **tarta 3 leches**, porque queríamos una de verdad,
+> tipo venezolano y hemos encontrado el lugar 😍 Gracias **Luisa** por tu
+> amabilidad, dedicación y por hacer honor a la calidad de nuestros productos
+> venezolanos.» — *Andreína Gómez*
+
+> «Suelo comprar aquí cada vez que quiero algo dulcecito. Esta vez fue un momento
+> especial y los elegí para la tartita de mi marido. Él salió muy feliz! Estaba
+> sabrosa y muy bonita!! Fueron **super amables y puntuales**, no elegiría ningún
+> otro sitio 🩷» — *Onee-ChanOfEveryone :3*
+
+> «Si pruebas **las cookies** de este sitio ya no querrás otras, os lo aseguro!!!!!
+> Y el trato que ofrecen al cliente es maravilloso ❤️» — *Remedios Antonia Pérez Baltar*
+
+> «Muy rico todo con **sabor venezolano**, **llevo años** probando sus dulces 💛
+> atención de 10 🫶» — *Luis Silveira*
+
+> «El mejor **tres leches** que me he comido en mi vida!!!. Los recomiendo!!!»
+> — *Qart Cards*
+
+La de *ibrahin* es la más valiosa para vender: «la tarta que encargué tal cual la
+pedí» responde al miedo exacto de quien encarga una tarta personalizada y teme
+que no se parezca a lo que pidió.
+
+### Lo que repiten los clientes
+
+| Veces | Tema |
+|---|---|
+| 7 | Trato y amabilidad |
+| 4 | **Tres leches**, citada por su nombre sin que nadie pregunte |
+| 3 | **Identidad venezolana** (tres leches, golfeado, piñitas) |
+| 3 | Clientes que repiten, uno «lleva años» |
+| 1 | Cookies, puntualidad, fidelidad al encargo |
+
+### Dos avisos
+
+**Hay una reseña del propio negocio.** La firmada por «Binycamicakes» («La mejor
+pastelería de la ciudad») está puesta desde su propia cuenta. Google prohíbe
+autorreseñarse y puede retirar la ficha o filtrar valoraciones. Conviene
+borrarla: además, con 17 reseñas ajenas de cinco estrellas no la necesitan.
+
+**La única negativa** (3/5) se queja de 6 € por un vaso de fruta congelada, no de
+la repostería. Responderla en Google con educación suma más que ignorarla: quien
+lee reseñas mira cómo responde el negocio a las malas.
+
+## 2.2 Posicionamiento: lo que revelan las reseñas
+
+El flyer vende «tartas personalizadas», que es lo que vende toda pastelería de
+Ourense. Las reseñas apuntan a algo que el flyer no dice y que sí las distingue:
+
+**son la pastelería venezolana de Ourense, y su tres leches es el producto
+estrella.** Cuatro clientes lo citan por su nombre sin que nadie se lo sugiera, y
+uno explica que buscaba «una de verdad, tipo venezolano». Aparecen también
+golfeado y piñitas.
+
+En SEO local esto importa mucho: «tartas personalizadas Ourense» compite con
+todas; «tres leches Ourense», «repostería venezolana Ourense» o «golfeado
+Ourense» casi no tienen competencia y quien las busca ya sabe lo que quiere.
+
+Propuesta: mantener «Tartas Personalizadas en Ourense» como H1, que es su negocio
+principal y lo que anuncia el flyer, y darle un bloque propio y visible a la
+repostería venezolana con el tres leches por delante. Es su foso, y ahora mismo
+no está en ninguna parte.
+
+Aparece además un nombre propio: **Luisa**, citada en dos reseñas como quien hace
+las tartas. Conviene confirmar quiénes son Bin y Cami y cómo quieren aparecer.
+
+---
+
 ## 3. Paleta
 
 Medida sobre la segunda foto del flyer (nítida y bien expuesta: blanco del papel
@@ -166,6 +258,5 @@ recortarlo de la foto daría un logo con textura de papel y bordes sucios.
 - [ ] Fotos de producto **en resolución original** (bloqueante: las recibidas son miniaturas)
 - [ ] Reenviar como archivo la foto de la pastelera en el local, y confirmar derechos
 - [ ] Logo en PNG con transparencia o SVG **(bloqueante: no vale recortarlo de la foto)**
-- [ ] Reseñas reales copiadas de su perfil de Google
 - [ ] Confirmar qué especialidades siguen ofreciendo
 - [ ] ¿Tienen dominio contratado? El HTML apunta a bincamicakesourense.com
