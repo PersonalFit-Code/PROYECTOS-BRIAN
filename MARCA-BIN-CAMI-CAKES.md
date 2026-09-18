@@ -11,14 +11,55 @@ Base para construir la web. Ourense.
 |---|---|---|
 | Nombre | Bin & Cami Cakes | flyer |
 | Dirección | Rúa do Progreso 27, bajo 3 · Jardín do Posío, Ourense | flyer |
-| Código postal | **32005 — por confirmar** | solo en el HTML, no aparece en el flyer |
+| Código postal | 32005 | confirmado por el cliente |
 | WhatsApp / teléfono | 656 584 027 → `+34656584027` | flyer |
 | Instagram | @bin_camicakes | flyer |
-| Horario | **por confirmar** | el flyer no lo indica |
+| Horario | Abierto los 7 días (ver §1.1) | confirmado por el cliente |
 
-El HTML declara martes a sábado, 10:00–20:00. No está en el flyer: hay que
-confirmarlo con ellas antes de publicarlo, porque un horario erróneo en el
-Schema y en Google Business genera llamadas a puerta cerrada.
+### 1.1 Horario real
+
+| Día | Horario |
+|---|---|
+| Lunes | 10:00 – 20:00 |
+| Martes | 10:00 – 20:00 **(por confirmar, ver nota)** |
+| Miércoles | 11:00 – 22:00 |
+| Jueves | 11:00 – 22:00 |
+| Viernes | 11:00 – 22:00 |
+| Sábado | 11:00 – 22:00 |
+| Domingo | 10:00 – 22:00 |
+
+**Abren los siete días**, sin día de cierre. Esto invalida lo que declaraba el
+`index.html` recibido (martes a sábado, 10:00–20:00), que habría dejado fuera
+domingo y lunes: dos de los días fuertes para encargar tarta.
+
+Nota sobre el martes: la captura del cliente muestra «10:00–2:00». Es casi seguro
+un error de su ficha de Google —cerrar a las 2 de la madrugada no encaja con el
+resto— pero conviene confirmarlo antes de publicarlo en el Schema, y de paso
+corregirlo en Google, porque ese dato es el que ve la gente al buscarlas.
+
+### 1.2 Inventario de fotos recibidas
+
+| Archivo | Tamaño | Sirve para |
+|---|---|---|
+| 1.png · tarta azul y oro | 108×108 | nada |
+| 2.jpg · porciones de chocolate | 108×108 | nada |
+| 3.webp · tarta «Valentina» baloncesto | 382×510 | tarjeta pequeña como mucho |
+| 4.png · tarta Call of Duty | 108×108 | nada |
+| 5.png · tarta de granja | 108×108 | nada |
+| 6.jpg · fachada con globos | 196×258 | nada |
+| 7.jpg · mostrador con rótulo iluminado | 335×597 | tarjeta pequeña como mucho |
+
+Cinco de las siete son miniaturas de 108×108 px (tamaño de resultado de búsqueda
+de Google). Una cabecera necesita del orden de 1600–2400 px de ancho: son unas
+quince veces más pequeñas de lo necesario, y ampliarlas no recupera detalle, solo
+emborrona. **Hacen falta los originales del móvil.**
+
+Aparte llegó una foto buena de una de las pasteleras en la puerta del local
+(1280×720), con el rótulo iluminado y el vinilo de la pared bien visibles. Es
+justo el tipo de imagen humana que mejor funciona en un negocio artesanal, pero
+llegó pegada en el chat y no como archivo, así que hay que reenviarla. Parece
+una foto de prensa profesional: antes de usarla hay que confirmar que tienen los
+derechos o el permiso del fotógrafo.
 
 ---
 
@@ -122,10 +163,9 @@ recortarlo de la foto daría un logo con textura de papel y bordes sucios.
 
 ## 6. Pendiente antes de construir
 
-- [ ] Fotos reales de sus tartas **(bloqueante: las del HTML actual son de banco de imágenes)**
+- [ ] Fotos de producto **en resolución original** (bloqueante: las recibidas son miniaturas)
+- [ ] Reenviar como archivo la foto de la pastelera en el local, y confirmar derechos
 - [ ] Logo en PNG con transparencia o SVG **(bloqueante: no vale recortarlo de la foto)**
-- [ ] Horario confirmado
-- [ ] Código postal confirmado
 - [ ] Reseñas reales copiadas de su perfil de Google
 - [ ] Confirmar qué especialidades siguen ofreciendo
 - [ ] ¿Tienen dominio contratado? El HTML apunta a bincamicakesourense.com
