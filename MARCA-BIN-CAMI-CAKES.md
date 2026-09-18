@@ -35,7 +35,7 @@ copy inventado.
 - **Te esperamos**
 - «Feliz Cumpleaños» (rótulo decorativo sobre una tarta)
 
-La franja del pie del flyer queda cortada en la foto y no se puede leer.
+- **TARTAS • POSTRES • DULCES • MOMENTOS FELICES ♡** (franja del pie)
 
 ### Categorías de servicio (iconos del flyer)
 
@@ -53,25 +53,45 @@ terceros; si alguna ya no se ofrece, sobra en la web.
 
 ## 3. Paleta
 
-Tonos medidos sobre el flyer con corrección de balance de blancos. Saturación y
-luminosidad reconstruidas a valores de imprenta (ver aviso en §5).
+Medida sobre la segunda foto del flyer (nítida y bien expuesta: blanco del papel
+a 245 con solo 8 puntos de desviación entre canales, así que la corrección de
+balance de blancos es mínima y el color es fiable).
+
+El **tono** sale directo del impreso. La **saturación** va subida a valores de
+pantalla: la impresión en papel y el tramado la bajan, y el diseño original se
+hizo en pantalla, donde era más vivo.
 
 ```css
 :root{
-  --frambuesa: #C13355;  /* titular, CTA principal      · 5,22:1 sobre crema */
-  --rosa:      #E28399;  /* corazones, acentos, hover   · solo fondo         */
-  --rosa-palo: #F8E2EA;  /* pastillas de servicio       · solo fondo         */
-  --lila:      #DFC3D4;  /* badge festoneado, bloques   · solo fondo         */
-  --oro:       #B17743;  /* scripts dorados, "Cakes"    · solo texto grande  */
-  --tinta:     #39332D;  /* texto corrido               · 11,98:1            */
-  --crema:     #FDFAF7;  /* fondo de página                                  */
+  --frambuesa: #B53058;  /* titular y CTA        · blanco encima 5,95:1   */
+  --rosa:      #D6718C;  /* corazones, hover                              */
+  --rosa-palo: #EBCBD8;  /* pastillas y tarjetas · tinta encima 8,41:1    */
+  --rosa-nube: #F9EBF1;  /* fondos de sección    · tinta encima 10,87:1   */
+  --lila:      #E7CADC;  /* badge festoneado     · tinta encima 8,30:1    */
+  --violeta:   #BA9BD4;  /* acento secundario (tarta de mariposas)        */
+  --oro:       #A16936;  /* oro con texto encima · blanco encima 4,58:1   */
+  --oro-claro: #CFA459;  /* oro decorativo: filetes, adornos, no texto    */
+  --tinta:     #3A3136;  /* texto corrido        · sobre crema 12,07:1    */
+  --crema:     #FDFAF7;  /* fondo de página                               */
 }
 ```
 
-Contraste comprobado: texto blanco sobre frambuesa 5,42:1 · tinta sobre
-rosa-palo 10,12:1 · tinta sobre lila 7,65:1. Todo AA.
-El oro se queda en 3,61:1 sobre crema: vale para titulares grandes y adornos,
-no para texto pequeño.
+Todas las combinaciones de texto previstas pasan AA. El `--oro-claro` se queda
+en 2,22:1 sobre crema: es decorativo, nunca para texto.
+
+### Medido vs. propuesto
+
+| Elemento | Medido en el impreso | Propuesto para pantalla |
+|---|---|---|
+| Titular TARTAS | `#A24D66` · tono 342° · sat 36% | `#B53058` · tono 342° · sat 58% |
+| Pastilla de servicio | `#E0B9C8` · tono 337° · sat 39% | `#EBCBD8` · tono 337° · sat 45% |
+| Badge festoneado | `#DDB8CF` · tono 323° | `#E7CADC` · tono 323° |
+| Tarta de mariposas | `#B599CE` · tono 272° | `#BA9BD4` · tono 272° |
+| Scripts oscuros | `#3B3335` · luz 21-25% | `#3A3136` |
+
+El oro se midió en `#9B7654` (tono 29°), oscuro porque la tinta metalizada
+fotografía apagada. De ahí las dos variantes: una que aguanta texto y otra
+decorativa más luminosa.
 
 ## 4. Identidad visual
 
@@ -88,22 +108,22 @@ no para texto pequeño.
   para el texto corrido.
 - **Corazones** como elemento decorativo recurrente, en contorno.
 
-## 5. Aviso sobre los colores
+## 5. Fiabilidad del color
 
-Los tonos (grados de matiz) son fiables: 346° en los rosas fuertes, 324–339° en
-los rosas claros y lilas, 28° en el dorado. Sobreviven a la mala iluminación.
+La segunda foto resuelve el problema: bien expuesta y sin dominante, la paleta
+de §3 es utilizable tal cual.
 
-La saturación y la luminosidad **no** se pueden medir en esta foto: está tomada
-con poca luz y dominante verdosa, y el papel impreso ya desvía respecto al
-archivo original. Los hex de §3 son una reconstrucción coherente, no una medida.
+Queda un límite inevitable: es una foto de un **impreso**, y el papel siempre
+desvía algo respecto al archivo digital. Si aparece el original (Canva, PDF o
+PNG) se puede afinar, pero ya no es bloqueante para empezar.
 
-Para clavarlos hace falta **el archivo digital original del flyer** (Canva, PDF
-o PNG) o **el logo en vectorial**. Con eso los saco exactos en un minuto.
+Lo que sí sigue haciendo falta es el **logo en PNG con transparencia o SVG**:
+recortarlo de la foto daría un logo con textura de papel y bordes sucios.
 
 ## 6. Pendiente antes de construir
 
-- [ ] Fotos reales de sus tartas (las del HTML actual son de banco de imágenes)
-- [ ] Logo en PNG con transparencia o SVG
+- [ ] Fotos reales de sus tartas **(bloqueante: las del HTML actual son de banco de imágenes)**
+- [ ] Logo en PNG con transparencia o SVG **(bloqueante: no vale recortarlo de la foto)**
 - [ ] Horario confirmado
 - [ ] Código postal confirmado
 - [ ] Reseñas reales copiadas de su perfil de Google
