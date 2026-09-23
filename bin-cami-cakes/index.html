@@ -190,6 +190,64 @@
   .tarjeta{ transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease; }
   .tarjeta:hover{ transform:translateY(-6px); }
 
+
+  /* ===== TICKER DE RECLAMOS ===== */
+  .ticker{ overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+           mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); }
+  .ticker-pista{ display:flex; width:max-content; animation:desfile 42s linear infinite; }
+  .ticker:hover .ticker-pista{ animation-play-state:paused; }
+  @keyframes desfile{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ===== CARRUSEL ===== */
+  .carrusel{ display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory;
+             scrollbar-width:none; -ms-overflow-style:none; scroll-behavior:smooth; padding-bottom:.25rem; }
+  .carrusel::-webkit-scrollbar{ display:none; }
+  .carrusel > *{ scroll-snap-align:start; flex:0 0 auto; }
+  .flecha{ display:grid; place-items:center; width:2.75rem; height:2.75rem; border-radius:9999px;
+           background:#fff; color:var(--frambuesa); border:1px solid var(--rosa-palo);
+           box-shadow:0 6px 18px -8px rgba(58,49,54,.35); transition:transform .2s, background .2s; }
+  .flecha:hover{ transform:scale(1.08); background:var(--frambuesa); color:#fff; }
+  .flecha[disabled]{ opacity:.35; pointer-events:none; }
+  .miniatura{ border:3px solid transparent; transition:border-color .25s, transform .25s; }
+  .miniatura[aria-selected="true"]{ border-color:var(--frambuesa); transform:translateY(-3px); }
+
+  /* ===== RESEÑAS EN CASCADA ===== */
+  .cascada{ position:relative; height:34rem; overflow:hidden;
+            -webkit-mask-image:linear-gradient(#0000,#000 12%,#000 88%,#0000);
+            mask-image:linear-gradient(#0000,#000 12%,#000 88%,#0000); }
+  .cascada-col{ display:flex; flex-direction:column; gap:1rem; animation:subir var(--dur,46s) linear infinite; }
+  .cascada-col.lenta{ --dur:58s; }
+  .cascada-col.media{ --dur:52s; }
+  .cascada:hover .cascada-col{ animation-play-state:paused; }
+  @keyframes subir{ from{transform:translateY(0)} to{transform:translateY(-50%)} }
+  .pestana[aria-selected="true"]{ background:var(--frambuesa); color:#fff; }
+
+  /* ===== CHATBOT DE PRESUPUESTO ===== */
+  #panel-chat{ transform:translateY(12px) scale(.97); opacity:0; pointer-events:none;
+               transition:transform .28s cubic-bezier(.16,1,.3,1), opacity .28s; }
+  #panel-chat.abierto{ transform:none; opacity:1; pointer-events:auto; }
+  .burbuja{ max-width:88%; border-radius:1.15rem; padding:.7rem 1rem; font-size:.95rem; line-height:1.5;
+            animation:entra .3s cubic-bezier(.16,1,.3,1) both; }
+  .burbuja-bot{ background:var(--rosa-nube); color:var(--tinta); border-bottom-left-radius:.35rem; }
+  .burbuja-yo{ background:var(--frambuesa); color:#fff; margin-left:auto; border-bottom-right-radius:.35rem; }
+  @keyframes entra{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
+  .chip{ border:1.5px solid var(--rosa-palo); background:#fff; color:var(--tinta);
+         border-radius:9999px; padding:.5rem .9rem; font-size:.85rem; font-weight:600;
+         transition:background .2s, border-color .2s, color .2s; }
+  .chip:hover{ background:var(--frambuesa); border-color:var(--frambuesa); color:#fff; }
+
+  /* Estado abierto/cerrado */
+  .punto{ width:.6rem; height:.6rem; border-radius:9999px; }
+  .punto.vivo{ animation:palpita 2s ease-in-out infinite; }
+  @keyframes palpita{ 0%,100%{opacity:1} 50%{opacity:.35} }
+
+  @media (prefers-reduced-motion: reduce){
+    .ticker-pista, .cascada-col{ animation:none !important; }
+    .cascada{ height:auto; overflow:visible; -webkit-mask-image:none; mask-image:none; }
+    .burbuja{ animation:none !important; }
+    .punto.vivo{ animation:none !important; }
+  }
+
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     .reveal{ opacity:1!important; transform:none!important; transition:none!important; }
@@ -366,6 +424,11 @@
   </div>
 </section>
 
+<!-- ===================== TICKER DE RECLAMOS ===================== -->
+<div class="ticker border-y border-rosa-palo bg-white no-print" aria-hidden="true">
+  <div class="ticker-pista"><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Tartas hechas a mano, una a una<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">El tres leches que buscabas<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">4,9★ con 18 reseñas en Google<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Abrimos los siete días<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Golfeados y piñitas recién hechos<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Junto al Jardín do Posío<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Tú imaginas, nosotros lo hacemos<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Presupuesto por WhatsApp, sin compromiso<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Tartas hechas a mano, una a una<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">El tres leches que buscabas<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">4,9★ con 18 reseñas en Google<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Abrimos los siete días<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Golfeados y piñitas recién hechos<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Junto al Jardín do Posío<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Tú imaginas, nosotros lo hacemos<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span><span class="flex items-center gap-3 whitespace-nowrap px-5 py-3 text-sm font-semibold text-tinta/75">Presupuesto por WhatsApp, sin compromiso<span class="text-frambuesa" aria-hidden="true">&#10022;</span></span></div>
+</div>
+
 <!-- ===================== ESPECIALIDADES ===================== -->
 <section id="especialidades" class="bg-white py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -519,17 +582,118 @@
       </p>
     </div>
 
-    <!-- FOTO: galería · sustituir cada div por:
-         <img src="assets/tarta-1.jpg" alt="Descripción de la tarta" class="h-full w-full object-cover" loading="lazy"> -->
-    <div class="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
-      <div class="reveal aspect-square overflow-hidden rounded-3xl"><div class="foto-pendiente h-full w-full"><span>Tarta de cumpleaños</span></div></div>
-      <div class="reveal aspect-square overflow-hidden rounded-3xl"><div class="foto-pendiente h-full w-full"><span>Tarta de boda</span></div></div>
-      <div class="reveal aspect-square overflow-hidden rounded-3xl"><div class="foto-pendiente h-full w-full"><span>Tarta temática infantil</span></div></div>
-      <div class="reveal aspect-square overflow-hidden rounded-3xl"><div class="foto-pendiente h-full w-full"><span>Porción de tres leches</span></div></div>
-      <div class="reveal aspect-square overflow-hidden rounded-3xl"><div class="foto-pendiente h-full w-full"><span>Golfeados</span></div></div>
-      <div class="reveal aspect-square overflow-hidden rounded-3xl"><div class="foto-pendiente h-full w-full"><span>Cookies</span></div></div>
-      <div class="reveal aspect-square overflow-hidden rounded-3xl"><div class="foto-pendiente h-full w-full"><span>Mesa de dulces</span></div></div>
-      <div class="reveal aspect-square overflow-hidden rounded-3xl"><div class="foto-pendiente h-full w-full"><span>El obrador por dentro</span></div></div>
+    <!-- FOTO: galería · en cada figure, sustituir el div.foto-pendiente por:
+         <img src="assets/tarta-1.jpg" alt="Descripción real de la tarta" class="aspect-[4/5] h-full w-full rounded-3xl object-cover" loading="lazy"> -->
+    <div class="reveal mt-12">
+      <div class="mb-4 flex items-center justify-between gap-4">
+        <p class="text-sm font-semibold text-tinta/60"><span id="galeria-pos">1</span> / 8</p>
+        <div class="flex gap-2">
+          <button type="button" class="flecha" data-galeria="-1" aria-label="Foto anterior">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button type="button" class="flecha" data-galeria="1" aria-label="Foto siguiente">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="galeria-carrusel" class="carrusel" role="group" aria-label="Carrusel de nuestras tartas" tabindex="0">
+        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="0">
+          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
+            <div>
+              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
+              <span>Tarta de cumpleaños</span>
+            </div>
+          </div>
+          <figcaption class="mt-3 px-1">
+            <p class="font-display text-lg font-bold text-tinta">Tarta de cumpleaños</p>
+            <p class="text-[15px] text-tinta/70">Con figuras y el nombre en grande</p>
+          </figcaption>
+        </figure>
+        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="1">
+          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
+            <div>
+              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
+              <span>Tarta de boda</span>
+            </div>
+          </div>
+          <figcaption class="mt-3 px-1">
+            <p class="font-display text-lg font-bold text-tinta">Tarta de boda</p>
+            <p class="text-[15px] text-tinta/70">Varios pisos y flores de azúcar</p>
+          </figcaption>
+        </figure>
+        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="2">
+          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
+            <div>
+              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
+              <span>Tarta temática</span>
+            </div>
+          </div>
+          <figcaption class="mt-3 px-1">
+            <p class="font-display text-lg font-bold text-tinta">Tarta temática</p>
+            <p class="text-[15px] text-tinta/70">Su personaje favorito, modelado a mano</p>
+          </figcaption>
+        </figure>
+        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="3">
+          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
+            <div>
+              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
+              <span>Porción de tres leches</span>
+            </div>
+          </div>
+          <figcaption class="mt-3 px-1">
+            <p class="font-display text-lg font-bold text-tinta">Porción de tres leches</p>
+            <p class="text-[15px] text-tinta/70">El más pedido del mostrador</p>
+          </figcaption>
+        </figure>
+        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="4">
+          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
+            <div>
+              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
+              <span>Golfeados</span>
+            </div>
+          </div>
+          <figcaption class="mt-3 px-1">
+            <p class="font-display text-lg font-bold text-tinta">Golfeados</p>
+            <p class="text-[15px] text-tinta/70">Papelón y queso, recién hechos</p>
+          </figcaption>
+        </figure>
+        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="5">
+          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
+            <div>
+              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
+              <span>Cookies estilo NY</span>
+            </div>
+          </div>
+          <figcaption class="mt-3 px-1">
+            <p class="font-display text-lg font-bold text-tinta">Cookies estilo NY</p>
+            <p class="text-[15px] text-tinta/70">Gruesas y con el centro tierno</p>
+          </figcaption>
+        </figure>
+        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="6">
+          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
+            <div>
+              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
+              <span>Mesa de dulces</span>
+            </div>
+          </div>
+          <figcaption class="mt-3 px-1">
+            <p class="font-display text-lg font-bold text-tinta">Mesa de dulces</p>
+            <p class="text-[15px] text-tinta/70">Para bodas y comuniones</p>
+          </figcaption>
+        </figure>
+        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="7">
+          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
+            <div>
+              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
+              <span>El obrador</span>
+            </div>
+          </div>
+          <figcaption class="mt-3 px-1">
+            <p class="font-display text-lg font-bold text-tinta">El obrador</p>
+            <p class="text-[15px] text-tinta/70">Donde sale todo cada mañana</p>
+          </figcaption>
+        </figure>
+      </div>
     </div>
 
     <p class="reveal mt-10 text-center">
@@ -556,113 +720,54 @@
       </h2>
     </div>
 
-    <div class="reveal mt-9 flex justify-center">
+    <!-- Contador animado -->
+    <div class="reveal mt-10 text-center">
+      <p class="flex items-center justify-center gap-1" role="img" aria-label="4,9 sobre 5 estrellas">
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+      </p>
+      <p class="mt-4 font-display text-6xl font-extrabold leading-none text-frambuesa sm:text-7xl" id="contador">0</p>
+      <p class="mt-3 text-lg text-tinta/75">
+        reseñas en Google, con una media de <strong class="font-semibold text-tinta">4,9 sobre 5</strong>
+      </p>
       <a href="https://www.google.com/search?q=Bin+%26+Cami+Cakes+Ourense" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-5 rounded-3xl border border-rosa-palo bg-white px-7 py-5 shadow-suave transition hover:shadow-alta">
-        <svg class="h-9 w-9" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+         class="mt-6 inline-flex items-center gap-2.5 rounded-full border-2 border-frambuesa px-6 py-3 font-display text-sm font-bold text-frambuesa transition hover:bg-frambuesa hover:text-white">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#4285F4" d="M22.6 12.2c0-.8-.1-1.4-.2-2.1H12v4h5.9c-.1 1-.8 2.5-2.3 3.5l3.5 2.7c2.1-1.9 3.5-4.7 3.5-8.1z"/>
           <path fill="#34A853" d="M12 23c2.9 0 5.3-.9 7.1-2.6l-3.5-2.7c-.9.6-2.1 1-3.6 1-2.8 0-5.2-1.9-6.1-4.5L2.3 17c1.8 3.6 5.5 6 9.7 6z"/>
           <path fill="#FBBC05" d="M5.9 14.2c-.2-.7-.4-1.4-.4-2.2s.1-1.5.3-2.2L2.3 7c-.7 1.5-1.2 3.2-1.2 5s.4 3.5 1.2 5l3.6-2.8z"/>
           <path fill="#EA4335" d="M12 5.4c2 0 3.3.9 4.1 1.6l3-2.9C17.3 1.9 14.9 1 12 1 7.8 1 4.1 3.4 2.3 7l3.6 2.8C6.8 7.3 9.2 5.4 12 5.4z"/>
         </svg>
-        <span class="text-left">
-          <span class="block font-display text-3xl font-extrabold leading-none text-tinta">4,9<span class="text-lg text-tinta/50">/5</span></span>
-          <span class="mt-1 block text-sm font-semibold text-tinta/70">18 reseñas en Google</span>
-        </span>
+        Ver las reseñas en Google
       </a>
+      <p class="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-tinta/60">
+        Aquí no ponemos frases nuestras en boca de nadie: son las reseñas tal cual las escribieron.
+        Las que Google recorta salen recortadas, con enlace para leerlas enteras.
+      </p>
     </div>
 
-    <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-
-      <figure class="reveal flex h-full flex-col rounded-3xl bg-white p-6 shadow-suave">
-        <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        </div>
-        <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-tinta/85">
-          «Muy buen sitio, la atención increíble y la tarta que encargué <strong class="font-semibold text-tinta">tal cual la pedí</strong>, 10 de 10.»
-        </blockquote>
-        <figcaption class="mt-5 border-t border-rosa-nube pt-4 text-sm font-bold text-tinta">ibrahin eduardo</figcaption>
-      </figure>
-
-      <figure class="reveal flex h-full flex-col rounded-3xl bg-white p-6 shadow-suave">
-        <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        </div>
-        <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-tinta/85">
-          «Suelo comprar aquí cada vez que quiero algo dulcecito. Esta vez fue un momento especial
-          y los elegí para la tartita de mi marido. Él salió muy feliz. Estaba sabrosa y muy bonita.
-          Fueron <strong class="font-semibold text-tinta">super amables y puntuales</strong>, no elegiría ningún otro sitio 🩷»
-        </blockquote>
-        <figcaption class="mt-5 border-t border-rosa-nube pt-4 text-sm font-bold text-tinta">Onee-ChanOfEveryone</figcaption>
-      </figure>
-
-      <figure class="reveal flex h-full flex-col rounded-3xl bg-white p-6 shadow-suave">
-        <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        </div>
-        <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-tinta/85">
-          «Si pruebas <strong class="font-semibold text-tinta">las cookies</strong> de este sitio ya no querrás otras, os lo aseguro.
-          Y el trato que ofrecen al cliente es maravilloso ❤️»
-        </blockquote>
-        <figcaption class="mt-5 border-t border-rosa-nube pt-4 text-sm font-bold text-tinta">Remedios Antonia Pérez Baltar</figcaption>
-      </figure>
-
-      <figure class="reveal flex h-full flex-col rounded-3xl bg-white p-6 shadow-suave">
-        <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        </div>
-        <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-tinta/85">
-          «Muy rico todo con <strong class="font-semibold text-tinta">sabor venezolano</strong>, llevo años probando sus dulces 💛
-          atención de 10 🫶»
-        </blockquote>
-        <figcaption class="mt-5 border-t border-rosa-nube pt-4 text-sm font-bold text-tinta">Luis Silveira</figcaption>
-      </figure>
-
-      <figure class="reveal flex h-full flex-col rounded-3xl bg-white p-6 shadow-suave">
-        <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        </div>
-        <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-tinta/85">
-          «El mejor <strong class="font-semibold text-tinta">tres leches</strong> que me he comido en mi vida. Los recomiendo.»
-        </blockquote>
-        <figcaption class="mt-5 border-t border-rosa-nube pt-4 text-sm font-bold text-tinta">Qart Cards</figcaption>
-      </figure>
-
-      <figure class="reveal flex h-full flex-col rounded-3xl bg-white p-6 shadow-suave">
-        <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-          <svg class="h-4 w-4 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        </div>
-        <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-tinta/85">
-          «Ayer fuimos a probar la tarta 3 leches, porque queríamos una de verdad, tipo venezolano,
-          y hemos encontrado el lugar 😍 Gracias <strong class="font-semibold text-tinta">Luisa</strong> por tu amabilidad y dedicación.»
-        </blockquote>
-        <figcaption class="mt-5 border-t border-rosa-nube pt-4 text-sm font-bold text-tinta">Andreína Gómez</figcaption>
-      </figure>
+    <!-- Pestañas -->
+    <div class="reveal mt-9 flex justify-center gap-2" role="tablist" aria-label="Filtrar reseñas">
+      <button type="button" class="pestana rounded-full border border-rosa-palo px-5 py-2.5 text-sm font-semibold text-tinta/75 transition hover:border-frambuesa"
+              role="tab" aria-selected="true" data-filtro="todas">Todas</button>
+      <button type="button" class="pestana rounded-full border border-rosa-palo px-5 py-2.5 text-sm font-semibold text-tinta/75 transition hover:border-frambuesa"
+              role="tab" aria-selected="false" data-filtro="recientes">Más recientes</button>
+      <button type="button" class="pestana rounded-full border border-rosa-palo px-5 py-2.5 text-sm font-semibold text-tinta/75 transition hover:border-frambuesa"
+              role="tab" aria-selected="false" data-filtro="tresleches">Tres leches</button>
     </div>
+
+    <!-- Cascada de 3 columnas -->
+    <div class="reveal cascada mt-8" id="cascada">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="cascada-col" data-col="0"></div>
+        <div class="cascada-col media hidden sm:flex" data-col="1"></div>
+        <div class="cascada-col lenta hidden lg:flex" data-col="2"></div>
+      </div>
+    </div>
+    <p class="mt-5 text-center text-sm text-tinta/55">Pasa el ratón por encima para pararlas · pulsa una tarjeta para verla en Google</p>
   </div>
 </section>
 
@@ -819,6 +924,9 @@
             <div class="min-w-0 flex-1">
               <dt class="text-xs font-bold uppercase tracking-wider text-tinta/55">Horario · abrimos los 7 días</dt>
               <dd class="mt-2">
+                <p id="estado-horario" class="mb-3 inline-flex items-center gap-2 rounded-full bg-rosa-nube px-3.5 py-1.5 text-sm font-bold text-tinta">
+                  <span class="punto bg-tinta/30" aria-hidden="true"></span><span>Comprobando horario…</span>
+                </p>
                 <table class="w-full text-[15px]">
                   <caption class="sr-only">Horario de Bin &amp; Cami Cakes</caption>
                   <tbody class="divide-y divide-rosa-nube">
@@ -963,6 +1071,34 @@
   </div>
 </footer>
 
+<!-- ===================== ASISTENTE DE PRESUPUESTO ===================== -->
+<div class="fixed bottom-24 right-5 z-50 w-[min(22rem,calc(100vw-2.5rem))] no-print">
+  <div id="panel-chat" class="flex max-h-[min(30rem,calc(100vh-12rem))] flex-col overflow-hidden rounded-3xl border border-rosa-palo bg-white shadow-alta"
+       role="dialog" aria-modal="false" aria-labelledby="chat-titulo" aria-hidden="true">
+    <header class="flex items-center gap-3 border-b border-rosa-nube bg-rosa-nube/60 px-4 py-3">
+      <img src="assets/logo.png" alt="" width="36" height="42" class="h-9 w-auto" aria-hidden="true">
+      <div class="min-w-0 flex-1">
+        <p id="chat-titulo" class="font-display text-sm font-extrabold text-tinta">Presupuesto de tu tarta</p>
+        <p class="text-xs text-tinta/60">Te preparamos el mensaje en 5 preguntas</p>
+      </div>
+      <button type="button" id="chat-cerrar" class="grid h-8 w-8 shrink-0 place-items-center rounded-full text-tinta/60 transition hover:bg-white hover:text-frambuesa" aria-label="Cerrar el asistente">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+    <div id="chat-hilo" class="flex-1 space-y-2.5 overflow-y-auto px-4 py-4" aria-live="polite"></div>
+    <div id="chat-opciones" class="flex flex-wrap gap-2 border-t border-rosa-nube px-4 py-3"></div>
+  </div>
+
+  <button type="button" id="chat-abrir"
+          class="mt-3 ml-auto flex items-center gap-2.5 rounded-full bg-frambuesa px-5 py-3.5 font-display text-sm font-bold text-white shadow-alta transition hover:bg-frambuesa-oscuro"
+          aria-expanded="false" aria-controls="panel-chat">
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 11.5a8.4 8.4 0 01-9 8.4 9 9 0 01-3.9-.9L3 20.5l1.6-4.6A8.3 8.3 0 013.6 11a8.4 8.4 0 018.9-8.4 8.4 8.4 0 018.5 8.4z"/>
+    </svg>
+    <span id="chat-etiqueta">Calcular mi tarta</span>
+  </button>
+</div>
+
 <div class="fixed bottom-5 right-5 z-50 no-print">
   <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20encargar%20una%20tarta%20personalizada"
      target="_blank" rel="noopener"
@@ -1026,5 +1162,291 @@
   }
 })();
 </script>
+<script>
+/* ============ CARRUSEL DE LA GALERÍA ============ */
+(function(){
+  'use strict';
+  var pista = document.getElementById('galeria-carrusel');
+  var pos   = document.getElementById('galeria-pos');
+  if (!pista) return;
+  var diapos = [].slice.call(pista.querySelectorAll('[data-diapo]'));
+
+  /* La diapositiva "actual" es la primera visible por la izquierda: a scroll 0
+     eso es la 1, que es lo que espera quien mira el contador. */
+  function actual(){
+    var x = pista.scrollLeft, mejor = 0, dif = Infinity;
+    diapos.forEach(function(d, i){
+      var v = Math.abs(d.offsetLeft - pista.offsetLeft - x);
+      if (v < dif){ dif = v; mejor = i; }
+    });
+    return mejor;
+  }
+  function tope(){ return pista.scrollWidth - pista.clientWidth; }
+  function pintar(){
+    var i = actual(), x = pista.scrollLeft;
+    if (pos) pos.textContent = i + 1;
+    document.querySelectorAll('[data-galeria]').forEach(function(b){
+      var d = parseInt(b.dataset.galeria, 10);
+      b.disabled = (d < 0 && x <= 2) || (d > 0 && x >= tope() - 2);
+    });
+  }
+  function ir(paso){
+    var i = Math.max(0, Math.min(diapos.length - 1, actual() + paso));
+    pista.scrollTo({ left: Math.min(tope(), diapos[i].offsetLeft - pista.offsetLeft) });
+  }
+  document.querySelectorAll('[data-galeria]').forEach(function(b){
+    b.addEventListener('click', function(){ ir(parseInt(b.dataset.galeria, 10)); });
+  });
+  pista.addEventListener('scroll', function(){
+    clearTimeout(pista._t); pista._t = setTimeout(pintar, 90);
+  }, { passive:true });
+  pista.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight'){ e.preventDefault(); ir(1); }
+    if (e.key === 'ArrowLeft'){ e.preventDefault(); ir(-1); }
+  });
+  window.addEventListener('resize', pintar);
+  pintar();
+})();
+
+/* ============ RESEÑAS EN CASCADA ============ */
+(function(){
+  'use strict';
+  /* Reseñas literales del perfil de Google. "cortada" = Google la recorta con
+     "… Más", así que se muestra igual de recortada y se enlaza a la ficha.
+     No se incluye la reseña publicada desde la propia cuenta del negocio. */
+  var RESENAS = [
+    { n:'Andreína Gómez', m:0.8, tres:true, corta:false, t:'Ayer fuimos a probar la tarta 3 leches, porque queríamos una de verdad, tipo venezolano, y hemos encontrado el lugar 😍 Gracias Luisa por tu amabilidad, dedicación y por hacer honor a la calidad de nuestros productos venezolanos.' },
+    { n:'Gabriel Rocha', m:0.5, tres:false, corta:true, t:'Si estás buscando un lugar con un sabor espectacular y una atención de calidad, has llegado al sitio adecuado.' },
+    { n:'Maria Silene Cosse', m:1, tres:false, corta:true, t:'¡Parada dulce reglamentaria de Ourense!' },
+    { n:'Alba Fernández', m:1, tres:true, corta:false, t:'Probé la porción de tres leches y está espectacular, la recomiendo.' },
+    { n:'Onee-ChanOfEveryone', m:2, tres:false, corta:false, t:'Suelo comprar aquí cada vez que quiero algo dulcecito. Esta vez fue un momento especial y los elegí para la tartita de mi marido. Él salió muy feliz. Estaba sabrosa y muy bonita. Fueron super amables y puntuales, no elegiría ningún otro sitio 🩷' },
+    { n:'ibrahin eduardo', m:6, tres:false, corta:false, t:'Muy buen sitio, la atención increíble y la tarta que encargué tal cual la pedí, 10 de 10.' },
+    { n:'Qart Cards', m:6, tres:true, corta:false, t:'El mejor tres leches que me he comido en mi vida. Los recomiendo.' },
+    { n:'Remedios Antonia Pérez Baltar', m:6, tres:false, corta:false, t:'Si pruebas las cookies de este sitio ya no querrás otras, os lo aseguro. Y el trato que ofrecen al cliente es maravilloso ❤️' },
+    { n:'Luis Silveira', m:5, tres:false, corta:false, t:'Muy rico todo con sabor venezolano, llevo años probando sus dulces 💛 atención de 10 🫶' },
+    { n:'Mayra Correia', m:5, tres:false, corta:false, t:'Todo espectacular. La presentación increíble y el sabor aún mejor. Todo lo que hacen es maravilloso. Se los recomiendo un montón ❤️' },
+    { n:'Kimberly Matailo', m:6, tres:true, corta:true, t:'Muy bonito el local ☺️, la atención estupenda 👌, por ahora he probado el tres leches y está buenísimo 😍 lo recomiendo.' },
+    { n:'Kamelia Chaparro', m:6, tres:false, corta:true, t:'Luisa es la mejor en lo que hace, sus tartas no son solo bellas estéticamente, si no que además todo lo que hace sabe genial. A mí me hizo unos cupcakes para la' },
+    { n:'Kate Querales', m:6, tres:false, corta:true, t:'Hoy me di el gusto con estas super piñitas y un golfeado, están demasiado riquísimos ⭐⭐⭐⭐⭐' },
+    { n:'Omar Bernal Orellana', m:6, tres:false, corta:false, t:'Es muy bonito, los postres son muy ricos 😋' },
+    { n:'Sebastián Gutiérrez', m:5, tres:false, corta:false, t:'Los pasteles son muy ricos.' },
+    { n:'Alexandra De Sousa', m:5, tres:false, corta:false, t:'Soy Vero y me encanta comer esas tortas, son muy ricas 😋' }
+  ];
+  var FICHA = 'https://www.google.com/search?q=Bin+%26+Cami+Cakes+Ourense';
+  var cascada = document.getElementById('cascada');
+  if (!cascada) return;
+  var cols = [].slice.call(cascada.querySelectorAll('.cascada-col'));
+
+  function cuando(m){
+    if (m < 1) return 'Hace semanas';
+    if (m < 2) return 'Hace un mes';
+    return 'Hace ' + Math.round(m) + ' meses';
+  }
+  function tarjeta(r){
+    var estrellas = '';
+    for (var i = 0; i < 5; i++) estrellas +=
+      '<svg class="h-3.5 w-3.5 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>';
+    var ini = (r.n.trim()[0] || '?').toUpperCase();
+    return '<a href="' + FICHA + '" target="_blank" rel="noopener" ' +
+      'class="block rounded-3xl bg-white p-5 shadow-suave transition hover:shadow-alta">' +
+        '<div class="flex items-center gap-3">' +
+          '<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-frambuesa font-display text-sm font-bold text-white" aria-hidden="true">' + ini + '</span>' +
+          '<div class="min-w-0">' +
+            '<p class="truncate text-sm font-bold text-tinta">' + r.n + '</p>' +
+            '<p class="text-xs text-tinta/55">' + cuando(r.m) + ' · Google</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="mt-3 flex gap-0.5" role="img" aria-label="5 de 5 estrellas">' + estrellas + '</div>' +
+        '<p class="mt-2.5 text-[15px] leading-relaxed text-tinta/85">«' + r.t + (r.corta ? ' …»' : '»') + '</p>' +
+        (r.corta ? '<p class="mt-2 text-xs font-semibold text-frambuesa">Leerla entera en Google →</p>' : '') +
+      '</a>';
+  }
+  function pintar(filtro){
+    var lista = RESENAS.slice();
+    if (filtro === 'recientes') lista = lista.filter(function(r){ return r.m <= 2; });
+    if (filtro === 'tresleches') lista = lista.filter(function(r){ return r.tres; });
+    if (lista.length < 4) lista = lista.concat(RESENAS.slice(0, 6));
+    var cubos = [[], [], []];
+    lista.forEach(function(r, i){ cubos[i % 3].push(tarjeta(r)); });
+    cols.forEach(function(col, i){
+      var html = cubos[i].join('');
+      col.innerHTML = html + html;   /* duplicado para que el bucle no salte */
+    });
+  }
+  pintar('todas');
+
+  document.querySelectorAll('[data-filtro]').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('[data-filtro]').forEach(function(o){ o.setAttribute('aria-selected', 'false'); });
+      b.setAttribute('aria-selected', 'true');
+      pintar(b.dataset.filtro);
+    });
+  });
+
+  /* Contador animado, solo cuando entra en pantalla */
+  var cont = document.getElementById('contador');
+  if (cont && 'IntersectionObserver' in window &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var obs = new IntersectionObserver(function(e){
+      if (!e[0].isIntersecting) return;
+      obs.disconnect();
+      var fin = 18, t0 = performance.now();
+      (function paso(t){
+        var k = Math.min(1, (t - t0) / 1100);
+        cont.textContent = Math.round(fin * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(paso);
+      })(t0);
+    }, { threshold: 0.4 });
+    obs.observe(cont);
+  } else if (cont) { cont.textContent = '18'; }
+})();
+
+/* ============ ABIERTO / CERRADO EN VIVO ============ */
+(function(){
+  'use strict';
+  var caja = document.getElementById('estado-horario');
+  if (!caja) return;
+  /* domingo=0 … sábado=6 · hora de apertura y cierre en Ourense */
+  var H = [[10,22],[10,20],[10,20],[11,22],[11,22],[11,22],[11,22]];
+  var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+
+  function ahoraEnOurense(){
+    var f = new Intl.DateTimeFormat('en-GB', { timeZone:'Europe/Madrid',
+      weekday:'short', hour:'2-digit', minute:'2-digit', hour12:false }).formatToParts(new Date());
+    var o = {}; f.forEach(function(p){ o[p.type] = p.value; });
+    var idx = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(o.weekday);
+    return { dia: idx, min: parseInt(o.hour,10) * 60 + parseInt(o.minute,10) };
+  }
+  function pintar(){
+    var a = ahoraEnOurense();
+    if (a.dia < 0) { caja.remove(); return; }
+    var hoy = H[a.dia], abre = hoy[0]*60, cierra = hoy[1]*60;
+    var punto = caja.querySelector('.punto'), texto = caja.querySelector('span:last-child');
+    if (a.min >= abre && a.min < cierra) {
+      punto.className = 'punto vivo bg-green-500';
+      var quedan = cierra - a.min;
+      texto.textContent = quedan <= 60
+        ? 'Abierto · cierra en ' + quedan + ' min'
+        : 'Abierto ahora · hasta las ' + hoy[1] + ':00';
+    } else if (a.min < abre) {
+      punto.className = 'punto bg-oro-claro';
+      texto.textContent = 'Cerrado · abre hoy a las ' + hoy[0] + ':00';
+    } else {
+      var man = H[(a.dia + 1) % 7];
+      punto.className = 'punto bg-oro-claro';
+      texto.textContent = 'Cerrado · abre el ' + DIAS[(a.dia + 1) % 7] + ' a las ' + man[0] + ':00';
+    }
+  }
+  pintar();
+  setInterval(pintar, 60000);
+})();
+</script>
+
+<script>
+/* ============ ASISTENTE DE PRESUPUESTO ============
+   No calcula precios: los precios reales los pone el obrador. Lo que hace es
+   recoger el encargo en cinco preguntas y dejar el mensaje de WhatsApp escrito,
+   que es donde de verdad se cierra la venta.
+   Para añadir precios orientativos algún día, basta con meterlos en PASOS. */
+(function(){
+  'use strict';
+  var abrir  = document.getElementById('chat-abrir');
+  var panel  = document.getElementById('panel-chat');
+  var cerrar = document.getElementById('chat-cerrar');
+  var hilo   = document.getElementById('chat-hilo');
+  var opts   = document.getElementById('chat-opciones');
+  if (!abrir || !panel) return;
+
+  var WA = '34656584027';
+  var PASOS = [
+    { k:'ocasion',  p:'¡Hola! Soy el asistente de Bin & Cami Cakes 🧁 Te preparo el encargo en cinco preguntas. ¿Para qué ocasión es la tarta?',
+      o:['Cumpleaños','Boda','Comunión o bautizo','Solo por antojo'] },
+    { k:'personas', p:'¿Para cuántas personas, más o menos?',
+      o:['Hasta 10','Entre 10 y 20','Entre 20 y 40','Más de 40'] },
+    { k:'sabor',    p:'¿Qué sabor te apetece?',
+      o:['Tres leches','Chocolate','Red velvet','Aún no lo sé, aconséjame'] },
+    { k:'fecha',    p:'¿Para cuándo la necesitas?',
+      o:['Esta semana','La semana que viene','Dentro de un mes o más','Todavía no tengo fecha'] },
+    { k:'diseno',   p:'Y por último, ¿cómo te la imaginas?',
+      o:['Sencilla y elegante','Con figuras modeladas','De una temática concreta','Tengo una foto de referencia'] }
+  ];
+  var paso = 0, resp = {}, arrancado = false;
+
+  function burbuja(texto, mia){
+    var d = document.createElement('div');
+    d.className = 'burbuja ' + (mia ? 'burbuja-yo' : 'burbuja-bot');
+    d.textContent = texto;
+    hilo.appendChild(d);
+    hilo.scrollTop = hilo.scrollHeight;
+  }
+  function chips(lista, alPulsar){
+    opts.innerHTML = '';
+    lista.forEach(function(t){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.textContent = t;
+      b.addEventListener('click', function(){ alPulsar(t); });
+      opts.appendChild(b);
+    });
+  }
+  function preguntar(){
+    if (paso >= PASOS.length) return resumen();
+    var e = PASOS[paso];
+    burbuja(e.p, false);
+    chips(e.o, function(valor){
+      burbuja(valor, true);
+      resp[e.k] = valor;
+      paso++;
+      opts.innerHTML = '';
+      setTimeout(preguntar, 320);
+    });
+  }
+  function resumen(){
+    burbuja('¡Listo! Esto es lo que le paso al obrador:', false);
+    burbuja('· ' + resp.ocasion + '\n· ' + resp.personas + ' personas\n· Sabor: ' + resp.sabor +
+            '\n· Fecha: ' + resp.fecha + '\n· Diseño: ' + resp.diseno, false);
+    burbuja('Te confirmamos precio y disponibilidad por WhatsApp. El presupuesto es gratis y sin compromiso.', false);
+
+    var texto = 'Hola, quiero presupuesto para una tarta.\n\n' +
+      'Ocasión: ' + resp.ocasion + '\n' +
+      'Personas: ' + resp.personas + '\n' +
+      'Sabor: ' + resp.sabor + '\n' +
+      'Fecha: ' + resp.fecha + '\n' +
+      'Diseño: ' + resp.diseno;
+
+    opts.innerHTML = '';
+    var a = document.createElement('a');
+    a.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(texto);
+    a.target = '_blank'; a.rel = 'noopener';
+    a.className = 'flex w-full items-center justify-center gap-2.5 rounded-full bg-frambuesa px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-frambuesa-oscuro';
+    a.innerHTML = '<svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/></svg>' +
+                 'Enviarlo por WhatsApp';
+    opts.appendChild(a);
+
+    var otra = document.createElement('button');
+    otra.type = 'button'; otra.className = 'chip mx-auto'; otra.textContent = 'Empezar de nuevo';
+    otra.addEventListener('click', reiniciar);
+    opts.appendChild(otra);
+    hilo.scrollTop = hilo.scrollHeight;
+  }
+  function reiniciar(){
+    paso = 0; resp = {}; hilo.innerHTML = ''; opts.innerHTML = '';
+    preguntar();
+  }
+  function alternar(mostrar){
+    panel.classList.toggle('abierto', mostrar);
+    panel.setAttribute('aria-hidden', String(!mostrar));
+    abrir.setAttribute('aria-expanded', String(mostrar));
+    document.getElementById('chat-etiqueta').textContent = mostrar ? 'Cerrar asistente' : 'Calcular mi tarta';
+    if (mostrar && !arrancado){ arrancado = true; preguntar(); }
+    if (mostrar) { var c = opts.querySelector('button, a'); if (c) c.focus(); }
+  }
+  abrir.addEventListener('click', function(){ alternar(!panel.classList.contains('abierto')); });
+  cerrar.addEventListener('click', function(){ alternar(false); abrir.focus(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && panel.classList.contains('abierto')){ alternar(false); abrir.focus(); }
+  });
+})();
+</script>
+
 </body>
 </html>
