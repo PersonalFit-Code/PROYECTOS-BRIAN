@@ -1182,9 +1182,24 @@
     return mejor;
   }
   function tope(){ return pista.scrollWidth - pista.clientWidth; }
+
+  /* En el móvil se ve una foto y en el escritorio tres. Si el contador sólo
+     mirase la primera, al llegar al final pondría «5 / 8» con la flecha ya
+     apagada, que parece que se ha quedado colgado. Por eso cuenta el tramo
+     que de verdad se está viendo: «1–3 / 8» al empezar y «6–8 / 8» al final. */
+  function visibles(){
+    var x = pista.scrollLeft, ancho = pista.clientWidth, ini = -1, fin = -1;
+    diapos.forEach(function(d, i){
+      var a = d.offsetLeft - pista.offsetLeft, b = a + d.offsetWidth;
+      var dentro = Math.min(b, x + ancho) - Math.max(a, x);
+      if (dentro >= d.offsetWidth * 0.5){ if (ini < 0) ini = i; fin = i; }
+    });
+    if (ini < 0){ ini = fin = actual(); }
+    return { ini: ini, fin: fin };
+  }
   function pintar(){
-    var i = actual(), x = pista.scrollLeft;
-    if (pos) pos.textContent = i + 1;
+    var v = visibles(), x = pista.scrollLeft;
+    if (pos) pos.textContent = v.ini === v.fin ? (v.ini + 1) : (v.ini + 1) + '\u2013' + (v.fin + 1);
     document.querySelectorAll('[data-galeria]').forEach(function(b){
       var d = parseInt(b.dataset.galeria, 10);
       b.disabled = (d < 0 && x <= 2) || (d > 0 && x >= tope() - 2);
@@ -1242,22 +1257,31 @@
     if (m < 2) return 'Hace un mes';
     return 'Hace ' + Math.round(m) + ' meses';
   }
-  function tarjeta(r){
+  /* El texto va por innerHTML, así que se escapa: el día que se pegue una
+     reseña nueva con un < o un & la tarjeta no se rompe. */
+  function esc(t){
+    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  /* eco = la copia de abajo, la que sólo existe para que el bucle no salte:
+     se oculta al lector de pantalla y se saca del tabulador para no leer ni
+     tabular dos veces la misma reseña. */
+  function tarjeta(r, eco){
     var estrellas = '';
     for (var i = 0; i < 5; i++) estrellas +=
       '<svg class="h-3.5 w-3.5 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>';
-    var ini = (r.n.trim()[0] || '?').toUpperCase();
+    var ini = esc((r.n.trim()[0] || '?').toUpperCase());
     return '<a href="' + FICHA + '" target="_blank" rel="noopener" ' +
+      (eco ? 'aria-hidden="true" tabindex="-1" ' : '') +
       'class="block rounded-3xl bg-white p-5 shadow-suave transition hover:shadow-alta">' +
         '<div class="flex items-center gap-3">' +
           '<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-frambuesa font-display text-sm font-bold text-white" aria-hidden="true">' + ini + '</span>' +
           '<div class="min-w-0">' +
-            '<p class="truncate text-sm font-bold text-tinta">' + r.n + '</p>' +
+            '<p class="truncate text-sm font-bold text-tinta">' + esc(r.n) + '</p>' +
             '<p class="text-xs text-tinta/55">' + cuando(r.m) + ' · Google</p>' +
           '</div>' +
         '</div>' +
         '<div class="mt-3 flex gap-0.5" role="img" aria-label="5 de 5 estrellas">' + estrellas + '</div>' +
-        '<p class="mt-2.5 text-[15px] leading-relaxed text-tinta/85">«' + r.t + (r.corta ? ' …»' : '»') + '</p>' +
+        '<p class="mt-2.5 text-[15px] leading-relaxed text-tinta/85">«' + esc(r.t) + (r.corta ? ' …»' : '»') + '</p>' +
         (r.corta ? '<p class="mt-2 text-xs font-semibold text-frambuesa">Leerla entera en Google →</p>' : '') +
       '</a>';
   }
@@ -1265,12 +1289,22 @@
     var lista = RESENAS.slice();
     if (filtro === 'recientes') lista = lista.filter(function(r){ return r.m <= 2; });
     if (filtro === 'tresleches') lista = lista.filter(function(r){ return r.tres; });
-    if (lista.length < 4) lista = lista.concat(RESENAS.slice(0, 6));
+
+    /* La caja mide 34rem y la columna sube la mitad de su propio alto. Con
+       cuatro reseñas filtradas cada columna se quedaba corta y en cada vuelta
+       se veía una franja en blanco. Se repite la MISMA lista filtrada (nunca
+       reseñas de otro filtro, que sería engañar) hasta tener doce, o sea
+       cuatro por columna, que ya sobrepasan la caja. El reparto va rotando,
+       así que dentro de una columna no salen dos veces seguidas. */
+    var base = lista.slice();
+    while (base.length && lista.length < 12) lista = lista.concat(base);
+
     var cubos = [[], [], []];
-    lista.forEach(function(r, i){ cubos[i % 3].push(tarjeta(r)); });
+    lista.forEach(function(r, i){ cubos[i % 3].push(r); });
     cols.forEach(function(col, i){
-      var html = cubos[i].join('');
-      col.innerHTML = html + html;   /* duplicado para que el bucle no salte */
+      var arriba = cubos[i].map(function(r){ return tarjeta(r, false); }).join('');
+      var eco    = cubos[i].map(function(r){ return tarjeta(r, true);  }).join('');
+      col.innerHTML = arriba + eco;   /* el eco sólo está para cerrar el bucle */
     });
   }
   pintar('todas');
