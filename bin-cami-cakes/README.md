@@ -16,13 +16,18 @@ maqueta mientras llegan las reales:
 | Tarta temática | `assets/tarta-tematica.jpg` | ✅ puesta (IA) — lleva un rótulo "Feliz Cumpleaños" horneado en la propia foto; conviene regenerarla sin texto |
 | Porción de tres leches | `assets/tres-leches.jpg` | ✅ puesta (IA) |
 | Golfeados | `assets/golfeados.jpg` | ✅ puesta (IA) |
-| Cookies estilo NY | — | ⏳ pendiente |
-| Mesa de dulces | — | ⏳ pendiente |
-| Piñitas (sólo portada) | — | ⏳ pendiente |
-| El obrador (sólo galería) | — | ⏳ pendiente |
+| Cookies estilo NY | `assets/placeholder-tarta.jpg` (compartido) | ⏳ pendiente |
+| Mesa de dulces | `assets/placeholder-tarta.jpg` (compartido) | ⏳ pendiente |
+| Piñitas (sólo portada) | `assets/placeholder-tarta.jpg` (compartido) | ⏳ pendiente |
+| El obrador (sólo galería) | `assets/placeholder-tarta.jpg` (compartido) | ⏳ pendiente |
 
-Para sustituir cualquiera cuando llegue la foto real, sólo hay que reemplazar
-el archivo en `assets/` con el mismo nombre — no hace falta tocar `index.html`.
+Las 4 pendientes comparten un único `placeholder-tarta.jpg` (el mismo degradado
+rosa de siempre, sin texto encima) — así en el carrusel de la galería se ve
+consistente hasta que llegue cada una. Para sustituir cualquiera cuando llegue
+la foto real, hay que cambiarle el `src` en `index.html` a un archivo propio
+(por ejemplo `assets/cookies.jpg`) y añadir ese archivo — a diferencia de las
+5 ya puestas, éstas SÍ requieren tocar el HTML porque hoy apuntan todas al
+mismo placeholder compartido.
 Formato: vertical, relación 4:5 (1000×1250 o más).
 
 **Son maqueta con IA, no fotos reales del obrador.** Mientras estén puestas,
@@ -35,6 +40,19 @@ dorado»), que es lo que lee Google y quien usa lector de pantalla.
 
 Antes de subirlas, pásalas a un ancho razonable y comprime. Una foto de móvil
 son 4 MB y hace que la web tarde en cargar en datos móviles.
+
+## El carrusel de la galería es un coverflow 3D
+
+La sección «Nuestras tartas» ya no es un scroll horizontal plano: es un
+coverflow (tarjeta central grande, las de al lado encogidas y giradas en
+perspectiva), adaptado a mano de un componente de React a JS normal — sin
+librerías, sin build, igual que el resto de la página. Autoplay cada 5 s en
+pausa con el ratón encima, el foco dentro, la pestaña oculta o fuera de
+pantalla. Con `prefers-reduced-motion` no hay perspectiva ni autoplay: rejilla
+plana con las 8 a la vista, todas las captions visibles de una vez.
+
+Cada tarjeta lleva su propio enlace de WhatsApp con el mensaje ya escrito
+("Pregúntanos por esta"), salvo «El obrador», que no vende nada.
 
 ## Falta todavía
 

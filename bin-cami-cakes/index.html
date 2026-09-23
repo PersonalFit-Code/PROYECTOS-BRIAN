@@ -257,18 +257,83 @@
   .ticker:hover .ticker-pista{ animation-play-state:paused; }
   @keyframes desfile{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-  /* ===== CARRUSEL ===== */
-  .carrusel{ display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory;
-             scrollbar-width:none; -ms-overflow-style:none; scroll-behavior:smooth; padding-bottom:.25rem; }
-  .carrusel::-webkit-scrollbar{ display:none; }
-  .carrusel > *{ scroll-snap-align:start; flex:0 0 auto; }
-  .flecha{ display:grid; place-items:center; width:2.75rem; height:2.75rem; border-radius:9999px;
-           background:#fff; color:rgb(var(--frambuesa)); border:1px solid rgb(var(--rosa-palo));
-           box-shadow:0 6px 18px -8px rgba(58,49,54,.35); transition:transform .2s, background .2s; }
-  .flecha:hover{ transform:scale(1.08); background:rgb(var(--frambuesa)); color:#fff; }
-  .flecha[disabled]{ opacity:.35; pointer-events:none; }
-  .miniatura{ border:3px solid transparent; transition:border-color .25s, transform .25s; }
-  .miniatura[aria-selected="true"]{ border-color:rgb(var(--frambuesa)); transform:translateY(-3px); }
+  /* ===== CARRUSEL 3D DE LA GALERÍA (coverflow) =====
+     Adaptado a mano de un componente de React (motion/perspectiva 3D) al
+     JS de siempre de esta página: nada de librerías, nada de build. El
+     escenario oscuro es a propósito — es donde ese efecto de profundidad
+     luce — pero con el tinte de la propia marca (rgb(var(--tinta)) y un
+     resplandor rosa arriba), no un negro genérico de plantilla. */
+  .cf{ position:relative; overflow:hidden; border-radius:1.75rem;
+       background:radial-gradient(120% 160% at 50% -20%, rgb(var(--rosa) / .35), transparent 60%),
+                  rgb(var(--tinta)); }
+  .cf-ambiente{ position:absolute; inset:0; height:100%; width:100%; object-fit:cover;
+                filter:brightness(.28) blur(2.75rem); transform:scale(1.15);
+                opacity:0; transition:opacity .9s ease; }
+  .cf-ambiente.visible{ opacity:1; }
+  .cf-velo{ position:absolute; inset:0;
+            background:radial-gradient(circle at center, rgb(var(--tinta) / .35), rgb(var(--tinta) / .94)); }
+
+  .cf-escenario{ position:relative; z-index:1; height:34rem; display:flex;
+                 align-items:center; justify-content:center; perspective:1400px; }
+  .cf-carta{ position:absolute; left:50%; top:50%; width:min(72vw,20rem); height:min(88vw,25rem);
+             border-radius:1.15rem; overflow:hidden; background:rgb(var(--tinta));
+             border:1px solid rgb(255 255 255 / .12);
+             transition:transform .7s cubic-bezier(.25,1,.5,1), opacity .7s ease, filter .7s ease;
+             will-change:transform; }
+  .cf-carta img{ position:absolute; inset:0; height:100%; width:100%; object-fit:cover; }
+  .cf-velo-carta{ position:absolute; inset:0;
+                  background:linear-gradient(180deg, rgb(0 0 0 / .35) 0%, rgb(0 0 0 / .06) 25%,
+                              rgb(0 0 0 / .72) 62%, rgb(0 0 0 / .96) 100%); }
+  .cf-cuerpo{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column;
+              justify-content:flex-end; padding:1.5rem 1.25rem; text-align:center; color:#fff;
+              opacity:0; transform:translateY(.75rem); pointer-events:none;
+              transition:opacity .45s ease, transform .45s ease; }
+  .cf-carta[data-centro="true"] .cf-cuerpo{ opacity:1; transform:none; pointer-events:auto; }
+  .cf-etiqueta{ position:absolute; top:1rem; right:1.1rem; font-size:.72rem; font-weight:700;
+                letter-spacing:.03em; color:rgb(var(--oro-claro)); text-shadow:0 2px 6px rgb(0 0 0 / .8); }
+  .cf-titulo{ font-family:'Baloo 2','Plus Jakarta Sans',system-ui,sans-serif; font-size:1.35rem;
+              font-weight:800; line-height:1.15; text-shadow:0 3px 12px rgb(0 0 0 / .9); }
+  .cf-raya{ width:2.25rem; height:2px; margin:.55rem auto; border-radius:2px;
+            background:rgb(var(--oro-claro)); box-shadow:0 0 8px rgb(var(--oro-claro) / .7); }
+  .cf-desc{ font-size:.85rem; font-style:italic; color:rgb(255 255 255 / .9);
+            text-shadow:0 2px 8px rgb(0 0 0 / .9); }
+  .cf-cta{ display:inline-flex; align-items:center; gap:.4rem; margin:.75rem auto 0;
+           padding:.5rem 1.15rem; border-radius:9999px; font-family:'Baloo 2',sans-serif;
+           font-size:.72rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+           color:rgb(var(--tinta)); background:linear-gradient(135deg, rgb(var(--oro-claro)), rgb(var(--oro)));
+           box-shadow:0 4px 14px rgb(0 0 0 / .4); text-decoration:none; width:fit-content; }
+
+  .cf-flecha{ display:grid; place-items:center; width:2.75rem; height:2.75rem; border-radius:9999px;
+              background:rgb(0 0 0 / .5); color:#fff; border:1px solid rgb(255 255 255 / .25);
+              backdrop-filter:blur(6px); transition:transform .2s, background .2s; }
+  .cf-flecha:hover{ transform:scale(1.08); background:rgb(var(--frambuesa)); }
+
+  .cf-punto{ height:.5rem; width:.5rem; border-radius:9999px; background:rgb(var(--rosa-palo));
+             border:none; padding:0; transition:width .3s, background .3s; }
+  .cf-punto[aria-current="true"]{ width:1.5rem; background:rgb(var(--frambuesa));
+                                   box-shadow:0 0 8px rgb(var(--frambuesa) / .5); }
+
+  /* Bajo movimiento reducido no hay perspectiva ni tarjetas flotando: rejilla
+     plana con las 8 a la vista, sin escenario oscuro. Lo mismo que se hizo con
+     la pila de la portada: no basta con poner las transiciones a 0, porque la
+     propia inclinación 3D puede marear a quien pidió menos movimiento. */
+  @media (prefers-reduced-motion: reduce){
+    .cf{ background:none; border-radius:0; }
+    .cf-ambiente, .cf-velo{ display:none; }
+    .cf-escenario{ height:auto; perspective:none; display:grid; gap:1rem; padding:0; }
+    @media (min-width:1024px){ .cf-escenario{ grid-template-columns:repeat(4,1fr); } }
+    @media (max-width:1023.98px){ .cf-escenario{ grid-template-columns:repeat(2,1fr); } }
+    .cf-carta{ position:static !important; transform:none !important; width:auto; height:12rem;
+               border:1px solid rgb(var(--rosa-palo)); }
+    .cf-velo-carta{ display:none; }
+    .cf-cuerpo{ position:static; opacity:1 !important; transform:none !important;
+                pointer-events:auto !important; padding:.65rem .2rem 0; color:rgb(var(--tinta)); }
+    .cf-titulo, .cf-desc{ text-shadow:none; }
+    .cf-desc{ color:rgb(var(--tinta) / .7); }
+    .cf-etiqueta{ position:static; display:block; text-align:center; margin-bottom:.2rem;
+                  color:rgb(var(--oro)); text-shadow:none; }
+    .cf-controles{ display:none; }
+  }
 
   /* ===== RESEÑAS EN CASCADA ===== */
   .cascada{ position:relative; height:34rem; overflow:hidden;
@@ -690,97 +755,122 @@
       </p>
     </div>
 
-    <!-- FOTO: galería · en cada figure, sustituir el div.foto-pendiente por:
-         <img src="assets/tarta-1.jpg" alt="Descripción real de la tarta" class="aspect-[4/5] h-full w-full rounded-3xl object-cover" loading="lazy"> -->
+    <!-- FOTO: galería · sustituir cada assets/placeholder-tarta.jpg por la foto real
+         del motivo que dice el <img alt> — mismo archivo, no hace falta tocar el HTML. -->
     <div class="reveal mt-12">
-      <div class="mb-4 flex items-center justify-between gap-4">
-        <p class="text-sm font-semibold text-tinta/60" aria-live="polite"><span id="galeria-pos">1</span> / 8</p>
-        <div class="flex gap-2">
-          <button type="button" class="flecha" data-galeria="-1" aria-label="Foto anterior">
+      <p id="cf-anuncio" class="sr-only" role="status"></p>
+      <div class="cf">
+        <img class="cf-ambiente" alt="" aria-hidden="true">
+        <div class="cf-velo" aria-hidden="true"></div>
+        <div id="cf-escenario" class="cf-escenario" role="group" aria-label="Carrusel de nuestras tartas" tabindex="0">
+        <figure class="cf-carta" data-diapo="0">
+          <img src="assets/tarta-cumpleanos.jpg" alt="Tarta de cumpleaños con buttercream rosa y dorado, con velas encendidas" loading="lazy">
+          <div class="cf-velo-carta" aria-hidden="true"></div>
+          <div class="cf-cuerpo">
+            <span class="cf-etiqueta">#Cumpleaños</span>
+            <p class="cf-titulo">Tarta de cumpleaños</p>
+            <span class="cf-raya" aria-hidden="true"></span>
+            <p class="cf-desc">Con figuras y el nombre en grande</p>
+              <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20un%20presupuesto%20para%20una%20tarta%20de%20cumpleaños" target="_blank" rel="noopener" class="cf-cta">Pregúntanos por esta</a>
+          </div>
+        </figure>
+        <figure class="cf-carta" data-diapo="1">
+          <img src="assets/tarta-boda.jpg" alt="Tarta de boda de tres pisos, blanco y dorado, con flores de azúcar" loading="lazy">
+          <div class="cf-velo-carta" aria-hidden="true"></div>
+          <div class="cf-cuerpo">
+            <span class="cf-etiqueta">#Bodas</span>
+            <p class="cf-titulo">Tarta de boda</p>
+            <span class="cf-raya" aria-hidden="true"></span>
+            <p class="cf-desc">Varios pisos y flores de azúcar</p>
+              <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20un%20presupuesto%20para%20una%20tarta%20de%20boda" target="_blank" rel="noopener" class="cf-cta">Pregúntanos por esta</a>
+          </div>
+        </figure>
+        <figure class="cf-carta" data-diapo="2">
+          <img src="assets/tarta-tematica.jpg" alt="Tarta infantil temática, colorida, con un osito modelado a mano" loading="lazy">
+          <div class="cf-velo-carta" aria-hidden="true"></div>
+          <div class="cf-cuerpo">
+            <span class="cf-etiqueta">#Temáticas</span>
+            <p class="cf-titulo">Tarta temática</p>
+            <span class="cf-raya" aria-hidden="true"></span>
+            <p class="cf-desc">Su personaje favorito, modelado a mano</p>
+              <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20un%20presupuesto%20para%20una%20tarta%20tem%C3%A1tica" target="_blank" rel="noopener" class="cf-cta">Pregúntanos por esta</a>
+          </div>
+        </figure>
+        <figure class="cf-carta" data-diapo="3">
+          <img src="assets/tres-leches.jpg" alt="Porción de tarta tres leches con merengue tostado y almíbar" loading="lazy">
+          <div class="cf-velo-carta" aria-hidden="true"></div>
+          <div class="cf-cuerpo">
+            <span class="cf-etiqueta">#ElMásPedido</span>
+            <p class="cf-titulo">Porción de tres leches</p>
+            <span class="cf-raya" aria-hidden="true"></span>
+            <p class="cf-desc">El más pedido del mostrador</p>
+              <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%20la%20tarta%20tres%20leches" target="_blank" rel="noopener" class="cf-cta">Pregúntanos por esta</a>
+          </div>
+        </figure>
+        <figure class="cf-carta" data-diapo="4">
+          <img src="assets/golfeados.jpg" alt="Golfeados venezolanos recién horneados, con papelón y queso" loading="lazy">
+          <div class="cf-velo-carta" aria-hidden="true"></div>
+          <div class="cf-cuerpo">
+            <span class="cf-etiqueta">#SaborVenezolano</span>
+            <p class="cf-titulo">Golfeados</p>
+            <span class="cf-raya" aria-hidden="true"></span>
+            <p class="cf-desc">Papelón y queso, recién hechos</p>
+              <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%20los%20golfeados" target="_blank" rel="noopener" class="cf-cta">Pregúntanos por esta</a>
+          </div>
+        </figure>
+        <figure class="cf-carta" data-diapo="5">
+          <img src="assets/placeholder-tarta.jpg" alt="Foto pendiente: cookies estilo Nueva York" loading="lazy">
+          <div class="cf-velo-carta" aria-hidden="true"></div>
+          <div class="cf-cuerpo">
+            <span class="cf-etiqueta">#Cookies</span>
+            <p class="cf-titulo">Cookies estilo NY</p>
+            <span class="cf-raya" aria-hidden="true"></span>
+            <p class="cf-desc">Gruesas y con el centro tierno</p>
+              <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%20las%20cookies" target="_blank" rel="noopener" class="cf-cta">Pregúntanos por esta</a>
+          </div>
+        </figure>
+        <figure class="cf-carta" data-diapo="6">
+          <img src="assets/placeholder-tarta.jpg" alt="Foto pendiente: mesa de dulces para eventos" loading="lazy">
+          <div class="cf-velo-carta" aria-hidden="true"></div>
+          <div class="cf-cuerpo">
+            <span class="cf-etiqueta">#Eventos</span>
+            <p class="cf-titulo">Mesa de dulces</p>
+            <span class="cf-raya" aria-hidden="true"></span>
+            <p class="cf-desc">Para bodas y comuniones</p>
+              <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%20una%20mesa%20de%20dulces%20para%20mi%20evento" target="_blank" rel="noopener" class="cf-cta">Cuéntanos tu evento</a>
+          </div>
+        </figure>
+        <figure class="cf-carta" data-diapo="7">
+          <img src="assets/placeholder-tarta.jpg" alt="Foto pendiente: el obrador de Bin & Cami Cakes" loading="lazy">
+          <div class="cf-velo-carta" aria-hidden="true"></div>
+          <div class="cf-cuerpo">
+            <span class="cf-etiqueta">#DetrasDeEscena</span>
+            <p class="cf-titulo">El obrador</p>
+            <span class="cf-raya" aria-hidden="true"></span>
+            <p class="cf-desc">Donde sale todo cada mañana</p>
+          </div>
+        </figure>
+        </div>
+        <div class="cf-controles">
+          <button type="button" class="cf-flecha" id="cf-anterior" aria-label="Tarta anterior"
+                  style="position:absolute; left:1rem; top:50%; transform:translateY(-50%); z-index:5">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
           </button>
-          <button type="button" class="flecha" data-galeria="1" aria-label="Foto siguiente">
+          <button type="button" class="cf-flecha" id="cf-siguiente" aria-label="Tarta siguiente"
+                  style="position:absolute; right:1rem; top:50%; transform:translateY(-50%); z-index:5">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
           </button>
         </div>
       </div>
-      <div id="galeria-carrusel" class="carrusel" role="group" aria-label="Carrusel de nuestras tartas" tabindex="0">
-        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="0">
-          <img src="assets/tarta-cumpleanos.jpg" alt="Tarta de cumpleaños con buttercream rosa y dorado, con velas encendidas"
-               class="aspect-[4/5] h-full w-full rounded-3xl object-cover shadow-suave" loading="lazy">
-          <figcaption class="mt-3 px-1">
-            <p class="font-display text-lg font-bold text-tinta">Tarta de cumpleaños</p>
-            <p class="text-[15px] text-tinta/70">Con figuras y el nombre en grande</p>
-          </figcaption>
-        </figure>
-        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="1">
-          <img src="assets/tarta-boda.jpg" alt="Tarta de boda de tres pisos, blanco y dorado, con flores de azúcar"
-               class="aspect-[4/5] h-full w-full rounded-3xl object-cover shadow-suave" loading="lazy">
-          <figcaption class="mt-3 px-1">
-            <p class="font-display text-lg font-bold text-tinta">Tarta de boda</p>
-            <p class="text-[15px] text-tinta/70">Varios pisos y flores de azúcar</p>
-          </figcaption>
-        </figure>
-        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="2">
-          <img src="assets/tarta-tematica.jpg" alt="Tarta infantil temática, colorida, con un osito modelado a mano"
-               class="aspect-[4/5] h-full w-full rounded-3xl object-cover shadow-suave" loading="lazy">
-          <figcaption class="mt-3 px-1">
-            <p class="font-display text-lg font-bold text-tinta">Tarta temática</p>
-            <p class="text-[15px] text-tinta/70">Su personaje favorito, modelado a mano</p>
-          </figcaption>
-        </figure>
-        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="3">
-          <img src="assets/tres-leches.jpg" alt="Porción de tarta tres leches con merengue tostado y almíbar"
-               class="aspect-[4/5] h-full w-full rounded-3xl object-cover shadow-suave" loading="lazy">
-          <figcaption class="mt-3 px-1">
-            <p class="font-display text-lg font-bold text-tinta">Porción de tres leches</p>
-            <p class="text-[15px] text-tinta/70">El más pedido del mostrador</p>
-          </figcaption>
-        </figure>
-        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="4">
-          <img src="assets/golfeados.jpg" alt="Golfeados venezolanos recién horneados, con papelón y queso"
-               class="aspect-[4/5] h-full w-full rounded-3xl object-cover shadow-suave" loading="lazy">
-          <figcaption class="mt-3 px-1">
-            <p class="font-display text-lg font-bold text-tinta">Golfeados</p>
-            <p class="text-[15px] text-tinta/70">Papelón y queso, recién hechos</p>
-          </figcaption>
-        </figure>
-        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="5">
-          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
-            <div>
-              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
-              <span>Cookies estilo NY</span>
-            </div>
-          </div>
-          <figcaption class="mt-3 px-1">
-            <p class="font-display text-lg font-bold text-tinta">Cookies estilo NY</p>
-            <p class="text-[15px] text-tinta/70">Gruesas y con el centro tierno</p>
-          </figcaption>
-        </figure>
-        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="6">
-          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
-            <div>
-              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
-              <span>Mesa de dulces</span>
-            </div>
-          </div>
-          <figcaption class="mt-3 px-1">
-            <p class="font-display text-lg font-bold text-tinta">Mesa de dulces</p>
-            <p class="text-[15px] text-tinta/70">Para bodas y comuniones</p>
-          </figcaption>
-        </figure>
-        <figure class="w-[78vw] max-w-[22rem] sm:w-[20rem]" data-diapo="7">
-          <div class="foto-pendiente aspect-[4/5] overflow-hidden rounded-3xl shadow-suave">
-            <div>
-              <svg class="mx-auto h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
-              <span>El obrador</span>
-            </div>
-          </div>
-          <figcaption class="mt-3 px-1">
-            <p class="font-display text-lg font-bold text-tinta">El obrador</p>
-            <p class="text-[15px] text-tinta/70">Donde sale todo cada mañana</p>
-          </figcaption>
-        </figure>
+      <div class="mt-5 flex items-center justify-center gap-2">
+          <button type="button" class="cf-punto" data-punto="0" aria-label="Ir a la foto 1 de 8" aria-current="true"></button>
+          <button type="button" class="cf-punto" data-punto="1" aria-label="Ir a la foto 2 de 8" aria-current="false"></button>
+          <button type="button" class="cf-punto" data-punto="2" aria-label="Ir a la foto 3 de 8" aria-current="false"></button>
+          <button type="button" class="cf-punto" data-punto="3" aria-label="Ir a la foto 4 de 8" aria-current="false"></button>
+          <button type="button" class="cf-punto" data-punto="4" aria-label="Ir a la foto 5 de 8" aria-current="false"></button>
+          <button type="button" class="cf-punto" data-punto="5" aria-label="Ir a la foto 6 de 8" aria-current="false"></button>
+          <button type="button" class="cf-punto" data-punto="6" aria-label="Ir a la foto 7 de 8" aria-current="false"></button>
+          <button type="button" class="cf-punto" data-punto="7" aria-label="Ir a la foto 8 de 8" aria-current="false"></button>
       </div>
     </div>
 
@@ -1439,84 +1529,140 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ recalcular(); pintar(); });
 })();
 
-/* ============ CARRUSEL DE LA GALERÍA ============ */
+/* ============ CARRUSEL 3D DE LA GALERÍA (coverflow) ============
+   Adaptado a mano de un componente de React que pasó Brian: mismo mecanismo
+   (tarjeta central grande y nítida, las de al lado encogidas y giradas en
+   perspectiva), pero en JS de toda la vida y con tres cosas que el original
+   no tenía y aquí sí hacían falta:
+   1. Las tarjetas se desplazan un MÚLTIPLO DE SU PROPIO ANCHO medido en el
+      momento, no píxeles fijos (285px, 510px…) pensados sólo para escritorio.
+      Así el coverflow también cabe en un móvil de 360 px.
+   2. El teclado se escuchaba en el `window` entero: cualquier ArrowLeft en
+      cualquier parte de la página movía este carrusel. Aquí se escucha sólo
+      en el propio escenario, cuando tiene el foco.
+   3. Las tarjetas que no están centradas quedan con opacity:0 pero un enlace
+      de verdad dentro (el botón de WhatsApp): sin nada más, ese enlace seguiría
+      alcanzándose con el tabulador aunque no se vea. Se saca del orden de
+      tabulación mientras no es la central. */
 (function(){
   'use strict';
-  var pista = document.getElementById('galeria-carrusel');
-  var pos   = document.getElementById('galeria-pos');
-  if (!pista) return;
-  var diapos = [].slice.call(pista.querySelectorAll('[data-diapo]'));
+  var escenario = document.getElementById('cf-escenario');
+  if (!escenario) return;
+  var cartas = [].slice.call(escenario.querySelectorAll('.cf-carta'));
+  var total = cartas.length;
+  if (!total) return;
+  var ambiente = document.querySelector('.cf-ambiente');
+  var anuncio  = document.getElementById('cf-anuncio');
+  var puntos   = [].slice.call(document.querySelectorAll('.cf-punto'));
+  var btnAnt   = document.getElementById('cf-anterior');
+  var btnSig   = document.getElementById('cf-siguiente');
 
-  /* La diapositiva "actual" es la primera visible por la izquierda: a scroll 0
-     eso es la 1, que es lo que espera quien mira el contador. */
-  function actual(){
-    var x = pista.scrollLeft, mejor = 0, dif = Infinity;
-    diapos.forEach(function(d, i){
-      var v = Math.abs(d.offsetLeft - pista.offsetLeft - x);
-      if (v < dif){ dif = v; mejor = i; }
-    });
-    return mejor;
-  }
-  function tope(){ return pista.scrollWidth - pista.clientWidth; }
+  var quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var actual = 0;
 
-  /* En el móvil se ve una foto y en el escritorio tres o cuatro. Si el contador
-     sólo mirase la primera, al llegar al final pondría «5 / 8» con la flecha ya
-     apagada, que parece que se ha quedado colgado. Por eso cuenta el tramo que
-     de verdad se está viendo: a 1440 px, «1–4 / 8» al empezar y «5–8 / 8» al
-     final; en el móvil, «1 / 8» … «8 / 8». */
-  function visibles(){
-    var x = pista.scrollLeft, ancho = pista.clientWidth, ini = -1, fin = -1;
-    diapos.forEach(function(d, i){
-      var a = d.offsetLeft - pista.offsetLeft, b = a + d.offsetWidth;
-      var dentro = Math.min(b, x + ancho) - Math.max(a, x);
-      if (dentro >= d.offsetWidth * 0.5){ if (ini < 0) ini = i; fin = i; }
-    });
-    if (ini < 0){ ini = fin = actual(); }
-    return { ini: ini, fin: fin };
+  function textoDe(carta){
+    var t = carta.querySelector('.cf-titulo');
+    return t ? t.textContent : '';
   }
+
   function pintar(){
-    var v = visibles(), x = pista.scrollLeft;
-    if (pos) pos.textContent = v.ini === v.fin ? (v.ini + 1) : (v.ini + 1) + '\u2013' + (v.fin + 1);
-    /* pintar() corre 90 ms después de que el scroll pare, así que aquí el
-       carrusel ya está quieto: buen momento para volver a fiarse de dónde
-       está de verdad, también si han pasado la foto con el dedo. */
-    destino = null;
-    document.querySelectorAll('[data-galeria]').forEach(function(b){
-      var d = parseInt(b.dataset.galeria, 10);
-      /* Hay que mirar el foco ANTES: poner disabled lo quita en el acto, así
-         que después document.activeElement ya es el <body> y no habría forma
-         de saber que el foco estaba aquí. */
-      var teniaFoco = (document.activeElement === b);
-      var antes = b.disabled;
-      b.disabled = (d < 0 && x <= 2) || (d > 0 && x >= tope() - 2);
-      /* Una flecha que se apaga con el foco encima lo tira al <body>, y el
-         siguiente tabulador vuelve a empezar por la cabecera. Se lo pasamos a
-         la pista, que es tabulable y se maneja con los cursores. */
-      if (b.disabled && !antes && teniaFoco) pista.focus();
+    if (quieto.matches) return;   /* en reducido, la rejilla la pone el CSS solo */
+    /* El desplazamiento es un múltiplo del ancho de la PROPIA TARJETA (no del
+       escenario): así la de al lado queda medio asomada, que es el efecto de
+       coverflow. Medirlo contra el escenario las mandaba fuera de la caja del
+       todo, y con overflow:hidden ahí no se ven ni asoman. */
+    var ancho = (cartas[0].offsetWidth || 320);
+    cartas.forEach(function(carta, i){
+      var offset = i - actual;
+      if (offset > total / 2) offset -= total;
+      if (offset < -total / 2) offset += total;
+
+      var x = 0, escala = 0.4, giro = 0, opacidad = 0, brillo = 0.4, desenfoque = 2;
+      if (offset === 0){ escala = 1; brillo = 1; opacidad = 1; desenfoque = 0; }
+      else if (offset === 1){ x = ancho * 0.86; escala = 0.84; giro = -24; opacidad = 0.65; brillo = 0.75; desenfoque = 0; }
+      else if (offset === -1){ x = -ancho * 0.86; escala = 0.84; giro = 24; opacidad = 0.65; brillo = 0.75; desenfoque = 0; }
+      else if (offset === 2){ x = ancho * 1.55; escala = 0.68; giro = -36; opacidad = 0.38; brillo = 0.55; }
+      else if (offset === -2){ x = -ancho * 1.55; escala = 0.68; giro = 36; opacidad = 0.38; brillo = 0.55; }
+
+      carta.style.transform = 'translate(-50%,-50%) translateX(' + x.toFixed(1) + 'px) scale(' + escala + ') rotateY(' + giro + 'deg)';
+      carta.style.opacity = opacidad;
+      carta.style.filter = 'brightness(' + brillo + ')' + (desenfoque ? ' blur(' + desenfoque + 'px)' : '');
+      carta.style.zIndex = String(30 - Math.abs(offset));
+      carta.style.pointerEvents = opacidad > 0 ? 'auto' : 'none';
+
+      var esCentro = offset === 0;
+      carta.dataset.centro = esCentro ? 'true' : 'false';
+      var enlace = carta.querySelector('.cf-cta');
+      if (enlace) enlace.tabIndex = esCentro ? 0 : -1;
+      carta.querySelector('.cf-cuerpo').setAttribute('aria-hidden', esCentro ? 'false' : 'true');
     });
+
+    puntos.forEach(function(p, i){ p.setAttribute('aria-current', i === actual ? 'true' : 'false'); });
+
+    if (ambiente){
+      var src = cartas[actual].querySelector('img').getAttribute('src');
+      if (ambiente.getAttribute('src') !== src){
+        ambiente.classList.remove('visible');
+        var cargar = new Image();
+        cargar.onload = function(){ ambiente.src = src; ambiente.classList.add('visible'); };
+        cargar.src = src;
+      }
+    }
+    if (anuncio) anuncio.textContent = 'Mostrando ' + (actual + 1) + ' de ' + total + ': ' + textoDe(cartas[actual]);
   }
 
-  /* El carrusel va con scroll-behavior:smooth, o sea que scrollLeft tarda un
-     rato en llegar. Si ir() volviese a mirar el scroll a mitad de camino, dos
-     toques seguidos en la flecha calcularían el mismo destino y el segundo no
-     haría nada: pasando fotos deprisa daría la sensación de flecha rota. Por
-     eso se recuerda adónde vamos y se cuenta desde ahí. */
-  var destino = null;
   function ir(paso){
-    var base = (destino === null ? actual() : destino);
-    destino = Math.max(0, Math.min(diapos.length - 1, base + paso));
-    pista.scrollTo({ left: Math.min(tope(), diapos[destino].offsetLeft - pista.offsetLeft) });
+    actual = (actual + paso + total) % total;
+    pintar();
   }
-  document.querySelectorAll('[data-galeria]').forEach(function(b){
-    b.addEventListener('click', function(){ ir(parseInt(b.dataset.galeria, 10)); });
+  function irA(i){ actual = ((i % total) + total) % total; pintar(); }
+
+  cartas.forEach(function(carta, i){
+    carta.addEventListener('click', function(){ if (carta.dataset.centro !== 'true') irA(i); });
   });
-  pista.addEventListener('scroll', function(){
-    clearTimeout(pista._t); pista._t = setTimeout(pintar, 90);
-  }, { passive:true });
-  pista.addEventListener('keydown', function(e){
+  puntos.forEach(function(p, i){ p.addEventListener('click', function(){ irA(i); }); });
+  if (btnAnt) btnAnt.addEventListener('click', function(){ ir(-1); });
+  if (btnSig) btnSig.addEventListener('click', function(){ ir(1); });
+
+  /* Tecleado sólo cuando el propio escenario tiene el foco: ArrowLeft/Right
+     en cualquier otro sitio de la página no debe tocar este carrusel. */
+  escenario.addEventListener('keydown', function(e){
     if (e.key === 'ArrowRight'){ e.preventDefault(); ir(1); }
     if (e.key === 'ArrowLeft'){ e.preventDefault(); ir(-1); }
   });
+
+  var inicioX = 0;
+  escenario.addEventListener('touchstart', function(e){ inicioX = e.touches[0].clientX; }, { passive:true });
+  escenario.addEventListener('touchend', function(e){
+    var d = e.changedTouches[0].clientX - inicioX;
+    if (Math.abs(d) > 45) ir(d < 0 ? 1 : -1);
+  }, { passive:true });
+
+  /* Autoplay: en pausa con el ratón encima, con el foco dentro (así no se
+     mueve mientras alguien tabula el botón de WhatsApp), fuera de pantalla,
+     con la pestaña oculta, o si se pidió menos movimiento. */
+  var reloj = null;
+  function pausar(){ clearInterval(reloj); reloj = null; }
+  function reanudar(){
+    if (reloj || quieto.matches || document.hidden) return;
+    reloj = setInterval(function(){ ir(1); }, 5000);
+  }
+  escenario.addEventListener('mouseenter', pausar);
+  escenario.addEventListener('mouseleave', reanudar);
+  escenario.addEventListener('focusin', pausar);
+  escenario.addEventListener('focusout', reanudar);
+  document.addEventListener('visibilitychange', function(){ if (document.hidden) pausar(); else reanudar(); });
+
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(entradas){
+      if (entradas[0].isIntersecting) reanudar(); else pausar();
+    }, { threshold:0.35 }).observe(escenario);
+  } else { reanudar(); }
+
+  var alCambiarMovimiento = function(){ if (quieto.matches) pausar(); else { pintar(); reanudar(); } };
+  if (quieto.addEventListener) quieto.addEventListener('change', alCambiarMovimiento);
+  else if (quieto.addListener) quieto.addListener(alCambiarMovimiento);
+
   window.addEventListener('resize', pintar);
   pintar();
 })();
