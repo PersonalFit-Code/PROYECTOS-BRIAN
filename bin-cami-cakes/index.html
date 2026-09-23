@@ -132,11 +132,11 @@
   tailwind.config = {
     theme: { extend: {
       colors: {
-        frambuesa:{DEFAULT:'var(--frambuesa)',oscuro:'var(--frambuesa-oscuro)'},
-        rosa:{DEFAULT:'var(--rosa)',palo:'var(--rosa-palo)',nube:'var(--rosa-nube)'},
-        lila:'var(--lila)', violeta:'var(--violeta)',
-        oro:{DEFAULT:'var(--oro)',claro:'var(--oro-claro)'},
-        amarillo:'var(--amarillo)', tinta:'var(--tinta)', crema:'var(--crema)'
+        frambuesa:{DEFAULT:'rgb(var(--frambuesa) / <alpha-value>)',oscuro:'rgb(var(--frambuesa-oscuro) / <alpha-value>)'},
+        rosa:{DEFAULT:'rgb(var(--rosa) / <alpha-value>)',palo:'rgb(var(--rosa-palo) / <alpha-value>)',nube:'rgb(var(--rosa-nube) / <alpha-value>)'},
+        lila:'rgb(var(--lila) / <alpha-value>)', violeta:'rgb(var(--violeta) / <alpha-value>)',
+        oro:{DEFAULT:'rgb(var(--oro) / <alpha-value>)',claro:'rgb(var(--oro-claro) / <alpha-value>)'},
+        amarillo:'rgb(var(--amarillo) / <alpha-value>)', tinta:'rgb(var(--tinta) / <alpha-value>)', crema:'rgb(var(--crema) / <alpha-value>)'
       },
       fontFamily:{ sans:['"Plus Jakarta Sans"','system-ui','sans-serif'],
                    display:['"Baloo 2"','"Plus Jakarta Sans"','system-ui','sans-serif'] },
@@ -147,19 +147,26 @@
 </script>
 
 <style>
-  /* ===== PALETA · medida sobre el flyer y validada con el logo ===== */
+  /* ===== PALETA · medida sobre el flyer y validada con el logo =====
+     Van en tripletes «R G B» y no en hexadecimal a propósito. Tailwind sólo
+     sabe aplicar el modificador de opacidad (bg-crema/95, text-tinta/75…) si
+     el color trae el marcador <alpha-value>, y eso obliga a rgb(R G B / a).
+     Con los hexadecimales metidos en var(), Tailwind no podía leer el color y
+     NO generaba ni una línea para esas 94 clases: la cabecera fija se quedaba
+     sin fondo y se leía el contenido por debajo. Si algún día se cambia un
+     color, se cambia aquí en «R G B», no en #rrggbb. */
   :root{
-    --frambuesa:#B53058; --frambuesa-oscuro:#8E2545;
-    --rosa:#D6718C; --rosa-palo:#EBCBD8; --rosa-nube:#F9EBF1;
-    --lila:#E7CADC; --violeta:#BA9BD4;
-    --oro:#A16936; --oro-claro:#CFA459; --amarillo:#FCE599;
-    --tinta:#3A3136; --crema:#FDFAF7;
+    --frambuesa:181 48 88; --frambuesa-oscuro:142 37 69;
+    --rosa:214 113 140; --rosa-palo:235 203 216; --rosa-nube:249 235 241;
+    --lila:231 202 220; --violeta:186 155 212;
+    --oro:161 105 54; --oro-claro:207 164 89; --amarillo:252 229 153;
+    --tinta:58 49 54; --crema:253 250 247;
   }
   html{ scroll-behavior:smooth; scroll-padding-top:5.5rem; }
-  body{ font-family:'Plus Jakarta Sans',system-ui,sans-serif; color:var(--tinta);
-        background:var(--crema); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  body{ font-family:'Plus Jakarta Sans',system-ui,sans-serif; color:rgb(var(--tinta));
+        background:rgb(var(--crema)); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
   h1,h2,h3,.font-display{ font-family:'Baloo 2','Plus Jakarta Sans',system-ui,sans-serif; line-height:1.15; }
-  :focus-visible{ outline:3px solid var(--frambuesa); outline-offset:3px; border-radius:6px; }
+  :focus-visible{ outline:3px solid rgb(var(--frambuesa)); outline-offset:3px; border-radius:6px; }
 
   /* Contorno blanco tipo pegatina, el rasgo de la marca */
   .pegatina{ filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 3px #fff) drop-shadow(0 6px 10px rgba(58,49,54,.18)); }
@@ -169,8 +176,8 @@
     position:relative; display:grid; place-items:center; text-align:center;
     background:
       radial-gradient(circle at 30% 25%, rgba(255,255,255,.85), transparent 55%),
-      linear-gradient(140deg, var(--rosa-nube), var(--rosa-palo) 55%, var(--lila));
-    border:2px dashed rgba(181,48,88,.28); color:var(--frambuesa);
+      linear-gradient(140deg, rgb(var(--rosa-nube)), rgb(var(--rosa-palo)) 55%, rgb(var(--lila)));
+    border:2px dashed rgba(181,48,88,.28); color:rgb(var(--frambuesa));
   }
   .foto-pendiente span{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size:.9rem;
                         letter-spacing:.02em; opacity:.85; padding:0 1rem; }
@@ -185,10 +192,14 @@
 
   .subrayado{ position:relative; display:inline-block; }
   .subrayado::after{ content:''; position:absolute; left:-.05em; right:-.05em; bottom:.02em;
-                     height:.36em; background:var(--amarillo); opacity:.75; border-radius:3px; z-index:-1; }
+                     height:.36em; background:rgb(var(--amarillo)); opacity:.75; border-radius:3px; z-index:-1; }
 
   .tarjeta{ transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease; }
   .tarjeta:hover{ transform:translateY(-6px); }
+  /* Las dos reglas son de una clase, así que ganaba la última y .tarjeta
+     borraba el fundido de .reveal: ocho tarjetas aparecían de golpe. */
+  .reveal.tarjeta{ transition:opacity .7s cubic-bezier(.16,1,.3,1),
+                   transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease; }
 
 
   /* ===== TICKER DE RECLAMOS ===== */
@@ -204,18 +215,22 @@
   .carrusel::-webkit-scrollbar{ display:none; }
   .carrusel > *{ scroll-snap-align:start; flex:0 0 auto; }
   .flecha{ display:grid; place-items:center; width:2.75rem; height:2.75rem; border-radius:9999px;
-           background:#fff; color:var(--frambuesa); border:1px solid var(--rosa-palo);
+           background:#fff; color:rgb(var(--frambuesa)); border:1px solid rgb(var(--rosa-palo));
            box-shadow:0 6px 18px -8px rgba(58,49,54,.35); transition:transform .2s, background .2s; }
-  .flecha:hover{ transform:scale(1.08); background:var(--frambuesa); color:#fff; }
+  .flecha:hover{ transform:scale(1.08); background:rgb(var(--frambuesa)); color:#fff; }
   .flecha[disabled]{ opacity:.35; pointer-events:none; }
   .miniatura{ border:3px solid transparent; transition:border-color .25s, transform .25s; }
-  .miniatura[aria-selected="true"]{ border-color:var(--frambuesa); transform:translateY(-3px); }
+  .miniatura[aria-selected="true"]{ border-color:rgb(var(--frambuesa)); transform:translateY(-3px); }
 
   /* ===== RESEÑAS EN CASCADA ===== */
   .cascada{ position:relative; height:34rem; overflow:hidden;
             -webkit-mask-image:linear-gradient(#0000,#000 12%,#000 88%,#0000);
             mask-image:linear-gradient(#0000,#000 12%,#000 88%,#0000); }
-  .cascada-col{ display:flex; flex-direction:column; gap:1rem; animation:subir var(--dur,46s) linear infinite; }
+  /* align-self:start es imprescindible: como ítem de grid, la columna se
+     estiraba a la altura de la más alta, y translateY(-50%) mide la caja, no
+     el contenido. Las columnas cortas pegaban un tirón en cada vuelta. */
+  .cascada-col{ display:flex; flex-direction:column; gap:1rem; align-self:start;
+                animation:subir var(--dur,46s) linear infinite; }
   .cascada-col.lenta{ --dur:58s; }
   .cascada-col.media{ --dur:52s; }
   /* Las columnas de más se esconden aquí y no con las clases de Tailwind:
@@ -229,8 +244,10 @@
   /* Parar también al tabular: si no, la tarjeta enfocada sigue subiendo. */
   .cascada:hover .cascada-col,
   .cascada:focus-within .cascada-col{ animation-play-state:paused; }
-  @keyframes subir{ from{transform:translateY(0)} to{transform:translateY(-50%)} }
-  .pestana[aria-pressed="true"]{ background:var(--frambuesa); color:#fff; }
+  /* -50% menos medio hueco: entre las dos copias hay un gap:1rem que el 50%
+     no compensa, y sin restarlo el bucle se desplazaba 8 px cada vuelta. */
+  @keyframes subir{ from{transform:translateY(0)} to{transform:translateY(calc(-50% - 0.5rem))} }
+  .pestana[aria-pressed="true"]{ background:rgb(var(--frambuesa)); color:#fff; }
 
   /* ===== CHATBOT DE PRESUPUESTO ===== */
   #panel-chat{ transform:translateY(12px) scale(.97); opacity:0; pointer-events:none;
@@ -240,13 +257,13 @@
      salían todos seguidos, como un párrafo ilegible. */
   .burbuja{ max-width:88%; border-radius:1.15rem; padding:.7rem 1rem; font-size:.95rem; line-height:1.5;
             white-space:pre-line; animation:entra .3s cubic-bezier(.16,1,.3,1) both; }
-  .burbuja-bot{ background:var(--rosa-nube); color:var(--tinta); border-bottom-left-radius:.35rem; }
-  .burbuja-yo{ background:var(--frambuesa); color:#fff; margin-left:auto; border-bottom-right-radius:.35rem; }
+  .burbuja-bot{ background:rgb(var(--rosa-nube)); color:rgb(var(--tinta)); border-bottom-left-radius:.35rem; }
+  .burbuja-yo{ background:rgb(var(--frambuesa)); color:#fff; margin-left:auto; border-bottom-right-radius:.35rem; }
   @keyframes entra{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
-  .chip{ border:1.5px solid var(--rosa-palo); background:#fff; color:var(--tinta);
+  .chip{ border:1.5px solid rgb(var(--rosa-palo)); background:#fff; color:rgb(var(--tinta));
          border-radius:9999px; padding:.5rem .9rem; font-size:.85rem; font-weight:600;
          transition:background .2s, border-color .2s, color .2s; }
-  .chip:hover{ background:var(--frambuesa); border-color:var(--frambuesa); color:#fff; }
+  .chip:hover{ background:rgb(var(--frambuesa)); border-color:rgb(var(--frambuesa)); color:#fff; }
 
   /* Estado abierto/cerrado */
   /* flex-shrink:0 o el punto se aplasta: dentro de un inline-flex estrecho el
@@ -785,7 +802,9 @@
         <div class="cascada-col lenta" data-col="2"></div>
       </div>
     </div>
-    <p class="mt-5 text-center text-sm text-tinta/55">Pasa el ratón por encima para pararlas · pulsa una tarjeta para verla en Google</p>
+    <!-- «su ficha» y no «la reseña»: el enlace es el de la ficha del negocio,
+         igual para las 16 tarjetas, no uno por reseña. -->
+    <p class="mt-5 text-center text-sm text-tinta/55">Pasa el ratón por encima para pararlas · pulsa una tarjeta para abrir su ficha en Google</p>
     <p id="cascada-aviso" class="sr-only" role="status"></p>
   </div>
 </section>
@@ -1329,7 +1348,7 @@
         '</div>' +
         '<div class="mt-3 flex gap-0.5" role="img" aria-label="5 de 5 estrellas">' + estrellas + '</div>' +
         '<p class="mt-2.5 text-[15px] leading-relaxed text-tinta/85">«' + esc(r.t) + (r.corta ? ' …»' : '»') + '</p>' +
-        (r.corta ? '<p class="mt-2 text-xs font-semibold text-frambuesa">Leerla entera en Google →</p>' : '') +
+        (r.corta ? '<p class="mt-2 text-xs font-semibold text-frambuesa">Ver las reseñas en Google →</p>' : '') +
       '</a>';
   }
   var filtroActivo = 'todas';
@@ -1353,8 +1372,15 @@
        reseñas de otro filtro, que sería engañar) hasta cuatro por columna,
        que ya sobrepasan la caja. El reparto va rotando, así que dentro de una
        columna no salen dos veces seguidas. */
-    var base = lista.slice();
-    while (base.length && lista.length < n * 4) lista = lista.concat(base);
+    /* El relleno existe sólo para tapar el hueco de la animación. Con
+       movimiento reducido la cascada se despliega entera, así que rellenar
+       enseñaría la misma reseña tres veces seguidas: con el filtro «Tres
+       leches» son 4 reseñas y salían 12 tarjetas. */
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!quieto){
+      var base = lista.slice();
+      while (base.length && lista.length < n * 4) lista = lista.concat(base);
+    }
 
     var cubos = []; for (var c = 0; c < n; c++) cubos.push([]);
     lista.forEach(function(r, i){ cubos[i % n].push(r); });
@@ -1363,7 +1389,6 @@
        se despliega entera (ver el @media de más arriba). Ahí el eco se vería
        por lo que no es: las mismas reseñas escritas dos veces, en una página
        que presume de no inventarse ninguna. Sin animación, sin eco. */
-    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     cols.forEach(function(col){ col.innerHTML = ''; });
     vivas.forEach(function(col, i){
@@ -1455,8 +1480,18 @@
       texto.textContent = 'Cerrado · abre el ' + DIAS[(a.dia + 1) % 7] + ' a las ' + man[0] + ':00';
     }
   }
-  pintar();
-  setInterval(pintar, 60000);
+  /* Un setInterval suelto no basta. El móvil congela los temporizadores con
+     la pantalla bloqueada, así que al volver a abrir la pestaña el cartel
+     seguía diciendo «Abierto · cierra en 8 min» pasada la hora de cierre. Y
+     como el intervalo arrancaba en el instante de la carga y no en el segundo
+     :00, el cambio a «Cerrado» podía llegar hasta 59 s tarde. */
+  function programar(){
+    pintar();
+    setTimeout(programar, 60000 - (Date.now() % 60000) + 500);
+  }
+  programar();
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) pintar(); });
+  window.addEventListener('pageshow', pintar);
 })();
 </script>
 
