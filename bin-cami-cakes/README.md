@@ -5,7 +5,8 @@ Landing de una página. Datos verificados con el cliente; ver
 
 ## Añadir las fotos
 
-Busca `FOTO:` en `index.html`. Hay **9 huecos**, cada uno con un comentario
+Busca `FOTO:` en `index.html`. Hay **16 huecos** — ocho en la portada (la pila
+que se desparrama al bajar) y ocho en la galería —, cada uno con un comentario
 encima que dice qué imagen va ahí. Se sustituye el `<div>` por un `<img>`:
 
 ```html
@@ -17,8 +18,12 @@ encima que dice qué imagen va ahí. Se sustituye el `<div>` por un `<img>`:
      class="h-full w-full object-cover" loading="lazy">
 ```
 
-Huecos, por orden: foto principal del hero (horizontal, 1600 px o más de ancho)
-y ocho cuadradas para la galería (1000×1000 basta).
+Huecos, por orden: ocho para la portada y ocho para la galería. Todas en
+vertical (relación 4:5) y con 1000×1250 va sobrado.
+
+**La portada depende por completo de estas fotos.** Ahora mismo son rectángulos
+rosas y la primera pantalla no dice nada: el efecto sólo se entiende cuando lo
+que se desparrama son tartas de verdad. Es lo primero que hay que meter.
 
 El `alt` no es decorativo: descríbelo de verdad («tarta de unicornio con cuerno
 dorado»), que es lo que lee Google y quien usa lector de pantalla.
