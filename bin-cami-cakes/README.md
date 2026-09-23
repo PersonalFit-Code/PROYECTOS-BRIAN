@@ -5,25 +5,30 @@ Landing de una página. Datos verificados con el cliente; ver
 
 ## Añadir las fotos
 
-Busca `FOTO:` en `index.html`. Hay **16 huecos** — ocho en la portada (la pila
-que se desparrama al bajar) y ocho en la galería —, cada uno con un comentario
-encima que dice qué imagen va ahí. Se sustituye el `<div>` por un `<img>`:
+Son 9 motivos (7 se repiten entre la portada y la galería, así que no hacen
+falta 16 fotos distintas). **5 ya están puestas**, generadas con IA como
+maqueta mientras llegan las reales:
 
-```html
-<!-- antes -->
-<div class="foto-pendiente h-full w-full"><span>Tarta de cumpleaños</span></div>
+| Motivo | Archivo | Estado |
+|---|---|---|
+| Tarta de cumpleaños | `assets/tarta-cumpleanos.jpg` | ✅ puesta (IA) |
+| Tarta de boda | `assets/tarta-boda.jpg` | ✅ puesta (IA) |
+| Tarta temática | `assets/tarta-tematica.jpg` | ✅ puesta (IA) — lleva un rótulo "Feliz Cumpleaños" horneado en la propia foto; conviene regenerarla sin texto |
+| Porción de tres leches | `assets/tres-leches.jpg` | ✅ puesta (IA) |
+| Golfeados | `assets/golfeados.jpg` | ✅ puesta (IA) |
+| Cookies estilo NY | — | ⏳ pendiente |
+| Mesa de dulces | — | ⏳ pendiente |
+| Piñitas (sólo portada) | — | ⏳ pendiente |
+| El obrador (sólo galería) | — | ⏳ pendiente |
 
-<!-- después -->
-<img src="assets/tarta-cumpleanos.jpg" alt="Tarta de cumpleaños con figuras"
-     class="h-full w-full object-cover" loading="lazy">
-```
+Para sustituir cualquiera cuando llegue la foto real, sólo hay que reemplazar
+el archivo en `assets/` con el mismo nombre — no hace falta tocar `index.html`.
+Formato: vertical, relación 4:5 (1000×1250 o más).
 
-Huecos, por orden: ocho para la portada y ocho para la galería. Todas en
-vertical (relación 4:5) y con 1000×1250 va sobrado.
-
-**La portada depende por completo de estas fotos.** Ahora mismo son rectángulos
-rosas y la primera pantalla no dice nada: el efecto sólo se entiende cuando lo
-que se desparrama son tartas de verdad. Es lo primero que hay que meter.
+**Son maqueta con IA, no fotos reales del obrador.** Mientras estén puestas,
+la web sigue con `noindex` (ver más abajo) precisamente para que Google no
+las indexe como si fueran tartas reales de un negocio real. En cuanto lleguen
+las fotos de verdad, sustituir y quitar el `noindex`.
 
 El `alt` no es decorativo: descríbelo de verdad («tarta de unicornio con cuerno
 dorado»), que es lo que lee Google y quien usa lector de pantalla.
@@ -33,7 +38,7 @@ son 4 MB y hace que la web tarde en cargar en datos móviles.
 
 ## Falta todavía
 
-- [ ] Las 9 fotos
+- [ ] Las 4 fotos que faltan (cookies, mesa de dulces, piñitas, obrador) + regenerar la de "tarta temática" sin texto horneado
 - [ ] Imagen de compartir `assets/og-image.png` (1200×630)
 - [ ] Denominación social y NIF para el aviso legal
 - [ ] Confirmar el horario del martes (la ficha de Google pone «10:00–2:00»)
