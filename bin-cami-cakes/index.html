@@ -218,16 +218,28 @@
   .cascada-col{ display:flex; flex-direction:column; gap:1rem; animation:subir var(--dur,46s) linear infinite; }
   .cascada-col.lenta{ --dur:58s; }
   .cascada-col.media{ --dur:52s; }
-  .cascada:hover .cascada-col{ animation-play-state:paused; }
+  /* Las columnas de más se esconden aquí y no con las clases de Tailwind:
+     .cascada-col{display:flex} pesa lo mismo que .hidden y va después, así que
+     ganaba siempre. Resultado: en el móvil las columnas 2 y 3 se quedaban a
+     2488 y 4794 px del borde de la caja, fuera del overflow:hidden, y el
+     visitante sólo veía una de cada tres reseñas sin enterarse. El selector de
+     atributo pesa más y no hay discusión. */
+  @media (max-width:1023.98px){ .cascada-col[data-col="2"]{ display:none; } }
+  @media (max-width:639.98px){  .cascada-col[data-col="1"]{ display:none; } }
+  /* Parar también al tabular: si no, la tarjeta enfocada sigue subiendo. */
+  .cascada:hover .cascada-col,
+  .cascada:focus-within .cascada-col{ animation-play-state:paused; }
   @keyframes subir{ from{transform:translateY(0)} to{transform:translateY(-50%)} }
-  .pestana[aria-selected="true"]{ background:var(--frambuesa); color:#fff; }
+  .pestana[aria-pressed="true"]{ background:var(--frambuesa); color:#fff; }
 
   /* ===== CHATBOT DE PRESUPUESTO ===== */
   #panel-chat{ transform:translateY(12px) scale(.97); opacity:0; pointer-events:none;
                transition:transform .28s cubic-bezier(.16,1,.3,1), opacity .28s; }
   #panel-chat.abierto{ transform:none; opacity:1; pointer-events:auto; }
+  /* pre-line: el resumen del encargo se escribe con saltos de línea y sin esto
+     salían todos seguidos, como un párrafo ilegible. */
   .burbuja{ max-width:88%; border-radius:1.15rem; padding:.7rem 1rem; font-size:.95rem; line-height:1.5;
-            animation:entra .3s cubic-bezier(.16,1,.3,1) both; }
+            white-space:pre-line; animation:entra .3s cubic-bezier(.16,1,.3,1) both; }
   .burbuja-bot{ background:var(--rosa-nube); color:var(--tinta); border-bottom-left-radius:.35rem; }
   .burbuja-yo{ background:var(--frambuesa); color:#fff; margin-left:auto; border-bottom-right-radius:.35rem; }
   @keyframes entra{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
@@ -237,12 +249,15 @@
   .chip:hover{ background:var(--frambuesa); border-color:var(--frambuesa); color:#fff; }
 
   /* Estado abierto/cerrado */
-  .punto{ width:.6rem; height:.6rem; border-radius:9999px; }
+  /* flex-shrink:0 o el punto se aplasta: dentro de un inline-flex estrecho el
+     navegador se lo come de ancho y en un móvil de 360 px sale un óvalo. */
+  .punto{ width:.6rem; height:.6rem; flex-shrink:0; border-radius:9999px; }
   .punto.vivo{ animation:palpita 2s ease-in-out infinite; }
   @keyframes palpita{ 0%,100%{opacity:1} 50%{opacity:.35} }
 
   @media (prefers-reduced-motion: reduce){
     .ticker-pista, .cascada-col{ animation:none !important; }
+    .carrusel{ scroll-behavior:auto; }
     .cascada{ height:auto; overflow:visible; -webkit-mask-image:none; mask-image:none; }
     .burbuja{ animation:none !important; }
     .punto.vivo{ animation:none !important; }
@@ -586,7 +601,7 @@
          <img src="assets/tarta-1.jpg" alt="Descripción real de la tarta" class="aspect-[4/5] h-full w-full rounded-3xl object-cover" loading="lazy"> -->
     <div class="reveal mt-12">
       <div class="mb-4 flex items-center justify-between gap-4">
-        <p class="text-sm font-semibold text-tinta/60"><span id="galeria-pos">1</span> / 8</p>
+        <p class="text-sm font-semibold text-tinta/60" aria-live="polite"><span id="galeria-pos">1</span> / 8</p>
         <div class="flex gap-2">
           <button type="button" class="flecha" data-galeria="-1" aria-label="Foto anterior">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
@@ -750,24 +765,28 @@
     </div>
 
     <!-- Pestañas -->
-    <div class="reveal mt-9 flex justify-center gap-2" role="tablist" aria-label="Filtrar reseñas">
+    <!-- Botones de alternar, no pestañas: role="tab" obliga a navegar con las
+         flechas y a tener un panel asociado, y aquí no hay ni una cosa ni la
+         otra. aria-pressed dice justo lo que son. -->
+    <div class="reveal mt-9 flex flex-wrap justify-center gap-2" role="group" aria-label="Filtrar reseñas">
       <button type="button" class="pestana rounded-full border border-rosa-palo px-5 py-2.5 text-sm font-semibold text-tinta/75 transition hover:border-frambuesa"
-              role="tab" aria-selected="true" data-filtro="todas">Todas</button>
+              aria-pressed="true" data-filtro="todas">Todas</button>
       <button type="button" class="pestana rounded-full border border-rosa-palo px-5 py-2.5 text-sm font-semibold text-tinta/75 transition hover:border-frambuesa"
-              role="tab" aria-selected="false" data-filtro="recientes">Más recientes</button>
+              aria-pressed="false" data-filtro="recientes">Más recientes</button>
       <button type="button" class="pestana rounded-full border border-rosa-palo px-5 py-2.5 text-sm font-semibold text-tinta/75 transition hover:border-frambuesa"
-              role="tab" aria-selected="false" data-filtro="tresleches">Tres leches</button>
+              aria-pressed="false" data-filtro="tresleches">Tres leches</button>
     </div>
 
     <!-- Cascada de 3 columnas -->
     <div class="reveal cascada mt-8" id="cascada">
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div class="cascada-col" data-col="0"></div>
-        <div class="cascada-col media hidden sm:flex" data-col="1"></div>
-        <div class="cascada-col lenta hidden lg:flex" data-col="2"></div>
+        <div class="cascada-col media" data-col="1"></div>
+        <div class="cascada-col lenta" data-col="2"></div>
       </div>
     </div>
     <p class="mt-5 text-center text-sm text-tinta/55">Pasa el ratón por encima para pararlas · pulsa una tarjeta para verla en Google</p>
+    <p id="cascada-aviso" class="sr-only" role="status"></p>
   </div>
 </section>
 
@@ -1072,7 +1091,10 @@
 </footer>
 
 <!-- ===================== ASISTENTE DE PRESUPUESTO ===================== -->
-<div class="fixed bottom-24 right-5 z-50 w-[min(22rem,calc(100vw-2.5rem))] no-print">
+<!-- pointer-events-none en el envoltorio: es una caja fija de 350x192 px que,
+     con el asistente cerrado, se comía el 20% de la pantalla del móvil. Los
+     hijos vuelven a recibir pulsaciones por su cuenta. -->
+<div class="pointer-events-none fixed bottom-24 right-5 z-50 w-[min(22rem,calc(100vw-2.5rem))] no-print">
   <div id="panel-chat" class="flex max-h-[min(30rem,calc(100vh-12rem))] flex-col overflow-hidden rounded-3xl border border-rosa-palo bg-white shadow-alta"
        role="dialog" aria-modal="false" aria-labelledby="chat-titulo" aria-hidden="true">
     <header class="flex items-center gap-3 border-b border-rosa-nube bg-rosa-nube/60 px-4 py-3">
@@ -1089,13 +1111,16 @@
     <div id="chat-opciones" class="flex flex-wrap gap-2 border-t border-rosa-nube px-4 py-3"></div>
   </div>
 
+  <!-- En el móvil va sin rótulo, como el botón de WhatsApp: con el texto medía
+       200 px de ancho y tapaba el filtro «Más recientes» de las reseñas, que
+       quedaba imposible de pulsar. A partir de sm sí cabe el rótulo. -->
   <button type="button" id="chat-abrir"
-          class="mt-3 ml-auto flex items-center gap-2.5 rounded-full bg-frambuesa px-5 py-3.5 font-display text-sm font-bold text-white shadow-alta transition hover:bg-frambuesa-oscuro"
-          aria-expanded="false" aria-controls="panel-chat">
+          class="pointer-events-auto mt-3 ml-auto grid h-14 w-14 place-items-center rounded-full bg-frambuesa font-display text-sm font-bold text-white shadow-alta transition hover:bg-frambuesa-oscuro sm:flex sm:h-auto sm:w-auto sm:items-center sm:gap-2.5 sm:px-5 sm:py-3.5"
+          aria-expanded="false" aria-controls="panel-chat" aria-label="Calcular el presupuesto de mi tarta">
     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M21 11.5a8.4 8.4 0 01-9 8.4 9 9 0 01-3.9-.9L3 20.5l1.6-4.6A8.3 8.3 0 013.6 11a8.4 8.4 0 018.9-8.4 8.4 8.4 0 018.5 8.4z"/>
     </svg>
-    <span id="chat-etiqueta">Calcular mi tarta</span>
+    <span id="chat-etiqueta" class="hidden sm:inline">Calcular mi tarta</span>
   </button>
 </div>
 
@@ -1183,10 +1208,11 @@
   }
   function tope(){ return pista.scrollWidth - pista.clientWidth; }
 
-  /* En el móvil se ve una foto y en el escritorio tres. Si el contador sólo
-     mirase la primera, al llegar al final pondría «5 / 8» con la flecha ya
-     apagada, que parece que se ha quedado colgado. Por eso cuenta el tramo
-     que de verdad se está viendo: «1–3 / 8» al empezar y «6–8 / 8» al final. */
+  /* En el móvil se ve una foto y en el escritorio tres o cuatro. Si el contador
+     sólo mirase la primera, al llegar al final pondría «5 / 8» con la flecha ya
+     apagada, que parece que se ha quedado colgado. Por eso cuenta el tramo que
+     de verdad se está viendo: a 1440 px, «1–4 / 8» al empezar y «5–8 / 8» al
+     final; en el móvil, «1 / 8» … «8 / 8». */
   function visibles(){
     var x = pista.scrollLeft, ancho = pista.clientWidth, ini = -1, fin = -1;
     diapos.forEach(function(d, i){
@@ -1200,14 +1226,35 @@
   function pintar(){
     var v = visibles(), x = pista.scrollLeft;
     if (pos) pos.textContent = v.ini === v.fin ? (v.ini + 1) : (v.ini + 1) + '\u2013' + (v.fin + 1);
+    /* pintar() corre 90 ms después de que el scroll pare, así que aquí el
+       carrusel ya está quieto: buen momento para volver a fiarse de dónde
+       está de verdad, también si han pasado la foto con el dedo. */
+    destino = null;
     document.querySelectorAll('[data-galeria]').forEach(function(b){
       var d = parseInt(b.dataset.galeria, 10);
+      /* Hay que mirar el foco ANTES: poner disabled lo quita en el acto, así
+         que después document.activeElement ya es el <body> y no habría forma
+         de saber que el foco estaba aquí. */
+      var teniaFoco = (document.activeElement === b);
+      var antes = b.disabled;
       b.disabled = (d < 0 && x <= 2) || (d > 0 && x >= tope() - 2);
+      /* Una flecha que se apaga con el foco encima lo tira al <body>, y el
+         siguiente tabulador vuelve a empezar por la cabecera. Se lo pasamos a
+         la pista, que es tabulable y se maneja con los cursores. */
+      if (b.disabled && !antes && teniaFoco) pista.focus();
     });
   }
+
+  /* El carrusel va con scroll-behavior:smooth, o sea que scrollLeft tarda un
+     rato en llegar. Si ir() volviese a mirar el scroll a mitad de camino, dos
+     toques seguidos en la flecha calcularían el mismo destino y el segundo no
+     haría nada: pasando fotos deprisa daría la sensación de flecha rota. Por
+     eso se recuerda adónde vamos y se cuenta desde ahí. */
+  var destino = null;
   function ir(paso){
-    var i = Math.max(0, Math.min(diapos.length - 1, actual() + paso));
-    pista.scrollTo({ left: Math.min(tope(), diapos[i].offsetLeft - pista.offsetLeft) });
+    var base = (destino === null ? actual() : destino);
+    destino = Math.max(0, Math.min(diapos.length - 1, base + paso));
+    pista.scrollTo({ left: Math.min(tope(), diapos[destino].offsetLeft - pista.offsetLeft) });
   }
   document.querySelectorAll('[data-galeria]').forEach(function(b){
     b.addEventListener('click', function(){ ir(parseInt(b.dataset.galeria, 10)); });
@@ -1285,35 +1332,72 @@
         (r.corta ? '<p class="mt-2 text-xs font-semibold text-frambuesa">Leerla entera en Google →</p>' : '') +
       '</a>';
   }
+  var filtroActivo = 'todas';
+
   function pintar(filtro){
+    filtroActivo = filtro || filtroActivo;
     var lista = RESENAS.slice();
-    if (filtro === 'recientes') lista = lista.filter(function(r){ return r.m <= 2; });
-    if (filtro === 'tresleches') lista = lista.filter(function(r){ return r.tres; });
+    if (filtroActivo === 'recientes') lista = lista.filter(function(r){ return r.m <= 2; });
+    if (filtroActivo === 'tresleches') lista = lista.filter(function(r){ return r.tres; });
+
+    /* Cuántas columnas se ven de verdad: una en el móvil, dos en la tableta,
+       tres en el escritorio. Repartiendo siempre entre tres, dos tercios de las
+       reseñas caían en columnas que el móvil no llega a enseñar. */
+    var vivas = cols.filter(function(c){ return getComputedStyle(c).display !== 'none'; });
+    if (!vivas.length) vivas = [cols[0]];
+    var n = vivas.length;
 
     /* La caja mide 34rem y la columna sube la mitad de su propio alto. Con
        cuatro reseñas filtradas cada columna se quedaba corta y en cada vuelta
        se veía una franja en blanco. Se repite la MISMA lista filtrada (nunca
-       reseñas de otro filtro, que sería engañar) hasta tener doce, o sea
-       cuatro por columna, que ya sobrepasan la caja. El reparto va rotando,
-       así que dentro de una columna no salen dos veces seguidas. */
+       reseñas de otro filtro, que sería engañar) hasta cuatro por columna,
+       que ya sobrepasan la caja. El reparto va rotando, así que dentro de una
+       columna no salen dos veces seguidas. */
     var base = lista.slice();
-    while (base.length && lista.length < 12) lista = lista.concat(base);
+    while (base.length && lista.length < n * 4) lista = lista.concat(base);
 
-    var cubos = [[], [], []];
-    lista.forEach(function(r, i){ cubos[i % 3].push(r); });
-    cols.forEach(function(col, i){
+    var cubos = []; for (var c = 0; c < n; c++) cubos.push([]);
+    lista.forEach(function(r, i){ cubos[i % n].push(r); });
+
+    /* Si el sistema pide menos movimiento, la animación se apaga y la cascada
+       se despliega entera (ver el @media de más arriba). Ahí el eco se vería
+       por lo que no es: las mismas reseñas escritas dos veces, en una página
+       que presume de no inventarse ninguna. Sin animación, sin eco. */
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    cols.forEach(function(col){ col.innerHTML = ''; });
+    vivas.forEach(function(col, i){
       var arriba = cubos[i].map(function(r){ return tarjeta(r, false); }).join('');
-      var eco    = cubos[i].map(function(r){ return tarjeta(r, true);  }).join('');
+      var eco    = quieto ? '' : cubos[i].map(function(r){ return tarjeta(r, true); }).join('');
       col.innerHTML = arriba + eco;   /* el eco sólo está para cerrar el bucle */
     });
   }
   pintar('todas');
 
+  /* Al girar el teléfono cambia el número de columnas: hay que repartir otra
+     vez o se queda una columna vacía hasta que toquen un filtro. */
+  ['(min-width:640px)', '(min-width:1024px)'].forEach(function(q){
+    var mq = window.matchMedia(q);
+    var alCambiar = function(){ pintar(filtroActivo); };
+    if (mq.addEventListener) mq.addEventListener('change', alCambiar);
+    else if (mq.addListener) mq.addListener(alCambiar);
+  });
+
+  var aviso = document.getElementById('cascada-aviso');
   document.querySelectorAll('[data-filtro]').forEach(function(b){
     b.addEventListener('click', function(){
-      document.querySelectorAll('[data-filtro]').forEach(function(o){ o.setAttribute('aria-selected', 'false'); });
-      b.setAttribute('aria-selected', 'true');
+      document.querySelectorAll('[data-filtro]').forEach(function(o){ o.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
       pintar(b.dataset.filtro);
+      /* La cascada cambia sin avisar a quien usa lector de pantalla. */
+      if (aviso){
+        var cuantas = RESENAS.filter(function(r){
+          if (filtroActivo === 'recientes') return r.m <= 2;
+          if (filtroActivo === 'tresleches') return r.tres;
+          return true;
+        }).length;
+        aviso.textContent = 'Mostrando ' + cuantas + (cuantas === 1 ? ' reseña' : ' reseñas');
+      }
     });
   });
 
@@ -1405,6 +1489,9 @@
       o:['Sencilla y elegante','Con figuras modeladas','De una temática concreta','Tengo una foto de referencia'] }
   ];
   var paso = 0, resp = {}, arrancado = false;
+  /* Se anota en el momento del clic, no después: para cuando toca repintar las
+     opciones, opts ya se ha vaciado y el foco hace rato que está en el <body>. */
+  var pediaFoco = false;
 
   function burbuja(texto, mia){
     var d = document.createElement('div');
@@ -1414,6 +1501,11 @@
     hilo.scrollTop = hilo.scrollHeight;
   }
   function chips(lista, alPulsar){
+    /* Al vaciar opts desaparece el botón que acaba de pulsarse y el foco cae al
+       <body>: con teclado habría que volver a tabular desde la cabecera en cada
+       pregunta. Si el foco estaba aquí dentro, se lo pasamos a la opción nueva. */
+    var veniaDeAqui = pediaFoco || opts.contains(document.activeElement);
+    pediaFoco = false;
     opts.innerHTML = '';
     lista.forEach(function(t){
       var b = document.createElement('button');
@@ -1421,12 +1513,14 @@
       b.addEventListener('click', function(){ alPulsar(t); });
       opts.appendChild(b);
     });
+    if (veniaDeAqui){ var primero = opts.querySelector('button'); if (primero) primero.focus(); }
   }
   function preguntar(){
     if (paso >= PASOS.length) return resumen();
     var e = PASOS[paso];
     burbuja(e.p, false);
     chips(e.o, function(valor){
+      pediaFoco = opts.contains(document.activeElement);
       burbuja(valor, true);
       resp[e.k] = valor;
       paso++;
@@ -1461,6 +1555,8 @@
     otra.addEventListener('click', reiniciar);
     opts.appendChild(otra);
     hilo.scrollTop = hilo.scrollHeight;
+    /* Quien venía con el teclado se queda en el botón que cierra la venta. */
+    if (pediaFoco){ pediaFoco = false; a.focus(); }
   }
   function reiniciar(){
     paso = 0; resp = {}; hilo.innerHTML = ''; opts.innerHTML = '';
@@ -1469,8 +1565,19 @@
   function alternar(mostrar){
     panel.classList.toggle('abierto', mostrar);
     panel.setAttribute('aria-hidden', String(!mostrar));
+    /* Cerrado seguía teniendo botones tabulables dentro de un aria-hidden: el
+       teclado entraba en un panel que no se ve. inert lo saca de la navegación
+       y del lector; donde no exista, se apaga a mano cada elemento. */
+    if ('inert' in panel) panel.inert = !mostrar;
+    else Array.prototype.forEach.call(panel.querySelectorAll('a, button'),
+           function(el){ el.setAttribute('tabindex', mostrar ? '0' : '-1'); });
     abrir.setAttribute('aria-expanded', String(mostrar));
-    document.getElementById('chat-etiqueta').textContent = mostrar ? 'Cerrar asistente' : 'Calcular mi tarta';
+    /* El rótulo no se ve en el móvil, así que el estado va también en el
+       aria-label, que es lo único que oye quien usa lector de pantalla. */
+    var rotulo = mostrar ? 'Cerrar asistente' : 'Calcular mi tarta';
+    document.getElementById('chat-etiqueta').textContent = rotulo;
+    abrir.setAttribute('aria-label', mostrar ? 'Cerrar el asistente de presupuesto'
+                                             : 'Calcular el presupuesto de mi tarta');
     if (mostrar && !arrancado){ arrancado = true; preguntar(); }
     if (mostrar) { var c = opts.querySelector('button, a'); if (c) c.focus(); }
   }
@@ -1479,6 +1586,10 @@
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && panel.classList.contains('abierto')){ alternar(false); abrir.focus(); }
   });
+
+  /* Arranca cerrado, pero sin pasar por alternar() el botón de cerrar del
+     encabezado se quedaba tabulable dentro del panel invisible. */
+  alternar(false);
 })();
 </script>
 
