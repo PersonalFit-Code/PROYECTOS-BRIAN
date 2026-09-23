@@ -35,7 +35,27 @@ son 4 MB y hace que la web tarde en cargar en datos móviles.
 - [ ] Dominio: ahora el canonical apunta a `bincamicakes.es`, que hay que ajustar
       al dominio real antes de publicar
 
-## Publicar en Vercel
+## Despliegue
+
+Proyecto en Vercel, equipo **BRIAN** (`centropersonalfit`).
+
+| | |
+|---|---|
+| URL de producción | https://bin-cami-cakes-centropersonalfit.vercel.app |
+| Project ID | `prj_cYpupFUqwiUhVJFiEXSKHNrWj6uG` |
+| Team ID | `team_NO14SkEOGredEikP1xjacWZu` |
+
+Se desplegó con archivos en línea por la API, porque el push a GitHub sigue
+bloqueado. Mientras siga así, cada cambio hay que volver a subirlo igual.
+
+**Lo que desbloquea el flujo normal es el acceso de GitHub.** Con el repo
+accesible se conecta a Vercel y cada push publica solo. Poner
+`bin-cami-cakes` como *Root Directory* del proyecto.
+
+La web está con `noindex` a propósito hasta que lleguen las fotos y el dominio
+real; hasta entonces se puede compartir el enlace sin que Google la indexe.
+
+## Publicar en Vercel (alternativas)
 
 Es estático, no necesita build:
 
