@@ -41,16 +41,30 @@ Proyecto en Vercel, equipo **BRIAN** (`centropersonalfit`).
 
 | | |
 |---|---|
-| URL de producción | https://bin-cami-cakes-centropersonalfit.vercel.app |
+| URL de producción | https://bin-cami-cakes-centropersonalfit.vercel.app *(sin verificar)* |
 | Project ID | `prj_cYpupFUqwiUhVJFiEXSKHNrWj6uG` |
 | Team ID | `team_NO14SkEOGredEikP1xjacWZu` |
 
-Se desplegó con archivos en línea por la API, porque el push a GitHub sigue
-bloqueado. Mientras siga así, cada cambio hay que volver a subirlo igual.
+La URL está sin verificar a propósito: desde aquí no se puede abrir (el proxy
+bloquea `*.vercel.app`) ni consultar por la API, así que no se afirma que esté
+en pie. Ábrela tú para saberlo.
 
-**Lo que desbloquea el flujo normal es el acceso de GitHub.** Con el repo
-accesible se conecta a Vercel y cada push publica solo. Poner
-`bin-cami-cakes` como *Root Directory* del proyecto.
+### Ahora mismo no se puede desplegar desde aquí
+
+Los dos caminos están cerrados, y los dos se abren desde tu cuenta:
+
+1. **GitHub.** `git push` devuelve 403: «Claude doesn't have GitHub access to
+   PersonalFit-Code/PROYECTOS-BRIAN for your organization». Falta instalar la
+   app de Claude en la organización, desde https://claude.ai/connect-github.
+2. **Vercel.** La conexión de Vercel de esta sesión sólo alcanza los proyectos
+   `personalfit` y `personalfit-xi.vercel.app`. El proyecto `bin-cami-cakes`
+   existe (crearlo devuelve «already exists») pero no se ve ni se puede
+   desplegar: producción y preview devuelven 403. Hay que volver a autorizar
+   la conexión de Vercel incluyendo `bin-cami-cakes`, o darle acceso a todos
+   los proyectos.
+
+Con lo primero arreglado, lo segundo sobra: se conecta el repo a Vercel y cada
+push publica solo. Poner `bin-cami-cakes` como *Root Directory* del proyecto.
 
 La web está con `noindex` a propósito hasta que lleguen las fotos y el dominio
 real; hasta entonces se puede compartir el enlace sin que Google la indexe.
