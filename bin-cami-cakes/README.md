@@ -93,6 +93,34 @@ así que en iPhone, iPad y Mac salen los dibujos de Apple. En Windows y Android
 el navegador usa los suyos (Segoe, Noto) y no se puede hacer más: los dibujos
 de Apple son de Apple y no se pueden servir desde una web ajena.
 
+## Detalles de interfaz
+
+- **Sensación al pulsar**: `:active` encoge un 4% en todo lo pulsable. En el
+  móvil no existe `:hover`, así que sin esto un botón no daba señal de haber
+  recibido el toque.
+- **Barra de progreso de lectura**: se pinta encima del hilo de marca que ya
+  cruzaba la cabecera, así que no ocupa un píxel nuevo. Con el menú plegado en
+  el móvil era la única forma de saber cuánto llevas de 12 pantallas.
+- **Volver arriba**: aparece pasado un scroll y medio; en el móvil se coloca
+  por encima de la barra de acciones y devuelve también el foco al principio.
+- **Copiar el teléfono**: en un ordenador el enlace `tel:` no suele hacer nada.
+  Hay respaldo con `textarea` porque `navigator.clipboard` no existe fuera de
+  https (ni en `file://`).
+- **Asistente**: cinco segmentos de progreso (`role="progressbar"`) y tres
+  puntos de «escribiendo…» antes de cada respuesta. Los puntos van
+  `aria-hidden` porque el hilo es `aria-live`.
+- **Filtro de reseñas**: fundido de 200 ms en vez del reemplazo seco. Ojo: el
+  aviso para lector de pantalla cuenta con el filtro del botón pulsado, no con
+  `filtroActivo`, que durante el fundido todavía es el anterior.
+- **Acordeón de la FAQ**: exclusivo y con transición de alto mediante la API de
+  animaciones, que es la única forma fiable de animar un alto `auto`.
+- **Visor de fotos**: `<dialog>` + `showModal()`, que trae Escape, foco
+  atrapado y fondo inerte de serie. Flechas, teclado, arrastre lateral, y al
+  cerrar el carrusel se queda en la foto que estabas mirando.
+- **Carga progresiva**: cada foto lleva detrás una miniatura de 20 px
+  incrustada en el CSS (~1 KB cada una) y la foto real se funde encima. Las
+  clases las activa el JS desde la cabecera; sin JS las fotos se ven tal cual.
+
 ## Idiomas: castellano · galego · English
 
 Selector en la cabecera (y arriba del menú del móvil). El castellano no está

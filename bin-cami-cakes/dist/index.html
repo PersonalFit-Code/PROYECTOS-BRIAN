@@ -61,8 +61,26 @@
            grid-template-columns:repeat(4, minmax(0, 11rem)) !important; justify-content:center !important;
            gap:.75rem !important; padding:0 1rem 2rem !important; }
   .carta{ position:static !important; transform:none !important; width:auto !important; }
-  .pista-scroll, #acciones, #cursor{ display:none !important; }
+  .pista-scroll, #acciones, #cursor, #arriba, #progreso{ display:none !important; }
+  img{ opacity:1 !important; }
 </style></noscript>
+<script>
+/* Carga progresiva: se marca el <html> cuanto antes (si se hiciera abajo, las
+   fotos ya estarían pintadas y darían un parpadeo al esconderse) y se escucha
+   el load de cada imagen en fase de captura, que es la única forma de pillarlo
+   con delegación porque load no burbujea. */
+(function(){
+  document.documentElement.classList.add('fotos-progresivas');
+  document.addEventListener('load', function(e){
+    if (e.target.tagName === 'IMG') e.target.classList.add('cargada');
+  }, true);
+  document.addEventListener('DOMContentLoaded', function(){
+    Array.prototype.forEach.call(document.images, function(im){
+      if (im.complete && im.naturalWidth) im.classList.add('cargada');
+    });
+  });
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Fraunces para los titulares: serif con carácter, cálida y un poco
@@ -637,6 +655,10 @@
   /* Parar también al tabular: si no, la tarjeta enfocada sigue subiendo. */
   .cascada:hover .cascada-col,
   .cascada:focus-within .cascada-col{ animation-play-state:paused; }
+  /* Al cambiar de filtro las tarjetas se reemplazaban de golpe (innerHTML) y
+     daba un parpadeo. Se funden a la salida, se repintan y vuelven. */
+  .cascada{ transition:opacity .2s ease; }
+  .cascada.cambiando{ opacity:0; }
   /* La reseña se pinta desde JS, así que su estilo vive aquí y no en clases
      sueltas de Tailwind: al pasar el ratón cambia de blanco a rosa nube y se
      le marca el borde en frambuesa, para que se vea cuál estás señalando
@@ -677,6 +699,130 @@
   #horario-tabla tr.hoy th, #horario-tabla tr.hoy td{ color:rgb(var(--oro)); font-weight:800; }
   #horario-tabla tr.hoy th::before{ content:'\25CF\00a0'; font-size:.6em; vertical-align:.15em;
                                     color:rgb(var(--frambuesa)); }
+
+  /* ===== VISOR DE FOTOS ===== */
+  .cf-lupa{ position:absolute; top:.7rem; left:.7rem; z-index:3;
+            display:grid; place-items:center; width:2.1rem; height:2.1rem; border-radius:9999px;
+            background:rgb(0 0 0 / .38); color:#fff; border:1px solid rgb(255 255 255 / .35);
+            -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+            opacity:0; transform:scale(.9); pointer-events:none;
+            transition:opacity .35s ease, transform .35s cubic-bezier(.16,1,.3,1), background .2s; }
+  .cf-carta[data-centro="true"] .cf-lupa{ opacity:1; transform:none; pointer-events:auto; }
+  .cf-lupa:hover{ background:rgb(var(--frambuesa)); }
+  .cf-carta[data-centro="true"]{ cursor:zoom-in; }
+
+  .visor{ width:min(96vw, 60rem); max-width:none; max-height:94vh; padding:0; border:none;
+          background:transparent; overflow:visible; color:#fff; }
+  .visor::backdrop{ background:rgb(20 14 17 / .86);
+                    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+  .visor[open]{ animation:visorEntra .3s cubic-bezier(.16,1,.3,1); }
+  @keyframes visorEntra{ from{ opacity:0; transform:scale(.97); } to{ opacity:1; transform:none; } }
+  .visor-caja{ margin:0; position:relative; }
+  .visor-caja img{ display:block; width:100%; max-height:78vh; object-fit:contain;
+                   border-radius:1.1rem; background:rgb(var(--tinta)); }
+  .visor-pie{ padding:.9rem .25rem 0; text-align:center; }
+  .visor-cuenta{ margin-top:.35rem; font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+                 font-size:.7rem; font-weight:700; letter-spacing:.16em; color:rgb(255 255 255 / .5); }
+  .visor-cerrar, .visor-flecha{ position:absolute; z-index:2; display:grid; place-items:center;
+            width:2.75rem; height:2.75rem; border-radius:9999px;
+            background:rgb(255 255 255 / .14); color:#fff; border:1px solid rgb(255 255 255 / .3);
+            -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+            transition:background .2s, transform .2s; }
+  .visor-cerrar:hover, .visor-flecha:hover{ background:rgb(var(--frambuesa)); }
+  .visor-cerrar{ top:-3.4rem; right:0; }
+  .visor-flecha{ top:calc(39vh - 1.4rem); }
+  .visor-ant{ left:-3.5rem; }
+  .visor-sig{ right:-3.5rem; }
+  @media (max-width:900px){
+    /* En pantallas estrechas no hay hueco a los lados: las flechas se meten
+       dentro de la foto, abajo, donde llega el pulgar. */
+    .visor-flecha{ top:auto; bottom:.75rem; }
+    .visor-ant{ left:.75rem; } .visor-sig{ right:.75rem; }
+    .visor-cerrar{ top:-3.1rem; }
+    .visor-caja img{ max-height:64vh; }
+  }
+  @media (prefers-reduced-motion: reduce){ .visor[open]{ animation:none; } }
+
+  /* ===== CARGA PROGRESIVA DE LAS FOTOS =====
+     Cada foto tiene detrás una miniatura de 20 px incrustada aquí mismo (unos
+     mil bytes): se ve borrosa al instante y la foto de verdad se funde encima
+     al cargar, en vez del salto de gris a foto. Las clases las activa el JS
+     (html.fotos-progresivas) para que sin JS las fotos se vean tal cual. */
+  .lqip-tarta-cumpleanos{ background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAaABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDS19FazkIIOIe31rlrZLUIgY4+U7j712mp2yy27R9AYsHH1rk7qKG0AjEbMwPBzWbZrGN1cq+XGf4gKKtyWrAjEZ5GaKQzsZ2MuRGwAUbTnvXJahg3hikAXuHwTjFdPbf8ew98/wA6r3KKScqD+FXy9SFNrQwpYrWch3uJd2MEjjPvRWjsXJ+UflRVEn//2Q==); }
+  .lqip-tarta-boda{ background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAaABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDeWPbMQvAOP5VieJ2EroVYNt4PFbzHbIW5OADj8K5vWXM7HaOc9KxNUZiJlRRQpwuDwaKAOre7DZKNGT0A34IrDaUGSYzZyCdpPQ1VuuZ5CeTmqchPrSGWJpInkyG60VlEnc3J60VVgP/Z); }
+  .lqip-tarta-tematica{ background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAaABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDa8RgtaKAMnIrFgheIAyKQK1b1pJzFuH3m+Zc52iqM8YWcJ9zPPrXM5anQloTTxqjgL0IBopssgJH7t24FFK6HZlq3uLWUlrZTwPvFcVQuI5WutyYznIB7VpJwgx71Cf8AWfjRuxoqvavn55wp/wB7FFWpAC5zzRV8qA//2Q==); }
+  .lqip-tres-leches{ background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAaABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBLnVbu2igJuApYEtgZzWhcCW6tRJHdnBUGRAu4flUMen/ZbFGuws7A49qmgS3upUREaKQ8BlOKwvrZm77ozH0K4LZSSEqeQShBoroTa3ifKrxuPVuD+lFXy+RHMZNzq8Ow29+rwsDxIoyDUVtqenW0qym7DbeyqcmrF8issm5QfqK55Y08/wC4vX0qdHuOxvS+L2Ln7LaPJGOAzHBNFR26KI8BQOfSinzMXKj/2Q==); }
+  .lqip-golfeados{ background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAaABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDcknRrJ4UO99x4XnHzVy+oRm4vZzFtbDZxnrVlJ57z/WOsMOceWhxUvlQQKxCKmw5LtXNKR0KBg/ZZjyVUE84JFFXpJrJXOIg+edxJ5oouOxY8mC+lkmsp3V0O7DDgms68ivY5CrfOD3B4rprSKNY3CooB64FMuI0G3CL970p3sgRhWkGyAB1G7PdQaK2e5oqPaMs//9k=); }
+  .carta-cara, .cf-carta{ background-size:cover; background-position:center; }
+  html.fotos-progresivas .carta-cara img,
+  html.fotos-progresivas .cf-carta img{ opacity:0; transition:opacity .55s ease; }
+  html.fotos-progresivas .carta-cara img.cargada,
+  html.fotos-progresivas .cf-carta img.cargada{ opacity:1; }
+
+  /* ===== SENSACIÓN AL PULSAR =====
+     En el móvil no existe :hover, así que un botón no daba ninguna señal de
+     haber recibido el toque hasta que la acción ya había ocurrido. Un
+     encogimiento de nada al pulsar es lo que hace que un botón se sienta un
+     botón. Va con transiciones muy cortas: el "sí, te he oído" tiene que ser
+     inmediato, no elegante. */
+  .accion:active, .destello:active, .chip:active, .pestana:active,
+  .idioma:active, .resena:active, .tarjeta:active,
+  button:active, a.inline-flex:active{ transform:scale(.96); transition-duration:.08s; }
+  /* Los que ya llevan transform propio tienen que repetirlo o se descolocan. */
+  .accion-wa:active{ transform:scale(.96); }
+  .cf-flecha:active{ transform:translateY(-50%) scale(.92); transition-duration:.08s; }
+  .cf-punto:active{ transform:scale(.85); }
+  .cf-carta:active{ filter:brightness(.94); }
+  @media (prefers-reduced-motion: reduce){
+    .accion:active, .destello:active, .chip:active, .pestana:active,
+    .idioma:active, .resena:active, .tarjeta:active,
+    button:active, a.inline-flex:active, .accion-wa:active, .cf-punto:active{ transform:none; }
+    .cf-flecha:active{ transform:translateY(-50%); }
+  }
+
+  /* ===== BARRA DE PROGRESO DE LECTURA =====
+     La página mide 12 pantallas en el móvil, y ahí el menú va plegado: no hay
+     forma de saber cuánto llevas. La barra se pinta ENCIMA del hilo de marca
+     que ya cruzaba la cabecera, así que no ocupa ni un píxel nuevo. */
+  #progreso{ position:absolute; inset-inline-start:0; top:0; height:2px; z-index:3;
+             width:0; background:rgb(var(--frambuesa));
+             box-shadow:0 0 8px rgb(var(--frambuesa) / .7); }
+
+  /* ===== VOLVER ARRIBA ===== */
+  .arriba{ position:fixed; z-index:45; right:1.25rem; bottom:6.6rem;
+           display:grid; place-items:center; width:2.9rem; height:2.9rem; border-radius:9999px;
+           background:rgb(255 255 255 / .72); color:rgb(var(--frambuesa));
+           -webkit-backdrop-filter:blur(14px) saturate(180%); backdrop-filter:blur(14px) saturate(180%);
+           border:1px solid rgb(255 255 255 / .8);
+           box-shadow:inset 0 1px 0 rgb(255 255 255 / .9), 0 10px 26px -10px rgb(var(--tinta) / .45);
+           opacity:0; transform:translateY(.6rem) scale(.9); pointer-events:none;
+           transition:opacity .3s ease, transform .3s cubic-bezier(.16,1,.3,1), background .25s; }
+  .arriba.visible{ opacity:1; transform:none; pointer-events:auto; }
+  .arriba:hover{ background:rgb(var(--frambuesa)); color:#fff; }
+  .arriba:active{ transform:scale(.92); transition-duration:.08s; }
+  @media (max-width:639.98px){
+    /* por encima de la barra de acciones, que ocupa todo el ancho de abajo */
+    .arriba{ right:.75rem; bottom:calc(4.5rem + env(safe-area-inset-bottom,0px)); }
+  }
+  @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+    .arriba{ background:rgb(255 255 255 / .97); }
+  }
+
+  /* ===== AVISO FLOTANTE (copiado, etc.) ===== */
+  #aviso{ position:fixed; left:50%; bottom:5.5rem; z-index:60; pointer-events:none;
+          display:flex; align-items:center; gap:.5rem;
+          padding:.6rem 1.1rem; border-radius:9999px;
+          background:rgb(var(--tinta)); color:#fff;
+          font-family:'Plus Jakarta Sans',system-ui,sans-serif; font-size:.85rem; font-weight:700;
+          box-shadow:0 16px 36px -16px rgb(var(--tinta) / .8);
+          opacity:0; transform:translate(-50%, .6rem); transition:opacity .25s ease, transform .25s cubic-bezier(.16,1,.3,1); }
+  #aviso.visible{ opacity:1; transform:translate(-50%, 0); }
+  @media (max-width:639.98px){ #aviso{ bottom:calc(5rem + env(safe-area-inset-bottom,0px)); } }
+
+  /* El botón de copiar, discreto al lado del teléfono */
+  .copiar{ display:inline-grid; place-items:center; width:2rem; height:2rem; border-radius:.6rem;
+           color:rgb(var(--tinta) / .45); transition:background .2s, color .2s; vertical-align:middle; }
+  .copiar:hover{ background:rgb(var(--rosa-nube)); color:rgb(var(--frambuesa)); }
 
   /* ===== SELECTOR DE IDIOMA ===== */
   .idiomas{ gap:.1rem; padding:.2rem; border-radius:9999px; border:1px solid rgb(var(--rosa-palo));
@@ -783,6 +929,23 @@
   .burbuja-bot{ background:rgb(var(--rosa-nube)); color:rgb(var(--tinta)); border-bottom-left-radius:.35rem; }
   .burbuja-yo{ background:rgb(var(--frambuesa)); color:#fff; margin-left:auto; border-bottom-right-radius:.35rem; }
   @keyframes entra{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
+  /* Progreso del asistente: cinco segmentos que se van llenando. Sin esto no
+     había forma de saber si quedaba una pregunta o cuatro. */
+  .chat-progreso{ display:flex; gap:.25rem; padding:.55rem 1rem .6rem; }
+  .chat-progreso span{ flex:1; height:3px; border-radius:2px; background:rgb(var(--rosa-palo));
+                       transition:background .35s ease; }
+  .chat-progreso span.hecho{ background:rgb(var(--frambuesa)); }
+  .chat-progreso span.ahora{ background:rgb(var(--oro-claro)); }
+
+  /* «Escribiendo…»: los tres puntos de toda la vida antes de que conteste. */
+  .escribiendo{ display:inline-flex; align-items:center; gap:.28rem; width:auto; }
+  .escribiendo i{ width:.42rem; height:.42rem; border-radius:9999px; background:rgb(var(--frambuesa) / .55);
+                  animation:bota 1.1s infinite ease-in-out; }
+  .escribiendo i:nth-child(2){ animation-delay:.15s; }
+  .escribiendo i:nth-child(3){ animation-delay:.3s; }
+  @keyframes bota{ 0%,60%,100%{ transform:translateY(0); opacity:.55; }
+                   30%{ transform:translateY(-.22rem); opacity:1; } }
+
   .chip{ border:1.5px solid rgb(var(--rosa-palo)); background:#fff; color:rgb(var(--tinta));
          border-radius:9999px; padding:.5rem .9rem; font-size:.85rem; font-weight:600;
          transition:background .2s, border-color .2s, color .2s; }
@@ -823,6 +986,7 @@
 
 <!-- ===================== CABECERA ===================== -->
 <header id="cabecera" class="fixed inset-x-0 top-0 z-50 no-print">
+  <div id="progreso" aria-hidden="true"></div>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="cabecera-caja flex items-center justify-between gap-3">
 
@@ -942,27 +1106,27 @@
 
     <div class="cartas" role="group" aria-label="Nuestras tartas">
                 <figure class="carta" data-carta='{"cx":-8,"cy":-10,"cr":-14,"x":-34,"y":-29,"r":-6,"w":12.2,"h":22,"e":0.95,"sx":-33,"sy":-33}' style="--w:12.2vw">
-          <div class="carta-cara">
+          <div class="carta-cara lqip-tarta-cumpleanos">
             <img src="assets/tarta-cumpleanos.jpg" alt="Tarta de cumpleaños con buttercream rosa y dorado, con velas encendidas" decoding="async">
           </div>
         </figure>
                 <figure class="carta" data-carta='{"cx":13,"cy":-11,"cr":16,"x":-12,"y":-29,"r":4,"w":10.6,"h":19,"e":0.9,"sx":-11,"sy":-33}' style="--w:10.6vw">
-          <div class="carta-cara">
+          <div class="carta-cara lqip-tarta-boda">
             <img src="assets/tarta-boda.jpg" alt="Tarta de boda de tres pisos, blanco y dorado, con flores de azúcar" decoding="async">
           </div>
         </figure>
                 <figure class="carta" data-carta='{"cx":-15,"cy":1,"cr":-4,"x":31,"y":-28,"r":7,"w":12.9,"h":23,"e":0.95,"sx":11,"sy":-33}' style="--w:12.9vw">
-          <div class="carta-cara">
+          <div class="carta-cara lqip-tarta-tematica">
             <img src="assets/tarta-tematica.jpg" alt="Tarta infantil temática, colorida, con un osito modelado a mano" decoding="async">
           </div>
         </figure>
                 <figure class="carta" data-carta='{"cx":2,"cy":-9,"cr":-2,"x":-40,"y":2,"r":-4,"w":11.4,"h":26,"e":0.9,"sx":33,"sy":-33}' style="--w:11.4vw">
-          <div class="carta-cara">
+          <div class="carta-cara lqip-tres-leches">
             <img src="assets/tres-leches.jpg" alt="Porción de tarta tres leches con merengue tostado y almíbar" decoding="async">
           </div>
         </figure>
                 <figure class="carta" data-carta='{"cx":17,"cy":2,"cr":6,"x":40,"y":-2,"r":5,"w":11.4,"h":26,"e":0.9,"sx":-33,"sy":38}' style="--w:11.4vw">
-          <div class="carta-cara">
+          <div class="carta-cara lqip-golfeados">
             <img src="assets/golfeados.jpg" alt="Golfeados venezolanos recién horneados, con papelón y queso" decoding="async">
           </div>
         </figure>
@@ -1182,8 +1346,11 @@
       <p id="cf-anuncio" class="sr-only" role="status"></p>
       <div class="cf">
         <div id="cf-escenario" class="cf-escenario" role="group" aria-label="Carrusel de nuestras tartas" tabindex="0">
-        <figure class="cf-carta" data-diapo="0">
+        <figure class="cf-carta lqip-tarta-cumpleanos" data-diapo="0">
           <img src="assets/tarta-cumpleanos.jpg" alt="Tarta de cumpleaños con buttercream rosa y dorado, con velas encendidas" loading="lazy" decoding="async">
+          <button type="button" class="cf-lupa" tabindex="-1" data-i18n-aria="aria.ampliar" aria-label="Ver la foto en grande">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </button>
           <div class="cf-velo-carta" aria-hidden="true"></div>
           <div class="cf-cuerpo">
             <span class="cf-etiqueta">#Cumpleaños</span>
@@ -1193,8 +1360,11 @@
               <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20un%20presupuesto%20para%20una%20tarta%20de%20cumpleaños" target="_blank" rel="noopener" class="cf-cta" data-i18n="cf.cta">Pregúntanos por esta</a>
           </div>
         </figure>
-        <figure class="cf-carta" data-diapo="1">
+        <figure class="cf-carta lqip-tarta-boda" data-diapo="1">
           <img src="assets/tarta-boda.jpg" alt="Tarta de boda de tres pisos, blanco y dorado, con flores de azúcar" loading="lazy" decoding="async">
+          <button type="button" class="cf-lupa" tabindex="-1" data-i18n-aria="aria.ampliar" aria-label="Ver la foto en grande">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </button>
           <div class="cf-velo-carta" aria-hidden="true"></div>
           <div class="cf-cuerpo">
             <span class="cf-etiqueta">#Bodas</span>
@@ -1204,8 +1374,11 @@
               <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20un%20presupuesto%20para%20una%20tarta%20de%20boda" target="_blank" rel="noopener" class="cf-cta" data-i18n="cf.cta">Pregúntanos por esta</a>
           </div>
         </figure>
-        <figure class="cf-carta" data-diapo="2">
+        <figure class="cf-carta lqip-tarta-tematica" data-diapo="2">
           <img src="assets/tarta-tematica.jpg" alt="Tarta infantil temática, colorida, con un osito modelado a mano" loading="lazy" decoding="async">
+          <button type="button" class="cf-lupa" tabindex="-1" data-i18n-aria="aria.ampliar" aria-label="Ver la foto en grande">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </button>
           <div class="cf-velo-carta" aria-hidden="true"></div>
           <div class="cf-cuerpo">
             <span class="cf-etiqueta">#Temáticas</span>
@@ -1215,8 +1388,11 @@
               <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20un%20presupuesto%20para%20una%20tarta%20tem%C3%A1tica" target="_blank" rel="noopener" class="cf-cta" data-i18n="cf.cta">Pregúntanos por esta</a>
           </div>
         </figure>
-        <figure class="cf-carta" data-diapo="3">
+        <figure class="cf-carta lqip-tres-leches" data-diapo="3">
           <img src="assets/tres-leches.jpg" alt="Porción de tarta tres leches con merengue tostado y almíbar" loading="lazy" decoding="async">
+          <button type="button" class="cf-lupa" tabindex="-1" data-i18n-aria="aria.ampliar" aria-label="Ver la foto en grande">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </button>
           <div class="cf-velo-carta" aria-hidden="true"></div>
           <div class="cf-cuerpo">
             <span class="cf-etiqueta">#ElMásPedido</span>
@@ -1226,8 +1402,11 @@
               <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%20la%20tarta%20tres%20leches" target="_blank" rel="noopener" class="cf-cta" data-i18n="cf.cta">Pregúntanos por esta</a>
           </div>
         </figure>
-        <figure class="cf-carta" data-diapo="4">
+        <figure class="cf-carta lqip-golfeados" data-diapo="4">
           <img src="assets/golfeados.jpg" alt="Golfeados venezolanos recién horneados, con papelón y queso" loading="lazy" decoding="async">
+          <button type="button" class="cf-lupa" tabindex="-1" data-i18n-aria="aria.ampliar" aria-label="Ver la foto en grande">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </button>
           <div class="cf-velo-carta" aria-hidden="true"></div>
           <div class="cf-cuerpo">
             <span class="cf-etiqueta">#SaborVenezolano</span>
@@ -1239,6 +1418,9 @@
         </figure>
         <figure class="cf-carta" data-diapo="5">
           <img src="assets/placeholder-tarta.jpg" alt="Foto pendiente: cookies estilo Nueva York" loading="lazy" decoding="async">
+          <button type="button" class="cf-lupa" tabindex="-1" data-i18n-aria="aria.ampliar" aria-label="Ver la foto en grande">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </button>
           <div class="cf-velo-carta" aria-hidden="true"></div>
           <div class="cf-cuerpo">
             <span class="cf-etiqueta">#Cookies</span>
@@ -1250,6 +1432,9 @@
         </figure>
         <figure class="cf-carta" data-diapo="6">
           <img src="assets/placeholder-tarta.jpg" alt="Foto pendiente: mesa de dulces para eventos" loading="lazy" decoding="async">
+          <button type="button" class="cf-lupa" tabindex="-1" data-i18n-aria="aria.ampliar" aria-label="Ver la foto en grande">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </button>
           <div class="cf-velo-carta" aria-hidden="true"></div>
           <div class="cf-cuerpo">
             <span class="cf-etiqueta">#Eventos</span>
@@ -1261,6 +1446,9 @@
         </figure>
         <figure class="cf-carta" data-diapo="7">
           <img src="assets/placeholder-tarta.jpg" alt="Foto pendiente: el obrador de Bin & Cami Cakes" loading="lazy" decoding="async">
+          <button type="button" class="cf-lupa" tabindex="-1" data-i18n-aria="aria.ampliar" aria-label="Ver la foto en grande">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </button>
           <div class="cf-velo-carta" aria-hidden="true"></div>
           <div class="cf-cuerpo">
             <span class="cf-etiqueta">#DetrasDeEscena</span>
@@ -1413,7 +1601,7 @@
       </li>
     </ol>
 
-    <div class="reveal mx-auto mt-12 max-w-3xl divide-y divide-rosa-palo overflow-hidden rounded-3xl border border-rosa-palo bg-crema">
+    <div id="faq" class="reveal mx-auto mt-12 max-w-3xl divide-y divide-rosa-palo overflow-hidden rounded-3xl border border-rosa-palo bg-crema">
       <details class="group" open>
         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 font-display text-lg font-bold text-tinta transition hover:bg-rosa-nube/60">
           <span data-i18n="faq.1.q">¿Con cuánta antelación hay que encargar?</span>
@@ -1504,7 +1692,14 @@
             </span>
             <div>
               <dt class="text-xs font-bold uppercase tracking-wider text-tinta/55" data-i18n="con.tel">Teléfono y WhatsApp</dt>
-              <dd class="mt-1"><a href="tel:+34656584027" class="font-display text-2xl font-extrabold text-frambuesa hover:text-frambuesa-oscuro" aria-label="Llamar al 656 584 027">656 584 027</a></dd>
+              <dd class="mt-1 flex items-center gap-1">
+                <a href="tel:+34656584027" class="font-display text-2xl font-extrabold text-frambuesa hover:text-frambuesa-oscuro" data-i18n-aria="aria.llamar" aria-label="Llamar al 656 584 027">656 584 027</a>
+                <!-- En un ordenador el enlace tel: no suele hacer nada: ahí lo
+                     útil es poder copiar el número. -->
+                <button type="button" class="copiar" data-copiar="656 584 027" data-i18n-aria="aria.copiar" aria-label="Copiar el número de teléfono">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>
+                </button>
+              </dd>
             </div>
           </div>
 
@@ -1718,6 +1913,35 @@
      que se busca en un teléfono, y el <body> lleva hueco abajo para que no
      tape el final de la página. A partir de sm vuelven a flotar a la derecha,
      que en un escritorio una barra de lado a lado sobra. -->
+<!-- ===================== VISOR DE FOTOS =====================
+     <dialog> nativo con showModal(): trae gratis el cierre con Escape, el
+     foco atrapado dentro y el fondo inerte, que a mano son tres fuentes de
+     fallos. -->
+<dialog id="visor" class="visor no-print" data-i18n-aria="aria.visor" aria-label="Foto ampliada">
+  <button type="button" id="visor-cerrar" class="visor-cerrar" data-i18n-aria="aria.cerrar" aria-label="Cerrar">
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button type="button" id="visor-ant" class="visor-flecha visor-ant" data-i18n-aria="aria.ant" aria-label="Tarta anterior">
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <figure class="visor-caja">
+    <img id="visor-foto" alt="">
+    <figcaption class="visor-pie">
+      <p id="visor-titulo" class="font-display text-xl font-bold"></p>
+      <p id="visor-desc" class="text-sm italic text-white/75"></p>
+      <p id="visor-cuenta" class="visor-cuenta"></p>
+    </figcaption>
+  </figure>
+  <button type="button" id="visor-sig" class="visor-flecha visor-sig" data-i18n-aria="aria.sig" aria-label="Tarta siguiente">
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+</dialog>
+
+<button type="button" id="arriba" class="arriba no-print" data-i18n-aria="aria.arriba" aria-label="Volver arriba">
+  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<div id="aviso" role="status" aria-live="polite"></div>
+
 <div id="acciones" class="no-print">
   <div id="panel-chat" class="vidrio flex max-h-[min(30rem,calc(100vh-12rem))] flex-col overflow-hidden rounded-3xl"
        role="dialog" aria-modal="false" aria-labelledby="chat-titulo" aria-hidden="true">
@@ -1731,6 +1955,7 @@
         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </header>
+    <div id="chat-progreso" class="chat-progreso" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" data-i18n-aria="aria.progreso" aria-label="Progreso del presupuesto"></div>
     <div id="chat-hilo" class="flex-1 space-y-2.5 overflow-y-auto px-4 py-4" aria-live="polite"></div>
     <div id="chat-opciones" class="flex flex-wrap gap-2 border-t border-rosa-nube px-4 py-3"></div>
   </div>
@@ -1767,7 +1992,7 @@
    es lo que habla el obrador. */
 (function(){
   'use strict';
-  var TRAD = {"gl":{"titulo":"Tartas personalizadas en Ourense | Bin & Cami Cakes","nav.especialidades":"Especialidades","nav.venezolano":"Venezolano","nav.tartas":"Tartas","nav.opiniones":"Opinións","nav.encargar":"Encargar","nav.contacto":"Contacto","menu.sabor":"Sabor venezolano","menu.tartas":"As nosas tartas","menu.encargar":"Como encargar","menu.contacto":"Contacto e horarios","cta.idea":"Cóntanos a túa idea","hero.badge":"Obradoiro artesán en Ourense","hero.h1":"Tartas personalizadas<br>en <span class=\"subrayado text-frambuesa\">Ourense<\/span>","hero.lema":"Ti imaxinas, nós facémolo.","hero.p":"Deseños únicos para momentos inesquecibles, e a repostería venezolana que nos fixo coñecidas na cidade.","hero.scroll":"Baixa para velas","ph.mesa":"Mesa de doces","st.resenas":"18 recensións en Google","st.dias":"Os 7 días","st.domingos":"Abrimos tamén os domingos","st.posio":"Xunto ao Posío","esp.ante":"Para cada celebración","esp.h2":"Deseños únicos para <span class=\"subrayado\">momentos inesquecibles<\/span>","esp.p":"Cóntasnos a idea, a data e para cantas persoas. Nós debuxámola, pasámoste o prezo e tela lista o día que a precisas.","esp.1.h":"Aniversarios","esp.1.p":"Desde a tarta do primeiro aniño ata a sorpresa temática que pida o cativo. Con figuras, cores e o nome ben grande.","esp.2.h":"Bodas","esp.2.p":"Tartas de varios pisos, mesa de doces e detalles para os convidados. Probamos sabores contigo antes de decidir.","esp.3.h":"Eventos especiais","esp.3.p":"Comuñóns, bautizos, baby showers, xubilacións e celebracións de empresa. Adaptámonos ao número de comensais.","esp.4.h":"Temáticas","esp.4.p":"O seu videoxogo, a súa serie ou o seu equipo favorito. Se o imaxinas, levámolo á tarta.","vz.ante":"O que nos fai distintas","vz.h2":"O <span class=\"subrayado text-frambuesa\">tres leches<\/span> que buscabas, no medio de Ourense","vz.p1":"Somos unha pastelería venezolana, e iso nótase no mostrador. Xunto ás tartas de encargo facemos os doces da casa coa receita de sempre: biscoito calado nos seus tres leites, golfeados recén feitos e as piñitas que tanto nos piden.","vz.p2":"Non fai falla que nos creas. É o que máis repiten os nosos clientes en Google.","vz.cita.autor":"— Andreína Gómez, recensión en Google","vz.cta":"Pregúntanos polo tres leches","vz.badge":"O máis pedido","vz.1.h":"Tarta tres leches","vz.1.p":"Esponxosa, zumenta e nada empalagosa. Por porción no mostrador ou enteira por encargo.","vz.2.p":"O clásico venezolano de papelón e queixo branco. Recén feitos, para levar quentiños.","vz.3.p":"Doce de follado recheo, dos que desaparecen antes de chegar á casa.","vz.4.p":"Grosas, co centro tenro. «Se as probas xa non quererás outras», di unha clienta.","gal.ante":"O noso traballo","gal.h2":"Tartas que xa <span class=\"subrayado\">soplaron velas<\/span>","gal.p":"Cada unha saíu dunha idea que alguén nos contou por WhatsApp. Podes ver moitas máis no noso Instagram.","cf.1.t":"Tarta de aniversario","cf.1.d":"Con figuras e o nome ben grande","cf.2.t":"Tarta de boda","cf.2.d":"Varios pisos e flores de azucre","cf.3.t":"Tarta temática","cf.3.d":"O seu personaxe favorito, modelado a man","cf.4.t":"Porción de tres leches","cf.4.d":"O máis pedido do mostrador","cf.5.d":"Papelón e queixo, recén feitos","cf.6.d":"Grosas e co centro tenro","cf.7.d":"Para bodas e comuñóns","cf.7.cta":"Cóntanos o teu evento","cf.8.t":"O obradoiro","cf.8.d":"De onde sae todo cada mañá","cf.cta":"Pregúntanos por esta","cf.mostrando":"Mostrando {n} de {t}: ","gal.ig":"Ver máis en @bin_camicakes","op.h2":"O que din os que xa <span class=\"subrayado\">probaron<\/span>","op.p1":"recensións en Google, cunha media de <strong class=\"font-semibold text-tinta\">4,9 sobre 5<\/strong>","op.ver":"Ver as recensións en Google","op.p2":"Aquí non poñemos frases nosas en boca de ninguén: son as recensións tal cal as escribiron. As que Google recorta saen recortadas, con ligazón para lelas enteiras.","op.f.todas":"Todas","op.f.recientes":"Máis recentes","op.pista.raton":"Pasa o rato por riba para paralas · preme","op.pista.toca":"Toca","op.pista.resto":"unha tarxeta para abrir a súa ficha en Google","res.semanas":"Hai semanas","res.mes":"Hai un mes","res.meses":"Hai {n} meses","res.ver":"Ver as recensións en Google →","res.estrellas":"5 de 5 estrelas","enc.h2":"Tres pasos e <span class=\"subrayado\">xa está<\/span>","enc.p":"Sen formularios longos nin rexistros. Escríbesnos, falámolo e vés recollela.","enc.1.p":"Por WhatsApp ao <a href=\"tel:+34656584027\" class=\"font-semibold text-frambuesa underline underline-offset-2\">656 584 027<\/a>. Dinos a data, para cantas persoas e que imaxinas. Se tes unha foto de referencia, mándaa: axuda moitísimo.","enc.2.h":"Pasámoste o prezo","enc.2.p":"Confirmámoste se chegamos á túa data e canto custa, co sabor e o tamaño xa pechados. Sen compromiso ata que nos digas que si.","enc.3.h":"Recóllela lista","enc.3.p":"O día acordado tela na tenda, na súa caixa e preparada para transportar. Puntuais, que é o que máis nos agradecen.","faq.1.q":"Con canta antelación hai que encargar?","faq.1.r":"O habitual é avisar con polo menos <strong class=\"font-semibold text-tinta\">72 horas<\/strong>. Para bodas ou deseños con figuras modeladas, mellor unha ou dúas semanas. Escríbenos e confirmámoste se chegamos á túa data.","faq.2.q":"Que é exactamente a tarta tres leches?","faq.2.r":"A sobremesa venezolana máis coñecida: biscoito esponxoso calado en tres leites e cuberto de merengue. Facémola coa receita da casa, e é o que máis nos piden repetir.","faq.3.q":"Facedes tartas para alerxias ou intolerancias?","faq.3.r":"Cóntanos a intolerancia ao facer o encargo e dicímosche con franqueza que podemos adaptar. Traballamos nun obradoiro pequeno onde se manipulan glute, ovo, lácteos e froitos secos, así que <strong class=\"font-semibold text-tinta\">non podemos garantir a ausencia total de trazas<\/strong>.","faq.4.q":"Onde estades e hai que pedir cita?","faq.4.r":"En <strong class=\"font-semibold text-tinta\">Rúa do Progreso 27, baixo 3<\/strong>, xunto ao Xardín do Posío. Abrimos os sete días e non fai falla cita: pásate a ver as tartas expostas.","con.ante":"Onde estamos","con.h2":"Agardámoste xunto ao <span class=\"subrayado\">Xardín do Posío<\/span>","con.dir":"Enderezo","con.tel":"Teléfono e WhatsApp","con.horario":"Horario · abrimos os 7 días","con.caption":"Horario de Bin &amp; Cami Cakes","dia.1":"Luns","dia.2":"Martes","dia.3":"Mércores","dia.4":"Xoves","dia.5":"Venres","dia.6":"Sábado","dia.0":"Domingo","hor.dias":"domingo|luns|martes|mércores|xoves|venres|sábado","hor.cierraEn":"Aberto · pecha en {n} min","hor.abiertoHasta":"Aberto agora · ata as {h}","hor.abreHoy":"Pechado · abre hoxe ás {h}","hor.abreEl":"Pechado · abre o {d} ás {h}","con.wa":"Escríbenos por WhatsApp","mapa.h":"Estamos no Xardín do Posío","mapa.ver":"Ver o mapa en Google Maps","mapa.nota":"O mapa incrustado non se puido cargar aquí.","mapa.llegar":"Como chegar","pie.desc":"Pastelería artesá en Ourense. Tartas personalizadas para cada celebración e a repostería venezolana de sempre.","pie.web":"A web","pie.priv":"Política de privacidade","pie.cookies":"Política de cookies","pie.aviso":"Aviso legal","pie.lema":"TARTAS · SOBREMESAS · DOCES · MOMENTOS FELICES","pie.copy":"Tartas personalizadas en Ourense","chat.titulo":"Orzamento da túa tarta","chat.sub":"Preparámosche a mensaxe en 5 preguntas","chat.abrir":"Calcular a miña tarta","chat.cerrar":"Pechar asistente","aria.menu":"Abrir o menú de navegación","aria.menu.cerrar":"Pechar o menú de navegación","aria.ant":"Tarta anterior","aria.sig":"Tarta seguinte","aria.wa":"Escribir por WhatsApp a Bin e Cami Cakes","aria.chat":"Calcular o orzamento da miña tarta","aria.chat.cerrar":"Pechar o asistente de orzamento","chat.pasos":[{"k":"ocasion","p":"Ola! Son o asistente de Bin & Cami Cakes 🧁 Prepároche o encargo en cinco preguntas. Para que ocasión é a tarta?","o":["Aniversario","Boda","Comuñón ou bautizo","Só por antollo"]},{"k":"personas","p":"Para cantas persoas, máis ou menos?","o":["Ata 10","Entre 10 e 20","Entre 20 e 40","Máis de 40"]},{"k":"sabor","p":"Que sabor che apetece?","o":["Tres leches","Chocolate","Red velvet","Aínda non o sei, aconséllame"]},{"k":"fecha","p":"Para cando a precisas?","o":["Esta semana","A semana que vén","Dentro dun mes ou máis","Aínda non teño data"]},{"k":"diseno","p":"E por último, como a imaxinas?","o":["Sinxela e elegante","Con figuras modeladas","Dunha temática concreta","Teño unha foto de referencia"]}],"chat.listo1":"Listo! Isto é o que lle paso ao obradoiro:","chat.personas":"{n} persoas","chat.sabor":"Sabor: ","chat.fecha":"Data: ","chat.diseno":"Deseño: ","chat.confirm":"Confirmámoste prezo e dispoñibilidade por WhatsApp. O orzamento é gratis e sen compromiso. (A mensaxe vai en castelán, que é o que fala o obradoiro.)","chat.enviar":"Envialo por WhatsApp","chat.otra":"Empezar de novo"},"en":{"titulo":"Custom Cakes in Ourense | Bin & Cami Cakes","nav.especialidades":"Specialities","nav.venezolano":"Venezuelan","nav.tartas":"Cakes","nav.opiniones":"Reviews","nav.encargar":"Order","nav.contacto":"Contact","menu.sabor":"Venezuelan flavour","menu.tartas":"Our cakes","menu.encargar":"How to order","menu.contacto":"Contact & opening hours","cta.idea":"Tell us your idea","hero.badge":"Artisan bakery in Ourense","hero.h1":"Custom Cakes<br>in <span class=\"subrayado text-frambuesa\">Ourense<\/span>","hero.lema":"You imagine it, we make it.","hero.p":"Unique designs for unforgettable moments, and the Venezuelan pastries that made us known around town.","hero.scroll":"Scroll to see them","ph.mesa":"Dessert table","st.resenas":"18 Google reviews","st.dias":"7 days a week","st.domingos":"Open on Sundays too","st.posio":"Next to the Posío","esp.ante":"For every celebration","esp.h2":"Unique designs for <span class=\"subrayado\">unforgettable moments<\/span>","esp.p":"Tell us the idea, the date and how many people. We sketch it, send you a price and have it ready on the day you need it.","esp.1.h":"Birthdays","esp.1.p":"From the first-birthday cake to the themed surprise the little one asks for. With figures, colours and their name in big letters.","esp.2.h":"Weddings","esp.2.p":"Tiered cakes, dessert tables and favours for your guests. We taste flavours with you before deciding.","esp.3.h":"Special events","esp.3.p":"Communions, christenings, baby showers, retirements and company celebrations. We adapt to your guest count.","esp.4.h":"Themed","esp.4.p":"Their favourite game, show or team. If you can picture it, we put it on the cake.","vz.ante":"What makes us different","vz.h2":"The <span class=\"subrayado text-frambuesa\">tres leches<\/span> you were looking for, right in Ourense","vz.p1":"We're a Venezuelan bakery, and you can tell at the counter. Alongside made-to-order cakes we bake our homestyle sweets with the recipes we grew up on: sponge soaked in three milks, freshly made golfeados and the piñitas everyone asks for.","vz.p2":"You don't have to take our word for it. It's what our customers say most on Google.","vz.cita.autor":"— Andreína Gómez, Google review (in Spanish)","vz.cta":"Ask us about the tres leches","vz.badge":"Most popular","vz.1.h":"Tres leches cake","vz.1.p":"Fluffy, moist and never too sweet. By the slice at the counter or whole to order.","vz.2.p":"The Venezuelan classic with papelón and white cheese. Fresh from the oven, to take away warm.","vz.3.p":"Filled puff pastries, the kind that vanish before you get home.","vz.4.p":"Thick, with a soft centre. “Once you try them you won't want any others,” says one customer.","gal.ante":"Our work","gal.h2":"Cakes that have already <span class=\"subrayado\">blown out candles<\/span>","gal.p":"Each one started as an idea someone sent us on WhatsApp. You can see many more on our Instagram.","cf.1.t":"Birthday cake","cf.1.d":"With figures and the name in big letters","cf.2.t":"Wedding cake","cf.2.d":"Several tiers and sugar flowers","cf.3.t":"Themed cake","cf.3.d":"Their favourite character, modelled by hand","cf.4.t":"Slice of tres leches","cf.4.d":"The counter's bestseller","cf.5.d":"Papelón and cheese, freshly baked","cf.6.d":"Thick, with a soft centre","cf.7.d":"For weddings and communions","cf.7.cta":"Tell us about your event","cf.8.t":"The bakery","cf.8.d":"Where everything comes out each morning","cf.cta":"Ask us about this one","cf.mostrando":"Showing {n} of {t}: ","gal.ig":"See more at @bin_camicakes","op.h2":"What those who've <span class=\"subrayado\">tried us<\/span> say","op.p1":"Google reviews, with an average of <strong class=\"font-semibold text-tinta\">4.9 out of 5<\/strong>","op.ver":"Read the reviews on Google","op.p2":"We don't put words in anyone's mouth: these are the reviews exactly as written, in Spanish. The ones Google trims appear trimmed, with a link to read them in full.","op.f.todas":"All","op.f.recientes":"Most recent","op.pista.raton":"Hover to pause them · click","op.pista.toca":"Tap","op.pista.resto":"a card to open its Google listing","res.semanas":"Weeks ago","res.mes":"A month ago","res.meses":"{n} months ago","res.ver":"Read the reviews on Google →","res.estrellas":"5 out of 5 stars","enc.h2":"Three steps and <span class=\"subrayado\">you're done<\/span>","enc.p":"No long forms, no sign-ups. You message us, we talk it through and you come and pick it up.","enc.1.p":"On WhatsApp at <a href=\"tel:+34656584027\" class=\"font-semibold text-frambuesa underline underline-offset-2\">656 584 027<\/a>. Tell us the date, how many people and what you have in mind. A reference photo helps enormously.","enc.2.h":"We send you a price","enc.2.p":"We confirm whether we can make your date and what it costs, with flavour and size settled. No commitment until you say yes.","enc.3.h":"Pick it up ready","enc.3.p":"On the agreed day it's waiting at the shop, boxed and ready to travel. Punctual, which is what people thank us for most.","faq.1.q":"How far in advance should I order?","faq.1.r":"Usually at least <strong class=\"font-semibold text-tinta\">72 hours<\/strong>. For weddings or designs with modelled figures, better one or two weeks. Message us and we'll confirm whether we can make your date.","faq.2.q":"What exactly is a tres leches cake?","faq.2.r":"Venezuela's best-known dessert: a fluffy sponge soaked in three milks and topped with meringue. We make it with our family recipe, and it's the one people come back for.","faq.3.q":"Do you make cakes for allergies or intolerances?","faq.3.r":"Tell us about the intolerance when you order and we'll be honest about what we can adapt. We work in a small bakery that handles gluten, egg, dairy and nuts, so <strong class=\"font-semibold text-tinta\">we can't guarantee the total absence of traces<\/strong>.","faq.4.q":"Where are you and do I need an appointment?","faq.4.r":"At <strong class=\"font-semibold text-tinta\">Rúa do Progreso 27, bajo 3<\/strong>, next to the Jardín do Posío. We're open seven days a week and no appointment is needed: drop by and see the cakes on display.","con.ante":"Where we are","con.h2":"We're waiting for you next to the <span class=\"subrayado\">Jardín do Posío<\/span>","con.dir":"Address","con.tel":"Phone & WhatsApp","con.horario":"Opening hours · open 7 days","con.caption":"Bin &amp; Cami Cakes opening hours","dia.1":"Monday","dia.2":"Tuesday","dia.3":"Wednesday","dia.4":"Thursday","dia.5":"Friday","dia.6":"Saturday","dia.0":"Sunday","hor.dias":"Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday","hor.cierraEn":"Open · closes in {n} min","hor.abiertoHasta":"Open now · until {h}","hor.abreHoy":"Closed · opens today at {h}","hor.abreEl":"Closed · opens {d} at {h}","con.wa":"Message us on WhatsApp","mapa.h":"We're at the Jardín do Posío","mapa.ver":"Open the map in Google Maps","mapa.nota":"The embedded map couldn't load here.","mapa.llegar":"Directions","pie.desc":"Artisan bakery in Ourense. Custom cakes for every celebration and the Venezuelan pastries we grew up with.","pie.web":"Site","pie.priv":"Privacy policy","pie.cookies":"Cookie policy","pie.aviso":"Legal notice","pie.lema":"CAKES · DESSERTS · SWEETS · HAPPY MOMENTS","pie.copy":"Custom cakes in Ourense","chat.titulo":"Your cake quote","chat.sub":"We'll draft your message in 5 questions","chat.abrir":"Price my cake","chat.cerrar":"Close assistant","aria.menu":"Open navigation menu","aria.menu.cerrar":"Close navigation menu","aria.ant":"Previous cake","aria.sig":"Next cake","aria.wa":"Message Bin & Cami Cakes on WhatsApp","aria.chat":"Get a quote for my cake","aria.chat.cerrar":"Close the quote assistant","chat.pasos":[{"k":"ocasion","p":"Hi! I'm the Bin & Cami Cakes assistant 🧁 I'll prepare your order in five questions. What's the occasion?","o":["Birthday","Wedding","Communion or christening","Just because"]},{"k":"personas","p":"For roughly how many people?","o":["Up to 10","Between 10 and 20","Between 20 and 40","More than 40"]},{"k":"sabor","p":"Which flavour would you like?","o":["Tres leches","Chocolate","Red velvet","I don't know yet, advise me"]},{"k":"fecha","p":"When do you need it?","o":["This week","Next week","In a month or more","I don't have a date yet"]},{"k":"diseno","p":"And lastly, how do you picture it?","o":["Simple and elegant","With modelled figures","A specific theme","I have a reference photo"]}],"chat.listo1":"Done! This is what I'll pass on to the bakery:","chat.personas":"{n} people","chat.sabor":"Flavour: ","chat.fecha":"Date: ","chat.diseno":"Design: ","chat.confirm":"We'll confirm price and availability on WhatsApp. The quote is free and there's no commitment. (The message is sent in Spanish, which is what the bakery speaks.)","chat.enviar":"Send on WhatsApp","chat.otra":"Start over"}};
+  var TRAD = {"gl":{"titulo":"Tartas personalizadas en Ourense | Bin & Cami Cakes","nav.especialidades":"Especialidades","nav.venezolano":"Venezolano","nav.tartas":"Tartas","nav.opiniones":"Opinións","nav.encargar":"Encargar","nav.contacto":"Contacto","menu.sabor":"Sabor venezolano","menu.tartas":"As nosas tartas","menu.encargar":"Como encargar","menu.contacto":"Contacto e horarios","cta.idea":"Cóntanos a túa idea","hero.badge":"Obradoiro artesán en Ourense","hero.h1":"Tartas personalizadas<br>en <span class=\"subrayado text-frambuesa\">Ourense<\/span>","hero.lema":"Ti imaxinas, nós facémolo.","hero.p":"Deseños únicos para momentos inesquecibles, e a repostería venezolana que nos fixo coñecidas na cidade.","hero.scroll":"Baixa para velas","ph.mesa":"Mesa de doces","st.resenas":"18 recensións en Google","st.dias":"Os 7 días","st.domingos":"Abrimos tamén os domingos","st.posio":"Xunto ao Posío","esp.ante":"Para cada celebración","esp.h2":"Deseños únicos para <span class=\"subrayado\">momentos inesquecibles<\/span>","esp.p":"Cóntasnos a idea, a data e para cantas persoas. Nós debuxámola, pasámoste o prezo e tela lista o día que a precisas.","esp.1.h":"Aniversarios","esp.1.p":"Desde a tarta do primeiro aniño ata a sorpresa temática que pida o cativo. Con figuras, cores e o nome ben grande.","esp.2.h":"Bodas","esp.2.p":"Tartas de varios pisos, mesa de doces e detalles para os convidados. Probamos sabores contigo antes de decidir.","esp.3.h":"Eventos especiais","esp.3.p":"Comuñóns, bautizos, baby showers, xubilacións e celebracións de empresa. Adaptámonos ao número de comensais.","esp.4.h":"Temáticas","esp.4.p":"O seu videoxogo, a súa serie ou o seu equipo favorito. Se o imaxinas, levámolo á tarta.","vz.ante":"O que nos fai distintas","vz.h2":"O <span class=\"subrayado text-frambuesa\">tres leches<\/span> que buscabas, no medio de Ourense","vz.p1":"Somos unha pastelería venezolana, e iso nótase no mostrador. Xunto ás tartas de encargo facemos os doces da casa coa receita de sempre: biscoito calado nos seus tres leites, golfeados recén feitos e as piñitas que tanto nos piden.","vz.p2":"Non fai falla que nos creas. É o que máis repiten os nosos clientes en Google.","vz.cita.autor":"— Andreína Gómez, recensión en Google","vz.cta":"Pregúntanos polo tres leches","vz.badge":"O máis pedido","vz.1.h":"Tarta tres leches","vz.1.p":"Esponxosa, zumenta e nada empalagosa. Por porción no mostrador ou enteira por encargo.","vz.2.p":"O clásico venezolano de papelón e queixo branco. Recén feitos, para levar quentiños.","vz.3.p":"Doce de follado recheo, dos que desaparecen antes de chegar á casa.","vz.4.p":"Grosas, co centro tenro. «Se as probas xa non quererás outras», di unha clienta.","gal.ante":"O noso traballo","gal.h2":"Tartas que xa <span class=\"subrayado\">soplaron velas<\/span>","gal.p":"Cada unha saíu dunha idea que alguén nos contou por WhatsApp. Podes ver moitas máis no noso Instagram.","cf.1.t":"Tarta de aniversario","cf.1.d":"Con figuras e o nome ben grande","cf.2.t":"Tarta de boda","cf.2.d":"Varios pisos e flores de azucre","cf.3.t":"Tarta temática","cf.3.d":"O seu personaxe favorito, modelado a man","cf.4.t":"Porción de tres leches","cf.4.d":"O máis pedido do mostrador","cf.5.d":"Papelón e queixo, recén feitos","cf.6.d":"Grosas e co centro tenro","cf.7.d":"Para bodas e comuñóns","cf.7.cta":"Cóntanos o teu evento","cf.8.t":"O obradoiro","cf.8.d":"De onde sae todo cada mañá","cf.cta":"Pregúntanos por esta","cf.mostrando":"Mostrando {n} de {t}: ","gal.ig":"Ver máis en @bin_camicakes","op.h2":"O que din os que xa <span class=\"subrayado\">probaron<\/span>","op.p1":"recensións en Google, cunha media de <strong class=\"font-semibold text-tinta\">4,9 sobre 5<\/strong>","op.ver":"Ver as recensións en Google","op.p2":"Aquí non poñemos frases nosas en boca de ninguén: son as recensións tal cal as escribiron. As que Google recorta saen recortadas, con ligazón para lelas enteiras.","op.f.todas":"Todas","op.f.recientes":"Máis recentes","op.pista.raton":"Pasa o rato por riba para paralas · preme","op.pista.toca":"Toca","op.pista.resto":"unha tarxeta para abrir a súa ficha en Google","res.semanas":"Hai semanas","res.mes":"Hai un mes","res.meses":"Hai {n} meses","res.ver":"Ver as recensións en Google →","res.estrellas":"5 de 5 estrelas","enc.h2":"Tres pasos e <span class=\"subrayado\">xa está<\/span>","enc.p":"Sen formularios longos nin rexistros. Escríbesnos, falámolo e vés recollela.","enc.1.p":"Por WhatsApp ao <a href=\"tel:+34656584027\" class=\"font-semibold text-frambuesa underline underline-offset-2\">656 584 027<\/a>. Dinos a data, para cantas persoas e que imaxinas. Se tes unha foto de referencia, mándaa: axuda moitísimo.","enc.2.h":"Pasámoste o prezo","enc.2.p":"Confirmámoste se chegamos á túa data e canto custa, co sabor e o tamaño xa pechados. Sen compromiso ata que nos digas que si.","enc.3.h":"Recóllela lista","enc.3.p":"O día acordado tela na tenda, na súa caixa e preparada para transportar. Puntuais, que é o que máis nos agradecen.","faq.1.q":"Con canta antelación hai que encargar?","faq.1.r":"O habitual é avisar con polo menos <strong class=\"font-semibold text-tinta\">72 horas<\/strong>. Para bodas ou deseños con figuras modeladas, mellor unha ou dúas semanas. Escríbenos e confirmámoste se chegamos á túa data.","faq.2.q":"Que é exactamente a tarta tres leches?","faq.2.r":"A sobremesa venezolana máis coñecida: biscoito esponxoso calado en tres leites e cuberto de merengue. Facémola coa receita da casa, e é o que máis nos piden repetir.","faq.3.q":"Facedes tartas para alerxias ou intolerancias?","faq.3.r":"Cóntanos a intolerancia ao facer o encargo e dicímosche con franqueza que podemos adaptar. Traballamos nun obradoiro pequeno onde se manipulan glute, ovo, lácteos e froitos secos, así que <strong class=\"font-semibold text-tinta\">non podemos garantir a ausencia total de trazas<\/strong>.","faq.4.q":"Onde estades e hai que pedir cita?","faq.4.r":"En <strong class=\"font-semibold text-tinta\">Rúa do Progreso 27, baixo 3<\/strong>, xunto ao Xardín do Posío. Abrimos os sete días e non fai falla cita: pásate a ver as tartas expostas.","con.ante":"Onde estamos","con.h2":"Agardámoste xunto ao <span class=\"subrayado\">Xardín do Posío<\/span>","con.dir":"Enderezo","con.tel":"Teléfono e WhatsApp","con.horario":"Horario · abrimos os 7 días","con.caption":"Horario de Bin &amp; Cami Cakes","dia.1":"Luns","dia.2":"Martes","dia.3":"Mércores","dia.4":"Xoves","dia.5":"Venres","dia.6":"Sábado","dia.0":"Domingo","hor.dias":"domingo|luns|martes|mércores|xoves|venres|sábado","hor.cierraEn":"Aberto · pecha en {n} min","hor.abiertoHasta":"Aberto agora · ata as {h}","hor.abreHoy":"Pechado · abre hoxe ás {h}","hor.abreEl":"Pechado · abre o {d} ás {h}","con.wa":"Escríbenos por WhatsApp","mapa.h":"Estamos no Xardín do Posío","mapa.ver":"Ver o mapa en Google Maps","mapa.nota":"O mapa incrustado non se puido cargar aquí.","mapa.llegar":"Como chegar","pie.desc":"Pastelería artesá en Ourense. Tartas personalizadas para cada celebración e a repostería venezolana de sempre.","pie.web":"A web","pie.priv":"Política de privacidade","pie.cookies":"Política de cookies","pie.aviso":"Aviso legal","pie.lema":"TARTAS · SOBREMESAS · DOCES · MOMENTOS FELICES","pie.copy":"Tartas personalizadas en Ourense","chat.titulo":"Orzamento da túa tarta","chat.sub":"Preparámosche a mensaxe en 5 preguntas","chat.abrir":"Calcular a miña tarta","chat.cerrar":"Pechar asistente","aria.menu":"Abrir o menú de navegación","aria.menu.cerrar":"Pechar o menú de navegación","aria.ant":"Tarta anterior","aria.sig":"Tarta seguinte","aria.wa":"Escribir por WhatsApp a Bin e Cami Cakes","aria.chat":"Calcular o orzamento da miña tarta","aria.chat.cerrar":"Pechar o asistente de orzamento","chat.pasos":[{"k":"ocasion","p":"Ola! Son o asistente de Bin & Cami Cakes 🧁 Prepároche o encargo en cinco preguntas. Para que ocasión é a tarta?","o":["Aniversario","Boda","Comuñón ou bautizo","Só por antollo"]},{"k":"personas","p":"Para cantas persoas, máis ou menos?","o":["Ata 10","Entre 10 e 20","Entre 20 e 40","Máis de 40"]},{"k":"sabor","p":"Que sabor che apetece?","o":["Tres leches","Chocolate","Red velvet","Aínda non o sei, aconséllame"]},{"k":"fecha","p":"Para cando a precisas?","o":["Esta semana","A semana que vén","Dentro dun mes ou máis","Aínda non teño data"]},{"k":"diseno","p":"E por último, como a imaxinas?","o":["Sinxela e elegante","Con figuras modeladas","Dunha temática concreta","Teño unha foto de referencia"]}],"chat.listo1":"Listo! Isto é o que lle paso ao obradoiro:","chat.personas":"{n} persoas","chat.sabor":"Sabor: ","chat.fecha":"Data: ","chat.diseno":"Deseño: ","chat.confirm":"Confirmámoste prezo e dispoñibilidade por WhatsApp. O orzamento é gratis e sen compromiso. (A mensaxe vai en castelán, que é o que fala o obradoiro.)","chat.enviar":"Envialo por WhatsApp","chat.otra":"Empezar de novo","aria.llamar":"Chamar ao 656 584 027","aria.copiar":"Copiar o número de teléfono","aria.arriba":"Volver arriba","aria.progreso":"Progreso do orzamento","aria.ampliar":"Ver a foto en grande","aria.visor":"Foto ampliada","aria.cerrar":"Pechar","aviso.copiado":"Copiado: ","aviso.nocopia":"Non se puido copiar","op.aviso1":"Amosando {n} recensión","op.avisoN":"Amosando {n} recensións"},"en":{"titulo":"Custom Cakes in Ourense | Bin & Cami Cakes","nav.especialidades":"Specialities","nav.venezolano":"Venezuelan","nav.tartas":"Cakes","nav.opiniones":"Reviews","nav.encargar":"Order","nav.contacto":"Contact","menu.sabor":"Venezuelan flavour","menu.tartas":"Our cakes","menu.encargar":"How to order","menu.contacto":"Contact & opening hours","cta.idea":"Tell us your idea","hero.badge":"Artisan bakery in Ourense","hero.h1":"Custom Cakes<br>in <span class=\"subrayado text-frambuesa\">Ourense<\/span>","hero.lema":"You imagine it, we make it.","hero.p":"Unique designs for unforgettable moments, and the Venezuelan pastries that made us known around town.","hero.scroll":"Scroll to see them","ph.mesa":"Dessert table","st.resenas":"18 Google reviews","st.dias":"7 days a week","st.domingos":"Open on Sundays too","st.posio":"Next to the Posío","esp.ante":"For every celebration","esp.h2":"Unique designs for <span class=\"subrayado\">unforgettable moments<\/span>","esp.p":"Tell us the idea, the date and how many people. We sketch it, send you a price and have it ready on the day you need it.","esp.1.h":"Birthdays","esp.1.p":"From the first-birthday cake to the themed surprise the little one asks for. With figures, colours and their name in big letters.","esp.2.h":"Weddings","esp.2.p":"Tiered cakes, dessert tables and favours for your guests. We taste flavours with you before deciding.","esp.3.h":"Special events","esp.3.p":"Communions, christenings, baby showers, retirements and company celebrations. We adapt to your guest count.","esp.4.h":"Themed","esp.4.p":"Their favourite game, show or team. If you can picture it, we put it on the cake.","vz.ante":"What makes us different","vz.h2":"The <span class=\"subrayado text-frambuesa\">tres leches<\/span> you were looking for, right in Ourense","vz.p1":"We're a Venezuelan bakery, and you can tell at the counter. Alongside made-to-order cakes we bake our homestyle sweets with the recipes we grew up on: sponge soaked in three milks, freshly made golfeados and the piñitas everyone asks for.","vz.p2":"You don't have to take our word for it. It's what our customers say most on Google.","vz.cita.autor":"— Andreína Gómez, Google review (in Spanish)","vz.cta":"Ask us about the tres leches","vz.badge":"Most popular","vz.1.h":"Tres leches cake","vz.1.p":"Fluffy, moist and never too sweet. By the slice at the counter or whole to order.","vz.2.p":"The Venezuelan classic with papelón and white cheese. Fresh from the oven, to take away warm.","vz.3.p":"Filled puff pastries, the kind that vanish before you get home.","vz.4.p":"Thick, with a soft centre. “Once you try them you won't want any others,” says one customer.","gal.ante":"Our work","gal.h2":"Cakes that have already <span class=\"subrayado\">blown out candles<\/span>","gal.p":"Each one started as an idea someone sent us on WhatsApp. You can see many more on our Instagram.","cf.1.t":"Birthday cake","cf.1.d":"With figures and the name in big letters","cf.2.t":"Wedding cake","cf.2.d":"Several tiers and sugar flowers","cf.3.t":"Themed cake","cf.3.d":"Their favourite character, modelled by hand","cf.4.t":"Slice of tres leches","cf.4.d":"The counter's bestseller","cf.5.d":"Papelón and cheese, freshly baked","cf.6.d":"Thick, with a soft centre","cf.7.d":"For weddings and communions","cf.7.cta":"Tell us about your event","cf.8.t":"The bakery","cf.8.d":"Where everything comes out each morning","cf.cta":"Ask us about this one","cf.mostrando":"Showing {n} of {t}: ","gal.ig":"See more at @bin_camicakes","op.h2":"What those who've <span class=\"subrayado\">tried us<\/span> say","op.p1":"Google reviews, with an average of <strong class=\"font-semibold text-tinta\">4.9 out of 5<\/strong>","op.ver":"Read the reviews on Google","op.p2":"We don't put words in anyone's mouth: these are the reviews exactly as written, in Spanish. The ones Google trims appear trimmed, with a link to read them in full.","op.f.todas":"All","op.f.recientes":"Most recent","op.pista.raton":"Hover to pause them · click","op.pista.toca":"Tap","op.pista.resto":"a card to open its Google listing","res.semanas":"Weeks ago","res.mes":"A month ago","res.meses":"{n} months ago","res.ver":"Read the reviews on Google →","res.estrellas":"5 out of 5 stars","enc.h2":"Three steps and <span class=\"subrayado\">you're done<\/span>","enc.p":"No long forms, no sign-ups. You message us, we talk it through and you come and pick it up.","enc.1.p":"On WhatsApp at <a href=\"tel:+34656584027\" class=\"font-semibold text-frambuesa underline underline-offset-2\">656 584 027<\/a>. Tell us the date, how many people and what you have in mind. A reference photo helps enormously.","enc.2.h":"We send you a price","enc.2.p":"We confirm whether we can make your date and what it costs, with flavour and size settled. No commitment until you say yes.","enc.3.h":"Pick it up ready","enc.3.p":"On the agreed day it's waiting at the shop, boxed and ready to travel. Punctual, which is what people thank us for most.","faq.1.q":"How far in advance should I order?","faq.1.r":"Usually at least <strong class=\"font-semibold text-tinta\">72 hours<\/strong>. For weddings or designs with modelled figures, better one or two weeks. Message us and we'll confirm whether we can make your date.","faq.2.q":"What exactly is a tres leches cake?","faq.2.r":"Venezuela's best-known dessert: a fluffy sponge soaked in three milks and topped with meringue. We make it with our family recipe, and it's the one people come back for.","faq.3.q":"Do you make cakes for allergies or intolerances?","faq.3.r":"Tell us about the intolerance when you order and we'll be honest about what we can adapt. We work in a small bakery that handles gluten, egg, dairy and nuts, so <strong class=\"font-semibold text-tinta\">we can't guarantee the total absence of traces<\/strong>.","faq.4.q":"Where are you and do I need an appointment?","faq.4.r":"At <strong class=\"font-semibold text-tinta\">Rúa do Progreso 27, bajo 3<\/strong>, next to the Jardín do Posío. We're open seven days a week and no appointment is needed: drop by and see the cakes on display.","con.ante":"Where we are","con.h2":"We're waiting for you next to the <span class=\"subrayado\">Jardín do Posío<\/span>","con.dir":"Address","con.tel":"Phone & WhatsApp","con.horario":"Opening hours · open 7 days","con.caption":"Bin &amp; Cami Cakes opening hours","dia.1":"Monday","dia.2":"Tuesday","dia.3":"Wednesday","dia.4":"Thursday","dia.5":"Friday","dia.6":"Saturday","dia.0":"Sunday","hor.dias":"Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday","hor.cierraEn":"Open · closes in {n} min","hor.abiertoHasta":"Open now · until {h}","hor.abreHoy":"Closed · opens today at {h}","hor.abreEl":"Closed · opens {d} at {h}","con.wa":"Message us on WhatsApp","mapa.h":"We're at the Jardín do Posío","mapa.ver":"Open the map in Google Maps","mapa.nota":"The embedded map couldn't load here.","mapa.llegar":"Directions","pie.desc":"Artisan bakery in Ourense. Custom cakes for every celebration and the Venezuelan pastries we grew up with.","pie.web":"Site","pie.priv":"Privacy policy","pie.cookies":"Cookie policy","pie.aviso":"Legal notice","pie.lema":"CAKES · DESSERTS · SWEETS · HAPPY MOMENTS","pie.copy":"Custom cakes in Ourense","chat.titulo":"Your cake quote","chat.sub":"We'll draft your message in 5 questions","chat.abrir":"Price my cake","chat.cerrar":"Close assistant","aria.menu":"Open navigation menu","aria.menu.cerrar":"Close navigation menu","aria.ant":"Previous cake","aria.sig":"Next cake","aria.wa":"Message Bin & Cami Cakes on WhatsApp","aria.chat":"Get a quote for my cake","aria.chat.cerrar":"Close the quote assistant","chat.pasos":[{"k":"ocasion","p":"Hi! I'm the Bin & Cami Cakes assistant 🧁 I'll prepare your order in five questions. What's the occasion?","o":["Birthday","Wedding","Communion or christening","Just because"]},{"k":"personas","p":"For roughly how many people?","o":["Up to 10","Between 10 and 20","Between 20 and 40","More than 40"]},{"k":"sabor","p":"Which flavour would you like?","o":["Tres leches","Chocolate","Red velvet","I don't know yet, advise me"]},{"k":"fecha","p":"When do you need it?","o":["This week","Next week","In a month or more","I don't have a date yet"]},{"k":"diseno","p":"And lastly, how do you picture it?","o":["Simple and elegant","With modelled figures","A specific theme","I have a reference photo"]}],"chat.listo1":"Done! This is what I'll pass on to the bakery:","chat.personas":"{n} people","chat.sabor":"Flavour: ","chat.fecha":"Date: ","chat.diseno":"Design: ","chat.confirm":"We'll confirm price and availability on WhatsApp. The quote is free and there's no commitment. (The message is sent in Spanish, which is what the bakery speaks.)","chat.enviar":"Send on WhatsApp","chat.otra":"Start over","aria.llamar":"Call 656 584 027","aria.copiar":"Copy the phone number","aria.arriba":"Back to top","aria.progreso":"Quote progress","aria.ampliar":"View the photo larger","aria.visor":"Enlarged photo","aria.cerrar":"Close","aviso.copiado":"Copied: ","aviso.nocopia":"Couldn't copy","op.aviso1":"Showing {n} review","op.avisoN":"Showing {n} reviews"}};
   var ES = { titulo: document.title };
   var nodos = Array.prototype.slice.call(document.querySelectorAll('[data-i18n]'));
   var arias = Array.prototype.slice.call(document.querySelectorAll('[data-i18n-aria]'));
@@ -1895,6 +2120,65 @@
   }
   window.partirPalabras = partir;
   Array.prototype.forEach.call(document.querySelectorAll('.reveal h2'), partir);
+
+  /* ---- barra de progreso de lectura y botón de volver arriba ---- */
+  (function(){
+    var barra = document.getElementById('progreso');
+    var arriba = document.getElementById('arriba');
+    if (!barra && !arriba) return;
+    var pendiente = false;
+    function pintar(){
+      var alto = document.documentElement.scrollHeight - window.innerHeight;
+      var y = window.scrollY;
+      if (barra) barra.style.width = (alto > 0 ? Math.min(100, (y / alto) * 100) : 0) + '%';
+      if (arriba) arriba.classList.toggle('visible', y > window.innerHeight * 1.5);
+      pendiente = false;
+    }
+    window.addEventListener('scroll', function(){
+      if (pendiente) return; pendiente = true; requestAnimationFrame(pintar);
+    }, { passive:true });
+    window.addEventListener('resize', pintar);
+    pintar();
+    if (arriba) arriba.addEventListener('click', function(){
+      window.scrollTo({ top:0, behavior: quieto ? 'auto' : 'smooth' });
+      /* que el teclado vuelva también al principio, no sólo la vista */
+      var saltar = document.querySelector('a[href="#contenido"]');
+      if (saltar) saltar.focus({ preventScroll:true });
+    });
+  })();
+
+  /* ---- copiar al portapapeles, con aviso ---- */
+  (function(){
+    var aviso = document.getElementById('aviso');
+    var reloj;
+    window.avisar = function(texto){
+      if (!aviso) return;
+      aviso.textContent = texto;
+      aviso.classList.add('visible');
+      clearTimeout(reloj);
+      reloj = setTimeout(function(){ aviso.classList.remove('visible'); }, 2200);
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('[data-copiar]'), function(b){
+      b.addEventListener('click', function(){
+        var texto = b.getAttribute('data-copiar');
+        function hecho(){ window.avisar(t('aviso.copiado', 'Copiado: ') + texto); }
+        /* navigator.clipboard no existe fuera de https (ni en file://), así que
+           queda el truco del textarea oculto para que funcione igual. */
+        if (navigator.clipboard && window.isSecureContext){
+          navigator.clipboard.writeText(texto).then(hecho, respaldo);
+        } else { respaldo(); }
+        function respaldo(){
+          var ta = document.createElement('textarea');
+          ta.value = texto; ta.setAttribute('readonly', '');
+          ta.style.cssText = 'position:fixed;top:-100px;opacity:0';
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); hecho(); }
+          catch (e){ window.avisar(t('aviso.nocopia', 'No se ha podido copiar')); }
+          ta.remove();
+        }
+      });
+    });
+  })();
 
   /* ---- cursor propio ---- */
   (function(){
@@ -2208,6 +2492,8 @@
       carta.dataset.centro = esCentro ? 'true' : 'false';
       var enlace = carta.querySelector('.cf-cta');
       if (enlace) enlace.tabIndex = esCentro ? 0 : -1;
+      var lupa = carta.querySelector('.cf-lupa');
+      if (lupa) lupa.tabIndex = esCentro ? 0 : -1;
       carta.querySelector('.cf-cuerpo').setAttribute('aria-hidden', esCentro ? 'false' : 'true');
     });
 
@@ -2223,7 +2509,17 @@
   function irA(i){ actual = ((i % total) + total) % total; pintar(); }
 
   cartas.forEach(function(carta, i){
-    carta.addEventListener('click', function(){ if (carta.dataset.centro !== 'true') irA(i); });
+    carta.addEventListener('click', function(e){
+      /* el enlace de WhatsApp manda: si se pulsa ahí, ni centrar ni ampliar */
+      if (e.target.closest && e.target.closest('.cf-cta')) return;
+      if (carta.dataset.centro !== 'true'){ irA(i); return; }
+      if (window.abrirVisor) window.abrirVisor(i);
+    });
+    var lupa = carta.querySelector('.cf-lupa');
+    if (lupa) lupa.addEventListener('click', function(e){
+      e.stopPropagation();
+      if (window.abrirVisor) window.abrirVisor(i);
+    });
   });
   puntos.forEach(function(p, i){ p.addEventListener('click', function(){ irA(i); }); });
   window.addEventListener('idioma', pintar);
@@ -2249,6 +2545,11 @@
      con la pestaña oculta, o si se pidió menos movimiento. */
   var reloj = null;
   function pausar(){ clearInterval(reloj); reloj = null; }
+  /* El visor de fotos necesita parar el giro mientras está abierto: si no,
+     al cerrarlo la tarjeta del medio ya no es la que estabas mirando. */
+  window.carruselPausa = pausar;
+  window.carruselSigue = function(){ reanudar(); };
+  window.carruselIrA = function(i){ irA(i); };
   function reanudar(){
     if (reloj || quieto.matches || document.hidden) return;
     reloj = setInterval(function(){ ir(1); }, 5000);
@@ -2398,15 +2699,30 @@
     b.addEventListener('click', function(){
       document.querySelectorAll('[data-filtro]').forEach(function(o){ o.setAttribute('aria-pressed', 'false'); });
       b.setAttribute('aria-pressed', 'true');
-      pintar(b.dataset.filtro);
+      /* Fundido: se apaga, se repinta con el filtro nuevo y vuelve. Sin esto
+         las tarjetas se reemplazaban de golpe y pegaba un parpadeo. */
+      var suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (suave){
+        cascada.classList.add('cambiando');
+        setTimeout(function(){
+          pintar(b.dataset.filtro);
+          cascada.classList.remove('cambiando');
+        }, 200);
+      } else {
+        pintar(b.dataset.filtro);
+      }
       /* La cascada cambia sin avisar a quien usa lector de pantalla. */
       if (aviso){
+        /* Se cuenta con el filtro del botón, no con filtroActivo: con el
+           fundido, pintar() corre 200 ms después y filtroActivo todavía es el
+           anterior. Antes de meter el fundido esto no se notaba. */
+        var f = b.dataset.filtro;
         var cuantas = RESENAS.filter(function(r){
-          if (filtroActivo === 'recientes') return r.m <= 2;
-          if (filtroActivo === 'tresleches') return r.tres;
+          if (f === 'recientes') return r.m <= 2;
+          if (f === 'tresleches') return r.tres;
           return true;
         }).length;
-        aviso.textContent = 'Mostrando ' + cuantas + (cuantas === 1 ? ' reseña' : ' reseñas');
+        aviso.textContent = t(cuantas === 1 ? 'op.aviso1' : 'op.avisoN', cuantas === 1 ? 'Mostrando {n} reseña' : 'Mostrando {n} reseñas').replace('{n}', cuantas);
       }
     });
   });
@@ -2427,6 +2743,125 @@
     }, { threshold: 0.4 });
     obs.observe(cont);
   } else if (cont) { cont.textContent = '18'; }
+})();
+
+/* ============ VISOR DE FOTOS ============
+   Las fotos del carrusel se veían sólo al tamaño de la tarjeta, y quien está
+   eligiendo un diseño quiere verlas en grande. Se usa <dialog> con
+   showModal(): el cierre con Escape, el foco atrapado dentro y el fondo
+   inerte vienen de serie. Al cerrar, el carrusel se queda en la foto que
+   estabas mirando, no en la que dejaste al abrir. */
+(function(){
+  'use strict';
+  var visor = document.getElementById('visor');
+  if (!visor || !visor.showModal) return;          /* navegador viejo: sin visor */
+  var foto = document.getElementById('visor-foto');
+  var titulo = document.getElementById('visor-titulo');
+  var desc = document.getElementById('visor-desc');
+  var cuenta = document.getElementById('visor-cuenta');
+  var cartas = [].slice.call(document.querySelectorAll('.cf-carta'));
+  if (!cartas.length) return;
+  var actual = 0, abiertoDesde = null;
+
+  function pintar(){
+    var c = cartas[actual];
+    var im = c.querySelector('img');
+    var t = c.querySelector('.cf-titulo'), d = c.querySelector('.cf-desc');
+    foto.src = im.getAttribute('src');
+    foto.alt = im.getAttribute('alt') || '';
+    titulo.textContent = t ? t.textContent : '';
+    desc.textContent = d ? d.textContent : '';
+    cuenta.textContent = t2('visor.cuenta', '{n} / {t}').replace('{n}', actual + 1).replace('{t}', cartas.length);
+  }
+  /* t() vive en el script de idiomas, que va antes; por si acaso, respaldo. */
+  function t2(k, alt){ return typeof t === 'function' ? t(k, alt) : alt; }
+
+  function mover(paso){
+    actual = (actual + paso + cartas.length) % cartas.length;
+    pintar();
+  }
+  window.abrirVisor = function(i){
+    actual = i; abiertoDesde = i;
+    pintar();
+    if (window.carruselPausa) window.carruselPausa();
+    visor.showModal();
+  };
+  document.getElementById('visor-cerrar').addEventListener('click', function(){ visor.close(); });
+  document.getElementById('visor-ant').addEventListener('click', function(){ mover(-1); });
+  document.getElementById('visor-sig').addEventListener('click', function(){ mover(1); });
+  visor.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowLeft'){ e.preventDefault(); mover(-1); }
+    if (e.key === 'ArrowRight'){ e.preventDefault(); mover(1); }
+  });
+  /* pulsar el fondo cierra: el propio <dialog> es el fondo, los hijos no */
+  visor.addEventListener('click', function(e){ if (e.target === visor) visor.close(); });
+  visor.addEventListener('close', function(){
+    /* el carrusel se queda donde lo dejaste dentro del visor */
+    if (actual !== abiertoDesde && window.carruselIrA) window.carruselIrA(actual);
+    if (window.carruselSigue) window.carruselSigue();
+    foto.removeAttribute('src');
+  });
+  /* arrastre lateral en el móvil */
+  var x0 = null;
+  visor.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, { passive:true });
+  visor.addEventListener('touchend', function(e){
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 45) mover(dx < 0 ? 1 : -1);
+  }, { passive:true });
+})();
+
+/* ============ ACORDEÓN DE PREGUNTAS ============
+   El <details> nativo abre y cierra de golpe, y deja abrir las cuatro a la
+   vez. Aquí se le pone transición de alto (con la API de animaciones, que es
+   la única forma fiable de animar un alto "auto") y se cierra la que estaba
+   abierta al abrir otra. Con movimiento reducido se queda el comportamiento
+   nativo, sólo con la exclusividad. */
+(function(){
+  'use strict';
+  var caja = document.getElementById('faq');
+  if (!caja) return;
+  var fichas = [].slice.call(caja.querySelectorAll('details'));
+  if (!fichas.length) return;
+  var quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function altoCerrada(d){ return d.querySelector('summary').offsetHeight; }
+
+  function animar(d, desde, hasta, alAcabar){
+    if (d._anim) d._anim.cancel();
+    d.style.overflow = 'hidden';
+    d._anim = d.animate({ height: [desde + 'px', hasta + 'px'] },
+                        { duration: 300, easing: 'cubic-bezier(.16,1,.3,1)' });
+    d._anim.onfinish = function(){
+      d._anim = null;
+      d.style.overflow = '';
+      d.style.height = '';
+      if (alAcabar) alAcabar();
+    };
+  }
+  function cerrar(d){
+    if (!d.open || d._cerrando) return;
+    if (quieto.matches){ d.open = false; return; }
+    d._cerrando = true;
+    var desde = d.offsetHeight;
+    animar(d, desde, altoCerrada(d), function(){ d.open = false; d._cerrando = false; });
+  }
+  function abrir(d){
+    d._cerrando = false;
+    if (quieto.matches){ d.open = true; return; }
+    var desde = d.offsetHeight;
+    d.open = true;
+    animar(d, desde, d.offsetHeight);
+  }
+
+  fichas.forEach(function(d){
+    d.querySelector('summary').addEventListener('click', function(e){
+      e.preventDefault();          /* el toggle lo llevamos nosotros */
+      var abierta = d.open && !d._cerrando;
+      fichas.forEach(function(o){ if (o !== d) cerrar(o); });
+      if (abierta) cerrar(d); else abrir(d);
+    });
+  });
 })();
 
 /* ============ ABIERTO / CERRADO EN VIVO ============ */
@@ -2602,6 +3037,37 @@
      opciones, opts ya se ha vaciado y el foco hace rato que está en el <body>. */
   var pediaFoco = false;
 
+  /* ---- progreso y «escribiendo…» ---- */
+  var barraPasos = document.getElementById('chat-progreso');
+  var relojEscribe = null;
+
+  function marcarProgreso(hechos, total){
+    if (!barraPasos) return;
+    if (barraPasos.children.length !== total){
+      barraPasos.innerHTML = '';
+      for (var i = 0; i < total; i++) barraPasos.appendChild(document.createElement('span'));
+      barraPasos.setAttribute('aria-valuemax', String(total));
+    }
+    barraPasos.setAttribute('aria-valuenow', String(hechos));
+    Array.prototype.forEach.call(barraPasos.children, function(seg, i){
+      seg.className = i < hechos ? 'hecho' : (i === hechos ? 'ahora' : '');
+    });
+  }
+
+  /* Enseña los tres puntos un momento y luego escribe. Con movimiento
+     reducido no hay espera: se escribe directamente. */
+  function escribiendo(ms, hecho){
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){ hecho(); return; }
+    var d = document.createElement('div');
+    d.className = 'burbuja burbuja-bot escribiendo';
+    d.setAttribute('aria-hidden', 'true');   /* el hilo es aria-live: que no lea los puntos */
+    d.innerHTML = '<i></i><i></i><i></i>';
+    hilo.appendChild(d);
+    hilo.scrollTop = hilo.scrollHeight;
+    clearTimeout(relojEscribe);
+    relojEscribe = setTimeout(function(){ d.remove(); hecho(); }, ms);
+  }
+
   function burbuja(texto, mia){
     var d = document.createElement('div');
     d.className = 'burbuja ' + (mia ? 'burbuja-yo' : 'burbuja-bot');
@@ -2636,6 +3102,8 @@
     var P = pasos();
     if (paso >= P.length) return resumen();
     var e = P[paso];
+    marcarProgreso(paso, P.length);
+    escribiendo(paso === 0 ? 420 : 620, function(){
     burbuja(e.p, false);
     chips(e.o, function(valor, i){
       pediaFoco = opts.contains(document.activeElement);
@@ -2643,11 +3111,13 @@
       resp[e.k] = i;
       paso++;
       opts.innerHTML = '';
-      setTimeout(preguntar, 320);
+      setTimeout(preguntar, 120);
+    });
     });
   }
   function resumen(){
     var P = pasos();
+    marcarProgreso(P.length, P.length);
     burbuja(t('chat.listo1', '¡Listo! Esto es lo que le paso al obrador:'), false);
     burbuja('· ' + eti(P, 'ocasion') + '\n· ' + t('chat.personas', '{n} personas').replace('{n}', eti(P, 'personas')) +
             '\n· ' + t('chat.sabor', 'Sabor: ') + eti(P, 'sabor') +
@@ -2681,6 +3151,7 @@
     if (pediaFoco){ pediaFoco = false; a.focus(); }
   }
   function reiniciar(){
+    clearTimeout(relojEscribe);          /* si se reinicia a media escritura */
     paso = 0; resp = {}; hilo.innerHTML = ''; opts.innerHTML = '';
     preguntar();
   }
