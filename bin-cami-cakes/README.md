@@ -61,11 +61,14 @@ encima— y el corte de los lados se funde con una máscara, como en el ticker.
 
 ## Tipografía, cristal y emojis
 
-Los titulares van en **Playfair Display** (serif de contraste alto) y el texto
-corrido en **Plus Jakarta Sans**. Los botones y los rótulos pequeños en
-versalitas se quedan en la sans a propósito: la Playfair a 11 px en mayúsculas
-se emborrona. Si se toca la tipografía, el par de clases es `font-display`
-(titulares) y `font-rotulo` (botones y rótulos).
+Los titulares van en **Fraunces** (serif con carácter, cálida y algo juguetona,
+la letra de rótulo de pastelería) y los acentos a mano —el lema de la portada,
+el «Cakes» del nombre, la firma de la cita— en **Caveat**. El texto corrido en
+**Plus Jakarta Sans**. Los botones y rótulos pequeños en versalitas se quedan
+en la sans a propósito: una serif a 11 px en mayúsculas se emborrona. Clases:
+`font-display` (titulares), `font-mano` (Caveat) y `font-rotulo` (botones).
+Las citas de las reseñas van en Fraunces cursiva, que es la «otra escritura»
+que pidió Brian para los mensajes.
 
 La interfaz usa **cristal líquido** (`.vidrio` y `.vidrio-oscuro`) sólo en lo
 que flota sobre contenido: cabecera, menú del móvil, distintivo de la portada,
@@ -74,12 +77,51 @@ plano no hay nada que desenfocar, así que ahí no se pone. Hay dos respaldos:
 sin `backdrop-filter` el vidrio se vuelve opaco, y con
 `prefers-reduced-transparency` también.
 
+**Cursor propio** sólo con ratón de verdad (`pointer:fine`) y sin movimiento
+reducido: un punto frambuesa y un anillo que le sigue con inercia y se abre
+sobre lo que se puede pulsar. Lo activa el JS, así que si el JS no arranca no
+se pierde el cursor del sistema.
+
+**Animaciones de scroll**: dentro de cada bloque `.reveal` los hijos entran
+uno tras otro (suben, se enfocan de borroso a nítido) y los titulares de
+sección entran palabra a palabra (el JS envuelve cada palabra en un `<span>`).
+El desenfoque sólo se aplica a texto y tarjetas pequeñas: sobre el carrusel
+3D o la cascada un `filter:blur()` en un teléfono se nota a tirones.
+
 Los **emojis**: el tipo de letra de emoji va nombrado con el de Apple primero,
 así que en iPhone, iPad y Mac salen los dibujos de Apple. En Windows y Android
 el navegador usa los suyos (Segoe, Noto) y no se puede hacer más: los dibujos
-de Apple son de Apple y no se pueden servir desde una web ajena. Si algún día
-se quiere que se vean iguales en todas partes, la salida es Twemoji o Noto
-Color Emoji, que son libres —pero no son los de Apple.
+de Apple son de Apple y no se pueden servir desde una web ajena.
+
+## Idiomas: castellano · galego · English
+
+Selector en la cabecera (y arriba del menú del móvil). El castellano no está
+en ningún diccionario: **se lee del propio HTML al arrancar**, así nunca
+diverge de la página. Gallego e inglés van por clave en `data-i18n` (137
+textos) y en un diccionario dentro del `<script>` de idiomas; lo que genera el
+JS (horario, reseñas, carrusel, asistente) pregunta con `t(clave, castellano)`
+y se repinta al cambiar. Se guarda la elección en `localStorage` y, si no hay
+elección, se usa el idioma del navegador cuando es gallego o inglés.
+
+Lo que NO se traduce, a propósito: las reseñas (son citas reales, se dejan tal
+cual), los textos legales (se quedan en castellano hasta que los revise la
+titular) y **el mensaje de WhatsApp**, que sale siempre en castellano porque
+es lo que habla el obrador — el asistente guarda el índice de cada respuesta,
+no el texto, y compone el mensaje con la lista en castellano.
+
+Las traducciones al gallego las he escrito yo; conviene que las repase un
+hablante nativo antes de publicar.
+
+## Producción: la carpeta `dist/`
+
+El `index.html` de la raíz es el de trabajo: usa el Tailwind del CDN (unos
+400 KB de JavaScript que compilan el CSS en el navegador en cada visita) para
+poder iterar sin build. **Lo que se sube a Vercel es `dist/`**, que genera
+`construye_dist.py` (en el cuaderno de la sesión): el mismo HTML con el CSS ya
+compilado dentro de un `<style>` y la carpeta `assets/` al lado. Con eso la
+página pasa de pedir el CDN a no pedir más que las fuentes de Google y el mapa.
+Las fotos de la portada cargan sin `loading="lazy"` (están arriba del todo) y
+todas con `decoding="async"`.
 
 ## El móvil es el caso normal, no el pequeño
 
