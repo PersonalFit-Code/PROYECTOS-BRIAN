@@ -59,6 +59,28 @@ finge la profundidad: nada de `brightness()` en las laterales (sobre blanco se
 ven grises), el velo oscuro sólo bajo la tarjeta central —la única con texto
 encima— y el corte de los lados se funde con una máscara, como en el ticker.
 
+## Tipografía, cristal y emojis
+
+Los titulares van en **Playfair Display** (serif de contraste alto) y el texto
+corrido en **Plus Jakarta Sans**. Los botones y los rótulos pequeños en
+versalitas se quedan en la sans a propósito: la Playfair a 11 px en mayúsculas
+se emborrona. Si se toca la tipografía, el par de clases es `font-display`
+(titulares) y `font-rotulo` (botones y rótulos).
+
+La interfaz usa **cristal líquido** (`.vidrio` y `.vidrio-oscuro`) sólo en lo
+que flota sobre contenido: cabecera, menú del móvil, distintivo de la portada,
+flechas del carrusel, el pie de foto de la tarta y el asistente. Sobre un fondo
+plano no hay nada que desenfocar, así que ahí no se pone. Hay dos respaldos:
+sin `backdrop-filter` el vidrio se vuelve opaco, y con
+`prefers-reduced-transparency` también.
+
+Los **emojis**: el tipo de letra de emoji va nombrado con el de Apple primero,
+así que en iPhone, iPad y Mac salen los dibujos de Apple. En Windows y Android
+el navegador usa los suyos (Segoe, Noto) y no se puede hacer más: los dibujos
+de Apple son de Apple y no se pueden servir desde una web ajena. Si algún día
+se quiere que se vean iguales en todas partes, la salida es Twemoji o Noto
+Color Emoji, que son libres —pero no son los de Apple.
+
 ## Falta todavía
 
 - [ ] Las 4 fotos que faltan (cookies, mesa de dulces, piñitas, obrador) + regenerar la de "tarta temática" sin texto horneado

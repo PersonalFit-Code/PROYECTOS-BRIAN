@@ -51,7 +51,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Playfair Display para los titulares (la letra con clase: serif de alto
+     contraste, la de las portadas de revista) y Plus Jakarta Sans para leer.
+     Baloo 2 se queda fuera: era simpática, pero de elegante no tenía nada. -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <script type="application/ld+json">
 {
@@ -139,7 +142,10 @@
         amarillo:'rgb(var(--amarillo) / <alpha-value>)', tinta:'rgb(var(--tinta) / <alpha-value>)', crema:'rgb(var(--crema) / <alpha-value>)'
       },
       fontFamily:{ sans:['"Plus Jakarta Sans"','system-ui','sans-serif'],
-                   display:['"Baloo 2"','"Plus Jakarta Sans"','system-ui','sans-serif'] },
+                   display:['"Playfair Display"','Georgia','serif'],
+                   /* Los botones y los rótulos pequeños siguen en la sans: la
+                      Playfair en versalitas de 11 px se emborrona. */
+                   rotulo:['"Plus Jakarta Sans"','system-ui','sans-serif'] },
       boxShadow:{ suave:'0 1px 2px rgba(58,49,54,.05), 0 10px 30px -14px rgba(58,49,54,.20)',
                   alta:'0 24px 50px -22px rgba(181,48,88,.45)' }
     }}
@@ -161,11 +167,24 @@
     --lila:231 202 220; --violeta:186 155 212;
     --oro:161 105 54; --oro-claro:207 164 89; --amarillo:252 229 153;
     --tinta:58 49 54; --crema:253 250 247;
+    --emoji:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Android Emoji','EmojiSymbols';
   }
   html{ scroll-behavior:smooth; scroll-padding-top:5.5rem; }
-  body{ font-family:'Plus Jakarta Sans',system-ui,sans-serif; color:rgb(var(--tinta));
-        background:rgb(var(--crema)); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
-  h1,h2,h3,.font-display{ font-family:'Baloo 2','Plus Jakarta Sans',system-ui,sans-serif; line-height:1.15; }
+  /* Las fuentes de emoji van nombradas y con la de Apple primera. En un
+     iPhone, un iPad o un Mac eso hace que el 😍 de la reseña salga con el
+     dibujo de Apple, que es el que pidió Brian. En Windows o Android el
+     navegador baja a la suya (Segoe, Noto): los dibujos de Apple son de
+     Apple y no se pueden servir desde una web ajena. */
+  body{ font-family:'Plus Jakarta Sans',system-ui,sans-serif,var(--emoji);
+        color:rgb(var(--tinta)); background:rgb(var(--crema));
+        -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  /* Playfair es de contraste alto: con el interlineado y el espaciado de una
+     sans se ve apretada. Un pelín más de aire y menos espaciado entre letras,
+     que es lo que hace que un titular serif parezca caro. */
+  h1,h2,h3,.font-display{ font-family:'Playfair Display',Georgia,serif,var(--emoji);
+                          line-height:1.14; letter-spacing:-.015em; }
+  /* El acento de glamour: la palabra en cursiva de los titulares. */
+  .realce{ font-style:italic; font-weight:600; }
   :focus-visible{ outline:3px solid rgb(var(--frambuesa)); outline-offset:3px; border-radius:6px; }
 
   /* Contorno blanco tipo pegatina, el rasgo de la marca */
@@ -179,7 +198,7 @@
       linear-gradient(140deg, rgb(var(--rosa-nube)), rgb(var(--rosa-palo)) 55%, rgb(var(--lila)));
     border:2px dashed rgba(181,48,88,.28); color:rgb(var(--frambuesa));
   }
-  .foto-pendiente span{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size:.9rem;
+  .foto-pendiente span{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:.9rem;
                         letter-spacing:.02em; opacity:.85; padding:0 1rem; }
   .foto-pendiente svg{ opacity:.5; margin-bottom:.4rem; }
 
@@ -192,7 +211,125 @@
 
   .subrayado{ position:relative; display:inline-block; }
   .subrayado::after{ content:''; position:absolute; left:-.05em; right:-.05em; bottom:.02em;
-                     height:.36em; background:rgb(var(--amarillo)); opacity:.75; border-radius:3px; z-index:-1; }
+                     height:.36em; background:rgb(var(--amarillo)); opacity:.75; border-radius:3px; z-index:-1;
+                     transform-origin:left center; }
+  /* El trazo amarillo se pinta solo cuando el titular entra en pantalla, como
+     si alguien pasara el rotulador. Va enganchado a .is-visible, que ya es
+     quien marca la entrada, así que no hace falta ni una línea de JS. */
+  .reveal .subrayado::after{ transform:scaleX(0); }
+  .reveal.is-visible .subrayado::after{ animation:pinta .75s .25s cubic-bezier(.16,1,.3,1) forwards; }
+  @keyframes pinta{ to{ transform:scaleX(1); } }
+
+  /* ===== CRISTAL LÍQUIDO =====
+     La idea que Apple llama liquid glass: la capa de encima no es una tarjeta
+     opaca, es un vidrio que deja ver —desenfocado y con el color reavivado—
+     lo que pasa por debajo. Aquí se usa SÓLO en lo que flota sobre contenido:
+     la cabecera, los botones fijos, las flechas del carrusel y el pie de la
+     foto. Sobre un fondo plano no hay nada que desenfocar: se vería igual que
+     un color sólido y sólo gastaría batería.
+
+     Los dos remates que lo hacen parecer vidrio de verdad y no un velo: la
+     línea blanca por dentro del borde de arriba (el canto donde pega la luz)
+     y el saturate(), que devuelve el color que el desenfoque apaga. */
+  .vidrio, .vidrio-oscuro{ -webkit-backdrop-filter:blur(18px) saturate(185%);
+                           backdrop-filter:blur(18px) saturate(185%); }
+  .vidrio{ background:rgb(var(--crema) / .62);
+           border:1px solid rgb(255 255 255 / .6);
+           box-shadow:inset 0 1px 0 rgb(255 255 255 / .85),
+                      0 12px 34px -18px rgb(var(--tinta) / .45); }
+  .vidrio-oscuro{ background:rgb(var(--tinta) / .42); color:#fff;
+                  border:1px solid rgb(255 255 255 / .22);
+                  box-shadow:inset 0 1px 0 rgb(255 255 255 / .3),
+                             0 16px 38px -20px rgb(0 0 0 / .55); }
+  /* Sin backdrop-filter, el vidrio sería un velo translúcido con el texto de
+     debajo leyéndose a través: ahí se pone opaco y en paz. */
+  @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+    .vidrio{ background:rgb(var(--crema) / .97); }
+    .vidrio-oscuro{ background:rgb(var(--tinta) / .9); }
+  }
+  /* Quien pide menos transparencia en su sistema la pide también aquí. */
+  @media (prefers-reduced-transparency: reduce){
+    .vidrio{ background:rgb(var(--crema)); }
+    .vidrio-oscuro{ background:rgb(var(--tinta)); }
+  }
+
+  /* El destello que cruza un botón al pasar por encima. Va en ::before para no
+     meter un <span> vacío en cada botón. */
+  .destello{ position:relative; overflow:hidden; }
+  .destello::before{ content:''; position:absolute; top:0; bottom:0; left:-60%; width:45%;
+                     background:linear-gradient(100deg, transparent, rgb(255 255 255 / .5), transparent);
+                     transform:skewX(-18deg); opacity:0; pointer-events:none; }
+  .destello:hover::before, .destello:focus-visible::before{ animation:cruza .9s ease-out; }
+  @keyframes cruza{ 0%{left:-60%; opacity:0} 18%{opacity:1} 100%{left:120%; opacity:0} }
+
+  /* El antetítulo dorado de cada sección, entre dos filetes que se abren al
+     entrar en pantalla. Es el gesto de portada de revista. */
+  .antetitulo{ display:inline-flex; align-items:center; gap:.85rem;
+               font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+               font-size:.7rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase;
+               color:rgb(var(--oro)); }
+  .antetitulo::before, .antetitulo::after{ content:''; height:1px; width:2.25rem;
+    background:linear-gradient(90deg, transparent, rgb(var(--oro-claro)));
+    transform:scaleX(0); transform-origin:right center;
+    transition:transform .7s .15s cubic-bezier(.16,1,.3,1); }
+  .antetitulo::after{ background:linear-gradient(90deg, rgb(var(--oro-claro)), transparent);
+                      transform-origin:left center; }
+  .reveal.is-visible .antetitulo::before,
+  .reveal.is-visible .antetitulo::after{ transform:scaleX(1); }
+
+  /* ===== CABECERA =====
+     Vidrio, un hilo de marca arriba, un filete dorado abajo y encogida al
+     bajar. La sombra ya no es la clase de Tailwind: se cambian las dos cosas
+     a la vez (más opacidad y sombra) para que al posarse se note que el
+     vidrio "se cierra" un poco. */
+  #cabecera{ background:rgb(var(--crema) / .62);
+             -webkit-backdrop-filter:blur(20px) saturate(185%);
+             backdrop-filter:blur(20px) saturate(185%);
+             box-shadow:inset 0 1px 0 rgb(255 255 255 / .7);
+             transition:background .45s ease, box-shadow .45s ease; }
+  @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+    #cabecera, #cabecera.posada{ background:rgb(var(--crema) / .98); }
+  }
+  @media (prefers-reduced-transparency: reduce){
+    #cabecera, #cabecera.posada{ background:rgb(var(--crema)); }
+  }
+  #cabecera::before{ content:''; position:absolute; inset-inline:0; top:0; height:2px; z-index:2;
+    background:linear-gradient(90deg, rgb(var(--frambuesa)), rgb(var(--oro-claro)) 40%,
+                                      rgb(var(--rosa)) 70%, rgb(var(--frambuesa))); }
+  #cabecera::after{ content:''; position:absolute; inset-inline:0; bottom:0; height:1px;
+    background:linear-gradient(90deg, transparent, rgb(var(--oro-claro) / .8) 22%,
+                                      rgb(var(--oro-claro) / .8) 78%, transparent); }
+  #cabecera.posada{ background:rgb(var(--crema) / .8);
+                    box-shadow:0 14px 34px -22px rgb(var(--tinta) / .55); }
+  .cabecera-caja{ height:4.75rem; transition:height .45s cubic-bezier(.16,1,.3,1); }
+  #cabecera.posada .cabecera-caja{ height:3.95rem; }
+  .cabecera-logo{ transform-origin:left center;
+                  transition:transform .45s cubic-bezier(.16,1,.3,1); }
+  #cabecera.posada .cabecera-logo{ transform:scale(.9); }
+
+  .nav-enlace{ position:relative; white-space:nowrap; padding:.6rem .8rem .7rem;
+               font-size:.82rem; font-weight:600; letter-spacing:.02em;
+               color:rgb(var(--tinta) / .75); transition:color .3s ease; }
+  .nav-enlace:hover{ color:rgb(var(--frambuesa)); }
+  /* El filete crece desde el centro hacia los lados; con width no se puede
+     centrar sin transform, y con left/right sale gratis. */
+  .nav-enlace::after{ content:''; position:absolute; bottom:.3rem; left:50%; right:50%; height:1.5px;
+    border-radius:2px; background:linear-gradient(90deg, rgb(var(--oro-claro)), rgb(var(--frambuesa)));
+    opacity:0;
+    transition:left .4s cubic-bezier(.16,1,.3,1), right .4s cubic-bezier(.16,1,.3,1), opacity .25s ease; }
+  /* El opacity no es adorno: a ancho cero el borde redondeado seguía pintando
+     un puntito bajo cada enlace. */
+  .nav-enlace:hover::after,
+  .nav-enlace[aria-current="location"]::after{ left:.75rem; right:.75rem; opacity:1; }
+  /* aria-current="location" y no "page": la sección no es otra página, es
+     dónde estás dentro de ésta. El lector de pantalla lo lee igual. */
+  .nav-enlace[aria-current="location"]{ color:rgb(var(--frambuesa)); }
+
+  /* El nombre del negocio, con «Cakes» en cursiva dorada. */
+  .marca{ font-family:'Playfair Display',Georgia,serif; font-weight:700; letter-spacing:-.01em; }
+  .marca em{ font-style:italic; font-weight:600; color:rgb(var(--oro)); }
+  /* Sobre el pie, que es oscuro, el oro normal no contrasta: va el claro. */
+  .marca em.marca-clara{ color:rgb(var(--oro-claro)); }
 
   .tarjeta{ transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease; }
   .tarjeta:hover{ transform:translateY(-6px); }
@@ -289,24 +426,41 @@
      en sombra al lado de las laterales, que ahora van limpias. Se baja: sólo
      lo justo para leer la etiqueta arriba y el texto abajo. */
   .cf-velo-carta{ position:absolute; inset:0; opacity:0; transition:opacity .5s ease;
-                  background:linear-gradient(180deg, rgb(0 0 0 / .3) 0%, rgb(0 0 0 / 0) 28%,
-                              rgb(0 0 0 / .5) 62%, rgb(0 0 0 / .9) 100%); }
+                  background:linear-gradient(180deg, rgb(0 0 0 / 0) 45%, rgb(0 0 0 / .42) 100%); }
   .cf-carta[data-centro="true"] .cf-velo-carta{ opacity:1; }
-  .cf-cuerpo{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column;
-              justify-content:flex-end; padding:1.5rem 1.25rem; text-align:center; color:#fff;
+  /* El pie de foto deja de ser texto suelto sobre un degradado y pasa a ser
+     un panel de vidrio apoyado en la tarta: se ve la tarta a través, borrosa.
+     Es el mismo vidrio de la cabecera, en oscuro, porque el texto va blanco. */
+  .cf-cuerpo{ position:absolute; inset:auto .85rem .85rem; z-index:2; display:flex; flex-direction:column;
+              border-radius:1.1rem; padding:.95rem .9rem 1rem; text-align:center; color:#fff;
+              background:rgb(var(--tinta) / .4);
+              -webkit-backdrop-filter:blur(18px) saturate(185%);
+              backdrop-filter:blur(18px) saturate(185%);
+              border:1px solid rgb(255 255 255 / .22);
+              box-shadow:inset 0 1px 0 rgb(255 255 255 / .3), 0 16px 38px -20px rgb(0 0 0 / .6);
               opacity:0; transform:translateY(.75rem); pointer-events:none;
               transition:opacity .45s ease, transform .45s ease; }
+  @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+    .cf-cuerpo{ background:rgb(var(--tinta) / .88); }
+  }
+  @media (prefers-reduced-transparency: reduce){ .cf-cuerpo{ background:rgb(var(--tinta) / .95); } }
   .cf-carta[data-centro="true"] .cf-cuerpo{ opacity:1; transform:none; pointer-events:auto; }
-  .cf-etiqueta{ position:absolute; top:1rem; right:1.1rem; font-size:.72rem; font-weight:700;
-                letter-spacing:.03em; color:rgb(var(--oro-claro)); text-shadow:0 2px 6px rgb(0 0 0 / .8); }
-  .cf-titulo{ font-family:'Baloo 2','Plus Jakarta Sans',system-ui,sans-serif; font-size:1.35rem;
+  /* Antes iba en la esquina de arriba de la tarjeta; ahora el pie es un panel
+     y la etiqueta se apoya justo encima de él. */
+  /* Sin text-transform: las etiquetas son etiquetas de Instagram escritas en
+     CamelCase (#ElMásPedido) y en mayúsculas se quedan en #ELMÁSPEDIDO, que
+     no hay quien lo lea. */
+  .cf-etiqueta{ position:absolute; bottom:calc(100% + .5rem); right:.15rem; font-size:.72rem; font-weight:700;
+                letter-spacing:.03em; color:rgb(var(--oro-claro));
+                text-shadow:0 2px 8px rgb(0 0 0 / .9); }
+  .cf-titulo{ font-family:'Playfair Display',Georgia,serif; font-size:1.35rem;
               font-weight:800; line-height:1.15; text-shadow:0 3px 12px rgb(0 0 0 / .9); }
   .cf-raya{ width:2.25rem; height:2px; margin:.55rem auto; border-radius:2px;
             background:rgb(var(--oro-claro)); box-shadow:0 0 8px rgb(var(--oro-claro) / .7); }
   .cf-desc{ font-size:.85rem; font-style:italic; color:rgb(255 255 255 / .9);
             text-shadow:0 2px 8px rgb(0 0 0 / .9); }
   .cf-cta{ display:inline-flex; align-items:center; gap:.4rem; margin:.75rem auto 0;
-           padding:.5rem 1.15rem; border-radius:9999px; font-family:'Baloo 2',sans-serif;
+           padding:.5rem 1.15rem; border-radius:9999px; font-family:'Plus Jakarta Sans',sans-serif;
            font-size:.72rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
            color:rgb(var(--tinta)); background:linear-gradient(135deg, rgb(var(--oro-claro)), rgb(var(--oro)));
            box-shadow:0 4px 14px rgb(0 0 0 / .4); text-decoration:none; width:fit-content; }
@@ -318,9 +472,12 @@
      transform es una propiedad, no una lista). */
   .cf-flecha{ position:absolute; top:50%; z-index:5; transform:translateY(-50%);
               display:grid; place-items:center; width:2.75rem; height:2.75rem; border-radius:9999px;
-              background:#fff; color:rgb(var(--frambuesa)); border:1px solid rgb(var(--rosa-palo));
-              box-shadow:0 6px 18px rgb(var(--tinta) / .14);
-              transition:transform .2s, background .2s, color .2s; }
+              background:rgb(255 255 255 / .62); color:rgb(var(--frambuesa));
+              -webkit-backdrop-filter:blur(14px) saturate(180%);
+              backdrop-filter:blur(14px) saturate(180%);
+              border:1px solid rgb(255 255 255 / .8);
+              box-shadow:inset 0 1px 0 rgb(255 255 255 / .9), 0 8px 22px -8px rgb(var(--tinta) / .3);
+              transition:transform .25s cubic-bezier(.16,1,.3,1), background .25s, color .25s; }
   .cf-flecha:hover{ transform:translateY(-50%) scale(1.08);
                     background:rgb(var(--frambuesa)); color:#fff; border-color:rgb(var(--frambuesa)); }
   #cf-anterior{ left:.5rem; }
@@ -342,11 +499,24 @@
                    -webkit-mask-image:none; mask-image:none; }
     @media (min-width:1024px){ .cf-escenario{ grid-template-columns:repeat(4,1fr); } }
     @media (max-width:1023.98px){ .cf-escenario{ grid-template-columns:repeat(2,1fr); } }
-    .cf-carta{ position:static !important; transform:none !important; width:auto; height:12rem;
-               border:1px solid rgb(var(--rosa-palo)); }
+    /* La foto tiene que volver al flujo normal. Con position:absolute no ocupa
+       sitio, así que el pie de foto se colocaba en lo más alto de la tarjeta
+       y la foto se pintaba encima: en la rejilla no se leía ni un título. El
+       will-change:transform tampoco es inocente — hace de bloque contenedor
+       igual que un transform, que es lo que mantenía cada foto en su celda y
+       disimulaba el problema. */
+    .cf-carta{ position:static !important; transform:none !important; will-change:auto;
+               width:auto; height:auto; overflow:visible;
+               background:none; border:none; box-shadow:none; }
+    .cf-carta img{ position:static; height:12rem; width:100%; border-radius:1rem;
+                   border:1px solid rgb(var(--rosa-palo)); }
     .cf-velo-carta{ display:none; }
+    /* En la rejilla plana el pie va debajo de la foto, en texto normal: el
+       vidrio oscuro con el texto en tinta no se leería. */
     .cf-cuerpo{ position:static; opacity:1 !important; transform:none !important;
-                pointer-events:auto !important; padding:.65rem .2rem 0; color:rgb(var(--tinta)); }
+                pointer-events:auto !important; padding:.65rem .2rem 0; color:rgb(var(--tinta));
+                background:none; border:none; box-shadow:none; border-radius:0;
+                -webkit-backdrop-filter:none; backdrop-filter:none; }
     .cf-titulo, .cf-desc{ text-shadow:none; }
     .cf-desc{ color:rgb(var(--tinta) / .7); }
     .cf-etiqueta{ position:static; display:block; text-align:center; margin-bottom:.2rem;
@@ -399,7 +569,11 @@
   .pestana[aria-pressed="true"]{ background:rgb(var(--frambuesa)); color:#fff; }
 
   /* ===== CHATBOT DE PRESUPUESTO ===== */
-  #panel-chat{ transform:translateY(12px) scale(.97); opacity:0; pointer-events:none;
+  /* Vidrio, pero más cerrado que el resto: aquí se lee y se contesta, y con la
+     transparencia de la cabecera se veía el texto de la página por detrás de
+     las burbujas. El desenfoque se queda; lo que sube es la opacidad. */
+  #panel-chat{ background:rgb(var(--crema) / .88);
+               transform:translateY(12px) scale(.97); opacity:0; pointer-events:none;
                transition:transform .28s cubic-bezier(.16,1,.3,1), opacity .28s; }
   #panel-chat.abierto{ transform:none; opacity:1; pointer-events:auto; }
   /* pre-line: el resumen del encargo se escribe con saltos de línea y sin esto
@@ -448,31 +622,31 @@
 </a>
 
 <!-- ===================== CABECERA ===================== -->
-<header id="cabecera" class="fixed inset-x-0 top-0 z-50 border-b border-rosa-palo/70 bg-crema/95 backdrop-blur-md transition-shadow no-print">
+<header id="cabecera" class="fixed inset-x-0 top-0 z-50 no-print">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="flex h-[4.5rem] items-center justify-between gap-3">
+    <div class="cabecera-caja flex items-center justify-between gap-3">
 
-      <a href="#inicio" class="flex shrink-0 items-center gap-2.5" aria-label="Bin y Cami Cakes · inicio">
+      <a href="#inicio" class="cabecera-logo flex shrink-0 items-center gap-3" aria-label="Bin y Cami Cakes · inicio">
         <img src="assets/logo.png" alt="" width="48" height="56" class="h-12 w-auto" aria-hidden="true">
         <span class="leading-none">
-          <span class="block font-display text-xl font-extrabold text-frambuesa">Bin &amp; Cami <span class="text-oro">Cakes</span></span>
-          <span class="mt-0.5 block text-[10px] font-semibold uppercase tracking-[.16em] text-tinta/60">Ourense · Jardín do Posío</span>
+          <span class="marca block text-[1.35rem] text-frambuesa">Bin &amp; Cami <em>Cakes</em></span>
+          <span class="mt-1 block text-[9px] font-semibold uppercase tracking-[.26em] text-tinta/55">Ourense · Jardín do Posío</span>
         </span>
       </a>
 
       <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Navegación principal">
-        <a href="#especialidades" class="whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold text-tinta/80 transition hover:bg-rosa-nube hover:text-frambuesa">Especialidades</a>
-        <a href="#venezolana"     class="whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold text-tinta/80 transition hover:bg-rosa-nube hover:text-frambuesa">Venezolano</a>
-        <a href="#galeria"        class="whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold text-tinta/80 transition hover:bg-rosa-nube hover:text-frambuesa">Tartas</a>
-        <a href="#opiniones"      class="whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold text-tinta/80 transition hover:bg-rosa-nube hover:text-frambuesa">Opiniones</a>
-        <a href="#encargar"       class="whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold text-tinta/80 transition hover:bg-rosa-nube hover:text-frambuesa">Encargar</a>
-        <a href="#contacto"       class="whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold text-tinta/80 transition hover:bg-rosa-nube hover:text-frambuesa">Contacto</a>
+        <a href="#especialidades" class="nav-enlace">Especialidades</a>
+        <a href="#venezolana"     class="nav-enlace">Venezolano</a>
+        <a href="#galeria"        class="nav-enlace">Tartas</a>
+        <a href="#opiniones"      class="nav-enlace">Opiniones</a>
+        <a href="#encargar"       class="nav-enlace">Encargar</a>
+        <a href="#contacto"       class="nav-enlace">Contacto</a>
       </nav>
 
       <div class="hidden sm:block">
         <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20encargar%20una%20tarta%20personalizada"
            target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-frambuesa px-4 py-3 font-display text-sm font-bold text-white shadow-suave transition hover:bg-frambuesa-oscuro"
+           class="destello inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-frambuesa px-5 py-3 font-rotulo text-sm font-bold tracking-wide text-white shadow-suave transition hover:bg-frambuesa-oscuro"
            aria-label="Escribir por WhatsApp a Bin y Cami Cakes">
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/></svg>
           Cuéntanos tu idea
@@ -491,7 +665,7 @@
     </div>
   </div>
 
-  <div id="menu-movil" class="hidden border-t border-rosa-palo bg-crema lg:hidden">
+  <div id="menu-movil" class="vidrio hidden border-x-0 border-b-0 lg:hidden">
     <nav class="mx-auto max-w-7xl px-4 py-4 sm:px-6" aria-label="Navegación móvil">
       <ul class="space-y-1">
         <li><a href="#especialidades" class="menu-enlace block rounded-lg px-4 py-3 font-semibold transition hover:bg-rosa-nube hover:text-frambuesa">Especialidades</a></li>
@@ -503,7 +677,7 @@
       </ul>
       <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20encargar%20una%20tarta%20personalizada"
          target="_blank" rel="noopener"
-         class="mt-4 flex items-center justify-center gap-2 rounded-full bg-frambuesa px-5 py-3.5 font-display font-bold text-white">
+         class="destello mt-4 flex items-center justify-center gap-2 rounded-full bg-frambuesa px-5 py-3.5 font-rotulo font-bold text-white">
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/></svg>
         Cuéntanos tu idea
       </a>
@@ -522,7 +696,7 @@
   <div class="escenario-fijo">
 
     <div id="portada-centro" class="centro">
-      <p class="mb-5 inline-flex items-center gap-2 rounded-full border border-rosa-palo bg-white/80 px-4 py-1.5 text-xs font-bold uppercase tracking-[.12em] text-frambuesa">
+      <p class="vidrio mb-5 inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-[11px] font-bold uppercase tracking-[.2em] text-frambuesa">
         <img src="assets/logo.png" alt="" width="20" height="23" class="h-5 w-auto" aria-hidden="true">
         Obrador artesanal en Ourense
       </p>
@@ -531,7 +705,7 @@
       <h1 class="max-w-2xl font-display text-[2.4rem] font-extrabold leading-[1.05] text-tinta sm:text-5xl lg:text-[3.4rem]">
         Tartas Personalizadas<br>en <span class="subrayado text-frambuesa">Ourense</span>
       </h1>
-      <p class="mt-4 max-w-2xl font-display text-2xl font-bold text-oro sm:text-3xl">
+      <p class="realce mt-4 max-w-2xl font-display text-2xl text-oro sm:text-3xl">
         Tú imaginas, nosotros lo hacemos.
       </p>
       <p class="mt-3 hidden max-w-xl text-base leading-relaxed text-tinta/80 sm:block sm:text-lg">
@@ -540,12 +714,12 @@
       </p>
       <div class="mt-7 flex flex-col gap-3 sm:flex-row">
         <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20encargar%20una%20tarta%20personalizada" target="_blank" rel="noopener"
-           class="inline-flex items-center justify-center gap-2.5 rounded-full bg-frambuesa px-7 py-4 font-display text-base font-bold text-white shadow-alta transition hover:bg-frambuesa-oscuro">
+           class="destello inline-flex items-center justify-center gap-2.5 rounded-full bg-frambuesa px-7 py-4 font-rotulo text-base font-bold text-white shadow-alta transition hover:bg-frambuesa-oscuro">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/></svg>
           Cuéntanos tu idea
         </a>
         <a href="tel:+34656584027"
-           class="inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-frambuesa bg-white px-7 py-4 font-display text-base font-bold text-frambuesa transition hover:bg-frambuesa hover:text-white"
+           class="destello inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-frambuesa bg-white px-7 py-4 font-rotulo text-base font-bold text-frambuesa transition hover:bg-frambuesa hover:text-white"
            aria-label="Llamar al 656 584 027">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6.6 10.8c1.1 2.2 2.9 4 5.1 5.1l1.7-1.7c.2-.2.5-.3.8-.2 1.1.4 2.2.6 3.4.6.4 0 .8.3.8.8V18c0 .4-.3.8-.8.8-7 0-12.6-5.7-12.6-12.6 0-.4.3-.8.8-.8h2.6c.4 0 .8.3.8.8 0 1.2.2 2.3.6 3.4.1.3 0 .6-.2.8l-1.7 1.7z"/></svg>
           656 584 027
@@ -644,7 +818,7 @@
 <section id="especialidades" class="bg-white py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
-      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-oro">Para cada celebración</p>
+      <p class="antetitulo mb-4">Para cada celebración</p>
       <h2 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl">
         Diseños únicos para <span class="subrayado">momentos inolvidables</span>
       </h2>
@@ -719,7 +893,7 @@
     <div class="grid items-center gap-12 lg:grid-cols-2">
 
       <div class="reveal">
-        <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-oro">Lo que nos hace distintas</p>
+        <p class="antetitulo mb-4">Lo que nos hace distintas</p>
         <h2 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl">
           El <span class="subrayado text-frambuesa">tres leches</span> que buscabas,
           en pleno Ourense
@@ -743,14 +917,14 @@
 
         <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%20la%20tarta%20tres%20leches"
            target="_blank" rel="noopener"
-           class="mt-7 inline-flex items-center gap-2.5 rounded-full bg-frambuesa px-6 py-3.5 font-display font-bold text-white shadow-suave transition hover:bg-frambuesa-oscuro">
+           class="destello mt-7 inline-flex items-center gap-2.5 rounded-full bg-frambuesa px-6 py-3.5 font-rotulo font-bold text-white shadow-suave transition hover:bg-frambuesa-oscuro">
           Pregúntanos por el tres leches
         </a>
       </div>
 
       <div class="grid gap-4 sm:grid-cols-2">
         <article class="tarjeta reveal rounded-3xl bg-white p-6 shadow-suave">
-          <span class="inline-block rounded-full bg-amarillo px-3 py-1 font-display text-xs font-bold text-tinta">El más pedido</span>
+          <span class="inline-block rounded-full bg-amarillo px-3 py-1 font-rotulo text-xs font-bold text-tinta">El más pedido</span>
           <h3 class="mt-3 font-display text-xl font-bold text-tinta">Tarta tres leches</h3>
           <p class="mt-2 text-[15px] leading-relaxed text-tinta/75">
             Esponjosa, jugosa y nada empalagosa. Por porción en el mostrador o entera por encargo.
@@ -783,7 +957,7 @@
 <section id="galeria" class="bg-white py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
-      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-oro">Nuestro trabajo</p>
+      <p class="antetitulo mb-4">Nuestro trabajo</p>
       <h2 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl">
         Tartas que ya han <span class="subrayado">soplado velas</span>
       </h2>
@@ -910,7 +1084,7 @@
 
     <p class="reveal mt-10 text-center">
       <a href="https://www.instagram.com/bin_camicakes/" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-2.5 rounded-full border-2 border-frambuesa px-6 py-3.5 font-display font-bold text-frambuesa transition hover:bg-frambuesa hover:text-white">
+         class="destello inline-flex items-center gap-2.5 rounded-full border-2 border-frambuesa px-6 py-3.5 font-rotulo font-bold text-frambuesa transition hover:bg-frambuesa hover:text-white">
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true" focusable="false">
           <rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none"/>
         </svg>
@@ -926,7 +1100,7 @@
 <section id="opiniones" class="bg-rosa-nube py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
-      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-oro">Opiniones</p>
+      <p class="antetitulo mb-4">Opiniones</p>
       <h2 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl">
         Lo que dicen quienes ya <span class="subrayado">probaron</span>
       </h2>
@@ -946,7 +1120,7 @@
         reseñas en Google, con una media de <strong class="font-semibold text-tinta">4,9 sobre 5</strong>
       </p>
       <a href="https://www.google.com/search?q=Bin+%26+Cami+Cakes+Ourense" target="_blank" rel="noopener"
-         class="mt-6 inline-flex items-center gap-2.5 rounded-full border-2 border-frambuesa px-6 py-3 font-display text-sm font-bold text-frambuesa transition hover:bg-frambuesa hover:text-white">
+         class="destello mt-6 inline-flex items-center gap-2.5 rounded-full border-2 border-frambuesa px-6 py-3 font-rotulo text-sm font-bold text-frambuesa transition hover:bg-frambuesa hover:text-white">
         <svg class="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#4285F4" d="M22.6 12.2c0-.8-.1-1.4-.2-2.1H12v4h5.9c-.1 1-.8 2.5-2.3 3.5l3.5 2.7c2.1-1.9 3.5-4.7 3.5-8.1z"/>
           <path fill="#34A853" d="M12 23c2.9 0 5.3-.9 7.1-2.6l-3.5-2.7c-.9.6-2.1 1-3.6 1-2.8 0-5.2-1.9-6.1-4.5L2.3 17c1.8 3.6 5.5 6 9.7 6z"/>
@@ -993,7 +1167,7 @@
 <section id="encargar" class="bg-white py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
-      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-oro">Cómo encargar</p>
+      <p class="antetitulo mb-4">Cómo encargar</p>
       <h2 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl">
         Tres pasos y <span class="subrayado">ya está</span>
       </h2>
@@ -1089,7 +1263,7 @@
 <section id="contacto" class="bg-rosa-nube py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
-      <p class="mb-3 text-sm font-bold uppercase tracking-[.16em] text-oro">Dónde estamos</p>
+      <p class="antetitulo mb-4">Dónde estamos</p>
       <h2 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl">
         Te esperamos junto al <span class="subrayado">Jardín do Posío</span>
       </h2>
@@ -1097,7 +1271,7 @@
 
     <div class="mt-12 grid gap-6 lg:grid-cols-2">
       <div class="reveal rounded-3xl bg-white p-7 shadow-suave sm:p-9">
-        <h3 class="font-display text-2xl font-extrabold text-frambuesa">Bin &amp; Cami <span class="text-oro">Cakes</span></h3>
+        <h3 class="marca text-2xl text-frambuesa">Bin &amp; Cami <em>Cakes</em></h3>
 
         <dl class="mt-7 space-y-6">
           <div class="flex items-start gap-4">
@@ -1164,7 +1338,7 @@
 
         <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20encargar%20una%20tarta%20personalizada"
            target="_blank" rel="noopener"
-           class="mt-8 flex items-center justify-center gap-2.5 rounded-full bg-frambuesa px-6 py-4 font-display font-bold text-white shadow-suave transition hover:bg-frambuesa-oscuro">
+           class="destello mt-8 flex items-center justify-center gap-2.5 rounded-full bg-frambuesa px-6 py-4 font-rotulo font-bold text-white shadow-suave transition hover:bg-frambuesa-oscuro">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/></svg>
           Escríbenos por WhatsApp
         </a>
@@ -1190,7 +1364,7 @@
               <p class="mt-3 font-display font-bold text-tinta">El mapa no ha podido cargarse</p>
               <p class="mt-1 text-sm text-tinta/70">Puede que lo esté bloqueando tu navegador.</p>
               <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+27,+32005+Ourense" target="_blank" rel="noopener"
-                 class="mt-4 inline-flex rounded-full bg-frambuesa px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-frambuesa-oscuro">
+                 class="destello mt-4 inline-flex rounded-full bg-frambuesa px-5 py-3 font-rotulo text-sm font-bold text-white transition hover:bg-frambuesa-oscuro">
                 Abrir en Google Maps
               </a>
             </div>
@@ -1212,7 +1386,7 @@
             <p class="text-sm text-tinta/70">32005 Ourense · Jardín do Posío</p>
           </div>
           <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+27,+32005+Ourense" target="_blank" rel="noopener"
-             class="inline-flex shrink-0 justify-center rounded-full bg-frambuesa px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-frambuesa-oscuro">
+             class="destello inline-flex shrink-0 justify-center rounded-full bg-frambuesa px-5 py-3 font-rotulo text-sm font-bold text-white transition hover:bg-frambuesa-oscuro">
             Cómo llegar
           </a>
         </div>
@@ -1230,7 +1404,7 @@
       <div>
         <div class="flex items-center gap-2.5">
           <img src="assets/logo.png" alt="" width="44" height="51" class="h-11 w-auto" aria-hidden="true">
-          <span class="font-display text-xl font-extrabold text-white">Bin &amp; Cami <span class="text-oro-claro">Cakes</span></span>
+          <span class="marca text-xl text-white">Bin &amp; Cami <em class="marca-clara">Cakes</em></span>
         </div>
         <p class="mt-4 max-w-sm text-[15px] leading-relaxed text-white/60">
           Pastelería artesanal en Ourense. Tartas personalizadas para cada celebración
@@ -1253,7 +1427,7 @@
       </div>
 
       <nav aria-label="Secciones">
-        <h2 class="font-display text-sm font-bold uppercase tracking-wider text-white">La web</h2>
+        <h2 class="font-rotulo text-sm font-bold uppercase tracking-wider text-white">La web</h2>
         <ul class="mt-5 space-y-2.5 text-[15px] text-white/60">
           <li><a href="#especialidades" class="transition hover:text-oro-claro">Especialidades</a></li>
           <li><a href="#venezolana" class="transition hover:text-oro-claro">Sabor venezolano</a></li>
@@ -1265,7 +1439,7 @@
       </nav>
 
       <div>
-        <h2 class="font-display text-sm font-bold uppercase tracking-wider text-white">Legal</h2>
+        <h2 class="font-rotulo text-sm font-bold uppercase tracking-wider text-white">Legal</h2>
         <ul class="mt-5 space-y-2.5 text-[15px] text-white/60">
           <li><a href="#privacidad" class="transition hover:text-oro-claro">Política de privacidad</a></li>
           <li><a href="#cookies" class="transition hover:text-oro-claro">Política de cookies</a></li>
@@ -1280,7 +1454,7 @@
 
     <div class="grid gap-3 border-t border-white/10 py-8 lg:grid-cols-3">
       <details id="privacidad" class="rounded-2xl bg-white/5 p-5">
-        <summary class="cursor-pointer font-display text-sm font-bold text-white">Política de privacidad</summary>
+        <summary class="cursor-pointer font-rotulo text-sm font-bold text-white">Política de privacidad</summary>
         <div class="mt-3 space-y-2 text-sm leading-relaxed text-white/60">
           <p><strong class="text-white/85">Responsable:</strong> Bin &amp; Cami Cakes · Rúa do Progreso 27, bajo 3, 32005 Ourense.</p>
           <p><strong class="text-white/85">Finalidad:</strong> atender los encargos y consultas que nos llegan.</p>
@@ -1290,7 +1464,7 @@
         </div>
       </details>
       <details id="cookies" class="rounded-2xl bg-white/5 p-5">
-        <summary class="cursor-pointer font-display text-sm font-bold text-white">Política de cookies</summary>
+        <summary class="cursor-pointer font-rotulo text-sm font-bold text-white">Política de cookies</summary>
         <div class="mt-3 space-y-2 text-sm leading-relaxed text-white/60">
           <p>Esta web <strong class="text-white/85">no instala cookies propias</strong> de analítica ni de publicidad.</p>
           <p>El mapa de Google Maps y las tipografías de Google Fonts pueden registrar tu IP y usar cookies técnicas propias, necesarias para mostrar ese contenido.</p>
@@ -1298,7 +1472,7 @@
         </div>
       </details>
       <details id="aviso-legal" class="rounded-2xl bg-white/5 p-5">
-        <summary class="cursor-pointer font-display text-sm font-bold text-white">Aviso legal</summary>
+        <summary class="cursor-pointer font-rotulo text-sm font-bold text-white">Aviso legal</summary>
         <div class="mt-3 space-y-2 text-sm leading-relaxed text-white/60">
           <p><strong class="text-white/85">Titular:</strong> Bin &amp; Cami Cakes · <em>pendiente de denominación social y NIF</em>.</p>
           <p><strong class="text-white/85">Contacto:</strong> 656 584 027 · Rúa do Progreso 27, bajo 3, 32005 Ourense.</p>
@@ -1308,7 +1482,7 @@
       </details>
     </div>
 
-    <p class="border-t border-white/10 py-6 text-center font-display text-sm tracking-[.18em] text-white/45">
+    <p class="border-t border-white/10 py-6 text-center font-rotulo text-sm tracking-[.18em] text-white/45">
       TARTAS · POSTRES · DULCES · MOMENTOS FELICES
     </p>
     <p class="pb-8 text-center text-sm text-white/40">
@@ -1322,7 +1496,7 @@
      con el asistente cerrado, se comía el 20% de la pantalla del móvil. Los
      hijos vuelven a recibir pulsaciones por su cuenta. -->
 <div class="pointer-events-none fixed bottom-24 right-5 z-50 w-[min(22rem,calc(100vw-2.5rem))] no-print">
-  <div id="panel-chat" class="flex max-h-[min(30rem,calc(100vh-12rem))] flex-col overflow-hidden rounded-3xl border border-rosa-palo bg-white shadow-alta"
+  <div id="panel-chat" class="vidrio flex max-h-[min(30rem,calc(100vh-12rem))] flex-col overflow-hidden rounded-3xl"
        role="dialog" aria-modal="false" aria-labelledby="chat-titulo" aria-hidden="true">
     <header class="flex items-center gap-3 border-b border-rosa-nube bg-rosa-nube/60 px-4 py-3">
       <img src="assets/logo.png" alt="" width="36" height="42" class="h-9 w-auto" aria-hidden="true">
@@ -1393,9 +1567,30 @@
     });
   }
 
+  /* Al bajar, la cabecera se posa: encoge, el vidrio se cierra un poco y
+     aparece la sombra. Antes sólo se le añadía shadow-lg. */
   var cab = document.getElementById('cabecera');
-  function sombra(){ if (cab) cab.classList.toggle('shadow-lg', window.scrollY > 12); }
-  sombra(); window.addEventListener('scroll', sombra, { passive:true });
+  function posar(){ if (cab) cab.classList.toggle('posada', window.scrollY > 12); }
+  posar(); window.addEventListener('scroll', posar, { passive:true });
+
+  /* El menú marca en qué sección estás. La franja de observación es la mitad
+     de la pantalla (-45% arriba, -50% abajo): así manda la sección que cruza
+     el centro y no la que asoma un dedo por abajo, que iba dando saltos. */
+  var enlaces = [].slice.call(document.querySelectorAll('.nav-enlace'));
+  var secciones = enlaces.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  if ('IntersectionObserver' in window && enlaces.length && secciones.indexOf(null) === -1){
+    var espia = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(en){
+        if (!en.isIntersecting) return;
+        var i = secciones.indexOf(en.target);
+        enlaces.forEach(function(a, j){
+          if (j === i) a.setAttribute('aria-current', 'location');
+          else a.removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    secciones.forEach(function(sec){ espia.observe(sec); });
+  }
 
   var els = document.querySelectorAll('.reveal');
   var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2066,7 +2261,7 @@
     var a = document.createElement('a');
     a.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(texto);
     a.target = '_blank'; a.rel = 'noopener';
-    a.className = 'flex w-full items-center justify-center gap-2.5 rounded-full bg-frambuesa px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-frambuesa-oscuro';
+    a.className = 'flex w-full items-center justify-center gap-2.5 rounded-full bg-frambuesa px-5 py-3 font-rotulo text-sm font-bold text-white transition hover:bg-frambuesa-oscuro';
     a.innerHTML = '<svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/></svg>' +
                  'Enviarlo por WhatsApp';
     opts.appendChild(a);
