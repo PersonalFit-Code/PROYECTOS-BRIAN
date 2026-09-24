@@ -81,6 +81,40 @@ de Apple son de Apple y no se pueden servir desde una web ajena. Si algún día
 se quiere que se vean iguales en todas partes, la salida es Twemoji o Noto
 Color Emoji, que son libres —pero no son los de Apple.
 
+## El móvil es el caso normal, no el pequeño
+
+Casi todas las visitas entran por el teléfono, así que el móvil manda:
+
+- Los dos botones flotantes (WhatsApp y asistente) se juntan en una **barra
+  fija abajo** con su rótulo. Sueltos eran dos círculos que iban tapando lo que
+  pillaran y no decían lo que hacían. El `<body>` lleva hueco abajo para que la
+  barra no se coma el final de la página. A partir de `sm` vuelven a flotar.
+- En la portada, las tartas **terminan su viaje a mitad del recorrido** y el
+  texto entra después. El apartado de choques sólo mira el sitio final de cada
+  tarta, y por el camino pasaban por encima del titular.
+- Las cuatro tarjetas de especialidades ponen el icono al lado del texto.
+- El escenario del carrusel mide lo que mide la tarta más un respiro, en vez de
+  34 rem fijos que dejaban 170 px de nada arriba y abajo.
+- El pie de foto del carrusel se recorta para que se vea la tarta.
+- «Pasa el ratón» sólo se enseña donde hay ratón (`@media (hover:none)`).
+
+## El mapa y por qué a veces no se ve
+
+El `<iframe>` de Google Maps no llega en tres casos: bloqueadores de
+privacidad, vistas previas en sandbox (la del artefacto de Claude no deja
+incrustar nada de fuera) y sin red. Cuando no llega, unas veces se queda el
+rectángulo vacío y otras el navegador pinta dentro su propia página de error
+—y ahí el evento `load` SÍ salta, así que por ahí no se distingue nada.
+
+Por eso, servida por http(s), la página **sondea** antes con un `fetch` en modo
+`no-cors`: si la promesa falla, no se llega a Google y se enseña la ficha del
+sitio (chincheta, dirección y botón). Abriendo el archivo desde el disco
+(`file://`) el sondeo se salta, porque ahí el navegador corta los fetch a otro
+sitio aunque el iframe cargue perfectamente.
+
+Resumen práctico: **el mapa se ve en Vercel y abriendo el archivo en el
+ordenador; no se ve en la vista previa del artefacto.**
+
 ## Falta todavía
 
 - [ ] Las 4 fotos que faltan (cookies, mesa de dulces, piñitas, obrador) + regenerar la de "tarta temática" sin texto horneado

@@ -331,6 +331,23 @@
   /* Sobre el pie, que es oscuro, el oro normal no contrasta: va el claro. */
   .marca em.marca-clara{ color:rgb(var(--oro-claro)); }
 
+  /* ===== AJUSTES DE MÓVIL =====
+     Casi todas las visitas entran por el teléfono, así que el móvil no es el
+     caso pequeño: es el caso normal. Aquí se recoge lo que en una pantalla de
+     390 px se veía suelto o desperdigado. */
+  /* Las cuatro tarjetas de especialidades iban centradas, una debajo de otra:
+     cuatro pantallas de scroll para cuatro frases. En el móvil el icono se
+     pone al lado del texto y la tarjeta ocupa un tercio. */
+  @media (max-width:639.98px){
+    .esp{ display:grid; grid-template-columns:auto 1fr; align-items:start;
+          gap:.35rem .9rem; text-align:left; }
+    /* El icono arriba, a la altura del título: centrado en la tarjeta se
+       quedaba flotando solo a media altura, sin emparejarse con nada. */
+    .esp .esp-icono{ grid-row:span 2; margin:0; }
+    .esp .esp-titulo{ margin-top:-.15rem; }
+    .esp p{ grid-column:2; }
+  }
+
   .tarjeta{ transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease; }
   .tarjeta:hover{ transform:translateY(-6px); }
   /* Las dos reglas son de una clase, así que ganaba la última y .tarjeta
@@ -409,11 +426,17 @@
   .cf{ position:relative; overflow:hidden; }
   /* La máscara va en el escenario y no en .cf porque las flechas viven
      fuera de él: puestas dentro se desvanecerían con el borde. */
-  .cf-escenario{ position:relative; z-index:1; height:34rem; display:flex;
+  /* El alto de la tarjeta vive en una variable porque el escenario tiene que
+     medir lo mismo que ella más un respiro: con los 34rem fijos, en el móvil
+     quedaban 170 px de nada arriba y abajo de la foto. */
+  .cf{ --cf-alto:min(88vw,25rem); --cf-ancho:min(76vw,20rem); }
+  @media (min-width:640px){ .cf{ --cf-ancho:min(72vw,20rem); } }
+  .cf-escenario{ position:relative; z-index:1; height:calc(var(--cf-alto) + 2.5rem); display:flex;
                  align-items:center; justify-content:center; perspective:1400px;
                  -webkit-mask-image:linear-gradient(90deg,#0000,#000 8%,#000 92%,#0000);
                  mask-image:linear-gradient(90deg,#0000,#000 8%,#000 92%,#0000); }
-  .cf-carta{ position:absolute; left:50%; top:50%; width:min(72vw,20rem); height:min(88vw,25rem);
+  @media (min-width:1024px){ .cf-escenario{ height:34rem; } }
+  .cf-carta{ position:absolute; left:50%; top:50%; width:var(--cf-ancho); height:var(--cf-alto);
              border-radius:1.15rem; overflow:hidden; background:rgb(var(--rosa-nube));
              border:1px solid rgb(var(--rosa-palo));
              box-shadow:0 18px 38px rgb(var(--tinta) / .16);
@@ -443,16 +466,24 @@
   @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
     .cf-cuerpo{ background:rgb(var(--tinta) / .88); }
   }
+  /* En el móvil el panel llegaba a media foto y de la tarta no se veía casi
+     nada, que es justo lo que se viene a ver. Se recorta todo un punto. */
+  @media (max-width:639.98px){
+    .cf-cuerpo{ inset:auto .6rem .6rem; padding:.7rem .7rem .75rem; border-radius:.95rem; }
+    .cf-etiqueta{ font-size:.65rem; margin-bottom:.15rem; }
+    .cf-titulo{ font-size:1.12rem; }
+    .cf-raya{ margin:.35rem auto; }
+    .cf-desc{ font-size:.78rem; }
+    .cf-cta{ margin-top:.5rem; padding:.42rem .9rem; font-size:.66rem; }
+  }
   @media (prefers-reduced-transparency: reduce){ .cf-cuerpo{ background:rgb(var(--tinta) / .95); } }
   .cf-carta[data-centro="true"] .cf-cuerpo{ opacity:1; transform:none; pointer-events:auto; }
-  /* Antes iba en la esquina de arriba de la tarjeta; ahora el pie es un panel
-     y la etiqueta se apoya justo encima de él. */
-  /* Sin text-transform: las etiquetas son etiquetas de Instagram escritas en
-     CamelCase (#ElMásPedido) y en mayúsculas se quedan en #ELMÁSPEDIDO, que
-     no hay quien lo lea. */
-  .cf-etiqueta{ position:absolute; bottom:calc(100% + .5rem); right:.15rem; font-size:.72rem; font-weight:700;
-                letter-spacing:.03em; color:rgb(var(--oro-claro));
-                text-shadow:0 2px 8px rgb(0 0 0 / .9); }
+  /* La etiqueta va DENTRO del panel, de primera línea. Suelta sobre la foto
+     (que es donde estaba) se leía mal, y en el móvil se le montaba encima al
+     canto del panel. Sin text-transform: son etiquetas de Instagram en
+     CamelCase (#ElMásPedido) y en mayúsculas quedan en #ELMÁSPEDIDO. */
+  .cf-etiqueta{ display:block; margin-bottom:.3rem; font-size:.7rem; font-weight:700;
+                letter-spacing:.06em; color:rgb(var(--oro-claro)); }
   .cf-titulo{ font-family:'Playfair Display',Georgia,serif; font-size:1.35rem;
               font-weight:800; line-height:1.15; text-shadow:0 3px 12px rgb(0 0 0 / .9); }
   .cf-raya{ width:2.25rem; height:2px; margin:.55rem auto; border-radius:2px;
@@ -568,13 +599,76 @@
   @keyframes subir{ from{transform:translateY(0)} to{transform:translateY(calc(-50% - 0.5rem))} }
   .pestana[aria-pressed="true"]{ background:rgb(var(--frambuesa)); color:#fff; }
 
+  /* «Pasa el ratón» en un teléfono no significa nada, y la mayoría de las
+     visitas entran por teléfono. Cada aparato lee su frase. */
+  .solo-tactil{ display:none; }
+  @media (hover:none){ .solo-raton{ display:none; } .solo-tactil{ display:inline; } }
+
+  /* ===== MAPA =====
+     El hueco del mapa, mientras carga o si no llega, con una trama de calles
+     de mentira en rosa: es decorado, no un mapa falso (no hay ni un nombre de
+     calle inventado), y evita el rectángulo gris de navegador roto. */
+  #mapa-caja{ background:
+    repeating-linear-gradient(64deg, transparent 0 46px, rgb(var(--rosa-palo) / .55) 46px 49px),
+    repeating-linear-gradient(-28deg, transparent 0 70px, rgb(var(--rosa-palo) / .45) 70px 73px),
+    rgb(var(--rosa-nube)); }
+  .mapa-chincheta{ box-shadow:0 10px 26px -10px rgb(var(--frambuesa) / .8); }
+  .mapa-apoyo{ background:radial-gradient(60% 60% at 50% 45%, rgb(var(--crema) / .96), rgb(var(--crema) / .72)); }
+  /* Con el plan B a la vista, la barra de abajo repetía calle, código postal y
+     botón: dos veces lo mismo, una encima de otra. */
+  .sin-mapa .mapa-barra{ display:none; }
+
+  /* ===== ACCIONES FIJAS (WhatsApp + asistente) ===== */
+  #acciones{ position:fixed; z-index:50; right:1.25rem; bottom:1.25rem; pointer-events:none; }
+  .acciones-barra{ display:flex; flex-direction:column-reverse; align-items:flex-end; gap:.75rem;
+                   pointer-events:auto; }
+  .accion{ position:relative; display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+           border-radius:9999px; font-family:'Plus Jakarta Sans',system-ui,sans-serif; font-weight:700;
+           box-shadow:0 24px 50px -22px rgb(var(--frambuesa) / .45);
+           transition:transform .25s cubic-bezier(.16,1,.3,1), background .25s; }
+  .accion-wa{ width:4rem; height:4rem; background:#25D366; color:#fff; }
+  .accion-wa:hover{ background:#1DA851; transform:scale(1.05); }
+  .accion-wa .accion-texto{ display:none; }     /* en el escritorio es un círculo */
+  .accion-chat{ padding:.85rem 1.25rem; font-size:.875rem;
+                background:rgb(var(--frambuesa)); color:#fff; }
+  .accion-chat:hover{ background:rgb(var(--frambuesa-oscuro)); }
+
+  @media (max-width:639.98px){
+    #acciones{ inset-inline:0; right:auto; bottom:0; }
+    .acciones-barra{ flex-direction:row; align-items:stretch; gap:.6rem;
+                     padding:.55rem .75rem calc(.55rem + env(safe-area-inset-bottom,0px));
+                     background:rgb(var(--crema) / .72);
+                     -webkit-backdrop-filter:blur(18px) saturate(185%);
+                     backdrop-filter:blur(18px) saturate(185%);
+                     border-top:1px solid rgb(var(--oro-claro) / .45); }
+    .accion{ flex:1; height:3.05rem; padding:0 .5rem; font-size:.85rem; box-shadow:none;
+             white-space:nowrap; }
+    .accion-wa{ width:auto; height:3.05rem; }
+    .accion-wa .accion-texto{ display:inline; }
+    /* El halo que late queda bien en un círculo; en un botón ancho, no. */
+    .accion-wa .latido{ display:none; }
+    /* Hueco para que la barra no se coma el final de la página. */
+    body{ padding-bottom:4.4rem; }
+  }
+  @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+    .acciones-barra{ background:rgb(var(--crema) / .98); }
+  }
+
   /* ===== CHATBOT DE PRESUPUESTO ===== */
   /* Vidrio, pero más cerrado que el resto: aquí se lee y se contesta, y con la
      transparencia de la cabecera se veía el texto de la página por detrás de
      las burbujas. El desenfoque se queda; lo que sube es la opacidad. */
-  #panel-chat{ background:rgb(var(--crema) / .88);
+  #panel-chat{ position:absolute; right:0; bottom:calc(100% + .85rem);
+               width:min(22rem,calc(100vw - 2.5rem));
+               background:rgb(var(--crema) / .88);
                transform:translateY(12px) scale(.97); opacity:0; pointer-events:none;
                transition:transform .28s cubic-bezier(.16,1,.3,1), opacity .28s; }
+  /* En el móvil el panel se apoya sobre la barra y ocupa el ancho de la
+     pantalla menos los márgenes. */
+  @media (max-width:639.98px){
+    #panel-chat{ position:fixed; left:.75rem; right:.75rem; width:auto;
+                 bottom:calc(4.2rem + env(safe-area-inset-bottom,0px)); }
+  }
   #panel-chat.abierto{ transform:none; opacity:1; pointer-events:auto; }
   /* pre-line: el resumen del encargo se escribe con saltos de línea y sin esto
      salían todos seguidos, como un párrafo ilegible. */
@@ -696,7 +790,7 @@
   <div class="escenario-fijo">
 
     <div id="portada-centro" class="centro">
-      <p class="vidrio mb-5 inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-[11px] font-bold uppercase tracking-[.2em] text-frambuesa">
+      <p class="vidrio mb-5 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[.14em] text-frambuesa sm:gap-2.5 sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[.2em]">
         <img src="assets/logo.png" alt="" width="20" height="23" class="h-5 w-auto" aria-hidden="true">
         Obrador artesanal en Ourense
       </p>
@@ -815,66 +909,66 @@
 </div>
 
 <!-- ===================== ESPECIALIDADES ===================== -->
-<section id="especialidades" class="bg-white py-16 lg:py-24">
+<section id="especialidades" class="bg-white py-12 sm:py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
       <p class="antetitulo mb-4">Para cada celebración</p>
       <h2 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl">
         Diseños únicos para <span class="subrayado">momentos inolvidables</span>
       </h2>
-      <p class="mt-4 text-lg leading-relaxed text-tinta/75">
+      <p class="mt-4 text-[17px] leading-relaxed text-tinta/75 sm:text-lg">
         Nos cuentas la idea, la fecha y para cuántas personas. Nosotras la dibujamos,
         te pasamos precio y la tienes lista el día que la necesitas.
       </p>
     </div>
 
     <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      <article class="tarjeta reveal rounded-3xl border border-rosa-palo bg-rosa-nube/60 p-7 text-center hover:shadow-suave">
-        <span class="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-suave" aria-hidden="true">
+      <article class="esp tarjeta reveal rounded-3xl border border-rosa-palo bg-rosa-nube/60 p-5 text-center hover:shadow-suave sm:p-7">
+        <span class="esp-icono mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-suave sm:h-16 sm:w-16" aria-hidden="true">
           <svg class="h-8 w-8 text-frambuesa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false">
             <path d="M4 20h16v-6H4zM4 14c0-2 1.8-3 4-3s4 1 4 3M12 14c0-2 1.8-3 4-3s4 1 4 3M12 8V5"/><path d="M12 5c-.8-1 .3-2.2 1-1.4"/>
           </svg>
         </span>
-        <h3 class="mt-5 font-display text-xl font-bold text-tinta">Cumpleaños</h3>
+        <h3 class="esp-titulo mt-3 font-display text-lg font-bold text-tinta sm:mt-5 sm:text-xl">Cumpleaños</h3>
         <p class="mt-2 text-[15px] leading-relaxed text-tinta/75">
           Desde la tarta del primer añito hasta la sorpresa temática que pida el peque.
           Con figuras, colores y el nombre en grande.
         </p>
       </article>
 
-      <article class="tarjeta reveal rounded-3xl border border-rosa-palo bg-rosa-nube/60 p-7 text-center hover:shadow-suave">
-        <span class="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-suave" aria-hidden="true">
+      <article class="esp tarjeta reveal rounded-3xl border border-rosa-palo bg-rosa-nube/60 p-5 text-center hover:shadow-suave sm:p-7">
+        <span class="esp-icono mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-suave sm:h-16 sm:w-16" aria-hidden="true">
           <svg class="h-8 w-8 text-frambuesa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
             <circle cx="9" cy="14" r="5"/><circle cx="15" cy="14" r="5"/><path d="M9 9V5l2-2M15 9V5l-2-2"/>
           </svg>
         </span>
-        <h3 class="mt-5 font-display text-xl font-bold text-tinta">Bodas</h3>
+        <h3 class="esp-titulo mt-3 font-display text-lg font-bold text-tinta sm:mt-5 sm:text-xl">Bodas</h3>
         <p class="mt-2 text-[15px] leading-relaxed text-tinta/75">
           Tartas de varios pisos, mesa de dulces y detalles para los invitados.
           Probamos sabores contigo antes de decidir.
         </p>
       </article>
 
-      <article class="tarjeta reveal rounded-3xl border border-rosa-palo bg-rosa-nube/60 p-7 text-center hover:shadow-suave">
-        <span class="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-suave" aria-hidden="true">
+      <article class="esp tarjeta reveal rounded-3xl border border-rosa-palo bg-rosa-nube/60 p-5 text-center hover:shadow-suave sm:p-7">
+        <span class="esp-icono mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-suave sm:h-16 sm:w-16" aria-hidden="true">
           <svg class="h-8 w-8 text-frambuesa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" focusable="false">
             <path d="M3 17a9 9 0 0118 0"/><path d="M7 17a5 5 0 0110 0"/>
           </svg>
         </span>
-        <h3 class="mt-5 font-display text-xl font-bold text-tinta">Eventos especiales</h3>
+        <h3 class="esp-titulo mt-3 font-display text-lg font-bold text-tinta sm:mt-5 sm:text-xl">Eventos especiales</h3>
         <p class="mt-2 text-[15px] leading-relaxed text-tinta/75">
           Comuniones, bautizos, baby showers, jubilaciones y celebraciones de empresa.
           Nos adaptamos al número de comensales.
         </p>
       </article>
 
-      <article class="tarjeta reveal rounded-3xl border border-rosa-palo bg-rosa-nube/60 p-7 text-center hover:shadow-suave">
-        <span class="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-suave" aria-hidden="true">
+      <article class="esp tarjeta reveal rounded-3xl border border-rosa-palo bg-rosa-nube/60 p-5 text-center hover:shadow-suave sm:p-7">
+        <span class="esp-icono mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-suave sm:h-16 sm:w-16" aria-hidden="true">
           <svg class="h-8 w-8 text-frambuesa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false">
             <path d="M5 19L17 7M15 5l4 4"/><path d="M6 4v4M4 6h4M17 15v3M15.5 16.5h3"/>
           </svg>
         </span>
-        <h3 class="mt-5 font-display text-xl font-bold text-tinta">Temáticas</h3>
+        <h3 class="esp-titulo mt-3 font-display text-lg font-bold text-tinta sm:mt-5 sm:text-xl">Temáticas</h3>
         <p class="mt-2 text-[15px] leading-relaxed text-tinta/75">
           Su videojuego, su serie o su equipo favorito. Si te lo imaginas,
           lo llevamos a la tarta.
@@ -885,7 +979,7 @@
 </section>
 
 <!-- ===================== SABOR VENEZOLANO ===================== -->
-<section id="venezolana" class="relative overflow-hidden bg-rosa-nube py-16 lg:py-24">
+<section id="venezolana" class="relative overflow-hidden bg-rosa-nube py-12 sm:py-16 lg:py-24">
   <div class="absolute -left-20 top-10 h-72 w-72 rounded-full bg-amarillo opacity-40 blur-3xl" aria-hidden="true"></div>
   <div class="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-lila opacity-50 blur-3xl" aria-hidden="true"></div>
 
@@ -954,14 +1048,14 @@
 </section>
 
 <!-- ===================== GALERÍA ===================== -->
-<section id="galeria" class="bg-white py-16 lg:py-24">
+<section id="galeria" class="bg-white py-12 sm:py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
       <p class="antetitulo mb-4">Nuestro trabajo</p>
       <h2 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl">
         Tartas que ya han <span class="subrayado">soplado velas</span>
       </h2>
-      <p class="mt-4 text-lg leading-relaxed text-tinta/75">
+      <p class="mt-4 text-[17px] leading-relaxed text-tinta/75 sm:text-lg">
         Cada una salió de una idea que alguien nos contó por WhatsApp.
         Puedes ver muchas más en nuestro Instagram.
       </p>
@@ -1097,7 +1191,7 @@
 <!-- ===================== OPINIONES ===================== -->
 <!-- Reseñas literales del perfil de Google. No editar el texto: si cambian,
      copiarlas otra vez tal cual desde la ficha. -->
-<section id="opiniones" class="bg-rosa-nube py-16 lg:py-24">
+<section id="opiniones" class="bg-rosa-nube py-12 sm:py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
       <p class="antetitulo mb-4">Opiniones</p>
@@ -1140,11 +1234,11 @@
          flechas y a tener un panel asociado, y aquí no hay ni una cosa ni la
          otra. aria-pressed dice justo lo que son. -->
     <div class="reveal mt-9 flex flex-wrap justify-center gap-2" role="group" aria-label="Filtrar reseñas">
-      <button type="button" class="pestana rounded-full border border-rosa-palo px-5 py-2.5 text-sm font-semibold text-tinta/75 transition hover:border-frambuesa"
+      <button type="button" class="pestana rounded-full border border-rosa-palo px-3.5 py-2 text-[13px] font-semibold text-tinta/75 transition hover:border-frambuesa sm:px-5 sm:py-2.5 sm:text-sm"
               aria-pressed="true" data-filtro="todas">Todas</button>
-      <button type="button" class="pestana rounded-full border border-rosa-palo px-5 py-2.5 text-sm font-semibold text-tinta/75 transition hover:border-frambuesa"
+      <button type="button" class="pestana rounded-full border border-rosa-palo px-3.5 py-2 text-[13px] font-semibold text-tinta/75 transition hover:border-frambuesa sm:px-5 sm:py-2.5 sm:text-sm"
               aria-pressed="false" data-filtro="recientes">Más recientes</button>
-      <button type="button" class="pestana rounded-full border border-rosa-palo px-5 py-2.5 text-sm font-semibold text-tinta/75 transition hover:border-frambuesa"
+      <button type="button" class="pestana rounded-full border border-rosa-palo px-3.5 py-2 text-[13px] font-semibold text-tinta/75 transition hover:border-frambuesa sm:px-5 sm:py-2.5 sm:text-sm"
               aria-pressed="false" data-filtro="tresleches">Tres leches</button>
     </div>
 
@@ -1158,20 +1252,20 @@
     </div>
     <!-- «su ficha» y no «la reseña»: el enlace es el de la ficha del negocio,
          igual para las 16 tarjetas, no uno por reseña. -->
-    <p class="mt-5 text-center text-sm text-tinta/55">Pasa el ratón por encima para pararlas · pulsa una tarjeta para abrir su ficha en Google</p>
+    <p class="mt-5 text-center text-sm text-tinta/55"><span class="solo-raton">Pasa el ratón por encima para pararlas · pulsa</span><span class="solo-tactil">Toca</span> una tarjeta para abrir su ficha en Google</p>
     <p id="cascada-aviso" class="sr-only" role="status"></p>
   </div>
 </section>
 
 <!-- ===================== CÓMO ENCARGAR ===================== -->
-<section id="encargar" class="bg-white py-16 lg:py-24">
+<section id="encargar" class="bg-white py-12 sm:py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
       <p class="antetitulo mb-4">Cómo encargar</p>
       <h2 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl">
         Tres pasos y <span class="subrayado">ya está</span>
       </h2>
-      <p class="mt-4 text-lg leading-relaxed text-tinta/75">
+      <p class="mt-4 text-[17px] leading-relaxed text-tinta/75 sm:text-lg">
         Sin formularios largos ni registros. Nos escribes, lo hablamos y vienes a recogerla.
       </p>
     </div>
@@ -1260,7 +1354,7 @@
 </section>
 
 <!-- ===================== CONTACTO ===================== -->
-<section id="contacto" class="bg-rosa-nube py-16 lg:py-24">
+<section id="contacto" class="bg-rosa-nube py-12 sm:py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mx-auto max-w-2xl text-center">
       <p class="antetitulo mb-4">Dónde estamos</p>
@@ -1275,22 +1369,22 @@
 
         <dl class="mt-7 space-y-6">
           <div class="flex items-start gap-4">
-            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-rosa-nube text-frambuesa" aria-hidden="true">
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-rosa-nube text-frambuesa sm:h-11 sm:w-11" aria-hidden="true">
               <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </span>
             <div>
               <dt class="text-xs font-bold uppercase tracking-wider text-tinta/55">Dirección</dt>
               <dd class="mt-1">
                 <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+27,+32005+Ourense" target="_blank" rel="noopener"
-                   class="font-semibold text-tinta underline decoration-oro-claro decoration-2 underline-offset-4 hover:text-frambuesa">
-                  Rúa do Progreso 27, bajo 3<br>32005 Ourense · Jardín do Posío
+                   class="text-[15px] font-semibold text-tinta underline decoration-oro-claro decoration-2 underline-offset-4 hover:text-frambuesa sm:text-base">
+                  Rúa do Progreso 27, bajo 3<br>32005 Ourense<span class="hidden sm:inline"> · </span><span class="block sm:inline">Jardín do Posío</span>
                 </a>
               </dd>
             </div>
           </div>
 
           <div class="flex items-start gap-4">
-            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-rosa-nube text-frambuesa" aria-hidden="true">
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-rosa-nube text-frambuesa sm:h-11 sm:w-11" aria-hidden="true">
               <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="M6.6 10.8c1.1 2.2 2.9 4 5.1 5.1l1.7-1.7c.2-.2.5-.3.8-.2 1.1.4 2.2.6 3.4.6.4 0 .8.3.8.8V18c0 .4-.3.8-.8.8-7 0-12.6-5.7-12.6-12.6 0-.4.3-.8.8-.8h2.6c.4 0 .8.3.8.8 0 1.2.2 2.3.6 3.4.1.3 0 .6-.2.8l-1.7 1.7z"/></svg>
             </span>
             <div>
@@ -1300,7 +1394,7 @@
           </div>
 
           <div class="flex items-start gap-4">
-            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-rosa-nube text-frambuesa" aria-hidden="true">
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-rosa-nube text-frambuesa sm:h-11 sm:w-11" aria-hidden="true">
               <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none"/></svg>
             </span>
             <div>
@@ -1310,7 +1404,7 @@
           </div>
 
           <div class="flex items-start gap-4">
-            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-rosa-nube text-frambuesa" aria-hidden="true">
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-rosa-nube text-frambuesa sm:h-11 sm:w-11" aria-hidden="true">
               <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
             </span>
             <div class="min-w-0 flex-1">
@@ -1356,17 +1450,19 @@
            barra de la dirección. Así el mapa se come ese hueco. -->
       <div class="reveal flex flex-col overflow-hidden rounded-3xl border border-rosa-palo bg-white shadow-suave">
         <div id="mapa-caja" class="relative min-h-[20rem] flex-1 bg-rosa-nube sm:min-h-[26rem]">
-          <div id="mapa-apoyo" class="absolute inset-0 grid place-items-center p-8 text-center" hidden>
+          <div id="mapa-apoyo" class="mapa-apoyo absolute inset-0 grid place-items-center p-6 text-center" hidden>
             <div>
-              <span class="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-frambuesa text-white" aria-hidden="true">
-                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span class="mapa-chincheta mx-auto grid h-16 w-16 place-items-center rounded-full bg-frambuesa text-white" aria-hidden="true">
+                <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>
               </span>
-              <p class="mt-3 font-display font-bold text-tinta">El mapa no ha podido cargarse</p>
-              <p class="mt-1 text-sm text-tinta/70">Puede que lo esté bloqueando tu navegador.</p>
+              <p class="mt-4 font-display text-xl font-bold text-tinta">Estamos en el Jardín do Posío</p>
+              <p class="mt-1 text-[15px] text-tinta/75">Rúa do Progreso 27, bajo 3 · 32005 Ourense</p>
               <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+27,+32005+Ourense" target="_blank" rel="noopener"
-                 class="destello mt-4 inline-flex rounded-full bg-frambuesa px-5 py-3 font-rotulo text-sm font-bold text-white transition hover:bg-frambuesa-oscuro">
-                Abrir en Google Maps
+                 class="destello mt-5 inline-flex items-center gap-2 rounded-full bg-frambuesa px-6 py-3.5 font-rotulo text-sm font-bold text-white transition hover:bg-frambuesa-oscuro">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                Ver el mapa en Google Maps
               </a>
+              <p class="mt-3 text-xs text-tinta/50">El mapa incrustado no se ha podido cargar aquí.</p>
             </div>
           </div>
           <iframe id="mapa-marco" title="Mapa de Bin &amp; Cami Cakes en Rúa do Progreso 27, Ourense"
@@ -1377,7 +1473,7 @@
         <!-- En el móvil el botón se pone debajo y a todo lo ancho: en una fila
              de 350 px se comía el sitio de la dirección, que salía partida en
              tres líneas. -->
-        <div class="flex flex-col gap-4 border-t border-rosa-palo p-5 sm:flex-row sm:items-center sm:p-6">
+        <div class="mapa-barra flex flex-col gap-4 border-t border-rosa-palo p-5 sm:flex-row sm:items-center sm:p-6">
           <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-frambuesa text-white" aria-hidden="true">
             <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>
           </span>
@@ -1491,11 +1587,15 @@
   </div>
 </footer>
 
-<!-- ===================== ASISTENTE DE PRESUPUESTO ===================== -->
-<!-- pointer-events-none en el envoltorio: es una caja fija de 350x192 px que,
-     con el asistente cerrado, se comía el 20% de la pantalla del móvil. Los
-     hijos vuelven a recibir pulsaciones por su cuenta. -->
-<div class="pointer-events-none fixed bottom-24 right-5 z-50 w-[min(22rem,calc(100vw-2.5rem))] no-print">
+<!-- ===================== ACCIONES FIJAS ===================== -->
+<!-- En el móvil los dos botones dejan de flotar sueltos y se juntan en una
+     barra abajo, con su rótulo. Flotando eran dos círculos de 56 y 64 px que
+     iban tapando lo que pillaran (el botón de Instagram, la dirección del
+     mapa) y no decían lo que hacían. La barra siempre está a mano, que es lo
+     que se busca en un teléfono, y el <body> lleva hueco abajo para que no
+     tape el final de la página. A partir de sm vuelven a flotar a la derecha,
+     que en un escritorio una barra de lado a lado sobra. -->
+<div id="acciones" class="no-print">
   <div id="panel-chat" class="vidrio flex max-h-[min(30rem,calc(100vh-12rem))] flex-col overflow-hidden rounded-3xl"
        role="dialog" aria-modal="false" aria-labelledby="chat-titulo" aria-hidden="true">
     <header class="flex items-center gap-3 border-b border-rosa-nube bg-rosa-nube/60 px-4 py-3">
@@ -1512,30 +1612,26 @@
     <div id="chat-opciones" class="flex flex-wrap gap-2 border-t border-rosa-nube px-4 py-3"></div>
   </div>
 
-  <!-- En el móvil va sin rótulo, como el botón de WhatsApp: con el texto medía
-       200 px de ancho y tapaba el filtro «Más recientes» de las reseñas, que
-       quedaba imposible de pulsar. A partir de sm sí cabe el rótulo. -->
-  <button type="button" id="chat-abrir"
-          class="pointer-events-auto mt-3 ml-auto grid h-14 w-14 place-items-center rounded-full bg-frambuesa font-display text-sm font-bold text-white shadow-alta transition hover:bg-frambuesa-oscuro sm:flex sm:h-auto sm:w-auto sm:items-center sm:gap-2.5 sm:px-5 sm:py-3.5"
-          aria-expanded="false" aria-controls="panel-chat" aria-label="Calcular el presupuesto de mi tarta">
-    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M21 11.5a8.4 8.4 0 01-9 8.4 9 9 0 01-3.9-.9L3 20.5l1.6-4.6A8.3 8.3 0 013.6 11a8.4 8.4 0 018.9-8.4 8.4 8.4 0 018.5 8.4z"/>
-    </svg>
-    <span id="chat-etiqueta" class="hidden sm:inline">Calcular mi tarta</span>
-  </button>
-</div>
+  <div class="acciones-barra">
+    <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20encargar%20una%20tarta%20personalizada"
+       target="_blank" rel="noopener" class="accion accion-wa group"
+       aria-label="Escribir por WhatsApp a Bin y Cami Cakes">
+      <span class="latido absolute inset-0 rounded-full bg-[#25D366]" aria-hidden="true"></span>
+      <svg class="relative h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/></svg>
+      <span class="accion-texto relative">WhatsApp</span>
+      <span class="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-xl bg-tinta px-3 py-2 text-sm font-semibold text-white opacity-0 shadow-lg transition group-hover:opacity-100 lg:block">
+        Cuéntanos tu idea
+      </span>
+    </a>
 
-<div class="fixed bottom-5 right-5 z-50 no-print">
-  <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20encargar%20una%20tarta%20personalizada"
-     target="_blank" rel="noopener"
-     class="group relative grid h-16 w-16 place-items-center rounded-full bg-[#25D366] shadow-alta transition hover:scale-105 hover:bg-[#1DA851]"
-     aria-label="Escribir por WhatsApp a Bin y Cami Cakes">
-    <span class="latido absolute inset-0 rounded-full bg-[#25D366]" aria-hidden="true"></span>
-    <svg class="relative h-9 w-9 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/></svg>
-    <span class="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-xl bg-tinta px-3 py-2 text-sm font-semibold text-white opacity-0 shadow-lg transition group-hover:opacity-100 lg:block">
-      Cuéntanos tu idea
-    </span>
-  </a>
+    <button type="button" id="chat-abrir" class="accion accion-chat"
+            aria-expanded="false" aria-controls="panel-chat" aria-label="Calcular el presupuesto de mi tarta">
+      <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 11.5a8.4 8.4 0 01-9 8.4 9 9 0 01-3.9-.9L3 20.5l1.6-4.6A8.3 8.3 0 013.6 11a8.4 8.4 0 018.9-8.4 8.4 8.4 0 018.5 8.4z"/>
+      </svg>
+      <span id="chat-etiqueta" class="accion-texto">Calcular mi tarta</span>
+    </button>
+  </div>
 </div>
 
 <script>
@@ -1712,25 +1808,32 @@
   function pintar(){
     if (quieto.matches) return;
     var p = progreso(), movil = estrecho.matches, n = cartas.length;
+    /* En una pantalla estrecha las tartas pasaban POR ENCIMA del titular
+       durante medio scroll: el apartado de choques sólo mira el sitio final,
+       y por el camino no lo mira nadie. Así que en el móvil las tartas
+       terminan su viaje antes (a la mitad del recorrido) y el texto entra
+       después, cuando ya están aparcadas donde no molestan. */
+    var pc = movil ? Math.min(1, p / 0.55) : p;
     cartas.forEach(function(c, i){
       var d = datos[i]; if (!d) return;
       var fin = destinos[i] || { x:movil ? d.sx : d.x, y:movil ? d.sy : d.y };
-      var x = entre(d.cx, fin.x, p);
-      var y = entre(d.cy, fin.y, p);
+      var x = entre(d.cx, fin.x, pc);
+      var y = entre(d.cy, fin.y, pc);
       if (!movil){
         /* las de delante se mueven más con el ratón, que da sensación de fondo */
         var prof = n > 1 ? 0.55 + (i / (n - 1)) * 0.75 : 1;
-        x -= sx * 2.6 * prof * p;
-        y -= sy * 2.2 * prof * p;
+        x -= sx * 2.6 * prof * pc;
+        y -= sy * 2.2 * prof * pc;
       }
       c.style.transform =
         'translate(calc(-50% + ' + x.toFixed(2) + 'vw), calc(-50% + ' + y.toFixed(2) + 'vh))' +
-        ' rotate(' + entre(d.cr, movil ? 0 : d.r, p).toFixed(2) + 'deg)' +
-        ' scale(' + entre(ESCALA_MONTON, d.e, p).toFixed(3) + ')';
+        ' rotate(' + entre(d.cr, movil ? 0 : d.r, pc).toFixed(2) + 'deg)' +
+        ' scale(' + entre(ESCALA_MONTON, d.e, pc).toFixed(3) + ')';
       c.style.zIndex = String(10 + i);
     });
     if (centro){
-      var o = Math.min(1, Math.max(0, (p - TEXTO) / 0.35));
+      var arranca = movil ? 0.58 : TEXTO;
+      var o = Math.min(1, Math.max(0, (p - arranca) / (movil ? 0.22 : 0.35)));
       centro.style.opacity = o.toFixed(3);
       centro.style.transform = 'scale(' + entre(0.92, 1, o).toFixed(3) + ')';
       /* hasta que no se lee, que no se pueda pulsar lo que hay debajo */
@@ -2124,22 +2227,24 @@
 
 <script>
 /* ============ PLAN B DEL MAPA ============
-   El iframe de Google Maps no siempre llega: hay extensiones de privacidad
-   que lo bloquean y hay vistas previas (dentro de un sandbox) que no permiten
-   incrustar nada de fuera. En ese caso el marco se queda en blanco sin avisar,
-   así que se le da un plazo y, si no ha cargado, se enseña la ficha.
+   El iframe de Google Maps no siempre llega: extensiones de privacidad que lo
+   bloquean, vistas previas dentro de un sandbox que no dejan incrustar nada de
+   fuera, o sencillamente no hay red. Y cuando no llega no avisa: unas veces se
+   queda el rectángulo en blanco y otras el navegador pinta DENTRO del marco su
+   propia página de error —y en ese caso el evento load SÍ salta, así que por
+   ahí no se distingue nada (contentDocument es null en los dos casos).
 
-   Alcance de esto, para no venderlo como lo que no es: se detecta cuando el
-   navegador ni siquiera intenta cargar el marco (no llega su evento load).
-   Si el marco carga pero es la página de error del navegador, eso no se puede
-   distinguir desde aquí — contentDocument es null en los dos casos. De ahí
-   que la dirección y el botón «Cómo llegar» estén siempre visibles debajo del
-   mapa y no dependan de esto.
+   Por eso, antes de fiarse del marco, se pregunta si se llega al servidor con
+   un fetch en modo no-cors: la respuesta no se puede leer, pero da igual;
+   lo que importa es si la promesa cumple (se llega) o falla (no se llega, sea
+   por red, por bloqueador o por la política de la página). Si falla, fuera el
+   marco y se enseña la ficha del sitio, que es lo útil.
 
-   El plazo NO arranca con la página: el iframe es loading="lazy" y no empieza
-   a cargar hasta que te acercas a él, así que un temporizador desde el inicio
-   lo daría por muerto sin haberlo intentado siquiera. Arranca cuando la caja
-   del mapa asoma por la pantalla. */
+   Queda además el plazo de antes por si el sondeo pasa pero el marco no llega
+   a cargar nunca, que es lo que ocurre cuando lo bloquea la política de una
+   vista previa. El plazo no arranca con la página: el marco es loading="lazy"
+   y no empieza a cargar hasta que te acercas, así que contar desde el inicio
+   sería darlo por muerto sin haberlo intentado. */
 (function(){
   'use strict';
   var marco = document.getElementById('mapa-marco');
@@ -2147,29 +2252,49 @@
   var caja  = document.getElementById('mapa-caja');
   if (!marco || !apoyo || !caja) return;
 
-  var cargado = false;
-  /* Si el mapa acaba llegando tarde (móvil con mala cobertura) se deshace el
-     plan B: sería absurdo dejar la ficha puesta con el mapa ya cargado. */
+  var cargado = false, rendido = false;
+
+  /* forzado = lo dice el sondeo, y entonces manda aunque el marco haya
+     disparado su load: si no se llega al servidor, lo que hay dentro del
+     marco es la página de error del navegador, no un mapa. Sin forzar (el
+     plazo) sólo se rinde si el marco no ha cargado todavía. */
+  function rendirse(forzado){
+    if (rendido || (cargado && !forzado)) return;
+    rendido = true;
+    marco.hidden = true;
+    apoyo.hidden = false;
+    var tarjeta = caja.parentNode;
+    if (tarjeta) tarjeta.classList.add('sin-mapa');
+  }
+  /* Si el mapa acaba llegando (móvil con mala cobertura), se deshace. */
   marco.addEventListener('load', function(){
+    if (rendido) return;
     cargado = true;
     marco.hidden = false;
     apoyo.hidden = true;
   });
 
-  function vigilar(){
-    setTimeout(function(){
-      if (cargado) return;
-      marco.hidden = true;
-      apoyo.hidden = false;
-    }, 8000);
+  /* El sondeo sólo vale servido por http(s). Abriendo el archivo a pelo desde
+     el disco (file://) el navegador corta los fetch a otro sitio aunque el
+     iframe cargue tan ricamente: se escondería un mapa que funciona. Ahí se
+     confía en el marco y queda sólo el plazo. */
+  var servida = location.protocol === 'http:' || location.protocol === 'https:';
+
+  function comprobar(){
+    if (servida && window.fetch){
+      window.fetch('https://maps.google.com/favicon.ico',
+                   { mode:'no-cors', cache:'no-store' })
+        .catch(function(){ rendirse(true); });
+    }
+    setTimeout(function(){ rendirse(false); }, 4000);
   }
 
-  if (!('IntersectionObserver' in window)){ vigilar(); return; }
+  if (!('IntersectionObserver' in window)){ comprobar(); return; }
   var ojo = new IntersectionObserver(function(entradas){
     entradas.forEach(function(e){
       if (!e.isIntersecting) return;
       ojo.disconnect();
-      vigilar();
+      comprobar();
     });
   }, { rootMargin: '200px' });
   ojo.observe(caja);
