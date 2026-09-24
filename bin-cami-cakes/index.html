@@ -49,6 +49,20 @@
 <link rel="icon" href="assets/logo.png">
 <link rel="apple-touch-icon" href="assets/logo.png">
 
+<!-- Sin JavaScript (un visor de archivos, un navegador capado) la página se
+     tiene que leer igual: nada de lo que "aparece al bajar" puede arrancar
+     invisible, y las cartas de la portada se colocan en rejilla. -->
+<noscript><style>
+  .reveal, .reveal > *, .palabra{ opacity:1 !important; transform:none !important; filter:none !important; }
+  #portada-centro{ opacity:1 !important; transform:none !important; position:static !important;
+                   padding:1.5rem 1.5rem 2rem !important; pointer-events:auto !important; }
+  .escenario-fijo{ height:auto !important; padding-top:5.5rem !important; }
+  .cartas{ position:static !important; inset:auto !important; display:grid !important;
+           grid-template-columns:repeat(4, minmax(0, 11rem)) !important; justify-content:center !important;
+           gap:.75rem !important; padding:0 1rem 2rem !important; }
+  .carta{ position:static !important; transform:none !important; width:auto !important; }
+  .pista-scroll, #acciones, #cursor{ display:none !important; }
+</style></noscript>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Fraunces para los titulares: serif con carácter, cálida y un poco
@@ -400,9 +414,18 @@
      bloque pegajoso de una pantalla. Lo que se mueve no es la página, es cada
      tarjeta, que va de su sitio en el montón a su sitio final según lo que
      llevas scrolleado. Sin librerías: transform y una variable por tarjeta. */
-  .escenario{ position:relative; width:100%; height:var(--alto-portada,260vh);
+  /* Una pantalla justa: ya no hay pila que desparramar con el scroll. */
+  .escenario{ position:relative; width:100%; height:auto;
               background:linear-gradient(180deg, rgb(var(--rosa-nube)) 0%, rgb(var(--crema)) 60%); }
-  .escenario-fijo{ position:sticky; top:0; height:100svh; overflow:hidden; }
+  .escenario-fijo{ position:relative; height:100svh; min-height:34rem; overflow:hidden; }
+  /* La entrada: las cartas vuelan del montón a su sitio con esta transición,
+     que el JS activa sólo durante el vuelo; el texto entra medio segundo
+     después. Sin JS (o con movimiento reducido) el texto se ve desde el
+     principio, ver <noscript> en la cabecera y el bloque de reduce. */
+  .cartas.entrando .carta{ transition:transform 1.05s cubic-bezier(.16,1,.3,1); }
+  #portada-centro{ opacity:0; transform:translateY(14px) scale(.98); pointer-events:none;
+                   transition:opacity .8s .55s ease, transform .8s .55s cubic-bezier(.16,1,.3,1); }
+  #portada-centro.a-la-vista{ opacity:1; transform:none; }
   .cartas{ position:absolute; inset:0; z-index:10; }
   /* Todas las fotos son 3:4 (vertical). La caja de cada carta tenía alto en vh
      y ancho en vw, así que su proporción cambiaba con la ventana: en un
@@ -422,7 +445,16 @@
        fija, una carta de 20vw en una tableta apaisada medía 273 px de alto y
        las dos filas se echaban encima del titular. 18vh de ancho → 24vh de
        alto, y las dos filas dejan el centro libre. */
-    .carta{ width:min(20vw, 14vh) !important; }
+    .carta{ width:min(20vw, 13vh) !important; }
+    /* Teléfonos bajos (740 px de alto o menos): el titular en tres líneas más
+       los dos botones no dejaban sitio a las dos filas de tartas, y la de
+       abajo se subía al texto. Cartas y titular un punto más pequeños. */
+    @media (max-width:639.98px) and (max-height:780px){
+      .carta{ width:min(16vw, 10vh) !important; }
+      #portada-centro h1{ font-size:2.05rem; }
+      #portada-centro .realce{ font-size:1.7rem; }
+      #portada-centro .mt-7{ margin-top:1.1rem; }
+    }
     .carta-cara{ border-radius:.7rem; }
     .carta-cara span{ font-size:.62rem; line-height:1.15; }
     .carta-cara svg{ display:none; }
@@ -451,6 +483,7 @@
             width:auto !important; height:auto !important; }
     .carta-cara{ aspect-ratio:4/5; }
     .pista-scroll{ display:none; }
+    #portada-centro{ opacity:1; transform:none; transition:none; }
   }
   @media (min-width:1024px){
     @media (prefers-reduced-motion: reduce){ .cartas{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
@@ -836,7 +869,9 @@
         <button type="button" class="idioma" data-idioma="en" lang="en" aria-pressed="false" aria-label="English">EN</button>
       </div>
 
-      <div class="hidden sm:block">
+      <!-- Entre lg y xl no caben el menú, el selector de idioma y este botón:
+           se esconde ahí (el WhatsApp fijo sigue abajo) y vuelve en xl. -->
+      <div class="hidden sm:block lg:hidden xl:block">
         <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20encargar%20una%20tarta%20personalizada"
            target="_blank" rel="noopener"
            class="destello inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-frambuesa px-5 py-3 font-rotulo text-sm font-bold tracking-wide text-white shadow-suave transition hover:bg-frambuesa-oscuro"
@@ -1932,51 +1967,44 @@
 })();
 </script>
 <script>
-/* ============ PORTADA · la pila de tartas que se desparrama ============
-   Portado a mano del componente de React que trajo Brian. La idea es la misma
-   y no hace falta ninguna librería: la sección mide varias pantallas de alto y
-   lleva dentro un bloque pegajoso de una pantalla. Lo que se mueve no es la
-   página, es cada tarjeta, interpolada entre su sitio en el montón y su sitio
-   final según lo que llevas bajado. Todo en vw/vh, así que escala solo. */
+/* ============ PORTADA · las tartas vuelan a su sitio al cargar ============
+   Antes era una pila que se desparramaba con el scroll dentro de una sección
+   de casi tres pantallas. En la demo dio tres problemas: la primera pantalla
+   salía vacía (el titular entraba al bajar), las tartas cruzaban por delante
+   del texto por el camino y, en pantallas bajas, al apartarlas se montaban
+   unas sobre otras. Ahora la portada mide UNA pantalla: las tartas salen del
+   montón central y vuelan a su sitio nada más cargar (un segundo, en cascada)
+   y el titular entra detrás. El ratón sigue moviéndolas un poco (paralaje).
+   Las posiciones van en vw/vh, así que escalan solas. */
 (function(){
   'use strict';
   var escena = document.getElementById('inicio');
   if (!escena || !escena.classList.contains('escenario')) return;
   var centro = document.getElementById('portada-centro');
   var pista  = document.getElementById('pista-scroll');
+  var monton = escena.querySelector('.cartas');
   var cartas = [].slice.call(escena.querySelectorAll('.carta'));
   if (!cartas.length) return;
 
-  var quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
-  /* Dos criterios distintos a propósito: el ANCHO decide el reparto de las
-     cartas (es cuestión de sitio, y el CSS usa el mismo corte de 1280 px para
-     empequeñecerlas), y el PUNTERO decide si hay paralaje, que no tiene
-     sentido sin ratón. Mezclarlos era lo que dejaba el titular tapado. */
-  var estrecho = window.matchMedia('(max-width:1279.98px)');
-  var tactil   = window.matchMedia('(pointer: coarse)');
-
-  var ARRANCA = 0.12, TERMINA = 0.9, TEXTO = 0.25, ESCALA_MONTON = 0.82;
+  var quieto   = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var estrecho = window.matchMedia('(max-width:1279.98px)');   /* reparto en dos filas */
+  var tactil   = window.matchMedia('(pointer: coarse)');       /* sin paralaje de ratón */
+  var ESCALA_MONTON = 0.82;
 
   var datos = cartas.map(function(c){
     try { return JSON.parse(c.dataset.carta); } catch (e){ return null; }
   });
-
   var px = 0, py = 0, sx = 0, sy = 0;   /* puntero crudo y suavizado */
   var destinos = [];                    /* sitio final ya corregido, en vw/vh */
-  function entre(a, b, t){ return a + (b - a) * t; }
+  var colocadas = false;                /* ya volaron a su sitio */
 
-  /* Las cartas se colocan en vw/vh y el texto mide lo que mide en píxeles, así
-     que al estrechar la ventana se le echaban encima: a 1280 px el titular ya
-     chocaba con dos. En vez de ir persiguiendo breakpoints, aquí se mide la
-     caja real del texto y se aparta cada carta hacia afuera lo justo para
-     librarla, sin dejar que se salga de la pantalla. Se recalcula al cambiar
-     el tamaño, no en cada fotograma. */
+  /* La caja real del texto en píxeles, medida sin la escala de entrada. */
   function cajaDelTexto(){
     if (!centro) return null;
     var hijos = [].slice.call(centro.children).filter(function(e){ return e.offsetParent !== null; });
     if (!hijos.length) return null;
     var antes = centro.style.transform;
-    centro.style.transform = 'none';          /* medir sin la escala de entrada */
+    centro.style.transform = 'none';
     var l = Infinity, t = Infinity, r = -Infinity, b = -Infinity;
     hijos.forEach(function(e){
       var q = e.getBoundingClientRect();
@@ -1985,115 +2013,125 @@
     });
     centro.style.transform = antes;
     var aire = 18;
-    return { left:l - aire, top:t - aire, right:r + aire, bottom:b + aire };
+    return { l:l - aire, t:t - aire, r:r + aire, b:b + aire };
   }
 
+  /* Cada carta se aparta del texto Y de las cartas ya colocadas: primero en
+     radial (hacia fuera), y si en radial ya no cabe en pantalla, hacia el
+     lado. Antes sólo miraba el texto, y en pantallas bajas dos cartas
+     acababan apartadas al mismo rincón, una encima de otra. */
   function recalcular(){
     var W = window.innerWidth, H = window.innerHeight, movil = estrecho.matches;
     var caja = quieto.matches ? null : cajaDelTexto();
     var CABECERA = 76;
+    /* en el móvil la barra fija de abajo tapa los últimos 80 px */
+    var SUELO = W < 640 ? 84 : 4;
+    var puestas = [];
+    function solapa(a, b){ return !(a.r <= b.l || a.l >= b.r || a.b <= b.t || a.t >= b.b); }
     destinos = datos.map(function(d, i){
       if (!d) return { x:0, y:0 };
       var fx = movil ? d.sx : d.x, fy = movil ? d.sy : d.y;
-      if (!caja) return { x:fx, y:fy };
       var el = cartas[i];
-      /* La carta acaba girada, y una caja girada ocupa más que la original:
-         midiendo sin el giro se colaba bajo la cabecera y rozaba el texto. */
+      /* la carta acaba girada, y una caja girada ocupa más que la original */
       var giro = Math.abs((movil ? 0 : d.r) * Math.PI / 180);
       var cw = el.offsetWidth * d.e, ch = el.offsetHeight * d.e;
       var hw = (cw * Math.cos(giro) + ch * Math.sin(giro)) / 2;
       var hh = (cw * Math.sin(giro) + ch * Math.cos(giro)) / 2;
-      for (var k = 0; k < 40; k++){
-        var cx = W / 2 + fx * W / 100, cy = H / 2 + fy * H / 100;
-        var choca = !(cx + hw <= caja.left || cx - hw >= caja.right ||
-                      cy + hh <= caja.top  || cy - hh >= caja.bottom);
-        if (!choca) break;
-        var n = Math.hypot(fx, fy) || 1;
-        var nx = fx + (fx / n) * 1.2, ny = fy + (fy / n) * 1.2;
-        var ncx = W / 2 + nx * W / 100, ncy = H / 2 + ny * H / 100;
-        var cabe = function(cx2, cy2){ return cx2 - hw >= 4 && cx2 + hw <= W - 4 && cy2 - hh >= CABECERA && cy2 + hh <= H - 4; };
-        if (!cabe(ncx, ncy)){
-          /* En radial ya no cabe (pantallas bajas: choca con la cabecera o con
-             el borde de abajo). Antes se rendía aquí y la carta se quedaba
-             encima del texto; ahora prueba a apartarse sólo hacia el lado. */
-          nx = fx + (fx >= 0 ? 1.2 : -1.2); ny = fy;
-          ncx = W / 2 + nx * W / 100; ncy = H / 2 + ny * H / 100;
-          if (!cabe(ncx, ncy)) break;
-        }
-        fx = nx; fy = ny;
+      function rect(cx, cy){ return { l:cx - hw, r:cx + hw, t:cy - hh, b:cy + hh }; }
+      function cabe(cx, cy){ return cx - hw >= 4 && cx + hw <= W - 4 && cy - hh >= CABECERA && cy + hh <= H - SUELO; }
+      function libre(cx, cy){
+        var q = rect(cx, cy);
+        if (caja && solapa(q, caja)) return false;
+        for (var k = 0; k < puestas.length; k++) if (solapa(q, puestas[k])) return false;
+        return true;
       }
-      /* Tope duro al final: apartar una carta hacia arriba podía dejarla unos
-         píxeles por debajo de la cabecera fija, y ahí se ve cortada. */
+      if (caja){
+        for (var k = 0; k < 40; k++){
+          var cx = W / 2 + fx * W / 100, cy = H / 2 + fy * H / 100;
+          if (libre(cx, cy)) break;
+          var n = Math.hypot(fx, fy) || 1;
+          var nx = fx + (fx / n) * 1.2, ny = fy + (fy / n) * 1.2;
+          if (!cabe(W / 2 + nx * W / 100, H / 2 + ny * H / 100)){
+            nx = fx + (fx >= 0 ? 1.2 : -1.2); ny = fy;
+            if (!cabe(W / 2 + nx * W / 100, H / 2 + ny * H / 100)) break;
+          }
+          fx = nx; fy = ny;
+        }
+      }
+      /* topes duros: ni bajo la cabecera ni bajo la barra del móvil */
       var yMin = (CABECERA + hh - H / 2) * 100 / H;
+      var yMax = (H - SUELO - hh - H / 2) * 100 / H;
       if (fy < yMin) fy = yMin;
+      if (fy > yMax) fy = yMax;
+      puestas.push(rect(W / 2 + fx * W / 100, H / 2 + fy * H / 100));
       return { x:fx, y:fy };
     });
   }
 
-  function progreso(){
-    var recorrido = escena.offsetHeight - window.innerHeight;
-    if (recorrido <= 0) return 1;
-    var bruto = Math.min(1, Math.max(0, -escena.getBoundingClientRect().top / recorrido));
-    /* se queda quieta un poco al entrar y al salir */
-    return Math.min(1, Math.max(0, (bruto - ARRANCA) / (TERMINA - ARRANCA)));
+  function transformar(c, x, y, r, e){
+    c.style.transform = 'translate(calc(-50% + ' + x.toFixed(2) + 'vw), calc(-50% + ' + y.toFixed(2) + 'vh))' +
+                        ' rotate(' + r.toFixed(2) + 'deg) scale(' + e.toFixed(3) + ')';
   }
-
+  /* el montón del centro, de donde salen */
+  function apilar(){
+    cartas.forEach(function(c, i){
+      var d = datos[i]; if (!d) return;
+      transformar(c, d.cx, d.cy, d.cr, ESCALA_MONTON);
+      c.style.zIndex = String(10 + i);
+    });
+  }
   function pintar(){
     if (quieto.matches) return;
-    var p = progreso(), movil = estrecho.matches, n = cartas.length;
-    /* En una pantalla estrecha las tartas pasaban POR ENCIMA del titular
-       durante medio scroll: el apartado de choques sólo mira el sitio final,
-       y por el camino no lo mira nadie. Así que en el móvil las tartas
-       terminan su viaje antes (a la mitad del recorrido) y el texto entra
-       después, cuando ya están aparcadas donde no molestan. */
-    var pc = movil ? Math.min(1, p / 0.55) : Math.min(1, p / 0.65);
+    var movil = estrecho.matches, n = cartas.length;
     cartas.forEach(function(c, i){
       var d = datos[i]; if (!d) return;
       var fin = destinos[i] || { x:movil ? d.sx : d.x, y:movil ? d.sy : d.y };
-      var x = entre(d.cx, fin.x, pc);
-      var y = entre(d.cy, fin.y, pc);
+      var x = fin.x, y = fin.y;
       if (!movil){
         /* las de delante se mueven más con el ratón, que da sensación de fondo */
         var prof = n > 1 ? 0.55 + (i / (n - 1)) * 0.75 : 1;
-        x -= sx * 2.6 * prof * pc;
-        y -= sy * 2.2 * prof * pc;
+        x -= sx * 2.6 * prof;
+        y -= sy * 2.2 * prof;
       }
-      c.style.transform =
-        'translate(calc(-50% + ' + x.toFixed(2) + 'vw), calc(-50% + ' + y.toFixed(2) + 'vh))' +
-        ' rotate(' + entre(d.cr, movil ? 0 : d.r, pc).toFixed(2) + 'deg)' +
-        ' scale(' + entre(ESCALA_MONTON, d.e, pc).toFixed(3) + ')';
+      transformar(c, x, y, movil ? 0 : d.r, d.e);
       c.style.zIndex = String(10 + i);
     });
-    if (centro){
-      /* En el escritorio también: el texto asoma cuando las tartas ya casi
-         están en su sitio, no mientras cruzan por delante. */
-      var arranca = movil ? 0.58 : 0.6;
-      var o = Math.min(1, Math.max(0, (p - arranca) / (movil ? 0.22 : 0.25)));
-      centro.style.opacity = o.toFixed(3);
-      centro.style.transform = 'scale(' + entre(0.92, 1, o).toFixed(3) + ')';
-      /* hasta que no se lee, que no se pueda pulsar lo que hay debajo */
-      centro.style.pointerEvents = o > 0.6 ? 'auto' : 'none';
-    }
-    if (pista) pista.style.opacity = (1 - Math.min(1, p / 0.25)).toFixed(3);
   }
 
-  var pendiente = false;
-  function alScroll(){
-    if (pendiente) return;
-    pendiente = true;
-    requestAnimationFrame(function(){ pintar(); pendiente = false; });
+  /* La entrada: del montón a su sitio, en cascada, con una transición CSS
+     que se activa sólo durante el vuelo (la clase .entrando). Después se
+     quita, para que el paralaje del ratón no vaya a remolque. */
+  function entrar(){
+    if (quieto.matches){ colocadas = true; if (centro) centro.classList.add('a-la-vista'); return; }
+    apilar();
+    monton.classList.add('entrando');
+    cartas.forEach(function(c, i){ c.style.transitionDelay = (i * 70) + 'ms'; });
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      pintar();
+      if (centro) centro.classList.add('a-la-vista');
+      setTimeout(function(){
+        monton.classList.remove('entrando');
+        cartas.forEach(function(c){ c.style.transitionDelay = ''; });
+        colocadas = true;
+      }, 1100 + cartas.length * 70);
+    }); });
   }
-  window.addEventListener('scroll', alScroll, { passive:true });
-  window.addEventListener('resize', function(){ recalcular(); alScroll(); });
 
-  /* El paralaje del ratón necesita repintar cada fotograma, pero sólo mientras
-     la portada se ve y sólo con ratón: en el móvil sería gastar batería. */
+  /* La pista «Baja para verlas» se apaga en cuanto se baja un poco. */
+  if (pista){
+    var apagar = function(){ pista.style.opacity = window.scrollY > 40 ? '0' : '1'; };
+    window.addEventListener('scroll', apagar, { passive:true }); apagar();
+  }
+  window.addEventListener('resize', function(){ recalcular(); if (colocadas) pintar(); });
+
+  /* El paralaje del ratón repinta cada fotograma, pero sólo mientras la
+     portada se ve, sólo con ratón y sólo cuando ya han aterrizado. */
   var ala_vista = false, girando = false;
   function bucle(){
     if (!ala_vista || quieto.matches || tactil.matches){ girando = false; return; }
     sx += (px - sx) * 0.08;
     sy += (py - sy) * 0.08;
-    pintar();
+    if (colocadas) pintar();
     requestAnimationFrame(bucle);
   }
   function arrancar(){ if (!girando){ girando = true; requestAnimationFrame(bucle); } }
@@ -2112,14 +2150,14 @@
   }, { passive:true });
   document.addEventListener('pointerleave', function(){ px = 0; py = 0; });
 
-  var alCambiar = function(){ recalcular(); pintar(); arrancar(); };
+  var alCambiar = function(){ recalcular(); if (colocadas) pintar(); arrancar(); };
   [quieto, tactil, estrecho].forEach(function(mq){
     if (mq.addEventListener) mq.addEventListener('change', alCambiar);
     else if (mq.addListener) mq.addListener(alCambiar);
   });
 
   recalcular();
-  pintar();
+  entrar();
   /* Las fuentes cambian el alto del texto al cargar, y con ello la caja. */
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ recalcular(); pintar(); });
 })();

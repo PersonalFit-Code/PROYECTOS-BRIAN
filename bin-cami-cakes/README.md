@@ -131,9 +131,17 @@ Casi todas las visitas entran por el teléfono, así que el móvil manda:
   fija abajo** con su rótulo. Sueltos eran dos círculos que iban tapando lo que
   pillaran y no decían lo que hacían. El `<body>` lleva hueco abajo para que la
   barra no se coma el final de la página. A partir de `sm` vuelven a flotar.
-- En la portada, las tartas **terminan su viaje a mitad del recorrido** y el
-  texto entra después. El apartado de choques sólo mira el sitio final de cada
-  tarta, y por el camino pasaban por encima del titular.
+- La portada mide **una pantalla**: las tartas salen del montón central y
+  vuelan a su sitio nada más cargar (un segundo, en cascada) y el titular
+  entra detrás. Antes era una pila que se desparramaba con el scroll dentro de
+  una sección de casi tres pantallas, y en la demo dio tres problemas: la
+  primera pantalla salía vacía, las tartas cruzaban por delante del texto y en
+  pantallas bajas se montaban unas sobre otras. Cada tarta se aparta del texto
+  y de las ya colocadas; medido a seis tamaños, sin solapes (en teléfonos
+  quedan esquinas de 20 px).
+- Sin JavaScript (el visor de archivos del iPhone, por ejemplo) la página se
+  lee entera: un `<noscript>` deja visible todo lo que "aparece al bajar" y
+  pone las tartas de la portada en rejilla.
 - Las cuatro tarjetas de especialidades ponen el icono al lado del texto.
 - El escenario del carrusel mide lo que mide la tarta más un respiro, en vez de
   34 rem fijos que dejaban 170 px de nada arriba y abajo.
