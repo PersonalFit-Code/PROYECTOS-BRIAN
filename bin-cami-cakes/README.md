@@ -121,6 +121,35 @@ de Apple son de Apple y no se pueden servir desde una web ajena.
   incrustada en el CSS (~1 KB cada una) y la foto real se funde encima. Las
   clases las activa el JS desde la cabecera; sin JS las fotos se ven tal cual.
 
+## El vídeo
+
+Sección `#video`, entre la galería y las opiniones. **Autoalojado a propósito**:
+un Reel incrustado metería el script de Meta y sus cookies, y aquí se sirve el
+archivo y ya. Nada se descarga hasta que alguien pulsa play (`preload="none"`),
+que la mayoría entra por el móvil con datos.
+
+El hueco lleva de momento un marcador con el mismo lenguaje visual que las
+fotos pendientes. **Cuando llegue el clip**, `prepara_video.py` (en el cuaderno
+de la sesión) hace todo el trabajo:
+
+    python3 prepara_video.py /ruta/al/clip.mov [nombre]
+
+Reencoda a H.264 + AAC (lo único que reproducen todos los navegadores sin
+excepciones: un `.mov` de iPhone con HEVC no se ve en Chrome de Android), pone
+el lado largo a 1280 px, mete `-movflags +faststart` (sin eso el navegador
+descarga el archivo entero antes del primer fotograma), `-pix_fmt yuv420p`
+(sin eso Safari no lo reproduce), saca la portada de un fotograma al 10% del
+clip y sustituye el marcador del `index.html` por el `<video>`.
+
+El CSS no le fija proporción: el clip puede venir apaisado o vertical tipo
+Reel, y forzarle una recortaría o metería barras. Manda el propio archivo, con
+un techo de alto para que un vertical no ocupe tres pantallas.
+
+**Ojo con el origen**: una grabación de pantalla de un Reel de Instagram no
+vale — lleva la interfaz de Instagram dentro y va recomprimida dos veces. El
+original lo tiene quien lo grabó, o se baja desde la propia cuenta de
+Instagram (⋯ → «Guardar en el carrete» en su propio Reel).
+
 ## Idiomas: castellano · galego · English
 
 Selector en la cabecera (y arriba del menú del móvil). El castellano no está
