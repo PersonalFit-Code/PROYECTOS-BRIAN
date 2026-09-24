@@ -54,6 +54,11 @@ plana con las 8 a la vista, todas las captions visibles de una vez.
 Cada tarjeta lleva su propio enlace de WhatsApp con el mensaje ya escrito
 ("Pregúntanos por esta"), salvo «El obrador», que no vende nada.
 
+Va sobre el blanco de la sección, sin caja oscura detrás. Eso cambia cómo se
+finge la profundidad: nada de `brightness()` en las laterales (sobre blanco se
+ven grises), el velo oscuro sólo bajo la tarjeta central —la única con texto
+encima— y el corte de los lados se funde con una máscara, como en el ticker.
+
 ## Falta todavía
 
 - [ ] Las 4 fotos que faltan (cookies, mesa de dulces, piñitas, obrador) + regenerar la de "tarta temática" sin texto horneado

@@ -259,31 +259,39 @@
 
   /* ===== CARRUSEL 3D DE LA GALERÍA (coverflow) =====
      Adaptado a mano de un componente de React (motion/perspectiva 3D) al
-     JS de siempre de esta página: nada de librerías, nada de build. El
-     escenario oscuro es a propósito — es donde ese efecto de profundidad
-     luce — pero con el tinte de la propia marca (rgb(var(--tinta)) y un
-     resplandor rosa arriba), no un negro genérico de plantilla. */
-  .cf{ position:relative; overflow:hidden; border-radius:1.75rem;
-       background:radial-gradient(120% 160% at 50% -20%, rgb(var(--rosa) / .35), transparent 60%),
-                  rgb(var(--tinta)); }
-  .cf-ambiente{ position:absolute; inset:0; height:100%; width:100%; object-fit:cover;
-                filter:brightness(.28) blur(2.75rem); transform:scale(1.15);
-                opacity:0; transition:opacity .9s ease; }
-  .cf-ambiente.visible{ opacity:1; }
-  .cf-velo{ position:absolute; inset:0;
-            background:radial-gradient(circle at center, rgb(var(--tinta) / .35), rgb(var(--tinta) / .94)); }
-
+     JS de siempre de esta página: nada de librerías, nada de build. Va
+     sobre el blanco de la sección: sin escenario oscuro, sólo las tartas.
+     Eso obliga a cambiar los trucos de profundidad, porque los de un fondo
+     negro sobre blanco se ven sucios:
+       · nada de brightness() en las laterales (ahí se veían grises); la
+         profundidad la marcan el tamaño, el giro y la transparencia;
+       · el velo oscuro de la tarjeta sólo aparece en la central, que es la
+         única que lleva texto blanco encima;
+       · el recorte lateral se funde con una máscara en vez de cortarse a
+         cuchillo, como ya se hace en el ticker y en la cascada. */
+  .cf{ position:relative; overflow:hidden; }
+  /* La máscara va en el escenario y no en .cf porque las flechas viven
+     fuera de él: puestas dentro se desvanecerían con el borde. */
   .cf-escenario{ position:relative; z-index:1; height:34rem; display:flex;
-                 align-items:center; justify-content:center; perspective:1400px; }
+                 align-items:center; justify-content:center; perspective:1400px;
+                 -webkit-mask-image:linear-gradient(90deg,#0000,#000 8%,#000 92%,#0000);
+                 mask-image:linear-gradient(90deg,#0000,#000 8%,#000 92%,#0000); }
   .cf-carta{ position:absolute; left:50%; top:50%; width:min(72vw,20rem); height:min(88vw,25rem);
-             border-radius:1.15rem; overflow:hidden; background:rgb(var(--tinta));
-             border:1px solid rgb(255 255 255 / .12);
-             transition:transform .7s cubic-bezier(.25,1,.5,1), opacity .7s ease, filter .7s ease;
+             border-radius:1.15rem; overflow:hidden; background:rgb(var(--rosa-nube));
+             border:1px solid rgb(var(--rosa-palo));
+             box-shadow:0 18px 38px rgb(var(--tinta) / .16);
+             transition:transform .7s cubic-bezier(.25,1,.5,1), opacity .7s ease;
              will-change:transform; }
   .cf-carta img{ position:absolute; inset:0; height:100%; width:100%; object-fit:cover; }
-  .cf-velo-carta{ position:absolute; inset:0;
-                  background:linear-gradient(180deg, rgb(0 0 0 / .35) 0%, rgb(0 0 0 / .06) 25%,
-                              rgb(0 0 0 / .72) 62%, rgb(0 0 0 / .96) 100%); }
+  /* Sólo bajo la central: es la única con texto encima, y en las de al lado
+     el velo ensuciaba la foto sin necesidad. */
+  /* Sin la caja negra detrás, el velo de antes dejaba la tarta central casi
+     en sombra al lado de las laterales, que ahora van limpias. Se baja: sólo
+     lo justo para leer la etiqueta arriba y el texto abajo. */
+  .cf-velo-carta{ position:absolute; inset:0; opacity:0; transition:opacity .5s ease;
+                  background:linear-gradient(180deg, rgb(0 0 0 / .3) 0%, rgb(0 0 0 / 0) 28%,
+                              rgb(0 0 0 / .5) 62%, rgb(0 0 0 / .9) 100%); }
+  .cf-carta[data-centro="true"] .cf-velo-carta{ opacity:1; }
   .cf-cuerpo{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column;
               justify-content:flex-end; padding:1.5rem 1.25rem; text-align:center; color:#fff;
               opacity:0; transform:translateY(.75rem); pointer-events:none;
@@ -303,10 +311,21 @@
            color:rgb(var(--tinta)); background:linear-gradient(135deg, rgb(var(--oro-claro)), rgb(var(--oro)));
            box-shadow:0 4px 14px rgb(0 0 0 / .4); text-decoration:none; width:fit-content; }
 
-  .cf-flecha{ display:grid; place-items:center; width:2.75rem; height:2.75rem; border-radius:9999px;
-              background:rgb(0 0 0 / .5); color:#fff; border:1px solid rgb(255 255 255 / .25);
-              backdrop-filter:blur(6px); transition:transform .2s, background .2s; }
-  .cf-flecha:hover{ transform:scale(1.08); background:rgb(var(--frambuesa)); }
+  /* La posición estaba en el style= de cada botón, y un style= gana a
+     cualquier regla de aquí: el transform del :hover no llegaba a aplicarse
+     nunca porque el translateY(-50%) en línea lo pisaba. Con la colocación
+     aquí, el hover vuelve a funcionar (y hay que repetir el -50%, porque
+     transform es una propiedad, no una lista). */
+  .cf-flecha{ position:absolute; top:50%; z-index:5; transform:translateY(-50%);
+              display:grid; place-items:center; width:2.75rem; height:2.75rem; border-radius:9999px;
+              background:#fff; color:rgb(var(--frambuesa)); border:1px solid rgb(var(--rosa-palo));
+              box-shadow:0 6px 18px rgb(var(--tinta) / .14);
+              transition:transform .2s, background .2s, color .2s; }
+  .cf-flecha:hover{ transform:translateY(-50%) scale(1.08);
+                    background:rgb(var(--frambuesa)); color:#fff; border-color:rgb(var(--frambuesa)); }
+  #cf-anterior{ left:.5rem; }
+  #cf-siguiente{ right:.5rem; }
+  @media (min-width:640px){ #cf-anterior{ left:1.5rem; } #cf-siguiente{ right:1.5rem; } }
 
   .cf-punto{ height:.5rem; width:.5rem; border-radius:9999px; background:rgb(var(--rosa-palo));
              border:none; padding:0; transition:width .3s, background .3s; }
@@ -314,13 +333,13 @@
                                    box-shadow:0 0 8px rgb(var(--frambuesa) / .5); }
 
   /* Bajo movimiento reducido no hay perspectiva ni tarjetas flotando: rejilla
-     plana con las 8 a la vista, sin escenario oscuro. Lo mismo que se hizo con
-     la pila de la portada: no basta con poner las transiciones a 0, porque la
-     propia inclinación 3D puede marear a quien pidió menos movimiento. */
+     plana con las 8 a la vista. Lo mismo que se hizo con la pila de la
+     portada: no basta con poner las transiciones a 0, porque la propia
+     inclinación 3D puede marear a quien pidió menos movimiento. */
   @media (prefers-reduced-motion: reduce){
-    .cf{ background:none; border-radius:0; }
-    .cf-ambiente, .cf-velo{ display:none; }
-    .cf-escenario{ height:auto; perspective:none; display:grid; gap:1rem; padding:0; }
+    .cf{ overflow:visible; }
+    .cf-escenario{ height:auto; perspective:none; display:grid; gap:1rem; padding:0;
+                   -webkit-mask-image:none; mask-image:none; }
     @media (min-width:1024px){ .cf-escenario{ grid-template-columns:repeat(4,1fr); } }
     @media (max-width:1023.98px){ .cf-escenario{ grid-template-columns:repeat(2,1fr); } }
     .cf-carta{ position:static !important; transform:none !important; width:auto; height:12rem;
@@ -357,6 +376,23 @@
   /* Parar también al tabular: si no, la tarjeta enfocada sigue subiendo. */
   .cascada:hover .cascada-col,
   .cascada:focus-within .cascada-col{ animation-play-state:paused; }
+  /* La reseña se pinta desde JS, así que su estilo vive aquí y no en clases
+     sueltas de Tailwind: al pasar el ratón cambia de blanco a rosa nube y se
+     le marca el borde en frambuesa, para que se vea cuál estás señalando
+     cuando la cascada se para. El mismo cambio con el tabulador
+     (:focus-visible), que si no sólo lo nota quien usa ratón. */
+  .resena{ display:block; padding:1.25rem; border-radius:1.5rem; background:#fff;
+           border:1px solid rgb(var(--rosa-palo) / .5);
+           box-shadow:0 10px 30px -12px rgb(var(--tinta) / .15);
+           transition:background .25s ease, border-color .25s ease,
+                      transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease; }
+  .resena:hover,
+  .resena:focus-visible{ background:rgb(var(--rosa-nube)); border-color:rgb(var(--frambuesa));
+                         transform:translateY(-3px);
+                         box-shadow:0 18px 36px -14px rgb(var(--frambuesa) / .45); }
+  /* La inicial del avatar y el «ver en Google» acompañan al cambio. */
+  .resena:hover .resena-ini,
+  .resena:focus-visible .resena-ini{ background:rgb(var(--frambuesa-oscuro)); }
   /* -50% menos medio hueco: entre las dos copias hay un gap:1rem que el 50%
      no compensa, y sin restarlo el bucle se desplazaba 8 px cada vuelta. */
   @keyframes subir{ from{transform:translateY(0)} to{transform:translateY(calc(-50% - 0.5rem))} }
@@ -398,6 +434,8 @@
     .reveal{ opacity:1!important; transform:none!important; transition:none!important; }
     .latido{ animation:none!important; }
     .tarjeta:hover{ transform:none; }
+    /* El cambio de color de la reseña se queda; lo que se va es el salto. */
+    .resena:hover, .resena:focus-visible{ transform:none; }
     *,*::before,*::after{ animation-duration:.001ms!important; transition-duration:.001ms!important; }
   }
   @media print{ .no-print{ display:none!important; } }
@@ -760,8 +798,6 @@
     <div class="reveal mt-12">
       <p id="cf-anuncio" class="sr-only" role="status"></p>
       <div class="cf">
-        <img class="cf-ambiente" alt="" aria-hidden="true">
-        <div class="cf-velo" aria-hidden="true"></div>
         <div id="cf-escenario" class="cf-escenario" role="group" aria-label="Carrusel de nuestras tartas" tabindex="0">
         <figure class="cf-carta" data-diapo="0">
           <img src="assets/tarta-cumpleanos.jpg" alt="Tarta de cumpleaños con buttercream rosa y dorado, con velas encendidas" loading="lazy">
@@ -852,12 +888,10 @@
         </figure>
         </div>
         <div class="cf-controles">
-          <button type="button" class="cf-flecha" id="cf-anterior" aria-label="Tarta anterior"
-                  style="position:absolute; left:1rem; top:50%; transform:translateY(-50%); z-index:5">
+          <button type="button" class="cf-flecha" id="cf-anterior" aria-label="Tarta anterior">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
           </button>
-          <button type="button" class="cf-flecha" id="cf-siguiente" aria-label="Tarta siguiente"
-                  style="position:absolute; right:1rem; top:50%; transform:translateY(-50%); z-index:5">
+          <button type="button" class="cf-flecha" id="cf-siguiente" aria-label="Tarta siguiente">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
           </button>
         </div>
@@ -1136,24 +1170,52 @@
         </a>
       </div>
 
-      <div class="reveal relative overflow-hidden rounded-3xl border border-rosa-palo bg-white shadow-suave" style="min-height:480px">
-        <div class="absolute inset-0 grid place-items-center p-8 text-center">
-          <div>
-            <span class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-frambuesa text-white" aria-hidden="true">
-              <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </span>
-            <p class="mt-4 font-display text-lg font-bold text-tinta">Rúa do Progreso 27, bajo 3</p>
-            <p class="text-tinta/70">32005 Ourense · Jardín do Posío</p>
-            <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+27,+32005+Ourense" target="_blank" rel="noopener"
-               class="mt-5 inline-flex rounded-full bg-frambuesa px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-frambuesa-oscuro">
-              Abrir en Google Maps
-            </a>
+      <!-- El mapa estaba, pero tapado por su propio plan B: la tarjeta con la
+           dirección ocupaba la caja entera y el iframe se montaba encima, así
+           que se veía una cosa o la otra. Ahora el mapa manda y la dirección
+           baja a una barra fija debajo, siempre visible. El plan B sigue ahí,
+           pero sólo sale si el iframe no llega a cargar (bloqueador de
+           cookies, extensión de privacidad, sin conexión). -->
+      <!-- flex-col + flex-1 en el mapa: como celda de la rejilla, esta caja se
+           estira hasta la altura de la columna de al lado (la del horario), y
+           con el mapa a altura fija quedaba un palmo de blanco debajo de la
+           barra de la dirección. Así el mapa se come ese hueco. -->
+      <div class="reveal flex flex-col overflow-hidden rounded-3xl border border-rosa-palo bg-white shadow-suave">
+        <div id="mapa-caja" class="relative min-h-[20rem] flex-1 bg-rosa-nube sm:min-h-[26rem]">
+          <div id="mapa-apoyo" class="absolute inset-0 grid place-items-center p-8 text-center" hidden>
+            <div>
+              <span class="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-frambuesa text-white" aria-hidden="true">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <p class="mt-3 font-display font-bold text-tinta">El mapa no ha podido cargarse</p>
+              <p class="mt-1 text-sm text-tinta/70">Puede que lo esté bloqueando tu navegador.</p>
+              <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+27,+32005+Ourense" target="_blank" rel="noopener"
+                 class="mt-4 inline-flex rounded-full bg-frambuesa px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-frambuesa-oscuro">
+                Abrir en Google Maps
+              </a>
+            </div>
           </div>
+          <iframe id="mapa-marco" title="Mapa de Bin &amp; Cami Cakes en Rúa do Progreso 27, Ourense"
+            src="https://maps.google.com/maps?q=R%C3%BAa%20do%20Progreso%2027%2C%2032005%20Ourense&z=16&output=embed"
+            class="absolute inset-0 h-full w-full" style="border:0" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
         </div>
-        <iframe title="Mapa de Bin &amp; Cami Cakes en Rúa do Progreso 27, Ourense"
-          src="https://maps.google.com/maps?q=R%C3%BAa%20do%20Progreso%2027%2C%2032005%20Ourense&z=16&output=embed"
-          class="relative h-full w-full" style="border:0;min-height:480px" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <!-- En el móvil el botón se pone debajo y a todo lo ancho: en una fila
+             de 350 px se comía el sitio de la dirección, que salía partida en
+             tres líneas. -->
+        <div class="flex flex-col gap-4 border-t border-rosa-palo p-5 sm:flex-row sm:items-center sm:p-6">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-frambuesa text-white" aria-hidden="true">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </span>
+          <div class="min-w-0 sm:flex-1">
+            <p class="font-display font-bold text-tinta">Rúa do Progreso 27, bajo 3</p>
+            <p class="text-sm text-tinta/70">32005 Ourense · Jardín do Posío</p>
+          </div>
+          <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+27,+32005+Ourense" target="_blank" rel="noopener"
+             class="inline-flex shrink-0 justify-center rounded-full bg-frambuesa px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-frambuesa-oscuro">
+            Cómo llegar
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -1551,7 +1613,6 @@
   var cartas = [].slice.call(escenario.querySelectorAll('.cf-carta'));
   var total = cartas.length;
   if (!total) return;
-  var ambiente = document.querySelector('.cf-ambiente');
   var anuncio  = document.getElementById('cf-anuncio');
   var puntos   = [].slice.call(document.querySelectorAll('.cf-punto'));
   var btnAnt   = document.getElementById('cf-anterior');
@@ -1577,16 +1638,18 @@
       if (offset > total / 2) offset -= total;
       if (offset < -total / 2) offset += total;
 
-      var x = 0, escala = 0.4, giro = 0, opacidad = 0, brillo = 0.4, desenfoque = 2;
-      if (offset === 0){ escala = 1; brillo = 1; opacidad = 1; desenfoque = 0; }
-      else if (offset === 1){ x = ancho * 0.86; escala = 0.84; giro = -24; opacidad = 0.65; brillo = 0.75; desenfoque = 0; }
-      else if (offset === -1){ x = -ancho * 0.86; escala = 0.84; giro = 24; opacidad = 0.65; brillo = 0.75; desenfoque = 0; }
-      else if (offset === 2){ x = ancho * 1.55; escala = 0.68; giro = -36; opacidad = 0.38; brillo = 0.55; }
-      else if (offset === -2){ x = -ancho * 1.55; escala = 0.68; giro = 36; opacidad = 0.38; brillo = 0.55; }
+      /* Sin brightness(): sobre el fondo blanco de la sección, oscurecer las
+         laterales las dejaba grises y sucias. Quien marca la profundidad
+         ahora es la transparencia — una tarta más clara se va al fondo. */
+      var x = 0, escala = 0.4, giro = 0, opacidad = 0;
+      if (offset === 0){ escala = 1; opacidad = 1; }
+      else if (offset === 1){ x = ancho * 0.86; escala = 0.84; giro = -24; opacidad = 0.7; }
+      else if (offset === -1){ x = -ancho * 0.86; escala = 0.84; giro = 24; opacidad = 0.7; }
+      else if (offset === 2){ x = ancho * 1.55; escala = 0.68; giro = -36; opacidad = 0.42; }
+      else if (offset === -2){ x = -ancho * 1.55; escala = 0.68; giro = 36; opacidad = 0.42; }
 
       carta.style.transform = 'translate(-50%,-50%) translateX(' + x.toFixed(1) + 'px) scale(' + escala + ') rotateY(' + giro + 'deg)';
       carta.style.opacity = opacidad;
-      carta.style.filter = 'brightness(' + brillo + ')' + (desenfoque ? ' blur(' + desenfoque + 'px)' : '');
       carta.style.zIndex = String(30 - Math.abs(offset));
       carta.style.pointerEvents = opacidad > 0 ? 'auto' : 'none';
 
@@ -1599,15 +1662,6 @@
 
     puntos.forEach(function(p, i){ p.setAttribute('aria-current', i === actual ? 'true' : 'false'); });
 
-    if (ambiente){
-      var src = cartas[actual].querySelector('img').getAttribute('src');
-      if (ambiente.getAttribute('src') !== src){
-        ambiente.classList.remove('visible');
-        var cargar = new Image();
-        cargar.onload = function(){ ambiente.src = src; ambiente.classList.add('visible'); };
-        cargar.src = src;
-      }
-    }
     if (anuncio) anuncio.textContent = 'Mostrando ' + (actual + 1) + ' de ' + total + ': ' + textoDe(cartas[actual]);
   }
 
@@ -1716,9 +1770,9 @@
     var ini = esc((r.n.trim()[0] || '?').toUpperCase());
     return '<a href="' + FICHA + '" target="_blank" rel="noopener" ' +
       (eco ? 'aria-hidden="true" tabindex="-1" ' : '') +
-      'class="block rounded-3xl bg-white p-5 shadow-suave transition hover:shadow-alta">' +
+      'class="resena">' +
         '<div class="flex items-center gap-3">' +
-          '<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-frambuesa font-display text-sm font-bold text-white" aria-hidden="true">' + ini + '</span>' +
+          '<span class="resena-ini grid h-9 w-9 shrink-0 place-items-center rounded-full bg-frambuesa font-display text-sm font-bold text-white transition-colors" aria-hidden="true">' + ini + '</span>' +
           '<div class="min-w-0">' +
             '<p class="truncate text-sm font-bold text-tinta">' + esc(r.n) + '</p>' +
             '<p class="text-xs text-tinta/55">' + cuando(r.m) + ' · Google</p>' +
@@ -1870,6 +1924,60 @@
   programar();
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) pintar(); });
   window.addEventListener('pageshow', pintar);
+})();
+</script>
+
+<script>
+/* ============ PLAN B DEL MAPA ============
+   El iframe de Google Maps no siempre llega: hay extensiones de privacidad
+   que lo bloquean y hay vistas previas (dentro de un sandbox) que no permiten
+   incrustar nada de fuera. En ese caso el marco se queda en blanco sin avisar,
+   así que se le da un plazo y, si no ha cargado, se enseña la ficha.
+
+   Alcance de esto, para no venderlo como lo que no es: se detecta cuando el
+   navegador ni siquiera intenta cargar el marco (no llega su evento load).
+   Si el marco carga pero es la página de error del navegador, eso no se puede
+   distinguir desde aquí — contentDocument es null en los dos casos. De ahí
+   que la dirección y el botón «Cómo llegar» estén siempre visibles debajo del
+   mapa y no dependan de esto.
+
+   El plazo NO arranca con la página: el iframe es loading="lazy" y no empieza
+   a cargar hasta que te acercas a él, así que un temporizador desde el inicio
+   lo daría por muerto sin haberlo intentado siquiera. Arranca cuando la caja
+   del mapa asoma por la pantalla. */
+(function(){
+  'use strict';
+  var marco = document.getElementById('mapa-marco');
+  var apoyo = document.getElementById('mapa-apoyo');
+  var caja  = document.getElementById('mapa-caja');
+  if (!marco || !apoyo || !caja) return;
+
+  var cargado = false;
+  /* Si el mapa acaba llegando tarde (móvil con mala cobertura) se deshace el
+     plan B: sería absurdo dejar la ficha puesta con el mapa ya cargado. */
+  marco.addEventListener('load', function(){
+    cargado = true;
+    marco.hidden = false;
+    apoyo.hidden = true;
+  });
+
+  function vigilar(){
+    setTimeout(function(){
+      if (cargado) return;
+      marco.hidden = true;
+      apoyo.hidden = false;
+    }, 8000);
+  }
+
+  if (!('IntersectionObserver' in window)){ vigilar(); return; }
+  var ojo = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){
+      if (!e.isIntersecting) return;
+      ojo.disconnect();
+      vigilar();
+    });
+  }, { rootMargin: '200px' });
+  ojo.observe(caja);
 })();
 </script>
 
