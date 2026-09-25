@@ -29,6 +29,8 @@ const carta = {
   searchClear: "Borrar búsqueda",
   results: "{count} platos",
   resultOne: "1 plato",
+  resultsUnit: "platos",
+  resultsUnitOne: "plato",
   resultsLive: "{count} platos encontrados",
   resultsRegion: "Platos de la carta",
   priceNote: "Precios orientativos, IVA incluido. Pregunta por la pizarra del día.",

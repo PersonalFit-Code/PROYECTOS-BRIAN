@@ -1,10 +1,18 @@
+/**
+ * Textos del camarero virtual: lanzador, widget y plantillas del motor sin conexión (`offline.*`).
+ * Los marcadores {así} se rellenan con useFormat() / format().
+ */
 const chat = {
   launcher: "Camarero virtual",
   launcherAria: "Abrir el camarero virtual de Tixola",
+  closeAria: "Cerrar el camarero virtual",
   title: "Camarero virtual",
   subtitle: "Te ayudo con la carta, los alérgenos, el horario y las reservas",
   placeholder: "Escribe tu pregunta…",
+  inputLabel: "Tu pregunta para el camarero virtual",
+  inputHint: "Intro para enviar · Mayús + Intro para saltar de línea",
   send: "Enviar",
+  stop: "Detener la respuesta",
   thinking: "Escribiendo…",
   welcome:
     "¡Hola! Soy el camarero virtual de Tixola. Pregúntame por la carta, los alérgenos, qué vino marida con cada plato o cómo llegar.",
@@ -15,12 +23,69 @@ const chat = {
     "¿A qué hora abrís hoy?",
     "¿Tenéis opciones veganas?",
   ],
+  quickRepliesLabel: "Preguntas frecuentes",
+  messagesLabel: "Conversación con el camarero virtual",
+  you: "Tú",
+  waiter: "Camarero virtual",
   offlineNote: "Modo sin conexión: respondo con la información de la carta y el horario.",
+  fallbackNote: "El asistente con IA no está disponible ahora mismo; respondo con la información de la carta y el horario.",
   error: "No he podido responder ahora mismo. Inténtalo de nuevo o llámanos.",
+  rateLimited: "Has hecho muchas preguntas seguidas. Espera un minuto o llámanos y te atendemos al momento.",
+  retry: "Reintentar",
   disclaimer: "Las respuestas son orientativas. Ante alergias graves, consulta siempre al personal.",
   reserveCta: "Reservar mesa",
   callCta: "Llamar",
   clear: "Nueva conversación",
+  cleared: "Conversación reiniciada.",
   poweredBy: "Asistente con IA",
+  /** Plantillas del motor determinista (sin clave de API o si el modelo falla). */
+  offline: {
+    greeting:
+      "¡Hola! Soy el camarero virtual de Tixola. Puedo contarte qué lleva cada plato, qué no lleva gluten o lácteos, qué vino marida con cada uno, el horario y cómo llegar. ¿Por dónde empezamos?",
+    thanks: "¡A ti! Aquí me tienes para lo que necesites. Y si te animas a venir, estamos a un minuto de la Catedral.",
+    allergenFree: "Según nuestra carta, estos platos **no llevan {allergen}**:",
+    allergenFreeEmpty:
+      "Ahora mismo no encuentro platos sin {allergen} en la carta. Pregunta al personal: en cocina pueden adaptar algún plato.",
+    diet: "Estas son nuestras opciones **{diet}**:",
+    dietEmpty: "No tengo opciones marcadas como {diet} en la carta, pero pregunta al personal: en cocina te ayudan encantados.",
+    category: "En **{category}** ({kicker}) tenemos:",
+    categoryEmpty: "No encuentro esa categoría en la carta.",
+    recommend: "Para compartir, lo que más triunfa en Tixola:",
+    recommendOutro: "Con dos o tres raciones de estas, dos personas comen de maravilla. ¿Te cuento con qué vino van?",
+    pairingDish: "Con **{dish}** te recomiendo **{wine}**: {why}",
+    pairingDishSimple: "Con **{dish}** te recomiendo **{wine}**, un vino gallego de nuestra vinoteca.",
+    pairingWine: "El **{wine}** va de maravilla con:",
+    pairingIntro: "Nuestros maridajes de la casa, con vinos gallegos de la vinoteca:",
+    hoursIntro: "Nuestro horario (hora de Ourense):",
+    hoursNow: "Ahora mismo: {status}.",
+    location: "Estamos en **{address}**, {landmark}. [Cómo llegar]({url})",
+    locationExtra:
+      "Tenemos terraza con vistas a la Catedral. El casco histórico es peatonal: lo mejor es aparcar cerca y venir dando un paseo.",
+    booking:
+      "Las reservas las hacemos por teléfono o WhatsApp para confirmarte al momento: [Llamar al {phone}]({tel}) · [Escribir por WhatsApp]({whatsapp}).",
+    bookingExtra: "Dinos cuántos sois, el día y la hora, y si preferís terraza.",
+    prices: "Nuestra franja de precios es de **{range} por persona**, con raciones pensadas para compartir. Algunos ejemplos:",
+    pricesExtra: "Los precios son orientativos, con IVA incluido. Aceptamos tarjeta.",
+    dishInfo: "**{name}** — {price}. {description}",
+    dishAllergens: "Alérgenos: {allergens}.",
+    dishNoAllergens: "Sin alérgenos declarados.",
+    dishPairing: "Marida con **{wine}**.",
+    safety: "Ante alergias o intolerancias, confírmalo siempre con el personal: nuestra cocina manipula todos los alérgenos.",
+    fallback: "No estoy seguro de haberte entendido. Puedo ayudarte con:",
+    fallbackItems: [
+      "Platos sin gluten, sin lactosa, veganos o vegetarianos",
+      "Qué hay en cada categoría: croquetas, tixolas, del mar, postres…",
+      "Qué vino marida con cada plato",
+      "Horario, cómo llegar y reservas",
+    ],
+    fullMenu: "Tienes la carta completa, con los alérgenos plato a plato, en [la carta digital]({url}).",
+    line: "**{name}** — {price}",
+    lineUnit: "**{name}** — {price} · {unit}",
+    lineVariants: "**{name}** — {variants}",
+    linePairing: "**{name}** → {wine}",
+    andMore: "…y {count} más en [la carta digital]({url}).",
+    andMoreCarta: "…y {count} más aquí, en la carta.",
+    more: "¿Te cuento algo más? Puedo ayudarte con la carta, los alérgenos, los vinos, el horario o cómo llegar.",
+  },
 } as const;
 export default chat;
