@@ -35,7 +35,6 @@ const social = {
   marquee: {
     label: "Opiniones de clientes",
     summary: "{count} reseñas de clientes con cinco estrellas, publicadas en TripAdvisor y Google.",
-    column: "Columna {index} de opiniones",
   },
   /** Tarjeta de reseña (ReviewCard) */
   card: {

@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { animate, motion, useInView, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
+import { LOCALE_META } from "@/i18n/config";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
-interface CounterProps {
+export interface CounterProps {
   /** Valor final (admite decimales: 4.4). */
   value: number;
-  /** Nº de decimales a mostrar (formato es-ES → coma). */
+  /** Nº de decimales a mostrar (formato del idioma activo: "4,4" en es/gl/pt, "4.4" en en). */
   decimals?: number;
   /** Texto antes del número ("Nº "). */
   prefix?: string;
@@ -24,15 +26,11 @@ interface CounterProps {
 
 const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-/** 4.4 → "4,4" · 850 → "850" (locale es-ES fijo para que servidor y cliente coincidan). */
-function formatNumber(v: number, decimals: number) {
-  return v.toLocaleString("es-ES", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
-}
-
 /**
  * Número que "cuenta" desde 0 hasta `value` la primera vez que entra en el viewport.
  *  - Dígitos enormes en Bebas Neue con extrusión `text-3d` y halo rojo pimentón.
  *  - La animación escribe en un MotionValue: framer actualiza el texto sin re-renderizar React.
+ *  - Formato numérico con el Intl del idioma activo (igual en servidor y cliente: sale del contexto).
  *  - Con `prefers-reduced-motion` muestra el valor final directamente.
  *  - Accesible: el valor final siempre está disponible para lectores de pantalla (sr-only),
  *    mientras el número animado queda `aria-hidden`.
@@ -47,13 +45,19 @@ export default function Counter({
   className,
   affixClassName,
 }: CounterProps) {
+  const locale = useLocale();
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -12% 0px" });
   const reduced = useReducedMotion();
 
+  const formatter = useMemo(
+    () => new Intl.NumberFormat(LOCALE_META[locale].intl, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }),
+    [locale, decimals],
+  );
+
   const progress = useMotionValue(0);
-  const text = useTransform(progress, (v) => formatNumber(v, decimals));
-  const finalText = formatNumber(value, decimals);
+  const text = useTransform(progress, (v) => formatter.format(v));
+  const finalText = formatter.format(value);
 
   useEffect(() => {
     if (!inView) return;
@@ -83,7 +87,7 @@ export default function Counter({
 
       <span aria-hidden className="inline-flex items-baseline">
         {prefix && <span className={cn("mr-[0.08em] text-[0.55em] text-pimenton-light", affixClassName)}>{prefix}</span>}
-        {/* Ancho mínimo en "ch" para que la cifra no baile mientras cuenta */}
+        {/* Ancho mínimo en "em" para que la cifra no baile mientras cuenta */}
         <motion.span className="tabular-nums" style={{ minWidth: `${finalText.length * 0.62}em` }}>
           {text}
         </motion.span>

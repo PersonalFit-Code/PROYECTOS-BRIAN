@@ -40,8 +40,12 @@ export interface MarqueeProps {
   children: ReactNode;
 }
 
-/** Keyframes propios (los de globals.css desplazan -50 % y sirven para 2 copias; aquí son N copias). */
-const MARQUEE_KEYFRAMES = `@keyframes tx-marquee-x{from{transform:translateX(0)}to{transform:translateX(calc(-100% - var(--gap)))}}@keyframes tx-marquee-y{from{transform:translateY(0)}to{transform:translateY(calc(-100% - var(--gap)))}}`;
+/**
+ * Keyframes propios (los de globals.css desplazan -50 % y sirven para 2 copias; aquí son N copias).
+ * `--duration` y `--gap` se leen con valor de respaldo (40s / 1rem) en vez de fijarse en el contenedor:
+ * así `[--duration:60s]` desde `className` gana siempre, sin depender del orden de la hoja de estilos.
+ */
+const MARQUEE_KEYFRAMES = `@keyframes tx-marquee-x{from{transform:translateX(0)}to{transform:translateX(calc(-100% - var(--gap,1rem)))}}@keyframes tx-marquee-y{from{transform:translateY(0)}to{transform:translateY(calc(-100% - var(--gap,1rem)))}}`;
 
 export default function Marquee({
   reverse = false,
@@ -60,7 +64,7 @@ export default function Marquee({
   return (
     <div
       className={cn(
-        "group/marquee flex overflow-hidden [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
+        "group/marquee flex overflow-hidden [gap:var(--gap,1rem)]",
         vertical ? "flex-col" : "flex-row",
         fade &&
           (vertical
@@ -78,13 +82,13 @@ export default function Marquee({
           key={i}
           aria-hidden={i > 0 ? true : undefined}
           className={cn(
-            "flex shrink-0 justify-around [gap:var(--gap)]",
+            "flex shrink-0 justify-around [gap:var(--gap,1rem)]",
             vertical ? "flex-col" : "flex-row",
             !reducedMotion && "will-change-transform",
             !reducedMotion &&
               (vertical
-                ? "[animation:tx-marquee-y_var(--duration)_linear_infinite]"
-                : "[animation:tx-marquee-x_var(--duration)_linear_infinite]"),
+                ? "[animation:tx-marquee-y_var(--duration,40s)_linear_infinite]"
+                : "[animation:tx-marquee-x_var(--duration,40s)_linear_infinite]"),
             reverse && "[animation-direction:reverse]",
             pauseOnHover && "group-hover/marquee:[animation-play-state:paused] group-focus-within/marquee:[animation-play-state:paused]",
             paused && "[animation-play-state:paused]",
