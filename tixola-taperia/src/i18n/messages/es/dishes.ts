@@ -1,3 +1,7 @@
+/**
+ * Sección "Platos estrella" (#platos): carrusel de fotos reales + detalle (DishSpotlight).
+ * Los marcadores {así} se rellenan con useFormat(): t(m.dishes.slide, { index, total }).
+ */
 const dishes = {
   kicker: "Platos estrella",
   title: "Lo que nadie se va sin probar",
@@ -7,11 +11,39 @@ const dishes = {
   hint: "Toca para ver detalles",
   ingredients: "Ingredientes",
   allergens: "Alérgenos",
+  noAllergens: "Sin alérgenos declarados",
   pairing: "Maridaje recomendado",
   pairingWhy: "Por qué funciona",
   seeInMenu: "Ver en la carta",
   ctaMenu: "Ver carta completa con alérgenos",
+  ctaNote: "Más de 80 tapas, raciones y vinos gallegos, con los 14 alérgenos de la UE señalados plato a plato.",
   photoOf: "Foto de {name} en Tixola Tapería, Ourense",
   slide: "Plato {index} de {total}",
+  /** Carrusel (DishCarousel) */
+  carousel: {
+    label: "Carrusel de platos estrella",
+    prev: "Plato anterior",
+    next: "Plato siguiente",
+    goTo: "Ir a {name}",
+    current: "actual",
+    hint: "Toca un plato para ver ingredientes, alérgenos y maridaje",
+    swipe: "Desliza para descubrir más",
+    open: "Ver detalles de {name}",
+  },
+  /** Detalle del plato (DishSpotlight) */
+  spotlight: {
+    dialogLabel: "Detalles de {name}",
+    close: "Cerrar detalles del plato",
+    closeOverlay: "Cerrar",
+    dragHandle: "Arrastra hacia abajo para cerrar",
+    perUnit: "/ {unit}",
+    askWaiter: "¿Dudas? Pregunta al camarero virtual",
+    askWaiterPrefill: "Cuéntame más sobre {name}: cómo lo preparáis y con qué vino me lo recomendáis.",
+    allergenContains: "Contiene {label}",
+  },
+  /** Visual compuesto (tixola de hierro + icono) cuando el plato aún no tiene foto */
+  visual: {
+    label: "Ilustración de {name} sobre tixola de hierro",
+  },
 } as const;
 export default dishes;
