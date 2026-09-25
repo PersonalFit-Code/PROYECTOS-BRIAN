@@ -48,6 +48,12 @@ const chat = {
       "Ahora mismo no encuentro platos sin {allergen} en la carta. Pregunta al personal: en cocina pueden adaptar algún plato.",
     diet: "Estas son nuestras opciones **{diet}**:",
     dietEmpty: "No tengo opciones marcadas como {diet} en la carta, pero pregunta al personal: en cocina te ayudan encantados.",
+    /** forma en plural para la frase "opciones {diet}" */
+    dietLabels: {
+      vegano: "veganas",
+      vegetariano: "vegetarianas",
+      picante: "picantes",
+    },
     category: "En **{category}** ({kicker}) tenemos:",
     categoryEmpty: "No encuentro esa categoría en la carta.",
     recommend: "Para compartir, lo que más triunfa en Tixola:",

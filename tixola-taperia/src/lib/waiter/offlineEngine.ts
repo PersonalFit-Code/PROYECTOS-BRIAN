@@ -368,7 +368,10 @@ function answerAllergenFree(intent: Extract<OfflineIntent, { kind: "allergenFree
     const allergen = intent.allergens.map((a) => allergenMap[a].label.toLowerCase()).join(", ");
     header = matches.length ? format(o.allergenFree, { allergen }) : format(o.allergenFreeEmpty, { allergen });
   } else {
-    const diet = dietLabels[intent.diet ?? "vegano"].toLowerCase();
+    const tag = intent.diet ?? "vegano";
+    // Plural localizado ("veganas") si existe; si no, la etiqueta genérica de la carta.
+    const plural = (o.dietLabels as Partial<Record<DietTag, string>>)[tag];
+    const diet = (plural ?? dietLabels[tag]).toLowerCase();
     header = matches.length ? format(o.diet, { diet }) : format(o.dietEmpty, { diet });
   }
 
@@ -386,7 +389,8 @@ function wineFor(item: MenuItem, ctx: AnswerContext): { wine: string; why: strin
 
 function answerPairing(intent: Extract<OfflineIntent, { kind: "pairing" }>, ctx: AnswerContext): string {
   const o = ctx.m.chat.offline;
-  const lines: string[] = [];
+  /** un bloque (párrafo o lista) por plato preguntado */
+  const blocks: Array<string | string[]> = [];
 
   for (const dish of intent.dishes) {
     if (dish.category === "vinos") {
@@ -394,29 +398,28 @@ function answerPairing(intent: Extract<OfflineIntent, { kind: "pairing" }>, ctx:
       const stem = normalizeText(dish.name).split(" ")[0] ?? "";
       const dishes = ctx.items.filter((i) => i.pairing && normalizeText(i.pairing).includes(stem) && FOOD_CATEGORIES.has(i.category));
       if (dishes.length) {
-        lines.push(format(o.pairingWine, { wine: dish.name }));
-        lines.push(...dishes.slice(0, 6).map((d) => `- ${itemLine(d, ctx)}`));
+        blocks.push([format(o.pairingWine, { wine: dish.name }), ...dishes.slice(0, 6).map((d) => `- ${itemLine(d, ctx)}`)]);
         continue;
       }
     }
     const pairing = wineFor(dish, ctx);
     if (!pairing) continue;
-    lines.push(
+    blocks.push(
       pairing.why
         ? format(o.pairingDish, { dish: dish.name, wine: pairing.wine, why: pairing.why })
         : format(o.pairingDishSimple, { dish: dish.name, wine: pairing.wine }),
     );
   }
 
-  if (!lines.length) {
+  if (!blocks.length) {
     // Sin plato concreto: maridajes de los platos estrella.
-    lines.push(o.pairingIntro);
-    for (const star of ctx.stars) {
-      lines.push(`- ${format(o.linePairing, { name: star.name, wine: `${star.pairing.wine} ${star.pairing.do}` })}`);
-    }
+    blocks.push([
+      o.pairingIntro,
+      ...ctx.stars.map((star) => `- ${format(o.linePairing, { name: star.name, wine: `${star.pairing.wine} ${star.pairing.do}` })}`),
+    ]);
   }
 
-  return joinParagraphs(lines, o.more);
+  return joinParagraphs(...blocks, o.more);
 }
 
 function answerHours(ctx: AnswerContext): string {
@@ -430,10 +433,9 @@ function answerHours(ctx: AnswerContext): string {
 
 function answerLocation(ctx: AnswerContext): string {
   const o = ctx.m.chat.offline;
-  return joinParagraphs(
-    format(o.location, { address: BUSINESS.address.full, landmark: BUSINESS.address.landmark.toLowerCase(), url: BUSINESS.social.directions }),
-    o.locationExtra,
-  );
+  // "A 1 minuto a pie de la Catedral…" → "a 1 minuto a pie de la Catedral…" (va a mitad de frase)
+  const landmark = BUSINESS.address.landmark.charAt(0).toLowerCase() + BUSINESS.address.landmark.slice(1);
+  return joinParagraphs(format(o.location, { address: BUSINESS.address.full, landmark, url: BUSINESS.social.directions }), o.locationExtra);
 }
 
 function answerBooking(ctx: AnswerContext): string {

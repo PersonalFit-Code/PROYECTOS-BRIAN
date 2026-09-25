@@ -62,7 +62,7 @@ interface ParsedRequest {
 function sanitize(text: string): string {
   return text
     .replace(/\r\n?/g, "\n")
-    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F  ]/g, "")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F\u2028\u2029]/g, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }

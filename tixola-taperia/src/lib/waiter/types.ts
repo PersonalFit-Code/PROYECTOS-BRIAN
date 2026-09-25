@@ -47,19 +47,26 @@ export function isWaiterMode(value: unknown): value is WaiterMode {
   return value === "claude" || value === "offline" || value === "fallback";
 }
 
-/** Turno mínimo que entienden los motores. `Anthropic.MessageParam` es asignable a este tipo. */
+/**
+ * Turno mínimo que entienden los motores. `Anthropic.MessageParam` es asignable a este tipo:
+ * el contenido es texto o una lista de bloques que se inspeccionan en tiempo de ejecución.
+ */
 export interface WaiterTurn {
-  role: ChatRole;
-  content: string | ReadonlyArray<{ type: string; text?: string }>;
+  /** `system` existe en `Anthropic.MessageParam` (mensajes de sistema a mitad de conversación); los motores lo ignoran */
+  role: ChatRole | "system";
+  content: string | ReadonlyArray<unknown>;
+}
+
+function isTextBlock(block: unknown): block is { type: "text"; text: string } {
+  if (typeof block !== "object" || block === null) return false;
+  const b = block as { type?: unknown; text?: unknown };
+  return b.type === "text" && typeof b.text === "string";
 }
 
 /** Texto plano de un turno (concatena los bloques de texto; ignora imágenes u otros bloques). */
 export function turnText(turn: WaiterTurn): string {
   if (typeof turn.content === "string") return turn.content;
-  return turn.content
-    .filter((block): block is { type: "text"; text: string } => block.type === "text" && typeof block.text === "string")
-    .map((block) => block.text)
-    .join("\n");
+  return turn.content.filter(isTextBlock).map((block) => block.text).join("\n");
 }
 
 /** Estado de un mensaje en el widget. */
