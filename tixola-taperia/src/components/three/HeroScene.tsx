@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, type RefObject } from "react";
+import { useMemo, useRef, type ReactNode, type RefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { damp, damp3 } from "maath/easing";
@@ -143,7 +143,7 @@ function CameraRig({ pointer, layout }: { pointer: RefObject<PointerVec>; layout
   return null;
 }
 
-function LayoutRig({ layout, children }: { layout: HeroLayout; children: React.ReactNode }) {
+function LayoutRig({ layout, children }: { layout: HeroLayout; children: ReactNode }) {
   const ref = useRef<THREE.Group>(null);
   useFrame((_, delta) => {
     const g = ref.current;

@@ -210,7 +210,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 0.8 }}
-        className="absolute left-1/2 bottom-[calc(var(--mobile-bar-h)+1rem)] z-20 hidden -translate-x-1/2 flex-col items-center gap-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.3em] text-cream-faint transition-colors hover:text-cream sm:flex md:bottom-7 [@media(max-height:640px)]:sm:hidden"
+        className="absolute left-1/2 bottom-[calc(var(--mobile-bar-h)+1rem)] z-20 flex -translate-x-1/2 flex-col items-center gap-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.3em] text-cream-faint transition-colors hover:text-cream max-sm:hidden md:bottom-7 [@media(max-height:640px)]:hidden"
       >
         <span>Desliza</span>
         <motion.span

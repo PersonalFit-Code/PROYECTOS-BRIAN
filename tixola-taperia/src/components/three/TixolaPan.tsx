@@ -248,7 +248,7 @@ export default function TixolaPan({ pointer, shadows }: TixolaPanProps) {
   const spinRef = useRef<THREE.Group>(null); // giro lento continuo
   const scallopsRef = useRef<THREE.Group>(null); // chisporroteo
 
-  const body = useMemo(createPanBodyGeometry, []);
+  const body = useMemo(() => createPanBodyGeometry(), []);
   const shell = useMemo(() => createScallopShellGeometry(0.46, 0.16, 15), []);
   const textures = useMemo(() => createIronTextures(256), []);
   const glow = useMemo(() => createGlowTexture(128), []);
