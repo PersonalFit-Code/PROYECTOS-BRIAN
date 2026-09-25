@@ -35,15 +35,23 @@ export interface ConsentState {
 /** Categorías que el usuario puede activar o desactivar. */
 export type ConsentChoices = Pick<ConsentState, "analytics">;
 
-/* Eventos tipados: `window.addEventListener("tixola:consent", (e) => e.detail.analytics)` compila sin casts. */
+/* Eventos tipados: `window.addEventListener("tixola:consent", (e) => e.detail?.analytics)` compila sin casts. */
 declare global {
   interface WindowEventMap {
-    "tixola:consent": CustomEvent<ConsentState>;
+    /** `detail` es la nueva decisión, o `null` tras `clearConsent()`. */
+    "tixola:consent": CustomEvent<ConsentState | null>;
     "tixola:cookie-settings": Event;
   }
 }
 
 const MAX_AGE_MS = CONSENT_MAX_AGE_MONTHS * 30.44 * 24 * 60 * 60 * 1000;
+
+/* Respaldo en memoria: si localStorage está bloqueado (modo privado, cuota) la decisión vive en esta página. */
+let memoryRaw: string | null = null;
+
+/* Caché de la instantánea (useSyncExternalStore exige el mismo objeto mientras nada cambie). */
+let cachedRaw: string | null | undefined;
+let cachedState: ConsentState | null = null;
 
 function isConsentState(value: unknown): value is ConsentState {
   if (typeof value !== "object" || value === null) return false;
@@ -59,13 +67,21 @@ function storage(): Storage | null {
   }
 }
 
-/** Decisión vigente o `null` (sin decisión, caducada, versión antigua o almacenamiento bloqueado). */
-export function getConsent(now = Date.now()): ConsentState | null {
+/** Texto guardado (o el respaldo en memoria si el almacenamiento no está disponible). */
+function readRaw(): string | null {
   const store = storage();
-  if (!store) return null;
+  if (!store) return memoryRaw;
   try {
-    const raw = store.getItem(CONSENT_STORAGE_KEY);
-    if (!raw) return null;
+    return store.getItem(CONSENT_STORAGE_KEY) ?? memoryRaw;
+  } catch {
+    return memoryRaw;
+  }
+}
+
+/** Valida y descarta decisiones caducadas o de otra versión del esquema. */
+function parseConsent(raw: string | null, now: number): ConsentState | null {
+  if (!raw) return null;
+  try {
     const parsed: unknown = JSON.parse(raw);
     if (!isConsentState(parsed) || parsed.v !== CONSENT_VERSION) return null;
     if (now - parsed.ts > MAX_AGE_MS) return null;
@@ -75,30 +91,58 @@ export function getConsent(now = Date.now()): ConsentState | null {
   }
 }
 
+/** Decisión vigente o `null` (sin decisión, caducada, versión antigua o almacenamiento bloqueado). */
+export function getConsent(now = Date.now()): ConsentState | null {
+  return parseConsent(readRaw(), now);
+}
+
+/**
+ * Instantánea estable para `useSyncExternalStore`: devuelve el mismo objeto mientras no cambie
+ * lo guardado. Úsala junto con `subscribeConsent` y `getServerConsentSnapshot`.
+ */
+export function getConsentSnapshot(): ConsentState | null {
+  const raw = readRaw();
+  if (raw !== cachedRaw) {
+    cachedRaw = raw;
+    cachedState = parseConsent(raw, Date.now());
+  }
+  return cachedState;
+}
+
+/** En el servidor (y durante la hidratación) aún no sabemos nada: `undefined` ≠ "sin decisión". */
+export function getServerConsentSnapshot(): undefined {
+  return undefined;
+}
+
 /** Guarda la decisión y avisa a quien escuche (`tixola:consent`). Devuelve el estado guardado. */
 export function setConsent(choices: ConsentChoices, now = Date.now()): ConsentState {
   const state: ConsentState = { necessary: true, analytics: choices.analytics, ts: now, v: CONSENT_VERSION };
+  const raw = JSON.stringify(state);
+  memoryRaw = raw;
   const store = storage();
   if (store) {
     try {
-      store.setItem(CONSENT_STORAGE_KEY, JSON.stringify(state));
+      store.setItem(CONSENT_STORAGE_KEY, raw);
     } catch {
-      /* cuota llena o modo privado: la decisión vive solo en esta página */
+      /* cuota llena o modo privado: queda el respaldo en memoria */
     }
   }
   if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent<ConsentState>(CONSENT_EVENT, { detail: state }));
   return state;
 }
 
-/** Borra la decisión (el banner volverá a aparecer en la próxima carga). */
+/** Borra la decisión (el banner volverá a aparecer) y avisa a quien escuche. */
 export function clearConsent(): void {
+  memoryRaw = null;
   const store = storage();
-  if (!store) return;
-  try {
-    store.removeItem(CONSENT_STORAGE_KEY);
-  } catch {
-    /* nada que borrar */
+  if (store) {
+    try {
+      store.removeItem(CONSENT_STORAGE_KEY);
+    } catch {
+      /* nada que borrar */
+    }
   }
+  if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent<ConsentState | null>(CONSENT_EVENT, { detail: null }));
 }
 
 /** `true` si el usuario ha aceptado la analítica (y la decisión sigue vigente). */
@@ -112,7 +156,7 @@ export function hasAnalyticsConsent(): boolean {
  */
 export function onConsentChange(listener: (state: ConsentState | null) => void): () => void {
   if (typeof window === "undefined") return () => {};
-  const onEvent = (e: CustomEvent<ConsentState>) => listener(e.detail);
+  const onEvent = (e: CustomEvent<ConsentState | null>) => listener(e.detail);
   const onStorage = (e: StorageEvent) => {
     if (e.key === null || e.key === CONSENT_STORAGE_KEY) listener(getConsent());
   };
@@ -122,6 +166,11 @@ export function onConsentChange(listener: (state: ConsentState | null) => void):
     window.removeEventListener(CONSENT_EVENT, onEvent);
     window.removeEventListener("storage", onStorage);
   };
+}
+
+/** Suscripción con la firma que espera `useSyncExternalStore`. */
+export function subscribeConsent(onStoreChange: () => void): () => void {
+  return onConsentChange(onStoreChange);
 }
 
 /** Pide al banner que se muestre con el panel de preferencias abierto. */

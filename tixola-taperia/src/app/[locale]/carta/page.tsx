@@ -6,8 +6,9 @@ import MobileStickyBar from "@/components/ui/MobileStickyBar";
 import Footer from "@/components/sections/Footer";
 import CartaExplorer from "@/components/carta/CartaExplorer";
 import { isLocale, type Locale } from "@/i18n/config";
+import { localizeCategories, localizeMenuItems } from "@/i18n/data";
 import { getMessages } from "@/i18n/getMessages";
-import { pageMetadata } from "@/lib/seo";
+import { menuJsonLd, pageMetadata, serializeJsonLd } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: raw } = await params;
@@ -19,12 +20,19 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   });
 }
 
-export default function CartaPage() {
+export default async function CartaPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: raw } = await params;
+  const locale: Locale = isLocale(raw) ? raw : "es";
+  const m = await getMessages(locale);
+  /* schema.org Menu → MenuSection[] → MenuItem[] (precio EUR, dietas aptas) en el idioma de la página */
+  const menu = menuJsonLd(locale, localizeCategories(locale), localizeMenuItems(locale), `${m.carta.title} ${m.carta.accent}`);
+
   return (
     <ChatProvider page="carta">
       <ReservationProvider>
         <Navbar />
         <main id="main" className="relative pt-[var(--header-h)]">
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(menu) }} />
           <CartaExplorer />
         </main>
         <Footer />

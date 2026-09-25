@@ -7,13 +7,14 @@
  *
  * Marcadores disponibles en cualquier texto (los rellena `LegalArticle` con useFormat()):
  *   {tradeName} {companyName} {nif} {registeredOffice} {registry} {email}
- *   {address} {city} {phone} {siteUrl} {updated} {consentMonths}
+ *   {address} {city} {phone} {phoneTel} {siteUrl} {updated} {consentMonths}
  * Enlaces: [texto](privacy | legalNotice | cookies | home | carta | https://… | mailto:… | tel:…)
  * Énfasis: **texto**
  *
  * ⚠️ Los datos del responsable ({companyName}, {nif}, {registeredOffice}, {email}) salen de
  * src/data/legal.ts y se muestran resaltados mientras conserven los corchetes.
  * Este fichero es la fuente de verdad: los demás idiomas pueden traducirlo parcialmente.
+ * Los `slug` NO se traducen: forman la URL (/legal/<slug>) que enlazan el pie, el sitemap y hreflang.
  */
 import type { LegalDoc, LegalFaqItem } from "@/data/legal";
 
@@ -578,7 +579,7 @@ const legal: LegalMessages = {
                 "[Google Chrome](https://support.google.com/chrome/answer/95647)",
                 "[Mozilla Firefox](https://support.mozilla.org/es/kb/borrar-cookies-y-datos-del-sitio-en-firefox)",
                 "[Safari (Mac)](https://support.apple.com/es-es/guide/safari/sfri11471/mac) y [Safari (iPhone/iPad)](https://support.apple.com/es-es/HT201265)",
-                "[Microsoft Edge](https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-6415-4e2c-b5d3-b4e4c4d3a0b7)",
+                "[Microsoft Edge](https://support.microsoft.com/es-es/microsoft-edge)",
               ],
             },
           ],

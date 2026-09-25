@@ -5,6 +5,8 @@ import { BUSINESS } from "@/data/business";
 import { LOCALES, LOCALE_META, isLocale, type Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
+import CookieConsent from "@/components/legal/CookieConsent";
+import HomeJsonLd from "@/components/legal/HomeJsonLd";
 import { SITE_URL, pageMetadata } from "@/lib/seo";
 import "../globals.css";
 
@@ -137,6 +139,10 @@ export default async function LocaleLayout({
       <body className="min-h-dvh bg-iron text-cream antialiased">
         <LocaleProvider locale={locale} messages={messages}>
           {children}
+          {/* FAQPage + WebSite JSON-LD (solo emite en la portada de cada idioma) */}
+          <HomeJsonLd locale={locale} />
+          {/* Aviso de cookies: localStorage `tixola_consent`, se reabre con `tixola:cookie-settings` */}
+          <CookieConsent />
         </LocaleProvider>
       </body>
     </html>
