@@ -31,4 +31,4 @@ yarn-error.log*
 # playwright / screenshots
 test-results
 playwright-report
-.resume-workflow.js
+screenshots/
