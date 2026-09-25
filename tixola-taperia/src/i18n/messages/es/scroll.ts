@@ -18,14 +18,10 @@ const scroll = {
     goTo: "Ir al capítulo {chapter}",
     /** Sufijo solo para lectores de pantalla en el capítulo activo */
     current: "capítulo actual",
-    /** Numeración pequeña junto al nombre del capítulo */
-    chapter: "Capítulo {index}",
   },
   /** aria-label de la barra de progreso superior */
   progress: "Progreso de la página",
   /** aria-valuetext de la barra de progreso */
   progressValue: "{percent} % de la página",
-  /** Texto del salto oculto al final de la navegación lateral */
-  backToTop: "Volver al principio",
 } as const;
 export default scroll;
