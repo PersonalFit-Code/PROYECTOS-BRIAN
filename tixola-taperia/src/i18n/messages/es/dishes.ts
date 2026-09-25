@@ -47,7 +47,6 @@ const dishes = {
     allergenContains: "Contiene {label}",
     /** Lista de alérgenos en texto, ya localizada: "Contiene: gluten, huevos" */
     contains: "Contiene: {list}",
-    detailsKicker: "Ficha del plato",
     priceLabel: "Precio",
   },
   /** Visual compuesto (tixola de hierro + icono) cuando el plato aún no tiene foto */
