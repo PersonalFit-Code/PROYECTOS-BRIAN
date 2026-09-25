@@ -123,7 +123,7 @@ export function AllergenLegendFab({ onClick, open }: { onClick: () => void; open
       aria-expanded={open}
       aria-label="Abrir leyenda de alérgenos"
       className={cn(
-        "carta-no-print fixed right-4 z-40 inline-flex h-12 items-center gap-2 rounded-full border border-pimenton-light/60 bg-iron/85 pl-4 pr-5 text-sm font-semibold text-cream backdrop-blur-xl transition-all duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-pimenton hover:shadow-neon lg:right-8",
+        "carta-no-print group fixed right-4 z-40 inline-flex h-12 items-center gap-2 rounded-full border border-pimenton-light/60 bg-iron/85 pl-4 pr-5 text-sm font-semibold text-cream backdrop-blur-xl transition-all duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-pimenton hover:shadow-neon lg:right-8",
         "bottom-[calc(var(--mobile-bar-h)+16px+env(safe-area-inset-bottom))] md:bottom-6 lg:bottom-8",
         open && "pointer-events-none opacity-0",
       )}

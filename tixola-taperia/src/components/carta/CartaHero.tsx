@@ -71,7 +71,7 @@ export default function CartaHero({ animate = true, className }: CartaHeroProps)
         {POLAROIDS.map((p, i) => (
           <motion.li
             key={p.src}
-            initial={{ opacity: 0, y: 24, rotate: 0 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.1 + p.delay, ease: EASE_OUT_EXPO }}
             className={cn("list-none", p.offset)}
