@@ -1,22 +1,35 @@
 "use client";
 
-import { ChevronDown, Clock3 } from "lucide-react";
-import { useEffect, useId, useState } from "react";
-import { BUSINESS, DAY_LABELS, type DayKey, type TimeRange } from "@/data/business";
-import { formatRanges, getOpenStatus, type OpenStatus as OpenStatusData } from "@/lib/openStatus";
+import { CalendarCheck, Moon, Phone, Sun, Wine, type LucideIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import NeonButton from "@/components/ui/NeonButton";
+import { useReservation } from "@/components/ui/ReservationProvider";
+import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
+import { useFormat, useMessages } from "@/i18n/LocaleProvider";
+import type { Messages } from "@/i18n/types";
+import {
+  formatRanges,
+  getOpenStatus,
+  OPENS_SOON_MINUTES,
+  type OpenStatus as OpenStatusData,
+  type OpenStatusMood,
+} from "@/lib/openStatus";
 import { cn } from "@/lib/utils";
 
 /**
- * OpenStatus — indicador en vivo "Abierto ahora · Ideal para cenar".
+ * OpenStatus — tarjeta "Ahora mismo": estado en vivo, franja sugerida, horario semanal y CTAs.
  *
- *  · Se calcula ÚNICAMENTE en `useEffect` (nunca durante el render) para que el HTML del servidor
- *    y el primer render del cliente coincidan; hasta entonces muestra un esqueleto neutro.
+ *  · El estado se calcula ÚNICAMENTE en `useEffect` (nunca durante el render) para que el HTML
+ *    del servidor y el primer render del cliente coincidan; hasta entonces muestra un esqueleto.
+ *  · `getOpenStatus()` devuelve datos estructurados (`kind`, `closeTime`, `openTime`, `nextDayKey`,
+ *    `mood`…) y aquí se traducen con `m.common.status.*` y `m.common.days.*` (idioma activo).
  *  · Se recalcula cada 60 s y al volver a la pestaña.
  *  · Punto verde pulsante si está abierto, ámbar si cierra en ≤ 30 min, rojo si está cerrado.
- *  · Tabla semanal desplegable (BUSINESS.hours) con el día de hoy resaltado.
+ *  · Tabla semanal siempre visible con el día de hoy resaltado y los días de descanso atenuados.
  */
 
 type Tone = "open" | "closing" | "closed";
+type Formatter = (template: string, vars?: Record<string, string | number>) => string;
 
 const WEEK: readonly DayKey[] = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 const HOURS = BUSINESS.hours as Record<DayKey, TimeRange[]>;
@@ -37,15 +50,49 @@ const TONE: Record<Tone, { dot: string; halo: string; text: string; glow: string
   closed: {
     dot: "bg-pimenton-light",
     halo: "bg-pimenton-light/60",
-    text: "text-pimenton-light",
+    text: "text-pimenton-a11y",
     glow: "shadow-[0_0_12px_rgba(216,50,60,0.8)]",
   },
 };
 
+const MOOD_ICON: Record<OpenStatusMood, LucideIcon> = { lunch: Sun, dinner: Moon, wine: Wine };
+
 function toneFor(status: OpenStatusData): Tone {
   if (!status.isOpen) return "closed";
-  if (status.minutesToChange !== null && status.minutesToChange <= 30) return "closing";
-  return "open";
+  return status.kind === "closingSoon" ? "closing" : "open";
+}
+
+/** Traduce el estado estructurado a la etiqueta principal y el detalle en el idioma activo. */
+function localize(status: OpenStatusData, c: Messages["common"], t: Formatter): { label: string; detail: string } {
+  switch (status.kind) {
+    case "open":
+      return { label: c.status.openNow, detail: t(c.status.closesAt, { time: status.closeTime ?? "" }) };
+    case "closingSoon":
+      return { label: c.status.closingSoon, detail: t(c.status.closesAt, { time: status.closeTime ?? "" }) };
+    case "opensIn": {
+      const wait = status.minutesToChange ?? 0;
+      return {
+        label: wait <= OPENS_SOON_MINUTES ? t(c.status.opensIn, { minutes: wait }) : c.status.closedNow,
+        detail: t(c.status.opensTodayAt, { time: status.openTime ?? "" }),
+      };
+    }
+    case "closedToday":
+    case "closedUntil": {
+      if (!status.nextDayKey || !status.openTime) return { label: c.status.closed, detail: c.status.checkHours };
+      const time = status.openTime;
+      const detail =
+        status.nextDayOffset === 1
+          ? t(c.status.opensTomorrowAt, { time })
+          : t(c.status.opensOnAt, { day: c.days[status.nextDayKey].toLocaleLowerCase(), time });
+      return { label: c.status.closedNow, detail };
+    }
+  }
+}
+
+function moodLabel(mood: OpenStatusMood, c: Messages["common"]): string {
+  if (mood === "lunch") return c.status.moodLunch;
+  if (mood === "dinner") return c.status.moodDinner;
+  return c.status.moodWine;
 }
 
 export interface OpenStatusProps {
@@ -53,9 +100,10 @@ export interface OpenStatusProps {
 }
 
 export default function OpenStatus({ className }: OpenStatusProps) {
+  const m = useMessages();
+  const t = useFormat();
+  const { open: openReservation } = useReservation();
   const [status, setStatus] = useState<OpenStatusData | null>(null);
-  const [expanded, setExpanded] = useState(false);
-  const panelId = useId();
 
   useEffect(() => {
     const tick = () => setStatus(getOpenStatus());
@@ -71,87 +119,94 @@ export default function OpenStatus({ className }: OpenStatusProps) {
     };
   }, []);
 
+  const c = m.common;
+  const x = m.experience.status;
   const tone = status ? toneFor(status) : null;
   const styles = tone ? TONE[tone] : null;
-  const headline = status ? (status.isOpen && status.mood ? `${status.label} · ${status.mood}` : status.label) : "Consultando horario…";
-  const detail = status ? status.detail : BUSINESS.address.landmark;
+  const texts = status ? localize(status, c, t) : null;
+  const headline = texts?.label ?? c.status.checking;
+  const detail = status?.kind === "closedToday" && texts ? `${x.restDay} · ${texts.detail}` : (texts?.detail ?? m.experience.map.subtitle);
+  const MoodIcon = status ? MOOD_ICON[status.mood] : null;
 
   return (
-    <div className={cn("glass-smoke rounded-3xl p-5 md:p-6", className)}>
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex min-w-0 items-start gap-3">
-          {/* Punto de estado */}
-          <span className="relative mt-1.5 flex h-3 w-3 shrink-0" aria-hidden>
-            {tone && tone !== "closed" && (
-              <span className={cn("absolute inline-flex h-full w-full animate-ping rounded-full opacity-75", styles?.halo)} />
-            )}
-            <span className={cn("relative inline-flex h-3 w-3 rounded-full", styles ? cn(styles.dot, styles.glow) : "bg-cream/30")} />
-          </span>
+    <div className={cn("glass-smoke flex h-full flex-col rounded-[28px] p-5 md:p-7", className)}>
+      {/* Kicker + punto en vivo */}
+      <p className="flex items-center gap-3 font-caps text-[10px] uppercase tracking-[0.3em] text-cream-muted">
+        <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden>
+          {tone && tone !== "closed" && (
+            <span className={cn("absolute inline-flex h-full w-full animate-ping rounded-full opacity-75", styles?.halo)} />
+          )}
+          <span className={cn("relative inline-flex h-2.5 w-2.5 rounded-full", styles ? cn(styles.dot, styles.glow) : "bg-cream/30")} />
+        </span>
+        {x.kicker}
+      </p>
 
-          <div className="min-w-0" aria-live="polite">
-            <p className={cn("font-sans text-base font-bold leading-tight md:text-lg", styles ? styles.text : "text-cream-muted")}>{headline}</p>
-            <p className="mt-1 text-sm text-cream-muted">{detail}</p>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setExpanded((v) => !v)}
-          aria-expanded={expanded}
-          aria-controls={panelId}
-          className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border border-cream/15 px-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-cream-200 transition-colors hover:border-cream/40 hover:bg-cream/5"
-        >
-          <Clock3 className="h-4 w-4" aria-hidden />
-          <span className="hidden sm:inline">Horario</span>
-          <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", expanded && "rotate-180")} aria-hidden />
-        </button>
+      {/* Titular de estado */}
+      <div className="mt-4" aria-live="polite" aria-label={x.liveAria}>
+        <p className={cn("font-display text-3xl leading-none md:text-4xl", styles ? styles.text : "text-cream-muted")}>{headline}</p>
+        <p className="mt-2 font-sans text-sm text-cream-muted md:text-base">{detail}</p>
+        {status && MoodIcon && (
+          <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 font-caps text-[10px] uppercase tracking-[0.22em] text-gold">
+            <MoodIcon className="h-3.5 w-3.5" aria-hidden />
+            {moodLabel(status.mood, c)}
+          </p>
+        )}
       </div>
 
-      {/* Tabla semanal desplegable (truco grid 0fr → 1fr, sin librerías) */}
-      <div
-        id={panelId}
-        aria-hidden={!expanded}
-        className="grid transition-[grid-template-rows] duration-500 ease-[var(--ease-out-expo)]"
-        style={{ gridTemplateRows: expanded ? "1fr" : "0fr" }}
-      >
-        <div className="overflow-hidden">
-          <table className="mt-5 w-full border-separate border-spacing-y-1 text-sm">
-            <caption className="sr-only">Horario semanal de {BUSINESS.name}</caption>
-            <tbody>
-              {WEEK.map((key) => {
-                const isToday = status?.todayKey === key;
-                const ranges = HOURS[key];
-                const closed = ranges.length === 0;
-                return (
-                  <tr key={key} className={cn(isToday && "font-semibold")}>
-                    <th
-                      scope="row"
-                      className={cn(
-                        "rounded-l-xl px-3 py-2 text-left font-medium",
-                        isToday ? "bg-pimenton/20 text-cream" : "text-cream-muted",
+      {/* Horario semanal */}
+      <div className="mt-6 border-t border-cream/10 pt-5">
+        <h3 className="font-caps text-[10px] uppercase tracking-[0.3em] text-cream-muted">{x.hoursTitle}</h3>
+        <table className="mt-3 w-full border-separate border-spacing-y-0.5 font-sans text-sm">
+          <caption className="sr-only">{t(x.hoursCaption, { brand: BUSINESS.name })}</caption>
+          <tbody>
+            {WEEK.map((key) => {
+              const isToday = status?.todayKey === key;
+              const ranges = HOURS[key];
+              const closed = ranges.length === 0;
+              return (
+                <tr key={key} className={cn(isToday && "font-semibold")}>
+                  <th
+                    scope="row"
+                    className={cn(
+                      "rounded-l-xl py-1.5 pl-3 pr-2 text-left font-medium",
+                      isToday ? "bg-pimenton/15 text-cream" : closed ? "text-cream-faint" : "text-cream-muted",
+                    )}
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      {c.days[key]}
+                      {isToday && (
+                        <span className="rounded-full bg-pimenton px-1.5 py-0.5 font-caps text-[9px] uppercase tracking-[0.18em] text-cream">
+                          {x.today}
+                        </span>
                       )}
-                    >
-                      <span className="inline-flex items-center gap-2">
-                        {DAY_LABELS[key]}
-                        {isToday && (
-                          <span className="rounded-full bg-pimenton px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-cream">Hoy</span>
-                        )}
-                      </span>
-                    </th>
-                    <td
-                      className={cn(
-                        "rounded-r-xl px-3 py-2 text-right tabular-nums",
-                        isToday ? "bg-pimenton/20 text-cream" : closed ? "text-pimenton-light/90" : "text-cream-200",
-                      )}
-                    >
-                      {formatRanges(ranges)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <p className="mt-3 px-3 text-xs text-cream-faint">Horario según nuestra ficha de Google · Domingos cerrado · Festivos: consúltanos</p>
+                    </span>
+                  </th>
+                  <td
+                    className={cn(
+                      "rounded-r-xl py-1.5 pl-2 pr-3 text-right tabular-nums",
+                      isToday ? "bg-pimenton/15 text-cream" : closed ? "text-cream-faint" : "text-cream-200",
+                    )}
+                  >
+                    {formatRanges(ranges, x.closed)}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <p className="mt-3 px-3 text-xs text-cream-faint">{x.note}</p>
+      </div>
+
+      {/* CTAs */}
+      <div className="mt-auto border-t border-cream/10 pt-5">
+        <p className="font-display text-xl italic text-cream-200">{x.reserveHint}</p>
+        <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+          <NeonButton variant="primary" onClick={openReservation} icon={<CalendarCheck aria-hidden />} className="w-full sm:flex-1">
+            {c.cta.reserve}
+          </NeonButton>
+          <NeonButton variant="outline" href={BUSINESS.phone.tel} icon={<Phone aria-hidden />} className="w-full sm:flex-1">
+            {t(c.cta.callNumber, { phone: BUSINESS.phone.display })}
+          </NeonButton>
         </div>
       </div>
     </div>

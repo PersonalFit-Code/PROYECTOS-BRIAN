@@ -12,6 +12,7 @@ const dishes = {
   ingredients: "Ingredientes",
   allergens: "Alérgenos",
   noAllergens: "Sin alérgenos declarados",
+  allergensNote: "Ante cualquier alergia o intolerancia, dínoslo al pedir: lo preparamos con cuidado.",
   pairing: "Maridaje recomendado",
   pairingWhy: "Por qué funciona",
   seeInMenu: "Ver en la carta",
@@ -29,6 +30,10 @@ const dishes = {
     hint: "Toca un plato para ver ingredientes, alérgenos y maridaje",
     swipe: "Desliza para descubrir más",
     open: "Ver detalles de {name}",
+    pause: "Pausar el carrusel",
+    play: "Reanudar el carrusel",
+    /** Anuncio para lectores de pantalla al cambiar de plato (solo con el carrusel en pausa). */
+    status: "{name}, plato {index} de {total}",
   },
   /** Detalle del plato (DishSpotlight) */
   spotlight: {
@@ -40,6 +45,10 @@ const dishes = {
     askWaiter: "¿Dudas? Pregunta al camarero virtual",
     askWaiterPrefill: "Cuéntame más sobre {name}: cómo lo preparáis y con qué vino me lo recomendáis.",
     allergenContains: "Contiene {label}",
+    /** Lista de alérgenos en texto, ya localizada: "Contiene: gluten, huevos" */
+    contains: "Contiene: {list}",
+    detailsKicker: "Ficha del plato",
+    priceLabel: "Precio",
   },
   /** Visual compuesto (tixola de hierro + icono) cuando el plato aún no tiene foto */
   visual: {

@@ -1,27 +1,34 @@
 "use client";
 
-import { ChevronDown, ExternalLink, Footprints, Map, MapPin, Navigation, RotateCw } from "lucide-react";
+import { ChevronDown, ExternalLink, Footprints, Map, MapPin, MessageCircle, Navigation, RotateCw } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { Component, useCallback, useEffect, useId, useRef, useState, type ErrorInfo, type ReactNode } from "react";
+import { Component, useCallback, useEffect, useId, useMemo, useRef, useState, type ErrorInfo, type ReactNode } from "react";
+import { useChat } from "@/components/chat/ChatProvider";
 import NeonButton from "@/components/ui/NeonButton";
 import { BUSINESS } from "@/data/business";
+import { photoById } from "@/data/photos";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
+import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
 /**
  * MapCard — tarjeta de ubicación.
  *
- *  · Carga el mapa 3D (R3F) con `next/dynamic` y `ssr: false`, solo cuando la tarjeta se acerca
- *    al viewport y el dispositivo no es de gama baja. Mientras tanto (y como fallback definitivo)
- *    muestra la foto real de la fachada con un velo de cristal.
- *  · Panel con dirección, plus code, distancia a la Catedral y CTAs "Cómo llegar" / "Abrir en Google Maps".
- *  · Disclosure "Ver mapa real": el <iframe> de Google Maps NO se renderiza hasta que el usuario lo abre.
+ *  · Visor 4:3 con el mapa 3D fiel a la manzana real (R3F, `next/dynamic` + `ssr: false`), montado
+ *    solo cuando la tarjeta se acerca al viewport y el dispositivo lo permite (tier ≠ low y sin
+ *    `prefers-reduced-motion`). Mientras tanto, y como fallback definitivo, la foto real de la fachada.
+ *  · Leyenda con puntos de color (Tixola · Catedral · Santa Eufemia) sobre el visor.
+ *  · Panel con dirección (BUSINESS.address), plus code, "A un minuto de la Catedral" y CTAs
+ *    "Cómo llegar" / "Abrir en Google Maps".
+ *  · Disclosure "Ver mapa real": el <iframe> de Google Maps NO existe hasta que el usuario lo abre.
+ *  · Enlace al camarero virtual con la pregunta "¿Cómo llego…?" precargada.
  */
 
 const CityMap3D = dynamic(() => import("@/components/three/CityMap3D"), { ssr: false, loading: () => null });
 
 const EMBED_URL = `https://www.google.com/maps?q=${BUSINESS.geo.lat},${BUSINESS.geo.lng}&z=17&output=embed`;
+const FACHADA = photoById("fachada");
 
 /* ────────────────────────────────────────────────────────────
    Error boundary: si WebGL falla (contexto no disponible, driver bloqueado…) volvemos a la foto.
@@ -51,9 +58,9 @@ class MapErrorBoundary extends Component<BoundaryProps, { failed: boolean }> {
 }
 
 /* ────────────────────────────────────────────────────────────
-   Fallback estático (foto real + cristal)
+   Fallback estático (foto real de la fachada + cristal)
    ──────────────────────────────────────────────────────────── */
-function StaticFallback({ hidden }: { hidden: boolean }) {
+function StaticFallback({ hidden, caption }: { hidden: boolean; caption: string }) {
   return (
     <div
       aria-hidden={hidden}
@@ -63,11 +70,12 @@ function StaticFallback({ hidden }: { hidden: boolean }) {
       )}
     >
       <Image
-        src="/images/fachada.jpg"
-        alt="Fachada de Tixola Tapería en la Rúa Juan de Austria, con la terraza a pie de calle"
+        src={FACHADA?.src ?? "/images/fachada.jpg"}
+        alt={FACHADA?.alt ?? BUSINESS.name}
         fill
-        sizes="(min-width: 1024px) 44vw, 100vw"
+        sizes="(min-width: 1024px) 52vw, 100vw"
         className="object-cover"
+        style={{ objectPosition: FACHADA?.focus ?? "50% 40%" }}
       />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,12,12,0.12)_0%,rgba(12,12,12,0.3)_45%,rgba(12,12,12,0.9)_100%)]" />
       {/* resplandor rojo que sugiere la chincheta */}
@@ -77,11 +85,30 @@ function StaticFallback({ hidden }: { hidden: boolean }) {
           <MapPin className="h-4 w-4" aria-hidden />
         </span>
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-cream">{BUSINESS.address.street}</p>
-          <p className="truncate text-xs text-cream-muted">Junto a la Catedral · {BUSINESS.address.city}</p>
+          <p className="truncate font-sans text-sm font-semibold text-cream">{BUSINESS.address.street}</p>
+          <p className="truncate text-xs text-cream-muted">{caption}</p>
         </div>
       </div>
     </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   Leyenda del mapa 3D
+   ──────────────────────────────────────────────────────────── */
+function Legend({ items, label }: { items: ReadonlyArray<{ text: string; dot: string }>; label: string }) {
+  return (
+    <ul
+      aria-label={label}
+      className="glass absolute bottom-3 left-3 z-[6] flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl px-3 py-1.5 font-caps text-[9px] uppercase tracking-[0.18em] text-cream-200"
+    >
+      {items.map((item) => (
+        <li key={item.text} className="inline-flex items-center gap-1.5">
+          <span aria-hidden className={cn("h-2 w-2 shrink-0 rounded-full", item.dot)} />
+          {item.text}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -93,6 +120,9 @@ export interface MapCardProps {
 }
 
 export default function MapCard({ className }: MapCardProps) {
+  const m = useMessages();
+  const t = useFormat();
+  const { open: openChat } = useChat();
   const perf = usePerformanceTier();
   const frameRef = useRef<HTMLDivElement>(null);
 
@@ -126,39 +156,55 @@ export default function MapCard({ className }: MapCardProps) {
     setReady(false);
   }, []);
 
-  const show3D = perf.tier !== "low" && near && !failed;
-  const hint = perf.isTouch ? "Desliza para girar" : "Arrastra para girar";
+  const x = m.experience.map;
+  const c = m.common;
+  const show3D = perf.tier !== "low" && !perf.reducedMotion && near && !failed;
+  const hint = perf.isTouch ? x.dragHintTouch : x.dragHint;
+
+  const labels = useMemo(() => ({ tixola: x.legendYou, cathedral: x.legendCathedral, church: x.legendChurch }), [x]);
+  const legend = useMemo(
+    () => [
+      { text: x.legendYou, dot: "bg-pimenton-light shadow-[0_0_8px_rgba(216,50,60,0.9)]" },
+      { text: x.legendCathedral, dot: "bg-gold shadow-[0_0_8px_rgba(232,194,122,0.8)]" },
+      { text: x.legendChurch, dot: "bg-cream-400" },
+    ],
+    [x],
+  );
+
+  const askWaiter = useCallback(() => openChat({ prefill: x.askWaiterPrefill, page: "home" }), [openChat, x.askWaiterPrefill]);
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("flex flex-col", className)}>
       <div ref={frameRef} className="glass-smoke relative overflow-hidden rounded-[28px] p-2 shadow-card">
         {/* Visor: aspecto fijo 4:3, táctil (pan-y deja el scroll vertical al navegador) */}
         <div
           className="relative aspect-[4/3] touch-pan-y select-none overflow-hidden rounded-[20px] bg-iron-900"
           onPointerDown={() => setHintDismissed(true)}
         >
-          <StaticFallback hidden={ready} />
+          <StaticFallback hidden={ready} caption={x.subtitle} />
 
           {show3D && (
             <MapErrorBoundary onError={handleError}>
-              <CityMap3D perf={perf} active={active} onReady={handleReady} className="absolute inset-0" />
+              <CityMap3D perf={perf} active={active} onReady={handleReady} labels={labels} ariaLabel={x.mapAria} className="absolute inset-0" />
             </MapErrorBoundary>
           )}
 
-          {/* viñeta + grano por encima del canvas (no bloquea el arrastre) */}
+          {/* viñeta por encima del canvas (no bloquea el arrastre) */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(120%_90%_at_50%_45%,transparent_55%,rgba(12,12,12,0.6)_100%)]"
           />
 
-          <span className="glass absolute left-3 top-3 z-[6] rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-cream/85">
-            {ready ? "Vista 3D" : "Foto real"}
+          <span className="glass absolute left-3 top-3 z-[6] rounded-full px-3 py-1 font-caps text-[9px] uppercase tracking-[0.22em] text-cream/85">
+            {ready ? x.view3d : x.photo}
           </span>
+
+          {ready && <Legend items={legend} label={x.legend} />}
 
           {ready && !hintDismissed && (
             <span
               aria-hidden
-              className="absolute bottom-3 right-3 z-[6] inline-flex items-center gap-1.5 rounded-full bg-iron-900/70 px-3 py-1.5 text-[11px] text-cream/80 backdrop-blur"
+              className="absolute right-3 top-3 z-[6] inline-flex items-center gap-1.5 rounded-full bg-iron-900/70 px-3 py-1.5 font-sans text-[11px] text-cream/80 backdrop-blur"
             >
               <RotateCw className="h-3.5 w-3.5" aria-hidden />
               {hint}
@@ -168,31 +214,35 @@ export default function MapCard({ className }: MapCardProps) {
 
         {/* Panel de información */}
         <div className="px-3 pb-3 pt-4 md:px-4 md:pb-4 md:pt-5">
+          <p className="mb-3 font-caps text-[10px] uppercase tracking-[0.3em] text-cream-muted">{x.kicker}</p>
           <div className="flex items-start gap-3">
             <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-pimenton/20 text-pimenton-light">
               <MapPin className="h-5 w-5" aria-hidden />
             </span>
             <address className="min-w-0 not-italic">
-              <p className="font-display text-lg leading-tight text-cream md:text-xl">{BUSINESS.address.street}</p>
-              <p className="mt-1 text-sm text-cream-muted">
-                {BUSINESS.address.postalCode} {BUSINESS.address.city} · Plus code{" "}
+              <p className="font-display text-2xl leading-tight text-cream md:text-3xl">{BUSINESS.address.street}</p>
+              <p className="mt-1 font-sans text-sm text-cream-muted">
+                {BUSINESS.address.postalCode} {BUSINESS.address.city} · {x.plusCode}{" "}
                 <span className="font-mono text-cream-200 tabular-nums">{BUSINESS.address.plusCode}</span>
               </p>
-              <p className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-gold">
-                <Footprints className="h-4 w-4" aria-hidden />A 1 min de la Catedral
+              <p className="mt-2 inline-flex items-center gap-1.5 font-sans text-sm font-medium text-gold">
+                <Footprints className="h-4 w-4" aria-hidden />
+                {x.distance}
               </p>
+              <p className="mt-1 font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint">{x.area}</p>
             </address>
           </div>
 
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <NeonButton
               href={BUSINESS.social.directions}
               target="_blank"
               variant="primary"
               icon={<Navigation aria-hidden />}
+              aria-label={c.cta.directionsAria}
               className="w-full sm:flex-1"
             >
-              Cómo llegar
+              {c.cta.directions}
             </NeonButton>
             <NeonButton
               href={BUSINESS.social.googleMaps}
@@ -201,7 +251,7 @@ export default function MapCard({ className }: MapCardProps) {
               iconRight={<ExternalLink aria-hidden />}
               className="w-full sm:flex-1"
             >
-              Abrir en Google Maps
+              {c.cta.openMaps}
             </NeonButton>
           </div>
         </div>
@@ -214,11 +264,11 @@ export default function MapCard({ className }: MapCardProps) {
           aria-expanded={showEmbed}
           aria-controls={embedId}
           onClick={() => setShowEmbed((v) => !v)}
-          className="flex min-h-11 w-full items-center justify-between rounded-2xl border border-cream/10 bg-iron-900/50 px-4 py-2.5 text-sm text-cream-200 transition-colors hover:border-cream/25 hover:bg-iron-800/70"
+          className="flex min-h-11 w-full items-center justify-between rounded-2xl border border-cream/10 bg-iron-900/50 px-4 py-2.5 font-sans text-sm text-cream-200 transition-colors hover:border-cream/25 hover:bg-iron-800/70"
         >
           <span className="inline-flex items-center gap-2">
             <Map className="h-4 w-4 text-cream-muted" aria-hidden />
-            {showEmbed ? "Ocultar mapa real" : "Ver mapa real"}
+            {showEmbed ? x.hideMap : x.realMap}
           </span>
           <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", showEmbed && "rotate-180")} aria-hidden />
         </button>
@@ -227,7 +277,7 @@ export default function MapCard({ className }: MapCardProps) {
           <div id={embedId} className="mt-3 overflow-hidden rounded-2xl border border-cream/10 shadow-card">
             <iframe
               src={EMBED_URL}
-              title={`Ubicación de ${BUSINESS.name} en Google Maps`}
+              title={t(x.embedTitle, { brand: BUSINESS.name })}
               loading="lazy"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
@@ -236,6 +286,16 @@ export default function MapCard({ className }: MapCardProps) {
           </div>
         )}
       </div>
+
+      {/* Camarero virtual: "¿Cómo llego?" precargado */}
+      <button
+        type="button"
+        onClick={askWaiter}
+        className="mt-3 inline-flex min-h-11 items-center gap-2 self-start rounded-full px-2 font-sans text-sm text-cream-muted transition-colors hover:text-cream"
+      >
+        <MessageCircle className="h-4 w-4 text-pimenton-light" aria-hidden />
+        <span className="underline decoration-cream/30 underline-offset-4">{x.askWaiter}</span>
+      </button>
     </div>
   );
 }
