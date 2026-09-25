@@ -1,0 +1,7 @@
+# Artefactos locales que no deben subirse al build de Vercel
+screenshots
+docs
+scripts
+.next
+node_modules
+*.log
