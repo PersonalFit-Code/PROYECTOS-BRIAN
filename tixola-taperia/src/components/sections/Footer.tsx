@@ -21,7 +21,7 @@ const HOURS = BUSINESS.hours as Record<DayKey, TimeRange[]>;
  * Crédito de diseño. Sustituir por el estudio/autor real antes de publicar.
  * (Texto de relleno acordado en el brief.)
  */
-const DESIGN_CREDIT = { label: "Diseño web", by: "Tu estudio", href: "#" };
+const DESIGN_CREDIT = { label: "Diseño web", by: "Tu estudio" };
 
 /* "Reloj" externo: valores dependientes de la fecha solo en cliente (evita desajustes de
    hidratación) y refrescados cada minuto. Devuelven primitivos, estables entre llamadas. */
@@ -39,7 +39,7 @@ const fmtRating = (v: number) => v.toLocaleString("es-ES", { minimumFractionDigi
 
 const linkClass =
   "group inline-flex items-center gap-1.5 py-1 text-sm text-cream-muted transition-colors duration-300 hover:text-cream";
-const headingClass = "mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-pimenton-light";
+const headingClass = "mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-pimenton-a11y";
 
 /* ──────────────────────────────────────────────────────────────
    Footer
@@ -258,10 +258,7 @@ export default function Footer() {
             </p>
             <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-end">
               <p>
-                {DESIGN_CREDIT.label}{" "}
-                <a href={DESIGN_CREDIT.href} className="text-cream-muted transition-colors hover:text-cream">
-                  {DESIGN_CREDIT.by}
-                </a>
+                {DESIGN_CREDIT.label} <span className="text-cream-muted">{DESIGN_CREDIT.by}</span>
               </p>
               <button
                 type="button"

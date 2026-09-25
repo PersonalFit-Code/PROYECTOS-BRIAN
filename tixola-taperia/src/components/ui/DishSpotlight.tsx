@@ -156,7 +156,7 @@ function Sheet({ dish, onClose, onReserve, steam }: SheetProps) {
         {/* Asa de arrastre + cerrar */}
         <div className="relative flex touch-none items-center justify-between px-4 pb-1 pt-3" onPointerDown={onHandlePointerDown}>
           <span aria-hidden className="absolute left-1/2 top-3 h-1.5 w-12 -translate-x-1/2 rounded-full bg-cream/25" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-pimenton-light">{dish.kicker}</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-pimenton-a11y">{dish.kicker}</span>
           <button
             ref={closeRef}
             type="button"

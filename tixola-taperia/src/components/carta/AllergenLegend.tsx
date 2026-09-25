@@ -211,7 +211,7 @@ function SheetInner({ onClose }: { onClose: () => void }) {
 
         <header className="flex items-start justify-between gap-4 px-5 pb-3 pt-4 md:px-7 md:pt-6">
           <div>
-            <p className="font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-pimenton-light">Alérgenos</p>
+            <p className="font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-pimenton-a11y">Alérgenos</p>
             <h2 id={titleId} className="mt-1 font-condensed text-3xl uppercase leading-none tracking-wide text-cream md:text-4xl">
               Leyenda de alérgenos
             </h2>

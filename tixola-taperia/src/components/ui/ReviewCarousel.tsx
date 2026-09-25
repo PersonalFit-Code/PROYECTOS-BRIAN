@@ -226,7 +226,9 @@ interface Metrics {
 export default function ReviewCarousel({ reviews, className }: ReviewCarouselProps) {
   const total = reviews.length;
   const { tier, reducedMotion } = usePerformanceTier();
-  const tilt = tier !== "low" && !reducedMotion;
+  /* Solo tier "high" (escritorio) anima rotateY: combinar un transform 3D con el backdrop-filter
+     de glass-smoke fuerza recomputar el blur cada frame, demasiado caro en gama media/móvil. */
+  const tilt = tier === "high" && !reducedMotion;
 
   const rootRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);

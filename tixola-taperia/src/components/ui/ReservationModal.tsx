@@ -82,7 +82,7 @@ const labelClass = "mb-1.5 block text-[11px] font-bold uppercase tracking-[0.18e
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} role="alert" className="mt-1.5 text-xs text-pimenton-light">
+    <p id={id} role="alert" className="mt-1.5 text-xs text-pimenton-a11y">
       {message}
     </p>
   );
@@ -257,7 +257,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
               </button>
 
               <div className="relative overflow-y-auto px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-4 sm:px-8 sm:pb-8 sm:pt-8">
-                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-pimenton-light">Reservas</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-pimenton-a11y">Reservas</p>
                 <h2 id={titleId} className="mt-2 font-display text-3xl leading-tight text-cream sm:text-4xl">
                   Reserva tu <em className="text-gradient-ember italic">mesa</em>
                 </h2>

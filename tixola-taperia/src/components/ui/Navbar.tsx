@@ -31,6 +31,12 @@ function hashOf(href: string): string | null {
   return i >= 0 ? href.slice(i + 1) : null;
 }
 
+/** `aria-current` correcto: "page" solo para una ruta real distinta; "true" para anclas en la misma página. */
+function ariaCurrentFor(href: string, active: boolean): "page" | "true" | undefined {
+  if (!active) return undefined;
+  return hashOf(href) ? "true" : "page";
+}
+
 /* Variantes del menú móvil */
 const menuVariants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.25, ease: "easeIn", when: "afterChildren" } },
@@ -195,7 +201,7 @@ export default function Navbar() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    aria-current={active ? "page" : undefined}
+                    aria-current={ariaCurrentFor(link.href, active)}
                     className={cn(
                       "group relative inline-flex h-11 items-center px-3.5 font-sans text-[13px] font-semibold uppercase tracking-[0.16em] transition-colors duration-300 lg:px-4",
                       active ? "text-cream" : "text-cream-muted hover:text-cream",
@@ -270,7 +276,7 @@ export default function Navbar() {
             animate="show"
             exit="hidden"
             onKeyDown={trapFocus}
-            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto bg-[linear-gradient(180deg,rgba(12,12,12,0.94),rgba(34,8,11,0.96))] backdrop-blur-2xl md:hidden"
+            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden bg-[linear-gradient(180deg,rgba(12,12,12,0.94),rgba(34,8,11,0.96))] backdrop-blur-2xl md:hidden"
           >
             {/* Brasa decorativa */}
             <span aria-hidden className="pointer-events-none absolute -bottom-32 left-1/2 h-72 w-[120vw] -translate-x-1/2 rounded-full bg-pimenton/30 blur-3xl" />
@@ -279,7 +285,7 @@ export default function Navbar() {
             </span>
 
             <div className="container-page relative flex min-h-full flex-col pt-[calc(var(--header-h)+1.5rem)] pb-[calc(var(--mobile-bar-h)+env(safe-area-inset-bottom)+1.5rem)]">
-              <motion.p variants={itemVariants} className="text-[11px] font-bold uppercase tracking-[0.3em] text-pimenton-light">
+              <motion.p variants={itemVariants} className="text-[11px] font-bold uppercase tracking-[0.3em] text-pimenton-a11y">
                 Tapería · Vinoteca · Ourense
               </motion.p>
 
@@ -291,7 +297,7 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={closeMenu}
-                        aria-current={active ? "page" : undefined}
+                        aria-current={ariaCurrentFor(link.href, active)}
                         className="group flex items-center justify-between gap-4 py-4"
                       >
                         <span className="flex items-baseline gap-4">

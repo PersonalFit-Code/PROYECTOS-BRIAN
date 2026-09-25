@@ -151,7 +151,7 @@ export default function Hero() {
         >
           <motion.p
             variants={item}
-            className="mb-5 inline-flex items-center justify-center gap-3 font-sans text-[11px] font-bold uppercase tracking-[0.32em] text-pimenton-light sm:text-xs lg:justify-start"
+            className="mb-5 inline-flex items-center justify-center gap-3 font-sans text-[11px] font-bold uppercase tracking-[0.32em] text-pimenton-a11y sm:text-xs lg:justify-start"
           >
             <span aria-hidden className="h-px w-8 bg-pimenton-light/70" />
             {KICKER}
@@ -183,7 +183,13 @@ export default function Hero() {
             <NeonButton variant="primary" size="lg" pulse onClick={open} icon={<CalendarCheck aria-hidden />} className="w-full sm:w-auto">
               Reservar Mesa
             </NeonButton>
-            <NeonButton variant="outline" size="lg" href="/carta" iconRight={<ArrowRight aria-hidden />} className="w-full sm:w-auto">
+            <NeonButton
+              variant="outline"
+              size="lg"
+              href="/carta"
+              iconRight={<ArrowRight aria-hidden />}
+              className="w-full animate-neon-pulse sm:w-auto"
+            >
               Ir a la Carta
             </NeonButton>
           </motion.div>

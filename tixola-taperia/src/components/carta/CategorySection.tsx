@@ -134,7 +134,7 @@ export default function CategorySection({
       {/* Cabecera de categoría */}
       <header className="relative mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
-          <p className="mb-2 inline-flex items-center gap-3 font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-pimenton-light">
+          <p className="mb-2 inline-flex items-center gap-3 font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-pimenton-a11y">
             <span aria-hidden className="h-px w-6 bg-pimenton-light/70" />
             {category.kicker}
           </p>

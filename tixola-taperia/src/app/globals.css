@@ -8,6 +8,9 @@
   --color-pimenton: #b21e27;
   --color-pimenton-light: #d8323c;
   --color-pimenton-dark: #7d131a;
+  /* Variante AA-safe de pimentón para texto pequeño/normal sobre iron/burgundy (≥4.5:1).
+     `pimenton-light` (~4:1) se reserva para texto grande, iconos, bordes y superficies de botón. */
+  --color-pimenton-a11y: #ed6e77;
   --color-ember: #ff6a3d;
   --color-gold: #e8c27a;
 

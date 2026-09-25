@@ -2,6 +2,7 @@
 
 import { MotionConfig, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { STAR_DISHES, type StarDish } from "@/data/dishes";
 import DishFlipCard from "@/components/ui/DishFlipCard";
@@ -10,7 +11,6 @@ import NeonButton from "@/components/ui/NeonButton";
 import { useReservation } from "@/components/ui/ReservationProvider";
 import SectionHeading from "@/components/ui/SectionHeading";
 import TiltCard from "@/components/ui/TiltCard";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +29,6 @@ const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
 export default function StarDishes() {
   const { tier, reducedMotion } = usePerformanceTier();
-  const isMobile = useIsMobile();
   const { open: openReservation } = useReservation();
 
   const [flippedId, setFlippedId] = useState<string | null>(null);
@@ -67,21 +66,27 @@ export default function StarDishes() {
           description="Producto gallego de la ría y del rural, marcado en nuestras tixolas de hierro hasta ese punto de brasa que solo da el hierro caliente. Cuatro platos que explican por qué la gente vuelve."
         />
         <MotionConfig reducedMotion="user">
-          {isMobile ? (
-            <MobileCarousel onOpen={setSpotlight} onReserve={openReservation} steam={steam} />
-          ) : (
+          {/* Ambos layouts se renderizan siempre; el breakpoint CSS decide cuál se ve, así el
+              SSR y la primera pintura en móvil ya coinciden con el layout final (sin DOM swap). */}
+          <div className="hidden md:block">
             <DesktopGrid flippedId={flippedId} onToggle={toggleFlip} onReserve={openReservation} steam={steam} tilt={tiltEnabled} />
-          )}
+          </div>
+          <div className="md:hidden">
+            <MobileCarousel onOpen={setSpotlight} onReserve={openReservation} steam={steam} />
+          </div>
         </MotionConfig>
 
-        {/* CTA inferior */}
-        <div className="mt-12 flex flex-col items-center gap-4 text-center md:mt-16">
-          <NeonButton href="/carta" variant="cream" size="lg" iconRight={<ArrowRight aria-hidden />}>
-            Ver carta completa con alérgenos
-          </NeonButton>
-          <p className="max-w-md text-xs leading-relaxed text-cream-faint">
-            Más de 80 tapas, raciones y vinos gallegos, con los 14 alérgenos de la UE señalados plato a plato.
-          </p>
+        {/* CTA inferior, con las polaroids de la pizarra y la carta física como prueba tangible */}
+        <div className="mt-12 flex flex-col items-center gap-6 md:mt-16">
+          <MenuPolaroids />
+          <div className="flex flex-col items-center gap-4 text-center">
+            <NeonButton href="/carta" variant="cream" size="lg" iconRight={<ArrowRight aria-hidden />}>
+              Ver carta completa con alérgenos
+            </NeonButton>
+            <p className="max-w-md text-xs leading-relaxed text-cream-faint">
+              Más de 80 tapas, raciones y vinos gallegos, con los 14 alérgenos de la UE señalados plato a plato.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -218,5 +223,41 @@ function MobileCarousel({ onOpen, onReserve, steam }: MobileCarouselProps) {
         })}
       </div>
     </div>
+  );
+}
+
+/* ───────────────────────── Polaroids: pizarra + carta física ───────────────────────── */
+
+interface PolaroidSpec {
+  src: string;
+  alt: string;
+  caption: string;
+  rotate: string;
+}
+
+const MENU_POLAROIDS: PolaroidSpec[] = [
+  { src: "/images/carta-pizarra.png", alt: "Pizarra del día de Tixola Tapería escrita con tiza", caption: "Pizarra del día", rotate: "-rotate-6" },
+  { src: "/images/carta-fisica.png", alt: "Carta física impresa de Tixola Tapería", caption: "Carta física", rotate: "rotate-3" },
+];
+
+/** Par de polaroids decorativas (fotos reales de la carta) junto al CTA "Ver carta completa". */
+function MenuPolaroids() {
+  return (
+    <ul className="flex items-start justify-center gap-4" aria-label="Fotos de la carta: pizarra del día y carta física">
+      {MENU_POLAROIDS.map((p) => (
+        <li key={p.src} className={cn("list-none", p.rotate)}>
+          <figure className="group w-20 rounded-sm bg-cream p-1.5 pb-2 text-iron shadow-card transition-transform duration-500 ease-[var(--ease-out-expo)] hover:z-10 hover:scale-105 hover:rotate-0 sm:w-24">
+            <span className="relative block aspect-square overflow-hidden rounded-[2px] bg-iron-800">
+              <Image src={p.src} alt={p.alt} width={192} height={192} sizes="96px" className="h-full w-full object-cover" />
+              <span
+                aria-hidden
+                className="absolute -top-1.5 left-1/2 h-3 w-10 -translate-x-1/2 -rotate-3 bg-cream-200/70 shadow-sm [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"
+              />
+            </span>
+            <figcaption className="mt-1.5 text-center font-display text-[10px] italic leading-none text-iron-800">{p.caption}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
   );
 }

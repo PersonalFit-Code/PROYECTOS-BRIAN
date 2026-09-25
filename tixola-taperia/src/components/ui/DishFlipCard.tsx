@@ -60,7 +60,7 @@ export function DishCardFront({ dish, layoutId, steam = true, hint = "Toca para 
       </div>
 
       <div className="mt-auto pt-3">
-        <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-pimenton-light">{dish.kicker}</p>
+        <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-pimenton-a11y">{dish.kicker}</p>
         <h3 className="mt-1.5 font-display text-[1.3rem] leading-[1.15] text-cream md:text-[1.4rem]">{dish.name}</h3>
         <div className="mt-2 flex items-baseline gap-2">
           <span className="font-condensed text-[2.6rem] leading-none tracking-wide text-cream">{formatPrice(dish.price)}</span>
@@ -283,7 +283,7 @@ export default function DishFlipCard({ dish, flipped, onToggle, onReserve, mode 
             <div className="no-scrollbar relative flex h-full flex-col overflow-y-auto p-5 pb-4">
               <div className="mb-3 flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-pimenton-light">{dish.kicker}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-pimenton-a11y">{dish.kicker}</p>
                   <p className="mt-0.5 truncate font-display text-sm text-cream-muted">{dish.name}</p>
                 </div>
                 <button

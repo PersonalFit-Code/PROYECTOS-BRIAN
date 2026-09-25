@@ -19,7 +19,7 @@ export default function SectionHeading({ kicker, title, accent, description, ali
   return (
     <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
       {kicker && (
-        <p data-reveal className="mb-4 inline-flex items-center gap-3 font-sans text-xs font-bold uppercase tracking-[0.3em] text-pimenton-light">
+        <p data-reveal className="mb-4 inline-flex items-center gap-3 font-sans text-xs font-bold uppercase tracking-[0.3em] text-pimenton-a11y">
           <span aria-hidden className="h-px w-8 bg-pimenton-light/70" />
           {kicker}
           {align === "center" && <span aria-hidden className="h-px w-8 bg-pimenton-light/70" />}

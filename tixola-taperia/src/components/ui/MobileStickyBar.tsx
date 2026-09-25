@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, MotionConfig } from "framer-motion";
-import { BookOpen, Navigation, Phone } from "lucide-react";
+import { BookOpen, CalendarCheck, Navigation, Phone } from "lucide-react";
 import { BUSINESS } from "@/data/business";
 import { useReservation } from "@/components/ui/ReservationProvider";
 import { cn } from "@/lib/utils";
@@ -17,12 +17,12 @@ const itemPrimary =
 
 /**
  * Barra de acciones fija en la parte inferior (solo móvil, < md):
- *  Llamar · Ver carta (destacado en pimentón) · Cómo llegar.
+ *  Reservar (destacado en pimentón, máxima prioridad según el brief) · Ver carta · Llamar · Cómo llegar.
  * Se desliza fuera de la pantalla mientras el modal de reserva está abierto para no solapar.
  * Respeta el área segura inferior (iPhone) con `env(safe-area-inset-bottom)`.
  */
 export default function MobileStickyBar() {
-  const { isOpen } = useReservation();
+  const { isOpen, open: openReservation } = useReservation();
 
   return (
     <MotionConfig reducedMotion="user">
@@ -37,18 +37,24 @@ export default function MobileStickyBar() {
       >
         {/* Cristal ahumado (mismas capas que `glass-smoke`, pero solo con borde superior) */}
         <div className="border-t border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.86),rgba(20,20,20,0.7))] pb-[env(safe-area-inset-bottom)] shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.7)] backdrop-blur-2xl backdrop-saturate-[1.2]">
-          <ul className="grid h-[var(--mobile-bar-h)] grid-cols-3 gap-1 px-2 py-1.5">
+          <ul className="grid h-[var(--mobile-bar-h)] grid-cols-4 gap-1 px-2 py-1.5">
+            <li className="h-full">
+              <button type="button" onClick={openReservation} className={cn(itemBase, itemPrimary, "w-full")}>
+                <CalendarCheck aria-hidden />
+                Reservar
+              </button>
+            </li>
+            <li className="h-full">
+              <Link href="/carta" className={cn(itemBase, itemGhost)}>
+                <BookOpen aria-hidden />
+                Ver carta
+              </Link>
+            </li>
             <li className="h-full">
               <a href={BUSINESS.phone.tel} className={cn(itemBase, itemGhost)} aria-label={`Llamar al ${BUSINESS.phone.display}`}>
                 <Phone aria-hidden />
                 Llamar
               </a>
-            </li>
-            <li className="h-full">
-              <Link href="/carta" className={cn(itemBase, itemPrimary)}>
-                <BookOpen aria-hidden />
-                Ver carta
-              </Link>
             </li>
             <li className="h-full">
               <a
