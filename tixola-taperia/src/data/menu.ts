@@ -578,5 +578,12 @@ export const DIET_TAG_LABELS: Record<DietTag, string> = {
   nuevo: "Nuevo",
 };
 
-export const formatPrice = (n: number) =>
-  new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", minimumFractionDigits: n % 1 === 0 ? 0 : 2 }).format(n);
+const PRICE_LOCALES: Record<string, string> = { es: "es-ES", gl: "gl-ES", en: "en-GB", pt: "pt-PT" };
+
+/** Formatea un precio en euros según el idioma ("es" | "gl" | "en" | "pt"). */
+export const formatPrice = (n: number, locale: string = "es") =>
+  new Intl.NumberFormat(PRICE_LOCALES[locale] ?? "es-ES", {
+    style: "currency",
+    currency: "EUR",
+    minimumFractionDigits: n % 1 === 0 ? 0 : 2,
+  }).format(n);
