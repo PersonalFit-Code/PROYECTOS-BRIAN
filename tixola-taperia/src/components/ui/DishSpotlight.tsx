@@ -146,7 +146,6 @@ interface SheetProps {
 function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
   const { dish, photo } = slide;
   const m = useMessages();
-  const t = useFormat();
   const reducedMotion = useReducedMotion();
   const dragControls = useDragControls();
   const closeRef = useRef<HTMLButtonElement>(null);
