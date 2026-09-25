@@ -1,0 +1,9 @@
+import type { DeepPartial } from "@/i18n/types";
+import type { Messages } from "@/i18n/types";
+
+/**
+ * Mensajes en "en". Puede ser parcial: cualquier clave ausente cae al español.
+ * ⚠️ Pendiente de traducción completa (fase de traducción).
+ */
+const en: DeepPartial<Messages> = {};
+export default en;

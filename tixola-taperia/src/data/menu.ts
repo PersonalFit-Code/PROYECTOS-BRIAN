@@ -48,8 +48,10 @@ export interface MenuItem {
   tags: DietTag[];
   /** maridaje recomendado (vino gallego) */
   pairing?: string;
-  /** emoji decorativo para tarjetas sin foto */
+  /** clave de icono (ver components/icons/DishIcons.tsx); la UI nunca pinta el emoji */
   emoji: string;
+  /** foto real opcional (public/images/...) */
+  image?: string;
 }
 
 export const MENU_CATEGORIES: MenuCategory[] = [
@@ -68,6 +70,7 @@ export const MENU_ITEMS: MenuItem[] = [
   // ─── SUGERENCIAS ────────────────────────────────────────────────
   {
     id: "sug-zamburinas-rellenas",
+    image: "/images/zamburinas-plancha.jpg",
     name: "Zamburiñas rellenas gratinadas",
     category: "sugerencias",
     description: "Zamburiñas de la ría rellenas de sofrito de cebolla, jamón y pan rallado, gratinadas al horno.",
@@ -80,6 +83,7 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "sug-raxo-arzua",
+    image: "/images/tixola-raxo-croquetas.jpg",
     name: "Tixola de raxo con queso de Arzúa",
     category: "sugerencias",
     description: "Lomo de cerdo adobado al estilo gallego, patatas panadera y queso Arzúa-Ulloa fundido.",
@@ -122,6 +126,7 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "croq-jamon",
+    image: "/images/tixola-raxo-croquetas.jpg",
     name: "Croquetas de jamón ibérico",
     category: "croquetas",
     description: "Receta de la abuela con jamón ibérico picado a cuchillo.",
@@ -184,6 +189,7 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "tix-raxo-queso-azul",
+    image: "/images/tixola-raxo-croquetas.jpg",
     name: "Tixola de raxo con huevos y queso azul",
     category: "tixolas",
     description: "Raxo adobado, huevos rotos y crema de queso azul gallego.",
@@ -222,6 +228,7 @@ export const MENU_ITEMS: MenuItem[] = [
   // ─── DEL MAR ────────────────────────────────────────────────────
   {
     id: "mar-zamburinas-plancha",
+    image: "/images/zamburinas-plancha.jpg",
     name: "Zamburiñas a la plancha",
     category: "mar",
     description: "Zamburiñas gallegas a la plancha con aceite de oliva virgen, ajo y perejil. Nuestro plato estrella.",

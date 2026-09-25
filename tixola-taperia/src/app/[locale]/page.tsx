@@ -1,5 +1,6 @@
 import Navbar from "@/components/ui/Navbar";
 import { ReservationProvider } from "@/components/ui/ReservationProvider";
+import { ChatProvider } from "@/components/chat/ChatProvider";
 import MobileStickyBar from "@/components/ui/MobileStickyBar";
 import Hero from "@/components/sections/Hero";
 import StarDishes from "@/components/sections/StarDishes";
@@ -9,16 +10,18 @@ import Footer from "@/components/sections/Footer";
 
 export default function HomePage() {
   return (
-    <ReservationProvider>
-      <Navbar />
-      <main id="main" className="relative">
-        <Hero />
-        <StarDishes />
-        <Experience />
-        <SocialProof />
-      </main>
-      <Footer />
-      <MobileStickyBar />
-    </ReservationProvider>
+    <ChatProvider page="home">
+      <ReservationProvider>
+        <Navbar />
+        <main id="main" className="relative">
+          <Hero />
+          <StarDishes />
+          <Experience />
+          <SocialProof />
+        </main>
+        <Footer />
+        <MobileStickyBar />
+      </ReservationProvider>
+    </ChatProvider>
   );
 }

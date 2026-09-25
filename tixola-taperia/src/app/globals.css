@@ -28,7 +28,10 @@
   --color-cream-muted: rgba(249, 246, 240, 0.68);
   --color-cream-faint: rgba(249, 246, 240, 0.62);
 
-  --font-display: var(--font-playfair), "Playfair Display", Georgia, serif;
+  /* Cormorant Garamond: titulares editoriales, finos y elegantes (portada, secciones, marquee) */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  /* Cinzel: kickers y etiquetas en versalitas con aire de piedra tallada */
+  --font-caps: var(--font-cinzel), "Cinzel", "Trajan Pro", Georgia, serif;
   --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-condensed: var(--font-bebas), "Bebas Neue", Impact, "Arial Narrow", sans-serif;
 

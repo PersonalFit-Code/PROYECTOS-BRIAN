@@ -22,9 +22,9 @@ export interface StarDish {
   };
   /** color de acento para la iluminación / glow de la tarjeta */
   accent: string;
-  /** emoji de gran tamaño como "hero" visual de la tarjeta */
+  /** clave de icono (ver components/icons/DishIcons.tsx); la UI nunca pinta el emoji */
   emoji: string;
-  /** imagen opcional (public/images/...) — si existe, sustituye al emoji */
+  /** foto real (public/images/...) — si existe, la tarjeta la usa como visual principal */
   image?: string;
   badge?: string;
 }
@@ -49,6 +49,7 @@ export const STAR_DISHES: StarDish[] = [
     },
     accent: "#F0A868",
     emoji: "🐚",
+    image: "/images/zamburinas-plancha.jpg",
     badge: "Nº 1 en zamburiñas",
   },
   {

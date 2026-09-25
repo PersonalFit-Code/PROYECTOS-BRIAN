@@ -60,3 +60,49 @@ Imágenes: `/images/fachada.jpg` (fachada real del local, 806×490) · `/images/
 6. Textos en **español de España**, tono gastronómico y cercano; puedes usar toques en gallego ("tixola" = sartén).
 7. No ejecutes `next build` ni `next dev` (otros agentes trabajan en paralelo): valida con `npx tsc --noEmit 2>&1 | grep -E "tu/ruta"` y `npx eslint tus/ficheros`.
 8. Solo toca los ficheros que te pertenecen. Si necesitas algo de otro módulo, impórtalo por su ruta prevista y documenta la dependencia en tu resumen.
+
+---
+
+# ITERACIÓN 2 — Feedback del cliente y nuevas convenciones (leer entero)
+
+## Feedback del cliente (literal, resumido)
+1. **Portada (lo más importante).** Le gusta la animación 3D de la tixola: mantenerla. Pero el bloque de texto (kicker "Tapería · Vinoteca · Ourense", H1, subtítulo) "parece una pegatina": cambiar la tipografía, quitar el panel de cristal y colocarlo con criterio de PORTADA editorial. Quitar las 3 píldoras (4,4 · 858 reseñas / 10‑20 €/persona / 1 min Catedral). El subtítulo no debe girar solo en torno a las zamburiñas (hay muchos más platos). Mantener los CTAs "Reservar Mesa" e "Ir a la Carta".
+2. **Botones flotantes.** Un botón de WhatsApp fijo en el lateral derecho y un lanzador del **chatbot "camarero virtual"** abajo a la izquierda.
+3. **Scroll.** "Desliza" es incómodo: quiere una experiencia de desplazamiento cinematográfica, "como una película" (scroll suave, transiciones entre secciones, hero anclado que se transforma).
+4. **Platos estrella.** Convertir en un **carrusel de fotos reales**; al pulsar, aparece la información (como el flip/spotlight actual). **Iconos, no emojis**, en toda la web.
+5. **Carta.** Los filtros de alérgenos están bien (RGPD/UE) pero NO deben ser el centro: al entrar se ve **toda la carta** y se filtra por **categorías** (chips: Todo / Croquetas / Tixolas / …). Buscador y alérgenos en segundo plano (panel plegable). Quitar el botón "Imprimir carta". El maridaje de vino es "brutal": mantenerlo. El **camarero virtual** debe tener gran protagonismo aquí.
+6. **Idiomas.** Selector de idioma: ES / GL / EN / PT (turismo en Ourense).
+7. **Legal.** Añadir política de privacidad, aviso legal y cookies (con banner).
+8. **Marquee.** Le gusta; cambiar a una letra más fina y elegante (no gruesa, no cursiva).
+9. **Experiencia.** Quitar los chips "Casco histórico / Zona de viños / Terraza todo el año" y dar otro punto de vista (foto real de la terraza con Santa Eufemia al fondo). El mapa 3D gusta pero no es la ubicación real: hacerlo más fiel (manzana de Rúa Juan de Austria, Catedral de San Martiño, iglesia de Santa Eufemia).
+10. **Prueba social.** "Muy básico": columnas de reseñas reales de 5★ en marquee vertical (referencia marquee‑03 de 21st.dev adaptada a Tailwind v4 y a nuestra paleta) + galería de fotos del local que se desliza.
+11. **SEO** orgánico y orientado a marketing: metadatos por idioma, hreflang, JSON‑LD, alt descriptivos, semántica.
+12. **Logo** "TIXOLA" arriba a la izquierda más grande, aprovechando el margen.
+13. Paleta y fondos: le gustan. Contacto y horario: bien. Cómo llegar / Llamar: bien.
+
+## Nuevas convenciones (obligatorias)
+### Tipografía
+- `font-display` → **Cormorant Garamond** (300/400/500/600, normal + itálica). Titulares editoriales grandes, tracking ligeramente negativo, leading ~0.95.
+- `font-caps` → **Cinzel** (400/500/600). Kickers, etiquetas, versalitas con tracking amplio (`uppercase tracking-[0.3em] text-xs`).
+- `font-sans` → Manrope (cuerpo/UI). `font-condensed` → Bebas Neue (nombres de plato en carta, contadores).
+- Marquee: `font-display font-light uppercase tracking-[0.3em]` (fina y elegante).
+### i18n (src/i18n)
+- Rutas con prefijo: `/es`, `/gl`, `/en`, `/pt` (`src/proxy.ts` redirige `/` según cookie/Accept‑Language). `app/[locale]/layout.tsx` es el root layout y monta `<LocaleProvider>`.
+- En componentes cliente: `const m = useMessages(); const locale = useLocale(); const lp = useLocalePath(); const t = useFormat();` → `m.hero.title`, `<Link href={lp("/carta")}>`, `lp("/#platos")`, `t(m.carta.results, { count })`.
+- En server components: `const m = await getMessages(locale)`.
+- **Todo texto visible sale de `src/i18n/messages/es/<sección>.ts`** (cada agente edita SOLO su fichero de sección y puede añadir claves). Nada de strings sueltos en JSX.
+- Datos localizados: `localizeMenuItems(locale)`, `localizeCategories(locale)`, `localizeStarDishes(locale)`, `localizeAllergens(locale)`, `localizeAllergenMap(locale)`, `localizeDietTags(locale)`, `localizeFeatures(locale)` desde `@/i18n/data`. Usa estas funciones en lugar de importar MENU_ITEMS/STAR_DISHES/ALLERGENS directamente en la UI.
+- Formato de precios: `formatPrice(n, locale?)` — usa `Intl.NumberFormat(LOCALE_META[locale].intl, …)`; si `formatPrice` aún no acepta locale, usa `new Intl.NumberFormat(LOCALE_META[locale].intl, { style: "currency", currency: "EUR" })`.
+- `getOpenStatus()` devuelve etiquetas en español: los componentes deben mostrar `m.common.status.*` según `isOpen`/`minutesToChange`/`detailKind` (ver openStatus.ts) — el módulo de Experiencia lo adapta.
+### Iconos
+- **Prohibido pintar emojis.** `import { DishIcon } from "@/components/icons/DishIcons"` → `<DishIcon iconKey={item.emoji} size={28} />` (el campo `emoji` de los datos es solo una clave). Iconos de UI: lucide-react.
+### Fotos
+- `import { PHOTOS, photosForDish, photosByTag } from "@/data/photos"`; `StarDish.image` y `MenuItem.image` opcionales. Usa `next/image` con `sizes` correcto y `alt` descriptivo (SEO). Formato: object-cover con `style={{ objectPosition: photo.focus }}`.
+### Chat (camarero virtual)
+- `useChat()` de `@/components/chat/ChatProvider` → `open({ prefill, page })`, `close`, `isOpen`. El widget lo monta el módulo de chat dentro del provider (ya envuelve ambas páginas).
+### Scroll cinematográfico
+- El módulo de scroll crea `src/components/scroll/SmoothScrollProvider.tsx` (Lenis + `gsap.ticker` + `ScrollTrigger.update`) y envuelve `<main>` en `app/[locale]/page.tsx`. Los demás módulos mantienen `data-reveal`/`useScrollReveal`/`whileInView`; NO instancian Lenis ni cambian el scroller de ScrollTrigger.
+### Anclas y navegación
+- Ids obligatorios: `hero`, `platos`, `experiencia`, `opiniones`, `footer`. Enlaces siempre con `lp()`.
+### Calidad
+- Sin `any`, `npx tsc --noEmit` y `npx eslint <ficheros>` limpios. Mobile‑first, 44 px táctiles, `prefers-reduced-motion`, sin overflow horizontal, contraste AA (`text-pimenton-a11y` para texto pequeño rojo).
