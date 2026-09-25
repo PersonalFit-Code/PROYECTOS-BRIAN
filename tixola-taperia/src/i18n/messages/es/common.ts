@@ -1,3 +1,7 @@
+/**
+ * Textos compartidos por toda la web: marca, CTAs, días, estado de apertura, modal de reserva.
+ * Los marcadores {así} se rellenan con useFormat(): t(m.common.cta.callNumber, { phone }).
+ */
 const common = {
   brand: "Tixola Tapería",
   brandShort: "Tixola",
@@ -12,7 +16,9 @@ const common = {
     call: "Llamar",
     callNumber: "Llamar al {phone}",
     directions: "Cómo llegar",
+    directionsAria: "Cómo llegar (abre Google Maps)",
     whatsapp: "WhatsApp",
+    whatsappAria: "Escríbenos por WhatsApp",
     chat: "Camarero virtual",
     openMaps: "Abrir en Google Maps",
   },
@@ -32,6 +38,9 @@ const common = {
     onGoogle: "en Google",
     today: "hoy",
     ratingLabel: "{value} de 5 en Google con {count} reseñas",
+    quickActions: "Acciones rápidas",
+    optional: "opcional",
+    newTab: "se abre en una pestaña nueva",
   },
   days: {
     mon: "Lunes",
@@ -53,10 +62,60 @@ const common = {
     opensTomorrowAt: "Abre mañana a las {time}",
     opensOnAt: "Abre el {day} a las {time}",
     checkHours: "Consulta horarios",
+    checking: "Consultando horario…",
     moodLunch: "Ideal para comer",
     moodDinner: "Ideal para cenar",
     moodWine: "Ideal para unos vinos",
     hours: "Horario",
+  },
+  /** Modal "Reserva tu mesa" (llamada, WhatsApp y formulario → mensaje de WhatsApp). */
+  reservation: {
+    kicker: "Reservas",
+    title: "Reserva tu",
+    accent: "mesa",
+    description: "Te atendemos al momento por teléfono o WhatsApp.",
+    groups: "Grupos grandes (más de {max}):",
+    groupsCall: "llámanos",
+    divider: "o déjanos los datos",
+    fields: {
+      name: "Nombre",
+      phone: "Teléfono",
+      people: "Personas",
+      date: "Fecha",
+      time: "Hora",
+      comments: "Comentarios",
+    },
+    placeholders: {
+      name: "¿A nombre de quién?",
+      phone: "6XX XX XX XX",
+      comments: "Terraza, alergias, celebración…",
+    },
+    person: "persona",
+    people: "personas",
+    errors: {
+      nameRequired: "Dinos tu nombre para la reserva.",
+      nameShort: "Escribe al menos 2 letras.",
+      phoneRequired: "Necesitamos un teléfono para confirmarte.",
+      phoneInvalid: "Revisa el número: 9 dígitos (o con prefijo +34).",
+      people: "Indica cuántas personas venís (1 a {max}).",
+      dateRequired: "Elige el día.",
+      datePast: "La fecha no puede ser anterior a hoy.",
+      time: "Indica una hora aproximada.",
+      comments: "Máximo {max} caracteres.",
+    },
+    submit: "Enviar por WhatsApp",
+    opened: "Hemos abierto WhatsApp con tu mensaje.",
+    openedFallback: "Si no se ha abierto, pulsa aquí",
+    privacy: "No guardamos tus datos: el mensaje se envía desde tu WhatsApp y os confirmamos por ahí.",
+    /** Líneas del mensaje de WhatsApp que compone el formulario. */
+    message: {
+      intro: "Hola, soy {name}. Quiero reservar mesa en {brand}.",
+      people: "Personas: {count} {unit}",
+      when: "Cuándo: {date} a las {time}",
+      phone: "Teléfono: {phone}",
+      notes: "Notas: {notes}",
+      outro: "¿Me confirmáis? ¡Gracias!",
+    },
   },
 } as const;
 export default common;

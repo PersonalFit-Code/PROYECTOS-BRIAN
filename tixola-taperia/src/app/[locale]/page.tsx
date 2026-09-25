@@ -7,17 +7,44 @@ import StarDishes from "@/components/sections/StarDishes";
 import Experience from "@/components/sections/Experience";
 import SocialProof from "@/components/sections/SocialProof";
 import Footer from "@/components/sections/Footer";
+import SmoothScrollProvider from "@/components/scroll/SmoothScrollProvider";
+import ChapterNav from "@/components/scroll/ChapterNav";
+import Chapter from "@/components/scroll/Chapter";
+import HeroTransition from "@/components/scroll/HeroTransition";
+import { DEFAULT_LOCALE, isLocale, type Locale } from "@/i18n/config";
+import { getMessages } from "@/i18n/getMessages";
 
-export default function HomePage() {
+/**
+ * Home: portada 3D + capítulos con scroll cinematográfico.
+ *  - `SmoothScrollProvider` (Lenis + GSAP) envuelve el contenido de <main>.
+ *  - `HeroTransition` ancla la portada y la transforma mientras "Platos" se desliza por encima.
+ *  - Cada sección conserva su `id`; `<Chapter>` solo añade `data-chapter`, el telón de entrada y
+ *    el registro para la navegación lateral (`ChapterNav`).
+ */
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: raw } = await params;
+  const locale: Locale = isLocale(raw) ? raw : DEFAULT_LOCALE;
+  const m = await getMessages(locale);
+
   return (
     <ChatProvider page="home">
       <ReservationProvider>
         <Navbar />
         <main id="main" className="relative">
-          <Hero />
-          <StarDishes />
-          <Experience />
-          <SocialProof />
+          <SmoothScrollProvider>
+            <ChapterNav />
+            <Hero />
+            <HeroTransition />
+            <Chapter id="platos" title={m.scroll.chapters.dishes} overlapsHero>
+              <StarDishes />
+            </Chapter>
+            <Chapter id="experiencia" title={m.scroll.chapters.experience}>
+              <Experience />
+            </Chapter>
+            <Chapter id="opiniones" title={m.scroll.chapters.social}>
+              <SocialProof />
+            </Chapter>
+          </SmoothScrollProvider>
         </main>
         <Footer />
         <MobileStickyBar />

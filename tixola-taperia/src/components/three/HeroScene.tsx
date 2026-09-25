@@ -33,8 +33,13 @@ interface LayoutSpec {
   glowCenter: [number, number];
 }
 
+/*
+ * "split" (portada editorial): la sartén ocupa el 55 % derecho del viewport y asoma ligeramente
+ * por detrás del titular anclado abajo a la izquierda (el Hero pinta un degradado lateral para la
+ * legibilidad). "stacked" (móvil): sartén en el 45 % superior, copy debajo.
+ */
 const LAYOUTS: Record<HeroLayout, LayoutSpec> = {
-  split: { anchor: [1.55, -0.2, 0], scale: 1, camera: [0, 1.7, 8.4], look: [0.4, 0.2, 0], glowCenter: [0.6, 0.42] },
+  split: { anchor: [1.45, -0.05, 0], scale: 1.06, camera: [0, 1.7, 8.4], look: [0.4, 0.2, 0], glowCenter: [0.62, 0.44] },
   stacked: { anchor: [0, 1.1, 0], scale: 0.78, camera: [0, 2.0, 9.4], look: [0, 0.9, 0], glowCenter: [0.5, 0.55] },
 };
 

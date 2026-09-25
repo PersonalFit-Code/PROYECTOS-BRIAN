@@ -1,21 +1,135 @@
 "use client";
 
-import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore, type FormEvent, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type FormEvent, type KeyboardEvent } from "react";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import { CalendarDays, Clock, MessageCircle, Phone, Send, Users, X } from "lucide-react";
-import { BUSINESS } from "@/data/business";
+import { CalendarDays, Clock, Phone, Send, Users, X } from "lucide-react";
+import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
 import NeonButton from "@/components/ui/NeonButton";
+import { WhatsAppGlyph } from "@/components/ui/FloatingWhatsApp";
 import { useInertBackground } from "@/hooks/useInertBackground";
+import { LOCALE_META } from "@/i18n/config";
+import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
+import type { Messages } from "@/i18n/types";
 import { getOpenStatus } from "@/lib/openStatus";
 import { cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────────
-   Constantes y utilidades
+   Estado de apertura localizado (compartido con Footer)
+   ────────────────────────────────────────────────────────────── */
+
+const DAY_ORDER: readonly DayKey[] = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+const HOURS = BUSINESS.hours as Record<DayKey, TimeRange[]>;
+
+type NextKind = "closes" | "today" | "tomorrow" | "day" | "none";
+
+export interface LocalizedOpenStatus {
+  isOpen: boolean;
+  closingSoon: boolean;
+  /** "Abierto ahora" · "Cierra pronto" · "Abre en 25 min" · "Cerrado ahora" */
+  label: string;
+  /** "Cierra a las 16:00" · "Abre mañana a las 12:00" · "Consulta horarios" */
+  detail: string;
+  todayKey: DayKey;
+}
+
+/** Próximo día (a partir de mañana) con horario; `offset` en días. */
+function nextOpenDay(todayKey: DayKey): { key: DayKey; offset: number } | null {
+  const idx = DAY_ORDER.indexOf(todayKey);
+  for (let i = 1; i <= 7; i++) {
+    const key = DAY_ORDER[(idx + i) % 7];
+    if (HOURS[key].length) return { key, offset: i };
+  }
+  return null;
+}
+
+/**
+ * Instantánea serializada del estado de apertura (useSyncExternalStore compara por identidad;
+ * un string es estable entre llamadas). Formato: isOpen|closingSoon|todayKey|time|kind|day|minutes
+ * `getOpenStatus()` es determinista a partir de BUSINESS.hours; la hora HH:MM se toma de su detalle.
+ */
+function readSnapshot(): string {
+  const s = getOpenStatus();
+  const time = /(\d{1,2}:\d{2})/.exec(s.detail)?.[1] ?? "";
+  let kind: NextKind = "none";
+  let day = "";
+  let minutes = "";
+  if (s.isOpen) {
+    kind = "closes";
+  } else if (s.minutesToChange !== null) {
+    kind = "today";
+    minutes = String(s.minutesToChange);
+  } else {
+    const next = nextOpenDay(s.todayKey);
+    if (next) {
+      kind = next.offset === 1 ? "tomorrow" : "day";
+      day = next.key;
+    }
+  }
+  const closingSoon = s.isOpen && s.minutesToChange !== null && s.minutesToChange <= 30;
+  return [s.isOpen ? 1 : 0, closingSoon ? 1 : 0, s.todayKey, time, kind, day, minutes].join("|");
+}
+
+function subscribeMinute(onChange: () => void) {
+  const id = window.setInterval(onChange, 60_000);
+  const onVisibility = () => {
+    if (document.visibilityState === "visible") onChange();
+  };
+  document.addEventListener("visibilitychange", onVisibility);
+  return () => {
+    window.clearInterval(id);
+    document.removeEventListener("visibilitychange", onVisibility);
+  };
+}
+const getServerSnapshot = () => "";
+
+/** Traduce la instantánea a textos de `m.common.status` / `m.common.days`. */
+function localizeSnapshot(snapshot: string, c: Messages["common"], t: (tpl: string, vars?: Record<string, string | number>) => string): LocalizedOpenStatus | null {
+  if (!snapshot) return null;
+  const [open, soon, todayKey, time, kind, day, minutes] = snapshot.split("|");
+  const isOpen = open === "1";
+  const closingSoon = soon === "1";
+  let label: string;
+  let detail: string;
+  if (isOpen) {
+    label = closingSoon ? c.status.closingSoon : c.status.openNow;
+    detail = time ? t(c.status.closesAt, { time }) : "";
+  } else if (kind === "today") {
+    const wait = Number(minutes);
+    label = wait <= 60 ? t(c.status.opensIn, { minutes: wait }) : c.status.closedNow;
+    detail = time ? t(c.status.opensTodayAt, { time }) : c.status.checkHours;
+  } else if (kind === "tomorrow") {
+    label = c.status.closedNow;
+    detail = time ? t(c.status.opensTomorrowAt, { time }) : c.status.checkHours;
+  } else if (kind === "day") {
+    label = c.status.closedNow;
+    const dayLabel = c.days[day as DayKey]?.toLocaleLowerCase() ?? day;
+    detail = time ? t(c.status.opensOnAt, { day: dayLabel, time }) : c.status.checkHours;
+  } else {
+    label = c.status.closed;
+    detail = c.status.checkHours;
+  }
+  return { isOpen, closingSoon, label, detail, todayKey: todayKey as DayKey };
+}
+
+/**
+ * Estado de apertura en el idioma activo, calculado solo en cliente (sin desajustes de
+ * hidratación) y refrescado cada minuto y al volver a la pestaña. `null` hasta hidratar.
+ */
+export function useLocalizedOpenStatus(): LocalizedOpenStatus | null {
+  const m = useMessages();
+  const t = useFormat();
+  const snapshot = useSyncExternalStore(subscribeMinute, readSnapshot, getServerSnapshot);
+  return useMemo(() => localizeSnapshot(snapshot, m.common, t), [snapshot, m, t]);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Constantes y utilidades del formulario
    ────────────────────────────────────────────────────────────── */
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 const MAX_PEOPLE = 12;
+const MAX_COMMENT = 300;
 const PEOPLE_OPTIONS = Array.from({ length: MAX_PEOPLE }, (_, i) => i + 1);
 
 /** Base de wa.me sin texto prefijado (BUSINESS.phone.whatsapp ya incluye un mensaje genérico). */
@@ -23,13 +137,13 @@ const WHATSAPP_BASE = `https://wa.me/${BUSINESS.phone.e164.replace(/\D/g, "")}`;
 
 type FieldName = "nombre" | "telefono" | "personas" | "fecha" | "hora" | "comentarios";
 type Errors = Partial<Record<FieldName, string>>;
+type FormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
-/** "2026-09-25" → "viernes 25 de septiembre" (formateo local es-ES). */
-function formatDateEs(iso: string) {
-  const [y, m, d] = iso.split("-").map(Number);
-  if (!y || !m || !d) return iso;
-  const date = new Date(y, m - 1, d);
-  return date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" });
+/** "2026-09-25" → "viernes, 25 de septiembre" (formato largo del idioma activo). */
+function formatDate(iso: string, intl: string) {
+  const [y, mo, d] = iso.split("-").map(Number);
+  if (!y || !mo || !d) return iso;
+  return new Date(y, mo - 1, d).toLocaleDateString(intl, { weekday: "long", day: "numeric", month: "long" });
 }
 
 /** Fecha de hoy en formato ISO (YYYY-MM-DD) en hora local del dispositivo. */
@@ -41,35 +155,29 @@ function todayIso() {
 }
 
 /** Mensaje amable a partir del estado de validación nativo de cada campo. */
-function messageFor(name: FieldName, el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): string | undefined {
+function messageFor(
+  name: FieldName,
+  el: FormElement,
+  errors: Messages["common"]["reservation"]["errors"],
+  t: (tpl: string, vars?: Record<string, string | number>) => string,
+): string | undefined {
   const v = el.validity;
   if (v.valid) return undefined;
   switch (name) {
     case "nombre":
-      return v.valueMissing ? "Dinos tu nombre para la reserva." : "Escribe al menos 2 letras.";
+      return v.valueMissing ? errors.nameRequired : errors.nameShort;
     case "telefono":
-      return v.valueMissing ? "Necesitamos un teléfono para confirmarte." : "Revisa el número: 9 dígitos (o con prefijo +34).";
+      return v.valueMissing ? errors.phoneRequired : errors.phoneInvalid;
     case "personas":
-      return `Indica cuántas personas venís (1 a ${MAX_PEOPLE}).`;
+      return t(errors.people, { max: MAX_PEOPLE });
     case "fecha":
-      return v.valueMissing ? "Elige el día." : "La fecha no puede ser anterior a hoy.";
+      return v.valueMissing ? errors.dateRequired : errors.datePast;
     case "hora":
-      return "Indica una hora aproximada.";
+      return errors.time;
     case "comentarios":
-      return "Máximo 300 caracteres.";
+      return t(errors.comments, { max: MAX_COMMENT });
   }
 }
-
-/* Estado de apertura: solo en cliente (evita desajustes de hidratación) y refrescado cada minuto. */
-function subscribeMinute(onChange: () => void) {
-  const id = window.setInterval(onChange, 60_000);
-  return () => window.clearInterval(id);
-}
-const getOpenDetail = () => {
-  const s = getOpenStatus();
-  return `${s.isOpen ? "Abierto ahora" : "Ahora cerrado"} · ${s.detail}`;
-};
-const getServerDetail = () => "";
 
 /* ──────────────────────────────────────────────────────────────
    Campos del formulario
@@ -77,7 +185,7 @@ const getServerDetail = () => "";
 
 const fieldClass =
   "peer w-full rounded-xl border border-cream/15 bg-iron/60 px-3.5 py-3 font-sans text-[15px] text-cream placeholder:text-cream/30 transition-colors focus:border-pimenton-light focus:outline-none focus:ring-2 focus:ring-pimenton-light/40 aria-[invalid=true]:border-pimenton-light aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-pimenton/40 [color-scheme:dark]";
-const labelClass = "mb-1.5 block text-[11px] font-bold uppercase tracking-[0.18em] text-cream-faint";
+const labelClass = "mb-1.5 block font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint";
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
@@ -101,9 +209,14 @@ interface ReservationModalProps {
  * Modal "Reserva tu mesa": llamada directa, WhatsApp y un formulario compacto que compone un
  * mensaje de WhatsApp prellenado (sin backend). Diálogo accesible: role=dialog + aria-modal,
  * foco movido al panel, trampa de foco, Escape / clic fuera cierran, scroll del body bloqueado.
- * En móvil es una hoja inferior; en escritorio, panel centrado.
+ * En móvil es una hoja inferior; en escritorio, panel centrado. Todo el texto sale de m.common.reservation.
  */
 export default function ReservationModal({ open, onClose }: ReservationModalProps) {
+  const m = useMessages();
+  const t = useFormat();
+  const locale = useLocale();
+  const r = m.common.reservation;
+
   const uid = useId();
   const titleId = `${uid}-title`;
   const descId = `${uid}-desc`;
@@ -115,7 +228,8 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   const [errors, setErrors] = useState<Errors>({});
   const [waLink, setWaLink] = useState<string | null>(null);
 
-  const openDetail = useSyncExternalStore(subscribeMinute, getOpenDetail, getServerDetail);
+  const status = useLocalizedOpenStatus();
+  const openDetail = status ? `${status.label}${status.detail ? ` · ${status.detail}` : ""}` : m.common.status.checking;
 
   /* El resto de la página (main, Navbar, Footer, MobileStickyBar…) sale del árbol de
      accesibilidad mientras el diálogo está abierto — no basta con bloquear el scroll. */
@@ -158,56 +272,62 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   }, []);
 
   /* Validación por campo al salir de él (blur) — errores amables en línea. */
-  const validateField = useCallback((e: FormEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const el = e.currentTarget;
-    const name = el.name as FieldName;
-    const message = messageFor(name, el);
-    setErrors((prev) => (prev[name] === message ? prev : { ...prev, [name]: message }));
-  }, []);
+  const validateField = useCallback(
+    (e: FormEvent<FormElement>) => {
+      const el = e.currentTarget;
+      const name = el.name as FieldName;
+      const message = messageFor(name, el, r.errors, t);
+      setErrors((prev) => (prev[name] === message ? prev : { ...prev, [name]: message }));
+    },
+    [r.errors, t],
+  );
 
   /* Envío: validamos con la API nativa y abrimos WhatsApp con el mensaje compuesto. */
-  const onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const nextErrors: Errors = {};
-    const names: FieldName[] = ["nombre", "telefono", "personas", "fecha", "hora", "comentarios"];
-    let firstInvalid: HTMLElement | null = null;
-    for (const name of names) {
-      const el = form.elements.namedItem(name);
-      if (!(el instanceof HTMLInputElement || el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement)) continue;
-      const message = messageFor(name, el);
-      if (message) {
-        nextErrors[name] = message;
-        if (!firstInvalid) firstInvalid = el;
+  const onSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      const nextErrors: Errors = {};
+      const names: FieldName[] = ["nombre", "telefono", "personas", "fecha", "hora", "comentarios"];
+      let firstInvalid: HTMLElement | null = null;
+      for (const name of names) {
+        const el = form.elements.namedItem(name);
+        if (!(el instanceof HTMLInputElement || el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement)) continue;
+        const message = messageFor(name, el, r.errors, t);
+        if (message) {
+          nextErrors[name] = message;
+          if (!firstInvalid) firstInvalid = el;
+        }
       }
-    }
-    setErrors(nextErrors);
-    if (firstInvalid) {
-      firstInvalid.focus();
-      return;
-    }
+      setErrors(nextErrors);
+      if (firstInvalid) {
+        firstInvalid.focus();
+        return;
+      }
 
-    const data = new FormData(form);
-    const nombre = String(data.get("nombre") ?? "").trim();
-    const telefono = String(data.get("telefono") ?? "").trim();
-    const personas = String(data.get("personas") ?? "2");
-    const fecha = String(data.get("fecha") ?? "");
-    const hora = String(data.get("hora") ?? "");
-    const comentarios = String(data.get("comentarios") ?? "").trim();
+      const data = new FormData(form);
+      const nombre = String(data.get("nombre") ?? "").trim();
+      const telefono = String(data.get("telefono") ?? "").trim();
+      const personas = Number(data.get("personas") ?? 2);
+      const fecha = String(data.get("fecha") ?? "");
+      const hora = String(data.get("hora") ?? "");
+      const comentarios = String(data.get("comentarios") ?? "").trim();
 
-    const lines = [
-      `Hola, soy ${nombre}. Quiero reservar mesa en Tixola Tapería.`,
-      `👥 ${personas} ${Number(personas) === 1 ? "persona" : "personas"}`,
-      `📅 ${formatDateEs(fecha)} a las ${hora}`,
-      `📞 ${telefono}`,
-    ];
-    if (comentarios) lines.push(`📝 ${comentarios}`);
-    lines.push("¿Me confirmáis? ¡Gracias!");
+      const lines = [
+        t(r.message.intro, { name: nombre, brand: m.common.brand }),
+        t(r.message.people, { count: personas, unit: personas === 1 ? r.person : r.people }),
+        t(r.message.when, { date: formatDate(fecha, LOCALE_META[locale].intl), time: hora }),
+        t(r.message.phone, { phone: telefono }),
+      ];
+      if (comentarios) lines.push(t(r.message.notes, { notes: comentarios }));
+      lines.push(r.message.outro);
 
-    const url = `${WHATSAPP_BASE}?text=${encodeURIComponent(lines.join("\n"))}`;
-    setWaLink(url);
-    window.open(url, "_blank", "noopener,noreferrer");
-  }, []);
+      const url = `${WHATSAPP_BASE}?text=${encodeURIComponent(lines.join("\n"))}`;
+      setWaLink(url);
+      window.open(url, "_blank", "noopener,noreferrer");
+    },
+    [locale, m.common.brand, r, t],
+  );
 
   return (
     <MotionConfig reducedMotion="user">
@@ -250,35 +370,35 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Cerrar"
+                aria-label={m.common.misc.close}
                 className="absolute right-3 top-3 z-10 grid h-11 w-11 place-items-center rounded-full text-cream-muted transition-colors hover:bg-cream/10 hover:text-cream"
               >
                 <X className="h-5 w-5" aria-hidden />
               </button>
 
               <div className="relative overflow-y-auto px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-4 sm:px-8 sm:pb-8 sm:pt-8">
-                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-pimenton-a11y">Reservas</p>
-                <h2 id={titleId} className="mt-2 font-display text-3xl leading-tight text-cream sm:text-4xl">
-                  Reserva tu <em className="text-gradient-ember italic">mesa</em>
+                <p className="font-caps text-[10px] uppercase tracking-[0.35em] text-pimenton-a11y">{r.kicker}</p>
+                <h2 id={titleId} className="mt-2 font-display text-4xl leading-[0.95] tracking-[-0.01em] text-cream sm:text-5xl">
+                  {r.title} <em className="text-gradient-ember italic">{r.accent}</em>
                 </h2>
-                <p id={descId} className="mt-2 text-sm text-cream-muted sm:text-[15px]">
-                  Te atendemos al momento por teléfono o WhatsApp.
+                <p id={descId} className="mt-3 text-sm text-cream-muted sm:text-[15px]">
+                  {r.description}
                 </p>
 
                 {/* Acciones directas */}
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
                   <NeonButton href={BUSINESS.phone.tel} size="md" pulse icon={<Phone aria-hidden />} className="w-full">
-                    Llamar al {BUSINESS.phone.display}
+                    {t(m.common.cta.callNumber, { phone: BUSINESS.phone.display })}
                   </NeonButton>
                   <NeonButton
                     href={BUSINESS.phone.whatsapp}
                     target="_blank"
                     variant="outline"
                     size="md"
-                    icon={<MessageCircle aria-hidden />}
+                    icon={<WhatsAppGlyph className="h-5 w-5" />}
                     className="w-full border-[#25D366]/50 hover:border-[#25D366] hover:bg-[#25D366]/10"
                   >
-                    WhatsApp
+                    {m.common.cta.whatsapp}
                   </NeonButton>
                 </div>
 
@@ -286,20 +406,24 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                 <div className="mt-4 flex flex-col gap-1.5 rounded-xl border border-cream/10 bg-iron/40 px-3.5 py-3 text-xs text-cream-muted">
                   <span className="inline-flex items-center gap-2">
                     <Clock className="h-3.5 w-3.5 shrink-0 text-gold" aria-hidden />
-                    <span aria-live="polite">{openDetail || "Consultando horario…"}</span>
+                    <span aria-live="polite">{openDetail}</span>
                   </span>
                   <span className="inline-flex items-center gap-2">
                     <Users className="h-3.5 w-3.5 shrink-0 text-gold" aria-hidden />
                     <span>
-                      Grupos grandes (más de {Math.floor(MAX_PEOPLE / 2)}): <a href={BUSINESS.phone.tel} className="font-semibold text-cream underline-offset-2 hover:underline">llámanos</a>.
+                      {t(r.groups, { max: Math.floor(MAX_PEOPLE / 2) })}{" "}
+                      <a href={BUSINESS.phone.tel} className="font-semibold text-cream underline-offset-2 hover:underline">
+                        {r.groupsCall}
+                      </a>
+                      .
                     </span>
                   </span>
                 </div>
 
                 {/* Separador */}
-                <div className="my-6 flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-cream-faint">
+                <div className="my-6 flex items-center gap-3 font-caps text-[10px] uppercase tracking-[0.25em] text-cream-faint">
                   <span className="divider-iron flex-1" />
-                  o déjanos los datos
+                  {r.divider}
                   <span className="divider-iron flex-1" />
                 </div>
 
@@ -307,7 +431,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                 <form noValidate onSubmit={onSubmit} className="grid grid-cols-2 gap-x-3 gap-y-4">
                   <div className="col-span-2">
                     <label htmlFor={fieldId("nombre")} className={labelClass}>
-                      Nombre
+                      {r.fields.name}
                     </label>
                     <input
                       id={fieldId("nombre")}
@@ -317,7 +441,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                       required
                       minLength={2}
                       maxLength={60}
-                      placeholder="¿A nombre de quién?"
+                      placeholder={r.placeholders.name}
                       aria-invalid={Boolean(errors.nombre)}
                       aria-describedby={errors.nombre ? `${fieldId("nombre")}-error` : undefined}
                       onBlur={validateField}
@@ -328,7 +452,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
 
                   <div className="col-span-2 sm:col-span-1">
                     <label htmlFor={fieldId("telefono")} className={labelClass}>
-                      Teléfono
+                      {r.fields.phone}
                     </label>
                     <input
                       id={fieldId("telefono")}
@@ -338,7 +462,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                       autoComplete="tel"
                       required
                       pattern="^\+?[0-9][0-9 ]{7,15}$"
-                      placeholder="6XX XX XX XX"
+                      placeholder={r.placeholders.phone}
                       aria-invalid={Boolean(errors.telefono)}
                       aria-describedby={errors.telefono ? `${fieldId("telefono")}-error` : undefined}
                       onBlur={validateField}
@@ -349,7 +473,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
 
                   <div className="col-span-2 sm:col-span-1">
                     <label htmlFor={fieldId("personas")} className={labelClass}>
-                      Personas
+                      {r.fields.people}
                     </label>
                     <div className="relative">
                       <Users className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-cream-faint" aria-hidden />
@@ -365,7 +489,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                       >
                         {PEOPLE_OPTIONS.map((n) => (
                           <option key={n} value={n}>
-                            {n} {n === 1 ? "persona" : "personas"}
+                            {n} {n === 1 ? r.person : r.people}
                           </option>
                         ))}
                       </select>
@@ -375,7 +499,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
 
                   <div>
                     <label htmlFor={fieldId("fecha")} className={labelClass}>
-                      Fecha
+                      {r.fields.date}
                     </label>
                     <div className="relative">
                       <CalendarDays className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-cream-faint" aria-hidden />
@@ -396,7 +520,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
 
                   <div>
                     <label htmlFor={fieldId("hora")} className={labelClass}>
-                      Hora
+                      {r.fields.time}
                     </label>
                     <div className="relative">
                       <Clock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-cream-faint" aria-hidden />
@@ -417,14 +541,14 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
 
                   <div className="col-span-2">
                     <label htmlFor={fieldId("comentarios")} className={labelClass}>
-                      Comentarios <span className="normal-case tracking-normal text-cream/30">(opcional)</span>
+                      {r.fields.comments} <span className="normal-case tracking-normal text-cream/30">({m.common.misc.optional})</span>
                     </label>
                     <textarea
                       id={fieldId("comentarios")}
                       name="comentarios"
                       rows={2}
-                      maxLength={300}
-                      placeholder="Terraza, alergias, celebración…"
+                      maxLength={MAX_COMMENT}
+                      placeholder={r.placeholders.comments}
                       aria-invalid={Boolean(errors.comentarios)}
                       aria-describedby={errors.comentarios ? `${fieldId("comentarios")}-error` : undefined}
                       onBlur={validateField}
@@ -435,20 +559,18 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
 
                   <div className="col-span-2 mt-1">
                     <NeonButton type="submit" size="lg" variant="cream" iconRight={<Send aria-hidden />} className="w-full">
-                      Enviar por WhatsApp
+                      {r.submit}
                     </NeonButton>
                     {waLink && (
                       <p className="mt-3 text-center text-xs text-cream-muted" role="status">
-                        Hemos abierto WhatsApp con tu mensaje.{" "}
+                        {r.opened}{" "}
                         <a href={waLink} target="_blank" rel="noopener noreferrer" className="font-semibold text-cream underline underline-offset-2">
-                          Si no se ha abierto, pulsa aquí
+                          {r.openedFallback}
                         </a>
                         .
                       </p>
                     )}
-                    <p className="mt-3 text-center text-[11px] leading-relaxed text-cream/40">
-                      No guardamos tus datos: el mensaje se envía desde tu WhatsApp y os confirmamos por ahí.
-                    </p>
+                    <p className="mt-3 text-center text-[11px] leading-relaxed text-cream/40">{r.privacy}</p>
                   </div>
                 </form>
               </div>

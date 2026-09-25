@@ -4,13 +4,15 @@ import Link from "next/link";
 import { motion, MotionConfig } from "framer-motion";
 import { BookOpen, CalendarCheck, Navigation, Phone } from "lucide-react";
 import { BUSINESS } from "@/data/business";
+import { useChat } from "@/components/chat/ChatProvider";
 import { useReservation } from "@/components/ui/ReservationProvider";
+import { useFormat, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
 const itemBase =
-  "flex h-full flex-col items-center justify-center gap-1 rounded-2xl font-sans text-[11px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ease-[var(--ease-out-expo)] active:scale-95 [&>svg]:h-5 [&>svg]:w-5";
+  "flex h-full flex-col items-center justify-center gap-1 rounded-2xl font-sans text-[11px] font-bold uppercase tracking-[0.12em] transition-all duration-300 ease-[var(--ease-out-expo)] active:scale-95 [&>svg]:h-5 [&>svg]:w-5";
 const itemGhost = "text-cream-200 hover:bg-cream/8 hover:text-cream";
 const itemPrimary =
   "bg-pimenton text-cream border border-pimenton-light/60 shadow-[0_0_24px_rgba(178,30,39,0.55)] hover:bg-pimenton-light";
@@ -18,20 +20,25 @@ const itemPrimary =
 /**
  * Barra de acciones fija en la parte inferior (solo móvil, < md):
  *  Reservar (destacado en pimentón, máxima prioridad según el brief) · Ver carta · Llamar · Cómo llegar.
- * Se desliza fuera de la pantalla mientras el modal de reserva está abierto para no solapar.
+ * Se desliza fuera de la pantalla mientras el modal de reserva o el camarero virtual están abiertos.
  * Respeta el área segura inferior (iPhone) con `env(safe-area-inset-bottom)`.
  */
 export default function MobileStickyBar() {
-  const { isOpen, open: openReservation } = useReservation();
+  const m = useMessages();
+  const t = useFormat();
+  const lp = useLocalePath();
+  const { isOpen: reservationOpen, open: openReservation } = useReservation();
+  const { isOpen: chatOpen } = useChat();
+  const hidden = reservationOpen || chatOpen;
 
   return (
     <MotionConfig reducedMotion="user">
       <motion.nav
-        aria-label="Acciones rápidas"
-        aria-hidden={isOpen}
-        inert={isOpen || undefined}
+        aria-label={m.common.misc.quickActions}
+        aria-hidden={hidden}
+        inert={hidden || undefined}
         initial={false}
-        animate={{ y: isOpen ? "115%" : "0%" }}
+        animate={{ y: hidden ? "115%" : "0%" }}
         transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
         className="fixed inset-x-0 bottom-0 z-40 md:hidden"
       >
@@ -41,19 +48,19 @@ export default function MobileStickyBar() {
             <li className="h-full">
               <button type="button" onClick={openReservation} className={cn(itemBase, itemPrimary, "w-full")}>
                 <CalendarCheck aria-hidden />
-                Reservar
+                {m.common.cta.reserveShort}
               </button>
             </li>
             <li className="h-full">
-              <Link href="/carta" className={cn(itemBase, itemGhost)}>
+              <Link href={lp("/carta")} className={cn(itemBase, itemGhost)}>
                 <BookOpen aria-hidden />
-                Ver carta
+                {m.common.cta.menuShort}
               </Link>
             </li>
             <li className="h-full">
-              <a href={BUSINESS.phone.tel} className={cn(itemBase, itemGhost)} aria-label={`Llamar al ${BUSINESS.phone.display}`}>
+              <a href={BUSINESS.phone.tel} className={cn(itemBase, itemGhost)} aria-label={t(m.common.cta.callNumber, { phone: BUSINESS.phone.display })}>
                 <Phone aria-hidden />
-                Llamar
+                {m.common.cta.call}
               </a>
             </li>
             <li className="h-full">
@@ -62,10 +69,10 @@ export default function MobileStickyBar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(itemBase, itemGhost)}
-                aria-label="Cómo llegar (abre Google Maps)"
+                aria-label={m.common.cta.directionsAria}
               >
                 <Navigation aria-hidden />
-                Cómo llegar
+                {m.common.cta.directions}
               </a>
             </li>
           </ul>
