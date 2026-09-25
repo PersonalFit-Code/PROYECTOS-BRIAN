@@ -6,6 +6,7 @@ import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react"
 import { createPortal } from "react-dom";
 import AllergenIcon from "@/components/ui/AllergenIcon";
 import { ALLERGENS } from "@/data/allergens";
+import { useInertBackground } from "@/hooks/useInertBackground";
 import { cn } from "@/lib/utils";
 
 /**
@@ -157,8 +158,12 @@ export function AllergenLegendSheet({ open, onClose }: { open: boolean; onClose:
 }
 
 function SheetInner({ onClose }: { onClose: () => void }) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
+
+  /* El sheet se porta a document.body: el resto de la página queda inert mientras esté montado. */
+  useInertBackground(true, [rootRef]);
 
   /* Bloqueo de scroll + Escape + foco inicial / devolución del foco */
   useEffect(() => {
@@ -180,6 +185,7 @@ function SheetInner({ onClose }: { onClose: () => void }) {
 
   return (
     <motion.div
+      ref={rootRef}
       className="fixed inset-0 z-[60] flex items-end justify-center lg:items-center lg:p-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

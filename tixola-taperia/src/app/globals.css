@@ -23,7 +23,7 @@
   --color-cream-200: #efe9dd;
   --color-cream-400: #d9d0bf;
   --color-cream-muted: rgba(249, 246, 240, 0.68);
-  --color-cream-faint: rgba(249, 246, 240, 0.4);
+  --color-cream-faint: rgba(249, 246, 240, 0.62);
 
   --font-display: var(--font-playfair), "Playfair Display", Georgia, serif;
   --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
@@ -128,7 +128,6 @@ body {
   background-image:
     radial-gradient(1200px 600px at 80% -10%, rgba(58, 14, 19, 0.55), transparent 60%),
     radial-gradient(900px 500px at -10% 110%, rgba(58, 14, 19, 0.35), transparent 60%);
-  background-attachment: fixed;
 }
 
 ::selection {

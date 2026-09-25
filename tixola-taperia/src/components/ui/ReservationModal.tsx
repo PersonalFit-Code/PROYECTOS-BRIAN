@@ -5,6 +5,7 @@ import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { CalendarDays, Clock, MessageCircle, Phone, Send, Users, X } from "lucide-react";
 import { BUSINESS } from "@/data/business";
 import NeonButton from "@/components/ui/NeonButton";
+import { useInertBackground } from "@/hooks/useInertBackground";
 import { getOpenStatus } from "@/lib/openStatus";
 import { cn } from "@/lib/utils";
 
@@ -108,12 +109,17 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   const descId = `${uid}-desc`;
   const fieldId = (name: FieldName) => `${uid}-${name}`;
 
+  const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState<Errors>({});
   const [waLink, setWaLink] = useState<string | null>(null);
 
   const openDetail = useSyncExternalStore(subscribeMinute, getOpenDetail, getServerDetail);
+
+  /* El resto de la página (main, Navbar, Footer, MobileStickyBar…) sale del árbol de
+     accesibilidad mientras el diálogo está abierto — no basta con bloquear el scroll. */
+  useInertBackground(open, [overlayRef]);
 
   /* Bloqueo de scroll + Escape + foco al panel + fecha mínima; devolución del foco al cerrar. */
   useEffect(() => {
@@ -209,6 +215,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
         {open && (
           <motion.div
             key="reserva-overlay"
+            ref={overlayRef}
             className="fixed inset-0 z-[100] flex items-end justify-center bg-black/70 backdrop-blur-sm sm:items-center sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

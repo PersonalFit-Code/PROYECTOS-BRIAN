@@ -144,7 +144,7 @@ function ChipNav({ activeId, focusedId, counts, onSelect, onShowAll, className }
               <button
                 type="button"
                 onClick={onShowAll}
-                className="inline-flex h-10 shrink-0 snap-start items-center rounded-full border border-cream/25 px-4 text-xs font-semibold uppercase tracking-wider text-cream-muted transition-colors hover:text-cream"
+                className="inline-flex h-11 shrink-0 snap-start items-center rounded-full border border-cream/25 px-4 text-xs font-semibold uppercase tracking-wider text-cream-muted transition-colors hover:text-cream"
               >
                 Toda la carta
               </button>
@@ -160,7 +160,7 @@ function ChipNav({ activeId, focusedId, counts, onSelect, onShowAll, className }
                   onClick={() => onSelect(cat.id)}
                   aria-current={active ? "location" : undefined}
                   className={cn(
-                    "relative inline-flex h-10 shrink-0 snap-start items-center gap-2 rounded-full border px-4 transition-colors duration-300",
+                    "relative inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full border px-4 transition-colors duration-300",
                     active ? "border-transparent text-cream" : "border-cream/15 text-cream-muted hover:border-cream/40 hover:text-cream",
                     count === 0 && !active && "opacity-50",
                   )}

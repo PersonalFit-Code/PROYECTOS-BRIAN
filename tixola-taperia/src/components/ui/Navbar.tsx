@@ -9,6 +9,7 @@ import { BUSINESS, NAV_LINKS } from "@/data/business";
 import Logo from "@/components/ui/Logo";
 import NeonButton from "@/components/ui/NeonButton";
 import { useReservation } from "@/components/ui/ReservationProvider";
+import { useInertBackground } from "@/hooks/useInertBackground";
 import { cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────────
@@ -62,10 +63,15 @@ export default function Navbar() {
   const [activeId, setActiveId] = useState<SectionId | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const headerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   const solid = scrolled || !isHome || menuOpen;
+
+  /* El resto de la página queda inert mientras el menú móvil está abierto; la cabecera se
+     excluye porque aloja su propio botón de abrir/cerrar (se ve por encima del panel). */
+  useInertBackground(menuOpen, [headerRef, panelRef]);
 
   /* Scroll → cristal (throttle con requestAnimationFrame). */
   useEffect(() => {
@@ -159,7 +165,7 @@ export default function Navbar() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)]">
+      <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)]">
         {/* Fondo cristal ahumado que aparece con el scroll */}
         <div
           aria-hidden

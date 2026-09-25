@@ -341,7 +341,12 @@ function CartaView({ filters, results, activeCategory, highlightedId, legendOpen
 /* ───────────────────────── Impresión ───────────────────────── */
 
 const PRINT_CSS = `
+.carta-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 900px;
+}
 @media print {
+  .carta-section { content-visibility: visible !important; }
   @page { margin: 14mm; }
   body, main { background: #fff !important; color: #111 !important; padding: 0 !important; }
   header.fixed, footer, body > div.fixed, .carta-no-print, .carta-bg, .carta-emoji, .divider-iron { display: none !important; }

@@ -86,7 +86,7 @@ export default function FilterBar({
             value={filters.query}
             onChange={(e) => onQueryChange(e.target.value)}
             placeholder="Busca un plato: zamburiñas, croquetas, godello…"
-            className="h-12 w-full rounded-full border border-cream/15 bg-iron/60 pl-11 pr-11 text-[15px] text-cream placeholder:text-cream-faint transition-colors focus:border-pimenton-light/70 focus:bg-iron/80 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+            className="h-12 w-full rounded-full border border-cream/15 bg-iron/60 pl-11 pr-11 text-[15px] text-cream placeholder:text-cream-faint transition-colors focus:border-pimenton-light/70 focus:bg-iron/80 focus:outline-none focus:ring-2 focus:ring-pimenton-light/40 [&::-webkit-search-cancel-button]:hidden"
           />
           {filters.query && (
             <button

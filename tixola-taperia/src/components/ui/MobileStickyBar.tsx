@@ -29,6 +29,7 @@ export default function MobileStickyBar() {
       <motion.nav
         aria-label="Acciones rápidas"
         aria-hidden={isOpen}
+        inert={isOpen || undefined}
         initial={false}
         animate={{ y: isOpen ? "115%" : "0%" }}
         transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}

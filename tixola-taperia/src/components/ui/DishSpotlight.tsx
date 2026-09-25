@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useSyncExternalStore, type CSSPropertie
 import { createPortal } from "react-dom";
 import type { StarDish } from "@/data/dishes";
 import { formatPrice } from "@/data/menu";
+import { useInertBackground } from "@/hooks/useInertBackground";
 import { DishDetails } from "@/components/ui/DishFlipCard";
 import DishVisual from "@/components/ui/DishVisual";
 
@@ -69,10 +70,14 @@ interface SheetProps {
 }
 
 function Sheet({ dish, onClose, onReserve, steam }: SheetProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const reducedMotion = useReducedMotion();
   const dragControls = useDragControls();
   const titleId = `dish-spotlight-title-${dish.id}`;
+
+  /* El sheet se porta a document.body: el resto de la página queda inert mientras esté montado. */
+  useInertBackground(true, [rootRef]);
 
   // Bloqueo de scroll del documento + Escape + foco inicial
   useEffect(() => {
@@ -110,7 +115,7 @@ function Sheet({ dish, onClose, onReserve, steam }: SheetProps) {
   const vars: CSSVars = { "--accent": dish.accent };
 
   return (
-    <div className="fixed inset-0 z-[90] flex items-end justify-center" role="presentation">
+    <div ref={rootRef} className="fixed inset-0 z-[90] flex items-end justify-center" role="presentation">
       {/* Fondo */}
       <motion.button
         type="button"
