@@ -134,7 +134,6 @@ function ReviewCard({ review, index, total, active, side, tilt, onFocus }: Revie
       className={cn(
         "glass-smoke relative flex h-full w-[min(82vw,340px)] shrink-0 flex-col overflow-hidden rounded-3xl p-6 md:w-[440px] md:p-8 lg:w-[480px]",
         "select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light/80",
-        active ? "shadow-card" : "",
       )}
       style={{ transformPerspective: 1200 }}
       animate={{
