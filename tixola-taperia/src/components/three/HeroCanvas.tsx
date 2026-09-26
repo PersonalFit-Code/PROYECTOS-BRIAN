@@ -46,12 +46,11 @@ const CSS_EMBERS: readonly EmberSpec[] = [
  * Versión sin WebGL: hierro fundido, glow radial rojo y una tixola dibujada con CSS
  * (elipse en perspectiva con aceite, zamburiñas y mango). Todo con clases Tailwind.
  */
-function HeroFallback({ hidden }: { hidden: boolean }) {
+function HeroFallback() {
   return (
     <div
       className={cn(
-        "absolute inset-0 overflow-hidden bg-iron transition-opacity duration-1000 ease-out",
-        hidden ? "opacity-0" : "opacity-100",
+        "absolute inset-0 overflow-hidden bg-iron",
       )}
     >
       {/* Textura de hierro */}
@@ -202,14 +201,19 @@ function useSceneActivity(): boolean {
 
 /**
  * Fondo 3D del hero. Monta el Canvas solo cuando el perfil lo permite (tier mid/high y sin
- * reduced-motion); mientras carga, y en el resto de casos, muestra el fallback estático.
- * El fallback se funde al negro-hierro cuando la escena pinta su primer frame.
+ * reduced-motion).
+ *
+ * El fondo estático (`HeroFallback`) NO se retira cuando la escena arranca: se queda como telón
+ * permanente detrás del lienzo. El Canvas se crea con `alpha: true`, así que si la escena no llega
+ * a pintar —GPU emulada por software, contexto perdido, un frame en blanco antes de que los
+ * materiales estén listos— el lienzo queda transparente y la portada se vería vacía. Con el telón
+ * detrás, ese caso degrada a la tixola dibujada en CSS en lugar de a un rectángulo negro; cuando la
+ * escena sí pinta, su fondo opaco lo tapa por completo y no se nota.
  */
 export default function HeroCanvas({ profile, pointer, layout, className }: HeroCanvasProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const active = useSceneActivity();
   const [ready, setReady] = useState(false);
-  const [fallbackGone, setFallbackGone] = useState(false);
   const [failed, setFailed] = useState(false);
 
   const onReady = useCallback(() => setReady(true), []);
@@ -218,16 +222,10 @@ export default function HeroCanvas({ profile, pointer, layout, className }: Hero
   // El perfil arranca en "low" durante SSR/hidratación y se resuelve en cliente.
   const use3D = !failed && profile.tier !== "low" && !profile.reducedMotion;
 
-  // Desmonta el fallback (y sus animaciones CSS) una vez terminado el fundido.
-  useEffect(() => {
-    if (!ready || !use3D) return;
-    const id = window.setTimeout(() => setFallbackGone(true), 1200);
-    return () => window.clearTimeout(id);
-  }, [ready, use3D]);
-
   return (
     <div ref={wrapRef} aria-hidden className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
-      {!(fallbackGone && use3D) && <HeroFallback hidden={ready && use3D} />}
+      {/* Telón permanente: ver la nota del componente. */}
+      <HeroFallback />
       {use3D && (
         <div className={cn("absolute inset-0 transition-opacity duration-1000 ease-out", ready ? "opacity-100" : "opacity-0")}>
           <CanvasErrorBoundary onError={onError}>
