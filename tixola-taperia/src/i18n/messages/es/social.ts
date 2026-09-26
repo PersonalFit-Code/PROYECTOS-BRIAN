@@ -5,7 +5,7 @@
  */
 const social = {
   kicker: "Prueba social",
-  title: "Lo dicen más de 850",
+  title: "Lo dicen más de {count}",
   accent: "clientes",
   description:
     "{rating} sobre 5 en Google con {count} reseñas y Travellers' Choice en TripAdvisor. Lo que se repite en todas: producto de la ría, tixolas de hierro que llegan chisporroteando y una terraza con la Catedral de fondo.",
@@ -15,7 +15,7 @@ const social = {
     reviews: "Reseñas de clientes",
     reviewsSub: "en Google",
     rating: "Valoración media",
-    ratingSub: "Google · 858 opiniones",
+    ratingSub: "Google · {count} opiniones",
     rank: "En zamburiñas de la zona",
     rankSub: "según nuestros clientes",
     position: "Restaurante de Ourense",
@@ -35,6 +35,8 @@ const social = {
   marquee: {
     label: "Opiniones de clientes",
     summary: "{count} reseñas de clientes con cinco estrellas, publicadas en TripAdvisor y Google.",
+    pause: "Pausar las reseñas",
+    play: "Reanudar las reseñas",
   },
   /** Tarjeta de reseña (ReviewCard) */
   card: {
@@ -63,7 +65,7 @@ const social = {
     current: "actual",
     open: "Ampliar la foto: {caption}",
     hint: "Pulsa una foto para ampliarla",
-    swipe: "Desliza para ver más fotos",
+    swipe: "Ver más fotos",
     pause: "Pausar la galería",
     play: "Reanudar la galería",
     slide: "Foto {index} de {total}",

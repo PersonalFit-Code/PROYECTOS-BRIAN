@@ -27,7 +27,8 @@ interface NavItem {
  *    aparece al pasar el ratón / enfocar y se queda visible en el capítulo activo
  *    (IntersectionObserver). Clic → scroll suave con Lenis dejando hueco a la cabecera.
  *  - Colocada en `right-5 bottom-24` para no chocar con el botón flotante de WhatsApp
- *    (`right-4 top-1/2` en escritorio).
+ *    (`right-4 top-1/2` en escritorio) ni con el indicador de scroll de la portada (oculto a
+ *    partir de lg justamente porque este carril derecho es suyo).
  */
 export default function ChapterNav() {
   const m = useMessages();
@@ -131,7 +132,12 @@ export default function ChapterNav() {
       />
 
       {/* Puntos laterales (lg+) */}
-      <nav aria-label={m.scroll.nav.label} className="fixed right-5 bottom-24 z-40 hidden lg:block">
+      {/* En viewports bajos (portátiles 1024×600, tablets apaisadas) los puntos llegarían a la altura
+          del botón de WhatsApp, centrado verticalmente: ahí bajan al borde inferior. */}
+      <nav
+        aria-label={m.scroll.nav.label}
+        className="fixed right-5 bottom-24 z-40 hidden lg:block [@media(max-height:720px)]:bottom-6"
+      >
         <ol className="flex flex-col items-end gap-0.5">
           {items.map((item, index) => {
             const active = item.id === activeId;

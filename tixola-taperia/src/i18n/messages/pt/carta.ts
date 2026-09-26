@@ -97,5 +97,7 @@ const carta = {
   ctaLead: "Ficou com",
   ctaAccent: "fome?",
   ctaText: "Reserve mesa ou passe por cá para uns vinhos junto à Catedral.",
+  seoTitle: "Ementa de petiscos e tixolas em Ourense",
+  seoDescription: "Petiscos, tixolas de ferro, vieiras, polvo e croquetes caseiros junto à Catedral de Ourense. Ementa completa com alergénios e sugestões de vinho galego.",
 } satisfies Translation<typeof esCarta>;
 export default carta;

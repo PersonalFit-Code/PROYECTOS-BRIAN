@@ -28,7 +28,7 @@ const dishes = {
     goTo: "Ir a {name}",
     current: "actual",
     hint: "Toca un plato para ver ingredientes, alérgenos y maridaje",
-    swipe: "Desliza para descubrir más",
+    swipe: "Explora los platos",
     open: "Ver detalles de {name}",
     pause: "Pausar el carrusel",
     play: "Reanudar el carrusel",

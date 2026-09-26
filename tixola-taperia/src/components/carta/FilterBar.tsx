@@ -41,6 +41,11 @@ export interface FilterBarProps {
   /** limpia búsqueda, etiquetas y alérgenos (mantiene la categoría) */
   onClear: () => void;
   onOpenLegend: () => void;
+  /**
+   * Cristal ahumado en la barra pegajosa. Solo en tier "high": está fija sobre contenido que se
+   * desplaza por debajo, así que su `backdrop-filter` se recalcula en cada fotograma de scroll.
+   */
+  glass?: boolean;
   className?: string;
 }
 
@@ -120,6 +125,7 @@ export default function FilterBar({
   onToggleAllergen,
   onClear,
   onOpenLegend,
+  glass = false,
   className,
 }: FilterBarProps) {
   const m = useMessages();
@@ -149,7 +155,12 @@ export default function FilterBar({
 
   return (
     <div className={cn("sticky top-[var(--header-h)] z-30", className)} onKeyDown={onKeyDown}>
-      <div className="glass-smoke border-x-0 border-y border-cream/10 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]">
+      <div
+        className={cn(
+          "border-x-0 border-y border-cream/10 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]",
+          glass ? "glass-smoke" : "bg-iron-900/95",
+        )}
+      >
         <div className={CARTA_CONTAINER}>
           {/* ── Fila principal ── */}
           <div className="flex items-center gap-3">
@@ -180,12 +191,16 @@ export default function FilterBar({
                 <SlidersHorizontal size={16} aria-hidden />
                 <span>{m.carta.filters}</span>
                 {badge > 0 && (
-                  <span
-                    className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-pimenton-light px-1.5 text-[11px] font-bold tabular-nums text-cream"
-                    aria-label={t(m.carta.filtersActive, { count: badge })}
-                  >
-                    {badge}
-                  </span>
+                  <>
+                    {/* `aria-label` sobre un <span> genérico no se anuncia (ARIA 1.2): texto `sr-only`. */}
+                    <span
+                      aria-hidden
+                      className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-pimenton-light px-1.5 text-[11px] font-bold tabular-nums text-cream"
+                    >
+                      {badge}
+                    </span>
+                    <span className="sr-only">{t(m.carta.filtersActive, { count: badge })}</span>
+                  </>
                 )}
               </button>
             </div>
@@ -270,7 +285,7 @@ export default function FilterBar({
                                 : "border-cream/10 hover:border-cream/35 hover:bg-cream/5",
                             )}
                           >
-                            <AllergenIcon id={a.id} size="sm" active={pressed} />
+                            <AllergenIcon id={a.id} size="sm" active={pressed} decorative />
                             <span className={cn("text-sm", pressed ? "text-cream line-through decoration-pimenton-light decoration-2" : "text-cream-muted")}>
                               {a.label}
                             </span>

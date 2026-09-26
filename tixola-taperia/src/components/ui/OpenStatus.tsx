@@ -142,7 +142,9 @@ export default function OpenStatus({ className }: OpenStatusProps) {
       </p>
 
       {/* Titular de estado */}
-      <div className="mt-4" aria-live="polite" aria-label={x.liveAria}>
+      {/* `role="status"` (en vez de un `aria-label` sobre un <div> genérico, que ARIA 1.2 prohíbe):
+          la región viva sí admite nombre accesible. */}
+      <div className="mt-4" role="status" aria-live="polite" aria-label={x.liveAria}>
         <p className={cn("font-display text-3xl leading-none md:text-4xl", styles ? styles.text : "text-cream-muted")}>{headline}</p>
         <p className="mt-2 font-sans text-sm text-cream-muted md:text-base">{detail}</p>
         {status && MoodIcon && (

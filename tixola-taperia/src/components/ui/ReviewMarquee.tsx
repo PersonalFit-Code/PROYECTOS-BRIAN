@@ -1,7 +1,8 @@
 "use client";
 
 import { useInView } from "framer-motion";
-import { useMemo, useRef, useSyncExternalStore } from "react";
+import { Pause, Play } from "lucide-react";
+import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Marquee from "@/components/ui/Marquee";
 import ReviewCard from "@/components/ui/ReviewCard";
 import { REVIEWS, type Review } from "@/data/reviews";
@@ -71,10 +72,14 @@ export interface ReviewMarqueeProps {
  * ReviewMarquee — columnas de reseñas reales en marquee vertical (referencia marquee-03 de 21st.dev).
  *  · lg: 3 columnas de 600 px (la central en sentido inverso) · md: 2 columnas · móvil: UNA fila
  *    horizontal con tarjetas de 300 px. Degradados de fundido arriba/abajo (o a los lados).
- *  · Se pausa al pasar el ratón / enfocar y cuando la sección sale del viewport (CPU en reposo).
+ *  · Se pausa al pasar el ratón / enfocar, cuando la sección sale del viewport (CPU en reposo) y
+ *    con el botón pausa/reanudar — obligatorio para el contenido que se mueve solo más de 5 s
+ *    (WCAG 2.2.2) y única vía para quien navega con pantalla táctil o teclado.
  *  · `prefers-reduced-motion`: rejilla estática con las seis primeras reseñas.
  *  · Cristal ahumado solo en tier "high"; en gama media/móvil las tarjetas usan fondo hierro opaco
  *    (docenas de backdrop-filter en movimiento son lo más caro que puede pintar un móvil).
+ *  · El alto se reserva por CSS (`min-h`) para que el paso de la fila del servidor a las columnas
+ *    del cliente no mueva el resto de la página ni invalide los ScrollTrigger de más abajo.
  */
 export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
   const m = useMessages();
@@ -84,13 +89,23 @@ export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
 
   const rootRef = useRef<HTMLDivElement>(null);
   const inView = useInView(rootRef, { amount: 0.1 });
+  const [userPaused, setUserPaused] = useState(false);
+  const togglePause = useCallback(() => setUserPaused((v) => !v), []);
 
   const reviews = useMemo(() => selectReviews(REVIEWS), []);
   const glass = tier === "high";
   const summary = t(m.social.marquee.summary, { count: reviews.length });
+  const paused = userPaused || !inView;
 
   return (
-    <div ref={rootRef} role="region" aria-label={m.social.marquee.label} className={cn("relative", className)}>
+    <div
+      ref={rootRef}
+      role="region"
+      aria-label={m.social.marquee.label}
+      /* Alto reservado: el servidor siempre pinta la fila horizontal (≈ 360 px) y el cliente pasa a
+         columnas de 600 px en md+. Con el hueco ya reservado el cambio no desplaza nada. */
+      className={cn("relative", !reducedMotion && "md:min-h-[600px]", className)}
+    >
       <p className="sr-only">{summary}</p>
 
       {reducedMotion ? (
@@ -104,7 +119,7 @@ export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
         </ul>
       ) : columns === 1 ? (
         /* Móvil: una fila horizontal continua */
-        <Marquee pauseOnHover paused={!inView} repeat={2} className="[--duration:70s] [--gap:1rem] py-2">
+        <Marquee pauseOnHover paused={paused} repeat={2} className="[--duration:70s] [--gap:1rem] py-2">
           {reviews.map((review) => (
             <ReviewCard key={review.id} review={review} glass={glass} maxLines={6} className="w-[300px]" />
           ))}
@@ -118,7 +133,7 @@ export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
               vertical
               reverse={i === 1}
               pauseOnHover
-              paused={!inView}
+              paused={paused}
               repeat={3}
               className={cn("h-full", COLUMN_DURATION[i] ?? COLUMN_DURATION[0], "[--gap:1rem]")}
               trackClassName="w-full"
@@ -128,6 +143,22 @@ export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
               ))}
             </Marquee>
           ))}
+        </div>
+      )}
+
+      {/* Pausa / reanudar: WCAG 2.2.2 exige un control accesible sin ratón (táctil, teclado). */}
+      {!reducedMotion && (
+        <div className="mt-3 flex justify-center md:justify-end">
+          <button
+            type="button"
+            onClick={togglePause}
+            aria-pressed={userPaused}
+            aria-label={userPaused ? m.social.marquee.play : m.social.marquee.pause}
+            className="inline-flex h-11 items-center gap-2 rounded-full border border-cream/15 px-4 font-caps text-[10px] uppercase tracking-[0.22em] text-cream-muted transition-colors duration-300 hover:bg-cream/10 hover:text-cream"
+          >
+            {userPaused ? <Play size={14} aria-hidden /> : <Pause size={14} aria-hidden />}
+            <span>{userPaused ? m.social.marquee.play : m.social.marquee.pause}</span>
+          </button>
         </div>
       )}
     </div>

@@ -1,3 +1,4 @@
+import ReactDOM from "react-dom";
 import Navbar from "@/components/ui/Navbar";
 import { ReservationProvider } from "@/components/ui/ReservationProvider";
 import { ChatProvider } from "@/components/chat/ChatProvider";
@@ -20,11 +21,16 @@ import { getMessages } from "@/i18n/getMessages";
  *  - `HeroTransition` ancla la portada y la transforma mientras "Platos" se desliza por encima.
  *  - Cada sección conserva su `id`; `<Chapter>` solo añade `data-chapter`, el telón de entrada y
  *    el registro para la navegación lateral (`ChapterNav`).
+ *  - `ReactDOM.preload` de la textura de hierro: es el elemento más grande de la primera pintura
+ *    (fondo CSS de `HeroFallback`, que se sirve en el HTML de todos los visitantes) y, al venir de
+ *    una hoja de estilos, el navegador no la descubriría hasta maquetar. Pesa en el LCP móvil.
  */
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : DEFAULT_LOCALE;
   const m = await getMessages(locale);
+
+  ReactDOM.preload("/textures/iron.webp", { as: "image", fetchPriority: "high" });
 
   return (
     <ChatProvider page="home">

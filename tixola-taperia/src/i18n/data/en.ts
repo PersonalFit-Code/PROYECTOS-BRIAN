@@ -329,5 +329,23 @@ const en: DataTranslations = {
     "Craft beer",
     "Cards accepted",
   ],
+  photos: {
+    "terraza-catedral": {
+      alt: "Terrace of Tixola Tapería on Rúa Juan de Austria with an iron skillet of raxo pork, croquetas and two glasses of white wine, and the church of Santa Eufemia in Ourense behind",
+      caption: "The terrace, with Santa Eufemia behind",
+    },
+    "zamburinas-plancha": {
+      alt: "Galician zamburiñas (queen scallops) grilled in their shells with olive oil, garlic and parsley, a signature dish at Tixola Tapería in Ourense",
+      caption: "Grilled Galician scallops",
+    },
+    "tixola-raxo-croquetas": {
+      alt: "Cast-iron skillet of raxo pork with Arzúa cheese, homemade croquetas and Galician white wine on the terrace of Tixola Tapería, Ourense",
+      caption: "Raxo and Arzúa cheese skillet with croquetas",
+    },
+    fachada: {
+      alt: "Front of Tixola Tapería at Rúa Juan de Austria 7 in the old town of Ourense, with its red awnings and the daily chalkboard",
+      caption: "Rúa Juan de Austria, 7",
+    },
+  },
 };
 export default en;

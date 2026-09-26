@@ -102,15 +102,18 @@ export default function CategoryChips({ categories, selected, counts, allCount, 
                   />
                 )}
                 <span className="relative font-condensed text-lg uppercase leading-none tracking-wide">{chip.label}</span>
+                {/* ARIA 1.2 no permite nombrar un <span> genérico: el número queda decorativo y el
+                    texto completo viaja en un `sr-only` dentro del propio botón. */}
                 <span
+                  aria-hidden
                   className={cn(
                     "relative min-w-[1.4rem] rounded-full px-1.5 py-px text-center font-sans text-[11px] font-semibold tabular-nums leading-4",
                     active ? "bg-cream/20 text-cream" : "bg-cream/[0.06] text-cream-faint",
                   )}
-                  aria-label={t(m.carta.chipCount, { count: chip.count })}
                 >
                   {chip.count}
                 </span>
+                <span className="sr-only">{t(m.carta.chipCount, { count: chip.count })}</span>
               </button>
             );
           })}

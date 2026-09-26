@@ -32,7 +32,8 @@ export interface LanguageSwitcherProps {
 
 /**
  * Devuelve `switchTo(locale)`: guarda la preferencia en la cookie NEXT_LOCALE (la misma que lee
- * `src/proxy.ts`) y navega a la misma ruta con el nuevo prefijo, conservando el hash (#platos).
+ * `src/proxy.ts`) y navega a la misma ruta con el nuevo prefijo, conservando la query y el hash
+ * (`/carta?cat=croquetas&sin=gluten#tix-raxo`: los filtros de la carta viven en la URL).
  */
 function useSwitchLocale(onSelect?: (locale: Locale) => void) {
   const router = useRouter();
@@ -47,8 +48,8 @@ function useSwitchLocale(onSelect?: (locale: Locale) => void) {
       }
       document.cookie = `${COOKIE}=${next}; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax`;
       const { path } = stripLocale(pathname ?? "/");
-      const hash = typeof window !== "undefined" ? window.location.hash : "";
-      router.push(`${localePath(next, path)}${hash}`);
+      const { search, hash } = typeof window !== "undefined" ? window.location : { search: "", hash: "" };
+      router.push(`${localePath(next, path)}${search}${hash}`);
       onSelect?.(next);
     },
     [current, pathname, router, onSelect],

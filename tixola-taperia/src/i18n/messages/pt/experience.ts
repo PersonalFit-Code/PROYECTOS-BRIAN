@@ -17,6 +17,8 @@ const experience = {
     "Tixolas de ferro",
   ],
   marqueeAria: "Especialidades da casa",
+  marqueePause: "Pausar as especialidades",
+  marqueePlay: "Retomar as especialidades",
   kicker: "A experiência",
   title: "Petiscos com vista para a",
   accent: "Catedral",

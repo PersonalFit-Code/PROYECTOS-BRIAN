@@ -10,6 +10,7 @@ import ReviewMarquee from "@/components/ui/ReviewMarquee";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { BUSINESS } from "@/data/business";
 import { SOCIAL_STATS } from "@/data/reviews";
+import { format } from "@/i18n/getMessages";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { LOCALE_META } from "@/i18n/config";
@@ -204,6 +205,7 @@ export default function SocialProof() {
   const google = BUSINESS.ratings.google;
   const trip = BUSINESS.ratings.tripadvisor;
   const s = m.social;
+  const reviewCount = fmtInt(google.count);
 
   /* Indicadores normalizados con etiquetas localizadas. */
   const stats = useMemo<StatItem[]>(
@@ -217,10 +219,11 @@ export default function SocialProof() {
           suffix: stat.suffix,
           decimals: "decimals" in stat ? stat.decimals : 0,
           label: labels?.label ?? stat.label,
-          sub: labels?.sub ?? stat.sub,
+          /* `stats.ratingSub` lleva {count}: el número sale de BUSINESS.ratings, no del copy. */
+          sub: format(labels?.sub ?? stat.sub, { count: reviewCount }),
         };
       }),
-    [s.stats],
+    [s.stats, reviewCount],
   );
 
   const platforms: Platform[] = [
@@ -267,7 +270,8 @@ export default function SocialProof() {
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             kicker={s.kicker}
-            title={s.title}
+            /* "Lo dicen más de 850": el umbral se deriva del recuento real, redondeado a la baja. */
+            title={t(s.title, { count: fmtInt(Math.floor(google.count / 50) * 50) })}
             accent={s.accent}
             description={t(s.description, { rating: fmtRating(google.value), count: fmtInt(google.count) })}
           />

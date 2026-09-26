@@ -119,5 +119,11 @@ const common: Section<"common"> = {
       outro: "Confirmádesmo? Grazas!",
     },
   },
+  notFound: {
+    kicker: "404",
+    title: "Esta mesa non existe",
+    text: "A páxina que buscas non está na carta. Volve ao inicio ou bótalle unha ollada aos nosos pratos.",
+    back: "Volver ao inicio",
+  },
 };
 export default common;

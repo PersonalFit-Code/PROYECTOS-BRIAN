@@ -6,6 +6,7 @@
 import { ALLERGENS, type Allergen, type AllergenId } from "@/data/allergens";
 import { DIET_TAG_LABELS, MENU_CATEGORIES, MENU_ITEMS, type DietTag, type MenuCategory, type MenuItem } from "@/data/menu";
 import { STAR_DISHES, type StarDish } from "@/data/dishes";
+import { PHOTOS, type Photo } from "@/data/photos";
 import { BUSINESS } from "@/data/business";
 import type { Locale } from "./config";
 
@@ -26,6 +27,8 @@ export interface DataTranslations {
   allergens?: Partial<Record<AllergenId, Partial<Pick<Allergen, "label" | "description">>>>;
   dietTags?: Partial<Record<DietTag, string>>;
   features?: string[];
+  /** `alt` y `caption` de las fotos (src/data/photos.ts) por id. */
+  photos?: Partial<Record<string, Partial<Pick<Photo, "alt" | "caption">>>>;
 }
 
 import gl from "./data/gl";
@@ -86,4 +89,17 @@ export function localizeDietTags(locale: Locale): Record<DietTag, string> {
 
 export function localizeFeatures(locale: Locale): string[] {
   return TRANSLATIONS[locale].features ?? [...BUSINESS.features];
+}
+
+/** Fotos con `alt` y `caption` en el idioma activo (fallback al español). */
+export function localizePhotos(locale: Locale): Photo[] {
+  const t = TRANSLATIONS[locale].photos ?? {};
+  return PHOTOS.map((p) => ({ ...p, ...(t[p.id] ?? {}) }));
+}
+
+/** Una foto concreta ya localizada (o `undefined` si el id no existe). */
+export function localizePhotoById(locale: Locale, id: string): Photo | undefined {
+  const photo = PHOTOS.find((p) => p.id === id);
+  if (!photo) return undefined;
+  return { ...photo, ...(TRANSLATIONS[locale].photos?.[id] ?? {}) };
 }

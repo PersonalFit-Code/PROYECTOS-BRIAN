@@ -1,14 +1,16 @@
 "use client";
 
-import { Diamond, Flame, Sun, Wine, type LucideIcon } from "lucide-react";
+import { useInView } from "framer-motion";
+import { Diamond, Flame, Pause, Play, Sun, Wine, type LucideIcon } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import MapCard from "@/components/ui/MapCard";
 import OpenStatus from "@/components/ui/OpenStatus";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { photoById } from "@/data/photos";
+import { localizePhotoById } from "@/i18n/data";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { useMessages } from "@/i18n/LocaleProvider";
+import { useLocale, useMessages } from "@/i18n/LocaleProvider";
+import { cn } from "@/lib/utils";
 
 /**
  * Experience — "Experiencia y ubicación" (#experiencia).
@@ -26,20 +28,34 @@ import { useMessages } from "@/i18n/LocaleProvider";
  */
 
 const STORY_ICONS: readonly LucideIcon[] = [Sun, Wine, Flame];
-const TERRACE = photoById("terraza-catedral");
+const TERRACE_ID = "terraza-catedral";
 
 /* ────────────────────────────────────────────────────────────
    Marquesina
    ──────────────────────────────────────────────────────────── */
-function Marquee({ items, label }: { items: readonly string[]; label: string }) {
+/**
+ * Marquesina de especialidades. Se detiene al pasar el ratón, cuando sale de pantalla (si no, el
+ * compositor la animaría durante toda la sesión, a la vez que el lienzo de la portada, los
+ * carruseles y las columnas de reseñas) y con el botón pausa/reanudar, que es lo único que tienen
+ * quien navega con pantalla táctil o teclado (WCAG 2.2.2: contenido en movimiento de más de 5 s).
+ */
+function Marquee({ items, label, pauseLabel, playLabel }: { items: readonly string[]; label: string; pauseLabel: string; playLabel: string }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(trackRef, { amount: 0 });
+  const [userPaused, setUserPaused] = useState(false);
+  const paused = userPaused || !inView;
+
   return (
-    <div className="relative overflow-hidden border-y border-cream/10 bg-iron-900/80 py-4 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] md:py-5">
+    <div ref={trackRef} className="relative overflow-hidden border-y border-cream/10 bg-iron-900/80 py-4 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] md:py-5">
       <p className="sr-only">
         {label}: {items.join(", ")}.
       </p>
       <div
         aria-hidden
-        className="flex w-max animate-marquee will-change-transform hover:[animation-play-state:paused] motion-reduce:animate-none"
+        className={cn(
+          "flex w-max animate-marquee will-change-transform hover:[animation-play-state:paused] motion-reduce:animate-none",
+          paused && "[animation-play-state:paused]",
+        )}
       >
         {[0, 1].map((copy) => (
           <ul key={copy} className="flex shrink-0 items-center">
@@ -55,6 +71,16 @@ function Marquee({ items, label }: { items: readonly string[]; label: string }) 
           </ul>
         ))}
       </div>
+
+      <button
+        type="button"
+        onClick={() => setUserPaused((v) => !v)}
+        aria-pressed={userPaused}
+        aria-label={userPaused ? playLabel : pauseLabel}
+        className="absolute right-2 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-cream/15 bg-iron-900/90 text-cream-muted transition-colors duration-300 hover:text-cream motion-reduce:hidden"
+      >
+        {userPaused ? <Play size={14} aria-hidden /> : <Pause size={14} aria-hidden />}
+      </button>
     </div>
   );
 }
@@ -64,26 +90,29 @@ function Marquee({ items, label }: { items: readonly string[]; label: string }) 
    ──────────────────────────────────────────────────────────── */
 export default function Experience() {
   const m = useMessages();
+  const locale = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   useScrollReveal(sectionRef, { cinematic: true });
 
   const x = m.experience;
+  /* `alt` y pie de foto en el idioma de la página (los datos de photos.ts están en español). */
+  const terrace = useMemo(() => localizePhotoById(locale, TERRACE_ID), [locale]);
 
   return (
     <section id="experiencia" ref={sectionRef} className="noise after:noise-after relative isolate overflow-clip bg-iron">
-      <Marquee items={x.marquee} label={x.marqueeAria} />
+      <Marquee items={x.marquee} label={x.marqueeAria} pauseLabel={x.marqueePause} playLabel={x.marqueePlay} />
 
       {/* 1 · Bloque cinematográfico: terraza real con Santa Eufemia al fondo */}
       <div className="relative isolate min-h-[72svh] overflow-hidden md:min-h-[82vh]">
         <div data-parallax="-0.28" className="absolute inset-x-0 -top-[18%] -bottom-[18%] will-change-transform">
           <Image
-            src={TERRACE?.src ?? "/images/terraza-catedral.jpg"}
-            alt={TERRACE?.alt ?? x.photoCaption}
+            src={terrace?.src ?? "/images/terraza-catedral.jpg"}
+            alt={terrace?.alt ?? x.photoCaption}
             fill
             sizes="100vw"
             quality={82}
             className="object-cover"
-            style={{ objectPosition: TERRACE?.focus ?? "50% 45%" }}
+            style={{ objectPosition: terrace?.focus ?? "50% 45%" }}
           />
         </div>
         {/* velos: cabecera, pie (legibilidad del titular) y lateral izquierdo */}

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, MotionConfig } from "framer-motion";
 import { MessageSquareText } from "lucide-react";
+import { useCookieBannerOpen } from "@/components/legal/CookieConsent";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { stripLocale } from "@/i18n/config";
@@ -69,7 +70,9 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle }: ChatLaunch
   /* Oculto (solo < md) mientras la portada de la home está a la vista; se resuelve con clases
      max-md:* para que el HTML del servidor ya salga correcto y no parpadee al hidratar. */
   const heroHidden = isHome && !scrolled && !isOpen;
-  const hidden = isOpen || (heroHidden && mobile);
+  /* El aviso de cookies ocupa todo el ancho y ~350 px de alto en móvil: taparía este botón. */
+  const bannerOpen = useCookieBannerOpen();
+  const hidden = isOpen || ((heroHidden || bannerOpen) && mobile);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -79,6 +82,7 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle }: ChatLaunch
           "fixed left-4 z-40 transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)]",
           "bottom-[calc(var(--mobile-bar-h)+16px+env(safe-area-inset-bottom))] md:bottom-6",
           heroHidden && "max-md:pointer-events-none max-md:-translate-x-6 max-md:opacity-0",
+          bannerOpen && "max-md:pointer-events-none max-md:-translate-x-6 max-md:opacity-0",
         )}
       >
         <motion.div
@@ -98,7 +102,9 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle }: ChatLaunch
             tabIndex={hidden ? -1 : 0}
             className={cn(
               "group relative grid h-14 w-14 place-items-center rounded-full text-cream shadow-neon",
-              tier === "low" ? "border border-pimenton-light/50 bg-burgundy" : "glass-red",
+              /* `glass-red` lleva backdrop-filter: solo en gama alta. Sobre la portada el lienzo
+                 WebGL se repinta cada fotograma y el desenfoque habría que recalcularlo con él. */
+              tier === "high" ? "glass-red" : "border border-pimenton-light/50 bg-burgundy",
               "transition-[transform,background-color,box-shadow] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-pimenton/40 active:scale-95",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron",
             )}

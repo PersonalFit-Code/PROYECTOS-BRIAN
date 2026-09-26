@@ -330,5 +330,23 @@ const pt: DataTranslations = {
     "Cerveja artesanal",
     "Aceitamos cartões",
   ],
+  photos: {
+    "terraza-catedral": {
+      alt: "Esplanada da Tixola Tapería na Rúa Juan de Austria com uma tixola de raxo, croquetes e dois copos de vinho branco, e a igreja de Santa Eufemia de Ourense ao fundo",
+      caption: "A esplanada, com Santa Eufemia ao fundo",
+    },
+    "zamburinas-plancha": {
+      alt: "Vieiras galegas (zamburiñas) grelhadas na concha com azeite, alho e salsa, prato estrela da Tixola Tapería em Ourense",
+      caption: "Vieiras galegas grelhadas",
+    },
+    "tixola-raxo-croquetas": {
+      alt: "Tixola de raxo com queijo de Arzúa em frigideira de ferro, croquetes caseiros e vinho branco galego na esplanada da Tixola Tapería, Ourense",
+      caption: "Tixola de raxo com queijo de Arzúa e croquetes",
+    },
+    fachada: {
+      alt: "Fachada da Tixola Tapería na Rúa Juan de Austria 7, centro histórico de Ourense, com os seus toldos vermelhos e a ardósia do dia",
+      caption: "Rúa Juan de Austria, 7",
+    },
+  },
 };
 export default pt;

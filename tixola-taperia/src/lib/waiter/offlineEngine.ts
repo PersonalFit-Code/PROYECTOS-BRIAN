@@ -116,7 +116,9 @@ const ALLERGEN_WORDS: Record<AllergenId, readonly string[]> = {
   moluscos: ["molusco*", "mollusc*", "mollusk*", "molusc*", "marisco*"],
   "frutos-cascara": ["frutos secos", "fruto seco", "nuez", "nueces", "almendra*", "avellana*", "nuts", "nut", "froitos secos", "frutos de casca"],
   cacahuetes: ["cacahuet*", "peanut*", "mani", "amendoim"],
-  soja: ["soja", "soy", "soya"],
+  /* Sin "soy" suelto: en español es el verbo ("Soy celíaco", "Soy vegano") y \bsoy\b disparaba
+     una exclusión de soja en cualquier frase que empezara así. Del inglés queda "soy sauce"/"soybean". */
+  soja: ["soja", "soya", "soy sauce", "soybean*", "soja sauce"],
   sesamo: ["sesamo", "sesame", "gergelim"],
   mostaza: ["mostaza", "mustard", "mostarda"],
   sulfitos: ["sulfito*", "sulfite*", "sulphite*"],
@@ -433,8 +435,10 @@ function answerHours(ctx: AnswerContext): string {
 
 function answerLocation(ctx: AnswerContext): string {
   const o = ctx.m.chat.offline;
-  // "A 1 minuto a pie de la Catedral…" → "a 1 minuto a pie de la Catedral…" (va a mitad de frase)
-  const landmark = BUSINESS.address.landmark.charAt(0).toLowerCase() + BUSINESS.address.landmark.slice(1);
+  /* Referencia localizada (BUSINESS.address.landmark solo existe en español y la respuesta saldría
+     en dos idiomas). "A un minuto a pie de la Catedral…" → minúscula: va a mitad de frase. */
+  const reference = ctx.m.experience.map.subtitle;
+  const landmark = reference.charAt(0).toLowerCase() + reference.slice(1);
   return joinParagraphs(format(o.location, { address: BUSINESS.address.full, landmark, url: BUSINESS.social.directions }), o.locationExtra);
 }
 

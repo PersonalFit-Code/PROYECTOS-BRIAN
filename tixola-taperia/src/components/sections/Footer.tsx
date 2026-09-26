@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useSyncExternalStore } from "react";
 import { ArrowUp, ArrowUpRight, Clock, Cookie, MapPin, MessageCircle, Navigation, Phone, Utensils } from "lucide-react";
 import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
+import { LEGAL_DOC_KEYS } from "@/data/legal";
 import Logo from "@/components/ui/Logo";
 import { useNavItems } from "@/components/ui/Navbar";
 import { useLocalizedOpenStatus } from "@/components/ui/ReservationModal";
@@ -11,6 +12,7 @@ import { PlatformGlyph, Stars } from "@/components/ui/ReviewCard";
 import { useReservation } from "@/components/ui/ReservationProvider";
 import { LOCALE_META } from "@/i18n/config";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
+import { openCookieSettings } from "@/lib/consent";
 import { cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────────
@@ -19,16 +21,6 @@ import { cn } from "@/lib/utils";
 
 const WEEK: readonly DayKey[] = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 const HOURS = BUSINESS.hours as Record<DayKey, TimeRange[]>;
-
-/** Nombre del evento que escucha el módulo legal para reabrir el panel de cookies. */
-const COOKIE_SETTINGS_EVENT = "tixola:cookie-settings";
-
-/** Rutas legales sin prefijo de idioma (se pasan por lp()). */
-const LEGAL_LINKS = [
-  { key: "privacy", href: "/legal/privacidad" },
-  { key: "legalNotice", href: "/legal/aviso-legal" },
-  { key: "cookies", href: "/legal/cookies" },
-] as const;
 
 /* "Reloj" externo: el año solo en cliente (evita desajustes de hidratación en Nochevieja). */
 function subscribeMinute(onChange: () => void) {
@@ -71,10 +63,6 @@ export default function Footer() {
   const scrollToTop = useCallback(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
-  }, []);
-
-  const openCookieSettings = useCallback(() => {
-    window.dispatchEvent(new CustomEvent(COOKIE_SETTINGS_EVENT));
   }, []);
 
   const intl = LOCALE_META[locale].intl;
@@ -155,7 +143,8 @@ export default function Footer() {
                   <br />
                   {BUSINESS.address.postalCode} {BUSINESS.address.city}
                   <br />
-                  <span className="text-xs text-cream-faint">{BUSINESS.address.landmark}</span>
+                  {/* Equivalente localizado de BUSINESS.address.landmark (que está solo en español). */}
+                  <span className="text-xs text-cream-faint">{m.experience.map.subtitle}</span>
                 </span>
               </a>
               <a href={BUSINESS.phone.tel} aria-label={t(m.common.cta.callNumber, { phone: BUSINESS.phone.display })} className={linkClass}>
@@ -283,9 +272,10 @@ export default function Footer() {
         {/* Barra inferior: legal + © + crédito + volver arriba */}
         <div className="mt-14 border-t border-cream/10 py-6 md:mt-20">
           <nav aria-label={m.footer.legal} className="flex flex-wrap items-center gap-x-5 gap-y-1">
-            {LEGAL_LINKS.map((link) => (
-              <Link key={link.key} href={lp(link.href)} className={cn(linkClass, "text-xs")}>
-                {m.footer[link.key]}
+            {/* Los slugs viven en m.legal.<doc>.slug (misma fuente que el banner, LegalArticle y el sitemap). */}
+            {LEGAL_DOC_KEYS.map((key) => (
+              <Link key={key} href={lp(`/legal/${m.legal[key].slug}`)} className={cn(linkClass, "text-xs")}>
+                {m.footer[key]}
               </Link>
             ))}
             <button type="button" onClick={openCookieSettings} className={cn(linkClass, "text-xs")}>

@@ -7,7 +7,7 @@ import type { Section } from "./shape";
  */
 const social: Section<"social"> = {
   kicker: "Proba social",
-  title: "Dino máis de 850",
+  title: "Dino máis de {count}",
   accent: "clientes",
   description:
     "{rating} sobre 5 en Google con {count} recensións e Travellers' Choice en TripAdvisor. O que se repite en todas: produto da ría, tixolas de ferro que chegan chiando e unha terraza coa Catedral de fondo.",
@@ -17,7 +17,7 @@ const social: Section<"social"> = {
     reviews: "Recensións de clientes",
     reviewsSub: "en Google",
     rating: "Valoración media",
-    ratingSub: "Google · 858 opinións",
+    ratingSub: "Google · {count} opinións",
     rank: "En zamburiñas da zona",
     rankSub: "segundo os nosos clientes",
     position: "Restaurante de Ourense",
@@ -37,6 +37,8 @@ const social: Section<"social"> = {
   marquee: {
     label: "Opinións de clientes",
     summary: "{count} recensións de clientes con cinco estrelas, publicadas en TripAdvisor e Google.",
+    pause: "Pausar as reseñas",
+    play: "Retomar as reseñas",
   },
   /** Tarxeta de recensión (ReviewCard) */
   card: {
@@ -65,7 +67,7 @@ const social: Section<"social"> = {
     current: "actual",
     open: "Ampliar a foto: {caption}",
     hint: "Preme unha foto para ampliala",
-    swipe: "Despraza para ver máis fotos",
+    swipe: "Ver máis fotos",
     pause: "Pausar a galería",
     play: "Retomar a galería",
     slide: "Foto {index} de {total}",

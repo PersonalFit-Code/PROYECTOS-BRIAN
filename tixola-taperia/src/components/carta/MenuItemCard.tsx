@@ -24,6 +24,8 @@ import { cn } from "@/lib/utils";
  *  - `id={item.id}` para enlaces profundos `/carta#tix-chistorra-huevos` (con `scroll-margin-top`);
  *    `highlighted` dispara el anillo rojo de llegada.
  *  - `layout` (framer-motion) anima la recolocación cuando cambian los filtros (desactivable).
+ *  - `glass` (solo tier "high") decide entre cristal ahumado y hierro opaco: con 49 tarjetas el
+ *    `backdrop-filter` es lo más caro que puede pintar un móvil mientras se hace scroll.
  */
 
 export type MenuItemCardVariant = "glass" | "chalk";
@@ -36,6 +38,12 @@ export interface MenuItemCardProps {
   highlighted?: boolean;
   /** animación de layout (recolocación) al filtrar; desactivar en tier "low" / reduced motion */
   animations?: boolean;
+  /**
+   * Cristal ahumado (`backdrop-filter`) en la tarjeta. Solo en tier "high": la carta pinta ~49
+   * tarjetas y en un móvil siempre hay varias en pantalla, cada una obligando a releer y
+   * desenfocar el fondo en cada fotograma de scroll (misma regla que `ReviewMarquee`).
+   */
+  glass?: boolean;
   /**
    * Fundido de entrada al montarse. La sección lo activa solo para tarjetas que aparecen DESPUÉS
    * del primer frame (al filtrar): así el HTML estático y el árbol interactivo no parpadean.
@@ -76,6 +84,7 @@ export default function MenuItemCard({
   variant = "glass",
   highlighted = false,
   animations = true,
+  glass = false,
   enter = false,
   className,
 }: MenuItemCardProps) {
@@ -106,7 +115,10 @@ export default function MenuItemCard({
           "relative flex w-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-[var(--ease-out-expo)]",
           chalk
             ? "border border-dashed border-cream/25 bg-iron-900/55 hover:border-cream/50 hover:bg-iron-900/70"
-            : "glass-smoke hover:-translate-y-1 hover:border-pimenton-light/60 hover:shadow-[0_0_0_1px_rgba(216,50,60,0.35),0_24px_60px_-24px_rgba(178,30,39,0.6)]",
+            : cn(
+                glass ? "glass-smoke" : "border border-cream/10 bg-iron-800/90 shadow-card",
+                "hover:-translate-y-1 hover:border-pimenton-light/60 hover:shadow-[0_0_0_1px_rgba(216,50,60,0.35),0_24px_60px_-24px_rgba(178,30,39,0.6)]",
+              ),
         )}
       >
         {/* Anillo de resalte para el enlace profundo */}
@@ -144,7 +156,7 @@ export default function MenuItemCard({
             <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-iron-900/90 via-iron-900/30 to-transparent" />
             <span
               aria-hidden
-              className="absolute bottom-3 left-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-cream/15 bg-iron/80 text-gold shadow-[0_8px_20px_-8px_rgba(0,0,0,0.9)] backdrop-blur-md"
+              className="absolute bottom-3 left-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-cream/15 bg-iron/90 text-gold shadow-[0_8px_20px_-8px_rgba(0,0,0,0.9)]"
             >
               <DishIcon iconKey={item.emoji} size={22} />
             </span>

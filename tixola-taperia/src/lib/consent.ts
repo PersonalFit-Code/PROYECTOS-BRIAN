@@ -177,3 +177,32 @@ export function subscribeConsent(onStoreChange: () => void): () => void {
 export function openCookieSettings(): void {
   if (typeof window !== "undefined") window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT));
 }
+
+/* ──────────────────────────────────────────────────────────────
+   Visibilidad del aviso (para apartar los botones flotantes)
+   ────────────────────────────────────────────────────────────── */
+
+/**
+ * El aviso ocupa todo el ancho y ~350 px de alto en móvil, justo encima de la barra fija: taparía
+ * por completo el botón de WhatsApp y el lanzador del camarero virtual hasta que el visitante
+ * decida. `CookieConsent` publica aquí su estado y esos botones se apartan mientras esté abierto.
+ */
+let bannerOpen = false;
+const bannerListeners = new Set<() => void>();
+
+export function setCookieBannerOpen(open: boolean): void {
+  if (bannerOpen === open) return;
+  bannerOpen = open;
+  for (const listener of bannerListeners) listener();
+}
+
+export function subscribeCookieBanner(onStoreChange: () => void): () => void {
+  bannerListeners.add(onStoreChange);
+  return () => {
+    bannerListeners.delete(onStoreChange);
+  };
+}
+
+export const getCookieBannerSnapshot = (): boolean => bannerOpen;
+/** En el servidor el aviso nunca está pintado todavía. */
+export const getServerCookieBannerSnapshot = (): boolean => false;

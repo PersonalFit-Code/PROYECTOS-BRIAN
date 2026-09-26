@@ -30,7 +30,7 @@ const dishes: Section<"dishes"> = {
     goTo: "Ir a {name}",
     current: "actual",
     hint: "Toca un prato para ver ingredientes, alérxenos e maridaxe",
-    swipe: "Despraza para descubrir máis",
+    swipe: "Explora os pratos",
     open: "Ver os detalles de {name}",
     pause: "Pausar o carrusel",
     play: "Retomar o carrusel",

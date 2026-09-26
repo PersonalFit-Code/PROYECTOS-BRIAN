@@ -36,6 +36,8 @@ export interface CategorySectionProps {
   highlightedId: string | null;
   /** animaciones de revelado / layout (false en tier "low" o reduced motion) */
   animations: boolean;
+  /** cristal ahumado en las tarjetas (solo tier "high"); en el resto, hierro opaco */
+  glass: boolean;
   onSelect: (id: CategoryFilter) => void;
 }
 
@@ -46,7 +48,7 @@ const REVEAL: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: EASE_OUT_EXPO } },
 };
 
-export default function CategorySection({ category, items, total, dietTags, selected, highlightedId, animations, onSelect }: CategorySectionProps) {
+export default function CategorySection({ category, items, total, dietTags, selected, highlightedId, animations, glass, onSelect }: CategorySectionProps) {
   const m = useMessages();
   const t = useFormat();
   const sectionRef = useRef<HTMLElement>(null);
@@ -110,9 +112,11 @@ export default function CategorySection({ category, items, total, dietTags, sele
             )}
           >
             {category.label}
-            <span className="ml-3 align-top font-sans text-xs font-semibold tracking-[0.2em] text-cream-faint" aria-label={t(m.carta.sectionCount, { shown: items.length, total })}>
+            {/* El contador se lee con un `sr-only`: un <span> genérico no admite `aria-label`. */}
+            <span aria-hidden className="ml-3 align-top font-sans text-xs font-semibold tracking-[0.2em] text-cream-faint">
               {items.length}/{total}
             </span>
+            <span className="sr-only"> ({t(m.carta.sectionCount, { shown: items.length, total })})</span>
           </h2>
           <p className="mt-3 max-w-xl text-sm leading-relaxed text-cream-muted md:text-base">{category.description}</p>
         </div>
@@ -149,6 +153,7 @@ export default function CategorySection({ category, items, total, dietTags, sele
             variant={chalkboard ? "chalk" : "glass"}
             highlighted={highlightedId === item.id}
             animations={animations}
+            glass={glass}
             enter={animations && settled}
           />
         ))}

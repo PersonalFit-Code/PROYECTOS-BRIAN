@@ -216,8 +216,12 @@ export default function Navbar() {
           aria-hidden
           className={cn(
             "absolute inset-0 border-b transition-[opacity,border-color] duration-500 ease-[var(--ease-out-expo)]",
-            "bg-[linear-gradient(160deg,rgba(20,20,20,0.86),rgba(20,20,20,0.66))] backdrop-blur-xl backdrop-saturate-[1.2] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]",
-            solid ? "border-cream/10 opacity-100" : "border-transparent opacity-0",
+            /* Móvil: hierro casi opaco, sin `backdrop-filter` (está fijo sobre el lienzo WebGL de la
+               portada y habría que volver a desenfocarlo en cada fotograma). Escritorio: cristal,
+               y solo cuando la cabecera ya es sólida — mientras es invisible no debe desenfocar nada. */
+            "bg-[linear-gradient(160deg,rgba(20,20,20,0.96),rgba(18,18,18,0.92))] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]",
+            "md:bg-[linear-gradient(160deg,rgba(20,20,20,0.86),rgba(20,20,20,0.66))]",
+            solid ? "border-cream/10 opacity-100 md:backdrop-blur-xl md:backdrop-saturate-[1.2]" : "border-transparent opacity-0",
           )}
         />
 
@@ -285,7 +289,9 @@ export default function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="menu-movil"
               aria-label={menuOpen ? m.nav.closeMenu : m.nav.openMenu}
-              className="glass relative grid h-11 w-11 place-items-center rounded-full text-cream transition-colors hover:text-pimenton-light lg:hidden"
+              /* Sin `glass` (blur 18 px): la hamburguesa solo existe por debajo de lg, justo donde
+                 flota sobre la portada animada. */
+              className="relative grid h-11 w-11 place-items-center rounded-full border border-cream/12 bg-iron-900/92 text-cream shadow-glass transition-colors hover:text-pimenton-light lg:hidden"
             >
               <span className="relative block h-5 w-5">
                 <Menu
@@ -381,7 +387,8 @@ export default function Navbar() {
                 <span>
                   {BUSINESS.address.full}
                   <br />
-                  <span className="text-cream-faint">{BUSINESS.address.landmark}</span>
+                  {/* Equivalente localizado de BUSINESS.address.landmark (que está solo en español). */}
+                  <span className="text-cream-faint">{m.experience.map.subtitle}</span>
                 </span>
               </motion.address>
             </div>

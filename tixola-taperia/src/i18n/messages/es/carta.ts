@@ -94,5 +94,8 @@ const carta = {
   ctaLead: "¿Te ha entrado",
   ctaAccent: "hambre?",
   ctaText: "Reserva mesa o pásate a tomar unos viños junto a la Catedral.",
+  /* ── SEO (metadatos de /carta; no se pintan en pantalla) ── */
+  seoTitle: "Carta de tapas y zamburiñas en Ourense",
+  seoDescription: "Tapas, tixolas de hierro, zamburiñas, pulpo y croquetas caseras junto a la Catedral de Ourense. Carta completa con alérgenos y maridajes de vino gallego.",
 } as const;
 export default carta;

@@ -42,8 +42,10 @@ export default function MobileStickyBar() {
         transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
         className="fixed inset-x-0 bottom-0 z-40 md:hidden"
       >
-        {/* Cristal ahumado (mismas capas que `glass-smoke`, pero solo con borde superior) */}
-        <div className="border-t border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.86),rgba(20,20,20,0.7))] pb-[env(safe-area-inset-bottom)] shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.7)] backdrop-blur-2xl backdrop-saturate-[1.2]">
+        {/* Hierro casi opaco en lugar de cristal: esta barra está fija sobre la portada, cuyo lienzo
+            WebGL se repinta cada fotograma, y un `backdrop-filter` obligaría a volver a desenfocar
+            toda la franja en cada uno de ellos (es el escenario móvil más caro de la página). */}
+        <div className="border-t border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.97),rgba(16,16,16,0.95))] pb-[env(safe-area-inset-bottom)] shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.7)]">
           <ul className="grid h-[var(--mobile-bar-h)] grid-cols-4 gap-1 px-2 py-1.5">
             <li className="h-full">
               <button type="button" onClick={openReservation} className={cn(itemBase, itemPrimary, "w-full")}>

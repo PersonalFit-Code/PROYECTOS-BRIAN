@@ -16,6 +16,8 @@ const experience: Section<"experience"> = {
     "Tixolas de ferro",
   ],
   marqueeAria: "Especialidades da casa",
+  marqueePause: "Pausar as especialidades",
+  marqueePlay: "Retomar as especialidades",
   kicker: "A experiencia",
   title: "Tapeo con vistas á",
   accent: "Catedral",

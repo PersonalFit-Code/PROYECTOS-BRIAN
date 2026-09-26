@@ -12,14 +12,15 @@ interface SectionHeadingProps {
 }
 
 /**
- * Cabecera de sección homogénea: kicker en mayúsculas rojas, título display serif, descripción.
+ * Cabecera de sección homogénea: kicker en versalitas Cinzel (`font-caps`, igual que el resto de
+ * kickers de la web: portada, CartaHero, WaiterCard, LegalArticle), título display serif, descripción.
  * Añade `data-reveal` a cada elemento para que las secciones lo animen con GSAP ScrollTrigger.
  */
 export default function SectionHeading({ kicker, title, accent, description, align = "left", className, as: Tag = "h2" }: SectionHeadingProps) {
   return (
     <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
       {kicker && (
-        <p data-reveal className="mb-4 inline-flex items-center gap-3 font-sans text-xs font-bold uppercase tracking-[0.3em] text-pimenton-a11y">
+        <p data-reveal className="mb-4 inline-flex items-center gap-3 font-caps text-[11px] font-medium uppercase tracking-[0.3em] text-pimenton-a11y">
           <span aria-hidden className="h-px w-8 bg-pimenton-light/70" />
           {kicker}
           {align === "center" && <span aria-hidden className="h-px w-8 bg-pimenton-light/70" />}

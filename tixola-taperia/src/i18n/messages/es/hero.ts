@@ -16,7 +16,7 @@ const hero = {
     "Tixolas de hierro que llegan chisporroteando, croquetas caseras, pulpo de la ría y raciones para compartir con un buen vino gallego, a un minuto de la Catedral.",
   ctaPrimary: "Reservar Mesa",
   ctaSecondary: "Ir a la Carta",
-  scrollCue: "Desliza para descubrir",
+  scrollCue: "Descubrir la casa",
   scrollCueAria: "Bajar a los platos estrella",
   enable3d: "Activar 3D",
   enable3dAria: "Activar el efecto 3D con el giroscopio del móvil",

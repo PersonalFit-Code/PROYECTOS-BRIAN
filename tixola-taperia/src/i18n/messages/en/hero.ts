@@ -19,7 +19,7 @@ const hero = {
     "Iron skillets that reach the table still sizzling, homemade croquetas, octopus from the Galician rías and sharing plates to enjoy with a good local wine, one minute from the Cathedral.",
   ctaPrimary: "Book a Table",
   ctaSecondary: "See the Menu",
-  scrollCue: "Scroll to discover",
+  scrollCue: "Discover the house",
   scrollCueAria: "Scroll down to the signature dishes",
   enable3d: "Enable 3D",
   enable3dAria: "Enable the 3D effect using your phone's gyroscope",

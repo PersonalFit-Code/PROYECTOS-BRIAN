@@ -2,7 +2,8 @@
 
 import { Html, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { Bloom, EffectComposer, ToneMapping } from "@react-three/postprocessing";
+import { ToneMappingMode } from "postprocessing";
 import { useEffect, useLayoutEffect, useMemo, useRef, type ComponentRef } from "react";
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
@@ -919,6 +920,10 @@ function Scene({ perf, labels }: { perf: PerfProfile; labels: MapLabels }) {
       {perf.postprocessing && (
         <EffectComposer multisampling={4} enableNormalPass={false}>
           <Bloom mipmapBlur intensity={0.6} luminanceThreshold={0.78} luminanceSmoothing={0.2} radius={0.65} />
+          {/* Los materiales del composer son `toneMapped: false`: sin este pase, la versión con bloom
+              (escritorio) saldría sin el ACES de `onCreated` y con las luces doradas reventadas,
+              distinta de la de tabletas y móviles. */}
+          <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
         </EffectComposer>
       )}
     </>
@@ -952,7 +957,9 @@ export default function CityMap3D({ perf, active = true, onReady, labels, ariaLa
         shadows={perf.shadows ? "soft" : false}
         frameloop={active ? "always" : "never"}
         camera={{ position: CAMERA_POSITION, fov: 30, near: 5, far: 700 }}
-        gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+        /* Con composer la escena se pinta en su render target (que ya pide MSAA): el búfer
+           multimuestreado del lienzo no se usaría y solo gastaría memoria. */
+        gl={{ antialias: !perf.postprocessing, alpha: false, powerPreference: "high-performance" }}
         onCreated={({ gl }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.05;

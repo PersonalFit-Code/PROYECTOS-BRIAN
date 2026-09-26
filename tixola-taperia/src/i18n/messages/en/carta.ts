@@ -97,5 +97,7 @@ const carta = {
   ctaLead: "Feeling",
   ctaAccent: "hungry?",
   ctaText: "Book a table or drop by for a few glasses of wine beside the Cathedral.",
+  seoTitle: "Tapas menu in Ourense: scallops and octopus",
+  seoDescription: "Tapas, cast-iron tixolas, Galician scallops, octopus and homemade croquetas by Ourense Cathedral. Full menu with allergens and Galician wine pairings.",
 } satisfies Translation<typeof esCarta>;
 export default carta;

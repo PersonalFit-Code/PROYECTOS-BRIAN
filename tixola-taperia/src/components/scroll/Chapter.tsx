@@ -126,12 +126,16 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
     const { gsap, ScrollTrigger } = getGsap();
 
     const ctx = gsap.context(() => {
-      /* Entrada: el bloque aterriza (escala + opacidad) con el scroll como línea de tiempo. */
+      /* Entrada: el bloque aterriza (escala + opacidad) con el scroll como línea de tiempo.
+         La escala se reserva a tier "high": animar `transform` en una sección a pantalla completa
+         (fondo con textura, glow `blur-3xl`, grano) obliga al compositor a promoverla entera a una
+         capa de varios megapíxeles justo mientras corren Lenis, el telón y los tweens `data-depth`. */
+      const scaleEntry = tier === "high";
       gsap.fromTo(
         root,
-        { scale: 0.98, opacity: overlapsHero ? 1 : 0.85, transformOrigin: "50% 0%" },
+        { ...(scaleEntry ? { scale: 0.98, transformOrigin: "50% 0%" } : {}), opacity: overlapsHero ? 1 : 0.85 },
         {
-          scale: 1,
+          ...(scaleEntry ? { scale: 1 } : {}),
           opacity: 1,
           ease: "none",
           scrollTrigger: {
@@ -202,7 +206,7 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
     }, root);
 
     return () => ctx.revert();
-  }, [effects, overlapsHero]);
+  }, [effects, overlapsHero, tier]);
 
   return (
     <div

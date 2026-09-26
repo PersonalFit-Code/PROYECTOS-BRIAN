@@ -223,6 +223,7 @@ function CartaLive() {
       highlightedId={highlightedId}
       legendOpen={legendOpen}
       animations={!perf.reducedMotion && perf.tier !== "low"}
+      glass={perf.tier === "high"}
       heroFloat={!perf.reducedMotion && perf.tier === "high"}
       actions={actions}
     />
@@ -235,7 +236,7 @@ function CartaStatic() {
   const locale = useLocale();
   const results = useMenuFilters(DEFAULT_FILTERS, locale);
   return (
-    <CartaView filters={DEFAULT_FILTERS} results={results} highlightedId={null} legendOpen={false} animations={false} heroFloat={false} actions={NOOP_ACTIONS} />
+    <CartaView filters={DEFAULT_FILTERS} results={results} highlightedId={null} legendOpen={false} animations={false} glass={false} heroFloat={false} actions={NOOP_ACTIONS} />
   );
 }
 
@@ -248,12 +249,18 @@ interface CartaViewProps {
   legendOpen: boolean;
   /** revelado por scroll + animaciones de layout */
   animations: boolean;
+  /**
+   * Cristal ahumado (`backdrop-filter`) en las tarjetas y en la barra de filtros pegajosa.
+   * Solo en tier "high": la carta tiene ~49 tarjetas y en móvil siempre hay varias en pantalla,
+   * con la barra pegajosa desenfocando encima en cada fotograma de scroll.
+   */
+  glass: boolean;
   /** flotación de las polaroids de la cabecera */
   heroFloat: boolean;
   actions: CartaActions;
 }
 
-function CartaView({ filters, results, highlightedId, legendOpen, animations, heroFloat, actions }: CartaViewProps) {
+function CartaView({ filters, results, highlightedId, legendOpen, animations, glass, heroFloat, actions }: CartaViewProps) {
   const m = useMessages();
   const locale = useLocale();
   const dataset = getMenuDataset(locale);
@@ -289,6 +296,7 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, he
           onToggleAllergen={actions.toggleAllergen}
           onClear={actions.clearContent}
           onOpenLegend={actions.openLegend}
+          glass={glass}
         />
 
         <div className={cn(CARTA_CONTAINER, "relative pb-16 md:pb-24 lg:pb-28")}>
@@ -319,6 +327,7 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, he
                       selected={filters.category === section.category.id}
                       highlightedId={highlightedId}
                       animations={animations}
+                      glass={glass}
                       onSelect={actions.selectCategory}
                     />
                   ))}

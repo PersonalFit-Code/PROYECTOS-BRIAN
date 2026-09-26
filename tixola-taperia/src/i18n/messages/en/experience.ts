@@ -17,6 +17,8 @@ const experience = {
     "Iron skillets",
   ],
   marqueeAria: "House specialities",
+  marqueePause: "Pause the specialities",
+  marqueePlay: "Resume the specialities",
   kicker: "The experience",
   title: "Tapas with a view of the",
   accent: "Cathedral",

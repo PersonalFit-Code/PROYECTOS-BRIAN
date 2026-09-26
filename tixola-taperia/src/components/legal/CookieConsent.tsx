@@ -10,9 +10,13 @@ import {
   COOKIE_SETTINGS_EVENT,
   getConsent,
   getConsentSnapshot,
+  getCookieBannerSnapshot,
   getServerConsentSnapshot,
+  getServerCookieBannerSnapshot,
   setConsent,
+  setCookieBannerOpen,
   subscribeConsent,
+  subscribeCookieBanner,
   type ConsentState,
 } from "@/lib/consent";
 import { cn } from "@/lib/utils";
@@ -24,6 +28,14 @@ import { cn } from "@/lib/utils";
  */
 export function useConsent(): ConsentState | null | undefined {
   return useSyncExternalStore<ConsentState | null | undefined>(subscribeConsent, getConsentSnapshot, getServerConsentSnapshot);
+}
+
+/**
+ * `true` mientras el aviso de cookies está en pantalla. Los botones flotantes (WhatsApp, camarero
+ * virtual) lo consultan para apartarse en móvil: el aviso los taparía por completo.
+ */
+export function useCookieBannerOpen(): boolean {
+  return useSyncExternalStore(subscribeCookieBanner, getCookieBannerSnapshot, getServerCookieBannerSnapshot);
 }
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
@@ -172,6 +184,13 @@ export default function CookieConsent() {
     if (consent?.analytics) loadAnalytics();
   }, [consent]);
 
+  /* Publicamos la visibilidad para que los botones flotantes se aparten mientras el aviso ocupa
+     la parte baja de la pantalla (en móvil los cubre enteros). */
+  useEffect(() => {
+    setCookieBannerOpen(open);
+    return () => setCookieBannerOpen(false);
+  }, [open]);
+
   /* Al reabrir desde el pie movemos el foco al panel; al cerrar lo devolvemos al botón. */
   useEffect(() => {
     if (!open || !panel) return undefined;
@@ -236,7 +255,9 @@ export default function CookieConsent() {
                 animate={{ y: 0, opacity: 1, scale: 1 }}
                 exit={{ y: 32, opacity: 0, scale: 0.98, transition: { duration: 0.3, ease: "easeIn" } }}
                 transition={{ duration: 0.7, ease: EASE_OUT_EXPO }}
-                className="glass-smoke noise after:noise-after relative overflow-hidden rounded-3xl p-5 shadow-card md:p-6"
+                /* Sin backdrop-filter en móvil: el aviso se pinta sobre el lienzo WebGL de la portada
+                   y cada fotograma tendría que volver a desenfocar 350 px de pantalla. */
+                className="noise after:noise-after relative overflow-hidden rounded-3xl border border-cream/10 bg-iron-900/95 p-5 shadow-card md:glass-smoke md:p-6"
               >
                 {/* Brasa decorativa */}
                 <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-pimenton/25 blur-3xl" />

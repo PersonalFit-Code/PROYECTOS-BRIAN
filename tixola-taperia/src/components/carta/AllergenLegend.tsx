@@ -41,7 +41,7 @@ export function AllergenLegendGrid({ className, dense = false }: { className?: s
             title={`${a.code} · ${a.label}: ${a.description}`}
             className="flex items-start gap-3 rounded-2xl border border-cream/10 bg-iron/40 p-3 transition-colors hover:border-cream/25"
           >
-            <AllergenIcon id={a.id} size="md" />
+            <AllergenIcon id={a.id} size="md" decorative />
             <div className="min-w-0 flex-1">
               <p className="flex items-center gap-2 text-sm font-semibold text-cream">
                 <span>{a.label}</span>

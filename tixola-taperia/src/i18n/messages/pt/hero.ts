@@ -19,7 +19,7 @@ const hero = {
     "Tixolas de ferro que chegam à mesa a chiar, croquetes caseiros, polvo da ria e doses para partilhar com um bom vinho galego, a um minuto da Catedral.",
   ctaPrimary: "Reservar Mesa",
   ctaSecondary: "Ir para a Ementa",
-  scrollCue: "Deslize para descobrir",
+  scrollCue: "Descobrir a casa",
   scrollCueAria: "Descer até aos pratos estrela",
   enable3d: "Ativar 3D",
   enable3dAria: "Ativar o efeito 3D com o giroscópio do telemóvel",

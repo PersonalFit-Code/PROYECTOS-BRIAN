@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, MotionConfig } from "framer-motion";
 import { BUSINESS } from "@/data/business";
+import { useCookieBannerOpen } from "@/components/legal/CookieConsent";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { stripLocale } from "@/i18n/config";
 import { useMessages } from "@/i18n/LocaleProvider";
@@ -71,16 +72,20 @@ export default function FloatingWhatsApp() {
   /* Oculto (solo < md) mientras la portada de la home está a la vista. Se resuelve con clases
      max-md:* para que el HTML del servidor ya salga correcto y no haya parpadeo al hidratar. */
   const heroHidden = isHome && !scrolled;
+  /* El aviso de cookies ocupa todo el ancho y ~350 px de alto en móvil: taparía este botón. */
+  const bannerOpen = useCookieBannerOpen();
+  const covered = bannerOpen && mobile;
 
   return (
     <MotionConfig reducedMotion="user">
       <div
-        inert={heroHidden && mobile ? true : undefined}
+        inert={(heroHidden && mobile) || covered ? true : undefined}
         className={cn(
           "fixed right-4 z-40 transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)]",
           "bottom-[calc(var(--mobile-bar-h)+88px+env(safe-area-inset-bottom))]",
           "md:bottom-auto md:top-1/2 md:-translate-y-1/2",
           heroHidden && "max-md:pointer-events-none max-md:translate-x-6 max-md:opacity-0",
+          bannerOpen && "max-md:pointer-events-none max-md:translate-x-6 max-md:opacity-0",
         )}
       >
         <motion.div

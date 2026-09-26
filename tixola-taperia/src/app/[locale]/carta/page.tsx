@@ -14,9 +14,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = await getMessages(locale);
+  /* Claves dedicadas (≤ 60 / ≤ 160 caracteres, con las palabras clave del brief): componer el
+     título con textos de la interfaz dejaba fuera "tapas Ourense", "zamburiñas" o "tixolas" y se
+     pasaba de largo. El sufijo de marca lo añade la plantilla del layout de idioma. */
   return pageMetadata(locale, "/carta", {
-    title: `${m.carta.title} ${m.carta.accent} · ${m.carta.legend}`,
-    description: `${m.carta.description} ${m.carta.legendSub}.`,
+    title: m.carta.seoTitle,
+    description: m.carta.seoDescription,
   });
 }
 

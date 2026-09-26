@@ -120,5 +120,11 @@ const common = {
       outro: "Podem confirmar-me? Agradeço desde já!",
     },
   },
+  notFound: {
+    kicker: "404",
+    title: "Esta mesa não existe",
+    text: "A página que procura não está na ementa. Volte ao início ou dê uma vista de olhos aos nossos pratos.",
+    back: "Voltar ao início",
+  },
 } satisfies Translation<typeof esCommon>;
 export default common;

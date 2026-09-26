@@ -8,7 +8,7 @@ import type { Translation } from "./shape";
  */
 const social = {
   kicker: "Prova social",
-  title: "Dizem-no mais de 850",
+  title: "Dizem-no mais de {count}",
   accent: "clientes",
   description:
     "{rating} em 5 no Google com {count} avaliações e Travellers' Choice no TripAdvisor. O que se repete em todas: produto da ria, tixolas de ferro que chegam a chiar e uma esplanada com a Catedral como pano de fundo.",
@@ -18,7 +18,7 @@ const social = {
     reviews: "Avaliações de clientes",
     reviewsSub: "no Google",
     rating: "Classificação média",
-    ratingSub: "Google · 858 opiniões",
+    ratingSub: "Google · {count} opiniões",
     rank: "Em zamburiñas na zona",
     rankSub: "segundo os nossos clientes",
     position: "Restaurante de Ourense",
@@ -38,6 +38,8 @@ const social = {
   marquee: {
     label: "Opiniões de clientes",
     summary: "{count} avaliações de clientes com cinco estrelas, publicadas no TripAdvisor e no Google.",
+    pause: "Pausar as avaliações",
+    play: "Retomar as avaliações",
   },
   /** Cartão de avaliação (ReviewCard) */
   card: {
@@ -66,7 +68,7 @@ const social = {
     current: "atual",
     open: "Ampliar a fotografia: {caption}",
     hint: "Toque numa fotografia para a ampliar",
-    swipe: "Deslize para ver mais fotografias",
+    swipe: "Ver mais fotografias",
     pause: "Pausar a galeria",
     play: "Retomar a galeria",
     slide: "Fotografia {index} de {total}",

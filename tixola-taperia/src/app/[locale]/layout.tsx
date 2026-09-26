@@ -7,12 +7,14 @@ import { getMessages } from "@/i18n/getMessages";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
 import CookieConsent from "@/components/legal/CookieConsent";
 import HomeJsonLd from "@/components/legal/HomeJsonLd";
-import { SITE_URL, pageMetadata } from "@/lib/seo";
+import { SITE_URL, pageMetadata, serializeJsonLd } from "@/lib/seo";
 import "../globals.css";
 
+/* Sin el peso 600: no se usa en ninguna clase `font-display` (los `font-semibold` del proyecto son
+   todos `font-caps`/Cinzel). Son dos woff2 menos compitiendo con la portada en la primera carga. */
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500"],
   style: ["normal", "italic"],
   variable: "--font-cormorant",
   display: "swap",
@@ -39,11 +41,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = await getMessages(locale);
+  const intl = LOCALE_META[locale].intl;
   const title = `${BUSINESS.name} · ${m.hero.title}`;
-  const description = `${m.common.subtitle} ${BUSINESS.ratings.google.value} ★ · ${BUSINESS.ratings.google.count} ${m.common.misc.reviews} ${m.common.misc.onGoogle}. ${BUSINESS.address.full}.`;
+  const rating = BUSINESS.ratings.google.value.toLocaleString(intl, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const count = BUSINESS.ratings.google.count.toLocaleString(intl);
+  /* Sin la dirección al final: así cabe en 160 caracteres en los cuatro idiomas (la dirección ya
+     viaja en el JSON-LD de Restaurant y en el pie). La nota se formatea con el locale (4,4 / 4.4). */
+  const description = `${m.common.subtitle} ${rating} ★ · ${count} ${m.common.misc.reviews} ${m.common.misc.onGoogle}.`;
   return {
     metadataBase: new URL(SITE_URL),
-    title: { default: title, template: `%s · ${BUSINESS.name}` },
     description,
     keywords: [
       "tapería Ourense",
@@ -59,6 +65,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     robots: { index: true, follow: true },
     icons: { icon: "/favicon.svg" },
     ...pageMetadata(locale, "/", { title, description }),
+    /* Después del spread: `pageMetadata` devuelve `title` como cadena y borraría la plantilla que
+       da el sufijo de marca a /carta y a las páginas legales. */
+    title: { default: title, template: `%s · ${BUSINESS.name}` },
   };
 }
 
@@ -79,7 +88,7 @@ const DAY_SCHEMA: Record<string, string> = {
   sun: "Sunday",
 };
 
-function restaurantJsonLd(locale: Locale) {
+function restaurantJsonLd(locale: Locale, description: string) {
   const openingHoursSpecification = Object.entries(BUSINESS.hours).flatMap(([day, ranges]) =>
     ranges.map((r) => ({
       "@type": "OpeningHoursSpecification",
@@ -94,11 +103,14 @@ function restaurantJsonLd(locale: Locale) {
     "@id": `${SITE_URL}/#restaurant`,
     name: BUSINESS.name,
     alternateName: BUSINESS.legalName,
-    description: BUSINESS.description,
+    /* Descripción localizada (m.footer.about) e idioma de la página: el bloque viaja en /en, /gl y /pt. */
+    description,
+    inLanguage: LOCALE_META[locale].hreflang,
     url: `${SITE_URL}/${locale}`,
     telephone: BUSINESS.phone.e164,
     priceRange: BUSINESS.priceRangeSchema,
-    servesCuisine: ["Gallega", "Tapas", "Española"],
+    /* schema.org espera el vocabulario en inglés, no el idioma de la página. */
+    servesCuisine: ["Galician", "Tapas", "Spanish"],
     acceptsReservations: "True",
     image: [`${SITE_URL}/og.jpg`, `${SITE_URL}/images/terraza-catedral.jpg`, `${SITE_URL}/images/zamburinas-plancha.jpg`],
     address: {
@@ -130,11 +142,12 @@ export default async function LocaleLayout({
   if (!isLocale(raw)) notFound();
   const locale: Locale = raw;
   const messages = await getMessages(locale);
+  const jsonLd = restaurantJsonLd(locale, messages.footer.about);
 
   return (
     <html lang={LOCALE_META[locale].hreflang} className={`${cormorant.variable} ${cinzel.variable} ${manrope.variable} ${bebas.variable}`}>
       <head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd(locale)) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
       </head>
       <body className="min-h-dvh bg-iron text-cream antialiased">
         <LocaleProvider locale={locale} messages={messages}>

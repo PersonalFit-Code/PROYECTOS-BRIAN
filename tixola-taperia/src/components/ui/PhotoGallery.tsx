@@ -17,10 +17,11 @@ import {
   type MouseEvent as ReactMouseEvent,
 } from "react";
 import { createPortal } from "react-dom";
-import { PHOTOS, type Photo } from "@/data/photos";
+import { type Photo } from "@/data/photos";
 import { useInertBackground } from "@/hooks/useInertBackground";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
-import { useFormat, useMessages } from "@/i18n/LocaleProvider";
+import { localizePhotos } from "@/i18n/data";
+import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
 /**
@@ -94,8 +95,11 @@ export default function PhotoGallery({ className }: PhotoGalleryProps) {
   const { reducedMotion } = usePerformanceTier();
   const isClient = useIsClient();
   const hintId = useId();
+  const locale = useLocale();
 
-  const photos = PHOTOS;
+  /* `alt` y pies de foto en el idioma de la página: los datos de photos.ts están en español y se
+     leen tal cual en los `alt` (SEO por idioma) y en los pies visibles de cada tarjeta. */
+  const photos = useMemo(() => localizePhotos(locale), [locale]);
   const total = photos.length;
 
   /* Slides: la lista de fotos repetida hasta MIN_SLIDES para que el bucle sea continuo. */

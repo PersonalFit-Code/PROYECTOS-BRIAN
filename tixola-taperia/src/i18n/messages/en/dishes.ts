@@ -31,7 +31,7 @@ const dishes = {
     goTo: "Go to {name}",
     current: "current",
     hint: "Tap a dish to see its ingredients, allergens and wine pairing",
-    swipe: "Swipe to discover more",
+    swipe: "Explore the dishes",
     open: "See details of {name}",
     pause: "Pause the carousel",
     play: "Resume the carousel",

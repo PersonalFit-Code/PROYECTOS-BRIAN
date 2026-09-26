@@ -184,7 +184,7 @@ function messageFor(
    ────────────────────────────────────────────────────────────── */
 
 const fieldClass =
-  "peer w-full rounded-xl border border-cream/15 bg-iron/60 px-3.5 py-3 font-sans text-[15px] text-cream placeholder:text-cream/30 transition-colors focus:border-pimenton-light focus:outline-none focus:ring-2 focus:ring-pimenton-light/40 aria-[invalid=true]:border-pimenton-light aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-pimenton/40 [color-scheme:dark]";
+  "peer w-full rounded-xl border border-cream/15 bg-iron/60 px-3.5 py-3 font-sans text-[15px] text-cream placeholder:text-cream-faint transition-colors focus:border-pimenton-light focus:outline-none focus:ring-2 focus:ring-pimenton-light/40 aria-[invalid=true]:border-pimenton-light aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-pimenton/40 [color-scheme:dark]";
 const labelClass = "mb-1.5 block font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint";
 
 function FieldError({ id, message }: { id: string; message?: string }) {
@@ -541,7 +541,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
 
                   <div className="col-span-2">
                     <label htmlFor={fieldId("comentarios")} className={labelClass}>
-                      {r.fields.comments} <span className="normal-case tracking-normal text-cream/30">({m.common.misc.optional})</span>
+                      {r.fields.comments} <span className="normal-case tracking-normal text-cream-faint">({m.common.misc.optional})</span>
                     </label>
                     <textarea
                       id={fieldId("comentarios")}
@@ -570,7 +570,8 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                         .
                       </p>
                     )}
-                    <p className="mt-3 text-center text-[11px] leading-relaxed text-cream/40">{r.privacy}</p>
+                    {/* `cream-faint` (no `cream/40`): el texto pequeño necesita AA (≥ 4,5:1) sobre el panel oscuro. */}
+                    <p className="mt-3 text-center text-[11px] leading-relaxed text-cream-faint">{r.privacy}</p>
                   </div>
                 </form>
               </div>

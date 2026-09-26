@@ -18,7 +18,7 @@ const hero: Section<"hero"> = {
     "Tixolas de ferro que chegan á mesa chiando, croquetas caseiras, polbo da ría e racións para compartir cun bo viño galego, a un minuto da Catedral.",
   ctaPrimary: "Reservar Mesa",
   ctaSecondary: "Ir á Carta",
-  scrollCue: "Despraza para descubrir",
+  scrollCue: "Descubrir a casa",
   scrollCueAria: "Baixar aos pratos estrela",
   enable3d: "Activar 3D",
   enable3dAria: "Activar o efecto 3D co xiroscopio do móbil",

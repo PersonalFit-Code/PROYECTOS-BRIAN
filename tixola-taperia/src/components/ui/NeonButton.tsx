@@ -28,8 +28,10 @@ const variants: Record<Variant, string> = {
   primary:
     "bg-pimenton text-cream border border-pimenton-light/60 hover:bg-pimenton-light hover:-translate-y-0.5 hover:shadow-[0_0_40px_rgba(216,50,60,0.75)] active:translate-y-0",
   ghost: "bg-transparent text-cream hover:bg-cream/10 border border-transparent",
+  /* Sin `backdrop-blur`: el CTA secundario de la portada vive sobre el lienzo WebGL, que se repinta
+     cada fotograma, y el desenfoque del fondo habría que recalcularlo con él. */
   outline:
-    "bg-transparent text-cream border border-cream/30 hover:border-cream/70 hover:bg-cream/5 hover:-translate-y-0.5 backdrop-blur-sm",
+    "bg-transparent text-cream border border-cream/30 hover:border-cream/70 hover:bg-cream/5 hover:-translate-y-0.5",
   cream: "bg-cream text-iron border border-cream hover:bg-white hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(249,246,240,0.35)]",
 };
 

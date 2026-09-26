@@ -117,5 +117,12 @@ const common = {
       outro: "¿Me confirmáis? ¡Gracias!",
     },
   },
+  /** Página 404 dentro de un idioma válido (slug legal desconocido, enlace roto). */
+  notFound: {
+    kicker: "404",
+    title: "Esta mesa no existe",
+    text: "La página que buscas no está en la carta. Vuelve al inicio o echa un vistazo a nuestros platos.",
+    back: "Volver al inicio",
+  },
 } as const;
 export default common;

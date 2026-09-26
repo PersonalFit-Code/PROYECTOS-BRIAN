@@ -216,7 +216,10 @@ export function useChatSession({ locale, page }: UseChatSessionOptions): ChatSes
           const partial = accumulated.trim();
           if (partial) updateMessage(assistantId, { content: partial, status: "done" });
           else setMessages((prev) => prev.filter((m) => m.id !== assistantId));
-          setStatus("idle");
+          // Si ya hay otra petición en vuelo (esta la abortó `runRequest` al empezar la siguiente),
+          // el estado lo manda la nueva: dejarlo en "idle" mostraría el botón de enviar y las
+          // respuestas rápidas mientras la sustituta aún está transmitiendo.
+          if (abortRef.current === controller || abortRef.current === null) setStatus("idle");
           return;
         }
         console.error("[waiter] fallo de red al consultar al camarero virtual:", err);

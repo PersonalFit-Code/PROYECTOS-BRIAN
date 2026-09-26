@@ -7,9 +7,9 @@ import { Component, useCallback, useEffect, useId, useMemo, useRef, useState, ty
 import { useChat } from "@/components/chat/ChatProvider";
 import NeonButton from "@/components/ui/NeonButton";
 import { BUSINESS } from "@/data/business";
-import { photoById } from "@/data/photos";
+import { localizePhotoById } from "@/i18n/data";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
-import { useFormat, useMessages } from "@/i18n/LocaleProvider";
+import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
 /**
@@ -28,7 +28,7 @@ import { cn } from "@/lib/utils";
 const CityMap3D = dynamic(() => import("@/components/three/CityMap3D"), { ssr: false, loading: () => null });
 
 const EMBED_URL = `https://www.google.com/maps?q=${BUSINESS.geo.lat},${BUSINESS.geo.lng}&z=17&output=embed`;
-const FACHADA = photoById("fachada");
+const FACHADA_ID = "fachada";
 
 /* ────────────────────────────────────────────────────────────
    Error boundary: si WebGL falla (contexto no disponible, driver bloqueado…) volvemos a la foto.
@@ -61,6 +61,9 @@ class MapErrorBoundary extends Component<BoundaryProps, { failed: boolean }> {
    Fallback estático (foto real de la fachada + cristal)
    ──────────────────────────────────────────────────────────── */
 function StaticFallback({ hidden, caption }: { hidden: boolean; caption: string }) {
+  const locale = useLocale();
+  /* `alt` en el idioma de la página (photos.ts está en español). */
+  const fachada = useMemo(() => localizePhotoById(locale, FACHADA_ID), [locale]);
   return (
     <div
       aria-hidden={hidden}
@@ -70,12 +73,12 @@ function StaticFallback({ hidden, caption }: { hidden: boolean; caption: string 
       )}
     >
       <Image
-        src={FACHADA?.src ?? "/images/fachada.jpg"}
-        alt={FACHADA?.alt ?? BUSINESS.name}
+        src={fachada?.src ?? "/images/fachada.jpg"}
+        alt={fachada?.alt ?? BUSINESS.name}
         fill
         sizes="(min-width: 1024px) 52vw, 100vw"
         className="object-cover"
-        style={{ objectPosition: FACHADA?.focus ?? "50% 40%" }}
+        style={{ objectPosition: fachada?.focus ?? "50% 40%" }}
       />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,12,12,0.12)_0%,rgba(12,12,12,0.3)_45%,rgba(12,12,12,0.9)_100%)]" />
       {/* resplandor rojo que sugiere la chincheta */}

@@ -8,7 +8,7 @@ import type { Translation } from "./shape";
  */
 const social = {
   kicker: "Social proof",
-  title: "Take it from over 850",
+  title: "Take it from over {count}",
   accent: "customers",
   description:
     "{rating} out of 5 on Google from {count} reviews, plus Travellers' Choice on TripAdvisor. The same things come up again and again: produce from the rías, iron skillets that arrive sizzling and a terrace with the Cathedral as a backdrop.",
@@ -18,7 +18,7 @@ const social = {
     reviews: "Customer reviews",
     reviewsSub: "on Google",
     rating: "Average rating",
-    ratingSub: "Google · 858 reviews",
+    ratingSub: "Google · {count} reviews",
     rank: "For zamburiñas in the area",
     rankSub: "according to our customers",
     position: "Restaurant in Ourense",
@@ -38,6 +38,8 @@ const social = {
   marquee: {
     label: "Customer reviews",
     summary: "{count} five-star customer reviews, published on TripAdvisor and Google.",
+    pause: "Pause the reviews",
+    play: "Resume the reviews",
   },
   /** Review card (ReviewCard) */
   card: {
@@ -66,7 +68,7 @@ const social = {
     current: "current",
     open: "Enlarge photo: {caption}",
     hint: "Tap a photo to enlarge it",
-    swipe: "Swipe to see more photos",
+    swipe: "See more photos",
     pause: "Pause the gallery",
     play: "Resume the gallery",
     slide: "Photo {index} of {total}",

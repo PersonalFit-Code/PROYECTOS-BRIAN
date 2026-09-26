@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useSyncExternalStore, type ReactNode, type RefObject } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, CalendarCheck, Smartphone, Star } from "lucide-react";
 import NeonButton from "@/components/ui/NeonButton";
@@ -67,6 +67,7 @@ function LineWords({ text, accent }: { text: string; accent: string }) {
  * solo se funde. Máximo 3 líneas, definidas en `m.hero.titleLines` para controlar la composición.
  */
 function Headline({ lines, accent, fullTitle, reduced }: HeadlineProps) {
+  const visible = lines.slice(0, 3);
   return (
     <h1
       aria-label={fullTitle}
@@ -75,7 +76,7 @@ function Headline({ lines, accent, fullTitle, reduced }: HeadlineProps) {
         "text-[clamp(2.6rem,11vw,3.6rem)] leading-[0.92] tracking-[-0.01em] lg:text-[clamp(3.2rem,8vw,7.5rem)]",
       )}
     >
-      {lines.slice(0, 3).map((line, i) => (
+      {visible.map((line, i) => (
         <span
           key={line}
           aria-hidden
@@ -93,12 +94,68 @@ function Headline({ lines, accent, fullTitle, reduced }: HeadlineProps) {
             }
           >
             <LineWords text={line} accent={accent} />
+            {/* Espacio final: el `textContent` del h1 que leen los rastreadores queda como una frase
+                ("El Arte del Tapeo en el Corazón de Ourense"), no como líneas pegadas. Al ser un
+                espacio al final de la línea, el navegador lo colapsa y no altera la composición. */}
+            {i < visible.length - 1 ? " " : null}
           </motion.span>
         </span>
       ))}
     </h1>
   );
 }
+
+/* ──────────────────────────────────────────────────────────────
+   Parallax de scroll (SOLO como alternativa a la transición GSAP)
+   ────────────────────────────────────────────────────────────── */
+
+interface HeroParallaxProps {
+  target: RefObject<HTMLElement | null>;
+  variant: "copy" | "canvas";
+  className?: string;
+  children: ReactNode;
+}
+
+/**
+ * Parallax propio de la portada. Vive en un componente aparte porque `HeroTransition` (tier mid/high)
+ * ancla `#hero` y anima los MISMOS contenedores con GSAP en sentido contrario: si ambos actuaran a la
+ * vez, el copy se movería −160 px (GSAP) y +120 px (framer) y su opacidad se multiplicaría por dos
+ * fundidos. Montándolo solo cuando GSAP no se hace cargo, tampoco se registra un segundo listener de
+ * scroll ni se escriben estilos por fotograma durante el tramo más caro de la página (lienzo
+ * anclado + Lenis + scrub).
+ */
+function HeroScrollParallax({ target, variant, className, children }: HeroParallaxProps) {
+  const { scrollYProgress } = useScroll({ target, offset: ["start start", "end start"] });
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const copyOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const canvasY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const canvasScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
+
+  return (
+    <motion.div className={className} style={variant === "copy" ? { y: copyY, opacity: copyOpacity } : { y: canvasY, scale: canvasScale }}>
+      {children}
+    </motion.div>
+  );
+}
+
+/**
+ * Capa interior del hero: con parallax propio o, si GSAP manda, un simple contenedor estático.
+ * El caso estático es el que sale del servidor, así que en tier mid/high (donde manda GSAP) el árbol
+ * no cambia al hidratar y ni el lienzo ni la coreografía del titular se vuelven a montar.
+ */
+function HeroLayer({ parallax, ...props }: HeroParallaxProps & { parallax: boolean }) {
+  if (parallax) return <HeroScrollParallax {...props} />;
+  return <div className={props.className}>{props.children}</div>;
+}
+
+/** `true` solo tras la hidratación; `false` en el servidor (donde el perfil siempre es "low"). */
+const noopSubscribe = () => () => {};
+const useIsClient = () =>
+  useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
 
 /* ──────────────────────────────────────────────────────────────
    Indicador de scroll (vertical, esquina inferior derecha)
@@ -113,7 +170,9 @@ function ScrollCue({ href, label, aria, reduced }: { href: string; label: string
       animate={{ opacity: 1 }}
       transition={{ delay: 1.8, duration: 0.8 }}
       className={cn(
-        "group absolute bottom-8 right-5 z-20 hidden flex-col items-center gap-4 lg:right-10 lg:bottom-10 md:flex",
+        /* Solo en el tramo md→lg: a partir de lg el carril derecho lo ocupa <ChapterNav /> (puntos
+           + etiqueta activa), que se pintaría justo encima de esta etiqueta vertical. */
+        "group absolute bottom-8 right-5 z-20 hidden flex-col items-center gap-4 md:flex lg:hidden",
         "[@media(max-height:640px)]:hidden",
       )}
     >
@@ -161,12 +220,14 @@ export default function Hero() {
   const { open } = useReservation();
   const { pointer, needsGyroPermission, requestGyroPermission } = usePointerParallax({ enabled: !reduced });
 
-  /* Parallax de scroll suave al salir: el copy sube y se desvanece; la escena se queda atrás. */
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
-  const copyY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const copyOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const canvasY = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const canvasScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
+  /**
+   * En tier mid/high es `<HeroTransition />` (GSAP: pin + scrub) quien anima `[data-hero-canvas]` y
+   * `[data-hero-copy]`. El parallax propio es solo el plan B para tier "low", donde no hay pin.
+   * Se exige `hydrated` porque el perfil del servidor es siempre "low": así el HTML sale sin
+   * parallax y en los dispositivos donde manda GSAP el árbol no cambia al hidratar.
+   */
+  const hydrated = useIsClient();
+  const parallax = hydrated && !reduced && profile.tier === "low";
 
   const intl = LOCALE_META[locale].intl;
   const ratingValue = BUSINESS.ratings.google.value.toLocaleString(intl, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -184,9 +245,9 @@ export default function Hero() {
     <section ref={sectionRef} id="hero" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-iron">
       {/* Escena 3D (o fallback estático). El contenedor data-hero-canvas lo anima el módulo de scroll. */}
       <div data-hero-canvas className="absolute inset-0 -z-10">
-        <motion.div className="absolute inset-0" style={reduced ? undefined : { y: canvasY, scale: canvasScale }}>
+        <HeroLayer parallax={parallax} target={sectionRef} variant="canvas" className="absolute inset-0">
           <HeroCanvas profile={profile} pointer={pointer} layout={stacked ? "stacked" : "split"} />
-        </motion.div>
+        </HeroLayer>
       </div>
 
       {/* Degradados de legibilidad: cabecera, pie (fundido con la siguiente sección) y lado del copy */}
@@ -211,7 +272,7 @@ export default function Hero() {
           "pt-[calc(var(--header-h)+1rem)] pb-[calc(var(--mobile-bar-h)+3.25rem)] md:pb-24 lg:pb-[clamp(3rem,7vh,5.5rem)] lg:pt-[calc(var(--header-h)+2rem)]",
         )}
       >
-        <motion.div className="w-full lg:max-w-[58rem]" style={reduced ? undefined : { y: copyY, opacity: copyOpacity }}>
+        <HeroLayer parallax={parallax} target={sectionRef} variant="copy" className="w-full lg:max-w-[58rem]">
           {/* Kicker */}
           <motion.p
             {...fadeUp(0.05)}
@@ -241,7 +302,7 @@ export default function Hero() {
               size="lg"
               href={lp("/carta")}
               iconRight={<ArrowRight aria-hidden />}
-              className="w-full animate-neon-pulse sm:w-auto"
+              className="w-full sm:w-auto"
             >
               {m.hero.ctaSecondary}
             </NeonButton>
@@ -261,7 +322,7 @@ export default function Hero() {
               {ratingValue} · {ratingCount} {m.common.misc.reviews} {m.common.misc.onGoogle}
             </span>
           </motion.a>
-        </motion.div>
+        </HeroLayer>
       </div>
 
       {/* Chip "Activar 3D": solo en iOS 13+ (el giroscopio requiere un gesto) */}

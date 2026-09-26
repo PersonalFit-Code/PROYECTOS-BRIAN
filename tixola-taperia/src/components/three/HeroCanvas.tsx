@@ -130,9 +130,16 @@ class CanvasErrorBoundary extends Component<BoundaryProps, { failed: boolean }> 
    Actividad: ¿el hero está en pantalla y la pestaña visible?
    ────────────────────────────────────────────────────────────── */
 
+/**
+ * Capítulo opaco que se desliza SOBRE la portada anclada (`<Chapter overlapsHero>`): mientras lo
+ * cubre, el hero sigue "intersecando" pero no se ve nada de él.
+ */
+const COVERING_CHAPTER = '[data-chapter="platos"]';
+
 function useSceneActivity(ref: RefObject<HTMLDivElement | null>): boolean {
   const [inView, setInView] = useState(true);
   const [visible, setVisible] = useState(true);
+  const [covered, setCovered] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -145,15 +152,32 @@ function useSceneActivity(ref: RefObject<HTMLDivElement | null>): boolean {
       { threshold: 0.02 },
     );
     io.observe(el);
+
+    /* Con el borde inferior de la raíz recogido al tope, el capítulo solo "interseca" cuando cruza
+       la línea superior del viewport, es decir cuando ya tapa la portada entera: durante ese tramo
+       (≈ un viewport de scroll) la escena renderizaría a pleno ritmo sin que se vea nada. */
+    const covering = document.querySelector<HTMLElement>(COVERING_CHAPTER);
+    const coverIo = covering
+      ? new IntersectionObserver(
+          (entries) => {
+            const entry = entries[0];
+            if (entry) setCovered(entry.isIntersecting);
+          },
+          { rootMargin: "0px 0px -100% 0px", threshold: 0 },
+        )
+      : null;
+    coverIo?.observe(covering as HTMLElement);
+
     const onVisibility = () => setVisible(document.visibilityState === "visible");
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       io.disconnect();
+      coverIo?.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [ref]);
 
-  return inView && visible;
+  return inView && visible && !covered;
 }
 
 /* ──────────────────────────────────────────────────────────────

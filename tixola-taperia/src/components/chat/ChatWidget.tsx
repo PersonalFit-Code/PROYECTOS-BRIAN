@@ -139,7 +139,9 @@ export default function ChatWidget() {
             className={cn(
               "fixed left-4 z-[80] flex origin-bottom-left flex-col overflow-hidden rounded-3xl text-cream shadow-card",
               "bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-6",
-              "w-[min(420px,calc(100vw-2rem))] h-[min(640px,80dvh)]",
+              /* `svh` (no `dvh`): en iOS Safari la unidad dinámica cambia cada vez que se pliega o
+                 despliega la barra de direcciones y el panel se recomponía a mitad de scroll. */
+              "w-[min(420px,calc(100vw-2rem))] h-[min(640px,80svh)] max-h-[calc(100dvh-2rem)]",
               tier === "low" ? "border border-cream/10 bg-iron-900/[0.97]" : "glass-smoke",
             )}
           >

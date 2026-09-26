@@ -96,5 +96,7 @@ const carta: Section<"carta"> = {
   ctaLead: "Entrouche a",
   ctaAccent: "fame?",
   ctaText: "Reserva mesa ou pásate a tomar uns viños á beira da Catedral.",
+  seoTitle: "Carta de tapas e zamburiñas en Ourense",
+  seoDescription: "Tapas, tixolas de ferro, zamburiñas, polbo e croquetas caseiras xunto á Catedral de Ourense. Carta completa con alérxenos e maridaxes de viño galego.",
 };
 export default carta;
