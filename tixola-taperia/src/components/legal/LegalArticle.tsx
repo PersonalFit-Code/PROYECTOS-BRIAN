@@ -14,7 +14,8 @@ import {
   type LegalDocKey,
 } from "@/data/legal";
 import NeonButton from "@/components/ui/NeonButton";
-import { LOCALE_META, type Locale } from "@/i18n/config";
+import { type Locale } from "@/i18n/config";
+import { formatLongDate } from "@/lib/format";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { openCookieSettings } from "@/lib/consent";
 import { SITE_URL } from "@/lib/seo";
@@ -27,7 +28,7 @@ import { cn } from "@/lib/utils";
 /** Fecha de revisión legible en el idioma de la página ("25 de septiembre de 2026"). */
 export function formatLegalDate(locale: Locale): string {
   /* Mediodía local: evita que el día cambie por la zona horaria del servidor. */
-  return new Intl.DateTimeFormat(LOCALE_META[locale].intl, { dateStyle: "long" }).format(new Date(`${LEGAL_UPDATED_AT}T12:00:00`));
+  return formatLongDate(LEGAL_UPDATED_AT, locale);
 }
 
 /**

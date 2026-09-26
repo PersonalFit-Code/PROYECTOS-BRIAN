@@ -10,7 +10,7 @@ import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { usePointerParallax } from "@/hooks/usePointerParallax";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { BUSINESS } from "@/data/business";
-import { LOCALE_META } from "@/i18n/config";
+import { formatNumber } from "@/lib/format";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
@@ -229,9 +229,8 @@ export default function Hero() {
   const hydrated = useIsClient();
   const parallax = hydrated && !reduced && profile.tier === "low";
 
-  const intl = LOCALE_META[locale].intl;
-  const ratingValue = BUSINESS.ratings.google.value.toLocaleString(intl, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-  const ratingCount = BUSINESS.ratings.google.count.toLocaleString(intl);
+  const ratingValue = formatNumber(BUSINESS.ratings.google.value, locale, { decimals: 1 });
+  const ratingCount = formatNumber(BUSINESS.ratings.google.count, locale);
   const ratingAria = t(m.common.misc.ratingLabel, { value: ratingValue, count: ratingCount });
 
   /* Subtítulo y CTAs entran tras la última línea del titular. */

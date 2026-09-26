@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { animate, motion, useInView, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
-import { LOCALE_META } from "@/i18n/config";
+import { formatNumber } from "@/lib/format";
 import { useLocale } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
@@ -51,7 +51,7 @@ export default function Counter({
   const reduced = useReducedMotion();
 
   const formatter = useMemo(
-    () => new Intl.NumberFormat(LOCALE_META[locale].intl, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }),
+    () => ({ format: (n: number) => formatNumber(n, locale, { decimals }) }),
     [locale, decimals],
   );
 

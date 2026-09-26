@@ -10,11 +10,11 @@ import { PlatformGlyph, Stars, type ReviewSource } from "@/components/ui/ReviewC
 import ReviewMarquee from "@/components/ui/ReviewMarquee";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { BUSINESS } from "@/data/business";
+import { formatNumber } from "@/lib/format";
 import { SOCIAL_STATS } from "@/data/reviews";
 import { format } from "@/i18n/getMessages";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { LOCALE_META } from "@/i18n/config";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import type { Messages } from "@/i18n/types";
 import { cn } from "@/lib/utils";
@@ -207,9 +207,8 @@ export default function SocialProof() {
   useScrollReveal(sectionRef, { cinematic: true });
 
   const emberCount = tier === "high" ? 14 : tier === "mid" ? 10 : 6;
-  const intl = LOCALE_META[locale].intl;
-  const fmtRating = (v: number) => v.toLocaleString(intl, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-  const fmtInt = (v: number) => v.toLocaleString(intl);
+  const fmtRating = (v: number) => formatNumber(v, locale, { decimals: 1 });
+  const fmtInt = (v: number) => formatNumber(v, locale);
 
   const google = BUSINESS.ratings.google;
   const trip = BUSINESS.ratings.tripadvisor;

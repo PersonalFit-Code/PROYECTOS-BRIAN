@@ -4,11 +4,11 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExtern
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { CalendarDays, Clock, Phone, Send, Users, X } from "lucide-react";
 import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
+import { formatLongDate } from "@/lib/format";
 import NeonButton from "@/components/ui/NeonButton";
 import { WhatsAppGlyph } from "@/components/ui/FloatingWhatsApp";
 import { useInertBackground } from "@/hooks/useInertBackground";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
-import { LOCALE_META } from "@/i18n/config";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import type { Messages } from "@/i18n/types";
 import { getOpenStatus } from "@/lib/openStatus";
@@ -141,10 +141,10 @@ type Errors = Partial<Record<FieldName, string>>;
 type FormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
 /** "2026-09-25" → "viernes, 25 de septiembre" (formato largo del idioma activo). */
-function formatDate(iso: string, intl: string) {
+function formatDate(iso: string, locale: string) {
   const [y, mo, d] = iso.split("-").map(Number);
   if (!y || !mo || !d) return iso;
-  return new Date(y, mo - 1, d).toLocaleDateString(intl, { weekday: "long", day: "numeric", month: "long" });
+  return formatLongDate(`${y}-${String(mo).padStart(2, "0")}-${String(d).padStart(2, "0")}`, locale);
 }
 
 /** Fecha de hoy en formato ISO (YYYY-MM-DD) en hora local del dispositivo. */
@@ -318,7 +318,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
       const lines = [
         t(r.message.intro, { name: nombre, brand: m.common.brand }),
         t(r.message.people, { count: personas, unit: personas === 1 ? r.person : r.people }),
-        t(r.message.when, { date: formatDate(fecha, LOCALE_META[locale].intl), time: hora }),
+        t(r.message.when, { date: formatDate(fecha, locale), time: hora }),
         t(r.message.phone, { phone: telefono }),
       ];
       if (comentarios) lines.push(t(r.message.notes, { notes: comentarios }));

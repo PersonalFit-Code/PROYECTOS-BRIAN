@@ -3,8 +3,9 @@
 import { Quote, Star } from "lucide-react";
 import type { CSSProperties, ReactNode } from "react";
 import type { Review } from "@/data/reviews";
-import { LOCALE_META, type Locale } from "@/i18n/config";
+import { type Locale } from "@/i18n/config";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
+import { formatMonthYear, formatNumber } from "@/lib/format";
 import { clamp, cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────────
@@ -14,18 +15,14 @@ import { clamp, cn } from "@/lib/utils";
 export type ReviewSource = Review["source"];
 
 /**
- * "2026-07" → "jul 2026" (es-ES) · "Jul 2026" (en-GB) · "2026" → "2026".
- * Usa el Intl del idioma activo; la fecha se construye en UTC para que el mes no baile por zona horaria.
+ * "2026-07" → "jul 2026" (es) · "xul 2026" (gl) · "Jul 2026" (en) · "2026" → "2026".
+ *
+ * Usa las tablas de `@/lib/format` en vez de `Intl`: el navegador puede no tener datos del idioma
+ * (Chromium sin gallego formatea en inglés) y el texto dejaría de coincidir con el del servidor,
+ * rompiendo la hidratación.
  */
 export function formatReviewDate(date: string, locale: Locale): string {
-  const intl = LOCALE_META[locale].intl;
-  const ym = /^(\d{4})-(\d{2})$/.exec(date);
-  if (ym) {
-    const d = new Date(Date.UTC(Number(ym[1]), Number(ym[2]) - 1, 1));
-    return new Intl.DateTimeFormat(intl, { month: "short", year: "numeric", timeZone: "UTC" }).format(d);
-  }
-  /* "2026" (solo año) u otro formato: se muestra tal cual. */
-  return date;
+  return /^\d{4}-\d{2}$/.test(date) ? formatMonthYear(date, locale) : date;
 }
 
 /**
@@ -104,7 +101,7 @@ export function Stars({ rating, size = "md", className }: { rating: number; size
   const pct = `${clamp((rating / 5) * 100, 0, 100)}%`;
   const dim = size === "sm" ? "h-3.5 w-3.5" : size === "lg" ? "h-6 w-6" : "h-4.5 w-4.5";
   const label = t(m.social.card.stars, {
-    rating: rating.toLocaleString(LOCALE_META[locale].intl, { maximumFractionDigits: 1 }),
+    rating: formatNumber(rating, locale, { decimals: Number.isInteger(rating) ? 0 : 1 }),
   });
   const row = (filled: boolean) => (
     <span className="flex gap-0.5">

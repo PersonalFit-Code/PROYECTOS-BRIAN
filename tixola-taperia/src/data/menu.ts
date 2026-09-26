@@ -1,3 +1,4 @@
+import { formatCurrency } from "@/lib/format";
 import type { AllergenId } from "./allergens";
 
 /**
@@ -578,12 +579,9 @@ export const DIET_TAG_LABELS: Record<DietTag, string> = {
   nuevo: "Nuevo",
 };
 
-const PRICE_LOCALES: Record<string, string> = { es: "es-ES", gl: "gl-ES", en: "en-GB", pt: "pt-PT" };
-
-/** Formatea un precio en euros según el idioma ("es" | "gl" | "en" | "pt"). */
-export const formatPrice = (n: number, locale: string = "es") =>
-  new Intl.NumberFormat(PRICE_LOCALES[locale] ?? "es-ES", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: n % 1 === 0 ? 0 : 2,
-  }).format(n);
+/**
+ * Precio en euros según el idioma. Usa formateo determinista (src/lib/format.ts) en lugar de
+ * `Intl.NumberFormat` para que servidor y navegador produzcan exactamente el mismo texto
+ * aunque el navegador no tenga datos ICU del idioma (ver el comentario de format.ts).
+ */
+export const formatPrice = (n: number, locale: string = "es") => formatCurrency(n, locale);

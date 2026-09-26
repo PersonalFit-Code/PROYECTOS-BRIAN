@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useSyncExternalStore } from "react";
 import { ArrowUp, ArrowUpRight, Clock, Cookie, MapPin, MessageCircle, Navigation, Phone, Utensils } from "lucide-react";
 import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
+import { formatNumber } from "@/lib/format";
 import { LEGAL_DOC_KEYS } from "@/data/legal";
 import Logo from "@/components/ui/Logo";
 import { useNavItems } from "@/components/ui/Navbar";
@@ -75,8 +76,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
     window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
   }, []);
 
-  const intl = LOCALE_META[locale].intl;
-  const fmtRating = (v: number) => v.toLocaleString(intl, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const fmtRating = (v: number) => formatNumber(v, locale, { decimals: 1 });
   const google = BUSINESS.ratings.google;
   const trip = BUSINESS.ratings.tripadvisor;
 
