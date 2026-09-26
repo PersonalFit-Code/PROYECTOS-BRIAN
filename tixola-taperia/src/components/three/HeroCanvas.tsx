@@ -163,8 +163,7 @@ function useBodyScrollLocked(): boolean {
   return locked;
 }
 
-function useSceneActivity(ref: RefObject<HTMLDivElement | null>): boolean {
-  const [inView, setInView] = useState(true);
+function useSceneActivity(): boolean {
   const [visible, setVisible] = useState(true);
   const [covered, setCovered] = useState(false);
   const overlayLocked = useBodyScrollLocked();
@@ -172,40 +171,29 @@ function useSceneActivity(ref: RefObject<HTMLDivElement | null>): boolean {
   const { isOpen: chatOpen } = useChat();
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry) setInView(entry.isIntersecting);
-      },
-      { threshold: 0.02 },
-    );
-    io.observe(el);
-
-    /* ¿El capítulo siguiente ya tapa la portada?
-       No se puede medir con un IntersectionObserver sobre ese capítulo: `HeroTransition` ancla la
-       portada con `pinSpacing: false`, así que la saca del flujo y el capítulo pasa a empezar en
-       y = 0 desde el primer píxel de scroll — el observador daría "tapado" nada más cargar y la
-       escena no llegaría a pintar nunca. Se mide por recorrido de scroll, que es lo que define el
-       anclaje: al completarse, la portada queda cubierta. */
-    const pinFraction = window.matchMedia("(max-width: 767px)").matches ? PIN_DISTANCE_MOBILE : PIN_DISTANCE_DESKTOP;
-    const syncCovered = () => setCovered(window.scrollY >= window.innerHeight * pinFraction);
-    syncCovered();
-    window.addEventListener("scroll", syncCovered, { passive: true });
-    window.addEventListener("resize", syncCovered);
+    /* ¿Sigue viéndose la portada?
+       Se mide por recorrido de scroll, no con un IntersectionObserver sobre el lienzo ni sobre el
+       capítulo siguiente: `HeroTransition` ancla la portada con `pinSpacing: false`, de modo que la
+       saca del flujo y desplaza el capítulo siguiente al origen. Con ese reacomodo el observador
+       informaba "fuera de vista"/"tapada" ya en el montaje y la escena se quedaba en `demand`
+       tras un único fotograma —negro—, con el fallback ya retirado: la portada aparecía vacía.
+       El anclaje define exactamente el tramo en que la portada se ve, así que se usa como medida. */
+    const pinFraction = () => (window.matchMedia("(max-width: 767px)").matches ? PIN_DISTANCE_MOBILE : PIN_DISTANCE_DESKTOP);
+    const sync = () => setCovered(window.scrollY >= window.innerHeight * pinFraction());
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
 
     const onVisibility = () => setVisible(document.visibilityState === "visible");
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
-      io.disconnect();
-      window.removeEventListener("scroll", syncCovered);
-      window.removeEventListener("resize", syncCovered);
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [ref]);
+  }, []);
 
-  return inView && visible && !covered && !overlayLocked && !chatOpen;
+  return visible && !covered && !overlayLocked && !chatOpen;
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -219,7 +207,7 @@ function useSceneActivity(ref: RefObject<HTMLDivElement | null>): boolean {
  */
 export default function HeroCanvas({ profile, pointer, layout, className }: HeroCanvasProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const active = useSceneActivity(wrapRef);
+  const active = useSceneActivity();
   const [ready, setReady] = useState(false);
   const [fallbackGone, setFallbackGone] = useState(false);
   const [failed, setFailed] = useState(false);
