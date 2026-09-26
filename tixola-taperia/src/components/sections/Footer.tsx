@@ -7,7 +7,7 @@ import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
 import Logo from "@/components/ui/Logo";
 import { useNavItems } from "@/components/ui/Navbar";
 import { useLocalizedOpenStatus } from "@/components/ui/ReservationModal";
-import { PlatformGlyph, Stars } from "@/components/ui/ReviewCarousel";
+import { PlatformGlyph, Stars } from "@/components/ui/ReviewCard";
 import { useReservation } from "@/components/ui/ReservationProvider";
 import { LOCALE_META } from "@/i18n/config";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
