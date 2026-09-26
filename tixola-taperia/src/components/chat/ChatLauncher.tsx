@@ -70,9 +70,13 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle }: ChatLaunch
   /* Oculto (solo < md) mientras la portada de la home está a la vista; se resuelve con clases
      max-md:* para que el HTML del servidor ya salga correcto y no parpadee al hidratar. */
   const heroHidden = isHome && !scrolled && !isOpen;
-  /* El aviso de cookies ocupa todo el ancho y ~350 px de alto en móvil: taparía este botón. */
+  /* El aviso de cookies ocupa todo el ancho y ~350 px de alto en móvil: taparía este botón. Desde
+     `md` se centra (`md:w-[min(42rem,100vw-3rem)]`), así que su borde izquierdo sigue cayendo sobre
+     el lanzador hasta ~816 px de ancho — tablets en vertical. Por eso el apartado por el aviso usa
+     un umbral propio (lg) y el de la portada se queda en el suyo (md). */
   const bannerOpen = useCookieBannerOpen();
-  const hidden = isOpen || ((heroHidden || bannerOpen) && mobile);
+  const bannerOverlaps = useIsMobile(1024);
+  const hidden = isOpen || (heroHidden && mobile) || (bannerOpen && bannerOverlaps);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -82,7 +86,7 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle }: ChatLaunch
           "fixed left-4 z-40 transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)]",
           "bottom-[calc(var(--mobile-bar-h)+16px+env(safe-area-inset-bottom))] md:bottom-6",
           heroHidden && "max-md:pointer-events-none max-md:-translate-x-6 max-md:opacity-0",
-          bannerOpen && "max-md:pointer-events-none max-md:-translate-x-6 max-md:opacity-0",
+          bannerOpen && "max-lg:pointer-events-none max-lg:-translate-x-6 max-lg:opacity-0",
         )}
       >
         <motion.div

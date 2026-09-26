@@ -1,9 +1,10 @@
 "use client";
 
-import { motion, MotionConfig } from "framer-motion";
+import { motion, MotionConfig, useInView } from "framer-motion";
 import { ArrowUpRight, Award, BadgeCheck, Flame, Star } from "lucide-react";
 import { useMemo, useRef } from "react";
 import Counter from "@/components/ui/Counter";
+import Faq from "@/components/sections/Faq";
 import PhotoGallery from "@/components/ui/PhotoGallery";
 import { PlatformGlyph, Stars, type ReviewSource } from "@/components/ui/ReviewCard";
 import ReviewMarquee from "@/components/ui/ReviewMarquee";
@@ -25,6 +26,7 @@ import { cn } from "@/lib/utils";
  *  3. Columnas de reseñas reales de 5★ en marquee vertical (ReviewMarquee).
  *  4. Enlaces a Google / TripAdvisor con su nota.
  *  5. Galería de fotos del local (PhotoGallery) con visor.
+ *  6. Preguntas frecuentes (Faq): la cara visible del FAQPage que emite HomeJsonLd.
  * Fondo: textura de brasas anclada abajo + brasas CSS con posiciones deterministas (sin Canvas).
  * Reveals con `data-reveal` (useScrollReveal, modo cinematográfico). Todo el texto sale de m.social / m.common.
  */
@@ -111,7 +113,12 @@ function emberAt(i: number): Ember {
   };
 }
 
-function EmberField({ count }: { count: number }) {
+/**
+ * Brasas CSS del fondo. Se paran cuando la sección no está en pantalla (igual que la marquesina de
+ * Experiencia, las columnas de reseñas o las escenas R3F): si no, mantendrían 14 capas de
+ * composición vivas y al compositor trabajando mientras el usuario está en la portada o en el pie.
+ */
+function EmberField({ count, paused }: { count: number; paused: boolean }) {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%]">
       {Array.from({ length: count }, (_, i) => {
@@ -122,6 +129,7 @@ function EmberField({ count }: { count: number }) {
             className={cn(
               "animate-ember-rise absolute block rounded-full will-change-transform",
               e.gold ? "bg-gold shadow-[0_0_10px_2px_rgba(232,194,122,0.7)]" : "bg-ember shadow-[0_0_10px_2px_rgba(255,106,61,0.75)]",
+              paused && "[animation-play-state:paused]",
             )}
             style={{
               left: `${e.left}%`,
@@ -195,6 +203,7 @@ export default function SocialProof() {
   const locale = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const { tier } = usePerformanceTier();
+  const inView = useInView(sectionRef, { amount: 0 });
   useScrollReveal(sectionRef, { cinematic: true });
 
   const emberCount = tier === "high" ? 14 : tier === "mid" ? 10 : 6;
@@ -262,7 +271,7 @@ export default function SocialProof() {
         aria-hidden
         className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(60%_60%_at_50%_100%,rgba(178,30,39,0.35),transparent_70%)]"
       />
-      <EmberField count={emberCount} />
+      <EmberField count={emberCount} paused={!inView} />
       <div aria-hidden className="divider-iron absolute inset-x-0 top-0" />
 
       <div className="container-page relative py-20 md:py-28 lg:py-32">
@@ -359,6 +368,10 @@ export default function SocialProof() {
         {/* 5 · Galería de fotos */}
         <div aria-hidden className="divider-iron mt-16 md:mt-24" />
         <PhotoGallery className="mt-12 md:mt-16" />
+
+        {/* 6 · Preguntas frecuentes (mismo texto que el FAQPage de HomeJsonLd) */}
+        <div aria-hidden className="divider-iron mt-16 md:mt-24" />
+        <Faq className="mt-12 md:mt-16" />
       </div>
     </section>
   );

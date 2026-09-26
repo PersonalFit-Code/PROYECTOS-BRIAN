@@ -38,7 +38,7 @@ export default async function CartaPage({ params }: { params: Promise<{ locale: 
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(menu) }} />
           <CartaExplorer />
         </main>
-        <Footer />
+        <Footer year={new Date().getFullYear()} />
         <MobileStickyBar />
       </ReservationProvider>
     </ChatProvider>

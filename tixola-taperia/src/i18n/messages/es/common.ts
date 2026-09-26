@@ -6,8 +6,23 @@ const common = {
   brand: "Tixola Tapería",
   brandShort: "Tixola",
   tagline: "El Arte del Tapeo en el Corazón de Ourense",
+  /* Meta description de la portada (layout.tsx la completa con la nota de Google): lleva la
+     pareja de intención local del brief —tapas + Ourense— y se queda en ≤ 160 caracteres. */
   subtitle:
-    "Tixolas de hierro, croquetas caseras, pulpo, zamburiñas y una vinoteca gallega a un minuto de la Catedral.",
+    "Tapas y tixolas de hierro, croquetas caseras, pulpo y zamburiñas junto a la Catedral de Ourense.",
+  /* `keywords` de la portada (layout.tsx). Una lista por idioma: la heredan /carta y las páginas
+     legales, así que una única lista en español acababa en las versiones inglesa, gallega y portuguesa. */
+  seoKeywords: [
+    "tapería Ourense",
+    "tapas Ourense",
+    "zamburiñas Ourense",
+    "pulpo a la gallega Ourense",
+    "bar de tapas catedral Ourense",
+    "Tixola",
+    "vinos gallegos",
+    "cerveza artesanal Ourense",
+    "tapas Ourense casco histórico",
+  ],
   cta: {
     reserve: "Reservar Mesa",
     reserveShort: "Reservar",

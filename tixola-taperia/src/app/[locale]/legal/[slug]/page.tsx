@@ -6,7 +6,7 @@ import { ChatProvider } from "@/components/chat/ChatProvider";
 import MobileStickyBar from "@/components/ui/MobileStickyBar";
 import Footer from "@/components/sections/Footer";
 import LegalArticle from "@/components/legal/LegalArticle";
-import { LEGAL_DOC_KEYS, type LegalDocKey } from "@/data/legal";
+import { LEGAL_DOC_KEYS, LEGAL_IDENTITY_PENDING, type LegalDocKey } from "@/data/legal";
 import { LOCALES, isLocale, type Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
 import legalEs from "@/i18n/messages/es/legal";
@@ -21,7 +21,10 @@ import { absoluteUrl, breadcrumbJsonLd, pageMetadata, serializeJsonLd } from "@/
  * Cualquier otro slug → 404.
  */
 
-export const dynamicParams = false;
+/* Sin `dynamicParams = false`: con él, un slug desconocido (`/es/legal/lo-que-sea`) devolvía el 404
+   interno de Next sin llegar al componente. Ahora la ruta se resuelve bajo demanda y es el
+   `notFound()` de abajo quien monta `src/app/[locale]/not-found.tsx` dentro del layout de idioma.
+   Los tres slugs reales se siguen prerenderizando con `generateStaticParams`. */
 
 /** Documento al que corresponde un slug en este idioma (con respaldo en los slugs en español). */
 function resolveDocKey(m: Messages, slug: string): LegalDocKey | null {
@@ -50,7 +53,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (!key) return {};
   return {
     ...pageMetadata(locale, `/legal/${slug}`, { title: m.legal[key].title, description: m.legal.docs[key].description }),
-    robots: { index: true, follow: true },
+    /* Mientras el responsable del tratamiento siga en marcadores («[RAZÓN SOCIAL]», «[NIF]»…) no
+       publicamos un aviso legal incompleto: `noindex, follow`. Ver LEGAL_IDENTITY_PENDING. */
+    robots: { index: !LEGAL_IDENTITY_PENDING, follow: true },
   };
 }
 
@@ -74,7 +79,7 @@ export default async function LegalPage({ params }: { params: Promise<{ locale: 
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbs) }} />
           <LegalArticle docKey={key} />
         </main>
-        <Footer />
+        <Footer year={new Date().getFullYear()} />
         <MobileStickyBar />
       </ReservationProvider>
     </ChatProvider>

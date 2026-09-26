@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useSyncExternalStore } from "react";
 import { ArrowUp, ArrowUpRight, Clock, Cookie, MapPin, MessageCircle, Navigation, Phone, Utensils } from "lucide-react";
 import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
@@ -10,7 +11,7 @@ import { useNavItems } from "@/components/ui/Navbar";
 import { useLocalizedOpenStatus } from "@/components/ui/ReservationModal";
 import { PlatformGlyph, Stars } from "@/components/ui/ReviewCard";
 import { useReservation } from "@/components/ui/ReservationProvider";
-import { LOCALE_META } from "@/i18n/config";
+import { LOCALES, LOCALE_META, localePath, stripLocale } from "@/i18n/config";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { openCookieSettings } from "@/lib/consent";
 import { cn } from "@/lib/utils";
@@ -22,13 +23,15 @@ import { cn } from "@/lib/utils";
 const WEEK: readonly DayKey[] = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 const HOURS = BUSINESS.hours as Record<DayKey, TimeRange[]>;
 
-/* "Reloj" externo: el año solo en cliente (evita desajustes de hidratación en Nochevieja). */
+/* "Reloj" externo: el cliente refresca el año cada minuto (Nochevieja) y el servidor devuelve el
+   año del despliegue, que le llega como prop desde el Server Component. Nada de literales: las
+   páginas son estáticas, así que un "2026" escrito a mano se quedaría congelado en el HTML
+   prerenderizado —y en lo que ven los rastreadores— hasta el siguiente despliegue. */
 function subscribeMinute(onChange: () => void) {
   const id = window.setInterval(onChange, 60_000);
   return () => window.clearInterval(id);
 }
 const getYear = () => String(new Date().getFullYear());
-const serverEmpty = () => "";
 
 /** "12:00–16:00 · 20:00–00:00" (sin depender del "Cerrado" en español de formatRanges). */
 function rangesLabel(ranges: TimeRange[], closed: string) {
@@ -50,15 +53,22 @@ const headingClass = "mb-4 font-caps text-[11px] uppercase tracking-[0.3em] text
  * inferior con ©, enlaces legales, "Configurar cookies" (evento para el módulo legal),
  * crédito de diseño y "Volver arriba". Todo el texto sale de m.footer / m.common.
  */
-export default function Footer() {
+export interface FooterProps {
+  /** Año del copyright calculado en el servidor (se hornea en el HTML/RSC de cada despliegue). */
+  year: number;
+}
+
+export default function Footer({ year: buildYear }: FooterProps) {
   const m = useMessages();
   const t = useFormat();
   const lp = useLocalePath();
   const locale = useLocale();
   const { open: openReservation } = useReservation();
   const navItems = useNavItems();
+  const pathname = usePathname();
   const status = useLocalizedOpenStatus();
-  const year = useSyncExternalStore(subscribeMinute, getYear, serverEmpty) || "2026";
+  const serverYear = useCallback(() => String(buildYear), [buildYear]);
+  const year = useSyncExternalStore(subscribeMinute, getYear, serverYear);
 
   const scrollToTop = useCallback(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -282,6 +292,31 @@ export default function Footer() {
               <Cookie className="h-3.5 w-3.5 text-cream-faint transition-colors group-hover:text-gold" aria-hidden />
               {m.footer.cookieSettings}
             </button>
+          </nav>
+
+          {/* Idiomas: los ÚNICOS enlaces a las otras versiones que están siempre en el HTML. El
+              selector de la cabecera solo existe con el desplegable (o el menú móvil) abierto, así
+              que sin esta fila ni un rastreador ni nadie con el menú cerrado tendría un enlace a
+              /gl, /en o /pt: solo el hreflang del <head> y el sitemap. */}
+          <nav aria-label={m.nav.languageSwitcher} className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span className="font-caps text-[10px] uppercase tracking-[0.3em] text-cream-faint">{m.nav.language.label}</span>
+            {LOCALES.map((loc) => {
+              const meta = LOCALE_META[loc];
+              const active = loc === locale;
+              return (
+                <Link
+                  key={loc}
+                  href={localePath(loc, stripLocale(pathname ?? "/").path)}
+                  hrefLang={meta.hreflang}
+                  lang={meta.hreflang}
+                  aria-current={active ? "true" : undefined}
+                  aria-label={t(active ? m.nav.language.current : m.nav.language.switchTo, { language: meta.native })}
+                  className={cn(linkClass, "text-xs", active && "text-cream")}
+                >
+                  {meta.native}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="mt-4 flex flex-col items-start gap-4 text-xs text-cream-faint md:flex-row md:items-center md:justify-between">

@@ -20,6 +20,7 @@ import NeonButton from "@/components/ui/NeonButton";
 import { formatPrice } from "@/data/menu";
 import { useInertBackground } from "@/hooks/useInertBackground";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { localizeAllergenMap } from "@/i18n/data";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -146,6 +147,7 @@ interface SheetProps {
 function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
   const { dish, photo } = slide;
   const m = useMessages();
+  const glass = usePerformanceTier().tier === "high";
   const reducedMotion = useReducedMotion();
   const dragControls = useDragControls();
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -186,7 +188,7 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
-        className="absolute inset-0 cursor-default bg-black/75 backdrop-blur-sm"
+        className="absolute inset-0 cursor-default bg-black/80"
       />
 
       {/* Panel. Sin `overflow-hidden`: la foto (elemento compartido) no debe recortarse mientras viaja. */}
@@ -207,7 +209,11 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
         onDragEnd={onDragEnd}
         style={vars}
         className={cn(
-          "glass-smoke noise after:noise-after after:rounded-[inherit] relative flex max-h-[92dvh] w-full flex-col rounded-t-[28px] shadow-[0_-30px_80px_-20px_rgba(0,0,0,0.9)] outline-none",
+          "noise after:noise-after after:rounded-[inherit] relative flex max-h-[92dvh] w-full flex-col rounded-t-[28px] shadow-[0_-30px_80px_-20px_rgba(0,0,0,0.9)] outline-none",
+          /* `glass-smoke` lleva backdrop-filter: solo en gama alta. El velo ya es opaco al 80 %,
+             así que fuera de ese tier el panel es hierro sólido y no hay una segunda pasada de
+             desenfoque a pantalla casi completa mientras el panel se anima o se arrastra. */
+          glass ? "glass-smoke" : "border border-cream/10 bg-iron-900/95 shadow-glass",
           "sm:max-w-lg sm:rounded-[28px] sm:shadow-card",
           "md:h-[min(86dvh,760px)] md:max-h-none md:max-w-4xl md:flex-row",
         )}

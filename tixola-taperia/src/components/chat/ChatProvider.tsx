@@ -69,7 +69,10 @@ export function ChatProvider({ page = "home", children }: { page?: ChatPage; chi
     <ChatContext.Provider value={value}>
       {children}
       <ChatLauncher isOpen={isOpen} hasOpened={hasOpened} onToggle={toggle} />
-      <ChatWidget />
+      {/* El chunk del panel (ChatWidget + ChatMessage + useChatSession) solo se pide en la primera
+          apertura: si no, se descargaba y evaluaba en TODAS las cargas compitiendo con la portada.
+          `hasOpened` lo mantiene montado después, así AnimatePresence conserva la salida. */}
+      {(isOpen || hasOpened) && <ChatWidget />}
     </ChatContext.Provider>
   );
 }

@@ -28,7 +28,7 @@ export default function SectionHeading({ kicker, title, accent, description, ali
       )}
       <Tag data-reveal className="font-display text-4xl leading-[1.05] text-cream md:text-5xl lg:text-6xl text-balance">
         {title}{" "}
-        {accent && <em className="text-gradient-ember not-italic font-display italic">{accent}</em>}
+        {accent && <em className="text-gradient-ember font-display italic">{accent}</em>}
       </Tag>
       {description && (
         <p data-reveal className="mt-5 text-base leading-relaxed text-cream-muted md:text-lg text-pretty">

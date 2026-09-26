@@ -48,13 +48,16 @@
   --animate-shimmer: shimmer 2.5s linear infinite;
   --animate-ember-rise: ember-rise 4s ease-out infinite;
 
+  /* Solo `opacity`: animar `box-shadow` repintaba la capa en cada fotograma, para siempre, en el
+     botón flotante de WhatsApp y en el CTA principal de la portada. Se aplica a una capa de halo
+     `aria-hidden` con el resplandor estático encima (ver NeonButton / FloatingWhatsApp). */
   @keyframes neon-pulse {
     0%,
     100% {
-      box-shadow: 0 0 18px rgba(178, 30, 39, 0.45), 0 0 48px rgba(178, 30, 39, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      opacity: 0.45;
     }
     50% {
-      box-shadow: 0 0 34px rgba(216, 50, 60, 0.85), 0 0 90px rgba(178, 30, 39, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+      opacity: 1;
     }
   }
   @keyframes float {

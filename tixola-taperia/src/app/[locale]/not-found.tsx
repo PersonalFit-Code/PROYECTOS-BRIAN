@@ -16,7 +16,7 @@ export default function NotFound() {
 
   return (
     <main className="container-page flex min-h-dvh flex-col items-center justify-center text-center">
-      <p className="font-caps text-xs uppercase tracking-[0.35em] text-pimenton-light">{nf.kicker}</p>
+      <p className="font-caps text-xs uppercase tracking-[0.35em] text-pimenton-a11y">{nf.kicker}</p>
       <h1 className="mt-4 font-display text-5xl text-cream">{nf.title}</h1>
       <p className="mt-4 max-w-md text-cream-muted">{nf.text}</p>
       <Link href={lp("/")} className="mt-8 rounded-full bg-pimenton px-6 py-3 font-semibold text-cream hover:bg-pimenton-light">

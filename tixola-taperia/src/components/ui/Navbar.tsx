@@ -74,9 +74,11 @@ const menuVariants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.25, ease: "easeIn", when: "afterChildren" } },
   show: { opacity: 1, transition: { duration: 0.35, ease: EASE_OUT_EXPO, staggerChildren: 0.07, delayChildren: 0.1 } },
 };
+/* Solo `opacity` + `y`: un `filter: blur()` escalonado sería seis reflows de pintado en la apertura
+   (los filtros no se componen en la GPU), justo cuando entra el panel a pantalla completa. */
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24, filter: "blur(6px)", transition: { duration: 0.2 } },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: EASE_OUT_EXPO } },
+  hidden: { opacity: 0, y: 24, transition: { duration: 0.2 } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT_EXPO } },
 };
 
 /* ──────────────────────────────────────────────────────────────
@@ -326,7 +328,11 @@ export default function Navbar() {
             animate="show"
             exit="hidden"
             onKeyDown={trapFocus}
-            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden bg-[linear-gradient(180deg,rgba(12,12,12,0.94),rgba(34,8,11,0.96))] backdrop-blur-2xl lg:hidden"
+            /* Degradado OPACO (iron → burgundy-deep) y sin `backdrop-filter`: el desenfoque de
+               40 px obligaba a releer y desenfocar el viewport entero en cada fotograma mientras el
+               lienzo WebGL de la portada sigue pintando debajo, y con un fondo sólido no hay nada
+               que desenfocar — la portada deja de asomar por completo. */
+            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden bg-[linear-gradient(180deg,#0c0c0c,#22080b)] lg:hidden"
           >
             {/* Brasa decorativa */}
             <span aria-hidden className="pointer-events-none absolute -bottom-32 left-1/2 h-72 w-[120vw] -translate-x-1/2 rounded-full bg-pimenton/30 blur-3xl" />
@@ -351,7 +357,7 @@ export default function Navbar() {
                         className="group flex items-center justify-between gap-4 py-4"
                       >
                         <span className="flex items-baseline gap-4">
-                          <span className="font-caps text-xs tracking-[0.25em] text-pimenton-light">0{i + 1}</span>
+                          <span className="font-caps text-xs tracking-[0.25em] text-pimenton-a11y">0{i + 1}</span>
                           <span
                             className={cn(
                               "font-display text-4xl leading-none tracking-[-0.01em] transition-colors sm:text-5xl",

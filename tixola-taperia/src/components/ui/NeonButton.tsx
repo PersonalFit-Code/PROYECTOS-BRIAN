@@ -21,8 +21,11 @@ type ButtonProps = BaseProps & ButtonHTMLAttributes<HTMLButtonElement> & { href?
 type AnchorProps = BaseProps & { href: string; target?: string; rel?: string; onClick?: () => void; "aria-label"?: string };
 export type NeonButtonProps = ButtonProps | AnchorProps;
 
+/* Sin `will-change-transform`: la web tiene una decena larga de CTAs y promocionarlos todos a su
+   propia capa de composición durante toda la sesión gasta memoria de GPU sin necesidad — solo se
+   mueven en `hover`, con una transición de 300 ms que el navegador ya compone bien. */
 const base =
-  "group relative inline-flex items-center justify-center gap-2 rounded-full font-sans font-semibold tracking-wide transition-all duration-300 ease-[var(--ease-out-expo)] will-change-transform select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron disabled:opacity-50 disabled:pointer-events-none";
+  "group relative inline-flex items-center justify-center gap-2 rounded-full font-sans font-semibold tracking-wide transition-all duration-300 ease-[var(--ease-out-expo)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron disabled:opacity-50 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -47,10 +50,14 @@ const sizes: Record<Size, string> = {
  */
 const NeonButton = forwardRef<HTMLButtonElement, NeonButtonProps>(function NeonButton(props, ref) {
   const { variant = "primary", size = "md", pulse = false, icon, iconRight, className, children, ...rest } = props;
-  const classes = cn(base, variants[variant], sizes[size], pulse && variant === "primary" && "animate-neon-pulse", className);
+  const glow = pulse && variant === "primary";
+  const classes = cn(base, variants[variant], sizes[size], className);
 
   const content = (
     <>
+      {/* Pulso neón: resplandor ESTÁTICO en una capa aparte cuya `opacity` late. Animar el
+          `box-shadow` del propio botón repintaría la capa en cada fotograma, sin fin. */}
+      {glow && <span aria-hidden className="pointer-events-none absolute inset-0 rounded-full shadow-neon animate-neon-pulse" />}
       {/* brillo interior deslizante */}
       <span
         aria-hidden

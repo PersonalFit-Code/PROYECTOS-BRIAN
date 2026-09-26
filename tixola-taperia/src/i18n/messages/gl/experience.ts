@@ -65,6 +65,8 @@ const experience: Section<"experience"> = {
     embedTitle: "Localización de {brand} en Google Maps",
     askWaiter: "Pregúntalle ao camareiro virtual como chegar",
     askWaiterPrefill: "Como chego a Tixola desde a Catedral de Ourense?",
+    pauseRotation: "Pausar o xiro do mapa",
+    playRotation: "Retomar o xiro do mapa",
   },
 };
 export default experience;

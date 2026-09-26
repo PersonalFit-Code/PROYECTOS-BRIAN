@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronDown, Globe } from "lucide-react";
 import { LOCALES, LOCALE_META, localePath, stripLocale, type Locale } from "@/i18n/config";
@@ -31,29 +32,47 @@ export interface LanguageSwitcherProps {
    ────────────────────────────────────────────────────────────── */
 
 /**
- * Devuelve `switchTo(locale)`: guarda la preferencia en la cookie NEXT_LOCALE (la misma que lee
- * `src/proxy.ts`) y navega a la misma ruta con el nuevo prefijo, conservando la query y el hash
- * (`/carta?cat=croquetas&sin=gluten#tix-raxo`: los filtros de la carta viven en la URL).
+ * Devuelve `hrefFor(locale)` y `onSelect(locale, event)`.
+ *
+ * Cada opción se pinta como un ENLACE real a la misma ruta con el otro prefijo: así se puede abrir
+ * en una pestaña nueva, copiar o compartir —lo normal cuando alguien compara idiomas— y los
+ * rastreadores tienen un grafo de enlaces entre las cuatro versiones además del hreflang del
+ * `<head>` y del sitemap (lo que recomienda la guía de internacionalización de Google).
+ *
+ * En un clic normal seguimos navegando nosotros para conservar la query y el hash
+ * (`/carta?cat=croquetas&sin=gluten#tix-raxo`: los filtros de la carta viven en la URL), que no
+ * caben en un `href` renderizado en el servidor. Un clic con Cmd/Ctrl/Shift o con el botón central
+ * cae en el comportamiento nativo del navegador y abre la ruta limpia.
+ *
+ * La cookie NEXT_LOCALE (la que lee `src/proxy.ts`) se guarda igualmente; y aunque el manejador no
+ * llegara a ejecutarse, `src/proxy.ts` la refresca en cualquier petición con prefijo de idioma.
  */
 function useSwitchLocale(onSelect?: (locale: Locale) => void) {
   const router = useRouter();
   const pathname = usePathname();
   const current = useLocale();
+  const path = useMemo(() => stripLocale(pathname ?? "/").path, [pathname]);
 
-  return useCallback(
-    (next: Locale) => {
+  const hrefFor = useCallback((next: Locale) => localePath(next, path), [path]);
+
+  const select = useCallback(
+    (next: Locale, event?: MouseEvent<HTMLElement>) => {
+      /* Cmd/Ctrl/Shift/Alt o botón central: que el navegador haga lo suyo (pestaña nueva…). */
+      if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0)) return;
+      event?.preventDefault();
       if (next === current) {
         onSelect?.(next);
         return;
       }
       document.cookie = `${COOKIE}=${next}; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax`;
-      const { path } = stripLocale(pathname ?? "/");
-      const { search, hash } = typeof window !== "undefined" ? window.location : { search: "", hash: "" };
+      const { search, hash } = window.location;
       router.push(`${localePath(next, path)}${search}${hash}`);
       onSelect?.(next);
     },
-    [current, pathname, router, onSelect],
+    [current, path, router, onSelect],
   );
+
+  return { hrefFor, select };
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -64,7 +83,7 @@ function LanguageChips({ onSelect, className }: Pick<LanguageSwitcherProps, "onS
   const m = useMessages();
   const t = useFormat();
   const current = useLocale();
-  const switchTo = useSwitchLocale(onSelect);
+  const { hrefFor, select } = useSwitchLocale(onSelect);
 
   return (
     <div className={cn("flex flex-col gap-2", className)}>
@@ -74,12 +93,13 @@ function LanguageChips({ onSelect, className }: Pick<LanguageSwitcherProps, "onS
           const active = locale === current;
           const meta = LOCALE_META[locale];
           return (
-            <button
+            <Link
               key={locale}
-              type="button"
+              href={hrefFor(locale)}
+              hrefLang={meta.hreflang}
               lang={meta.hreflang}
-              onClick={() => switchTo(locale)}
-              aria-pressed={active}
+              onClick={(e) => select(locale, e)}
+              aria-current={active ? "true" : undefined}
               aria-label={active ? t(m.nav.language.current, { language: meta.native }) : t(m.nav.language.switchTo, { language: meta.native })}
               className={cn(
                 "flex h-11 flex-col items-center justify-center rounded-xl border font-caps text-[12px] tracking-[0.2em] transition-colors duration-300",
@@ -89,7 +109,7 @@ function LanguageChips({ onSelect, className }: Pick<LanguageSwitcherProps, "onS
               )}
             >
               {meta.short}
-            </button>
+            </Link>
           );
         })}
       </div>
@@ -105,12 +125,12 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
   const m = useMessages();
   const t = useFormat();
   const current = useLocale();
-  const switchTo = useSwitchLocale(onSelect);
+  const { hrefFor, select: switchTo } = useSwitchLocale(onSelect);
   const listId = useId();
 
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const [open, setOpen] = useState(false);
 
   /* Cierre por clic fuera y por Escape; el foco vuelve al botón. */
@@ -139,7 +159,7 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
 
   /* Navegación con flechas / Home / End dentro de la lista (patrón "menu" de ARIA). */
   const onListKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
-    const items = itemRefs.current.filter((el): el is HTMLButtonElement => el !== null);
+    const items = itemRefs.current.filter((el): el is HTMLAnchorElement => el !== null);
     if (!items.length) return;
     const idx = items.findIndex((el) => el === document.activeElement);
     let next: number | null = null;
@@ -158,9 +178,9 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
   }, []);
 
   const select = useCallback(
-    (locale: Locale) => {
+    (locale: Locale, event: MouseEvent<HTMLAnchorElement>) => {
       setOpen(false);
-      switchTo(locale);
+      switchTo(locale, event);
     },
     [switchTo],
   );
@@ -209,16 +229,17 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
               const active = locale === current;
               const item = LOCALE_META[locale];
               return (
-                <button
+                <Link
                   key={locale}
                   ref={(el) => {
                     itemRefs.current[i] = el;
                   }}
-                  type="button"
+                  href={hrefFor(locale)}
+                  hrefLang={item.hreflang}
                   role="menuitemradio"
                   aria-checked={active}
                   lang={item.hreflang}
-                  onClick={() => select(locale)}
+                  onClick={(e) => select(locale, e)}
                   className={cn(
                     "flex h-11 w-full items-center justify-between gap-3 rounded-xl px-3 text-left font-sans text-sm transition-colors duration-200",
                     active ? "bg-pimenton/20 text-cream" : "text-cream-muted hover:bg-cream/8 hover:text-cream focus-visible:bg-cream/8",
@@ -229,7 +250,7 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
                     <span>{item.native}</span>
                   </span>
                   {active && <Check className="h-4 w-4 text-gold" aria-hidden />}
-                </button>
+                </Link>
               );
             })}
           </motion.div>

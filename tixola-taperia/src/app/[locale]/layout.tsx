@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { Cormorant_Garamond, Cinzel, Manrope, Bebas_Neue } from "next/font/google";
 import { BUSINESS } from "@/data/business";
+import { fontVariables } from "@/app/fonts";
 import { LOCALES, LOCALE_META, isLocale, type Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
@@ -9,29 +9,6 @@ import CookieConsent from "@/components/legal/CookieConsent";
 import HomeJsonLd from "@/components/legal/HomeJsonLd";
 import { SITE_URL, pageMetadata, serializeJsonLd } from "@/lib/seo";
 import "../globals.css";
-
-/* Sin el peso 600: no se usa en ninguna clase `font-display` (los `font-semibold` del proyecto son
-   todos `font-caps`/Cinzel). Son dos woff2 menos compitiendo con la portada en la primera carga. */
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-cinzel",
-  display: "swap",
-});
-
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
-
-const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas", display: "swap" });
-
-export const dynamicParams = false;
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -51,17 +28,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     metadataBase: new URL(SITE_URL),
     description,
-    keywords: [
-      "tapería Ourense",
-      "tapas Ourense",
-      "zamburiñas Ourense",
-      "pulpo a la gallega Ourense",
-      "bar de tapas catedral Ourense",
-      "Tixola",
-      "vinos gallegos",
-      "cerveza artesanal Ourense",
-      "tapas Ourense casco histórico",
-    ],
+    /* Por idioma: Next hereda los campos que un segmento hijo no sobrescribe, así que una lista
+       fija en español viajaba también en /en, /gl, /pt, /carta y las páginas legales. */
+    keywords: [...m.common.seoKeywords],
     robots: { index: true, follow: true },
     icons: { icon: "/favicon.svg" },
     ...pageMetadata(locale, "/", { title, description }),
@@ -145,7 +114,7 @@ export default async function LocaleLayout({
   const jsonLd = restaurantJsonLd(locale, messages.footer.about);
 
   return (
-    <html lang={LOCALE_META[locale].hreflang} className={`${cormorant.variable} ${cinzel.variable} ${manrope.variable} ${bebas.variable}`}>
+    <html lang={LOCALE_META[locale].hreflang} className={fontVariables}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
       </head>

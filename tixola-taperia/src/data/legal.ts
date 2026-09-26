@@ -47,6 +47,17 @@ export const LEGAL_PLACEHOLDERS = {
 export type LegalPlaceholderKey = keyof typeof LEGAL_PLACEHOLDERS;
 
 /**
+ * `true` mientras quede algún marcador sin sustituir. En ese estado el aviso legal NO contiene los
+ * datos identificativos que exige el art. 10 LSSI-CE y la política de privacidad no ofrece un canal
+ * escrito para ejercer los derechos del RGPD (la tarjeta de contacto oculta el botón de correo),
+ * así que las tres páginas se publican con `noindex` y quedan fuera del sitemap. En cuanto el
+ * cliente confirme los datos y desaparezcan los corchetes, vuelven a indexarse solas.
+ */
+export const LEGAL_IDENTITY_PENDING: boolean = Object.values(LEGAL_PLACEHOLDERS).some(
+  (value) => value.startsWith("[") && value.endsWith("]"),
+);
+
+/**
  * Detecta marcadores "[ASÍ, EN MAYÚSCULAS]" que aún no se han sustituido. Se usa para
  * resaltarlos en `LegalArticle`. Global (g) para `String.prototype.split` con captura.
  */

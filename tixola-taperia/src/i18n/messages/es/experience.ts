@@ -63,6 +63,8 @@ const experience = {
     embedTitle: "Ubicación de {brand} en Google Maps",
     askWaiter: "Pregunta al camarero virtual cómo llegar",
     askWaiterPrefill: "¿Cómo llego a Tixola desde la Catedral de Ourense?",
+    pauseRotation: "Pausar el giro del mapa",
+    playRotation: "Reanudar el giro del mapa",
   },
 } as const;
 export default experience;

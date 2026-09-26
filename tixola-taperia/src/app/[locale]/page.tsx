@@ -52,7 +52,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </Chapter>
           </SmoothScrollProvider>
         </main>
-        <Footer />
+        <Footer year={new Date().getFullYear()} />
         <MobileStickyBar />
       </ReservationProvider>
     </ChatProvider>

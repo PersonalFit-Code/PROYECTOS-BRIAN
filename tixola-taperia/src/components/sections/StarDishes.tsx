@@ -9,10 +9,9 @@ import type { DishPhoto, DishSlide } from "@/components/ui/DishVisual";
 import NeonButton from "@/components/ui/NeonButton";
 import { useReservation } from "@/components/ui/ReservationProvider";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { photosForDish } from "@/data/photos";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { localizeStarDishes } from "@/i18n/data";
+import { localizePhotos, localizeStarDishes } from "@/i18n/data";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 
 /**
@@ -47,26 +46,23 @@ export default function StarDishes() {
   const steam = tier !== "low" && !reducedMotion;
   const autoplay = !reducedMotion;
 
-  /* Platos localizados + su foto: primero el manifiesto (`photosForDish`), después `dish.image`.
-     El `alt` descriptivo del manifiesto está en español; en otros idiomas usamos la plantilla localizada. */
-  const slides = useMemo<DishSlide[]>(
-    () =>
-      localizeStarDishes(locale).map((dish) => {
-        const fromManifest = photosForDish(dish.id)[0];
-        let photo: DishPhoto | null = null;
-        if (fromManifest) {
-          photo = {
-            src: fromManifest.src,
-            alt: locale === "es" ? fromManifest.alt : t(m.dishes.photoOf, { name: dish.name }),
-            focus: fromManifest.focus,
-          };
-        } else if (dish.image) {
-          photo = { src: dish.image, alt: t(m.dishes.photoOf, { name: dish.name }), focus: "50% 50%" };
-        }
-        return { dish, photo };
-      }),
-    [locale, m.dishes.photoOf, t],
-  );
+  /* Platos localizados + su foto: primero el manifiesto, después `dish.image`.
+     El manifiesto se lee YA LOCALIZADO (`localizePhotos`), así que el `alt` descriptivo de cada foto
+     viaja en los cuatro idiomas — es la imagen principal de la sección y del spotlight. La plantilla
+     genérica `m.dishes.photoOf` queda solo para el caso sin entrada en el manifiesto. */
+  const slides = useMemo<DishSlide[]>(() => {
+    const photos = localizePhotos(locale);
+    return localizeStarDishes(locale).map((dish) => {
+      const fromManifest = photos.find((p) => p.dishIds?.includes(dish.id));
+      let photo: DishPhoto | null = null;
+      if (fromManifest) {
+        photo = { src: fromManifest.src, alt: fromManifest.alt, focus: fromManifest.focus };
+      } else if (dish.image) {
+        photo = { src: dish.image, alt: t(m.dishes.photoOf, { name: dish.name }), focus: "50% 50%" };
+      }
+      return { dish, photo };
+    });
+  }, [locale, m.dishes.photoOf, t]);
 
   const closeSpotlight = useCallback(() => setSpotlight(null), []);
 

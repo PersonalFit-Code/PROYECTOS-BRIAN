@@ -16,7 +16,8 @@ const PIN_DISTANCE_MOBILE = 0.7;
  * nada: ancla `#hero` durante el primer viewport de scroll y, mientras el siguiente capítulo se
  * desliza por encima (ver `<Chapter overlapsHero>`), la escena hace un "pull-back":
  *  - la capa 3D (`#hero [data-hero-canvas]`) encoge 1 → 0.92, se oscurece y (tier high) se desenfoca;
- *    el filtro se aplica vía variables CSS `--hero-dim` / `--hero-blur` animadas en `#hero`;
+ *    el filtro se aplica vía variables CSS `--hero-dim` / `--hero-blur` animadas EN ESA MISMA capa
+ *    (no en `#hero`: así la invalidación de estilo no alcanza al copy de la portada);
  *  - el copy (`#hero [data-hero-copy]`) sube más rápido que la escena y se funde (parallax a dos
  *    velocidades);
  *  - si el hero no expone esos atributos, solo se transforma `#hero` (escala + brillo).
@@ -38,14 +39,18 @@ export default function HeroTransition() {
     const { gsap } = getGsap();
 
     const ctx = gsap.context(() => {
-      /* El filtro lee las variables del hero: así animamos un único elemento y no peleamos con
-         otros estilos inline de la capa 3D. */
+      /* El filtro y SUS variables viven en el mismo elemento (la capa 3D). Escribir una custom
+         property en `#hero` invalidaría el estilo de todo su subárbol —kicker, H1 palabra a
+         palabra, subtítulo, CTAs— en cada fotograma del anclaje, que es la fase de scroll más
+         cara de la página en móvil. En el contenedor del lienzo la invalidación no sale de él. */
       const filterTarget = canvas ?? hero;
       gsap.set(filterTarget, {
         filter: blur ? "brightness(var(--hero-dim, 1)) blur(var(--hero-blur, 0px))" : "brightness(var(--hero-dim, 1))",
+        "--hero-dim": 1,
+        "--hero-blur": "0px",
       });
       /* Por debajo del capítulo que se le superpone (z-10). */
-      gsap.set(hero, { "--hero-dim": 1, "--hero-blur": "0px", zIndex: 0 });
+      gsap.set(hero, { zIndex: 0 });
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -67,7 +72,7 @@ export default function HeroTransition() {
         },
       });
 
-      tl.to(hero, { "--hero-dim": 0.35, "--hero-blur": blur ? "6px" : "0px" }, 0);
+      tl.to(filterTarget, { "--hero-dim": 0.35, "--hero-blur": blur ? "6px" : "0px" }, 0);
 
       if (canvas) {
         tl.to(canvas, { scale: 0.92, yPercent: -3, transformOrigin: "50% 45%" }, 0);

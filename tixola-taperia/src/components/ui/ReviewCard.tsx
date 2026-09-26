@@ -180,6 +180,8 @@ export default function ReviewCard({ review, glass = true, maxLines = 7, classNa
 
   const text = sanitizeReviewText(review.text);
   const title = review.title ? sanitizeReviewText(review.title) : undefined;
+  /* `undefined` en /es: el `lang` del documento ya es el correcto y no hace falta repetirlo. */
+  const reviewLang = locale === "es" ? undefined : "es";
 
   return (
     <article
@@ -210,9 +212,15 @@ export default function ReviewCard({ review, glass = true, maxLines = 7, classNa
         <Stars rating={review.rating} size="sm" className="shrink-0" />
       </header>
 
-      {/* Título + texto */}
-      {title && <p className="relative font-display text-lg italic leading-snug text-cream text-balance">{title}</p>}
-      <blockquote className={cn("relative text-sm leading-relaxed text-cream-muted text-pretty", CLAMP[maxLines])}>
+      {/* Título + texto. Las reseñas de `src/data/reviews.ts` son textos reales de clientes en
+          español y no se traducen: en /gl, /en y /pt hay que marcarlos con `lang="es"` o el lector
+          de pantalla los pronunciaría con la voz del idioma de la página (WCAG 2.2 SC 3.1.2). */}
+      {title && (
+        <p lang={reviewLang} className="relative font-display text-lg italic leading-snug text-cream text-balance">
+          {title}
+        </p>
+      )}
+      <blockquote lang={reviewLang} className={cn("relative text-sm leading-relaxed text-cream-muted text-pretty", CLAMP[maxLines])}>
         <p>
           «<HighlightedText text={text} highlight={review.highlight} />»
         </p>

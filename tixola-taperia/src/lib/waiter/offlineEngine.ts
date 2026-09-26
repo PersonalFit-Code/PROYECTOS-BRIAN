@@ -91,8 +91,9 @@ const KW = {
     "celiac*", "apt*", "suitable", "sen", "sem", "no puedo", "cannot", "can t", "evitar", "avoid",
   ]),
   pairing: compile([
-    "marida*", "va con", "van con", "va bien con", "acompan*", "que bebo", "beber", "pair*", "goes with", "go with",
-    "drink with", "que vino", "which wine", "what wine", "vino para", "vino con", "harmoniz*", "combina*", "match*",
+    "marida*", "va con", "van con", "va bien con", "vai ben con", "vai bem com", "acompan*", "que bebo", "beber",
+    "pair*", "goes with", "go with", "drink with", "que vino", "que vinho", "which wine", "what wine",
+    "vino para", "vino con", "vinho com", "vinho para", "harmoniz*", "combina*", "match*",
   ]),
   drink: compile(["vino*", "wine*", "beb*", "drink*", "copa*", "vinho*", "vino"]),
   recommend: compile([
@@ -108,7 +109,8 @@ const KW = {
 
 /** Sinónimos de cada alérgeno (español, gallego, inglés y portugués). */
 const ALLERGEN_WORDS: Record<AllergenId, readonly string[]> = {
-  gluten: ["gluten", "celiac*", "trigo", "wheat", "harina"],
+  /* "glute" es la forma gallega; sin ella la primera pregunta sugerida en GL caía en el fallback. */
+  gluten: ["gluten", "glute", "celiac*", "celíac*", "trigo", "wheat", "harina"],
   lacteos: ["lacteo*", "lactosa", "lactose", "leche", "dairy", "milk", "lacticinio*", "leite"],
   huevos: ["huevo*", "egg*", "ovo", "ovos"],
   pescado: ["pescado*", "fish", "peixe"],

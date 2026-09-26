@@ -71,7 +71,7 @@ const legal: LegalMessages = {
     /* ── Política de privacidade (RXPD + LOPDGDD) ── */
     privacy: {
       description:
-        "Como trata Tixola Tapería (Ourense) os teus datos ao reservar por teléfono ou WhatsApp, usar o camareiro virtual ou navegar pola web. Dereitos, prazos e encargados.",
+        "Como trata Tixola Tapería (Ourense) os teus datos ao reservar por teléfono ou WhatsApp, usar o camareiro virtual ou navegar pola web. Dereitos e prazos.",
       intro:
         "En {tradeName} tratamos moi poucos datos e só os imprescindibles: os que nos dás para reservar mesa, as preguntas que lle fas ao camareiro virtual e a información técnica mínima para que a web funcione. Aquí contámosche, sen letra pequena, que facemos con eles.",
       sections: [

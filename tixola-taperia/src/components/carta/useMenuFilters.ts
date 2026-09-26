@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { ALLERGEN_MAP, type AllergenId } from "@/data/allergens";
 import { DIET_TAG_LABELS, MENU_CATEGORIES, type DietTag, type MenuCategory, type MenuCategoryId, type MenuItem } from "@/data/menu";
-import { LOCALES, type Locale } from "@/i18n/config";
+import { type Locale } from "@/i18n/config";
 import { localizeCategories, localizeMenuItems } from "@/i18n/data";
 
 /**
@@ -136,14 +136,20 @@ function buildDataset(locale: Locale): MenuDataset {
   };
 }
 
-const DATASETS: Record<Locale, MenuDataset> = Object.fromEntries(LOCALES.map((locale) => [locale, buildDataset(locale)])) as Record<
-  Locale,
-  MenuDataset
->;
+/* Caché PEREZOSA por idioma: construir los cuatro datasets al evaluar el módulo (4 × 40 platos
+   normalizados con NFD + 3 regex por plato) ocupaba el hilo principal antes de hidratar /carta, y
+   tres cuartas partes de ese trabajo no se usan nunca. Mismo patrón que `getContext()` del
+   camarero sin conexión. */
+const DATASETS = new Map<Locale, MenuDataset>();
 
 /** Carta localizada (platos, categorías, índice de búsqueda y totales) para un idioma. */
 export function getMenuDataset(locale: Locale): MenuDataset {
-  return DATASETS[locale];
+  let dataset = DATASETS.get(locale);
+  if (!dataset) {
+    dataset = buildDataset(locale);
+    DATASETS.set(locale, dataset);
+  }
+  return dataset;
 }
 
 /* ───────────────────────── Filtrado ───────────────────────── */
@@ -171,7 +177,7 @@ function passesContentFilters(
 
 /** Filtra los platos de un idioma con el estado completo (categoría incluida). */
 export function filterItems(locale: Locale, filters: MenuFilters): MenuItem[] {
-  const dataset = DATASETS[locale];
+  const dataset = getMenuDataset(locale);
   const normalizedQuery = normalizeText(filters.query);
   const excluded = new Set(filters.excludedAllergens);
   return dataset.items.filter(
@@ -248,7 +254,7 @@ export function useMenuFilters(filters: MenuFilters, locale: Locale): MenuFilter
   const tagsKey = tags.join(",");
 
   return useMemo(() => {
-    const dataset = DATASETS[locale];
+    const dataset = getMenuDataset(locale);
     const normalizedQuery = normalizeText(query);
     const excluded = new Set(allergensKey ? (allergensKey.split(",") as AllergenId[]) : []);
     const tagList = tagsKey ? (tagsKey.split(",") as DietTag[]) : [];

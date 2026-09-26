@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ExternalLink, Footprints, Map, MapPin, MessageCircle, Navigation, RotateCw } from "lucide-react";
+import { ChevronDown, ExternalLink, Footprints, Map, MapPin, MessageCircle, Navigation, Pause, Play, RotateCw } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Component, useCallback, useEffect, useId, useMemo, useRef, useState, type ErrorInfo, type ReactNode } from "react";
@@ -103,7 +103,9 @@ function Legend({ items, label }: { items: ReadonlyArray<{ text: string; dot: st
   return (
     <ul
       aria-label={label}
-      className="glass absolute bottom-3 left-3 z-[6] flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl px-3 py-1.5 font-caps text-[9px] uppercase tracking-[0.18em] text-cream-200"
+      /* Fondo opaco, sin `backdrop-filter`: estos adornos están DENTRO del visor, así que su fondo
+         es el canvas de CityMap3D, que repinta en continuo mientras el mapa gira. */
+      className="absolute bottom-3 left-3 z-[6] flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl border border-cream/10 bg-iron-900/90 px-3 py-1.5 font-caps text-[9px] uppercase tracking-[0.18em] text-cream-200 shadow-glass"
     >
       {items.map((item) => (
         <li key={item.text} className="inline-flex items-center gap-1.5">
@@ -134,6 +136,10 @@ export default function MapCard({ className }: MapCardProps) {
   const [ready, setReady] = useState(false); // WebGL listo → desvanecer la foto
   const [failed, setFailed] = useState(false);
   const [hintDismissed, setHintDismissed] = useState(false);
+  /* Giro automático del mapa: WCAG 2.1 SC 2.2.2 (nivel A) exige un mecanismo de pausa para el
+     movimiento automático de más de 5 s junto a otro contenido. Se para con el botón y también al
+     primer arrastre (quien reposiciona el mapa a mano no quiere que se le vuelva a mover solo). */
+  const [autoRotate, setAutoRotate] = useState(true);
   const [showEmbed, setShowEmbed] = useState(false);
   const embedId = useId();
 
@@ -182,13 +188,24 @@ export default function MapCard({ className }: MapCardProps) {
         {/* Visor: aspecto fijo 4:3, táctil (pan-y deja el scroll vertical al navegador) */}
         <div
           className="relative aspect-[4/3] touch-pan-y select-none overflow-hidden rounded-[20px] bg-iron-900"
-          onPointerDown={() => setHintDismissed(true)}
+          onPointerDown={() => {
+            setHintDismissed(true);
+            setAutoRotate(false);
+          }}
         >
           <StaticFallback hidden={ready} caption={x.subtitle} />
 
           {show3D && (
             <MapErrorBoundary onError={handleError}>
-              <CityMap3D perf={perf} active={active} onReady={handleReady} labels={labels} ariaLabel={x.mapAria} className="absolute inset-0" />
+              <CityMap3D
+                perf={perf}
+                active={active}
+                autoRotate={autoRotate}
+                onReady={handleReady}
+                labels={labels}
+                ariaLabel={x.mapAria}
+                className="absolute inset-0"
+              />
             </MapErrorBoundary>
           )}
 
@@ -198,16 +215,33 @@ export default function MapCard({ className }: MapCardProps) {
             className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(120%_90%_at_50%_45%,transparent_55%,rgba(12,12,12,0.6)_100%)]"
           />
 
-          <span className="glass absolute left-3 top-3 z-[6] rounded-full px-3 py-1 font-caps text-[9px] uppercase tracking-[0.22em] text-cream/85">
-            {ready ? x.view3d : x.photo}
-          </span>
+          <div className="absolute left-3 top-3 z-[6] flex items-center gap-2">
+            <span className="rounded-full border border-cream/10 bg-iron-900/90 px-3 py-1 font-caps text-[9px] uppercase tracking-[0.22em] text-cream/85">
+              {ready ? x.view3d : x.photo}
+            </span>
+            {ready && !perf.reducedMotion && (
+              <button
+                type="button"
+                /* Sin `stopPropagation` el `onPointerDown` del visor ya habría puesto autoRotate a
+                   false y el clic lo volvería a encender: el botón haría lo contrario de su etiqueta. */
+                onPointerDown={(e) => e.stopPropagation()}
+                onClick={() => setAutoRotate((v) => !v)}
+                aria-pressed={!autoRotate}
+                aria-label={autoRotate ? x.pauseRotation : x.playRotation}
+                title={autoRotate ? x.pauseRotation : x.playRotation}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-iron-900/90 text-cream-muted transition-colors duration-300 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light"
+              >
+                {autoRotate ? <Pause className="h-3.5 w-3.5" aria-hidden /> : <Play className="h-3.5 w-3.5" aria-hidden />}
+              </button>
+            )}
+          </div>
 
           {ready && <Legend items={legend} label={x.legend} />}
 
           {ready && !hintDismissed && (
             <span
               aria-hidden
-              className="absolute right-3 top-3 z-[6] inline-flex items-center gap-1.5 rounded-full bg-iron-900/70 px-3 py-1.5 font-sans text-[11px] text-cream/80 backdrop-blur"
+              className="absolute right-3 top-3 z-[6] inline-flex items-center gap-1.5 rounded-full border border-cream/10 bg-iron-900/90 px-3 py-1.5 font-sans text-[11px] text-cream/80"
             >
               <RotateCw className="h-3.5 w-3.5" aria-hidden />
               {hint}

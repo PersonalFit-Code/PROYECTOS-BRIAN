@@ -66,6 +66,8 @@ const experience = {
     embedTitle: "Localização da {brand} no Google Maps",
     askWaiter: "Pergunte ao empregado virtual como chegar",
     askWaiterPrefill: "Como chego à Tixola a partir da Catedral de Ourense?",
+    pauseRotation: "Pausar a rotação do mapa",
+    playRotation: "Retomar a rotação do mapa",
   },
 } satisfies Translation<typeof esExperience>;
 export default experience;

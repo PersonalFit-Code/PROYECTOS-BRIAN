@@ -101,11 +101,14 @@ export default function FloatingWhatsApp() {
             title={m.common.cta.whatsappAria}
             className={cn(
               "group relative grid h-14 w-14 place-items-center rounded-full",
-              "border border-pimenton-light/60 bg-pimenton text-cream shadow-neon animate-neon-pulse",
+              "border border-pimenton-light/60 bg-pimenton text-cream",
               "transition-[transform,background-color] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-pimenton-light active:scale-95",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron",
             )}
           >
+            {/* Pulso neón: el resplandor es estático y lo que late es la opacidad de esta capa
+                (animar `box-shadow` repintaba el botón en cada fotograma durante toda la sesión). */}
+            <span aria-hidden className="pointer-events-none absolute inset-0 rounded-full shadow-neon animate-neon-pulse" />
             {/* Halo exterior suave (ping lento) */}
             <span
               aria-hidden

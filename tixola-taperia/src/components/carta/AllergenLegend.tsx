@@ -6,6 +6,7 @@ import { useEffect, useId, useMemo, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import AllergenIcon from "@/components/ui/AllergenIcon";
 import { useInertBackground } from "@/hooks/useInertBackground";
+import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { localizeAllergens } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -91,6 +92,7 @@ export default function AllergenLegendSheet({ open, onClose }: AllergenLegendShe
 
 function SheetInner({ onClose }: { onClose: () => void }) {
   const m = useMessages();
+  const glass = usePerformanceTier().tier === "high";
   const rootRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
@@ -126,7 +128,7 @@ function SheetInner({ onClose }: { onClose: () => void }) {
       transition={{ duration: 0.25 }}
     >
       {/* Fondo */}
-      <button type="button" aria-label={m.carta.legendClose} onClick={onClose} className="absolute inset-0 bg-iron-900/70 backdrop-blur-sm" />
+      <button type="button" aria-label={m.carta.legendClose} onClick={onClose} className="absolute inset-0 bg-iron-900/85" />
 
       {/* Hoja */}
       <motion.div
@@ -137,7 +139,12 @@ function SheetInner({ onClose }: { onClose: () => void }) {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 48, opacity: 0, transition: { duration: 0.2 } }}
         transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
-        className="glass-smoke relative flex max-h-[88dvh] w-full flex-col rounded-t-3xl lg:max-h-[85dvh] lg:max-w-4xl lg:rounded-3xl"
+        className={cn(
+          "relative flex max-h-[88dvh] w-full flex-col rounded-t-3xl lg:max-h-[85dvh] lg:max-w-4xl lg:rounded-3xl",
+          /* Cristal solo en gama alta: con el velo opaco al 85 % el desenfoque del panel no aporta
+             nada visible y sí obliga a remuestrear el fondo en cada fotograma de la animación. */
+          glass ? "glass-smoke" : "border border-cream/10 bg-iron-900/95 shadow-glass",
+        )}
       >
         {/* Asa (móvil) */}
         <span aria-hidden className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-cream/25 lg:hidden" />

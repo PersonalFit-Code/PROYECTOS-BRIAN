@@ -66,6 +66,8 @@ const experience = {
     embedTitle: "Location of {brand} on Google Maps",
     askWaiter: "Ask the virtual waiter for directions",
     askWaiterPrefill: "How do I get to Tixola from Ourense Cathedral?",
+    pauseRotation: "Pause the map rotation",
+    playRotation: "Resume the map rotation",
   },
 } satisfies Translation<typeof esExperience>;
 export default experience;

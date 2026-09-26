@@ -7,6 +7,7 @@ import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
 import NeonButton from "@/components/ui/NeonButton";
 import { WhatsAppGlyph } from "@/components/ui/FloatingWhatsApp";
 import { useInertBackground } from "@/hooks/useInertBackground";
+import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { LOCALE_META } from "@/i18n/config";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import type { Messages } from "@/i18n/types";
@@ -215,6 +216,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   const m = useMessages();
   const t = useFormat();
   const locale = useLocale();
+  const glass = usePerformanceTier().tier === "high";
   const r = m.common.reservation;
 
   const uid = useId();
@@ -336,7 +338,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
           <motion.div
             key="reserva-overlay"
             ref={overlayRef}
-            className="fixed inset-0 z-[100] flex items-end justify-center bg-black/70 backdrop-blur-sm sm:items-center sm:p-4"
+            className="fixed inset-0 z-[100] flex items-end justify-center bg-black/80 sm:items-center sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.2 } }}
@@ -358,7 +360,11 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
               exit={{ opacity: 0, y: 32, scale: 0.98, transition: { duration: 0.22 } }}
               transition={{ duration: 0.55, ease: EASE_OUT_EXPO }}
               className={cn(
-                "glass-smoke noise after:noise-after relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl outline-none sm:max-w-lg sm:rounded-3xl",
+                "noise after:noise-after relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl outline-none sm:max-w-lg sm:rounded-3xl",
+                /* Cristal solo en gama alta: el modal se abre sobre el lienzo WebGL vivo de la
+                   portada y el velo ya es opaco al 80 %, así que el desenfoque no se ve y sí se
+                   recalcularía en cada fotograma. Misma regla que MenuItemCard / ChatLauncher. */
+                glass ? "glass-smoke" : "border border-cream/10 bg-iron-900/95",
                 "shadow-card",
               )}
             >

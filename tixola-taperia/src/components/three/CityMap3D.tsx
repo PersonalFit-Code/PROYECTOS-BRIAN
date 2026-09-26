@@ -815,7 +815,10 @@ export interface MapLabels {
   church: string;
 }
 
-const LABEL_CLASS = "whitespace-nowrap rounded-full border px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.2em] backdrop-blur-md";
+/* Sin `backdrop-filter`: drei reescribe el `transform` de cada etiqueta en todos los fotogramas en
+   que cambia su posición proyectada (o sea, siempre que el mapa gira), y cada reescritura obligaría
+   a remuestrear y desenfocar el canvas de debajo. El `bg-iron-900/85` ya da el contraste. */
+const LABEL_CLASS = "whitespace-nowrap rounded-full border px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.2em]";
 
 function Labels({ labels }: { labels: MapLabels }) {
   return (
@@ -867,7 +870,7 @@ function Lights({ shadows }: { shadows: boolean }) {
 
 type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
 
-function Scene({ perf, labels }: { perf: PerfProfile; labels: MapLabels }) {
+function Scene({ perf, labels, autoRotate }: { perf: PerfProfile; labels: MapLabels; autoRotate: boolean }) {
   const controls = useRef<OrbitControlsRef>(null);
 
   /**
@@ -911,7 +914,7 @@ function Scene({ perf, labels }: { perf: PerfProfile; labels: MapLabels }) {
         enableDamping
         dampingFactor={0.06}
         rotateSpeed={0.5}
-        autoRotate={!perf.reducedMotion}
+        autoRotate={autoRotate && !perf.reducedMotion}
         autoRotateSpeed={0.4}
         minPolarAngle={0.9}
         maxPolarAngle={1.25}
@@ -944,10 +947,12 @@ export interface CityMap3DProps {
   labels: MapLabels;
   /** Descripción accesible del mapa (ya localizada). */
   ariaLabel: string;
+  /** Giro automático. El control de pausa vive en MapCard (WCAG 2.2.2). */
+  autoRotate?: boolean;
   className?: string;
 }
 
-export default function CityMap3D({ perf, active = true, onReady, labels, ariaLabel, className }: CityMap3DProps) {
+export default function CityMap3D({ perf, active = true, onReady, labels, ariaLabel, autoRotate = true, className }: CityMap3DProps) {
   if (perf.tier === "low") return null;
 
   return (
@@ -967,7 +972,7 @@ export default function CityMap3D({ perf, active = true, onReady, labels, ariaLa
         }}
         style={{ touchAction: "pan-y" }}
       >
-        <Scene perf={perf} labels={labels} />
+        <Scene perf={perf} labels={labels} autoRotate={autoRotate} />
       </Canvas>
     </div>
   );

@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { Component, useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useChat } from "@/components/chat/ChatProvider";
 import type { PerfProfile } from "@/hooks/usePerformanceTier";
 import type { PointerVec } from "@/hooks/usePointerParallax";
 import type { HeroLayout } from "./HeroScene";
@@ -127,7 +128,7 @@ class CanvasErrorBoundary extends Component<BoundaryProps, { failed: boolean }> 
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Actividad: ¿el hero está en pantalla y la pestaña visible?
+   Actividad: ¿el hero está en pantalla, la pestaña visible y sin ningún panel encima?
    ────────────────────────────────────────────────────────────── */
 
 /**
@@ -136,10 +137,34 @@ class CanvasErrorBoundary extends Component<BoundaryProps, { failed: boolean }> 
  */
 const COVERING_CHAPTER = '[data-chapter="platos"]';
 
+/**
+ * ¿Hay un panel modal abierto sobre la portada? Los overlays a pantalla completa (menú móvil,
+ * modal de reserva, detalle de plato, leyenda de alérgenos, visor de la galería) bloquean el
+ * `overflow` del body, igual que detecta `SmoothScrollProvider` para parar Lenis: mientras dure
+ * el bloqueo la escena no se ve y no debe pintar (ni obligar a recalcular el `backdrop-filter`
+ * de esos paneles en cada fotograma).
+ */
+function useBodyScrollLocked(): boolean {
+  const [locked, setLocked] = useState(false);
+
+  useEffect(() => {
+    const sync = () => setLocked(getComputedStyle(document.body).overflowY === "hidden");
+    const observer = new MutationObserver(sync);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["style", "class"] });
+    sync();
+    return () => observer.disconnect();
+  }, []);
+
+  return locked;
+}
+
 function useSceneActivity(ref: RefObject<HTMLDivElement | null>): boolean {
   const [inView, setInView] = useState(true);
   const [visible, setVisible] = useState(true);
   const [covered, setCovered] = useState(false);
+  const overlayLocked = useBodyScrollLocked();
+  /* El panel del chat se abre sobre la portada sin bloquear el scroll del documento. */
+  const { isOpen: chatOpen } = useChat();
 
   useEffect(() => {
     const el = ref.current;
@@ -177,7 +202,7 @@ function useSceneActivity(ref: RefObject<HTMLDivElement | null>): boolean {
     };
   }, [ref]);
 
-  return inView && visible && !covered;
+  return inView && visible && !covered && !overlayLocked && !chatOpen;
 }
 
 /* ──────────────────────────────────────────────────────────────

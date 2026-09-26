@@ -1,16 +1,14 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
+import { BUSINESS } from "@/data/business";
 import { LOCALE_META, stripLocale, type Locale } from "@/i18n/config";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
+import { faqVars } from "@/lib/faq";
 import { absoluteUrl, faqJsonLd, serializeJsonLd, SITE_URL, type JsonLdObject } from "@/lib/seo";
 
-const WEEK: readonly DayKey[] = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-const HOURS = BUSINESS.hours as Record<DayKey, TimeRange[]>;
-
 /**
- * JSON-LD de la portada: `FAQPage` (m.legal.faq) y `WebSite`.
+ * JSON-LD de la portada: `FAQPage` (m.legal.faq, el mismo que pinta `<Faq />` en #opiniones) y `WebSite`.
  * Se monta en el layout, pero solo emite en la ruta "/" de cada idioma: el FAQ describe la home,
  * y `carta` y las páginas legales publican su propio JSON-LD (Menu, BreadcrumbList).
  * Es un componente cliente para leer la ruta; el `<script>` se renderiza igualmente en el HTML del servidor.
@@ -21,14 +19,9 @@ export default function HomeJsonLd({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   if (stripLocale(pathname ?? "/").path !== "/") return null;
 
-  /* "Lunes: 19:30–00:00 · Martes: 12:00–16:00 / 20:00–00:00 · … · Domingo: Cerrado" (siempre sincronizado con business.ts) */
-  const hours = WEEK.map((day) => {
-    const ranges = HOURS[day];
-    const label = ranges.length ? ranges.map((r) => `${r.open}–${r.close}`).join(" / ") : m.common.status.closed;
-    return `${m.common.days[day]}: ${label}`;
-  }).join(" · ");
-
-  const vars = { hours, phone: BUSINESS.phone.display, address: BUSINESS.address.full };
+  /* Las mismas variables que interpola el FAQ VISIBLE (`<Faq />` al final de SocialProof): el texto
+     marcado y el que lee el visitante tienen que coincidir carácter a carácter. */
+  const vars = faqVars(m);
   const homeUrl = absoluteUrl(locale, "/");
 
   const faq = faqJsonLd(

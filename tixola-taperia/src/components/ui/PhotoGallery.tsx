@@ -266,8 +266,7 @@ export default function PhotoGallery({ className }: PhotoGalleryProps) {
               <GallerySlide
                 key={slide.key}
                 slide={slide}
-                position={i}
-                total={slides.length}
+                total={total}
                 active={i === selected}
                 hintId={hintId}
                 onOpen={openLightbox}
@@ -362,7 +361,7 @@ export default function PhotoGallery({ className }: PhotoGalleryProps) {
 
 interface GallerySlideProps {
   slide: Slide;
-  position: number;
+  /** nº de FOTOS distintas (no de slides: la pista repite el juego para que el bucle sea continuo) */
   total: number;
   active: boolean;
   /** id del texto de ayuda (aria-describedby del botón) */
@@ -375,7 +374,7 @@ interface GallerySlideProps {
  * (nombre accesible = "Ampliar la foto: …"). Las copias repetidas para el bucle son decorativas
  * (`aria-hidden`, sin tabulación) para no duplicar el contenido a los lectores de pantalla.
  */
-function GallerySlide({ slide, position, total, active, hintId, onOpen }: GallerySlideProps) {
+function GallerySlide({ slide, total, active, hintId, onOpen }: GallerySlideProps) {
   const m = useMessages();
   const t = useFormat();
   const { photo, ratio, shape, index, copy } = slide;
@@ -386,7 +385,9 @@ function GallerySlide({ slide, position, total, active, hintId, onOpen }: Galler
     <div
       role="group"
       aria-roledescription="slide"
-      aria-label={t(m.social.gallery.slide, { index: position + 1, total })}
+      /* `slide.index` + `total` son los de la FOTO (4), no los de la pista: `slides` repite el juego
+         hasta MIN_SLIDES y anunciar "foto 5 de 8" contradecía al contador y a los puntos ("1 de 4"). */
+      aria-label={t(m.social.gallery.slide, { index: index + 1, total })}
       aria-hidden={decorative ? true : undefined}
       className="relative shrink-0 grow-0"
       style={{ width: `calc(var(--slide-h) * ${ratio})`, height: "var(--slide-h)" }}

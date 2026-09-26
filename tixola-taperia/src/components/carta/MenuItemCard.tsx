@@ -217,7 +217,11 @@ export default function MenuItemCard({
                   )}
                   <span>
                     {v.label}{" "}
-                    <span className={cn("font-condensed text-base tracking-wide", chalk ? "text-gold" : "text-pimenton-light")}>{formatPrice(v.price, locale)}</span>
+                    {/* `text-pimenton-a11y` (no `-light`): 16 px es texto normal y necesita 4,5:1 sobre iron-800.
+                        El precio grande de arriba es texto grande (3:1) y sí puede llevar `-light`. */}
+                    <span className={cn("font-condensed text-base tracking-wide", chalk ? "text-gold" : "text-pimenton-a11y")}>
+                      {formatPrice(v.price, locale)}
+                    </span>
                   </span>
                 </span>
               ))}
