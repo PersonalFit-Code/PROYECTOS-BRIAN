@@ -95,7 +95,7 @@ const en: DataTranslations = {
 
     // ─── TIXOLAS ───────────────────────────────────────────────────
     "tix-chistorra-huevos": {
-      description: "Chargrilled chistorra (Navarran paprika sausage), broken free-range eggs and shoestring fries.",
+      description: "Chargrilled chistorra (Navarran paprika sausage), broken free-range eggs and matchstick chips.",
       unit: "skillet",
       pairing: "Mencía D.O. Ribeira Sacra",
     },
