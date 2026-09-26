@@ -135,7 +135,12 @@ class CanvasErrorBoundary extends Component<BoundaryProps, { failed: boolean }> 
  * Capítulo opaco que se desliza SOBRE la portada anclada (`<Chapter overlapsHero>`): mientras lo
  * cubre, el hero sigue "intersecando" pero no se ve nada de él.
  */
-const COVERING_CHAPTER = '[data-chapter="platos"]';
+/**
+ * Fracción del viewport que dura el anclaje de la portada en `HeroTransition`
+ * (desktop 1, móvil 0.7). Pasado ese recorrido el capítulo siguiente la tapa por completo.
+ */
+const PIN_DISTANCE_DESKTOP = 1;
+const PIN_DISTANCE_MOBILE = 0.7;
 
 /**
  * ¿Hay un panel modal abierto sobre la portada? Los overlays a pantalla completa (menú móvil,
@@ -178,26 +183,24 @@ function useSceneActivity(ref: RefObject<HTMLDivElement | null>): boolean {
     );
     io.observe(el);
 
-    /* Con el borde inferior de la raíz recogido al tope, el capítulo solo "interseca" cuando cruza
-       la línea superior del viewport, es decir cuando ya tapa la portada entera: durante ese tramo
-       (≈ un viewport de scroll) la escena renderizaría a pleno ritmo sin que se vea nada. */
-    const covering = document.querySelector<HTMLElement>(COVERING_CHAPTER);
-    const coverIo = covering
-      ? new IntersectionObserver(
-          (entries) => {
-            const entry = entries[0];
-            if (entry) setCovered(entry.isIntersecting);
-          },
-          { rootMargin: "0px 0px -100% 0px", threshold: 0 },
-        )
-      : null;
-    coverIo?.observe(covering as HTMLElement);
+    /* ¿El capítulo siguiente ya tapa la portada?
+       No se puede medir con un IntersectionObserver sobre ese capítulo: `HeroTransition` ancla la
+       portada con `pinSpacing: false`, así que la saca del flujo y el capítulo pasa a empezar en
+       y = 0 desde el primer píxel de scroll — el observador daría "tapado" nada más cargar y la
+       escena no llegaría a pintar nunca. Se mide por recorrido de scroll, que es lo que define el
+       anclaje: al completarse, la portada queda cubierta. */
+    const pinFraction = window.matchMedia("(max-width: 767px)").matches ? PIN_DISTANCE_MOBILE : PIN_DISTANCE_DESKTOP;
+    const syncCovered = () => setCovered(window.scrollY >= window.innerHeight * pinFraction);
+    syncCovered();
+    window.addEventListener("scroll", syncCovered, { passive: true });
+    window.addEventListener("resize", syncCovered);
 
     const onVisibility = () => setVisible(document.visibilityState === "visible");
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       io.disconnect();
-      coverIo?.disconnect();
+      window.removeEventListener("scroll", syncCovered);
+      window.removeEventListener("resize", syncCovered);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [ref]);
