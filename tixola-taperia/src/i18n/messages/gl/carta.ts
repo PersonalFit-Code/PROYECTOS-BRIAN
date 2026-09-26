@@ -48,7 +48,7 @@ const carta: Section<"carta"> = {
   preferencesAria: "Etiquetas dietéticas",
   excludeAllergens: "Excluír alérxenos",
   excludeAllergensHint: "Marca un alérxeno e desaparecerán da carta os pratos que o conteñen.",
-  excludeAllergensAria: "Alérxenos que excluír",
+  excludeAllergensAria: "Alérxenos para excluír",
   excludeOne: "Excluír os pratos con {name}",
   includeOne: "Volver mostrar os pratos con {name}",
   hidingAllergens: "Ocultando {count} alérxenos",
