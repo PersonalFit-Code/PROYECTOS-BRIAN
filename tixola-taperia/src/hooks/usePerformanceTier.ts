@@ -49,9 +49,18 @@ function detectSnapshot(): Snapshot {
   const memory = nav.deviceMemory ?? 4;
   const saveData = nav.connection?.saveData ?? false;
 
-  let tier: PerformanceTier = "high";
-  if (isMobile || isTouch) tier = "mid";
-  if (cores <= 4 || memory <= 2 || saveData) tier = tier === "high" ? "mid" : "low";
+  let tier: PerformanceTier = isMobile || isTouch ? "mid" : "high";
+
+  /* Señales de gama baja. El umbral de núcleos es distinto en móvil a propósito: Safari en iOS no
+     publica `deviceMemory` y devuelve 4 en `hardwareConcurrency` incluso en los iPhone recientes,
+     así que un `cores <= 4` aplicado ahí dejaba sin escena 3D a todos los iPhone —justo donde el
+     encargo pide la tixola girando con el giroscopio—. En móvil solo degradamos con una señal
+     inequívoca (ahorro de datos, 2 GB o 2 núcleos); el perfil "mid" ya es ligero: dpr 1.5, sin
+     sombras y sin post-procesado. */
+  if (saveData || memory <= 2) tier = tier === "high" ? "mid" : "low";
+  else if (tier === "high" && cores <= 4) tier = "mid";
+  else if (tier === "mid" && cores <= 2) tier = "low";
+
   if (reducedMotion) tier = "low";
 
   return `${tier}|${isMobile ? 1 : 0}|${isTouch ? 1 : 0}|${reducedMotion ? 1 : 0}`;
@@ -85,8 +94,9 @@ function parseSnapshot(snapshot: Snapshot): PerfProfile {
 
 /**
  * Detecta la capacidad del dispositivo para mantener 60 FPS:
- *  - móvil / táctil → mid (o low si pocos núcleos, poca memoria o "ahorro de datos")
- *  - escritorio → high (o mid si prefiere menos movimiento)
+ *  - móvil / táctil → mid (low solo con "ahorro de datos", 2 GB de RAM o 2 núcleos)
+ *  - escritorio → high (mid con 4 núcleos o menos)
+ *  - `prefers-reduced-motion` → low en cualquier caso
  * Devuelve un perfil "low" durante SSR/hidratación (snapshot de servidor) y el perfil real
  * justo después, sin `setState` dentro de efectos.
  */
