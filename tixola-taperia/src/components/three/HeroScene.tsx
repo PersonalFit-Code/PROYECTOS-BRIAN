@@ -40,7 +40,7 @@ interface LayoutSpec {
  */
 const LAYOUTS: Record<HeroLayout, LayoutSpec> = {
   split: { anchor: [1.45, -0.05, 0], scale: 1.06, camera: [0, 1.7, 8.4], look: [0.4, 0.2, 0], glowCenter: [0.62, 0.44] },
-  stacked: { anchor: [0, 1.1, 0], scale: 0.78, camera: [0, 2.0, 9.4], look: [0, 0.9, 0], glowCenter: [0.5, 0.55] },
+  stacked: { anchor: [0, 2.3, 0], scale: 0.55, camera: [0, 2.0, 9.4], look: [0, 0.9, 0], glowCenter: [0.5, 0.64] },
 };
 
 /* Objetos de trabajo a nivel de módulo (cero asignaciones en useFrame). */

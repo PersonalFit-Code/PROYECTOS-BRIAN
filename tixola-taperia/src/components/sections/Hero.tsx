@@ -254,7 +254,7 @@ export default function Hero() {
         aria-hidden
         className={cn(
           "pointer-events-none absolute inset-0 -z-[5]",
-          "bg-[linear-gradient(180deg,rgba(18,18,18,0.55)_0%,rgba(18,18,18,0)_22%,rgba(18,18,18,0)_46%,rgba(18,18,18,0.82)_72%,#121212_100%)]",
+          "bg-[linear-gradient(180deg,rgba(18,18,18,0.55)_0%,rgba(18,18,18,0)_18%,rgba(18,18,18,0)_30%,rgba(18,18,18,0.55)_42%,rgba(18,18,18,0.85)_62%,#121212_100%)]",
           "lg:bg-[linear-gradient(180deg,rgba(18,18,18,0.5)_0%,rgba(18,18,18,0)_22%,rgba(18,18,18,0)_70%,#121212_100%)]",
         )}
       />
