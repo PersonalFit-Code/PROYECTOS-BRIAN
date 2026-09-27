@@ -792,6 +792,86 @@
   }
   @media (prefers-reduced-motion: reduce){ .visor[open]{ animation:none; } }
 
+  /* ===== FICHA DE PRODUCTO =====
+     Se abre al pulsar un dulce del mostrador y trae ingredientes, alérgenos,
+     formato y conservación. Mismo <dialog> nativo que el visor: Escape, foco
+     atrapado y fondo inerte sin escribir una línea de JS para ello.
+     Los alérgenos llevan encima un aviso de "provisional" hasta que el
+     obrador los valide; se apaga con ALERGENOS_VALIDADOS en el JS. */
+  .ficha{ width:min(96vw, 54rem); max-width:none; max-height:92vh; padding:0;
+          border:none; border-radius:1.6rem; overflow:hidden;
+          background:rgb(var(--crema)); color:rgb(var(--tinta)); }
+  .ficha::backdrop{ background:rgb(20 14 17 / .74);
+                    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+  .ficha[open]{ animation:fichaEntra .34s cubic-bezier(.16,1,.3,1); }
+  @keyframes fichaEntra{ from{ opacity:0; transform:translateY(14px) scale(.98); } to{ opacity:1; transform:none; } }
+  /* En el móvil la foto se queda en una franja: si se deja crecer a su
+     proporción se come dos tercios del alto y los alérgenos quedan a tres
+     dedos de scroll. */
+  .ficha-marco{ display:grid; max-height:92vh;
+                grid-template-columns:1fr; grid-template-rows:auto minmax(0,1fr); }
+  @media (min-width:768px){
+    .ficha-marco{ grid-template-columns:19rem 1fr; grid-template-rows:minmax(0,1fr); }
+  }
+  .ficha-lado{ position:relative; height:min(30vh, 13rem); overflow:hidden;
+               background:rgb(var(--rosa-nube)); }
+  @media (min-width:768px){ .ficha-lado{ height:auto; min-height:14rem; } }
+  .ficha-lado img{ display:block; width:100%; height:100%; object-fit:cover; }
+  .ficha-emoji{ position:absolute; inset:0; display:grid; place-items:center;
+                font-family:var(--emoji); font-size:4.5rem; line-height:1;
+                background:linear-gradient(150deg, rgb(var(--rosa-nube)), rgb(var(--lila) / .8)); }
+  .ficha-etiqueta{ position:absolute; left:.9rem; top:.9rem; z-index:2;
+                   border-radius:9999px; padding:.3rem .8rem;
+                   font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+                   font-size:.7rem; font-weight:800; letter-spacing:.06em;
+                   background:rgb(var(--amarillo)); color:rgb(var(--tinta)); }
+  .ficha-texto{ overflow-y:auto; padding:1.5rem 1.4rem 1.6rem;
+                -webkit-overflow-scrolling:touch; }
+  @media (min-width:768px){ .ficha-texto{ padding:2rem 2.2rem 2.2rem; } }
+  .ficha-cerrar{ position:absolute; right:.7rem; top:.7rem; z-index:5;
+                 display:grid; place-items:center; width:2.5rem; height:2.5rem;
+                 border-radius:9999px; color:rgb(var(--tinta));
+                 background:rgb(255 255 255 / .82); border:1px solid rgb(var(--rosa-palo));
+                 -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+                 transition:background .2s, color .2s, transform .2s; }
+  .ficha-cerrar:hover{ background:rgb(var(--frambuesa)); color:#fff; transform:rotate(90deg); }
+  .ficha-dato{ display:flex; gap:.7rem; padding:.7rem 0;
+               border-top:1px solid rgb(var(--rosa-palo)); font-size:.95rem; }
+  .ficha-dato dt{ flex:0 0 7.5rem; font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+                  font-weight:700; color:rgb(var(--tinta) / .55); }
+  .ficha-dato dd{ margin:0; flex:1; line-height:1.55; color:rgb(var(--tinta) / .85); }
+  .ficha-aviso{ display:flex; gap:.6rem; border-radius:.9rem; padding:.7rem .85rem;
+                background:rgb(var(--amarillo) / .45); border:1px dashed rgb(var(--oro-claro));
+                font-size:.85rem; line-height:1.5; color:rgb(var(--tinta) / .85); }
+  .alerg{ display:grid; gap:.4rem .6rem; grid-template-columns:repeat(2, minmax(0,1fr)); }
+  @media (min-width:520px){ .alerg{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+  .alerg li{ display:flex; align-items:center; gap:.45rem; border-radius:.6rem;
+             padding:.35rem .5rem; font-size:.82rem; line-height:1.25;
+             background:rgb(255 255 255 / .7); color:rgb(var(--tinta) / .45); }
+  .alerg-pip{ flex:0 0 auto; width:.55rem; height:.55rem; border-radius:9999px;
+              background:rgb(var(--tinta) / .18); }
+  .alerg li[data-estado="si"]{ background:rgb(var(--frambuesa) / .12);
+                               color:rgb(var(--frambuesa-oscuro)); font-weight:700; }
+  .alerg li[data-estado="si"] .alerg-pip{ background:rgb(var(--frambuesa)); }
+  .alerg li[data-estado="trazas"]{ background:rgb(var(--amarillo) / .5);
+                                   color:rgb(var(--tinta) / .8); font-weight:600; }
+  .alerg li[data-estado="trazas"] .alerg-pip{ background:rgb(var(--oro-claro)); }
+  /* La tarjeta del mostrador es pulsable: se nota al pasar por encima y al
+     enfocar con el teclado. */
+  .mostrador{ cursor:pointer; text-align:left; width:100%; }
+  .mostrador:hover{ box-shadow:0 14px 34px -14px rgb(var(--frambuesa) / .4); }
+  .mostrador:hover .mostrador-mas{ color:rgb(var(--frambuesa)); gap:.55rem; }
+  .ficha-abre{ text-align:left; transition:color .2s; }
+  .mostrador:hover .ficha-abre, .ficha-abre:hover{ color:rgb(var(--frambuesa)); }
+  .mostrador-mas{ display:flex; align-items:center; gap:.3rem;
+                  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+                  font-size:.78rem; font-weight:800; letter-spacing:.04em;
+                  color:rgb(var(--tinta) / .45); transition:color .25s, gap .25s; }
+  @media (prefers-reduced-motion: reduce){
+    .ficha[open]{ animation:none; }
+    .ficha-cerrar:hover{ transform:none; }
+  }
+
   /* ===== CARGA PROGRESIVA DE LAS FOTOS =====
      Cada foto tiene detrás una miniatura de 20 px incrustada aquí mismo (unos
      mil bytes): se ve borrosa al instante y la foto de verdad se funde encima
@@ -1346,31 +1426,47 @@
         </a>
       </div>
 
+      <!-- Cada dulce del mostrador abre su ficha: ingredientes, alérgenos,
+           formato y conservación. El botón de verdad es el del titular (así
+           el lector de pantalla anuncia «Tarta tres leches, botón») y el JS
+           hace pulsable toda la tarjeta por comodidad del ratón y del dedo. -->
       <div class="grid gap-4 sm:grid-cols-2">
-        <article class="tarjeta reveal rounded-3xl bg-white p-6 shadow-suave">
+        <article class="mostrador tarjeta reveal rounded-3xl bg-white p-6 shadow-suave" data-dulce="tresleches">
           <span class="inline-block rounded-full bg-amarillo px-3 py-1 font-rotulo text-xs font-bold text-tinta" data-i18n="vz.badge">El más pedido</span>
-          <h3 class="mt-3 font-display text-xl font-bold text-tinta" data-i18n="vz.1.h">Tarta tres leches</h3>
+          <h3 class="mt-3 font-display text-xl font-bold text-tinta">
+            <button type="button" class="ficha-abre text-left" data-dulce="tresleches"><span data-i18n="vz.1.h">Tarta tres leches</span></button>
+          </h3>
           <p class="mt-2 text-[15px] leading-relaxed text-tinta/75" data-i18n="vz.1.p">
             Esponjosa, jugosa y nada empalagosa. Por porción en el mostrador o entera por encargo.
           </p>
+          <span class="mostrador-mas mt-3" aria-hidden="true"><span data-i18n="vz.mas">Ver ficha e ingredientes</span> →</span>
         </article>
-        <article class="tarjeta reveal rounded-3xl bg-white p-6 shadow-suave">
-          <h3 class="font-display text-xl font-bold text-tinta">Golfeados</h3>
+        <article class="mostrador tarjeta reveal rounded-3xl bg-white p-6 shadow-suave" data-dulce="golfeados">
+          <h3 class="font-display text-xl font-bold text-tinta">
+            <button type="button" class="ficha-abre text-left" data-dulce="golfeados">Golfeados</button>
+          </h3>
           <p class="mt-2 text-[15px] leading-relaxed text-tinta/75" data-i18n="vz.2.p">
             El clásico venezolano de papelón y queso blanco. Recién hechos, para llevar calentitos.
           </p>
+          <span class="mostrador-mas mt-3" aria-hidden="true"><span data-i18n="vz.mas">Ver ficha e ingredientes</span> →</span>
         </article>
-        <article class="tarjeta reveal rounded-3xl bg-white p-6 shadow-suave">
-          <h3 class="font-display text-xl font-bold text-tinta">Piñitas</h3>
+        <article class="mostrador tarjeta reveal rounded-3xl bg-white p-6 shadow-suave" data-dulce="pinitas">
+          <h3 class="font-display text-xl font-bold text-tinta">
+            <button type="button" class="ficha-abre text-left" data-dulce="pinitas">Piñitas</button>
+          </h3>
           <p class="mt-2 text-[15px] leading-relaxed text-tinta/75" data-i18n="vz.3.p">
             Dulce de hojaldre relleno, de los que desaparecen antes de llegar a casa.
           </p>
+          <span class="mostrador-mas mt-3" aria-hidden="true"><span data-i18n="vz.mas">Ver ficha e ingredientes</span> →</span>
         </article>
-        <article class="tarjeta reveal rounded-3xl bg-white p-6 shadow-suave">
-          <h3 class="font-display text-xl font-bold text-tinta">Cookies estilo NY</h3>
+        <article class="mostrador tarjeta reveal rounded-3xl bg-white p-6 shadow-suave" data-dulce="cookies">
+          <h3 class="font-display text-xl font-bold text-tinta">
+            <button type="button" class="ficha-abre text-left" data-dulce="cookies">Cookies estilo NY</button>
+          </h3>
           <p class="mt-2 text-[15px] leading-relaxed text-tinta/75" data-i18n="vz.4.p">
             Gruesas, con el centro tierno. «Si las pruebas ya no querrás otras», dice una clienta.
           </p>
+          <span class="mostrador-mas mt-3" aria-hidden="true"><span data-i18n="vz.mas">Ver ficha e ingredientes</span> →</span>
         </article>
       </div>
     </div>
@@ -1594,16 +1690,24 @@
 
     <!-- Contador animado -->
     <div class="reveal mt-10 text-center">
-      <p class="flex items-center justify-center gap-1" role="img" aria-label="4,9 sobre 5 estrellas">
-        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
-        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+      <!-- La nota es la protagonista y el número de reseñas queda de apoyo.
+           El recuento NO se quita: reviewCount es obligatorio en el marcado
+           aggregateRating de Google (sin él se caen las estrellas del
+           buscador) y es lo que hace comprobable el 4,9. -->
+      <p class="flex items-center justify-center gap-1" aria-hidden="true">
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
+        <svg class="h-7 w-7 text-oro-claro" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6.1 4.4 2.3 7.2L12 16.4 5.8 20.8l2.3-7.2L2 9.2h7.6z"/></svg>
       </p>
-      <p class="mt-4 font-display text-6xl font-extrabold leading-none text-frambuesa sm:text-7xl" id="contador">0</p>
+      <p class="mt-4 flex items-baseline justify-center gap-1.5" role="img"
+         data-i18n-aria="aria.nota" aria-label="Nota media de 4,9 sobre 5 en Google, con 18 reseñas">
+        <span class="font-display text-7xl font-extrabold leading-none text-frambuesa sm:text-8xl" id="contador" aria-hidden="true">0,0</span>
+        <span class="font-display text-3xl font-bold leading-none text-frambuesa/40 sm:text-4xl" aria-hidden="true">/5</span>
+      </p>
       <p class="mt-3 text-lg text-tinta/75" data-i18n="op.p1">
-        reseñas en Google, con una media de <strong class="font-semibold text-tinta">4,9 sobre 5</strong>
+        de media en Google, sobre <strong class="font-semibold text-tinta">18 reseñas verificadas</strong>
       </p>
       <a href="https://www.google.com/search?q=Bin+%26+Cami+Cakes+Ourense" target="_blank" rel="noopener"
          class="destello mt-6 inline-flex items-center gap-2.5 rounded-full border-2 border-frambuesa px-6 py-3 font-rotulo text-sm font-bold text-frambuesa transition hover:bg-frambuesa hover:text-white">
@@ -2026,6 +2130,46 @@
   </button>
 </dialog>
 
+<!-- ===================== FICHA DE PRODUCTO =====================
+     El armazón va vacío y lo rellena el JS con los datos del dulce que se
+     pulsa. Un solo diálogo para los cuatro: menos HTML y un solo sitio donde
+     arreglar las cosas. -->
+<dialog id="ficha" class="ficha no-print" aria-labelledby="ficha-nombre">
+  <button type="button" id="ficha-cerrar" class="ficha-cerrar" data-i18n-aria="aria.cerrar" aria-label="Cerrar">
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="ficha-marco">
+    <div class="ficha-lado" id="ficha-lado"></div>
+    <div class="ficha-texto">
+      <p class="antetitulo" data-i18n="fic.ante">Del mostrador</p>
+      <h2 id="ficha-nombre" class="mt-1.5 font-display text-2xl font-extrabold text-tinta sm:text-3xl"></h2>
+      <p id="ficha-lema" class="mt-1 font-mano text-xl text-frambuesa"></p>
+      <p id="ficha-desc" class="mt-3 text-[15px] leading-relaxed text-tinta/80"></p>
+
+      <dl class="mt-5" id="ficha-datos"></dl>
+
+      <h3 class="mt-7 font-display text-lg font-bold text-tinta" data-i18n="fic.alerg">Alérgenos</h3>
+      <p class="ficha-aviso mt-2.5" id="ficha-provisional">
+        <span aria-hidden="true">&#9888;</span>
+        <span data-i18n="fic.provisional"><strong class="font-semibold">Información provisional.</strong>
+        Ingredientes, alérgenos y conservación están pendientes de que los confirme el obrador.
+        No los tomes como definitivos.</span>
+      </p>
+      <ul class="alerg mt-3" id="ficha-alergenos"></ul>
+      <p class="mt-3 text-[13px] leading-relaxed text-tinta/55" data-i18n="fic.obrador">
+        Elaborado en un obrador pequeño donde se manipulan gluten, huevo, lácteos y frutos secos:
+        no podemos garantizar la ausencia total de trazas. Si tienes una alergia, dínoslo al encargar.
+      </p>
+
+      <a id="ficha-wa" href="https://wa.me/34656584027" target="_blank" rel="noopener"
+         class="destello mt-6 inline-flex items-center gap-2.5 rounded-full bg-frambuesa px-5 py-3 font-rotulo text-sm font-bold text-white shadow-suave transition hover:bg-frambuesa-oscuro">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2z"/></svg>
+        <span data-i18n="fic.cta">Preguntar por este dulce</span>
+      </a>
+    </div>
+  </div>
+</dialog>
+
 <button type="button" id="arriba" class="arriba no-print" data-i18n-aria="aria.arriba" aria-label="Volver arriba">
   <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
@@ -2081,7 +2225,7 @@
    es lo que habla el obrador. */
 (function(){
   'use strict';
-  var TRAD = {"gl":{"titulo":"Tartas personalizadas en Ourense | Bin & Cami Cakes","nav.especialidades":"Especialidades","nav.venezolano":"Venezolano","nav.tartas":"Tartas","nav.opiniones":"Opinións","nav.encargar":"Encargar","nav.contacto":"Contacto","menu.sabor":"Sabor venezolano","menu.tartas":"As nosas tartas","menu.encargar":"Como encargar","menu.contacto":"Contacto e horarios","cta.idea":"Cóntanos a túa idea","hero.badge":"Obradoiro artesán en Ourense","hero.h1":"Tartas personalizadas<br>en <span class=\"subrayado text-frambuesa\">Ourense<\/span>","hero.lema":"Ti imaxinas, nós facémolo.","hero.p":"Deseños únicos para momentos inesquecibles, e a repostería venezolana que nos fixo coñecidas na cidade.","hero.scroll":"Baixa para velas","ph.mesa":"Mesa de doces","st.resenas":"18 recensións en Google","st.dias":"Os 7 días","st.domingos":"Abrimos tamén os domingos","st.posio":"Xunto ao Posío","esp.ante":"Para cada celebración","esp.h2":"Deseños únicos para <span class=\"subrayado\">momentos inesquecibles<\/span>","esp.p":"Cóntasnos a idea, a data e para cantas persoas. Nós debuxámola, pasámoste o prezo e tela lista o día que a precisas.","esp.1.h":"Aniversarios","esp.1.p":"Desde a tarta do primeiro aniño ata a sorpresa temática que pida o cativo. Con figuras, cores e o nome ben grande.","esp.2.h":"Bodas","esp.2.p":"Tartas de varios pisos, mesa de doces e detalles para os convidados. Probamos sabores contigo antes de decidir.","esp.3.h":"Eventos especiais","esp.3.p":"Comuñóns, bautizos, baby showers, xubilacións e celebracións de empresa. Adaptámonos ao número de comensais.","esp.4.h":"Temáticas","esp.4.p":"O seu videoxogo, a súa serie ou o seu equipo favorito. Se o imaxinas, levámolo á tarta.","vz.ante":"O que nos fai distintas","vz.h2":"O <span class=\"subrayado text-frambuesa\">tres leches<\/span> que buscabas, no medio de Ourense","vz.p1":"Somos unha pastelería venezolana, e iso nótase no mostrador. Xunto ás tartas de encargo facemos os doces da casa coa receita de sempre: biscoito calado nos seus tres leites, golfeados recén feitos e as piñitas que tanto nos piden.","vz.p2":"Non fai falla que nos creas. É o que máis repiten os nosos clientes en Google.","vz.cita.autor":"— Andreína Gómez, recensión en Google","vz.cta":"Pregúntanos polo tres leches","vz.badge":"O máis pedido","vz.1.h":"Tarta tres leches","vz.1.p":"Esponxosa, zumenta e nada empalagosa. Por porción no mostrador ou enteira por encargo.","vz.2.p":"O clásico venezolano de papelón e queixo branco. Recén feitos, para levar quentiños.","vz.3.p":"Doce de follado recheo, dos que desaparecen antes de chegar á casa.","vz.4.p":"Grosas, co centro tenro. «Se as probas xa non quererás outras», di unha clienta.","gal.ante":"O noso traballo","gal.h2":"Tartas que xa <span class=\"subrayado\">soplaron velas<\/span>","gal.p":"Cada unha saíu dunha idea que alguén nos contou por WhatsApp. Podes ver moitas máis no noso Instagram.","cf.1.t":"Tarta de aniversario","cf.1.d":"Con figuras e o nome ben grande","cf.2.t":"Tarta de boda","cf.2.d":"Varios pisos e flores de azucre","cf.3.t":"Tarta temática","cf.3.d":"O seu personaxe favorito, modelado a man","cf.4.t":"Porción de tres leches","cf.4.d":"O máis pedido do mostrador","cf.5.d":"Papelón e queixo, recén feitos","cf.6.d":"Grosas e co centro tenro","cf.7.d":"Para bodas e comuñóns","cf.7.cta":"Cóntanos o teu evento","cf.8.t":"O obradoiro","cf.8.d":"De onde sae todo cada mañá","cf.cta":"Pregúntanos por esta","cf.mostrando":"Mostrando {n} de {t}: ","gal.ig":"Ver máis en @bin_camicakes","op.h2":"O que din os que xa <span class=\"subrayado\">probaron<\/span>","op.p1":"recensións en Google, cunha media de <strong class=\"font-semibold text-tinta\">4,9 sobre 5<\/strong>","op.ver":"Ver as recensións en Google","op.p2":"Aquí non poñemos frases nosas en boca de ninguén: son as recensións tal cal as escribiron. As que Google recorta saen recortadas, con ligazón para lelas enteiras.","op.f.todas":"Todas","op.f.recientes":"Máis recentes","op.pista.raton":"Pasa o rato por riba para paralas · preme","op.pista.toca":"Toca","op.pista.resto":"unha tarxeta para abrir a súa ficha en Google","res.semanas":"Hai semanas","res.mes":"Hai un mes","res.meses":"Hai {n} meses","res.ver":"Ver as recensións en Google →","res.estrellas":"5 de 5 estrelas","enc.h2":"Tres pasos e <span class=\"subrayado\">xa está<\/span>","enc.p":"Sen formularios longos nin rexistros. Escríbesnos, falámolo e vés recollela.","enc.1.p":"Por WhatsApp ao <a href=\"tel:+34656584027\" class=\"font-semibold text-frambuesa underline underline-offset-2\">656 584 027<\/a>. Dinos a data, para cantas persoas e que imaxinas. Se tes unha foto de referencia, mándaa: axuda moitísimo.","enc.2.h":"Pasámoste o prezo","enc.2.p":"Confirmámoste se chegamos á túa data e canto custa, co sabor e o tamaño xa pechados. Sen compromiso ata que nos digas que si.","enc.3.h":"Recóllela lista","enc.3.p":"O día acordado tela na tenda, na súa caixa e preparada para transportar. Puntuais, que é o que máis nos agradecen.","faq.1.q":"Con canta antelación hai que encargar?","faq.1.r":"O habitual é avisar con polo menos <strong class=\"font-semibold text-tinta\">72 horas<\/strong>. Para bodas ou deseños con figuras modeladas, mellor unha ou dúas semanas. Escríbenos e confirmámoste se chegamos á túa data.","faq.2.q":"Que é exactamente a tarta tres leches?","faq.2.r":"A sobremesa venezolana máis coñecida: biscoito esponxoso calado en tres leites e cuberto de merengue. Facémola coa receita da casa, e é o que máis nos piden repetir.","faq.3.q":"Facedes tartas para alerxias ou intolerancias?","faq.3.r":"Cóntanos a intolerancia ao facer o encargo e dicímosche con franqueza que podemos adaptar. Traballamos nun obradoiro pequeno onde se manipulan glute, ovo, lácteos e froitos secos, así que <strong class=\"font-semibold text-tinta\">non podemos garantir a ausencia total de trazas<\/strong>.","faq.4.q":"Onde estades e hai que pedir cita?","faq.4.r":"En <strong class=\"font-semibold text-tinta\">Rúa do Progreso 27, baixo 3<\/strong>, xunto ao Xardín do Posío. Abrimos os sete días e non fai falla cita: pásate a ver as tartas expostas.","con.ante":"Onde estamos","con.h2":"Agardámoste xunto ao <span class=\"subrayado\">Xardín do Posío<\/span>","con.dir":"Enderezo","con.tel":"Teléfono e WhatsApp","con.horario":"Horario · abrimos os 7 días","con.caption":"Horario de Bin &amp; Cami Cakes","dia.1":"Luns","dia.2":"Martes","dia.3":"Mércores","dia.4":"Xoves","dia.5":"Venres","dia.6":"Sábado","dia.0":"Domingo","hor.dias":"domingo|luns|martes|mércores|xoves|venres|sábado","hor.cierraEn":"Aberto · pecha en {n} min","hor.abiertoHasta":"Aberto agora · ata as {h}","hor.abreHoy":"Pechado · abre hoxe ás {h}","hor.abreEl":"Pechado · abre o {d} ás {h}","con.wa":"Escríbenos por WhatsApp","mapa.h":"Estamos no Xardín do Posío","mapa.ver":"Ver o mapa en Google Maps","mapa.nota":"O mapa incrustado non se puido cargar aquí.","mapa.llegar":"Como chegar","pie.desc":"Pastelería artesá en Ourense. Tartas personalizadas para cada celebración e a repostería venezolana de sempre.","pie.web":"A web","pie.priv":"Política de privacidade","pie.cookies":"Política de cookies","pie.aviso":"Aviso legal","pie.lema":"TARTAS · SOBREMESAS · DOCES · MOMENTOS FELICES","pie.copy":"Tartas personalizadas en Ourense","chat.titulo":"Orzamento da túa tarta","chat.sub":"Preparámosche a mensaxe en 5 preguntas","chat.abrir":"Calcular a miña tarta","chat.cerrar":"Pechar asistente","aria.menu":"Abrir o menú de navegación","aria.menu.cerrar":"Pechar o menú de navegación","aria.ant":"Tarta anterior","aria.sig":"Tarta seguinte","aria.wa":"Escribir por WhatsApp a Bin e Cami Cakes","aria.chat":"Calcular o orzamento da miña tarta","aria.chat.cerrar":"Pechar o asistente de orzamento","chat.pasos":[{"k":"ocasion","p":"Ola! Son o asistente de Bin & Cami Cakes 🧁 Prepároche o encargo en cinco preguntas. Para que ocasión é a tarta?","o":["Aniversario","Boda","Comuñón ou bautizo","Só por antollo"]},{"k":"personas","p":"Para cantas persoas, máis ou menos?","o":["Ata 10","Entre 10 e 20","Entre 20 e 40","Máis de 40"]},{"k":"sabor","p":"Que sabor che apetece?","o":["Tres leches","Chocolate","Red velvet","Aínda non o sei, aconséllame"]},{"k":"fecha","p":"Para cando a precisas?","o":["Esta semana","A semana que vén","Dentro dun mes ou máis","Aínda non teño data"]},{"k":"diseno","p":"E por último, como a imaxinas?","o":["Sinxela e elegante","Con figuras modeladas","Dunha temática concreta","Teño unha foto de referencia"]}],"chat.listo1":"Listo! Isto é o que lle paso ao obradoiro:","chat.personas":"{n} persoas","chat.sabor":"Sabor: ","chat.fecha":"Data: ","chat.diseno":"Deseño: ","chat.confirm":"Confirmámoste prezo e dispoñibilidade por WhatsApp. O orzamento é gratis e sen compromiso. (A mensaxe vai en castelán, que é o que fala o obradoiro.)","chat.enviar":"Envialo por WhatsApp","chat.otra":"Empezar de novo","aria.llamar":"Chamar ao 656 584 027","aria.copiar":"Copiar o número de teléfono","aria.arriba":"Volver arriba","aria.progreso":"Progreso do orzamento","aria.ampliar":"Ver a foto en grande","aria.visor":"Foto ampliada","aria.cerrar":"Pechar","aviso.copiado":"Copiado: ","aviso.nocopia":"Non se puido copiar","op.aviso1":"Amosando {n} recensión","op.avisoN":"Amosando {n} recensións","nav.video":"Vídeo","vid.ante":"Detrás do mostrador","vid.h2":"Así se fai unha <span class=\"subrayado\">tarta nosa<\/span>","vid.p":"Sen présa e a man, cada mañá no obradoiro do Xardín do Posío.","vid.pendiente":"Vídeo do obradoiro · en camiño","vid.pendiente.alt":"Vídeo do obradoiro pendente de gravar","vid.pie":"Gravado no propio obradoiro, sen montaxes.","aria.reproducir":"Reproducir o vídeo"},"en":{"titulo":"Custom Cakes in Ourense | Bin & Cami Cakes","nav.especialidades":"Specialities","nav.venezolano":"Venezuelan","nav.tartas":"Cakes","nav.opiniones":"Reviews","nav.encargar":"Order","nav.contacto":"Contact","menu.sabor":"Venezuelan flavour","menu.tartas":"Our cakes","menu.encargar":"How to order","menu.contacto":"Contact & opening hours","cta.idea":"Tell us your idea","hero.badge":"Artisan bakery in Ourense","hero.h1":"Custom Cakes<br>in <span class=\"subrayado text-frambuesa\">Ourense<\/span>","hero.lema":"You imagine it, we make it.","hero.p":"Unique designs for unforgettable moments, and the Venezuelan pastries that made us known around town.","hero.scroll":"Scroll to see them","ph.mesa":"Dessert table","st.resenas":"18 Google reviews","st.dias":"7 days a week","st.domingos":"Open on Sundays too","st.posio":"Next to the Posío","esp.ante":"For every celebration","esp.h2":"Unique designs for <span class=\"subrayado\">unforgettable moments<\/span>","esp.p":"Tell us the idea, the date and how many people. We sketch it, send you a price and have it ready on the day you need it.","esp.1.h":"Birthdays","esp.1.p":"From the first-birthday cake to the themed surprise the little one asks for. With figures, colours and their name in big letters.","esp.2.h":"Weddings","esp.2.p":"Tiered cakes, dessert tables and favours for your guests. We taste flavours with you before deciding.","esp.3.h":"Special events","esp.3.p":"Communions, christenings, baby showers, retirements and company celebrations. We adapt to your guest count.","esp.4.h":"Themed","esp.4.p":"Their favourite game, show or team. If you can picture it, we put it on the cake.","vz.ante":"What makes us different","vz.h2":"The <span class=\"subrayado text-frambuesa\">tres leches<\/span> you were looking for, right in Ourense","vz.p1":"We're a Venezuelan bakery, and you can tell at the counter. Alongside made-to-order cakes we bake our homestyle sweets with the recipes we grew up on: sponge soaked in three milks, freshly made golfeados and the piñitas everyone asks for.","vz.p2":"You don't have to take our word for it. It's what our customers say most on Google.","vz.cita.autor":"— Andreína Gómez, Google review (in Spanish)","vz.cta":"Ask us about the tres leches","vz.badge":"Most popular","vz.1.h":"Tres leches cake","vz.1.p":"Fluffy, moist and never too sweet. By the slice at the counter or whole to order.","vz.2.p":"The Venezuelan classic with papelón and white cheese. Fresh from the oven, to take away warm.","vz.3.p":"Filled puff pastries, the kind that vanish before you get home.","vz.4.p":"Thick, with a soft centre. “Once you try them you won't want any others,” says one customer.","gal.ante":"Our work","gal.h2":"Cakes that have already <span class=\"subrayado\">blown out candles<\/span>","gal.p":"Each one started as an idea someone sent us on WhatsApp. You can see many more on our Instagram.","cf.1.t":"Birthday cake","cf.1.d":"With figures and the name in big letters","cf.2.t":"Wedding cake","cf.2.d":"Several tiers and sugar flowers","cf.3.t":"Themed cake","cf.3.d":"Their favourite character, modelled by hand","cf.4.t":"Slice of tres leches","cf.4.d":"The counter's bestseller","cf.5.d":"Papelón and cheese, freshly baked","cf.6.d":"Thick, with a soft centre","cf.7.d":"For weddings and communions","cf.7.cta":"Tell us about your event","cf.8.t":"The bakery","cf.8.d":"Where everything comes out each morning","cf.cta":"Ask us about this one","cf.mostrando":"Showing {n} of {t}: ","gal.ig":"See more at @bin_camicakes","op.h2":"What those who've <span class=\"subrayado\">tried us<\/span> say","op.p1":"Google reviews, with an average of <strong class=\"font-semibold text-tinta\">4.9 out of 5<\/strong>","op.ver":"Read the reviews on Google","op.p2":"We don't put words in anyone's mouth: these are the reviews exactly as written, in Spanish. The ones Google trims appear trimmed, with a link to read them in full.","op.f.todas":"All","op.f.recientes":"Most recent","op.pista.raton":"Hover to pause them · click","op.pista.toca":"Tap","op.pista.resto":"a card to open its Google listing","res.semanas":"Weeks ago","res.mes":"A month ago","res.meses":"{n} months ago","res.ver":"Read the reviews on Google →","res.estrellas":"5 out of 5 stars","enc.h2":"Three steps and <span class=\"subrayado\">you're done<\/span>","enc.p":"No long forms, no sign-ups. You message us, we talk it through and you come and pick it up.","enc.1.p":"On WhatsApp at <a href=\"tel:+34656584027\" class=\"font-semibold text-frambuesa underline underline-offset-2\">656 584 027<\/a>. Tell us the date, how many people and what you have in mind. A reference photo helps enormously.","enc.2.h":"We send you a price","enc.2.p":"We confirm whether we can make your date and what it costs, with flavour and size settled. No commitment until you say yes.","enc.3.h":"Pick it up ready","enc.3.p":"On the agreed day it's waiting at the shop, boxed and ready to travel. Punctual, which is what people thank us for most.","faq.1.q":"How far in advance should I order?","faq.1.r":"Usually at least <strong class=\"font-semibold text-tinta\">72 hours<\/strong>. For weddings or designs with modelled figures, better one or two weeks. Message us and we'll confirm whether we can make your date.","faq.2.q":"What exactly is a tres leches cake?","faq.2.r":"Venezuela's best-known dessert: a fluffy sponge soaked in three milks and topped with meringue. We make it with our family recipe, and it's the one people come back for.","faq.3.q":"Do you make cakes for allergies or intolerances?","faq.3.r":"Tell us about the intolerance when you order and we'll be honest about what we can adapt. We work in a small bakery that handles gluten, egg, dairy and nuts, so <strong class=\"font-semibold text-tinta\">we can't guarantee the total absence of traces<\/strong>.","faq.4.q":"Where are you and do I need an appointment?","faq.4.r":"At <strong class=\"font-semibold text-tinta\">Rúa do Progreso 27, bajo 3<\/strong>, next to the Jardín do Posío. We're open seven days a week and no appointment is needed: drop by and see the cakes on display.","con.ante":"Where we are","con.h2":"We're waiting for you next to the <span class=\"subrayado\">Jardín do Posío<\/span>","con.dir":"Address","con.tel":"Phone & WhatsApp","con.horario":"Opening hours · open 7 days","con.caption":"Bin &amp; Cami Cakes opening hours","dia.1":"Monday","dia.2":"Tuesday","dia.3":"Wednesday","dia.4":"Thursday","dia.5":"Friday","dia.6":"Saturday","dia.0":"Sunday","hor.dias":"Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday","hor.cierraEn":"Open · closes in {n} min","hor.abiertoHasta":"Open now · until {h}","hor.abreHoy":"Closed · opens today at {h}","hor.abreEl":"Closed · opens {d} at {h}","con.wa":"Message us on WhatsApp","mapa.h":"We're at the Jardín do Posío","mapa.ver":"Open the map in Google Maps","mapa.nota":"The embedded map couldn't load here.","mapa.llegar":"Directions","pie.desc":"Artisan bakery in Ourense. Custom cakes for every celebration and the Venezuelan pastries we grew up with.","pie.web":"Site","pie.priv":"Privacy policy","pie.cookies":"Cookie policy","pie.aviso":"Legal notice","pie.lema":"CAKES · DESSERTS · SWEETS · HAPPY MOMENTS","pie.copy":"Custom cakes in Ourense","chat.titulo":"Your cake quote","chat.sub":"We'll draft your message in 5 questions","chat.abrir":"Price my cake","chat.cerrar":"Close assistant","aria.menu":"Open navigation menu","aria.menu.cerrar":"Close navigation menu","aria.ant":"Previous cake","aria.sig":"Next cake","aria.wa":"Message Bin & Cami Cakes on WhatsApp","aria.chat":"Get a quote for my cake","aria.chat.cerrar":"Close the quote assistant","chat.pasos":[{"k":"ocasion","p":"Hi! I'm the Bin & Cami Cakes assistant 🧁 I'll prepare your order in five questions. What's the occasion?","o":["Birthday","Wedding","Communion or christening","Just because"]},{"k":"personas","p":"For roughly how many people?","o":["Up to 10","Between 10 and 20","Between 20 and 40","More than 40"]},{"k":"sabor","p":"Which flavour would you like?","o":["Tres leches","Chocolate","Red velvet","I don't know yet, advise me"]},{"k":"fecha","p":"When do you need it?","o":["This week","Next week","In a month or more","I don't have a date yet"]},{"k":"diseno","p":"And lastly, how do you picture it?","o":["Simple and elegant","With modelled figures","A specific theme","I have a reference photo"]}],"chat.listo1":"Done! This is what I'll pass on to the bakery:","chat.personas":"{n} people","chat.sabor":"Flavour: ","chat.fecha":"Date: ","chat.diseno":"Design: ","chat.confirm":"We'll confirm price and availability on WhatsApp. The quote is free and there's no commitment. (The message is sent in Spanish, which is what the bakery speaks.)","chat.enviar":"Send on WhatsApp","chat.otra":"Start over","aria.llamar":"Call 656 584 027","aria.copiar":"Copy the phone number","aria.arriba":"Back to top","aria.progreso":"Quote progress","aria.ampliar":"View the photo larger","aria.visor":"Enlarged photo","aria.cerrar":"Close","aviso.copiado":"Copied: ","aviso.nocopia":"Couldn't copy","op.aviso1":"Showing {n} review","op.avisoN":"Showing {n} reviews","nav.video":"Video","vid.ante":"Behind the counter","vid.h2":"How one of our <span class=\"subrayado\">cakes is made<\/span>","vid.p":"Unhurried and by hand, every morning at the bakery by the Jardín do Posío.","vid.pendiente":"Bakery video · coming soon","vid.pendiente.alt":"Bakery video still to be filmed","vid.pie":"Filmed in the bakery itself, no editing tricks.","aria.reproducir":"Play the video"}};
+  var TRAD = {"gl":{"titulo":"Tartas personalizadas en Ourense | Bin & Cami Cakes","nav.especialidades":"Especialidades","nav.venezolano":"Venezolano","nav.tartas":"Tartas","nav.opiniones":"Opinións","nav.encargar":"Encargar","nav.contacto":"Contacto","menu.sabor":"Sabor venezolano","menu.tartas":"As nosas tartas","menu.encargar":"Como encargar","menu.contacto":"Contacto e horarios","cta.idea":"Cóntanos a túa idea","hero.badge":"Obradoiro artesán en Ourense","hero.h1":"Tartas personalizadas<br>en <span class=\"subrayado text-frambuesa\">Ourense<\/span>","hero.lema":"Ti imaxinas, nós facémolo.","hero.p":"Deseños únicos para momentos inesquecibles, e a repostería venezolana que nos fixo coñecidas na cidade.","hero.scroll":"Baixa para velas","ph.mesa":"Mesa de doces","st.resenas":"18 recensións en Google","st.dias":"Os 7 días","st.domingos":"Abrimos tamén os domingos","st.posio":"Xunto ao Posío","esp.ante":"Para cada celebración","esp.h2":"Deseños únicos para <span class=\"subrayado\">momentos inesquecibles<\/span>","esp.p":"Cóntasnos a idea, a data e para cantas persoas. Nós debuxámola, pasámoste o prezo e tela lista o día que a precisas.","esp.1.h":"Aniversarios","esp.1.p":"Desde a tarta do primeiro aniño ata a sorpresa temática que pida o cativo. Con figuras, cores e o nome ben grande.","esp.2.h":"Bodas","esp.2.p":"Tartas de varios pisos, mesa de doces e detalles para os convidados. Probamos sabores contigo antes de decidir.","esp.3.h":"Eventos especiais","esp.3.p":"Comuñóns, bautizos, baby showers, xubilacións e celebracións de empresa. Adaptámonos ao número de comensais.","esp.4.h":"Temáticas","esp.4.p":"O seu videoxogo, a súa serie ou o seu equipo favorito. Se o imaxinas, levámolo á tarta.","vz.ante":"O que nos fai distintas","vz.h2":"O <span class=\"subrayado text-frambuesa\">tres leches<\/span> que buscabas, no medio de Ourense","vz.p1":"Somos unha pastelería venezolana, e iso nótase no mostrador. Xunto ás tartas de encargo facemos os doces da casa coa receita de sempre: biscoito calado nos seus tres leites, golfeados recén feitos e as piñitas que tanto nos piden.","vz.p2":"Non fai falla que nos creas. É o que máis repiten os nosos clientes en Google.","vz.cita.autor":"— Andreína Gómez, recensión en Google","vz.cta":"Pregúntanos polo tres leches","vz.badge":"O máis pedido","vz.1.h":"Tarta tres leches","vz.1.p":"Esponxosa, zumenta e nada empalagosa. Por porción no mostrador ou enteira por encargo.","vz.2.p":"O clásico venezolano de papelón e queixo branco. Recén feitos, para levar quentiños.","vz.3.p":"Doce de follado recheo, dos que desaparecen antes de chegar á casa.","vz.4.p":"Grosas, co centro tenro. «Se as probas xa non quererás outras», di unha clienta.","gal.ante":"O noso traballo","gal.h2":"Tartas que xa <span class=\"subrayado\">soplaron velas<\/span>","gal.p":"Cada unha saíu dunha idea que alguén nos contou por WhatsApp. Podes ver moitas máis no noso Instagram.","cf.1.t":"Tarta de aniversario","cf.1.d":"Con figuras e o nome ben grande","cf.2.t":"Tarta de boda","cf.2.d":"Varios pisos e flores de azucre","cf.3.t":"Tarta temática","cf.3.d":"O seu personaxe favorito, modelado a man","cf.4.t":"Porción de tres leches","cf.4.d":"O máis pedido do mostrador","cf.5.d":"Papelón e queixo, recén feitos","cf.6.d":"Grosas e co centro tenro","cf.7.d":"Para bodas e comuñóns","cf.7.cta":"Cóntanos o teu evento","cf.8.t":"O obradoiro","cf.8.d":"De onde sae todo cada mañá","cf.cta":"Pregúntanos por esta","cf.mostrando":"Mostrando {n} de {t}: ","gal.ig":"Ver máis en @bin_camicakes","op.h2":"O que din os que xa <span class=\"subrayado\">probaron<\/span>","op.p1":"de media en Google, sobre <strong class=\"font-semibold text-tinta\">18 recensións verificadas<\/strong>","op.ver":"Ver as recensións en Google","op.p2":"Aquí non poñemos frases nosas en boca de ninguén: son as recensións tal cal as escribiron. As que Google recorta saen recortadas, con ligazón para lelas enteiras.","op.f.todas":"Todas","op.f.recientes":"Máis recentes","op.pista.raton":"Pasa o rato por riba para paralas · preme","op.pista.toca":"Toca","op.pista.resto":"unha tarxeta para abrir a súa ficha en Google","res.semanas":"Hai semanas","res.mes":"Hai un mes","res.meses":"Hai {n} meses","res.ver":"Ver as recensións en Google →","res.estrellas":"5 de 5 estrelas","enc.h2":"Tres pasos e <span class=\"subrayado\">xa está<\/span>","enc.p":"Sen formularios longos nin rexistros. Escríbesnos, falámolo e vés recollela.","enc.1.p":"Por WhatsApp ao <a href=\"tel:+34656584027\" class=\"font-semibold text-frambuesa underline underline-offset-2\">656 584 027<\/a>. Dinos a data, para cantas persoas e que imaxinas. Se tes unha foto de referencia, mándaa: axuda moitísimo.","enc.2.h":"Pasámoste o prezo","enc.2.p":"Confirmámoste se chegamos á túa data e canto custa, co sabor e o tamaño xa pechados. Sen compromiso ata que nos digas que si.","enc.3.h":"Recóllela lista","enc.3.p":"O día acordado tela na tenda, na súa caixa e preparada para transportar. Puntuais, que é o que máis nos agradecen.","faq.1.q":"Con canta antelación hai que encargar?","faq.1.r":"O habitual é avisar con polo menos <strong class=\"font-semibold text-tinta\">72 horas<\/strong>. Para bodas ou deseños con figuras modeladas, mellor unha ou dúas semanas. Escríbenos e confirmámoste se chegamos á túa data.","faq.2.q":"Que é exactamente a tarta tres leches?","faq.2.r":"A sobremesa venezolana máis coñecida: biscoito esponxoso calado en tres leites e cuberto de merengue. Facémola coa receita da casa, e é o que máis nos piden repetir.","faq.3.q":"Facedes tartas para alerxias ou intolerancias?","faq.3.r":"Cóntanos a intolerancia ao facer o encargo e dicímosche con franqueza que podemos adaptar. Traballamos nun obradoiro pequeno onde se manipulan glute, ovo, lácteos e froitos secos, así que <strong class=\"font-semibold text-tinta\">non podemos garantir a ausencia total de trazas<\/strong>.","faq.4.q":"Onde estades e hai que pedir cita?","faq.4.r":"En <strong class=\"font-semibold text-tinta\">Rúa do Progreso 27, baixo 3<\/strong>, xunto ao Xardín do Posío. Abrimos os sete días e non fai falla cita: pásate a ver as tartas expostas.","con.ante":"Onde estamos","con.h2":"Agardámoste xunto ao <span class=\"subrayado\">Xardín do Posío<\/span>","con.dir":"Enderezo","con.tel":"Teléfono e WhatsApp","con.horario":"Horario · abrimos os 7 días","con.caption":"Horario de Bin &amp; Cami Cakes","dia.1":"Luns","dia.2":"Martes","dia.3":"Mércores","dia.4":"Xoves","dia.5":"Venres","dia.6":"Sábado","dia.0":"Domingo","hor.dias":"domingo|luns|martes|mércores|xoves|venres|sábado","hor.cierraEn":"Aberto · pecha en {n} min","hor.abiertoHasta":"Aberto agora · ata as {h}","hor.abreHoy":"Pechado · abre hoxe ás {h}","hor.abreEl":"Pechado · abre o {d} ás {h}","con.wa":"Escríbenos por WhatsApp","mapa.h":"Estamos no Xardín do Posío","mapa.ver":"Ver o mapa en Google Maps","mapa.nota":"O mapa incrustado non se puido cargar aquí.","mapa.llegar":"Como chegar","pie.desc":"Pastelería artesá en Ourense. Tartas personalizadas para cada celebración e a repostería venezolana de sempre.","pie.web":"A web","pie.priv":"Política de privacidade","pie.cookies":"Política de cookies","pie.aviso":"Aviso legal","pie.lema":"TARTAS · SOBREMESAS · DOCES · MOMENTOS FELICES","pie.copy":"Tartas personalizadas en Ourense","chat.titulo":"Orzamento da túa tarta","chat.sub":"Preparámosche a mensaxe en 5 preguntas","chat.abrir":"Calcular a miña tarta","chat.cerrar":"Pechar asistente","aria.menu":"Abrir o menú de navegación","aria.menu.cerrar":"Pechar o menú de navegación","aria.ant":"Tarta anterior","aria.sig":"Tarta seguinte","aria.wa":"Escribir por WhatsApp a Bin e Cami Cakes","aria.chat":"Calcular o orzamento da miña tarta","aria.chat.cerrar":"Pechar o asistente de orzamento","chat.pasos":[{"k":"ocasion","p":"Ola! Son o asistente de Bin & Cami Cakes 🧁 Prepároche o encargo en cinco preguntas. Para que ocasión é a tarta?","o":["Aniversario","Boda","Comuñón ou bautizo","Só por antollo"]},{"k":"personas","p":"Para cantas persoas, máis ou menos?","o":["Ata 10","Entre 10 e 20","Entre 20 e 40","Máis de 40"]},{"k":"sabor","p":"Que sabor che apetece?","o":["Tres leches","Chocolate","Red velvet","Aínda non o sei, aconséllame"]},{"k":"fecha","p":"Para cando a precisas?","o":["Esta semana","A semana que vén","Dentro dun mes ou máis","Aínda non teño data"]},{"k":"diseno","p":"E por último, como a imaxinas?","o":["Sinxela e elegante","Con figuras modeladas","Dunha temática concreta","Teño unha foto de referencia"]}],"chat.listo1":"Listo! Isto é o que lle paso ao obradoiro:","chat.personas":"{n} persoas","chat.sabor":"Sabor: ","chat.fecha":"Data: ","chat.diseno":"Deseño: ","chat.confirm":"Confirmámoste prezo e dispoñibilidade por WhatsApp. O orzamento é gratis e sen compromiso. (A mensaxe vai en castelán, que é o que fala o obradoiro.)","chat.enviar":"Envialo por WhatsApp","chat.otra":"Empezar de novo","aria.llamar":"Chamar ao 656 584 027","aria.copiar":"Copiar o número de teléfono","aria.arriba":"Volver arriba","aria.progreso":"Progreso do orzamento","aria.ampliar":"Ver a foto en grande","aria.visor":"Foto ampliada","aria.cerrar":"Pechar","aviso.copiado":"Copiado: ","aviso.nocopia":"Non se puido copiar","op.aviso1":"Amosando {n} recensión","op.avisoN":"Amosando {n} recensións","nav.video":"Vídeo","vid.ante":"Detrás do mostrador","vid.h2":"Así se fai unha <span class=\"subrayado\">tarta nosa<\/span>","vid.p":"Sen présa e a man, cada mañá no obradoiro do Xardín do Posío.","vid.pendiente":"Vídeo do obradoiro · en camiño","vid.pendiente.alt":"Vídeo do obradoiro pendente de gravar","vid.pie":"Gravado no propio obradoiro, sen montaxes.","aria.reproducir":"Reproducir o vídeo","aria.nota":"Nota media de 4,9 sobre 5 en Google, con 18 recensións","vz.mas":"Ver ficha e ingredientes","fic.ante":"Do mostrador","fic.alerg":"Alérxenos","fic.provisional":"<strong class=\"font-semibold\">Información provisional.<\/strong> Ingredientes, alérxenos e conservación están pendentes de que os confirme o obradoiro. Non os tomes como definitivos.","fic.obrador":"Elaborado nun obradoiro pequeno onde se manipulan glute, ovo, lácteos e froitos secos: non podemos garantir a ausencia total de trazas. Se tes unha alerxia, dinolo ao encargar.","fic.cta":"Preguntar por este doce","fic.ing":"Ingredientes","fic.formato":"Formato","fic.conserva":"Conservación","fic.precio":"Prezo","fic.precio.v":"Confirmámosche o prezo por WhatsApp segundo o tamaño e a data.","al.gluten":"Cereais con glute","al.crustaceos":"Crustáceos","al.huevos":"Ovos","al.pescado":"Peixe","al.cacahuetes":"Cacahuetes","al.soja":"Soia","al.lacteos":"Lácteos","al.frutos":"Froitos de casca","al.apio":"Apio","al.mostaza":"Mostaza","al.sesamo":"Grans de sésamo","al.sulfitos":"Sulfitos","al.altramuces":"Chícharos bravos","al.moluscos":"Moluscos","al.si":"contén","al.trazas":"pode conter trazas","al.no":"non contén","dul.tresleches.nom":"Tarta tres leches","dul.tresleches.etq":"O máis pedido","dul.tresleches.alt":"Porción de tarta tres leches","dul.tresleches.lema":"A que nos trouxo ata aquí","dul.tresleches.desc":"Biscoito esponxoso calado en tres leites e cuberto de merengue. É a sobremesa venezolana máis coñecida e facémola coa receita da casa: zumenta, nada empalagosa e da que case ninguén leva unha soa porción.","dul.tresleches.ing":"Fariña de trigo, ovo, azucre, leite enteiro, leite condensado, leite evaporado e merengue.","dul.tresleches.formato":"Por porción no mostrador, ou enteira por encargo coa data que precises.","dul.tresleches.conserva":"Na neveira. Sácaa uns minutos antes de servir para que recupere o punto.","dul.golfeados.nom":"Golfeados","dul.golfeados.etq":"Recén feitos","dul.golfeados.alt":"Golfeados recén saídos do forno","dul.golfeados.lema":"O de merendar na casa","dul.golfeados.desc":"O clásico venezolano: masa enrolada con papelón e queixo branco relado. Saen do forno pola mañá e o mellor é levalos quentiños, que é como se comen alá.","dul.golfeados.ing":"Fariña de trigo, papelón (panela), queixo branco, manteiga, lévedo e azucre.","dul.golfeados.formato":"Por unidade no mostrador. Bandexa por encargo se é para unha merenda ou unha oficina.","dul.golfeados.conserva":"Mellor o mesmo día. Ao día seguinte, uns segundos de forno e volven estar tenros.","dul.pinitas.nom":"Piñitas","dul.pinitas.etq":"Das que voan","dul.pinitas.lema":"Non chegan á casa","dul.pinitas.desc":"Follado recheo, crocante por fóra e doce por dentro. Dos doces pequenos do mostrador é o que máis xente proba «por probar» e acaba volvendo a por máis.","dul.pinitas.ing":"Follado de fariña de trigo e manteiga, con recheo doce.","dul.pinitas.formato":"Por unidade no mostrador. Por encargo para bandexas e celebracións.","dul.pinitas.conserva":"Cómense o mesmo día: o follado perde o crocante dun día para outro.","dul.cookies.nom":"Cookies estilo NY","dul.cookies.etq":"Centro tenro","dul.cookies.lema":"«Xa non quererás outras»","dul.cookies.desc":"Grosas, do tamaño da man e co centro sen callar de todo, como as de Nova York. Unha clienta deixounos escrito en Google que se as probas xa non quererás outras, e a frase quedóusenos.","dul.cookies.ing":"Fariña de trigo, manteiga, ovo, azucre moreno e chocolate.","dul.cookies.formato":"Por unidade no mostrador. Caixa por encargo para agasallo.","dul.cookies.conserva":"A temperatura ambiente, en sitio seco. Aguantan un par de días ben tapadas."},"en":{"titulo":"Custom Cakes in Ourense | Bin & Cami Cakes","nav.especialidades":"Specialities","nav.venezolano":"Venezuelan","nav.tartas":"Cakes","nav.opiniones":"Reviews","nav.encargar":"Order","nav.contacto":"Contact","menu.sabor":"Venezuelan flavour","menu.tartas":"Our cakes","menu.encargar":"How to order","menu.contacto":"Contact & opening hours","cta.idea":"Tell us your idea","hero.badge":"Artisan bakery in Ourense","hero.h1":"Custom Cakes<br>in <span class=\"subrayado text-frambuesa\">Ourense<\/span>","hero.lema":"You imagine it, we make it.","hero.p":"Unique designs for unforgettable moments, and the Venezuelan pastries that made us known around town.","hero.scroll":"Scroll to see them","ph.mesa":"Dessert table","st.resenas":"18 Google reviews","st.dias":"7 days a week","st.domingos":"Open on Sundays too","st.posio":"Next to the Posío","esp.ante":"For every celebration","esp.h2":"Unique designs for <span class=\"subrayado\">unforgettable moments<\/span>","esp.p":"Tell us the idea, the date and how many people. We sketch it, send you a price and have it ready on the day you need it.","esp.1.h":"Birthdays","esp.1.p":"From the first-birthday cake to the themed surprise the little one asks for. With figures, colours and their name in big letters.","esp.2.h":"Weddings","esp.2.p":"Tiered cakes, dessert tables and favours for your guests. We taste flavours with you before deciding.","esp.3.h":"Special events","esp.3.p":"Communions, christenings, baby showers, retirements and company celebrations. We adapt to your guest count.","esp.4.h":"Themed","esp.4.p":"Their favourite game, show or team. If you can picture it, we put it on the cake.","vz.ante":"What makes us different","vz.h2":"The <span class=\"subrayado text-frambuesa\">tres leches<\/span> you were looking for, right in Ourense","vz.p1":"We're a Venezuelan bakery, and you can tell at the counter. Alongside made-to-order cakes we bake our homestyle sweets with the recipes we grew up on: sponge soaked in three milks, freshly made golfeados and the piñitas everyone asks for.","vz.p2":"You don't have to take our word for it. It's what our customers say most on Google.","vz.cita.autor":"— Andreína Gómez, Google review (in Spanish)","vz.cta":"Ask us about the tres leches","vz.badge":"Most popular","vz.1.h":"Tres leches cake","vz.1.p":"Fluffy, moist and never too sweet. By the slice at the counter or whole to order.","vz.2.p":"The Venezuelan classic with papelón and white cheese. Fresh from the oven, to take away warm.","vz.3.p":"Filled puff pastries, the kind that vanish before you get home.","vz.4.p":"Thick, with a soft centre. “Once you try them you won't want any others,” says one customer.","gal.ante":"Our work","gal.h2":"Cakes that have already <span class=\"subrayado\">blown out candles<\/span>","gal.p":"Each one started as an idea someone sent us on WhatsApp. You can see many more on our Instagram.","cf.1.t":"Birthday cake","cf.1.d":"With figures and the name in big letters","cf.2.t":"Wedding cake","cf.2.d":"Several tiers and sugar flowers","cf.3.t":"Themed cake","cf.3.d":"Their favourite character, modelled by hand","cf.4.t":"Slice of tres leches","cf.4.d":"The counter's bestseller","cf.5.d":"Papelón and cheese, freshly baked","cf.6.d":"Thick, with a soft centre","cf.7.d":"For weddings and communions","cf.7.cta":"Tell us about your event","cf.8.t":"The bakery","cf.8.d":"Where everything comes out each morning","cf.cta":"Ask us about this one","cf.mostrando":"Showing {n} of {t}: ","gal.ig":"See more at @bin_camicakes","op.h2":"What those who've <span class=\"subrayado\">tried us<\/span> say","op.p1":"average on Google, across <strong class=\"font-semibold text-tinta\">18 verified reviews<\/strong>","op.ver":"Read the reviews on Google","op.p2":"We don't put words in anyone's mouth: these are the reviews exactly as written, in Spanish. The ones Google trims appear trimmed, with a link to read them in full.","op.f.todas":"All","op.f.recientes":"Most recent","op.pista.raton":"Hover to pause them · click","op.pista.toca":"Tap","op.pista.resto":"a card to open its Google listing","res.semanas":"Weeks ago","res.mes":"A month ago","res.meses":"{n} months ago","res.ver":"Read the reviews on Google →","res.estrellas":"5 out of 5 stars","enc.h2":"Three steps and <span class=\"subrayado\">you're done<\/span>","enc.p":"No long forms, no sign-ups. You message us, we talk it through and you come and pick it up.","enc.1.p":"On WhatsApp at <a href=\"tel:+34656584027\" class=\"font-semibold text-frambuesa underline underline-offset-2\">656 584 027<\/a>. Tell us the date, how many people and what you have in mind. A reference photo helps enormously.","enc.2.h":"We send you a price","enc.2.p":"We confirm whether we can make your date and what it costs, with flavour and size settled. No commitment until you say yes.","enc.3.h":"Pick it up ready","enc.3.p":"On the agreed day it's waiting at the shop, boxed and ready to travel. Punctual, which is what people thank us for most.","faq.1.q":"How far in advance should I order?","faq.1.r":"Usually at least <strong class=\"font-semibold text-tinta\">72 hours<\/strong>. For weddings or designs with modelled figures, better one or two weeks. Message us and we'll confirm whether we can make your date.","faq.2.q":"What exactly is a tres leches cake?","faq.2.r":"Venezuela's best-known dessert: a fluffy sponge soaked in three milks and topped with meringue. We make it with our family recipe, and it's the one people come back for.","faq.3.q":"Do you make cakes for allergies or intolerances?","faq.3.r":"Tell us about the intolerance when you order and we'll be honest about what we can adapt. We work in a small bakery that handles gluten, egg, dairy and nuts, so <strong class=\"font-semibold text-tinta\">we can't guarantee the total absence of traces<\/strong>.","faq.4.q":"Where are you and do I need an appointment?","faq.4.r":"At <strong class=\"font-semibold text-tinta\">Rúa do Progreso 27, bajo 3<\/strong>, next to the Jardín do Posío. We're open seven days a week and no appointment is needed: drop by and see the cakes on display.","con.ante":"Where we are","con.h2":"We're waiting for you next to the <span class=\"subrayado\">Jardín do Posío<\/span>","con.dir":"Address","con.tel":"Phone & WhatsApp","con.horario":"Opening hours · open 7 days","con.caption":"Bin &amp; Cami Cakes opening hours","dia.1":"Monday","dia.2":"Tuesday","dia.3":"Wednesday","dia.4":"Thursday","dia.5":"Friday","dia.6":"Saturday","dia.0":"Sunday","hor.dias":"Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday","hor.cierraEn":"Open · closes in {n} min","hor.abiertoHasta":"Open now · until {h}","hor.abreHoy":"Closed · opens today at {h}","hor.abreEl":"Closed · opens {d} at {h}","con.wa":"Message us on WhatsApp","mapa.h":"We're at the Jardín do Posío","mapa.ver":"Open the map in Google Maps","mapa.nota":"The embedded map couldn't load here.","mapa.llegar":"Directions","pie.desc":"Artisan bakery in Ourense. Custom cakes for every celebration and the Venezuelan pastries we grew up with.","pie.web":"Site","pie.priv":"Privacy policy","pie.cookies":"Cookie policy","pie.aviso":"Legal notice","pie.lema":"CAKES · DESSERTS · SWEETS · HAPPY MOMENTS","pie.copy":"Custom cakes in Ourense","chat.titulo":"Your cake quote","chat.sub":"We'll draft your message in 5 questions","chat.abrir":"Price my cake","chat.cerrar":"Close assistant","aria.menu":"Open navigation menu","aria.menu.cerrar":"Close navigation menu","aria.ant":"Previous cake","aria.sig":"Next cake","aria.wa":"Message Bin & Cami Cakes on WhatsApp","aria.chat":"Get a quote for my cake","aria.chat.cerrar":"Close the quote assistant","chat.pasos":[{"k":"ocasion","p":"Hi! I'm the Bin & Cami Cakes assistant 🧁 I'll prepare your order in five questions. What's the occasion?","o":["Birthday","Wedding","Communion or christening","Just because"]},{"k":"personas","p":"For roughly how many people?","o":["Up to 10","Between 10 and 20","Between 20 and 40","More than 40"]},{"k":"sabor","p":"Which flavour would you like?","o":["Tres leches","Chocolate","Red velvet","I don't know yet, advise me"]},{"k":"fecha","p":"When do you need it?","o":["This week","Next week","In a month or more","I don't have a date yet"]},{"k":"diseno","p":"And lastly, how do you picture it?","o":["Simple and elegant","With modelled figures","A specific theme","I have a reference photo"]}],"chat.listo1":"Done! This is what I'll pass on to the bakery:","chat.personas":"{n} people","chat.sabor":"Flavour: ","chat.fecha":"Date: ","chat.diseno":"Design: ","chat.confirm":"We'll confirm price and availability on WhatsApp. The quote is free and there's no commitment. (The message is sent in Spanish, which is what the bakery speaks.)","chat.enviar":"Send on WhatsApp","chat.otra":"Start over","aria.llamar":"Call 656 584 027","aria.copiar":"Copy the phone number","aria.arriba":"Back to top","aria.progreso":"Quote progress","aria.ampliar":"View the photo larger","aria.visor":"Enlarged photo","aria.cerrar":"Close","aviso.copiado":"Copied: ","aviso.nocopia":"Couldn't copy","op.aviso1":"Showing {n} review","op.avisoN":"Showing {n} reviews","nav.video":"Video","vid.ante":"Behind the counter","vid.h2":"How one of our <span class=\"subrayado\">cakes is made<\/span>","vid.p":"Unhurried and by hand, every morning at the bakery by the Jardín do Posío.","vid.pendiente":"Bakery video · coming soon","vid.pendiente.alt":"Bakery video still to be filmed","vid.pie":"Filmed in the bakery itself, no editing tricks.","aria.reproducir":"Play the video","aria.nota":"Average rating of 4.9 out of 5 on Google, from 18 reviews","vz.mas":"See ingredients & allergens","fic.ante":"From the counter","fic.alerg":"Allergens","fic.provisional":"<strong class=\"font-semibold\">Provisional information.<\/strong> Ingredients, allergens and storage are still to be confirmed by the bakery. Please don’t treat them as final.","fic.obrador":"Made in a small bakery that handles gluten, egg, dairy and nuts: we can’t guarantee the total absence of traces. If you have an allergy, tell us when you order.","fic.cta":"Ask us about this one","fic.ing":"Ingredients","fic.formato":"Format","fic.conserva":"Storage","fic.precio":"Price","fic.precio.v":"We confirm the price on WhatsApp, based on size and date.","al.gluten":"Cereals containing gluten","al.crustaceos":"Crustaceans","al.huevos":"Eggs","al.pescado":"Fish","al.cacahuetes":"Peanuts","al.soja":"Soya","al.lacteos":"Milk","al.frutos":"Tree nuts","al.apio":"Celery","al.mostaza":"Mustard","al.sesamo":"Sesame seeds","al.sulfitos":"Sulphites","al.altramuces":"Lupin","al.moluscos":"Molluscs","al.si":"contains","al.trazas":"may contain traces","al.no":"does not contain","dul.tresleches.nom":"Tres leches cake","dul.tresleches.etq":"Most popular","dul.tresleches.alt":"A slice of tres leches cake","dul.tresleches.lema":"The one that got us here","dul.tresleches.desc":"A fluffy sponge soaked in three milks and topped with meringue. It’s Venezuela’s best-known dessert and we make it with our family recipe: moist, never too sweet, and hardly anyone leaves with just one slice.","dul.tresleches.ing":"Wheat flour, egg, sugar, whole milk, condensed milk, evaporated milk and meringue.","dul.tresleches.formato":"By the slice at the counter, or whole to order for the date you need.","dul.tresleches.conserva":"Keep refrigerated. Take it out a few minutes before serving.","dul.golfeados.nom":"Golfeados","dul.golfeados.etq":"Freshly baked","dul.golfeados.alt":"Golfeados fresh out of the oven","dul.golfeados.lema":"The afternoon-snack one","dul.golfeados.desc":"The Venezuelan classic: rolled dough with papelón and grated white cheese. They come out of the oven in the morning and they’re best carried home warm, which is how they’re eaten back home.","dul.golfeados.ing":"Wheat flour, papelón (unrefined cane sugar), white cheese, butter, yeast and sugar.","dul.golfeados.formato":"Sold singly at the counter. Trays to order for a get-together or an office.","dul.golfeados.conserva":"Best the same day. Next day, a few seconds in the oven brings them back.","dul.pinitas.nom":"Piñitas","dul.pinitas.etq":"They vanish","dul.pinitas.lema":"They never make it home","dul.pinitas.desc":"Filled puff pastry, crisp outside and sweet inside. Of all the small sweets at the counter it’s the one most people try “just to see” and then come back for.","dul.pinitas.ing":"Puff pastry made with wheat flour and butter, with a sweet filling.","dul.pinitas.formato":"Sold singly at the counter. To order for trays and celebrations.","dul.pinitas.conserva":"Eat them the same day: the pastry loses its crispness overnight.","dul.cookies.nom":"New York style cookies","dul.cookies.etq":"Soft centre","dul.cookies.lema":"“You won’t want any others”","dul.cookies.desc":"Thick, the size of your hand and with the centre still soft, like the ones in New York. A customer wrote on Google that once you try them you won’t want any others, and the line stuck with us.","dul.cookies.ing":"Wheat flour, butter, egg, brown sugar and chocolate.","dul.cookies.formato":"Sold singly at the counter. Gift boxes to order.","dul.cookies.conserva":"At room temperature, somewhere dry. They keep a couple of days well wrapped."}};
   var ES = { titulo: document.title };
   var nodos = Array.prototype.slice.call(document.querySelectorAll('[data-i18n]'));
   var arias = Array.prototype.slice.call(document.querySelectorAll('[data-i18n-aria]'));
@@ -2818,20 +2962,29 @@
 
   /* Contador animado, solo cuando entra en pantalla */
   var cont = document.getElementById('contador');
+  /* El decimal se escribe con coma en castellano y galego y con punto en
+     inglés, así que la nota se repinta al cambiar de idioma. */
+  function coma(){ return window.idiomaActual && window.idiomaActual() === 'en' ? '.' : ','; }
+  function pintaNota(v){ if (cont) cont.textContent = v.toFixed(1).replace('.', coma()); }
+  window.addEventListener('idioma', function(){
+    if (cont && cont.textContent !== '0,0') pintaNota(4.9);
+  });
   if (cont && 'IntersectionObserver' in window &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     var obs = new IntersectionObserver(function(e){
       if (!e[0].isIntersecting) return;
       obs.disconnect();
-      var fin = 18, t0 = performance.now();
+      /* Sube hasta la nota, no hasta el recuento: 4,9 con coma, que es como se
+         escribe el decimal en castellano y en galego. */
+      var fin = 4.9, t0 = performance.now();
       (function paso(t){
         var k = Math.min(1, (t - t0) / 1100);
-        cont.textContent = Math.round(fin * (1 - Math.pow(1 - k, 3)));
+        pintaNota(fin * (1 - Math.pow(1 - k, 3)));
         if (k < 1) requestAnimationFrame(paso);
       })(t0);
     }, { threshold: 0.4 });
     obs.observe(cont);
-  } else if (cont) { cont.textContent = '18'; }
+  } else if (cont) { pintaNota(4.9); }
 })();
 
 /* ============ VÍDEO DEL OBRADOR ============
@@ -2935,6 +3088,198 @@
     var dx = e.changedTouches[0].clientX - x0; x0 = null;
     if (Math.abs(dx) > 45) mover(dx < 0 ? 1 : -1);
   }, { passive:true });
+})();
+
+/* ============ FICHA DE PRODUCTO ============
+   Los datos de cada dulce viven aquí, en un solo sitio, y el diálogo se
+   rellena al abrirlo.
+
+   AVISO IMPORTANTE, esto no es un detalle: los ingredientes, los alérgenos y
+   la conservación de aquí abajo están DEDUCIDOS de lo que la propia web ya
+   dice del producto (un bizcocho lleva harina de trigo; el golfeado lleva
+   papelón y queso blanco; el obrador manipula gluten, huevo, lácteos y frutos
+   secos, que es lo que contesta la pregunta frecuente). NO los ha confirmado
+   el obrador. Mientras ALERGENOS_VALIDADOS siga en false, cada ficha avisa de
+   que la información es provisional. Cuando Luisa repase los cuatro dulces y
+   dé el visto bueno, se corrigen los datos y se pone en true: el aviso
+   desaparece de las cuatro fichas de golpe.
+
+   Un dato de alérgenos equivocado en una pastelería no es una errata: es un
+   riesgo para quien lo lea. Que nadie lo publique sin ese repaso. */
+(function(){
+  'use strict';
+  var dlg = document.getElementById('ficha');
+  if (!dlg || !dlg.showModal) return;
+
+  var ALERGENOS_VALIDADOS = false;   /* <- a true SÓLO cuando el obrador los confirme */
+
+  /* Los catorce alérgenos de declaración obligatoria (Reglamento UE 1169/2011),
+     en el mismo orden del anexo II, para que la lista sea reconocible. */
+  var ALERG = [
+    ['gluten', 'Cereales con gluten'], ['crustaceos', 'Crustáceos'],
+    ['huevos', 'Huevos'],              ['pescado', 'Pescado'],
+    ['cacahuetes', 'Cacahuetes'],      ['soja', 'Soja'],
+    ['lacteos', 'Lácteos'],            ['frutos', 'Frutos de cáscara'],
+    ['apio', 'Apio'],                  ['mostaza', 'Mostaza'],
+    ['sesamo', 'Granos de sésamo'],    ['sulfitos', 'Sulfitos'],
+    ['altramuces', 'Altramuces'],      ['moluscos', 'Moluscos']
+  ];
+
+  var DULCES = {
+    tresleches: {
+      nombre: 'Tarta tres leches', etiqueta: 'El más pedido',
+      foto: 'assets/tres-leches.jpg', lqip: 'lqip-tres-leches', emoji: '🍰',
+      lema: 'La que nos trajo hasta aquí',
+      desc: 'Bizcocho esponjoso calado en tres leches y cubierto de merengue. Es el postre venezolano más conocido y lo hacemos con la receta de casa: jugoso, nada empalagoso y del que casi nadie se lleva una sola porción.',
+      ing: 'Harina de trigo, huevo, azúcar, leche entera, leche condensada, leche evaporada y merengue.',
+      formato: 'Por porción en el mostrador, o entera por encargo con la fecha que necesites.',
+      conserva: 'En nevera. Sácala unos minutos antes de servir para que recupere el punto.',
+      wa: 'Hola, quiero preguntar por la tarta tres leches',
+      alerg: { gluten:'si', huevos:'si', lacteos:'si', frutos:'trazas', soja:'trazas' }
+    },
+    golfeados: {
+      nombre: 'Golfeados', etiqueta: 'Recién hechos',
+      foto: 'assets/golfeados.jpg', lqip: 'lqip-golfeados', emoji: '🥮',
+      lema: 'El de merendar en casa',
+      desc: 'El clásico venezolano: masa enrollada con papelón y queso blanco rallado. Salen del horno por la mañana y lo mejor es llevárselos calentitos, que es como se comen allá.',
+      ing: 'Harina de trigo, papelón (panela), queso blanco, mantequilla, levadura y azúcar.',
+      formato: 'Por unidad en el mostrador. Bandeja por encargo si es para una merienda o una oficina.',
+      conserva: 'Mejor el mismo día. Al día siguiente, unos segundos de horno y vuelven a estar tiernos.',
+      wa: 'Hola, quiero preguntar por los golfeados',
+      alerg: { gluten:'si', lacteos:'si', huevos:'trazas', frutos:'trazas' }
+    },
+    pinitas: {
+      nombre: 'Piñitas', etiqueta: 'De las que vuelan',
+      foto: '', emoji: '🥐',
+      lema: 'No llegan a casa',
+      desc: 'Hojaldre relleno, crujiente por fuera y dulce por dentro. De los dulces pequeños del mostrador es el que más gente prueba «por probar» y acaba volviendo a por más.',
+      ing: 'Hojaldre de harina de trigo y mantequilla, con relleno dulce.',
+      formato: 'Por unidad en el mostrador. Por encargo para bandejas y celebraciones.',
+      conserva: 'Se comen el mismo día: el hojaldre pierde el crujiente de un día para otro.',
+      wa: 'Hola, quiero preguntar por las piñitas',
+      alerg: { gluten:'si', lacteos:'si', huevos:'trazas', frutos:'trazas' }
+    },
+    cookies: {
+      nombre: 'Cookies estilo NY', etiqueta: 'Centro tierno',
+      foto: '', emoji: '🍪',
+      lema: '«Ya no querrás otras»',
+      desc: 'Gruesas, del tamaño de la mano y con el centro sin cuajar del todo, como las de Nueva York. Una clienta nos dejó escrito en Google que si las pruebas ya no querrás otras, y la frase se nos quedó.',
+      ing: 'Harina de trigo, mantequilla, huevo, azúcar moreno y chocolate.',
+      formato: 'Por unidad en el mostrador. Caja por encargo para regalo.',
+      conserva: 'A temperatura ambiente, en sitio seco. Aguantan un par de días bien tapadas.',
+      wa: 'Hola, quiero preguntar por las cookies',
+      alerg: { gluten:'si', huevos:'si', lacteos:'si', soja:'si', frutos:'trazas' }
+    }
+  };
+
+  var lado  = document.getElementById('ficha-lado');
+  var nom   = document.getElementById('ficha-nombre');
+  var lema  = document.getElementById('ficha-lema');
+  var desc  = document.getElementById('ficha-desc');
+  var datos = document.getElementById('ficha-datos');
+  var lista = document.getElementById('ficha-alergenos');
+  var wa    = document.getElementById('ficha-wa');
+  var prov  = document.getElementById('ficha-provisional');
+  var abierto = null, devolverFoco = null;
+
+  function tx(clave, esp){ return window.t ? window.t(clave, esp) : esp; }
+
+  function fila(clave, etiqueta, valor){
+    var d = document.createElement('div'); d.className = 'ficha-dato';
+    var dt = document.createElement('dt'); dt.textContent = tx('fic.' + clave, etiqueta);
+    var dd = document.createElement('dd'); dd.textContent = valor;
+    d.appendChild(dt); d.appendChild(dd); datos.appendChild(d);
+  }
+
+  function pinta(id){
+    var p = DULCES[id];
+    if (!p) return;
+    abierto = id;
+
+    /* foto si la hay; si no, el emoji grande sobre el degradado de la casa */
+    lado.textContent = '';
+    if (p.foto){
+      var img = document.createElement('img');
+      img.src = p.foto; img.alt = tx('dul.' + id + '.alt', p.nombre);
+      img.loading = 'lazy'; img.decoding = 'async';
+      if (p.lqip) lado.className = 'ficha-lado ' + p.lqip;
+      lado.appendChild(img);
+    } else {
+      lado.className = 'ficha-lado';
+      var e = document.createElement('span');
+      e.className = 'ficha-emoji'; e.setAttribute('aria-hidden', 'true');
+      e.textContent = p.emoji;
+      lado.appendChild(e);
+    }
+    if (p.etiqueta){
+      var et = document.createElement('span');
+      et.className = 'ficha-etiqueta'; et.textContent = tx('dul.' + id + '.etq', p.etiqueta);
+      lado.appendChild(et);
+    }
+
+    nom.textContent  = tx('dul.' + id + '.nom', p.nombre);
+    lema.textContent = tx('dul.' + id + '.lema', p.lema);
+    desc.textContent = tx('dul.' + id + '.desc', p.desc);
+
+    datos.textContent = '';
+    fila('ing',      'Ingredientes',  tx('dul.' + id + '.ing', p.ing));
+    fila('formato',  'Formato',       tx('dul.' + id + '.formato', p.formato));
+    fila('conserva', 'Conservación',  tx('dul.' + id + '.conserva', p.conserva));
+    fila('precio',   'Precio',        tx('fic.precio.v', 'Te lo confirmamos por WhatsApp según el tamaño y la fecha.'));
+
+    lista.textContent = '';
+    ALERG.forEach(function(par){
+      var estado = p.alerg[par[0]] || 'no';
+      var li = document.createElement('li');
+      li.setAttribute('data-estado', estado);
+      var pip = document.createElement('span');
+      pip.className = 'alerg-pip'; pip.setAttribute('aria-hidden', 'true');
+      var tex = document.createElement('span');
+      tex.textContent = tx('al.' + par[0], par[1]);
+      li.appendChild(pip); li.appendChild(tex);
+      /* el color por sí solo no vale: el estado va también en palabras, que es
+         lo que lee un lector de pantalla y lo que ve quien no distingue los
+         tonos */
+      var sr = document.createElement('span');
+      sr.className = 'sr-only';
+      sr.textContent = ' · ' + (estado === 'si'     ? tx('al.si', 'contiene')
+                              : estado === 'trazas' ? tx('al.trazas', 'puede contener trazas')
+                              :                       tx('al.no', 'no contiene'));
+      li.appendChild(sr);
+      lista.appendChild(li);
+    });
+
+    wa.href = 'https://wa.me/34656584027?text=' + encodeURIComponent(p.wa);
+    prov.hidden = ALERGENOS_VALIDADOS;
+  }
+
+  function abrir(id, origen){
+    devolverFoco = origen || null;
+    pinta(id);
+    dlg.showModal();
+  }
+
+  document.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.ficha-abre') : null;
+    if (b){ e.preventDefault(); abrir(b.getAttribute('data-dulce'), b); return; }
+    /* pulsar en cualquier parte de la tarjeta vale igual, menos si se pulsó un
+       enlace o un botón de dentro */
+    var tarjeta = e.target.closest ? e.target.closest('.mostrador') : null;
+    if (tarjeta && !e.target.closest('a')){
+      var boton = tarjeta.querySelector('.ficha-abre');
+      abrir(tarjeta.getAttribute('data-dulce'), boton);
+    }
+  });
+
+  document.getElementById('ficha-cerrar').addEventListener('click', function(){ dlg.close(); });
+  /* pulsar el fondo cierra: el propio <dialog> es el fondo, sus hijos no */
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('close', function(){
+    if (devolverFoco) { try { devolverFoco.focus(); } catch(err){} }
+    devolverFoco = null;
+  });
+  /* si se cambia de idioma con la ficha abierta, se repinta */
+  window.addEventListener('idioma', function(){ if (dlg.open && abierto) pinta(abierto); });
 })();
 
 /* ============ ACORDEÓN DE PREGUNTAS ============
