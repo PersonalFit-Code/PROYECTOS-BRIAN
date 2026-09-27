@@ -1,0 +1,5 @@
+# Se regeneran desde dist/ y pesan varios megas cada uno: no tiene sentido
+# guardar una copia nueva en el historial cada vez que se toca una coma.
+# dist/ SÍ va al repositorio: es lo que se sube a Vercel.
+bin-cami-cakes-vercel.zip
+bin-cami-cakes-vista-previa.html

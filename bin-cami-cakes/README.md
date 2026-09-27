@@ -64,7 +64,24 @@ encima— y el corte de los lados se funde con una máscara, como en el ticker.
 Los titulares van en **Fraunces** (serif con carácter, cálida y algo juguetona,
 la letra de rótulo de pastelería) y los acentos a mano —el lema de la portada,
 el «Cakes» del nombre, la firma de la cita— en **Caveat**. El texto corrido en
-**Plus Jakarta Sans**. Los botones y rótulos pequeños en versalitas se quedan
+**Plus Jakarta Sans**.
+
+**Las tres se sirven desde la propia web**, en `assets/fuentes/`, no desde
+Google Fonts. Los bytes que se descargan son casi los mismos (son las mismas
+fuentes); lo que se quita es la dependencia:
+
+1. Una hoja de estilo de otro dominio **bloquea el pintado**. Si esa petición
+   tarda —el wifi de un local, una presentación— la página aparece con la letra
+   del sistema delante del cliente.
+2. Se ahorran dos conexiones nuevas (DNS + TLS) antes del primer pintado.
+3. La IP del visitante deja de salir hacia un tercero sólo por abrir la web,
+   que es lo que obligaba a nombrar a Google Fonts en la política de privacidad.
+
+Se regeneran con `fuentes_locales.py` del cuaderno de trabajo, que se queda con
+el subconjunto *latin* (castellano, galego e inglés caben enteros) y recorta los
+ejes variables a los pesos que la web usa: 245 KB → 221 KB. Si algún día hace
+falta un carácter de fuera, el navegador lo pinta con la letra del sistema, que
+es lo mismo que pasaba antes. Los botones y rótulos pequeños en versalitas se quedan
 en la sans a propósito: una serif a 11 px en mayúsculas se emborrona. Clases:
 `font-display` (titulares), `font-mano` (Caveat) y `font-rotulo` (botones).
 Las citas de las reseñas van en Fraunces cursiva, que es la «otra escritura»
@@ -120,6 +137,50 @@ de Apple son de Apple y no se pueden servir desde una web ajena.
 - **Carga progresiva**: cada foto lleva detrás una miniatura de 20 px
   incrustada en el CSS (~1 KB cada una) y la foto real se funde encima. Las
   clases las activa el JS desde la cabecera; sin JS las fotos se ven tal cual.
+
+## Ficha de cada dulce, y por qué los alérgenos llevan aviso
+
+Los cuatro dulces del mostrador abren una ficha con ingredientes, formato,
+conservación, precio y los catorce alérgenos del anexo II del Reglamento UE
+1169/2011. Es un `<dialog>` nativo con `showModal()`, igual que el visor de
+fotos: Escape, foco atrapado y fondo inerte salen gratis.
+
+**Los datos de alérgenos están deducidos, no confirmados.** Salen de lo que la
+propia web ya dice de cada producto (un bizcocho lleva harina de trigo; el
+golfeado lleva papelón y queso blanco; el obrador manipula gluten, huevo,
+lácteos y frutos secos, que es lo que contesta la pregunta frecuente). Mientras
+`ALERGENOS_VALIDADOS` siga en `false`, cada ficha lo avisa en amarillo. Cuando
+la titular repase los cuatro, se corrigen los datos y se pone en `true`: el
+aviso desaparece de las cuatro de golpe.
+
+Un dato de alérgenos equivocado en una pastelería no es una errata: es un riesgo
+para quien lo lea. Que nadie lo publique sin ese repaso.
+
+## Cookies: el banner no es un cartel
+
+Lo único de esta web que carga algo de un tercero con cookies es el mapa de
+Google. No hay analítica, ni píxeles, ni publicidad, y desde que las
+tipografías se sirven desde aquí tampoco hay peticiones a Google Fonts.
+
+Por eso el iframe del mapa **arranca sin `src`**: la dirección va en `data-src`
+y el navegador no pide nada a Google hasta que se acepta. Comprobado
+interceptando el tráfico de red: cero peticiones. Un banner que sale cuando el
+iframe ya se ha cargado no sirve para nada.
+
+Dos reglas más que se cumplen aquí y que la mayoría de banners se salta:
+
+- **«Rechazar» está al mismo nivel** que «Aceptar», con el mismo tamaño y el
+  mismo contraste.
+- **No aceptar no rompe nada**: siguen la dirección, el horario y el enlace a
+  Google Maps, que es lo que de verdad necesita quien quiere venir.
+
+Lo elegido se guarda en el almacenamiento local (no hace falta mandarlo a
+ningún servidor), caduca a los doce meses y se puede cambiar desde
+«Preferencias de cookies», en el pie.
+
+El banner espera a que la persona baje de la portada, o a seis segundos si se
+queda arriba. Puesto nada más cargar se plantaba justo encima de los dos
+botones de la portada.
 
 ## El vídeo
 
@@ -222,11 +283,69 @@ sitio aunque el iframe cargue perfectamente.
 Resumen práctico: **el mapa se ve en Vercel y abriendo el archivo en el
 ordenador; no se ve en la vista previa del artefacto.**
 
+## Las fotos van en WebP
+
+Cada foto tiene su `.webp` y su `.jpg` al lado. El HTML apunta al WebP, que pesa
+la mitad con la misma pinta (864 KB → 458 KB en total). El JPG es la red de
+seguridad: un escuchador de errores **en la cabecera** cambia la extensión si el
+navegador no entiende WebP.
+
+Tiene que estar en la cabecera y no con el resto del JavaScript al final: la
+primera versión iba abajo y para entonces las fotos ya habían fallado. El evento
+`error` ya había pasado y no lo recogía nadie — de doce fotos rotas se
+recuperaba una. Va en fase de captura porque `error`, como `load`, no burbujea.
+
+Se regeneran recorriendo `assets/*.jpg` con Pillow a calidad 80.
+
+## Que no vaya lento el día de la presentación
+
+Tres puertas al **modo ligero**, que apaga los efectos que pintan en cada
+fotograma (inclinación de las tarjetas, confeti, arrastre automático del
+comparador) y deja los que no cuestan nada:
+
+1. **A mano**: `?ligero=1` en la dirección. Es la red de seguridad para enseñar
+   la web en un ordenador que no conoces.
+2. **Por lo que declara el aparato**, sólo en lo evidente: dos hilos o menos,
+   menos de un giga, o el ahorro de datos encendido. El primer intento fue
+   «cuatro hilos o menos» y apagaba los efectos en medio portátil normal, que
+   es lo contrario de lo que se busca.
+3. **Midiendo**: un vigilante cuenta cuánto tarda cada fotograma durante el
+   scroll y, si la mediana pasa de 26 ms (menos de 38 img/s), aligera. Adivinar
+   por el número de núcleos es una apuesta; medir el fotograma es el dato.
+
+Medido con `rendimiento.mjs` sobre el `dist/` servido por HTTP:
+
+| | normal | procesador a 1/4 | a 1/4 con `?ligero=1` | móvil a 1/6 |
+|---|---|---|---|---|
+| descarga | 1043 KB en 13 peticiones | igual | igual | igual |
+| primer contenido | 264 ms | 408 ms | 256 ms | 364 ms |
+| contenido principal (LCP) | 864 ms | 1104 ms | 1032 ms | 1232 ms |
+| salto de diseño (CLS) | 0,000 | 0,000 | 0,000 | 0,000 |
+| scroll | 60 img/s | 60 img/s | 60 img/s | 60 img/s |
+
+El documento son 388 KB que Vercel sirve en **105 comprimidos**, así que lo que
+viaja de verdad ronda los 760 KB.
+
 ## Falta todavía
 
+- [ ] **Alérgenos**: los de las cuatro fichas están DEDUCIDOS de lo que la propia
+      web dice de cada producto, no confirmados por el obrador. Mientras
+      `ALERGENOS_VALIDADOS` siga en `false` cada ficha lo avisa en amarillo.
+      Cuando Luisa repase los cuatro, se corrigen y se pone en `true`.
+- [ ] **Denominación social, NIF y correo** para el aviso legal y la política de
+      privacidad: seis huecos marcados en amarillo (`.pendiente`)
+- [ ] **La historia de Bin y Cami**: el recuadro de «Quiénes somos» está a
+      propósito sin rellenar — año de apertura, de dónde vienen, quién es quién
+- [ ] ¿Hacen croissants y barras de pan? Si sí, van a la cinta del mostrador
 - [ ] Las 4 fotos que faltan (cookies, mesa de dulces, piñitas, obrador) + regenerar la de "tarta temática" sin texto horneado
+- [ ] **El boceto del comparador lo generé yo** a partir de su propia foto (filtro
+      de lápiz). Sale rotulado como «Boceto de ejemplo». Cuando pasen un boceto
+      real con su tarta terminada, se sustituyen las dos imágenes y se quita la
+      palabra «ejemplo»
 - [ ] Imagen de compartir `assets/og-image.png` (1200×630)
-- [ ] Denominación social y NIF para el aviso legal
+- [ ] Conectar el alta de novedades a un servicio de listas: hay una constante
+      `ENDPOINT` vacía en el JS. Mientras esté vacía, el formulario prepara el
+      alta por WhatsApp con el consentimiento escrito, que funciona de verdad
 - [ ] Confirmar el horario del martes (la ficha de Google pone «10:00–2:00»)
 - [ ] Dominio: ahora el canonical apunta a `bincamicakes.es`, que hay que ajustar
       al dominio real antes de publicar

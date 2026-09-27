@@ -4820,9 +4820,12 @@
     var btn = document.getElementById('distancia-btn');
     var salida = document.getElementById('distancia');
     if (!btn || !salida) return;
-    if (!navigator.geolocation || !(location.protocol === 'https:' || location.hostname === 'localhost' ||
-        location.protocol === 'file:')){
-      btn.hidden = true;        /* sin https el navegador ni lo intenta */
+    /* isSecureContext y no una lista de protocolos escrita a mano: el
+       navegador ya sabe dónde permite la geolocalización, y mi lista se
+       dejaba fuera 127.0.0.1, que los navegadores SÍ tratan como seguro. Con
+       ella el botón no salía en las pruebas servidas por HTTP. */
+    if (!navigator.geolocation || !window.isSecureContext){
+      btn.hidden = true;
       return;
     }
     var OBRADOR = { lat: 42.33410, lon: -7.86370 };
