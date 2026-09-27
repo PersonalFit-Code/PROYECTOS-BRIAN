@@ -293,6 +293,44 @@ const gl: DataTranslations = {
       badge: "Sen glute",
       pairingWhy: "Un tinto atlántico fresco e froiteiro que equilibra a untuosidade da orella.",
     },
+    croquetas: {
+      kicker: "Bechamel de 24 h",
+      headline: "As croquetas máis aplaudidas de Ourense",
+      description:
+        "Bechamel de grelo que repousa vinte e catro horas antes de formarse, con chipirón na súa tinta. Crocantes por fóra e tan cremosas por dentro que case se beben.",
+      ingredients: ["Grelos", "Chipirón na súa tinta", "Bechamel de 24 h", "Pan relado", "AOVE"],
+      unit: "8 uds",
+      badge: "As máis pedidas",
+      pairingWhy: "O branco de Ourense: a súa acidez floral corta a untuosidade da bechamel e deixa a boca limpa.",
+    },
+    chistorra: {
+      kicker: "A especialidade da casa",
+      headline: "A tixola que chega chispeando á mesa",
+      description:
+        "Chistorra á brasa, ovos de campo rotos e patacas palla, servidos na tixola de ferro ao vermello. Mestúrase todo na mesa e cómese con pan de Cea.",
+      ingredients: ["Chistorra", "Ovos de campo", "Patacas palla", "Pemento", "AOVE"],
+      unit: "tixola",
+      pairingWhy: "Un tinto de viñedo heroico, fresco e lixeiro, que aguanta o punto especiado da chistorra.",
+    },
+    quesos: {
+      kicker: "Para compartir",
+      headline: "Os tres queixos de Galicia, nunha táboa",
+      description:
+        "Arzúa-Ulloa cremoso, San Simón da Costa afumado con bidueiro e Tetilla suave, con marmelo caseiro e noces. A táboa que mellor acompaña unha botella da vinoteca.",
+      ingredients: ["Arzúa-Ulloa D.O.P.", "San Simón da Costa D.O.P.", "Tetilla D.O.P.", "Marmelo caseiro", "Noces"],
+      unit: "táboa",
+      pairingWhy: "O seu corpo e o seu punto mineral sosteñen o afumado do San Simón sen tapalo.",
+    },
+    vegana: {
+      kicker: "100 % vexetal",
+      headline: "Unha tixola que non renuncia a nada",
+      description:
+        "Cogomelos de temporada, pemento, cabaciña e tofu afumado salteados con pemento da Vera na tixola de ferro. Vegana e sen glute, co mesmo punto de brasa.",
+      ingredients: ["Cogomelos de temporada", "Pemento", "Cabaciña", "Tofu afumado", "Pemento da Vera", "AOVE"],
+      unit: "tixola",
+      badge: "Vegana",
+      pairingWhy: "Lixeiro e floral, realza os cogomelos sen pisar o afumado do tofu.",
+    },
   },
 
   allergens: {

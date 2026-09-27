@@ -184,8 +184,8 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
         <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-iron/90 to-transparent md:w-24 lg:w-40" />
 
         {/* Flechas laterales (tablet/escritorio) */}
-        <ArrowButton dir="prev" label={m.dishes.carousel.prev} onClick={scrollPrev} className="absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 md:inline-flex lg:left-8" />
-        <ArrowButton dir="next" label={m.dishes.carousel.next} onClick={scrollNext} className="absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 md:inline-flex lg:right-8" />
+        <ArrowButton dir="prev" label={m.dishes.carousel.prev} onClick={scrollPrev} className="absolute left-3 top-1/2 z-20 -translate-y-1/2 max-md:hidden lg:left-8" />
+        <ArrowButton dir="next" label={m.dishes.carousel.next} onClick={scrollNext} className="absolute right-3 top-1/2 z-20 -translate-y-1/2 max-md:hidden lg:right-8" />
       </div>
 
       {/* Controles: flechas (móvil) + puntos + pausa */}

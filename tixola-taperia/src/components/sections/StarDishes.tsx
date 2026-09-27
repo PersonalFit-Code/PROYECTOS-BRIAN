@@ -4,6 +4,7 @@ import { MotionConfig, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import DishCarousel from "@/components/ui/DishCarousel";
+import DishCarousel3D from "@/components/ui/DishCarousel3D";
 import DishSpotlight from "@/components/ui/DishSpotlight";
 import type { DishPhoto, DishSlide } from "@/components/ui/DishVisual";
 import NeonButton from "@/components/ui/NeonButton";
@@ -17,10 +18,13 @@ import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleP
 /**
  * StarDishes — sección "Platos estrella" (#platos) de la home.
  *
- *  · Carrusel de fotos reales (DishCarousel, Embla): los platos con foto en el manifiesto (`@/data/photos`)
- *    o en `StarDish.image` la muestran; los demás lucen la tixola compuesta (DishVisual, sin emojis).
- *  · Pulsar una tarjeta abre el detalle (DishSpotlight) en todos los tamaños, con la foto como elemento
- *    compartido. Mientras está abierto el carrusel se pausa.
+ *  · Carrusel cilíndrico en 3D (DishCarousel3D): los platos ocupan las caras de un cilindro que se
+ *    arrastra para girar. Los que tienen foto en el manifiesto (`@/data/photos`) o en `StarDish.image`
+ *    la muestran; los demás lucen la tixola compuesta (DishVisual, sin emojis).
+ *  · Pulsar la cara de delante abre el detalle (DishSpotlight) con la foto como elemento compartido;
+ *    pulsar una lateral la trae al frente. Mientras el detalle está abierto el giro se pausa.
+ *  · En gama baja o con `prefers-reduced-motion` se sirve el carrusel plano (DishCarousel, Embla): sin
+ *    perspectiva ni giro continuo, mismo contenido y mismo detalle al pulsar.
  *  · Fondo de hierro fundido con brasa roja (capa `data-depth` para la profundidad del capítulo), cabecera
  *    y CTA final revelados con GSAP (`data-reveal`), carrusel con `whileInView`.
  *
@@ -45,6 +49,9 @@ export default function StarDishes() {
 
   const steam = tier !== "low" && !reducedMotion;
   const autoplay = !reducedMotion;
+  /* El cilindro pide perspectiva, `preserve-3d` y un giro continuo: en gama baja y con movimiento
+     reducido se sirve el carrusel plano, que cuenta lo mismo sin nada de eso. */
+  const use3D = tier !== "low" && !reducedMotion;
 
   /* Platos localizados + su foto: primero el manifiesto, después `dish.image`.
      El manifiesto se lee YA LOCALIZADO (`localizePhotos`), así que el `alt` descriptivo de cada foto
@@ -53,7 +60,9 @@ export default function StarDishes() {
   const slides = useMemo<DishSlide[]>(() => {
     const photos = localizePhotos(locale);
     return localizeStarDishes(locale).map((dish) => {
-      const fromManifest = photos.find((p) => p.dishIds?.includes(dish.id));
+      /* El manifiesto enlaza sus fotos con ids de platos estrella y/o de la carta, así que se prueban
+         los dos: varios platos estrella nacen de un ítem de la carta y solo tienen foto por ese id. */
+      const fromManifest = photos.find((p) => p.dishIds?.includes(dish.id) || p.dishIds?.includes(dish.menuId));
       let photo: DishPhoto | null = null;
       if (fromManifest) {
         photo = { src: fromManifest.src, alt: fromManifest.alt, focus: fromManifest.focus };
@@ -104,7 +113,11 @@ export default function StarDishes() {
           transition={{ duration: 0.9, ease: EASE_OUT_EXPO }}
           className="relative mt-8 md:mt-12"
         >
-          <DishCarousel slides={slides} onOpen={setSpotlight} steam={steam} autoplay={autoplay} paused={spotlight !== null} />
+          {use3D ? (
+            <DishCarousel3D slides={slides} onOpen={setSpotlight} steam={steam} autoplay={autoplay} paused={spotlight !== null} />
+          ) : (
+            <DishCarousel slides={slides} onOpen={setSpotlight} steam={steam} autoplay={autoplay} paused={spotlight !== null} />
+          )}
         </motion.div>
 
         {/* CTA inferior */}

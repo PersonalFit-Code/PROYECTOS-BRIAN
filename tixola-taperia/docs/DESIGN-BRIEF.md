@@ -98,8 +98,16 @@ Imágenes: `/images/fachada.jpg` (fachada real del local, 806×490) · `/images/
 - **Prohibido pintar emojis.** `import { DishIcon } from "@/components/icons/DishIcons"` → `<DishIcon iconKey={item.emoji} size={28} />` (el campo `emoji` de los datos es solo una clave). Iconos de UI: lucide-react.
 ### Fotos
 - `import { PHOTOS, photosForDish, photosByTag } from "@/data/photos"`; `StarDish.image` y `MenuItem.image` opcionales. Usa `next/image` con `sizes` correcto y `alt` descriptivo (SEO). Formato: object-cover con `style={{ objectPosition: photo.focus }}`.
+### Platos estrella (#platos)
+- `DishCarousel3D` es la pieza por defecto: los ocho platos ocupan las caras de un cilindro que se arrastra para girar. El radio sale de `(ancho de cara / 2) / tan(π / nº de caras)` —así las caras encajan borde con borde— y el cilindro se retranquea con `translateZ(-radio)` para que la de delante se dibuje a su tamaño real.
+- Pulsar la cara de delante abre `DishSpotlight` (ingredientes, alérgenos y maridaje); pulsar una lateral la trae al frente. Enfocar con el tabulador también la trae al frente.
+- En gama baja y con `prefers-reduced-motion` se sirve `DishCarousel` (Embla, plano): mismo contenido, mismo detalle, sin perspectiva ni giro.
+- `STAR_DISHES` tiene ocho platos porque un cilindro con cuatro caras no cierra: las tarjetas se solapan. Cada uno enlaza con su ítem de la carta por `menuId`, y el manifiesto de fotos se consulta por los dos ids.
+
 ### Chat (camarero virtual)
 - `useChat()` de `@/components/chat/ChatProvider` → `open({ prefill, page })`, `close`, `isOpen`. El widget lo monta el módulo de chat dentro del provider (ya envuelve ambas páginas).
+- El panel lleva un telón opaco propio: `glass-smoke` cuenta con el `backdrop-filter` y ese filtro no siempre llega (navegador sin soporte, sin aceleración), dejando la conversación transparente sobre la portada.
+- `THINKING_MIN_MS` (`useChatSession`) retiene el primer fragmento de la respuesta: los puntos de "escribiendo…" llegan a verse y el texto no aparece de golpe. Solo afecta al primer fragmento.
 ### Scroll cinematográfico
 - El módulo de scroll crea `src/components/scroll/SmoothScrollProvider.tsx` (Lenis + `gsap.ticker` + `ScrollTrigger.update`) y envuelve `<main>` en `app/[locale]/page.tsx`. Los demás módulos mantienen `data-reveal`/`useScrollReveal`/`whileInView`; NO instancian Lenis ni cambian el scroller de ScrollTrigger.
 ### Anclas y navegación

@@ -294,6 +294,44 @@ const pt: DataTranslations = {
       badge: "Sem glúten",
       pairingWhy: "Um tinto atlântico fresco e frutado que equilibra a untuosidade da orelha.",
     },
+    croquetas: {
+      kicker: "Béchamel de 24 h",
+      headline: "Os croquetes mais aplaudidos de Ourense",
+      description:
+        "Béchamel de grelos que repousa vinte e quatro horas antes de ser moldada, com chipirões na sua tinta. Estaladiços por fora e tão cremosos por dentro que quase se bebem.",
+      ingredients: ["Grelos", "Chipirões na sua tinta", "Béchamel de 24 h", "Pão ralado", "Azeite virgem extra"],
+      unit: "8 un.",
+      badge: "Os mais pedidos",
+      pairingWhy: "O branco de Ourense: a sua acidez floral corta a untuosidade da béchamel e deixa a boca limpa.",
+    },
+    chistorra: {
+      kicker: "A especialidade da casa",
+      headline: "A frigideira que chega a crepitar à mesa",
+      description:
+        "Chistorra na brasa, ovos do campo desfeitos e batata palha, servidos na tixola de ferro ainda a escaldar. Mistura-se tudo à mesa e come-se com pão de Cea.",
+      ingredients: ["Chistorra", "Ovos do campo", "Batata palha", "Pimentão", "Azeite virgem extra"],
+      unit: "frigideira",
+      pairingWhy: "Um tinto de vinha heroica, fresco e leve, que aguenta o toque especiado da chistorra.",
+    },
+    quesos: {
+      kicker: "Para partilhar",
+      headline: "Os três queijos da Galiza, numa tábua",
+      description:
+        "Arzúa-Ulloa cremoso, San Simón da Costa fumado com bétula e Tetilla suave, com marmelada caseira e nozes. A tábua que melhor acompanha uma garrafa da garrafeira.",
+      ingredients: ["Arzúa-Ulloa D.O.P.", "San Simón da Costa D.O.P.", "Tetilla D.O.P.", "Marmelada caseira", "Nozes"],
+      unit: "tábua",
+      pairingWhy: "O seu corpo e o seu toque mineral sustentam o fumado do San Simón sem o tapar.",
+    },
+    vegana: {
+      kicker: "100 % vegetal",
+      headline: "Uma tixola que não abdica de nada",
+      description:
+        "Cogumelos da época, pimento, curgete e tofu fumado salteados com pimentão de La Vera na frigideira de ferro. Vegana e sem glúten, com o mesmo ponto de brasa.",
+      ingredients: ["Cogumelos da época", "Pimento", "Curgete", "Tofu fumado", "Pimentão de La Vera", "Azeite virgem extra"],
+      unit: "frigideira",
+      badge: "Vegana",
+      pairingWhy: "Leve e floral, realça os cogumelos sem pisar o fumado do tofu.",
+    },
   },
 
   allergens: {

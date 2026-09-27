@@ -293,6 +293,44 @@ const en: DataTranslations = {
       badge: "Gluten-free",
       pairingWhy: "A fresh, fruity Atlantic red that balances the richness of the ear.",
     },
+    croquetas: {
+      kicker: "24-hour béchamel",
+      headline: "The most talked-about croquetas in Ourense",
+      description:
+        "Grelo (turnip greens) béchamel rested for twenty-four hours before shaping, with baby squid in its own ink. Crisp outside and so creamy inside you almost drink them.",
+      ingredients: ["Turnip greens", "Baby squid in its ink", "24-hour béchamel", "Breadcrumbs", "Extra virgin olive oil"],
+      unit: "8 pcs",
+      badge: "Most ordered",
+      pairingWhy: "Ourense's own white: its floral acidity cuts through the béchamel and leaves the palate clean.",
+    },
+    chistorra: {
+      kicker: "The house speciality",
+      headline: "The skillet that reaches the table still sizzling",
+      description:
+        "Chargrilled chistorra, broken free-range eggs and matchstick chips, served in the cast-iron tixola straight off the heat. You mix it at the table and eat it with Cea bread.",
+      ingredients: ["Chistorra sausage", "Free-range eggs", "Matchstick chips", "Paprika", "Extra virgin olive oil"],
+      unit: "skillet",
+      pairingWhy: "A red from the heroic vineyards of the Sil: fresh and light, it stands up to the spice of the chistorra.",
+    },
+    quesos: {
+      kicker: "To share",
+      headline: "The three cheeses of Galicia, on one board",
+      description:
+        "Creamy Arzúa-Ulloa, birch-smoked San Simón da Costa and mild Tetilla, with homemade quince jelly and walnuts. The board that best suits a bottle from the cellar.",
+      ingredients: ["Arzúa-Ulloa PDO", "San Simón da Costa PDO", "Tetilla PDO", "Homemade quince jelly", "Walnuts"],
+      unit: "board",
+      pairingWhy: "Its body and mineral edge carry the smoke of the San Simón without covering it.",
+    },
+    vegana: {
+      kicker: "100% plant-based",
+      headline: "A skillet that gives nothing up",
+      description:
+        "Seasonal mushrooms, peppers, courgette and smoked tofu seared with La Vera paprika in the cast-iron pan. Vegan and gluten-free, with the same ember finish.",
+      ingredients: ["Seasonal mushrooms", "Peppers", "Courgette", "Smoked tofu", "La Vera paprika", "Extra virgin olive oil"],
+      unit: "skillet",
+      badge: "Vegan",
+      pairingWhy: "Light and floral, it lifts the mushrooms without treading on the smoked tofu.",
+    },
   },
 
   allergens: {
