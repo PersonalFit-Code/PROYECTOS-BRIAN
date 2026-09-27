@@ -169,8 +169,9 @@ export const useLenis = useSmoothScroll;
  *    35-45 fps acumulaba 220-290 ms de retraso entre la rueda y el movimiento — y el retraso crecía
  *    justo cuando el equipo iba más apretado. En gama media el scroll NATIVO responde al instante y el
  *    aire cinematográfico lo sostienen igual GSAP y ScrollTrigger, que no necesitan Lenis para nada.
- *    Como la gama solo baja (trinquete), si la sonda degrada el equipo a media Lenis se destruye y el
- *    scroll pasa a nativo: la degradación siempre va hacia "responde más rápido".
+ *    La gama alta pide un escritorio holgado (8 núcleos, 4 GB, sin ahorro de datos) y se decide una sola
+ *    vez al hidratar, así que el interruptor no se acciona nunca a mitad de sesión: el tacto del scroll
+ *    es el mismo desde el primer gesto hasta el último.
  *  - Se para solo mientras un modal bloquea el `overflow` del body (menú móvil, reserva, chat) y
  *    permite el scroll interno de esos paneles (`allowNestedScroll`).
  *  - Intercepta los enlaces `a[href*="#"]` de la misma página para desplazarse con Lenis dejando
@@ -183,20 +184,21 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
   /* `can("smoothScroll")` ya contempla `prefers-reduced-motion` y el suelo de gama; encima exigimos
      gama ALTA porque el suavizado por interpolación se paga en latencia de entrada (ver el doc). */
   const smoothAllowed = useCanAfford("smoothScroll");
-  const { tier, measured } = usePerformanceTier();
+  const { tier } = usePerformanceTier();
   /*
-   * Gama alta Y MEDIDA. La condición anterior (`tier === "high"` a secas) partía de la heurística
-   * optimista, que en cualquier escritorio dice "high": Lenis se montaba en el primer render, la sonda
-   * medía la portada CON la escena 3D encendida y, si el portátil no llegaba, ~2 s después de cargar la
-   * home el provider se desmontaba, destruía Lenis y el TACTO DEL SCROLL cambiaba en vivo delante del
-   * cliente. El recorte está aprobado; que se vea como un fallo a mitad de demo, no.
-   * Exigiendo la medición el interruptor se acciona UNA sola vez y siempre hacia arriba: hasta el
-   * veredicto el scroll es el nativo (que responde al instante) y después se suaviza solo si el equipo lo
-   * ha demostrado. Como el almacén es un trinquete, una vez medido en alta ya no puede bajar sola.
-   * Si no hay veredicto (WebGL bloqueado, renderizador por software, la portada fuera de pantalla durante
-   * la medición) se queda en nativo: es el lado seguro.
+   * Gama alta y nada más. Antes esta condición pedía además `measured`, el veredicto de la sonda de
+   * fotogramas: la heurística de entonces decía "high" en cualquier escritorio, Lenis se montaba en el
+   * primer render y, si el portátil no aguantaba la escena 3D de la portada, ~2 s después el provider se
+   * desmontaba y el TACTO DEL SCROLL cambiaba en vivo delante del cliente. Esperar la medición evitaba ese
+   * salto.
+   * Sin WebGL no hay sonda ni veredicto que esperar, así que el resguardo se ha movido AGUAS ARRIBA: hoy
+   * "high" ya no es "cualquier escritorio", sino un escritorio no táctil con 8 núcleos y 4 GB declarados
+   * y sin ahorro de datos (ver `detectDevice` en usePerformanceTier). Un portátil justo se queda en "mid"
+   * y con el scroll NATIVO, que es el lado seguro: el `lerp` de Lenis se paga por fotograma y en un equipo
+   * que no llega se nota como retraso entre la rueda y el movimiento, no como "menos efectos". Y como la
+   * gama se fija al hidratar, el interruptor no puede accionarse a mitad de sesión.
    */
-  const enabled = smoothAllowed && tier === "high" && measured;
+  const enabled = smoothAllowed && tier === "high";
   const lenisRef = useRef<Lenis | null>(null);
 
   const getLenis = useCallback(() => lenisRef.current, []);
@@ -262,8 +264,8 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
     /* GSAP → Lenis: un único reloj para todo (sin rAF duplicados). */
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
-    /* A VERIFICAR EN HARDWARE REAL (aquí no se puede medir: el contenedor solo tiene WebGL por
-       software). Con `lagSmoothing(0)` GSAP nunca recorta un `delta` grande: un fotograma perdido
+    /* A VERIFICAR EN HARDWARE REAL (el contenedor de desarrollo no da una medida fiable de fluidez).
+       Con `lagSmoothing(0)` GSAP nunca recorta un `delta` grande: un fotograma perdido
        llegaba entero al `scrub: 0.6` del pin de la portada y se veía como un salto. Con el umbral
        activo, un parón de más de 200 ms se contabiliza como 25 ms y el scrub se recupera suavemente.
        Si en el portátil real se notara deriva entre Lenis y los triggers, volver a `lagSmoothing(0)`. */

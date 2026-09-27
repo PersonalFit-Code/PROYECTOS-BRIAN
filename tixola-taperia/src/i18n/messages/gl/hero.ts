@@ -20,8 +20,6 @@ const hero: Section<"hero"> = {
   ctaSecondary: "Ir á Carta",
   scrollCue: "Descubrir a casa",
   scrollCueAria: "Baixar aos pratos estrela",
-  enable3d: "Activar 3D",
-  enable3dAria: "Activar o efecto 3D co xiroscopio do móbil",
   since: "Casco histórico de Ourense",
   /** Ligazón discreta baixo os CTAs: "4,4 · 858 recensións en Google". */
   reviewsLink: "Ver as recensións en Google",

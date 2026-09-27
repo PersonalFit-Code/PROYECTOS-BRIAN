@@ -219,8 +219,8 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
              rasterizar el compositor, y este panel se anima y se arrastra. A ojo, la misma elevación. */
           "noise after:noise-after after:rounded-[inherit] relative flex max-h-[92dvh] w-full flex-col rounded-t-[28px] shadow-[0_-14px_40px_-16px_rgba(0,0,0,0.9)] outline-none",
           /* `glass-smoke` sin condicionar la gama a mano. La utilidad es horneada (degradado + borde +
-             sombra) y el `backdrop-filter` solo vuelve bajo `:root[data-gpu="high"]`, que escribe la sonda
-             de fotogramas: un único interruptor para las 41 superficies de cristal de la web. El ternario
+             sombra) y el `backdrop-filter` solo vuelve bajo `:root[data-gpu="high"]`, que escribe el hook
+             de gama: un único interruptor para las 41 superficies de cristal de la web. El ternario
              anterior hacía justo lo que el contrato del proyecto prohíbe, y su efecto práctico era que la
              MISMA ficha se veía más transparente en el ordenador bueno que en el flojo. */
           "glass-smoke",

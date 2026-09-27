@@ -39,7 +39,7 @@ import { cn } from "@/lib/utils";
 /**
  * La galería se lleva Embla + Autoplay (~25-30 KB gz) a un chunk aparte y NO se descarga hasta que el
  * visitante se acerca: está en la mitad baja de la sección de opiniones, muy por debajo del pliegue, y
- * hasta ahora entraba en el arranque de la portada compitiendo con el lienzo WebGL.
+ * hasta ahora entraba en el arranque de la portada compitiendo con ella.
  */
 const PhotoGallery = dynamic(() => import("@/components/ui/PhotoGallery"), { ssr: false });
 

@@ -18,8 +18,6 @@ const hero = {
   ctaSecondary: "Ir a la Carta",
   scrollCue: "Descubrir la casa",
   scrollCueAria: "Bajar a los platos estrella",
-  enable3d: "Activar 3D",
-  enable3dAria: "Activar el efecto 3D con el giroscopio del móvil",
   since: "Casco histórico de Ourense",
   /** Enlace discreto bajo los CTAs: "4,4 · 858 reseñas en Google". */
   reviewsLink: "Ver las reseñas en Google",

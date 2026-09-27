@@ -257,9 +257,9 @@ function CartaLive() {
       results={results}
       highlightedId={highlightedId}
       legendOpen={legendOpen}
-      /* Se conserva el criterio anterior (`tier !== "low"` y sin reduced-motion): en la gama baja la
-         escena 3D ya se ha apagado sola, y ahí ni el revelado por scroll ni el fundido de entrada
-         deben añadir trabajo. `can()` se encarga además de `prefers-reduced-motion`. */
+      /* Se conserva el criterio anterior (`tier !== "low"` y sin reduced-motion): en la gama baja ni el
+         revelado por scroll ni el fundido de entrada deben añadir trabajo. `can()` se encarga además de
+         `prefers-reduced-motion`. */
       animations={perf.can("entranceMotion") && perf.atLeast("mid")}
       heroFloat={perf.can("ambientMotion") && perf.atLeast("high")}
       actions={actions}

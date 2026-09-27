@@ -103,8 +103,8 @@ function SheetInner({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     /* Bloqueo CONTADO y compartido (`src/lib/scrollLock.ts`). Antes este panel bloqueaba el <body> pero NO
-       escribía `data-scroll-lock`, así que con la leyenda abierta Lenis seguía vivo y HeroCanvas seguía
-       pintando la escena 3D detrás de un panel opaco a pantalla completa. */
+       escribía `data-scroll-lock`, así que con la leyenda abierta Lenis seguía vivo y la portada seguía
+       animando sus capas detrás de un panel opaco a pantalla completa. */
     const releaseScroll = lockScroll();
     closeRef.current?.focus();
 

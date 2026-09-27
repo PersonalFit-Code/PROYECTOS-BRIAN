@@ -21,8 +21,6 @@ const hero = {
   ctaSecondary: "Ir para a Ementa",
   scrollCue: "Descobrir a casa",
   scrollCueAria: "Descer até aos pratos estrela",
-  enable3d: "Ativar 3D",
-  enable3dAria: "Ativar o efeito 3D com o giroscópio do telemóvel",
   since: "Centro histórico de Ourense",
   /** Ligação discreta sob os CTAs: "4,4 · 858 avaliações no Google". */
   reviewsLink: "Ver as avaliações no Google",

@@ -92,9 +92,9 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
             className={cn(
               "group relative grid h-14 w-14 place-items-center rounded-full text-cream shadow-neon",
               /* Burdeos opaco en TODAS las gamas (era lo que ya veían media y baja): el disco flota
-                 sobre la portada, cuyo lienzo WebGL se repinta cada fotograma, así que un
-                 `backdrop-filter` habría que recalcularlo con él. Y sin leer la gama, este botón deja
-                 de suscribirse al almacén de rendimiento. */
+                 sobre la portada, cuyas capas se mueven en bucle, así que un `backdrop-filter` habría
+                 que recalcularlo con cada fotograma. Y sin leer la gama, este botón deja de suscribirse
+                 al almacén de rendimiento. */
               "border border-pimenton-light/50 bg-burgundy",
               /* `scale` y `translate` son propiedades propias en Tailwind v4: van nombradas para que
                  `active:scale-95` responda en 100 ms y no herede los 300 del hover. */

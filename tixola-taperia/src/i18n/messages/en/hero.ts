@@ -21,8 +21,6 @@ const hero = {
   ctaSecondary: "See the Menu",
   scrollCue: "Discover the house",
   scrollCueAria: "Scroll down to the signature dishes",
-  enable3d: "Enable 3D",
-  enable3dAria: "Enable the 3D effect using your phone's gyroscope",
   since: "Ourense old town",
   /** Discreet link under the CTAs: "4.4 · 858 reviews on Google". */
   reviewsLink: "Read our reviews on Google",

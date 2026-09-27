@@ -209,8 +209,8 @@ body::before {
  *
  * Ahora la utilidad es HORNEADA por defecto: solo degradado, borde y sombra. Ninguna capa pide al
  * compositor que lea lo que hay detrás. El desenfoque real se reactiva desde UN solo punto, el
- * selector `:root[data-gpu="high"]` de más abajo, que escribe la sonda de fotogramas cuando el equipo
- * ha DEMOSTRADO que le sobra GPU.
+ * selector `:root[data-gpu="high"]` de más abajo, que solo se escribe en la gama alta (escritorio con
+ * holgura de núcleos y memoria, sin ahorro de datos y sin movimiento reducido).
  *
  * Las opacidades suben un par de puntos respecto a las originales: sin desenfoque el ojo lee el borde
  * y el filo de luz superior como cristal, no el blur, pero necesita que el fondo tape algo más para
@@ -242,19 +242,25 @@ body::before {
  * capa gana siempre a las utilidades de Tailwind, así que el desenfoque no depende del orden de la hoja
  * ni de la especificidad de las clases que acompañen a la superficie.
  * `data-gpu="high"` lo escribe `syncGlassSwitch()` en `src/hooks/usePerformanceTier.ts` (en <html>, una
- * sola vez, solo en cliente y solo con la gama alta YA MEDIDA). Es el único escritor y el único lector.
+ * sola vez, solo en cliente y solo en gama alta). Es el único escritor y el único lector.
+ * Antes exigía además que la gama estuviera MEDIDA por la sonda de fotogramas de la escena 3D; al
+ * quitar Three.js esa sonda desapareció, y pedir una medición que ya nadie toma habría dejado el
+ * desenfoque apagado para siempre en todos los equipos.
+ *
+ * El prefijo `-webkit-` NO se escribe a mano al lado del estándar. Se hacía, y el minificador de CSS de
+ * Next (Lightning CSS) colapsaba la pareja dejando SOLO la versión con prefijo, que Chromium y Firefox no
+ * reconocen (su `CSS.supports` devuelve false): el cristal se desenfocaba únicamente en Safari. El prefijo
+ * lo añade el propio minificador según los navegadores objetivo, que es su trabajo; se verifica en el CSS
+ * construido (`.next/static/chunks/*.css`), no aquí.
  */
 :root[data-gpu="high"] .glass {
   backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 :root[data-gpu="high"] .glass-smoke {
   backdrop-filter: blur(22px) saturate(120%);
-  -webkit-backdrop-filter: blur(22px) saturate(120%);
 }
 :root[data-gpu="high"] .glass-red {
   backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 /*
  * La banda de la cabecera. Excepción DOCUMENTADA a "cada componente escribe su propio degradado y no
@@ -262,14 +268,13 @@ body::before {
  * en escritorio pasó de dejar ver la página desenfocada por detrás a ser una franja negra maciza. Sigue
  * siendo un solo interruptor y sigue viviendo en esta hoja, no en el componente: `Navbar` marca la capa
  * con `data-navbar-surface` y no decide nada por su cuenta.
- * Solo en ≥ md: en móvil la banda convive con el lienzo de la portada y el menú a pantalla completa, y
+ * Solo en ≥ md: en móvil la banda convive con el dibujo de la portada y el menú a pantalla completa, y
  * ahí el fondo casi opaco es la decisión correcta en cualquier gama.
  */
 @media (min-width: 768px) {
   :root[data-gpu="high"] [data-navbar-surface] {
     background-image: linear-gradient(160deg, rgba(20, 20, 20, 0.86), rgba(18, 18, 18, 0.66));
     backdrop-filter: blur(20px) saturate(120%);
-    -webkit-backdrop-filter: blur(20px) saturate(120%);
   }
 }
 

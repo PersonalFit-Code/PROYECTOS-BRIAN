@@ -5,163 +5,92 @@ import { useEffect, useMemo, useSyncExternalStore } from "react";
 /**
  * Presupuesto de rendimiento del sitio.
  *
- * El modelo es: heurística optimista al arrancar + medición real que SOLO puede bajar la gama.
- * Nunca sube sola, porque una gama que oscila obliga a montar y desmontar escena, desenfoques y
- * animaciones a mitad de scroll, y eso se ve peor que cualquier efecto que nos ahorremos.
+ * Tras la decisión del cliente ("que funcione en todos los dispositivos, bajarle calidad, quitar el
+ * 3D de Three.js") aquí ya no se decide NADA de WebGL: no hay Canvas, ni sombras, ni post-procesado,
+ * ni partículas que dimensionar. Lo único que sigue hace falta saber es si el dispositivo es modesto,
+ * para moderar los efectos CSS caros (scroll interpolado, pins con scrub, parallax, bucles ambientales
+ * y el `backdrop-filter` del cristal) y para respetar `prefers-reduced-motion`.
+ *
+ * El modelo también se simplifica: la gama se decide UNA vez por pestaña, al hidratar, a partir de lo
+ * que el navegador declara del equipo. Antes existía una sonda de fotogramas que medía la escena 3D y
+ * podía bajar la gama a los dos segundos; vivía dentro del Canvas y ha desaparecido con él. Que no haya
+ * medición es ahora una ventaja: ningún interruptor cambia a mitad de demo (el tacto del scroll y el
+ * desenfoque del cristal se fijan antes del primer scroll y no se mueven).
+ *
+ * El precio de no medir es que la heurística tiene que ser PRUDENTE: si se equivoca hacia arriba, nadie
+ * lo va a corregir después. Por eso "high" —la gama que enciende Lenis y el cristal real— pide un
+ * escritorio holgado y no un escritorio cualquiera (ver `detectDevice`).
  */
 
 export type PerformanceTier = "low" | "mid" | "high";
 
 /**
  * Catálogo de cosas caras. La pregunta que se hace un componente no es "¿qué gama soy?" sino
- * "¿me puedo permitir esto?": si el día de mañana el cristal baja a gama media, se cambia aquí
- * y no en los treinta y tantos ficheros que lo consultan.
+ * "¿me puedo permitir esto?": si el día de mañana los capítulos bajan a gama media, se cambia aquí
+ * y no en los ficheros que lo consultan.
+ *
+ * La lista se ha quedado en lo que de verdad consulta alguien. Se han borrado `scene3d`,
+ * `postprocessing` y `shadows` (eran WebGL) y también `grain`, `carousel3d`, `glass` y `heavyBlur`,
+ * que ya no pregunta ningún componente: el grano y el cristal los decide la hoja global (ver
+ * `syncGlassSwitch`) y el carrusel cilíndrico de platos es CSS y se monta siempre.
  */
 export type PerfFeature =
-  /** Montar el Canvas de R3F (la portada 3D). */
-  | "scene3d"
-  /** Post-procesado: bloom. */
-  | "postprocessing"
-  /** Sombras en tiempo real. */
-  | "shadows"
-  /** Cristal real: `backdrop-filter`, que recompone todo lo que hay detrás. */
-  | "glass"
-  /** Desenfoques grandes (`blur-2xl` / `blur-3xl`) sobre capas amplias. */
-  | "heavyBlur"
-  /** Grano/ruido animado sobre el viewport. */
-  | "grain"
   /** Scroll suavizado con Lenis. */
   | "smoothScroll"
   /** Capítulos cinematográficos: pin + scrub de GSAP. */
   | "scrollCinema"
-  /** Parallax por puntero, giroscopio o scroll. */
+  /** Parallax por scroll. */
   | "parallax"
-  /** Bucles decorativos infinitos (marquesinas, flotaciones, brasas). */
+  /** Bucles decorativos infinitos (marquesinas, flotaciones, brasas, vaho). */
   | "ambientMotion"
   /** Animaciones de entrada puntuales, que empiezan y terminan. */
-  | "entranceMotion"
-  /** Carrusel con transformaciones 3D y profundidad. */
-  | "carousel3d";
+  | "entranceMotion";
 
 export interface PerfProfile {
   tier: PerformanceTier;
-  isMobile: boolean;
-  isTouch: boolean;
+  /** El usuario pide menos movimiento: apaga toda animación, sea de la gama que sea. */
   reducedMotion: boolean;
-  /** El navegador pide ahorro de datos: gama baja sin discusión. */
-  saveData: boolean;
-  /** `true` cuando la gama ya viene de una medición real y no de la heurística inicial. */
-  measured: boolean;
-  /** Device pixel ratio máximo a usar en el Canvas */
-  dpr: [number, number];
-  /** Nº de partículas de brasa/humo */
-  particles: number;
-  /** Sombras en tiempo real */
-  shadows: boolean;
-  /** Post-procesado (bloom) */
-  postprocessing: boolean;
-  /** Nº de objetos flotantes (zamburiñas, perejil, gotas) */
-  floaters: number;
-  /** Atajo de `can("glass")`: cristal real frente a degradado prehorneado. */
-  glass: boolean;
-  /** Atajo de `can("heavyBlur")`. */
-  heavyBlur: boolean;
   /** ¿La gama activa llega al menos a `min`? */
   atLeast: (min: PerformanceTier) => boolean;
   /** ¿Me puedo permitir esta característica con la gama activa? */
   can: (feature: PerfFeature) => boolean;
 }
 
-type TierBudget = Pick<PerfProfile, "dpr" | "particles" | "shadows" | "postprocessing" | "floaters">;
-
-/**
- * Presupuestos por gama. Bajan respecto a la versión anterior (250 / 700 / 1600 partículas, dpr hasta
- * 2) porque el objetivo pasó a ser el portátil con gráfica integrada y el móvil de gama media: el coste
- * del dpr es cuadrático en píxeles, y de 2 a 1,75 se pintan un 23 % menos de fragmentos sin que en
- * pantalla se note.
- *
- * Las partículas NO se recortan tanto como en el primer intento (380 / 1100): ahí la columna de brasas
- * perdía densidad justo en la gama que este encargo viene a rescatar, y la brasa es el elemento de marca
- * de la portada. El recorte agresivo dejó de ser necesario cuando la sonda de fotogramas pasó a medir la
- * escena real: si estas cifras no caben en el equipo, la sonda baja de gama sola en los primeros dos
- * segundos, que es exactamente lo que el cliente pidió.
- * La gama "low" conserva cifras aunque no monte la escena: si algún día se reutiliza el presupuesto
- * en un fondo ligero, que no salga de cero.
- */
-const PROFILES: Record<PerformanceTier, TierBudget> = {
-  low: { dpr: [1, 1], particles: 140, shadows: false, postprocessing: false, floaters: 4 },
-  mid: { dpr: [1, 1.25], particles: 520, shadows: false, postprocessing: false, floaters: 8 },
-  high: { dpr: [1, 1.75], particles: 1280, shadows: true, postprocessing: true, floaters: 14 },
-};
-
 /** Gama mínima que exige cada característica. */
 const FEATURE_MIN_TIER: Record<PerfFeature, PerformanceTier> = {
-  scene3d: "mid",
-  postprocessing: "high",
-  shadows: "high",
-  glass: "high",
-  heavyBlur: "high",
-  grain: "mid",
   smoothScroll: "mid",
   scrollCinema: "mid",
   parallax: "mid",
   ambientMotion: "mid",
   entranceMotion: "low",
-  carousel3d: "mid",
 };
-
-/**
- * Características que son movimiento y, por tanto, `prefers-reduced-motion` apaga aunque la gama
- * diera de sobra. El cristal, el desenfoque y el grano NO están aquí: son caros, no son movimiento,
- * y quitarlos por accesibilidad cambiaría el diseño sin motivo.
- */
-const MOTION_FEATURES: ReadonlySet<PerfFeature> = new Set<PerfFeature>([
-  "scene3d",
-  "smoothScroll",
-  "scrollCinema",
-  "parallax",
-  "ambientMotion",
-  "entranceMotion",
-  "carousel3d",
-]);
-
-/** Por debajo de esto el dispositivo no sostiene la escena 3D: se apaga y queda el fallback. */
-const FPS_FLOOR_3D = 30;
-/** Por debajo de esto hay escena, pero sin sombras, sin bloom y sin cristal real. */
-const FPS_FLOOR_HIGH = 48;
 
 /* ──────────────────────────────────────────────────────────────
    Almacén (fuera de React: la gama es una sola por pestaña)
    ────────────────────────────────────────────────────────────── */
 
 /**
- * Instantánea serializada `tier|isMobile|isTouch|reducedMotion|saveData|source` (0/1, y `h`/`m`
- * para heurística o medición). Se usa un string porque `useSyncExternalStore` compara snapshots
- * por identidad: un string es estable y el objeto de perfil se deriva de él con `useMemo`.
+ * Instantánea serializada `tier|reducedMotion`. Se usa un string porque `useSyncExternalStore`
+ * compara instantáneas por identidad: un string es estable y el objeto de perfil se deriva de él
+ * con `useMemo`.
  */
 type Snapshot = string;
 
 /** Perfil "low" durante SSR/hidratación para no hidratar con efectos pesados. */
-const SERVER_SNAPSHOT: Snapshot = "low|0|0|0|0|h";
+const SERVER_SNAPSHOT: Snapshot = "low|0";
 
 interface DeviceFlags {
   isMobile: boolean;
   isTouch: boolean;
   reducedMotion: boolean;
+  /** El navegador pide ahorro de datos. */
   saveData: boolean;
-  /** Gama de partida antes de medir nada. */
-  heuristic: PerformanceTier;
-  /** `true` cuando la gama la fija una preferencia del usuario y medir no procede. */
-  locked: boolean;
+  tier: PerformanceTier;
 }
 
 let device: DeviceFlags | null = null;
-let activeTier: PerformanceTier = "low";
-let measured = false;
-let lastFps: number | null = null;
 let snapshot: Snapshot = SERVER_SNAPSHOT;
 let detected = false;
-const listeners = new Set<() => void>();
 
 const RANK: Record<PerformanceTier, number> = { low: 0, mid: 1, high: 2 };
 /** Un escalón por debajo. Se usa para el ahorro de datos, que baja una gama y no hasta el suelo. */
@@ -176,84 +105,79 @@ function detectDevice(): DeviceFlags {
   const memory = nav.deviceMemory ?? 4;
   const saveData = nav.connection?.saveData ?? false;
 
-  /* Movimiento reducido: preferencia explícita del usuario, manda sobre todo lo demás y ni se mide. */
+  /* Movimiento reducido: preferencia explícita del usuario, manda sobre todo lo demás. */
   if (reducedMotion) {
-    return { isMobile, isTouch, reducedMotion, saveData, heuristic: "low", locked: true };
+    return { isMobile, isTouch, reducedMotion, saveData, tier: "low" };
   }
 
-  /* Suelo duro: con 2 GB o 2 núcleos no hace falta medir nada, y montar la escena para medirla
-     costaría más que el fallback entero. */
+  /* Suelo duro: con 2 GB o 2 núcleos no se le pide al compositor ni un pin ni un desenfoque. */
   if (memory <= 2 || cores <= 2) {
-    return { isMobile, isTouch, reducedMotion, saveData, heuristic: "low", locked: true };
+    return { isMobile, isTouch, reducedMotion, saveData, tier: "low" };
   }
 
-  /* Heurística de partida DELIBERADAMENTE optimista: ya no tiene que acertar, solo no pasarse.
-     Antes esta función era la única decisión y por eso llevaba excepciones para que los iPhone
-     (que publican 4 núcleos y ninguna memoria) no se quedaran sin escena; el efecto lateral era
-     que cualquier móvil flojo entraba también en "mid" y se quedaba ahí. Ahora la sonda corrige.
-     Móvil arranca en "mid" y no en "high" porque el segundo de medición se pintaría con sombras
-     y bloom: se notaría el tirón justo en la entrada, que es lo que se enseña al cliente. */
-  const base: PerformanceTier = isMobile || isTouch ? "mid" : "high";
+  /*
+   * Móvil y táctil se quedan en "mid". El escritorio solo sube a "high" si además declara 8 núcleos y
+   * 4 GB o más.
+   *
+   * El listón es DELIBERADAMENTE alto porque esta heurística ya no es un punto de partida que una sonda
+   * de fotogramas corregía a los dos segundos: es la decisión FINAL y nada puede bajarla después. Con el
+   * umbral antiguo ("cualquier escritorio no táctil con más de 2 núcleos") un portátil modesto se
+   * llevaba las dos cosas más caras que quedan en la web —Lenis interpolando el scroll por fotograma y
+   * los ~41 `backdrop-filter: blur(18-22px)` de las superficies de cristal— sin ninguna vía de
+   * degradación. Eso va en contra de lo que pidió el cliente ("que funcione en todos los dispositivos,
+   * bajarle calidad") y es exactamente el riesgo que no se puede correr en el portátil de una
+   * presentación. Con 8 núcleos y 4 GB declarados el equipo ya no es "un escritorio cualquiera".
+   *
+   * `deviceMemory` no existe en Firefox ni en Safari y cae al valor por defecto de 4, así que el filtro
+   * de memoria no los excluye: el que decide ahí es el número de núcleos, que sí publican todos.
+   *
+   * Qué queda a cada lado: en "mid" hay revelados, vaho, parallax y capítulos con pin, y lo que se pierde
+   * es el scroll interpolado (el nativo responde antes) y el `backdrop-filter` del cristal, que son justo
+   * las dos cosas que en un equipo flojo se notan como lentitud y no como "menos efectos".
+   * Lo que no depende de esto es la portada: se pinta igual en cualquier gama porque solo usa
+   * `transform` y `opacity`, sin filtros ni desenfoques.
+   *
+   * VERIFICAR EN EL EQUIPO DE LA DEMO con `?perf=1`: el HUD dice la gama y las banderas que la han
+   * decidido. Si ahí sale "mid" y el scroll se quiere suave, se sube el listón a mano; si sale "high" y
+   * se nota pastoso, se baja. Medir fotogramas en vivo para decidirlo volvería a meter un bucle de
+   * `requestAnimationFrame` permanente y un cambio de tacto a mitad de sesión, que es el fallo que ya
+   * se vio delante de un cliente.
+   */
+  const desktopHigh = !isMobile && !isTouch && cores >= 8 && memory >= 4;
+  const base: PerformanceTier = desktopHigh ? "high" : "mid";
 
-  /* Ahorro de datos: UN escalón, no el modo mínimo. Fijarlo en "low" con candado convertía una
-     preferencia de RED en una sentencia sobre la POTENCIA del equipo y le servía la web plana —sin
-     portada 3D, sin grano, sin parallax, sin capítulos— a un visitante de móvil cuyo único problema es
-     el plan de datos. Un escalón abajo es lo que había antes de esta iteración y ya ahorra lo caro de
-     descargar (el chunk del post-procesado y las texturas de gama alta). Sin candado: la sonda sigue
-     pudiendo bajarlo más si de verdad el equipo no llega. */
-  const heuristic: PerformanceTier = saveData ? LOWER[base] : base;
-  return { isMobile, isTouch, reducedMotion, saveData, heuristic, locked: false };
-}
-
-function buildSnapshot(): Snapshot {
-  const d = device;
-  if (!d) return SERVER_SNAPSHOT;
-  return [
-    activeTier,
-    d.isMobile ? 1 : 0,
-    d.isTouch ? 1 : 0,
-    d.reducedMotion ? 1 : 0,
-    d.saveData ? 1 : 0,
-    measured ? "m" : "h",
-  ].join("|");
+  /* Ahorro de datos: UN escalón, no el modo mínimo. Es una preferencia de RED, no un veredicto sobre
+     la potencia del equipo; bajar a "low" con candado le servía la web plana a un visitante de móvil
+     cuyo único problema es el plan de datos. */
+  return { isMobile, isTouch, reducedMotion, saveData, tier: saveData ? LOWER[base] : base };
 }
 
 /**
  * Interruptor ÚNICO del cristal real: escribe `data-gpu="high"` en <html> y con él se reactivan los
  * `backdrop-filter` de `.glass`, `.glass-smoke`, `.glass-red` y de la banda de la cabecera
- * (`src/app/globals.css`). Sin esta línea el selector de la hoja era CSS muerto y el cristal no volvía
- * NUNCA, en ningún equipo: la decisión 2 del cliente ("el cristal real se reserva a gama alta") se
- * convertía en "el cristal real se elimina".
+ * (`src/app/globals.css`). Sin esta línea el selector de la hoja sería CSS muerto y el cristal no
+ * volvería NUNCA, en ningún equipo: la decisión "el cristal real se reserva a gama alta" se
+ * convertiría en "el cristal real se elimina".
  *
- * Se exige gama alta Y MEDIDA. No basta la heurística optimista: mientras la sonda mide (los primeros
- * ~2 s, con la escena 3D a pleno rendimiento) es justo el peor momento para añadir una recomposición
- * del viewport por cada superficie de cristal, y en un portátil flojo el cristal se encendería para
- * apagarse acto seguido. Así solo lo ve el equipo que ha DEMOSTRADO que le sobra GPU, y lo ve una sola
- * vez: el almacén es un trinquete y la gama ya no vuelve a subir.
+ * Antes exigía gama alta Y MEDIDA por la sonda, porque el peor momento para añadir una recomposición
+ * del viewport por superficie era mientras la escena 3D iba a pleno rendimiento. Sin escena ya no hay
+ * sonda, así que el resguardo lo pone ahora el listón de la propia gama (escritorio no táctil, 8
+ * núcleos, 4 GB y sin ahorro de datos): son ~41 superficies desenfocando lo que tienen detrás, y sin
+ * medición en vivo no queda nadie que pueda apagarlas si el equipo no llega. El interruptor se acciona
+ * una sola vez, antes del primer scroll, en vez de encenderse y apagarse solo.
  */
-function syncGlassSwitch(): void {
+function syncGlassSwitch(tier: PerformanceTier): void {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
-  if (measured && activeTier === "high") root.dataset.gpu = "high";
+  if (tier === "high") root.dataset.gpu = "high";
   else if (root.dataset.gpu) delete root.dataset.gpu;
-}
-
-/** Reconstruye la instantánea y avisa a React. Idempotente: si nada cambió, no notifica. */
-function commit(): void {
-  const next = buildSnapshot();
-  syncGlassSwitch();
-  renderDiagnostics();
-  if (next === snapshot) return;
-  snapshot = next;
-  for (const listener of listeners) listener();
 }
 
 function ensureDetected(): void {
   if (detected) return;
   detected = true;
   device = detectDevice();
-  activeTier = device.heuristic;
-  snapshot = buildSnapshot();
+  snapshot = [device.tier, device.reducedMotion ? 1 : 0].join("|");
 }
 
 function getSnapshot(): Snapshot {
@@ -265,51 +189,14 @@ function getServerSnapshot(): Snapshot {
   return SERVER_SNAPSHOT;
 }
 
-function subscribe(listener: () => void): () => void {
-  listeners.add(listener);
-  return () => {
-    listeners.delete(listener);
-  };
-}
-
-/* ──────────────────────────────────────────────────────────────
-   API imperativa (degradación en vivo)
-   ────────────────────────────────────────────────────────────── */
-
 /**
- * Baja la gama activa. Es un trinquete: si `tier` es igual o mejor que la actual no hace nada.
- * Devuelve la gama resultante. Útil también fuera de React (helpers de GSAP, callbacks de Three).
+ * Suscripción vacía A PROPÓSITO: la gama se mide una vez al hidratar y ya no cambia, así que no hay
+ * nada que notificar. `useSyncExternalStore` sigue siendo la herramienta correcta porque resuelve lo
+ * que aquí importa —renderizar el HTML del servidor con el perfil conservador y saltar al real justo
+ * después de montar, sin `setState` dentro de un efecto ni desajuste de hidratación—.
  */
-export function demotePerformanceTier(tier: PerformanceTier): PerformanceTier {
-  if (typeof window === "undefined") return tier;
-  ensureDetected();
-  if (RANK[tier] < RANK[activeTier]) {
-    activeTier = tier;
-    commit();
-  }
-  return activeTier;
-}
-
-/** Traduce unos FPS medidos al techo de gama que ese dispositivo se puede permitir. */
-function tierForFrameRate(fps: number): PerformanceTier {
-  if (fps < FPS_FLOOR_3D) return "low";
-  if (fps < FPS_FLOOR_HIGH) return "mid";
-  return "high";
-}
-
-/**
- * Entrega el resultado de una medición real: marca el perfil como medido y aplica el techo.
- * Devuelve la gama resultante.
- */
-export function reportMeasuredFrameRate(fps: number): PerformanceTier {
-  if (typeof window === "undefined") return activeTier;
-  ensureDetected();
-  lastFps = fps;
-  measured = true;
-  const cap = tierForFrameRate(fps);
-  if (RANK[cap] < RANK[activeTier]) activeTier = cap;
-  commit();
-  return activeTier;
+function subscribe(): () => void {
+  return () => {};
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -317,46 +204,42 @@ export function reportMeasuredFrameRate(fps: number): PerformanceTier {
    ────────────────────────────────────────────────────────────── */
 
 function parseSnapshot(value: Snapshot): PerfProfile {
-  const [rawTier, isMobile, isTouch, reducedMotion, saveData, source] = value.split("|");
+  const [rawTier, rawReduced] = value.split("|");
   const tier: PerformanceTier = rawTier === "high" || rawTier === "mid" ? rawTier : "low";
-  const reduced = reducedMotion === "1";
+  const reducedMotion = rawReduced === "1";
 
-  const can = (feature: PerfFeature): boolean => {
-    if (reduced && MOTION_FEATURES.has(feature)) return false;
-    return RANK[tier] >= RANK[FEATURE_MIN_TIER[feature]];
-  };
+  /* Todas las características que quedan SON movimiento, así que `prefers-reduced-motion` las apaga
+     todas sin excepción y no hace falta la lista de "cuáles son movimiento" que había antes. Si algún
+     día vuelve una que sea caro puro y no movimiento (el cristal lo era), habrá que distinguirlas. */
+  const can = (feature: PerfFeature): boolean =>
+    !reducedMotion && RANK[tier] >= RANK[FEATURE_MIN_TIER[feature]];
 
   return {
     tier,
-    isMobile: isMobile === "1",
-    isTouch: isTouch === "1",
-    reducedMotion: reduced,
-    saveData: saveData === "1",
-    measured: source === "m",
-    ...PROFILES[tier],
-    glass: can("glass"),
-    heavyBlur: can("heavyBlur"),
+    reducedMotion,
     atLeast: (min) => RANK[tier] >= RANK[min],
     can,
   };
 }
 
 /**
- * Perfil de rendimiento activo.
- *
- * Arranca con una heurística optimista (escritorio "high", móvil/táctil "mid") y se degrada solo
- * cuando la sonda de fotogramas de la escena 3D (`FrameProbe`, en `HeroScene`) mide que el dispositivo
- * no llega, o cuando alguien llama a `demotePerformanceTier`. `prefers-reduced-motion` fija "low" de
- * entrada y el ahorro de datos baja un escalón.
- * Devuelve un perfil "low" durante SSR/hidratación (snapshot de servidor) y el perfil real justo
- * después, sin `setState` dentro de efectos.
+ * Perfil de rendimiento activo: gama heurística (escritorio holgado "high"; móvil, táctil y escritorio
+ * justo "mid"; equipo muy justo o `prefers-reduced-motion` "low"; ahorro de datos un escalón menos) más
+ * la preferencia de movimiento. Devuelve un perfil "low" durante SSR/hidratación y el real justo después.
  */
 export function usePerformanceTier(): PerfProfile {
   const value = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  /* El HUD se monta desde un efecto y no desde `getSnapshot`, porque tocar el DOM durante el
-     render rompería la hidratación. Es idempotente: solo el primer consumidor crea el nodo. */
-  useEffect(renderDiagnostics, [value]);
+  /* El atributo del cristal y el HUD se escriben desde un EFECTO y nunca desde `getSnapshot`: tocar el
+     DOM durante el render (y `<html>` es DOM) se ejecutaría en medio de la hidratación y en desarrollo
+     dos veces. Los dos son idempotentes, así que da igual cuántos consumidores del hook haya. */
+  useEffect(applyDomSideEffects, [value]);
   return useMemo(() => parseSnapshot(value), [value]);
+}
+
+/** Efectos en el DOM derivados de la gama: interruptor del cristal y HUD de diagnóstico. */
+function applyDomSideEffects(): void {
+  syncGlassSwitch(device?.tier ?? "low");
+  renderDiagnostics();
 }
 
 /** Azúcar para el caso más común: "¿puedo permitirme esto?" en una línea. */
@@ -369,18 +252,17 @@ export function useCanAfford(feature: PerfFeature): boolean {
    ────────────────────────────────────────────────────────────── */
 
 /**
- * HUD de desarrollo: FPS medidos y gama activa en pantalla, para poder verificar la mejora en un
- * equipo real (aquí dentro solo hay WebGL por software, así que la única medida válida se toma en
- * el portátil o el móvil de verdad). Es la ÚNICA vía de diagnóstico que queda: el gobernador y la
- * sonda genérica se han borrado porque nadie las ejercitaba y la medición vive dentro del Canvas.
+ * HUD de desarrollo: gama activa y banderas del dispositivo en pantalla, para poder verificar en un
+ * equipo real qué rama de la heurística ha caído. Ya no muestra FPS: la sonda que los medía vivía
+ * dentro del Canvas y se ha ido con él; medir fotogramas por nuestra cuenta volvería a meter un bucle
+ * de `requestAnimationFrame` permanente para adornar un HUD que un visitante nunca ve.
  *
  * Se enciende con `?perf=1` en la URL y se apaga con `?perf=0`; la elección queda en
  * `sessionStorage` para que sobreviva a la navegación entre idiomas y secciones. Un visitante
  * normal nunca lo ve: sin el parámetro no existe ni el nodo.
  *
  * Se pinta con DOM imperativo y no con un componente React a propósito: así no entra en el árbol
- * que se hidrata (nada que comparar con el HTML del servidor) y no añade un render más a cada
- * cambio de gama.
+ * que se hidrata (nada que comparar con el HTML del servidor) y no añade un render más.
  */
 const DIAGNOSTICS_PARAM = "perf";
 const DIAGNOSTICS_KEY = "tixola:perf-hud";
@@ -430,11 +312,9 @@ function renderDiagnostics(): void {
   }
   if (!hud) return;
   const d = device;
-  const fps = lastFps === null ? "—" : `${Math.round(lastFps)}`;
   hud.textContent = [
-    `tier  ${activeTier}${measured ? " (medido)" : " (heurística)"}`,
-    `fps   ${fps}`,
-    `dpr   ≤${PROFILES[activeTier].dpr[1]}  part ${PROFILES[activeTier].particles}`,
+    `tier  ${d?.tier ?? "—"}`,
+    `glass ${d?.tier === "high" ? "sí" : "no"}`,
     `flags ${d?.isMobile ? "mobile " : ""}${d?.isTouch ? "touch " : ""}${d?.reducedMotion ? "rm " : ""}${d?.saveData ? "savedata" : ""}`.trimEnd(),
   ].join("\n");
 }

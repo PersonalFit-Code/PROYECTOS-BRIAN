@@ -1,17 +1,18 @@
 # Tixola Tapería — Brief de diseño y contrato técnico
 
-Landing page 3D ultra‑inmersiva para **Tixola Tapería** (Rúa Juan de Austria, 7 · Ourense · junto a la Catedral).
+Landing inmersiva para **Tixola Tapería** (Rúa Juan de Austria, 7 · Ourense · junto a la Catedral).
 Prueba social: **4,4 ★ Google · 858 reseñas** · TripAdvisor 4,2 · nº 19 de 496 · Travellers' Choice. Precio 10‑20 €/persona.
 CTA: **Reservar Mesa** (modal → llamar / WhatsApp) · **Ver Carta** (`/carta`) · **Llamar 646 45 72 74** · **Cómo llegar**.
 
 ## Stack (ya instalado — no cambiar versiones)
 Next 16 (App Router, Turbopack) · React 19 · TypeScript strict · Tailwind CSS **v4** (`@theme` en `src/app/globals.css`) ·
-@react-three/fiber 9 · @react-three/drei 10 · three 0.186 · @react-three/postprocessing 3 · maath · gsap 3.15 (ScrollTrigger) · framer-motion 13 · lucide-react.
+gsap 3.15 (ScrollTrigger) · framer-motion 13 · lenis · embla-carousel · lucide-react.
+**Sin WebGL**: `three`, `@react-three/*`, `postprocessing` y `maath` se han desinstalado (ver ITERACIÓN 4). Todo el 3D que queda es CSS (`transform` + `perspective`) o SVG.
 
 ## Paleta y tipografía (tokens Tailwind v4 — usar como clases: `bg-pimenton`, `text-cream`, `border-cream/20`…)
 | Token | Valor | Uso |
 |---|---|---|
-| `pimenton` / `pimenton-light` / `pimenton-dark` | #B21E27 / #D8323C / #7D131A | CTA, neones, luces 3D |
+| `pimenton` / `pimenton-light` / `pimenton-dark` | #B21E27 / #D8323C / #7D131A | CTA, neones, focos de parrilla de la portada |
 | `ember` / `gold` | #FF6A3D / #E8C27A | brasas, detalles cálidos |
 | `iron` / `iron-900` / `iron-800` / `iron-700` / `iron-600` | #121212 … #2E2E2E | fondos hierro fundido / pizarra |
 | `burgundy` / `burgundy-deep` | #3A0E13 / #22080B | degradados de fondo |
@@ -41,7 +42,7 @@ Imágenes: `/images/fachada.jpg` (fachada real del local, 806×490) · `/images/
 - `@/components/ui/AllergenIcon` — `default AllergenIcon({id,size,withLabel,active})` y `AllergenRow({ids,size})`.
 - `@/components/ui/SectionHeading` — `{kicker,title,accent,description,align,as}`; marca hijos con `data-reveal` para animarlos con GSAP.
 - `@/components/ui/ReservationProvider` — `useReservation()` → `{open, close, isOpen}`. Ya envuelve ambas páginas. El modal real es `ReservationModal.tsx` (firma `{open,onClose}`).
-- `@/hooks/usePerformanceTier` → `{tier:'low'|'mid'|'high', isMobile, isTouch, reducedMotion, dpr, particles, shadows, postprocessing, floaters}`. **Obligatorio** para escalar efectos 3D y mantener 60 FPS en móvil.
+- `@/hooks/usePerformanceTier` → `{tier:'low'|'mid'|'high', reducedMotion, can(feature), atLeast(tier)}`. Las características son `smoothScroll`, `scrollCinema`, `parallax`, `ambientMotion` y `entranceMotion`; se pregunta `can('…')` (que ya contempla `prefers-reduced-motion`) y no el tier a pelo. Ya no expone `dpr`, `particles`, `shadows`, `postprocessing`, `floaters` ni `measured`: eran presupuestos de WebGL y el veredicto de una sonda de fotogramas que ha desaparecido con la escena.
 - `@/hooks/useIsMobile` → `useIsMobile()`, `usePrefersReducedMotion()`.
 - `@/lib/gsap` → `getGsap()` devuelve `{gsap, ScrollTrigger}` ya registrados (solo cliente).
 - `@/lib/openStatus` → `getOpenStatus(now?)` → `{isOpen,label,detail,mood,minutesToChange,todayKey,todayRanges}`, `formatRanges()`.
@@ -52,10 +53,10 @@ Imágenes: `/images/fachada.jpg` (fachada real del local, 806×490) · `/images/
 `/carta` → `<CartaExplorer/>` (main ya tiene `pt-[var(--header-h)]`).
 
 ## Reglas de código
-1. Componentes con hooks, R3F, GSAP o framer-motion llevan `"use client"`. El `<Canvas>` de R3F **siempre** se carga con `next/dynamic(() => import(...), { ssr: false })` desde un componente cliente, con un fallback visual (degradado + glow) mientras carga.
+1. Componentes con hooks, GSAP o framer-motion llevan `"use client"`. **No se añaden lienzos WebGL**: la portada y el plano del mapa se pintan en CSS y SVG, servidos ya dibujados en el HTML (sin `next/dynamic`, sin `ssr:false`, sin fallback que sincronizar).
 2. TypeScript estricto, sin `any`. Debe pasar `npx eslint <tus ficheros>` (reglas next/core-web-vitals) y `npx tsc --noEmit` sin errores en tus ficheros.
 3. Mobile‑first: diseña primero a 375 px, luego `md:` y `lg:`. Áreas táctiles ≥ 44 px. Nada de scroll horizontal accidental.
-4. Rendimiento: `usePerformanceTier()` decide sombras, partículas, DPR y post‑procesado. En `tier==='low'` no montes Canvas pesados (usa fallback estático). Respeta `prefers-reduced-motion`.
+4. Rendimiento: `usePerformanceTier()` decide lo que cuesta COMPONER, que es lo único caro que queda — scroll interpolado, pins con scrub, parallax, bucles ambientales y el `backdrop-filter` del cristal. Anima solo `transform` y `opacity`; nada de `filter`, `blur` ni `mix-blend-mode` sobre capas grandes. Respeta `prefers-reduced-motion`.
 5. Accesibilidad: semántica (section/h2), `aria-label` en botones de icono, foco visible, contraste AA sobre fondos oscuros, `alt` en imágenes.
 6. Textos en **español de España**, tono gastronómico y cercano; puedes usar toques en gallego ("tixola" = sartén).
 7. No ejecutes `next build` ni `next dev` (otros agentes trabajan en paralelo): valida con `npx tsc --noEmit 2>&1 | grep -E "tu/ruta"` y `npx eslint tus/ficheros`.
@@ -125,7 +126,7 @@ de gama media—, no solo en un equipo potente. Lo que más caro sale ahí no so
 obligan al navegador a leer lo que hay detrás de una capa, rasterizarla aparte y recomponerla cada vez
 que algo se mueve por encima o por debajo. Este apartado fija cómo se pintan esas superficies.
 
-## 1 · Cristal: horneado por defecto, real solo en gama alta MEDIDA
+## 1 · Cristal: horneado por defecto, real solo en gama alta
 
 `glass`, `glass-smoke` y `glass-red` (`src/app/globals.css`) **ya no llevan `backdrop-filter`**. La
 utilidad es un degradado + borde + `box-shadow`: se ve como cristal porque el ojo lee el borde y el filo
@@ -139,10 +140,11 @@ de luz superior, no el desenfoque. El desenfoque real se reactiva desde **un ún
 ```
 
 - **`data-gpu="high"` en `<html>` lo escribe `syncGlassSwitch()`** en
-  `src/hooks/usePerformanceTier.ts`, desde el `commit()` del almacén: una sola vez, solo en cliente y solo
-  con la gama alta **ya medida** (no basta la heurística optimista de partida — mientras la sonda mide es
-  el peor momento para añadir una recomposición del viewport por superficie). Es el ÚNICO escritor y el
-  único lector del atributo. Si esta función desaparece, el cristal no vuelve en NINGÚN equipo y la
+  `src/hooks/usePerformanceTier.ts`, al detectar el dispositivo: una sola vez, solo en cliente y solo en
+  gama alta. Es el ÚNICO escritor y el único lector del atributo. En la iteración 3 exigía además que la
+  gama estuviera **medida** por la sonda de fotogramas, porque mientras la escena 3D iba a pleno
+  rendimiento era el peor momento para añadir una recomposición del viewport por superficie; sin escena no
+  hay tal momento, y pedir una medición que ya nadie toma habría apagado el cristal para siempre. Si esta función desaparece, el cristal no vuelve en NINGÚN equipo y la
   decisión del cliente pasa de "se reserva a gama alta" a "se elimina": era exactamente el estado en el
   que estaba el árbol a mitad de esta iteración.
 - **Única superficie que no es una tarjeta: la cabecera.** La banda `fixed` de 72 px se pinta con su propio
@@ -158,8 +160,8 @@ de luz superior, no el desenfoque. El desenfoque real se reactiva desde **un ún
   de props `glass` viajando por el árbol: la clase se pone siempre y el selector de arriba decide. Si un
   componente necesita un fondo distinto del de la utilidad, escribe su propio degradado (ver OpenStatus)
   y no pide `backdrop-filter` en ningún caso.
-- Excepción deliberada: **el aviso de cookies nunca lleva cristal, en ningún ancho**. Se pinta encima del
-  lienzo WebGL de la portada, ya en marcha, y es lo primero que ve un visitante.
+- Excepción deliberada: **el aviso de cookies nunca lleva cristal, en ningún ancho**. Se pinta encima de
+  la portada, que es lo primero que ve un visitante, y ahí un desenfoque a pantalla completa se nota.
 
 ## 2 · Brasas: utilidades `ember-glow` / `ember-wash`, nunca `blur-2xl` / `blur-3xl`
 
@@ -274,10 +276,11 @@ galería, leyenda de alérgenos). **Nadie escribe `data-scroll-lock` ni `body.st
 
 El contrato son dos cosas y las dos las mira el resto de la web: `overflow: hidden` en el `<body>`, que
 congela el scroll, y `data-scroll-lock` en el `<html>`, que es lo que consultan `SmoothScrollProvider`
-(para parar Lenis) y `HeroCanvas` (para dejar de pintar la escena detrás de un panel opaco). Sin contador,
-dos paneles solapados se pisaban: el interior borraba el atributo al cerrarse y el exterior se quedaba
-abierto con Lenis vivo y el lienzo WebGL pintando debajo. La leyenda de alérgenos, además, bloqueaba el
-`<body>` sin escribir el atributo, así que con ella abierta eso pasaba siempre.
+(para parar Lenis) y `HeroCanvas` (para pausar las animaciones de la portada detrás de un panel opaco:
+el chat y los modales llevan `backdrop-filter`, y animar debajo obliga a recomponerlo cada fotograma).
+Sin contador, dos paneles solapados se pisaban: el interior borraba el atributo al cerrarse y el exterior
+se quedaba abierto con Lenis vivo y la portada animando debajo. La leyenda de alérgenos, además,
+bloqueaba el `<body>` sin escribir el atributo, así que con ella abierta eso pasaba siempre.
 
 El `padding-right` que compensa la barra de desplazamiento sigue ahí, pero ya no hace falta: `<html>` lleva
 `scrollbar-gutter: stable`, que reserva el hueco de entrada. Sin eso, compensar el `<body>` estabilizaba el
@@ -285,17 +288,98 @@ contenido del documento pero **no** las capas `position: fixed` (cabecera, barra
 de WhatsApp, lanzador del chat), que se posicionan contra el viewport y saltaban 7,5-15 px al abrir un
 modal en escritorio.
 
-## 9 · Degradación medida: un solo sentido y una sola vez
+## 9 · Gama: una sola decisión, tomada al hidratar
 
-La sonda vive DENTRO del Canvas (`FrameProbe`, en `HeroScene`) y publica en el almacén de gama, que es un
-trinquete: la gama baja, nunca sube. Dos consecuencias que hay que respetar al escribir cualquier consumidor:
+Ya no hay degradación en caliente. La sonda de fotogramas vivía dentro del Canvas de la portada y se ha
+ido con él, así que `usePerformanceTier` decide la gama UNA vez, al hidratar, con lo que el navegador
+declara del equipo: escritorio no táctil **con 8 núcleos y 4 GB o más** `high`, el resto de escritorios y
+todo lo móvil o táctil `mid`, `prefers-reduced-motion` o un equipo de 2 núcleos / 2 GB `low`, y el ahorro
+de datos baja un escalón. El listón de `high` es deliberadamente alto: sin sonda, una heurística optimista
+no la corrige nadie después, y "cualquier escritorio" se llevaba las dos cosas más caras que quedan (Lenis
+interpolando por fotograma y los `backdrop-filter` del cristal) sin vía de vuelta. Lo que hay que respetar
+al escribir un consumidor:
 
-- **Un consumidor puede perder su capacidad EN CALIENTE.** `useCanAfford(...)` puede pasar de `true` a
-  `false` a los 2-4 s de cargar. Todo lo que se haya escrito en el DOM tiene que poder deshacerse en la
-  limpieza del efecto —ojo con `gsap.quickSetter`, que escribe estilo en línea sin crear ningún tween y por
-  tanto `ctx.revert()` NO lo deshace— y todo estado derivado de "esto está montado" tiene que leerse junto
-  con la condición que lo monta (`ready && show3D`, no `ready` a secas), o queda un hueco negro sin error.
-- **Lo que cambia el TACTO no se decide con la heurística.** Lenis exige gama alta **y medida**
-  (`tier === "high" && measured`): con la heurística optimista se montaba en el primer render y se
-  destruía dos segundos después, y el scroll cambiaba de tacto en vivo delante del cliente. Así el
-  interruptor se acciona una sola vez y siempre hacia "responde mejor". Mismo criterio para el cristal.
+- **La gama no cambia sola.** `useCanAfford(...)` pasa una sola vez de su valor de servidor (perfil
+  conservador, para que la hidratación coincida) al real, justo después de montar, y ahí se queda. Nada de
+  interruptores que se accionan a los dos segundos: el tacto del scroll y el desenfoque del cristal se
+  fijan antes del primer gesto. Aun así, un efecto tiene que poder deshacer en su limpieza todo lo que
+  escriba en el DOM —ojo con `gsap.quickSetter`, que escribe estilo en línea sin crear ningún tween y por
+  tanto `ctx.revert()` NO lo deshace—, porque ese primer salto sigue existiendo.
+- **Lenis y el cristal exigen gama alta** (`tier === "high"`), y la prudencia que antes aportaba `measured`
+  —el veredicto de la sonda— la aporta ahora el propio listón de la heurística (8 núcleos, 4 GB, escritorio
+  no táctil, sin ahorro de datos). Seguir exigiendo `measured` sin sonda habría dejado el scroll suavizado y
+  el `backdrop-filter` apagados para siempre en todos los equipos; dejar el listón en "cualquier escritorio"
+  se los habría dado a un portátil que no llega, con el scroll pastoso y sin nada que pudiera detectarlo.
+  **Antes de una demo, abrir la home con `?perf=1`** en el equipo que se vaya a usar: el HUD dice la gama y
+  las banderas que la han decidido.
+- **Un perfil conservador nunca debe poder dejar algo invisible.** La portada se pinta igual en cualquier
+  gama y con movimiento reducido (solo se quedan quietas sus capas); si un componente apaga un efecto por
+  gama, lo que apaga es MOVIMIENTO, no contenido.
+
+---
+
+# ITERACIÓN 4 — FUERA THREE.JS (decisión del cliente)
+
+Literal: *"es simplemente que pueda funcionar en todos los dispositivos, bajarle calidad y ya, quitar el
+tema de 3D de Three.js y ya. El contenido está bien. Hay cosas interactivas que están súper bien como el
+tema de la carta y ver los platos."*
+
+Traducido: **fuera WebGL por completo**; el contenido, los textos y la estructura de secciones NO se
+tocan. Estado tras la limpieza:
+
+## Qué se ha ido
+- `src/components/three/` completo: `HeroScene`, `TixolaPan`, `FloatingFood`, `EmberParticles`,
+  `SceneLights`, `Effects` y el viejo `CityMap3D`. `HeroCanvas` sobrevive —es el dibujo CSS— y se ha
+  mudado a `src/components/hero/HeroCanvas.tsx`, porque una carpeta llamada `three` sin una línea de
+  three dentro es una trampa para el siguiente que llegue.
+- Dependencias desinstaladas: `three`, `@types/three`, `@react-three/fiber`, `@react-three/drei`,
+  `@react-three/postprocessing`, `postprocessing` y `maath`. También `transpilePackages: ["three"]` de
+  `next.config.ts`.
+- `src/hooks/usePointerParallax.ts`: solo lo usaban la escena y sus piezas (movían la cámara con el
+  puntero y el giroscopio). Con ellas se va el hook y también el chip "Activar 3D" de la portada, que
+  existía para pedir el permiso de giroscopio de iOS.
+- La sonda de fotogramas (`FrameProbe`) y con ella `measured`, `reportMeasuredFrameRate`,
+  `demotePerformanceTier` y los presupuestos `dpr` / `particles` / `shadows` / `postprocessing` /
+  `floaters`.
+
+## Qué hay ahora en su lugar
+- **Portada** (`src/components/hero/HeroCanvas.tsx`): la tixola dibujada con degradados CSS —hierro con
+  luz de brasas, dos focos de parrilla, aceite con hondura y burbujas, pimentón, zamburiñas, mango con
+  remaches, vaho y chispas—. Solo `transform` y `opacity`, cero `filter` y cero `blur`. Las dos
+  composiciones (móvil apilado / escritorio a la derecha) las resuelve el breakpoint `lg` de Tailwind, no
+  un hook, para que el servidor ya sirva la correcta. `useHeroIdle` pausa las animaciones
+  (`animation-play-state`) cuando la portada no se ve, con la pestaña oculta o con un panel modal abierto;
+  todas las señales valen "se ve" mientras no se hayan medido, así que una hidratación lenta o fallida
+  deja la portada animando en vez de congelarla apagada.
+- **Velo del copy de la portada** (`src/components/sections/Hero.tsx`): por debajo de `lg` el bloque de
+  texto lleva su propio degradado detrás, con inset negativo, de modo que su extensión la define el texto
+  y no un porcentaje de pantalla. Sin él, en un teléfono de viewport bajo (360×640) el titular se pintaba
+  sobre el aceite de la tixola con contraste local 1:1 —medido: fondo 245 contra un crema de 246—, porque
+  el degradado vertical de la sección es transparente entre el 18 % y el 30 % y el velo lateral es
+  `lg:block`. El arranque del degradado va en PÍXELES (58 px) y no en porcentaje para que termine siempre
+  justo encima del kicker, mida lo que mida el bloque. Medido tras el arreglo: el píxel más claro bajo el
+  titular baja de 245 a 68 (contraste ≥ 5:1) y la tixola conserva encendida su mitad alta.
+- **Mapa** (`src/components/ui/MapCard.tsx`): plano SVG estático del casco histórico con la geometría real
+  heredada de la maqueta 3D (metros, puerta de Tixola en el origen, Rúa Juan de Austria girada 20°,
+  Catedral al NE, Santa Eufemia al SO). Las manzanas se generan con un hash determinista a nivel de módulo
+  —idénticas en servidor y cliente—, el `<svg>` es `role="img"` con alternativa textual compuesta de
+  cadenas ya traducidas, y las chinchetas van en HTML posicionado en porcentaje para conservar su tamaño
+  en píxeles. Se conservan "Cómo llegar", "Abrir en Google Maps", el disclosure "Ver mapa real" con el
+  iframe y el enlace al camarero virtual. El visor tiene DOS VISTAS con un conmutador en la cabecera del
+  panel: el plano y la **foto real de la fachada** (`photos.ts`, id `fachada`, con `alt` traducido). Esa
+  foto vivía como plan B del lienzo WebGL y NO se va con él: es contenido comercial del negocio. La foto
+  no se descarga hasta que alguien pide su vista por primera vez. La leyenda del plano se ancla arriba a la
+  izquierda por debajo de `sm` —abajo envolvía a dos líneas y cortaba a media palabra la rotulación de la
+  Rúa Juan de Austria— y abajo a partir de ahí.
+- **Sigue intacto** lo que el cliente señaló: `DishCarousel3D` (cilindro de CSS, nunca fue WebGL),
+  `DishSpotlight`, la carta con filtros, el camarero virtual, las reseñas, el legal y los cuatro idiomas.
+
+## Cabos conocidos
+- Las claves i18n que quedaron huérfanas al retirar el 3D ya no están: se han BORRADO en los cuatro
+  idiomas `hero.enable3d`, `hero.enable3dAria` y, en `experience.map`, `mapAria` (describía "un mapa 3D
+  estilizado" y era el nombre obvio para el `aria-label` del nuevo `<svg role="img">`: reutilizarla le
+  habría anunciado una maqueta 3D a quien usa lector de pantalla), `view3d`, `dragHint`, `dragHintTouch`,
+  `pauseRotation` y `playRotation`. `map.photo` SÍ se usa: es la etiqueta de la vista de la fachada.
+  Claves nuevas: `map.plan` y `map.viewLabel` (el conmutador plano / foto real).
+- `scripts/qa-hero.cjs` ya no busca ningún `<canvas>`; sigue midiendo el brillo de la zona de la tixola
+  (la comprobación que cazó la portada en negro) y la luminancia y el contraste del visor del mapa.

@@ -107,7 +107,7 @@ export default function StarDishes() {
 
       {/* Carrusel a sangre (fuera del contenedor) para que las tarjetas vecinas asomen por los bordes.
           Antes entraba con `whileInView` de Framer, que escribe `opacity` y `transform` en el nodo en
-          cada fotograma del scroll de la portada, justo cuando compiten el lienzo WebGL y el cilindro.
+          cada fotograma del scroll de la portada, justo cuando compiten la portada y el cilindro.
           Ahora es `data-reveal`: la transición la lleva el compositor y el JS solo pone una clase. */}
       <div data-reveal className="relative mt-8 md:mt-12">
         {use3D ? (

@@ -1,15 +1,21 @@
-/* QA de los dos lienzos WebGL de la página: la portada y el visor del mapa.
+/* QA de las dos piezas visuales grandes de la página: la portada y el visor del mapa.
 
-   Guarda contra la regresión que dejó la portada en negro: el hero se compone de un lienzo WebGL y
-   un fondo estático, ambos dentro de una capa que la transición de scroll anima. Cualquier fallo en
-   esa capa (un filtro mal calculado, un velo que no vuelve a 0, una escena que no pinta) apaga la
-   portada entera sin romper el build ni lanzar errores de JS: sólo se nota mirando los píxeles.
+   Guarda contra la regresión que dejó la portada en negro. Ese fallo se descubrió cuando la portada
+   era un lienzo WebGL, pero la comprobación NO era sobre WebGL: la portada sigue siendo un dibujo
+   dentro de una capa que la transición de scroll anima, y cualquier fallo en esa capa (un velo que no
+   vuelve a 0, una opacidad que se queda a cero, unas animaciones que arrancan en reposo) la apaga
+   entera sin romper el build ni lanzar un solo error de JS. Solo se nota mirando los píxeles, y por eso
+   esta prueba se queda aunque el 3D se haya ido.
 
-   La prueba mide el brillo medio de la zona donde vive la tixola y falla si es casi negra. Después
-   baja hasta la tarjeta de ubicación y hace lo mismo con su visor 3D (`[data-map-viewport]`), que
-   hasta ahora no tenía ninguna comprobación aunque es el segundo lienzo WebGL del sitio y está
-   expuesto al mismo fallo: un `frameloop` que no repinta deja el visor en el último fotograma o
-   directamente vacío, y eso no rompe el build ni lanza ningún error.
+   Qué mide ahora:
+    · Portada — brillo medio de la zona donde vive la tixola, que hoy se pinta con degradados CSS
+      (hierro, brasas, aceite, pimentón) en lugar de una escena de three.js. Falla si es casi negra.
+    · Mapa — luminancia y contraste del visor de ubicación (`[data-map-viewport]`), que hoy es un plano
+      SVG estático del casco histórico en lugar de un segundo lienzo WebGL. Falla si sale plano o negro.
+
+   Ya no se comprueba que exista un `<canvas>`: no hay ninguno en la página, y buscarlo solo informaba.
+   A cambio se informa del estado de las animaciones de la portada (`reposo=`), que es el interruptor
+   que sí podría dejarla congelada: `useHeroIdle` las pausa cuando la portada no se ve.
 
    Uso: PORT=3403 NODE_PATH=/opt/node22/lib/node_modules node scripts/qa-hero.cjs  (requiere build) */
 const path = require("path");
@@ -22,18 +28,23 @@ const PORT = process.env.PORT || 3403;
 const BASE = `http://127.0.0.1:${PORT}`;
 const LOCALES = (process.env.LOCALES || "es,gl,en,pt").split(",");
 
-/* Umbral: una portada viva mide ~60 de rojo medio (el glow pimentón del shader de fondo); una
-   apagada se queda en ~17, que es lo que dejan los degradados CSS que hay por encima del lienzo. */
+/* Umbral: una portada viva mide ~63 de rojo medio en escritorio y ~50 en móvil (los focos de parrilla y
+   el pimentón del aceite, medidos con el dibujo CSS actual; la escena WebGL daba ~60 en la caja de
+   escritorio). El móvil mide menos desde que el copy lleva su propio velo de legibilidad detrás
+   (Hero.tsx): la caja que se mide aquí incluye la mitad baja de la tixola, que ese velo atenúa a
+   propósito para que el titular se lea en un teléfono de viewport bajo. Una portada apagada se queda en
+   ~17, que es lo que dejan por sí solos los degradados de legibilidad. El umbral se mantiene en 32, entre
+   medias: lo bastante alto para cazar una portada negra y lo bastante bajo para no fallar porque el halo
+   de calor esté en la fase floja de su respiración. */
 const MIN_RED_MEAN = 32;
 
 /* Umbrales del visor del mapa. Aquí no hay un canal que destaque (granito, piedra y noche), así que
    se miden DOS cosas y hacen falta las dos:
-    · luminancia media > 6 — un lienzo con el contexto creado pero que nunca llega a pintar se queda
-      en el negro opaco del búfer (`alpha: false`), es decir 0.
-    · desviación típica > 4 — la media sola no basta: un lienzo que solo se limpia al color de fondo
-      de la escena (#0c0b0d) ya daría luma 11 y pasaría. Un mapa de verdad —o la foto de la fachada,
-      que es su fallback legítimo— tiene granito, tejados y ventanas doradas y desvía mucho más; un
-      relleno plano, del color que sea, desvía cero.
+    · luminancia media > 6 — un visor que no pinta nada se queda en el negro del fondo, es decir 0.
+    · desviación típica > 4 — la media sola no basta: un relleno liso del color de fondo del plano ya
+      daría luma 11 y pasaría. Un plano de verdad tiene manzanas de granito, calles claras, la retícula
+      grabada y los halos de Tixola y la Catedral, y desvía mucho más; un relleno plano, del color que
+      sea, desvía cero. Sirve igual para el SVG de hoy que para el lienzo de ayer.
    Es un guardia de "esto está pintando algo", NO una medida de calidad. Se informan los dos valores
    medidos para poder recalibrar en un equipo real. */
 const MIN_MAP_LUMA = 6;
@@ -107,9 +118,10 @@ const lumaStatsOf = (page, buf, box) =>
   let failures = 0;
   try {
     await wait(BASE + "/es");
-    const browser = await chromium.launch({
-      args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"],
-    });
+    /* Navegador tal cual: las banderas de SwiftShader (`--use-angle=swiftshader` y compañía) estaban
+       para que el contenedor pudiera crear un contexto WebGL por software. Sin WebGL en la página,
+       forzar un renderizador por software solo ralentizaba la composición de los degradados. */
+    const browser = await chromium.launch();
     for (const locale of LOCALES) {
       for (const dev of [
         /* Desktop: la tixola se ancla a la derecha (layout "split"). Móvil: arriba ("stacked"). */
@@ -119,17 +131,26 @@ const lumaStatsOf = (page, buf, box) =>
         const ctx = await browser.newContext({ viewport: dev.vp, isMobile: dev.m, hasTouch: dev.m, deviceScaleFactor: 1 });
         const page = await ctx.newPage();
         await page.goto(`${BASE}/${locale}`, { waitUntil: "networkidle", timeout: 90000 });
-        /* La escena entra con un fundido de 1 s tras su primer fotograma. */
-        await page.waitForTimeout(5000);
+        /* Margen para la hidratación y para que GSAP coloque la transición de la portada. Ya no hay
+           que esperar el primer fotograma de una escena ni su fundido de entrada: el dibujo llega
+           pintado en el HTML, así que 1,5 s bastan (antes eran 5). */
+        await page.waitForTimeout(1500);
 
         const state = await page.evaluate(() => {
           const wrap = document.querySelector("#hero [data-hero-canvas]");
           const veil = document.querySelector("#hero [data-hero-dim]");
+          /* Estado de las animaciones propias de la portada (`tixola-heat` es el halo de calor).
+             `useHeroIdle` las pausa cuando la portada no se ve; si apareciera "paused" con la portada
+             en pantalla, el vaho y las brasas estarían congelados. Es informativo, no criterio de
+             fallo: con `prefers-reduced-motion` la hoja global las apaga y eso es lo correcto. */
+          const heat = [...document.querySelectorAll("#hero [data-hero-canvas] *")].find((el) =>
+            getComputedStyle(el).animationName.includes("tixola-heat"),
+          );
           return {
             filter: wrap ? getComputedStyle(wrap).filter : "sin capa",
             opacity: wrap ? getComputedStyle(wrap).opacity : "-",
             veil: veil ? getComputedStyle(veil).opacity : "sin velo",
-            canvas: !!document.querySelector("#hero canvas"),
+            idle: heat ? getComputedStyle(heat).animationPlayState : "sin halo",
           };
         });
 
@@ -141,23 +162,23 @@ const lumaStatsOf = (page, buf, box) =>
         if (!lit) failures++;
         say(
           `${lit ? "OK  " : "FALLO"} ${locale}/${dev.n}  rojo=${mean[0]} rgb=${mean.join(",")}  ` +
-            `filtro=${state.filter} opacidad=${state.opacity} velo=${state.veil} lienzo=${state.canvas}`,
+            `filtro=${state.filter} opacidad=${state.opacity} velo=${state.veil} reposo=${state.idle}`,
         );
 
         /* ── Visor del mapa ───────────────────────────────────────────────────────────────────
-           Se baja hasta la tarjeta y se espera: el lienzo se monta con 260 px de margen (para que
-           WebGL llegue caliente) pero su bucle de render no arranca hasta que la tarjeta está al
-           menos medio visible Y el scroll lleva ~120 ms parado, así que hay que dejar de moverse. */
+           Se baja hasta la tarjeta y se espera un momento. El plano es SVG y llega dibujado en el
+           HTML, así que no hay bucle de render que arrancar; la espera es solo para que el scroll
+           pare y los revelados de la sección terminen (antes eran 4 s por el lienzo WebGL). */
         const viewport = page.locator("[data-map-viewport]").first();
         if ((await viewport.count()) > 0) {
           await viewport.scrollIntoViewIfNeeded();
-          await page.waitForTimeout(4000);
+          await page.waitForTimeout(1200);
           const box = await viewport.boundingBox();
           if (box) {
             const mapShot = await page.screenshot({ type: "png" });
             fs.writeFileSync(path.join(OUT, `${locale}-${dev.n}-mapa.png`), mapShot);
             /* Zona central del visor: se dejan fuera los bordes, donde viven la viñeta, la leyenda
-               y las etiquetas HTML, que darían luz aunque el lienzo estuviera muerto. */
+               y las etiquetas HTML, que darían luz aunque el plano no se hubiera pintado. */
             const inner = {
               x: Math.round(box.x + box.width * 0.2),
               y: Math.round(box.y + box.height * 0.2),
@@ -165,10 +186,15 @@ const lumaStatsOf = (page, buf, box) =>
               h: Math.round(box.height * 0.6),
             };
             const [luma, contrast] = await lumaStatsOf(page, mapShot, inner);
-            const mapCanvas = await page.evaluate(() => !!document.querySelector("[data-map-viewport] canvas"));
+            /* Se informa de que el plano existe como imagen accesible (`role="img"`): es el asidero
+               que sustituye al viejo `lienzo=`, y además vigila que no se pierda la alternativa
+               textual del plano al tocar MapCard. */
+            const mapPlan = await page.evaluate(
+              () => !!document.querySelector('[data-map-viewport] svg[role="img"]'),
+            );
             const mapLit = luma >= MIN_MAP_LUMA && contrast >= MIN_MAP_CONTRAST;
             if (!mapLit) failures++;
-            say(`${mapLit ? "OK  " : "FALLO"} ${locale}/${dev.n}/mapa  luma=${luma} contraste=${contrast} lienzo=${mapCanvas}`);
+            say(`${mapLit ? "OK  " : "FALLO"} ${locale}/${dev.n}/mapa  luma=${luma} contraste=${contrast} plano=${mapPlan}`);
           }
         } else {
           say(`AVISO ${locale}/${dev.n}/mapa  no se encontró [data-map-viewport]`);
@@ -180,7 +206,7 @@ const lumaStatsOf = (page, buf, box) =>
     await browser.close();
     say(
       failures
-        ? `\n${failures} lienzo(s) apagado(s) — umbrales: rojo de portada ${MIN_RED_MEAN}, mapa luma ${MIN_MAP_LUMA} / contraste ${MIN_MAP_CONTRAST}`
+        ? `\n${failures} zona(s) apagada(s) — umbrales: rojo de portada ${MIN_RED_MEAN}, mapa luma ${MIN_MAP_LUMA} / contraste ${MIN_MAP_CONTRAST}`
         : `\nPortada y mapa visibles en ${LOCALES.length * 2} combinaciones`,
     );
   } finally {

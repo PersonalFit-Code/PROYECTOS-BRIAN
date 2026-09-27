@@ -361,7 +361,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
               exit={{ opacity: 0, y: 32, scale: 0.98, transition: { duration: 0.22 } }}
               /* 0,28 s desde 24 px (antes 0,55 s desde 48 px). El recorrido más corto es lo que hace que
                  se lea como rápido sin perder el gesto de "sube desde abajo"; y medio segundo de
-                 animación sobre la portada WebGL es medio segundo compitiendo por el hilo principal. */
+                 animación sobre la portada es medio segundo compitiendo por el hilo principal. */
               transition={{ duration: 0.28, ease: EASE_OUT_EXPO }}
               className={cn(
                 "noise after:noise-after relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl outline-none sm:max-w-lg sm:rounded-3xl",

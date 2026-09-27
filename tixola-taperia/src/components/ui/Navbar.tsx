@@ -346,9 +346,10 @@ export default function Navbar() {
             exit="hidden"
             onKeyDown={trapFocus}
             /* Degradado OPACO (iron → burgundy-deep) y sin `backdrop-filter`: el desenfoque de
-               40 px obligaba a releer y desenfocar el viewport entero en cada fotograma mientras el
-               lienzo WebGL de la portada sigue pintando debajo, y con un fondo sólido no hay nada
-               que desenfocar — la portada deja de asomar por completo. */
+               40 px obligaba a releer y desenfocar el viewport entero en cada fotograma mientras la
+               portada seguía animando debajo, y con un fondo sólido no hay nada que desenfocar — la
+               portada deja de asomar por completo. (Con el menú abierto, además, `HeroCanvas` pausa
+               sus animaciones: es un panel modal y escribe `data-scroll-lock`.) */
             className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden bg-[linear-gradient(180deg,#0c0c0c,#22080b)] lg:hidden"
           >
             {/* Brasa decorativa */}

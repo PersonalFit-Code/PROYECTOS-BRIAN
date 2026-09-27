@@ -76,7 +76,7 @@ export interface ChapterProps {
   title: string;
   /**
    * Primer capítulo tras la portada: se desliza POR ENCIMA del hero anclado (z-index, borde
-   * superior redondeado y sombra) mientras HeroTransition encoge y oscurece la escena 3D.
+   * superior redondeado y sombra) mientras HeroTransition encoge y oscurece el dibujo de la portada.
    */
   overlapsHero?: boolean;
   /** Desactiva telón y escala de entrada (se mantienen registro y profundidad). Por defecto true. */

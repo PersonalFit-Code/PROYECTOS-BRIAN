@@ -3,7 +3,7 @@ import type { Translation } from "./shape";
 
 /**
  * "Experience and location" section (#experiencia): marquee, cinematic terrace block,
- * "A day at Tixola" timeline, live status and location card with 3D map.
+ * "A day at Tixola" timeline, live status and location card (historic-quarter plan and facade photo).
  * Placeholders like {brand} are filled with useFormat().
  */
 const experience = {
@@ -51,10 +51,9 @@ const experience = {
     subtitle: "A one-minute walk from the Cathedral",
     distance: "One minute from the Cathedral",
     area: "Pedestrianised old town · wine quarter",
-    dragHint: "Drag to rotate the map",
-    dragHintTouch: "Swipe to rotate the map",
-    view3d: "3D view",
     photo: "Real photo",
+    plan: "Map",
+    viewLabel: "Viewer mode: map or real photo",
     realMap: "Show real map",
     hideMap: "Hide map",
     legend: "Map key",
@@ -62,12 +61,9 @@ const experience = {
     legendCathedral: "San Martiño Cathedral",
     legendChurch: "Santa Eufemia",
     plusCode: "Plus code",
-    mapAria: "Stylised 3D map of the Rúa Juan de Austria block showing San Martiño Cathedral, the church of Santa Eufemia and the location of Tixola Tapería",
     embedTitle: "Location of {brand} on Google Maps",
     askWaiter: "Ask the virtual waiter for directions",
     askWaiterPrefill: "How do I get to Tixola from Ourense Cathedral?",
-    pauseRotation: "Pause the map rotation",
-    playRotation: "Resume the map rotation",
   },
 } satisfies Translation<typeof esExperience>;
 export default experience;

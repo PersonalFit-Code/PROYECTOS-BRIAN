@@ -145,8 +145,8 @@ export default function ChatWidget() {
                  despliega la barra de direcciones y el panel se recomponía a mitad de scroll. */
               "w-[min(420px,calc(100vw-2rem))] h-[min(640px,80svh)] max-h-[calc(100dvh-2rem)]",
               /* `glass-smoke` sin condicionar la gama: la utilidad es horneada (degradado + borde) y
-                 solo recupera el `backdrop-filter` bajo `:root[data-gpu="high"]`, que escribe la sonda
-                 de fotogramas. Un consumidor menos del almacén de rendimiento. */
+                 solo recupera el `backdrop-filter` bajo `:root[data-gpu="high"]`, que escribe el hook de
+                 gama. Un consumidor menos del almacén de rendimiento. */
               "glass-smoke",
             )}
           >

@@ -5,8 +5,8 @@
  * plato, visor de la galería y leyenda de alérgenos) escribían y borraban el estado cada uno por su
  * cuenta, sin contador. Mientras no se solapen eso funciona; en cuanto dos coinciden, el interior borra
  * `data-scroll-lock` al cerrarse y el exterior se queda abierto SIN bloqueo: Lenis se rearranca y
- * `HeroCanvas` vuelve a pintar la escena 3D detrás de un panel opaco a pantalla completa. Y la leyenda de
- * alérgenos ni siquiera escribía el atributo, así que con ella abierta el lienzo seguía pintando siempre.
+ * `HeroCanvas` vuelve a animar sus capas detrás de un panel opaco a pantalla completa. Y la leyenda de
+ * alérgenos ni siquiera escribía el atributo, así que con ella abierta la portada seguía animando siempre.
  *
  * El contrato son dos cosas y las dos las mira el resto de la web:
  *  · `overflow: hidden` en el <body>, que es lo que de verdad congela el scroll;

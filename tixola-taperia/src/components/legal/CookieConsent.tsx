@@ -255,9 +255,9 @@ export default function CookieConsent() {
                 animate={{ y: 0, opacity: 1, scale: 1 }}
                 exit={{ y: 32, opacity: 0, scale: 0.98, transition: { duration: 0.3, ease: "easeIn" } }}
                 transition={{ duration: 0.7, ease: EASE_OUT_EXPO }}
-                /* Nunca backdrop-filter, tampoco en escritorio: el aviso se pinta ENCIMA del lienzo
-                   WebGL de la portada, que ya está en marcha, así que cada fotograma tendría que volver
-                   a desenfocar 350 px de pantalla. Y es lo primero que ve un visitante. */
+                /* Nunca backdrop-filter, tampoco en escritorio: el aviso se pinta ENCIMA de la portada,
+                   cuyas capas ya están animando, así que cada fotograma tendría que volver a desenfocar
+                   350 px de pantalla. Y es lo primero que ve un visitante. */
                 className="noise after:noise-after relative overflow-hidden rounded-3xl border border-cream/10 bg-iron-900/95 p-5 shadow-card md:p-6"
               >
                 {/* Brasa decorativa */}

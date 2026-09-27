@@ -2,14 +2,12 @@
 
 import { useRef, useSyncExternalStore, type ReactNode, type RefObject } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, CalendarCheck, Smartphone, Star } from "lucide-react";
+import { ArrowRight, CalendarCheck, Star } from "lucide-react";
 import NeonButton from "@/components/ui/NeonButton";
 import { useReservation } from "@/components/ui/ReservationProvider";
-import HeroCanvas from "@/components/three/HeroCanvas";
+import HeroCanvas from "@/components/hero/HeroCanvas";
 import { useHeroStillVisible } from "@/components/scroll/HeroTransition";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
-import { usePointerParallax } from "@/hooks/usePointerParallax";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { useInView } from "@/hooks/useInViewOnce";
 import { BUSINESS } from "@/data/business";
 import { formatNumber } from "@/lib/format";
@@ -21,7 +19,7 @@ import { cn } from "@/lib/utils";
    ────────────────────────────────────────────────────────────── */
 
 const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
-/** Retardo antes de la primera línea del titular (deja respirar al lienzo 3D). */
+/** Retardo antes de la primera línea del titular (deja respirar al fondo de la portada). */
 const LINE_DELAY = 0.25;
 /** Escalonado entre líneas del titular. */
 const LINE_STAGGER = 0.12;
@@ -88,13 +86,25 @@ function Headline({ lines, accent, fullTitle, reduced }: HeadlineProps) {
           {/* Sin `will-change-transform`: la entrada dura 1,4 s al cargar y el navegador ya promueve la
               capa por sí solo mientras hay un `transform` animado. Dejarlo declarado mantenía las tres
               líneas del H1 en su propia capa de GPU durante TODA la sesión. */}
+          {/*
+            Con movimiento reducido el titular SOLO se funde, pero la `y` tiene que aparecer igualmente en
+            los dos objetos. El servidor no conoce la preferencia del usuario —`useReducedMotion()` no
+            existe ahí—, así que el HTML sale siempre con la variante en movimiento y su
+            `transform: translateY(110%)` en línea. Si al hidratar el objetivo pasa a ser solo
+            `{ opacity: 1 }`, nadie toca ese transform y las tres líneas se quedan empujadas fuera de su
+            máscara `overflow-hidden`: el H1 desaparece de la pantalla para quien pide menos movimiento
+            (el texto sigue en el DOM y el `aria-label` también, así que ni el lector de pantalla ni el
+            rastreador lo notan; solo desaparece de la vista, que es la peor forma de fallar).
+            Declarando `y` también en la rama reducida, framer la devuelve a 0 con duración 0: sin
+            deslizamiento y sin línea perdida.
+          */}
           <motion.span
             className="block"
-            initial={reduced ? { opacity: 0 } : { y: "110%" }}
-            animate={reduced ? { opacity: 1 } : { y: "0%" }}
+            initial={reduced ? { opacity: 0, y: "110%" } : { y: "110%" }}
+            animate={reduced ? { opacity: 1, y: "0%" } : { y: "0%" }}
             transition={
               reduced
-                ? { duration: 0.5, delay: LINE_DELAY + i * 0.08 }
+                ? { duration: 0.5, delay: LINE_DELAY + i * 0.08, y: { duration: 0 } }
                 : { duration: LINE_DURATION, ease: EASE_OUT_EXPO, delay: LINE_DELAY + i * LINE_STAGGER }
             }
           >
@@ -126,8 +136,8 @@ interface HeroParallaxProps {
  * ancla `#hero` y anima los MISMOS contenedores con GSAP en sentido contrario: si ambos actuaran a la
  * vez, el copy se movería −160 px (GSAP) y +120 px (framer) y su opacidad se multiplicaría por dos
  * fundidos. Montándolo solo cuando GSAP no se hace cargo, tampoco se registra un segundo listener de
- * scroll ni se escriben estilos por fotograma durante el tramo más caro de la página (lienzo
- * anclado + Lenis + scrub).
+ * scroll ni se escriben estilos por fotograma durante el tramo más caro de la página (portada
+ * anclada + Lenis + scrub).
  */
 function HeroScrollParallax({ target, variant, className, children }: HeroParallaxProps) {
   const { scrollYProgress } = useScroll({ target, offset: ["start start", "end start"] });
@@ -146,7 +156,7 @@ function HeroScrollParallax({ target, variant, className, children }: HeroParall
 /**
  * Capa interior del hero: con parallax propio o, si GSAP manda, un simple contenedor estático.
  * El caso estático es el que sale del servidor, así que en tier mid/high (donde manda GSAP) el árbol
- * no cambia al hidratar y ni el lienzo ni la coreografía del titular se vuelven a montar.
+ * no cambia al hidratar y ni el fondo ni la coreografía del titular se vuelven a montar.
  */
 function HeroLayer({ parallax, ...props }: HeroParallaxProps & { parallax: boolean }) {
   if (parallax) return <HeroScrollParallax {...props} />;
@@ -220,9 +230,10 @@ function ScrollCue({
 
 /**
  * Portada a pantalla completa con criterio editorial (portada de revista):
- *  - Escena 3D de fondo (tixola, zamburiñas, brasas) con parallax por ratón / giroscopio.
+ *  - Fondo dibujado en CSS (`HeroCanvas`): tixola de hierro, aceite, zamburiñas, vaho y brasas.
  *    En escritorio la sartén ocupa la mitad derecha y asoma ligeramente detrás del titular;
- *    en móvil ocupa el 45 % superior y el copy va abajo, alineado a la izquierda.
+ *    en móvil sube a la franja alta y el copy va abajo, alineado a la izquierda. Las dos
+ *    composiciones las resuelve el propio fondo con el breakpoint `lg`.
  *  - Kicker en Cinzel, H1 enorme en Cormorant anclado abajo a la izquierda, con la palabra
  *    acentuada en cursiva y degradado de brasa; subtítulo, CTAs neón y valoración discreta.
  *  - Reveal por líneas con máscara (Framer Motion) y ligero parallax de scroll en el interior de
@@ -239,9 +250,7 @@ export default function Hero() {
   const profile = usePerformanceTier();
   const framerReduced = useReducedMotion();
   const reduced = Boolean(framerReduced) || profile.reducedMotion;
-  const stacked = useIsMobile(1024);
   const { open } = useReservation();
-  const { pointer, needsGyroPermission, requestGyroPermission } = usePointerParallax({ enabled: !reduced });
 
   /**
    * En tier mid/high es `<HeroTransition />` (GSAP: pin + scrub) quien anima `[data-hero-canvas]` y
@@ -268,17 +277,23 @@ export default function Hero() {
 
   /* Subtítulo y CTAs entran tras la última línea del titular. */
   const afterHeadline = LINE_DELAY + LINE_STAGGER * 2 + 0.35;
+  /* La rama reducida declara `y` igual que la otra (y la lleva a 0 con duración 0) por el mismo motivo
+     que el titular: el HTML del servidor sale siempre con la variante en movimiento y su
+     `transform: translateY(22px)` en línea, porque en el servidor no se conoce la preferencia. Si el
+     objetivo de después de hidratar no menciona `y`, nadie deshace ese desplazamiento y kicker,
+     subtítulo, CTAs y valoración se quedan 22 px más abajo de donde deben para siempre. */
   const fadeUp = (delay: number) =>
     reduced
-      ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.5, delay } }
+      ? { initial: { opacity: 0, y: 22 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5, delay, y: { duration: 0 } } }
       : { initial: { opacity: 0, y: 22 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.9, ease: EASE_OUT_EXPO, delay } };
 
   return (
     <section ref={sectionRef} id="hero" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-iron">
-      {/* Escena 3D (o fallback estático). El contenedor data-hero-canvas lo anima el módulo de scroll. */}
+      {/* Fondo de la portada (tixola en CSS). El contenedor data-hero-canvas lo anima el módulo de
+          scroll: `HeroTransition` lo busca por ese atributo para el alejamiento. */}
       <div data-hero-canvas className="absolute inset-0 -z-10">
         <HeroLayer parallax={parallax} target={sectionRef} variant="canvas" className="absolute inset-0">
-          <HeroCanvas profile={profile} pointer={pointer} layout={stacked ? "stacked" : "split"} />
+          <HeroCanvas />
         </HeroLayer>
       </div>
 
@@ -291,6 +306,9 @@ export default function Hero() {
           "lg:bg-[linear-gradient(180deg,rgba(18,18,18,0.5)_0%,rgba(18,18,18,0)_22%,rgba(18,18,18,0)_70%,#121212_100%)]",
         )}
       />
+      {/* Velo lateral: SOLO escritorio, donde el copy manda en la mitad izquierda y la tixola en la
+          derecha. Por debajo de lg no sirve de nada (la composición es apilada, no a dos columnas) y
+          el velo que hace falta ahí es el del propio copy, más abajo. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-[5] hidden bg-[linear-gradient(90deg,rgba(12,12,12,0.82)_0%,rgba(12,12,12,0.5)_34%,rgba(12,12,12,0.12)_52%,transparent_64%)] lg:block"
@@ -304,7 +322,39 @@ export default function Hero() {
           "pt-[calc(var(--header-h)+1rem)] pb-[calc(var(--mobile-bar-h)+3.25rem)] md:pb-24 lg:pb-[clamp(3rem,7vh,5.5rem)] lg:pt-[calc(var(--header-h)+2rem)]",
         )}
       >
-        <HeroLayer parallax={parallax} target={sectionRef} variant="copy" className="w-full lg:max-w-[58rem]">
+        <HeroLayer parallax={parallax} target={sectionRef} variant="copy" className="relative w-full lg:max-w-[58rem]">
+          {/*
+            VELO DEL COPY (solo por debajo de lg). En la composición apilada la tixola queda ARRIBA y el
+            copy abajo, pero en un teléfono real de viewport bajo (360×640, 390×844) no hay hueco para las
+            dos cosas: el titular sube hasta el 24 % de la pantalla y se pinta encima del aceite. Medido con
+            estilo calculado a 360×640: el fondo bajo «El Arte del Tapeo» llegaba a luminancia 245 (los
+            reflejos del aceite y las zamburiñas) contra un titular crema de ~246, es decir contraste local
+            1:1 — ilegible. El degradado vertical de arriba no lo cubría porque entre el 18 % y el 30 % es
+            transparente a propósito (para que la tixola respire) y el velo lateral es `lg:block`.
+
+            Va DENTRO de la capa del copy y no en la sección, y con inset negativo, para que su extensión la
+            defina el propio bloque de texto: así tapa exactamente lo que hay detrás de las letras a
+            cualquier altura de viewport, sin depender de porcentajes de pantalla que solo valen para un
+            móvil concreto. Al viajar dentro de `HeroLayer` acompaña al copy en el anclaje de scroll, que es
+            lo que debe hacer un velo de legibilidad: moverse con lo que hace legible.
+
+            Es un degradado VERTICAL que arranca en transparente y tarda 58 px —medidos en píxeles y no en
+            porcentaje, para que el arranque termine SIEMPRE justo encima del kicker, mida lo que mida el
+            bloque de texto— en llegar a su opacidad de trabajo (0,74): ese arranque hace que la tixola se
+            funda con el velo en vez de quedar cortada por una línea recta, que es como se veía con un
+            radial (el borde superior de la caja recortaba el degradado a media opacidad y dejaba un canto
+            visible cruzando la sartén). Arriba de ese arranque la tixola sigue encendida; debajo, el aceite
+            se ve atenuado detrás de las letras, que es el aire cinematográfico que pedía el diseño. La
+            opacidad está calibrada midiendo: el píxel de fondo más claro bajo el titular baja de 245 a 68,
+            es decir contraste ≥ 5:1 con el crema del texto (antes, 1:1).
+            Cuesta lo que una capa que el compositor mezcla: ni filtro ni `backdrop-filter`.
+          */}
+          <div
+            aria-hidden
+            data-hero-veil
+            className="pointer-events-none absolute -inset-x-6 -bottom-10 -top-16 -z-10 bg-[linear-gradient(180deg,transparent_0px,rgba(10,10,10,0.38)_20px,rgba(10,10,10,0.74)_58px,rgba(10,10,10,0.8)_40%,rgba(10,10,10,0.86)_100%)] lg:hidden"
+          />
+
           {/* Kicker */}
           <motion.p
             {...fadeUp(0.05)}
@@ -359,22 +409,10 @@ export default function Hero() {
         </HeroLayer>
       </div>
 
-      {/* Chip "Activar 3D": solo en iOS 13+ (el giroscopio requiere un gesto) */}
-      {needsGyroPermission && (
-        <button
-          type="button"
-          onClick={() => void requestGyroPermission()}
-          aria-label={m.hero.enable3dAria}
-          /* Hierro casi opaco en vez de `glass`: este chip está ENCIMA del lienzo WebGL, que repinta en
-             continuo, y un `backdrop-filter` obliga a volver a desenfocar ese recorte en cada uno de
-             esos repintados. Es la misma decisión que ya tomaron NeonButton (variante `outline`) y
-             MobileStickyBar, y por el mismo motivo. */
-          className="absolute right-4 bottom-[calc(var(--mobile-bar-h)+1rem)] z-20 inline-flex h-11 items-center gap-2 rounded-full border border-cream/15 bg-iron-900/92 px-4 font-sans text-xs font-semibold text-cream-200 transition-colors hover:text-cream md:bottom-6"
-        >
-          <Smartphone className="h-4 w-4 text-pimenton-light" aria-hidden />
-          {m.hero.enable3d}
-        </button>
-      )}
+      {/* Aquí estaba el chip "Activar 3D": pedía el permiso de giroscopio que iOS exige para mover la
+          cámara de la escena WebGL con el móvil. Sin escena no hay cámara que mover, así que se retira
+          junto con ella, y con él sus textos (`hero.enable3d*`) en los cuatro idiomas: una cadena que
+          nadie pinta es una cadena que alguien acaba reutilizando donde no debe. */}
 
       {/* Indicador de scroll vertical (md+, oculto en pantallas bajas) */}
       <ScrollCue href={lp("/#platos")} label={m.hero.scrollCue} aria={m.hero.scrollCueAria} reduced={reduced} ambient={ambient} />

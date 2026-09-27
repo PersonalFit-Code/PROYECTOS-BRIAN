@@ -2,7 +2,7 @@ import type { Section } from "./shape";
 
 /**
  * Sección "Experiencia e localización" (#experiencia): marquesiña, bloque cinematográfico da
- * terraza, liña do tempo "Un día en Tixola", estado en vivo e tarxeta de localización con mapa 3D.
+ * terraza, liña do tempo "Un día en Tixola", estado en vivo e tarxeta de localización (plano do casco histórico e foto da fachada).
  * Os marcadores {así} énchense con useFormat().
  */
 const experience: Section<"experience"> = {
@@ -50,10 +50,9 @@ const experience: Section<"experience"> = {
     subtitle: "A un minuto a pé da Catedral",
     distance: "A un minuto da Catedral",
     area: "Casco histórico peonil · zona dos viños",
-    dragHint: "Arrastra para xirar o mapa",
-    dragHintTouch: "Despraza para xirar o mapa",
-    view3d: "Vista 3D",
     photo: "Foto real",
+    plan: "Plano",
+    viewLabel: "Vista do visor: plano ou foto real",
     realMap: "Ver o mapa real",
     hideMap: "Ocultar o mapa",
     legend: "Lenda do mapa",
@@ -61,12 +60,9 @@ const experience: Section<"experience"> = {
     legendCathedral: "Catedral de San Martiño",
     legendChurch: "Santa Eufemia",
     plusCode: "Plus code",
-    mapAria: "Mapa 3D estilizado da mazá da Rúa Juan de Austria coa Catedral de San Martiño, a igrexa de Santa Eufemia e a localización de Tixola Tapería",
     embedTitle: "Localización de {brand} en Google Maps",
     askWaiter: "Pregúntalle ao camareiro virtual como chegar",
     askWaiterPrefill: "Como chego a Tixola desde a Catedral de Ourense?",
-    pauseRotation: "Pausar o xiro do mapa",
-    playRotation: "Retomar o xiro do mapa",
   },
 };
 export default experience;

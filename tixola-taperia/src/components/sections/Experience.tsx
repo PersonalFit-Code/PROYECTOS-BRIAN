@@ -22,7 +22,8 @@ import { cn } from "@/lib/utils";
  *     (parallax lento con `data-parallax`), velo oscuro y la cabecera de sección encima.
  *  3. Línea de tiempo "Un día en Tixola" en tres pasos (13:00 · 20:00 · 22:00) con iconos lucide
  *     y finos separadores de hierro.
- *  4. Fila de dos columnas: estado en vivo (OpenStatus) + ubicación con mapa 3D (MapCard).
+ *  4. Fila de dos columnas: estado en vivo (OpenStatus) + ubicación (MapCard: plano SVG del casco
+ *     histórico y foto real de la fachada, conmutables).
  *
  *  Todos los textos salen de `m.experience` (+ `m.common` para estado/CTAs). Los reveals usan
  *  `data-reveal` (modo cinematográfico) y las capas `data-parallax` las mueve `useScrollReveal`.
@@ -37,7 +38,7 @@ const TERRACE_ID = "terraza-catedral";
    ──────────────────────────────────────────────────────────── */
 /**
  * Marquesina de especialidades. Se detiene al pasar el ratón, cuando sale de pantalla (si no, el
- * compositor la animaría durante toda la sesión, a la vez que el lienzo de la portada, los
+ * compositor la animaría durante toda la sesión, a la vez que las capas de la portada, los
  * carruseles y las columnas de reseñas) y con el botón pausa/reanudar, que es lo único que tienen
  * quien navega con pantalla táctil o teclado (WCAG 2.2.2: contenido en movimiento de más de 5 s).
  */
