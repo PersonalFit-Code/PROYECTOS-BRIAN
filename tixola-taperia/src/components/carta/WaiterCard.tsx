@@ -40,8 +40,9 @@ export default function WaiterCard({ className }: WaiterCardProps) {
       )}
     >
       {/* Brasa decorativa */}
-      <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[radial-gradient(closest-side,rgba(216,50,60,0.45),transparent)] blur-2xl" />
-      <span aria-hidden className="pointer-events-none absolute -bottom-20 -left-10 h-48 w-48 rounded-full bg-[radial-gradient(closest-side,rgba(232,194,122,0.18),transparent)] blur-2xl" />
+      {/* Brasas horneadas: 224² y 192² px que antes se desenfocaban para suavizar un degradado ya suave. */}
+      <span aria-hidden className="ember-glow absolute -right-16 -top-16 h-56 w-56 rounded-full [--ember-a1:0.45] [--ember-rgb:216_50_60]" />
+      <span aria-hidden className="ember-glow absolute -bottom-20 -left-10 h-48 w-48 rounded-full [--ember-a1:0.18] [--ember-rgb:232_194_122]" />
 
       <div className="relative p-5 md:p-7">
         <p className="inline-flex items-center gap-2 font-caps text-[11px] uppercase tracking-[0.3em] text-pimenton-a11y">

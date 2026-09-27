@@ -6,9 +6,11 @@ import { ArrowRight, CalendarCheck, Smartphone, Star } from "lucide-react";
 import NeonButton from "@/components/ui/NeonButton";
 import { useReservation } from "@/components/ui/ReservationProvider";
 import HeroCanvas from "@/components/three/HeroCanvas";
+import { useHeroStillVisible } from "@/components/scroll/HeroTransition";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { usePointerParallax } from "@/hooks/usePointerParallax";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useInView } from "@/hooks/useInViewOnce";
 import { BUSINESS } from "@/data/business";
 import { formatNumber } from "@/lib/format";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
@@ -83,8 +85,11 @@ function Headline({ lines, accent, fullTitle, reduced }: HeadlineProps) {
           /* La máscara deja un pequeño margen inferior/lateral para no recortar descendentes ni la cursiva */
           className="-mx-[0.08em] -mb-[0.1em] block overflow-hidden px-[0.08em] pb-[0.1em]"
         >
+          {/* Sin `will-change-transform`: la entrada dura 1,4 s al cargar y el navegador ya promueve la
+              capa por sí solo mientras hay un `transform` animado. Dejarlo declarado mantenía las tres
+              líneas del H1 en su propia capa de GPU durante TODA la sesión. */}
           <motion.span
-            className="block will-change-transform"
+            className="block"
             initial={reduced ? { opacity: 0 } : { y: "110%" }}
             animate={reduced ? { opacity: 1 } : { y: "0%" }}
             transition={
@@ -161,7 +166,25 @@ const useIsClient = () =>
    Indicador de scroll (vertical, esquina inferior derecha)
    ────────────────────────────────────────────────────────────── */
 
-function ScrollCue({ href, label, aria, reduced }: { href: string; label: string; aria: string; reduced: boolean }) {
+/**
+ * `ambient`: `false` cuando la portada ya no se ve (anclada y tapada por el capítulo de platos, o
+ * fuera de pantalla). El bucle `repeat: Infinity` de la línea no lo paraba NADIE: seguía escribiendo
+ * transform y opacidad cada fotograma detrás del capítulo siguiente, oscurecida al 72 %.
+ */
+function ScrollCue({
+  href,
+  label,
+  aria,
+  reduced,
+  ambient,
+}: {
+  href: string;
+  label: string;
+  aria: string;
+  reduced: boolean;
+  ambient: boolean;
+}) {
+  const still = reduced || !ambient;
   return (
     <motion.a
       href={href}
@@ -183,8 +206,8 @@ function ScrollCue({ href, label, aria, reduced }: { href: string; label: string
       <span aria-hidden className="relative h-16 w-px overflow-hidden bg-cream/15">
         <motion.span
           className="absolute inset-x-0 top-0 h-full origin-top bg-cream"
-          animate={reduced ? { scaleY: 1 } : { scaleY: [0, 1, 1], opacity: [0.9, 0.9, 0], y: ["0%", "0%", "100%"] }}
-          transition={reduced ? undefined : { duration: 2.2, times: [0, 0.55, 1], repeat: Infinity, ease: "easeInOut", repeatDelay: 0.4 }}
+          animate={still ? { scaleY: 1, opacity: 0.9, y: "0%" } : { scaleY: [0, 1, 1], opacity: [0.9, 0.9, 0], y: ["0%", "0%", "100%"] }}
+          transition={still ? { duration: 0 } : { duration: 2.2, times: [0, 0.55, 1], repeat: Infinity, ease: "easeInOut", repeatDelay: 0.4 }}
         />
       </span>
     </motion.a>
@@ -228,6 +251,16 @@ export default function Hero() {
    */
   const hydrated = useIsClient();
   const parallax = hydrated && !reduced && profile.tier === "low";
+
+  /**
+   * ¿Merece la pena seguir animando la portada? Dos señales que se complementan y no cuestan nada por
+   * fotograma: el almacén del pin (`HeroTransition`) sabe si el capítulo de platos ya la ha tapado, y
+   * el observador compartido del repo sabe si la sección está en pantalla (el caso sin pin: gama baja
+   * o `prefers-reduced-motion`, donde la portada se va con el scroll normal).
+   */
+  const heroVisible = useHeroStillVisible();
+  const onScreen = useInView(sectionRef);
+  const ambient = heroVisible && onScreen;
 
   const ratingValue = formatNumber(BUSINESS.ratings.google.value, locale, { decimals: 1 });
   const ratingCount = formatNumber(BUSINESS.ratings.google.count, locale);
@@ -293,7 +326,9 @@ export default function Hero() {
 
           {/* CTAs */}
           <motion.div {...fadeUp(afterHeadline + 0.12)} className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center lg:mt-9">
-            <NeonButton variant="primary" size="lg" pulse onClick={open} icon={<CalendarCheck aria-hidden />} className="w-full sm:w-auto">
+            {/* `pulse={ambient}`: la animación del halo neón es `animate-neon-pulse`, un bucle CSS infinito sobre
+                una sombra difusa. Se apaga cuando la portada deja de verse. */}
+            <NeonButton variant="primary" size="lg" pulse={ambient} onClick={open} icon={<CalendarCheck aria-hidden />} className="w-full sm:w-auto">
               {m.hero.ctaPrimary}
             </NeonButton>
             <NeonButton
@@ -330,7 +365,11 @@ export default function Hero() {
           type="button"
           onClick={() => void requestGyroPermission()}
           aria-label={m.hero.enable3dAria}
-          className="glass absolute right-4 bottom-[calc(var(--mobile-bar-h)+1rem)] z-20 inline-flex h-11 items-center gap-2 rounded-full px-4 font-sans text-xs font-semibold text-cream-200 transition-colors hover:text-cream md:bottom-6"
+          /* Hierro casi opaco en vez de `glass`: este chip está ENCIMA del lienzo WebGL, que repinta en
+             continuo, y un `backdrop-filter` obliga a volver a desenfocar ese recorte en cada uno de
+             esos repintados. Es la misma decisión que ya tomaron NeonButton (variante `outline`) y
+             MobileStickyBar, y por el mismo motivo. */
+          className="absolute right-4 bottom-[calc(var(--mobile-bar-h)+1rem)] z-20 inline-flex h-11 items-center gap-2 rounded-full border border-cream/15 bg-iron-900/92 px-4 font-sans text-xs font-semibold text-cream-200 transition-colors hover:text-cream md:bottom-6"
         >
           <Smartphone className="h-4 w-4 text-pimenton-light" aria-hidden />
           {m.hero.enable3d}
@@ -338,7 +377,7 @@ export default function Hero() {
       )}
 
       {/* Indicador de scroll vertical (md+, oculto en pantallas bajas) */}
-      <ScrollCue href={lp("/#platos")} label={m.hero.scrollCue} aria={m.hero.scrollCueAria} reduced={reduced} />
+      <ScrollCue href={lp("/#platos")} label={m.hero.scrollCue} aria={m.hero.scrollCueAria} reduced={reduced} ambient={ambient} />
     </section>
   );
 }

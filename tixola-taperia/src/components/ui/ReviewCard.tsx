@@ -106,9 +106,11 @@ export function Stars({ rating, size = "md", className }: { rating: number; size
   const row = (filled: boolean) => (
     <span className="flex gap-0.5">
       {Array.from({ length: 5 }, (_, i) => (
+        /* Sin `drop-shadow`: a 14 px el halo no se distingue y eran 180 filtros desplazándose por el
+           carril de reseñas. El dorado va un punto más saturado para que la estrella siga "brillando". */
         <Star
           key={i}
-          className={cn(dim, filled ? "fill-gold text-gold drop-shadow-[0_0_6px_rgba(232,194,122,0.5)]" : "fill-transparent text-cream/25")}
+          className={cn(dim, filled ? "fill-[#f3c368] text-[#f3c368]" : "fill-transparent text-cream/25")}
           strokeWidth={1.6}
           aria-hidden
         />
@@ -145,11 +147,6 @@ function HighlightedText({ text, highlight }: { text: string; highlight?: string
 
 export interface ReviewCardProps {
   review: Review;
-  /**
-   * Cristal ahumado (backdrop-filter). Desactívalo en dispositivos modestos: docenas de tarjetas
-   * con blur en movimiento son caras; sin él la tarjeta usa un fondo hierro semiopaco.
-   */
-  glass?: boolean;
   /** Líneas visibles del texto antes de recortarlo (las reseñas largas se cortan con elipsis). */
   maxLines?: 5 | 6 | 7 | 8;
   className?: string;
@@ -169,8 +166,12 @@ const CLAMP: Record<NonNullable<ReviewCardProps["maxLines"]>, string> = {
  *    detalle destacado (`review.highlight`) resaltado en pimentón.
  *  · Pie con la plataforma (Google / TripAdvisor) y la fecha localizada ("jul 2026").
  *  · Sin emojis: el texto pasa por `sanitizeReviewText`.
+ *  · Fondo hierro semiopaco SIEMPRE, nunca cristal: la tarjeta mide 300 px de ancho y se desplaza en un
+ *    carril vertical bajo una máscara, así que el desenfoque no aporta nada legible (y eran hasta 36
+ *    `backdrop-filter` moviéndose a la vez, lo más caro que puede pintar un móvil). El borde, el filo de
+ *    luz superior y `shadow-card` sobre brasas oscuras dan el mismo aspecto.
  */
-export default function ReviewCard({ review, glass = true, maxLines = 7, className }: ReviewCardProps) {
+export default function ReviewCard({ review, maxLines = 7, className }: ReviewCardProps) {
   const m = useMessages();
   const t = useFormat();
   const locale = useLocale();
@@ -184,8 +185,7 @@ export default function ReviewCard({ review, glass = true, maxLines = 7, classNa
     <article
       aria-label={t(m.social.card.by, { author: review.author })}
       className={cn(
-        "relative flex shrink-0 flex-col gap-4 overflow-hidden rounded-2xl border border-cream/10 p-5 text-left",
-        glass ? "glass-smoke" : "bg-iron-800/90 shadow-card",
+        "relative flex shrink-0 flex-col gap-4 overflow-hidden rounded-2xl border border-cream/10 bg-iron-800/90 p-5 text-left shadow-card",
         className,
       )}
     >

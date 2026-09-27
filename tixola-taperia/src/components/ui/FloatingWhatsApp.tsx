@@ -1,11 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { motion, MotionConfig } from "framer-motion";
 import { BUSINESS } from "@/data/business";
 import { useCookieBannerOpen } from "@/components/legal/CookieConsent";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useScrollPastViewport } from "@/hooks/useScrollPast";
 import { stripLocale } from "@/i18n/config";
 import { useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -30,30 +31,6 @@ export function WhatsAppGlyph({ className }: { className?: string }) {
   );
 }
 
-/** true cuando el usuario ha bajado más de `ratio` × alto del viewport (listener con rAF). */
-function useScrolledPast(ratio: number): boolean {
-  const [past, setPast] = useState(false);
-  useEffect(() => {
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      setPast(window.scrollY > window.innerHeight * ratio);
-    };
-    const onScroll = () => {
-      if (!raf) raf = window.requestAnimationFrame(update);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (raf) window.cancelAnimationFrame(raf);
-    };
-  }, [ratio]);
-  return past;
-}
-
 /**
  * Botón flotante de WhatsApp (56 px, pimentón, halo neón pulsante):
  *  - Escritorio (md+): pegado al borde derecho y centrado verticalmente.
@@ -66,7 +43,9 @@ export default function FloatingWhatsApp() {
   const m = useMessages();
   const pathname = usePathname();
   const isHome = stripLocale(pathname ?? "/").path === "/";
-  const scrolled = useScrolledPast(HOME_REVEAL_RATIO);
+  /* Del almacén único de scroll (`useScrollPast`): este hook estaba duplicado carácter a carácter
+     en ChatLauncher y Navbar tenía su propia versión. Un listener y un rAF para los tres. */
+  const scrolled = useScrollPastViewport(HOME_REVEAL_RATIO);
   const mobile = useIsMobile(768);
 
   /* Oculto (solo < md) mientras la portada de la home está a la vista. Se resuelve con clases
@@ -76,12 +55,23 @@ export default function FloatingWhatsApp() {
   const bannerOpen = useCookieBannerOpen();
   const covered = bannerOpen && mobile;
 
+  /* `animate-ping` es una animación SIN FIN: mientras se ve, el compositor recompone el halo en cada
+     fotograma durante toda la sesión. Su trabajo es llamar la atención una vez, así que se apaga en
+     cuanto el usuario se acerca al botón (puntero, foco o pulsación) — el mismo criterio que usa
+     ChatLauncher con `hasOpened` — y no se pinta si el botón está apartado. */
+  const [noticed, setNoticed] = useState(false);
+  const notice = useCallback(() => setNoticed(true), []);
+  const hidden = (heroHidden && mobile) || covered;
+  const pinging = !noticed && !hidden;
+
   return (
     <MotionConfig reducedMotion="user">
       <div
-        inert={(heroHidden && mobile) || covered ? true : undefined}
+        inert={hidden ? true : undefined}
         className={cn(
-          "fixed right-4 z-40 transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)]",
+          /* `translate`, no `transform`: en Tailwind v4 `translate-x-6` escribe la propiedad
+             `translate`, así que nombrar `transform` dejaba la aparición del botón sin transicionar. */
+          "fixed right-4 z-40 transition-[opacity,translate] duration-500 ease-[var(--ease-out-expo)]",
           "bottom-[calc(var(--mobile-bar-h)+88px+env(safe-area-inset-bottom))]",
           "md:bottom-auto md:top-1/2 md:-translate-y-1/2",
           heroHidden && "max-md:pointer-events-none max-md:translate-x-6 max-md:opacity-0",
@@ -99,21 +89,26 @@ export default function FloatingWhatsApp() {
             rel="noopener noreferrer"
             aria-label={m.common.cta.whatsapp}
             title={m.common.cta.whatsappAria}
+            onPointerEnter={notice}
+            onFocus={notice}
+            onClick={notice}
             className={cn(
               "group relative grid h-14 w-14 place-items-center rounded-full",
               "border border-pimenton-light/60 bg-pimenton text-cream",
-              "transition-[transform,background-color] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-pimenton-light active:scale-95",
+              "transition-[translate,scale,background-color] duration-200 active:duration-100 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-pimenton-light active:scale-95",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron",
             )}
           >
             {/* Pulso neón: el resplandor es estático y lo que late es la opacidad de esta capa
                 (animar `box-shadow` repintaba el botón en cada fotograma durante toda la sesión). */}
             <span aria-hidden className="pointer-events-none absolute inset-0 rounded-full shadow-neon animate-neon-pulse" />
-            {/* Halo exterior suave (ping lento) */}
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-0 animate-ping rounded-full bg-pimenton-light/35 [animation-duration:2.6s]"
-            />
+            {/* Halo exterior suave (ping lento), solo hasta que el botón cumple su cometido */}
+            {pinging && (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 animate-ping rounded-full bg-pimenton-light/35 [animation-duration:2.6s]"
+              />
+            )}
             <WhatsAppGlyph className="relative" />
 
             {/* Tooltip (solo con puntero fino) */}
@@ -121,8 +116,10 @@ export default function FloatingWhatsApp() {
               role="tooltip"
               className={cn(
                 "pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1.5",
-                "border border-cream/10 bg-iron-900/95 font-caps text-[11px] tracking-[0.25em] text-cream shadow-card backdrop-blur",
-                "translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100",
+                /* Sin `backdrop-blur`: el fondo ya es hierro al 95 %, no se veía nada detrás que
+                   desenfocar. Y la transición se acota a las dos propiedades que de verdad cambian. */
+                "border border-cream/10 bg-iron-900/95 font-caps text-[11px] tracking-[0.25em] text-cream shadow-card",
+                "translate-x-1 opacity-0 transition-[translate,opacity] duration-150 ease-[var(--ease-out-expo)] group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100",
                 "[@media(hover:hover)]:block",
               )}
             >

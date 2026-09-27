@@ -23,9 +23,13 @@ export type NeonButtonProps = ButtonProps | AnchorProps;
 
 /* Sin `will-change-transform`: la web tiene una decena larga de CTAs y promocionarlos todos a su
    propia capa de composición durante toda la sesión gasta memoria de GPU sin necesidad — solo se
-   mueven en `hover`, con una transición de 300 ms que el navegador ya compone bien. */
+   mueven en `hover`, con una transición que el navegador ya compone bien.
+ *
+ * La transición se ACOTA a la lista explícita (antes `transition-all`, que gobernaba también el
+ * `active:`, así que el hundido de la pulsación tardaba 300 ms en notarse) y `active:duration-100`
+ * separa la realimentación del dedo del resto: pulsar responde en 100 ms, el hover en 200. */
 const base =
-  "group relative inline-flex items-center justify-center gap-2 rounded-full font-sans font-semibold tracking-wide transition-all duration-300 ease-[var(--ease-out-expo)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron disabled:opacity-50 disabled:pointer-events-none";
+  "group relative inline-flex items-center justify-center gap-2 rounded-full font-sans font-semibold tracking-wide transition-[translate,scale,background-color,border-color,box-shadow,color,opacity] duration-200 active:duration-100 ease-[var(--ease-out-expo)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron disabled:opacity-50 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -63,12 +67,16 @@ const NeonButton = forwardRef<HTMLButtonElement, NeonButtonProps>(function NeonB
         aria-hidden
         className="pointer-events-none absolute inset-0 overflow-hidden rounded-full"
       >
-        <span className="absolute -inset-y-2 -left-1/2 w-1/2 rotate-12 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition-all duration-700 group-hover:left-full group-hover:opacity-100" />
+        {/* El brillo se desplaza con `translate`, no con `left`: `left` es MAQUETA y cada fotograma
+            obligaba a recalcular la posición y a repintar el botón entero con su recorte redondeado.
+            Además 700 ms SIN curva expo se perciben enteros; 500 ms con `ease-out` ya cuentan lo
+            mismo. Mismo efecto visual, cero trabajo de maqueta. */}
+        <span className="absolute -inset-y-2 left-0 w-1/2 -translate-x-full rotate-12 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition-[translate,opacity] duration-500 ease-out group-hover:translate-x-[250%] group-hover:opacity-100" />
       </span>
       {icon && <span className="relative -ml-1 shrink-0 [&>svg]:h-5 [&>svg]:w-5">{icon}</span>}
       <span className="relative">{children}</span>
       {iconRight && (
-        <span className="relative -mr-1 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 [&>svg]:h-5 [&>svg]:w-5">
+        <span className="relative -mr-1 shrink-0 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5 [&>svg]:h-5 [&>svg]:w-5">
           {iconRight}
         </span>
       )}

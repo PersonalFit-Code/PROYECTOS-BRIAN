@@ -3,7 +3,7 @@
 import Lenis from "lenis";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, type ReactNode } from "react";
 import { getGsap } from "@/lib/gsap";
-import { usePerformanceTier } from "@/hooks/usePerformanceTier";
+import { useCanAfford, usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { ChapterRegistryProvider } from "./Chapter";
 
 /* ──────────────────────────────────────────────────────────────
@@ -27,9 +27,9 @@ export interface SmoothScrollToOptions {
 }
 
 export interface SmoothScrollContextValue {
-  /** `true` cuando Lenis está activo (sin `prefers-reduced-motion` y tier ≠ "low"). */
+  /** `true` cuando Lenis está activo (gama alta, sin `prefers-reduced-motion`). */
   enabled: boolean;
-  /** Instancia viva de Lenis, o `null` (SSR, reduced motion, tier low o aún sin montar). Solo en handlers/efectos. */
+  /** Instancia viva de Lenis, o `null` (SSR, reduced motion, gama no alta o aún sin montar). Solo en handlers/efectos. */
   getLenis: () => Lenis | null;
   /** Scroll suave a un objetivo. Sin Lenis cae a `window.scrollTo` (con `scroll-behavior` nativo). */
   scrollTo: (target: ScrollTarget, options?: SmoothScrollToOptions) => void;
@@ -161,10 +161,16 @@ export const useLenis = useSmoothScroll;
 
 /**
  * Scroll cinematográfico de la home:
- *  - Lenis (lerp 0.09) sobre el scroll nativo de `window`, sincronizado con GSAP: `gsap.ticker`
- *    mueve a Lenis y cada frame de Lenis actualiza ScrollTrigger (`ScrollTrigger.update`).
+ *  - Lenis en MODO TEMPORAL (`duration` + `easing`) sobre el scroll nativo de `window`, sincronizado
+ *    con GSAP: `gsap.ticker` mueve a Lenis y cada frame de Lenis actualiza ScrollTrigger
+ *    (`ScrollTrigger.update`).
  *  - En táctil no se toca el scroll nativo (`syncTouch: false`): el móvil conserva su inercia.
- *  - Desactivado (scroll normal) con `prefers-reduced-motion` o en dispositivos de tier "low".
+ *  - SOLO EN GAMA ALTA. El `lerp` de Lenis se aplica POR FOTOGRAMA: con `lerp: 0.09` un portátil a
+ *    35-45 fps acumulaba 220-290 ms de retraso entre la rueda y el movimiento — y el retraso crecía
+ *    justo cuando el equipo iba más apretado. En gama media el scroll NATIVO responde al instante y el
+ *    aire cinematográfico lo sostienen igual GSAP y ScrollTrigger, que no necesitan Lenis para nada.
+ *    Como la gama solo baja (trinquete), si la sonda degrada el equipo a media Lenis se destruye y el
+ *    scroll pasa a nativo: la degradación siempre va hacia "responde más rápido".
  *  - Se para solo mientras un modal bloquea el `overflow` del body (menú móvil, reserva, chat) y
  *    permite el scroll interno de esos paneles (`allowNestedScroll`).
  *  - Intercepta los enlaces `a[href*="#"]` de la misma página para desplazarse con Lenis dejando
@@ -174,8 +180,11 @@ export const useLenis = useSmoothScroll;
  *    altura del documento (imágenes, contenido diferido).
  */
 export default function SmoothScrollProvider({ children }: { children: ReactNode }) {
-  const { tier, reducedMotion } = usePerformanceTier();
-  const enabled = !reducedMotion && tier !== "low";
+  /* `can("smoothScroll")` ya contempla `prefers-reduced-motion` y el suelo de gama; encima exigimos
+     gama ALTA porque el suavizado por interpolación se paga en latencia de entrada (ver el doc). */
+  const smoothAllowed = useCanAfford("smoothScroll");
+  const { tier } = usePerformanceTier();
+  const enabled = smoothAllowed && tier === "high";
   const lenisRef = useRef<Lenis | null>(null);
 
   const getLenis = useCallback(() => lenisRef.current, []);
@@ -221,7 +230,11 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
     document.head.appendChild(style);
 
     const lenis = new Lenis({
-      lerp: 0.09,
+      /* Modo TEMPORAL en vez de `lerp`: la duración es un tiempo real (0,8 s hasta el destino) y no
+         una fracción por fotograma, así que la latencia percibida NO escala con la tasa de fotogramas.
+         Con `lerp: 0.09` el mismo gesto tardaba ~90 ms a 120 fps y ~290 ms a 35 fps. */
+      duration: 0.8,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       wheelMultiplier: 1,
       smoothWheel: true,
       syncTouch: false,
@@ -237,16 +250,26 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
     /* GSAP → Lenis: un único reloj para todo (sin rAF duplicados). */
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    /* A VERIFICAR EN HARDWARE REAL (aquí no se puede medir: el contenedor solo tiene WebGL por
+       software). Con `lagSmoothing(0)` GSAP nunca recorta un `delta` grande: un fotograma perdido
+       llegaba entero al `scrub: 0.6` del pin de la portada y se veía como un salto. Con el umbral
+       activo, un parón de más de 200 ms se contabiliza como 25 ms y el scrub se recupera suavemente.
+       Si en el portátil real se notara deriva entre Lenis y los triggers, volver a `lagSmoothing(0)`. */
+    gsap.ticker.lagSmoothing(200, 25);
 
-    /* Modales: cuando bloquean el overflow del body paramos Lenis (y lo reanudamos al cerrar). */
+    /* Modales: cuando bloquean el overflow del body paramos Lenis (y lo reanudamos al cerrar).
+       El atributo `data-scroll-lock` del `<html>` se comprueba PRIMERO porque `getComputedStyle` fuerza
+       un recálculo de estilo síncrono, y esto se ejecuta en la MISMA tarea que el clic que abre el
+       modal: justo donde más se nota el retardo. El respaldo por estilo computado se mantiene para no
+       depender del orden en que cada modal escriba una cosa y la otra. */
     const syncLock = () => {
-      const locked = getComputedStyle(document.body).overflowY === "hidden";
+      const locked = html.hasAttribute("data-scroll-lock") || getComputedStyle(document.body).overflowY === "hidden";
       if (locked && !lenis.isStopped) lenis.stop();
       else if (!locked && lenis.isStopped) lenis.start();
     };
     const lockObserver = new MutationObserver(syncLock);
     lockObserver.observe(document.body, { attributes: true, attributeFilter: ["style", "class"] });
+    lockObserver.observe(html, { attributes: true, attributeFilter: ["data-scroll-lock"] });
     syncLock();
 
     /* Recalcular posiciones: al montar, con las fuentes cargadas y cuando cambia la altura del documento. */
@@ -259,13 +282,29 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
       void document.fonts.ready.then(refresh);
     }
     const debouncedRefresh = debounce(refresh, 180);
+    /* Solo la ALTURA del documento invalida de verdad las posiciones de los triggers. El ancho cambiaba
+       ~15 px cada vez que un modal escribía `overflow: hidden` en el body y desaparecía la barra de
+       scroll, y eso disparaba un `ScrollTrigger.refresh()` COMPLETO 180 ms después de abrirlo: todos
+       los triggers recalculados en medio de la animación de apertura. Tampoco se refresca con Lenis
+       parado (modal abierto); al cerrarlo, cualquier cambio real de altura vuelve a notificarse. */
+    const WIDTH_NOISE = 20;
+    let lastHeight = document.body.offsetHeight;
+    let lastWidth = document.body.offsetWidth;
     let firstResize = true;
     const sizeObserver = new ResizeObserver(() => {
+      const height = document.body.offsetHeight;
+      const width = document.body.offsetWidth;
+      const heightChanged = height !== lastHeight;
+      const widthChanged = Math.abs(width - lastWidth) > WIDTH_NOISE;
+      lastHeight = height;
+      lastWidth = width;
       /* La primera notificación llega al observar: ya hemos refrescado. */
       if (firstResize) {
         firstResize = false;
         return;
       }
+      if (!heightChanged && !widthChanged) return;
+      if (lenis.isStopped) return;
       debouncedRefresh();
     });
     sizeObserver.observe(document.body);

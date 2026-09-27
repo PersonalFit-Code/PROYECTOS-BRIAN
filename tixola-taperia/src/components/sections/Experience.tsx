@@ -1,6 +1,5 @@
 "use client";
 
-import { useInView } from "framer-motion";
 import { Diamond, Flame, Pause, Play, Sun, Wine, type LucideIcon } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
@@ -8,6 +7,8 @@ import MapCard from "@/components/ui/MapCard";
 import OpenStatus from "@/components/ui/OpenStatus";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { localizePhotoById } from "@/i18n/data";
+import { useInView } from "@/hooks/useInViewOnce";
+import { useCanAfford } from "@/hooks/usePerformanceTier";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -25,6 +26,7 @@ import { cn } from "@/lib/utils";
  *
  *  Todos los textos salen de `m.experience` (+ `m.common` para estado/CTAs). Los reveals usan
  *  `data-reveal` (modo cinematográfico) y las capas `data-parallax` las mueve `useScrollReveal`.
+ *  Sin Framer Motion: la visibilidad para pausar sale de `useInView` (observador compartido del repo).
  */
 
 const STORY_ICONS: readonly LucideIcon[] = [Sun, Wine, Flame];
@@ -53,7 +55,10 @@ function Marquee({ items, label, pauseLabel, playLabel }: { items: readonly stri
       <div
         aria-hidden
         className={cn(
-          "flex w-max animate-marquee will-change-transform hover:[animation-play-state:paused] motion-reduce:animate-none",
+          "flex w-max animate-marquee hover:[animation-play-state:paused] motion-reduce:animate-none",
+          /* La capa se promueve solo mientras el carril se mueve: parado (fuera de pantalla o con el
+             botón de pausa) una capa GPU dedicada es memoria a cambio de nada. */
+          !paused && "will-change-transform",
           paused && "[animation-play-state:paused]",
         )}
       >
@@ -98,13 +103,22 @@ export default function Experience() {
   /* `alt` y pie de foto en el idioma de la página (los datos de photos.ts están en español). */
   const terrace = useMemo(() => localizePhotoById(locale, TERRACE_ID), [locale]);
 
+  /* La capa de la foto mide 100vw × ~136% del bloque: promoverla a capa GPU solo tiene sentido mientras
+     el parallax la está moviendo de verdad, es decir si la gama lo permite Y el bloque está en pantalla. */
+  const cinemaRef = useRef<HTMLDivElement>(null);
+  const cinemaInView = useInView(cinemaRef, { amount: 0 });
+  const parallax = useCanAfford("parallax");
+
   return (
     <section id="experiencia" ref={sectionRef} className="noise after:noise-after relative isolate overflow-clip bg-iron">
       <Marquee items={x.marquee} label={x.marqueeAria} pauseLabel={x.marqueePause} playLabel={x.marqueePlay} />
 
       {/* 1 · Bloque cinematográfico: terraza real con Santa Eufemia al fondo */}
-      <div className="relative isolate min-h-[72svh] overflow-hidden md:min-h-[82vh]">
-        <div data-parallax="-0.28" className="absolute inset-x-0 -top-[18%] -bottom-[18%] will-change-transform">
+      <div ref={cinemaRef} className="relative isolate min-h-[72svh] overflow-hidden md:min-h-[82vh]">
+        <div
+          data-parallax="-0.28"
+          className={cn("absolute inset-x-0 -top-[18%] -bottom-[18%]", parallax && cinemaInView && "will-change-transform")}
+        >
           <Image
             src={terrace?.src ?? "/images/terraza-catedral.jpg"}
             alt={terrace?.alt ?? x.photoCaption}

@@ -141,10 +141,16 @@ export function useChatSession({ locale, page }: UseChatSessionOptions): ChatSes
     messagesRef.current = messages;
   }, [messages]);
 
-  // Persistencia (solo mensajes completos).
+  /* Persistencia (solo mensajes completos).
+     Durante el streaming `messages` se reescribe por cada trozo que llega, así que este efecto corría
+     decenas de veces por respuesta haciendo `filter` + `JSON.stringify` + `sessionStorage.setItem`
+     SÍNCRONO en el hilo principal. Y todo ese trabajo era inútil: el filtro solo guarda los mensajes
+     con `status === "done"`, y el que está llegando no lo está. Se sale pronto y se persiste una vez
+     al terminar (o al cortar, o al fallar), que es cuando el contenido cambia de verdad. */
   useEffect(() => {
+    if (status === "streaming") return;
     persist(locale, messages);
-  }, [locale, messages]);
+  }, [locale, messages, status]);
 
   // Al desmontar, cancelamos cualquier petición en vuelo.
   useEffect(() => {

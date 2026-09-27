@@ -14,16 +14,18 @@ export type ParallaxSource = "none" | "pointer" | "gyro";
 export interface UsePointerParallaxOptions {
   /** Desactiva la captura (p. ej. prefers-reduced-motion). El valor queda fijo en (0, 0). */
   enabled?: boolean;
-  /** Tiempo aproximado (s) que tarda el valor suavizado en alcanzar el objetivo. Menor = más reactivo. */
-  smoothTime?: number;
   /** Grados de inclinación del móvil que equivalen a ±1. */
   gyroRange?: number;
 }
 
 export interface PointerParallax {
-  /** Valor suavizado ∈ [-1, 1]. Léelo en `useFrame`/rAF: no provoca renders. */
+  /**
+   * Señal ∈ [-1, 1]. Léela en `useFrame`/rAF: no provoca renders. Ya NO viene suavizada: es la misma
+   * referencia que `target` (ver la nota del hook). Quien la consuma debe amortiguarla él, que es lo
+   * que ya hacía todo el mundo.
+   */
   pointer: RefObject<PointerVec>;
-  /** Objetivo crudo ∈ [-1, 1] (sin suavizar). */
+  /** Objetivo crudo ∈ [-1, 1]. Misma referencia que `pointer`. */
   target: RefObject<PointerVec>;
   /** iOS 13+: el giroscopio requiere permiso concedido tras un gesto del usuario. */
   needsGyroPermission: boolean;
@@ -64,16 +66,22 @@ const getServerSnapshot = () => false;
  *  - Escritorio: posición del ratón en la ventana → (-1..1, -1..1).
  *  - Móvil: `deviceorientation` (gamma/beta) relativo a la pose neutra con la que el usuario sujeta el móvil.
  *  - iOS 13+: expone `needsGyroPermission` para mostrar un chip "Activar 3D" y `requestGyroPermission()`.
- * El valor se suaviza con un amortiguador exponencial independiente del framerate en un rAF que se
- * detiene solo cuando se alcanza el objetivo (coste cero en reposo).
+ *
+ * SIN BUCLE PROPIO. El hook mantenía su propio rAF para suavizar la señal con un amortiguador
+ * exponencial (smoothTime 0,28), pero su único consumidor es la escena 3D y allí TODOS los `useFrame`
+ * la vuelven a amortiguar con `damp()`/`damp3()` de maath (HeroScene, TixolaPan, FloatingFood). Era la
+ * misma señal suavizada dos veces, y la primera capa costaba un bucle rAF entero compitiendo cada
+ * fotograma con el de Three.js y el de GSAP/Lenis. Ahora los manejadores de puntero y giroscopio
+ * escriben el objetivo CRUDO directamente y el suavizado lo pone quien la usa: de tres rAF por
+ * fotograma pasamos a dos.
  */
 export function usePointerParallax(options: UsePointerParallaxOptions = {}): PointerParallax {
-  const { enabled = true, smoothTime = 0.28, gyroRange = 22 } = options;
+  const { enabled = true, gyroRange = 22 } = options;
 
+  /* `pointer` y `target` son la MISMA referencia: se mantienen los dos nombres porque los consumidores
+     los leen indistintamente y el valor ya es uno solo (crudo). */
   const target = useRef<PointerVec>({ x: 0, y: 0 });
-  const pointer = useRef<PointerVec>({ x: 0, y: 0 });
-  const rafId = useRef(0);
-  const lastTs = useRef(0);
+  const pointer = target;
   const sourceRef = useRef<ParallaxSource>("none");
 
   const [source, setSource] = useState<ParallaxSource>("none");
@@ -81,44 +89,10 @@ export function usePointerParallax(options: UsePointerParallaxOptions = {}): Poi
   const permissionRequired = useSyncExternalStore(subscribeNoop, getGyroPermissionSnapshot, getServerSnapshot);
   const needsGyroPermission = enabled && permissionRequired && !gyroGranted;
 
-  /* Bucle de suavizado: arranca con cada entrada y se apaga al converger. */
-  const ensureLoop = useCallback(() => {
-    if (rafId.current) return;
-    lastTs.current = performance.now();
-    const tick = (ts: number) => {
-      const dt = clamp((ts - lastTs.current) / 1000, 0, 0.1);
-      lastTs.current = ts;
-      const k = 1 - Math.exp(-dt / smoothTime);
-      const p = pointer.current;
-      const t = target.current;
-      p.x += (t.x - p.x) * k;
-      p.y += (t.y - p.y) * k;
-      if (Math.abs(t.x - p.x) < 0.0005 && Math.abs(t.y - p.y) < 0.0005) {
-        p.x = t.x;
-        p.y = t.y;
-        rafId.current = 0;
-        return;
-      }
-      rafId.current = requestAnimationFrame(tick);
-    };
-    rafId.current = requestAnimationFrame(tick);
-  }, [smoothTime]);
-
-  const setTarget = useCallback(
-    (x: number, y: number) => {
-      target.current.x = clamp(x, -1, 1);
-      target.current.y = clamp(y, -1, 1);
-      ensureLoop();
-    },
-    [ensureLoop],
-  );
-
-  /* Limpieza del rAF al desmontar. */
-  useEffect(() => {
-    return () => {
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-      rafId.current = 0;
-    };
+  /* Escritura directa del objetivo: una asignación por evento, sin cola ni bucle. */
+  const setTarget = useCallback((x: number, y: number) => {
+    target.current.x = clamp(x, -1, 1);
+    target.current.y = clamp(y, -1, 1);
   }, []);
 
   /* Ratón (y punteros no táctiles). En táctil el dedo hace scroll, no parallax. */
@@ -126,8 +100,6 @@ export function usePointerParallax(options: UsePointerParallaxOptions = {}): Poi
     if (!enabled) {
       target.current.x = 0;
       target.current.y = 0;
-      pointer.current.x = 0;
-      pointer.current.y = 0;
       return;
     }
     const onMove = (e: PointerEvent) => {

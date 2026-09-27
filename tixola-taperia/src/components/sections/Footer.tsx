@@ -83,10 +83,10 @@ export default function Footer({ year: buildYear }: FooterProps) {
   return (
     <footer id="footer" className="noise after:noise-after relative isolate overflow-hidden bg-iron-900 text-cream">
       <div aria-hidden className="divider-iron absolute inset-x-0 top-0" />
-      {/* Brasa lateral */}
+      {/* Brasa lateral: 420² px de `blur-3xl` sobre un color plano. El mismo halo, horneado. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-40 top-1/3 -z-10 h-[420px] w-[420px] rounded-full bg-burgundy/60 blur-3xl"
+        className="ember-glow absolute -left-40 top-1/3 -z-10 h-[420px] w-[420px] rounded-full [--ember-a1:0.6] [--ember-rgb:58_14_19]"
       />
       {/* Marca de agua en Cinzel */}
       <span
@@ -113,7 +113,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${t(m.common.misc.ratingLabel, { value: fmtRating(google.value), count: google.count })} · ${m.common.misc.newTab}`}
-                  className="glass inline-flex min-h-9 items-center gap-2 rounded-full py-1.5 pl-2.5 pr-3 text-xs text-cream-200 transition-colors hover:border-cream/30 hover:text-cream"
+                  className="inline-flex min-h-9 items-center gap-2 rounded-full border border-cream/12 bg-cream/[0.06] py-1.5 pl-2.5 pr-3 text-xs text-cream-200 shadow-glass transition-colors hover:border-cream/30 hover:text-cream"
                 >
                   <PlatformGlyph source="Google" />
                   <span className="font-semibold">{fmtRating(google.value)}</span>
@@ -126,7 +126,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${trip.label} ${fmtRating(trip.value)} · ${trip.award} · ${m.common.misc.newTab}`}
-                  className="glass inline-flex min-h-9 items-center gap-2 rounded-full py-1.5 pl-2.5 pr-3 text-xs text-cream-200 transition-colors hover:border-cream/30 hover:text-cream"
+                  className="inline-flex min-h-9 items-center gap-2 rounded-full border border-cream/12 bg-cream/[0.06] py-1.5 pl-2.5 pr-3 text-xs text-cream-200 shadow-glass transition-colors hover:border-cream/30 hover:text-cream"
                 >
                   <PlatformGlyph source="TripAdvisor" />
                   <span className="font-semibold">{fmtRating(trip.value)}</span>

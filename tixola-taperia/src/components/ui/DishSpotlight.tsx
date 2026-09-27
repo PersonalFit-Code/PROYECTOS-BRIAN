@@ -66,10 +66,15 @@ const SHEET_VARIANTS: Variants = {
   visible: { y: 0, transition: { type: "spring", stiffness: 320, damping: 34, mass: 0.9 } },
   exit: { y: "100%", transition: { duration: 0.32, ease: [0.4, 0, 1, 1] } },
 };
-/** Diálogo centrado (md+): fundido + leve elevación. */
+/**
+ * Diálogo centrado (md+): fundido + leve elevación.
+ * 0,28 s a la entrada (antes 0,5): esto es la respuesta a "he pulsado un plato", no ambiente. Con la
+ * transición del elemento compartido a 0,34 s y el cuerpo de la ficha a 0,24 s, ingredientes,
+ * alérgenos y maridaje quedan legibles a ~0,3 s del clic. La salida se queda en 0,25 s.
+ */
 const DIALOG_VARIANTS: Variants = {
   hidden: { opacity: 0, y: 28, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: EASE_OUT_EXPO } },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.28, ease: EASE_OUT_EXPO } },
   exit: { opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.25, ease: "easeIn" } },
 };
 
@@ -97,10 +102,23 @@ export default function DishSpotlight({ slide, onClose, onReserve, steam = true 
   useEffect(() => {
     if (!open) return;
     returnFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const { body } = document;
+    const html = document.documentElement;
+    const previousOverflow = body.style.overflow;
+    const previousPaddingRight = body.style.paddingRight;
+    /* Compensar la barra de desplazamiento al ocultarla (mismo contrato que el menú de Navbar): sin
+       esto el ancho del <body> crece ~15 px de golpe al abrir el plato, el ResizeObserver de Lenis lo
+       ve, y unos 180 ms después del clic se remiden los triggers y se recrea el pin de la portada —
+       un salto visual justo encima de la animación de apertura. `data-scroll-lock` en <html> deja el
+       estado a la vista del CSS y de los helpers de scroll. */
+    const scrollbarGap = window.innerWidth - html.clientWidth;
+    body.style.overflow = "hidden";
+    if (scrollbarGap > 0) body.style.paddingRight = `${scrollbarGap}px`;
+    html.dataset.scrollLock = "";
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.overflow = previousOverflow;
+      body.style.paddingRight = previousPaddingRight;
+      delete html.dataset.scrollLock;
       const el = returnFocusRef.current;
       returnFocusRef.current = null;
       if (el?.isConnected) el.focus({ preventScroll: true });
@@ -147,17 +165,20 @@ interface SheetProps {
 function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
   const { dish, photo } = slide;
   const m = useMessages();
-  const glass = usePerformanceTier().tier === "high";
+  /* `glass` viene del catálogo de rendimiento (gama medida, no adivinada por núcleos). */
+  const glass = usePerformanceTier().glass;
   const reducedMotion = useReducedMotion();
   const dragControls = useDragControls();
   const closeRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
   const descId = useId();
 
-  /* Foco inicial en "cerrar" (tras la primera pintura del panel). */
+  /* Foco inicial en "cerrar", en el primer fotograma pintado. Antes eran 80 ms de temporizador: un
+     retardo fijo que se notaba con teclado y que además no garantizaba nada (si el hilo iba cargado,
+     el panel aún no estaba pintado). */
   useEffect(() => {
-    const timer = window.setTimeout(() => closeRef.current?.focus({ preventScroll: true }), 80);
-    return () => window.clearTimeout(timer);
+    const frame = window.requestAnimationFrame(() => closeRef.current?.focus({ preventScroll: true }));
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   /* Arrastrar hacia abajo para cerrar (solo móvil). El gesto arranca desde el asa: si el panel entero
@@ -209,7 +230,9 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
         onDragEnd={onDragEnd}
         style={vars}
         className={cn(
-          "noise after:noise-after after:rounded-[inherit] relative flex max-h-[92dvh] w-full flex-col rounded-t-[28px] shadow-[0_-30px_80px_-20px_rgba(0,0,0,0.9)] outline-none",
+          /* Sombra de 40 px en vez de 80: el radio de difuminado es el que fija cuánta superficie tiene que
+             rasterizar el compositor, y este panel se anima y se arrastra. A ojo, la misma elevación. */
+          "noise after:noise-after after:rounded-[inherit] relative flex max-h-[92dvh] w-full flex-col rounded-t-[28px] shadow-[0_-14px_40px_-16px_rgba(0,0,0,0.9)] outline-none",
           /* `glass-smoke` lleva backdrop-filter: solo en gama alta. El velo ya es opaco al 80 %,
              así que fuera de ese tier el panel es hierro sólido y no hay una segunda pasada de
              desenfoque a pantalla casi completa mientras el panel se anima o se arrastra. */
@@ -218,11 +241,16 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
           "md:h-[min(86dvh,760px)] md:max-h-none md:max-w-4xl md:flex-row",
         )}
       >
-        {/* Halo del color de acento tras el panel */}
+        {/* Halo del color de acento tras el panel. Sin `blur-3xl`: eran 384×384 px con radio 64 DENTRO
+            de un panel que se arrastra con dragControls, así que cada píxel de desplazamiento podía
+            invalidar la capa… y su primera rasterización caía justo encima de la animación de apertura.
+            El degradado con las paradas repartidas (0 / 45 % / 100 %) da la misma caída sin filtro. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -left-16 -top-16 h-72 w-72 rounded-full opacity-50 blur-3xl md:-left-24 md:top-1/2 md:h-96 md:w-96 md:-translate-y-1/2"
-          style={{ background: `radial-gradient(circle, ${dish.accent}59, transparent 70%)` }}
+          className="pointer-events-none absolute -left-16 -top-16 h-72 w-72 rounded-full opacity-60 md:-left-24 md:top-1/2 md:h-96 md:w-96 md:-translate-y-1/2"
+          style={{
+            background: `radial-gradient(circle, ${dish.accent}59 0%, ${dish.accent}2e 45%, transparent 100%)`,
+          }}
         />
 
         {/* Cerrar (esquina superior derecha del panel; en móvil queda sobre la foto) */}
@@ -231,7 +259,9 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
           type="button"
           onClick={onClose}
           aria-label={m.dishes.spotlight.close}
-          className="absolute right-3 top-3 z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/15 bg-iron-900/70 text-cream backdrop-blur-sm transition-colors duration-300 hover:bg-cream/10 md:right-4 md:top-4"
+          /* Sin `backdrop-blur-sm`: 44×44 px sobre la foto del plato. Con el hierro al 88 % se lee
+             igual y desaparece un backdrop-filter que se componía durante la apertura del panel. */
+          className="absolute right-3 top-3 z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/15 bg-iron-900/88 text-cream transition-colors duration-160 hover:bg-cream/10 md:right-4 md:top-4"
         >
           <X size={18} aria-hidden />
         </button>
@@ -271,7 +301,9 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, delay: 0.12, ease: EASE_OUT_EXPO }}
+              /* El contenido es el motivo del clic: entra casi a la vez que el panel (0,04 s de espera,
+                 0,24 s de recorrido) en vez de esperar 0,12 s y tardar otros 0,5 s en asentarse. */
+              transition={{ duration: 0.24, delay: 0.04, ease: EASE_OUT_EXPO }}
             >
               <DishDetails dish={dish} titleId={titleId} descId={descId} onClose={onClose} onReserve={onReserve} />
             </motion.div>

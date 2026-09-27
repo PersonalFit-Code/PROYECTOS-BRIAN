@@ -3,7 +3,7 @@
 import { MotionConfig } from "framer-motion";
 import { BookOpen, Eraser, MessageCircleQuestion, Utensils } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useChat } from "@/components/chat/ChatProvider";
 import NeonButton from "@/components/ui/NeonButton";
 import type { AllergenId } from "@/data/allergens";
@@ -115,7 +115,21 @@ function CartaLive() {
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   /** id de tarjeta pendiente de revelar (enlace profundo `#id`) */
   const [pendingHash, setPendingHash] = useState<string | null>(null);
-  const results = useMenuFilters(filters, locale);
+
+  /* ── Eco del carácter ≠ filtrado ──
+     `setQuery` mete la letra en `filters` y el <input> la pinta en el primer fotograma (sigue siendo
+     estado urgente: nada de estado local que se desincronice con "Limpiar" o con el botón atrás).
+     Lo que se aplaza es el TRABAJO: `useDeferredValue` deja que React pinte primero el eco con los
+     resultados anteriores y recalcule el filtro (normalización NFD + recuentos + troceado en
+     secciones + 49 tarjetas) en un render de baja prioridad que además puede interrumpir la tecla
+     siguiente. Solo se difiere la búsqueda: un chip o un alérgeno son un gesto único y deben
+     resolverse en el mismo fotograma. */
+  const deferredQuery = useDeferredValue(filters.query);
+  const deferredFilters = useMemo(
+    () => (deferredQuery === filters.query ? filters : { ...filters, query: deferredQuery }),
+    [filters, deferredQuery],
+  );
+  const results = useMenuFilters(deferredFilters, locale);
 
   /* ── URL ⇄ estado ── */
   const lastWritten = useRef(serializeFilters(filters));
@@ -186,12 +200,18 @@ function CartaLive() {
 
   /* ── Navegación ── */
 
+  /* Altura de la cabecera, medida UNA vez. `getComputedStyle` sobre <html> fuerza recálculo de
+     estilo, y estaba en la ruta del clic de cada chip para leer una variable que no cambia. */
+  const headerHeightRef = useRef(0);
+  useEffect(() => {
+    headerHeightRef.current = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 72;
+  }, []);
+
   /** Si el usuario ya ha bajado por la carta, sube al inicio de los resultados al cambiar de categoría. */
   const scrollToResultsIfBelow = useCallback(() => {
     const el = document.getElementById(RESULTS_ID);
     if (!el) return;
-    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 72;
-    if (el.getBoundingClientRect().top < headerHeight + FILTER_BAR_HEIGHT) {
+    if (el.getBoundingClientRect().top < (headerHeightRef.current || 72) + FILTER_BAR_HEIGHT) {
       el.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
     }
   }, []);
@@ -199,7 +219,11 @@ function CartaLive() {
   const selectCategory = useCallback(
     (id: CategoryFilter) => {
       setFilters((f) => (f.category === id ? f : { ...f, category: id }));
-      scrollToResultsIfBelow();
+      /* La medición y el posible desplazamiento se aplazan a un rAF POSTERIOR al cambio de estado:
+         `getBoundingClientRect()` obliga a maquetar, y el 90 % de las veces la condición sale false.
+         Así el manejador termina enseguida y el navegador pinta el chip pulsado en el primer
+         fotograma; el salto a los resultados, si toca, llega en el siguiente. */
+      requestAnimationFrame(scrollToResultsIfBelow);
     },
     [scrollToResultsIfBelow],
   );
@@ -222,9 +246,11 @@ function CartaLive() {
       results={results}
       highlightedId={highlightedId}
       legendOpen={legendOpen}
-      animations={!perf.reducedMotion && perf.tier !== "low"}
-      glass={perf.tier === "high"}
-      heroFloat={!perf.reducedMotion && perf.tier === "high"}
+      /* Se conserva el criterio anterior (`tier !== "low"` y sin reduced-motion): en la gama baja la
+         escena 3D ya se ha apagado sola, y ahí ni el revelado por scroll ni el fundido de entrada
+         deben añadir trabajo. `can()` se encarga además de `prefers-reduced-motion`. */
+      animations={perf.can("entranceMotion") && perf.atLeast("mid")}
+      heroFloat={perf.can("ambientMotion") && perf.atLeast("high")}
       actions={actions}
     />
   );
@@ -236,7 +262,7 @@ function CartaStatic() {
   const locale = useLocale();
   const results = useMenuFilters(DEFAULT_FILTERS, locale);
   return (
-    <CartaView filters={DEFAULT_FILTERS} results={results} highlightedId={null} legendOpen={false} animations={false} glass={false} heroFloat={false} actions={NOOP_ACTIONS} />
+    <CartaView filters={DEFAULT_FILTERS} results={results} highlightedId={null} legendOpen={false} animations={false} heroFloat={false} actions={NOOP_ACTIONS} />
   );
 }
 
@@ -247,20 +273,14 @@ interface CartaViewProps {
   results: MenuFilterResult;
   highlightedId: string | null;
   legendOpen: boolean;
-  /** revelado por scroll + animaciones de layout */
+  /** revelado por scroll + fundido de entrada de las tarjetas al filtrar */
   animations: boolean;
-  /**
-   * Cristal ahumado (`backdrop-filter`) en las tarjetas y en la barra de filtros pegajosa.
-   * Solo en tier "high": la carta tiene ~49 tarjetas y en móvil siempre hay varias en pantalla,
-   * con la barra pegajosa desenfocando encima en cada fotograma de scroll.
-   */
-  glass: boolean;
   /** flotación de las polaroids de la cabecera */
   heroFloat: boolean;
   actions: CartaActions;
 }
 
-function CartaView({ filters, results, highlightedId, legendOpen, animations, glass, heroFloat, actions }: CartaViewProps) {
+function CartaView({ filters, results, highlightedId, legendOpen, animations, heroFloat, actions }: CartaViewProps) {
   const m = useMessages();
   const locale = useLocale();
   const dataset = getMenuDataset(locale);
@@ -296,7 +316,6 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, gl
           onToggleAllergen={actions.toggleAllergen}
           onClear={actions.clearContent}
           onOpenLegend={actions.openLegend}
-          glass={glass}
         />
 
         <div className={cn(CARTA_CONTAINER, "relative pb-16 md:pb-24 lg:pb-28")}>
@@ -327,7 +346,6 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, gl
                       selected={filters.category === section.category.id}
                       highlightedId={highlightedId}
                       animations={animations}
-                      glass={glass}
                       onSelect={actions.selectCategory}
                     />
                   ))}
@@ -376,8 +394,10 @@ function EmptyState({ query, onReset }: { query: string; onReset: () => void }) 
 
   const ask = () => chat.open({ prefill: trimmed ? t(m.carta.emptyAskQuery, { query: trimmed }) : m.carta.emptyAsk, page: "carta" });
 
+  /* Cristal horneado: degradado de hierro + borde, sin `backdrop-filter`. Sobre la pizarra oscura el
+     desenfoque no aportaba nada visible y era una capa más que componer en cada fotograma. */
   return (
-    <div className="glass-smoke flex flex-col items-center gap-4 rounded-3xl px-6 py-14 text-center">
+    <div className="flex flex-col items-center gap-4 rounded-3xl border border-cream/10 bg-iron-800/90 px-6 py-14 text-center shadow-card">
       <span aria-hidden className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-cream/10 bg-iron/60 text-gold">
         <Utensils size={24} strokeWidth={1.8} />
       </span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import {
   Wheat,
   Shell,
@@ -68,7 +68,7 @@ const SIZES = {
  * hablan el idioma de la página. El disco lleva `role="img"` (un `<span>` genérico no admite
  * `aria-label` según ARIA 1.2 y la mayoría de lectores no lo anuncian).
  */
-export default function AllergenIcon({ id, size = "sm", withLabel = false, active = false, decorative = false, className }: AllergenIconProps) {
+function AllergenIcon({ id, size = "sm", withLabel = false, active = false, decorative = false, className }: AllergenIconProps) {
   const m = useMessages();
   const t = useFormat();
   const locale = useLocale();
@@ -88,7 +88,10 @@ export default function AllergenIcon({ id, size = "sm", withLabel = false, activ
         aria-label={silent ? undefined : name}
         aria-hidden={silent ? true : undefined}
         className={cn(
-          "inline-flex shrink-0 items-center justify-center rounded-full border transition-all duration-300",
+          /* Lista explícita, no `transition-all`: de este badge hay ~150 en la carta (hasta cuatro por
+             plato, catorce en el panel de filtros y catorce en la leyenda) y `transition-all` obliga al
+             navegador a vigilar TODAS las propiedades animables de cada uno de ellos. */
+          "inline-flex shrink-0 items-center justify-center rounded-full border transition-[scale,border-color,background-color,box-shadow] duration-150 ease-[var(--ease-out-expo)]",
           s.box,
           active ? "scale-105" : "",
         )}
@@ -105,6 +108,10 @@ export default function AllergenIcon({ id, size = "sm", withLabel = false, activ
     </span>
   );
 }
+
+/* `memo`: todas sus props son primitivas, así que un re-render del contenedor (escribir en el
+   buscador, abrir el panel de filtros) no vuelve a pintar los ~150 badges de la página. */
+export default memo(AllergenIcon);
 
 /** Fila compacta de badges de alérgenos (textos localizados; `role="group"` para poder nombrarla). */
 export function AllergenRow({ ids, size = "xs", className }: { ids: AllergenId[]; size?: "xs" | "sm"; className?: string }) {

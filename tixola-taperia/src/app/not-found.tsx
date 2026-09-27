@@ -64,10 +64,11 @@ export default function NotFound() {
           "container-page relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-iron text-center text-cream antialiased",
         )}
       >
-        {/* Brasa de fondo, como en el resto de la web */}
+        {/* Brasa de fondo, como en el resto de la web. Horneada: era la capa más grande de esta página
+            (70vh × 110vw) y llevaba `blur-3xl` sobre un degradado que ya caía a transparente. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70vh] w-[110vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(178,30,39,0.28),transparent_100%)] blur-3xl"
+          className="ember-glow absolute left-1/2 top-1/2 -z-10 h-[70vh] w-[110vw] -translate-x-1/2 -translate-y-1/2 rounded-full [--ember-a1:0.28]"
         />
         <p className="font-caps text-xs uppercase tracking-[0.35em] text-pimenton-a11y">{nf.kicker}</p>
         <h1 className="mt-4 font-display text-5xl leading-[0.95] text-cream md:text-6xl">{nf.title}</h1>

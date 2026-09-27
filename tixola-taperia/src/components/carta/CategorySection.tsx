@@ -34,10 +34,8 @@ export interface CategorySectionProps {
   /** la categoría es la seleccionada en los chips (solo se muestra esta) */
   selected: boolean;
   highlightedId: string | null;
-  /** animaciones de revelado / layout (false en tier "low" o reduced motion) */
+  /** revelado al entrar en pantalla + fundido de las tarjetas que se montan al filtrar */
   animations: boolean;
-  /** cristal ahumado en las tarjetas (solo tier "high"); en el resto, hierro opaco */
-  glass: boolean;
   onSelect: (id: CategoryFilter) => void;
 }
 
@@ -48,7 +46,7 @@ const REVEAL: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: EASE_OUT_EXPO } },
 };
 
-export default function CategorySection({ category, items, total, dietTags, selected, highlightedId, animations, glass, onSelect }: CategorySectionProps) {
+export default function CategorySection({ category, items, total, dietTags, selected, highlightedId, animations, onSelect }: CategorySectionProps) {
   const m = useMessages();
   const t = useFormat();
   const sectionRef = useRef<HTMLElement>(null);
@@ -152,8 +150,6 @@ export default function CategorySection({ category, items, total, dietTags, sele
             dietTags={dietTags}
             variant={chalkboard ? "chalk" : "glass"}
             highlighted={highlightedId === item.id}
-            animations={animations}
-            glass={glass}
             enter={animations && settled}
           />
         ))}

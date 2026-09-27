@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutGroup, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import type { MenuCategory, MenuCategoryId } from "@/data/menu";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
@@ -76,48 +76,49 @@ export default function CategoryChips({ categories, selected, counts, allCount, 
         ref={scrollerRef}
         className="no-scrollbar -ml-4 flex snap-x gap-2 overflow-x-auto py-2 pl-4 pr-8 sm:-ml-6 sm:pl-6 lg:ml-0 lg:flex-wrap lg:overflow-visible lg:pl-0 lg:pr-0"
       >
-        <LayoutGroup id="carta-chips">
-          {chips.map((chip) => {
-            const active = chip.id === selected;
-            const empty = chip.count === 0;
-            return (
-              <button
-                key={chip.id}
-                type="button"
-                data-chip={chip.id}
-                aria-pressed={active}
-                onClick={() => onSelect(chip.id)}
+        {/* Sin `LayoutGroup`: `layoutId` ya comparte contexto de layout a nivel de aplicación y en la
+            página solo existe UNA fila de chips, así que el grupo no aportaba nada y sí un contexto
+            más que atravesar en cada render de los 9 chips. */}
+        {chips.map((chip) => {
+          const active = chip.id === selected;
+          const empty = chip.count === 0;
+          return (
+            <button
+              key={chip.id}
+              type="button"
+              data-chip={chip.id}
+              aria-pressed={active}
+              onClick={() => onSelect(chip.id)}
+              className={cn(
+                "relative inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full border px-4 transition-colors duration-150 ease-[var(--ease-out-expo)] focus-visible:outline-offset-2",
+                active ? "border-transparent text-cream" : "border-cream/15 text-cream-muted hover:border-cream/40 hover:text-cream",
+                empty && !active && "opacity-50",
+              )}
+            >
+              {active && (
+                <motion.span
+                  layoutId="carta-chip-active"
+                  aria-hidden
+                  transition={SPRING}
+                  className="absolute inset-0 rounded-full border border-pimenton-light/70 bg-pimenton shadow-[0_0_22px_rgba(216,50,60,0.45)]"
+                />
+              )}
+              <span className="relative font-condensed text-lg uppercase leading-none tracking-wide">{chip.label}</span>
+              {/* ARIA 1.2 no permite nombrar un <span> genérico: el número queda decorativo y el
+                  texto completo viaja en un `sr-only` dentro del propio botón. */}
+              <span
+                aria-hidden
                 className={cn(
-                  "relative inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full border px-4 transition-colors duration-300 focus-visible:outline-offset-2",
-                  active ? "border-transparent text-cream" : "border-cream/15 text-cream-muted hover:border-cream/40 hover:text-cream",
-                  empty && !active && "opacity-50",
+                  "relative min-w-[1.4rem] rounded-full px-1.5 py-px text-center font-sans text-[11px] font-semibold tabular-nums leading-4",
+                  active ? "bg-cream/20 text-cream" : "bg-cream/[0.06] text-cream-faint",
                 )}
               >
-                {active && (
-                  <motion.span
-                    layoutId="carta-chip-active"
-                    aria-hidden
-                    transition={SPRING}
-                    className="absolute inset-0 rounded-full border border-pimenton-light/70 bg-pimenton shadow-[0_0_22px_rgba(216,50,60,0.45)]"
-                  />
-                )}
-                <span className="relative font-condensed text-lg uppercase leading-none tracking-wide">{chip.label}</span>
-                {/* ARIA 1.2 no permite nombrar un <span> genérico: el número queda decorativo y el
-                    texto completo viaja en un `sr-only` dentro del propio botón. */}
-                <span
-                  aria-hidden
-                  className={cn(
-                    "relative min-w-[1.4rem] rounded-full px-1.5 py-px text-center font-sans text-[11px] font-semibold tabular-nums leading-4",
-                    active ? "bg-cream/20 text-cream" : "bg-cream/[0.06] text-cream-faint",
-                  )}
-                >
-                  {chip.count}
-                </span>
-                <span className="sr-only">{t(m.carta.chipCount, { count: chip.count })}</span>
-              </button>
-            );
-          })}
-        </LayoutGroup>
+                {chip.count}
+              </span>
+              <span className="sr-only">{t(m.carta.chipCount, { count: chip.count })}</span>
+            </button>
+          );
+        })}
       </div>
     </nav>
   );

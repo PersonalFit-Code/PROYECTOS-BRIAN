@@ -6,7 +6,6 @@ import { useEffect, useId, useMemo, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import AllergenIcon from "@/components/ui/AllergenIcon";
 import { useInertBackground } from "@/hooks/useInertBackground";
-import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { localizeAllergens } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -92,7 +91,6 @@ export default function AllergenLegendSheet({ open, onClose }: AllergenLegendShe
 
 function SheetInner({ onClose }: { onClose: () => void }) {
   const m = useMessages();
-  const glass = usePerformanceTier().tier === "high";
   const rootRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
@@ -138,13 +136,12 @@ function SheetInner({ onClose }: { onClose: () => void }) {
         initial={{ y: 48, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 48, opacity: 0, transition: { duration: 0.2 } }}
-        transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
-        className={cn(
-          "relative flex max-h-[88dvh] w-full flex-col rounded-t-3xl lg:max-h-[85dvh] lg:max-w-4xl lg:rounded-3xl",
-          /* Cristal solo en gama alta: con el velo opaco al 85 % el desenfoque del panel no aporta
-             nada visible y sí obliga a remuestrear el fondo en cada fotograma de la animación. */
-          glass ? "glass-smoke" : "border border-cream/10 bg-iron-900/95 shadow-glass",
-        )}
+        /* 300 ms: transición de estado CON desplazamiento, el techo del criterio de respuesta. */
+        transition={{ duration: 0.3, ease: EASE_OUT_EXPO }}
+        /* Cristal horneado en todas las gamas: detrás hay un velo opaco al 85 %, así que el
+           `backdrop-filter` desenfocaba algo que ya no se ve, y encima lo hacía en cada fotograma de
+           la animación de entrada de la hoja. */
+        className="relative flex max-h-[88dvh] w-full flex-col rounded-t-3xl border border-cream/10 bg-iron-900/95 shadow-glass lg:max-h-[85dvh] lg:max-w-4xl lg:rounded-3xl"
       >
         {/* Asa (móvil) */}
         <span aria-hidden className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-cream/25 lg:hidden" />

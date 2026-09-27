@@ -114,3 +114,102 @@ Imágenes: `/images/fachada.jpg` (fachada real del local, 806×490) · `/images/
 - Ids obligatorios: `hero`, `platos`, `experiencia`, `opiniones`, `footer`. Enlaces siempre con `lp()`.
 ### Calidad
 - Sin `any`, `npx tsc --noEmit` y `npx eslint <ficheros>` limpios. Mobile‑first, 44 px táctiles, `prefers-reduced-motion`, sin overflow horizontal, contraste AA (`text-pimenton-a11y` para texto pequeño rojo).
+
+---
+
+# ITERACIÓN 3 — CONTRATO DE COMPOSICIÓN (cristal horneado, brasas y revelados)
+
+Decisión del cliente: la web tiene que ir fina en **gama media** —portátil con gráfica integrada y móvil
+de gama media—, no solo en un equipo potente. Lo que más caro sale ahí no son los polígonos: son las
+**capas que el compositor tiene que rehacer**. `backdrop-filter`, `filter: blur()` y `mix-blend-mode`
+obligan al navegador a leer lo que hay detrás de una capa, rasterizarla aparte y recomponerla cada vez
+que algo se mueve por encima o por debajo. Este apartado fija cómo se pintan esas superficies.
+
+## 1 · Cristal: horneado por defecto, real solo en gama alta MEDIDA
+
+`glass`, `glass-smoke` y `glass-red` (`src/app/globals.css`) **ya no llevan `backdrop-filter`**. La
+utilidad es un degradado + borde + `box-shadow`: se ve como cristal porque el ojo lee el borde y el filo
+de luz superior, no el desenfoque. El desenfoque real se reactiva desde **un único punto**:
+
+```css
+:root[data-gpu="high"] .glass       { backdrop-filter: blur(18px) saturate(140%); }
+:root[data-gpu="high"] .glass-smoke { backdrop-filter: blur(22px) saturate(120%); }
+:root[data-gpu="high"] .glass-red   { backdrop-filter: blur(18px) saturate(140%); }
+```
+
+- **`data-gpu="high"` en `<html>` lo escribe la sonda de fotogramas, una sola vez y solo en cliente**
+  (`usePerformanceTier` / `useFrameRateProbe`). Es el ÚNICO sitio donde se decide.
+- Las opacidades horneadas suben un par de puntos respecto a las de la iteración 2 para compensar la
+  pérdida del desenfoque. Efecto lateral bienvenido: **el texto sobre cristal gana contraste**.
+- **Prohibido volver a condicionar el cristal a mano.** Nada de `tier === "high" ? "glass-smoke" : …` ni
+  de props `glass` viajando por el árbol: la clase se pone siempre y el selector de arriba decide. Si un
+  componente necesita un fondo distinto del de la utilidad, escribe su propio degradado (ver OpenStatus)
+  y no pide `backdrop-filter` en ningún caso.
+- Excepción deliberada: **el aviso de cookies nunca lleva cristal, en ningún ancho**. Se pinta encima del
+  lienzo WebGL de la portada, ya en marcha, y es lo primero que ve un visitante.
+
+## 2 · Brasas: utilidad `ember-glow`, nunca `blur-2xl` / `blur-3xl`
+
+Desenfocar un degradado radial es trabajo tirado: el degradado ya es suave. La utilidad `ember-glow`
+lleva la caída horneada en cuatro paradas y se ajusta con dos variables:
+
+```html
+<span aria-hidden class="ember-glow h-56 w-56 rounded-full [--ember-a1:0.45] [--ember-rgb:216_50_60]" />
+```
+
+`--ember-a1` es la opacidad del centro; las dos paradas intermedias se derivan de ella (×0.47 y ×0.17),
+así que **no se declara una clase arbitraria por parada** — si cada componente escribiera su propio
+`bg-[radial-gradient(...)]`, la hoja global engordaría y se perdería el cambio. `--ember-rgb` toma el
+color en componentes separados por espacio (en Tailwind, con `_`).
+
+Regla: **ningún `blur-2xl` / `blur-3xl` sobre un área mayor de 200×200 px.** Para halos pequeños de
+adorno el filtro es tolerable; para una capa de 420² px o de 1400×760 no.
+
+## 3 · Grano (`noise-after`): sin `mix-blend-mode`
+
+`mix-blend-mode` compone el contexto de apilamiento ENTERO fuera de pantalla, incluida la parte que no se
+ve — en las secciones a pantalla completa y en el envoltorio de /carta (~9000 px) son megapíxeles por
+scroll a cambio de un grano al 7 %. Se ha quitado en **todos** los anchos (la mitigación anterior lo
+apagaba en móvil, donde ya iba bien, y lo dejaba encendido justo en el portátil con gráfica integrada).
+El grano se superpone en modo normal, con la turbulencia desaturada y algo más de opacidad.
+
+## 4 · Halo del fondo: capa fija, no `background-image` del `<body>`
+
+Los dos radiales de burdeos viven en `body::before { position: fixed; inset: 0; z-index: -50 }`. En el
+`background-image` del `<body>` su caja de pintado era el documento entero y se reevaluaban al cambiar el
+viewport (barra de direcciones de iOS, rotación). Misma imagen, un viewport de caja, y anclada a la
+pantalla, que es lo que se pretendía.
+
+## 5 · Revelados al entrar en pantalla: el estado vive en CSS
+
+Contrato entre `globals.css` y el sistema de scroll. **El JS solo añade la clase `.is-revealed`**; el
+estado inicial, la transición y el final son CSS:
+
+| Nombre | Qué es |
+| --- | --- |
+| `[data-reveal]` | fundido + desplazamiento (modo por defecto) |
+| `[data-reveal="fade"]` | solo fundido |
+| `[data-reveal="letterbox"]` | se abre como un fotograma (`clip-path` vertical) |
+| `[data-reveal="wipe"]` | barrido de izquierda a derecha |
+| `--reveal-y` | desplazamiento inicial (28 px por defecto) |
+| `--reveal-delay` | retardo, para escalonar por índice |
+| `.is-revealed` | estado final; libera la capa con `will-change: auto` |
+
+Todo va dentro de `@media (prefers-reduced-motion: no-preference)`: quien pide menos movimiento ve el
+contenido visible y quieto **sin que intervenga nada de JS**. No renombrar estas claves sin avisar al
+módulo de scroll.
+
+## 6 · `will-change` atado a la animación
+
+`will-change: transform` promueve una capa GPU y la mantiene viva mientras la clase esté puesta. En las
+marquesinas, las brasas CSS y las capas parallax se aplica **solo mientras la animación está corriendo**
+(`!paused && "will-change-transform"`): una capa promovida que no se mueve es memoria a cambio de nada.
+Lo mismo con los `filter` sobre texto: el halo de los contadores llega al TERMINAR la cuenta, no durante.
+
+## 7 · Visibilidad en pantalla sin Framer Motion
+
+`@/hooks/useInViewOnce` → `useInView(ref, {amount, rootMargin})` (vivo, cambia al entrar y al salir) y
+`useInViewOnce(ref, opts)` (con trinquete). Un `IntersectionObserver` compartido por configuración para
+toda la web + `useSyncExternalStore`. **Úsalo en vez del `useInView` de Framer** cuando solo hace falta
+saber si algo se ve para pausar una animación o para montar un bloque pesado: Framer arrastra el paquete
+entero a componentes que por lo demás no animan nada.

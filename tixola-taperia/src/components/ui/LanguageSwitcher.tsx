@@ -102,7 +102,7 @@ function LanguageChips({ onSelect, className }: Pick<LanguageSwitcherProps, "onS
               aria-current={active ? "true" : undefined}
               aria-label={active ? t(m.nav.language.current, { language: meta.native }) : t(m.nav.language.switchTo, { language: meta.native })}
               className={cn(
-                "flex h-11 flex-col items-center justify-center rounded-xl border font-caps text-[12px] tracking-[0.2em] transition-colors duration-300",
+                "flex h-11 flex-col items-center justify-center rounded-xl border font-caps text-[12px] tracking-[0.2em] transition-colors duration-150 ease-[var(--ease-out-expo)]",
                 active
                   ? "border-pimenton-light/70 bg-pimenton/25 text-cream shadow-[0_0_18px_rgba(178,30,39,0.35)]"
                   : "border-cream/12 text-cream-muted hover:border-cream/30 hover:text-cream",
@@ -147,13 +147,13 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
     };
     document.addEventListener("pointerdown", onPointer);
     document.addEventListener("keydown", onKey);
-    /* Foco inicial en el idioma activo. */
+    /* Foco inicial en el idioma activo, en el primer fotograma pintado. */
     const idx = Math.max(0, LOCALES.indexOf(current));
-    const timer = window.setTimeout(() => itemRefs.current[idx]?.focus(), 30);
+    const frame = window.requestAnimationFrame(() => itemRefs.current[idx]?.focus());
     return () => {
       document.removeEventListener("pointerdown", onPointer);
       document.removeEventListener("keydown", onKey);
-      window.clearTimeout(timer);
+      window.cancelAnimationFrame(frame);
     };
   }, [open, current]);
 
@@ -198,13 +198,13 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
         aria-controls={listId}
         aria-label={`${m.nav.languageSwitcher} · ${t(m.nav.language.current, { language: meta.native })}`}
         className={cn(
-          "inline-flex h-11 items-center gap-1.5 rounded-full px-3 font-caps text-[12px] tracking-[0.25em] transition-colors duration-300",
+          "inline-flex h-11 items-center gap-1.5 rounded-full px-3 font-caps text-[12px] tracking-[0.25em] transition-colors duration-150 ease-[var(--ease-out-expo)]",
           open ? "text-cream" : "text-cream-muted hover:text-cream",
         )}
       >
         <Globe className="h-4 w-4 text-pimenton-light" aria-hidden />
         <span aria-hidden>{meta.short}</span>
-        <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-300", open && "rotate-180")} aria-hidden />
+        <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-200 ease-[var(--ease-out-expo)]", open && "rotate-180")} aria-hidden />
       </button>
 
       <AnimatePresence>
@@ -218,10 +218,14 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
             initial={{ opacity: 0, y: -6, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98, transition: { duration: 0.15 } }}
-            transition={{ duration: 0.35, ease: EASE_OUT_EXPO }}
+            transition={{ duration: 0.2, ease: EASE_OUT_EXPO }}
             className={cn(
               "absolute top-full z-50 mt-2 min-w-[11.5rem] origin-top overflow-hidden rounded-2xl p-1.5",
-              "border border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.96),rgba(20,20,20,0.9))] shadow-card backdrop-blur-xl",
+              /* Sin `backdrop-blur-xl`: desenfocaba 24 px lo que había detrás de un fondo que ya era
+                 opaco al 96 %, o sea, nada que se llegara a ver. Y abrir el selector de idioma es lo
+                 primero que se toca en una demo multilingüe: no puede costar una capa de desenfoque.
+                 Las paradas suben a 0,97 / 0,94 para cubrir lo poquísimo que aportaba el filtro. */
+              "border border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.97),rgba(20,20,20,0.94))] shadow-card",
               align === "right" ? "right-0" : "left-0",
             )}
           >

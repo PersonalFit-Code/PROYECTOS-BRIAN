@@ -12,7 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { getGsap } from "@/lib/gsap";
-import { usePerformanceTier } from "@/hooks/usePerformanceTier";
+import { useCanAfford } from "@/hooks/usePerformanceTier";
 import { cn } from "@/lib/utils";
 
 /** `useLayoutEffect` en cliente (sin parpadeo antes del primer pintado), `useEffect` en SSR. */
@@ -95,24 +95,29 @@ const CURTAIN_EXIT = 0.45;
 /**
  * Envoltorio cinematográfico de una sección de la home:
  *  (a) se registra en la navegación por capítulos (ChapterNav);
- *  (b) entrada "de película": la sección aterriza con una escala 0.98 → 1 mientras un telón oscuro
- *      se levanta (ScrollTrigger scrub) y, al ceder el paso al siguiente capítulo, se vuelve a
- *      oscurecer suavemente;
+ *  (b) entrada "de película": un telón oscuro se levanta mientras la sección aterriza y, al ceder el
+ *      paso al siguiente capítulo, se vuelve a oscurecer suavemente;
  *  (c) profundidad: los hijos con `data-depth="0.4"` se desplazan a distinta velocidad que el
  *      contenido (positivo = más lejos/lento hacia arriba, negativo = sentido contrario).
  *
- * Todo vive en un `gsap.context` que se revierte al desmontar. Con `prefers-reduced-motion` o
- * tier "low" el capítulo se renderiza plano (solo el registro para la navegación).
+ * SIN ESCALA NI OPACIDAD EN EL ROOT. La entrada llevaba un `scale: 0.98 → 1` y un `opacity: 0.85 → 1`
+ * sobre el contenedor de la sección entera. Escalar un ancestro invalida la caché de rasterizado de
+ * todo su interior (fondo con textura, brasas, grano, el glow de los platos) en cada fotograma del
+ * scrub, y la opacidad añadía un segundo escritor sobre los mismos píxeles que ya pinta el telón. El
+ * aterrizaje se lee igual con el telón, que es UN solo escritor de opacidad sobre una capa plana: es
+ * exactamente lo que se veía ya en gama media, donde la escala nunca se aplicó.
  *
- * Nota: durante la entrada el wrapper lleva un `transform`; cualquier elemento `position: fixed`
- * dentro de la sección debe montarse por portal (los modales del proyecto ya lo hacen).
+ * Todo vive en un `gsap.context` que se revierte al desmontar. Sin efectos con
+ * `prefers-reduced-motion` o en gama baja (`can("scrollCinema")` contempla ambas cosas): el capítulo
+ * se renderiza plano y solo queda el registro para la navegación.
  */
 export default function Chapter({ id, title, overlapsHero = false, cinematic = true, className, children }: ChapterProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const register = useContext(ChapterRegistryContext)?.register;
-  const { tier, reducedMotion } = usePerformanceTier();
-  const effects = cinematic && !reducedMotion && tier !== "low";
+  /* El hook se llama SIEMPRE (no puede ir tras el `&&` de `cinematic`: sería una llamada condicional). */
+  const cinemaOk = useCanAfford("scrollCinema");
+  const effects = cinematic && cinemaOk;
 
   /* (a) Registro en la navegación lateral. */
   useEffect(() => register?.({ id, title }), [register, id, title]);
@@ -126,68 +131,51 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
     const { gsap, ScrollTrigger } = getGsap();
 
     const ctx = gsap.context(() => {
-      /* Entrada: el bloque aterriza (escala + opacidad) con el scroll como línea de tiempo.
-         La escala se reserva a tier "high": animar `transform` en una sección a pantalla completa
-         (fondo con textura, glow `blur-3xl`, grano) obliga al compositor a promoverla entera a una
-         capa de varios megapíxeles justo mientras corren Lenis, el telón y los tweens `data-depth`. */
-      const scaleEntry = tier === "high";
-      gsap.fromTo(
-        root,
-        { ...(scaleEntry ? { scale: 0.98, transformOrigin: "50% 0%" } : {}), opacity: overlapsHero ? 1 : 0.85 },
-        {
-          ...(scaleEntry ? { scale: 1 } : {}),
-          opacity: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: root,
-            start: overlapsHero ? "top bottom" : "top 92%",
-            end: overlapsHero ? "top 12%" : "top 42%",
-            scrub: true,
-            invalidateOnRefresh: true,
-            /* Con la entrada completada retiramos el transform inline: hover/sticky del interior intactos. */
-            onLeave: () => gsap.set(root, { clearProps: "transform" }),
-          },
-        },
-      );
-
-      /* Telón: un solo escritor de opacidad alimentado por dos triggers (entrada y salida), así un
-         refresh de ScrollTrigger nunca deja el telón en un estado incoherente. */
+      /* Telón: UN solo escritor de opacidad (`paint`) alimentado por UN SOLO ScrollTrigger. Antes eran
+         dos (entrada y salida), 6 triggers en la home para una sola propiedad; ahora un único rango
+         "top bottom" → "bottom 8%" del que se derivan las dos rampas. Los valores de opacidad no
+         cambian: los tramos se recalculan en cada `refresh` a partir de los mismos puntos de antes
+         ("top 95%"/"top 45%" o "top bottom"/"top 15%" al entrar, "bottom 58%"/"bottom 8%" al salir),
+         expresados como fracción del recorrido total. */
       const paintCurtain = gsap.quickSetter(curtain, "opacity");
-      const curtainState = { enter: 0, exit: 0 };
       const enterMax = overlapsHero ? CURTAIN_ENTER_OVERLAP : CURTAIN_ENTER;
-      const paint = () => paintCurtain(Math.max(enterMax * (1 - curtainState.enter), CURTAIN_EXIT * curtainState.exit));
+      /* Fracciones del recorrido en las que empieza y acaba cada rampa (se rellenan en `onRefresh`). */
+      const ramp = { enterFrom: 0, enterTo: 1, exitFrom: 1, exitTo: 1 };
+
+      const ratio = (from: number, to: number, progress: number) =>
+        to <= from ? (progress >= to ? 1 : 0) : Math.min(1, Math.max(0, (progress - from) / (to - from)));
+
+      const paint = (progress: number) => {
+        const enter = ratio(ramp.enterFrom, ramp.enterTo, progress);
+        const exit = ratio(ramp.exitFrom, ramp.exitTo, progress);
+        paintCurtain(Math.max(enterMax * (1 - enter), CURTAIN_EXIT * exit));
+      };
 
       ScrollTrigger.create({
         trigger: root,
-        start: overlapsHero ? "top bottom" : "top 95%",
-        end: overlapsHero ? "top 15%" : "top 45%",
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          curtainState.enter = self.progress;
-          paint();
-        },
-        onRefresh: (self) => {
-          curtainState.enter = self.progress;
-          paint();
-        },
-      });
-      ScrollTrigger.create({
-        trigger: root,
-        start: "bottom 58%",
+        start: "top bottom",
         end: "bottom 8%",
         invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          curtainState.exit = self.progress;
-          paint();
-        },
         onRefresh: (self) => {
-          curtainState.exit = self.progress;
-          paint();
+          /* `self.start` es el scroll en el que el borde superior toca el borde inferior del viewport y
+             `self.end` el scroll en el que el borde inferior llega al 8 % de alto: de ahí salen las
+             posiciones del elemento sin volver a medir el DOM. */
+          const vh = window.innerHeight;
+          const span = self.end - self.start;
+          const elTop = self.start + vh;
+          const elBottom = self.end + vh * 0.08;
+          const at = (scroll: number) => (span > 0 ? (scroll - self.start) / span : 0);
+          ramp.enterFrom = at(overlapsHero ? elTop - vh : elTop - vh * 0.95);
+          ramp.enterTo = at(overlapsHero ? elTop - vh * 0.15 : elTop - vh * 0.45);
+          ramp.exitFrom = at(elBottom - vh * 0.58);
+          ramp.exitTo = 1;
+          paint(self.progress);
         },
+        onUpdate: (self) => paint(self.progress),
       });
 
       /* Profundidad: cada capa `data-depth` recorre ±(depth × DEPTH_TRAVEL) px mientras el capítulo
-         va de asomar por abajo a desaparecer por arriba. */
+         va de asomar por abajo a desaparecer por arriba. Este sí necesita progreso continuo. */
       const layers = Array.from(root.querySelectorAll<HTMLElement>("[data-depth]"));
       for (const layer of layers) {
         const depth = Number.parseFloat(layer.dataset.depth ?? "");
@@ -206,7 +194,7 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
     }, root);
 
     return () => ctx.revert();
-  }, [effects, overlapsHero, tier]);
+  }, [effects, overlapsHero]);
 
   return (
     <div
@@ -216,7 +204,7 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
       className={cn(
         "relative",
         overlapsHero &&
-          "z-10 overflow-hidden rounded-t-[1.25rem] shadow-[0_-30px_70px_-10px_rgba(0,0,0,0.75)] md:rounded-t-[2rem]",
+          "z-10 overflow-hidden rounded-t-[1.25rem] shadow-[0_-16px_32px_-12px_rgba(0,0,0,0.75)] md:rounded-t-[2rem]",
         className,
       )}
     >

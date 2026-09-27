@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { BookOpen, Check, Eraser, Flame, Leaf, Search, SlidersHorizontal, Sprout, Star, WheatOff, X, type LucideProps } from "lucide-react";
 import { useCallback, useId, useRef, useState, type ComponentType, type KeyboardEvent } from "react";
 import AllergenIcon from "@/components/ui/AllergenIcon";
@@ -19,9 +18,10 @@ import { FILTERABLE_TAGS, type CategoryFilter, type MenuFilterResult, type MenuF
  *  Panel plegable:  búsqueda (móvil) · Preferencias (chips dietéticos) · Excluir alérgenos (14 toggles)
  *                   · enlace a la leyenda · Limpiar filtros · "Ver N platos" (cierra el panel).
  *
- *  - Sticky bajo el navbar (`top: var(--header-h)`), cristal ahumado a sangre.
- *  - El panel se anima en altura con framer-motion (0 ⇄ auto); permanece montado con `inert`
- *    cuando está cerrado para que `aria-controls` siempre apunte a un nodo real.
+ *  - Sticky bajo el navbar (`top: var(--header-h)`), hierro casi opaco a sangre.
+ *  - El panel NO está en el flujo: cuelga en `absolute top-full` de la barra y entra con
+ *    `opacity` + `transform` en 180 ms. Permanece montado con `inert` cuando está cerrado para que
+ *    `aria-controls` siempre apunte a un nodo real.
  *  - Contador de resultados en una región `aria-live` (sr-only) que anuncia "12 platos encontrados".
  *  - Escape cierra el panel y devuelve el foco al botón "Filtros".
  */
@@ -41,15 +41,8 @@ export interface FilterBarProps {
   /** limpia búsqueda, etiquetas y alérgenos (mantiene la categoría) */
   onClear: () => void;
   onOpenLegend: () => void;
-  /**
-   * Cristal ahumado en la barra pegajosa. Solo en tier "high": está fija sobre contenido que se
-   * desplaza por debajo, así que su `backdrop-filter` se recalcula en cada fotograma de scroll.
-   */
-  glass?: boolean;
   className?: string;
 }
-
-const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
 const TAG_ICONS: Record<DietTag, ComponentType<LucideProps>> = {
   vegano: Leaf,
@@ -125,7 +118,6 @@ export default function FilterBar({
   onToggleAllergen,
   onClear,
   onOpenLegend,
-  glass = false,
   className,
 }: FilterBarProps) {
   const m = useMessages();
@@ -154,75 +146,86 @@ export default function FilterBar({
   );
 
   return (
+    /* `relative` en el envoltorio pegajoso: el panel cuelga de él en `absolute` y por tanto NO
+       participa en el flujo. Antes crecía en `height` (propiedad de MAQUETA, que no se compone en la
+       GPU) dentro de una barra `sticky`, así que en cada uno de los ~27 fotogramas de la apertura
+       empujaba y volvía a maquetar toda la rejilla de resultados que hay debajo. */
     <div className={cn("sticky top-[var(--header-h)] z-30", className)} onKeyDown={onKeyDown}>
-      <div
-        className={cn(
-          "border-x-0 border-y border-cream/10 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]",
-          glass ? "glass-smoke" : "bg-iron-900/95",
-        )}
-      >
-        <div className={CARTA_CONTAINER}>
-          {/* ── Fila principal ── */}
-          <div className="flex items-center gap-3">
-            <CategoryChips
-              className="min-w-0 flex-1"
-              categories={categories}
-              selected={filters.category}
-              counts={results.counts}
-              allCount={results.allCount}
-              onSelect={onSelectCategory}
-            />
+      <div className="relative">
+        {/* Hierro casi opaco en TODAS las gamas: un `backdrop-filter` pegajoso sobre contenido que se
+            desplaza por debajo se recalcula en cada fotograma de scroll y no debe existir en ninguna
+            gama. De paso el texto de los filtros gana contraste. */}
+        <div className="border-x-0 border-y border-cream/10 bg-iron-900/95 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]">
+          <div className={CARTA_CONTAINER}>
+            {/* ── Fila principal ── */}
+            <div className="flex items-center gap-3">
+              <CategoryChips
+                className="min-w-0 flex-1"
+                categories={categories}
+                selected={filters.category}
+                counts={results.counts}
+                allCount={results.allCount}
+                onSelect={onSelectCategory}
+              />
 
-            <div className="flex shrink-0 items-center gap-2 py-2">
-              <SearchField id={searchBarId} value={filters.query} onChange={onQueryChange} className="hidden w-60 lg:block xl:w-72" />
+              <div className="flex shrink-0 items-center gap-2 py-2">
+                <SearchField id={searchBarId} value={filters.query} onChange={onQueryChange} className="hidden w-60 lg:block xl:w-72" />
 
-              <button
-                ref={toggleRef}
-                type="button"
-                onClick={() => setOpen((v) => !v)}
-                aria-expanded={open}
-                aria-controls={panelId}
-                aria-label={open ? m.carta.filtersClose : m.carta.filtersOpen}
-                className={cn(
-                  "relative inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors duration-300",
-                  open || badge > 0 ? "border-pimenton-light/70 bg-pimenton/20 text-cream" : "border-cream/20 text-cream-muted hover:border-cream/45 hover:text-cream",
-                )}
-              >
-                <SlidersHorizontal size={16} aria-hidden />
-                <span>{m.carta.filters}</span>
-                {badge > 0 && (
-                  <>
-                    {/* `aria-label` sobre un <span> genérico no se anuncia (ARIA 1.2): texto `sr-only`. */}
-                    <span
-                      aria-hidden
-                      className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-pimenton-light px-1.5 text-[11px] font-bold tabular-nums text-cream"
-                    >
-                      {badge}
-                    </span>
-                    <span className="sr-only">{t(m.carta.filtersActive, { count: badge })}</span>
-                  </>
-                )}
-              </button>
+                <button
+                  ref={toggleRef}
+                  type="button"
+                  onClick={() => setOpen((v) => !v)}
+                  aria-expanded={open}
+                  aria-controls={panelId}
+                  aria-label={open ? m.carta.filtersClose : m.carta.filtersOpen}
+                  className={cn(
+                    "relative inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors duration-150 ease-[var(--ease-out-expo)] active:duration-75",
+                    open || badge > 0 ? "border-pimenton-light/70 bg-pimenton/20 text-cream" : "border-cream/20 text-cream-muted hover:border-cream/45 hover:text-cream",
+                  )}
+                >
+                  <SlidersHorizontal size={16} aria-hidden />
+                  <span>{m.carta.filters}</span>
+                  {badge > 0 && (
+                    <>
+                      {/* `aria-label` sobre un <span> genérico no se anuncia (ARIA 1.2): texto `sr-only`. */}
+                      <span
+                        aria-hidden
+                        className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-pimenton-light px-1.5 text-[11px] font-bold tabular-nums text-cream"
+                      >
+                        {badge}
+                      </span>
+                      <span className="sr-only">{t(m.carta.filtersActive, { count: badge })}</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
+
+            {/* Contador para lectores de pantalla */}
+            <p aria-live="polite" aria-atomic="true" className="sr-only">
+              {t(m.carta.resultsLive, { count: results.total })}
+            </p>
           </div>
+        </div>
 
-          {/* Contador para lectores de pantalla */}
-          <p aria-live="polite" aria-atomic="true" className="sr-only">
-            {t(m.carta.resultsLive, { count: results.total })}
-          </p>
-
-          {/* ── Panel plegable ── */}
-          <motion.div
-            id={panelId}
-            initial={false}
-            animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-            transition={{ duration: 0.45, ease: EASE_OUT_EXPO }}
-            aria-hidden={!open || undefined}
-            inert={!open || undefined}
-            className="overflow-hidden"
-          >
+        {/* ── Panel plegable ──
+            Fuera del flujo y con dos únicas propiedades animadas, las dos de composición: `opacity` y
+            `transform`. 180 ms con la curva expo: es una RESPUESTA a una pulsación, no una escena.
+            `inert` sigue apagando foco y lectores mientras está cerrado; `pointer-events-none` evita
+            que la capa invisible intercepte clics sobre los resultados. */}
+        <div
+          id={panelId}
+          aria-hidden={!open || undefined}
+          inert={!open || undefined}
+          className={cn(
+            "absolute inset-x-0 top-full z-10 origin-top overflow-hidden border-b border-cream/10 bg-iron-900/95 shadow-[0_22px_45px_-24px_rgba(0,0,0,0.95)]",
+            "transition-[opacity,translate] duration-180 ease-[var(--ease-out-expo)] motion-reduce:transition-none",
+            open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+          )}
+        >
+          <div className={CARTA_CONTAINER}>
             <section aria-label={m.carta.filtersAria} className="max-h-[min(64dvh,600px)] overflow-y-auto overscroll-contain pb-4 pt-1">
-              <div className="flex flex-col gap-5 border-t border-cream/10 pt-4">
+              <div className="flex flex-col gap-5 pt-4">
                 {/* Búsqueda (móvil / tablet) */}
                 <SearchField id={searchPanelId} value={filters.query} onChange={onQueryChange} className="lg:hidden" />
 
@@ -240,7 +243,7 @@ export default function FilterBar({
                             aria-pressed={pressed}
                             onClick={() => onToggleTag(tag)}
                             className={cn(
-                              "inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-all duration-300",
+                              "inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-[background-color,border-color,box-shadow,color] duration-150 ease-[var(--ease-out-expo)]",
                               pressed
                                 ? "border-pimenton-light/80 bg-pimenton/30 text-cream shadow-[0_0_18px_rgba(216,50,60,0.4)]"
                                 : "border-cream/15 text-cream-muted hover:border-cream/40 hover:text-cream",
@@ -279,7 +282,7 @@ export default function FilterBar({
                             title={a.description}
                             onClick={() => onToggleAllergen(a.id)}
                             className={cn(
-                              "relative inline-flex h-11 items-center gap-2 rounded-full border py-1 pl-1 pr-3 transition-all duration-300",
+                              "relative inline-flex h-11 items-center gap-2 rounded-full border py-1 pl-1 pr-3 transition-[background-color,border-color,box-shadow] duration-150 ease-[var(--ease-out-expo)]",
                               pressed
                                 ? "border-pimenton-light/80 bg-pimenton/20 shadow-[0_0_16px_rgba(216,50,60,0.35)]"
                                 : "border-cream/10 hover:border-cream/35 hover:bg-cream/5",
@@ -335,7 +338,7 @@ export default function FilterBar({
                 </div>
               </div>
             </section>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

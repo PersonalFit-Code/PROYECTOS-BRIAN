@@ -6,6 +6,7 @@ import type { CSSProperties } from "react";
 import { DishIcon } from "@/components/icons/DishIcons";
 import type { StarDish } from "@/data/dishes";
 import type { Photo } from "@/data/photos";
+import { useCanAfford } from "@/hooks/usePerformanceTier";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
@@ -35,8 +36,13 @@ export interface DishSlide {
 /** `layoutId` (framer-motion) del elemento compartido entre la tarjeta del carrusel y el detalle. */
 export const dishVisualLayoutId = (dishId: string) => `dish-visual-${dishId}`;
 
-/** Transición del elemento compartido (la foto viaja de la tarjeta al detalle y vuelve). */
-export const DISH_LAYOUT_TRANSITION: Transition = { layout: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } };
+/**
+ * Transición del elemento compartido (la foto viaja de la tarjeta al detalle y vuelve).
+ * 0,34 s en vez de 0,55: la proyección de framer mide y reescribe transform en cada fotograma del
+ * viaje, así que este número es tiempo de hilo principal, no solo estética. Con el cuerpo de la ficha
+ * entrando a 0,24 s el detalle queda legible a ~0,3 s del clic en vez de a ~0,67 s.
+ */
+export const DISH_LAYOUT_TRANSITION: Transition = { layout: { duration: 0.34, ease: [0.16, 1, 0.3, 1] } };
 
 type CSSVars = CSSProperties & Record<`--${string}`, string | number>;
 
@@ -46,7 +52,11 @@ export interface DishVisualProps {
   photo: DishPhoto | null;
   /** atributo `sizes` de next/image (obligatorio con `fill`) */
   sizes: string;
-  /** volutas de vapor + flotación del icono (desactívalas en tier "low" / reduced motion) */
+  /**
+   * Ambiente del visual compuesto: flotación del icono y volutas de vapor. Quien llama sigue pudiendo
+   * apagarlo (p. ej. las caras que no están al frente del cilindro), pero las volutas llevan además su
+   * propia puerta de gama dentro del componente: son desenfoques animados.
+   */
   steam?: boolean;
   /** "slide": tarjeta del carrusel · "sheet": detalle (tixola e icono algo mayores) */
   variant?: "slide" | "sheet";
@@ -96,14 +106,24 @@ const IRON_HANDLE: CSSProperties = {
   background: "linear-gradient(180deg, #3a3a3a 0%, #1c1c1c 55%, #0a0a0a 100%)",
   boxShadow: "0 8px 14px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.14)",
 };
+/*
+ * Halo del icono: UN solo drop-shadow, no tres. Cada `drop-shadow()` es una pasada de desenfoque
+ * sobre la silueta del SVG, y aquí había tres encadenadas por cara (hasta nueve caras a la vez en el
+ * cilindro). El calor rojo que aportaban las otras dos ya lo pone la brasa horneada del fondo, y la
+ * sombra negra de apoyo la da el pozo de la tixola: a ojo es el mismo icono encendido.
+ * Va en un envoltorio QUIETO — la flotación (`tx-dish-float`) se aplica a un hijo sin filtro.
+ */
 const ICON_GLOW: CSSProperties = {
-  filter:
-    "drop-shadow(0 0 10px rgba(216,50,60,0.9)) drop-shadow(0 0 28px rgba(178,30,39,0.55)) drop-shadow(0 12px 12px rgba(0,0,0,0.6))",
+  filter: "drop-shadow(0 0 16px rgba(216,50,60,0.8))",
 };
 
 export default function DishVisual({ dish, photo, sizes, steam = true, variant = "slide", priority = false, className }: DishVisualProps) {
   const m = useMessages();
   const t = useFormat();
+  /* Las volutas de vapor son tres capas con `blur-[6px]` ANIMADAS: cada fotograma vuelve a rasterizar
+     un desenfoque por voluta, y en el cilindro hay varias caras compuestas a la vez. Se reservan a la
+     gama que ha demostrado GPU de sobra; la flotación del icono (solo `transform`) se queda siempre. */
+  const canBlur = useCanAfford("heavyBlur");
 
   /* ── Foto real ── */
   if (photo) {
@@ -126,6 +146,8 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
   }
 
   /* ── Visual compuesto: tixola de hierro + icono del plato ── */
+  const float = steam;
+  const wisps = steam && canBlur;
   const iconSize = variant === "sheet" ? 96 : 72;
   /* Ancho de la tixola relativo al contenedor (unidades de container query; el `w-[62%]` es el
      respaldo si el navegador no las soporta: el estilo inline inválido se ignora y manda la clase). */
@@ -147,15 +169,17 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
       <div aria-hidden className="absolute inset-0 bg-[url('/textures/slate.webp')] bg-cover bg-center opacity-60" />
       <div aria-hidden className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_45%,transparent_30%,rgba(12,12,12,0.92)_100%)]" />
 
-      {/* 2 · Brasa: halo rojo pimentón bajo la tixola (se aviva con hover) + reflejo del color de acento */}
+      {/* 2 · Brasa horneada: UNA capa con el halo rojo y el reflejo del acento fundidos en el mismo
+             degradado. Antes eran dos divs con `blur-2xl` y `blur-3xl`, es decir dos superficies extra
+             que el compositor rasterizaba y ampliaba por el radio del desenfoque… en cada una de las
+             caras del cilindro. Desenfocar un radial es trabajo tirado: el degradado ya es suave, así
+             que basta con repartir bien las paradas (el acento del plato entra como parada intermedia). */}
       <div
         aria-hidden
-        className="absolute left-1/2 top-[52%] h-[70%] w-[95%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(216,50,60,0.5),rgba(178,30,39,0.16)_50%,transparent_100%)] opacity-80 blur-2xl transition-opacity duration-700 group-hover:opacity-100"
-      />
-      <div
-        aria-hidden
-        className="absolute left-1/2 top-[48%] h-[46%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-45 blur-3xl"
-        style={{ background: `radial-gradient(circle, ${dish.accent}66, transparent 70%)` }}
+        className="absolute left-1/2 top-[52%] h-[74%] w-[96%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-85 transition-opacity duration-200 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(closest-side, rgba(216,50,60,0.5) 0%, ${dish.accent}4d 30%, rgba(178,30,39,0.18) 56%, rgba(178,30,39,0.06) 76%, transparent 100%)`,
+        }}
       />
 
       {/* 3 · Tixola de hierro fundido */}
@@ -175,16 +199,20 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
         <div className="absolute inset-[11%] rounded-full" style={IRON_WELL} />
         {/* reflejo del aceite sobre el hierro */}
         <div className="absolute left-[24%] top-[22%] h-[13%] w-[34%] -rotate-[24deg] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.2),transparent)] blur-[2px]" />
-        {/* icono del plato: dorado con halo rojo de brasa */}
+        {/* icono del plato: dorado con halo rojo de brasa. El filtro se queda en el envoltorio quieto
+            y la flotación viaja al hijo: un filtro sobre algo que se mueve se vuelve a resolver en
+            cada fotograma, y aquí eso se multiplicaba por las caras visibles del cilindro. */}
         <div className="absolute inset-0 grid place-items-center">
-          <span className={cn("block text-gold", steam && "tx-dish-float")} style={ICON_GLOW}>
-            <DishIcon iconKey={dish.emoji} size={iconSize} strokeWidth={1.35} />
+          <span className="block text-gold" style={ICON_GLOW}>
+            <span className={cn("block", float && "tx-dish-float")}>
+              <DishIcon iconKey={dish.emoji} size={iconSize} strokeWidth={1.35} />
+            </span>
           </span>
         </div>
       </div>
 
-      {/* 4 · Vapor */}
-      {steam && (
+      {/* 4 · Vapor (solo gama alta: son desenfoques animados) */}
+      {wisps && (
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[6%] h-[44%] overflow-visible">
           {WISPS.map((w) => (
             <span

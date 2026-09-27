@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import type { PerformanceTier } from "@/hooks/usePerformanceTier";
 import type { PointerVec } from "@/hooks/usePointerParallax";
 
 /* ──────────────────────────────────────────────────────────────
@@ -226,10 +225,9 @@ function updateInstances(
    ────────────────────────────────────────────────────────────── */
 
 export interface FloatingFoodProps {
-  /** Nº total de objetos (profile.floaters) */
+  /** Nº total de objetos (profile.floaters, ya acotado por HeroScene). */
   count: number;
   pointer: RefObject<PointerVec>;
-  tier: PerformanceTier;
   shadows: boolean;
 }
 
@@ -237,7 +235,7 @@ export interface FloatingFoodProps {
  * Conchas de zamburiña, hojas de perejil y gotas de aceite orbitando la tixola.
  * Tres InstancedMesh (uno por tipo) → 3 draw calls independientemente del nº de objetos.
  */
-export default function FloatingFood({ count, pointer, tier, shadows }: FloatingFoodProps) {
+export default function FloatingFood({ count, pointer, shadows }: FloatingFoodProps) {
   const shellRef = useRef<THREE.InstancedMesh>(null);
   const leafRef = useRef<THREE.InstancedMesh>(null);
   const dropRef = useRef<THREE.InstancedMesh>(null);
@@ -271,8 +269,6 @@ export default function FloatingFood({ count, pointer, tier, shadows }: Floating
     updateInstances(dropRef.current, drops, "drop", t, px, py);
   });
 
-  const transmissive = tier === "high";
-
   return (
     <group>
       <instancedMesh ref={shellRef} args={[shellGeo, undefined, shells.length]} frustumCulled={false} castShadow={shadows}>
@@ -293,22 +289,24 @@ export default function FloatingFood({ count, pointer, tier, shadows }: Floating
         <meshStandardMaterial vertexColors roughness={0.65} metalness={0} side={THREE.DoubleSide} />
       </instancedMesh>
 
+      {/* Gotas de aceite SIN transmisión en ninguna gama. `transmission > 0` obliga a three a pintar
+          la escena opaca entera una segunda vez por fotograma en un render target aparte y a generar
+          toda su cadena de mipmaps, solo para que cuatro gotitas refracten: unas 30 llamadas de
+          dibujo extra por un efecto que a este tamaño en pantalla nadie distingue. El mismo brillo de
+          gota se consigue con clearcoat 1 sobre ámbar y un emissive muy tenue, que es exactamente lo
+          que ya se veía en gama media. */}
       <instancedMesh ref={dropRef} args={[dropGeo, undefined, drops.length]} frustumCulled={false}>
         <meshPhysicalMaterial
           color="#ffcf6e"
           roughness={0.05}
           metalness={0}
-          transmission={transmissive ? 0.9 : 0}
-          thickness={0.35}
-          ior={1.47}
-          attenuationColor="#ff9a3d"
-          attenuationDistance={0.5}
+          transmission={0}
           clearcoat={1}
           clearcoatRoughness={0.05}
           transparent
-          opacity={transmissive ? 1 : 0.82}
+          opacity={0.9}
           emissive="#7a3a00"
-          emissiveIntensity={0.25}
+          emissiveIntensity={0.28}
         />
       </instancedMesh>
     </group>

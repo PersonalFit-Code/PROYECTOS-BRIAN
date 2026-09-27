@@ -14,6 +14,7 @@ import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import FloatingWhatsApp from "@/components/ui/FloatingWhatsApp";
 import { useReservation } from "@/components/ui/ReservationProvider";
 import { useInertBackground } from "@/hooks/useInertBackground";
+import { useScrollPastPixels } from "@/hooks/useScrollPast";
 import { cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────────
@@ -48,7 +49,7 @@ export function useNavItems(): NavItem[] {
    Constantes
    ────────────────────────────────────────────────────────────── */
 
-/** Píxeles de scroll a partir de los cuales la barra pasa a cristal ahumado. */
+/** Píxeles de scroll a partir de los cuales la barra pasa a hierro sólido. */
 const SCROLL_THRESHOLD = 40;
 /** Secciones de la home que se vigilan para resaltar el enlace activo. */
 const SECTION_IDS = ["hero", "platos", "experiencia", "opiniones"] as const;
@@ -69,16 +70,21 @@ function ariaCurrentFor(href: string, active: boolean): "page" | "true" | undefi
   return hashOf(href) ? "true" : "page";
 }
 
-/* Variantes del menú móvil */
+/* Variantes del menú móvil.
+   Abrir el menú es una RESPUESTA a una pulsación, no una escena: con los valores anteriores
+   (stagger 0.07 + delayChildren 0.1 + 0.7 s por hijo) el octavo elemento arrancaba a 0,59 s y el
+   menú no acababa de montarse hasta 1,29 s. Ahora el primer elemento está en pantalla a ~240 ms y
+   el último termina a ~0,48 s; el escalonado sigue leyéndose porque el desplazamiento baja de 24 a
+   12 px, que a esa velocidad es lo que el ojo puede seguir. */
 const menuVariants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.25, ease: "easeIn", when: "afterChildren" } },
-  show: { opacity: 1, transition: { duration: 0.35, ease: EASE_OUT_EXPO, staggerChildren: 0.07, delayChildren: 0.1 } },
+  show: { opacity: 1, transition: { duration: 0.18, ease: EASE_OUT_EXPO, staggerChildren: 0.035, delayChildren: 0.02 } },
 };
 /* Solo `opacity` + `y`: un `filter: blur()` escalonado sería seis reflows de pintado en la apertura
    (los filtros no se componen en la GPU), justo cuando entra el panel a pantalla completa. */
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24, transition: { duration: 0.2 } },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT_EXPO } },
+  hidden: { opacity: 0, y: 12, transition: { duration: 0.2 } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.22, ease: EASE_OUT_EXPO } },
 };
 
 /* ──────────────────────────────────────────────────────────────
@@ -88,7 +94,7 @@ const itemVariants: Variants = {
 /**
  * Cabecera fija:
  *  - Transparente sobre el hero; tras 40 px de scroll (o fuera de la home / con el menú abierto)
- *    se convierte en cristal ahumado con borde inferior (listener de scroll con rAF).
+ *    se convierte en una banda de hierro casi opaca con borde inferior (almacén único de scroll).
  *  - Logo grande que aprovecha el margen izquierdo (margen negativo en lg).
  *  - Enlaces centrales en Cinzel (lg+, etiquetas cortas) con resaltado de la sección visible (IntersectionObserver en "/").
  *  - Selector de idioma (md+), teléfono (icono en lg, número en xl) y CTA "Reservar" que abre el modal global.
@@ -106,7 +112,9 @@ export default function Navbar() {
   const { open: openReservation } = useReservation();
   const navItems = useNavItems();
 
-  const [scrolled, setScrolled] = useState(false);
+  /* Scroll → barra sólida. Del almacén único de scroll: un listener y un rAF para toda la web en
+     vez de uno por componente (aquí, en FloatingWhatsApp y en ChatLauncher había tres). */
+  const scrolled = useScrollPastPixels(SCROLL_THRESHOLD);
   const [activeId, setActiveId] = useState<SectionId | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -119,24 +127,6 @@ export default function Navbar() {
   /* El resto de la página queda inert mientras el menú móvil está abierto; la cabecera se
      excluye porque aloja su propio botón de abrir/cerrar (se ve por encima del panel). */
   useInertBackground(menuOpen, [headerRef, panelRef]);
-
-  /* Scroll → cristal (throttle con requestAnimationFrame). */
-  useEffect(() => {
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      setScrolled(window.scrollY > SCROLL_THRESHOLD);
-    };
-    const onScroll = () => {
-      if (!raf) raf = window.requestAnimationFrame(update);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (raf) window.cancelAnimationFrame(raf);
-    };
-  }, []);
 
   /* Sección activa (solo en la home): la que cruza la franja central del viewport. */
   useEffect(() => {
@@ -159,14 +149,25 @@ export default function Navbar() {
   useEffect(() => {
     if (!menuOpen) return;
     const toggle = toggleRef.current;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const { body } = document;
+    const html = document.documentElement;
+    const previousOverflow = body.style.overflow;
+    const previousPaddingRight = body.style.paddingRight;
+    /* Compensar la barra de desplazamiento al ocultarla: sin esto el ancho del <body> crecía ~15 px
+       de golpe, lo que reflowea la página entera y dispara un `ScrollTrigger.refresh()` completo
+       unos 180 ms después del clic — justo encima de la animación de apertura del menú.
+       `data-scroll-lock` en <html> deja el estado a la vista de CSS y de los helpers de scroll. */
+    const scrollbarGap = window.innerWidth - html.clientWidth;
+    body.style.overflow = "hidden";
+    if (scrollbarGap > 0) body.style.paddingRight = `${scrollbarGap}px`;
+    html.dataset.scrollLock = "";
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
     };
     document.addEventListener("keydown", onKey);
+    /* El foco entra en el primer fotograma pintado (antes: temporizador de 80 ms). */
     const firstLink = panelRef.current?.querySelector<HTMLElement>(FOCUSABLE);
-    const focusTimer = window.setTimeout(() => firstLink?.focus(), 80);
+    const focusFrame = window.requestAnimationFrame(() => firstLink?.focus());
     /* Si el usuario gira/ensancha la pantalla hasta lg (barra de escritorio), cerramos el menú. */
     const mq = window.matchMedia("(min-width: 1024px)");
     const onMq = (e: MediaQueryListEvent) => {
@@ -174,10 +175,12 @@ export default function Navbar() {
     };
     mq.addEventListener("change", onMq);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.overflow = previousOverflow;
+      body.style.paddingRight = previousPaddingRight;
+      delete html.dataset.scrollLock;
       document.removeEventListener("keydown", onKey);
       mq.removeEventListener("change", onMq);
-      window.clearTimeout(focusTimer);
+      window.cancelAnimationFrame(focusFrame);
       toggle?.focus();
     };
   }, [menuOpen]);
@@ -218,12 +221,13 @@ export default function Navbar() {
           aria-hidden
           className={cn(
             "absolute inset-0 border-b transition-[opacity,border-color] duration-500 ease-[var(--ease-out-expo)]",
-            /* Móvil: hierro casi opaco, sin `backdrop-filter` (está fijo sobre el lienzo WebGL de la
-               portada y habría que volver a desenfocarlo en cada fotograma). Escritorio: cristal,
-               y solo cuando la cabecera ya es sólida — mientras es invisible no debe desenfocar nada. */
+            /* El MISMO degradado casi opaco en todos los anchos, sin `backdrop-filter` en ninguno.
+               Es la superficie que más se recompone de toda la sesión: una banda `fixed` de 72 px por
+               el ancho completo con TODA la página deslizándose por debajo, así que un
+               `backdrop-blur-xl` aquí es un impuesto permanente sobre cualquier scroll en un portátil
+               con gráfica integrada. A 0,96/0,92 de opacidad no había nada que desenfocar. */
             "bg-[linear-gradient(160deg,rgba(20,20,20,0.96),rgba(18,18,18,0.92))] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]",
-            "md:bg-[linear-gradient(160deg,rgba(20,20,20,0.86),rgba(20,20,20,0.66))]",
-            solid ? "border-cream/10 opacity-100 md:backdrop-blur-xl md:backdrop-saturate-[1.2]" : "border-transparent opacity-0",
+            solid ? "border-cream/10 opacity-100" : "border-transparent opacity-0",
           )}
         />
 
@@ -233,9 +237,12 @@ export default function Navbar() {
             href={lp("/")}
             aria-label={m.nav.homeAria}
             onClick={closeMenu}
-            className="group inline-flex shrink-0 items-center rounded-md py-1.5 transition-transform duration-300 hover:-translate-y-px lg:-ml-5 xl:-ml-6"
+            className="group inline-flex shrink-0 items-center rounded-md py-1.5 transition-transform duration-200 ease-[var(--ease-out-expo)] hover:-translate-y-px lg:-ml-5 xl:-ml-6"
           >
-            <Logo size="md" decorative className="transition-[filter] duration-500 group-hover:drop-shadow-[0_0_14px_rgba(216,50,60,0.55)]" />
+            {/* Cambio de COLOR, no de `filter`: animar un `drop-shadow` obliga al navegador a
+                re-rasterizar el logotipo entero en cada fotograma del hover. El realce lo dan ahora
+                el aclarado del texto y el levantamiento de 1 px que ya tenía el enlace. */}
+            <Logo size="md" decorative className="text-cream transition-colors duration-200 group-hover:text-white" />
           </Link>
 
           {/* Enlaces (lg+): etiquetas cortas en Cinzel; el menú completo vive en el panel móvil/tablet */}
@@ -297,11 +304,17 @@ export default function Navbar() {
             >
               <span className="relative block h-5 w-5">
                 <Menu
-                  className={cn("absolute inset-0 h-5 w-5 transition-all duration-300", menuOpen ? "rotate-90 scale-50 opacity-0" : "rotate-0 scale-100 opacity-100")}
+                  className={cn(
+                    "absolute inset-0 h-5 w-5 transition-[rotate,scale,opacity] duration-200 ease-[var(--ease-out-expo)]",
+                    menuOpen ? "rotate-90 scale-50 opacity-0" : "rotate-0 scale-100 opacity-100",
+                  )}
                   aria-hidden
                 />
                 <X
-                  className={cn("absolute inset-0 h-5 w-5 transition-all duration-300", menuOpen ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-50 opacity-0")}
+                  className={cn(
+                    "absolute inset-0 h-5 w-5 transition-[rotate,scale,opacity] duration-200 ease-[var(--ease-out-expo)]",
+                    menuOpen ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-50 opacity-0",
+                  )}
                   aria-hidden
                 />
               </span>
@@ -335,7 +348,13 @@ export default function Navbar() {
             className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden bg-[linear-gradient(180deg,#0c0c0c,#22080b)] lg:hidden"
           >
             {/* Brasa decorativa */}
-            <span aria-hidden className="pointer-events-none absolute -bottom-32 left-1/2 h-72 w-[120vw] -translate-x-1/2 rounded-full bg-pimenton/30 blur-3xl" />
+            {/* Radial prehorneado (`ember-glow`) en lugar de `bg-pimenton/30 blur-3xl`: desenfocar 64 px
+                una superficie de 120vw × 288 px obligaba a rasterizarla aparte, ampliarla por el radio
+                del desenfoque y recomponerla; el degradado ya cae suave por sí solo. */}
+            <span
+              aria-hidden
+              className="ember-glow absolute -bottom-32 left-1/2 h-72 w-[120vw] -translate-x-1/2 rounded-full [--ember-a1:0.34]"
+            />
             <span aria-hidden className="pointer-events-none absolute right-[-30%] top-[10%] select-none font-caps text-[34vw] font-semibold leading-none text-cream/[0.04]">
               TIXOLA
             </span>
@@ -367,7 +386,10 @@ export default function Navbar() {
                             {item.label}
                           </span>
                         </span>
-                        <ArrowUpRight className="h-6 w-6 shrink-0 text-cream-faint transition-all duration-300 group-hover:text-pimenton-light group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+                        <ArrowUpRight
+                          className="h-6 w-6 shrink-0 text-cream-faint transition-[translate,color] duration-200 ease-[var(--ease-out-expo)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-pimenton-light"
+                          aria-hidden
+                        />
                       </Link>
                     </motion.li>
                   );

@@ -297,7 +297,7 @@ export default function LegalArticle({ docKey }: { docKey: LegalDocKey }) {
   return (
     <article className="container-page relative pb-20 pt-8 md:pb-28 md:pt-12" aria-labelledby="legal-title">
       {/* Brasa decorativa */}
-      <div aria-hidden className="pointer-events-none absolute -right-40 top-0 -z-10 h-[420px] w-[420px] rounded-full bg-burgundy/50 blur-3xl" />
+      <div aria-hidden className="ember-glow absolute -right-40 top-0 -z-10 h-[420px] w-[420px] rounded-full [--ember-a1:0.5] [--ember-rgb:58_14_19]" />
 
       {/* Migas de pan */}
       <nav aria-label={m.legal.page.breadcrumbAria} className="mb-8 md:mb-10">

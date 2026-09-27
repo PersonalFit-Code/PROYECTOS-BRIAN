@@ -1,11 +1,10 @@
 "use client";
 
-import { motion, MotionConfig, useInView } from "framer-motion";
 import { ArrowUpRight, Award, BadgeCheck, Flame, Star } from "lucide-react";
-import { useMemo, useRef } from "react";
+import dynamic from "next/dynamic";
+import { useMemo, useRef, type CSSProperties } from "react";
 import Counter from "@/components/ui/Counter";
 import Faq from "@/components/sections/Faq";
-import PhotoGallery from "@/components/ui/PhotoGallery";
 import { PlatformGlyph, Stars, type ReviewSource } from "@/components/ui/ReviewCard";
 import ReviewMarquee from "@/components/ui/ReviewMarquee";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -13,6 +12,7 @@ import { BUSINESS } from "@/data/business";
 import { formatNumber } from "@/lib/format";
 import { SOCIAL_STATS } from "@/data/reviews";
 import { format } from "@/i18n/getMessages";
+import { useInView, useInViewOnce } from "@/hooks/useInViewOnce";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
@@ -28,14 +28,20 @@ import { cn } from "@/lib/utils";
  *  5. Galería de fotos del local (PhotoGallery) con visor.
  *  6. Preguntas frecuentes (Faq): la cara visible del FAQPage que emite HomeJsonLd.
  * Fondo: textura de brasas anclada abajo + brasas CSS con posiciones deterministas (sin Canvas).
- * Reveals con `data-reveal` (useScrollReveal, modo cinematográfico). Todo el texto sale de m.social / m.common.
+ * Reveals con `data-reveal` (CSS + observador; sin Framer Motion en esta sección). Todo el texto sale de
+ * m.social / m.common.
  */
 
 /* ──────────────────────────────────────────────────────────────
    Datos derivados
    ────────────────────────────────────────────────────────────── */
 
-const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
+/**
+ * La galería se lleva Embla + Autoplay (~25-30 KB gz) a un chunk aparte y NO se descarga hasta que el
+ * visitante se acerca: está en la mitad baja de la sección de opiniones, muy por debajo del pliegue, y
+ * hasta ahora entraba en el arranque de la portada compitiendo con el lienzo WebGL.
+ */
+const PhotoGallery = dynamic(() => import("@/components/ui/PhotoGallery"), { ssr: false });
 
 /** Forma normalizada de un indicador (SOCIAL_STATS es una unión de literales con campos opcionales). */
 interface StatItem {
@@ -127,7 +133,11 @@ function EmberField({ count, paused }: { count: number; paused: boolean }) {
           <span
             key={i}
             className={cn(
-              "animate-ember-rise absolute block rounded-full will-change-transform",
+              "animate-ember-rise absolute block rounded-full",
+              /* `will-change` atado a la pausa: antes quedaban catorce brasas promovidas a capa GPU
+                 durante TODA la sesión, también mientras el visitante estaba en la portada o en el pie
+                 con la animación parada. Promocionar una capa que no se mueve solo gasta memoria. */
+              !paused && "will-change-transform",
               e.gold ? "bg-gold shadow-[0_0_10px_2px_rgba(232,194,122,0.7)]" : "bg-ember shadow-[0_0_10px_2px_rgba(255,106,61,0.75)]",
               paused && "[animation-play-state:paused]",
             )}
@@ -153,17 +163,19 @@ function EmberField({ count, paused }: { count: number; paused: boolean }) {
 
 function StatTile({ stat, index }: { stat: StatItem; index: number }) {
   return (
-    <motion.li
-      initial={{ opacity: 0, y: 26 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 0.8, delay: index * 0.08, ease: EASE_OUT_EXPO }}
+    /* Entrada escalonada en CSS (`--reveal-delay`) en vez de `whileInView`: Framer escribía opacidad y
+       transform en las cuatro tarjetas durante el scroll, con los cuatro contadores animando a la vez. */
+    <li
+      data-reveal
       className="glass group relative overflow-hidden rounded-3xl p-5 md:p-6"
+      style={{ "--reveal-delay": `${index * 80}ms` } as CSSProperties}
     >
       <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-pimenton-light/60 to-transparent" />
+      {/* Brasa del hueco superior: era un `blur-3xl` de 192×128 px por tarjeta, cuatro en pantalla a la
+          vez y con una transición de opacidad al pasar el ratón encima (o sea, re-desenfocando). */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -top-16 left-1/2 h-32 w-48 -translate-x-1/2 rounded-full bg-pimenton/30 blur-3xl transition-opacity duration-700 group-hover:opacity-100 md:opacity-60"
+        className="ember-glow absolute -top-16 left-1/2 h-32 w-48 -translate-x-1/2 rounded-full transition-opacity duration-700 group-hover:opacity-100 md:opacity-60"
       />
       <div className="relative flex items-center gap-2 font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint">
         <StatIcon id={stat.id} />
@@ -180,7 +192,7 @@ function StatTile({ stat, index }: { stat: StatItem; index: number }) {
         />
       </div>
       <p className="relative mt-2 font-sans text-sm font-semibold text-cream md:text-[15px]">{stat.label}</p>
-    </motion.li>
+    </li>
   );
 }
 
@@ -202,8 +214,12 @@ export default function SocialProof() {
   const t = useFormat();
   const locale = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
   const { tier } = usePerformanceTier();
   const inView = useInView(sectionRef, { amount: 0 });
+  /* La galería se monta (y por tanto se descarga) al acercarse, con un margen generoso para que el
+     chunk llegue antes de que el hueco esté en pantalla. */
+  const galleryNear = useInViewOnce(galleryRef, { rootMargin: "600px 0px" });
   useScrollReveal(sectionRef, { cinematic: true });
 
   const emberCount = tier === "high" ? 14 : tier === "mid" ? 10 : 6;
@@ -294,13 +310,11 @@ export default function SocialProof() {
         </div>
 
         {/* 2 · Contadores */}
-        <MotionConfig reducedMotion="user">
-          <ul className="mt-12 grid grid-cols-2 gap-3 md:mt-16 md:gap-5 lg:grid-cols-4" aria-label={s.statsAria}>
-            {stats.map((stat, i) => (
-              <StatTile key={stat.id} stat={stat} index={i} />
-            ))}
-          </ul>
-        </MotionConfig>
+        <ul className="mt-12 grid grid-cols-2 gap-3 md:mt-16 md:gap-5 lg:grid-cols-4" aria-label={s.statsAria}>
+          {stats.map((stat, i) => (
+            <StatTile key={stat.id} stat={stat} index={i} />
+          ))}
+        </ul>
 
         {/* 3 · Columnas de reseñas */}
         <div className="mt-16 md:mt-24">
@@ -364,9 +378,12 @@ export default function SocialProof() {
           ))}
         </ul>
 
-        {/* 5 · Galería de fotos */}
+        {/* 5 · Galería de fotos. El hueco se reserva por CSS para que el montaje diferido no desplace las
+            preguntas frecuentes ni invalide los disparadores de scroll de más abajo. */}
         <div aria-hidden className="divider-iron mt-16 md:mt-24" />
-        <PhotoGallery className="mt-12 md:mt-16" />
+        <div ref={galleryRef} className="mt-12 min-h-[400px] md:mt-16 md:min-h-[500px] lg:min-h-[580px]">
+          {galleryNear && <PhotoGallery />}
+        </div>
 
         {/* 6 · Preguntas frecuentes (mismo texto que el FAQPage de HomeJsonLd) */}
         <div aria-hidden className="divider-iron mt-16 md:mt-24" />

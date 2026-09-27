@@ -255,12 +255,13 @@ export default function CookieConsent() {
                 animate={{ y: 0, opacity: 1, scale: 1 }}
                 exit={{ y: 32, opacity: 0, scale: 0.98, transition: { duration: 0.3, ease: "easeIn" } }}
                 transition={{ duration: 0.7, ease: EASE_OUT_EXPO }}
-                /* Sin backdrop-filter en móvil: el aviso se pinta sobre el lienzo WebGL de la portada
-                   y cada fotograma tendría que volver a desenfocar 350 px de pantalla. */
-                className="noise after:noise-after relative overflow-hidden rounded-3xl border border-cream/10 bg-iron-900/95 p-5 shadow-card md:glass-smoke md:p-6"
+                /* Nunca backdrop-filter, tampoco en escritorio: el aviso se pinta ENCIMA del lienzo
+                   WebGL de la portada, que ya está en marcha, así que cada fotograma tendría que volver
+                   a desenfocar 350 px de pantalla. Y es lo primero que ve un visitante. */
+                className="noise after:noise-after relative overflow-hidden rounded-3xl border border-cream/10 bg-iron-900/95 p-5 shadow-card md:p-6"
               >
                 {/* Brasa decorativa */}
-                <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-pimenton/25 blur-3xl" />
+                <span aria-hidden className="ember-glow absolute -right-16 -top-16 h-40 w-40 rounded-full [--ember-a1:0.25]" />
 
                 <div className="relative flex items-start gap-3.5">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-pimenton-light/40 bg-pimenton/20 text-pimenton-a11y">

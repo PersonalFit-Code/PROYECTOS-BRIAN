@@ -216,7 +216,8 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   const m = useMessages();
   const t = useFormat();
   const locale = useLocale();
-  const glass = usePerformanceTier().tier === "high";
+  /* `glass` viene del catálogo de rendimiento (gama medida, no adivinada por núcleos). */
+  const glass = usePerformanceTier().glass;
   const r = m.common.reservation;
 
   const uid = useId();
@@ -241,18 +242,31 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   useEffect(() => {
     if (!open) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const { body } = document;
+    const html = document.documentElement;
+    const previousOverflow = body.style.overflow;
+    const previousPaddingRight = body.style.paddingRight;
+    /* Compensar la barra de desplazamiento al ocultarla (mismo contrato que Navbar y DishSpotlight):
+       sin esto el ancho del <body> crece ~15 px de golpe, el ResizeObserver de Lenis lo ve y unos
+       180 ms después del clic se remiden los triggers y se recrea el pin de la portada — un salto
+       visual encima de la apertura del modal, que es la conversión principal del negocio. */
+    const scrollbarGap = window.innerWidth - html.clientWidth;
+    body.style.overflow = "hidden";
+    if (scrollbarGap > 0) body.style.paddingRight = `${scrollbarGap}px`;
+    html.dataset.scrollLock = "";
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
     if (dateRef.current) dateRef.current.min = todayIso();
-    const timer = window.setTimeout(() => panelRef.current?.focus(), 60);
+    /* El foco entra en el primer fotograma pintado (antes: temporizador de 60 ms). */
+    const focusFrame = window.requestAnimationFrame(() => panelRef.current?.focus());
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.overflow = previousOverflow;
+      body.style.paddingRight = previousPaddingRight;
+      delete html.dataset.scrollLock;
       document.removeEventListener("keydown", onKey);
-      window.clearTimeout(timer);
+      window.cancelAnimationFrame(focusFrame);
       previouslyFocused?.focus?.();
     };
   }, [open, onClose]);
@@ -342,7 +356,8 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            transition={{ duration: 0.3 }}
+            /* El velo es lo primero que confirma el clic: 0,16 s. La salida se queda en 0,2 s. */
+            transition={{ duration: 0.16 }}
             onClick={(e) => {
               if (e.target === e.currentTarget) onClose();
             }}
@@ -355,10 +370,13 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
               aria-describedby={descId}
               tabIndex={-1}
               onKeyDown={trapFocus}
-              initial={{ opacity: 0, y: 48, scale: 0.98 }}
+              initial={{ opacity: 0, y: 24, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 32, scale: 0.98, transition: { duration: 0.22 } }}
-              transition={{ duration: 0.55, ease: EASE_OUT_EXPO }}
+              /* 0,28 s desde 24 px (antes 0,55 s desde 48 px). El recorrido más corto es lo que hace que
+                 se lea como rápido sin perder el gesto de "sube desde abajo"; y medio segundo de
+                 animación sobre la portada WebGL es medio segundo compitiendo por el hilo principal. */
+              transition={{ duration: 0.28, ease: EASE_OUT_EXPO }}
               className={cn(
                 "noise after:noise-after relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl outline-none sm:max-w-lg sm:rounded-3xl",
                 /* Cristal solo en gama alta: el modal se abre sobre el lienzo WebGL vivo de la
@@ -368,8 +386,11 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                 "shadow-card",
               )}
             >
-              {/* Brasa superior */}
-              <span aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-48 w-80 -translate-x-1/2 rounded-full bg-pimenton/35 blur-3xl" />
+              {/* Brasa superior. Era `bg-pimenton/35 blur-3xl`: un bloque plano de 320×192 px que el
+                  navegador tenía que rasterizar y ampliar 64 px por cada lado… y se estrenaba justo
+                  durante la animación de apertura. `ember-glow` es el mismo color (178 30 39) ya
+                  repartido en paradas, sin filtro y sin capa propia. */}
+              <span aria-hidden className="ember-glow absolute -top-24 left-1/2 h-48 w-80 -translate-x-1/2 rounded-full [--ember-a1:0.42]" />
               {/* Asa (móvil) */}
               <span aria-hidden className="mx-auto mt-3 h-1 w-10 shrink-0 rounded-full bg-cream/20 sm:hidden" />
 

@@ -48,7 +48,15 @@ const AUTOPLAY_DELAY_MS = 5200;
 const FACE_RATIO = 0.5;
 const FACE_MIN = 176;
 const FACE_MAX = 340;
-const SPRING = { type: "spring", stiffness: 110, damping: 20, mass: 0.6 } as const;
+/*
+ * DOS MUELLES, porque no es lo mismo girar solo que girar porque te lo han pedido.
+ *  · AMBIENT (ζ≈1,23, sobreamortiguado): el giro automático. Asienta en ~430 ms sin rebote, que es lo
+ *    que hace que el cilindro parezca pesado, de hierro. Aquí nadie está esperando.
+ *  · RESPONSE (ζ≈0,95): flecha, punto, cara lateral, teclado y el encaje del arrastre. Asienta en
+ *    ~230 ms con un puntito de rebote, y ese rebote es justo lo que se lee como "vivo" al pulsar.
+ */
+const AMBIENT_SPRING = { type: "spring", stiffness: 110, damping: 20, mass: 0.6 } as const;
+const RESPONSE_SPRING = { type: "spring", stiffness: 260, damping: 30, mass: 0.6 } as const;
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -120,19 +128,21 @@ export default function DishCarousel3D({
     }
   });
 
-  /** Gira hasta dejar `index` al frente por el camino más corto. */
+  /** Gira hasta dejar `index` al frente por el camino más corto. `spring` distingue giro ambiental de
+      respuesta a una interacción (por defecto, respuesta: es el caso de casi todas las llamadas). */
   const goTo = useCallback(
-    (index: number) => {
+    (index: number, spring: typeof AMBIENT_SPRING | typeof RESPONSE_SPRING = RESPONSE_SPRING) => {
       const from = rotation.get();
       const raw = -index * step;
       const delta = (((raw - from + 180) % 360) + 360) % 360 - 180;
-      animate(rotation, from + delta, SPRING);
+      animate(rotation, from + delta, spring);
     },
     [rotation, step],
   );
 
   const goBy = useCallback(
-    (offset: number) => goTo((((activeRef.current + offset) % total) + total) % total),
+    (offset: number, spring?: typeof AMBIENT_SPRING | typeof RESPONSE_SPRING) =>
+      goTo((((activeRef.current + offset) % total) + total) % total, spring),
     [goTo, total],
   );
 
@@ -150,7 +160,7 @@ export default function DishCarousel3D({
   useEffect(() => {
     if (!spinning || total < 2) return;
     const id = window.setInterval(() => {
-      if (!dragging.current) goBy(1);
+      if (!dragging.current) goBy(1, AMBIENT_SPRING);
     }, AUTOPLAY_DELAY_MS);
     return () => window.clearInterval(id);
   }, [spinning, goBy, total]);
@@ -246,7 +256,10 @@ export default function DishCarousel3D({
           {/* Sombra de apoyo: ancla el cilindro al suelo de hierro */}
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-[76%] h-10 -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgba(0,0,0,0.65),transparent)] blur-md"
+            /* Sin `blur-md`: el degradado radial ya cae suave y el filtro solo obligaba a rasterizar
+               aparte una capa de `faceWidth*1.4` dentro del escenario en perspectiva. Dos paradas más
+               reparten la caída igual de blanda. */
+            className="pointer-events-none absolute left-1/2 top-[76%] h-10 -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgba(0,0,0,0.6),rgba(0,0,0,0.3)_45%,rgba(0,0,0,0.1)_72%,transparent_100%)]"
             style={{ width: faceWidth * 1.4 }}
           />
 
@@ -317,7 +330,9 @@ export default function DishCarousel3D({
                 <span
                   aria-hidden
                   className={cn(
-                    "block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-out-expo)]",
+                    /* `transition-all` animaba también la sombra neón; solo ancho y color, y en 200 ms:
+                       el punto confirma el toque, no ambienta. */
+                    "block h-1.5 rounded-full transition-[width,background-color] duration-200 ease-[var(--ease-out-expo)]",
                     isActive ? "w-6 bg-pimenton-light shadow-[0_0_12px_rgba(216,50,60,0.8)]" : "w-1.5 bg-cream/30",
                   )}
                 />
@@ -392,11 +407,23 @@ function DishFace({ slide, index, total, active, steam, hintId, angle, radius, o
     >
       <article
         className={cn(
-          "group relative h-full w-full overflow-hidden rounded-[1.5rem] border shadow-card transition-[border-color,box-shadow] duration-500",
+          /* `shadow-card` son DOS sombras (una de 60 px de difuminado) y aquí se pintan por cada cara
+             del cilindro: se queda en una sola, más corta. El borde reacciona a un cambio de cara, así
+             que baja a 200 ms con la curva expo en vez de heredar los 500 ms lentos de Tailwind. */
+          "group relative h-full w-full overflow-hidden rounded-[1.5rem] border shadow-[0_18px_40px_-18px_rgba(0,0,0,0.85)] transition-[border-color] duration-200 ease-[var(--ease-out-expo)]",
           active ? "border-cream/20" : "border-cream/8",
         )}
       >
-        <motion.div layoutId={dishVisualLayoutId(dish.id)} transition={DISH_LAYOUT_TRANSITION} className="absolute inset-0">
+        {/* El elemento compartido SOLO lo declara la cara de delante, que es la única que se puede abrir.
+            Con `layoutId` en las nueve, framer media cada nodo con getBoundingClientRect dentro de un
+            contenedor `preserve-3d` rotado: medidas caras (fuerzan layout) y además poco fiables, porque
+            el rectángulo de una cara girada no es el que la proyección espera. Ocho nodos de proyección
+            menos y la transición compartida al abrir el plato es exactamente la misma. */}
+        <motion.div
+          layoutId={active ? dishVisualLayoutId(dish.id) : undefined}
+          transition={DISH_LAYOUT_TRANSITION}
+          className="absolute inset-0"
+        >
           <DishVisual dish={dish} photo={photo} sizes={FACE_SIZES} steam={steam && active} variant="slide" />
         </motion.div>
 
@@ -413,11 +440,16 @@ function DishFace({ slide, index, total, active, steam, hintId, angle, radius, o
         {/* Brillo rojo al pasar el ratón o enfocar */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(216,50,60,0.5),0_0_60px_-10px_rgba(178,30,39,0.7)] transition-opacity duration-500 group-focus-within:opacity-100 group-hover:opacity-100"
+          /* Respuesta a hover/foco: 160 ms. A 500 ms el brillo llegaba después de que el usuario ya
+             hubiera decidido, y la afordancia dejaba de leerse como consecuencia del gesto. */
+          className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(216,50,60,0.5),0_0_60px_-10px_rgba(178,30,39,0.7)] transition-opacity duration-160 group-focus-within:opacity-100 group-hover:opacity-100"
         />
 
         {dish.badge && (
-          <span className="absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-pimenton-light/45 bg-iron-900/75 px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.16em] text-cream shadow-[0_0_20px_rgba(178,30,39,0.4)] backdrop-blur-sm">
+          /* Sin `backdrop-blur-sm`: un backdrop-filter dentro de un contenedor `preserve-3d` que gira
+             obliga al compositor a leer el fondo YA proyectado, y esto se pintaba en las nueve caras a
+             la vez. Con el hierro al 90 % la insignia se lee igual (mejor contraste, de hecho). */
+          <span className="absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-pimenton-light/45 bg-iron-900/90 px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.16em] text-cream shadow-[0_0_20px_rgba(178,30,39,0.4)]">
             <Sparkles size={11} aria-hidden className="text-gold" />
             {dish.badge}
           </span>
@@ -433,7 +465,8 @@ function DishFace({ slide, index, total, active, steam, hintId, angle, radius, o
           {/* La pista de "toca para ver detalles" solo tiene sentido en la cara que se puede abrir */}
           <span
             className={cn(
-              "mt-2 inline-flex items-center gap-1.5 text-[10px] text-cream-faint transition-opacity duration-500",
+              /* Es LA señal de "esto se puede abrir": tiene que estar antes de que el usuario decida. */
+              "mt-2 inline-flex items-center gap-1.5 text-[10px] text-cream-faint transition-opacity duration-180",
               active ? "opacity-100" : "opacity-0",
             )}
           >
@@ -468,7 +501,9 @@ function ArrowButton({ dir, label, onClick, className }: { dir: "prev" | "next";
       onClick={onClick}
       aria-label={label}
       className={cn(
-        "glass-smoke inline-flex h-11 w-11 items-center justify-center rounded-full text-cream transition-[background-color,scale] duration-300 hover:scale-105 hover:bg-cream/10 active:scale-95",
+        /* 44×44 px: el cristal ahí no se ve, y estas flechas viven sobre el escenario en perspectiva.
+           Hierro horneado al 90 % con el mismo filo de luz que daba `glass-smoke`. */
+        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-iron-900/90 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
         className,
       )}
     >

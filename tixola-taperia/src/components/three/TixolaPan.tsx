@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { damp } from "maath/easing";
+import type { PerformanceTier } from "@/hooks/usePerformanceTier";
 import type { PointerVec } from "@/hooks/usePointerParallax";
 import { createScallopShellGeometry, createSeededRandom } from "./FloatingFood";
 
@@ -95,9 +97,16 @@ interface IronTextures {
 
 /**
  * Hierro fundido: mapa de color gris muy oscuro con motas de óxido rojizo + mapa de rugosidad/relieve
- * (gris medio con grano) generados en un <canvas> de 256 px.
+ * (gris medio con grano) generados en un <canvas>.
+ *
+ * 128 px y no 256: el ruido multi-octava se genera en CPU de forma SÍNCRONA durante el montaje, justo
+ * antes del primer fotograma, y el coste es cuadrático en el lado (37 ms aquí ⇒ tres o cuatro veces
+ * más en un móvil de gama media, que es hilo principal bloqueado con el usuario mirando). Bajar el
+ * lado a la mitad divide ese trabajo por cuatro. No se nota porque la textura se repite 3×2 y 5×3
+ * sobre una sartén que ocupa media pantalla: a esa densidad de téxeles por píxel, 128 y 256 dan el
+ * mismo grano.
  */
-function createIronTextures(size = 256): IronTextures {
+function createIronTextures(size = 128): IronTextures {
   const noise = createValueNoise(size, 4242);
   const speckle = createValueNoise(size, 9001);
   const rnd = createSeededRandom(77);
@@ -166,7 +175,7 @@ function createGlowTexture(size = 128): THREE.CanvasTexture {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Zamburiñas chisporroteando dentro de la sartén
+   Zamburiñas chisporroteando dentro de la sartén (instanciadas)
    ────────────────────────────────────────────────────────────── */
 
 interface ScallopSlot {
@@ -183,49 +192,71 @@ const SCALLOP_SLOTS: readonly ScallopSlot[] = [
   { angle: 5.5, radius: 0.58, yaw: 0.9, scale: 0.9 },
 ];
 
-interface SizzlingScallopProps {
-  shell: THREE.BufferGeometry;
-  slot: ScallopSlot;
-  shadows: boolean;
+/** Pinta una geometría entera de un color plano para poder fusionarla con otra que ya usa `color`. */
+function paintGeometry(geo: THREE.BufferGeometry, hex: string): THREE.BufferGeometry {
+  const pos = geo.getAttribute("position");
+  const col = new THREE.Color(hex);
+  const data = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) {
+    data[i * 3] = col.r;
+    data[i * 3 + 1] = col.g;
+    data[i * 3 + 2] = col.b;
+  }
+  geo.setAttribute("color", new THREE.BufferAttribute(data, 3));
+  return geo;
 }
 
-/** Concha boca arriba con la carne (cilindro crema dorado por encima) y el coral naranja. */
-function SizzlingScallop({ shell, slot, shadows }: SizzlingScallopProps) {
-  const x = Math.cos(slot.angle) * slot.radius;
-  const z = Math.sin(slot.angle) * slot.radius;
-  return (
-    <group position={[x, SCALLOP_Y, z]} rotation-y={slot.yaw} scale={slot.scale}>
-      <mesh geometry={shell} rotation-x={Math.PI} castShadow={shadows} receiveShadow={shadows}>
-        <meshPhysicalMaterial
-          vertexColors
-          roughness={0.45}
-          metalness={0.05}
-          sheen={0.4}
-          sheenColor="#ffd9b8"
-          clearcoat={0.35}
-          clearcoatRoughness={0.3}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      {/* Carne de la zamburiña */}
-      <mesh position={[0, 0.11, 0]} castShadow={shadows}>
-        <cylinderGeometry args={[0.2, 0.22, 0.13, 24]} />
-        <meshStandardMaterial color="#f5e7d2" roughness={0.55} metalness={0} />
-      </mesh>
-      {/* Tostado de la plancha */}
-      <mesh position={[0, 0.176, 0]}>
-        <cylinderGeometry args={[0.19, 0.2, 0.012, 24]} />
-        <meshStandardMaterial color="#d9a15f" roughness={0.7} metalness={0} />
-      </mesh>
-      {/* Coral */}
-      <group rotation-y={0.9} position={[0, 0.09, 0]}>
-        <mesh rotation-x={Math.PI / 2}>
-          <torusGeometry args={[0.19, 0.045, 8, 24, Math.PI * 0.95]} />
-          <meshStandardMaterial color="#ff7a3d" roughness={0.5} metalness={0} emissive="#5a1a00" emissiveIntensity={0.3} />
-        </mesh>
-      </group>
-    </group>
-  );
+/**
+ * Cuerpo de la zamburiña fusionado en UNA geometría: concha + carne + tostado.
+ *
+ * Antes cada zamburiña eran cuatro mallas con su propio material creado en JSX, es decir 16 de las
+ * 32 llamadas de dibujo de la portada para cuatro objetos del tamaño de una moneda. Lo que
+ * distinguía a las tres piezas era el color plano de su material, así que se pasa a color por
+ * vértice y se fusionan: el aspecto es el mismo y las cuatro zamburiñas caben en una instancia.
+ */
+function createScallopBodyGeometry(shell: THREE.BufferGeometry): THREE.BufferGeometry {
+  /* La concha se dibujaba con `rotation-x={Math.PI}` (boca arriba): se hornea en la geometría. */
+  const cup = shell.clone().rotateX(Math.PI);
+  const flesh = paintGeometry(new THREE.CylinderGeometry(0.2, 0.22, 0.13, 24), "#f5e7d2").translate(0, 0.11, 0);
+  const sear = paintGeometry(new THREE.CylinderGeometry(0.19, 0.2, 0.012, 24), "#d9a15f").translate(0, 0.176, 0);
+  const merged = mergeGeometries([cup, flesh, sear], false);
+  flesh.dispose();
+  sear.dispose();
+  if (!merged) return cup; // sin fusión, al menos la concha (nunca ocurre: los atributos coinciden)
+  cup.dispose();
+  return merged;
+}
+
+/** Coral: el mismo toro de antes con su rotación y su desplazamiento ya horneados. */
+function createScallopCoralGeometry(): THREE.BufferGeometry {
+  const geo = new THREE.TorusGeometry(0.19, 0.045, 8, 24, Math.PI * 0.95);
+  geo.rotateX(Math.PI / 2);
+  geo.rotateY(0.9);
+  geo.translate(0, 0.09, 0);
+  return geo;
+}
+
+/* Objeto de trabajo a nivel de módulo: cero asignaciones dentro de useFrame. */
+const _scallop = new THREE.Object3D();
+
+/**
+ * Chisporroteo: antes movía la posición de cuatro grupos del grafo de escena; ahora es el mismo
+ * desplazamiento escrito directamente en la matriz de instancia, igual que hace FloatingFood.
+ */
+function updateScallops(body: THREE.InstancedMesh | null, coral: THREE.InstancedMesh | null, t: number) {
+  if (!body && !coral) return;
+  for (let i = 0; i < SCALLOP_SLOTS.length; i++) {
+    const slot = SCALLOP_SLOTS[i];
+    const y = SCALLOP_Y + Math.sin(t * 21 + i * 1.9) * 0.005 + Math.sin(t * 13.7 + i) * 0.004;
+    _scallop.position.set(Math.cos(slot.angle) * slot.radius, y, Math.sin(slot.angle) * slot.radius);
+    _scallop.rotation.set(0, slot.yaw, 0);
+    _scallop.scale.setScalar(slot.scale);
+    _scallop.updateMatrix();
+    body?.setMatrixAt(i, _scallop.matrix);
+    coral?.setMatrixAt(i, _scallop.matrix);
+  }
+  if (body) body.instanceMatrix.needsUpdate = true;
+  if (coral) coral.instanceMatrix.needsUpdate = true;
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -235,6 +266,8 @@ function SizzlingScallop({ shell, slot, shadows }: SizzlingScallopProps) {
 export interface TixolaPanProps {
   pointer: RefObject<PointerVec>;
   shadows: boolean;
+  /** Decide la riqueza del material de las zamburiñas (sheen + clearcoat solo en gama alta). */
+  tier: PerformanceTier;
 }
 
 /**
@@ -243,14 +276,17 @@ export interface TixolaPanProps {
  * cilíndrico con casquillo, remaches y anilla para colgar, película de aceite brillante y
  * cuatro zamburiñas chisporroteando. Flota (seno), gira despacio y se inclina hacia el puntero.
  */
-export default function TixolaPan({ pointer, shadows }: TixolaPanProps) {
+export default function TixolaPan({ pointer, shadows, tier }: TixolaPanProps) {
   const groupRef = useRef<THREE.Group>(null); // flotación + inclinación hacia el puntero
   const spinRef = useRef<THREE.Group>(null); // giro lento continuo
-  const scallopsRef = useRef<THREE.Group>(null); // chisporroteo
+  const scallopRef = useRef<THREE.InstancedMesh>(null); // cuerpos: chisporroteo por matriz
+  const coralRef = useRef<THREE.InstancedMesh>(null);
 
   const body = useMemo(() => createPanBodyGeometry(), []);
   const shell = useMemo(() => createScallopShellGeometry(0.46, 0.16, 15), []);
-  const textures = useMemo(() => createIronTextures(256), []);
+  const scallopBody = useMemo(() => createScallopBodyGeometry(shell), [shell]);
+  const scallopCoral = useMemo(() => createScallopCoralGeometry(), []);
+  const textures = useMemo(() => createIronTextures(128), []);
   const glow = useMemo(() => createGlowTexture(128), []);
   const iron = useMemo(
     () =>
@@ -270,12 +306,14 @@ export default function TixolaPan({ pointer, shadows }: TixolaPanProps) {
     return () => {
       body.dispose();
       shell.dispose();
+      scallopBody.dispose();
+      scallopCoral.dispose();
       textures.map.dispose();
       textures.bump.dispose();
       glow.dispose();
       iron.dispose();
     };
-  }, [body, shell, textures, glow, iron]);
+  }, [body, shell, scallopBody, scallopCoral, textures, glow, iron]);
 
   useFrame((state, delta) => {
     const group = groupRef.current;
@@ -296,13 +334,7 @@ export default function TixolaPan({ pointer, shadows }: TixolaPanProps) {
     spin.rotation.y = t * SPIN_SPEED;
 
     // Chisporroteo: vibración vertical minúscula y desfasada en cada zamburiña.
-    const scallops = scallopsRef.current;
-    if (scallops) {
-      const children = scallops.children;
-      for (let i = 0; i < children.length; i++) {
-        children[i].position.y = SCALLOP_Y + Math.sin(t * 21 + i * 1.9) * 0.005 + Math.sin(t * 13.7 + i) * 0.004;
-      }
-    }
+    updateScallops(scallopRef.current, coralRef.current, t);
   });
 
   return (
@@ -352,12 +384,35 @@ export default function TixolaPan({ pointer, shadows }: TixolaPanProps) {
           />
         </mesh>
 
-        {/* Zamburiñas */}
-        <group ref={scallopsRef}>
-          {SCALLOP_SLOTS.map((slot) => (
-            <SizzlingScallop key={slot.angle} shell={shell} slot={slot} shadows={shadows} />
-          ))}
-        </group>
+        {/* Zamburiñas: dos llamadas de dibujo para las cuatro (cuerpo fusionado + coral). */}
+        <instancedMesh
+          ref={scallopRef}
+          args={[scallopBody, undefined, SCALLOP_SLOTS.length]}
+          frustumCulled={false}
+          castShadow={shadows}
+          receiveShadow={shadows}
+        >
+          {/* El sheen y el clearcoat de MeshPhysicalMaterial añaden ramas y muestras al shader; en
+              gama media se cae a MeshStandardMaterial, que con el mismo color por vértice deja la
+              zamburiña algo más mate pero indistinguible a este tamaño en pantalla. */}
+          {tier === "high" ? (
+            <meshPhysicalMaterial
+              vertexColors
+              roughness={0.45}
+              metalness={0.05}
+              sheen={0.4}
+              sheenColor="#ffd9b8"
+              clearcoat={0.35}
+              clearcoatRoughness={0.3}
+              side={THREE.DoubleSide}
+            />
+          ) : (
+            <meshStandardMaterial vertexColors roughness={0.5} metalness={0.05} side={THREE.DoubleSide} />
+          )}
+        </instancedMesh>
+        <instancedMesh ref={coralRef} args={[scallopCoral, undefined, SCALLOP_SLOTS.length]} frustumCulled={false}>
+          <meshStandardMaterial color="#ff7a3d" roughness={0.5} metalness={0} emissive="#5a1a00" emissiveIntensity={0.3} />
+        </instancedMesh>
       </group>
 
       {/* Halo de brasas bajo la sartén (no gira con ella) */}

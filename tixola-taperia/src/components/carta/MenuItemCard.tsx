@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Flame, Leaf, MessageCircleQuestion, Sparkles, Sprout, Star, WheatOff, Wine, type LucideProps } from "lucide-react";
-import type { ComponentType } from "react";
+import { memo, type ComponentType } from "react";
 import { useChat } from "@/components/chat/ChatProvider";
 import { DishIcon } from "@/components/icons/DishIcons";
 import { AllergenRow } from "@/components/ui/AllergenIcon";
@@ -23,9 +23,16 @@ import { cn } from "@/lib/utils";
  *    fantasma "Preguntar al camarero" que abre el chat con una pregunta sobre el plato.
  *  - `id={item.id}` para enlaces profundos `/carta#tix-chistorra-huevos` (con `scroll-margin-top`);
  *    `highlighted` dispara el anillo rojo de llegada.
- *  - `layout` (framer-motion) anima la recolocación cuando cambian los filtros (desactivable).
- *  - `glass` (solo tier "high") decide entre cristal ahumado y hierro opaco: con 49 tarjetas el
- *    `backdrop-filter` es lo más caro que puede pintar un móvil mientras se hace scroll.
+ *  - SIN `layout` de framer-motion: esa prop medía con `getBoundingClientRect` las 49 tarjetas antes
+ *    y después de CADA cambio de filtro (cada tecla, cada chip, cada alérgeno), y además las
+ *    secciones llevan `content-visibility: auto`, así que o se forzaba su maquetación —perdiendo justo
+ *    el ahorro de esa propiedad— o devolvían rectángulos vacíos y la recolocación saltaba. El fundido
+ *    de entrada (`enter`) ya cuenta visualmente el cambio de filtro.
+ *  - Superficie de hierro opaco en TODAS las gamas: sobre la pizarra oscura el cristal ahumado no
+ *    aportaba nada visible y multiplicaba por 49 el trabajo de composición.
+ *  - `memo`: escribir en el buscador re-renderiza la carta con los resultados ANTERIORES (el filtrado
+ *    va diferido) y sin esta puerta las 49 tarjetas volvían a renderizarse en cada tecla para pintar
+ *    exactamente lo mismo.
  */
 
 export type MenuItemCardVariant = "glass" | "chalk";
@@ -36,14 +43,6 @@ export interface MenuItemCardProps {
   dietTags: Record<DietTag, string>;
   variant?: MenuItemCardVariant;
   highlighted?: boolean;
-  /** animación de layout (recolocación) al filtrar; desactivar en tier "low" / reduced motion */
-  animations?: boolean;
-  /**
-   * Cristal ahumado (`backdrop-filter`) en la tarjeta. Solo en tier "high": la carta pinta ~49
-   * tarjetas y en un móvil siempre hay varias en pantalla, cada una obligando a releer y
-   * desenfocar el fondo en cada fotograma de scroll (misma regla que `ReviewMarquee`).
-   */
-  glass?: boolean;
   /**
    * Fundido de entrada al montarse. La sección lo activa solo para tarjetas que aparecen DESPUÉS
    * del primer frame (al filtrar): así el HTML estático y el árbol interactivo no parpadean.
@@ -78,16 +77,7 @@ const PHOTO_BY_SRC: ReadonlyMap<string, Photo> = new Map(PHOTOS.map((p) => [p.sr
 /** Anchos reales de la columna de la rejilla (1 col móvil · 2 cols md · 3 cols xl junto al camarero). */
 const IMAGE_SIZES = "(min-width: 1280px) 300px, (min-width: 768px) 45vw, calc(100vw - 32px)";
 
-export default function MenuItemCard({
-  item,
-  dietTags,
-  variant = "glass",
-  highlighted = false,
-  animations = true,
-  glass = false,
-  enter = false,
-  className,
-}: MenuItemCardProps) {
+function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, enter = false, className }: MenuItemCardProps) {
   const m = useMessages();
   const t = useFormat();
   const locale = useLocale();
@@ -103,21 +93,25 @@ export default function MenuItemCard({
   return (
     <motion.li
       id={item.id}
-      layout={animations ? "position" : false}
       initial={enter ? { opacity: 0, y: 18 } : false}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, ease: EASE_OUT_EXPO }}
+      transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
       className={cn("carta-card group relative flex list-none scroll-mt-[calc(var(--header-h)+92px)]", className)}
     >
       <article
         aria-labelledby={titleId}
         className={cn(
-          "relative flex w-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-[var(--ease-out-expo)]",
+          /* Lista explícita en vez de `transition-all`: así el hover no arrastra también el
+             `filter`, el `background-image` ni las propiedades de maqueta. 200 ms con curva expo. */
+          "relative flex w-full flex-col overflow-hidden rounded-2xl",
+          "transition-[translate,border-color,background-color,box-shadow] duration-200 ease-[var(--ease-out-expo)]",
           chalk
             ? "border border-dashed border-cream/25 bg-iron-900/55 hover:border-cream/50 hover:bg-iron-900/70"
             : cn(
-                glass ? "glass-smoke" : "border border-cream/10 bg-iron-800/90 shadow-card",
-                "hover:-translate-y-1 hover:border-pimenton-light/60 hover:shadow-[0_0_0_1px_rgba(216,50,60,0.35),0_24px_60px_-24px_rgba(178,30,39,0.6)]",
+                "border border-cream/10 bg-iron-800/90 shadow-card",
+                /* Sombra de hover más corta: un desenfoque de 60 px con 49 tarjetas en la página es
+                   una superficie enorme que repintar por un halo que casi no se ve. */
+                "hover:-translate-y-1 hover:border-pimenton-light/60 hover:shadow-[0_0_0_1px_rgba(216,50,60,0.35),0_12px_30px_-16px_rgba(178,30,39,0.6)]",
               ),
         )}
       >
@@ -169,7 +163,10 @@ export default function MenuItemCard({
                 "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border text-gold",
                 chalk
                   ? "border-cream/20 bg-iron-900/70"
-                  : "border-cream/10 bg-[radial-gradient(circle_at_30%_30%,#2e2e2e,#121212_75%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_10px_24px_-10px_rgba(0,0,0,0.9)]",
+                  /* Solo el radial prehorneado: el volumen del disco lo dan el degradado y el borde.
+                     La doble sombra (una interior de 1 px y otra de 24 px de desenfoque) se pintaba
+                     49 veces por una insinuación de relieve que a este tamaño no se distingue. */
+                  : "border-cream/10 bg-[radial-gradient(circle_at_30%_30%,#2e2e2e,#121212_75%)]",
               )}
             >
               <DishIcon iconKey={item.emoji} size={30} strokeWidth={1.5} />
@@ -276,10 +273,14 @@ export default function MenuItemCard({
         {!chalk && (
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-pimenton-light/0 to-transparent transition-all duration-700 group-hover:via-pimenton-light/80"
+            /* El degradado es FIJO y lo que se mueve es la `opacity`: interpolar las paradas de un
+               `background-image` (vía `transition-all`) obliga a re-rasterizarlo en cada fotograma. */
+            className="pointer-events-none absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-pimenton-light/80 to-transparent opacity-0 transition-opacity duration-500 ease-[var(--ease-out-expo)] group-hover:opacity-100"
           />
         )}
       </article>
     </motion.li>
   );
 }
+
+export default memo(MenuItemCard);

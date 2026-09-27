@@ -13,7 +13,7 @@ export interface SceneLightsProps {
  * Iluminación "de brasas": ambiente burdeos muy bajo, foco rojo pimentón desde arriba-izquierda,
  * contraluz dorado desde atrás, relleno crema suave y un punto rojo bajo la sartén.
  * Sin `<Environment>` (evita descargar HDRs): el aspecto se consigue solo con luces.
- * Sombras únicamente en `profile.shadows` (tier high): foco con shadow map + ContactShadows.
+ * Sombras únicamente en `profile.shadows` (tier high), y solo con ContactShadows.
  */
 export default function SceneLights({ profile }: SceneLightsProps) {
   // Objetivo del foco dentro del grupo de la sartén (se añade a la escena con <primitive>).
@@ -34,12 +34,12 @@ export default function SceneLights({ profile }: SceneLightsProps) {
         decay={2}
         distance={0}
         target={spotTarget}
-        castShadow={profile.shadows}
-        shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.0004}
-        shadow-normalBias={0.02}
-        shadow-camera-near={1}
-        shadow-camera-far={20}
+        /* El foco NO proyecta sombra. Su mapa de sombras de 1024² obligaba a reproyectar las ~26
+           mallas de la escena en una pasada aparte cada fotograma, y lo que devolvía era una sombra
+           que en el layout "split" cae fuera del encuadre y en el "stacked" apenas se lee bajo el
+           halo de brasas. El contacto —que es la sombra que el ojo sí busca— lo pone ContactShadows
+           con un solo render de 256². */
+        castShadow={false}
       />
       <primitive object={spotTarget} position={[0, 0.3, 0]} />
 
@@ -52,6 +52,7 @@ export default function SceneLights({ profile }: SceneLightsProps) {
       {/* Brasas bajo la sartén */}
       <pointLight color="#ff3b2a" intensity={26} distance={6} decay={2} position={[0, -0.9, 0]} />
 
+      {/* Única fuente de sombra de la escena; en gama media ni eso. */}
       {profile.shadows && (
         <ContactShadows position={[0, -1.55, 0]} opacity={0.65} scale={9} blur={2.6} far={3.2} resolution={256} color="#000000" />
       )}

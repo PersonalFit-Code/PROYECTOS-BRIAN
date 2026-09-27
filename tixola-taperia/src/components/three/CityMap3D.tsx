@@ -2,12 +2,22 @@
 
 import { Html, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Bloom, EffectComposer, ToneMapping } from "@react-three/postprocessing";
-import { ToneMappingMode } from "postprocessing";
+import dynamic from "next/dynamic";
 import { useEffect, useLayoutEffect, useMemo, useRef, type ComponentRef } from "react";
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import type { PerfProfile } from "@/hooks/usePerformanceTier";
+
+/**
+ * Post-procesado compartido con la portada y cargado aparte.
+ *
+ * Aquí se importaba el barril de `@react-three/postprocessing`, que arrastra estáticamente las 37
+ * clases de efecto del paquete `postprocessing` (~172 KB gz entre los dos paquetes) para usar dos:
+ * Bloom y ToneMapping. Como el mapa vive muy abajo en la página, ese peso viajaba en el chunk del
+ * mapa y lo descargaba también la gama media, que no enciende el bloom. Con `dynamic` queda en un
+ * chunk asíncrono que además es EL MISMO que pide la portada: se descarga una vez o ninguna.
+ */
+const Effects = dynamic(() => import("./Effects"), { ssr: false });
 
 /**
  * CityMap3D — maqueta 3D low-poly de la manzana real de Tixola (Rúa Juan de Austria 7, Ourense).
@@ -380,12 +390,17 @@ function Ground({ shadows }: { shadows: boolean }) {
   useEffect(() => () => texture?.dispose(), [texture]);
 
   return (
+    /* Lambert y no Standard. Este disco de 160 m de radio ocupa casi todo el visor, así que su
+       shader se evalúa en casi todos los píxeles del lienzo; el modelo PBR de MeshStandardMaterial
+       calcula ahí BRDF especular, distribución GGX y oclusión geométrica para un granito MATE que
+       con roughness 0,96 y metalness 0,02 no devuelve ningún reflejo apreciable. Lambert hace solo
+       el difuso y da el mismo píxel a una fracción del coste. */
     <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow={shadows}>
       <circleGeometry args={[160, 72]} />
       {texture ? (
-        <meshStandardMaterial map={texture} color="#d8d2c8" roughness={0.96} metalness={0.02} />
+        <meshLambertMaterial map={texture} color="#d8d2c8" />
       ) : (
-        <meshStandardMaterial color="#1c1a19" roughness={0.96} />
+        <meshLambertMaterial color="#1c1a19" />
       )}
     </mesh>
   );
@@ -581,7 +596,8 @@ function Cathedral({ shadows }: { shadows: boolean }) {
   return (
     <group>
       <mesh geometry={solid} castShadow={shadows} receiveShadow={shadows}>
-        <meshStandardMaterial vertexColors roughness={0.9} metalness={0.05} polygonOffset polygonOffsetFactor={1} polygonOffsetUnits={1} />
+        {/* `emissive` dorado muy bajo en lugar de la pointLight de 700 cd que iluminaba esta piedra. */}
+        <meshStandardMaterial vertexColors emissive="#e8c27a" emissiveIntensity={0.16} roughness={0.9} metalness={0.05} polygonOffset polygonOffsetFactor={1} polygonOffsetUnits={1} />
       </mesh>
       <lineSegments geometry={edges}>
         <lineBasicMaterial color={PALETTE.cream} transparent opacity={0.5} />
@@ -603,8 +619,11 @@ function Cathedral({ shadows }: { shadows: boolean }) {
       </mesh>
 
       <Windows specs={windows} size={[1.4, 4.5]} color={GOLD_HDR} />
-      {/* resplandor dorado de la piedra (intensidad en candelas: la escena está en metros) */}
-      <pointLight position={[cx - 20, 18, cz + 22]} color="#e8c27a" intensity={700} distance={80} decay={2} />
+      {/* El resplandor dorado de la piedra lo ponía una pointLight de 700 cd aquí mismo. Se ha
+          pasado al `emissive` del material de la nave (ver arriba): una luz puntual se evalúa en
+          CADA fragmento de CADA material iluminado de la escena —incluido el disco de suelo que
+          llena el visor—, mientras que el emissive es una suma de color en el fragmento del propio
+          edificio. Misma piedra cálida, sin peso sobre el resto de la escena. */}
     </group>
   );
 }
@@ -660,13 +679,14 @@ function SantaEufemia({ shadows }: { shadows: boolean }) {
   return (
     <group>
       <mesh geometry={solid} castShadow={shadows} receiveShadow={shadows}>
-        <meshStandardMaterial vertexColors side={THREE.DoubleSide} roughness={0.9} metalness={0.04} polygonOffset polygonOffsetFactor={1} polygonOffsetUnits={1} />
+        {/* `emissive` cálido en lugar de la pointLight de la fachada. */}
+        <meshStandardMaterial vertexColors emissive="#f0d9a8" emissiveIntensity={0.13} side={THREE.DoubleSide} roughness={0.9} metalness={0.04} polygonOffset polygonOffsetFactor={1} polygonOffsetUnits={1} />
       </mesh>
       <lineSegments geometry={edges}>
         <lineBasicMaterial color={PALETTE.cream} transparent opacity={0.48} />
       </lineSegments>
-      {/* luz cálida sobre la fachada */}
-      <pointLight position={[CHURCH_CENTER[0] + 18, 16, CHURCH_CENTER[1] - 18]} color="#f0d9a8" intensity={420} distance={60} decay={2} />
+      {/* La luz cálida de la fachada era otra pointLight (420 cd); ahora es el `emissive` del propio
+          material barroco, por el mismo motivo que en la Catedral. */}
     </group>
   );
 }
@@ -845,7 +865,11 @@ function Lights({ shadows }: { shadows: boolean }) {
   useEffect(() => {
     const light = sun.current;
     if (!light || !shadows) return;
-    light.shadow.mapSize.set(2048, 2048);
+    /* 1024² y no 2048²: cuatro veces menos téxeles que rellenar en la pasada de sombra y cuatro
+       veces menos memoria de GPU, para un visor de 4:3 que en móvil mide ~350 px de ancho. A esa
+       escala la sombra de una manzana de granito ocupa una decena de píxeles: el detalle extra del
+       mapa grande no llega a la pantalla. */
+    light.shadow.mapSize.set(1024, 1024);
     const cam = light.shadow.camera;
     cam.left = -170;
     cam.right = 170;
@@ -870,7 +894,7 @@ function Lights({ shadows }: { shadows: boolean }) {
 
 type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
 
-function Scene({ perf, labels, autoRotate }: { perf: PerfProfile; labels: MapLabels; autoRotate: boolean }) {
+function Scene({ perf, labels, autoRotate, active }: { perf: PerfProfile; labels: MapLabels; autoRotate: boolean; active: boolean }) {
   const controls = useRef<OrbitControlsRef>(null);
 
   /**
@@ -893,6 +917,7 @@ function Scene({ perf, labels, autoRotate }: { perf: PerfProfile; labels: MapLab
       <color attach="background" args={[PALETTE.background]} />
       <fog attach="fog" args={[PALETTE.background, 250, 380]} />
 
+      <OnDemandRepaint active={active} />
       <Lights shadows={perf.shadows} />
       <Ground shadows={perf.shadows} />
       <Streets shadows={perf.shadows} />
@@ -920,17 +945,30 @@ function Scene({ perf, labels, autoRotate }: { perf: PerfProfile; labels: MapLab
         maxPolarAngle={1.25}
       />
 
-      {perf.postprocessing && (
-        <EffectComposer multisampling={4} enableNormalPass={false}>
-          <Bloom mipmapBlur intensity={0.6} luminanceThreshold={0.78} luminanceSmoothing={0.2} radius={0.65} />
-          {/* Los materiales del composer son `toneMapped: false`: sin este pase, la versión con bloom
-              (escritorio) saldría sin el ACES de `onCreated` y con las luces doradas reventadas,
-              distinta de la de tabletas y móviles. */}
-          <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
-        </EffectComposer>
-      )}
+      {/* Bloom discreto sobre ventanas doradas y neón. El chunk solo se pide en gama alta. */}
+      {perf.postprocessing && <Effects enabled preset="map" />}
     </>
   );
+}
+
+/**
+ * Repintado bajo demanda.
+ *
+ * El lienzo corre en `frameloop: "demand"` cuando la tarjeta no está activa, y NO en "never": con
+ * "never" R3F no repinta ante ningún cambio —redimensionar la ventana, girar el móvil, una etiqueta
+ * que se recoloca— y el visor se queda con el último fotograma estirado o directamente en negro. Es
+ * exactamente el fallo que dejó la portada negra. Con "demand" basta con pedir un fotograma, y eso
+ * es lo que hace este componente cuando cambia el tamaño o cuando la tarjeta vuelve a activarse.
+ */
+function OnDemandRepaint({ active }: { active: boolean }) {
+  const invalidate = useThree((s) => s.invalidate);
+  const size = useThree((s) => s.size);
+
+  useEffect(() => {
+    invalidate();
+  }, [invalidate, active, size.width, size.height]);
+
+  return null;
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -960,7 +998,8 @@ export default function CityMap3D({ perf, active = true, onReady, labels, ariaLa
       <Canvas
         dpr={perf.dpr}
         shadows={perf.shadows ? "soft" : false}
-        frameloop={active ? "always" : "never"}
+        /* "demand" y no "never": ver OnDemandRepaint. */
+        frameloop={active ? "always" : "demand"}
         camera={{ position: CAMERA_POSITION, fov: 30, near: 5, far: 700 }}
         /* Con composer la escena se pinta en su render target (que ya pide MSAA): el búfer
            multimuestreado del lienzo no se usaría y solo gastaría memoria. */
@@ -972,7 +1011,7 @@ export default function CityMap3D({ perf, active = true, onReady, labels, ariaLa
         }}
         style={{ touchAction: "pan-y" }}
       >
-        <Scene perf={perf} labels={labels} autoRotate={autoRotate} />
+        <Scene perf={perf} labels={labels} autoRotate={autoRotate} active={active} />
       </Canvas>
     </div>
   );

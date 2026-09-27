@@ -38,10 +38,11 @@ export default function CartaHero({ animate = true, className }: CartaHeroProps)
 
   return (
     <div className={cn("relative grid gap-8 py-10 md:py-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:py-16", className)}>
-      {/* Brasa de fondo tras el titular */}
+      {/* Brasa de fondo tras el titular. Horneada: 420² px con `blur-2xl` era lo primero que tenía que
+          rasterizar el navegador al abrir /carta, justo cuando llega el titular. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-24 top-1/2 -z-10 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(178,30,39,0.35),rgba(178,30,39,0.08)_55%,transparent_100%)] blur-2xl"
+        className="ember-glow absolute -left-24 top-1/2 -z-10 h-[420px] w-[420px] -translate-y-1/2 rounded-full [--ember-a1:0.35]"
       />
 
       <div className="max-w-3xl">

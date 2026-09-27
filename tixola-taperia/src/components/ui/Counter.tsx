@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { animate, motion, useInView, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
 import { formatNumber } from "@/lib/format";
 import { useLocale } from "@/i18n/LocaleProvider";
@@ -28,7 +28,8 @@ const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /**
  * Número que "cuenta" desde 0 hasta `value` la primera vez que entra en el viewport.
- *  - Dígitos enormes en Bebas Neue con extrusión `text-3d` y halo rojo pimentón.
+ *  - Dígitos enormes en Bebas Neue con extrusión `text-3d`; el halo rojo pimentón (un `filter`) se
+ *    añade al ACABAR la cuenta, no durante: ver el comentario del estado `counted`.
  *  - La animación escribe en un MotionValue: framer actualiza el texto sin re-renderizar React.
  *  - Formato numérico con el Intl del idioma activo (igual en servidor y cliente: sale del contexto).
  *  - Con `prefers-reduced-motion` muestra el valor final directamente.
@@ -58,6 +59,13 @@ export default function Counter({
   const progress = useMotionValue(0);
   const text = useTransform(progress, (v) => formatter.format(v));
   const finalText = formatter.format(value);
+  /* El halo rojo es un `filter`, y un filter sobre texto con seis capas de `text-shadow` obliga a
+     re-rasterizar el glifo COMPLETO en cada fotograma de la cuenta — con cuatro contadores a la vez, en
+     la sección que además anima catorce brasas. Así que el halo llega al terminar: mientras el número
+     baila no se aprecia, y en el valor final (que es lo que se mira) queda idéntico. */
+  const [animationDone, setAnimationDone] = useState(false);
+  /* Con movimiento reducido no hay cuenta que esperar: el número ya es el final desde el primer pintado. */
+  const counted = reduced || animationDone;
 
   useEffect(() => {
     if (!inView) return;
@@ -65,7 +73,7 @@ export default function Counter({
       progress.jump(value);
       return;
     }
-    const controls = animate(progress, value, { duration, delay, ease: EASE_OUT_EXPO });
+    const controls = animate(progress, value, { duration, delay, ease: EASE_OUT_EXPO, onComplete: () => setAnimationDone(true) });
     return () => controls.stop();
   }, [inView, reduced, value, duration, delay, progress]);
 
@@ -74,7 +82,7 @@ export default function Counter({
       ref={ref}
       className={cn(
         "inline-flex items-baseline font-condensed leading-none tracking-wide text-cream text-3d",
-        "drop-shadow-[0_0_22px_rgba(216,50,60,0.55)]",
+        counted && "drop-shadow-[0_0_22px_rgba(216,50,60,0.55)]",
         className,
       )}
     >

@@ -129,7 +129,15 @@ export default function OpenStatus({ className }: OpenStatusProps) {
   const MoodIcon = status ? MOOD_ICON[status.mood] : null;
 
   return (
-    <div className={cn("glass-smoke flex h-full flex-col rounded-[28px] p-5 md:p-7", className)}>
+    /* Degradado horneado en vez de `glass-smoke`: es una tarjeta `h-full` (llega a 700 px de alto) con
+       una capa parallax desplazándose por detrás, así que el `backdrop-filter` se reevaluaba en cada
+       fotograma del scroll. Mismo borde y misma sombra; el fondo tapa un poco más y el texto gana. */
+    <div
+      className={cn(
+        "flex h-full flex-col rounded-[28px] border border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.88),rgba(20,20,20,0.72))] p-5 shadow-glass md:p-7",
+        className,
+      )}
+    >
       {/* Kicker + punto en vivo */}
       <p className="flex items-center gap-3 font-caps text-[10px] uppercase tracking-[0.3em] text-cream-muted">
         <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden>

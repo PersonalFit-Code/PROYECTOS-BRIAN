@@ -81,9 +81,14 @@ function StaticFallback({ hidden, caption }: { hidden: boolean; caption: string 
         style={{ objectPosition: fachada?.focus ?? "50% 40%" }}
       />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,12,12,0.12)_0%,rgba(12,12,12,0.3)_45%,rgba(12,12,12,0.9)_100%)]" />
-      {/* resplandor rojo que sugiere la chincheta */}
-      <div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(216,50,60,0.35),transparent)] blur-2xl" />
-      <div className="glass absolute inset-x-4 bottom-4 flex items-center gap-3 rounded-2xl px-4 py-3">
+      {/* Resplandor rojo que sugiere la chincheta. Sin `blur-2xl`: desenfocar 160×160 px obliga al
+          compositor a una capa propia y a dos pasadas de desenfoque sobre una foto a pantalla
+          completa, cuando el mismo halo se pinta gratis ensanchando las paradas del degradado. */}
+      <div className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(216,50,60,0.32)_0%,rgba(216,50,60,0.18)_38%,rgba(216,50,60,0.06)_68%,transparent_100%)]" />
+      {/* Fondo opaco en vez de `glass`: este pie se apoya sobre una foto que ocupa todo el visor, así
+          que el `backdrop-filter` recomponía esa imagen entera en cada repintado para un resultado
+          que a esta opacidad es indistinguible de un color plano. */}
+      <div className="absolute inset-x-4 bottom-4 flex items-center gap-3 rounded-2xl border border-cream/10 bg-iron-900/85 px-4 py-3 shadow-glass">
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pimenton text-cream shadow-neon">
           <MapPin className="h-4 w-4" aria-hidden />
         </span>
@@ -132,32 +137,74 @@ export default function MapCard({ className }: MapCardProps) {
   const frameRef = useRef<HTMLDivElement>(null);
 
   const [near, setNear] = useState(false); // ¿se ha acercado alguna vez al viewport? → montar Canvas
-  const [active, setActive] = useState(false); // ¿está (casi) visible ahora? → bucle de render
+  const [inView, setInView] = useState(false); // ¿al menos la mitad del visor en pantalla?
+  const [scrollStill, setScrollStill] = useState(true); // ¿el scroll lleva un momento parado?
   const [ready, setReady] = useState(false); // WebGL listo → desvanecer la foto
   const [failed, setFailed] = useState(false);
   const [hintDismissed, setHintDismissed] = useState(false);
   /* Giro automático del mapa: WCAG 2.1 SC 2.2.2 (nivel A) exige un mecanismo de pausa para el
      movimiento automático de más de 5 s junto a otro contenido. Se para con el botón y también al
-     primer arrastre (quien reposiciona el mapa a mano no quiere que se le vuelva a mover solo). */
-  const [autoRotate, setAutoRotate] = useState(true);
+     primer arrastre (quien reposiciona el mapa a mano no quiere que se le vuelva a mover solo).
+     Se guarda la PAUSA del usuario y no el giro: así el arranque automático (cuando la tarjeta se
+     asienta en pantalla) no puede pisar una decisión que el visitante ya tomó. */
+  const [userPaused, setUserPaused] = useState(false);
   const [showEmbed, setShowEmbed] = useState(false);
   const embedId = useId();
 
+  /*
+   * MONTAR y ANIMAR son dos decisiones distintas y se toman con dos observadores distintos.
+   *
+   * Montar (`near`, margen de 260 px): crear el contexto WebGL, compilar shaders y subir la textura
+   * de granito cuesta más de un fotograma, así que conviene hacerlo ANTES de que la tarjeta entre —el
+   * lienzo llega caliente y el visor no aparece en negro—. Pero no puede compartir umbral con el
+   * animar: el `rootMargin` infla la raíz, de modo que una tarjeta todavía fuera de pantalla ya
+   * informa de un ratio alto y arrancaría el bucle de render mientras el usuario baja por la página.
+   * Por eso el segundo observador va sin margen y con umbral 0,5.
+   */
   useEffect(() => {
     const el = frameRef.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
+    const warm = new IntersectionObserver(
       (entries) => {
-        const entry = entries[0];
-        if (!entry) return;
-        setActive(entry.isIntersecting);
-        if (entry.isIntersecting) setNear(true);
+        if (entries[0]?.isIntersecting) setNear(true);
       },
       { rootMargin: "260px 0px" },
     );
-    observer.observe(el);
-    return () => observer.disconnect();
+    const visible = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry) setInView(entry.isIntersecting && entry.intersectionRatio >= 0.5);
+      },
+      { threshold: [0, 0.5] },
+    );
+    warm.observe(el);
+    visible.observe(el);
+    return () => {
+      warm.disconnect();
+      visible.disconnect();
+    };
   }, []);
+
+  /*
+   * El bucle de render no arranca mientras el dedo (o la rueda) siga moviendo la página: un segundo
+   * lienzo WebGL pintando a la vez que el scroll es lo que convierte un desplazamiento suave en un
+   * desplazamiento a trompicones. 120 ms de quietud bastan para no confundir una pausa real con el
+   * hueco entre dos eventos de rueda. El listener solo existe cuando la tarjeta ya está cerca.
+   */
+  useEffect(() => {
+    if (!near) return;
+    let id = 0;
+    const onScroll = () => {
+      setScrollStill(false);
+      window.clearTimeout(id);
+      id = window.setTimeout(() => setScrollStill(true), 120);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.clearTimeout(id);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [near]);
 
   const handleReady = useCallback(() => setReady(true), []);
   const handleError = useCallback(() => {
@@ -167,7 +214,13 @@ export default function MapCard({ className }: MapCardProps) {
 
   const x = m.experience.map;
   const c = m.common;
-  const show3D = perf.tier !== "low" && !perf.reducedMotion && near && !failed;
+  /* `perf` viene del almacén observable de gama: si la sonda de fotogramas de la portada decide que
+     el equipo no sostiene la escena y baja a "low", esto pasa a false y la tarjeta NO monta un
+     segundo lienzo WebGL más abajo en la página; se queda con su foto de la fachada. */
+  const show3D = perf.can("scene3d") && near && !failed;
+  /* Pintar en continuo solo cuando la tarjeta está de verdad en pantalla y quieta. */
+  const active = inView && scrollStill;
+  const autoRotate = active && !userPaused;
   const hint = perf.isTouch ? x.dragHintTouch : x.dragHint;
 
   const labels = useMemo(() => ({ tixola: x.legendYou, cathedral: x.legendCathedral, church: x.legendChurch }), [x]);
@@ -184,13 +237,24 @@ export default function MapCard({ className }: MapCardProps) {
 
   return (
     <div className={cn("flex flex-col", className)}>
-      <div ref={frameRef} className="glass-smoke relative overflow-hidden rounded-[28px] p-2 shadow-card">
+      {/* Degradado prehorneado en lugar de `glass-smoke`. Era el peor caso posible de
+          `backdrop-filter`: un marco translúcido colocado SOBRE un lienzo WebGL que repinta en
+          continuo mientras el mapa gira, de modo que el navegador tenía que volver a desenfocar el
+          fotograma nuevo 60 veces por segundo. El degradado da el mismo hierro ahumado y no cuesta
+          nada; el borde y la sombra de tarjeta se mantienen para que la pieza se lea igual. */}
+      <div
+        ref={frameRef}
+        className="relative overflow-hidden rounded-[28px] border border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.92),rgba(20,20,20,0.82))] p-2 shadow-card"
+      >
         {/* Visor: aspecto fijo 4:3, táctil (pan-y deja el scroll vertical al navegador) */}
         <div
+          /* `data-map-viewport` es el asidero de scripts/qa-hero.cjs, que comprueba que este visor no
+             se queda en negro (el mismo fallo que ya vigilaba en la portada). No tiene efecto visual. */
+          data-map-viewport
           className="relative aspect-[4/3] touch-pan-y select-none overflow-hidden rounded-[20px] bg-iron-900"
           onPointerDown={() => {
             setHintDismissed(true);
-            setAutoRotate(false);
+            setUserPaused(true);
           }}
         >
           <StaticFallback hidden={ready} caption={x.subtitle} />
@@ -222,16 +286,16 @@ export default function MapCard({ className }: MapCardProps) {
             {ready && !perf.reducedMotion && (
               <button
                 type="button"
-                /* Sin `stopPropagation` el `onPointerDown` del visor ya habría puesto autoRotate a
-                   false y el clic lo volvería a encender: el botón haría lo contrario de su etiqueta. */
+                /* Sin `stopPropagation` el `onPointerDown` del visor ya habría marcado la pausa del
+                   usuario y el clic la quitaría: el botón haría lo contrario de su etiqueta. */
                 onPointerDown={(e) => e.stopPropagation()}
-                onClick={() => setAutoRotate((v) => !v)}
-                aria-pressed={!autoRotate}
-                aria-label={autoRotate ? x.pauseRotation : x.playRotation}
-                title={autoRotate ? x.pauseRotation : x.playRotation}
+                onClick={() => setUserPaused((v) => !v)}
+                aria-pressed={userPaused}
+                aria-label={userPaused ? x.playRotation : x.pauseRotation}
+                title={userPaused ? x.playRotation : x.pauseRotation}
                 className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-iron-900/90 text-cream-muted transition-colors duration-300 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light"
               >
-                {autoRotate ? <Pause className="h-3.5 w-3.5" aria-hidden /> : <Play className="h-3.5 w-3.5" aria-hidden />}
+                {userPaused ? <Play className="h-3.5 w-3.5" aria-hidden /> : <Pause className="h-3.5 w-3.5" aria-hidden />}
               </button>
             )}
           </div>

@@ -167,12 +167,16 @@ export default function ChapterNav() {
                     {active && <span className="sr-only"> ({m.scroll.nav.current})</span>}
                   </span>
 
-                  {/* Punto */}
+                  {/* Punto. Caja de tamaño FIJO y `scale` para el estado activo: antes transicionaba
+                      `width`/`height`, que son propiedades de maqueta, y el punto activo cambia varias
+                      veces mientras se recorre la home — o sea, reflujo + repintado justo mientras
+                      corren el pin de la portada, Lenis y los scrubs de los capítulos. Visualmente es
+                      idéntico (2.5 × 0.6 ≈ 1.5) pero solo toca al compositor. */}
                   <span aria-hidden className="grid h-8 w-8 place-items-center">
                     <span
                       className={cn(
-                        "block rounded-full transition-[width,height,background-color,box-shadow] duration-500 ease-[var(--ease-out-expo)]",
-                        active ? "h-2.5 w-2.5 bg-pimenton-light shadow-neon" : "h-1.5 w-1.5 bg-cream/35 group-hover:bg-cream/70",
+                        "block h-2.5 w-2.5 rounded-full transition-[transform,background-color,box-shadow] duration-500 ease-[var(--ease-out-expo)]",
+                        active ? "scale-100 bg-pimenton-light shadow-neon" : "scale-[0.6] bg-cream/35 group-hover:bg-cream/70",
                       )}
                     />
                   </span>

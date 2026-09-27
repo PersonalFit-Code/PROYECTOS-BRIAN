@@ -84,7 +84,10 @@ export default function Marquee({
           className={cn(
             "flex shrink-0 justify-around [gap:var(--gap,1rem)]",
             vertical ? "flex-col" : "flex-row",
-            !reducedMotion && "will-change-transform",
+            /* `will-change` solo mientras el carril se mueve de verdad: en escritorio hay nueve pistas
+               (tres columnas × tres copias) y quedaban promovidas a capa GPU toda la sesión, también con
+               la animación parada por hover, por el botón de pausa o por estar fuera de pantalla. */
+            !reducedMotion && !paused && "will-change-transform",
             !reducedMotion &&
               (vertical
                 ? "[animation:tx-marquee-y_var(--duration,40s)_linear_infinite]"

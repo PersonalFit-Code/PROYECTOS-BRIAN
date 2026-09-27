@@ -1,11 +1,11 @@
 "use client";
 
-import { useInView } from "framer-motion";
 import { Pause, Play } from "lucide-react";
 import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Marquee from "@/components/ui/Marquee";
 import ReviewCard from "@/components/ui/ReviewCard";
 import { REVIEWS, type Review } from "@/data/reviews";
+import { useInView } from "@/hooks/useInViewOnce";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 
 /** Mínimo de tarjetas para que tres columnas se vean pobladas. */
 const MIN_REVIEWS = 9;
-/** Tope: con 3 copias por columna, más tarjetas solo añaden DOM sin aportar variedad visible. */
+/** Tope: con las copias de cada columna, más tarjetas solo añaden DOM sin aportar variedad visible. */
 const MAX_REVIEWS = 12;
 
 /**
@@ -76,15 +76,16 @@ export interface ReviewMarqueeProps {
  *    con el botón pausa/reanudar — obligatorio para el contenido que se mueve solo más de 5 s
  *    (WCAG 2.2.2) y única vía para quien navega con pantalla táctil o teclado.
  *  · `prefers-reduced-motion`: rejilla estática con las seis primeras reseñas.
- *  · Cristal ahumado solo en tier "high"; en gama media/móvil las tarjetas usan fondo hierro opaco
- *    (docenas de backdrop-filter en movimiento son lo más caro que puede pintar un móvil).
+ *  · Las tarjetas nunca llevan cristal (ver ReviewCard): el fondo hierro va horneado en todas las gamas.
+ *  · `repeat={2}`: con 4 tarjetas por columna y 600 px de alto, dos copias ya cubren el bucle sin costura.
+ *    La tercera solo añadía ocho tarjetas más de DOM moviéndose (36 → 24 en total).
  *  · El alto se reserva por CSS (`min-h`) para que el paso de la fila del servidor a las columnas
  *    del cliente no mueva el resto de la página ni invalide los ScrollTrigger de más abajo.
  */
 export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
   const m = useMessages();
   const t = useFormat();
-  const { tier, reducedMotion } = usePerformanceTier();
+  const { reducedMotion } = usePerformanceTier();
   const columns = useSyncExternalStore(subscribeLayout, getColumns, getServerColumns);
 
   const rootRef = useRef<HTMLDivElement>(null);
@@ -93,7 +94,6 @@ export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
   const togglePause = useCallback(() => setUserPaused((v) => !v), []);
 
   const reviews = useMemo(() => selectReviews(REVIEWS), []);
-  const glass = tier === "high";
   const summary = t(m.social.marquee.summary, { count: reviews.length });
   const paused = userPaused || !inView;
 
@@ -113,7 +113,7 @@ export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
         <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {reviews.slice(0, 6).map((review) => (
             <li key={review.id} className="flex">
-              <ReviewCard review={review} glass={glass} className="w-full" />
+              <ReviewCard review={review} className="w-full" />
             </li>
           ))}
         </ul>
@@ -121,7 +121,7 @@ export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
         /* Móvil: una fila horizontal continua */
         <Marquee pauseOnHover paused={paused} repeat={2} className="[--duration:70s] [--gap:1rem] py-2">
           {reviews.map((review) => (
-            <ReviewCard key={review.id} review={review} glass={glass} maxLines={6} className="w-[300px]" />
+            <ReviewCard key={review.id} review={review} maxLines={6} className="w-[300px]" />
           ))}
         </Marquee>
       ) : (
@@ -134,12 +134,12 @@ export default function ReviewMarquee({ className }: ReviewMarqueeProps) {
               reverse={i === 1}
               pauseOnHover
               paused={paused}
-              repeat={3}
+              repeat={2}
               className={cn("h-full", COLUMN_DURATION[i] ?? COLUMN_DURATION[0], "[--gap:1rem]")}
               trackClassName="w-full"
             >
               {column.map((review) => (
-                <ReviewCard key={review.id} review={review} glass={glass} className="w-full" />
+                <ReviewCard key={review.id} review={review} className="w-full" />
               ))}
             </Marquee>
           ))}

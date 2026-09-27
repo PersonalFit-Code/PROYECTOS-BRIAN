@@ -11,8 +11,11 @@ import { cn } from "@/lib/utils";
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
+/* Es la barra que más se pulsa en móvil: la realimentación del dedo (`active:scale-95`) tiene que
+   verse en ~100 ms, y con el `transition-all duration-300` anterior tardaba 300. Lista explícita
+   (`scale` es una propiedad propia en Tailwind v4, no va dentro de `transform`). */
 const itemBase =
-  "flex h-full flex-col items-center justify-center gap-1 rounded-2xl font-sans text-[11px] font-bold uppercase tracking-[0.12em] transition-all duration-300 ease-[var(--ease-out-expo)] active:scale-95 [&>svg]:h-5 [&>svg]:w-5";
+  "flex h-full flex-col items-center justify-center gap-1 rounded-2xl font-sans text-[11px] font-bold uppercase tracking-[0.12em] transition-[scale,background-color,color] duration-180 active:duration-100 ease-[var(--ease-out-expo)] active:scale-95 [&>svg]:h-5 [&>svg]:w-5";
 const itemGhost = "text-cream-200 hover:bg-cream/8 hover:text-cream";
 const itemPrimary =
   "bg-pimenton text-cream border border-pimenton-light/60 shadow-[0_0_24px_rgba(178,30,39,0.55)] hover:bg-pimenton-light";

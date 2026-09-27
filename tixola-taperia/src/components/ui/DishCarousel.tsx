@@ -206,7 +206,9 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
                 <span
                   aria-hidden
                   className={cn(
-                    "block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-out-expo)]",
+                    /* Mismo criterio que el carrusel 3D: el punto confirma el toque, así que solo ancho
+                       y color (no la sombra neón de `transition-all`) y en 200 ms. */
+                    "block h-1.5 rounded-full transition-[width,background-color] duration-200 ease-[var(--ease-out-expo)]",
                     isActive ? "w-7 bg-pimenton-light shadow-[0_0_12px_rgba(216,50,60,0.8)]" : "w-1.5 bg-cream/30",
                   )}
                 />
@@ -273,7 +275,9 @@ function DishSlideCard({ slide, index, total, active, steam, hintId, onOpen, but
       {/* La tarjeta activa a escala 1; las vecinas encogidas y atenuadas (transición de `scale` + opacidad) */}
       <div
         className={cn(
-          "transition-[scale,opacity] duration-500 ease-[var(--ease-out-expo)] will-change-transform",
+          /* El encaje de la tarjeta acompaña al gesto: a 500 ms el dedo ya se ha levantado y la
+             diapositiva sigue colocándose. 240 ms con la curva expo va con el arrastre, no detrás. */
+          "transition-[scale,opacity] duration-240 ease-[var(--ease-out-expo)] will-change-transform",
           active ? "scale-100 opacity-100" : "scale-[0.92] opacity-60",
         )}
       >
@@ -288,11 +292,14 @@ function DishSlideCard({ slide, index, total, active, steam, hintId, onOpen, but
           {/* Brillo rojo al pasar el ratón o enfocar */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(216,50,60,0.45),0_0_60px_-10px_rgba(178,30,39,0.6)] transition-opacity duration-500 group-focus-within:opacity-100 group-hover:opacity-100"
+            /* Respuesta a hover/foco: 160 ms (ver DishCarousel3D). */
+            className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(216,50,60,0.45),0_0_60px_-10px_rgba(178,30,39,0.6)] transition-opacity duration-160 group-focus-within:opacity-100 group-hover:opacity-100"
           />
 
           {dish.badge && (
-            <span className="absolute left-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-pimenton-light/45 bg-iron-900/70 px-3 py-1.5 font-caps text-[10px] uppercase tracking-[0.18em] text-cream shadow-[0_0_20px_rgba(178,30,39,0.4)] backdrop-blur-sm">
+            /* Sin `backdrop-blur-sm`: la insignia se pinta sobre la foto del plato, que ya tapa; el
+               hierro al 90 % da el mismo cuerpo y el contraste del texto sube. */
+            <span className="absolute left-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-pimenton-light/45 bg-iron-900/90 px-3 py-1.5 font-caps text-[10px] uppercase tracking-[0.18em] text-cream shadow-[0_0_20px_rgba(178,30,39,0.4)]">
               <Sparkles size={12} aria-hidden className="text-gold" />
               {dish.badge}
             </span>
@@ -305,7 +312,8 @@ function DishSlideCard({ slide, index, total, active, steam, hintId, onOpen, but
               <span className="font-condensed text-[2.25rem] leading-none tracking-wide text-cream">{formatPrice(dish.price, locale)}</span>
               <span className="text-xs text-cream-muted">{t(m.dishes.spotlight.perUnit, { unit: dish.unit })}</span>
             </p>
-            <span className="mt-3 inline-flex items-center gap-1.5 text-[11px] text-cream-faint transition-colors duration-500 group-hover:text-cream-muted">
+            {/* Pista de afordancia: llega en 180 ms, antes de que el usuario decida. */}
+            <span className="mt-3 inline-flex items-center gap-1.5 text-[11px] text-cream-faint transition-colors duration-180 group-hover:text-cream-muted">
               <Maximize2 size={13} aria-hidden />
               {m.dishes.hint}
             </span>
@@ -344,7 +352,8 @@ function ArrowButton({ dir, label, onClick, className }: ArrowButtonProps) {
       onClick={onClick}
       aria-label={label}
       className={cn(
-        "glass-smoke inline-flex h-11 w-11 items-center justify-center rounded-full text-cream transition-[background-color,scale] duration-300 hover:scale-105 hover:bg-cream/10 active:scale-95",
+        /* Hierro horneado en vez de cristal: son 44×44 px sobre las tarjetas, nadie ve el desenfoque. */
+        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-iron-900/90 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
         className,
       )}
     >

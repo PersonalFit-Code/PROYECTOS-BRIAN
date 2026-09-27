@@ -107,7 +107,13 @@ const EMBER: LayerConfig = {
   colors: ["#ffb347", "#ff5a2a", "#b21e27"],
 };
 
-/** Humo: gris oscuro, sprite muy suave, lento y casi transparente. */
+/**
+ * Humo: gris oscuro, sprite muy suave, lento y casi transparente.
+ *
+ * Es la capa cara del sistema, no las brasas: sus sprites miden 42-90 px de lado frente a los 6-20
+ * de una chispa, van con mezcla normal y `depthWrite: false`, así que cada uno se lee y se vuelve a
+ * escribir sobre lo que ya hay. Un solo penacho de humo llena más relleno que cien chispas.
+ */
 const SMOKE: LayerConfig = {
   rise: 2.8,
   spread: 0.45,
@@ -172,7 +178,7 @@ function createParticleGeometry(count: number, spawnRadius: number, seed: number
 }
 
 export interface EmberParticlesProps {
-  /** Nº de chispas (profile.particles). La capa de humo usa ~1/6. */
+  /** Nº de chispas (profile.particles, ya acotado por HeroScene). La capa de humo usa ~1/10. */
   count: number;
   /** Radio del disco de aparición (≈ radio interior de la tixola). */
   spawnRadius?: number;
@@ -186,7 +192,12 @@ export default function EmberParticles({ count, spawnRadius = 1.35 }: EmberParti
   const emberMat = useRef<THREE.ShaderMaterial>(null);
   const smokeMat = useRef<THREE.ShaderMaterial>(null);
 
-  const smokeCount = Math.max(12, Math.round(count / 6));
+  /* Un décimo en vez de un sexto: el humo es el que paga el relleno (sprites de 42-90 px con mezcla
+     normal), y por debajo de una decena larga de penachos la columna se sigue leyendo igual porque
+     cada uno cubre mucha pantalla. La opacidad se queda en 0,16: subirla para "compensar" volvería a
+     cobrar en relleno justo lo que se acaba de ahorrar, ya que el coste está en los píxeles tocados,
+     no en el número de puntos. */
+  const smokeCount = Math.max(12, Math.round(count / 10));
   const emberGeo = useMemo(() => createParticleGeometry(count, spawnRadius, 7, "ember"), [count, spawnRadius]);
   const smokeGeo = useMemo(() => createParticleGeometry(smokeCount, spawnRadius * 0.8, 11, "smoke"), [smokeCount, spawnRadius]);
   const emberUniforms = useMemo(() => createUniforms(EMBER), []);

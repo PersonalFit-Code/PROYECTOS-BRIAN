@@ -173,10 +173,21 @@ export default function PhotoGallery({ className }: PhotoGalleryProps) {
   useEffect(() => {
     if (!lightboxOpen) return;
     const returnTo = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const { body } = document;
+    const html = document.documentElement;
+    const previousOverflow = body.style.overflow;
+    const previousPaddingRight = body.style.paddingRight;
+    /* Compensar la barra al ocultarla (mismo contrato que Navbar, DishSpotlight y ReservationModal):
+       sin esto el <body> ensancha ~15 px, el ResizeObserver de Lenis lo ve y remide los triggers unos
+       180 ms después de abrir la foto, con el salto visual justo encima del visor. */
+    const scrollbarGap = window.innerWidth - html.clientWidth;
+    body.style.overflow = "hidden";
+    if (scrollbarGap > 0) body.style.paddingRight = `${scrollbarGap}px`;
+    html.dataset.scrollLock = "";
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.overflow = previousOverflow;
+      body.style.paddingRight = previousPaddingRight;
+      delete html.dataset.scrollLock;
       if (returnTo?.isConnected) returnTo.focus({ preventScroll: true });
     };
   }, [lightboxOpen]);
@@ -453,7 +464,8 @@ function ArrowButton({ dir, label, onClick, className }: ArrowButtonProps) {
       onClick={onClick}
       aria-label={label}
       className={cn(
-        "glass-smoke inline-flex h-11 w-11 items-center justify-center rounded-full text-cream transition-[background-color,scale] duration-300 hover:scale-105 hover:bg-cream/10 active:scale-95",
+        /* Hierro horneado: 44×44 px, el desenfoque no se ve y sí se compone. */
+        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-iron-900/85 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
         className,
       )}
     >
@@ -485,10 +497,10 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
   const caption = photo.caption ?? photo.alt;
   const ratio = photo.width / photo.height;
 
-  /* Foco inicial en "cerrar" (tras la primera pintura del visor). */
+  /* Foco inicial en "cerrar", en el primer fotograma pintado (antes: temporizador de 60 ms). */
   useEffect(() => {
-    const timer = window.setTimeout(() => closeRef.current?.focus({ preventScroll: true }), 60);
-    return () => window.clearTimeout(timer);
+    const frame = window.requestAnimationFrame(() => closeRef.current?.focus({ preventScroll: true }));
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   /* Los controles viven sobre el fondo (que cierra al pulsar): frenamos la propagación. */
@@ -507,15 +519,21 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.2 } }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-iron-900/95 p-4 backdrop-blur-sm md:p-10"
+      /* 0,18 s: esta opacidad es lo que confirma el toque sobre la foto. */
+      transition={{ duration: 0.18 }}
+      /* Sin `backdrop-blur-sm`: era un backdrop-filter a PANTALLA COMPLETA con la opacidad del
+         contenedor animada 0→1 y 1→0, así que durante ~300 ms el navegador componía un desenfoque de
+         todo el viewport fotograma a fotograma… sobre un fondo que al 95 % ya no dejaba ver nada
+         detrás. Sube al 97 % y el coste visual del recorte es literalmente cero. */
+      className="fixed inset-0 z-[120] flex items-center justify-center bg-iron-900/97 p-4 md:p-10"
     >
       <motion.figure
         onClick={(e) => e.stopPropagation()}
         initial={{ opacity: 0, scale: 0.96, y: 14 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.98, y: 8, transition: { duration: 0.2, ease: "easeIn" } }}
-        transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
+        /* 0,28 s: la foto es el motivo del clic, no un ambiente. La salida se queda en 0,2 s. */
+        transition={{ duration: 0.28, ease: EASE_OUT_EXPO }}
         className="relative m-0 flex max-w-full flex-col"
       >
         <div
@@ -523,7 +541,8 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
           style={{ aspectRatio: `${photo.width} / ${photo.height}`, width: `min(90vw, calc(78vh * ${ratio}))` }}
         >
           {/* Al cambiar de foto la nueva entra con un fundido breve */}
-          <motion.div key={photo.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} className="absolute inset-0">
+          {/* Cambio de foto con las flechas: 0,22 s, que es respuesta a una pulsación. */}
+          <motion.div key={photo.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.22 }} className="absolute inset-0">
             <Image src={photo.src} alt={photo.alt} fill sizes="90vw" quality={88} loading="eager" className="object-contain" />
           </motion.div>
         </div>
@@ -540,7 +559,7 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
         type="button"
         onClick={stop(onClose)}
         aria-label={lb.close}
-        className="glass absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full text-cream transition-colors duration-300 hover:border-pimenton-light/60 hover:text-pimenton-light md:right-6 md:top-6"
+        className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-iron-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:right-6 md:top-6"
       >
         <X size={20} aria-hidden />
       </button>
@@ -552,7 +571,7 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
             type="button"
             onClick={stop(onPrev)}
             aria-label={lb.prev}
-            className="glass absolute bottom-4 left-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full text-cream transition-colors duration-300 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:left-6 md:top-1/2 md:-translate-y-1/2"
+            className="absolute bottom-4 left-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-iron-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:left-6 md:top-1/2 md:-translate-y-1/2"
           >
             <ChevronLeft size={22} aria-hidden />
           </button>
@@ -560,7 +579,7 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
             type="button"
             onClick={stop(onNext)}
             aria-label={lb.next}
-            className="glass absolute bottom-4 right-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full text-cream transition-colors duration-300 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:right-6 md:top-1/2 md:-translate-y-1/2"
+            className="absolute bottom-4 right-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-iron-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:right-6 md:top-1/2 md:-translate-y-1/2"
           >
             <ChevronRight size={22} aria-hidden />
           </button>

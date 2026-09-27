@@ -8,7 +8,6 @@ import ChatMessageBubble from "@/components/chat/ChatMessage";
 import { CHAT_LAUNCHER_ID } from "@/components/chat/ChatLauncher";
 import { useChatSession } from "@/components/chat/useChatSession";
 import { TMark } from "@/components/ui/Logo";
-import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 import { CHAT_LIMITS } from "@/lib/waiter/types";
@@ -17,7 +16,7 @@ const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 const WIDGET_ID = "tixola-chat-widget";
 
 const iconButton =
-  "grid h-11 w-11 shrink-0 place-items-center rounded-full text-cream-200 transition-[background-color,color,transform] duration-300 ease-[var(--ease-out-expo)] hover:bg-cream/8 hover:text-cream active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light [&>svg]:h-5 [&>svg]:w-5";
+  "grid h-11 w-11 shrink-0 place-items-center rounded-full text-cream-200 transition-[background-color,color,scale] duration-150 active:duration-100 ease-[var(--ease-out-expo)] hover:bg-cream/8 hover:text-cream active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light [&>svg]:h-5 [&>svg]:w-5";
 
 /**
  * Panel del camarero virtual (abajo a la izquierda, sobre el lanzador). Cristal ahumado, cabecera con
@@ -28,7 +27,6 @@ export default function ChatWidget() {
   const m = useMessages();
   const locale = useLocale();
   const { isOpen, close, page, prefill, consumePrefill } = useChat();
-  const { tier } = usePerformanceTier();
   const session = useChatSession({ locale, page });
   const { messages, status, mode, errorKind, send, retry, stop, reset } = session;
 
@@ -55,11 +53,13 @@ export default function ChatWidget() {
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, handleClose]);
 
-  // Al abrir, el foco entra en el panel (en la entrada de texto) una vez arrancada la animación.
+  /* Al abrir, el foco entra en el panel (en la entrada de texto) en el primer fotograma pintado.
+     Con el temporizador de 160 ms el teclado del móvil no empezaba a subir hasta pasado ese tiempo:
+     abrir el camarero se sentía lento aunque el panel ya estuviera en pantalla. */
   useEffect(() => {
     if (!isOpen) return;
-    const timer = window.setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 160);
-    return () => window.clearTimeout(timer);
+    const frame = window.requestAnimationFrame(() => inputRef.current?.focus({ preventScroll: true }));
+    return () => window.cancelAnimationFrame(frame);
   }, [isOpen]);
 
   // Prefill: la pregunta que trae `open({ prefill })` se envía sola. Se difiere con un temporizador
@@ -134,15 +134,20 @@ export default function ChatWidget() {
             data-lenis-prevent
             initial={{ opacity: 0, scale: 0.88, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 16 }}
-            transition={{ duration: 0.45, ease: EASE_OUT_EXPO }}
+            exit={{ opacity: 0, scale: 0.92, y: 16, transition: { duration: 0.25, ease: EASE_OUT_EXPO } }}
+            /* 260 ms: es una transición de estado CON desplazamiento, el tramo alto del criterio de
+               respuesta. Con 450 ms el panel seguía entrando cuando el usuario ya quería escribir. */
+            transition={{ duration: 0.26, ease: EASE_OUT_EXPO }}
             className={cn(
               "fixed left-4 z-[80] flex origin-bottom-left flex-col overflow-hidden rounded-3xl text-cream shadow-card",
               "bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-6",
               /* `svh` (no `dvh`): en iOS Safari la unidad dinámica cambia cada vez que se pliega o
                  despliega la barra de direcciones y el panel se recomponía a mitad de scroll. */
               "w-[min(420px,calc(100vw-2rem))] h-[min(640px,80svh)] max-h-[calc(100dvh-2rem)]",
-              tier === "low" ? "border border-cream/10 bg-iron-900/[0.97]" : "glass-smoke",
+              /* `glass-smoke` sin condicionar la gama: la utilidad es horneada (degradado + borde) y
+                 solo recupera el `backdrop-filter` bajo `:root[data-gpu="high"]`, que escribe la sonda
+                 de fotogramas. Un consumidor menos del almacén de rendimiento. */
+              "glass-smoke",
             )}
           >
             {/* Telón de contraste. `glass-smoke` cuenta con que el `backdrop-filter` emborrone lo que
@@ -224,7 +229,7 @@ export default function ChatWidget() {
                       key={q}
                       type="button"
                       onClick={() => submit(q)}
-                      className="h-11 shrink-0 rounded-full border border-cream/12 bg-cream/5 px-4 font-sans text-xs font-medium text-cream-200 transition-[background-color,border-color,color] duration-300 hover:border-pimenton-light/60 hover:bg-pimenton/15 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light active:scale-95"
+                      className="h-11 shrink-0 rounded-full border border-cream/12 bg-cream/5 px-4 font-sans text-xs font-medium text-cream-200 transition-[background-color,border-color,color,scale] duration-160 active:duration-100 ease-[var(--ease-out-expo)] hover:border-pimenton-light/60 hover:bg-pimenton/15 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light active:scale-95"
                     >
                       {q}
                     </button>
@@ -235,7 +240,7 @@ export default function ChatWidget() {
 
             {/* Entrada */}
             <form onSubmit={onSubmit} className={cn("relative px-4 pb-2 pt-3", streaming && "border-t border-cream/10")}>
-              <div className="flex items-end gap-2 rounded-2xl border border-cream/12 bg-iron-900/80 p-1.5 transition-[border-color,box-shadow] duration-300 focus-within:border-pimenton-light/60 focus-within:shadow-[0_0_0_3px_rgba(178,30,39,0.16)]">
+              <div className="flex items-end gap-2 rounded-2xl border border-cream/12 bg-iron-900/80 p-1.5 transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out-expo)] focus-within:border-pimenton-light/60 focus-within:shadow-[0_0_0_3px_rgba(178,30,39,0.16)]">
                 <label htmlFor="tixola-chat-input" className="sr-only">
                   {m.chat.inputLabel}
                 </label>

@@ -31,7 +31,7 @@ export default function CartaCta({ className }: CartaCtaProps) {
     >
       {/* Velo + brasa */}
       <div aria-hidden className="absolute inset-0 bg-[linear-gradient(160deg,rgba(34,8,11,0.92),rgba(18,18,18,0.86)_55%,rgba(58,14,19,0.9))]" />
-      <div aria-hidden className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(closest-side,rgba(216,50,60,0.5),transparent)] blur-2xl" />
+      <div aria-hidden className="ember-glow absolute -right-20 -top-24 h-72 w-72 rounded-full [--ember-a1:0.5] [--ember-rgb:216_50_60]" />
 
       <div className="relative flex flex-col gap-8 px-6 py-12 md:px-12 md:py-16 lg:flex-row lg:items-center lg:justify-between">
         <div className="max-w-xl">

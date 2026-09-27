@@ -1,6 +1,5 @@
 "use client";
 
-import { MotionConfig, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import DishCarousel from "@/components/ui/DishCarousel";
@@ -25,14 +24,12 @@ import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleP
  *    pulsar una lateral la trae al frente. Mientras el detalle está abierto el giro se pausa.
  *  · En gama baja o con `prefers-reduced-motion` se sirve el carrusel plano (DishCarousel, Embla): sin
  *    perspectiva ni giro continuo, mismo contenido y mismo detalle al pulsar.
- *  · Fondo de hierro fundido con brasa roja (capa `data-depth` para la profundidad del capítulo), cabecera
- *    y CTA final revelados con GSAP (`data-reveal`), carrusel con `whileInView`.
+ *  · Fondo de hierro fundido con brasa roja PREHORNEADA (capa `data-depth` para la profundidad del
+ *    capítulo), cabecera, carrusel y CTA final revelados con `data-reveal` (CSS + IntersectionObserver).
  *
  * Los efectos se escalan con usePerformanceTier(): en tier "low" o con `prefers-reduced-motion` no hay
  * vapor ni autoplay.
  */
-
-const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function StarDishes() {
   const m = useMessages();
@@ -86,50 +83,49 @@ export default function StarDishes() {
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(180deg,var(--color-iron)_0%,rgba(18,18,18,0.88)_18%,rgba(18,18,18,0.86)_82%,var(--color-iron)_100%)]"
       />
+      {/* La brasa más grande de la web: hasta 1400×760 px. Llevaba `blur-3xl` (64 px de radio) encima de
+          un degradado radial que ya era suave, y además se desplaza con el scroll (`data-depth`) dentro
+          de un contenedor que en gama alta se escala: cada fotograma invalidaba su caché de rasterizado.
+          Con la brasa horneada (`ember-glow`) se ve prácticamente igual y el desplazamiento sale gratis. */}
       <div
         aria-hidden
         data-depth="0.35"
-        className="absolute left-1/2 top-[55%] h-[80vw] max-h-[760px] w-[130vw] max-w-[1400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(178,30,39,0.34),rgba(178,30,39,0.1)_48%,transparent_100%)] blur-3xl"
+        className="ember-glow absolute left-1/2 top-[55%] h-[80vw] max-h-[760px] w-[130vw] max-w-[1400px] -translate-x-1/2 -translate-y-1/2 rounded-full [--ember-a1:0.34]"
       />
       <div aria-hidden className="divider-iron absolute inset-x-0 top-0" />
       <div aria-hidden className="divider-iron absolute inset-x-0 bottom-0" />
 
-      <MotionConfig reducedMotion="user">
-        <div className="container-page relative pt-20 md:pt-28 lg:pt-32">
-          <SectionHeading
-            align="center"
-            kicker={m.dishes.kicker}
-            title={m.dishes.title}
-            accent={m.dishes.accent}
-            description={m.dishes.description}
-          />
-        </div>
+      <div className="container-page relative pt-20 md:pt-28 lg:pt-32">
+        <SectionHeading
+          align="center"
+          kicker={m.dishes.kicker}
+          title={m.dishes.title}
+          accent={m.dishes.accent}
+          description={m.dishes.description}
+        />
+      </div>
 
-        {/* Carrusel a sangre (fuera del contenedor) para que las tarjetas vecinas asomen por los bordes */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.9, ease: EASE_OUT_EXPO }}
-          className="relative mt-8 md:mt-12"
-        >
-          {use3D ? (
-            <DishCarousel3D slides={slides} onOpen={setSpotlight} steam={steam} autoplay={autoplay} paused={spotlight !== null} />
-          ) : (
-            <DishCarousel slides={slides} onOpen={setSpotlight} steam={steam} autoplay={autoplay} paused={spotlight !== null} />
-          )}
-        </motion.div>
+      {/* Carrusel a sangre (fuera del contenedor) para que las tarjetas vecinas asomen por los bordes.
+          Antes entraba con `whileInView` de Framer, que escribe `opacity` y `transform` en el nodo en
+          cada fotograma del scroll de la portada, justo cuando compiten el lienzo WebGL y el cilindro.
+          Ahora es `data-reveal`: la transición la lleva el compositor y el JS solo pone una clase. */}
+      <div data-reveal className="relative mt-8 md:mt-12">
+        {use3D ? (
+          <DishCarousel3D slides={slides} onOpen={setSpotlight} steam={steam} autoplay={autoplay} paused={spotlight !== null} />
+        ) : (
+          <DishCarousel slides={slides} onOpen={setSpotlight} steam={steam} autoplay={autoplay} paused={spotlight !== null} />
+        )}
+      </div>
 
-        {/* CTA inferior */}
-        <div className="container-page relative pb-20 md:pb-28 lg:pb-32">
-          <div data-reveal className="mt-10 flex flex-col items-center gap-4 text-center md:mt-14">
-            <NeonButton href={lp("/carta")} variant="cream" size="lg" iconRight={<ArrowRight aria-hidden />}>
-              {m.dishes.ctaMenu}
-            </NeonButton>
-            <p className="max-w-md text-xs leading-relaxed text-cream-faint">{m.dishes.ctaNote}</p>
-          </div>
+      {/* CTA inferior */}
+      <div className="container-page relative pb-20 md:pb-28 lg:pb-32">
+        <div data-reveal className="mt-10 flex flex-col items-center gap-4 text-center [--reveal-delay:80ms] md:mt-14">
+          <NeonButton href={lp("/carta")} variant="cream" size="lg" iconRight={<ArrowRight aria-hidden />}>
+            {m.dishes.ctaMenu}
+          </NeonButton>
+          <p className="max-w-md text-xs leading-relaxed text-cream-faint">{m.dishes.ctaNote}</p>
         </div>
-      </MotionConfig>
+      </div>
 
       {/* Detalle del plato (portal en <body>) */}
       <DishSpotlight slide={spotlight} onClose={closeSpotlight} onReserve={openReservation} steam={steam} />
