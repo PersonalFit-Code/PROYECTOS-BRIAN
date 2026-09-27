@@ -261,7 +261,8 @@ export default function CookieConsent() {
                 className="noise after:noise-after relative overflow-hidden rounded-3xl border border-cream/10 bg-iron-900/95 p-5 shadow-card md:p-6"
               >
                 {/* Brasa decorativa */}
-                <span aria-hidden className="ember-glow absolute -right-16 -top-16 h-40 w-40 rounded-full [--ember-a1:0.25]" />
+                {/* `ember-wash` y no `ember-glow`: el original era un color PLANO al que el desenfoque solo plumeaba el borde, así que un radial de pico y caída rápida perdía ~3,5 veces de luz. Alfa igual que el original. */}
+                <span aria-hidden className="ember-wash absolute -right-16 -top-16 h-40 w-40 rounded-full [--ember-a1:0.25]" />
 
                 <div className="relative flex items-start gap-3.5">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-pimenton-light/40 bg-pimenton/20 text-pimenton-a11y">

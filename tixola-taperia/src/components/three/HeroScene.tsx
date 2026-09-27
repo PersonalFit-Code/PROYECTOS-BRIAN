@@ -391,8 +391,14 @@ const MAX_DPR: Record<PerformanceTier, number> = {
   high: 1.75,
 };
 
-/** Por encima de ~900 chispas dejan de leerse como chispas y solo suman relleno. */
-const MAX_PARTICLES: Record<PerformanceTier, number> = { low: 140, mid: 420, high: 900 };
+/*
+ * Techo de chispas. Sube de 420/900 a 520/1280 para igualar los presupuestos de `usePerformanceTier`:
+ * tener DOS cifras distintas (perfil y techo) escondía que el recorte real era del 46 % respecto a la
+ * versión anterior, y la columna de brasas perdía densidad precisamente en la gama que este encargo viene
+ * a rescatar. `Math.min` se mantiene como salvaguarda por si el perfil baja sus cifras, no como un
+ * segundo recorte.
+ */
+const MAX_PARTICLES: Record<PerformanceTier, number> = { low: 140, mid: 520, high: 1280 };
 /** Flotantes: cuatro objetos más o menos no cambian la lectura de la órbita, pero sí el hilo. */
 const MAX_FLOATERS: Record<PerformanceTier, number> = { low: 4, mid: 8, high: 12 };
 
@@ -414,11 +420,17 @@ export default function HeroScene({ profile, pointer, layout, active, onReady }:
     <Canvas
       dpr={dpr}
       gl={{
-        /* `antialias` SOLO en gama alta. El MSAA 4× del framebuffer multiplica por cuatro las
-           muestras de profundidad y de color de cada píxel, y es justo lo que peor llevan las GPU
-           integradas y las de mosaico de los móviles, que son la gama que hay que rescatar. El borde
-           de la sartén se sigue leyendo porque el dpr ya está por encima de 1. */
-        antialias: tier === "high",
+        /* `antialias` en gama media Y alta; solo se apaga donde ya no hay escena.
+           El intento anterior lo reservaba a la gama alta con el argumento de que "el borde se sigue
+           leyendo porque el dpr ya está por encima de 1": a dpr 1,25 y sin multimuestreo, no. La silueta
+           curva de la sartén y el mango sobre el halo de brasas es exactamente el caso en que se ven los
+           dientes de sierra, y "gama media" es el objetivo declarado del encargo, así que es el sitio
+           donde menos se puede permitir un borde sucio.
+           Se compensa NO subiendo el dpr en media (se queda en 1,25): el MSAA arregla los bordes, que es
+           lo que se ve, y el dpr bajo mantiene el relleno controlado. Y si aun así el equipo no llega,
+           ahora hay quien lo diga: la sonda de fotogramas de abajo baja de gama en los primeros dos
+           segundos, que es la red de seguridad que el cliente pidió como requisito. */
+        antialias: tier !== "low",
         powerPreference: "high-performance",
         /* `alpha: false` SIEMPRE. El Backdrop es un plano de 80×50 en z = -16 que escribe alfa 1,0 y,
            con fov 35 y la cámara en z 8,4, cubre un área visible de ~36×15,4 unidades: el encuadre

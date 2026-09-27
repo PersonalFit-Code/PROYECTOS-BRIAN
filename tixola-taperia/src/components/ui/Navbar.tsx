@@ -15,6 +15,7 @@ import FloatingWhatsApp from "@/components/ui/FloatingWhatsApp";
 import { useReservation } from "@/components/ui/ReservationProvider";
 import { useInertBackground } from "@/hooks/useInertBackground";
 import { useScrollPastPixels } from "@/hooks/useScrollPast";
+import { lockScroll } from "@/lib/scrollLock";
 import { cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────────
@@ -149,18 +150,10 @@ export default function Navbar() {
   useEffect(() => {
     if (!menuOpen) return;
     const toggle = toggleRef.current;
-    const { body } = document;
-    const html = document.documentElement;
-    const previousOverflow = body.style.overflow;
-    const previousPaddingRight = body.style.paddingRight;
-    /* Compensar la barra de desplazamiento al ocultarla: sin esto el ancho del <body> crecía ~15 px
-       de golpe, lo que reflowea la página entera y dispara un `ScrollTrigger.refresh()` completo
-       unos 180 ms después del clic — justo encima de la animación de apertura del menú.
-       `data-scroll-lock` en <html> deja el estado a la vista de CSS y de los helpers de scroll. */
-    const scrollbarGap = window.innerWidth - html.clientWidth;
-    body.style.overflow = "hidden";
-    if (scrollbarGap > 0) body.style.paddingRight = `${scrollbarGap}px`;
-    html.dataset.scrollLock = "";
+    /* Bloqueo CONTADO y compartido (`src/lib/scrollLock.ts`): el atributo `data-scroll-lock` del <html>
+       es lo que consultan Lenis y HeroCanvas, y con cuatro paneles escribiéndolo a mano el que se
+       cerrara primero lo borraba para todos. */
+    const releaseScroll = lockScroll();
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
     };
@@ -175,9 +168,7 @@ export default function Navbar() {
     };
     mq.addEventListener("change", onMq);
     return () => {
-      body.style.overflow = previousOverflow;
-      body.style.paddingRight = previousPaddingRight;
-      delete html.dataset.scrollLock;
+      releaseScroll();
       document.removeEventListener("keydown", onKey);
       mq.removeEventListener("change", onMq);
       window.cancelAnimationFrame(focusFrame);
@@ -219,13 +210,18 @@ export default function Navbar() {
         {/* Fondo cristal ahumado que aparece con el scroll */}
         <div
           aria-hidden
+          data-navbar-surface
           className={cn(
             "absolute inset-0 border-b transition-[opacity,border-color] duration-500 ease-[var(--ease-out-expo)]",
-            /* El MISMO degradado casi opaco en todos los anchos, sin `backdrop-filter` en ninguno.
-               Es la superficie que más se recompone de toda la sesión: una banda `fixed` de 72 px por
-               el ancho completo con TODA la página deslizándose por debajo, así que un
-               `backdrop-blur-xl` aquí es un impuesto permanente sobre cualquier scroll en un portátil
-               con gráfica integrada. A 0,96/0,92 de opacidad no había nada que desenfocar. */
+            /* Degradado casi opaco POR DEFECTO, sin `backdrop-filter`: es la superficie que más se
+               recompone de toda la sesión —una banda `fixed` de 72 px por el ancho completo con TODA la
+               página deslizándose por debajo—, así que un `backdrop-blur-xl` permanente aquí es un
+               impuesto sobre cualquier scroll en un portátil con gráfica integrada.
+               Pero unificarlo en 0,96/0,92 a todos los anchos convertía la cabecera de escritorio en una
+               franja negra maciza, y es lo que el cliente tiene delante durante toda la demo. El cristal
+               vuelve en ≥ md cuando el equipo ha demostrado GPU: lo decide el ÚNICO interruptor del
+               proyecto, `:root[data-gpu="high"] [data-navbar-surface]` en globals.css. Aquí solo se marca
+               la capa; este componente no consulta la gama. */
             "bg-[linear-gradient(160deg,rgba(20,20,20,0.96),rgba(18,18,18,0.92))] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]",
             solid ? "border-cream/10 opacity-100" : "border-transparent opacity-0",
           )}
@@ -237,12 +233,20 @@ export default function Navbar() {
             href={lp("/")}
             aria-label={m.nav.homeAria}
             onClick={closeMenu}
-            className="group inline-flex shrink-0 items-center rounded-md py-1.5 transition-transform duration-200 ease-[var(--ease-out-expo)] hover:-translate-y-px lg:-ml-5 xl:-ml-6"
+            className="group relative inline-flex shrink-0 items-center rounded-md py-1.5 transition-transform duration-200 ease-[var(--ease-out-expo)] hover:-translate-y-px lg:-ml-5 xl:-ml-6"
           >
-            {/* Cambio de COLOR, no de `filter`: animar un `drop-shadow` obliga al navegador a
-                re-rasterizar el logotipo entero en cada fotograma del hover. El realce lo dan ahora
-                el aclarado del texto y el levantamiento de 1 px que ya tenía el enlace. */}
-            <Logo size="md" decorative className="text-cream transition-colors duration-200 group-hover:text-white" />
+            {/* El realce NO se hace animando un `filter`: eso obliga a re-rasterizar el logotipo entero en
+                cada fotograma del hover. Pero el cambio de color tampoco servía: en `Logo.tsx` solo el
+                `Wordmark` usa `fill="currentColor"`, así que el hover pasaba TIXOLA de #f9f6f0 a #ffffff
+                —imperceptible— y la sartén, que es la que daba el halo rojo, no se movía.
+                Así que el halo vuelve, pero ESTÁTICO y en su propia capa: el filtro no existe, es un
+                degradado radial quieto y lo único que se anima es su opacidad, que el compositor resuelve
+                sin volver a pintar nada. */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-0 top-1/2 h-16 w-40 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(216,50,60,0.4),rgba(216,50,60,0.14)_52%,transparent_100%)] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            />
+            <Logo size="md" decorative className="relative text-cream transition-colors duration-200 group-hover:text-white" />
           </Link>
 
           {/* Enlaces (lg+): etiquetas cortas en Cinzel; el menú completo vive en el panel móvil/tablet */}
@@ -348,12 +352,17 @@ export default function Navbar() {
             className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden bg-[linear-gradient(180deg,#0c0c0c,#22080b)] lg:hidden"
           >
             {/* Brasa decorativa */}
-            {/* Radial prehorneado (`ember-glow`) en lugar de `bg-pimenton/30 blur-3xl`: desenfocar 64 px
-                una superficie de 120vw × 288 px obligaba a rasterizarla aparte, ampliarla por el radio
-                del desenfoque y recomponerla; el degradado ya cae suave por sí solo. */}
+            {/* Radial prehorneado en lugar de `bg-pimenton/30 blur-3xl`: desenfocar 64 px una superficie de
+                120vw × 288 px obligaba a rasterizarla aparte, ampliarla por el radio del desenfoque y
+                recomponerla; un degradado cae suave por sí solo.
+                Y es `ember-wash`, no `ember-glow`: el original era RELLENO MACIZO y el desenfoque solo le
+                plumeaba el borde, así que un radial de pico y caída rápida dejaba este resplandor —el pie
+                del menú móvil, la superficie de marca que más se ve en el teléfono— en un rubor casi
+                invisible. `ember-wash` mantiene el alfa hasta el 70 % del radio, que es la forma que
+                tenía. Alfa de vuelta al original (0,30): con la caída correcta ya no hay que compensar. */}
             <span
               aria-hidden
-              className="ember-glow absolute -bottom-32 left-1/2 h-72 w-[120vw] -translate-x-1/2 rounded-full [--ember-a1:0.34]"
+              className="ember-wash absolute -bottom-32 left-1/2 h-72 w-[120vw] -translate-x-1/2 rounded-full [--ember-a1:0.3]"
             />
             <span aria-hidden className="pointer-events-none absolute right-[-30%] top-[10%] select-none font-caps text-[34vw] font-semibold leading-none text-cream/[0.04]">
               TIXOLA

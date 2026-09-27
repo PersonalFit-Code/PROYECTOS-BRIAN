@@ -303,8 +303,15 @@ export default function HeroCanvas({ profile, pointer, layout, className }: Hero
 
   // El perfil arranca en "low" durante SSR/hidratación y se resuelve en cliente.
   const wants3D = !failed && profile.tier !== "low" && !profile.reducedMotion;
-  /* Apagado en curso: la gama ha caído (sonda o error de WebGL) con el lienzo ya en marcha. */
-  const retiring = armed && !wants3D;
+  /*
+   * Apagado CON FUNDIDO: solo cuando la escena sigue viva debajo, es decir cuando la gama ha caído por
+   * medición. El fundido bidireccional necesita que algo pinte bajo el fallback durante ese segundo, y
+   * en la vía de ERROR no hay nada: `CanvasErrorBoundary` ya ha devuelto `null`. Fundir ahí dejaba ~1 s
+   * de portada en hierro plano con el titular flotando sobre nada —una regresión respecto a antes, donde
+   * el fallback volvía opaco al instante—. Una pérdida de contexto WebGL o un cambio de GPU en el
+   * portátil son escenarios perfectamente posibles en una demo, así que en `failed` se corta en seco.
+   */
+  const retiring = armed && !wants3D && !failed;
 
   /*
    * Arranque diferido del chunk 3D.
@@ -358,8 +365,9 @@ export default function HeroCanvas({ profile, pointer, layout, className }: Hero
     return () => window.clearTimeout(id);
   }, [retiring, retirement]);
 
-  /* El lienzo sobrevive al fundido de salida: se suelta cuando el fallback ya está opaco encima. */
-  const showScene = armed && (wants3D || retirement !== "done");
+  /* El lienzo sobrevive al fundido de salida: se suelta cuando el fallback ya está opaco encima. Tras un
+     error se suelta de inmediato: no hay nada que pintar dentro. */
+  const showScene = armed && !failed && (wants3D || retirement !== "done");
   /* Durante `primed` el fallback está montado pero transparente; a partir de `fading`, opaco. */
   const fallbackHidden = retiring ? retirement === "primed" : ready && wants3D;
   const fallbackMounted = !(fallbackGone && wants3D);
@@ -374,8 +382,21 @@ export default function HeroCanvas({ profile, pointer, layout, className }: Hero
           </CanvasErrorBoundary>
         </div>
       )}
-      {/* Velo del pull-back. Reposo en 0: si nadie lo anima, la portada se ve entera. */}
-      <div data-hero-dim aria-hidden className="absolute inset-0 bg-iron-900 opacity-0" />
+      {/*
+        Velo del pull-back. Reposo en 0: si nadie lo anima, la portada se ve entera.
+        No es negro plano: es un radial que oscurece MUCHO más los bordes que el centro. El "pull-back"
+        llevaba un `filter: blur(0 → 6px)` interpolado sobre esta misma capa y se retiró —era la superficie
+        más cara de la web, un buffer del viewport completo refiltrado en cada fotograma mientras Three.js
+        pintaba debajo—, pero subir el velo de 0,65 a 0,72 solo oscurecía más: donde antes la escena se
+        desenfocaba como una cámara que cambia de plano, ahora se apagaba. Con la caída radial el gesto
+        vuelve a leerse como una pérdida de foco (el centro conserva la tixola, el encuadre se cierra) y
+        sigue costando lo mismo que un color plano: una capa que el compositor mezcla, sin filtro.
+      */}
+      <div
+        data-hero-dim
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(120%_100%_at_50%_45%,rgba(12,12,12,0.45)_0%,rgba(12,12,12,0.78)_48%,rgba(12,12,12,1)_100%)] opacity-0"
+      />
     </div>
   );
 }

@@ -183,8 +183,20 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
   /* `can("smoothScroll")` ya contempla `prefers-reduced-motion` y el suelo de gama; encima exigimos
      gama ALTA porque el suavizado por interpolación se paga en latencia de entrada (ver el doc). */
   const smoothAllowed = useCanAfford("smoothScroll");
-  const { tier } = usePerformanceTier();
-  const enabled = smoothAllowed && tier === "high";
+  const { tier, measured } = usePerformanceTier();
+  /*
+   * Gama alta Y MEDIDA. La condición anterior (`tier === "high"` a secas) partía de la heurística
+   * optimista, que en cualquier escritorio dice "high": Lenis se montaba en el primer render, la sonda
+   * medía la portada CON la escena 3D encendida y, si el portátil no llegaba, ~2 s después de cargar la
+   * home el provider se desmontaba, destruía Lenis y el TACTO DEL SCROLL cambiaba en vivo delante del
+   * cliente. El recorte está aprobado; que se vea como un fallo a mitad de demo, no.
+   * Exigiendo la medición el interruptor se acciona UNA sola vez y siempre hacia arriba: hasta el
+   * veredicto el scroll es el nativo (que responde al instante) y después se suaviza solo si el equipo lo
+   * ha demostrado. Como el almacén es un trinquete, una vez medido en alta ya no puede bajar sola.
+   * Si no hay veredicto (WebGL bloqueado, renderizador por software, la portada fuera de pantalla durante
+   * la medición) se queda en nativo: es el lado seguro.
+   */
+  const enabled = smoothAllowed && tier === "high" && measured;
   const lenisRef = useRef<Lenis | null>(null);
 
   const getLenis = useCallback(() => lenisRef.current, []);
@@ -257,6 +269,13 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
        Si en el portátil real se notara deriva entre Lenis y los triggers, volver a `lagSmoothing(0)`. */
     gsap.ticker.lagSmoothing(200, 25);
 
+    /* Recalcular posiciones: al montar, con las fuentes cargadas y cuando cambia la altura del documento. */
+    let disposed = false;
+    const refresh = () => {
+      if (!disposed) ScrollTrigger.refresh();
+    };
+    const debouncedRefresh = debounce(refresh, 180);
+
     /* Modales: cuando bloquean el overflow del body paramos Lenis (y lo reanudamos al cerrar).
        El atributo `data-scroll-lock` del `<html>` se comprueba PRIMERO porque `getComputedStyle` fuerza
        un recálculo de estilo síncrono, y esto se ejecuta en la MISMA tarea que el clic que abre el
@@ -265,23 +284,24 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
     const syncLock = () => {
       const locked = html.hasAttribute("data-scroll-lock") || getComputedStyle(document.body).overflowY === "hidden";
       if (locked && !lenis.isStopped) lenis.stop();
-      else if (!locked && lenis.isStopped) lenis.start();
+      else if (!locked && lenis.isStopped) {
+        lenis.start();
+        /* Al reanudar se refresca SIEMPRE: mientras Lenis estaba parado el ResizeObserver de abajo ignora
+           los cambios de altura, y un panel que añade contenido al documento (o un `details` que se abre
+           detrás del velo) dejaría las posiciones de los triggers obsoletas sin que nada volviera a
+           notificarlo. Está antirrebotado, así que abrir y cerrar modales no acumula refrescos. */
+        debouncedRefresh();
+      }
     };
     const lockObserver = new MutationObserver(syncLock);
     lockObserver.observe(document.body, { attributes: true, attributeFilter: ["style", "class"] });
     lockObserver.observe(html, { attributes: true, attributeFilter: ["data-scroll-lock"] });
     syncLock();
 
-    /* Recalcular posiciones: al montar, con las fuentes cargadas y cuando cambia la altura del documento. */
-    let disposed = false;
-    const refresh = () => {
-      if (!disposed) ScrollTrigger.refresh();
-    };
     refresh();
     if ("fonts" in document) {
       void document.fonts.ready.then(refresh);
     }
-    const debouncedRefresh = debounce(refresh, 180);
     /* Solo la ALTURA del documento invalida de verdad las posiciones de los triggers. El ancho cambiaba
        ~15 px cada vez que un modal escribía `overflow: hidden` en el body y desaparecía la barra de
        scroll, y eso disparaba un `ScrollTrigger.refresh()` COMPLETO 180 ms después de abrirlo: todos
@@ -296,15 +316,22 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
       const width = document.body.offsetWidth;
       const heightChanged = height !== lastHeight;
       const widthChanged = Math.abs(width - lastWidth) > WIDTH_NOISE;
-      lastHeight = height;
-      lastWidth = width;
       /* La primera notificación llega al observar: ya hemos refrescado. */
       if (firstResize) {
         firstResize = false;
+        lastHeight = height;
+        lastWidth = width;
         return;
       }
       if (!heightChanged && !widthChanged) return;
+      /* Con Lenis parado NO se marca el tamaño como visto: si se actualizara aquí, un cambio REAL de
+         altura mientras un modal está abierto se consumiría y se descartaría —no hay otro evento de
+         tamaño al cerrar el modal— y los ScrollTrigger se quedarían con posiciones obsoletas para
+         siempre. Dejando `lastHeight` sin tocar, la siguiente notificación vuelve a verlo; y `syncLock`
+         refresca además al reanudar, que cubre el caso sin más notificaciones. */
       if (lenis.isStopped) return;
+      lastHeight = height;
+      lastWidth = width;
       debouncedRefresh();
     });
     sizeObserver.observe(document.body);

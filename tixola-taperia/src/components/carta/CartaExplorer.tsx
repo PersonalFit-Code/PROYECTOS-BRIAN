@@ -183,8 +183,19 @@ function CartaLive() {
     };
   }, [dataset]);
 
-  /* Resuelve el hash pendiente tras cada cambio de filtros: si la tarjeta no está montada
-     (la categoría seleccionada o los filtros la ocultan), vuelve a la carta completa y reintenta. */
+  /*
+   * Resuelve el hash pendiente: si la tarjeta no está montada (la categoría seleccionada o los filtros la
+   * ocultan), vuelve a la carta completa y reintenta.
+   *
+   * Depende de `deferredFilters`, NO del estado urgente `filters`. El DOM que `revealItem` va a buscar lo
+   * construye `results`, que sale de `deferredFilters`: reintentar en cuanto cambia el estado urgente era
+   * una carrera entre este `requestAnimationFrame` y el planificador de React que se perdía de forma
+   * intermitente. La secuencia que fallaba: el enlace profundo no encuentra la tarjeta → se resetean los
+   * filtros → el efecto se reejecuta porque `filters` ya cambió → el rAF corre ANTES de que se commitee el
+   * render diferido con la carta completa → falla otra vez → y como `filters` YA es el valor por defecto,
+   * se rendía sin volver a intentarlo. Con `deferredFilters` la comparación se hace contra lo que de
+   * verdad está pintado, así que "me rindo" solo ocurre con la carta completa delante.
+   */
   useEffect(() => {
     if (!pendingHash) return;
     const raf = requestAnimationFrame(() => {
@@ -192,11 +203,11 @@ function CartaLive() {
         setPendingHash(null);
         return;
       }
-      if (areFiltersEqual(filters, DEFAULT_FILTERS)) setPendingHash(null);
+      if (areFiltersEqual(deferredFilters, DEFAULT_FILTERS)) setPendingHash(null);
       else setFilters(DEFAULT_FILTERS);
     });
     return () => cancelAnimationFrame(raf);
-  }, [pendingHash, filters, revealItem]);
+  }, [pendingHash, deferredFilters, revealItem]);
 
   /* ── Navegación ── */
 

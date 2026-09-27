@@ -218,6 +218,20 @@ export default function MapCard({ className }: MapCardProps) {
      el equipo no sostiene la escena y baja a "low", esto pasa a false y la tarjeta NO monta un
      segundo lienzo WebGL más abajo en la página; se queda con su foto de la fachada. */
   const show3D = perf.can("scene3d") && near && !failed;
+  /*
+   * `ready` dice "el lienzo ha pintado un fotograma", y con eso se decide TODO lo que se ve: la foto de
+   * la fachada se desvanece, la insignia pasa a anunciar "vista 3D", aparecen el botón de pausa y la
+   * leyenda. Pero el lienzo puede desaparecer sin ningún error: basta con que la sonda de la portada
+   * baje a "low" y `show3D` pase a false. Por eso NO se lee `ready` a pelo, sino la conjunción: si no
+   * hay mapa, no hay nada que anunciar y la foto tiene que volver. Sin esto el visor 4:3 se quedaba en
+   * un rectángulo `bg-iron-900` liso —un hueco negro permanente y sin aviso— justo en la vía de
+   * degradación que el cliente pidió como requisito.
+   *
+   * Derivarlo basta y no hace falta además soltar `ready` en un efecto: las tres piezas de `show3D` son de
+   * ida —la gama solo baja (trinquete), `failed` solo se enciende y `near` solo se apaga al desmontar—,
+   * así que una vez perdido el mapa no vuelve en esta pestaña.
+   */
+  const mapReady = ready && show3D;
   /* Pintar en continuo solo cuando la tarjeta está de verdad en pantalla y quieta. */
   const active = inView && scrollStill;
   const autoRotate = active && !userPaused;
@@ -257,7 +271,7 @@ export default function MapCard({ className }: MapCardProps) {
             setUserPaused(true);
           }}
         >
-          <StaticFallback hidden={ready} caption={x.subtitle} />
+          <StaticFallback hidden={mapReady} caption={x.subtitle} />
 
           {show3D && (
             <MapErrorBoundary onError={handleError}>
@@ -281,9 +295,9 @@ export default function MapCard({ className }: MapCardProps) {
 
           <div className="absolute left-3 top-3 z-[6] flex items-center gap-2">
             <span className="rounded-full border border-cream/10 bg-iron-900/90 px-3 py-1 font-caps text-[9px] uppercase tracking-[0.22em] text-cream/85">
-              {ready ? x.view3d : x.photo}
+              {mapReady ? x.view3d : x.photo}
             </span>
-            {ready && !perf.reducedMotion && (
+            {mapReady && !perf.reducedMotion && (
               <button
                 type="button"
                 /* Sin `stopPropagation` el `onPointerDown` del visor ya habría marcado la pausa del
@@ -300,9 +314,9 @@ export default function MapCard({ className }: MapCardProps) {
             )}
           </div>
 
-          {ready && <Legend items={legend} label={x.legend} />}
+          {mapReady && <Legend items={legend} label={x.legend} />}
 
-          {ready && !hintDismissed && (
+          {mapReady && !hintDismissed && (
             <span
               aria-hidden
               className="absolute right-3 top-3 z-[6] inline-flex items-center gap-1.5 rounded-full border border-cream/10 bg-iron-900/90 px-3 py-1.5 font-sans text-[11px] text-cream/80"

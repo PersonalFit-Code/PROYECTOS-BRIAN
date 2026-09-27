@@ -193,7 +193,18 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
       }
     }, root);
 
-    return () => ctx.revert();
+    return () => {
+      /* `quickSetter` escribe el estilo EN LÍNEA sin crear ningún tween, así que `ctx.revert()` no lo
+         deshace: es el propio contexto de GSAP el que no sabe que ese estilo existe. Y esta limpieza no
+         es hipotética — `effects` depende de `can("scrollCinema")`, que puede pasar de true a false EN
+         CALIENTE cuando la sonda de la portada degrada a "low" a los 2-4 s. En ese instante el telón se
+         quedaba clavado en el valor que tuviera (con el scroll a cero, el `enterMax`: 0,7, o 0,5 en el
+         que solapa la portada) y la home entera se veía bajo un velo negro permanente, sin error de
+         build ni de consola. Se borra la propiedad antes de revertir: sin estilo en línea manda la clase
+         `opacity-0` del propio nodo. */
+      curtain.style.removeProperty("opacity");
+      ctx.revert();
+    };
   }, [effects, overlapsHero]);
 
   return (

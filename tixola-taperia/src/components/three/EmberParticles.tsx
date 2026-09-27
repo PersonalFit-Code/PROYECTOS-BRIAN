@@ -192,12 +192,13 @@ export default function EmberParticles({ count, spawnRadius = 1.35 }: EmberParti
   const emberMat = useRef<THREE.ShaderMaterial>(null);
   const smokeMat = useRef<THREE.ShaderMaterial>(null);
 
-  /* Un décimo en vez de un sexto: el humo es el que paga el relleno (sprites de 42-90 px con mezcla
-     normal), y por debajo de una decena larga de penachos la columna se sigue leyendo igual porque
-     cada uno cubre mucha pantalla. La opacidad se queda en 0,16: subirla para "compensar" volvería a
-     cobrar en relleno justo lo que se acaba de ahorrar, ya que el coste está en los píxeles tocados,
-     no en el número de puntos. */
-  const smokeCount = Math.max(12, Math.round(count / 10));
+  /* Un séptimo en vez de un sexto. El humo es el que paga el relleno (sprites de 42-90 px con mezcla
+     normal), así que conviene recortarlo; pero el primer intento lo dejó en un décimo, y eso era un −66 %
+     de la columna de humo en gama alta (de 267 penachos a 90): la voluta deja de leerse como columna y se
+     ve como tres manchas. Un séptimo recorta lo que se tenía que recortar sin desarmar el penacho.
+     La opacidad se queda en 0,16: subirla para "compensar" volvería a cobrar en relleno justo lo que se
+     acaba de ahorrar, porque el coste está en los píxeles tocados, no en el número de puntos. */
+  const smokeCount = Math.max(12, Math.round(count / 7));
   const emberGeo = useMemo(() => createParticleGeometry(count, spawnRadius, 7, "ember"), [count, spawnRadius]);
   const smokeGeo = useMemo(() => createParticleGeometry(smokeCount, spawnRadius * 0.8, 11, "smoke"), [smokeCount, spawnRadius]);
   const emberUniforms = useMemo(() => createUniforms(EMBER), []);

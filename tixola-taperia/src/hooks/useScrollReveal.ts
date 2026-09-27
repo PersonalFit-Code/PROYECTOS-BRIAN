@@ -66,6 +66,20 @@ export interface ScrollRevealOptions {
  */
 const REVEAL_ROOT_MARGIN = "0px 0px -20% 0px";
 
+/**
+ * Cancela el vigía que `layout.tsx` arma antes del primer pintado. Ese temporizador quita la clase
+ * `reveal-armed` de <html> —y con ella el `opacity: 0` de TODOS los `[data-reveal]`— si nadie ha llegado
+ * a montar este hook: sin JavaScript, con el bundle caído o con la wifi del local a medio gas, la home
+ * por debajo de la portada se vería de todas formas en vez de quedarse en blanco. Cuando el observador
+ * sí llega, el vigía sobra y hay que soltarlo o borraría la clase a mitad de una entrada.
+ */
+function disarmRevealWatchdog(): void {
+  const w = window as Window & { __tixolaRevealWatchdog?: number };
+  if (w.__tixolaRevealWatchdog === undefined) return;
+  window.clearTimeout(w.__tixolaRevealWatchdog);
+  delete w.__tixolaRevealWatchdog;
+}
+
 /** Escalonado (s) con el que se registró cada elemento pendiente. */
 const pending = new WeakMap<Element, number>();
 let revealObserver: IntersectionObserver | null = null;
@@ -119,8 +133,13 @@ function registerReveals(root: Element, selector: string, stagger: number, fallb
   for (const el of root.querySelectorAll<HTMLElement>(selector)) {
     if (el.classList.contains("is-revealed") || pending.has(el)) continue;
     /* En las secciones cinematográficas el modo por defecto es `letterbox`. El CSS solo mira el valor
-       del atributo, así que se escribe una vez aquí en vez de duplicar reglas en globals.css. */
-    if (fallback !== "up" && !el.dataset.reveal) el.dataset.reveal = fallback;
+       del atributo, así que se escribe una vez aquí en vez de duplicar reglas en globals.css.
+       Se compara contra "true" además de contra vacío: en JSX un atributo sin valor (`<h2 data-reveal>`)
+       es `data-reveal={true}` y React lo serializa como la CADENA "true", así que `!el.dataset.reveal`
+       era SIEMPRE false y el modo no se escribía nunca — la opción `cinematic` era código muerto y
+       Experience y SocialProof revelaban todo en modo `up`. */
+    const explicit = el.dataset.reveal;
+    if (fallback !== "up" && (!explicit || explicit === "true")) el.dataset.reveal = fallback;
     pending.set(el, stagger);
     observer.observe(el);
     added.push(el);
@@ -177,6 +196,11 @@ export function useScrollReveal<T extends HTMLElement>(ref: RefObject<T | null>,
     /* Con `prefers-reduced-motion: reduce` el CSS de revelado no aplica: el contenido ya está
        visible y no hay nada que observar. */
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    /* El observador ya está en marcha, así que el vigía de `layout.tsx` (que descubre el contenido por
+       su cuenta si el bundle no llega) deja de hacer falta. Se cancela aquí y no en un efecto aparte
+       para que el orden sea el correcto: primero hay quien revele, después se retira la red. */
+    disarmRevealWatchdog();
 
     const fallback: RevealMode = cinematic ? "letterbox" : "up";
     const mine = new Set<Element>(registerReveals(root, revealSelector, stagger, fallback));

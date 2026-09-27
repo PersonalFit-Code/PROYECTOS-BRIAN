@@ -172,10 +172,11 @@ function StatTile({ stat, index }: { stat: StatItem; index: number }) {
     >
       <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-pimenton-light/60 to-transparent" />
       {/* Brasa del hueco superior: era un `blur-3xl` de 192×128 px por tarjeta, cuatro en pantalla a la
-          vez y con una transición de opacidad al pasar el ratón encima (o sea, re-desenfocando). */}
+          vez y con una transición de opacidad al pasar el ratón encima (o sea, re-desenfocando).
+          `ember-wash` y no `ember-glow`: el original era un color PLANO al que el desenfoque solo plumeaba el borde, así que un radial de pico y caída rápida perdía ~3,5 veces de luz. Alfa igual que el original. (el defecto de la utilidad, 0,30, es el mismo `bg-pimenton/30` de antes). */}
       <span
         aria-hidden
-        className="ember-glow absolute -top-16 left-1/2 h-32 w-48 -translate-x-1/2 rounded-full transition-opacity duration-700 group-hover:opacity-100 md:opacity-60"
+        className="ember-wash absolute -top-16 left-1/2 h-32 w-48 -translate-x-1/2 rounded-full transition-opacity duration-700 group-hover:opacity-100 md:opacity-60"
       />
       <div className="relative flex items-center gap-2 font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint">
         <StatIcon id={stat.id} />

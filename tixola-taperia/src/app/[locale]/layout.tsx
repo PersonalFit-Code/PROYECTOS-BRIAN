@@ -117,6 +117,31 @@ export default async function LocaleLayout({
     <html lang={LOCALE_META[locale].hreflang} className={fontVariables}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
+        {/*
+          RED DE SEGURIDAD DE LOS REVELADOS. El estado oculto de los `[data-reveal]` vive en CSS
+          (`globals.css`) y el atributo viaja YA en el HTML del servidor, así que sin esta línea toda la
+          home por debajo de la portada —cabeceras, carrusel de platos, indicadores, reseñas, galería,
+          FAQ— nacería a opacidad 0 y seguiría invisible mientras el bundle de React no hidratara… o para
+          siempre si el JavaScript no llega. En una presentación con la wifi del local eso es una página
+          en blanco.
+          Por eso el ocultado es OPT-IN: solo se aplica bajo `:root[data-reveal-armed]`, que se escribe
+          aquí, de forma síncrona y antes del primer pintado (sin JS el atributo no existe y el contenido
+          se lee tal cual, sin parpadeo). El temporizador es el vigía: si en 2,6 s nadie ha montado
+          `useScrollReveal` —bundle lento, error de hidratación, JS desactivado a medias— suelta el
+          atributo y la página aparece sin animación, que es infinitamente mejor que en blanco. El propio
+          hook lo cancela al montarse (`disarmRevealWatchdog`).
+          Es un atributo en <html> y no una clase a propósito: la clase de <html> la escribe React con
+          las variables de tipografía y una hidratación podría pisarla; `data-*` es el mismo contrato que
+          ya usan los modales con `data-scroll-lock`.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var r=document.documentElement;r.setAttribute("data-reveal-armed","");' +
+              'window.__tixolaRevealWatchdog=window.setTimeout(function(){r.removeAttribute("data-reveal-armed");' +
+              "delete window.__tixolaRevealWatchdog},2600)}catch(e){}",
+          }}
+        />
       </head>
       <body className="min-h-dvh bg-iron text-cream antialiased">
         <LocaleProvider locale={locale} messages={messages}>

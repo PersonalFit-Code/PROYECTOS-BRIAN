@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
-import { useFrameRateProbe, type FrameRateProbeStatus } from "./useFrameRateProbe";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
 
 /**
  * Presupuesto de rendimiento del sitio.
@@ -76,17 +75,23 @@ export interface PerfProfile {
 type TierBudget = Pick<PerfProfile, "dpr" | "particles" | "shadows" | "postprocessing" | "floaters">;
 
 /**
- * Presupuestos por gama. Se han bajado respecto a la versión anterior (250 / 700 / 1600 partículas,
- * dpr hasta 2) porque el objetivo pasó a ser el portátil con gráfica integrada y el móvil de gama
- * media: el coste de las partículas y del dpr es cuadrático en píxeles, y de 1,5 a 1,25 de dpr se
- * pintan un 30 % menos de fragmentos sin que en pantalla se note la diferencia.
+ * Presupuestos por gama. Bajan respecto a la versión anterior (250 / 700 / 1600 partículas, dpr hasta
+ * 2) porque el objetivo pasó a ser el portátil con gráfica integrada y el móvil de gama media: el coste
+ * del dpr es cuadrático en píxeles, y de 2 a 1,75 se pintan un 23 % menos de fragmentos sin que en
+ * pantalla se note.
+ *
+ * Las partículas NO se recortan tanto como en el primer intento (380 / 1100): ahí la columna de brasas
+ * perdía densidad justo en la gama que este encargo viene a rescatar, y la brasa es el elemento de marca
+ * de la portada. El recorte agresivo dejó de ser necesario cuando la sonda de fotogramas pasó a medir la
+ * escena real: si estas cifras no caben en el equipo, la sonda baja de gama sola en los primeros dos
+ * segundos, que es exactamente lo que el cliente pidió.
  * La gama "low" conserva cifras aunque no monte la escena: si algún día se reutiliza el presupuesto
  * en un fondo ligero, que no salga de cero.
  */
 const PROFILES: Record<PerformanceTier, TierBudget> = {
   low: { dpr: [1, 1], particles: 140, shadows: false, postprocessing: false, floaters: 4 },
-  mid: { dpr: [1, 1.25], particles: 380, shadows: false, postprocessing: false, floaters: 8 },
-  high: { dpr: [1, 1.75], particles: 1100, shadows: true, postprocessing: true, floaters: 14 },
+  mid: { dpr: [1, 1.25], particles: 520, shadows: false, postprocessing: false, floaters: 8 },
+  high: { dpr: [1, 1.75], particles: 1280, shadows: true, postprocessing: true, floaters: 14 },
 };
 
 /** Gama mínima que exige cada característica. */
@@ -121,9 +126,9 @@ const MOTION_FEATURES: ReadonlySet<PerfFeature> = new Set<PerfFeature>([
 ]);
 
 /** Por debajo de esto el dispositivo no sostiene la escena 3D: se apaga y queda el fallback. */
-export const FPS_FLOOR_3D = 30;
+const FPS_FLOOR_3D = 30;
 /** Por debajo de esto hay escena, pero sin sombras, sin bloom y sin cristal real. */
-export const FPS_FLOOR_HIGH = 48;
+const FPS_FLOOR_HIGH = 48;
 
 /* ──────────────────────────────────────────────────────────────
    Almacén (fuera de React: la gama es una sola por pestaña)
@@ -156,11 +161,11 @@ let measured = false;
 let lastFps: number | null = null;
 let snapshot: Snapshot = SERVER_SNAPSHOT;
 let detected = false;
-/** Gobernadores montados a la vez. Solo sirve para avisar en desarrollo si hay más de uno. */
-let governors = 0;
 const listeners = new Set<() => void>();
 
 const RANK: Record<PerformanceTier, number> = { low: 0, mid: 1, high: 2 };
+/** Un escalón por debajo. Se usa para el ahorro de datos, que baja una gama y no hasta el suelo. */
+const LOWER: Record<PerformanceTier, PerformanceTier> = { high: "mid", mid: "low", low: "low" };
 
 function detectDevice(): DeviceFlags {
   const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
@@ -171,9 +176,8 @@ function detectDevice(): DeviceFlags {
   const memory = nav.deviceMemory ?? 4;
   const saveData = nav.connection?.saveData ?? false;
 
-  /* Preferencia explícita del usuario: manda sobre todo lo demás y ni se mide. Reducir movimiento
-     y ahorrar datos son decisiones suyas, no diagnósticos de potencia que una sonda pueda rebatir. */
-  if (reducedMotion || saveData) {
+  /* Movimiento reducido: preferencia explícita del usuario, manda sobre todo lo demás y ni se mide. */
+  if (reducedMotion) {
     return { isMobile, isTouch, reducedMotion, saveData, heuristic: "low", locked: true };
   }
 
@@ -189,7 +193,15 @@ function detectDevice(): DeviceFlags {
      que cualquier móvil flojo entraba también en "mid" y se quedaba ahí. Ahora la sonda corrige.
      Móvil arranca en "mid" y no en "high" porque el segundo de medición se pintaría con sombras
      y bloom: se notaría el tirón justo en la entrada, que es lo que se enseña al cliente. */
-  const heuristic: PerformanceTier = isMobile || isTouch ? "mid" : "high";
+  const base: PerformanceTier = isMobile || isTouch ? "mid" : "high";
+
+  /* Ahorro de datos: UN escalón, no el modo mínimo. Fijarlo en "low" con candado convertía una
+     preferencia de RED en una sentencia sobre la POTENCIA del equipo y le servía la web plana —sin
+     portada 3D, sin grano, sin parallax, sin capítulos— a un visitante de móvil cuyo único problema es
+     el plan de datos. Un escalón abajo es lo que había antes de esta iteración y ya ahorra lo caro de
+     descargar (el chunk del post-procesado y las texturas de gama alta). Sin candado: la sonda sigue
+     pudiendo bajarlo más si de verdad el equipo no llega. */
+  const heuristic: PerformanceTier = saveData ? LOWER[base] : base;
   return { isMobile, isTouch, reducedMotion, saveData, heuristic, locked: false };
 }
 
@@ -206,9 +218,30 @@ function buildSnapshot(): Snapshot {
   ].join("|");
 }
 
+/**
+ * Interruptor ÚNICO del cristal real: escribe `data-gpu="high"` en <html> y con él se reactivan los
+ * `backdrop-filter` de `.glass`, `.glass-smoke`, `.glass-red` y de la banda de la cabecera
+ * (`src/app/globals.css`). Sin esta línea el selector de la hoja era CSS muerto y el cristal no volvía
+ * NUNCA, en ningún equipo: la decisión 2 del cliente ("el cristal real se reserva a gama alta") se
+ * convertía en "el cristal real se elimina".
+ *
+ * Se exige gama alta Y MEDIDA. No basta la heurística optimista: mientras la sonda mide (los primeros
+ * ~2 s, con la escena 3D a pleno rendimiento) es justo el peor momento para añadir una recomposición
+ * del viewport por cada superficie de cristal, y en un portátil flojo el cristal se encendería para
+ * apagarse acto seguido. Así solo lo ve el equipo que ha DEMOSTRADO que le sobra GPU, y lo ve una sola
+ * vez: el almacén es un trinquete y la gama ya no vuelve a subir.
+ */
+function syncGlassSwitch(): void {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  if (measured && activeTier === "high") root.dataset.gpu = "high";
+  else if (root.dataset.gpu) delete root.dataset.gpu;
+}
+
 /** Reconstruye la instantánea y avisa a React. Idempotente: si nada cambió, no notifica. */
 function commit(): void {
   const next = buildSnapshot();
+  syncGlassSwitch();
   renderDiagnostics();
   if (next === snapshot) return;
   snapshot = next;
@@ -258,7 +291,7 @@ export function demotePerformanceTier(tier: PerformanceTier): PerformanceTier {
 }
 
 /** Traduce unos FPS medidos al techo de gama que ese dispositivo se puede permitir. */
-export function tierForFrameRate(fps: number): PerformanceTier {
+function tierForFrameRate(fps: number): PerformanceTier {
   if (fps < FPS_FLOOR_3D) return "low";
   if (fps < FPS_FLOOR_HIGH) return "mid";
   return "high";
@@ -277,30 +310,6 @@ export function reportMeasuredFrameRate(fps: number): PerformanceTier {
   if (RANK[cap] < RANK[activeTier]) activeTier = cap;
   commit();
   return activeTier;
-}
-
-/**
- * Marca el perfil como "sin medir" para que el gobernador vuelva a tomar una muestra. NO devuelve
- * la gama a su valor original: el trinquete se mantiene, así que una remedida solo puede confirmar
- * la gama actual o bajarla más.
- */
-export function rearmMeasurement(): void {
-  if (typeof window === "undefined" || !measured) return;
-  measured = false;
-  lastFps = null;
-  commit();
-}
-
-/** Lectura imperativa de la gama activa (código no-React). En servidor devuelve "low". */
-export function getPerformanceTier(): PerformanceTier {
-  if (typeof window === "undefined") return "low";
-  ensureDetected();
-  return activeTier;
-}
-
-/** Suscripción imperativa a los cambios de gama (código no-React). */
-export function subscribePerformanceTier(listener: () => void): () => void {
-  return subscribe(listener);
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -336,8 +345,9 @@ function parseSnapshot(value: Snapshot): PerfProfile {
  * Perfil de rendimiento activo.
  *
  * Arranca con una heurística optimista (escritorio "high", móvil/táctil "mid") y se degrada solo
- * cuando `usePerformanceGovernor` mide que el dispositivo no llega, o cuando alguien llama a
- * `demotePerformanceTier`. `prefers-reduced-motion` y el ahorro de datos fijan "low" de entrada.
+ * cuando la sonda de fotogramas de la escena 3D (`FrameProbe`, en `HeroScene`) mide que el dispositivo
+ * no llega, o cuando alguien llama a `demotePerformanceTier`. `prefers-reduced-motion` fija "low" de
+ * entrada y el ahorro de datos baja un escalón.
  * Devuelve un perfil "low" durante SSR/hidratación (snapshot de servidor) y el perfil real justo
  * después, sin `setState` dentro de efectos.
  */
@@ -355,78 +365,14 @@ export function useCanAfford(feature: PerfFeature): boolean {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Gobernador: mide y degrada
-   ────────────────────────────────────────────────────────────── */
-
-export interface PerformanceGovernorOptions {
-  /** Con `false` no se mide (p. ej. mientras la escena aún no ha montado). */
-  enabled?: boolean;
-  /** Ventana de medida en ms. Por defecto ~1 s. */
-  sampleMs?: number;
-}
-
-export interface PerformanceGovernorState {
-  /** FPS medidos, o `null` si todavía no hay medición. */
-  fps: number | null;
-  status: FrameRateProbeStatus;
-  /** Gama activa tras aplicar la medición. */
-  tier: PerformanceTier;
-  /** Vuelve a medir y, si procede, vuelve a degradar. */
-  remeasure: () => void;
-}
-
-/**
- * Mide una vez por sesión y degrada la gama si hace falta. Se monta DONDE ESTÁ EL TRABAJO —es
- * decir, junto a la escena 3D—, porque medir la portada sin escena diría que todo va a 60 FPS.
- *
- * Se monta UNA SOLA VEZ en toda la aplicación. Dos gobernadores a la vez no romperían nada —la
- * degradación es un trinquete y la peor de las dos medidas gana— pero serían dos bucles de
- * `requestAnimationFrame` compitiendo justo mientras se juzga el rendimiento, que es precisamente
- * lo que falsea la medida. En desarrollo se avisa por consola si ocurre.
- */
-export function usePerformanceGovernor(options: PerformanceGovernorOptions = {}): PerformanceGovernorState {
-  const { enabled = true, sampleMs } = options;
-  const profile = usePerformanceTier();
-
-  useEffect(() => {
-    governors += 1;
-    if (process.env.NODE_ENV !== "production" && governors > 1) {
-      console.warn("[perf] usePerformanceGovernor montado más de una vez: la medición se falsea. Déjalo solo junto a la escena 3D.");
-    }
-    return () => {
-      governors -= 1;
-    };
-  }, []);
-
-  /* No se mide cuando el usuario ya decidió por nosotros (reduced-motion / ahorro de datos) ni
-     cuando el dispositivo ya cayó a "low": no queda nada que degradar. */
-  const locked = device?.locked ?? false;
-  const shouldMeasure = enabled && !locked && !profile.measured && profile.tier !== "low";
-
-  const { fps, status, restart } = useFrameRateProbe({
-    enabled: shouldMeasure,
-    sampleMs,
-    onResult: reportMeasuredFrameRate,
-  });
-
-  /* Remedir exige soltar antes la marca de "ya medido": si no, `shouldMeasure` sigue en falso y la
-     sonda rearmada no llegaría a montarse nunca. */
-  const remeasure = useCallback(() => {
-    rearmMeasurement();
-    restart();
-  }, [restart]);
-
-  return { fps: fps ?? lastFps, status, tier: profile.tier, remeasure };
-}
-
-/* ──────────────────────────────────────────────────────────────
    Interruptor de diagnóstico
    ────────────────────────────────────────────────────────────── */
 
 /**
  * HUD de desarrollo: FPS medidos y gama activa en pantalla, para poder verificar la mejora en un
  * equipo real (aquí dentro solo hay WebGL por software, así que la única medida válida se toma en
- * el portátil o el móvil de verdad).
+ * el portátil o el móvil de verdad). Es la ÚNICA vía de diagnóstico que queda: el gobernador y la
+ * sonda genérica se han borrado porque nadie las ejercitaba y la medición vive dentro del Canvas.
  *
  * Se enciende con `?perf=1` en la URL y se apaga con `?perf=0`; la elección queda en
  * `sessionStorage` para que sobreviva a la navegación entre idiomas y secciones. Un visitante
@@ -491,20 +437,4 @@ function renderDiagnostics(): void {
     `dpr   ≤${PROFILES[activeTier].dpr[1]}  part ${PROFILES[activeTier].particles}`,
     `flags ${d?.isMobile ? "mobile " : ""}${d?.isTouch ? "touch " : ""}${d?.reducedMotion ? "rm " : ""}${d?.saveData ? "savedata" : ""}`.trimEnd(),
   ].join("\n");
-}
-
-/**
- * Escotilla programática para encender el HUD sin recargar con el parámetro (por ejemplo desde un
- * atajo de teclado de desarrollo). La vía normal sigue siendo `?perf=1`. No lo llama nadie.
- */
-export function showPerformanceDiagnostics(): void {
-  if (typeof window === "undefined") return;
-  try {
-    window.sessionStorage.setItem(DIAGNOSTICS_KEY, "1");
-  } catch {
-    /* Sin almacenamiento el HUD vive solo hasta la próxima navegación. */
-  }
-  hudChecked = false;
-  ensureDetected();
-  renderDiagnostics();
 }

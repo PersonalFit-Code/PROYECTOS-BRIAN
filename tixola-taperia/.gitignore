@@ -33,3 +33,6 @@ test-results
 playwright-report
 screenshots/
 .iteration2-workflow.js
+
+# banco de pruebas local de Tailwind (compilación de utilidades a mano)
+.twtest/

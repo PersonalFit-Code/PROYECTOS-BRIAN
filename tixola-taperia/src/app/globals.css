@@ -112,6 +112,17 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /*
+   * Hueco de la barra de desplazamiento reservado SIEMPRE. Los cuatro paneles a pantalla completa
+   * (menú móvil, reserva, detalle de plato, visor de la galería) ocultan la barra al abrirse y
+   * compensaban el ancho con `padding-right` en el <body>: eso estabiliza el contenido del documento,
+   * pero NO los elementos `position: fixed` (la banda de la cabecera, la barra inferior de móvil, el
+   * botón de WhatsApp, el lanzador del chat), que se posicionan contra el viewport y sí crecen ~15 px.
+   * El resultado era que al abrir un modal en escritorio la cabecera se descentraba ~7,5 px y los
+   * anclados a la derecha saltaban 15. Reservando el hueco de entrada no hay nada que compensar: el
+   * `padding-right` de esos paneles sale 0 y contenido y capas fijas se quedan quietos.
+   */
+  scrollbar-gutter: stable;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -140,8 +151,13 @@ body {
  * Halo de fondo (dos radiales de burdeos). Vivía en `background-image` del <body>, así que su caja de
  * pintado era el documento ENTERO —en /carta son ~9000 px de alto— y el navegador lo reevaluaba cada
  * vez que cambiaba el viewport (barra de direcciones de iOS al hacer scroll, rotación). En una capa
- * fija la caja de pintado es un solo viewport y el halo queda anclado a la pantalla, que es justo lo
- * que se pretendía: la misma imagen por una fracción del coste.
+ * fija la caja de pintado es un solo viewport.
+ *
+ * OJO, NO es la misma imagen: antes las dos manchas estaban ancladas al DOCUMENTO y se pasaba por
+ * delante de ellas al bajar; ahora están clavadas a la PANTALLA y viajan con el scroll de principio a
+ * fin (se nota sobre todo en /carta, donde el lavado rojizo se queda en la esquina superior derecha).
+ * Se acepta a cambio del coste —es luz ambiental, no un elemento de composición— pero es un cambio
+ * visible y conviene enseñárselo al cliente antes de la presentación, no descubrirlo el martes.
  */
 body::before {
   content: "";
@@ -201,7 +217,11 @@ body::before {
  * que el texto no compita con lo que pasa por debajo. De paso el contraste del texto MEJORA.
  */
 @utility glass {
-  background: linear-gradient(135deg, rgba(249, 246, 240, 0.07), rgba(249, 246, 240, 0.02));
+  /* 0,10 / 0,03 y no 0,07 / 0,02: sin desenfoque estas superficies necesitan tapar algo MÁS que las
+     originales (0,08 / 0,02), no menos. La versión anterior bajaba la primera parada mientras el
+     comentario de arriba prometía lo contrario, y las cuatro tarjetas de indicadores y el `details` de
+     las páginas legales quedaban un punto más transparentes que antes Y sin blur. */
+  background: linear-gradient(135deg, rgba(249, 246, 240, 0.1), rgba(249, 246, 240, 0.03));
   border: 1px solid rgba(249, 246, 240, 0.12);
   box-shadow: var(--shadow-glass);
 }
@@ -221,7 +241,8 @@ body::before {
  * El interruptor. Fuera de `@utility` (y por tanto fuera de `@layer utilities`) a propósito: el CSS sin
  * capa gana siempre a las utilidades de Tailwind, así que el desenfoque no depende del orden de la hoja
  * ni de la especificidad de las clases que acompañen a la superficie.
- * `data-gpu="high"` lo pone la sonda de fotogramas en <html>, una sola vez y solo en cliente.
+ * `data-gpu="high"` lo escribe `syncGlassSwitch()` en `src/hooks/usePerformanceTier.ts` (en <html>, una
+ * sola vez, solo en cliente y solo con la gama alta YA MEDIDA). Es el único escritor y el único lector.
  */
 :root[data-gpu="high"] .glass {
   backdrop-filter: blur(18px) saturate(140%);
@@ -234,6 +255,22 @@ body::before {
 :root[data-gpu="high"] .glass-red {
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+/*
+ * La banda de la cabecera. Excepción DOCUMENTADA a "cada componente escribe su propio degradado y no
+ * pide `backdrop-filter`": es la única superficie que el cliente tiene delante durante toda la demo, y
+ * en escritorio pasó de dejar ver la página desenfocada por detrás a ser una franja negra maciza. Sigue
+ * siendo un solo interruptor y sigue viviendo en esta hoja, no en el componente: `Navbar` marca la capa
+ * con `data-navbar-surface` y no decide nada por su cuenta.
+ * Solo en ≥ md: en móvil la banda convive con el lienzo de la portada y el menú a pantalla completa, y
+ * ahí el fondo casi opaco es la decisión correcta en cualquier gama.
+ */
+@media (min-width: 768px) {
+  :root[data-gpu="high"] [data-navbar-surface] {
+    background-image: linear-gradient(160deg, rgba(20, 20, 20, 0.86), rgba(18, 18, 18, 0.66));
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+  }
 }
 
 /*
@@ -259,6 +296,36 @@ body::before {
     rgb(var(--ember-rgb) / var(--ember-a1)),
     rgb(var(--ember-rgb) / calc(var(--ember-a1) * 0.47)) 35%,
     rgb(var(--ember-rgb) / calc(var(--ember-a1) * 0.17)) 62%,
+    transparent 100%
+  );
+}
+
+/*
+ * BRASA DE RELLENO · para lo que ANTES era color macizo
+ * ─────────────────────────────────────────────────────
+ * `ember-glow` reparte el alfa de pico y cae rápido (0,47 al 35 %, 0,17 al 62 %): es el sustituto honesto
+ * de un `radial-gradient` que ya caía así. Pero seis sitios eran RELLENO MACIZO con `blur-3xl` —el
+ * degradado rojo del pie del menú móvil, el del pie de página, el de las páginas legales, el del aviso de
+ * cookies, el de las cuatro tarjetas de indicadores y el del modal de reserva—: ahí el original pintaba
+ * la elipse entera a ese alfa y el desenfoque solo plumeaba el borde. Cambiarlos a `ember-glow` con el
+ * MISMO pico multiplicaba por tres y medio la pérdida de luz y el resplandor rojo —el elemento de marca
+ * más reconocible de la web, y está en el móvil Y en el pie— pasaba de un lavado claro a un rubor casi
+ * invisible.
+ *
+ * `ember-wash` mantiene el alfa casi plano hasta el 70 % del radio y solo pluma el último tramo: es la
+ * forma que tenía el macizo desenfocado, con el mismo coste que `ember-glow` (un degradado, sin filtro y
+ * sin capa propia). Mismas dos variables, mismos valores por defecto.
+ */
+@utility ember-wash {
+  --ember-rgb: 178 30 39;
+  --ember-a1: 0.3;
+  pointer-events: none;
+  background-image: radial-gradient(
+    closest-side,
+    rgb(var(--ember-rgb) / var(--ember-a1)),
+    rgb(var(--ember-rgb) / calc(var(--ember-a1) * 0.96)) 45%,
+    rgb(var(--ember-rgb) / calc(var(--ember-a1) * 0.7)) 70%,
+    rgb(var(--ember-rgb) / calc(var(--ember-a1) * 0.28)) 87%,
     transparent 100%
   );
 }
@@ -317,7 +384,11 @@ body::before {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.075;
+  /* 0,055 y no 0,075. Sin `mix-blend-mode: overlay` el grano ya no se modula con el fondo: es un velo
+     gris uniforme, y a 0,075 levantaba el negro pizarra 3-4 niveles RGB —dejaba de ser negro— y se
+     posaba igual sobre las fotos a sangre y sobre el texto crema, que en overlay subía y ahora baja.
+     A 0,055 el grano se sigue leyendo en los medios tonos y el negro se mantiene. */
+  opacity: 0.055;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
 }
 
@@ -329,14 +400,22 @@ body::before {
  * que es lo que hacían los 24 ScrollTrigger que esto sustituye.
  *
  * Todo va dentro de `prefers-reduced-motion: no-preference`, así que quien pide menos movimiento ve el
- * contenido visible y quieto sin que intervenga nada de JS (y sin riesgo de quedarse con una sección en
- * blanco si el observador no llega a montarse).
+ * contenido visible y quieto sin que intervenga nada de JS.
+ *
+ * Y TODO cuelga además de `:root[data-reveal-armed]`. El ocultado es opt-in porque `data-reveal` viaja en
+ * el HTML del servidor: si la regla fuera global, la home por debajo de la portada (27 nodos: cabeceras
+ * de sección, carrusel de platos, indicadores, reseñas, galería, FAQ) nacería a opacidad 0 y se quedaría
+ * invisible hasta que React hidratara —o para siempre sin JavaScript—. El atributo lo escribe un script
+ * síncrono en `[locale]/layout.tsx` antes del primer pintado y un vigía lo suelta a los 2,6 s si nadie
+ * monta `useScrollReveal`. Efecto lateral bienvenido: reutilizar `SectionHeading`, `Faq` o `PhotoGallery`
+ * en una sección SIN el hook ya no deja ese bloque en blanco para siempre, solo sin animación.
  *
  * Nombres pactados: `[data-reveal]` (+ modos `fade` / `letterbox` / `wipe`), `--reveal-y`,
- * `--reveal-delay` y la clase `.is-revealed`. No cambiarlos sin avisar al paquete de scroll.
+ * `--reveal-delay`, la clase `.is-revealed` y el atributo `data-reveal-armed` del <html>. No cambiarlos
+ * sin avisar al paquete de scroll.
  */
 @media (prefers-reduced-motion: no-preference) {
-  [data-reveal] {
+  :root[data-reveal-armed] [data-reveal] {
     opacity: 0;
     transform: translate3d(0, var(--reveal-y, 28px), 0);
     transition:
@@ -346,20 +425,21 @@ body::before {
     transition-delay: var(--reveal-delay, 0ms);
     will-change: transform, opacity;
   }
-  [data-reveal="fade"] {
+  :root[data-reveal-armed] [data-reveal="fade"] {
     --reveal-y: 0px;
   }
-  [data-reveal="letterbox"] {
+  :root[data-reveal-armed] [data-reveal="letterbox"] {
     --reveal-y: 0px;
     clip-path: inset(12% 0 12% 0);
   }
-  [data-reveal="wipe"] {
+  :root[data-reveal-armed] [data-reveal="wipe"] {
     --reveal-y: 0px;
     clip-path: inset(0 100% 0 0);
   }
   /* `will-change: auto` al revelar es deliberado: libera la capa GPU en cuanto termina la entrada, en
-     vez de dejar promovidas decenas de secciones durante toda la sesión. */
-  [data-reveal].is-revealed {
+     vez de dejar promovidas decenas de secciones durante toda la sesión.
+     Lleva el mismo prefijo que el estado inicial porque si no perdería en especificidad contra él. */
+  :root[data-reveal-armed] [data-reveal].is-revealed {
     opacity: 1;
     transform: none;
     clip-path: inset(0 0 0 0);

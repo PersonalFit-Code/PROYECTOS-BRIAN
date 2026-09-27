@@ -106,11 +106,13 @@ export function Stars({ rating, size = "md", className }: { rating: number; size
   const row = (filled: boolean) => (
     <span className="flex gap-0.5">
       {Array.from({ length: 5 }, (_, i) => (
-        /* Sin `drop-shadow`: a 14 px el halo no se distingue y eran 180 filtros desplazándose por el
-           carril de reseñas. El dorado va un punto más saturado para que la estrella siga "brillando". */
+        /* Sin `drop-shadow`: a 14 px el halo no se distingue y eran hasta 180 filtros desplazándose por el
+           carril de reseñas. El dorado se queda en el TOKEN de marca (`--color-gold`, #e8c27a) y no en un
+           hexadecimal escrito a mano: el elemento más repetido de la sección de opiniones no es el sitio
+           donde introducir un dorado que no existe en la paleta. */
         <Star
           key={i}
-          className={cn(dim, filled ? "fill-[#f3c368] text-[#f3c368]" : "fill-transparent text-cream/25")}
+          className={cn(dim, filled ? "fill-gold text-gold" : "fill-transparent text-cream/25")}
           strokeWidth={1.6}
           aria-hidden
         />

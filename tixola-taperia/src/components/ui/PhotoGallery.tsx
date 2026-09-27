@@ -22,6 +22,7 @@ import { useInertBackground } from "@/hooks/useInertBackground";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { localizePhotos } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
+import { lockScroll } from "@/lib/scrollLock";
 import { cn } from "@/lib/utils";
 
 /**
@@ -173,21 +174,10 @@ export default function PhotoGallery({ className }: PhotoGalleryProps) {
   useEffect(() => {
     if (!lightboxOpen) return;
     const returnTo = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const { body } = document;
-    const html = document.documentElement;
-    const previousOverflow = body.style.overflow;
-    const previousPaddingRight = body.style.paddingRight;
-    /* Compensar la barra al ocultarla (mismo contrato que Navbar, DishSpotlight y ReservationModal):
-       sin esto el <body> ensancha ~15 px, el ResizeObserver de Lenis lo ve y remide los triggers unos
-       180 ms después de abrir la foto, con el salto visual justo encima del visor. */
-    const scrollbarGap = window.innerWidth - html.clientWidth;
-    body.style.overflow = "hidden";
-    if (scrollbarGap > 0) body.style.paddingRight = `${scrollbarGap}px`;
-    html.dataset.scrollLock = "";
+    /* Bloqueo CONTADO y compartido (`src/lib/scrollLock.ts`): ver la nota de ese fichero. */
+    const releaseScroll = lockScroll();
     return () => {
-      body.style.overflow = previousOverflow;
-      body.style.paddingRight = previousPaddingRight;
-      delete html.dataset.scrollLock;
+      releaseScroll();
       if (returnTo?.isConnected) returnTo.focus({ preventScroll: true });
     };
   }, [lightboxOpen]);

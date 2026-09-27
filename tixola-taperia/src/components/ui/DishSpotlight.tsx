@@ -20,9 +20,9 @@ import NeonButton from "@/components/ui/NeonButton";
 import { formatPrice } from "@/data/menu";
 import { useInertBackground } from "@/hooks/useInertBackground";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { localizeAllergenMap } from "@/i18n/data";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
+import { lockScroll } from "@/lib/scrollLock";
 import { cn } from "@/lib/utils";
 
 /**
@@ -102,23 +102,10 @@ export default function DishSpotlight({ slide, onClose, onReserve, steam = true 
   useEffect(() => {
     if (!open) return;
     returnFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const { body } = document;
-    const html = document.documentElement;
-    const previousOverflow = body.style.overflow;
-    const previousPaddingRight = body.style.paddingRight;
-    /* Compensar la barra de desplazamiento al ocultarla (mismo contrato que el menú de Navbar): sin
-       esto el ancho del <body> crece ~15 px de golpe al abrir el plato, el ResizeObserver de Lenis lo
-       ve, y unos 180 ms después del clic se remiden los triggers y se recrea el pin de la portada —
-       un salto visual justo encima de la animación de apertura. `data-scroll-lock` en <html> deja el
-       estado a la vista del CSS y de los helpers de scroll. */
-    const scrollbarGap = window.innerWidth - html.clientWidth;
-    body.style.overflow = "hidden";
-    if (scrollbarGap > 0) body.style.paddingRight = `${scrollbarGap}px`;
-    html.dataset.scrollLock = "";
+    /* Bloqueo CONTADO y compartido (`src/lib/scrollLock.ts`): ver la nota de ese fichero. */
+    const releaseScroll = lockScroll();
     return () => {
-      body.style.overflow = previousOverflow;
-      body.style.paddingRight = previousPaddingRight;
-      delete html.dataset.scrollLock;
+      releaseScroll();
       const el = returnFocusRef.current;
       returnFocusRef.current = null;
       if (el?.isConnected) el.focus({ preventScroll: true });
@@ -165,8 +152,6 @@ interface SheetProps {
 function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
   const { dish, photo } = slide;
   const m = useMessages();
-  /* `glass` viene del catálogo de rendimiento (gama medida, no adivinada por núcleos). */
-  const glass = usePerformanceTier().glass;
   const reducedMotion = useReducedMotion();
   const dragControls = useDragControls();
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -233,10 +218,12 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
           /* Sombra de 40 px en vez de 80: el radio de difuminado es el que fija cuánta superficie tiene que
              rasterizar el compositor, y este panel se anima y se arrastra. A ojo, la misma elevación. */
           "noise after:noise-after after:rounded-[inherit] relative flex max-h-[92dvh] w-full flex-col rounded-t-[28px] shadow-[0_-14px_40px_-16px_rgba(0,0,0,0.9)] outline-none",
-          /* `glass-smoke` lleva backdrop-filter: solo en gama alta. El velo ya es opaco al 80 %,
-             así que fuera de ese tier el panel es hierro sólido y no hay una segunda pasada de
-             desenfoque a pantalla casi completa mientras el panel se anima o se arrastra. */
-          glass ? "glass-smoke" : "border border-cream/10 bg-iron-900/95 shadow-glass",
+          /* `glass-smoke` sin condicionar la gama a mano. La utilidad es horneada (degradado + borde +
+             sombra) y el `backdrop-filter` solo vuelve bajo `:root[data-gpu="high"]`, que escribe la sonda
+             de fotogramas: un único interruptor para las 41 superficies de cristal de la web. El ternario
+             anterior hacía justo lo que el contrato del proyecto prohíbe, y su efecto práctico era que la
+             MISMA ficha se veía más transparente en el ordenador bueno que en el flojo. */
+          "glass-smoke",
           "sm:max-w-lg sm:rounded-[28px] sm:shadow-card",
           "md:h-[min(86dvh,760px)] md:max-h-none md:max-w-4xl md:flex-row",
         )}

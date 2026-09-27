@@ -20,8 +20,10 @@ const PIN_DISTANCE_DESKTOP = 1;
 const PIN_DISTANCE_MOBILE = 0.7;
 
 /**
- * Opacidad del velo negro al final del anclaje. Sube de 0,65 a 0,72 porque hemos retirado el
- * desenfoque del lienzo (ver abajo): el "pull-back" necesita algo más de oscuridad para leerse igual.
+ * Opacidad del velo al final del anclaje. Sube de 0,65 a 0,72 porque hemos retirado el desenfoque del
+ * lienzo (ver abajo). El velo ya no es negro plano sino un radial que cierra el encuadre por los bordes y
+ * deja el centro más limpio (`[data-hero-dim]` en HeroCanvas): así el gesto se lee como una pérdida de
+ * foco y no solo como "se apaga la luz", que es lo que quedaba al quitar el blur.
  */
 const DIM_MAX = 0.72;
 
@@ -82,17 +84,22 @@ export function useHeroStillVisible(): boolean {
  * nada: ancla `#hero` durante el primer viewport de scroll y, mientras el siguiente capítulo se
  * desliza por encima (ver `<Chapter overlapsHero>`), la escena hace un "pull-back":
  *  - la capa 3D (`#hero [data-hero-canvas]`) encoge 1 → 0.92 y sube un 3 %;
- *  - un velo negro dentro de esa capa (`[data-hero-dim]`) sube de 0 a 0.72 y la oscurece;
+ *  - un velo radial dentro de esa capa (`[data-hero-dim]`) sube de 0 a 0.72 y cierra el encuadre;
  *  - el copy (`#hero [data-hero-copy]`) sube más rápido que la escena y se funde (parallax a dos
  *    velocidades);
  *  - si el hero no expone esos atributos, solo se transforma `#hero`.
  *
- * SIN DESENFOQUE. Antes, en gama alta, el lienzo llevaba un `filter: blur(0 → 6px)` interpolado con
- * `scrub` en cada fotograma del anclaje: el navegador tenía que refiltrar un buffer del viewport
- * completo (≈8 Mpx a dpr 2) mientras Three.js pintaba debajo, Lenis interpolaba y el capítulo
- * siguiente se deslizaba encima. Era la superficie más cara de toda la web y el retroceso ya se lee
- * con `scale 0.92` + `yPercent -3` + el velo de opacidad. Si alguna vez se recupera, el único gate
- * admisible es la gama MEDIDA en alta (`can("postprocessing")`/`glass`), nunca un recuento de núcleos.
+ * SIN DESENFOQUE, PERO CON CIERRE DE ENCUADRE. Antes, en gama alta, el lienzo llevaba un
+ * `filter: blur(0 → 6px)` interpolado con `scrub` en cada fotograma del anclaje: el navegador tenía que
+ * refiltrar un buffer del viewport completo (≈8 Mpx a dpr 2) mientras Three.js pintaba debajo, Lenis
+ * interpolaba y el capítulo siguiente se deslizaba encima. Era la superficie más cara de toda la web.
+ * Sustituirlo por "más velo negro" NO era equivalente —donde la cámara cambiaba de plano, la escena
+ * simplemente se apagaba—, así que el velo pasó a ser un radial con caída hacia los bordes: el retroceso
+ * se lee con `scale 0.92` + `yPercent -3` + un encuadre que se cierra, y el coste sigue siendo una capa
+ * compuesta sin filtro. Es el primer gesto cinematográfico que ve el cliente al bajar, y CONVIENE
+ * ENSEÑÁRSELO antes del martes: no es el mismo plano que tenía, aunque el gesto se conserve.
+ * Si alguna vez se recupera el desenfoque, el único gate admisible es la gama MEDIDA en alta
+ * (`can("postprocessing")`/`glass`), nunca un recuento de núcleos.
  *
  * El oscurecido va en un velo y no en un `filter: brightness()` de la capa. Motivo: el filtro se
  * escribía como `brightness(var(--hero-dim))` con la variable animada por GSAP, y el valor inicial

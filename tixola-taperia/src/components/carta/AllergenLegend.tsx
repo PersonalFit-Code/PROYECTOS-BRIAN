@@ -8,6 +8,7 @@ import AllergenIcon from "@/components/ui/AllergenIcon";
 import { useInertBackground } from "@/hooks/useInertBackground";
 import { localizeAllergens } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
+import { lockScroll } from "@/lib/scrollLock";
 import { cn } from "@/lib/utils";
 
 /**
@@ -101,8 +102,10 @@ function SheetInner({ onClose }: { onClose: () => void }) {
   /* Bloqueo de scroll + Escape + foco inicial / devolución del foco */
   useEffect(() => {
     const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    /* Bloqueo CONTADO y compartido (`src/lib/scrollLock.ts`). Antes este panel bloqueaba el <body> pero NO
+       escribía `data-scroll-lock`, así que con la leyenda abierta Lenis seguía vivo y HeroCanvas seguía
+       pintando la escena 3D detrás de un panel opaco a pantalla completa. */
+    const releaseScroll = lockScroll();
     closeRef.current?.focus();
 
     const onKey = (e: KeyboardEvent) => {
@@ -111,7 +114,7 @@ function SheetInner({ onClose }: { onClose: () => void }) {
     window.addEventListener("keydown", onKey);
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
+      releaseScroll();
       previouslyFocused?.focus();
     };
   }, [onClose]);

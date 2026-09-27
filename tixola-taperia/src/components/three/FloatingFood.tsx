@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { damp } from "maath/easing";
 import type { PointerVec } from "@/hooks/usePointerParallax";
 
 /* ──────────────────────────────────────────────────────────────
@@ -260,10 +261,24 @@ export default function FloatingFood({ count, pointer, shadows }: FloatingFoodPr
     };
   }, [shellGeo, leafGeo, dropGeo]);
 
-  useFrame((state) => {
+  /*
+   * Puntero AMORTIGUADO aquí dentro. `usePointerParallax` ya no suaviza nada: `pointer` y `target` son la
+   * misma referencia con el valor CRUDO del evento, y el contrato del hook es que lo amortigüe quien lo
+   * consuma. Backdrop, CameraRig y TixolaPan lo hacen con `damp()`; esto no, y aplicaba el valor bruto
+   * directamente a la posición de cada instancia. Con ratón se veía como un tirón en cualquier movimiento
+   * rápido (o al reentrar el puntero por otro punto de la ventana, que salta de golpe), y en móvil el
+   * ruido crudo de `deviceorientation` llegaba tal cual a las zamburiñas, las hojas y las gotas.
+   * 0,28 s de constante: el mismo suavizado que tenía el bucle rAF que se retiró del hook.
+   */
+  const smoothed = useRef<PointerVec>({ x: 0, y: 0 });
+
+  useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
-    const px = pointer.current.x;
-    const py = pointer.current.y;
+    const dt = Math.min(delta, 0.05);
+    damp(smoothed.current, "x", pointer.current.x, 0.28, dt);
+    damp(smoothed.current, "y", pointer.current.y, 0.28, dt);
+    const px = smoothed.current.x;
+    const py = smoothed.current.y;
     updateInstances(shellRef.current, shells, "shell", t, px, py);
     updateInstances(leafRef.current, leaves, "leaf", t, px, py);
     updateInstances(dropRef.current, drops, "drop", t, px, py);

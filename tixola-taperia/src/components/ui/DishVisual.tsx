@@ -55,7 +55,7 @@ export interface DishVisualProps {
   /**
    * Ambiente del visual compuesto: flotación del icono y volutas de vapor. Quien llama sigue pudiendo
    * apagarlo (p. ej. las caras que no están al frente del cilindro), pero las volutas llevan además su
-   * propia puerta de gama dentro del componente: son desenfoques animados.
+   * propia puerta de gama dentro del componente: son bucles infinitos.
    */
   steam?: boolean;
   /** "slide": tarjeta del carrusel · "sheet": detalle (tixola e icono algo mayores) */
@@ -107,23 +107,31 @@ const IRON_HANDLE: CSSProperties = {
   boxShadow: "0 8px 14px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.14)",
 };
 /*
- * Halo del icono: UN solo drop-shadow, no tres. Cada `drop-shadow()` es una pasada de desenfoque
- * sobre la silueta del SVG, y aquí había tres encadenadas por cara (hasta nueve caras a la vez en el
- * cilindro). El calor rojo que aportaban las otras dos ya lo pone la brasa horneada del fondo, y la
- * sombra negra de apoyo la da el pozo de la tixola: a ojo es el mismo icono encendido.
+ * Halo del icono: DOS drop-shadow, no tres ni uno. Cada `drop-shadow()` es una pasada de desenfoque sobre
+ * la silueta del SVG, y había tres encadenadas por cara (hasta nueve caras a la vez en el cilindro), así
+ * que la tercera —el bloom rojo ancho de 28 px— se va: ese calor ya lo pone la brasa horneada del fondo.
+ * Pero la sombra negra de apoyo VUELVE: sin ella el icono dorado dejaba de apoyarse en el pozo de la
+ * sartén y flotaba pegado, y eso pasaba en TODAS las gamas en la pieza que se enseña al pulsar "Platos
+ * estrella". Dos pasadas es un tercio menos que el original, no dos tercios menos de icono.
  * Va en un envoltorio QUIETO — la flotación (`tx-dish-float`) se aplica a un hijo sin filtro.
  */
 const ICON_GLOW: CSSProperties = {
-  filter: "drop-shadow(0 0 16px rgba(216,50,60,0.8))",
+  filter: "drop-shadow(0 0 16px rgba(216,50,60,0.8)) drop-shadow(0 4px 9px rgba(0,0,0,0.7))",
 };
 
 export default function DishVisual({ dish, photo, sizes, steam = true, variant = "slide", priority = false, className }: DishVisualProps) {
   const m = useMessages();
   const t = useFormat();
-  /* Las volutas de vapor son tres capas con `blur-[6px]` ANIMADAS: cada fotograma vuelve a rasterizar
-     un desenfoque por voluta, y en el cilindro hay varias caras compuestas a la vez. Se reservan a la
-     gama que ha demostrado GPU de sobra; la flotación del icono (solo `transform`) se queda siempre. */
-  const canBlur = useCanAfford("heavyBlur");
+  /* Las volutas de vapor eran tres capas con `blur-[6px]` ANIMADAS —cada fotograma volvía a rasterizar un
+     desenfoque por voluta, y en el cilindro hay varias caras compuestas a la vez—, así que se habían
+     reservado a la gama alta. El efecto era que las tixolas del carrusel no humeaban en NINGÚN móvil (que
+     arranca en "mid") ni en ningún portátil que la sonda no promocionara, y el vapor es media lectura de
+     "recién hecho".
+     La solución no es la gama, es el filtro: las volutas pasan a ser degradados radiales, suaves en los
+     dos ejes por sí solos, sin `blur`. Sin filtro que rasterizar solo queda lo que ya había —tres capas
+     moviendo `transform` y `opacity`, que resuelve el compositor—, así que basta con exigir movimiento
+     ambiental (gama media y sin `prefers-reduced-motion`). */
+  const canSteam = useCanAfford("ambientMotion");
 
   /* ── Foto real ── */
   if (photo) {
@@ -147,7 +155,7 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
 
   /* ── Visual compuesto: tixola de hierro + icono del plato ── */
   const float = steam;
-  const wisps = steam && canBlur;
+  const wisps = steam && canSteam;
   const iconSize = variant === "sheet" ? 96 : 72;
   /* Ancho de la tixola relativo al contenedor (unidades de container query; el `w-[62%]` es el
      respaldo si el navegador no las soporta: el estilo inline inválido se ignora y manda la clase). */
@@ -211,13 +219,13 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
         </div>
       </div>
 
-      {/* 4 · Vapor (solo gama alta: son desenfoques animados) */}
+      {/* 4 · Vapor (gama media en adelante: ya no hay desenfoque, solo transform y opacidad) */}
       {wisps && (
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[6%] h-[44%] overflow-visible">
           {WISPS.map((w) => (
             <span
               key={w.left}
-              className="tx-steam-wisp absolute bottom-0 h-24 rounded-full bg-gradient-to-t from-transparent via-cream/25 to-transparent blur-[6px]"
+              className="tx-steam-wisp absolute bottom-0 h-24 rounded-full bg-[radial-gradient(closest-side,rgba(249,246,240,0.3),rgba(249,246,240,0.14)_46%,rgba(249,246,240,0.04)_72%,transparent_100%)]"
               style={
                 {
                   left: w.left,

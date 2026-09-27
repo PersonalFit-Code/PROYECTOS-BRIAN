@@ -135,12 +135,25 @@ de luz superior, no el desenfoque. El desenfoque real se reactiva desde **un ún
 :root[data-gpu="high"] .glass       { backdrop-filter: blur(18px) saturate(140%); }
 :root[data-gpu="high"] .glass-smoke { backdrop-filter: blur(22px) saturate(120%); }
 :root[data-gpu="high"] .glass-red   { backdrop-filter: blur(18px) saturate(140%); }
+/* Excepción documentada: la banda de la cabecera (`[data-navbar-surface]`, solo en ≥ md). */
 ```
 
-- **`data-gpu="high"` en `<html>` lo escribe la sonda de fotogramas, una sola vez y solo en cliente**
-  (`usePerformanceTier` / `useFrameRateProbe`). Es el ÚNICO sitio donde se decide.
+- **`data-gpu="high"` en `<html>` lo escribe `syncGlassSwitch()`** en
+  `src/hooks/usePerformanceTier.ts`, desde el `commit()` del almacén: una sola vez, solo en cliente y solo
+  con la gama alta **ya medida** (no basta la heurística optimista de partida — mientras la sonda mide es
+  el peor momento para añadir una recomposición del viewport por superficie). Es el ÚNICO escritor y el
+  único lector del atributo. Si esta función desaparece, el cristal no vuelve en NINGÚN equipo y la
+  decisión del cliente pasa de "se reserva a gama alta" a "se elimina": era exactamente el estado en el
+  que estaba el árbol a mitad de esta iteración.
+- **Única superficie que no es una tarjeta: la cabecera.** La banda `fixed` de 72 px se pinta con su propio
+  degradado casi opaco (0,96/0,92) por defecto, porque es la superficie que más se recompone de toda la
+  sesión; pero en escritorio eso la convertía en una franja negra maciza, y es lo que el cliente tiene
+  delante durante toda la demo. Recupera el degradado translúcido + desenfoque en ≥ md bajo el MISMO
+  selector de arriba. El componente solo marca la capa con `data-navbar-surface`: no consulta la gama.
 - Las opacidades horneadas suben un par de puntos respecto a las de la iteración 2 para compensar la
-  pérdida del desenfoque. Efecto lateral bienvenido: **el texto sobre cristal gana contraste**.
+  pérdida del desenfoque: `glass` 0,08 → **0,10**, `glass-smoke` 0,72 → 0,78/0,90, `glass-red` 0,22 →
+  0,30. Suben las tres, sin excepciones. Efecto lateral bienvenido: **el texto sobre cristal gana
+  contraste**.
 - **Prohibido volver a condicionar el cristal a mano.** Nada de `tier === "high" ? "glass-smoke" : …` ni
   de props `glass` viajando por el árbol: la clase se pone siempre y el selector de arriba decide. Si un
   componente necesita un fondo distinto del de la utilidad, escribe su propio degradado (ver OpenStatus)
@@ -148,7 +161,7 @@ de luz superior, no el desenfoque. El desenfoque real se reactiva desde **un ún
 - Excepción deliberada: **el aviso de cookies nunca lleva cristal, en ningún ancho**. Se pinta encima del
   lienzo WebGL de la portada, ya en marcha, y es lo primero que ve un visitante.
 
-## 2 · Brasas: utilidad `ember-glow`, nunca `blur-2xl` / `blur-3xl`
+## 2 · Brasas: utilidades `ember-glow` / `ember-wash`, nunca `blur-2xl` / `blur-3xl`
 
 Desenfocar un degradado radial es trabajo tirado: el degradado ya es suave. La utilidad `ember-glow`
 lleva la caída horneada en cuatro paradas y se ajusta con dos variables:
@@ -162,6 +175,16 @@ así que **no se declara una clase arbitraria por parada** — si cada component
 `bg-[radial-gradient(...)]`, la hoja global engordaría y se perdería el cambio. `--ember-rgb` toma el
 color en componentes separados por espacio (en Tailwind, con `_`).
 
+**Dos utilidades, y elegir la correcta importa.** `ember-glow` reparte el alfa desde el pico y cae rápido
+(×0,47 al 35 %, ×0,17 al 62 %): es el sustituto honesto de un `radial-gradient` que ya caía así.
+`ember-wash` mantiene el alfa casi plano hasta el 70 % del radio y solo pluma el último tramo: es el
+sustituto de un **color macizo** al que el `blur-3xl` solo le plumeaba el borde. Confundirlas cuesta
+~3,5 veces de luz (alfa media ≈ 0,21·a1 frente a ≈ 0,6·a1), y en esta web eso se vio en seis sitios: el
+resplandor del pie del menú móvil, el del pie de página, el de las páginas legales, el del aviso de
+cookies, el de las cuatro tarjetas de indicadores y el del modal de reserva pasaron de un lavado claro a
+un rubor casi invisible. **Regla práctica: ¿el original era `bg-<color>/<alfa>` plano? → `ember-wash` con
+el MISMO alfa. ¿Era ya un radial? → `ember-glow`.** Nunca hace falta compensar el alfa a ojo.
+
 Regla: **ningún `blur-2xl` / `blur-3xl` sobre un área mayor de 200×200 px.** Para halos pequeños de
 adorno el filtro es tolerable; para una capa de 420² px o de 1400×760 no.
 
@@ -171,14 +194,22 @@ adorno el filtro es tolerable; para una capa de 420² px o de 1400×760 no.
 ve — en las secciones a pantalla completa y en el envoltorio de /carta (~9000 px) son megapíxeles por
 scroll a cambio de un grano al 7 %. Se ha quitado en **todos** los anchos (la mitigación anterior lo
 apagaba en móvil, donde ya iba bien, y lo dejaba encendido justo en el portátil con gráfica integrada).
-El grano se superpone en modo normal, con la turbulencia desaturada y algo más de opacidad.
+El grano se superpone en modo normal, con la turbulencia desaturada y la opacidad en **0,055**: en modo
+`overlay` el grano se modulaba con el fondo y sobre el negro pizarra era casi invisible; en modo normal es
+un velo gris uniforme, y a 0,075 levantaba el negro 3-4 niveles RGB —dejaba de ser negro— y se posaba
+igual sobre las fotos a sangre y sobre el texto crema. Es un cambio visible en pantalla grande: el grano
+ya no se modula, solo es más discreto.
 
 ## 4 · Halo del fondo: capa fija, no `background-image` del `<body>`
 
 Los dos radiales de burdeos viven en `body::before { position: fixed; inset: 0; z-index: -50 }`. En el
 `background-image` del `<body>` su caja de pintado era el documento entero y se reevaluaban al cambiar el
-viewport (barra de direcciones de iOS, rotación). Misma imagen, un viewport de caja, y anclada a la
-pantalla, que es lo que se pretendía.
+viewport (barra de direcciones de iOS, rotación). Un viewport de caja en vez de 9000 px.
+
+**No es la misma imagen**, y conviene decirlo: antes las manchas estaban ancladas al DOCUMENTO y se pasaba
+por delante de ellas al bajar; ahora están clavadas a la PANTALLA y viajan con el scroll de principio a
+fin (se nota en /carta, donde el lavado rojizo se queda en la esquina superior derecha). Se acepta porque
+es luz ambiental y no un elemento de composición, pero **es una decisión para enseñar al cliente**.
 
 ## 5 · Revelados al entrar en pantalla: el estado vive en CSS
 
@@ -187,6 +218,7 @@ estado inicial, la transición y el final son CSS:
 
 | Nombre | Qué es |
 | --- | --- |
+| `[data-reveal-armed]` (en `<html>`) | **interruptor**: sin él no se oculta nada |
 | `[data-reveal]` | fundido + desplazamiento (modo por defecto) |
 | `[data-reveal="fade"]` | solo fundido |
 | `[data-reveal="letterbox"]` | se abre como un fotograma (`clip-path` vertical) |
@@ -198,6 +230,26 @@ estado inicial, la transición y el final son CSS:
 Todo va dentro de `@media (prefers-reduced-motion: no-preference)`: quien pide menos movimiento ve el
 contenido visible y quieto **sin que intervenga nada de JS**. No renombrar estas claves sin avisar al
 módulo de scroll.
+
+**Y todo cuelga además de `:root[data-reveal-armed]`.** El atributo `data-reveal` viaja YA en el HTML del
+servidor (27 nodos en la home), así que una regla global `[data-reveal]{opacity:0}` deja toda la página por
+debajo de la portada invisible hasta que React hidrate — y para siempre si el JavaScript no llega. Con la
+wifi de un local eso es una página en blanco delante del cliente. Por eso:
+
+1. un script síncrono en `[locale]/layout.tsx` escribe el atributo **antes del primer pintado** (sin JS no
+   existe y el HTML del servidor se lee tal cual, sin parpadeo);
+2. ese mismo script arma un vigía de 2,6 s que lo retira si nadie llega a montar `useScrollReveal`
+   (bundle lento, error de hidratación): la página aparece sin animación, que es mucho mejor que en blanco;
+3. `useScrollReveal` cancela el vigía al montarse (`disarmRevealWatchdog`).
+
+Efecto lateral bienvenido: reutilizar un componente genérico con `data-reveal` (`SectionHeading`, `Faq`,
+`PhotoGallery`) en una sección **sin** el hook ya no deja ese bloque en blanco para siempre.
+
+Y un detalle que costó caro: en JSX un atributo sin valor (`<h2 data-reveal>`) es `data-reveal={true}` y
+React lo serializa como la **cadena `"true"`**, no como vacío. Quien mire `el.dataset.reveal` para decidir
+si hay un modo explícito tiene que contar `"true"` como "no hay modo", o la opción `cinematic` del hook no
+hace nada (fue el caso: Experience y SocialProof revelaban todo en modo `up` y las reglas `letterbox` /
+`wipe` no las usaba nadie).
 
 ## 6 · `will-change` atado a la animación
 
@@ -213,3 +265,37 @@ Lo mismo con los `filter` sobre texto: el halo de los contadores llega al TERMIN
 toda la web + `useSyncExternalStore`. **Úsalo en vez del `useInView` de Framer** cuando solo hace falta
 saber si algo se ve para pausar una animación o para montar un bloque pesado: Framer arrastra el paquete
 entero a componentes que por lo demás no animan nada.
+
+## 8 · Bloqueo de scroll: contado, en un solo sitio
+
+`src/lib/scrollLock.ts` → `const release = lockScroll()` y `release()` en la limpieza del efecto. Lo usan
+los cinco paneles a pantalla completa (menú de la cabecera, modal de reserva, detalle de plato, visor de la
+galería, leyenda de alérgenos). **Nadie escribe `data-scroll-lock` ni `body.style.overflow` a mano.**
+
+El contrato son dos cosas y las dos las mira el resto de la web: `overflow: hidden` en el `<body>`, que
+congela el scroll, y `data-scroll-lock` en el `<html>`, que es lo que consultan `SmoothScrollProvider`
+(para parar Lenis) y `HeroCanvas` (para dejar de pintar la escena detrás de un panel opaco). Sin contador,
+dos paneles solapados se pisaban: el interior borraba el atributo al cerrarse y el exterior se quedaba
+abierto con Lenis vivo y el lienzo WebGL pintando debajo. La leyenda de alérgenos, además, bloqueaba el
+`<body>` sin escribir el atributo, así que con ella abierta eso pasaba siempre.
+
+El `padding-right` que compensa la barra de desplazamiento sigue ahí, pero ya no hace falta: `<html>` lleva
+`scrollbar-gutter: stable`, que reserva el hueco de entrada. Sin eso, compensar el `<body>` estabilizaba el
+contenido del documento pero **no** las capas `position: fixed` (cabecera, barra inferior de móvil, botón
+de WhatsApp, lanzador del chat), que se posicionan contra el viewport y saltaban 7,5-15 px al abrir un
+modal en escritorio.
+
+## 9 · Degradación medida: un solo sentido y una sola vez
+
+La sonda vive DENTRO del Canvas (`FrameProbe`, en `HeroScene`) y publica en el almacén de gama, que es un
+trinquete: la gama baja, nunca sube. Dos consecuencias que hay que respetar al escribir cualquier consumidor:
+
+- **Un consumidor puede perder su capacidad EN CALIENTE.** `useCanAfford(...)` puede pasar de `true` a
+  `false` a los 2-4 s de cargar. Todo lo que se haya escrito en el DOM tiene que poder deshacerse en la
+  limpieza del efecto —ojo con `gsap.quickSetter`, que escribe estilo en línea sin crear ningún tween y por
+  tanto `ctx.revert()` NO lo deshace— y todo estado derivado de "esto está montado" tiene que leerse junto
+  con la condición que lo monta (`ready && show3D`, no `ready` a secas), o queda un hueco negro sin error.
+- **Lo que cambia el TACTO no se decide con la heurística.** Lenis exige gama alta **y medida**
+  (`tier === "high" && measured`): con la heurística optimista se montaba en el primer render y se
+  destruía dos segundos después, y el scroll cambiaba de tacto en vivo delante del cliente. Así el
+  interruptor se acciona una sola vez y siempre hacia "responde mejor". Mismo criterio para el cristal.

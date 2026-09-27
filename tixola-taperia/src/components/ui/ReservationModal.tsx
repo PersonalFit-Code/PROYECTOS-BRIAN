@@ -8,10 +8,10 @@ import { formatLongDate } from "@/lib/format";
 import NeonButton from "@/components/ui/NeonButton";
 import { WhatsAppGlyph } from "@/components/ui/FloatingWhatsApp";
 import { useInertBackground } from "@/hooks/useInertBackground";
-import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import type { Messages } from "@/i18n/types";
 import { getOpenStatus } from "@/lib/openStatus";
+import { lockScroll } from "@/lib/scrollLock";
 import { cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────────
@@ -216,8 +216,6 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   const m = useMessages();
   const t = useFormat();
   const locale = useLocale();
-  /* `glass` viene del catálogo de rendimiento (gama medida, no adivinada por núcleos). */
-  const glass = usePerformanceTier().glass;
   const r = m.common.reservation;
 
   const uid = useId();
@@ -242,18 +240,8 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   useEffect(() => {
     if (!open) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
-    const { body } = document;
-    const html = document.documentElement;
-    const previousOverflow = body.style.overflow;
-    const previousPaddingRight = body.style.paddingRight;
-    /* Compensar la barra de desplazamiento al ocultarla (mismo contrato que Navbar y DishSpotlight):
-       sin esto el ancho del <body> crece ~15 px de golpe, el ResizeObserver de Lenis lo ve y unos
-       180 ms después del clic se remiden los triggers y se recrea el pin de la portada — un salto
-       visual encima de la apertura del modal, que es la conversión principal del negocio. */
-    const scrollbarGap = window.innerWidth - html.clientWidth;
-    body.style.overflow = "hidden";
-    if (scrollbarGap > 0) body.style.paddingRight = `${scrollbarGap}px`;
-    html.dataset.scrollLock = "";
+    /* Bloqueo CONTADO y compartido (`src/lib/scrollLock.ts`): ver la nota de ese fichero. */
+    const releaseScroll = lockScroll();
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -262,9 +250,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
     /* El foco entra en el primer fotograma pintado (antes: temporizador de 60 ms). */
     const focusFrame = window.requestAnimationFrame(() => panelRef.current?.focus());
     return () => {
-      body.style.overflow = previousOverflow;
-      body.style.paddingRight = previousPaddingRight;
-      delete html.dataset.scrollLock;
+      releaseScroll();
       document.removeEventListener("keydown", onKey);
       window.cancelAnimationFrame(focusFrame);
       previouslyFocused?.focus?.();
@@ -379,18 +365,21 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
               transition={{ duration: 0.28, ease: EASE_OUT_EXPO }}
               className={cn(
                 "noise after:noise-after relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl outline-none sm:max-w-lg sm:rounded-3xl",
-                /* Cristal solo en gama alta: el modal se abre sobre el lienzo WebGL vivo de la
-                   portada y el velo ya es opaco al 80 %, así que el desenfoque no se ve y sí se
-                   recalcularía en cada fotograma. Misma regla que MenuItemCard / ChatLauncher. */
-                glass ? "glass-smoke" : "border border-cream/10 bg-iron-900/95",
+                /* `glass-smoke` sin condicionar la gama a mano: la utilidad es horneada y el
+                   `backdrop-filter` solo vuelve bajo `:root[data-gpu="high"]`, el único interruptor del
+                   proyecto. El ternario anterior era exactamente lo que el contrato prohíbe, y hacía que
+                   el mismo modal se viera más transparente en el equipo bueno que en el flojo. */
+                "glass-smoke",
                 "shadow-card",
               )}
             >
               {/* Brasa superior. Era `bg-pimenton/35 blur-3xl`: un bloque plano de 320×192 px que el
                   navegador tenía que rasterizar y ampliar 64 px por cada lado… y se estrenaba justo
-                  durante la animación de apertura. `ember-glow` es el mismo color (178 30 39) ya
-                  repartido en paradas, sin filtro y sin capa propia. */}
-              <span aria-hidden className="ember-glow absolute -top-24 left-1/2 h-48 w-80 -translate-x-1/2 rounded-full [--ember-a1:0.42]" />
+                  durante la animación de apertura. `ember-wash` es el mismo color (178 30 39) repartido en
+                  paradas con la MISMA forma que tenía el macizo desenfocado, sin filtro y sin capa propia.
+                  Por eso vuelve al alfa original (0,35): el 0,42 era una compensación a ojo por usar el
+                  degradado de caída rápida, y con la caída correcta ya no hace falta. */}
+              <span aria-hidden className="ember-wash absolute -top-24 left-1/2 h-48 w-80 -translate-x-1/2 rounded-full [--ember-a1:0.35]" />
               {/* Asa (móvil) */}
               <span aria-hidden className="mx-auto mt-3 h-1 w-10 shrink-0 rounded-full bg-cream/20 sm:hidden" />
 
