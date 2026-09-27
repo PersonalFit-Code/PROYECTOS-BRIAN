@@ -42,6 +42,19 @@ export interface ChatSession {
 const STORAGE_VERSION = 2;
 const STORAGE_MAX = 40;
 
+/**
+ * Compás de espera antes de empezar a pintar la respuesta.
+ *
+ * El camarero contesta a veces al instante —el motor sin conexión resuelve en memoria, y Claude
+ * devuelve el primer fragmento en décimas—, y un muro de texto que aparece de golpe no se lee como
+ * una conversación: parece un formulario. Reteniendo el texto un momento, los puntos de "escribiendo…"
+ * llegan a verse y la respuesta entra con ritmo de camarero que se lo piensa.
+ *
+ * Solo retrasa el PRIMER fragmento: el resto fluye a la velocidad a la que llega, y el botón de
+ * detener sigue cortando en cualquier momento.
+ */
+const THINKING_MIN_MS = 900;
+
 interface StoredSession {
   v: number;
   messages: ChatMessage[];
@@ -174,10 +187,28 @@ export function useChatSession({ locale, page }: UseChatSessionOptions): ChatSes
 
       let accumulated = "";
       let frame = 0;
-      const flush = () => {
-        frame = 0;
+      const paint = () => {
         const snapshot = accumulated;
         setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, content: snapshot } : m)));
+      };
+
+      /* Puerta del compás de espera: hasta que se abre, el texto se acumula sin pintarse. Al abrirse
+         vuelca de una vez lo que haya llegado; si el usuario corta antes, no se pinta nada a destiempo. */
+      let gateOpen = false;
+      const gate = new Promise<void>((resolve) => {
+        window.setTimeout(() => {
+          gateOpen = true;
+          resolve();
+        }, THINKING_MIN_MS);
+      });
+      void gate.then(() => {
+        if (!controller.signal.aborted && accumulated) paint();
+      });
+
+      const flush = () => {
+        frame = 0;
+        if (!gateOpen) return;
+        paint();
       };
 
       try {
@@ -207,8 +238,14 @@ export function useChatSession({ locale, page }: UseChatSessionOptions): ChatSes
 
         const finalText = accumulated.trim();
         if (!finalText) return fail("empty");
+        /* La respuesta entera puede llegar antes de que se abra la puerta (modo sin conexión): se
+           espera a que abra para que los puntos de "escribiendo…" no parpadeen un solo fotograma. */
+        if (!gateOpen) await gate;
+        /* Si el usuario pulsa "detener" justo durante ese compás, la respuesta ya está completa: se
+           entrega igual. Aquí no salta el `catch` (no queda nada que abortar), así que el mensaje se
+           cierra a mano o se quedaría en "escribiendo…" para siempre. */
         updateMessage(assistantId, { content: finalText, status: "done" });
-        setStatus("idle");
+        if (!controller.signal.aborted || abortRef.current === controller || abortRef.current === null) setStatus("idle");
       } catch (err) {
         if (frame) window.cancelAnimationFrame(frame);
         if (controller.signal.aborted) {
