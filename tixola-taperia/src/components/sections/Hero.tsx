@@ -352,7 +352,7 @@ export default function Hero() {
           <div
             aria-hidden
             data-hero-veil
-            className="pointer-events-none absolute -inset-x-6 -bottom-10 -top-16 -z-10 bg-[linear-gradient(180deg,transparent_0px,rgba(10,10,10,0.38)_20px,rgba(10,10,10,0.74)_58px,rgba(10,10,10,0.8)_40%,rgba(10,10,10,0.86)_100%)] lg:hidden"
+            className="pointer-events-none absolute -inset-x-6 -bottom-10 -top-8 -z-10 bg-[linear-gradient(180deg,transparent_0px,rgba(10,10,10,0.42)_28px,rgba(10,10,10,0.72)_64px,rgba(10,10,10,0.8)_40%,rgba(10,10,10,0.86)_100%)] lg:hidden"
           />
 
           {/* Kicker */}

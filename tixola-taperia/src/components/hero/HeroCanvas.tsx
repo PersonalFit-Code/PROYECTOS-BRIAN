@@ -48,7 +48,17 @@ const HERO_KEYFRAMES = `
  * visible es ~0,53 del ancho por la inclinación, así que acotar el ancho acota el alto.
  */
 const PAN_BOX = cn(
-  "absolute left-[46%] top-[32%] w-[min(68vw,40svh,320px)] -translate-x-1/2 -translate-y-1/2",
+  /* Móvil: la tixola vive ENTERA por encima del titular, en la banda que queda libre entre la
+     cabecera y el kicker. Antes caía a media altura y se cruzaba con el texto, así que el velo de
+     legibilidad del copy la tapaba al 80 % y se quedaba en un borrón oscuro: el dibujo no se
+     entendía. Separarlos es mejor que pelearse por la misma franja, y de paso el velo puede ser
+     más suave porque ya no tiene un dibujo claro detrás de las letras. */
+  "absolute left-1/2 top-[19%] w-[min(52vw,25svh,200px)] -translate-x-1/2 -translate-y-1/2",
+  /* Pantallas muy bajas (móvil viejo, móvil en horizontal): entre la cabecera y el kicker no queda
+     banda libre, así que la tixola volvería a solaparse con el titular y a leerse como un borrón.
+     Ahí se retira del todo: el glow de brasas del fondo sostiene la atmósfera y el titular respira.
+     En escritorio no aplica, porque la tixola vive a la derecha y no compite con el texto. */
+  "[@media(max-height:700px)]:hidden lg:[@media(max-height:700px)]:block",
   "lg:left-[67%] lg:top-[52%] lg:w-[min(38vw,46svh,430px)]",
 );
 
