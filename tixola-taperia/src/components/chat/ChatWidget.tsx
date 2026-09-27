@@ -145,9 +145,31 @@ export default function ChatWidget() {
               tier === "low" ? "border border-cream/10 bg-iron-900/[0.97]" : "glass-smoke",
             )}
           >
+            {/* Telón de contraste. `glass-smoke` cuenta con que el `backdrop-filter` emborrone lo que
+                hay detrás, pero ese filtro no siempre llega: el navegador puede no soportarlo, tenerlo
+                desactivado o correr sin aceleración, y entonces el panel se queda casi transparente
+                sobre la portada encendida —el titular del hero se leía a través de la conversación—.
+                El telón asegura el fondo sin renunciar al cristal donde sí funciona. Va como primer
+                hijo, así que todo lo demás se pinta encima sin tocar el flujo del panel. */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-[linear-gradient(170deg,rgba(20,20,20,0.93),rgba(10,10,10,0.98))]"
+            />
+            {/* Filo de luz superior */}
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cream/25 to-transparent" />
+
             {/* Cabecera */}
-            <header className="flex items-center gap-3 border-b border-cream/10 px-4 py-3">
-              <TMark size={40} decorative={false} className="shrink-0" />
+            <header className="relative flex items-center gap-3 border-b border-cream/10 px-4 py-3">
+              <span className="relative shrink-0">
+                <TMark size={40} decorative={false} />
+                {/* Punto "al habla": el camarero responde ahora mismo */}
+                <motion.span
+                  aria-hidden
+                  className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-iron-900 bg-emerald-400"
+                  animate={{ opacity: [0.65, 1, 0.65] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </span>
               <div className="min-w-0 flex-1">
                 <h2 className="truncate font-caps text-[13px] uppercase tracking-[0.22em] text-cream">{m.chat.title}</h2>
                 <p className="truncate font-sans text-[11px] text-cream-muted">{m.chat.subtitle}</p>
@@ -162,7 +184,7 @@ export default function ChatWidget() {
 
             {/* Nota de modo (sin conexión / respaldo) */}
             {modeNote && (
-              <p className="flex items-start gap-2 border-b border-cream/10 bg-iron-900/60 px-4 py-2 font-sans text-[11px] leading-snug text-cream-muted">
+              <p className="relative flex items-start gap-2 border-b border-cream/10 bg-iron-900/60 px-4 py-2 font-sans text-[11px] leading-snug text-cream-muted">
                 <WifiOff aria-hidden className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
                 <span>{modeNote}</span>
               </p>
@@ -175,7 +197,7 @@ export default function ChatWidget() {
               role="log"
               aria-label={m.chat.messagesLabel}
               data-lenis-prevent
-              className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-gutter:stable]"
+              className="relative min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-gutter:stable]"
             >
               <ChatMessageBubble message={{ id: "welcome", role: "assistant", content: m.chat.welcome, status: "done", createdAt: 0 }} />
               {messages.map((msg, i) => (
@@ -195,7 +217,7 @@ export default function ChatWidget() {
 
             {/* Preguntas rápidas (al empezar y tras cada respuesta) */}
             {!streaming && (
-              <div className="border-t border-cream/10 px-4 pt-3" role="group" aria-label={m.chat.quickRepliesLabel}>
+              <div className="relative border-t border-cream/10 px-4 pt-3" role="group" aria-label={m.chat.quickRepliesLabel}>
                 <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
                   {m.chat.quickReplies.map((q) => (
                     <button
@@ -212,8 +234,8 @@ export default function ChatWidget() {
             )}
 
             {/* Entrada */}
-            <form onSubmit={onSubmit} className={cn("px-4 pb-2 pt-3", streaming && "border-t border-cream/10")}>
-              <div className="flex items-end gap-2 rounded-2xl border border-cream/12 bg-iron-900/70 p-1.5 transition-[border-color] focus-within:border-pimenton-light/60">
+            <form onSubmit={onSubmit} className={cn("relative px-4 pb-2 pt-3", streaming && "border-t border-cream/10")}>
+              <div className="flex items-end gap-2 rounded-2xl border border-cream/12 bg-iron-900/80 p-1.5 transition-[border-color,box-shadow] duration-300 focus-within:border-pimenton-light/60 focus-within:shadow-[0_0_0_3px_rgba(178,30,39,0.16)]">
                 <label htmlFor="tixola-chat-input" className="sr-only">
                   {m.chat.inputLabel}
                 </label>
@@ -263,7 +285,7 @@ export default function ChatWidget() {
             </form>
 
             {/* Pie: aviso + firma */}
-            <footer className="flex items-center gap-2 px-4 pb-3 font-sans text-[11px] leading-snug text-cream-faint">
+            <footer className="relative flex items-center gap-2 px-4 pb-3 font-sans text-[11px] leading-snug text-cream-faint">
               <Sparkles aria-hidden className="h-3.5 w-3.5 shrink-0 text-gold/80" />
               <p className="min-w-0 flex-1">
                 {m.chat.disclaimer} <span className="whitespace-nowrap text-cream-faint/80">· {m.chat.poweredBy}</span>

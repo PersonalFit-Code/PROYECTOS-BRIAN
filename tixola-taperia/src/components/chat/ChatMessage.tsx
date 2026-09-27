@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useMemo, type ReactNode } from "react";
 import { CalendarCheck, Phone, RotateCcw, TriangleAlert } from "lucide-react";
 import { BUSINESS } from "@/data/business";
@@ -142,15 +143,30 @@ export function MarkdownLite({ text }: { text: string }) {
 /* ────────────────────────────────────────────────────────────
    Bocadillos
    ──────────────────────────────────────────────────────────── */
+
+/** Entrada de cada bocadillo: llega desde su lado y se asienta. */
+const ENTER = {
+  user: { initial: { opacity: 0, y: 10, x: 14 } },
+  waiter: { initial: { opacity: 0, y: 10, x: -14 } },
+  shown: { opacity: 1, y: 0, x: 0 },
+  transition: { duration: 0.34, ease: [0.22, 1, 0.36, 1] },
+} as const;
+/**
+ * Los tres puntos del camarero pensando. Van con framer-motion y no con `animate-bounce` para que
+ * suban y se enciendan a la vez (la clase de Tailwind solo bota), y para que `MotionConfig
+ * reducedMotion="user"` del panel los deje quietos cuando el usuario pide menos movimiento.
+ */
 function TypingDots({ label }: { label: string }) {
   return (
     <span className="inline-flex items-center gap-1.5" role="status" aria-label={label}>
       {[0, 1, 2].map((i) => (
-        <span
+        <motion.span
           key={i}
           aria-hidden
-          className="h-1.5 w-1.5 animate-bounce rounded-full bg-cream-400"
-          style={{ animationDelay: `${i * 140}ms`, animationDuration: "1.1s" }}
+          className="h-1.5 w-1.5 rounded-full bg-gold"
+          initial={{ opacity: 0.35, y: 0 }}
+          animate={{ opacity: [0.35, 1, 0.35], y: [0, -3.5, 0] }}
+          transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.14, ease: "easeInOut" }}
         />
       ))}
     </span>
@@ -218,17 +234,17 @@ export default function ChatMessageBubble({ message, errorKind = null, onRetry }
 
   if (isUser) {
     return (
-      <div className="flex justify-end pl-8">
-        <div className="max-w-[88%] rounded-2xl rounded-tr-md border border-pimenton/30 bg-pimenton/10 px-4 py-3 text-[14px] leading-relaxed text-cream shadow-[0_10px_30px_-18px_rgba(178,30,39,0.8)]">
+      <motion.div initial={ENTER.user.initial} animate={ENTER.shown} transition={ENTER.transition} className="flex justify-end pl-8">
+        <div className="max-w-[88%] rounded-2xl rounded-tr-md border border-pimenton/35 bg-gradient-to-br from-pimenton/20 to-pimenton/8 px-4 py-3 text-[14px] leading-relaxed text-cream shadow-[0_12px_32px_-18px_rgba(178,30,39,0.9)]">
           <span className="sr-only">{m.chat.you}: </span>
           <p className="whitespace-pre-wrap [overflow-wrap:anywhere]">{message.content}</p>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div className="flex items-end gap-2.5 pr-6">
+    <motion.div initial={ENTER.waiter.initial} animate={ENTER.shown} transition={ENTER.transition} className="flex items-end gap-2.5 pr-6">
       <TMark size={28} className="mb-1 shrink-0" />
       <div className="min-w-0 max-w-[88%] flex-1">
         <span className="sr-only">{m.chat.waiter}: </span>
@@ -237,7 +253,7 @@ export default function ChatMessageBubble({ message, errorKind = null, onRetry }
         ) : (
           <div
             className={cn(
-              "space-y-2 rounded-2xl rounded-tl-md border border-cream/8 bg-iron-800 px-4 py-3 text-[14px] leading-relaxed text-cream-200 [overflow-wrap:anywhere]",
+              "space-y-2 rounded-2xl rounded-tl-md border border-cream/10 bg-gradient-to-br from-iron-700/90 to-iron-800 px-4 py-3 text-[14px] leading-relaxed text-cream-200 shadow-[0_10px_28px_-20px_rgba(0,0,0,0.9)] [overflow-wrap:anywhere]",
               streaming && !message.content && "inline-flex min-h-11 items-center",
             )}
           >
@@ -252,6 +268,6 @@ export default function ChatMessageBubble({ message, errorKind = null, onRetry }
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
