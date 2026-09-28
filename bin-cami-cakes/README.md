@@ -386,6 +386,59 @@ Y mientras no hay fecha, el hueco del resultado no está vacío: dice qué falta
 saliendo de un único sitio, el mismo que publica la pregunta frecuente de
 debajo.
 
+## El calendario está escrito a mano, y no por capricho
+
+Brian pasó un componente de calendario de shadcn/React Aria. **No se puede
+pegar aquí**: eso es React + TypeScript + un build, y esto es un HTML suelto
+que se abre con doble clic. Meterlo significaría rehacer el proyecto entero y
+perder justo lo que lo hace fácil de mantener y de desplegar. Así que se hizo
+el mismo calendario en el idioma de esta casa, con dos ventajas sobre el
+componente original:
+
+**Sabe los plazos.** El calendario del navegador enseña los 365 días iguales.
+Éste tacha los que no dan tiempo para el tipo de tarta elegido en el paso 1, y
+se vuelve a pintar solo al cambiar de tipo: eliges «Boda o evento» y ves cómo
+se tachan dos semanas de golpe. Debajo dice en palabras cuál es el primer día
+al que llegan. Es la misma fuente de siempre (72 h / una semana / dos semanas,
+lo que publica la pregunta frecuente de abajo).
+
+**Los días tachados se pueden elegir igual.** No están bloqueados a propósito:
+el obrador quiere recibir ese mensaje («a veces hay hueco»), y la respuesta ya
+lo explica. Tachar es avisar, no prohibir.
+
+El `<input type="date">` sigue existiendo, escondido: es quien guarda el valor
+y a quien miran todas las cuentas. Así el dibujo es sustituible sin tocar nada
+de lo que ya funcionaba.
+
+Detalles que costaron su rato:
+
+- **La rejilla es una `<table>`, no `<div>`s con `display:contents`.** Con
+  `display:contents` hay navegadores que se dejan las filas fuera del árbol de
+  accesibilidad; una tabla da esa semántica de balde.
+- **El galego no lo trae Chromium.** `toLocaleDateString('gl')` contesta en
+  inglés, o sea que un vecino de Ourense leyendo la web en galego vería
+  «October». Los doce meses y los siete días van escritos en el módulo. No es
+  copia de la web (eso va en el diccionario): es el calendario del sistema, que
+  en este idioma no existe.
+- **Teclado completo**: flechas para moverse, Re/Av Pág para cambiar de mes,
+  Inicio/Fin para los extremos de la semana, Intro para elegir, y un solo día
+  tabulable en todo el mes (*roving tabindex*).
+- En el móvil se sale del sangrado que deja el número del paso, y esos 45 px de
+  más son la diferencia entre una casilla de 33 px y una de 40.
+
+## El cursor propio, fuera
+
+Había un cursor dibujado (un punto y un anillo que lo perseguía con inercia) y
+`cursor:none` en toda la página. Brian: «cuando entramos a la ficha de un
+producto, para cerrarlo es difícil encontrar la X, no se ve el cursor, no es
+cómodo». Tenía razón, y es el tipo de detalle que sólo se ve usando la página
+de verdad: el anillo iba con retraso, así que en un movimiento rápido hacia una
+equis de 40 px lo que ves no está donde está el ratón.
+
+Fuera entero — CSS, HTML y JS, unas 55 líneas — no escondido. Se gana en
+comodidad y se ahorra un `requestAnimationFrame` corriendo en cada movimiento
+del ratón.
+
 ## Lo que sacó la revisión a fondo (y por qué hacía falta)
 
 Después de montar la barra de abajo, los botones pequeños y la hoja de la
