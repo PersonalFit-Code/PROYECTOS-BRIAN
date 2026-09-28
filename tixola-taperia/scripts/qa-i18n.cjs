@@ -25,8 +25,14 @@ const wait = (u, n = 90) =>
 
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
-  const srv = spawn("npx", ["next", "start", "-p", String(PORT)], { cwd: path.join(__dirname, ".."), stdio: "pipe" });
+  /* `detached`: el servidor arranca en su propio grupo de procesos para poder matar al grupo entero al
+     acabar. Con `srv.kill()` a secas moría `npx` pero el `next start` hijo seguía vivo con la tubería de
+     stdout heredada, y este proceso se quedaba colgado esperando a que se cerrara (se vio: el informe
+     completo y el node sin salir durante 20 minutos). */
+  const srv = spawn("npx", ["next", "start", "-p", String(PORT)], { cwd: path.join(__dirname, ".."), stdio: "pipe", detached: true });
   srv.stderr.on("data", (d) => process.stderr.write("[next] " + d));
+  /* Consumir stdout aunque no se pinte: si nadie lee la tubería, el hijo se bloquea al llenarla. */
+  srv.stdout.on("data", () => {});
   const lines = [];
   const say = (s) => { lines.push(s); process.stdout.write(s + "\n"); fs.writeFileSync(path.join(OUT, "report.txt"), lines.join("\n")); };
   try {
@@ -78,6 +84,10 @@ const wait = (u, n = 90) =>
     }
     await browser.close();
   } finally {
-    srv.kill("SIGTERM");
+    /* Matar al grupo (pid negativo) y no solo a `npx`; si el grupo ya no existe, al proceso suelto. */
+    try { process.kill(-srv.pid, "SIGTERM"); } catch { srv.kill("SIGTERM"); }
   }
+  /* Salida explícita: aunque quedara algún manejador abierto (tubería, temporizador del navegador), el
+     trabajo ya está hecho y el informe escrito. */
+  process.exit(0);
 })().catch((e) => { console.error(e); process.exit(1); });

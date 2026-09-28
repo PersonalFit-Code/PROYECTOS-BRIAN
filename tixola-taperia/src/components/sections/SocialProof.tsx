@@ -297,12 +297,18 @@ export default function SocialProof() {
             accent={s.accent}
             description={t(s.description, { rating: fmtRating(google.value), count: fmtInt(google.count) })}
           />
-          {/* Resumen de valoración */}
-          <div data-reveal="fade" className="glass-red flex shrink-0 items-center gap-4 self-start rounded-2xl px-5 py-4 lg:self-end">
-            <div className="font-condensed text-5xl leading-none text-cream text-3d">{fmtRating(google.value)}</div>
-            <div className="flex flex-col gap-1">
+          {/* Resumen de valoración: la cifra grande, las estrellas y la fuente, sueltos sobre el hierro.
+              Aquí hubo una caja `glass-red` redondeada, y el cliente fue literal: "un cuadrado con la
+              información dentro no me convence". Las cuatro cifras de la banda de abajo ya perdieron sus
+              tarjetas por lo mismo; este resumen era el último cuadrado de la sección. Mismo lenguaje que
+              esa banda: cifra en condensada con relieve, texto pequeño en mayúsculas, ninguna superficie. */}
+          <div data-reveal="fade" className="flex shrink-0 items-center gap-4 self-start lg:self-end">
+            <div className="font-condensed text-6xl leading-none text-cream text-3d">{fmtRating(google.value)}</div>
+            <div className="flex flex-col gap-1.5">
               <Stars rating={google.value} size="sm" />
-              <span className="text-xs text-cream-muted">{t(s.ratingSummary, { count: fmtInt(google.count) })}</span>
+              <span className="font-caps text-[10px] uppercase tracking-[0.22em] text-cream-muted">
+                {t(s.ratingSummary, { count: fmtInt(google.count) })}
+              </span>
             </div>
           </div>
         </div>

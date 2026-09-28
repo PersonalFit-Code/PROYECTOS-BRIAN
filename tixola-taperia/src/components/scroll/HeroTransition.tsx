@@ -140,7 +140,14 @@ export default function HeroTransition() {
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: hero,
-          start: "top top",
+          /* Si la portada es MÁS ALTA que la pantalla (teléfono bajo: la foto de la tixola tiene su
+             banda y el copy no cabe debajo en 100svh) se ancla cuando su PIE llega al pie de la pantalla,
+             no cuando su cabeza toca arriba. Anclada por arriba desde el primer píxel, lo que asoma por
+             debajo del viewport (CTAs, valoración) no se vería nunca: el capítulo siguiente le pasa por
+             encima y, al soltarse, la portada queda detrás. Así primero se recorre entera y luego se
+             ancla, con el mismo recorrido y el mismo oscurecido. Se resuelve en cada `refresh`
+             (`invalidateOnRefresh`), igual que `end`, por si cambia la altura al girar el móvil. */
+          start: () => (hero.offsetHeight > window.innerHeight + 1 ? "bottom bottom" : "top top"),
           /* Se resuelve en cada `refresh`: al girar el móvil o cambiar de tamaño la ventana el
              recorrido se recalcula sin recrear el pin (antes venía de una dependencia del efecto). */
           end: () => {

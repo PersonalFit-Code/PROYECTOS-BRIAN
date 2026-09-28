@@ -8,6 +8,7 @@ import { ArrowUpRight, MapPin, Menu, Phone, X } from "lucide-react";
 import { BUSINESS } from "@/data/business";
 import { stripLocale } from "@/i18n/config";
 import { useFormat, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
+import CallLabel from "@/components/ui/CallLabel";
 import Logo from "@/components/ui/Logo";
 import NeonButton from "@/components/ui/NeonButton";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
@@ -415,8 +416,11 @@ export default function Navbar() {
                 <NeonButton size="lg" pulse onClick={reserveFromMenu} className="w-full">
                   {m.nav.reserveTable}
                 </NeonButton>
+                {/* `CallLabel`: en un teléfono de 320 px el botón a ancho completo no tiene sitio para
+                    "Llamar al 646 45 72 74" en una línea, y sin el envoltorio el salto caía en medio del
+                    número. Con él, si hay que partir, se parte antes del número. */}
                 <NeonButton size="md" variant="outline" href={BUSINESS.phone.tel} icon={<Phone aria-hidden />} className="w-full">
-                  {t(m.common.cta.callNumber, { phone: BUSINESS.phone.display })}
+                  <CallLabel template={m.common.cta.callNumber} phone={BUSINESS.phone.display} />
                 </NeonButton>
               </motion.div>
 

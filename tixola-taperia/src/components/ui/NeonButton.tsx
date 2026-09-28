@@ -29,7 +29,7 @@ export type NeonButtonProps = ButtonProps | AnchorProps;
  * `active:`, así que el hundido de la pulsación tardaba 300 ms en notarse) y `active:duration-100`
  * separa la realimentación del dedo del resto: pulsar responde en 100 ms, el hover en 200. */
 const base =
-  "group relative inline-flex items-center justify-center gap-2 rounded-full font-sans font-semibold tracking-wide transition-[translate,scale,background-color,border-color,box-shadow,color,opacity] duration-200 active:duration-100 ease-[var(--ease-out-expo)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron disabled:opacity-50 disabled:pointer-events-none";
+  "group relative inline-flex items-center justify-center gap-2 rounded-full text-center font-sans font-semibold leading-snug tracking-wide transition-[translate,scale,background-color,border-color,box-shadow,color,opacity] duration-200 active:duration-100 ease-[var(--ease-out-expo)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron disabled:opacity-50 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -42,10 +42,14 @@ const variants: Record<Variant, string> = {
   cream: "bg-cream text-iron border border-cream hover:bg-white hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(249,246,240,0.35)]",
 };
 
+/* `min-h-*` + padding vertical en vez de `h-*` fija: con una sola línea el botón mide exactamente
+   lo mismo que antes (40/48/56 px), pero si la etiqueta no cabe y salta a dos líneas (el "Llamar al
+   646 45 72 74" en una columna estrecha o en un móvil de 320 px), la píldora crece en vez de dejar
+   el texto desbordando por fuera del borde redondeado. */
 const sizes: Record<Size, string> = {
-  sm: "h-10 px-4 text-sm",
-  md: "h-12 px-6 text-[15px]",
-  lg: "h-14 px-8 text-base md:text-lg",
+  sm: "min-h-10 px-4 py-1.5 text-sm",
+  md: "min-h-12 px-6 py-2 text-[15px]",
+  lg: "min-h-14 px-8 py-2.5 text-base md:text-lg",
 };
 
 /**

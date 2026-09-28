@@ -5,6 +5,7 @@ import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { CalendarDays, Clock, Phone, Send, Users, X } from "lucide-react";
 import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
 import { formatLongDate } from "@/lib/format";
+import CallLabel from "@/components/ui/CallLabel";
 import NeonButton from "@/components/ui/NeonButton";
 import { WhatsAppGlyph } from "@/components/ui/FloatingWhatsApp";
 import { useInertBackground } from "@/hooks/useInertBackground";
@@ -401,10 +402,15 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                   {r.description}
                 </p>
 
-                {/* Acciones directas */}
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  <NeonButton href={BUSINESS.phone.tel} size="md" pulse icon={<Phone aria-hidden />} className="w-full">
-                    {t(m.common.cta.callNumber, { phone: BUSINESS.phone.display })}
+                {/* Acciones directas. `flex-wrap` + `flex-auto` en vez de una rejilla `sm:grid-cols-2`:
+                    la rejilla repartía el ancho a partes iguales aunque no cupiera, y en el modal
+                    (≈ 448 px útiles a partir de `sm`) la celda de ~218 px partía "Llamar al 646 45 /
+                    72 74" por la mitad del número. Ahora cada botón pide su ancho natural y, si los dos
+                    no caben en la fila, el de llamar se queda con una fila entera y WhatsApp baja a la
+                    siguiente. `CallLabel` garantiza además que el número nunca se parte por dentro. */}
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <NeonButton href={BUSINESS.phone.tel} size="md" pulse icon={<Phone aria-hidden />} className="flex-auto">
+                    <CallLabel template={m.common.cta.callNumber} phone={BUSINESS.phone.display} />
                   </NeonButton>
                   <NeonButton
                     href={BUSINESS.phone.whatsapp}
@@ -412,7 +418,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                     variant="outline"
                     size="md"
                     icon={<WhatsAppGlyph className="h-5 w-5" />}
-                    className="w-full border-[#25D366]/50 hover:border-[#25D366] hover:bg-[#25D366]/10"
+                    className="flex-auto border-[#25D366]/50 hover:border-[#25D366] hover:bg-[#25D366]/10"
                   >
                     {m.common.cta.whatsapp}
                   </NeonButton>

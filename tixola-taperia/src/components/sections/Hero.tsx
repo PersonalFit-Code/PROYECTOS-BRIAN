@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useSyncExternalStore, type ReactNode, type RefObject } from "react";
+import { useRef, useSyncExternalStore, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, CalendarCheck, Star } from "lucide-react";
 import NeonButton from "@/components/ui/NeonButton";
 import { useReservation } from "@/components/ui/ReservationProvider";
-import HeroCanvas from "@/components/hero/HeroCanvas";
+import HeroCanvas, { HERO_PAN_HEIGHT, HERO_PAN_WIDTH } from "@/components/hero/HeroCanvas";
 import { useHeroStillVisible } from "@/components/scroll/HeroTransition";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useInView } from "@/hooks/useInViewOnce";
@@ -229,11 +229,22 @@ function ScrollCue({
    ────────────────────────────────────────────────────────────── */
 
 /**
+ * Medidas de la foto de la tixola en la composición apilada (móvil), como variables CSS de la sección.
+ * Las define `HeroCanvas` (que es quien conoce la foto) y aquí se publican en `<section>` para que las
+ * lean las dos partes: la caja de la foto (`w-[var(--pan-w)]`) y el padding superior del copy
+ * (`var(--pan-h)`), que reserva la banda. Un solo origen: si mañana la foto cambia de proporción o de
+ * tamaño, el copy se aparta solo.
+ */
+const PAN_VARS = { "--pan-w": HERO_PAN_WIDTH, "--pan-h": HERO_PAN_HEIGHT } as CSSProperties;
+
+/**
  * Portada a pantalla completa con criterio editorial (portada de revista):
- *  - Fondo dibujado en CSS (`HeroCanvas`): tixola de hierro, aceite, zamburiñas, vaho y brasas.
- *    En escritorio la sartén ocupa la mitad derecha y asoma ligeramente detrás del titular;
- *    en móvil sube a la franja alta y el copy va abajo, alineado a la izquierda. Las dos
- *    composiciones las resuelve el propio fondo con el breakpoint `lg`.
+ *  - Fondo (`HeroCanvas`): la FOTO real de una tixola del local levitando sobre hierro y brasas,
+ *    con vaho y chispas. En escritorio la sartén ocupa la mitad derecha y su mango asoma detrás del
+ *    titular; en móvil ocupa una banda propia bajo la cabecera (`--pan-h`) y el copy empieza debajo,
+ *    alineado a la izquierda: si no cabe todo en 100svh, la portada crece y se hace scroll (mejor una
+ *    sartén grande que una moneda). Las dos composiciones las resuelve el propio fondo con el
+ *    breakpoint `lg`.
  *  - Kicker en Cinzel, H1 enorme en Cormorant anclado abajo a la izquierda, con la palabra
  *    acentuada en cursiva y degradado de brasa; subtítulo, CTAs neón y valoración discreta.
  *  - Reveal por líneas con máscara (Framer Motion) y ligero parallax de scroll en el interior de
@@ -288,9 +299,9 @@ export default function Hero() {
       : { initial: { opacity: 0, y: 22 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.9, ease: EASE_OUT_EXPO, delay } };
 
   return (
-    <section ref={sectionRef} id="hero" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-iron">
-      {/* Fondo de la portada (tixola en CSS). El contenedor data-hero-canvas lo anima el módulo de
-          scroll: `HeroTransition` lo busca por ese atributo para el alejamiento. */}
+    <section ref={sectionRef} id="hero" style={PAN_VARS} className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-iron">
+      {/* Fondo de la portada (foto de la tixola sobre la brasa). El contenedor data-hero-canvas lo
+          anima el módulo de scroll: `HeroTransition` lo busca por ese atributo para el alejamiento. */}
       <div data-hero-canvas className="absolute inset-0 -z-10">
         <HeroLayer parallax={parallax} target={sectionRef} variant="canvas" className="absolute inset-0">
           <HeroCanvas />
@@ -314,23 +325,32 @@ export default function Hero() {
         className="pointer-events-none absolute inset-0 -z-[5] hidden bg-[linear-gradient(90deg,rgba(12,12,12,0.82)_0%,rgba(12,12,12,0.5)_34%,rgba(12,12,12,0.12)_52%,transparent_64%)] lg:block"
       />
 
-      {/* Copy: anclado abajo a la izquierda (portada). El contenedor data-hero-copy lo anima el módulo de scroll. */}
+      {/* Copy: anclado abajo a la izquierda (portada). El contenedor data-hero-copy lo anima el módulo de scroll.
+          Por debajo de `lg` el padding superior reserva la banda de la foto (cabecera + `--pan-h` + un
+          respiro): el copy nunca se cruza con la sartén, mida lo que mida en cada idioma. En pantallas
+          altas `justify-end` deja el aire entre la foto y el texto; en las bajas la sección crece.
+          El respiro sobre la barra móvil fija es de 1,75 rem (eran 3,25): cada píxel que se ahorra
+          aquí es un píxel menos de scroll antes de ver los CTAs en un teléfono bajo. */}
       <div
         data-hero-copy
         className={cn(
           "container-page relative z-10 flex flex-1 flex-col justify-end",
-          "pt-[calc(var(--header-h)+1rem)] pb-[calc(var(--mobile-bar-h)+3.25rem)] md:pb-24 lg:pb-[clamp(3rem,7vh,5.5rem)] lg:pt-[calc(var(--header-h)+2rem)]",
+          "pt-[calc(var(--header-h)+var(--pan-h)+0.75rem)] pb-[calc(var(--mobile-bar-h)+1.75rem)] md:pb-24 lg:pb-[clamp(3rem,7vh,5.5rem)] lg:pt-[calc(var(--header-h)+2rem)]",
         )}
       >
         <HeroLayer parallax={parallax} target={sectionRef} variant="copy" className="relative w-full lg:max-w-[58rem]">
           {/*
-            VELO DEL COPY (solo por debajo de lg). En la composición apilada la tixola queda ARRIBA y el
-            copy abajo, pero en un teléfono real de viewport bajo (360×640, 390×844) no hay hueco para las
-            dos cosas: el titular sube hasta el 24 % de la pantalla y se pinta encima del aceite. Medido con
-            estilo calculado a 360×640: el fondo bajo «El Arte del Tapeo» llegaba a luminancia 245 (los
-            reflejos del aceite y las zamburiñas) contra un titular crema de ~246, es decir contraste local
-            1:1 — ilegible. El degradado vertical de arriba no lo cubría porque entre el 18 % y el 30 % es
-            transparente a propósito (para que la tixola respire) y el velo lateral es `lg:block`.
+            VELO DEL COPY (solo por debajo de lg). Desde que la foto tiene su banda propia (`--pan-h`) el
+            texto ya no se pinta encima de la sartén, pero el velo se queda: detrás del copy siguen los
+            focos rojos de la parrilla y la línea de brasa del pie, y su arranque suave es lo que funde el
+            borde inferior de la sartén con la sombra en vez de dejarla recortada. La historia de abajo
+            explica por qué es un degradado vertical medido en píxeles y no un radial.
+            En la composición apilada anterior el titular subía hasta el 24 % de la pantalla y se pintaba
+            encima del aceite. Medido con estilo calculado a 360×640: el fondo bajo «El Arte del Tapeo»
+            llegaba a luminancia 245 (los reflejos del aceite y las zamburiñas) contra un titular crema
+            de ~246, es decir contraste local 1:1 — ilegible. El degradado vertical de arriba no lo cubría
+            porque entre el 18 % y el 30 % es transparente a propósito (para que la tixola respire) y el
+            velo lateral es `lg:block`.
 
             Va DENTRO de la capa del copy y no en la sección, y con inset negativo, para que su extensión la
             defina el propio bloque de texto: así tapa exactamente lo que hay detrás de las letras a
@@ -375,7 +395,7 @@ export default function Hero() {
           </motion.p>
 
           {/* CTAs */}
-          <motion.div {...fadeUp(afterHeadline + 0.12)} className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center lg:mt-9">
+          <motion.div {...fadeUp(afterHeadline + 0.12)} className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center lg:mt-9">
             {/* `pulse={ambient}`: la animación del halo neón es `animate-neon-pulse`, un bucle CSS infinito sobre
                 una sombra difusa. Se apaga cuando la portada deja de verse. */}
             <NeonButton variant="primary" size="lg" pulse={ambient} onClick={open} icon={<CalendarCheck aria-hidden />} className="w-full sm:w-auto">
@@ -399,7 +419,7 @@ export default function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${ratingAria} · ${m.hero.reviewsLink}`}
-            className="mt-6 inline-flex items-center gap-2 font-caps text-[11px] uppercase tracking-[0.25em] text-cream-faint transition-colors duration-300 hover:text-cream lg:mt-7"
+            className="mt-5 inline-flex items-center gap-2 font-caps text-[11px] uppercase tracking-[0.25em] text-cream-faint transition-colors duration-300 hover:text-cream lg:mt-7"
           >
             <Star className="h-3 w-3 shrink-0 fill-gold text-gold" aria-hidden />
             <span aria-hidden>

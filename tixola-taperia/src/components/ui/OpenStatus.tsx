@@ -2,6 +2,7 @@
 
 import { CalendarCheck, Moon, Phone, Sun, Wine, type LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import CallLabel from "@/components/ui/CallLabel";
 import NeonButton from "@/components/ui/NeonButton";
 import { useReservation } from "@/components/ui/ReservationProvider";
 import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
@@ -210,12 +211,20 @@ export default function OpenStatus({ className }: OpenStatusProps) {
       {/* CTAs */}
       <div className="mt-auto border-t border-cream/10 pt-5">
         <p className="font-display text-xl italic text-cream-200">{x.reserveHint}</p>
-        <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-          <NeonButton variant="primary" onClick={openReservation} icon={<CalendarCheck aria-hidden />} className="w-full sm:flex-1">
+        {/* `flex-wrap` + `flex-auto` en vez de `sm:flex-row` + `sm:flex-1`: con `flex-1` (base 0) los dos
+            botones se repartían la fila a partes iguales aunque no cupieran, y "Llamar al 646 45 72 74"
+            se partía por la mitad del número. Medido: la columna de esta tarjeta en escritorio (0.85fr
+            de la rejilla) deja ~345 px útiles a 1024 px y ~454 px a 1280 px, y la fila de los dos
+            botones a su ancho natural necesita ~480 px (más en portugués), así que en escritorio NO
+            caben juntos: el de llamar salta a su propia fila y cada uno ocupa el ancho completo.
+            Entre 640 y 1024 px la tarjeta ocupa todo el contenedor y sí van en fila. Todo sin
+            breakpoints: el propio flujo decide según el ancho real. */}
+        <div className="mt-3 flex flex-wrap gap-3">
+          <NeonButton variant="primary" onClick={openReservation} icon={<CalendarCheck aria-hidden />} className="flex-auto">
             {c.cta.reserve}
           </NeonButton>
-          <NeonButton variant="outline" href={BUSINESS.phone.tel} icon={<Phone aria-hidden />} className="w-full sm:flex-1">
-            {t(c.cta.callNumber, { phone: BUSINESS.phone.display })}
+          <NeonButton variant="outline" href={BUSINESS.phone.tel} icon={<Phone aria-hidden />} className="flex-auto">
+            <CallLabel template={c.cta.callNumber} phone={BUSINESS.phone.display} />
           </NeonButton>
         </div>
       </div>
