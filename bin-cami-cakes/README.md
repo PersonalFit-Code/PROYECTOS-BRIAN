@@ -313,6 +313,95 @@ Casi todas las visitas entran por el teléfono, así que el móvil manda:
 - El pie de foto del carrusel se recorta para que se vea la tarta.
 - «Pasa el ratón» sólo se enseña donde hay ratón (`@media (hover:none)`).
 
+## Pensada como una app de móvil que además se ve bien en ordenador
+
+Es la frase de Brian y es una forma de pensar, no un ajuste suelto. Lo que
+separa "una app" de "una web encogida" son tres cosas muy concretas, y las
+tres están hechas:
+
+**1. La barra de abajo es navegación, y sólo navegación.** Cuatro sitios fijos
+(Inicio · Tartas · Encargar · Contacto), icono arriba y rótulo debajo, y el que
+estás mirando en frambuesa. No es un menú que se despliega: está siempre ahí,
+como en cualquier app del teléfono. De 640 px para arriba no existe, porque ahí
+ya está el menú de la cabecera.
+
+Los enlaces de la barra llevan la misma clase `.nav-enlace` que el menú de
+arriba, así que los marca el mismo vigía (`IntersectionObserver`) y no hay dos
+mecanismos que puedan decir cosas distintas. Para que eso funcionara hubo que
+arreglar un fallo real que llevaba ahí desde siempre: el vigía buscaba la
+sección con `secciones.indexOf(target)`, que devuelve **la primera** posición
+que la nombra. Con dos enlaces apuntando a `#galeria` (el del menú y el de la
+barra), sólo se encendía uno de los dos, y la pestaña nunca se habría marcado.
+Ahora se compara por el `href` y se enciende todo lo que apunte a esa sección.
+
+**2. Las dos acciones son dos botones pequeños, apilados en la esquina
+derecha.** Antes ocupaban todo el ancho de abajo y pesaban más que el
+contenido. Ahora son dos círculos de 2,6 rem en el móvil (3 rem en el
+escritorio): arriba el presupuesto, en crema con borde; abajo WhatsApp,
+relleno en frambuesa, que es el que queremos que se pulse. **Los dos con la
+paleta de la casa**: se quitó el verde de WhatsApp, que era el único color de
+toda la página que no era nuestro. Hay una prueba que falla si vuelve a
+aparecer un `rgb(37, 211, 102)` por ahí dentro.
+
+Al hacerlos pequeños y subirlos aparecieron justo debajo del aviso de cookies,
+que se ponía encima. Mientras el aviso está delante, los dos botones se apartan
+solos (`#banner-cookies.a-la-vista ~ #acciones .acciones-flotantes`): una
+decisión cada vez. Eso destapó además que la prueba del banner en el móvil
+llevaba tiempo pasando en falso — medía el banner **antes** de que saliera, o
+sea, una caja de 0 px de alto, que no pisa nada por definición. Ahora baja
+media pantalla, espera a `.a-la-vista` y mide el banner de verdad.
+
+**3. La ficha de producto sube desde abajo, no aparece en el centro.** Una
+ventana centrada y encogida es el gesto de un ordenador. En el teléfono la
+ficha se pega al borde inferior, redondea sólo las esquinas de arriba, lleva su
+tirador y **se cierra arrastrándola hacia abajo**, que es donde el pulgar ya
+está. Cerrar sigue estando en el botón, en Escape y en el fondo: el arrastre es
+un atajo, no la única salida.
+
+Lo delicado del arrastre es no robarle el scroll al texto: el gesto sólo
+engancha si el dedo empieza en el tirador o en la foto, o si el texto todavía
+no se ha bajado (`scrollTop === 0`), y hasta que no baja 8 px no se decide que
+es un arrastre. Hay pruebas de las dos cosas: que arrastrando se cierra, y que
+dentro de los alérgenos el dedo sigue haciendo scroll.
+
+## "¿Llegamos a tu fecha?": dos pasos numerados
+
+Brian lo señaló en una captura del teléfono: "que sea más cómodo y que el
+cliente entienda dónde está y qué tiene que hacer". Tenía razón y además había
+un fallo de verdad detrás. Los tres tipos de tarta usaban la clase `.rot-btn`,
+que era **del rotulador** — la función que se quitó. Al borrar su CSS, los tres
+botones se quedaron sin borde y sin fondo: parecían texto suelto. Nadie pulsa
+lo que no parece un botón.
+
+Ahora la sección son dos pasos numerados, uno debajo del otro, que se leen de
+arriba abajo:
+
+1. **¿Qué tarta tienes en la cabeza?** — tres botones de verdad, con borde, y
+   el elegido relleno en frambuesa. Debajo, el plazo de ese tipo escrito en
+   palabras, así que sabes contra qué juegas antes de abrir el calendario.
+2. **¿Para qué día la necesitas?**
+
+Y mientras no hay fecha, el hueco del resultado no está vacío: dice qué falta
+("Elige el día de arriba y aquí te decimos si llegamos"). Los plazos siguen
+saliendo de un único sitio, el mismo que publica la pregunta frecuente de
+debajo.
+
+## El tono lo ponen ellas, no nosotros
+
+Brian pasó su Instagram (@bin_camicakes) para que la web suene "como si fuera
+la propia jefa la que la hace". De ahí sale, **literal y entrecomillada**, la
+frase que ahora abre "Quiénes somos":
+
+> «Sabores que cruzan fronteras, recuerdos que se quedan para siempre.»
+
+No está escrita para la web: es la que ellas tienen en su perfil. Va firmada
+("Bin & Cami Cakes, en su Instagram") precisamente porque es suya. Igual que
+"lo hacemos todo a mano, desde el primer batido hasta el último detalle", que
+es su manera de decirlo, no la nuestra.
+
+La regla de siempre sigue en pie: del Instagram se coge **cómo hablan**, no
+datos. Nada de inventarse años de apertura, premios ni número de tartas.
+
 ## Dos ideas que se probaron y se quitaron
 
 **El rotulador** ("¿Qué quieres que ponga escrito?", con una tarta dibujada en
@@ -322,6 +411,11 @@ rotulador "no queda muy bien" y el segundo "no lo veo necesario". Los dos
 salieron enteros — HTML, CSS, JS y las traducciones — no se dejaron ocultos
 con `display:none`. Una función que nadie llama pero que sigue en el archivo
 es la primera candidata a romperse sin que nadie se entere seis meses después.
+
+Aviso de lo que costó: al quitar el rotulador se fue con él la clase `.rot-btn`
+que **otra sección estaba usando prestada**. Si una clase se llama como una
+función, que la use sólo esa función; y al borrar algo, buscar la clase por
+todo el archivo antes, no después.
 
 ## Lista de 30 «esto delata que lo hizo una IA», repasada
 
