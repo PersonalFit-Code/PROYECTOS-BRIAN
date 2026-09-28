@@ -266,14 +266,44 @@ Casi todas las visitas entran por el teléfono, así que el móvil manda:
   fija abajo** con su rótulo. Sueltos eran dos círculos que iban tapando lo que
   pillaran y no decían lo que hacían. El `<body>` lleva hueco abajo para que la
   barra no se coma el final de la página. A partir de `sm` vuelven a flotar.
-- La portada mide **una pantalla**: las tartas salen del montón central y
-  vuelan a su sitio nada más cargar (un segundo, en cascada) y el titular
-  entra detrás. Antes era una pila que se desparramaba con el scroll dentro de
-  una sección de casi tres pantallas, y en la demo dio tres problemas: la
-  primera pantalla salía vacía, las tartas cruzaban por delante del texto y en
-  pantallas bajas se montaban unas sobre otras. Cada tarta se aparta del texto
-  y de las ya colocadas; medido a seis tamaños, sin solapes (en teléfonos
-  quedan esquinas de 20 px).
+- La portada mide **una pantalla** en tableta y escritorio: las tartas salen
+  del montón central y vuelan a su sitio nada más cargar (un segundo, en
+  cascada) y el titular entra detrás. Antes era una pila que se desparramaba
+  con el scroll dentro de una sección de casi tres pantallas, y en la demo dio
+  tres problemas: la primera pantalla salía vacía, las tartas cruzaban por
+  delante del texto y en pantallas bajas se montaban unas sobre otras. Cada
+  tarta se aparta del texto y de las ya colocadas; medido a seis tamaños, sin
+  solapes.
+
+  **En el teléfono (≤639px) esto no se usa.** Brian lo probó en su iPhone real
+  y encontró dos cosas: la cabecera tapaba las tarjetas de arriba, y las fotos
+  se veían diminutas. La causa de lo primero es instructiva — el JS colocaba
+  las tarjetas con `position:absolute` dejando un margen de 76 px para la
+  cabecera (`.cabecera-caja{height:4.75rem}`), un número que coincidía
+  exactamente con el alto medido en este mismo contenedor de pruebas, pero
+  bastaba con que el aparato real difiriera un poco de esa suposición para que
+  una esquina quedara tapada. **En vez de perseguir el número exacto para cada
+  móvil**, por debajo de 640px la portada pasa al mismo camino que ya llevaba
+  `prefers-reduced-motion`: todo en flujo normal, sin `position:absolute` en
+  ningún sitio. Es estructuralmente imposible que algo quede tapado por la
+  cabecera, porque nada se coloca cerca de ella salvo el propio documento.
+
+  Las cinco fotos reales pasan a verse grandes (la primera, "Tarta de
+  cumpleaños", a todo el ancho como foto de bienvenida; las otras cuatro en
+  una rejilla de 2×2 debajo) en vez de ocho tarjetas diminutas y rotadas. Las
+  tres que aún no tenemos (cookies, mesa de dulces, piñitas) se ocultan con
+  `.carta:has(.foto-pendiente){ display:none }`: agrandar un hueco con un
+  icono de cámara es peor que no enseñarlo, y en cuanto lleguen las fotos
+  reales la regla deja de encontrar `.foto-pendiente` y la tarjeta vuelve
+  sola, sin tocar nada de esto. El párrafo del hero, oculto siempre en el
+  modo de escritorio por falta de sitio, también se enseña aquí: ahora sobra
+  espacio de verdad.
+
+  En la tableta y el escritorio (≥640px) sigue siendo la JS quien coloca las
+  tarjetas, así que ahí el margen de la cabecera se mide de verdad
+  (`getBoundingClientRect()`) en vez de asumirse fijo, y se recalcula también
+  con `visualViewport.resize` — el evento `resize` normal no siempre salta
+  cuando la barra de direcciones de un móvil se encoge, `visualViewport` sí.
 - Sin JavaScript (el visor de archivos del iPhone, por ejemplo) la página se
   lee entera: un `<noscript>` deja visible todo lo que "aparece al bajar" y
   pone las tartas de la portada en rejilla.
@@ -282,6 +312,35 @@ Casi todas las visitas entran por el teléfono, así que el móvil manda:
   34 rem fijos que dejaban 170 px de nada arriba y abajo.
 - El pie de foto del carrusel se recorta para que se vea la tarta.
 - «Pasa el ratón» sólo se enseña donde hay ratón (`@media (hover:none)`).
+
+## Dos ideas que se probaron y se quitaron
+
+**El rotulador** ("¿Qué quieres que ponga escrito?", con una tarta dibujada en
+SVG y el texto encima) y **el tamaño de letra** en el pie se implementaron,
+funcionaban, y Brian decidió quitarlos al verlos en la página de verdad: el
+rotulador "no queda muy bien" y el segundo "no lo veo necesario". Los dos
+salieron enteros — HTML, CSS, JS y las traducciones — no se dejaron ocultos
+con `display:none`. Una función que nadie llama pero que sigue en el archivo
+es la primera candidata a romperse sin que nadie se entere seis meses después.
+
+## Lista de 30 «esto delata que lo hizo una IA», repasada
+
+Brian pasó un reel con treinta cosas que delatan una web hecha con IA
+("vibecoded") y pidió repasar cuáles tocaban. De las treinta, **una** era un
+acierto real: los dos círculos de color desenfocados detrás del texto de la
+sección venezolana (`blur-3xl` + `opacity-40/50`) son exactamente el "radial
+orb" de fondo tan típico de una landing de SaaS genérica, y no aportaban nada
+de marca. Fuera.
+
+El resto de la lista **ya se evitaba desde antes**, no por casualidad sino
+porque son cosas contra las que se ha ido trabajando explícitamente en este
+proyecto: sin iconos de Lucide (los de aquí están dibujados a mano), sin
+fuente por defecto de IA (Fraunces/Caveat/Plus Jakarta, elegidas por Brian),
+sin reseñas inventadas (son citas reales de Google, con enlace a la ficha),
+sin "3 tarjetas de precio" ni demos falsas (no hay tarifas SaaS que mostrar),
+con aviso legal y política de privacidad de verdad (no ausentes, que es lo
+que señala la lista). No se ha tocado nada de eso: sacarlo habría sido peor,
+no mejor.
 
 ## El mapa y por qué a veces no se ve
 
