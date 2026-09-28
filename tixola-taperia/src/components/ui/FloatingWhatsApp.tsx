@@ -71,9 +71,13 @@ export default function FloatingWhatsApp() {
         className={cn(
           /* `translate`, no `transform`: en Tailwind v4 `translate-x-6` escribe la propiedad
              `translate`, así que nombrar `transform` dejaba la aparición del botón sin transicionar. */
-          "fixed right-4 z-40 transition-[opacity,translate] duration-500 ease-[var(--ease-out-expo)]",
-          "bottom-[calc(var(--mobile-bar-h)+88px+env(safe-area-inset-bottom))]",
-          "md:bottom-auto md:top-1/2 md:-translate-y-1/2",
+          "fixed right-3 z-40 transition-[opacity,translate] duration-500 ease-[var(--ease-out-expo)]",
+          /* MÓVIL: pie de la columna de flotantes, con el camarero virtual justo encima (ver
+             `ChatLauncher`, que lleva emparejadas estas mismas medidas). El de abajo es este porque
+             WhatsApp es el canal con el que de verdad se reserva y es el que más cerca queda del pulgar. */
+          "bottom-[calc(var(--mobile-bar-h)+0.75rem+env(safe-area-inset-bottom))]",
+          /* ESCRITORIO: donde estaba, a media altura del borde derecho. */
+          "md:right-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2",
           heroHidden && "max-md:pointer-events-none max-md:translate-x-6 max-md:opacity-0",
           bannerOpen && "max-md:pointer-events-none max-md:translate-x-6 max-md:opacity-0",
         )}
@@ -93,7 +97,7 @@ export default function FloatingWhatsApp() {
             onFocus={notice}
             onClick={notice}
             className={cn(
-              "group relative grid h-14 w-14 place-items-center rounded-full",
+              "group relative grid h-11 w-11 place-items-center rounded-full md:h-14 md:w-14",
               "border border-pimenton-light/60 bg-pimenton text-cream",
               "transition-[translate,scale,background-color] duration-200 active:duration-100 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-pimenton-light active:scale-95",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron",

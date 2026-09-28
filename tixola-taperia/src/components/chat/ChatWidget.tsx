@@ -8,7 +8,10 @@ import ChatMessageBubble from "@/components/chat/ChatMessage";
 import { CHAT_LAUNCHER_ID } from "@/components/chat/ChatLauncher";
 import { useChatSession } from "@/components/chat/useChatSession";
 import { TMark } from "@/components/ui/Logo";
+import { useKeyboardViewport } from "@/hooks/useKeyboardViewport";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLocale, useMessages } from "@/i18n/LocaleProvider";
+import { lockScroll } from "@/lib/scrollLock";
 import { cn } from "@/lib/utils";
 import { CHAT_LIMITS } from "@/lib/waiter/types";
 
@@ -35,7 +38,35 @@ export default function ChatWidget() {
   const listRef = useRef<HTMLDivElement>(null);
   const pinnedRef = useRef(true);
 
+  /* El panel, por referencia de estado (no `useRef`): el hook del teclado necesita que el efecto se
+     vuelva a lanzar EN CUANTO el nodo existe, y un `ref` mutable no despierta a nadie al asignarse.
+     El panel lo monta y lo desmonta `AnimatePresence`, así que el nodo aparece después del render. */
+  const [panel, setPanel] = useState<HTMLElement | null>(null);
+
+  /* A pantalla completa por debajo de `md`, como cualquier app de mensajería. La medida se toma una
+     vez y no cambia sola: un móvil no se convierte en escritorio a mitad de conversación. */
+  const fullscreen = useIsMobile(768);
+
   const streaming = status === "streaming";
+
+  /* Teclado: el panel se ancla al hueco visible para que el cuadro de texto quede siempre encima de
+     él. Solo en la maqueta de pantalla completa; en escritorio el panel flota y no hay teclado.
+     Al subir el teclado la conversación pierde alto por abajo, que es justo donde está lo último que
+     se ha dicho: se vuelve a pegar al final, como hace cualquier app de mensajería. Solo si el
+     visitante no se había ido a leer hacia arriba (`pinnedRef`), para no arrancarle de donde estaba. */
+  useKeyboardViewport(panel, isOpen && fullscreen, () => {
+    const list = listRef.current;
+    if (!list || !pinnedRef.current) return;
+    window.requestAnimationFrame(() => list.scrollTo({ top: list.scrollHeight }));
+  });
+
+  /* A pantalla completa el chat tapa la página entera: se congela el scroll de detrás (si no, el
+     dedo que arrastra la conversación acaba moviendo la home) con el bloqueo contado que comparten
+     todos los paneles. De regalo, `data-scroll-lock` deja quietas las animaciones de la portada. */
+  useEffect(() => {
+    if (!isOpen || !fullscreen) return;
+    return lockScroll();
+  }, [isOpen, fullscreen]);
 
   /** Cierra y devuelve el foco al lanzador. */
   const handleClose = useCallback(() => {
@@ -132,18 +163,35 @@ export default function ChatWidget() {
             aria-modal="false"
             aria-label={m.chat.title}
             data-lenis-prevent
-            initial={{ opacity: 0, scale: 0.88, y: 24 }}
+            /* Las TRES propiedades van en las dos variantes, también las que una de ellas no mueve.
+               `useIsMobile` contesta `false` hasta que monta (no hay ventana en el servidor), así que
+               el primer render toma la variante de escritorio y el siguiente la de móvil: si la de
+               móvil no nombrara `scale`, el 0,88 del `initial` de escritorio se quedaba puesto para
+               siempre y la "pantalla completa" salía encogida al 88 %, con la página asomando
+               alrededor. Nombrarlas todas cierra esa puerta. */
+            initial={fullscreen ? { opacity: 0, scale: 1, y: "6%" } : { opacity: 0, scale: 0.88, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 16, transition: { duration: 0.25, ease: EASE_OUT_EXPO } }}
+            exit={
+              fullscreen
+                ? { opacity: 0, scale: 1, y: "6%", transition: { duration: 0.22, ease: EASE_OUT_EXPO } }
+                : { opacity: 0, scale: 0.92, y: 16, transition: { duration: 0.25, ease: EASE_OUT_EXPO } }
+            }
             /* 260 ms: es una transición de estado CON desplazamiento, el tramo alto del criterio de
                respuesta. Con 450 ms el panel seguía entrando cuando el usuario ya quería escribir. */
             transition={{ duration: 0.26, ease: EASE_OUT_EXPO }}
+            ref={setPanel}
             className={cn(
-              "fixed left-4 z-[80] flex origin-bottom-left flex-col overflow-hidden rounded-3xl text-cream shadow-card",
-              "bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-6",
-              /* `svh` (no `dvh`): en iOS Safari la unidad dinámica cambia cada vez que se pliega o
+              "fixed z-[80] flex flex-col overflow-hidden text-cream shadow-card",
+              /* MÓVIL: hoja a pantalla completa, anclada al viewport VISIBLE. `--kb-height` y `--kb-top`
+                 las escribe `useKeyboardViewport` en cada movimiento del teclado; sin ese hook (o sin
+                 `visualViewport`) mandan los respaldos y se comporta como antes. Así el cuadro de texto
+                 se queda pegado encima del teclado en vez de esconderse debajo. */
+              "inset-x-0 top-[var(--kb-top,0px)] h-[var(--kb-height,100dvh)] origin-bottom",
+              /* ESCRITORIO: la tarjeta flotante de siempre, abajo a la izquierda.
+                 `svh` (no `dvh`): en iOS Safari la unidad dinámica cambia cada vez que se pliega o
                  despliega la barra de direcciones y el panel se recomponía a mitad de scroll. */
-              "w-[min(420px,calc(100vw-2rem))] h-[min(640px,80svh)] max-h-[calc(100dvh-2rem)]",
+              "md:inset-x-auto md:left-4 md:top-auto md:origin-bottom-left md:rounded-3xl md:bottom-6",
+              "md:w-[min(420px,calc(100vw-2rem))] md:h-[min(640px,80svh)] md:max-h-[calc(100dvh-2rem)]",
               /* `glass-smoke` sin condicionar la gama: la utilidad es horneada (degradado + borde) y
                  solo recupera el `backdrop-filter` bajo `:root[data-gpu="high"]`, que escribe el hook de
                  gama. Un consumidor menos del almacén de rendimiento. */
@@ -290,7 +338,7 @@ export default function ChatWidget() {
             </form>
 
             {/* Pie: aviso + firma */}
-            <footer className="relative flex items-center gap-2 px-4 pb-3 font-sans text-[11px] leading-snug text-cream-faint">
+            <footer className="relative flex items-center gap-2 px-4 pb-3 font-sans text-[11px] leading-snug text-cream-faint /* A pantalla completa el pie llega al borde del teléfono: se respeta la franja del indicador de inicio. */ max-md:pb-[max(0.75rem,env(safe-area-inset-bottom))]">
               <Sparkles aria-hidden className="h-3.5 w-3.5 shrink-0 text-gold/80" />
               <p className="min-w-0 flex-1">
                 {m.chat.disclaimer} <span className="whitespace-nowrap text-cream-faint/80">· {m.chat.poweredBy}</span>

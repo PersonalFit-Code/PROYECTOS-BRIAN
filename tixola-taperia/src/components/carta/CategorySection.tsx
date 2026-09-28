@@ -2,7 +2,7 @@
 
 import { motion, useInView, type Variants } from "framer-motion";
 import { Focus, LayoutGrid } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { DietTag, MenuCategory, MenuCategoryId, MenuItem } from "@/data/menu";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -79,8 +79,23 @@ export default function CategorySection({ category, items, total, dietTags, sele
       initial={false}
       animate={revealState}
       variants={REVEAL}
+      /* Tamaño RESERVADO mientras la sección está fuera de pantalla y `content-visibility` se ahorra
+         pintarla. Era 720 px fijos para todas: con la lista compacta de móvil una categoría de tres
+         platos mide ~360, así que la página decía medir el doble de lo que mide y, según se iban
+         pintando, el recorrido se encogía bajo el dedo (el scroll "daba saltos"). Ahora se estima de
+         lo que hay: la cabecera más una fila por plato, con la rejilla de cada anchura.
+         El `auto` de `contain-intrinsic-size` hace que, una vez pintada, mande su medida real: esto
+         solo tiene que acertar la PRIMERA vez, y acertar de menos es mejor que de más. */
+      style={
+        {
+          "--cat-size-sm": `${120 + items.length * 84}px`,
+          "--cat-size-md": `${190 + Math.ceil(items.length / 2) * 470}px`,
+          "--cat-size-xl": `${190 + Math.ceil(items.length / 3) * 470}px`,
+        } as CSSProperties
+      }
       className={cn(
-        "relative scroll-mt-[calc(var(--header-h)+84px)] [contain-intrinsic-size:auto_720px] [content-visibility:auto]",
+        "relative scroll-mt-[calc(var(--header-h)+84px)] [content-visibility:auto]",
+        "[contain-intrinsic-size:auto_var(--cat-size-sm)] md:[contain-intrinsic-size:auto_var(--cat-size-md)] xl:[contain-intrinsic-size:auto_var(--cat-size-xl)]",
         chalkboard && "rounded-3xl border-2 border-dashed border-cream/25 bg-iron-900/60 p-5 shadow-card md:p-8 lg:-rotate-[0.3deg] lg:p-10",
       )}
     >
@@ -96,16 +111,16 @@ export default function CategorySection({ category, items, total, dietTags, sele
       )}
 
       {/* ── Cabecera de categoría ── */}
-      <header className="relative mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-2xl">
-          <p className="mb-2 inline-flex items-center gap-3 font-caps text-[11px] uppercase tracking-[0.3em] text-pimenton-a11y">
+      <header className="relative mb-3 flex flex-row items-end justify-between gap-3 md:mb-8">
+        <div className="min-w-0 max-w-2xl">
+          <p className="mb-1 inline-flex items-center gap-3 font-caps text-[10px] uppercase tracking-[0.3em] text-pimenton-a11y md:mb-2 md:text-[11px]">
             <span aria-hidden className="h-px w-6 bg-pimenton-light/70" />
             {category.kicker}
           </p>
           <h2
             id={headingId}
             className={cn(
-              "font-condensed text-5xl uppercase leading-[0.92] tracking-wide text-cream-200 md:text-6xl lg:text-7xl",
+              "font-condensed text-3xl uppercase leading-[0.95] tracking-wide text-cream-200 md:text-6xl lg:text-7xl",
               "[text-shadow:0_0_1px_rgba(249,246,240,0.5),0_0_24px_rgba(249,246,240,0.12),0_12px_30px_rgba(0,0,0,0.6)]",
             )}
           >
@@ -116,7 +131,7 @@ export default function CategorySection({ category, items, total, dietTags, sele
             </span>
             <span className="sr-only"> ({t(m.carta.sectionCount, { shown: items.length, total })})</span>
           </h2>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-cream-muted md:text-base">{category.description}</p>
+          <p className="max-md:hidden mt-3 max-w-xl text-sm leading-relaxed text-cream-muted md:text-base">{category.description}</p>
         </div>
 
         {/* Solo esta / toda la carta */}
@@ -124,19 +139,21 @@ export default function CategorySection({ category, items, total, dietTags, sele
           <button
             type="button"
             onClick={() => onSelect("all")}
-            className="inline-flex h-11 w-fit shrink-0 items-center gap-2 rounded-full border border-cream/20 px-4 text-xs font-semibold uppercase tracking-wider text-cream-muted transition-colors hover:border-cream/50 hover:text-cream"
+            aria-label={m.carta.all}
+            className="inline-flex h-11 w-fit shrink-0 items-center gap-2 rounded-full border border-cream/20 px-3 text-xs font-semibold uppercase tracking-wider text-cream-muted transition-colors hover:border-cream/50 hover:text-cream md:px-4"
           >
             <LayoutGrid size={15} aria-hidden />
-            {m.carta.all}
+            <span className="max-md:hidden">{m.carta.all}</span>
           </button>
         ) : (
           <button
             type="button"
             onClick={() => onSelect(category.id)}
-            className="inline-flex h-11 w-fit shrink-0 items-center gap-2 rounded-full border border-cream/15 px-4 text-xs font-semibold uppercase tracking-wider text-cream-faint transition-colors hover:border-pimenton-light/60 hover:text-cream"
+            aria-label={m.carta.onlyThis}
+            className="inline-flex h-11 w-fit shrink-0 items-center gap-2 rounded-full border border-cream/15 px-3 text-xs font-semibold uppercase tracking-wider text-cream-faint transition-colors hover:border-pimenton-light/60 hover:text-cream md:px-4"
           >
             <Focus size={15} aria-hidden />
-            {m.carta.onlyThis}
+            <span className="max-md:hidden">{m.carta.onlyThis}</span>
           </button>
         )}
       </header>

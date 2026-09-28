@@ -33,6 +33,8 @@ const common: Section<"common"> = {
     callNumber: "Chamar ao {phone}",
     directions: "Como chegar",
     directionsAria: "Como chegar (abre Google Maps)",
+    /* Etiqueta corta para la barra inferior de móvil: "Como chegar" parte en dos líneas y se corta en una rejilla de cuatro columnas a 390 px. */
+    directionsShort: "Chegar",
     whatsapp: "WhatsApp",
     whatsappAria: "Escríbenos por WhatsApp",
     chat: "Camareiro virtual",

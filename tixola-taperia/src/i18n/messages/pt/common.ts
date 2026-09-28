@@ -34,6 +34,8 @@ const common = {
     callNumber: "Ligar para o {phone}",
     directions: "Como chegar",
     directionsAria: "Como chegar (abre o Google Maps)",
+    /* Etiqueta corta para la barra inferior de móvil: "Como chegar" parte en dos líneas y se corta en una rejilla de cuatro columnas a 390 px. */
+    directionsShort: "Chegar",
     whatsapp: "WhatsApp",
     whatsappAria: "Escreva-nos pelo WhatsApp",
     chat: "Empregado virtual",

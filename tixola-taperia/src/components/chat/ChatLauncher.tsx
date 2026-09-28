@@ -66,14 +66,24 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
         inert={hidden ? true : undefined}
         className={cn(
           /* `translate`, no `transform`: `-translate-x-6` es la propiedad `translate` en Tailwind v4. */
-          "fixed left-4 z-40 transition-[opacity,translate] duration-500 ease-[var(--ease-out-expo)]",
-          "bottom-[calc(var(--mobile-bar-h)+16px+env(safe-area-inset-bottom))] md:bottom-6",
-          heroHidden && "max-md:pointer-events-none max-md:-translate-x-6 max-md:opacity-0",
-          bannerOpen && "max-lg:pointer-events-none max-lg:-translate-x-6 max-lg:opacity-0",
+          "fixed z-40 transition-[opacity,translate] duration-500 ease-[var(--ease-out-expo)]",
+          /* MÓVIL: columna única pegada al borde derecho, sobre la barra inferior, y este botón ARRIBA
+             del de WhatsApp. Antes había uno en cada esquina y a distinta altura, así que entre los dos
+             barrían media pantalla: se comían el nombre de los platos y los botones "Reservar mesa" /
+             "Llamar" de la tarjeta de horario (medido con el dedo, no de oído). Apilados y a 44 px —el
+             mínimo que WCAG da por pulsable— ocupan una franja estrecha en la esquina en la que no hay
+             texto, y dejan libre todo el ancho de lectura.
+             Las dos alturas van EMPAREJADAS con las de `FloatingWhatsApp`: 0,75rem de respiro sobre la
+             barra, 2,75rem del botón de abajo y 0,5rem de separación. Si cambia una, cambia la otra. */
+          "right-3 bottom-[calc(var(--mobile-bar-h)+0.75rem+2.75rem+0.5rem+env(safe-area-inset-bottom))]",
+          /* ESCRITORIO: donde estaba, abajo a la izquierda, que ahí no molesta a nadie. */
+          "md:left-4 md:right-auto md:bottom-6",
+          heroHidden && "max-md:pointer-events-none max-md:translate-x-6 max-md:opacity-0",
+          bannerOpen && "max-lg:pointer-events-none max-lg:translate-x-6 max-lg:opacity-0",
         )}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.6, x: -24 }}
+          initial={{ opacity: 0, scale: 0.6 }}
           animate={isOpen ? { opacity: 0, scale: 0.4, x: 0 } : { opacity: 1, scale: 1, x: 0 }}
           transition={isOpen ? { duration: 0.25, ease: EASE_OUT_EXPO } : { duration: 0.8, ease: EASE_OUT_EXPO, delay: 1.2 }}
           className={cn(isOpen && "pointer-events-none")}
@@ -90,7 +100,7 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
             title={m.chat.launcher}
             tabIndex={hidden ? -1 : 0}
             className={cn(
-              "group relative grid h-14 w-14 place-items-center rounded-full text-cream shadow-neon",
+              "group relative grid h-11 w-11 place-items-center rounded-full text-cream shadow-neon md:h-14 md:w-14",
               /* Burdeos opaco en TODAS las gamas (era lo que ya veían media y baja): el disco flota
                  sobre la portada, cuyas capas se mueven en bucle, así que un `backdrop-filter` habría
                  que recalcularlo con cada fotograma. Y sin leer la gama, este botón deja de suscribirse

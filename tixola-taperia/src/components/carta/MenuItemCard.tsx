@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Flame, Leaf, MessageCircleQuestion, Sparkles, Sprout, Star, WheatOff, Wine, type LucideProps } from "lucide-react";
-import { memo, type ComponentType } from "react";
+import { ChevronDown, Flame, Leaf, MessageCircleQuestion, Sparkles, Sprout, Star, WheatOff, Wine, type LucideProps } from "lucide-react";
+import { memo, useState, type ComponentType } from "react";
 import { useChat } from "@/components/chat/ChatProvider";
 import { DishIcon } from "@/components/icons/DishIcons";
 import { AllergenRow } from "@/components/ui/AllergenIcon";
@@ -15,6 +15,12 @@ import { cn } from "@/lib/utils";
 /**
  * MenuItemCard — tarjeta de plato.
  *
+ *  - EN MÓVIL ES UN ACORDEÓN. Con la ficha completa desplegada, cada plato ocupaba una pantalla de
+ *    teléfono entera: 40 platos eran 12.000 px, 18 pantallas de dedo para llegar al final de la carta.
+ *    Ahora cada plato es una fila de ~72 px —miniatura, nombre y precio— y caben cinco por pantalla;
+ *    al tocar se despliega en su sitio la ficha de siempre (foto grande, alérgenos, maridaje,
+ *    camarero). No se pierde nada: se deja de obligar a pasar por todo para encontrar un plato.
+ *    De `md` en adelante no cambia nada: la rejilla de tarjetas se queda como estaba.
  *  - Con foto (`item.image`): imagen 4:3 arriba (next/image, `object-position` del manifiesto de
  *    fotos) con el icono del plato en un disco de hierro sobre la esquina.
  *  - Sin foto: cabecera fina con el icono del plato (DishIcon) en dorado sobre un disco de hierro.
@@ -86,7 +92,13 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
   const chalk = variant === "chalk";
   const tags = TAG_ORDER.filter((tag) => item.tags.includes(tag));
   const titleId = `carta-item-${item.id}-title`;
+  const bodyId = `carta-item-${item.id}-body`;
   const photo = item.image ? PHOTO_BY_SRC.get(item.image) : undefined;
+
+  /* Desplegado del acordeón. SOLO manda por debajo de `md`: en escritorio las clases `max-md:hidden`
+     no se aplican y la tarjeta se ve entera pase lo que pase con este estado. */
+  const [open, setOpen] = useState(false);
+  const folded = !open;
 
   const askWaiter = () => chat.open({ prefill: t(m.carta.askAboutDish, { name: item.name }), page: "carta" });
 
@@ -136,9 +148,64 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
           transition={{ duration: 2.4, ease: "easeInOut", times: [0, 0.15, 0.7, 1] }}
         />
 
+        {/* ── Fila compacta (solo móvil): miniatura + nombre + precio + galón ──
+            El encabezado va DENTRO del botón, que es el patrón de acordeón de siempre. En escritorio
+            esta fila desaparece y manda el `<h3>` del cuerpo, que conserva el `id` al que apunta el
+            `aria-labelledby` del artículo: un elemento con `display:none` sigue valiendo para dar
+            nombre accesible, así que el artículo se llama igual en las dos maquetas. */}
+        <h3 className="md:hidden">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls={bodyId}
+            className="flex w-full items-center gap-3 p-2.5 text-left"
+          >
+            {item.image ? (
+              <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-iron-800">
+                <Image
+                  src={item.image}
+                  alt=""
+                  fill
+                  /* 64 px de caja en una pantalla de hasta 3x: pedir 192 px es todo lo que puede
+                     aprovechar, y son ~6 KB en vez de los ~40 de la foto grande. */
+                  sizes="56px"
+                  className="object-cover"
+                  style={{ objectPosition: photo?.focus ?? "50% 50%" }}
+                />
+              </span>
+            ) : (
+              <span
+                aria-hidden
+                className="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-cream/10 bg-[radial-gradient(circle_at_30%_30%,#2e2e2e,#121212_75%)] text-gold"
+              >
+                <DishIcon iconKey={item.emoji} size={24} strokeWidth={1.5} />
+              </span>
+            )}
+
+            {/* Solo el nombre, a dos líneas como mucho. La descripción recortada a una línea no
+                distinguía nada ("Zamburiñas de la rí…") y costaba un renglón en cada una de las
+                cuarenta filas: se lee entera al desplegar, que es para lo que está el acordeón. */}
+            <span className="line-clamp-2 min-w-0 flex-1 font-condensed text-lg uppercase leading-[1.1] tracking-wide text-cream">
+              {item.name}
+            </span>
+
+            <span className="flex shrink-0 items-center gap-1">
+              <span className={cn("font-condensed text-xl tracking-wide", chalk ? "text-gold" : "text-pimenton-light")}>
+                {formatPrice(item.price, locale)}
+              </span>
+              <ChevronDown
+                aria-hidden
+                size={16}
+                className={cn("text-cream-faint transition-transform duration-300 ease-[var(--ease-out-expo)]", open && "rotate-180")}
+              />
+            </span>
+          </button>
+        </h3>
+
         {/* ── Cabecera: foto 4:3 o disco con el icono del plato ── */}
         {item.image ? (
-          <div className="relative aspect-[4/3] w-full overflow-hidden bg-iron-800">
+          <div className={cn("relative aspect-[4/3] w-full overflow-hidden bg-iron-800", folded && "max-md:hidden")}>
             <Image
               src={item.image}
               alt={t(m.carta.photoOf, { name: item.name })}
@@ -156,7 +223,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             </span>
           </div>
         ) : (
-          <div className="flex items-center gap-3 px-5 pt-5 md:px-6">
+          <div className={cn("flex items-center gap-3 px-5 pt-5 md:px-6", folded && "max-md:hidden")}>
             <span
               aria-hidden
               className={cn(
@@ -176,18 +243,19 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
         )}
 
         {/* ── Cuerpo ── */}
-        <div className="flex flex-1 flex-col p-5 md:p-6">
+        <div id={bodyId} className={cn("flex flex-1 flex-col p-5 md:p-6", folded && "max-md:hidden")}>
+          {/* En móvil el nombre ya lo da la fila compacta de arriba; repetirlo sería leerlo dos veces. */}
           <h3
             id={titleId}
             className={cn(
-              "font-condensed text-2xl uppercase leading-[0.95] tracking-wide text-cream md:text-[1.75rem]",
+              "max-md:hidden font-condensed text-2xl uppercase leading-[0.95] tracking-wide text-cream md:text-[1.75rem]",
               chalk && "[text-shadow:0_0_1px_rgba(249,246,240,0.55),0_0_12px_rgba(249,246,240,0.18)]",
             )}
           >
             {item.name}
           </h3>
 
-          <p className="mt-2.5 text-sm leading-relaxed text-cream-muted">{item.description}</p>
+          <p className="text-sm leading-relaxed text-cream-muted md:mt-2.5">{item.description}</p>
 
           {/* Precio + unidad */}
           <p className="mt-4 flex items-baseline gap-2 leading-none">

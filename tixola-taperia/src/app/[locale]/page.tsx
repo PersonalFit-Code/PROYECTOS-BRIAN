@@ -44,11 +44,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <Chapter id="platos" title={m.scroll.chapters.dishes} overlapsHero>
               <StarDishes />
             </Chapter>
-            <Chapter id="experiencia" title={m.scroll.chapters.experience}>
-              <Experience />
-            </Chapter>
+            {/* Las OPINIONES van antes que la ubicación, por petición del cliente: quien llega desde
+                la ficha de Google todavía está decidiendo dónde comer, y lo que le hace decidirse son
+                las reseñas, no la dirección. La dirección la busca DESPUÉS, cuando ya ha dicho que sí,
+                y por eso queda pegada al pie, justo encima de los enlaces y del mapa. */}
             <Chapter id="opiniones" title={m.scroll.chapters.social}>
               <SocialProof />
+            </Chapter>
+            <Chapter id="experiencia" title={m.scroll.chapters.experience}>
+              <Experience />
             </Chapter>
           </SmoothScrollProvider>
         </main>

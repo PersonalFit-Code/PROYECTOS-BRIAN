@@ -98,7 +98,9 @@ export default function Footer({ year: buildYear }: FooterProps) {
       </span>
 
       <div className="container-page relative pt-16 md:pt-20">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.1fr_1fr] lg:gap-10">
+        {/* En móvil eran cuatro bloques apilados: 1.692 px de pie, dos pantallas y media al final
+            de CADA página. A dos columnas, con menos aire entre ellas, se queda en una. */}
+        <div className="grid gap-x-6 gap-y-8 max-md:grid-cols-2 md:gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.1fr_1fr] lg:gap-10">
           {/* Marca */}
           <div>
             <Link href={lp("/")} aria-label={m.nav.homeAria} className="inline-block rounded-md">
