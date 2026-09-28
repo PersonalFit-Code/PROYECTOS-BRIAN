@@ -45,6 +45,13 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  /* Que el TECLADO encoja la página, no que se limite a taparla. Donde se admite (Chrome en Android
+     y los navegadores de Chromium) esto hace que al abrirse el teclado se recalculen `100dvh` y los
+     elementos anclados al pie, así que el cuadro de texto del camarero virtual sube solo, sin que
+     nadie tenga que medir nada. Safari en iOS todavía lo ignora, y para ese caso está el anclaje a
+     `visualViewport` de `useKeyboardViewport`: uno cubre al otro, y donde funcionan los dos el
+     resultado es el mismo. */
+  interactiveWidget: "resizes-content",
 };
 
 const DAY_SCHEMA: Record<string, string> = {
