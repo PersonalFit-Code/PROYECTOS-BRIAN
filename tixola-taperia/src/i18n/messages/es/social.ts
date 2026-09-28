@@ -21,6 +21,8 @@ const social = {
     position: "Restaurante de Ourense",
     positionSub: "TripAdvisor · Travellers' Choice",
   },
+  /** Palabra centrada sobre la regla superior de la banda de cifras (SocialProof). */
+  statsTitle: "En cifras",
   statsAria: "Cifras de Tixola",
   reviewsTitle: "Palabra de",
   reviewsAccent: "quien ya ha venido",

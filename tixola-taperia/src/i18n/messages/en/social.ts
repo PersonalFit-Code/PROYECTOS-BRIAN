@@ -24,6 +24,8 @@ const social = {
     position: "Restaurant in Ourense",
     positionSub: "TripAdvisor · Travellers' Choice",
   },
+  /** Word centred over the top rule of the figures band (SocialProof). */
+  statsTitle: "In numbers",
   statsAria: "Tixola in numbers",
   reviewsTitle: "Word from",
   reviewsAccent: "those who've already been",

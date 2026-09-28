@@ -23,6 +23,8 @@ const social: Section<"social"> = {
     position: "Restaurante de Ourense",
     positionSub: "TripAdvisor · Travellers' Choice",
   },
+  /** Palabra centrada sobre a regra superior da banda de cifras (SocialProof). */
+  statsTitle: "En cifras",
   statsAria: "Cifras de Tixola",
   reviewsTitle: "Palabra de",
   reviewsAccent: "quen xa veu",

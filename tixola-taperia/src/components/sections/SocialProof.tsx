@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Award, BadgeCheck, Flame, Star } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, Star } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useMemo, useRef, type CSSProperties } from "react";
 import Counter from "@/components/ui/Counter";
@@ -22,7 +22,8 @@ import { cn } from "@/lib/utils";
 /**
  * SocialProof (#opiniones) — prueba social de Tixola.
  *  1. Cabecera (m.social.*) con el resumen de valoración de Google.
- *  2. Cuatro contadores en cristal (SOCIAL_STATS; etiquetas de m.social.stats).
+ *  2. Banda editorial "en cifras": cuatro contadores a pelo sobre el hierro, separados por filos
+ *     (SOCIAL_STATS; etiquetas de m.social.stats). Sin tarjetas: el cliente no quería "cuadrados".
  *  3. Columnas de reseñas reales de 5★ en marquee vertical (ReviewMarquee).
  *  4. Enlaces a Google / TripAdvisor con su nota.
  *  5. Galería de fotos del local (PhotoGallery) con visor.
@@ -68,23 +69,6 @@ function statLabels(id: string, s: Messages["social"]["stats"]): { label: string
       return { label: s.position, sub: s.positionSub };
     default:
       return null;
-  }
-}
-
-/** Icono decorativo por indicador. */
-function StatIcon({ id }: { id: string }) {
-  const cls = "h-4 w-4";
-  switch (id) {
-    case "reviews":
-      return <PlatformGlyph source="Google" className={cls} />;
-    case "rating":
-      return <Star className={cn(cls, "fill-gold text-gold")} aria-hidden />;
-    case "rank":
-      return <Flame className={cn(cls, "text-ember")} aria-hidden />;
-    case "years":
-      return <Award className={cn(cls, "text-[#34E0A1]")} aria-hidden />;
-    default:
-      return <BadgeCheck className={cn(cls, "text-gold")} aria-hidden />;
   }
 }
 
@@ -158,41 +142,54 @@ function EmberField({ count, paused }: { count: number; paused: boolean }) {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Tarjeta de indicador
+   Cifra de la banda editorial
    ────────────────────────────────────────────────────────────── */
 
-function StatTile({ stat, index }: { stat: StatItem; index: number }) {
+/**
+ * Una cifra de la banda "en cifras". Sin caja: ni fondo, ni borde redondeado, ni sombra, ni cristal.
+ * Solo el kicker con la fuente en versalitas, el número enorme en Bebas Neue y la etiqueta debajo,
+ * como la doble página "en cifras" de una revista de gastronomía. Lo único que separa una cifra de la
+ * siguiente son filos de un píxel en `cream/10`.
+ *
+ * Los filos van como bordes del propio <li> y dependen de la posición en la rejilla:
+ *  - Móvil (2 × 2): la segunda columna lleva filo izquierdo y la segunda fila filo superior.
+ *  - Escritorio (1 × 4): todas menos la primera llevan filo izquierdo; el superior desaparece.
+ */
+function StatFigure({ stat, index }: { stat: StatItem; index: number }) {
+  const secondColumn = index % 2 === 1;
+  const secondRow = index >= 2;
   return (
     /* Entrada escalonada en CSS (`--reveal-delay`) en vez de `whileInView`: Framer escribía opacidad y
-       transform en las cuatro tarjetas durante el scroll, con los cuatro contadores animando a la vez. */
+       transform en las cuatro cifras durante el scroll, con los cuatro contadores animando a la vez. */
     <li
       data-reveal
-      className="glass group relative overflow-hidden rounded-3xl p-5 md:p-6"
+      className={cn(
+        "flex flex-col items-center px-3 py-7 text-center sm:px-5 md:py-9 lg:px-6",
+        /* Solo el color: el lado que se pinta lo decide la posición en la rejilla */
+        "border-cream/10",
+        secondColumn && "border-l",
+        secondRow && "max-lg:border-t",
+        /* En una fila de cuatro, la tercera cifra también necesita filo a su izquierda */
+        index === 2 && "lg:border-l",
+      )}
       style={{ "--reveal-delay": `${index * 80}ms` } as CSSProperties}
     >
-      <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-pimenton-light/60 to-transparent" />
-      {/* Brasa del hueco superior: era un `blur-3xl` de 192×128 px por tarjeta, cuatro en pantalla a la
-          vez y con una transición de opacidad al pasar el ratón encima (o sea, re-desenfocando).
-          `ember-wash` y no `ember-glow`: el original era un color PLANO al que el desenfoque solo plumeaba el borde, así que un radial de pico y caída rápida perdía ~3,5 veces de luz. Alfa igual que el original. (el defecto de la utilidad, 0,30, es el mismo `bg-pimenton/30` de antes). */}
-      <span
-        aria-hidden
-        className="ember-wash absolute -top-16 left-1/2 h-32 w-48 -translate-x-1/2 rounded-full transition-opacity duration-700 group-hover:opacity-100 md:opacity-60"
-      />
-      <div className="relative flex items-center gap-2 font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint">
-        <StatIcon id={stat.id} />
-        <span>{stat.sub}</span>
-      </div>
-      <div className="relative mt-3">
+      {/* Kicker: la fuente del dato (Google, TripAdvisor…) en versalitas pequeñas */}
+      <span className="font-caps text-[10px] uppercase tracking-[0.24em] text-cream-faint">{stat.sub}</span>
+      <div className="mt-4">
         <Counter
           value={stat.value}
           decimals={stat.decimals}
           prefix={stat.prefix}
           suffix={stat.suffix}
           delay={index * 0.12}
-          className="text-5xl sm:text-6xl lg:text-7xl"
+          /* Tamaños medidos para que "4,4 / 5" quepa en media pantalla de 390 px y en un cuarto de 1024 */
+          className="text-5xl sm:text-6xl xl:text-7xl"
         />
       </div>
-      <p className="relative mt-2 font-sans text-sm font-semibold text-cream md:text-[15px]">{stat.label}</p>
+      <p className="mt-3 max-w-[16ch] font-sans text-sm font-semibold leading-snug text-cream text-balance md:text-[15px]">
+        {stat.label}
+      </p>
     </li>
   );
 }
@@ -310,12 +307,24 @@ export default function SocialProof() {
           </div>
         </div>
 
-        {/* 2 · Contadores */}
-        <ul className="mt-12 grid grid-cols-2 gap-3 md:mt-16 md:gap-5 lg:grid-cols-4" aria-label={s.statsAria}>
-          {stats.map((stat, i) => (
-            <StatTile key={stat.id} stat={stat} index={i} />
-          ))}
-        </ul>
+        {/* 2 · Banda editorial "en cifras": regla fina arriba (con la palabra centrada) y abajo, y las
+            cuatro cifras entre medias, directamente sobre el hierro. Sin cajas ni cristal. */}
+        <div className="mt-12 md:mt-16">
+          <div data-reveal="fade" className="flex items-center gap-4">
+            <span aria-hidden className="h-px flex-1 bg-cream/15" />
+            {/* La palabra es puro adorno de maqueta: la lista ya se anuncia con `statsAria` */}
+            <span aria-hidden className="font-caps text-[11px] uppercase tracking-[0.3em] text-pimenton-a11y">
+              {s.statsTitle}
+            </span>
+            <span aria-hidden className="h-px flex-1 bg-cream/15" />
+          </div>
+          <ul className="grid grid-cols-2 lg:grid-cols-4" aria-label={s.statsAria}>
+            {stats.map((stat, i) => (
+              <StatFigure key={stat.id} stat={stat} index={i} />
+            ))}
+          </ul>
+          <div data-reveal="fade" aria-hidden className="h-px bg-cream/15" />
+        </div>
 
         {/* 3 · Columnas de reseñas */}
         <div className="mt-16 md:mt-24">
