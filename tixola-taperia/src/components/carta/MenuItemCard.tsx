@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ChevronDown, Flame, Leaf, MessageCircleQuestion, Sparkles, Sprout, Star, WheatOff, Wine, type LucideProps } from "lucide-react";
-import { memo, useState, type ComponentType } from "react";
+import { Expand, Flame, Leaf, MessageCircleQuestion, Sparkles, Sprout, Star, WheatOff, Wine, type LucideProps } from "lucide-react";
+import { memo, type ComponentType } from "react";
 import { useChat } from "@/components/chat/ChatProvider";
 import { DishIcon } from "@/components/icons/DishIcons";
 import { AllergenRow } from "@/components/ui/AllergenIcon";
@@ -15,12 +15,12 @@ import { cn } from "@/lib/utils";
 /**
  * MenuItemCard — tarjeta de plato.
  *
- *  - EN MÓVIL ES UN ACORDEÓN. Con la ficha completa desplegada, cada plato ocupaba una pantalla de
- *    teléfono entera: 40 platos eran 12.000 px, 18 pantallas de dedo para llegar al final de la carta.
- *    Ahora cada plato es una fila de ~72 px —miniatura, nombre y precio— y caben cinco por pantalla;
- *    al tocar se despliega en su sitio la ficha de siempre (foto grande, alérgenos, maridaje,
- *    camarero). No se pierde nada: se deja de obligar a pasar por todo para encontrar un plato.
- *    De `md` en adelante no cambia nada: la rejilla de tarjetas se queda como estaba.
+ *  - EN MÓVIL ES UNA FILA DE ~72 px: miniatura, nombre y precio, cinco platos por pantalla. Con la
+ *    ficha completa desplegada cada plato ocupaba una pantalla entera: 40 platos eran 12.000 px, 18
+ *    pantallas de dedo para llegar al final. Al tocar se abre LA FICHA (`DishSpotlight`), la misma que
+ *    ya abren los platos estrella: foto grande, precio, alérgenos, maridaje y camarero.
+ *  - EN ESCRITORIO la tarjeta se queda como estaba (toda la información a la vista) y la FOTO es el
+ *    botón que abre esa misma ficha. Una sola manera de ver un plato en toda la web.
  *  - Con foto (`item.image`): imagen 4:3 arriba (next/image, `object-position` del manifiesto de
  *    fotos) con el icono del plato en un disco de hierro sobre la esquina.
  *  - Sin foto: cabecera fina con el icono del plato (DishIcon) en dorado sobre un disco de hierro.
@@ -54,6 +54,8 @@ export interface MenuItemCardProps {
    * del primer frame (al filtrar): así el HTML estático y el árbol interactivo no parpadean.
    */
   enter?: boolean;
+  /** Abre la ficha del plato (`DishSpotlight`), que vive en `CartaExplorer`. */
+  onOpen: (item: MenuItem) => void;
   className?: string;
 }
 
@@ -83,7 +85,7 @@ const PHOTO_BY_SRC: ReadonlyMap<string, Photo> = new Map(PHOTOS.map((p) => [p.sr
 /** Anchos reales de la columna de la rejilla (1 col móvil · 2 cols md · 3 cols xl junto al camarero). */
 const IMAGE_SIZES = "(min-width: 1280px) 300px, (min-width: 768px) 45vw, calc(100vw - 32px)";
 
-function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, enter = false, className }: MenuItemCardProps) {
+function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, enter = false, onOpen, className }: MenuItemCardProps) {
   const m = useMessages();
   const t = useFormat();
   const locale = useLocale();
@@ -92,13 +94,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
   const chalk = variant === "chalk";
   const tags = TAG_ORDER.filter((tag) => item.tags.includes(tag));
   const titleId = `carta-item-${item.id}-title`;
-  const bodyId = `carta-item-${item.id}-body`;
   const photo = item.image ? PHOTO_BY_SRC.get(item.image) : undefined;
-
-  /* Desplegado del acordeón. SOLO manda por debajo de `md`: en escritorio las clases `max-md:hidden`
-     no se aplican y la tarjeta se ve entera pase lo que pase con este estado. */
-  const [open, setOpen] = useState(false);
-  const folded = !open;
 
   const askWaiter = () => chat.open({ prefill: t(m.carta.askAboutDish, { name: item.name }), page: "carta" });
 
@@ -156,9 +152,8 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
         <h3 className="md:hidden">
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls={bodyId}
+            onClick={() => onOpen(item)}
+            aria-label={t(m.carta.openDish, { name: item.name })}
             className="flex w-full items-center gap-3 p-2.5 text-left"
           >
             {item.image ? (
@@ -194,18 +189,23 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
               <span className={cn("font-condensed text-xl tracking-wide", chalk ? "text-gold" : "text-pimenton-light")}>
                 {formatPrice(item.price, locale)}
               </span>
-              <ChevronDown
-                aria-hidden
-                size={16}
-                className={cn("text-cream-faint transition-transform duration-300 ease-[var(--ease-out-expo)]", open && "rotate-180")}
-              />
+              {/* Galón de "esto se abre". `Expand` y no un `ChevronDown`: ya no despliega hacia abajo,
+                  abre una ficha a pantalla completa, y el icono tiene que contarlo. */}
+              <Expand aria-hidden size={15} className="text-cream-faint" />
             </span>
           </button>
         </h3>
 
-        {/* ── Cabecera: foto 4:3 o disco con el icono del plato ── */}
+        {/* ── Cabecera: foto 4:3 o disco con el icono del plato ──
+            La foto es el BOTÓN que abre la ficha en escritorio (en móvil la abre la fila de arriba).
+            Toda esta cabecera va oculta por debajo de `md`, donde manda la fila compacta. */}
         {item.image ? (
-          <div className={cn("relative aspect-[4/3] w-full overflow-hidden bg-iron-800", folded && "max-md:hidden")}>
+          <button
+            type="button"
+            onClick={() => onOpen(item)}
+            aria-label={t(m.carta.openDish, { name: item.name })}
+            className="group/foto relative aspect-[4/3] w-full overflow-hidden bg-iron-800 max-md:hidden"
+          >
             <Image
               src={item.image}
               alt={t(m.carta.photoOf, { name: item.name })}
@@ -221,9 +221,18 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             >
               <DishIcon iconKey={item.emoji} size={22} />
             </span>
-          </div>
+            {/* Pista de que la foto se puede abrir: aparece al acercar el puntero o al enfocar con el
+                teclado. Sin puntero (táctil) no se pinta, que allí ya manda la fila compacta. */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute bottom-3 right-3 hidden items-center gap-1.5 rounded-full border border-cream/20 bg-iron-900/85 px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.18em] text-cream opacity-0 transition-opacity duration-300 group-hover/foto:opacity-100 group-focus-visible/foto:opacity-100 [@media(hover:hover)]:inline-flex"
+            >
+              <Expand size={11} />
+              {m.carta.openDishCta}
+            </span>
+          </button>
         ) : (
-          <div className={cn("flex items-center gap-3 px-5 pt-5 md:px-6", folded && "max-md:hidden")}>
+          <div className="flex items-center gap-3 px-5 pt-5 max-md:hidden md:px-6">
             <span
               aria-hidden
               className={cn(
@@ -243,19 +252,19 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
         )}
 
         {/* ── Cuerpo ── */}
-        <div id={bodyId} className={cn("flex flex-1 flex-col p-5 md:p-6", folded && "max-md:hidden")}>
+        <div className="flex flex-1 flex-col p-5 max-md:hidden md:p-6">
           {/* En móvil el nombre ya lo da la fila compacta de arriba; repetirlo sería leerlo dos veces. */}
           <h3
             id={titleId}
             className={cn(
-              "max-md:hidden font-condensed text-2xl uppercase leading-[0.95] tracking-wide text-cream md:text-[1.75rem]",
+              "font-condensed text-2xl uppercase leading-[0.95] tracking-wide text-cream md:text-[1.75rem]",
               chalk && "[text-shadow:0_0_1px_rgba(249,246,240,0.55),0_0_12px_rgba(249,246,240,0.18)]",
             )}
           >
             {item.name}
           </h3>
 
-          <p className="text-sm leading-relaxed text-cream-muted md:mt-2.5">{item.description}</p>
+          <p className="mt-2.5 text-sm leading-relaxed text-cream-muted">{item.description}</p>
 
           {/* Precio + unidad */}
           <p className="mt-4 flex items-baseline gap-2 leading-none">

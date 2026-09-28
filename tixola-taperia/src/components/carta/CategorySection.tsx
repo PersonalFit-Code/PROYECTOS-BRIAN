@@ -37,6 +37,8 @@ export interface CategorySectionProps {
   /** revelado al entrar en pantalla + fundido de las tarjetas que se montan al filtrar */
   animations: boolean;
   onSelect: (id: CategoryFilter) => void;
+  /** Abre la ficha del plato; el estado vive arriba, en `CartaExplorer`. */
+  onOpenItem: (item: MenuItem, kicker: string) => void;
 }
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
@@ -46,7 +48,17 @@ const REVEAL: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: EASE_OUT_EXPO } },
 };
 
-export default function CategorySection({ category, items, total, dietTags, selected, highlightedId, animations, onSelect }: CategorySectionProps) {
+export default function CategorySection({
+  category,
+  items,
+  total,
+  dietTags,
+  selected,
+  highlightedId,
+  animations,
+  onSelect,
+  onOpenItem,
+}: CategorySectionProps) {
   const m = useMessages();
   const t = useFormat();
   const sectionRef = useRef<HTMLElement>(null);
@@ -168,6 +180,9 @@ export default function CategorySection({ category, items, total, dietTags, sele
             variant={chalkboard ? "chalk" : "glass"}
             highlighted={highlightedId === item.id}
             enter={animations && settled}
+            /* El `kicker` de la categoría viaja con el plato: es lo que la ficha usa como antetítulo
+               ("Lonja gallega", "La especialidad de la casa"…) y aquí ya viene traducido. */
+            onOpen={(dish) => onOpenItem(dish, category.kicker)}
           />
         ))}
       </ul>

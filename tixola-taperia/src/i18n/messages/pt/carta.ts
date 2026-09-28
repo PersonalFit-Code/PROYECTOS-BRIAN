@@ -79,6 +79,9 @@ const carta = {
   pairing: "Harmoniza com",
   variants: "Variantes",
   photoOf: "{name}, prato da Tixola Tapería em Ourense",
+  /* Abrir la ficha del plato (DishSpotlight) desde la carta: la fila de móvil y la foto de escritorio. */
+  openDish: "Ver a ficha de {name}",
+  openDishCta: "Ver ficha",
   askAboutDish: "O que me podes dizer sobre o prato {name}? Tem alergénios e com que vinho o harmonizo?",
   askAboutDishCta: "Perguntar ao empregado",
   askAboutDishAria: "Perguntar ao empregado virtual sobre {name}",

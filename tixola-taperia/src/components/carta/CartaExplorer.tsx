@@ -5,9 +5,12 @@ import { BookOpen, Eraser, MessageCircleQuestion, Utensils } from "lucide-react"
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useChat } from "@/components/chat/ChatProvider";
+import DishSpotlight from "@/components/ui/DishSpotlight";
+import type { DishSlide } from "@/components/ui/DishVisual";
 import NeonButton from "@/components/ui/NeonButton";
+import { useReservation } from "@/components/ui/ReservationProvider";
 import type { AllergenId } from "@/data/allergens";
-import type { DietTag } from "@/data/menu";
+import type { DietTag, MenuItem } from "@/data/menu";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { localizeAllergens, localizeDietTags } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
@@ -16,6 +19,7 @@ import AllergenLegendSheet from "./AllergenLegend";
 import CartaCta from "./CartaCta";
 import CartaHero from "./CartaHero";
 import CategorySection from "./CategorySection";
+import { useMenuItemSlide } from "./menuItemSlide";
 import FilterBar from "./FilterBar";
 import { CARTA_CONTAINER, FILTER_BAR_HEIGHT, RESULTS_ID } from "./layout";
 import WaiterCard from "./WaiterCard";
@@ -112,6 +116,7 @@ function CartaLive() {
 
   const [filters, setFilters] = useState<MenuFilters>(() => parseFilters(new URLSearchParams(searchParams.toString())));
   const [legendOpen, setLegendOpen] = useState(false);
+
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   /** id de tarjeta pendiente de revelar (enlace profundo `#id`) */
   const [pendingHash, setPendingHash] = useState<string | null>(null);
@@ -292,6 +297,17 @@ interface CartaViewProps {
 }
 
 function CartaView({ filters, results, highlightedId, legendOpen, animations, heroFloat, actions }: CartaViewProps) {
+  /* Ficha del plato. El cliente la pidió con estas palabras: "poder pinchar en un plato y ver la
+     descripción del producto"; es la MISMA que abren los platos estrella en la home, para que haya
+     una sola forma de mirar un plato en toda la web. El estado vive en esta vista, que es quien pinta
+     tanto las secciones como la ficha: solo puede haber una abierta, y cerrarla no depende de qué
+     tarjeta la abrió. Fuera de aquí no le interesa a nadie, así que no sube a `CartaLive`. */
+  const [spotlight, setSpotlight] = useState<DishSlide | null>(null);
+  const toSlide = useMenuItemSlide();
+  const perf = usePerformanceTier();
+  const { open: openReservation } = useReservation();
+  const openDish = useCallback((item: MenuItem, kicker: string) => setSpotlight(toSlide(item, kicker)), [toSlide]);
+  const closeDish = useCallback(() => setSpotlight(null), []);
   const m = useMessages();
   const locale = useLocale();
   const dataset = getMenuDataset(locale);
@@ -358,6 +374,7 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, he
                       highlightedId={highlightedId}
                       animations={animations}
                       onSelect={actions.selectCategory}
+                      onOpenItem={openDish}
                     />
                   ))}
                 </div>
@@ -391,6 +408,16 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, he
 
       {/* Leyenda de alérgenos (modal / bottom-sheet) */}
       <AllergenLegendSheet open={legendOpen} onClose={actions.closeLegend} />
+
+      {/* Ficha del plato. `showMenuLink={false}`: el atajo "ver en la carta" te devolvería a esta
+          misma página. El vaho solo donde el equipo lo aguanta, igual que en la home. */}
+      <DishSpotlight
+        slide={spotlight}
+        onClose={closeDish}
+        onReserve={openReservation}
+        steam={perf.tier !== "low" && !perf.reducedMotion}
+        showMenuLink={false}
+      />
     </MotionConfig>
   );
 }

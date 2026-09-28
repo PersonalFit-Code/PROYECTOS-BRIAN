@@ -47,6 +47,11 @@ import { cn } from "@/lib/utils";
 export const dishSpotlightLayoutId = dishVisualLayoutId;
 
 export interface DishSpotlightProps {
+  /**
+   * ¿Se ofrece el atajo "ver en la carta"? En la home sí (lleva al plato dentro de /carta); desde la
+   * propia carta sobra, porque ese enlace te devolvería justo a donde ya estás.
+   */
+  showMenuLink?: boolean;
   /** plato (y su foto) a mostrar; `null` cierra el detalle */
   slide: DishSlide | null;
   onClose: () => void;
@@ -87,7 +92,7 @@ const useIsClient = () =>
     () => false,
   );
 
-export default function DishSpotlight({ slide, onClose, onReserve, steam = true }: DishSpotlightProps) {
+export default function DishSpotlight({ slide, onClose, onReserve, steam = true, showMenuLink = true }: DishSpotlightProps) {
   const isClient = useIsClient();
   const isMobile = useIsMobile();
   const hostRef = useRef<HTMLDivElement>(null);
@@ -131,7 +136,17 @@ export default function DishSpotlight({ slide, onClose, onReserve, steam = true 
     <div ref={hostRef} data-dish-spotlight="">
       <MotionConfig reducedMotion="user">
         <AnimatePresence>
-          {slide && <Sheet key={slide.dish.id} slide={slide} mobile={isMobile} steam={steam} onClose={onClose} onReserve={onReserve} />}
+          {slide && (
+            <Sheet
+              key={slide.dish.id}
+              slide={slide}
+              mobile={isMobile}
+              steam={steam}
+              onClose={onClose}
+              onReserve={onReserve}
+              showMenuLink={showMenuLink}
+            />
+          )}
         </AnimatePresence>
       </MotionConfig>
     </div>,
@@ -142,6 +157,7 @@ export default function DishSpotlight({ slide, onClose, onReserve, steam = true 
 /* ───────────────────────── Panel ───────────────────────── */
 
 interface SheetProps {
+  showMenuLink: boolean;
   slide: DishSlide;
   mobile: boolean;
   steam: boolean;
@@ -149,7 +165,7 @@ interface SheetProps {
   onReserve: () => void;
 }
 
-function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
+function Sheet({ slide, mobile, steam, onClose, onReserve, showMenuLink }: SheetProps) {
   const { dish, photo } = slide;
   const m = useMessages();
   const reducedMotion = useReducedMotion();
@@ -228,6 +244,20 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
           "md:h-[min(86dvh,760px)] md:max-h-none md:max-w-4xl md:flex-row",
         )}
       >
+        {/* TELÓN OPACO, primer hijo de todos. `glass-smoke` cuenta con que el `backdrop-filter` emborrone
+            lo que hay detrás, pero ese filtro solo vuelve bajo `:root[data-gpu="high"]`: en un móvil de
+            gama media —o sea, en la mayoría de los teléfonos que van a abrir esta ficha— la superficie
+            se queda casi transparente y los platos de la carta se leen POR DEBAJO del nombre y del
+            precio. Medido en una captura: detrás de "Zamburiñas rellenas gratinadas" se veían las filas
+            de "Tixola de raxo" y "Pulpo a la plancha". Es el mismo fallo que ya se arregló en el panel
+            del camarero virtual y se arregla igual: un fondo horneado que asegura el contraste sin
+            renunciar al cristal donde sí funciona. `-z-10` para quedar por detrás de la foto y del
+            texto sin tocar el flujo, y `rounded-[inherit]` para no asomar por las esquinas. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-[linear-gradient(165deg,rgba(24,24,24,0.97),rgba(12,12,12,0.99))]"
+        />
+
         {/* Halo del color de acento tras el panel. Sin `blur-3xl`: eran 384×384 px con radio 64 DENTRO
             de un panel que se arrastra con dragControls, así que cada píxel de desplazamiento podía
             invalidar la capa… y su primera rasterización caía justo encima de la animación de apertura.
@@ -292,7 +322,7 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
                  0,24 s de recorrido) en vez de esperar 0,12 s y tardar otros 0,5 s en asentarse. */
               transition={{ duration: 0.24, delay: 0.04, ease: EASE_OUT_EXPO }}
             >
-              <DishDetails dish={dish} titleId={titleId} descId={descId} onClose={onClose} onReserve={onReserve} />
+              <DishDetails dish={dish} titleId={titleId} descId={descId} onClose={onClose} onReserve={onReserve} showMenuLink={showMenuLink} />
             </motion.div>
           </div>
         </div>
@@ -304,6 +334,7 @@ function Sheet({ slide, mobile, steam, onClose, onReserve }: SheetProps) {
 /* ───────────────────────── Ficha del plato ───────────────────────── */
 
 interface DishDetailsProps {
+  showMenuLink: boolean;
   dish: DishSlide["dish"];
   titleId: string;
   descId: string;
@@ -313,7 +344,7 @@ interface DishDetailsProps {
 
 const LABEL = "font-caps text-[10px] uppercase tracking-[0.28em] text-cream-faint";
 
-function DishDetails({ dish, titleId, descId, onClose, onReserve }: DishDetailsProps) {
+function DishDetails({ dish, titleId, descId, onClose, onReserve, showMenuLink }: DishDetailsProps) {
   const m = useMessages();
   const t = useFormat();
   const locale = useLocale();
@@ -350,29 +381,38 @@ function DishDetails({ dish, titleId, descId, onClose, onReserve }: DishDetailsP
       <p className="mt-4 flex items-baseline gap-2">
         <span className="sr-only">{m.dishes.spotlight.priceLabel}</span>
         <span className="font-condensed text-[2.75rem] leading-none tracking-wide text-cream">{formatPrice(dish.price, locale)}</span>
-        <span className="text-sm text-cream-muted">{t(m.dishes.spotlight.perUnit, { unit: dish.unit })}</span>
+        {/* La unidad solo si la hay: los platos de la carta pueden no tenerla y "por " a secas sobra. */}
+        {dish.unit && <span className="text-sm text-cream-muted">{t(m.dishes.spotlight.perUnit, { unit: dish.unit })}</span>}
       </p>
 
-      {/* Titular + descripción */}
-      <p id={descId} className="mt-4 font-display text-xl italic leading-snug text-cream-200 md:text-2xl">
-        {dish.headline}
+      {/* Titular + descripción. El titular es cosa de los platos estrella (una frase escrita a mano
+          para cada uno); un plato de la carta no lo tiene y entonces manda la descripción. */}
+      {dish.headline && (
+        <p className="mt-4 font-display text-xl italic leading-snug text-cream-200 md:text-2xl">{dish.headline}</p>
+      )}
+      <p id={descId} className="mt-2 text-[15px] leading-relaxed text-cream-muted">
+        {dish.description}
       </p>
-      <p className="mt-2 text-[15px] leading-relaxed text-cream-muted">{dish.description}</p>
 
       <div className="divider-iron my-5" />
 
-      {/* Ingredientes */}
-      <p className={LABEL}>{m.dishes.ingredients}</p>
-      <ul className="mt-2 flex flex-wrap gap-1.5" aria-label={m.dishes.ingredients}>
-        {dish.ingredients.map((ingredient) => (
-          <li key={ingredient} className="rounded-full border border-cream/15 bg-cream/[0.04] px-3 py-1 text-xs text-cream-200">
-            {ingredient}
-          </li>
-        ))}
-      </ul>
+      {/* Ingredientes: despiece que solo tienen los platos estrella. Sin ellos, ni el rótulo ni la
+          lista vacía: un encabezado con nada debajo se lee como un fallo. */}
+      {dish.ingredients.length > 0 && (
+        <>
+          <p className={LABEL}>{m.dishes.ingredients}</p>
+          <ul className="mt-2 flex flex-wrap gap-1.5" aria-label={m.dishes.ingredients}>
+            {dish.ingredients.map((ingredient) => (
+              <li key={ingredient} className="rounded-full border border-cream/15 bg-cream/[0.04] px-3 py-1 text-xs text-cream-200">
+                {ingredient}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
 
       {/* Alérgenos: iconos (AllergenRow) + etiquetas localizadas en texto */}
-      <p className={cn(LABEL, "mt-5")}>{m.dishes.allergens}</p>
+      <p className={cn(LABEL, dish.ingredients.length > 0 && "mt-5")}>{m.dishes.allergens}</p>
       {dish.allergens.length > 0 ? (
         <>
           <div className="mt-2">
@@ -385,32 +425,43 @@ function DishDetails({ dish, titleId, descId, onClose, onReserve }: DishDetailsP
       )}
       <p className="mt-1 text-[11px] leading-relaxed text-cream-faint">{m.dishes.allergensNote}</p>
 
-      {/* Maridaje: bloque a modo de etiqueta de vino */}
-      <div className="relative mt-5 overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-b from-gold/10 to-transparent px-4 py-3.5">
-        <p className="flex items-center gap-2 font-caps text-[10px] uppercase tracking-[0.28em] text-gold">
-          <Wine size={13} aria-hidden />
-          {m.dishes.pairing}
-          <span aria-hidden className="h-px flex-1 bg-gradient-to-r from-gold/60 to-transparent" />
-        </p>
-        <p className="mt-2 font-display text-2xl leading-tight text-cream">
-          {dish.pairing.wine} <em className="font-display text-base italic text-gold/90">· {dish.pairing.do}</em>
-        </p>
-        <p className="mt-2 font-caps text-[9px] uppercase tracking-[0.2em] text-cream-faint">{m.dishes.pairingWhy}</p>
-        <p className="mt-1 text-[13px] leading-relaxed text-cream-muted">{dish.pairing.why}</p>
-      </div>
+      {/* Maridaje, a modo de etiqueta de vino. Los platos estrella traen vino, D.O. y el porqué; los de
+          la carta, como mucho una línea de vino. Cada trozo se pinta solo si existe, así que el bloque
+          se encoge con elegancia en vez de enseñar una D.O. vacía o un "por qué" en blanco. */}
+      {dish.pairing.wine && (
+        <div className="relative mt-5 overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-b from-gold/10 to-transparent px-4 py-3.5">
+          <p className="flex items-center gap-2 font-caps text-[10px] uppercase tracking-[0.28em] text-gold">
+            <Wine size={13} aria-hidden />
+            {m.dishes.pairing}
+            <span aria-hidden className="h-px flex-1 bg-gradient-to-r from-gold/60 to-transparent" />
+          </p>
+          <p className="mt-2 font-display text-2xl leading-tight text-cream">
+            {dish.pairing.wine}
+            {dish.pairing.do && <em className="font-display text-base italic text-gold/90"> · {dish.pairing.do}</em>}
+          </p>
+          {dish.pairing.why && (
+            <>
+              <p className="mt-2 font-caps text-[9px] uppercase tracking-[0.2em] text-cream-faint">{m.dishes.pairingWhy}</p>
+              <p className="mt-1 text-[13px] leading-relaxed text-cream-muted">{dish.pairing.why}</p>
+            </>
+          )}
+        </div>
+      )}
 
       {/* CTAs */}
       <div className="mt-6 flex flex-col gap-2 sm:flex-row">
-        <NeonButton
-          href={lp(`/carta#${dish.menuId}`)}
-          onClick={onClose}
-          variant="outline"
-          size="md"
-          icon={<UtensilsCrossed aria-hidden />}
-          className="w-full sm:flex-1"
-        >
-          {m.dishes.seeInMenu}
-        </NeonButton>
+        {showMenuLink && (
+          <NeonButton
+            href={lp(`/carta#${dish.menuId}`)}
+            onClick={onClose}
+            variant="outline"
+            size="md"
+            icon={<UtensilsCrossed aria-hidden />}
+            className="w-full sm:flex-1"
+          >
+            {m.dishes.seeInMenu}
+          </NeonButton>
+        )}
         <NeonButton type="button" variant="primary" size="md" icon={<CalendarCheck aria-hidden />} onClick={handleReserve} className="w-full sm:flex-1">
           {m.common.cta.reserveShort}
         </NeonButton>
