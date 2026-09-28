@@ -145,6 +145,23 @@ conservación, precio y los catorce alérgenos del anexo II del Reglamento UE
 1169/2011. Es un `<dialog>` nativo con `showModal()`, igual que el visor de
 fotos: Escape, foco atrapado y fondo inerte salen gratis.
 
+**También se abre pinchando una tarta del carrusel.** Ahí hay dos clases de
+ficha:
+
+- **Del mostrador** (tres leches, golfeados, cookies): ingredientes,
+  conservación y una lista cerrada de alérgenos, porque la receta es fija.
+- **Por encargo** (cumpleaños, boda, temática, mesa de dulces): sabores,
+  antelación y formato. Una tarta a medida **no tiene** lista de ingredientes,
+  así que no se publica ninguna: se marcan los alérgenos que lleva
+  prácticamente cualquier bizcocho (gluten, huevo, lácteos, y frutos secos en
+  trazas) y se dice que los definitivos dependen del sabor y la decoración.
+  Inventar una lista cerrada para una tarta a medida sería peor que no poner
+  ninguna.
+
+La lupa de la esquina sigue abriendo la foto en grande; el clic en la tarta
+abre la ficha. El obrador es la única tarjeta sin ficha, porque no es un
+producto.
+
 **Los datos de alérgenos están deducidos, no confirmados.** Salen de lo que la
 propia web ya dice de cada producto (un bizcocho lleva harina de trigo; el
 golfeado lleva papelón y queso blanco; el obrador manipula gluten, huevo,
@@ -338,10 +355,6 @@ viaja de verdad ronda los 760 KB.
       propósito sin rellenar — año de apertura, de dónde vienen, quién es quién
 - [ ] ¿Hacen croissants y barras de pan? Si sí, van a la cinta del mostrador
 - [ ] Las 4 fotos que faltan (cookies, mesa de dulces, piñitas, obrador) + regenerar la de "tarta temática" sin texto horneado
-- [ ] **El boceto del comparador lo generé yo** a partir de su propia foto (filtro
-      de lápiz). Sale rotulado como «Boceto de ejemplo». Cuando pasen un boceto
-      real con su tarta terminada, se sustituyen las dos imágenes y se quita la
-      palabra «ejemplo»
 - [ ] Imagen de compartir `assets/og-image.png` (1200×630)
 - [ ] Conectar el alta de novedades a un servicio de listas: hay una constante
       `ENDPOINT` vacía en el JS. Mientras esté vacía, el formulario prepara el
