@@ -386,6 +386,62 @@ Y mientras no hay fecha, el hueco del resultado no está vacío: dice qué falta
 saliendo de un único sitio, el mismo que publica la pregunta frecuente de
 debajo.
 
+## Lo que sacó la revisión a fondo (y por qué hacía falta)
+
+Después de montar la barra de abajo, los botones pequeños y la hoja de la
+ficha, todo pasaba las pruebas que había. Se lanzó igualmente una revisión
+adversarial —cinco miradas distintas sobre el archivo, y cada hallazgo
+verificado por otro que intentaba tumbarlo— y salieron **quince fallos reales**,
+tres de ellos graves. Los tres los había metido yo al hacer pequeños los
+botones. Vale la pena dejarlos escritos, porque el patrón se repite:
+
+**1. Al tocar «Volver arriba» en el móvil se abría WhatsApp.** El botón de
+volver arriba estaba colocado «por encima de la barra de acciones, que ocupa
+todo el ancho de abajo» — una barra que ya no existe. Al encoger los dos
+flotantes y subirlos a esa esquina, los círculos se solapaban en 40×37 px, y
+como `#acciones` tiene más `z-index`, el toque se lo quedaba WhatsApp. Ahora
+en el móvil **no sale**: la pestaña «Inicio» de la barra hace exactamente eso
+y está siempre a la vista. En el escritorio sube a 8,6 rem y libra los dos.
+
+La lección: al mover algo, releer el comentario que explica dónde está. El
+comentario se había quedado viejo dos commits antes que el fallo.
+
+**2. Botones invisibles pero vivos.** La regla que aparta los dos botones
+mientras el aviso de cookies está delante ponía `opacity:0` y
+`pointer-events:none` **en el contenedor**. Pero `.accion` vuelve a declarar
+`pointer-events:auto`, y el hijo gana: quedaban dos botones invisibles que
+seguían cazando el toque. Se tocaba el hueco al lado del aviso y se abría
+WhatsApp sin haber visto nada. Y con el tabulador se llegaba a un foco puesto
+donde no se dibujaba nada. Ahora va con `visibility:hidden`, que sí baja a los
+hijos y además los saca del recorrido del teclado.
+
+**3. El botón de dentro de la hoja salía cortado.** El alto estaba escrito en
+tres reglas, y el `88vh` del móvil lo pisaba el `92vh` de la regla base de
+`.ficha-marco`, que está más abajo en el archivo y pesa lo mismo. El marco
+salía 4vh más alto que su propia caja y lo que se recortaba era justo el botón
+de «Preguntar por este dulce». Ahora es **un número, una vez**, en una variable
+(`--alto-hoja`).
+
+Es el mismo fallo que ya había pasado con `.ficha-agarre`: dos reglas de igual
+peso y gana la de abajo. En un archivo de 5.400 líneas eso no se ve leyendo.
+
+Los otros doce, más breves: la página de detrás seguía corriendo con el dedo
+mientras la hoja estaba abierta (ahora se cierra el grifo y se devuelve al
+sitio exacto al cerrar); hacer pinza para ampliar la foto cerraba la hoja una
+de cada dos veces (el segundo dedo llega en su propio `touchstart`, cuando ya
+estábamos arrastrando); un gesto que interrumpe el sistema se interpretaba
+como «cerrar confirmado» en vez de devolver la hoja a su sitio; cinco textos
+nuevos no llegaban al contraste mínimo (los rótulos de las pestañas se
+quedaban en 3,6:1 con letra de 10 px); en contraste alto los tres botones de
+tipo de tarta se veían idénticos, porque lo único que los distinguía era el
+relleno de color; el campo de fecha no tenía tope y una errata de un dígito en
+el año daba «quedan 13.156 días» y mandaba ese año por WhatsApp; y cuando la
+respuesta era «no llegamos», el botón seguía invitando a «reservar este día»
+—el día que la propia caja acababa de descartar— y el mensaje decía «voy justo
+de plazo», que es la frase del veredicto de al lado.
+
+Los quince tienen ahora su prueba en `arreglos.mjs`.
+
 ## La cinta del mostrador y por qué ponía «tas»
 
 Brian mandó una captura del teléfono con la franja frambuesa donde se leía
