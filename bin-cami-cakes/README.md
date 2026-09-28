@@ -386,6 +386,50 @@ Y mientras no hay fecha, el hueco del resultado no está vacío: dice qué falta
 saliendo de un único sitio, el mismo que publica la pregunta frecuente de
 debajo.
 
+## La cinta del mostrador y por qué ponía «tas»
+
+Brian mandó una captura del teléfono con la franja frambuesa donde se leía
+**«tas»**. No era una palabra: era el final de «Piñitas», cortada a hachazo por
+el borde de la pantalla. Dos cosas mal, las dos de verdad:
+
+**El desvanecido de los lados iba en porcentaje.** Era `6%`, que en un teléfono
+de 390 px son 23 px: no da para desvanecer una palabra, así que la palabra no
+se apagaba, se partía. Ahora el degradado mide lo que mide una palabra y no una
+fracción de la caja — `clamp(2.5rem, 14%, 5rem)`, o sea unos 55 px en el móvil
+y como mucho 80 en el escritorio — y lo que entra o sale se apaga.
+
+**El degradado estaba en la capa equivocada.** Iba en `.cinta-caja`, que es
+quien pinta la franja, así que al ensancharlo se despintaba también el color y
+la franja parecía no llegar al borde de la pantalla. Ahora hay una capa dentro
+(`.cinta-vista`) que es la que recorta y desvanece; la de fuera sólo pinta. El
+color llega a los dos bordes y lo único que se apaga es lo que pasa por delante.
+
+**Y el punto separador estaba descentrado.** El `<li>` metía 1,5 rem de relleno
+a cada lado *además* del margen del punto, así que el punto salía a 24 px de la
+palabra anterior y a 48 px de la siguiente. Se quitó el relleno lateral del
+`<li>` y el aire lo pone sólo el punto: 1,6 rem por cada lado. Hay una prueba
+que lo mide (`cinta.mjs`) leyendo los márgenes del `::after`.
+
+## La foto del local
+
+Llegó el 28/9 y sustituye el recuadro de rayas de «Quiénes somos». Va en
+`assets/pastelera.jpg` + `.webp`, con su miniatura incrustada como las demás
+(`.lqip-pastelera`) para que no haya salto de gris a foto. El fundido al cargar
+funcionaba sólo para las dos clases del carrusel (`.carta-cara`, `.cf-carta`);
+ahora la lista incluye `.foto-real`, que es la clase de esta.
+
+Dos cosas pendientes de verdad, las dos para Brian:
+
+- **Los derechos.** Tiene pinta de foto de prensa o de fotógrafo. Antes de que
+  la web salga a producción hay que confirmar que se puede usar, o pedirle a
+  Luisa una suya.
+- **La resolución.** Llegó a 768×432. Da de sobra para la caja en el escritorio
+  (584 px de ancho) pero se queda corta en un móvil de pantalla fina, que a 3×
+  pediría unos 1100 px. Si aparece el original, se cambia el archivo y ya.
+
+Va en 16:9 y se ve entera. Recortada a 4:3 se perdían los globos de un lado y
+la vitrina del otro, que son justo lo que cuenta de qué va la tienda.
+
 ## El tono lo ponen ellas, no nosotros
 
 Brian pasó su Instagram (@bin_camicakes) para que la web suene "como si fuera
@@ -507,7 +551,10 @@ viaja de verdad ronda los 760 KB.
 - [ ] **La historia de Bin y Cami**: el recuadro de «Quiénes somos» está a
       propósito sin rellenar — año de apertura, de dónde vienen, quién es quién
 - [ ] ¿Hacen croissants y barras de pan? Si sí, van a la cinta del mostrador
-- [ ] Las 4 fotos que faltan (cookies, mesa de dulces, piñitas, obrador) + regenerar la de "tarta temática" sin texto horneado
+- [ ] **La foto del local ya está puesta**, pero con dos cabos sueltos:
+      confirmar que se puede usar (parece de un fotógrafo) y conseguir el
+      original, que la que hay son 768×432 y se queda justa en un móvil fino
+- [ ] Las 3 fotos que siguen faltando (cookies, mesa de dulces, piñitas) + regenerar la de "tarta temática" sin texto horneado
 - [ ] Imagen de compartir `assets/og-image.png` (1200×630)
 - [ ] Conectar el alta de novedades a un servicio de listas: hay una constante
       `ENDPOINT` vacía en el JS. Mientras esté vacía, el formulario prepara el
