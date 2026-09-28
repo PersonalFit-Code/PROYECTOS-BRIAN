@@ -376,7 +376,7 @@ export default function Navbar() {
               </motion.p>
 
               <ul className="mt-5 flex flex-col">
-                {navItems.map((item, i) => {
+                {navItems.map((item) => {
                   const active = isActive(item.href);
                   return (
                     <motion.li key={item.key} variants={itemVariants} className="border-b border-cream/10">
@@ -386,16 +386,16 @@ export default function Navbar() {
                         aria-current={ariaCurrentFor(item.href, active)}
                         className="group flex items-center justify-between gap-4 py-4"
                       >
-                        <span className="flex items-baseline gap-4">
-                          <span className="font-caps text-xs tracking-[0.25em] text-pimenton-a11y">0{i + 1}</span>
-                          <span
-                            className={cn(
-                              "font-display text-4xl leading-none tracking-[-0.01em] transition-colors sm:text-5xl",
-                              active ? "text-gradient-ember italic" : "text-cream group-hover:text-cream-200",
-                            )}
-                          >
-                            {item.label}
-                          </span>
+                        {/* Sin el "01 / 02 / 03" que llevaba delante: en un menú de cuatro entradas la
+                            numeración no ordenaba nada que no dijera ya el propio orden de la lista, y le
+                            robaba sitio al nombre, que es lo único que se viene a leer aquí. */}
+                        <span
+                          className={cn(
+                            "font-display text-4xl leading-none tracking-[-0.01em] transition-colors sm:text-5xl",
+                            active ? "text-gradient-ember italic" : "text-cream group-hover:text-cream-200",
+                          )}
+                        >
+                          {item.label}
                         </span>
                         <ArrowUpRight
                           className="h-6 w-6 shrink-0 text-cream-faint transition-[translate,color] duration-200 ease-[var(--ease-out-expo)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-pimenton-light"
