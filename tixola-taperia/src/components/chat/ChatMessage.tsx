@@ -15,6 +15,12 @@ import type { ChatErrorKind } from "./useChatSession";
    Markdown "lite": negrita, listas, saltos de línea y enlaces.
    Sin dangerouslySetInnerHTML: se construyen nodos React, así que
    el texto del modelo nunca se interpreta como HTML.
+
+   Endurecido para el streaming. Se midió antes la otra opción —montar `streamdown` (Vercel), que es
+   lo que pedía el cliente—: arrastra unified + remark + rehype + marked y añade 475 kB (144 kB
+   gzip) al chunk del chat, que hoy pesa 20 kB (7 kB gzip) y se precarga en reposo para todo el
+   mundo. Veinte veces el peso para formatear cuatro negritas y una lista no sale a cuenta en un
+   móvil con datos, que es el grueso del tráfico aquí, así que se endureció este parser.
    ──────────────────────────────────────────────────────────── */
 const INLINE_TOKEN = /(\*\*[^*\n]+\*\*)|(\[[^\]\n]+\]\([^)\s]+\))|(https?:\/\/[^\s<>)]+)/g;
 const MD_LINK = /^\[([^\]]+)\]\(([^)\s]+)\)$/;
@@ -23,6 +29,19 @@ const LIST_ITEM = /^\s*(?:[-*•]|\d+[.)])\s+(.*)$/;
 const ORDERED_ITEM = /^\s*\d+[.)]\s+/;
 const HEADING = /^#{1,6}\s+(.*)$/;
 
+/* Marcadores a medio llegar en la cola del texto (lo último que ha escrito el modelo). */
+/* `**negrita` a la que todavía le falta el cierre. El `\*?` final es para el fotograma en el que ha
+   llegado el primer asterisco del cierre pero no el segundo: sin él, `**pulpo*` se escapaba de la
+   cura y enseñaba los asteriscos justo antes de completarse, que es el parpadeo de siempre. */
+const TAIL_BOLD = /\*\*([^*\n]*)\*?$/;
+/* `[etiqueta`, `[etiqueta]`, `[etiqueta](` o `[etiqueta](htt`: enlace al que le falta el cierre.
+   El `]` a secas cuenta porque también es un fotograma intermedio: sin él, los corchetes asomaban
+   un instante entre `[etiqueta` y `[etiqueta](`. */
+const TAIL_LINK = /\[([^\]\n]*)(\](?:\([^)\s]*)?)?$/;
+/** Línea que solo trae el marcador de lista o de título: su texto aún no ha llegado. */
+const TAIL_MARKER_ONLY = /^\s*(?:[-*•]|\d+[.)]?|#{1,6})\s*$/;
+
+const boldClass = "font-semibold text-cream";
 const linkClass = "font-medium text-gold underline decoration-gold/40 underline-offset-2 transition-colors hover:text-cream hover:decoration-cream/60";
 
 function renderLink(label: string, href: string, key: string): ReactNode {
@@ -42,8 +61,53 @@ function renderLink(label: string, href: string, key: string): ReactNode {
   );
 }
 
-/** Convierte una línea con **negrita**, [enlaces](url) y URLs sueltas en nodos React. */
-export function renderInline(text: string, keyBase: string): ReactNode[] {
+/**
+ * Pinta la cola de una línea cuando trae un marcador sin cerrar.
+ *
+ * El porqué: mientras llegaba la respuesta, un `**negrita` a medias se veía como asteriscos
+ * literales y, al cerrarse el marcador, el texto cambiaba de golpe (los asteriscos desaparecían y
+ * la línea se recolocaba). Se probó primero dejarlo literal y disimular el cambio con una
+ * transición, pero el salto es de maquetación y no de color: una transición no lo tapa. La
+ * solución que sí funciona es no llegar a pintar nunca el marcador y dar el formato desde el
+ * primer carácter, de modo que al completarse no se mueve nada.
+ *
+ * La negrita y el enlace con `](` se curan también en el mensaje ya terminado, no solo mientras
+ * llega. Es a propósito: si la cura fuese solo para el streaming, un marcador que el modelo nunca
+ * cierra volvería a convertirse en asteriscos en el último fotograma, que es justo el parpadeo que
+ * se quería quitar. El precio es que un `**` suelto que el modelo escriba a posta no se ve; a
+ * cambio, lo que se pinta no cambia nunca bajo los pies del que lee.
+ */
+function renderTail(rest: string, keyBase: string, streaming: boolean): ReactNode[] {
+  const bold = TAIL_BOLD.exec(rest);
+  const found = TAIL_LINK.exec(rest);
+  /* Solo el `[etiqueta](` es inequívocamente un enlace a medias y se cura siempre. Un corchete
+     suelto (`[etiqueta` o `[etiqueta]`) se cura únicamente mientras llega: en un mensaje ya
+     cerrado es texto del modelo y comérselo sería perder contenido. */
+  const link = found && (found[2]?.startsWith("](") || streaming) ? found : null;
+
+  // Manda el que empiece antes: `**[Carta](/ca` es una negrita que contiene un enlace a medias.
+  if (bold && (!link || bold.index < link.index)) {
+    return [
+      rest.slice(0, bold.index),
+      <strong key={keyBase} className={boldClass}>
+        {renderTail(rest.slice(bold.index + 2), `${keyBase}-b`, streaming)}
+      </strong>,
+    ];
+  }
+  /* Solo la etiqueta, sin corchetes: cuando llegue el `)` se convierte en enlace y ni un carácter
+     se mueve de sitio (solo gana color y subrayado). */
+  if (link) return [rest.slice(0, link.index), link[1]];
+  // Un `*` suelto al final es el primer asterisco de un `**` que todavía no ha llegado entero.
+  if (streaming && rest.endsWith("*")) return [rest.slice(0, -1)];
+  return [rest];
+}
+
+/**
+ * Convierte una línea con **negrita**, [enlaces](url) y URLs sueltas en nodos React.
+ * `tail` marca la última línea con contenido del mensaje: es la única donde puede quedar un
+ * marcador a medias, así que es la única que se cura.
+ */
+export function renderInline(text: string, keyBase: string, tail = false, streaming = false): ReactNode[] {
   const nodes: ReactNode[] = [];
   let last = 0;
   let n = 0;
@@ -54,13 +118,23 @@ export function renderInline(text: string, keyBase: string): ReactNode[] {
     const key = `${keyBase}-${n++}`;
     if (match[1]) {
       nodes.push(
-        <strong key={key} className="font-semibold text-cream">
+        <strong key={key} className={boldClass}>
           {raw.slice(2, -2)}
         </strong>,
       );
     } else if (match[2]) {
       const link = MD_LINK.exec(raw);
       nodes.push(link ? renderLink(link[1], link[2], key) : raw);
+    } else if (streaming && tail && index + raw.length === text.length) {
+      /* URL pegada al final mientras llega: todavía puede crecer. Antes se enlazaba ya y quedaba
+         un enlace truncado en el que se podía pulsar (lleva a ninguna parte). Se pinta con las
+         mismas clases pero en un <span> sin href: al completarse solo gana el destino, no cambia
+         ni un píxel. */
+      nodes.push(
+        <span key={key} className={linkClass}>
+          {raw}
+        </span>,
+      );
     } else {
       // URL suelta: la puntuación final ("…mapa.", "(url)") queda fuera del enlace.
       const trimmed = raw.replace(/[.,;:!?]+$/, "");
@@ -69,25 +143,42 @@ export function renderInline(text: string, keyBase: string): ReactNode[] {
     }
     last = index + raw.length;
   }
-  if (last < text.length) nodes.push(text.slice(last));
+  const rest = text.slice(last);
+  if (!rest) return nodes;
+  /* La cola hereda la clave que le tocaría al token completo: cuando el marcador se cierra, el
+     <strong> curado y el <strong> del tokenizador tienen la misma clave y React reutiliza el nodo
+     en vez de desmontarlo y volver a montarlo. */
+  if (tail) nodes.push(...renderTail(rest, `${keyBase}-${n}`, streaming));
+  else nodes.push(rest);
   return nodes;
 }
 
+/** Una línea del texto, con la marca de si es la última con contenido. */
+interface MarkdownLine {
+  text: string;
+  tail: boolean;
+}
+
 /** Bloques: párrafos (con <br/> entre líneas), listas y títulos (como párrafo en negrita). */
-export function renderMarkdownLite(text: string): ReactNode[] {
+export function renderMarkdownLite(text: string, streaming = false): ReactNode[] {
   const lines = text.replace(/\r\n?/g, "\n").split("\n");
+  // Última línea con contenido: si el texto acaba en salto, la cola sigue siendo la línea anterior.
+  let tailIndex = lines.length - 1;
+  while (tailIndex > 0 && !lines[tailIndex].trim()) tailIndex -= 1;
+
   const blocks: ReactNode[] = [];
-  let paragraph: string[] = [];
-  let list: { ordered: boolean; items: string[] } | null = null;
+  let paragraph: MarkdownLine[] = [];
+  let list: { ordered: boolean; items: MarkdownLine[] } | null = null;
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
     const key = `p-${blocks.length}`;
+    const current = paragraph;
     blocks.push(
       <p key={key}>
-        {paragraph.flatMap((line, i) => {
-          const nodes = renderInline(line, `${key}-${i}`);
-          return i < paragraph.length - 1 ? [...nodes, <br key={`${key}-br-${i}`} />] : nodes;
+        {current.flatMap((line, i) => {
+          const nodes = renderInline(line.text, `${key}-${i}`, line.tail, streaming);
+          return i < current.length - 1 ? [...nodes, <br key={`${key}-br-${i}`} />] : nodes;
         })}
       </p>,
     );
@@ -100,20 +191,26 @@ export function renderMarkdownLite(text: string): ReactNode[] {
     blocks.push(
       <Tag key={key} className={cn("space-y-1 pl-4", list.ordered ? "list-decimal" : "list-disc marker:text-pimenton-light")}>
         {list.items.map((item, i) => (
-          <li key={`${key}-${i}`}>{renderInline(item, `${key}-${i}`)}</li>
+          <li key={`${key}-${i}`}>{renderInline(item.text, `${key}-${i}`, item.tail, streaming)}</li>
         ))}
       </Tag>,
     );
     list = null;
   };
 
-  for (const rawLine of lines) {
-    const line = rawLine.trimEnd();
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i].trimEnd();
+    const tail = i === tailIndex;
     if (!line.trim()) {
       flushParagraph();
       flushList();
       continue;
     }
+    /* Mientras llega la respuesta, una línea que solo trae el marcador («-», «1.», «##») todavía no
+       es una lista ni un título: pintarla la convertía en un párrafo con un guion suelto que, al
+       llegar el texto, pasaba a <ul>. Al cambiar el tipo de bloque React desmonta el nodo y salta
+       la viñeta y la sangría. Se espera al contenido: así el bloque nace ya siendo el definitivo. */
+    if (tail && streaming && TAIL_MARKER_ONLY.test(line)) continue;
     const item = LIST_ITEM.exec(line);
     if (item) {
       flushParagraph();
@@ -122,21 +219,24 @@ export function renderMarkdownLite(text: string): ReactNode[] {
         flushList();
         list = { ordered, items: [] };
       }
-      list.items.push(item[1]);
+      list.items.push({ text: item[1], tail });
       continue;
     }
     flushList();
     const heading = HEADING.exec(line);
-    paragraph.push(heading ? `**${heading[1]}**` : line);
+    paragraph.push({ text: heading ? `**${heading[1]}**` : line, tail });
   }
   flushParagraph();
   flushList();
   return blocks;
 }
 
-/** Texto del camarero con formato ligero (memoizado por contenido). */
-export function MarkdownLite({ text }: { text: string }) {
-  const nodes = useMemo(() => renderMarkdownLite(text), [text]);
+/**
+ * Texto del camarero con formato ligero (memoizado por contenido).
+ * `streaming` activa la cura de la cola mientras la respuesta llega token a token.
+ */
+export function MarkdownLite({ text, streaming = false }: { text: string; streaming?: boolean }) {
+  const nodes = useMemo(() => renderMarkdownLite(text, streaming), [text, streaming]);
   return <>{nodes}</>;
 }
 
@@ -261,7 +361,7 @@ export default function ChatMessageBubble({ message, errorKind = null, onRetry }
               <TypingDots label={m.chat.thinking} />
             ) : (
               <>
-                <MarkdownLite text={message.content} />
+                <MarkdownLite text={message.content} streaming={streaming} />
                 {streaming && <span aria-hidden className="ml-1 inline-block h-3.5 w-1.5 animate-pulse rounded-sm bg-pimenton-light align-text-bottom" />}
               </>
             )}

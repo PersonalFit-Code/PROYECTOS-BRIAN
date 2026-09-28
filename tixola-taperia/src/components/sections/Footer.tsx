@@ -40,8 +40,13 @@ function rangesLabel(ranges: TimeRange[], closed: string) {
   return ranges.map((r) => `${r.open}–${r.close}`).join(" · ");
 }
 
+/* `min-h-11` (44 px) en móvil y `min-h-8` (32 px) a partir de `md`: el dedo necesita 44 px, el
+   ratón no, y en escritorio esos 12 px extra por enlace estiraban las columnas sin motivo.
+   Se descartó agrandar solo el área de pulsación con un `::after` superpuesto: en una lista
+   vertical de filas de 32 px los rectángulos invisibles de enlaces contiguos se pisarían y el
+   toque acabaría en el enlace de al lado. */
 const linkClass =
-  "group inline-flex min-h-8 items-center gap-1.5 py-1 text-sm text-cream-muted transition-colors duration-300 hover:text-cream";
+  "group inline-flex min-h-11 items-center gap-1.5 py-1 text-sm text-cream-muted transition-colors duration-300 hover:text-cream md:min-h-8";
 const headingClass = "mb-4 font-caps text-[11px] uppercase tracking-[0.3em] text-pimenton-a11y";
 
 /* ──────────────────────────────────────────────────────────────
@@ -98,9 +103,17 @@ export default function Footer({ year: buildYear }: FooterProps) {
       </span>
 
       <div className="container-page relative pt-16 md:pt-20">
-        {/* En móvil eran cuatro bloques apilados: 1.692 px de pie, dos pantallas y media al final
-            de CADA página. A dos columnas, con menos aire entre ellas, se queda en una. */}
-        <div className="grid gap-x-6 gap-y-8 max-md:grid-cols-2 md:gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.1fr_1fr] lg:gap-10">
+        {/* Una sola columna en móvil. El `max-md:grid-cols-2` anterior repartía los 288 px útiles
+            de un iPhone de 320 en dos columnas de 132 px, y ahí no cabe NADA de esto: el logotipo
+            son 250 px (viewBox 208×40 a 48 px de alto) con `shrink-0`, así que se salía de su
+            celda y se plantaba encima de «CONTACTO» y de la dirección —el solape de la captura
+            del cliente—, y cada tramo de horario («12:00–16:00 · 20:00–00:00», ~175 px) se partía
+            en tres o cuatro líneas. Medido: aquel apaño no ahorraba scroll, lo empeoraba a base de
+            líneas partidas (1.595 px a 320 px frente a 1.754 apilado; en inglés y portugués, más).
+            El ahorro real se busca DENTRO de cada bloque —donde el contenido sí es corto—: los
+            enlaces de contacto en fila, la lista de enlaces a dos columnas y la barra inferior
+            aligerada. Así el logotipo y la tabla de horario siempre tienen los 288 px que piden. */}
+        <div className="grid gap-8 md:grid-cols-2 md:gap-12 lg:grid-cols-[1.4fr_1fr_1.1fr_1fr] lg:gap-10">
           {/* Marca */}
           <div>
             <Link href={lp("/")} aria-label={m.nav.homeAria} className="inline-block rounded-md">
@@ -160,6 +173,11 @@ export default function Footer({ year: buildYear }: FooterProps) {
                   <span className="text-xs text-cream-faint">{m.experience.map.subtitle}</span>
                 </span>
               </a>
+              {/* En móvil los tres atajos van en fila que envuelve: caben dos por línea a 320 px
+                  (~110 px cada uno) y ahorran una fila de 44 px sin estrechar nada. `md:contents`
+                  disuelve el envoltorio en escritorio para que sigan siendo hijos directos del
+                  `flex-col gap-2` y la columna no cambie. */}
+              <div className="flex flex-wrap gap-x-5 md:contents">
               <a href={BUSINESS.phone.tel} aria-label={t(m.common.cta.callNumber, { phone: BUSINESS.phone.display })} className={linkClass}>
                 <Phone className="h-4 w-4 shrink-0 text-pimenton-light" aria-hidden />
                 <span className="tabular-nums">{BUSINESS.phone.display}</span>
@@ -173,6 +191,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
                 {m.common.cta.directions}
                 <ArrowUpRight className="h-3.5 w-3.5 text-cream-faint transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
               </a>
+              </div>
             </address>
             <button
               type="button"
@@ -250,7 +269,11 @@ export default function Footer({ year: buildYear }: FooterProps) {
           {/* Carta / Enlaces */}
           <div>
             <h2 className={headingClass}>{m.footer.links}</h2>
-            <ul className="flex flex-col gap-1">
+            {/* Dos columnas en móvil: son siete etiquetas cortas (la más larga, «Carta con
+                alérgenos», parte en dos líneas y ya está), así que pasan de siete filas de 44 px a
+                cuatro. Aquí sí funciona lo que no funcionaba en la rejilla general: el contenido
+                del bloque cabe en 132 px. */}
+            <ul className="grid grid-cols-2 gap-x-4 md:grid-cols-1 md:gap-1">
               {navItems.map((item) => (
                 <li key={item.key}>
                   <Link href={lp(item.href)} className={linkClass}>
@@ -264,7 +287,9 @@ export default function Footer({ year: buildYear }: FooterProps) {
                   {m.footer.menuWithAllergens}
                 </Link>
               </li>
-              <li className="mt-2 border-t border-cream/[0.06] pt-3">
+              {/* El filete separador solo en escritorio: en la rejilla de dos columnas dejaría una
+                  raya suelta a mitad de una fila. */}
+              <li className="md:mt-2 md:border-t md:border-cream/[0.06] md:pt-3">
                 <a href={BUSINESS.social.tripadvisor} target="_blank" rel="noopener noreferrer" className={linkClass}>
                   <PlatformGlyph source="TripAdvisor" className="h-3.5 w-3.5" />
                   {trip.label}
@@ -283,7 +308,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
         </div>
 
         {/* Barra inferior: legal + © + crédito + volver arriba */}
-        <div className="mt-14 border-t border-cream/10 py-6 md:mt-20">
+        <div className="mt-10 border-t border-cream/10 py-6 md:mt-20">
           <nav aria-label={m.footer.legal} className="flex flex-wrap items-center gap-x-5 gap-y-1">
             {/* Los slugs viven en m.legal.<doc>.slug (misma fuente que el banner, LegalArticle y el sitemap). */}
             {LEGAL_DOC_KEYS.map((key) => (
@@ -324,7 +349,14 @@ export default function Footer({ year: buildYear }: FooterProps) {
 
           <div className="mt-4 flex flex-col items-start gap-4 text-xs text-cream-faint md:flex-row md:items-center md:justify-between">
             <p>
-              © {year} {BUSINESS.legalName} · {BUSINESS.address.street} · {BUSINESS.address.city} · {m.footer.rights}
+              © {year} {BUSINESS.legalName}
+              {/* La dirección se repite tres bloques más arriba y en móvil le costaba dos líneas
+                  enteras a 320 px; en escritorio, donde la línea sobra de ancho, se queda. */}
+              <span className="max-md:hidden">
+                {" "}
+                · {BUSINESS.address.street} · {BUSINESS.address.city}
+              </span>{" "}
+              · {m.footer.rights}
             </p>
             <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-end">
               <p>
