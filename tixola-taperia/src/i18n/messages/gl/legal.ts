@@ -213,7 +213,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Google LLC / Google Ireland Ltd.",
-                  desc: "Mapa de Google Maps incrustado na sección «Como chegar». **Só se carga se premes «Ver o mapa real»**; nese momento Google recibe o teu enderezo IP e pode instalar as súas propias cookies. As ligazóns a Google Maps e ás recensións de Google abren sitios de Google. [Política de privacidade de Google](https://policies.google.com/privacy).",
+                  desc: "Mapa de Google Maps incrustado na sección «Como chegar». **Só se carga se aceptas as cookies** (ou se o pides a man na pestana «Mapa» desa sección); nese momento Google recibe o teu enderezo IP e pode instalar as súas propias cookies. As ligazóns a Google Maps e ás recensións de Google abren sitios de Google. [Política de privacidade de Google](https://policies.google.com/privacy).",
                 },
                 {
                   term: "Meta Platforms Ireland Ltd. (WhatsApp)",
@@ -477,7 +477,7 @@ const legal: LegalMessages = {
                   "Cookies de Google Maps",
                   "De terceiros",
                   "Google LLC",
-                  "Só se premes «Ver o mapa real» na sección «Como chegar»: ao cargarse o mapa, Google pode instalar as súas propias cookies (por exemplo NID ou CONSENT) segundo a súa política.",
+                  "Só se aceptas as cookies, ou se cargas o mapa a man na sección «Como chegar»: ao cargarse, Google pode instalar as súas propias cookies (por exemplo NID ou CONSENT) segundo a súa política.",
                   "Segundo Google (ata 6 meses ou máis)",
                 ],
                 [
@@ -539,7 +539,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "A sección «Como chegar» mostra un mapa ilustrado propio que non instala nada. O mapa real de Google Maps só se carga cando premes «Ver o mapa real»; nese momento o teu navegador conéctase a Google, que recibe o teu enderezo IP e pode instalar cookies conforme á súa [política de privacidade](https://policies.google.com/privacy) e á súa [información sobre cookies](https://policies.google.com/technologies/cookies). Se prefires non cargalo, usa a ligazón «Abrir en Google Maps» ou ven andando: estamos a un minuto da Catedral.",
+              text: "A sección «Como chegar» mostra un mapa ilustrado propio que non instala nada. O mapa real de Google Maps cárgase se aceptaches as cookies; se non, esa pestana pídeche permiso e non se carga ata que premes «Ver o mapa real». Cando se carga, o teu navegador conéctase a Google, que recibe o teu enderezo IP e pode instalar cookies conforme á súa [política de privacidade](https://policies.google.com/privacy) e á súa [información sobre cookies](https://policies.google.com/technologies/cookies). Se prefires non cargalo, rexeita as cookies, usa a ligazón «Abrir en Google Maps» ou ven andando: estamos a un minuto da Catedral.",
             },
           ],
         },

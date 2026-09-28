@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowUp, ChevronDown, ExternalLink, Footprints, Image as ImageIcon, Map, MapPin, MessageCircle, Navigation } from "lucide-react";
+import { ArrowUp, ExternalLink, Footprints, Globe, Image as ImageIcon, Map, MapPin, MessageCircle, Navigation } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useId, useMemo, useState, type ReactNode } from "react";
 import { useChat } from "@/components/chat/ChatProvider";
+import { useConsent } from "@/components/legal/CookieConsent";
 import NeonButton from "@/components/ui/NeonButton";
 import { BUSINESS } from "@/data/business";
 import { localizePhotoById } from "@/i18n/data";
@@ -24,7 +25,11 @@ import { cn } from "@/lib/utils";
  *  · Las medidas del plano se heredan de la maqueta 3D, que se levantó sobre el callejero real: la
  *    Catedral de San Martiño al NE, Santa Eufemia al SO y la Rúa Juan de Austria subiendo al NNE.
  *  · Leyenda con puntos de color (Tixola · Catedral · Santa Eufemia), rosa de los vientos y escala.
- *  · DOS VISTAS con un conmutador: el plano y la FOTO REAL DE LA FACHADA. La foto es contenido
+ *  · TRES VISTAS con un conmutador: el MAPA REAL de Google, el plano y la FOTO REAL DE LA FACHADA.
+ *    El mapa manda y sale abierto: el cliente lo pidió con estas palabras, "por esta referencia la
+ *    gente no va a saber guiarse muy bien". El plano cuenta el "a un minuto de la Catedral", pero
+ *    quien viene de fuera necesita el callejero de verdad, y necesitaba encontrarlo sin pulsar nada.
+ *    La foto es contenido
  *    comercial del negocio —en una landing de hostelería enseña el sitio al que se va a entrar—, no
  *    un adorno técnico, así que no se fue con el Canvas: antes vivía como plan B de la maqueta 3D y
  *    ahora es una vista de pleno derecho. El conmutador va FUERA del visor, en la cabecera del panel,
@@ -32,7 +37,9 @@ import { cn } from "@/lib/utils";
  *    móvil de 390 px no caben sin pisarse.
  *  · Panel con dirección (BUSINESS.address), plus code, "A un minuto de la Catedral" y los CTAs
  *    "Cómo llegar" / "Abrir en Google Maps": la acción útil de verdad, que abre la ruta en Google.
- *  · Disclosure "Ver mapa real": el <iframe> de Google Maps NO existe hasta que el usuario lo abre.
+ *  · CONSENTIMIENTO: el <iframe> de Google solo se monta si hay consentimiento vigente (cargarlo
+ *    manda la IP del visitante a Google). Sin decisión o con rechazo, el visor abre en el plano y la
+ *    pestaña del mapa ofrece un botón para cargarlo a propósito, solo para esa visita.
  *  · Enlace al camarero virtual con la pregunta "¿Cómo llego…?" precargada.
  */
 
@@ -476,7 +483,7 @@ function FacadePhoto({ caption }: { caption: string }) {
 /* ────────────────────────────────────────────────────────────
    Conmutador plano / foto
    ──────────────────────────────────────────────────────────── */
-type MapView = "plan" | "photo";
+type MapView = "map" | "plan" | "photo";
 
 /**
  * Dos botones con `aria-pressed` y no una `tablist`: un grupo de pestañas ARIA obliga a gestionar las
@@ -489,12 +496,14 @@ function ViewSwitch({
   view,
   onChange,
   label,
+  mapLabel,
   planLabel,
   photoLabel,
 }: {
   view: MapView;
   onChange: (next: MapView) => void;
   label: string;
+  mapLabel: string;
   planLabel: string;
   photoLabel: string;
 }) {
@@ -518,6 +527,7 @@ function ViewSwitch({
   };
   return (
     <div role="group" aria-label={label} className="flex shrink-0 items-center rounded-full border border-cream/10 bg-iron-900/70 p-0.5">
+      {option("map", mapLabel, <Globe className="h-3.5 w-3.5" aria-hidden />)}
       {option("plan", planLabel, <Map className="h-3.5 w-3.5" aria-hidden />)}
       {option("photo", photoLabel, <ImageIcon className="h-3.5 w-3.5" aria-hidden />)}
     </div>
@@ -567,20 +577,39 @@ export default function MapCard({ className }: MapCardProps) {
   const t = useFormat();
   const { open: openChat } = useChat();
 
-  const [showEmbed, setShowEmbed] = useState(false);
-  const embedId = useId();
+  /**
+   * ¿Se puede cargar el mapa de Google? Montar su <iframe> conecta el navegador del visitante con
+   * Google, que recibe su IP y puede instalar sus cookies, así que NO se monta por las bravas.
+   * Se reutiliza la casilla que el aviso ya ofrece (`analytics`) en vez de inventar una categoría
+   * nueva: es la que la política de cookies describe, con estas palabras, como "analítica y cookies
+   * de terceros que se instalan al cargar el mapa". Añadir otra obligaría a subir CONSENT_VERSION y
+   * tirar las decisiones ya tomadas por todos los visitantes.
+   * `loadedByHand` es la vía de escape de quien ha dicho que no y aun así quiere ver el mapa: vale
+   * solo para esta visita y no se guarda en ningún sitio.
+   */
+  const consent = useConsent();
+  const consented = consent?.analytics === true;
+  const [loadedByHand, setLoadedByHand] = useState(false);
+  const mapReady = consented || loadedByHand;
 
   /**
-   * Vista del visor. La foto NO se monta hasta que alguien la pide por primera vez (y a partir de ahí
-   * se queda montada, para que volver a ella sea instantáneo): así la sección de ubicación no descarga
-   * una imagen que la mayoría de visitantes no va a abrir, y el plano —que es SVG y viaja en el HTML—
+   * Vista del visor. NO se guarda en estado: se DEDUCE. Mientras el visitante no toque el conmutador
+   * manda el mapa si se puede cargar, y el plano si no. Así el servidor pinta el plano (allí todavía
+   * no se sabe qué ha decidido quien mira: el consentimiento vive en `localStorage`) y el navegador
+   * pasa al mapa en cuanto lo confirma, sin un efecto que persiga al estado —que es lo que provoca
+   * renders en cascada— y sin que aceptar las cookies con la sección ya en pantalla se quede a medias.
+   * En cuanto alguien elige vista, su elección manda y nadie se la cambia por debajo.
+   * La foto NO se monta hasta que alguien la pide por primera vez (y a partir de ahí se queda
+   * montada, para que volver a ella sea instantáneo): así la sección de ubicación no descarga una
+   * imagen que la mayoría de visitantes no va a abrir, y el plano —que es SVG y viaja en el HTML—
    * sigue costando cero.
    */
-  const [view, setView] = useState<MapView>("plan");
+  const [pickedView, setPickedView] = useState<MapView | null>(null);
+  const view: MapView = pickedView ?? (mapReady ? "map" : "plan");
   const [photoMounted, setPhotoMounted] = useState(false);
   const showView = useCallback((next: MapView) => {
     if (next === "photo") setPhotoMounted(true);
-    setView(next);
+    setPickedView(next);
   }, []);
 
   const x = m.experience.map;
@@ -629,11 +658,44 @@ export default function MapCard({ className }: MapCardProps) {
             inert={view !== "plan"}
             className={cn(
               "absolute inset-0 transition-opacity duration-500 ease-[var(--ease-out-expo)]",
-              view === "plan" ? "opacity-100" : "opacity-0",
+              view === "plan" ? "opacity-100" : "pointer-events-none opacity-0",
             )}
           >
             <HistoricPlan ariaLabel={planAria} />
           </div>
+
+          {/* Mapa real de Google. Se monta en cuanto hay permiso y se queda montado: volver a él desde
+              el plano o la foto es instantáneo, sin recargar el mapa ni perder el encuadre.
+              `pointer-events-none` mientras no es la vista activa: un <iframe> invisible pero encima
+              se quedaría con los clics y con la rueda del ratón sobre el plano. `loading="lazy"` deja
+              que el navegador espere a que la sección se acerque a la pantalla: la portada no paga
+              nada por este mapa. */}
+          {mapReady && (
+            <div
+              inert={view !== "map"}
+              className={cn(
+                "absolute inset-0 transition-opacity duration-500 ease-[var(--ease-out-expo)]",
+                view === "map" ? "opacity-100" : "pointer-events-none opacity-0",
+              )}
+            >
+              <iframe
+                src={EMBED_URL}
+                title={t(x.embedTitle, { brand: BUSINESS.name })}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                /* `max-md:pointer-events-none`: en un teléfono el mapa ocupa la mitad de la pantalla y
+                   el dedo que baja por la página cae encima. Si el <iframe> escucha, el gesto lo
+                   atrapa Google y mueve el mapa mientras la página se queda clavada —el visitante
+                   cree que la web se ha colgado—. Se ve igual de bien, y para moverlo de verdad están
+                   "Cómo llegar" y "Abrir en Google Maps" justo debajo, que abren la app de Maps con la
+                   ruta hecha: en un móvil eso es lo que se quiere, no arrastrar un mapa incrustado.
+                   Con ratón sí escucha: allí el gesto de scroll ya lo protege el propio Google
+                   pidiendo Ctrl, y arrastrar con el ratón no compite con nada. */
+                className="block h-full w-full border-0 bg-iron-900 max-md:pointer-events-none"
+              />
+            </div>
+          )}
 
           {/* Foto real de la fachada, la otra vista. */}
           {photoMounted && (
@@ -641,18 +703,41 @@ export default function MapCard({ className }: MapCardProps) {
               inert={view !== "photo"}
               className={cn(
                 "absolute inset-0 transition-opacity duration-500 ease-[var(--ease-out-expo)]",
-                view === "photo" ? "opacity-100" : "opacity-0",
+                view === "photo" ? "opacity-100" : "pointer-events-none opacity-0",
               )}
             >
               <FacadePhoto caption={x.subtitle} />
             </div>
           )}
 
-          {/* Viñeta por encima del plano */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(120%_90%_at_50%_45%,transparent_55%,rgba(12,12,12,0.6)_100%)]"
-          />
+          {/* Viñeta por encima del plano y de la foto. Sobre el mapa de Google no: allí oscurecería
+              los nombres de las calles del borde, que es justo lo que se ha venido a leer. */}
+          {view !== "map" && (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(120%_90%_at_50%_45%,transparent_55%,rgba(12,12,12,0.6)_100%)]"
+            />
+          )}
+
+          {/* Pestaña del mapa sin permiso para cargarlo: se dice qué pasa al cargarlo y se ofrece
+              hacerlo solo para esta visita. Nada se conecta con Google hasta que se pulsa. */}
+          {view === "map" && !mapReady && (
+            <div className="absolute inset-0 z-[6] grid place-items-center bg-iron-900 px-6 text-center">
+              <div className="max-w-[26rem]">
+                <Globe className="mx-auto h-7 w-7 text-cream-muted" aria-hidden />
+                <p className="mt-3 font-sans text-sm leading-relaxed text-cream-200">{x.mapNotice}</p>
+                <NeonButton
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setLoadedByHand(true)}
+                  icon={<Map aria-hidden />}
+                  className="mt-4"
+                >
+                  {x.realMap}
+                </NeonButton>
+              </div>
+            </div>
+          )}
 
           {/* Capas del plano (chinchetas, leyenda, rosa de los vientos, escala): solo con el plano a la
               vista. Sobre la foto no significan nada y taparían la fachada. */}
@@ -734,7 +819,14 @@ export default function MapCard({ className }: MapCardProps) {
         <div className="px-3 pb-3 pt-4 md:px-4 md:pb-4 md:pt-5">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
             <p className="font-caps text-[10px] uppercase tracking-[0.3em] text-cream-muted">{x.kicker}</p>
-            <ViewSwitch view={view} onChange={showView} label={x.viewLabel} planLabel={x.plan} photoLabel={x.photo} />
+            <ViewSwitch
+              view={view}
+              onChange={showView}
+              label={x.viewLabel}
+              mapLabel={x.mapLive}
+              planLabel={x.plan}
+              photoLabel={x.photo}
+            />
           </div>
           <div className="flex items-start gap-3">
             <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-pimenton/20 text-pimenton-light">
@@ -776,36 +868,6 @@ export default function MapCard({ className }: MapCardProps) {
             </NeonButton>
           </div>
         </div>
-      </div>
-
-      {/* Disclosure: mapa real de Google (el iframe solo existe cuando está abierto) */}
-      <div className="mt-3">
-        <button
-          type="button"
-          aria-expanded={showEmbed}
-          aria-controls={embedId}
-          onClick={() => setShowEmbed((v) => !v)}
-          className="flex min-h-11 w-full items-center justify-between rounded-2xl border border-cream/10 bg-iron-900/50 px-4 py-2.5 font-sans text-sm text-cream-200 transition-colors hover:border-cream/25 hover:bg-iron-800/70"
-        >
-          <span className="inline-flex items-center gap-2">
-            <Map className="h-4 w-4 text-cream-muted" aria-hidden />
-            {showEmbed ? x.hideMap : x.realMap}
-          </span>
-          <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", showEmbed && "rotate-180")} aria-hidden />
-        </button>
-
-        {showEmbed && (
-          <div id={embedId} className="mt-3 overflow-hidden rounded-2xl border border-cream/10 shadow-card">
-            <iframe
-              src={EMBED_URL}
-              title={t(x.embedTitle, { brand: BUSINESS.name })}
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              className="block h-64 w-full bg-iron-900 md:h-80"
-            />
-          </div>
-        )}
       </div>
 
       {/* Camarero virtual: "¿Cómo llego?" precargado */}

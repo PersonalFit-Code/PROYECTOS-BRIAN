@@ -212,7 +212,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Google LLC / Google Ireland Ltd.",
-                  desc: "Google Maps map embedded in the “Find us” section. **It only loads if you press “Show real map”**; at that point Google receives your IP address and may set its own cookies. The links to Google Maps and to Google reviews open Google websites. [Google privacy policy](https://policies.google.com/privacy).",
+                  desc: "Google Maps map embedded in the “Find us” section. **It only loads if you accept cookies** (or if you load it by hand from the “Map” tab in that section); at that point Google receives your IP address and may set its own cookies. The links to Google Maps and to Google reviews open Google websites. [Google privacy policy](https://policies.google.com/privacy).",
                 },
                 {
                   term: "Meta Platforms Ireland Ltd. (WhatsApp)",
@@ -476,7 +476,7 @@ const legal: LegalMessages = {
                   "Google Maps cookies",
                   "Third-party",
                   "Google LLC",
-                  "Only if you press “Show real map” in the “Find us” section: when the map loads, Google may set its own cookies (for example NID or CONSENT) in line with its policy.",
+                  "Only if you accept cookies, or if you load the map by hand in the “Find us” section: once loaded, Google may set its own cookies (for example NID or CONSENT) in line with its policy.",
                   "Set by Google (up to 6 months or longer)",
                 ],
                 [
@@ -538,7 +538,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "The “Find us” section shows our own illustrated map, which sets nothing. The real Google Maps map only loads when you press “Show real map”; at that moment your browser connects to Google, which receives your IP address and may set cookies in accordance with its [privacy policy](https://policies.google.com/privacy) and its [information on cookies](https://policies.google.com/technologies/cookies). If you'd rather not load it, use the “Open in Google Maps” link or simply walk: we're one minute from the Cathedral.",
+              text: "The “Find us” section shows our own illustrated map, which sets nothing. The real Google Maps map loads if you have accepted cookies; if you have not, that tab asks first and nothing loads until you press “Show real map”. Once it loads, your browser connects to Google, which receives your IP address and may set cookies in accordance with its [privacy policy](https://policies.google.com/privacy) and its [information on cookies](https://policies.google.com/technologies/cookies). If you'd rather not load it, use the “Open in Google Maps” link or simply walk: we're one minute from the Cathedral.",
             },
           ],
         },
