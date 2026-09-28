@@ -8,14 +8,86 @@ import { useCanAfford } from "@/hooks/usePerformanceTier";
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
- * Recorrido del pin como fracción de la altura del viewport (más corto en móvil: menos pulgar).
+ * Recorrido del pin: la portada se queda quieta EXACTAMENTE mientras se la ve, ni un píxel más.
  *
- * Ya no hay copia de estos números en ningún otro sitio: `HeroCanvas` los duplicaba para decidir por su
- * cuenta si la portada estaba tapada (necesitaba parar el lienzo WebGL) y ahora lee el almacén
+ * El capítulo que se superpone sube a 1 px por píxel de scroll (con `pinSpacing: false` el anclaje no
+ * le reserva hueco), así que su borde superior llega al borde de arriba de la pantalla —y tapa la
+ * portada del todo— cuando el scroll alcanza el pie del documento de la portada. Desde donde empieza
+ * el anclaje (`bottom bottom` si la portada es más alta que la pantalla, `top top` si no) eso son
+ * siempre `min(alto de la portada, alto de la pantalla)` píxeles.
+ *
+ * Aquí había DOS constantes: 1 × vh en escritorio y 0,7 × vh en móvil, con el argumento de "menos
+ * pulgar". El 1 de escritorio ES esta fórmula (allí la portada mide un viewport, así que `min` da vh)
+ * y por eso en ordenador la transición ya se veía bien. El 0,7 de móvil soltaba el pin antes de
+ * tiempo. Medido en un viewport de teléfono REAL (390 × 664, que es lo que deja Safari con sus dos
+ * barras; con 390 × 844 emulados esto no se reproduce): la portada mide 869 px, el anclaje empieza en
+ * el scroll 205 y recorría 0,7 × 664 = 465 px, o sea soltaba en el 670 con 199 px de portada TODAVÍA
+ * a la vista. En ese único fotograma la portada pasaba de estar clavada a subir a 1 px por píxel:
+ * velocidad 0 → 1 de golpe. Eso es el "brusco corte" que reportó el cliente.
+ *
+ * Alargarlo no cuesta scroll: con `pinSpacing: false` el anclaje no añade altura al documento (medido
+ * antes y después: 9281 px en los dos casos), solo decide cuánto rato se queda quieta la portada. El
+ * 0,7 no ahorraba pulgar, solo soltaba pronto.
+ *
+ * Sigue sin haber copia de este número en ningún otro sitio: `HeroCanvas` lo duplicaba para decidir
+ * por su cuenta si la portada estaba tapada (necesitaba parar el lienzo WebGL) y ahora lee el almacén
  * `useHeroStillVisible` de este mismo fichero, que es el único que conoce el anclaje de verdad.
  */
-const PIN_DISTANCE_DESKTOP = 1;
-const PIN_DISTANCE_MOBILE = 0.7;
+const pinDistance = (hero: HTMLElement): number => Math.round(Math.min(hero.offsetHeight, window.innerHeight));
+
+/**
+ * Retardo del `scrub`, en segundos. Se EXPORTA porque el capítulo que se superpone (`<Chapter
+ * overlapsHero>`) se ve a la vez que la portada durante todo el anclaje y tiene que arrastrar el mismo
+ * retardo: sus capas `data-depth` iban con `scrub: true` (sin retardo ninguno) mientras el fondo de la
+ * portada iba 0,6 s por detrás, así que en un golpe de pulgar —que en un teléfono es el gesto normal—
+ * las dos capas visibles a la vez se movían en momentos distintos. Un solo número para las dos.
+ */
+export const OVERLAP_SCRUB = 0.6;
+
+/**
+ * Recorrido vertical del copy durante el anclaje, en píxeles (el punto de llegada no cambia: sigue
+ * terminando 160 px más arriba, así que nada del bloque se mete debajo de la cabecera fija que no se
+ * metiera ya antes).
+ */
+const COPY_RISE = 160;
+
+/**
+ * Coreografía del bloque de copy, que es la respuesta al segundo aviso del cliente ("no se llega a
+ * ver bien el tema de ir a la carta"): el CTA "Ir a la Carta" vive en ese bloque.
+ *
+ * EL DIAGNÓSTICO, medido a 390 × 664 (un iPhone real en Safari; el botón mide 56 px de alto). No
+ * entra entero sobre el pliegue hasta el scroll ~76 — a scroll 0 su borde inferior cae 69 px por
+ * debajo, o sea que en la primera pantalla NO se ve. A partir de ahí lo que le pone fecha de
+ * caducidad NO es el fundido sino la geometría: el capítulo de platos sube a 1 px por píxel de scroll
+ * y su borde superior le tocaba el pie en el scroll 352 y lo tapaba entero en el 430. Encima se le
+ * penalizaba dos veces, porque el fundido arrancaba a la vez que el anclaje (scroll 205) y para
+ * cuando el capítulo lo alcanzaba ya estaba en 0,90 de opacidad, y en 0,77 al desaparecer.
+ *
+ * LA COREOGRAFÍA. Primero se retiene el bloque quieto y opaco (`COPY_HOLD`) hasta justo antes de que
+ * el capítulo lo alcance, y después se sube a la MISMA velocidad a la que sube el capítulo, de modo
+ * que el botón se mantiene por delante de su borde en vez de dejarse comer. Medido después: el borde
+ * le llega en el 336 pero ya a opacidad 1,00, conserva ≥90 % de su alto a la vista hasta el 444
+ * (opacidad 0,96) y no desaparece del todo hasta el 552 (opacidad 0,85). La ventana con el botón
+ * prácticamente entero pasa de 276 px de scroll a 360 (+30 %), y hasta desaparecer, de 354 a 468
+ * (+32 %). (Las cifras de "antes" salen interpoladas de la pasada de instrumentación previa, que iba
+ * en saltos de 40 px; las de "después", de una pasada de 12 px. Las dos con el scrub ya asentado.)
+ *
+ * POR QUÉ 0,20 Y 0,25 Y NO UNA CUENTA EN TIEMPO DE EJECUCIÓN. La retención es "hasta el scroll 338 de
+ * un anclaje 205 → 869", o sea 0,20 del recorrido; la subida son los 160 px de `COPY_RISE` a 1 px por
+ * píxel, o sea 160/664 = 0,24 del recorrido. Se probó calcular la duración con la altura real de la
+ * ventana (`COPY_RISE / distancia`) para que el 1:1 fuera exacto en cualquier pantalla, y no vale: la
+ * duración de un tween se fija al crearlo e `invalidateOnRefresh` vuelve a leer los VALORES, no las
+ * duraciones, así que al girar el teléfono se quedaría desfasada y encima de forma invisible. Con la
+ * fracción fija, en el rango de alturas de teléfono que hay que aguantar (de los 568 px del 320 × 568
+ * a unos 700) la subida va entre 1,13 y 0,91 px por píxel: el borde del capítulo con un margen de un
+ * 10 %, de sobra para lo que se busca aquí.
+ *
+ * Y el arranque de la subida no da tirón aunque la velocidad pase de 0 a ~1 px/px: al contrario que
+ * la posición del pin, que ScrollTrigger escribe sin suavizar, esta `y` va por el `scrub`, que
+ * convierte ese escalón en una rampa de ~0,6 s.
+ */
+const COPY_HOLD = 0.2;
+const COPY_LIFT = 0.25;
 
 /**
  * Opacidad del velo al final del anclaje. El velo no es negro plano sino un radial que cierra el
@@ -26,9 +98,13 @@ const PIN_DISTANCE_MOBILE = 0.7;
 const DIM_MAX = 0.72;
 
 /**
- * Progreso del pin a partir del cual damos la portada por TAPADA. No es 1: con `scrub` el capítulo
- * que se superpone cubre el viewport antes de que el recorrido termine, y lo que nos interesa es
- * dejar de animar en cuanto ya no se ve nada.
+ * Progreso del pin a partir del cual damos la portada por TAPADA. No es 1: en el 0,85 al capítulo le
+ * falta un 15 % del alto de la pantalla para taparla del todo (una tira de 100 px en un 390 × 664) y
+ * ahí el velo ya va por 0,61 de los 0,72, así que no compensa seguir componiendo brasas, vaho y
+ * pulsos del CTA por esa franja. (La justificación de antes —"el capítulo cubre el viewport antes de
+ * que el recorrido termine"— dejó de ser cierta al atar el final del anclaje a la cobertura completa:
+ * ahora las dos cosas ocurren en el mismo scroll. El valor sigue siendo bueno, y de hecho deja MENOS
+ * portada viva que antes: 100 px de franja frente a los 269 px que quedaban con el recorrido corto.)
  */
 const COVERED_AT = 0.85;
 
@@ -84,9 +160,11 @@ export function useHeroStillVisible(): boolean {
  * desliza por encima (ver `<Chapter overlapsHero>`), la portada hace un "pull-back":
  *  - la capa del fondo (`#hero [data-hero-canvas]`) encoge 1 → 0.92 y sube un 3 %;
  *  - un velo radial dentro de esa capa (`[data-hero-dim]`) sube de 0 a 0.72 y cierra el encuadre;
- *  - el copy (`#hero [data-hero-copy]`) sube más rápido que el fondo y se funde (parallax a dos
- *    velocidades);
+ *  - el copy (`#hero [data-hero-copy]`) aguanta quieto un tramo y después sube y se funde;
  *  - si el hero no expone esos atributos, solo se transforma `#hero`.
+ *
+ * Las tres cosas terminan EN EL MISMO SCROLL, que es además donde el pin suelta la portada y donde el
+ * capítulo de platos acaba de taparla del todo: un solo remate en vez de tres tiempos sueltos.
  *
  * El anclaje sobrevive a la retirada del 3D sin tocarse: el atributo `data-hero-canvas` sigue siendo el
  * ancla de este efecto, solo que ahora la capa que encoge es el dibujo en CSS (tixola, aceite, brasas)
@@ -137,7 +215,17 @@ export default function HeroTransition() {
       gsap.set(hero, { zIndex: 0 });
 
       const tl = gsap.timeline({
-        defaults: { ease: "none" },
+        /* `duration: 1` en los defaults para que la línea de tiempo mida exactamente 1 y cada duración
+           y posición de abajo sea DIRECTAMENTE una fracción del recorrido del anclaje.
+           Sin esto, GSAP daba a cada tween su duración por defecto (0,5) y la línea medía 0,7 —lo que
+           durase el tween más largo, el del copy—, así que el retroceso del fondo y el velo terminaban
+           en el 0,714 del recorrido. Medido a 390 × 664 (anclaje 205 → 670): `scale` y velo llegaban a
+           su valor final en el scroll 537 y los 133 px siguientes no movían NADA; la portada se quedaba
+           congelada casi un tercio del gesto antes de que el pin la soltara, y justo después llegaba el
+           tirón del suelte. El comentario que había decía lo contrario de lo que pasaba ("el texto se
+           ha fundido al 70 % del recorrido"): era el FONDO el que acababa en el 70 % y el texto el que
+           ocupaba el 100 %. */
+        defaults: { ease: "none", duration: 1 },
         scrollTrigger: {
           trigger: hero,
           /* Si la portada es MÁS ALTA que la pantalla (teléfono bajo: la foto de la tixola tiene su
@@ -149,11 +237,13 @@ export default function HeroTransition() {
              (`invalidateOnRefresh`), igual que `end`, por si cambia la altura al girar el móvil. */
           start: () => (hero.offsetHeight > window.innerHeight + 1 ? "bottom bottom" : "top top"),
           /* Se resuelve en cada `refresh`: al girar el móvil o cambiar de tamaño la ventana el
-             recorrido se recalcula sin recrear el pin (antes venía de una dependencia del efecto). */
-          end: () => {
-            const mobile = window.matchMedia("(max-width: 767px)").matches;
-            return `+=${Math.round(window.innerHeight * (mobile ? PIN_DISTANCE_MOBILE : PIN_DISTANCE_DESKTOP))}`;
-          },
+             recorrido se recalcula sin recrear el pin (antes venía de una dependencia del efecto).
+             Que `start` cambie de rama al recalcular ya no puede dar un salto: las dos ramas se cruzan
+             cuando la portada mide justo lo que la pantalla, y ahí `min(portada, pantalla)` vale lo
+             mismo para las dos, así que el final del anclaje se mueve de forma continua con la altura.
+             Tampoco depende ya del ancho: el `matchMedia("(max-width: 767px)")` de antes hacía saltar
+             el recorrido 0,3 × vh de golpe al cruzar los 768 px al girar una tableta. */
+          end: () => `+=${pinDistance(hero)}`,
           pin: true,
           /* Sin espaciado: el siguiente capítulo avanza sobre el hero fijo en vez de esperar. */
           pinSpacing: false,
@@ -172,20 +262,37 @@ export default function HeroTransition() {
         },
       });
 
-      /* Oscurecido. `fromTo` explícito: el estado de reposo queda fijado en 0 aunque un refresh de
-         ScrollTrigger vuelva a leer los valores iniciales a mitad del recorrido. */
+      /* TODOS los tweens de esta línea de tiempo van con `fromTo` EXPLÍCITO, y no es estilo: es la
+         única forma de que el estado de reposo siga siendo el de reposo después de un `refresh`.
+         Con `invalidateOnRefresh: true`, un `to()` vuelve a capturar su punto de PARTIDA leyendo el
+         valor que la propiedad tenga en ese instante; si el refresh cae con el anclaje a medias, ese
+         valor es el animado (scale 0,95, opacity 0,4) y la portada ya no puede volver a `scale: 1` /
+         `opacity: 1` al subir: se queda encogida y quieta. No es teórico en un teléfono — `pinDistance`
+         depende de `window.innerHeight` y, al plegarse la barra de direcciones de Safari (664 → ~745),
+         salta un `resize` y con él un `ScrollTrigger.refresh()` justo en mitad del anclaje, que ahora
+         además dura un 43 % más. Este proyecto ya ha tenido tres veces el fallo de "portada encogida y
+         quieta"; el velo ya se protegía así y los otros dos tweens no, que era el hueco que quedaba. */
       if (dim) tl.fromTo(dim, { opacity: 0 }, { opacity: DIM_MAX }, 0);
 
       if (art) {
-        tl.to(art, { scale: 0.92, yPercent: -3, transformOrigin: "50% 45%" }, 0);
+        tl.fromTo(art, { scale: 1, yPercent: 0 }, { scale: 0.92, yPercent: -3, transformOrigin: "50% 45%" }, 0);
       } else {
         /* Sin capa de fondo identificable: encogemos la portada entera. */
-        tl.to(hero, { scale: 0.94, transformOrigin: "50% 40%" }, 0);
+        tl.fromTo(hero, { scale: 1 }, { scale: 0.94, transformOrigin: "50% 40%" }, 0);
       }
 
       if (copy) {
-        /* El texto sube más deprisa que el fondo y se ha fundido al 70 % del recorrido. */
-        tl.to(copy, { y: -160, opacity: 0, ease: "power1.in", duration: 0.7 }, 0);
+        /* Subida y fundido van en DOS tweens porque necesitan curvas distintas, no por capricho: la
+           subida tiene que ser lineal para copiar la velocidad del borde del capítulo (cualquier ease
+           la haría ir más lenta justo en el tramo en que la carrera se decide) y el fundido tiene que
+           entrar plano para no apagar el botón mientras todavía se le ve. GSAP no admite una curva por
+           propiedad dentro de un mismo `to`, y son propiedades distintas, así que no hay dos escritores
+           peleándose por lo mismo. */
+        tl.fromTo(copy, { y: 0 }, { y: -COPY_RISE, duration: COPY_LIFT }, COPY_HOLD);
+        /* El fundido sí llega hasta el final del anclaje: cuando el capítulo ya ha tapado el botón, la
+           parte alta del bloque (kicker y titular) sigue asomando por encima de su borde y es la que
+           termina de irse. */
+        tl.fromTo(copy, { opacity: 1 }, { opacity: 0, ease: "power1.in", duration: 1 - COPY_HOLD }, COPY_HOLD);
       }
     }, hero);
 

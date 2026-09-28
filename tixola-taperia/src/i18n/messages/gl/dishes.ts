@@ -31,10 +31,9 @@ const dishes: Section<"dishes"> = {
     current: "actual",
     hint: "Toca un prato para ver ingredientes, alérxenos e maridaxe",
     swipe: "Explora os pratos",
-    open: "Ver os detalles de {name}",
-    pause: "Pausar o carrusel",
-    play: "Retomar o carrusel",
-    /** Anuncio para lectores de pantalla ao cambiar de prato (só co carrusel en pausa). */
+    /** Mecanismo de parada declarado (WCAG 2.2.2). Amósase mentres o carrusel se move só. */
+    autoStop: "Avanza só ata que o manexas ti: desprazar, as frechas ou os puntos páranno de todo.",
+    /** Anuncio para lectores de pantalla ao cambiar de prato (só cando xa non avanza só). */
     status: "{name}, prato {index} de {total}",
   },
   /** Detalle do prato (DishSpotlight) */

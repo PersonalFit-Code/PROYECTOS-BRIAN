@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { getGsap } from "@/lib/gsap";
+import { OVERLAP_SCRUB } from "@/components/scroll/HeroTransition";
 import { useCanAfford } from "@/hooks/usePerformanceTier";
 import { cn } from "@/lib/utils";
 
@@ -166,7 +167,14 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
           const elBottom = self.end + vh * 0.08;
           const at = (scroll: number) => (span > 0 ? (scroll - self.start) / span : 0);
           ramp.enterFrom = at(overlapsHero ? elTop - vh : elTop - vh * 0.95);
-          ramp.enterTo = at(overlapsHero ? elTop - vh * 0.15 : elTop - vh * 0.45);
+          /* Con `overlapsHero` el telón acaba de levantarse cuando el borde superior del capítulo llega
+             al borde de arriba de la pantalla (`elTop`), que es exactamente donde el pin de la portada
+             la suelta: los dos gestos rematan en el mismo scroll. Antes acababa en `elTop - 0,15 vh`,
+             o sea 100 px antes en un 390 × 664 (scroll 769 frente al 869 del suelte), y eso dejaba un
+             segundo tiempo suelto pegado al corte: primero se aclaraba el capítulo y después, un poco
+             más abajo, se movía la portada. Lo que NO era cierto de la sospecha inicial: la rampa no es
+             corta —mide 664 px de scroll, casi un viewport entero—, solo terminaba desalineada. */
+          ramp.enterTo = at(overlapsHero ? elTop : elTop - vh * 0.45);
           ramp.exitFrom = at(elBottom - vh * 0.58);
           ramp.exitTo = 1;
           paint(self.progress);
@@ -175,7 +183,16 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
       });
 
       /* Profundidad: cada capa `data-depth` recorre ±(depth × DEPTH_TRAVEL) px mientras el capítulo
-         va de asomar por abajo a desaparecer por arriba. Este sí necesita progreso continuo. */
+         va de asomar por abajo a desaparecer por arriba. Este sí necesita progreso continuo.
+
+         El capítulo que se superpone a la portada arrastra el MISMO retardo de scrub que ella
+         (`OVERLAP_SCRUB`). Durante todo el anclaje las dos capas se ven a la vez —el fondo de la
+         portada asomando por encima del borde del capítulo—, y con `scrub: true` la brasa del capítulo
+         seguía al pulgar al instante mientras el fondo de la portada llegaba 0,6 s más tarde: en un
+         golpe de pulgar, que en un teléfono es el gesto normal, se leía como dos planos despegados.
+         Fuera de ese solape no hay nada con lo que sincronizarse, así que allí se queda el scrub
+         inmediato, que responde mejor. */
+      const depthScrub = overlapsHero ? OVERLAP_SCRUB : true;
       const layers = Array.from(root.querySelectorAll<HTMLElement>("[data-depth]"));
       for (const layer of layers) {
         const depth = Number.parseFloat(layer.dataset.depth ?? "");
@@ -187,7 +204,7 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
           {
             y: -travel,
             ease: "none",
-            scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: true, invalidateOnRefresh: true },
+            scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: depthScrub, invalidateOnRefresh: true },
           },
         );
       }

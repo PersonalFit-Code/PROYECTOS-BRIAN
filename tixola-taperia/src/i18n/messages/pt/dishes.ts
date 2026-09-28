@@ -32,10 +32,9 @@ const dishes = {
     current: "atual",
     hint: "Toque num prato para ver ingredientes, alergénios e harmonização",
     swipe: "Explore os pratos",
-    open: "Ver detalhes de {name}",
-    pause: "Pausar o carrossel",
-    play: "Retomar o carrossel",
-    /** Anúncio para leitores de ecrã ao mudar de prato (só com o carrossel em pausa). */
+    /** Mecanismo de paragem declarado (WCAG 2.2.2). Mostra-se enquanto o carrossel anda sozinho. */
+    autoStop: "Avança sozinho até assumires o comando: deslizar, as setas ou os pontos param-no de vez.",
+    /** Anúncio para leitores de ecrã ao mudar de prato (só quando já não avança sozinho). */
     status: "{name}, prato {index} de {total}",
   },
   /** Detalhe do prato (DishSpotlight) */

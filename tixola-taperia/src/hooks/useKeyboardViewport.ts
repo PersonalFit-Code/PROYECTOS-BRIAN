@@ -24,7 +24,7 @@ import { useEffect, useRef } from "react";
  *  · Sin `visualViewport` (navegadores viejos) las variables no se escriben y la maqueta usa su
  *    respaldo `100dvh`, que es el comportamiento de antes: se degrada, no se rompe.
  */
-export function useKeyboardViewport(el: HTMLElement | null, active: boolean, onResize?: () => void): void {
+export function useKeyboardViewport(el: HTMLElement | null, active: boolean, onResize?: (height: number) => void): void {
   /* La reacción al cambio de tamaño se lee de una referencia: así cambiar de función (cada render
      trae una nueva) no vuelve a suscribir y desuscribir los eventos del viewport. Se actualiza en un
      efecto y no en el cuerpo del render, que es donde una referencia todavía no se puede tocar. */
@@ -45,7 +45,10 @@ export function useKeyboardViewport(el: HTMLElement | null, active: boolean, onR
          dispara esto muchas veces y solo mueve `offsetTop`. */
       if (Math.round(vv.height) !== alto) {
         alto = Math.round(vv.height);
-        onResizeRef.current?.();
+        /* Se pasa el alto visible porque quien escucha necesita saber no solo QUE ha cambiado sino
+           CUÁNTO queda: con el teclado arriba, en un 320 × 568 el hueco baja a 308 px y la ventana de
+           lectura de la conversación se queda en dos líneas. */
+        onResizeRef.current?.(alto);
       }
     };
     apply();

@@ -3,7 +3,7 @@
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Maximize2, Pause, Play, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize2, Sparkles } from "lucide-react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import DishVisual, { DISH_LAYOUT_TRANSITION, dishVisualLayoutId, type DishSlide } from "@/components/ui/DishVisual";
 import { formatPrice } from "@/data/menu";
@@ -13,14 +13,32 @@ import { cn } from "@/lib/utils";
 /**
  * DishCarousel — carrusel de fotos reales de los platos estrella (Embla).
  *
+ * ES EL CARRUSEL DEL TELÉFONO. Antes era solo el plan B de gama baja y `prefers-reduced-motion`;
+ * ahora StarDishes lo sirve a todo lo que se toca con el dedo (ver allí el porqué medido). El
+ * cilindro en 3D se queda para el ratón.
+ *
  *  · Slides altos 3:4 (~70vw móvil · ~34vw md · ~26vw lg, separación 20 px), centrados y en bucle.
  *    La tarjeta activa va a escala 1 y opacidad plena; las vecinas a 0.92 / 0.6 (transición CSS).
  *  · Autoplay cada 5 s que se detiene al pasar el ratón, al enfocar una tarjeta, fuera de pantalla,
- *    con el detalle abierto o si el usuario lo pausa (botón pausa/reanudar, WCAG 2.2.2).
+ *    con el detalle abierto y —esto es nuevo— PARA SIEMPRE en cuanto el usuario toca el carrusel.
  *  · Arrastre táctil/ratón, flechas (44 px), puntos, teclado (←/→, Inicio/Fin) y región `aria-live`
- *    que solo anuncia el plato actual cuando el carrusel está en pausa.
+ *    que solo anuncia el plato actual cuando el carrusel ya no se mueve solo.
  *  · Cada tarjeta es un botón (nombre accesible = nombre del plato) que abre el detalle; la foto lleva
  *    el `layoutId` compartido con DishSpotlight para viajar como elemento compartido.
+ *
+ * POR QUÉ YA NO HAY BOTÓN DE PAUSA (lo pidió el cliente: "yo quitaría eso de pausar o continuar").
+ * Ese botón era el mecanismo de parada que exige la WCAG 2.2.2 para contenido que se mueve solo más
+ * de 5 s. El movimiento SIGUE siendo detenible: el autoplay es una cortesía de bienvenida que se
+ * apaga DEFINITIVAMENTE con el primer gesto —arrastre, flecha, punto, tecla o abrir un plato—, sin
+ * volver nunca, así que no hay movimiento imparable.
+ *
+ * Pero conviene decirlo sin maquillar: quitar el botón es una REBAJA DE CONFORMIDAD, no una mejora de
+ * accesibilidad. La norma pide "un mecanismo para pausar, detener u ocultar", y un efecto colateral no
+ * anunciado de los botones "anterior" y "siguiente" no es un mecanismo declarado; un auditor no va a
+ * aceptar que "el gesto ES la parada". Lo que se puede hacer sin devolver el icono —y es lo que se
+ * hace— es DECLARARLO donde ya hay sitio: `dishes.carousel.autoStop` sale en la pista de texto visible
+ * y en la descripción para lectores de pantalla mientras el carrusel se mueve solo, de modo que el
+ * mecanismo está anunciado y a la vista aunque no sea un botón nuevo.
  */
 
 type EmblaApi = NonNullable<ReturnType<typeof useEmblaCarousel>[1]>;
@@ -62,18 +80,25 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
   const rootRef = useRef<HTMLDivElement>(null);
   const slideButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const [selected, setSelected] = useState(0);
-  const [userPaused, setUserPaused] = useState(false);
   const [inView, setInView] = useState(true);
+  /* Interruptor de UN SOLO SENTIDO: una vez que el visitante toca el carrusel, deja de moverse solo
+     para el resto de la visita. Es state y no ref porque el efecto del autoplay tiene que re-correr. */
+  const [handedOver, setHandedOver] = useState(false);
+  const handOver = useCallback(() => setHandedOver(true), []);
 
-  /* Índice activo (Embla emite `select` al cambiar de snap y `reInit` al reconfigurarse). */
+  /* Índice activo (Embla emite `select` al cambiar de snap y `reInit` al reconfigurarse).
+     `pointerDown` es el primer contacto del dedo o del ratón con el viewport, ANTES de saber si habrá
+     arrastre o solo un toque: es el instante exacto en el que el usuario toma el mando, y por eso es
+     el que apaga el autoplay. Escucharlo aquí cubre el gesto en cualquier punto del carrusel; los
+     controles (flechas, puntos, teclado) lo hacen por su cuenta porque no pasan por el viewport. */
   useEffect(() => {
     if (!emblaApi) return;
     const onSelect = (api: EmblaApi) => setSelected(api.selectedScrollSnap());
-    emblaApi.on("select", onSelect).on("reInit", onSelect);
+    emblaApi.on("select", onSelect).on("reInit", onSelect).on("pointerDown", handOver);
     return () => {
-      emblaApi.off("select", onSelect).off("reInit", onSelect);
+      emblaApi.off("select", onSelect).off("reInit", onSelect).off("pointerDown", handOver);
     };
-  }, [emblaApi]);
+  }, [emblaApi, handOver]);
 
   /* Fuera de pantalla no hay motivo para mover nada. */
   useEffect(() => {
@@ -86,12 +111,14 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
 
   /* Autoplay efectivo. El plugin reanuda solo al salir el ratón / perder el foco / soltar el arrastre,
      así que además de parar reafirmamos la pausa cada vez que emite `autoplay:play` (en microtarea,
-     porque el evento se emite antes de que el plugin marque su estado interno como activo). */
+     porque el evento se emite antes de que el plugin marque su estado interno como activo). Ese
+     reafirmar es justo lo que hace irreversible el `handedOver`: el plugin trae `stopOnInteraction:
+     false` y reanudaría al soltar el dedo, y aquí se le vuelve a parar en cuanto lo intenta. */
   useEffect(() => {
     if (!emblaApi) return;
     const ap = emblaApi.plugins().autoplay;
     if (!ap) return;
-    const shouldPlay = !paused && !userPaused && inView;
+    const shouldPlay = !paused && !handedOver && inView;
     if (shouldPlay) ap.play();
     else ap.stop();
     const guard = () => {
@@ -101,21 +128,33 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
     return () => {
       emblaApi.off("autoplay:play", guard);
     };
-  }, [emblaApi, paused, userPaused, inView]);
+  }, [emblaApi, paused, handedOver, inView]);
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi]);
-  const togglePause = useCallback(() => setUserPaused((v) => !v), []);
+  const scrollPrev = useCallback(() => {
+    handOver();
+    emblaApi?.scrollPrev();
+  }, [emblaApi, handOver]);
+  const scrollNext = useCallback(() => {
+    handOver();
+    emblaApi?.scrollNext();
+  }, [emblaApi, handOver]);
+  const scrollTo = useCallback(
+    (index: number) => {
+      handOver();
+      emblaApi?.scrollTo(index);
+    },
+    [emblaApi, handOver],
+  );
 
   /* Abrir el detalle. Si la tarjeta pulsada era una vecina, la centramos: así el elemento compartido
      vuelve exactamente a su sitio (escala 1) al cerrar. */
   const handleOpen = useCallback(
     (index: number) => {
+      handOver();
       if (emblaApi && emblaApi.selectedScrollSnap() !== index) emblaApi.scrollTo(index);
       onOpen(slides[index]);
     },
-    [emblaApi, onOpen, slides],
+    [emblaApi, handOver, onOpen, slides],
   );
 
   /* Teclado: ←/→ plato anterior/siguiente, Inicio/Fin primero/último. Si el foco estaba en una tarjeta,
@@ -130,16 +169,28 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
       else if (e.key === "End") target = total - 1;
       if (target === null) return;
       e.preventDefault();
+      handOver();
       emblaApi.scrollTo(target);
       const focusInSlide = e.target instanceof HTMLElement && e.target.closest("[data-dish-slide]") !== null;
       if (focusInSlide) slideButtonRefs.current[target]?.focus({ preventScroll: true });
     },
-    [emblaApi, total],
+    [emblaApi, handOver, total],
   );
 
   const current = slides[selected] ?? slides[0];
-  /* Con el carrusel girando solo, anunciar cada cambio sería ruido: la región live solo habla en pausa. */
-  const liveMode = !autoplay || userPaused || paused ? "polite" : "off";
+  /* Con el carrusel avanzando solo, anunciar cada cambio sería ruido: la región live solo habla cuando
+     ya no se mueve por su cuenta. Con el autoplay apagado al primer gesto, eso significa que empieza a
+     hablar justo cuando el usuario toma el mando, que es cuando el anuncio le sirve de algo.
+     Lo que se calla es el CONTENIDO, no el atributo. Antes se conmutaba `aria-live` de "off" a
+     "polite", y varios lectores de pantalla registran la región viva —y su cortesía— en el momento en
+     que el nodo se crea y no vuelven a leer el atributo: el encendido coincidía EN EL MISMO RENDER con
+     el cambio de plato que se quería anunciar, así que el primer anuncio era justo el que más
+     papeletas tenía de perderse. Con el atributo fijo la región está registrada desde el principio y
+     lo único que cambia es si hay texto dentro. */
+  const announce = !autoplay || handedOver || paused;
+  /* `true` mientras el carrusel todavía puede avanzar por su cuenta: es cuando hay que enseñar el
+     mecanismo de parada (ver la cabecera del fichero). */
+  const selfMoving = autoplay && !handedOver && !paused;
 
   return (
     <div
@@ -148,13 +199,19 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
       aria-roledescription="carousel"
       aria-label={m.dishes.carousel.label}
       onKeyDown={onKeyDown}
+      /* El foco entrando en el carrusel también es "tomo yo el mando", y aquí hace falta decirlo a
+         mano: el `stopOnFocusIn` del plugin cuelga del evento `slideFocusStart` de Embla, que solo se
+         emite cuando el foco llega con el tabulador Y Embla decide recolocar. Con el foco puesto de
+         cualquier otra forma (al volver del detalle, desde un lector de pantalla) seguía avanzando
+         solo, que es justo lo que no puede pasar sin botón de pausa. */
+      onFocusCapture={handOver}
       className={cn("relative", className)}
     >
-      <p className="sr-only" aria-live={liveMode} aria-atomic="true">
-        {current ? t(m.dishes.carousel.status, { name: current.dish.name, index: selected + 1, total }) : ""}
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {announce && current ? t(m.dishes.carousel.status, { name: current.dish.name, index: selected + 1, total }) : ""}
       </p>
       <p id={hintId} className="sr-only">
-        {m.dishes.carousel.hint}
+        {m.dishes.carousel.hint} {m.dishes.carousel.autoStop}
       </p>
 
       <div className="relative">
@@ -188,7 +245,7 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
         <ArrowButton dir="next" label={m.dishes.carousel.next} onClick={scrollNext} className="absolute right-3 top-1/2 z-20 -translate-y-1/2 max-md:hidden lg:right-8" />
       </div>
 
-      {/* Controles: flechas (móvil) + puntos + pausa */}
+      {/* Controles: flechas (móvil) + puntos */}
       <div className="mt-3 flex items-center justify-center gap-1 md:mt-4">
         <ArrowButton dir="prev" label={m.dishes.carousel.prev} onClick={scrollPrev} className="md:hidden" />
         <div role="group" aria-label={m.dishes.carousel.label} className="flex items-center">
@@ -217,23 +274,17 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
           })}
         </div>
         <ArrowButton dir="next" label={m.dishes.carousel.next} onClick={scrollNext} className="md:hidden" />
-        {autoplay && (
-          <button
-            type="button"
-            onClick={togglePause}
-            aria-pressed={userPaused}
-            aria-label={userPaused ? m.dishes.carousel.play : m.dishes.carousel.pause}
-            className="ml-2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/15 text-cream-muted transition-colors duration-300 hover:bg-cream/10 hover:text-cream"
-          >
-            {userPaused ? <Play size={15} aria-hidden /> : <Pause size={15} aria-hidden />}
-          </button>
-        )}
       </div>
 
-      {/* Pista de uso */}
-      <p className="mt-3 text-center text-xs text-cream-faint" aria-hidden>
+      {/* Pista de uso. La segunda línea es el mecanismo de parada de la WCAG 2.2.2, declarado por
+          escrito y solo mientras el carrusel puede moverse por su cuenta (ver la cabecera). */}
+      {/* `px-5`: el carrusel va a sangre (fuera de `container-page`), así que este párrafo es el único
+          de la sección sin margen lateral propio. Con las pistas cortas de antes no se notaba; la frase
+          del mecanismo de parada llega al borde del teléfono si no se le pone el mismo respiro. */}
+      <p className="mt-3 px-5 text-center text-xs text-cream-faint" aria-hidden>
         <span className="md:hidden">{m.dishes.carousel.swipe}</span>
         <span className="hidden md:inline">{m.dishes.carousel.hint}</span>
+        {selfMoving && <span className="mx-auto mt-1 block max-w-[46ch] text-balance text-cream-faint/80">{m.dishes.carousel.autoStop}</span>}
       </p>
     </div>
   );

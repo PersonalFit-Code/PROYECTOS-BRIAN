@@ -29,10 +29,9 @@ const dishes = {
     current: "actual",
     hint: "Toca un plato para ver ingredientes, alérgenos y maridaje",
     swipe: "Explora los platos",
-    open: "Ver detalles de {name}",
-    pause: "Pausar el carrusel",
-    play: "Reanudar el carrusel",
-    /** Anuncio para lectores de pantalla al cambiar de plato (solo con el carrusel en pausa). */
+    /** Mecanismo de parada declarado (WCAG 2.2.2). Se ENSEÑA mientras el carrusel se mueve solo. */
+    autoStop: "Avanza solo hasta que lo manejas tú: deslizar, las flechas o los puntos lo paran del todo.",
+    /** Anuncio para lectores de pantalla al cambiar de plato (solo cuando ya no avanza solo). */
     status: "{name}, plato {index} de {total}",
   },
   /** Detalle del plato (DishSpotlight) */

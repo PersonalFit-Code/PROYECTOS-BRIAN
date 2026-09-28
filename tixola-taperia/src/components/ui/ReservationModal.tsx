@@ -417,7 +417,7 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                     target="_blank"
                     variant="outline"
                     size="md"
-                    icon={<WhatsAppGlyph className="h-5 w-5" />}
+                    icon={<WhatsAppGlyph size="h-5 w-5" />}
                     className="flex-auto border-[#25D366]/50 hover:border-[#25D366] hover:bg-[#25D366]/10"
                   >
                     {m.common.cta.whatsapp}

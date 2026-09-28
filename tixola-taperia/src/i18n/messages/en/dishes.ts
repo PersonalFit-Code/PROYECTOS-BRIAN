@@ -32,10 +32,9 @@ const dishes = {
     current: "current",
     hint: "Tap a dish to see its ingredients, allergens and wine pairing",
     swipe: "Explore the dishes",
-    open: "See details of {name}",
-    pause: "Pause the carousel",
-    play: "Resume the carousel",
-    /** Screen-reader announcement when the dish changes (only while the carousel is paused). */
+    /** Declared pause mechanism (WCAG 2.2.2). Shown while the carousel is moving on its own. */
+    autoStop: "It advances on its own until you take over: swiping, the arrows or the dots stop it for good.",
+    /** Screen-reader announcement when the dish changes (only once it no longer advances on its own). */
     status: "{name}, dish {index} of {total}",
   },
   /** Dish detail (DishSpotlight) */

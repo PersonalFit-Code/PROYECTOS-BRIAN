@@ -1,7 +1,7 @@
 "use client";
 
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, type PanInfo } from "framer-motion";
-import { ChevronLeft, ChevronRight, Maximize2, Pause, Play, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize2, Sparkles } from "lucide-react";
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import DishVisual, { DISH_LAYOUT_TRANSITION, dishVisualLayoutId, type DishSlide } from "@/components/ui/DishVisual";
 import { formatPrice } from "@/data/menu";
@@ -11,8 +11,14 @@ import { cn } from "@/lib/utils";
 /**
  * DishCarousel3D — los platos estrella montados sobre un cilindro que gira.
  *
- * Cada plato ocupa una cara del cilindro: se arrastra con el dedo o el ratón para hacerlo girar, se
- * suelta y encaja en la cara más cercana, y al pulsar la de delante se abre el detalle del plato
+ * ES EL CARRUSEL DEL RATÓN. Ya no se sirve a nada que se toque con el dedo: para comprometerse con el
+ * plato siguiente pide un arrastre de dos tercios del ancho de la tarjeta y, por debajo de eso, al
+ * soltar VUELVE al mismo plato — un golpe de pulgar normal no llega (las cifras y el porqué, en
+ * StarDishes). Con ratón ese recorrido no cuesta nada y además hay flechas y puntos al lado, así que
+ * el efecto se conserva donde sí funciona.
+ *
+ * Cada plato ocupa una cara del cilindro: se arrastra con el ratón para hacerlo girar, se suelta y
+ * encaja en la cara más cercana, y al pulsar la de delante se abre el detalle del plato
  * (ingredientes, alérgenos y maridaje) igual que en el carrusel plano.
  *
  * Geometría: las caras se reparten el cilindro a partes iguales, así que el radio sale del ancho de
@@ -25,9 +31,22 @@ import { cn } from "@/lib/utils";
  *    gira hasta el frente, de modo que quien navega con teclado siempre ve lo que tiene enfocado.
  *  · ←/→ giran, Inicio/Fin van al primero y al último, Intro abre el detalle.
  *  · La rotación automática se para al pasar el ratón, al enfocar, al arrastrar, fuera de pantalla y
- *    con el botón de pausa (WCAG 2.2.2). La región `aria-live` solo habla cuando está en pausa.
- *  · Con `prefers-reduced-motion` o en gama baja esta pieza no se monta: StarDishes usa el carrusel
- *    plano, que no tiene ni perspectiva ni giro continuo.
+ *    PARA SIEMPRE en cuanto el usuario mueve el carrusel él mismo. La región `aria-live` solo habla
+ *    cuando el cilindro ya no gira por su cuenta.
+ *  · Con `prefers-reduced-motion`, en gama baja o con puntero grueso esta pieza no se monta:
+ *    StarDishes usa el carrusel plano, que no tiene ni perspectiva ni giro continuo.
+ *
+ * POR QUÉ YA NO HAY BOTÓN DE PAUSA: misma decisión que en DishCarousel (lo pidió el cliente). El giro
+ * automático es una cortesía de bienvenida que se apaga definitivamente al primer arrastre, flecha,
+ * punto, tecla o plato abierto, así que no queda movimiento imparable.
+ *
+ * Lo que NO se puede decir es que "el mecanismo de parada de la WCAG 2.2.2 deja de ser un icono y pasa
+ * a ser el propio gesto": un efecto colateral no anunciado de dos botones etiquetados "anterior" y
+ * "siguiente" no es un mecanismo declarado, y aquí escuece más que en el carrusel plano — el cilindro
+ * solo se sirve a ratón, así que un usuario de teclado que no tabule dentro ve las caras girando cada
+ * 5 s sin nada que le diga que se puede parar. Por eso el mecanismo se DECLARA por escrito en la pista
+ * de texto que ya existía (`dishes.carousel.autoStop`), visible y anunciada, mientras el giro está
+ * activo. Es una rebaja de conformidad respecto al botón, no una mejora; queda dicho.
  */
 
 export interface DishCarousel3DProps {
@@ -107,10 +126,18 @@ export default function DishCarousel3D({
 
   const [active, setActive] = useState(0);
   const activeRef = useRef(0);
-  const [userPaused, setUserPaused] = useState(false);
   const [inView, setInView] = useState(true);
   const [hovered, setHovered] = useState(false);
   const dragging = useRef(false);
+  /* Interruptor de UN SOLO SENTIDO: en cuanto el usuario mueve el cilindro, deja de girar solo para el
+     resto de la visita (sustituye al botón de pausa; ver la cabecera del fichero). */
+  const [handedOver, setHandedOver] = useState(false);
+  const handOver = useCallback(() => setHandedOver(true), []);
+  /* Muelle en curso. Se guarda para poder CORTARLO al empezar un arrastre: `animate()` sigue
+     escribiendo en el motion value fotograma a fotograma y pisaba el `rotation.set()` del dedo, así
+     que un segundo gesto encima del encaje anterior (o del paso de autoplay) salía duro y con tirones.
+     Con el corte, mientras el dedo está puesto el único que escribe el ángulo es el dedo. */
+  const settle = useRef<{ stop: () => void } | null>(null);
 
   /** Cara que queda al frente para un ángulo dado. */
   const indexAt = useCallback(
@@ -129,15 +156,20 @@ export default function DishCarousel3D({
   });
 
   /** Gira hasta dejar `index` al frente por el camino más corto. `spring` distingue giro ambiental de
-      respuesta a una interacción (por defecto, respuesta: es el caso de casi todas las llamadas). */
+      respuesta a una interacción (por defecto, respuesta: es el caso de casi todas las llamadas), y
+      esa misma distinción es la que apaga el autoplay: cualquier giro que NO sea el ambiental lo ha
+      pedido el usuario (flecha, punto, tecla, foco, encaje tras soltar el dedo). Marcarlo aquí, en el
+      único sitio por el que pasan todos, evita tener que acordarse en cada manejador. */
   const goTo = useCallback(
     (index: number, spring: typeof AMBIENT_SPRING | typeof RESPONSE_SPRING = RESPONSE_SPRING) => {
+      if (spring !== AMBIENT_SPRING) handOver();
       const from = rotation.get();
       const raw = -index * step;
       const delta = (((raw - from + 180) % 360) + 360) % 360 - 180;
-      animate(rotation, from + delta, spring);
+      settle.current?.stop();
+      settle.current = animate(rotation, from + delta, spring);
     },
-    [rotation, step],
+    [handOver, rotation, step],
   );
 
   const goBy = useCallback(
@@ -156,7 +188,7 @@ export default function DishCarousel3D({
   }, []);
 
   /* Giro automático. */
-  const spinning = autoplay && !paused && !userPaused && inView && !hovered;
+  const spinning = autoplay && !paused && !handedOver && inView && !hovered;
   useEffect(() => {
     if (!spinning || total < 2) return;
     const id = window.setInterval(() => {
@@ -171,7 +203,11 @@ export default function DishCarousel3D({
 
   const onPanStart = useCallback(() => {
     dragging.current = true;
-  }, []);
+    /* El mando pasa al usuario ANTES de saber a dónde va el gesto: si el interruptor esperase a
+       `onPanEnd`, el paso de autoplay podría saltar en mitad del arrastre. */
+    handOver();
+    settle.current?.stop();
+  }, [handOver]);
 
   const onPan = useCallback(
     (_: unknown, info: PanInfo) => {
@@ -221,7 +257,14 @@ export default function DishCarousel3D({
   );
 
   const current = slides[active] ?? slides[0];
-  const liveMode = !autoplay || userPaused || paused ? "polite" : "off";
+  /* Mismo criterio que en DishCarousel: mientras gira solo, anunciar cada cara sería ruido; en cuanto
+     el mando es del usuario, el anuncio pasa a ser lo que necesita para saber dónde está. Y se calla
+     el CONTENIDO, no el atributo: conmutar `aria-live` en el mismo render que el primer cambio de cara
+     hacía que varios lectores se perdieran precisamente ese anuncio (el porqué, en DishCarousel). */
+  const announce = !autoplay || handedOver || paused;
+  /* `true` mientras el cilindro todavía puede girar por su cuenta: es cuando hay que enseñar el
+     mecanismo de parada (ver la cabecera del fichero). */
+  const selfMoving = autoplay && !handedOver && !paused;
   const stageHeight = Math.round(faceWidth * (4 / 3));
 
   return (
@@ -239,11 +282,11 @@ export default function DishCarousel3D({
       }}
       className={cn("relative", className)}
     >
-      <p className="sr-only" aria-live={liveMode} aria-atomic="true">
-        {current ? t(m.dishes.carousel.status, { name: current.dish.name, index: active + 1, total }) : ""}
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {announce && current ? t(m.dishes.carousel.status, { name: current.dish.name, index: active + 1, total }) : ""}
       </p>
       <p id={hintId} className="sr-only">
-        {m.dishes.carousel.hint}
+        {m.dishes.carousel.hint} {m.dishes.carousel.autoStop}
       </p>
 
       <div className="relative">
@@ -312,9 +355,10 @@ export default function DishCarousel3D({
         <ArrowButton dir="next" label={m.dishes.carousel.next} onClick={() => goBy(1)} className="absolute right-3 top-1/2 z-20 -translate-y-1/2 max-md:hidden lg:right-10" />
       </div>
 
-      {/* Controles: flechas (móvil) + puntos + pausa */}
+      {/* Controles: puntos. Aquí había además un par de flechas `md:hidden` y una pista `md:hidden`
+          para el dedo; con el cilindro reservado al ratón (≥ md y puntero fino) no se pintaban nunca,
+          así que eran UI muerta. Quien va con el dedo ve ese mismo par de flechas en DishCarousel. */}
       <div className="mt-2 flex items-center justify-center gap-1">
-        <ArrowButton dir="prev" label={m.dishes.carousel.prev} onClick={() => goBy(-1)} className="md:hidden" />
         <div role="group" aria-label={m.dishes.carousel.label} className="flex items-center">
           {slides.map((slide, i) => {
             const isActive = i === active;
@@ -340,23 +384,13 @@ export default function DishCarousel3D({
             );
           })}
         </div>
-        <ArrowButton dir="next" label={m.dishes.carousel.next} onClick={() => goBy(1)} className="md:hidden" />
-        {autoplay && (
-          <button
-            type="button"
-            onClick={() => setUserPaused((v) => !v)}
-            aria-pressed={userPaused}
-            aria-label={userPaused ? m.dishes.carousel.play : m.dishes.carousel.pause}
-            className="ml-1 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/15 text-cream-muted transition-colors duration-300 hover:bg-cream/10 hover:text-cream"
-          >
-            {userPaused ? <Play size={15} aria-hidden /> : <Pause size={15} aria-hidden />}
-          </button>
-        )}
       </div>
 
-      <p className="mt-2 text-center text-xs text-cream-faint" aria-hidden>
-        <span className="md:hidden">{m.dishes.carousel.swipe}</span>
-        <span className="hidden md:inline">{m.dishes.carousel.hint}</span>
+      {/* Pista de uso. La segunda línea es el mecanismo de parada de la WCAG 2.2.2, declarado por
+          escrito y solo mientras el cilindro puede girar por su cuenta (ver la cabecera). */}
+      <p className="mt-2 px-5 text-center text-xs text-cream-faint" aria-hidden>
+        {m.dishes.carousel.hint}
+        {selfMoving && <span className="mx-auto mt-1 block max-w-[46ch] text-balance text-cream-faint/80">{m.dishes.carousel.autoStop}</span>}
       </p>
     </div>
   );
