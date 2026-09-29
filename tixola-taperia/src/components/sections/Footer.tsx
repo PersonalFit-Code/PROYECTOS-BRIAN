@@ -9,9 +9,8 @@ import { formatNumber } from "@/lib/format";
 import { LEGAL_DOC_KEYS } from "@/data/legal";
 import Logo from "@/components/ui/Logo";
 import { useNavItems } from "@/components/ui/Navbar";
-import { useLocalizedOpenStatus } from "@/components/ui/ReservationModal";
+import { useLocalizedOpenStatus } from "@/hooks/useLocalizedOpenStatus";
 import { PlatformGlyph, Stars } from "@/components/ui/ReviewCard";
-import { useReservation } from "@/components/ui/ReservationProvider";
 import { LOCALES, LOCALE_META, localePath, stripLocale } from "@/i18n/config";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { openCookieSettings } from "@/lib/consent";
@@ -69,7 +68,6 @@ export default function Footer({ year: buildYear }: FooterProps) {
   const t = useFormat();
   const lp = useLocalePath();
   const locale = useLocale();
-  const { open: openReservation } = useReservation();
   const navItems = useNavItems();
   const pathname = usePathname();
   const status = useLocalizedOpenStatus();
@@ -193,14 +191,13 @@ export default function Footer({ year: buildYear }: FooterProps) {
               </a>
               </div>
             </address>
-            <button
-              type="button"
-              onClick={openReservation}
-              className="mt-5 inline-flex h-11 items-center gap-2 rounded-full border border-pimenton-light/50 px-4 text-sm font-semibold text-cream transition-all duration-300 hover:border-pimenton-light hover:bg-pimenton/20 hover:shadow-neon"
-            >
-              <Utensils className="h-4 w-4 text-pimenton-light" aria-hidden />
-              {m.nav.reserveTable}
-            </button>
+            {/* Aquí había un botón de "Reservar mesa". Tixola no coge reservas, así que en su sitio
+                va el DATO, no una acción: en un pie, un botón más es ruido, y lo que de verdad
+                ahorra una llamada es saber de antemano que se va por orden de llegada. */}
+            <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-cream/15 px-4 py-2.5 text-sm text-cream-muted">
+              <Utensils className="h-4 w-4 shrink-0 text-pimenton-light" aria-hidden />
+              {m.common.misc.noBooking}
+            </p>
           </div>
 
           {/* Horario */}

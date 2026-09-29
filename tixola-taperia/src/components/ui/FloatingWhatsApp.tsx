@@ -23,7 +23,7 @@ const HOME_REVEAL_RATIO = 0.45;
    ALMACÉN "EL DEDO ESTÁ DESPLAZANDO"
    ─────────────────────────────────────────────────────────────────────────────
    Dos botones fijos sobre contenido a ancho completo SIEMPRE tapan algo: se probó una esquina para
-   cada uno (se comían los nombres de plato y los botones "Reservar mesa" / "Llamar") y apilarlos a
+   cada uno (se comían los nombres de plato y los botones de la barra inferior) y apilarlos a
    la derecha (caían sobre el precio de cada plato y, en el pie, sobre el copyright y "Volver
    arriba"). Ningún sitio está libre en la home, la carta y el pie a la vez, y encogerlos solo
    reduce el destrozo. La salida que usan las apps es no pelearse por el sitio: mientras el dedo
@@ -35,9 +35,9 @@ const HOME_REVEAL_RATIO = 0.45;
    (`{ y, vh }`) y avisa al cambiar, pero no tiene forma de decir cuándo se ha PARADO: haría falta
    este mismo temporizador encima de aquello.
 
-   Vive en este módulo de `ui/` y no en `chat/` porque `ReservationModal` ya importa de aquí (el
+   Vive en este módulo de `ui/` y no en `chat/` porque otras piezas de interfaz ya importan de aquí (el
    glifo): llevarlo al lanzador del camarero le metería `lucide-react` y el propio lanzador en el
-   chunk del modal de reserva.
+   chunk del camarero virtual.
 */
 
 /** Milisegundos quieto que hacen falta para que los flotantes vuelvan. */
@@ -277,7 +277,7 @@ const FLOAT_BAND_PX = 64 + 8 + 44;
  * pie lleva el copyright, el crédito de diseño y el botón "Volver arriba" justo en esa franja, y ahí
  * el apartado por scroll no sirve — el usuario ha llegado al final, se queda quieto y los botones
  * volverían encima. Retirarse del todo no deja a nadie sin contacto: el pie tiene teléfono, enlaces
- * y "Carta con alérgenos", y la barra inferior conserva Reservar y Llamar.
+ * y "Carta con alérgenos", y la barra inferior conserva Ver carta y Llamar.
  *
  * `IntersectionObserver` con el borde inferior de la raíz recortado esa franja: así el observador
  * avisa EXACTAMENTE cuando el pie empieza a quedar tapado, sin leer posiciones en cada tic.

@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, MotionConfig, motion, useDragControls, useReducedMotion, type PanInfo, type Variants } from "framer-motion";
-import { CalendarCheck, MessageCircle, Sparkles, UtensilsCrossed, Wine, X } from "lucide-react";
+import { MessageCircle, Sparkles, UtensilsCrossed, Wine, X } from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -32,7 +32,8 @@ import { cn } from "@/lib/utils";
  *    centrado a dos columnas (foto + ficha).
  *  · La foto viaja desde la tarjeta del carrusel como elemento compartido (`layoutId`) y vuelve al cerrar.
  *  · Contenido: foto (o tixola compuesta), nombre, kicker, titular, descripción, ingredientes, alérgenos
- *    (icono + etiqueta localizada), maridaje (vino · D.O. · por qué) y CTAs "Ver en la carta" / "Reservar",
+ *    (icono + etiqueta localizada), maridaje (vino · D.O. · por qué) y CTAs "Ver en la carta" /
+ *    "Preguntar al camarero",
  *    más un atajo al camarero virtual.
  *  · Accesibilidad: `role="dialog"` modal, Escape / fondo / botón cierran, foco inicial en "cerrar" y
  *    devolución del foco a la tarjeta al cerrar, resto de la página `inert`, scroll del documento bloqueado
@@ -40,7 +41,7 @@ import { cn } from "@/lib/utils";
  *
  * Se monta en `document.body` por portal (con un host persistente) para escapar de cualquier ancestro con
  * `transform`/`overflow` (Embla, Chapter) y para que el `inert` del fondo se libere en cuanto se cierra,
- * antes de que termine la animación de salida — así "Reservar" puede abrir su modal sin esperar.
+ * antes de que termine la animación de salida — así el chat puede abrirse sin esperar.
  */
 
 /** Alias por compatibilidad con la iteración 1 (el id vive en DishVisual). */
@@ -55,7 +56,6 @@ export interface DishSpotlightProps {
   /** plato (y su foto) a mostrar; `null` cierra el detalle */
   slide: DishSlide | null;
   onClose: () => void;
-  onReserve: () => void;
   /** volutas de vapor en el visual compuesto (desactivar en tier "low") */
   steam?: boolean;
 }
@@ -92,7 +92,7 @@ const useIsClient = () =>
     () => false,
   );
 
-export default function DishSpotlight({ slide, onClose, onReserve, steam = true, showMenuLink = true }: DishSpotlightProps) {
+export default function DishSpotlight({ slide, onClose, steam = true, showMenuLink = true }: DishSpotlightProps) {
   const isClient = useIsClient();
   const isMobile = useIsMobile();
   const hostRef = useRef<HTMLDivElement>(null);
@@ -143,7 +143,6 @@ export default function DishSpotlight({ slide, onClose, onReserve, steam = true,
               mobile={isMobile}
               steam={steam}
               onClose={onClose}
-              onReserve={onReserve}
               showMenuLink={showMenuLink}
             />
           )}
@@ -162,10 +161,9 @@ interface SheetProps {
   mobile: boolean;
   steam: boolean;
   onClose: () => void;
-  onReserve: () => void;
 }
 
-function Sheet({ slide, mobile, steam, onClose, onReserve, showMenuLink }: SheetProps) {
+function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
   const { dish, photo } = slide;
   const m = useMessages();
   const reducedMotion = useReducedMotion();
@@ -322,7 +320,7 @@ function Sheet({ slide, mobile, steam, onClose, onReserve, showMenuLink }: Sheet
                  0,24 s de recorrido) en vez de esperar 0,12 s y tardar otros 0,5 s en asentarse. */
               transition={{ duration: 0.24, delay: 0.04, ease: EASE_OUT_EXPO }}
             >
-              <DishDetails dish={dish} titleId={titleId} descId={descId} onClose={onClose} onReserve={onReserve} showMenuLink={showMenuLink} />
+              <DishDetails dish={dish} titleId={titleId} descId={descId} onClose={onClose} showMenuLink={showMenuLink} />
             </motion.div>
           </div>
         </div>
@@ -339,12 +337,11 @@ interface DishDetailsProps {
   titleId: string;
   descId: string;
   onClose: () => void;
-  onReserve: () => void;
 }
 
 const LABEL = "font-caps text-[10px] uppercase tracking-[0.28em] text-cream-faint";
 
-function DishDetails({ dish, titleId, descId, onClose, onReserve, showMenuLink }: DishDetailsProps) {
+function DishDetails({ dish, titleId, descId, onClose, showMenuLink }: DishDetailsProps) {
   const m = useMessages();
   const t = useFormat();
   const locale = useLocale();
@@ -355,11 +352,7 @@ function DishDetails({ dish, titleId, descId, onClose, onReserve, showMenuLink }
   const allergenList = dish.allergens.map((id) => allergenMap[id].label.toLowerCase()).join(", ");
 
   /* Los CTAs cierran el detalle antes de abrir otro modal: así el `inert` del fondo se libera y el
-     modal de reserva / el chat reciben el foco sin pelearse con este diálogo. */
-  const handleReserve = useCallback(() => {
-    onClose();
-    onReserve();
-  }, [onClose, onReserve]);
+     el chat recibe el foco sin pelearse con este diálogo. */
   const handleAsk = useCallback(() => {
     onClose();
     openChat({ prefill: t(m.dishes.spotlight.askWaiterPrefill, { name: dish.name }), page: "home" });
@@ -383,6 +376,7 @@ function DishDetails({ dish, titleId, descId, onClose, onReserve, showMenuLink }
         <span className="font-condensed text-[2.75rem] leading-none tracking-wide text-cream">{formatPrice(dish.price, locale)}</span>
         {/* La unidad solo si la hay: los platos de la carta pueden no tenerla y "por " a secas sobra. */}
         {dish.unit && <span className="text-sm text-cream-muted">{t(m.dishes.spotlight.perUnit, { unit: dish.unit })}</span>}
+        <span className="text-xs text-cream-faint">· {m.carta.vatIncluded}</span>
       </p>
 
       {/* Titular + descripción. El titular es cosa de los platos estrella (una frase escrita a mano
@@ -448,13 +442,23 @@ function DishDetails({ dish, titleId, descId, onClose, onReserve, showMenuLink }
         </div>
       )}
 
-      {/* CTAs */}
+      {/*
+        CTAs. Aquí había un botón rojo de "Reservar" que se llevaba la atención; al retirarse (Tixola
+        no coge reservas) la fila se quedaba con un único botón secundario, o directamente vacía en
+        `/carta`, donde `showMenuLink` es falso. Así que el peso se recoloca según dónde estés:
+
+         · En la portada manda "Ver en la carta": estás mirando una foto y el siguiente paso natural
+           es ver el resto y el precio junto a los demás platos.
+         · En la carta ya estás donde ese botón te llevaría, así que el primario pasa a ser el
+           camarero virtual — que era un enlace de texto discreto al pie de la ficha. Es el sitio
+           donde más sentido tiene: tienes el plato delante y la duda típica es de alérgenos.
+      */}
       <div className="mt-6 flex flex-col gap-2 sm:flex-row">
         {showMenuLink && (
           <NeonButton
             href={lp(`/carta#${dish.menuId}`)}
             onClick={onClose}
-            variant="outline"
+            variant="primary"
             size="md"
             icon={<UtensilsCrossed aria-hidden />}
             className="w-full sm:flex-1"
@@ -462,18 +466,17 @@ function DishDetails({ dish, titleId, descId, onClose, onReserve, showMenuLink }
             {m.dishes.seeInMenu}
           </NeonButton>
         )}
-        <NeonButton type="button" variant="primary" size="md" icon={<CalendarCheck aria-hidden />} onClick={handleReserve} className="w-full sm:flex-1">
-          {m.common.cta.reserveShort}
+        <NeonButton
+          type="button"
+          variant={showMenuLink ? "outline" : "primary"}
+          size="md"
+          icon={<MessageCircle aria-hidden />}
+          onClick={handleAsk}
+          className="w-full sm:flex-1"
+        >
+          {m.dishes.spotlight.askWaiter}
         </NeonButton>
       </div>
-      <button
-        type="button"
-        onClick={handleAsk}
-        className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm text-cream-muted underline-offset-4 transition-colors duration-300 hover:text-cream hover:underline"
-      >
-        <MessageCircle size={16} aria-hidden />
-        {m.dishes.spotlight.askWaiter}
-      </button>
     </div>
   );
 }

@@ -36,6 +36,10 @@ const carta = {
   resultsUnitOne: "prato",
   resultsLive: "{count} pratos encontrados",
   resultsRegion: "Pratos da ementa",
+  /* Nota corta para junto al precio grande de la ficha de plato: el art. 60.2.c TRLGDCU
+     pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
+     decirlo (en la carta sí estaba, en `priceNote`). */
+  vatIncluded: "IVA incluído",
   priceNote: "Preços indicativos, IVA incluído. Pergunte pelas sugestões do dia.",
 
   /* ── Painel de filtros ── */
@@ -99,7 +103,7 @@ const carta = {
   ctaTitle: "Ficou com fome?",
   ctaLead: "Ficou com",
   ctaAccent: "fome?",
-  ctaText: "Reserve mesa ou passe por cá para uns vinhos junto à Catedral.",
+  ctaText: "Não é preciso reservar: passe por cá para uns vinhos junto à Catedral e sentamo-lo por ordem de chegada.",
   seoTitle: "Ementa de petiscos e tixolas em Ourense",
   seoDescription: "Petiscos, tixolas de ferro, vieiras, polvo e croquetes caseiros junto à Catedral de Ourense. Ementa completa com alergénios e sugestões de vinho galego.",
 } satisfies Translation<typeof esCarta>;

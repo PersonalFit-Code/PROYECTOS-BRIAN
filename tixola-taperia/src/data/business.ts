@@ -38,7 +38,10 @@ export const BUSINESS = {
     display: "646 45 72 74",
     e164: "+34646457274",
     tel: "tel:+34646457274",
-    whatsapp: "https://wa.me/34646457274?text=Hola%2C%20quiero%20reservar%20mesa%20en%20Tixola%20Taper%C3%ADa",
+    /* El texto va dentro de la URL y sale ya escrito en WhatsApp de quien pulsa. Decía "quiero
+       reservar mesa"; como no se reserva, ahora abre una consulta neutra que sirve para cualquier
+       cosa (horario, grupos, alérgenos). */
+    whatsapp: "https://wa.me/34646457274?text=Hola%2C%20tengo%20una%20consulta%20sobre%20Tixola%20Taper%C3%ADa",
   },
   website: "https://tixola.restaurantesourense.com",
   priceRange: "10 € – 20 €",

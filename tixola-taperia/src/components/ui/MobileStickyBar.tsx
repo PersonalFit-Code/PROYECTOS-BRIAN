@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, MotionConfig } from "framer-motion";
-import { BookOpen, CalendarCheck, Navigation, Phone } from "lucide-react";
+import { BookOpen, Clock, Navigation, Phone } from "lucide-react";
 import { BUSINESS } from "@/data/business";
 import { useChat } from "@/components/chat/ChatProvider";
-import { useReservation } from "@/components/ui/ReservationProvider";
+import { useLocalizedOpenStatus } from "@/hooks/useLocalizedOpenStatus";
 import { useSectionInView } from "@/hooks/useSectionInView";
 import { useFormat, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -32,17 +32,17 @@ const WATCHED_SECTIONS = ["experiencia"] as const;
 
 /**
  * Barra de acciones fija en la parte inferior (solo móvil, < md):
- *  Reservar (destacado en pimentón, máxima prioridad según el brief) · Ver carta · Llamar · Llegar.
+ *  Ver carta (destacada en pimentón) · Llamar · Llegar · Horario.
  *
  * SEÑALA DÓNDE ESTÁS. El cliente lo pidió con estas palabras: "si estoy en carta, que abajo me
  * aparezca que estoy en la carta, señalizado en rojo". Dos fuentes, ninguna cara:
  *  · la ruta (`usePathname`) marca "Ver carta" mientras se está en /carta;
  *  · un `IntersectionObserver` marca "Llegar" cuando la sección de ubicación ocupa el centro.
- * El estado activo NO es la píldora roja rellena: esa se queda para "Reservar", que es una ACCIÓN y
+ * El estado activo NO es la píldora roja rellena: esa se queda para "Ver carta", que es una ACCIÓN y
  * no un sitio. El "estás aquí" es texto en pimentón, fondo apenas teñido y un filo superior; se
  * distinguen de un vistazo y no compiten. `aria-current` lo dice también a los lectores de pantalla.
  *
- * Se desliza fuera de la pantalla mientras el modal de reserva o el camarero virtual están abiertos.
+ * Se desliza fuera de la pantalla mientras el camarero virtual está abierto.
  * Respeta el área segura inferior (iPhone) con `env(safe-area-inset-bottom)`.
  */
 export default function MobileStickyBar() {
@@ -50,9 +50,11 @@ export default function MobileStickyBar() {
   const t = useFormat();
   const lp = useLocalePath();
   const pathname = usePathname();
-  const { isOpen: reservationOpen, open: openReservation } = useReservation();
   const { isOpen: chatOpen } = useChat();
-  const hidden = reservationOpen || chatOpen;
+  const hidden = chatOpen;
+  /* `null` hasta hidratar: la etiqueta se pinta desde el HTML y el punto de color aparece después,
+     porque el servidor no sabe qué hora es donde está quien mira. */
+  const status = useLocalizedOpenStatus();
 
   const section = useSectionInView(WATCHED_SECTIONS);
   /* `/es/carta`, `/gl/carta`… y cualquier subruta suya. */
@@ -81,17 +83,14 @@ export default function MobileStickyBar() {
             a desenfocar toda la franja en cada fotograma (el escenario móvil más caro de la página). */}
         <div className="border-t border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.97),rgba(16,16,16,0.95))] pb-[env(safe-area-inset-bottom)] shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.7)]">
           <ul className="grid h-[var(--mobile-bar-h)] grid-cols-4 gap-1 px-2 py-1.5">
-            <li className="h-full">
-              <button type="button" onClick={openReservation} className={cn(itemBase, itemPrimary, "w-full")}>
-                <CalendarCheck aria-hidden />
-                {m.common.cta.reserveShort}
-              </button>
-            </li>
+            {/* La píldora roja era "Reservar". Sin reservas, la hereda la carta, que es la acción
+                que de verdad mueve a alguien a venir. Cuando ya estás EN la carta, la acción se
+                convierte en ubicación: manda el "estás aquí", que también es rojo y se pisarían. */}
             <li className="h-full">
               <Link
                 href={lp("/carta")}
                 aria-current={onMenu ? "page" : undefined}
-                className={cn(itemBase, onMenu ? itemHere : itemGhost)}
+                className={cn(itemBase, onMenu ? itemHere : itemPrimary, "w-full")}
               >
                 {onMenu && hereEdge}
                 <BookOpen aria-hidden />
@@ -117,6 +116,26 @@ export default function MobileStickyBar() {
                 <Navigation aria-hidden />
                 {m.common.cta.directionsShort}
               </a>
+            </li>
+            {/* En un local que no reserva, lo que hay que saber antes de coger el abrigo es si está
+                abierto. Ocupa el hueco que deja "Reservar" y reaprovecha el estado en vivo que ya
+                calcula el pie. */}
+            <li className="h-full">
+              <Link href={lp("/#experiencia")} className={cn(itemBase, itemGhost)} aria-label={status ? `${m.footer.hours}: ${status.label}` : m.footer.hours}>
+                <span className="relative">
+                  <Clock aria-hidden />
+                  {status && (
+                    <span
+                      aria-hidden
+                      className={cn(
+                        "absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full ring-2 ring-iron",
+                        status.isOpen ? "bg-emerald-400" : "bg-cream-faint",
+                      )}
+                    />
+                  )}
+                </span>
+                {m.footer.hours}
+              </Link>
             </li>
           </ul>
         </div>

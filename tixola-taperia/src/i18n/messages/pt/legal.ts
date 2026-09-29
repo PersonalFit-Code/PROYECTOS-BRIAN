@@ -29,15 +29,15 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Utilizamos cookies próprias necessárias ao funcionamento do site e, se as aceitar, cookies de análise para melhorar a experiência.",
+    text: "Usamos cookies próprias necessárias para que o site funcione. Só se aceitar carregamos o mapa do Google, que instala cookies próprias.",
     accept: "Aceitar todas",
     reject: "Só as necessárias",
     settings: "Configurar",
     save: "Guardar preferências",
     necessary: "Necessárias",
     necessaryDesc: "Imprescindíveis para que o site funcione (idioma, consentimento).",
-    analytics: "Análise",
-    analyticsDesc: "Ajudam-nos a perceber como o site é utilizado. Só com o seu consentimento.",
+    analytics: "Mapa e análise",
+    analyticsDesc: "Permitem carregar o mapa do Google na secção de localização e, se algum dia instalarmos uma ferramenta de medição, também essa. Só com o seu consentimento.",
     more: "Mais informação",
     aria: "Aviso de cookies",
     panelTitle: "Preferências de cookies",
@@ -47,7 +47,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidade",
     cookiesLink: "Política de cookies",
     saved: "Preferências guardadas.",
-    noAnalyticsYet: "Neste momento não está instalada nenhuma ferramenta de análise: a sua escolha aplicar-se-á se alguma vier a ser ativada.",
+    noAnalyticsYet: "Hoje esta opção afeta apenas o mapa do Google: não há nenhuma ferramenta de análise instalada. Se vier a ser instalada, seguirá esta mesma escolha.",
   },
 
   /* ── Páginas legais: cabeçalho, índice e rodapé ── */
@@ -72,9 +72,9 @@ const legal: LegalMessages = {
     /* ── Política de privacidade (RGPD + LOPDGDD) ── */
     privacy: {
       description:
-        "Como a Tixola Tapería (Ourense) trata os seus dados ao reservar por telefone ou WhatsApp, usar o empregado virtual ou navegar no site. Direitos e prazos.",
+        "Como a Tixola Tapería (Ourense) trata os seus dados quando nos escreve, usa o empregado virtual ou navega no site. Direitos e prazos.",
       intro:
-        "Na {tradeName} tratamos muito poucos dados e apenas os imprescindíveis: os que nos dá para reservar mesa, as perguntas que faz ao empregado virtual e a informação técnica mínima para que o site funcione. Aqui contamos-lhe, sem letras pequenas, o que fazemos com eles.",
+        "Na {tradeName} tratamos muito poucos dados e apenas os imprescindíveis: os que nos dá se nos ligar ou nos escrever, as perguntas que faz ao empregado virtual e a informação técnica mínima para que o site funcione. O site não tem formulários nem recolhe dados por si só. Aqui contamos-lhe, sem letras pequenas, o que fazemos com eles.",
       sections: [
         {
           id: "responsable",
@@ -106,8 +106,8 @@ const legal: LegalMessages = {
               type: "dl",
               items: [
                 {
-                  term: "Reservas e consultas",
-                  desc: "Nome, telefone, número de pessoas, data e hora, e os comentários que queira acrescentar (esplanada, celebração, alergias). O formulário de reserva do site **não envia nada para os nossos servidores**: compõe uma mensagem que se abre na sua própria aplicação de WhatsApp e que é você quem decide enviar.",
+                  term: "Consultas por telefone ou WhatsApp",
+                  desc: "O que decidir contar-nos quando nos liga ou nos escreve: normalmente o seu nome e o seu telefone. **O site não tem qualquer formulário**: as ligações de telefonar e de WhatsApp abrem a sua própria aplicação, pelo que nenhum dado passa pelos nossos servidores. Não aceitamos reservas, pelo que também não guardamos listas de nomes, datas nem horas.",
                 },
                 {
                   term: "Empregado virtual",
@@ -119,7 +119,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Alergias e intolerâncias",
-                  desc: "Se nos as comunicar ao reservar, usamo-las unicamente para preparar a sua visita e proteger a sua saúde. São dados de categoria especial (art. 9.º do RGPD) que tratamos com o seu consentimento explícito, manifestado ao fornecê-los, e que não conservamos para além do serviço.",
+                  desc: "Se nos as contar por telefone, por WhatsApp ou no próprio estabelecimento, usamo-las unicamente para lhe preparar o prato com segurança. São dados de categoria especial (art. 9.º do RGPD) que tratamos com o seu consentimento explícito, manifestado ao fornecê-los, e que não anotamos nem conservamos para além do serviço.",
                 },
               ],
             },
@@ -135,9 +135,9 @@ const legal: LegalMessages = {
               head: ["Finalidade", "Fundamento jurídico", "Conservação"],
               rows: [
                 [
-                  "Gerir a sua reserva e responder às suas consultas por telefone ou WhatsApp",
-                  "Execução de um contrato ou de diligências pré-contratuais a seu pedido (art. 6.º, n.º 1, al. b) do RGPD)",
-                  "Até à data da reserva; depois, a conversa é apagada periodicamente",
+                  "Responder às suas consultas por telefone ou WhatsApp",
+                  "O seu consentimento ao escrever-nos ou ligar-nos (art. 6.º, n.º 1, al. a) do RGPD)",
+                  "O tempo que durar a conversa; depois é apagada periodicamente",
                 ],
                 [
                   "Responder às suas perguntas através do empregado virtual",
@@ -178,7 +178,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "O empregado virtual é um assistente que responde sobre a ementa, os alergénios, o horário e as reservas. Para gerar cada resposta, as suas mensagens são enviadas, através do nosso servidor, à **Anthropic PBC**, fornecedora do modelo de linguagem Claude, que atua como subcontratante.",
+              text: "O empregado virtual é um assistente que responde sobre a ementa, os alergénios, o horário e como chegar. Para gerar cada resposta, as suas mensagens são enviadas, através do nosso servidor, à **Anthropic PBC**, fornecedora do modelo de linguagem Claude, que atua como subcontratante.",
             },
             {
               type: "ul",
@@ -277,7 +277,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "O site não se dirige a menores de 14 anos e não recolhemos conscientemente dados de menores. As reservas devem ser feitas por pessoas maiores de idade. Se detetarmos dados de um menor sem a autorização dos pais ou tutores, eliminá-los-emos.",
+              text: "O site não se dirige a menores de 14 anos e não recolhemos conscientemente dados de menores. Se detetarmos dados de um menor sem a autorização dos pais ou tutores, eliminá-los-emos.",
             },
           ],
         },
@@ -287,7 +287,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Aplicamos o princípio da minimização: o site não tem registo de utilizadores nem base de dados de clientes. Toda a comunicação circula cifrada (HTTPS), os fornecedores envolvidos oferecem garantias contratuais e técnicas adequadas, e o acesso às reservas recebidas está limitado ao pessoal do estabelecimento.",
+              text: "Aplicamos o princípio da minimização: o site não tem formulários, nem registo de utilizadores, nem base de dados de clientes. Toda a comunicação circula cifrada (HTTPS), os fornecedores envolvidos oferecem garantias contratuais e técnicas adequadas, e o acesso às mensagens recebidas está limitado ao pessoal do estabelecimento.",
             },
           ],
         },
@@ -341,14 +341,14 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Este site tem uma finalidade informativa: dar a conhecer o estabelecimento, a sua ementa, o seu horário e as suas vias de contacto, e facilitar a reserva de mesa por telefone ou WhatsApp. O acesso e a navegação atribuem a condição de pessoa utilizadora e implicam a aceitação deste Aviso legal, da [Política de privacidade](privacy) e da [Política de cookies](cookies).",
+              text: "Este site tem uma finalidade exclusivamente informativa: dar a conhecer o estabelecimento, a sua ementa, o seu horário e as suas vias de contacto. Não se vende nem se contrata nada através do site, nem se reservam mesas. O acesso e a navegação atribuem a condição de pessoa utilizadora e implicam a aceitação deste Aviso legal, da [Política de privacidade](privacy) e da [Política de cookies](cookies).",
             },
             {
               type: "ul",
               items: [
                 "A ementa, os preços e as harmonizações publicados são **indicativos** e podem variar consoante a época e a disponibilidade de produto. A ementa em vigor é a oferecida no estabelecimento.",
                 "O horário pode ser alterado em feriados, férias ou por motivos de força maior.",
-                "Uma reserva pedida por telefone ou WhatsApp só fica confirmada quando o estabelecimento a confirma expressamente.",
+                "O estabelecimento **não aceita reservas**: as mesas são ocupadas por ordem de chegada.",
               ],
             },
           ],
@@ -400,7 +400,7 @@ const legal: LegalMessages = {
                 "**Disponibilidade**: procuramos que o site funcione sem interrupções, mas não garantimos a sua disponibilidade permanente nem a ausência de erros. Não respondemos por danos decorrentes de interrupções, vírus ou falhas alheias ao nosso controlo.",
                 "**Conteúdos**: a informação é oferecida de boa-fé e revista periodicamente; ainda assim, pode conter erros tipográficos ou dados desatualizados (preços, horário, pratos). Reservamo-nos o direito de a alterar sem aviso prévio.",
                 "**Alergénios**: a informação sobre alergénios da ementa é indicativa. Na cozinha manipulam-se os 14 alergénios de declaração obrigatória (Regulamento (UE) n.º 1169/2011) e não podemos excluir vestígios. A informação válida e atualizada é a fornecida pelo pessoal no estabelecimento; consulte-a sempre antes de pedir.",
-                "**Empregado virtual**: as suas respostas são geradas por inteligência artificial e podem ser inexatas ou incompletas. Têm carácter meramente informativo e não substituem a confirmação do pessoal do estabelecimento, sobretudo em matéria de alergias, preços e reservas.",
+                "**Empregado virtual**: as suas respostas são geradas por inteligência artificial e podem ser inexatas ou incompletas. Têm carácter meramente informativo e não substituem a confirmação do pessoal do estabelecimento, sobretudo em matéria de alergias e preços.",
                 "**Ligações**: o site contém ligações para sites de terceiros (Google Maps, WhatsApp, TripAdvisor) sobre cujos conteúdos e políticas não temos controlo nem assumimos responsabilidade.",
               ],
             },
@@ -570,8 +570,8 @@ const legal: LegalMessages = {
         a: "O nosso horário habitual é: {hours}. Em feriados e férias pode variar: consulte o estado «Aberto agora» no site ou ligue-nos para o {phone}.",
       },
       {
-        q: "Como posso reservar mesa?",
-        a: "Reservamos por telefone ou WhatsApp através do {phone}; confirmamos na hora. Para grupos grandes recomendamos ligar com antecedência. A reserva fica confirmada quando lhe respondemos.",
+        q: "É preciso reservar mesa?",
+        a: "Não. Na Tixola não aceitamos reservas: as mesas são ocupadas por ordem de chegada, tanto no interior como na esplanada. Os melhores momentos para encontrar lugar são à hora de abrir, às 13:00 e às 20:00. Se forem um grupo grande, ligue-nos para o {phone} e dizemos-lhe qual a hora que mais lhe convém.",
       },
       {
         q: "Têm opções para celíacos e informação sobre alergénios?",
@@ -587,7 +587,7 @@ const legal: LegalMessages = {
       },
       {
         q: "Têm esplanada?",
-        a: "Sim, temos esplanada na própria Rúa Juan de Austria, com a igreja de Santa Eufemia ao fundo, e mantemo-la aberta todo o ano sempre que o tempo o permite. Se quiser mesa na esplanada, indique-o ao reservar.",
+        a: "Sim, temos esplanada na própria Rúa Juan de Austria, com a igreja de Santa Eufemia ao fundo, e mantemo-la aberta todo o ano sempre que o tempo o permite. As mesas da esplanada também são por ordem de chegada.",
       },
     ],
   },

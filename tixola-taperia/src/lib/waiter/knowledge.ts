@@ -221,13 +221,13 @@ export function renderKnowledge(k: WaiterKnowledge): string {
   out.push(`- "Tixola" significa sartén en gallego: las tixolas son sartenes de hierro fundido que llegan a la mesa chisporroteando.`);
   out.push(`- Dirección: ${b.address} · ${b.landmark}`);
   out.push(`- Teléfono: ${b.phone} · enlace para llamar: ${b.tel}`);
-  out.push(`- WhatsApp (reservas y consultas): ${b.whatsapp}`);
+  out.push(`- WhatsApp (consultas): ${b.whatsapp}`);
   out.push(`- Cómo llegar (Google Maps): ${b.directions}`);
   out.push(`- Web: ${b.website}`);
   out.push(`- Precio medio: ${b.priceRange} por persona (precios orientativos, IVA incluido)`);
   out.push(`- Valoraciones: ${b.ratings}`);
   out.push(`- Servicios: ${b.features.join(" · ")}`);
-  out.push("- Reservas: solo por teléfono o WhatsApp (no hay reserva online); grupos grandes mejor por teléfono");
+  out.push("- Reservas: NO se cogen reservas, ni online ni por teléfono; las mesas se ocupan por orden de llegada. Para grupos grandes conviene llamar antes solo para que les indiquen la mejor hora");
   out.push(`- Zona horaria: ${b.timezone}`, "");
 
   out.push("## Horario semanal");

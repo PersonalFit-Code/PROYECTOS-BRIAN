@@ -8,7 +8,6 @@ import { useChat } from "@/components/chat/ChatProvider";
 import DishSpotlight from "@/components/ui/DishSpotlight";
 import type { DishSlide } from "@/components/ui/DishVisual";
 import NeonButton from "@/components/ui/NeonButton";
-import { useReservation } from "@/components/ui/ReservationProvider";
 import type { AllergenId } from "@/data/allergens";
 import type { DietTag, MenuItem } from "@/data/menu";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
@@ -305,7 +304,6 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, he
   const [spotlight, setSpotlight] = useState<DishSlide | null>(null);
   const toSlide = useMenuItemSlide();
   const perf = usePerformanceTier();
-  const { open: openReservation } = useReservation();
   const openDish = useCallback((item: MenuItem, kicker: string) => setSpotlight(toSlide(item, kicker)), [toSlide]);
   const closeDish = useCallback(() => setSpotlight(null), []);
   const m = useMessages();
@@ -414,7 +412,6 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, he
       <DishSpotlight
         slide={spotlight}
         onClose={closeDish}
-        onReserve={openReservation}
         steam={perf.tier !== "low" && !perf.reducedMotion}
         showMenuLink={false}
       />

@@ -28,7 +28,6 @@ const nav = {
   mobileMenuAria: "Navigation menu",
   /** Kicker at the top of the mobile menu */
   kicker: "Tapas Bar · Wine Bar · Ourense",
-  reserveTable: "Book a table",
   language: {
     label: "Language",
     current: "Current language: {language}",

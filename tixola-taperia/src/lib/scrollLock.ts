@@ -1,7 +1,7 @@
 /**
  * Bloqueo de scroll del documento, CONTADO y compartido.
  *
- * Existe porque cinco paneles a pantalla completa (menú de la cabecera, modal de reserva, detalle de
+ * Existe porque los paneles a pantalla completa (menú de la cabecera, detalle de
  * plato, visor de la galería y leyenda de alérgenos) escribían y borraban el estado cada uno por su
  * cuenta, sin contador. Mientras no se solapen eso funciona; en cuanto dos coinciden, el interior borra
  * `data-scroll-lock` al cerrarse y el exterior se queda abierto SIN bloqueo: Lenis se rearranca y

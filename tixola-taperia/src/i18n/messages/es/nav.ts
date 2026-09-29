@@ -25,7 +25,6 @@ const nav = {
   mobileMenuAria: "Menú de navegación",
   /** Kicker que encabeza el menú móvil */
   kicker: "Tapería · Vinoteca · Ourense",
-  reserveTable: "Reservar mesa",
   language: {
     label: "Idioma",
     current: "Idioma actual: {language}",

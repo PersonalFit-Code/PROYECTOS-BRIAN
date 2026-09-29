@@ -17,8 +17,8 @@ const hero = {
   accent: "Heart",
   subtitle:
     "Iron skillets that reach the table still sizzling, homemade croquetas, octopus from the Galician rías and sharing plates to enjoy with a good local wine, one minute from the Cathedral.",
-  ctaPrimary: "Book a Table",
-  ctaSecondary: "See the Menu",
+  ctaPrimary: "See the menu",
+  ctaSecondary: "Get directions",
   scrollCue: "Discover the house",
   scrollCueAria: "Scroll down to the signature dishes",
   since: "Ourense old town",

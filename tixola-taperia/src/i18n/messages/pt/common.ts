@@ -2,7 +2,7 @@ import type esCommon from "@/i18n/messages/es/common";
 import type { Translation } from "./shape";
 
 /**
- * Textos partilhados por todo o site: marca, CTAs, dias, estado de abertura, modal de reserva.
+ * Textos partilhados por todo o site: marca, CTAs, dias, estado de abertura.
  * Os marcadores {assim} são preenchidos com useFormat(): t(m.common.cta.callNumber, { phone }).
  */
 const common = {
@@ -26,8 +26,6 @@ const common = {
     "onde comer em Ourense centro histórico",
   ],
   cta: {
-    reserve: "Reservar Mesa",
-    reserveShort: "Reservar",
     menu: "Ir para a Ementa",
     menuShort: "Ver Ementa",
     call: "Ligar",
@@ -60,6 +58,7 @@ const common = {
     quickActions: "Ações rápidas",
     optional: "opcional",
     newTab: "abre num novo separador",
+    noBooking: "Não aceitamos reservas: mesa por ordem de chegada.",
   },
   days: {
     mon: "Segunda-feira",
@@ -88,54 +87,6 @@ const common = {
     hours: "Horário",
   },
   /** Modal "Reserve a sua mesa" (chamada, WhatsApp e formulário → mensagem de WhatsApp). */
-  reservation: {
-    kicker: "Reservas",
-    title: "Reserve a sua",
-    accent: "mesa",
-    description: "Atendemos na hora por telefone ou WhatsApp.",
-    groups: "Grupos grandes (mais de {max}):",
-    groupsCall: "ligue-nos",
-    divider: "ou deixe-nos os seus dados",
-    fields: {
-      name: "Nome",
-      phone: "Telefone",
-      people: "Pessoas",
-      date: "Data",
-      time: "Hora",
-      comments: "Comentários",
-    },
-    placeholders: {
-      name: "Em nome de quem?",
-      phone: "6XX XX XX XX",
-      comments: "Esplanada, alergias, celebração…",
-    },
-    person: "pessoa",
-    people: "pessoas",
-    errors: {
-      nameRequired: "Diga-nos o seu nome para a reserva.",
-      nameShort: "Escreva pelo menos 2 letras.",
-      phoneRequired: "Precisamos de um telefone para lhe confirmar.",
-      phoneInvalid: "Verifique o número: 9 dígitos (ou com o indicativo +34).",
-      people: "Indique quantas pessoas são (1 a {max}).",
-      dateRequired: "Escolha o dia.",
-      datePast: "A data não pode ser anterior a hoje.",
-      time: "Indique uma hora aproximada.",
-      comments: "Máximo de {max} caracteres.",
-    },
-    submit: "Enviar pelo WhatsApp",
-    opened: "Abrimos o WhatsApp com a sua mensagem.",
-    openedFallback: "Se não abriu, clique aqui",
-    privacy: "Não guardamos os seus dados: a mensagem é enviada a partir do seu WhatsApp e confirmamos por aí.",
-    /** Linhas da mensagem de WhatsApp que o formulário compõe. */
-    message: {
-      intro: "Olá, sou {name}. Quero reservar mesa na {brand}.",
-      people: "Pessoas: {count} {unit}",
-      when: "Quando: {date} às {time}",
-      phone: "Telefone: {phone}",
-      notes: "Notas: {notes}",
-      outro: "Podem confirmar-me? Agradeço desde já!",
-    },
-  },
   notFound: {
     kicker: "404",
     title: "Esta mesa não existe",

@@ -36,6 +36,10 @@ const carta = {
   resultsUnitOne: "dish",
   resultsLive: "{count} dishes found",
   resultsRegion: "Menu dishes",
+  /* Nota corta para junto al precio grande de la ficha de plato: el art. 60.2.c TRLGDCU
+     pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
+     decirlo (en la carta sí estaba, en `priceNote`). */
+  vatIncluded: "VAT included",
   priceNote: "Prices are a guide and include VAT. Ask about today's board.",
 
   /* ── Filter panel ── */
@@ -99,7 +103,7 @@ const carta = {
   ctaTitle: "Feeling hungry?",
   ctaLead: "Feeling",
   ctaAccent: "hungry?",
-  ctaText: "Book a table or drop by for a few glasses of wine beside the Cathedral.",
+  ctaText: "No booking needed: drop by for a few glasses of wine beside the Cathedral and we'll seat you in turn.",
   seoTitle: "Tapas menu in Ourense: scallops and octopus",
   seoDescription: "Tapas, cast-iron tixolas, Galician scallops, octopus and homemade croquetas by Ourense Cathedral. Full menu with allergens and Galician wine pairings.",
 } satisfies Translation<typeof esCarta>;

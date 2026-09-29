@@ -33,6 +33,10 @@ const carta = {
   resultsUnitOne: "plato",
   resultsLive: "{count} platos encontrados",
   resultsRegion: "Platos de la carta",
+  /* Nota corta para junto al precio grande de la ficha de plato: el art. 60.2.c TRLGDCU
+     pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
+     decirlo (en la carta sí estaba, en `priceNote`). */
+  vatIncluded: "IVA incluido",
   priceNote: "Precios orientativos, IVA incluido. Pregunta por la pizarra del día.",
 
   /* ── Panel de filtros ── */
@@ -96,7 +100,7 @@ const carta = {
   ctaTitle: "¿Te ha entrado hambre?",
   ctaLead: "¿Te ha entrado",
   ctaAccent: "hambre?",
-  ctaText: "Reserva mesa o pásate a tomar unos viños junto a la Catedral.",
+  ctaText: "No hace falta reservar: pásate a tomar unos viños junto a la Catedral y te sentamos por orden de llegada.",
   /* ── SEO (metadatos de /carta; no se pintan en pantalla) ── */
   seoTitle: "Carta de tapas y zamburiñas en Ourense",
   seoDescription: "Tapas, tixolas de hierro, zamburiñas, pulpo y croquetas caseras junto a la Catedral de Ourense. Carta completa con alérgenos y maridajes de vino gallego.",

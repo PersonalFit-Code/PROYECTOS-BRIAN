@@ -43,7 +43,7 @@ const experience = {
     hoursCaption: "Horário semanal da {brand}",
     closed: "Fechado",
     note: "Horário segundo a nossa ficha do Google · Domingos fechado · Feriados: consulte-nos",
-    reserveHint: "Guardamos-lhe mesa?",
+    reserveHint: "Sem reservas: chegue e sente-se.",
   },
   map: {
     kicker: "Onde estamos",

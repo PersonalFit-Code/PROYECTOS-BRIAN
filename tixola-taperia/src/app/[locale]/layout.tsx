@@ -87,7 +87,10 @@ function restaurantJsonLd(locale: Locale, description: string) {
     priceRange: BUSINESS.priceRangeSchema,
     /* schema.org espera el vocabulario en inglés, no el idioma de la página. */
     servesCuisine: ["Galician", "Tapas", "Spanish"],
-    acceptsReservations: "True",
+    /* Tixola no coge reservas: es por orden de llegada. Este campo lo lee Google para decidir
+       si enseña un botón de "Reservar" en la ficha del negocio, así que dejarlo en "True" era
+       mandar gente a intentar algo que no existe. */
+    acceptsReservations: "False",
     image: [`${SITE_URL}/og.jpg`, `${SITE_URL}/images/terraza-catedral.jpg`, `${SITE_URL}/images/zamburinas-plancha.jpg`],
     address: {
       "@type": "PostalAddress",

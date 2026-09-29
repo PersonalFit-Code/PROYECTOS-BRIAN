@@ -311,7 +311,7 @@ body::before {
  * `ember-glow` reparte el alfa de pico y cae rápido (0,47 al 35 %, 0,17 al 62 %): es el sustituto honesto
  * de un `radial-gradient` que ya caía así. Pero seis sitios eran RELLENO MACIZO con `blur-3xl` —el
  * degradado rojo del pie del menú móvil, el del pie de página, el de las páginas legales, el del aviso de
- * cookies, el de las cuatro tarjetas de indicadores y el del modal de reserva—: ahí el original pintaba
+ * cookies y el de las cuatro tarjetas de indicadores—: ahí el original pintaba
  * la elipse entera a ese alfa y el desenfoque solo plumeaba el borde. Cambiarlos a `ember-glow` con el
  * MISMO pico multiplicaba por tres y medio la pérdida de luz y el resplandor rojo —el elemento de marca
  * más reconocible de la web, y está en el móvil Y en el pie— pasaba de un lavado claro a un rubor casi

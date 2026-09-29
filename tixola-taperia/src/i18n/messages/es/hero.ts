@@ -14,8 +14,8 @@ const hero = {
   accent: "Corazón",
   subtitle:
     "Tixolas de hierro que llegan chisporroteando, croquetas caseras, pulpo de la ría y raciones para compartir con un buen vino gallego, a un minuto de la Catedral.",
-  ctaPrimary: "Reservar Mesa",
-  ctaSecondary: "Ir a la Carta",
+  ctaPrimary: "Ver la carta",
+  ctaSecondary: "Cómo llegar",
   scrollCue: "Descubrir la casa",
   scrollCueAria: "Bajar a los platos estrella",
   since: "Casco histórico de Ourense",

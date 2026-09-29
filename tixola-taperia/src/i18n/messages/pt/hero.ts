@@ -17,8 +17,8 @@ const hero = {
   accent: "Coração",
   subtitle:
     "Tixolas de ferro que chegam à mesa a chiar, croquetes caseiros, polvo da ria e doses para partilhar com um bom vinho galego, a um minuto da Catedral.",
-  ctaPrimary: "Reservar Mesa",
-  ctaSecondary: "Ir para a Ementa",
+  ctaPrimary: "Ver a ementa",
+  ctaSecondary: "Como chegar",
   scrollCue: "Descobrir a casa",
   scrollCueAria: "Descer até aos pratos estrela",
   since: "Centro histórico de Ourense",

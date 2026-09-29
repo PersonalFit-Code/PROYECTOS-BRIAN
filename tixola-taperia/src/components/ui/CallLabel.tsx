@@ -12,7 +12,8 @@ import { useFormat } from "@/i18n/LocaleProvider";
  * que es ilegible y no parece un teléfono.
  *
  * Vive en su propio fichero porque el mismo botón sale en tres sitios (tarjeta de horario, modal de
- * reserva y cajón del menú móvil) y los tres se partían igual: un solo helper, un solo arreglo. Si la
+ * tarjeta de estado y cajón del menú móvil) y los tres se partían igual: un solo helper, un solo
+ * arreglo. Si la
  * plantilla no contuviera el número (no debería pasar), se devuelve el texto tal cual.
  */
 export default function CallLabel({ template, phone }: { template: string; phone: string }) {

@@ -79,15 +79,15 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Utilizamos cookies propias necesarias para el funcionamiento del sitio y, si lo aceptas, cookies de análisis para mejorar la experiencia.",
+    text: "Usamos cookies propias necesarias para que la web funcione. Solo si lo aceptas cargamos el mapa de Google, que instala cookies suyas.",
     accept: "Aceptar todas",
     reject: "Solo necesarias",
     settings: "Configurar",
     save: "Guardar preferencias",
     necessary: "Necesarias",
     necessaryDesc: "Imprescindibles para que la web funcione (idioma, consentimiento).",
-    analytics: "Analítica",
-    analyticsDesc: "Nos ayudan a entender cómo se usa la web. Solo con tu consentimiento.",
+    analytics: "Mapa y analítica",
+    analyticsDesc: "Permiten cargar el mapa de Google en la sección de ubicación y, si algún día instalamos una herramienta de medición, también esa. Solo con tu consentimiento.",
     more: "Más información",
     aria: "Aviso de cookies",
     panelTitle: "Preferencias de cookies",
@@ -97,7 +97,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidad",
     cookiesLink: "Política de cookies",
     saved: "Preferencias guardadas.",
-    noAnalyticsYet: "Ahora mismo no hay ninguna herramienta de analítica instalada: tu elección se aplicará si se activa en el futuro.",
+    noAnalyticsYet: "Hoy esta casilla solo afecta al mapa de Google: no hay ninguna herramienta de analítica instalada. Si se instala en el futuro, se regirá por esta misma elección.",
   },
 
   /* ── Páginas legales: cabecera, índice y pie ── */
@@ -122,9 +122,9 @@ const legal: LegalMessages = {
     /* ── Política de privacidad (RGPD + LOPDGDD) ── */
     privacy: {
       description:
-        "Cómo trata Tixola Tapería (Ourense) tus datos al reservar por teléfono o WhatsApp, usar el camarero virtual o navegar por la web. Derechos, plazos y encargados.",
+        "Cómo trata Tixola Tapería (Ourense) tus datos cuando nos escribes, usas el camarero virtual o navegas por la web. Derechos, plazos y encargados.",
       intro:
-        "En {tradeName} tratamos muy pocos datos y solo los imprescindibles: los que nos das para reservar mesa, las preguntas que le haces al camarero virtual y la información técnica mínima para que la web funcione. Aquí te contamos, sin letra pequeña, qué hacemos con ellos.",
+        "En {tradeName} tratamos muy pocos datos y solo los imprescindibles: los que nos das si nos llamas o nos escribes, las preguntas que le haces al camarero virtual y la información técnica mínima para que la web funcione. La web no tiene formularios ni recoge datos por sí sola. Aquí te contamos, sin letra pequeña, qué hacemos con ellos.",
       sections: [
         {
           id: "responsable",
@@ -156,8 +156,8 @@ const legal: LegalMessages = {
               type: "dl",
               items: [
                 {
-                  term: "Reservas y consultas",
-                  desc: "Nombre, teléfono, número de personas, fecha y hora, y los comentarios que quieras añadir (terraza, celebración, alergias). El formulario de reserva de la web **no envía nada a nuestros servidores**: compone un mensaje que se abre en tu propia aplicación de WhatsApp y que tú decides enviar.",
+                  term: "Consultas por teléfono o WhatsApp",
+                  desc: "Lo que tú decidas contarnos cuando nos llamas o nos escribes: normalmente tu nombre y tu teléfono. **La web no tiene ningún formulario**: los enlaces de llamar y de WhatsApp abren tu propia aplicación, así que ningún dato pasa por nuestros servidores. No cogemos reservas, así que tampoco guardamos listas de nombres, fechas ni horas.",
                 },
                 {
                   term: "Camarero virtual",
@@ -169,7 +169,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Alergias e intolerancias",
-                  desc: "Si nos las comunicas al reservar, las usamos únicamente para preparar tu visita y proteger tu salud. Son datos de categoría especial (art. 9 RGPD) que tratamos con tu consentimiento explícito, manifestado al facilitárnoslos, y que no conservamos más allá del servicio.",
+                  desc: "Si nos las cuentas por teléfono, por WhatsApp o en el propio local, las usamos únicamente para prepararte el plato con seguridad. Son datos de categoría especial (art. 9 RGPD) que tratamos con tu consentimiento explícito, manifestado al facilitárnoslos, y que no anotamos ni conservamos más allá del servicio.",
                 },
               ],
             },
@@ -185,9 +185,9 @@ const legal: LegalMessages = {
               head: ["Finalidad", "Base jurídica", "Conservación"],
               rows: [
                 [
-                  "Gestionar tu reserva y atender tus consultas por teléfono o WhatsApp",
-                  "Ejecución de un contrato o de medidas precontractuales a petición tuya (art. 6.1.b RGPD)",
-                  "Hasta la fecha de la reserva; después se borra la conversación de forma periódica",
+                  "Atender tus consultas por teléfono o WhatsApp",
+                  "Tu consentimiento al escribirnos o llamarnos (art. 6.1.a RGPD)",
+                  "Lo que dure la conversación; después se borra de forma periódica",
                 ],
                 [
                   "Responder a tus preguntas mediante el camarero virtual",
@@ -228,7 +228,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "El camarero virtual es un asistente que responde sobre la carta, los alérgenos, el horario y las reservas. Para generar cada respuesta, tus mensajes se envían a través de nuestro servidor a **Anthropic PBC**, proveedor del modelo de lenguaje Claude, que actúa como encargado del tratamiento.",
+              text: "El camarero virtual es un asistente que responde sobre la carta, los alérgenos, el horario y cómo llegar. Para generar cada respuesta, tus mensajes se envían a través de nuestro servidor a **Anthropic PBC**, proveedor del modelo de lenguaje Claude, que actúa como encargado del tratamiento.",
             },
             {
               type: "ul",
@@ -327,7 +327,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "La web no se dirige a menores de 14 años y no recabamos a sabiendas datos de menores. Las reservas deben realizarlas personas mayores de edad. Si detectamos datos de un menor sin la autorización de sus padres o tutores, los eliminaremos.",
+              text: "La web no se dirige a menores de 14 años y no recabamos a sabiendas datos de menores. Si detectamos datos de un menor sin la autorización de sus padres o tutores, los eliminaremos.",
             },
           ],
         },
@@ -337,7 +337,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Aplicamos el principio de minimización: la web no tiene registro de usuarios ni base de datos de clientes. Toda la comunicación viaja cifrada (HTTPS), los proveedores que intervienen ofrecen garantías contractuales y técnicas adecuadas, y el acceso a las reservas recibidas está limitado al personal del local.",
+              text: "Aplicamos el principio de minimización: la web no tiene formularios, ni registro de usuarios, ni base de datos de clientes. Toda la comunicación viaja cifrada (HTTPS), los proveedores que intervienen ofrecen garantías contractuales y técnicas adecuadas, y el acceso a los mensajes recibidos está limitado al personal del local.",
             },
           ],
         },
@@ -391,14 +391,14 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Este sitio web tiene una finalidad informativa: dar a conocer el local, su carta, su horario y sus vías de contacto, y facilitar la reserva de mesa por teléfono o WhatsApp. El acceso y la navegación atribuyen la condición de persona usuaria e implican la aceptación de este Aviso legal, de la [Política de privacidad](privacy) y de la [Política de cookies](cookies).",
+              text: "Este sitio web tiene una finalidad exclusivamente informativa: dar a conocer el local, su carta, su horario y sus vías de contacto. No se vende ni se contrata nada a través de la web, y tampoco se reservan mesas. El acceso y la navegación atribuyen la condición de persona usuaria e implican la aceptación de este Aviso legal, de la [Política de privacidad](privacy) y de la [Política de cookies](cookies).",
             },
             {
               type: "ul",
               items: [
                 "La carta, los precios y los maridajes publicados son **orientativos** y pueden variar según la temporada y la disponibilidad de producto. La carta vigente es la que se ofrece en el local.",
                 "El horario puede modificarse en festivos, vacaciones o por causas de fuerza mayor.",
-                "Una reserva solicitada por teléfono o WhatsApp solo queda confirmada cuando el local la confirma expresamente.",
+                "El local **no acepta reservas**: las mesas se ocupan por orden de llegada.",
               ],
             },
           ],
@@ -450,7 +450,7 @@ const legal: LegalMessages = {
                 "**Disponibilidad**: procuramos que la web funcione sin interrupciones, pero no garantizamos su disponibilidad permanente ni la ausencia de errores. No respondemos de los daños derivados de interrupciones, virus o fallos ajenos a nuestro control.",
                 "**Contenidos**: la información se ofrece de buena fe y se revisa periódicamente; no obstante, puede contener errores tipográficos o datos desactualizados (precios, horario, platos). Nos reservamos el derecho de modificarla sin previo aviso.",
                 "**Alérgenos**: la información sobre alérgenos de la carta es orientativa. En cocina se manipulan los 14 alérgenos de declaración obligatoria (Reglamento (UE) n.º 1169/2011) y no podemos descartar trazas. La información válida y actualizada es la que facilita el personal en el local; consúltala siempre antes de pedir.",
-                "**Camarero virtual**: sus respuestas se generan mediante inteligencia artificial y pueden ser inexactas o incompletas. Tienen carácter meramente informativo y no sustituyen la confirmación del personal del local, especialmente en materia de alergias, precios y reservas.",
+                "**Camarero virtual**: sus respuestas se generan mediante inteligencia artificial y pueden ser inexactas o incompletas. Tienen carácter meramente informativo y no sustituyen la confirmación del personal del local, especialmente en materia de alergias y precios.",
                 "**Enlaces**: la web contiene enlaces a sitios de terceros (Google Maps, WhatsApp, TripAdvisor) sobre cuyos contenidos y políticas no tenemos control ni asumimos responsabilidad.",
               ],
             },
@@ -620,8 +620,8 @@ const legal: LegalMessages = {
         a: "Nuestro horario habitual es: {hours}. En festivos y vacaciones puede variar: consulta el estado «Abierto ahora» de la web o llámanos al {phone}.",
       },
       {
-        q: "¿Cómo puedo reservar mesa?",
-        a: "Reservamos por teléfono o WhatsApp en el {phone}; te confirmamos al momento. Para grupos grandes te recomendamos llamar con antelación. La reserva queda confirmada cuando te respondemos.",
+        q: "¿Hace falta reservar mesa?",
+        a: "No. En Tixola no cogemos reservas: las mesas se ocupan por orden de llegada, tanto dentro como en la terraza. Los mejores momentos para encontrar sitio son al abrir, a las 13:00 y a las 20:00. Si sois un grupo grande, llámanos al {phone} y te decimos qué hora te conviene más.",
       },
       {
         q: "¿Tenéis opciones para celíacos e información de alérgenos?",
@@ -637,7 +637,7 @@ const legal: LegalMessages = {
       },
       {
         q: "¿Tenéis terraza?",
-        a: "Sí, tenemos terraza en la propia Rúa Juan de Austria, con la iglesia de Santa Eufemia al fondo, y la mantenemos abierta todo el año siempre que el tiempo lo permite. Si quieres mesa en la terraza, indícalo al reservar.",
+        a: "Sí, tenemos terraza en la propia Rúa Juan de Austria, con la iglesia de Santa Eufemia al fondo, y la mantenemos abierta todo el año siempre que el tiempo lo permite. Las mesas de terraza también son por orden de llegada.",
       },
     ],
   },

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/ui/Navbar";
-import { ReservationProvider } from "@/components/ui/ReservationProvider";
 import { ChatProvider } from "@/components/chat/ChatProvider";
 import MobileStickyBar from "@/components/ui/MobileStickyBar";
 import Footer from "@/components/sections/Footer";
@@ -73,15 +72,13 @@ export default async function LegalPage({ params }: { params: Promise<{ locale: 
 
   return (
     <ChatProvider page="legal">
-      <ReservationProvider>
-        <Navbar />
-        <main id="main" className="relative pt-[var(--header-h)]">
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbs) }} />
-          <LegalArticle docKey={key} />
-        </main>
-        <Footer year={new Date().getFullYear()} />
-        <MobileStickyBar />
-      </ReservationProvider>
+      <Navbar />
+      <main id="main" className="relative pt-[var(--header-h)]">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbs) }} />
+        <LegalArticle docKey={key} />
+      </main>
+      <Footer year={new Date().getFullYear()} />
+      <MobileStickyBar />
     </ChatProvider>
   );
 }

@@ -1,8 +1,7 @@
 "use client";
 
-import { CalendarCheck, MapPin, Phone } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 import NeonButton from "@/components/ui/NeonButton";
-import { useReservation } from "@/components/ui/ReservationProvider";
 import { BUSINESS } from "@/data/business";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -19,7 +18,6 @@ export interface CartaCtaProps {
 export default function CartaCta({ className }: CartaCtaProps) {
   const m = useMessages();
   const t = useFormat();
-  const { open } = useReservation();
 
   return (
     <section
@@ -46,10 +44,9 @@ export default function CartaCta({ className }: CartaCtaProps) {
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:max-w-md lg:justify-end">
-          <NeonButton variant="primary" size="lg" pulse icon={<CalendarCheck aria-hidden />} onClick={open}>
-            {m.common.cta.reserve}
-          </NeonButton>
-          <NeonButton variant="outline" size="lg" icon={<Phone aria-hidden />} href={BUSINESS.phone.tel} aria-label={t(m.common.cta.callNumber, { phone: BUSINESS.phone.display })}>
+          {/* Eran tres y el primero era "Reservar". Quedan dos para que el primario siga siendo uno
+              solo: llamar (lo que se hace cuando se quiere preguntar algo) y cómo llegar. */}
+          <NeonButton variant="primary" size="lg" pulse icon={<Phone aria-hidden />} href={BUSINESS.phone.tel} aria-label={t(m.common.cta.callNumber, { phone: BUSINESS.phone.display })}>
             {m.common.cta.call}
           </NeonButton>
           <NeonButton variant="outline" size="lg" icon={<MapPin aria-hidden />} href={BUSINESS.social.directions} target="_blank" aria-label={m.common.cta.directionsAria}>

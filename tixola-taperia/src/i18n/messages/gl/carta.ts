@@ -35,6 +35,10 @@ const carta: Section<"carta"> = {
   resultsUnitOne: "prato",
   resultsLive: "{count} pratos atopados",
   resultsRegion: "Pratos da carta",
+  /* Nota corta para junto al precio grande de la ficha de plato: el art. 60.2.c TRLGDCU
+     pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
+     decirlo (en la carta sí estaba, en `priceNote`). */
+  vatIncluded: "IVE incluído",
   priceNote: "Prezos orientativos, IVE incluído. Pregunta pola lousa do día.",
 
   /* ── Panel de filtros ── */
@@ -98,7 +102,7 @@ const carta: Section<"carta"> = {
   ctaTitle: "Entrouche a fame?",
   ctaLead: "Entrouche a",
   ctaAccent: "fame?",
-  ctaText: "Reserva mesa ou pásate a tomar uns viños á beira da Catedral.",
+  ctaText: "Non fai falta reservar: pásate a tomar uns viños á beira da Catedral e sentámoste por orde de chegada.",
   seoTitle: "Carta de tapas e zamburiñas en Ourense",
   seoDescription: "Tapas, tixolas de ferro, zamburiñas, polbo e croquetas caseiras xunto á Catedral de Ourense. Carta completa con alérxenos e maridaxes de viño galego.",
 };

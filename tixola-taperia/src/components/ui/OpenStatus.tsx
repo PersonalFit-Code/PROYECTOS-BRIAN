@@ -1,10 +1,9 @@
 "use client";
 
-import { CalendarCheck, Moon, Phone, Sun, Wine, type LucideIcon } from "lucide-react";
+import { Moon, Navigation, Phone, Sun, Wine, type LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import CallLabel from "@/components/ui/CallLabel";
 import NeonButton from "@/components/ui/NeonButton";
-import { useReservation } from "@/components/ui/ReservationProvider";
 import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import type { Messages } from "@/i18n/types";
@@ -103,7 +102,6 @@ export interface OpenStatusProps {
 export default function OpenStatus({ className }: OpenStatusProps) {
   const m = useMessages();
   const t = useFormat();
-  const { open: openReservation } = useReservation();
   const [status, setStatus] = useState<OpenStatusData | null>(null);
 
   useEffect(() => {
@@ -220,8 +218,8 @@ export default function OpenStatus({ className }: OpenStatusProps) {
             Entre 640 y 1024 px la tarjeta ocupa todo el contenedor y sí van en fila. Todo sin
             breakpoints: el propio flujo decide según el ancho real. */}
         <div className="mt-3 flex flex-wrap gap-3">
-          <NeonButton variant="primary" onClick={openReservation} icon={<CalendarCheck aria-hidden />} className="flex-auto">
-            {c.cta.reserve}
+          <NeonButton variant="primary" href={BUSINESS.social.directions} target="_blank" aria-label={c.cta.directionsAria} icon={<Navigation aria-hidden />} className="flex-auto">
+            {c.cta.directions}
           </NeonButton>
           <NeonButton variant="outline" href={BUSINESS.phone.tel} icon={<Phone aria-hidden />} className="flex-auto">
             <CallLabel template={c.cta.callNumber} phone={BUSINESS.phone.display} />

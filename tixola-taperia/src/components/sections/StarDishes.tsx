@@ -9,7 +9,6 @@ import type { DishCarousel3DProps } from "@/components/ui/DishCarousel3D";
 import DishSpotlight from "@/components/ui/DishSpotlight";
 import type { DishPhoto, DishSlide } from "@/components/ui/DishVisual";
 import NeonButton from "@/components/ui/NeonButton";
-import { useReservation } from "@/components/ui/ReservationProvider";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -67,7 +66,6 @@ export default function StarDishes() {
   const lp = useLocalePath();
   const { tier, reducedMotion } = usePerformanceTier();
   const fingerFirst = useFingerFirst();
-  const { open: openReservation } = useReservation();
 
   const sectionRef = useRef<HTMLElement>(null);
   useScrollReveal(sectionRef);
@@ -224,7 +222,7 @@ export default function StarDishes() {
       </div>
 
       {/* Detalle del plato (portal en <body>) */}
-      <DishSpotlight slide={spotlight} onClose={closeSpotlight} onReserve={openReservation} steam={steam} />
+      <DishSpotlight slide={spotlight} onClose={closeSpotlight} steam={steam} />
     </section>
   );
 }

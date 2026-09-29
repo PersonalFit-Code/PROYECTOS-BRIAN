@@ -13,7 +13,6 @@ import Logo from "@/components/ui/Logo";
 import NeonButton from "@/components/ui/NeonButton";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import FloatingWhatsApp from "@/components/ui/FloatingWhatsApp";
-import { useReservation } from "@/components/ui/ReservationProvider";
 import { useInertBackground } from "@/hooks/useInertBackground";
 import { useScrollPastPixels } from "@/hooks/useScrollPast";
 import { lockScroll } from "@/lib/scrollLock";
@@ -99,7 +98,8 @@ const itemVariants: Variants = {
  *    se convierte en una banda de hierro casi opaca con borde inferior (almacén único de scroll).
  *  - Logo grande que aprovecha el margen izquierdo (margen negativo en lg).
  *  - Enlaces centrales en Cinzel (lg+, etiquetas cortas) con resaltado de la sección visible (IntersectionObserver en "/").
- *  - Selector de idioma (md+), teléfono (icono en lg, número en xl) y CTA "Reservar" que abre el modal global.
+ *  - Selector de idioma (md+), teléfono (icono en lg, número en xl) y CTA que lleva a la carta (o a
+ *    cómo llegar cuando ya estás en ella).
  *  - Móvil y tablet (< lg): hamburguesa → menú a pantalla completa con chips de idioma, enlaces grandes escalonados,
  *    scroll bloqueado, cierre con Escape / navegación y foco atrapado dentro del panel.
  *  - Monta el botón flotante de WhatsApp como hermano de la cabecera (visible en todas las páginas).
@@ -110,8 +110,10 @@ export default function Navbar() {
   const lp = useLocalePath();
   const pathname = usePathname();
   const currentPath = stripLocale(pathname ?? "/").path;
+  /* En la propia carta, el CTA de la cabecera cambia: apuntar a la página en la que ya estás no
+     es una llamada a la acción, es un callejón sin salida. */
+  const onMenuPage = currentPath.startsWith("/carta");
   const isHome = currentPath === "/";
-  const { open: openReservation } = useReservation();
   const navItems = useNavItems();
 
   /* Scroll → barra sólida. Del almacén único de scroll: un listener y un rAF para toda la web en
@@ -194,10 +196,6 @@ export default function Navbar() {
   }, []);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
-  const reserveFromMenu = useCallback(() => {
-    setMenuOpen(false);
-    openReservation();
-  }, [openReservation]);
 
   const isActive = (href: string) => {
     const hash = hashOf(href);
@@ -289,10 +287,19 @@ export default function Navbar() {
               <Phone className="h-4 w-4 text-pimenton-light" aria-hidden />
               <span className="hidden tabular-nums xl:inline">{BUSINESS.phone.display}</span>
             </a>
+            {/* Era el botón de "Reservar". Sin reservas, el CTA de la cabecera es la carta; y cuando
+                ya estás EN la carta apunta a cómo llegar, para que nunca lleve a la página en la que
+                estás. */}
             <div className="hidden sm:block">
-              <NeonButton size="sm" pulse onClick={openReservation}>
-                {m.common.cta.reserveShort}
-              </NeonButton>
+              {onMenuPage ? (
+                <NeonButton size="sm" pulse href={BUSINESS.social.directions} target="_blank" aria-label={m.common.cta.directionsAria}>
+                  {m.common.cta.directions}
+                </NeonButton>
+              ) : (
+                <NeonButton size="sm" pulse href={lp("/carta")}>
+                  {m.common.cta.menuShort}
+                </NeonButton>
+              )}
             </div>
 
             {/* Hamburguesa */}
@@ -413,8 +420,8 @@ export default function Navbar() {
               </motion.div>
 
               <motion.div variants={itemVariants} className="mt-6 flex flex-col gap-3">
-                <NeonButton size="lg" pulse onClick={reserveFromMenu} className="w-full">
-                  {m.nav.reserveTable}
+                <NeonButton size="lg" pulse href={lp("/carta")} onClick={closeMenu} className="w-full">
+                  {m.common.cta.menu}
                 </NeonButton>
                 {/* `CallLabel`: en un teléfono de 320 px el botón a ancho completo no tiene sitio para
                     "Llamar al 646 45 72 74" en una línea, y sin el envoltorio el salto caía en medio del

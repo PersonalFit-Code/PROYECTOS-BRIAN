@@ -2,9 +2,8 @@
 
 import { useRef, useSyncExternalStore, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, CalendarCheck, Star } from "lucide-react";
+import { ArrowRight, Star, UtensilsCrossed } from "lucide-react";
 import NeonButton from "@/components/ui/NeonButton";
-import { useReservation } from "@/components/ui/ReservationProvider";
 import HeroCanvas, { HERO_PAN_HEIGHT, HERO_PAN_WIDTH } from "@/components/hero/HeroCanvas";
 import { useHeroStillVisible } from "@/components/scroll/HeroTransition";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
@@ -299,7 +298,6 @@ export default function Hero() {
   const profile = usePerformanceTier();
   const framerReduced = useReducedMotion();
   const reduced = Boolean(framerReduced) || profile.reducedMotion;
-  const { open } = useReservation();
 
   /**
    * En tier mid/high es `<HeroTransition />` (GSAP: pin + scrub) quien anima `[data-hero-canvas]` y
@@ -461,12 +459,24 @@ export default function Hero() {
               su propio aire: 32 px, que es lo que separaba al titular del párrafo más lo que el párrafo
               dejaba antes de las píldoras, para que el salto del titular a la acción no quede pegado. */}
           <motion.div {...fadeUp(afterHeadline + 0.12)} className="mt-8 flex items-stretch gap-2 sm:mt-6 sm:items-center sm:gap-3 lg:mt-9">
-            {/* `pulse={ambient}`: la animación del halo neón es `animate-neon-pulse`, un bucle CSS infinito sobre
-                una sombra difusa. Se apaga cuando la portada deja de verse. */}
-            <NeonButton variant="primary" size="lg" pulse={ambient} onClick={open} icon={<CalendarCheck aria-hidden />} className={HERO_CTA}>
+            {/* El primario abría el formulario de reservas. Tixola no coge reservas, así que la
+                acción más valiosa que queda es la que despierta el hambre: la carta. El secundario
+                deja de duplicarla y pasa a resolver la otra pregunta de quien ya se ha decidido,
+                que es dónde está.
+                `pulse={ambient}`: la animación del halo neón es `animate-neon-pulse`, un bucle CSS
+                infinito sobre una sombra difusa. Se apaga cuando la portada deja de verse. */}
+            <NeonButton variant="primary" size="lg" pulse={ambient} href={lp("/carta")} icon={<UtensilsCrossed aria-hidden />} className={HERO_CTA}>
               {m.hero.ctaPrimary}
             </NeonButton>
-            <NeonButton variant="outline" size="lg" href={lp("/carta")} iconRight={<ArrowRight aria-hidden />} className={HERO_CTA}>
+            <NeonButton
+              variant="outline"
+              size="lg"
+              href={BUSINESS.social.directions}
+              target="_blank"
+              aria-label={m.common.cta.directionsAria}
+              iconRight={<ArrowRight aria-hidden />}
+              className={HERO_CTA}
+            >
               {m.hero.ctaSecondary}
             </NeonButton>
           </motion.div>

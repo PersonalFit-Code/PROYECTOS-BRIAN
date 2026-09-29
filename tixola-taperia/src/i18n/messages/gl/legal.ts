@@ -28,15 +28,15 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Utilizamos cookies propias necesarias para o funcionamento do sitio e, se o aceptas, cookies de análise para mellorar a experiencia.",
+    text: "Usamos cookies propias necesarias para que a web funcione. Só se o aceptas cargamos o mapa de Google, que instala cookies súas.",
     accept: "Aceptar todas",
     reject: "Só as necesarias",
     settings: "Configurar",
     save: "Gardar as preferencias",
     necessary: "Necesarias",
     necessaryDesc: "Imprescindibles para que a web funcione (idioma, consentimento).",
-    analytics: "Analítica",
-    analyticsDesc: "Axúdannos a entender como se usa a web. Só co teu consentimento.",
+    analytics: "Mapa e analítica",
+    analyticsDesc: "Permiten cargar o mapa de Google na sección de localización e, se algún día instalamos unha ferramenta de medición, tamén esa. Só co teu consentimento.",
     more: "Máis información",
     aria: "Aviso de cookies",
     panelTitle: "Preferencias de cookies",
@@ -46,7 +46,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidade",
     cookiesLink: "Política de cookies",
     saved: "Preferencias gardadas.",
-    noAnalyticsYet: "Agora mesmo non hai ningunha ferramenta de analítica instalada: a túa elección aplicarase se se activa no futuro.",
+    noAnalyticsYet: "Hoxe esta caixa só afecta ao mapa de Google: non hai ningunha ferramenta de analítica instalada. Se se instala no futuro, rexerase por esta mesma elección.",
   },
 
   /* ── Páxinas legais: cabeceira, índice e pé ── */
@@ -71,9 +71,9 @@ const legal: LegalMessages = {
     /* ── Política de privacidade (RXPD + LOPDGDD) ── */
     privacy: {
       description:
-        "Como trata Tixola Tapería (Ourense) os teus datos ao reservar por teléfono ou WhatsApp, usar o camareiro virtual ou navegar pola web. Dereitos e prazos.",
+        "Como trata Tixola Tapería (Ourense) os teus datos cando nos escribes, usas o camareiro virtual ou navegas pola web. Dereitos e prazos.",
       intro:
-        "En {tradeName} tratamos moi poucos datos e só os imprescindibles: os que nos dás para reservar mesa, as preguntas que lle fas ao camareiro virtual e a información técnica mínima para que a web funcione. Aquí contámosche, sen letra pequena, que facemos con eles.",
+        "En {tradeName} tratamos moi poucos datos e só os imprescindibles: os que nos dás se nos chamas ou nos escribes, as preguntas que lle fas ao camareiro virtual e a información técnica mínima para que a web funcione. A web non ten formularios nin recolle datos por si soa. Aquí contámosche, sen letra pequena, que facemos con eles.",
       sections: [
         {
           id: "responsable",
@@ -105,8 +105,8 @@ const legal: LegalMessages = {
               type: "dl",
               items: [
                 {
-                  term: "Reservas e consultas",
-                  desc: "Nome, teléfono, número de persoas, data e hora, e os comentarios que queiras engadir (terraza, celebración, alerxias). O formulario de reserva da web **non envía nada aos nosos servidores**: compón unha mensaxe que se abre na túa propia aplicación de WhatsApp e que ti decides enviar.",
+                  term: "Consultas por teléfono ou WhatsApp",
+                  desc: "O que ti decidas contarnos cando nos chamas ou nos escribes: normalmente o teu nome e o teu teléfono. **A web non ten ningún formulario**: as ligazóns de chamar e de WhatsApp abren a túa propia aplicación, así que ningún dato pasa polos nosos servidores. Non collemos reservas, así que tampouco gardamos listas de nomes, datas nin horas.",
                 },
                 {
                   term: "Camareiro virtual",
@@ -118,7 +118,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Alerxias e intolerancias",
-                  desc: "Se nolas comunicas ao reservar, usámolas unicamente para preparar a túa visita e protexer a túa saúde. Son datos de categoría especial (art. 9 RXPD) que tratamos co teu consentimento explícito, manifestado ao facilitárnolos, e que non conservamos máis alá do servizo.",
+                  desc: "Se nolas contas por teléfono, por WhatsApp ou no propio local, usámolas unicamente para prepararche o prato con seguridade. Son datos de categoría especial (art. 9 RXPD) que tratamos co teu consentimento explícito, manifestado ao facilitárnolos, e que non anotamos nin conservamos máis alá do servizo.",
                 },
               ],
             },
@@ -134,9 +134,9 @@ const legal: LegalMessages = {
               head: ["Finalidade", "Base xurídica", "Conservación"],
               rows: [
                 [
-                  "Xestionar a túa reserva e atender as túas consultas por teléfono ou WhatsApp",
-                  "Execución dun contrato ou de medidas precontractuais a petición túa (art. 6.1.b RXPD)",
-                  "Ata a data da reserva; despois bórrase a conversa de forma periódica",
+                  "Atender as túas consultas por teléfono ou WhatsApp",
+                  "O teu consentimento ao escribirnos ou chamarnos (art. 6.1.a RXPD)",
+                  "O que dure a conversa; despois bórrase de forma periódica",
                 ],
                 [
                   "Responder ás túas preguntas mediante o camareiro virtual",
@@ -177,7 +177,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "O camareiro virtual é un asistente que responde sobre a carta, os alérxenos, o horario e as reservas. Para xerar cada resposta, as túas mensaxes envíanse a través do noso servidor a **Anthropic PBC**, provedor do modelo de linguaxe Claude, que actúa como encargado do tratamento.",
+              text: "O camareiro virtual é un asistente que responde sobre a carta, os alérxenos, o horario e como chegar. Para xerar cada resposta, as túas mensaxes envíanse a través do noso servidor a **Anthropic PBC**, provedor do modelo de linguaxe Claude, que actúa como encargado do tratamento.",
             },
             {
               type: "ul",
@@ -276,7 +276,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "A web non se dirixe a menores de 14 anos e non recollemos a sabendas datos de menores. As reservas deben facelas persoas maiores de idade. Se detectamos datos dun menor sen a autorización dos seus pais ou titores, eliminarémolos.",
+              text: "A web non se dirixe a menores de 14 anos e non recollemos a sabendas datos de menores. Se detectamos datos dun menor sen a autorización dos seus pais ou titores, eliminarémolos.",
             },
           ],
         },
@@ -286,7 +286,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Aplicamos o principio de minimización: a web non ten rexistro de usuarios nin base de datos de clientes. Toda a comunicación viaxa cifrada (HTTPS), os provedores que interveñen ofrecen garantías contractuais e técnicas adecuadas, e o acceso ás reservas recibidas está limitado ao persoal do local.",
+              text: "Aplicamos o principio de minimización: a web non ten formularios, nin rexistro de usuarios, nin base de datos de clientes. Toda a comunicación viaxa cifrada (HTTPS), os provedores que interveñen ofrecen garantías contractuais e técnicas adecuadas, e o acceso ás mensaxes recibidas está limitado ao persoal do local.",
             },
           ],
         },
@@ -340,14 +340,14 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Este sitio web ten unha finalidade informativa: dar a coñecer o local, a súa carta, o seu horario e as súas vías de contacto, e facilitar a reserva de mesa por teléfono ou WhatsApp. O acceso e a navegación atribúen a condición de persoa usuaria e implican a aceptación deste Aviso legal, da [Política de privacidade](privacy) e da [Política de cookies](cookies).",
+              text: "Este sitio web ten unha finalidade exclusivamente informativa: dar a coñecer o local, a súa carta, o seu horario e as súas vías de contacto. Non se vende nin se contrata nada a través da web, e tampouco se reservan mesas. O acceso e a navegación atribúen a condición de persoa usuaria e implican a aceptación deste Aviso legal, da [Política de privacidade](privacy) e da [Política de cookies](cookies).",
             },
             {
               type: "ul",
               items: [
                 "A carta, os prezos e as maridaxes publicados son **orientativos** e poden variar segundo a tempada e a dispoñibilidade de produto. A carta vixente é a que se ofrece no local.",
                 "O horario pode modificarse en festivos, vacacións ou por causas de forza maior.",
-                "Unha reserva solicitada por teléfono ou WhatsApp só queda confirmada cando o local a confirma expresamente.",
+                "O local **non acepta reservas**: as mesas ocúpanse por orde de chegada.",
               ],
             },
           ],
@@ -399,7 +399,7 @@ const legal: LegalMessages = {
                 "**Dispoñibilidade**: procuramos que a web funcione sen interrupcións, pero non garantimos a súa dispoñibilidade permanente nin a ausencia de erros. Non respondemos dos danos derivados de interrupcións, virus ou fallos alleos ao noso control.",
                 "**Contidos**: a información ofrécese de boa fe e revísase periodicamente; non obstante, pode conter erros tipográficos ou datos desactualizados (prezos, horario, pratos). Reservámonos o dereito de modificala sen aviso previo.",
                 "**Alérxenos**: a información sobre alérxenos da carta é orientativa. En cociña manipúlanse os 14 alérxenos de declaración obrigatoria (Regulamento (UE) n.º 1169/2011) e non podemos descartar trazas. A información válida e actualizada é a que facilita o persoal no local; consúltaa sempre antes de pedir.",
-                "**Camareiro virtual**: as súas respostas xéranse mediante intelixencia artificial e poden ser inexactas ou incompletas. Teñen carácter meramente informativo e non substitúen a confirmación do persoal do local, especialmente en materia de alerxias, prezos e reservas.",
+                "**Camareiro virtual**: as súas respostas xéranse mediante intelixencia artificial e poden ser inexactas ou incompletas. Teñen carácter meramente informativo e non substitúen a confirmación do persoal do local, especialmente en materia de alerxias e prezos.",
                 "**Ligazóns**: a web contén ligazóns a sitios de terceiros (Google Maps, WhatsApp, TripAdvisor) sobre cuxos contidos e políticas non temos control nin asumimos responsabilidade.",
               ],
             },
@@ -569,8 +569,8 @@ const legal: LegalMessages = {
         a: "O noso horario habitual é: {hours}. En festivos e vacacións pode variar: consulta o estado «Aberto agora» da web ou chámanos ao {phone}.",
       },
       {
-        q: "Como podo reservar mesa?",
-        a: "Reservamos por teléfono ou WhatsApp no {phone}; confirmámosche de contado. Para grupos grandes recomendámosche chamar con antelación. A reserva queda confirmada cando che respondemos.",
+        q: "Fai falta reservar mesa?",
+        a: "Non. En Tixola non collemos reservas: as mesas ocúpanse por orde de chegada, tanto dentro como na terraza. Os mellores momentos para atopar sitio son ao abrir, ás 13:00 e ás 20:00. Se sodes un grupo grande, chámanos ao {phone} e dicímosche que hora che convén máis.",
       },
       {
         q: "Tedes opcións para celíacos e información de alérxenos?",
@@ -586,7 +586,7 @@ const legal: LegalMessages = {
       },
       {
         q: "Tedes terraza?",
-        a: "Si, temos terraza na propia Rúa Juan de Austria, coa igrexa de Santa Eufemia ao fondo, e mantémola aberta todo o ano sempre que o tempo o permite. Se queres mesa na terraza, indícao ao reservar.",
+        a: "Si, temos terraza na propia Rúa Juan de Austria, coa igrexa de Santa Eufemia ao fondo, e mantémola aberta todo o ano sempre que o tempo o permite. As mesas da terraza tamén son por orde de chegada.",
       },
     ],
   },

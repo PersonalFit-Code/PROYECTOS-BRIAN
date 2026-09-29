@@ -1,5 +1,5 @@
 /**
- * Textos compartidos por toda la web: marca, CTAs, días, estado de apertura, modal de reserva.
+ * Textos compartidos por toda la web: marca, CTAs, días, estado de apertura.
  * Los marcadores {así} se rellenan con useFormat(): t(m.common.cta.callNumber, { phone }).
  */
 const common = {
@@ -24,8 +24,6 @@ const common = {
     "tapas Ourense casco histórico",
   ],
   cta: {
-    reserve: "Reservar Mesa",
-    reserveShort: "Reservar",
     menu: "Ir a la Carta",
     menuShort: "Ver Carta",
     call: "Llamar",
@@ -58,6 +56,9 @@ const common = {
     quickActions: "Acciones rápidas",
     optional: "opcional",
     newTab: "se abre en una pestaña nueva",
+    /* Tixola no coge reservas: es por orden de llegada. Una sola frase para el pie, la
+       tarjeta de "ahora mismo" y las preguntas frecuentes, para que no se contradigan. */
+    noBooking: "No cogemos reservas: mesa por orden de llegada.",
   },
   days: {
     mon: "Lunes",
@@ -86,54 +87,6 @@ const common = {
     hours: "Horario",
   },
   /** Modal "Reserva tu mesa" (llamada, WhatsApp y formulario → mensaje de WhatsApp). */
-  reservation: {
-    kicker: "Reservas",
-    title: "Reserva tu",
-    accent: "mesa",
-    description: "Te atendemos al momento por teléfono o WhatsApp.",
-    groups: "Grupos grandes (más de {max}):",
-    groupsCall: "llámanos",
-    divider: "o déjanos los datos",
-    fields: {
-      name: "Nombre",
-      phone: "Teléfono",
-      people: "Personas",
-      date: "Fecha",
-      time: "Hora",
-      comments: "Comentarios",
-    },
-    placeholders: {
-      name: "¿A nombre de quién?",
-      phone: "6XX XX XX XX",
-      comments: "Terraza, alergias, celebración…",
-    },
-    person: "persona",
-    people: "personas",
-    errors: {
-      nameRequired: "Dinos tu nombre para la reserva.",
-      nameShort: "Escribe al menos 2 letras.",
-      phoneRequired: "Necesitamos un teléfono para confirmarte.",
-      phoneInvalid: "Revisa el número: 9 dígitos (o con prefijo +34).",
-      people: "Indica cuántas personas venís (1 a {max}).",
-      dateRequired: "Elige el día.",
-      datePast: "La fecha no puede ser anterior a hoy.",
-      time: "Indica una hora aproximada.",
-      comments: "Máximo {max} caracteres.",
-    },
-    submit: "Enviar por WhatsApp",
-    opened: "Hemos abierto WhatsApp con tu mensaje.",
-    openedFallback: "Si no se ha abierto, pulsa aquí",
-    privacy: "No guardamos tus datos: el mensaje se envía desde tu WhatsApp y os confirmamos por ahí.",
-    /** Líneas del mensaje de WhatsApp que compone el formulario. */
-    message: {
-      intro: "Hola, soy {name}. Quiero reservar mesa en {brand}.",
-      people: "Personas: {count} {unit}",
-      when: "Cuándo: {date} a las {time}",
-      phone: "Teléfono: {phone}",
-      notes: "Notas: {notes}",
-      outro: "¿Me confirmáis? ¡Gracias!",
-    },
-  },
   /** Página 404 dentro de un idioma válido (slug legal desconocido, enlace roto). */
   notFound: {
     kicker: "404",

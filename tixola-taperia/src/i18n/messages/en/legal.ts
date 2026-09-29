@@ -27,15 +27,15 @@ const legal: LegalMessages = {
   /* ── Cookie banner ── */
   banner: {
     title: "We use cookies",
-    text: "We use our own necessary cookies to make the site work and, if you accept them, analytics cookies to improve your experience.",
+    text: "We use our own necessary cookies to make the site work. Only if you accept do we load the Google map, which sets its own cookies.",
     accept: "Accept all",
     reject: "Necessary only",
     settings: "Customise",
     save: "Save preferences",
     necessary: "Necessary",
     necessaryDesc: "Essential for the website to work (language, consent).",
-    analytics: "Analytics",
-    analyticsDesc: "Help us understand how the site is used. Only with your consent.",
+    analytics: "Map and analytics",
+    analyticsDesc: "Allow the Google map to load in the location section and, if we ever install a measurement tool, that too. Only with your consent.",
     more: "More information",
     aria: "Cookie notice",
     panelTitle: "Cookie preferences",
@@ -45,7 +45,7 @@ const legal: LegalMessages = {
     privacyLink: "Privacy policy",
     cookiesLink: "Cookie policy",
     saved: "Preferences saved.",
-    noAnalyticsYet: "No analytics tool is currently installed: your choice will apply if one is enabled in the future.",
+    noAnalyticsYet: "Today this switch only affects the Google map: no analytics tool is installed. If one is added later, it will follow this same choice.",
   },
 
   /* ── Legal pages: header, contents and footer ── */
@@ -70,9 +70,9 @@ const legal: LegalMessages = {
     /* ── Privacy policy (GDPR + LOPDGDD) ── */
     privacy: {
       description:
-        "How Tixola Tapería (Ourense) handles your data when you book by phone or WhatsApp, use the virtual waiter or browse the site: rights, retention, processors.",
+        "How Tixola Tapería (Ourense) handles your data when you get in touch, use the virtual waiter or browse the site: rights, retention, processors.",
       intro:
-        "At {tradeName} we process very little data, and only what is strictly necessary: the details you give us to book a table, the questions you ask the virtual waiter and the minimum technical information needed to make the website work. Here, with no small print, is what we do with it.",
+        "At {tradeName} we process very little data, and only what is strictly necessary: whatever you give us when you call or message us, the questions you ask the virtual waiter and the minimum technical information needed to make the website work. The website has no forms and collects nothing by itself. Here, with no small print, is what we do with it.",
       sections: [
         {
           id: "responsable",
@@ -104,8 +104,8 @@ const legal: LegalMessages = {
               type: "dl",
               items: [
                 {
-                  term: "Bookings and enquiries",
-                  desc: "Name, telephone number, number of guests, date and time, and any comments you wish to add (terrace, celebration, allergies). The website's booking form **sends nothing to our servers**: it composes a message that opens in your own WhatsApp app, and you decide whether to send it.",
+                  term: "Enquiries by phone or WhatsApp",
+                  desc: "Whatever you choose to tell us when you call or message us: usually your name and your phone number. **The website has no forms at all**: the call and WhatsApp links open your own app, so no data passes through our servers. We do not take bookings, so we keep no lists of names, dates or times either.",
                 },
                 {
                   term: "Virtual waiter",
@@ -117,7 +117,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Allergies and intolerances",
-                  desc: "If you tell us about them when booking, we use them solely to prepare for your visit and protect your health. This is special-category data (Art. 9 GDPR) that we process with your explicit consent, given when you provide it, and that we do not keep beyond the service.",
+                  desc: "If you tell us about them by phone, on WhatsApp or here on the premises, we use them solely to prepare your dish safely. This is special-category data (Art. 9 GDPR) that we process with your explicit consent, given when you provide it, and that we neither write down nor keep beyond the service.",
                 },
               ],
             },
@@ -133,9 +133,9 @@ const legal: LegalMessages = {
               head: ["Purpose", "Legal basis", "Retention"],
               rows: [
                 [
-                  "Managing your booking and handling your enquiries by phone or WhatsApp",
-                  "Performance of a contract or of pre-contractual steps taken at your request (Art. 6(1)(b) GDPR)",
-                  "Until the date of the booking; the conversation is then deleted periodically",
+                  "Handling your enquiries by phone or WhatsApp",
+                  "Your consent when you message or call us (Art. 6(1)(a) GDPR)",
+                  "For as long as the conversation lasts; it is then deleted periodically",
                 ],
                 [
                   "Answering your questions through the virtual waiter",
@@ -176,7 +176,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "The virtual waiter is an assistant that answers questions about the menu, allergens, opening hours and bookings. To generate each reply, your messages are sent via our server to **Anthropic PBC**, the provider of the Claude language model, which acts as a data processor.",
+              text: "The virtual waiter is an assistant that answers questions about the menu, allergens, opening hours and how to find us. To generate each reply, your messages are sent via our server to **Anthropic PBC**, the provider of the Claude language model, which acts as a data processor.",
             },
             {
               type: "ul",
@@ -275,7 +275,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "The website is not aimed at children under 14, and we do not knowingly collect data from minors. Bookings must be made by adults. If we detect data from a minor without the authorisation of their parents or guardians, we will delete it.",
+              text: "The website is not aimed at children under 14, and we do not knowingly collect data from minors. If we detect data from a minor without the authorisation of their parents or guardians, we will delete it.",
             },
           ],
         },
@@ -285,7 +285,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "We apply the principle of data minimisation: the website has no user accounts and no customer database. All communication is encrypted (HTTPS), the providers involved offer appropriate contractual and technical guarantees, and access to the bookings we receive is restricted to the restaurant's staff.",
+              text: "We apply the principle of data minimisation: the website has no forms, no user accounts and no customer database. All communication is encrypted (HTTPS), the providers involved offer appropriate contractual and technical guarantees, and access to the messages we receive is restricted to the restaurant's staff.",
             },
           ],
         },
@@ -339,14 +339,14 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "This website is for information purposes: to present the restaurant, its menu, opening hours and contact channels, and to make it easy to book a table by phone or WhatsApp. Accessing and browsing the site makes you a user and implies acceptance of this Legal notice, the [Privacy policy](privacy) and the [Cookie policy](cookies).",
+              text: "This website is for information purposes only: to present the restaurant, its menu, opening hours and contact channels. Nothing is sold or contracted through the site, and no tables are booked through it either. Accessing and browsing the site makes you a user and implies acceptance of this Legal notice, the [Privacy policy](privacy) and the [Cookie policy](cookies).",
             },
             {
               type: "ul",
               items: [
                 "The menu, prices and wine pairings published here are **for guidance** and may vary with the season and product availability. The menu in force is the one offered on the premises.",
                 "Opening hours may change on public holidays, during holiday periods or due to force majeure.",
-                "A booking requested by phone or WhatsApp is only confirmed once the restaurant expressly confirms it.",
+                "The restaurant **does not take bookings**: tables are available on a first-come, first-served basis.",
               ],
             },
           ],
@@ -398,7 +398,7 @@ const legal: LegalMessages = {
                 "**Availability**: we strive to keep the website running without interruption, but we do not guarantee its permanent availability or the absence of errors. We are not liable for damage arising from interruptions, viruses or failures beyond our control.",
                 "**Content**: the information is provided in good faith and reviewed periodically; nevertheless, it may contain typographical errors or out-of-date details (prices, opening hours, dishes). We reserve the right to change it without prior notice.",
                 "**Allergens**: the allergen information on the menu is for guidance. Our kitchen handles all 14 allergens subject to mandatory declaration (Regulation (EU) No 1169/2011) and we cannot rule out traces. The valid, up-to-date information is that provided by our staff on the premises; always check with them before ordering.",
-                "**Virtual waiter**: its replies are generated by artificial intelligence and may be inaccurate or incomplete. They are for information only and do not replace confirmation by the restaurant's staff, especially regarding allergies, prices and bookings.",
+                "**Virtual waiter**: its replies are generated by artificial intelligence and may be inaccurate or incomplete. They are for information only and do not replace confirmation by the restaurant's staff, especially regarding allergies and prices.",
                 "**Links**: the website contains links to third-party sites (Google Maps, WhatsApp, TripAdvisor) over whose content and policies we have no control and accept no responsibility.",
               ],
             },
@@ -568,8 +568,8 @@ const legal: LegalMessages = {
         a: "Our usual opening hours are: {hours}. They may vary on public holidays and during holiday periods: check the “Open now” status on the website or call us on {phone}.",
       },
       {
-        q: "How can I book a table?",
-        a: "We take bookings by phone or WhatsApp on {phone}, and confirm straight away. For large groups we recommend calling ahead. A booking is confirmed once we reply to you.",
+        q: "Do I need to book a table?",
+        a: "No. At Tixola we don't take bookings: tables are first come, first served, both inside and on the terrace. The best times to find one are right when we open, at 13:00 and at 20:00. If you're a large group, give us a call on {phone} and we'll tell you which time suits you best.",
       },
       {
         q: "Do you have coeliac-friendly options and allergen information?",
@@ -585,7 +585,7 @@ const legal: LegalMessages = {
       },
       {
         q: "Do you have a terrace?",
-        a: "Yes, we have a terrace right on Rúa Juan de Austria, with the church of Santa Eufemia in the background, and we keep it open all year round whenever the weather allows. If you'd like a table on the terrace, let us know when you book.",
+        a: "Yes, we have a terrace right on Rúa Juan de Austria, with the church of Santa Eufemia in the background, and we keep it open all year round whenever the weather allows. Terrace tables are first come, first served too.",
       },
     ],
   },

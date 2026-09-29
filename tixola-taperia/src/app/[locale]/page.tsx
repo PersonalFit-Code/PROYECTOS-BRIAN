@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom";
 import Navbar from "@/components/ui/Navbar";
-import { ReservationProvider } from "@/components/ui/ReservationProvider";
 import { ChatProvider } from "@/components/chat/ChatProvider";
 import MobileStickyBar from "@/components/ui/MobileStickyBar";
 import Hero from "@/components/sections/Hero";
@@ -34,31 +33,29 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <ChatProvider page="home">
-      <ReservationProvider>
-        <Navbar />
-        <main id="main" className="relative">
-          <SmoothScrollProvider>
-            <ChapterNav />
-            <Hero />
-            <HeroTransition />
-            <Chapter id="platos" title={m.scroll.chapters.dishes} overlapsHero>
-              <StarDishes />
-            </Chapter>
-            {/* Las OPINIONES van antes que la ubicación, por petición del cliente: quien llega desde
-                la ficha de Google todavía está decidiendo dónde comer, y lo que le hace decidirse son
-                las reseñas, no la dirección. La dirección la busca DESPUÉS, cuando ya ha dicho que sí,
-                y por eso queda pegada al pie, justo encima de los enlaces y del mapa. */}
-            <Chapter id="opiniones" title={m.scroll.chapters.social}>
-              <SocialProof />
-            </Chapter>
-            <Chapter id="experiencia" title={m.scroll.chapters.experience}>
-              <Experience />
-            </Chapter>
-          </SmoothScrollProvider>
-        </main>
-        <Footer year={new Date().getFullYear()} />
-        <MobileStickyBar />
-      </ReservationProvider>
+      <Navbar />
+      <main id="main" className="relative">
+        <SmoothScrollProvider>
+          <ChapterNav />
+          <Hero />
+          <HeroTransition />
+          <Chapter id="platos" title={m.scroll.chapters.dishes} overlapsHero>
+            <StarDishes />
+          </Chapter>
+          {/* Las OPINIONES van antes que la ubicación, por petición del cliente: quien llega desde
+              la ficha de Google todavía está decidiendo dónde comer, y lo que le hace decidirse son
+              las reseñas, no la dirección. La dirección la busca DESPUÉS, cuando ya ha dicho que sí,
+              y por eso queda pegada al pie, justo encima de los enlaces y del mapa. */}
+          <Chapter id="opiniones" title={m.scroll.chapters.social}>
+            <SocialProof />
+          </Chapter>
+          <Chapter id="experiencia" title={m.scroll.chapters.experience}>
+            <Experience />
+          </Chapter>
+        </SmoothScrollProvider>
+      </main>
+      <Footer year={new Date().getFullYear()} />
+      <MobileStickyBar />
     </ChatProvider>
   );
 }

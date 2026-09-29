@@ -16,8 +16,8 @@ const hero: Section<"hero"> = {
   accent: "Corazón",
   subtitle:
     "Tixolas de ferro que chegan á mesa chiando, croquetas caseiras, polbo da ría e racións para compartir cun bo viño galego, a un minuto da Catedral.",
-  ctaPrimary: "Reservar Mesa",
-  ctaSecondary: "Ir á Carta",
+  ctaPrimary: "Ver a carta",
+  ctaSecondary: "Como chegar",
   scrollCue: "Descubrir a casa",
   scrollCueAria: "Baixar aos pratos estrela",
   since: "Casco histórico de Ourense",

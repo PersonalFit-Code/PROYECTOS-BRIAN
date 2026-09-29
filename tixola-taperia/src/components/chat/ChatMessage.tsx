@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useMemo, type ReactNode } from "react";
-import { CalendarCheck, Phone, RotateCcw, TriangleAlert } from "lucide-react";
+import { MessageCircle, Phone, RotateCcw, TriangleAlert } from "lucide-react";
 import { BUSINESS } from "@/data/business";
 import { TMark } from "@/components/ui/Logo";
 import { useMessages } from "@/i18n/LocaleProvider";
@@ -307,8 +307,8 @@ function ErrorCard({ kind, onRetry }: ErrorCardProps) {
           rel="noopener noreferrer"
           className={cn(ctaBase, "border border-cream/15 bg-cream/5 text-cream hover:bg-cream/10")}
         >
-          <CalendarCheck aria-hidden />
-          {m.chat.reserveCta}
+          <MessageCircle aria-hidden />
+          {m.common.cta.whatsapp}
         </a>
       </div>
     </div>

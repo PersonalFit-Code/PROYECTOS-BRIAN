@@ -348,7 +348,16 @@ export default function CookieConsent() {
                       transition={{ duration: 0.3, ease: EASE_OUT_EXPO }}
                       className="relative mt-5 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center"
                     >
-                      <NeonButton size="md" onClick={() => decide(true)} className="w-full sm:w-auto">
+                      {/*
+                        Los dos con el MISMO aspecto, a propósito. Antes "Aceptar todas" era el botón
+                        rojo relleno con halo y "Solo necesarias" un contorno transparente: mismo
+                        tamaño, misma fila y un clic cada uno, pero la mirada iba a uno solo. La guía
+                        de cookies de la AEPD pide que rechazar sea tan fácil como aceptar, y "tan
+                        fácil" incluye que se vea igual de fácil; un botón relleno frente a uno vacío
+                        es el patrón que la Agencia viene señalando. Empatarlos cuesta una palabra y
+                        quita de encima la única pega seria que tenía este aviso.
+                      */}
+                      <NeonButton size="md" variant="outline" onClick={() => decide(true)} className="w-full sm:w-auto">
                         {b.accept}
                       </NeonButton>
                       <NeonButton size="md" variant="outline" onClick={() => decide(false)} className="w-full sm:w-auto">
