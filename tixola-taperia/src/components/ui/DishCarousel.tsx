@@ -118,14 +118,31 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
     if (!emblaApi) return;
     const ap = emblaApi.plugins().autoplay;
     if (!ap) return;
+
+    /* NADA QUE DESPLAZAR ⇒ NI TOCAR EL PLUGIN. `embla-carousel-autoplay` ABANDONA su `init()` en
+       cuanto ve `scrollSnapList().length <= 1` («no hay a dónde avanzar») y se va ANTES de
+       construir su tabla de retardos; su `play()` luego lee esa tabla y revienta con un
+       `Cannot read properties of undefined`.
+       Aquí no era teoría: al bajar los platos estrella de ocho a tres, en escritorio las tres
+       tarjetas (`lg:basis-[26vw]`) caben enteras en pantalla, así que Embla registra UN solo
+       anclaje. El `playOnInit` del propio plugin no se entera porque también sale antes; quien
+       llamaba a `play()` era esta línea. Resultado: la excepción escapaba del commit de React y
+       tumbaba la portada ENTERA a la pantalla de error de Next — solo en escritorio, que es por
+       donde no se miró. Si algún día vuelve a haber platos de sobra, esto se reactiva solo. */
+    if (emblaApi.scrollSnapList().length <= 1) return;
+
+    /* El `queueMicrotask` puede llegar cuando el componente ya no está (en escritorio este
+       carrusel se desmonta en cuanto baja el cilindro 3D): se cancela con la limpieza. */
+    let vivo = true;
     const shouldPlay = !paused && !handedOver && inView;
     if (shouldPlay) ap.play();
     else ap.stop();
     const guard = () => {
-      if (!shouldPlay) queueMicrotask(() => ap.stop());
+      if (!shouldPlay) queueMicrotask(() => { if (vivo) ap.stop(); });
     };
     emblaApi.on("autoplay:play", guard);
     return () => {
+      vivo = false;
       emblaApi.off("autoplay:play", guard);
     };
   }, [emblaApi, paused, handedOver, inView]);
