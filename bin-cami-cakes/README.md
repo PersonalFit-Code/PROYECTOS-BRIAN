@@ -749,10 +749,11 @@ Lo que salió y lo que se hizo:
   la pastelera a la derecha, el logo, «Tartas personalizadas en Ourense» y el
   lema. Es lo que enseña WhatsApp al pegar el enlace. Se genera desde
   `og/og.html` en el cuaderno de la sesión. Las tres direcciones (`og:url`,
-  `og:image`, `twitter:image`) apuntan a `bincamicakes.vercel.app`, que es la
-  que existe: si apuntasen al dominio de `bincamicakes.es` que aún no responde,
-  WhatsApp no enseñaría foto. Al tener dominio, cambiar las tres (hay un
-  comentario al lado).
+  `og:image`, `twitter:image`) apuntan a `bincamicakess.vercel.app` (con dos
+  «s»), que es donde está subida esta versión: si apuntasen a otro proyecto o
+  al dominio de `bincamicakes.es` que aún no responde, WhatsApp no enseñaría
+  foto. Al cambiar de dirección (o tener dominio propio), cambiar las tres (hay
+  un comentario al lado).
 
 Lo que se miró y se dejó como estaba: el peso. El documento son 437 KB que
 viajan en 120 comprimidos; minificar el CSS y el JS o quitar los comentarios
@@ -802,14 +803,21 @@ publicado (su SHA-1) con el de cada commit:
 
 | Dirección | Proyecto | Subida | Es exactamente el commit | Para qué sirve |
 |---|---|---|---|---|
-| **https://bincamicakes.vercel.app** | `bincamicakes` (`prj_RbIyZwyhqWXDA96W9eVAztDEDtiz`) | 28/9 22:46 UTC | `b937d63` | **La que se enseña.** Foto del local, cinta arreglada, los 15 arreglos, calendario, sin cursor |
+| **https://bincamicakess.vercel.app** (dos «s») | `bincamicakess` (`prj_lcXMu786r0f8zlwey4dtl3lXoYHQ`) | 29/9 20:39 UTC | `8082a3a` (`index.html` con SHA-1 `441d04af…`; las etiquetas de compartir se ajustaron después, ver abajo) | **La que se enseña.** La de hoy: portada de 5 tarjetas, carrusel de 5, adelanto del vídeo, iconos y imagen de compartir |
+| https://bincamicakes.vercel.app | `bincamicakes` (`prj_RbIyZwyhqWXDA96W9eVAztDEDtiz`) | 28/9 22:46 UTC | `b937d63` | Desfasada: la de anoche, sin el remate de hoy ni la imagen de compartir |
 | https://bincami.vercel.app | `bincami` (`prj_zM8H0KwGKorjA9SB3UZgrh7MMJEd`) | 28/9 09:41 UTC | `364da56` | **Desfasada.** Es la de la mañana: con el «tas» en la cinta y con los fallos que luego salieron en la revisión (entre ellos, tocar «volver arriba» en el móvil abría WhatsApp) |
 | bin-cami-cakes(-web).vercel.app | `bin-cami-cakes`, `bin-cami-cakes-web` | 23/9 | — | Intentos del principio; obsoletos |
 
-**Riesgo real: enseñar la dirección equivocada.** Hay dos que se parecen y sólo
-una está al día. Conviene borrar en Vercel los proyectos que no valen (`bincami`,
+**Riesgo real: enseñar la dirección equivocada.** Hay tres que se parecen
+(`bincami`, `bincamicakes` y `bincamicakess`) y sólo una está al día. Conviene
+borrar en Vercel los proyectos que no valen (`bincami`, `bincamicakes`,
 `bin-cami-cakes`, `bin-cami-cakes-web`) para que el enlace de la reunión sólo
 pueda ser uno. Es decisión de Brian: nada se borra desde aquí.
+
+Ojo con las etiquetas de compartir: `og:url`, `og:image` y `twitter:image`
+llevan una dirección fija (`bincamicakess.vercel.app`). Si un día la web se
+publica en otro proyecto o dominio, hay que cambiarlas o WhatsApp enseñará el
+enlace sin imagen.
 
 ### Cómo saber si lo que hay en vivo es lo último
 
