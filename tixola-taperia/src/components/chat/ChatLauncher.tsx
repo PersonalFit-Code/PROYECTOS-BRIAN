@@ -98,10 +98,12 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
   if (returning && scrolling) setReturning(false);
 
   /* Emparejado con `FloatingWhatsApp`: si el disco ha ido a caer sobre un control del contenido (una
-     fila de plato, una chip, el desplegable del FAQ) no vuelve del apartado. El porqué y lo que se
-     descartó, en `useControlUnderFloat`. */
+     fila de plato, una chip, el desplegable del FAQ) no vuelve del apartado. Va en todas las
+     pantallas por el mismo motivo que su gemelo —en escritorio los márgenes tampoco están siempre
+     libres—, salvo cuando el panel está abierto, que entonces el lanzador ya no se pinta. El porqué
+     y lo que se descartó, en `useControlUnderFloat`. */
   const boxRef = useRef<HTMLDivElement>(null);
-  const overControl = useControlUnderFloat(boxRef, mobile && !isOpen);
+  const overControl = useControlUnderFloat(boxRef, !isOpen);
 
   /* Los dos motivos de retirada, YA con la ventana de devolución aplicada. Se calculan una sola vez y
      los usan tanto el `inert`/`tabIndex` como las clases que apartan el disco: si la ventana solo
@@ -138,7 +140,10 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
           /* El `pointer-events` se queda AQUÍ, no en la capa que se desplaza: esta caja sigue ocupando
              sus 44 px y, apagada solo por dentro, se tragaría el toque del contenido de debajo mientras
              el botón está apartado (ver el gemelo en `FloatingWhatsApp`). */
-          retracted && "max-md:pointer-events-none",
+          (!returning && (heroHidden || footerUnder)) && "max-md:pointer-events-none",
+          /* `overControl` SIN `max-md:`: el disco también cae sobre controles en escritorio
+             (su gemelo de WhatsApp lo hacía sobre el botón "Filtros" de la carta). */
+          (!returning && overControl) && "pointer-events-none",
           bannerRetracted && "max-lg:pointer-events-none",
           scrolling && "max-md:motion-safe:pointer-events-none",
         )}
@@ -150,7 +155,11 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
             /* Al apartarse sale hacia SU borde, el izquierdo: por eso el signo es negativo aquí y
                positivo en el de WhatsApp. Estos motivos (portada, aviso, pie, control debajo) no llevan
                `motion-safe:`: retirarse aquí no es adorno, es liberar algo que hay que poder pulsar. */
-            retracted && "max-md:-translate-x-6 max-md:opacity-0",
+            (!returning && (heroHidden || footerUnder)) && "max-md:-translate-x-6 max-md:opacity-0",
+            /* Aparte y sin `max-md:`, para que en escritorio el apartado sea también VISUAL:
+               dejarlo solo en `inert` deja un disco opaco encima de algo que hay que pulsar y
+               que ya no responde, que parece un botón roto. */
+            (!returning && overControl) && "-translate-x-6 opacity-0",
             bannerRetracted && "max-lg:-translate-x-6 max-lg:opacity-0",
             /* Apartado mientras el dedo desplaza (ver `useIsScrolling`). */
             scrolling && "max-md:motion-safe:-translate-x-8 max-md:motion-safe:opacity-0",

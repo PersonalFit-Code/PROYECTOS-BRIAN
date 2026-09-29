@@ -389,9 +389,15 @@ export default function FloatingWhatsApp() {
 
   /* Cuarto motivo para apartarse, y el que de verdad faltaba: que el disco haya ido a caer sobre un
      control del contenido (ver `useControlUnderFloat`). Se mide sobre el envoltorio, que se queda
-     SIEMPRE en su sitio de reposo. */
+     SIEMPRE en su sitio de reposo.
+     Va en TODAS las pantallas, no solo en móvil. La suposición de que "en escritorio los flotantes
+     viven en márgenes libres" era falsa y se pudo medir: en `/carta`, entre 1024 y 1440 px y antes
+     de desplazar, este disco cae sobre los últimos 32 px del botón "Filtros" — o sea que un clic en
+     esa esquina abre WhatsApp en vez del panel de filtros. Nadie lo vio porque la portada reventaba
+     en escritorio y todas las capturas se hicieron a 390 px. La maquinaria ya estaba escrita; lo
+     único que faltaba era dejarla trabajar aquí. */
   const boxRef = useRef<HTMLDivElement>(null);
-  const overControl = useControlUnderFloat(boxRef, mobile);
+  const overControl = useControlUnderFloat(boxRef, true);
 
   const hidden = (heroHidden && mobile) || covered || overControl;
   const pinging = !noticed && !hidden;
@@ -423,7 +429,10 @@ export default function FloatingWhatsApp() {
              dentro: esta caja sigue ocupando sus 44 px y, sin apagarla, se tragaría el toque destinado
              al contenido mientras el botón está apartado (cuando además es `inert` el navegador ya la
              saca del sondeo, pero el apartado por scroll no lo es). */
-          (heroHidden || bannerOpen || footerUnder || overControl) && "max-md:pointer-events-none",
+          (heroHidden || bannerOpen || footerUnder) && "max-md:pointer-events-none",
+          /* `overControl` SIN `max-md:`: el disco cae sobre un control también en escritorio (en
+             `/carta`, sobre el botón "Filtros"), y allí hay que apagar el puntero igual. */
+          overControl && "pointer-events-none",
           scrolling && "max-md:motion-safe:pointer-events-none",
         )}
       >
@@ -435,7 +444,13 @@ export default function FloatingWhatsApp() {
             /* Los motivos para apartarse "de verdad" (portada, aviso de cookies, pie, control debajo)
                comparten clases y NO llevan `motion-safe:`: aquí retirarse no es adorno, es dejar libre
                algo que hay que poder pulsar, así que también ocurre con `prefers-reduced-motion`. */
-            (heroHidden || bannerOpen || footerUnder || overControl) && "max-md:translate-x-6 max-md:opacity-0",
+            (heroHidden || bannerOpen || footerUnder) && "max-md:translate-x-6 max-md:opacity-0",
+            /* `overControl` va aparte y SIN `max-md:`, porque el apartado tiene que ser también
+               VISUAL en escritorio. Dejarlo solo en `inert` daba lo peor de los dos mundos: el disco
+               seguía tapando la etiqueta "Filtros" con toda su opacidad y encima ya no respondía al
+               clic — parecía un botón roto. Los otros tres motivos sí son de móvil: en escritorio el
+               disco vive a media altura del borde y ni la portada ni el pie le estorban. */
+            overControl && "translate-x-6 opacity-0",
             /* Apartado mientras el dedo desplaza: sale hacia SU borde (derecha). */
             scrolling && "max-md:motion-safe:translate-x-8 max-md:motion-safe:opacity-0",
           )}
