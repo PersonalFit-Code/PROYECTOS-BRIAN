@@ -130,7 +130,27 @@ export interface MenuItem {
   variants?: MenuVariant[];
   allergens: AllergenId[];
   tags: DietTag[];
-  /** maridaje recomendado (vino gallego). Vacío hasta que llegue la carta de vinos. */
+  /**
+   * Maridaje recomendado. Hoy vacío en los 47: los tres platos estrella traen el suyo desde
+   * `dishes.ts` y son los únicos que se pintan.
+   *
+   * CUANDO LLEGUE LA CARTA DE VINOS. La ficha del plato ya tiene el hueco montado —`DishSpotlight`
+   * pinta una etiqueta de vino con nombre, D.O. y el porqué, y se esconde sola si llega vacía—, así
+   * que rellenar este campo en cada plato basta para que aparezca. Hay dos formas de hacerlo y no
+   * dan lo mismo:
+   *
+   *  · TEXTO, que es lo que este campo admite hoy: "Godello D.O. Valdeorras". Recomienda sin
+   *    prometer: no obliga al local a tener esa botella abierta esta noche.
+   *  · ENLACE AL VINO DE LA CARTA, que es lo que pidió el cliente ("qué vino puede ofrecer en ese
+   *    momento"): los vinos vuelven como platos con su categoría y su precio, este campo pasa a ser
+   *    un `MenuItemId`, y la ficha enlaza al vino concreto con su precio por copa. Vende más, porque
+   *    el segundo producto queda a un toque.
+   *
+   * La segunda opción trae el riesgo que la propia dueña nombró al no mandar la carta todavía: que
+   * un vino deje de comprarse. Eso se cubre con la misma red que ya existe — tipar el campo como
+   * `MenuItemId` hace que un vino retirado rompa la compilación en vez de dejar un enlace muerto, y
+   * `assertMenuIntegrity()` puede comprobar además que apunte a un vino y no a una ración de pan.
+   */
   pairing?: string;
   /** clave de icono (ver components/icons/DishIcons.tsx); la UI nunca pinta el emoji */
   emoji: string;
