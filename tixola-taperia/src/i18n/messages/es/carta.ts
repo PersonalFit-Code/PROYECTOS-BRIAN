@@ -24,7 +24,7 @@ const carta = {
   sectionCount: "{shown} de {total} platos",
 
   /* ── Búsqueda y resultados ── */
-  search: "Busca un plato: zamburiñas, croquetas, godello…",
+  search: "Busca un plato: zamburiñas, croquetas, pulpo…",
   searchLabel: "Buscar en la carta",
   searchClear: "Borrar búsqueda",
   results: "{count} platos",
@@ -107,6 +107,6 @@ const carta = {
   ctaText: "No hace falta reservar: pásate a tomar unos viños junto a la Catedral y te sentamos por orden de llegada.",
   /* ── SEO (metadatos de /carta; no se pintan en pantalla) ── */
   seoTitle: "Carta de tapas y zamburiñas en Ourense",
-  seoDescription: "Tapas, tixolas de hierro, zamburiñas, pulpo y croquetas caseras junto a la Catedral de Ourense. Carta completa con alérgenos y maridajes de vino gallego.",
+  seoDescription: "Tapas, tixolas de hierro, zamburiñas, pulpo y croquetas caseras junto a la Catedral de Ourense. Carta completa con los alérgenos plato a plato y filtro por alérgeno.",
 } as const;
 export default carta;

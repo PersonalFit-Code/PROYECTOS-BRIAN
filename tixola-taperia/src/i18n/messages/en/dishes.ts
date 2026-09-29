@@ -20,7 +20,7 @@ const dishes = {
   pairingWhy: "Why it works",
   seeInMenu: "See on the menu",
   ctaMenu: "See the full menu with allergens",
-  ctaNote: "Over 80 tapas, sharing plates and Galician wines, with all 14 EU allergens flagged dish by dish.",
+  ctaNote: "{count} tapas and sharing plates, with all 14 EU allergens flagged dish by dish.",
   photoOf: "Photo of {name} at Tixola Tapería, Ourense",
   slide: "Dish {index} of {total}",
   /** Carousel (DishCarousel) */

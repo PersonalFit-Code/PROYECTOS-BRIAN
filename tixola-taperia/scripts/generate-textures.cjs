@@ -191,44 +191,21 @@ async function renderSvg(page, svg, file, quality = 82) {
   console.log("✓", path.relative(OUT, file));
 }
 
-async function renderOg(page) {
-  const html = `<!doctype html><html><head><meta charset="utf-8">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=Manrope:wght@500;700&display=swap" rel="stylesheet">
-  <style>
-    body{margin:0;width:1200px;height:630px;background:#121212;color:#F9F6F0;font-family:Manrope,system-ui;position:relative;overflow:hidden}
-    .bg{position:absolute;inset:0;background:url('file://${path.join(OUT, "textures", "iron.webp")}') center/cover;opacity:.9}
-    .grad{position:absolute;inset:0;background:linear-gradient(100deg,rgba(18,18,18,.92) 35%,rgba(18,18,18,.35) 70%,rgba(178,30,39,.35))}
-    .glow{position:absolute;right:-120px;top:-120px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(216,50,60,.55),transparent 65%);filter:blur(20px)}
-    .pan{position:absolute;right:120px;top:150px;width:330px;height:330px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#3a3a3a,#141414 60%,#0a0a0a);box-shadow:0 40px 80px rgba(0,0,0,.8),inset 0 0 0 18px #1c1c1c,inset 0 0 0 22px #0d0d0d,0 0 80px rgba(178,30,39,.35)}
-    .pan:after{content:"";position:absolute;right:-150px;top:140px;width:190px;height:44px;border-radius:22px;background:linear-gradient(#2a2a2a,#0e0e0e);box-shadow:0 20px 40px rgba(0,0,0,.6)}
-    .zamb{position:absolute;width:90px;height:90px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(circle at 40% 30%,#ffe3b3,#e39a55 60%,#8a4b1f);box-shadow:0 10px 20px rgba(0,0,0,.6)}
-    .wrap{position:absolute;left:80px;top:90px;width:640px}
-    .kicker{font-size:18px;letter-spacing:.35em;text-transform:uppercase;color:#D8323C;font-weight:700}
-    h1{font-family:'Playfair Display',serif;font-size:74px;line-height:1.02;margin:18px 0 22px;font-weight:700}
-    h1 em{font-style:italic;color:#E8C27A}
-    p{font-size:24px;line-height:1.4;color:rgba(249,246,240,.78);margin:0 0 34px}
-    .row{display:flex;gap:18px;align-items:center}
-    .pill{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;border:1px solid rgba(249,246,240,.2);background:rgba(249,246,240,.06);font-weight:700;font-size:20px}
-    .star{color:#E8C27A}
-    .addr{position:absolute;left:80px;bottom:56px;font-size:20px;color:rgba(249,246,240,.7);letter-spacing:.04em}
-  </style></head><body>
-  <div class="bg"></div><div class="grad"></div><div class="glow"></div>
-  <div class="pan"><div class="zamb" style="left:110px;top:70px;transform:rotate(-12deg)"></div><div class="zamb" style="left:150px;top:160px;transform:rotate(18deg)"></div><div class="zamb" style="left:60px;top:170px;transform:rotate(-30deg)"></div></div>
-  <div class="wrap">
-    <div class="kicker">Tixola Tapería · Ourense</div>
-    <h1>El Arte del Tapeo en el <em>Corazón</em> de Ourense</h1>
-    <p>Zamburiñas a la plancha, pulpo tradicional y los mejores vinos junto a la Catedral.</p>
-    <div class="row"><span class="pill"><span class="star">★</span> 4,4 · 858 reseñas Google</span><span class="pill">10 € – 20 €</span></div>
-  </div>
-  <div class="addr">Rúa Juan de Austria, 7 · 646 45 72 74</div>
-  </body></html>`;
-  await page.setViewportSize({ width: 1200, height: 630 });
-  await page.setContent(html, { waitUntil: "networkidle" });
-  await page.waitForTimeout(600);
-  const png = await page.screenshot({ type: "png" });
-  await sharp(png).jpeg({ quality: 86 }).toFile(path.join(OUT, "og.jpg"));
-  console.log("✓ og.jpg");
-}
+/*
+ * AQUÍ HABÍA UN `renderOg()` Y SE HA QUITADO, a propósito.
+ *
+ * Dibujaba la imagen de Open Graph entera en la paleta retirada —fondo #121212, crema #F9F6F0,
+ * pimentón #B21E27, una sartén gris dibujada a mano y "los mejores vinos"— y escribía en
+ * `public/og.jpg`, que es EXACTAMENTE el mismo fichero que genera hoy `public/_og.html`, ese sí en
+ * granate, con el logotipo real y con la foto de la tixola. Además se llamaba incondicionalmente
+ * detrás de las cuatro texturas: quien ejecutara este script para retocar una textura revertía de
+ * paso la miniatura de WhatsApp a la versión negra, sin que nada avisara.
+ *
+ * Dos fuentes para el mismo fichero es la trampa. La imagen de compartir se regenera abriendo
+ * `/_og.html` a 1200×630 con el navegador y guardando sobre `public/og.jpg`; las instrucciones
+ * están en la cabecera de ese fichero. Este script se queda solo con las texturas, que es lo suyo.
+ */
+
 
 (async () => {
   fs.mkdirSync(path.join(OUT, "textures"), { recursive: true });
@@ -238,7 +215,6 @@ async function renderOg(page) {
   await renderSvg(page, svgs.slate, path.join(OUT, "textures", "slate.webp"));
   await renderSvg(page, svgs.stone, path.join(OUT, "textures", "stone.webp"));
   await renderSvg(page, embersSvg(), path.join(OUT, "textures", "embers.webp"), 86);
-  await renderOg(page);
   await browser.close();
 })().catch((e) => {
   console.error(e);

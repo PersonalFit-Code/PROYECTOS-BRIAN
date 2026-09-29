@@ -21,6 +21,20 @@ import { MENU_CATEGORIES, MENU_ITEM_IDS, MENU_ITEMS } from "./menu";
  * Se ejecuta al importar los datos, lo que en la práctica significa "durante `next build`", porque
  * el build prerenderiza la portada y la carta. Si algo no cuadra, **el despliegue no sale**. Con
  * datos estáticos eso es lo que se quiere: más vale un build roto que una carta que miente.
+ *
+ * ⚠️ LO QUE ESTO NO PUEDE VIGILAR, Y HAY QUE REVISAR A MANO AL TOCAR LA CARTA.
+ * Hay prosa repartida por la web que NOMBRA platos, y ninguna comprobación automática puede saber
+ * que "la tixola vegana de setas" dejó de existir, porque es texto libre. Pasó de verdad: al
+ * sustituir la carta inventada por la real, las preguntas frecuentes siguieron anunciando durante
+ * semanas una tixola vegana, una ensalada de quinoa, pimientos de Padrón y una tabla de quesos que
+ * no existen — en los cuatro idiomas, en la portada y encima marcadas para Google como FAQPage.
+ * Al cambiar la carta, repasar también:
+ *   · `src/i18n/messages/{es,gl,en,pt}/legal.ts` → `faq.items` (va al HTML y al JSON-LD; los cuatro
+ *     idiomas a mano, porque ese fichero NO tiene comprobación estricta de tipos);
+ *   · `dishes.ctaNote`, `carta.search`, `carta.seoDescription`, `common.seoKeywords`;
+ *   · `src/lib/waiter/systemPrompt.ts` y `src/lib/waiter/knowledge.ts`.
+ * Los números SÍ se pueden enchufar a los datos, y es lo que se hizo con el recuento de platos de
+ * `ctaNote` ({count} ← `MENU_ITEMS.length`). Haz lo mismo con cualquier cifra nueva.
  */
 
 function fail(errors: string[]): never {

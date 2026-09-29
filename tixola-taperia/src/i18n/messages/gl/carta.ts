@@ -26,7 +26,7 @@ const carta: Section<"carta"> = {
   sectionCount: "{shown} de {total} pratos",
 
   /* ── Busca e resultados ── */
-  search: "Busca un prato: zamburiñas, croquetas, godello…",
+  search: "Busca un prato: zamburiñas, croquetas, polbo…",
   searchLabel: "Buscar na carta",
   searchClear: "Borrar a busca",
   results: "{count} pratos",
@@ -104,6 +104,6 @@ const carta: Section<"carta"> = {
   ctaAccent: "fame?",
   ctaText: "Non fai falta reservar: pásate a tomar uns viños á beira da Catedral e sentámoste por orde de chegada.",
   seoTitle: "Carta de tapas e zamburiñas en Ourense",
-  seoDescription: "Tapas, tixolas de ferro, zamburiñas, polbo e croquetas caseiras xunto á Catedral de Ourense. Carta completa con alérxenos e maridaxes de viño galego.",
+  seoDescription: "Tapas, tixolas de ferro, zamburiñas, polbo e croquetas caseiras xunto á Catedral de Ourense. Carta completa cos alérxenos prato a prato e filtro por alérxeno.",
 };
 export default carta;

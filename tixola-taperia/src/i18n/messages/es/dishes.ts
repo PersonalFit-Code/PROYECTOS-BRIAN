@@ -18,7 +18,7 @@ const dishes = {
   pairingWhy: "Por qué funciona",
   seeInMenu: "Ver en la carta",
   ctaMenu: "Ver carta completa con alérgenos",
-  ctaNote: "Más de 80 tapas, raciones y vinos gallegos, con los 14 alérgenos de la UE señalados plato a plato.",
+  ctaNote: "{count} tapas y raciones, con los 14 alérgenos de la UE señalados plato a plato.",
   photoOf: "Foto de {name} en Tixola Tapería, Ourense",
   slide: "Plato {index} de {total}",
   /** Carrusel (DishCarousel) */

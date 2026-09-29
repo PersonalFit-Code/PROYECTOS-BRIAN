@@ -573,11 +573,11 @@ const legal: LegalMessages = {
       },
       {
         q: "Do you have coeliac-friendly options and allergen information?",
-        a: "Yes. Our digital menu flags the 14 allergens subject to mandatory declaration for every dish and lets you filter out anything containing gluten; we have, for example, gluten-free cod croquetas, pulpo á feira (Galician-style octopus) and suitable skillets. All the allergens are handled in our kitchen, so always tell our staff so they can advise you and avoid traces.",
+        a: "Yes, with one important caveat. The menu on this site flags the 14 allergens subject to mandatory declaration for every dish and lets you filter out whichever one you need to avoid. That said, the only dishes we declare gluten-free are the **croquetas sin gluten** and the **postre sin gluten**; for everything else we state what a dish contains, never what it doesn't. All 14 allergens are handled in our kitchen, so always tell our staff when you order and we'll confirm it there and then.",
       },
       {
         q: "Are there vegan or vegetarian dishes?",
-        a: "Yes. We have 100% plant-based options such as the vegan mushroom and vegetable skillet, the quinoa and avocado salad and the Padrón peppers, as well as vegetarian dishes like fried cheese with tomato jam, our Tixola bravas and the Galician cheese board.",
+        a: "Vegetarian, yes: the tixola de pisto de verduras, the patatas bravas, alioli or mixed, the salteado de verdura, arroz y setas, the tortilla guisada con champiñones, the timbal vegetal, the queso frito and the país, sheep's and goat's cheeses. Several contain egg or dairy, so you can filter them by allergen on the menu page. We don't have any vegan dish on the menu: if you're coming, say so when you order and the kitchen will tell you what can be adapted.",
       },
       {
         q: "How do I get there, and where can I park?",

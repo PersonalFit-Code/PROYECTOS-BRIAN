@@ -20,7 +20,7 @@ const dishes = {
   pairingWhy: "Porque resulta",
   seeInMenu: "Ver na ementa",
   ctaMenu: "Ver ementa completa com alergénios",
-  ctaNote: "Mais de 80 tapas, doses e vinhos galegos, com os 14 alergénios da UE assinalados prato a prato.",
+  ctaNote: "{count} petiscos e doses, com os 14 alergénios da UE assinalados prato a prato.",
   photoOf: "Fotografia de {name} na Tixola Tapería, Ourense",
   slide: "Prato {index} de {total}",
   /** Carrossel (DishCarousel) */

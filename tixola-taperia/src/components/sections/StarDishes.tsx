@@ -12,6 +12,7 @@ import NeonButton from "@/components/ui/NeonButton";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { MENU_ITEMS } from "@/data/menu";
 import { localizePhotos, localizeStarDishes } from "@/i18n/data";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 
@@ -217,7 +218,13 @@ export default function StarDishes() {
           <NeonButton href={lp("/carta")} variant="cream" size="lg" iconRight={<ArrowRight aria-hidden />}>
             {m.dishes.ctaMenu}
           </NeonButton>
-          <p className="max-w-md text-xs leading-relaxed text-cream-faint">{m.dishes.ctaNote}</p>
+          {/* El número de platos sale de la carta, no escrito a mano: esta frase decía "más de 80
+              tapas" cuando la carta real tiene 47, porque era copy de la carta inventada que
+              sobrevivió al cambio. Con el dato enchufado, el día que la carta crezca o encoja la
+              frase se corrige sola. */}
+          <p className="max-w-md text-xs leading-relaxed text-cream-faint">
+            {t(m.dishes.ctaNote, { count: MENU_ITEMS.length })}
+          </p>
         </div>
       </div>
 

@@ -80,10 +80,18 @@ const KW = {
     "wednesday*", "thursday*", "friday*", "saturday*", "sunday*", "luns", "mercores", "xoves", "venres", "segunda feira",
     "terca feira", "quarta feira", "quinta feira", "sexta feira", "fin de semana", "weekend*", "festivo*",
   ]),
+  /* El inglés estaba cojo y el fallo era visible: el botón "Ask the virtual waiter for directions"
+     de la tarjeta del mapa precarga "How do I get to Tixola from Ourense Cathedral?", y como aquí
+     faltaban "cathedral" y "get to" no casaba ninguna palabra de ubicación… pero "tixola" sí está
+     en las palabras de la categoría TIXOLAS. Y la ubicación se comprueba antes que la categoría,
+     así que al no haber coincidencia ganaba la categoría: un botón que pide cómo llegar contestaba
+     con la lista de sartenes y sus precios. En castellano, gallego y portugués funcionaba porque
+     "catedral" sí estaba. */
   location: compile([
     "donde", "direccion", "lleg*", "ubicacion", "ubicad*", "situad*", "mapa", "aparc*", "parking", "como voy", "where",
     "address", "direction*", "location", "located", "map", "onde", "enderezo", "morada", "cheg*", "localiza*",
-    "cerca de", "catedral", "terraza", "terrace", "esplanada",
+    "cerca de", "catedral", "cathedral", "catedrale", "get to", "get there", "getting there", "how do i get",
+    "how to get", "walk*", "find you", "terraza", "terrace", "esplanada",
   ]),
   /** contexto de exclusión: "sin gluten", "no lleva lactosa", "alergia", "celíaco"… */
   exclusion: compile([

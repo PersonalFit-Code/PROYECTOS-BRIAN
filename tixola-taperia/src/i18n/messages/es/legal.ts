@@ -625,11 +625,11 @@ const legal: LegalMessages = {
       },
       {
         q: "¿Tenéis opciones para celíacos e información de alérgenos?",
-        a: "Sí. Nuestra carta digital indica los 14 alérgenos de declaración obligatoria de cada plato y permite filtrar los que no llevan gluten; tenemos, por ejemplo, croquetas de bacalao sin gluten, pulpo á feira y tixolas aptas. En cocina se manipulan todos los alérgenos, así que avisa siempre al personal para que te oriente y evitar trazas.",
+        a: "Sí, con un matiz importante. La carta de la web señala los 14 alérgenos de declaración obligatoria de cada plato y deja filtrar por el que quieras evitar. Ahora bien, los únicos platos que declaramos sin gluten son las **croquetas sin gluten** y el **postre sin gluten**; del resto decimos lo que llevan, nunca lo que no llevan. En cocina se manipulan los 14 alérgenos, así que avisa siempre al personal al pedir y te lo confirmamos en el momento.",
       },
       {
         q: "¿Hay platos veganos o vegetarianos?",
-        a: "Sí. Contamos con opciones 100 % vegetales como la tixola vegana de setas y verduras, la ensalada de quinoa y aguacate o los pimientos de Padrón, además de platos vegetarianos como el queso frito con mermelada de tomate, las bravas Tixola o la tabla de quesos gallegos.",
+        a: "Vegetarianos, sí: la tixola de pisto de verduras, las patatas bravas, alioli o mixtas, el salteado de verdura, arroz y setas, la tortilla guisada con champiñones, el timbal vegetal, el queso frito y los quesos del país, de oveja y de cabra. Varios llevan huevo o lácteos, así que en la carta de la web puedes filtrarlos por alérgeno. Veganos no tenemos ninguno en carta: si vienes, dilo al pedir y en cocina te cuentan qué se puede adaptar.",
       },
       {
         q: "¿Cómo llegar y dónde aparcar?",

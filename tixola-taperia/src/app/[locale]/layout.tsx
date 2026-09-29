@@ -101,12 +101,15 @@ function restaurantJsonLd(locale: Locale, description: string) {
       addressCountry: BUSINESS.address.country,
     },
     geo: { "@type": "GeoCoordinates", latitude: BUSINESS.geo.lat, longitude: BUSINESS.geo.lng },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: BUSINESS.ratings.google.value,
-      reviewCount: BUSINESS.ratings.google.count,
-      bestRating: 5,
-    },
+    /* AQUÍ HABÍA UN `aggregateRating` CON EL 4,4 Y LAS 858 RESEÑAS DE GOOGLE, y se ha quitado.
+       Esa nota no es nuestra: sale de la ficha de Google Business y de TripAdvisor (ver
+       `BUSINESS.ratings`). Publicarla como AggregateRating del propio negocio choca de frente con
+       dos reglas de los fragmentos de reseña de Google —las reseñas sobre uno mismo en un
+       LocalBusiness, y las valoraciones agregadas traídas de otro sitio—, y la sanción no es que no
+       salga la estrellita: es que Google puede aplicar una acción manual de datos estructurados a
+       un negocio que vive precisamente de su ficha local.
+       Las cifras siguen a la vista en la portada y en el pie, con su fuente y con enlace a la ficha,
+       que es donde sí son legítimas: allí son una cita, no una autodeclaración. */
     openingHoursSpecification,
     hasMenu: `${SITE_URL}/${locale}/carta`,
     sameAs: [BUSINESS.social.tripadvisor],
@@ -155,6 +158,18 @@ export default async function LocaleLayout({
       </head>
       <body className="min-h-dvh bg-granate text-cream antialiased">
         <LocaleProvider locale={locale} messages={messages}>
+          {/* SALTAR AL CONTENIDO. Primer elemento enfocable de la página, invisible hasta que recibe
+              el foco. El texto y el destino (`<main id="main">` en las tres plantillas) llevaban
+              tiempo puestos, pero el enlace en sí nunca se llegó a montar: quien navega con teclado
+              tenía que tabular, en CADA página, por la cabecera fija, el menú, el selector de
+              idioma, el botón de WhatsApp y el lanzador del chat antes de llegar al contenido.
+              Es la técnica de WCAG 2.4.1 (Bypass Blocks), nivel A. */}
+          <a
+            href="#main"
+            className="sr-only rounded-full focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100] focus-visible:inline-flex focus-visible:items-center focus-visible:bg-pimenton focus-visible:px-5 focus-visible:py-3 focus-visible:font-sans focus-visible:text-sm focus-visible:font-semibold focus-visible:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-granate"
+          >
+            {messages.common.misc.skipToContent}
+          </a>
           {children}
           {/* FAQPage + WebSite JSON-LD (solo emite en la portada de cada idioma) */}
           <HomeJsonLd locale={locale} />

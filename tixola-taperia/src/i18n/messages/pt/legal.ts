@@ -575,11 +575,11 @@ const legal: LegalMessages = {
       },
       {
         q: "Têm opções para celíacos e informação sobre alergénios?",
-        a: "Sim. A nossa ementa digital indica os 14 alergénios de declaração obrigatória de cada prato e permite filtrar os que não têm glúten; temos, por exemplo, croquetes de bacalhau sem glúten, pulpo á feira (polvo à galega) e tixolas adequadas. Na cozinha manipulam-se todos os alergénios, por isso avise sempre o pessoal para que o oriente e para evitar vestígios.",
+        a: "Sim, com uma ressalva importante. A ementa do site indica os 14 alergénios de declaração obrigatória de cada prato e permite filtrar aquele que quiser evitar. Dito isto, os únicos pratos que declaramos sem glúten são as **croquetas sin gluten** e o **postre sin gluten**; dos restantes dizemos o que levam, nunca o que não levam. Na cozinha manipulam-se os 14 alergénios, por isso avise sempre o pessoal ao pedir e confirmamos-lhe na hora.",
       },
       {
         q: "Há pratos veganos ou vegetarianos?",
-        a: "Sim. Temos opções 100 % vegetais como a tixola vegana de cogumelos e legumes, a salada de quinoa e abacate ou os pimentos de Padrón, além de pratos vegetarianos como o queijo frito com doce de tomate, as bravas Tixola ou a tábua de queijos galegos.",
+        a: "Vegetarianos, sim: a tixola de pisto de verduras, as patatas bravas, alioli ou mistas, o salteado de verdura, arroz y setas, a tortilla guisada con champiñones, o timbal vegetal, o queso frito e os queijos do país, de ovelha e de cabra. Vários levam ovo ou lacticínios, por isso na ementa do site pode filtrá-los por alergénio. Veganos não temos nenhum na ementa: se vier, diga-o ao pedir e na cozinha dizem-lhe o que se pode adaptar.",
       },
       {
         q: "Como chegar e onde estacionar?",

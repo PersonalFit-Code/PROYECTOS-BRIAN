@@ -27,7 +27,7 @@ const carta = {
   sectionCount: "{shown} of {total} dishes",
 
   /* ── Search and results ── */
-  search: "Search for a dish: zamburiñas, croquetas, godello…",
+  search: "Search for a dish: zamburiñas, croquetas, pulpo…",
   searchLabel: "Search the menu",
   searchClear: "Clear search",
   results: "{count} dishes",
@@ -105,6 +105,6 @@ const carta = {
   ctaAccent: "hungry?",
   ctaText: "No booking needed: drop by for a few glasses of wine beside the Cathedral and we'll seat you in turn.",
   seoTitle: "Tapas menu in Ourense: scallops and octopus",
-  seoDescription: "Tapas, cast-iron tixolas, Galician scallops, octopus and homemade croquetas by Ourense Cathedral. Full menu with allergens and Galician wine pairings.",
+  seoDescription: "Tapas, cast-iron tixolas, Galician scallops, octopus and homemade croquetas by Ourense Cathedral. Full menu with allergens dish by dish and an allergen filter.",
 } satisfies Translation<typeof esCarta>;
 export default carta;

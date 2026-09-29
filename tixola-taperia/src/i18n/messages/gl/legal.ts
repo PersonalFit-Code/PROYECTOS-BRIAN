@@ -574,11 +574,11 @@ const legal: LegalMessages = {
       },
       {
         q: "Tedes opcións para celíacos e información de alérxenos?",
-        a: "Si. A nosa carta dixital indica os 14 alérxenos de declaración obrigatoria de cada prato e permite filtrar os que non levan glute; temos, por exemplo, croquetas de bacallau sen glute, polbo á feira e tixolas aptas. En cociña manipúlanse todos os alérxenos, así que avisa sempre o persoal para que te oriente e evitar trazas.",
+        a: "Si, cun matiz importante. A carta da web sinala os 14 alérxenos de declaración obrigatoria de cada prato e deixa filtrar polo que queiras evitar. Agora ben, os únicos pratos que declaramos sen glute son as **croquetas sin gluten** e o **postre sin gluten**; do resto dicimos o que levan, nunca o que non levan. En cociña manipúlanse os 14 alérxenos, así que avisa sempre o persoal ao pedir e confirmámoscho no momento.",
       },
       {
         q: "Hai pratos veganos ou vexetarianos?",
-        a: "Si. Contamos con opcións 100 % vexetais como a tixola vegana de cogomelos e verduras, a ensalada de quinoa e aguacate ou os pementos de Padrón, ademais de pratos vexetarianos como o queixo frito con marmelada de tomate, as bravas Tixola ou a táboa de queixos galegos.",
+        a: "Vexetarianos, si: a tixola de pisto de verduras, as patatas bravas, alioli ou mixtas, o salteado de verdura, arroz e setas, a tortilla guisada con champiñones, o timbal vegetal, o queso frito e os quesos do país, de ovella e de cabra. Varios levan ovo ou lácteos, así que na carta da web podes filtralos por alérxeno. Veganos non temos ningún en carta: se vés, dío ao pedir e en cociña cóntanche que se pode adaptar.",
       },
       {
         q: "Como chegar e onde aparcar?",

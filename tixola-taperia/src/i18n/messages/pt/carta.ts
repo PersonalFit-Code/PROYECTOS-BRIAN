@@ -27,7 +27,7 @@ const carta = {
   sectionCount: "{shown} de {total} pratos",
 
   /* ── Pesquisa e resultados ── */
-  search: "Procure um prato: zamburiñas, croquetes, godello…",
+  search: "Procure um prato: zamburiñas, croquetes, polvo…",
   searchLabel: "Pesquisar na ementa",
   searchClear: "Limpar pesquisa",
   results: "{count} pratos",
@@ -105,6 +105,6 @@ const carta = {
   ctaAccent: "fome?",
   ctaText: "Não é preciso reservar: passe por cá para uns vinhos junto à Catedral e sentamo-lo por ordem de chegada.",
   seoTitle: "Ementa de petiscos e tixolas em Ourense",
-  seoDescription: "Petiscos, tixolas de ferro, vieiras, polvo e croquetes caseiros junto à Catedral de Ourense. Ementa completa com alergénios e sugestões de vinho galego.",
+  seoDescription: "Petiscos, tixolas de ferro, vieiras, polvo e croquetes caseiros junto à Catedral de Ourense. Ementa completa com os alergénios prato a prato e filtro por alergénio.",
 } satisfies Translation<typeof esCarta>;
 export default carta;

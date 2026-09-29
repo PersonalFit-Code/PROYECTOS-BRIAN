@@ -19,7 +19,7 @@ const dishes: Section<"dishes"> = {
   pairingWhy: "Por que funciona",
   seeInMenu: "Ver na carta",
   ctaMenu: "Ver a carta completa con alérxenos",
-  ctaNote: "Máis de 80 tapas, racións e viños galegos, cos 14 alérxenos da UE sinalados prato a prato.",
+  ctaNote: "{count} tapas e racións, cos 14 alérxenos da UE sinalados prato a prato.",
   photoOf: "Foto de {name} en Tixola Tapería, Ourense",
   slide: "Prato {index} de {total}",
   /** Carrusel (DishCarousel) */
