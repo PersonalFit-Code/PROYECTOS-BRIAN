@@ -238,6 +238,32 @@ function ScrollCue({
 const PAN_VARS = { "--pan-w": HERO_PAN_WIDTH, "--pan-h": HERO_PAN_HEIGHT } as CSSProperties;
 
 /**
+ * Los dos CTA de la portada, HOMBRO CON HOMBRO también en el móvil.
+ *
+ * Lo pidió el cliente viendo su propio iPhone: apilados, "Reservar Mesa" e "Ir a la Carta" se comían
+ * dos filas enteras y empujaban la valoración de Google fuera de la primera pantalla; en fila, la
+ * portada entra completa y las dos decisiones (reservar ya / mirar antes qué hay) se ven a la vez, sin
+ * que una parezca el paso siguiente de la otra.
+ *
+ * `flex-1 basis-0` y no `w-1/2`: las dos píldoras miden LO MISMO pase lo que pase con la etiqueta, que
+ * es lo que hace que el par se lea como un bloque y no como dos botones sueltos. `min-w-0` es lo que
+ * autoriza a encogerse por debajo de su ancho de contenido; sin él, la caja flexible se planta en el
+ * ancho del texto y el par desborda el carril del copy (en portugués, "Ir para a Ementa").
+ *
+ * Por debajo de `sm` la talla `lg` se aprieta: menos aire lateral, hueco más corto entre icono y texto
+ * y cuerpo de letra elástico (`clamp`) en vez de fijo, porque el presupuesto por botón es medio
+ * contenedor — unos 175 px en un iPhone de 390 y 140 px en uno de 320. El `min-h-14` de la talla sigue
+ * mandando, así que el objetivo táctil no baja de 56 px ni cuando la letra encoge; y si en el móvil más
+ * estrecho aun así no cabe en una línea, la píldora crece a dos y las dos crecen igual
+ * (`items-stretch`), que es mejor que texto desbordado. De `sm` en adelante nada cambia: cada botón
+ * vuelve a medir lo que pide su etiqueta.
+ */
+const HERO_CTA = cn(
+  "min-w-0 flex-1 basis-0 sm:flex-none sm:basis-auto",
+  "max-sm:gap-1.5 max-sm:px-3 max-sm:text-[clamp(0.78rem,3.2vw,1rem)]",
+);
+
+/**
  * Portada a pantalla completa con criterio editorial (portada de revista):
  *  - Fondo (`HeroCanvas`): la FOTO real de una tixola del local levitando sobre hierro y brasas,
  *    con vaho y chispas. En escritorio la sartén ocupa la mitad derecha y su mango asoma detrás del
@@ -395,19 +421,13 @@ export default function Hero() {
           </motion.p>
 
           {/* CTAs */}
-          <motion.div {...fadeUp(afterHeadline + 0.12)} className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center lg:mt-9">
+          <motion.div {...fadeUp(afterHeadline + 0.12)} className="mt-6 flex items-stretch gap-2 sm:items-center sm:gap-3 lg:mt-9">
             {/* `pulse={ambient}`: la animación del halo neón es `animate-neon-pulse`, un bucle CSS infinito sobre
                 una sombra difusa. Se apaga cuando la portada deja de verse. */}
-            <NeonButton variant="primary" size="lg" pulse={ambient} onClick={open} icon={<CalendarCheck aria-hidden />} className="w-full sm:w-auto">
+            <NeonButton variant="primary" size="lg" pulse={ambient} onClick={open} icon={<CalendarCheck aria-hidden />} className={HERO_CTA}>
               {m.hero.ctaPrimary}
             </NeonButton>
-            <NeonButton
-              variant="outline"
-              size="lg"
-              href={lp("/carta")}
-              iconRight={<ArrowRight aria-hidden />}
-              className="w-full sm:w-auto"
-            >
+            <NeonButton variant="outline" size="lg" href={lp("/carta")} iconRight={<ArrowRight aria-hidden />} className={HERO_CTA}>
               {m.hero.ctaSecondary}
             </NeonButton>
           </motion.div>
