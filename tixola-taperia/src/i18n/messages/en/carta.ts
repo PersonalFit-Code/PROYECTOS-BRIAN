@@ -11,7 +11,7 @@ const carta = {
   title: "The Menu",
   accent: "at Tixola",
   description:
-    "The whole menu at a glance: filter by category, search for a dish or ask the virtual waiter. Prices are a guide and include VAT.",
+    "The whole menu at a glance: filter by category, search for a dish or ask the virtual waiter. Prices include VAT.",
   dailyBoard: "Today's board",
   physicalMenu: "Printed menu",
   dailyBoardAlt: "Tixola Tapería's chalkboard of the day, with the specials from the fish market and the produce market",
@@ -40,7 +40,7 @@ const carta = {
      pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
      decirlo (en la carta sí estaba, en `priceNote`). */
   vatIncluded: "VAT included",
-  priceNote: "Prices are a guide and include VAT. Ask about today's board.",
+  priceNote: "Prices include VAT and are the same as on the menu in the restaurant. The dessert of the day and the specials are announced there.",
 
   /* ── Filter panel ── */
   filters: "Filters",

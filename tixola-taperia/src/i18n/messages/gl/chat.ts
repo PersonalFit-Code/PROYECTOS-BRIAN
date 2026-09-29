@@ -35,6 +35,8 @@ const chat: Section<"chat"> = {
   rateLimited: "Fixeches moitas preguntas seguidas. Agarda un minuto ou chámanos e atendémoste de contado.",
   retry: "Tentar de novo",
   disclaimer: "As respostas son orientativas. Ante alerxias graves, consulta sempre co persoal.",
+  privacyNote: "O que escribas envíase ao noso provedor de IA para redactar a resposta e queda no teu navegador mentres dure a visita. Non o gardamos nin fai falta que nos deas datos persoais.",
+  privacyLink: "Como tratamos os teus datos",
   callCta: "Chamar",
   clear: "Nova conversa",
   cleared: "Conversa reiniciada.",

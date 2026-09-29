@@ -36,6 +36,9 @@ const chat = {
   rateLimited: "Fez muitas perguntas seguidas. Aguarde um minuto ou ligue-nos e atendemos na hora.",
   retry: "Tentar de novo",
   disclaimer: "As respostas são indicativas. Em caso de alergias graves, consulte sempre o pessoal.",
+  privacyNote:
+    "O que escrever é enviado ao nosso fornecedor de IA para redigir a resposta e fica no seu navegador enquanto durar a visita. Não o guardamos nem precisa de nos dar dados pessoais.",
+  privacyLink: "Como tratamos os seus dados",
   callCta: "Ligar",
   clear: "Nova conversa",
   cleared: "Conversa reiniciada.",

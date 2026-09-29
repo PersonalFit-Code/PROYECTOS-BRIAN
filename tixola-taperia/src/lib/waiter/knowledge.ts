@@ -224,7 +224,7 @@ export function renderKnowledge(k: WaiterKnowledge): string {
   out.push(`- WhatsApp (consultas): ${b.whatsapp}`);
   out.push(`- Cómo llegar (Google Maps): ${b.directions}`);
   out.push(`- Web: ${b.website}`);
-  out.push(`- Precio medio: ${b.priceRange} por persona (precios orientativos, IVA incluido)`);
+  out.push(`- Precio medio: ${b.priceRange} por persona (precios con IVA incluido)`);
   out.push(`- Valoraciones: ${b.ratings}`);
   out.push(`- Servicios: ${b.features.join(" · ")}`);
   out.push("- Reservas: NO se cogen reservas, ni online ni por teléfono; las mesas se ocupan por orden de llegada. Para grupos grandes conviene llamar antes solo para que les indiquen la mejor hora");

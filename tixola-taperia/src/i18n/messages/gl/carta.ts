@@ -10,7 +10,7 @@ const carta: Section<"carta"> = {
   title: "A Carta",
   accent: "de Tixola",
   description:
-    "Toda a carta á vista: filtra por categoría, busca un prato ou pregúntalle ao camareiro virtual. Prezos orientativos, IVE incluído.",
+    "Toda a carta á vista: filtra por categoría, busca un prato ou pregúntalle ao camareiro virtual. Prezos co IVE incluído.",
   dailyBoard: "Lousa do día",
   physicalMenu: "Carta física",
   dailyBoardAlt: "Lousa do día de Tixola Tapería escrita con xiz, coas suxestións da lonxa e do mercado",
@@ -39,7 +39,7 @@ const carta: Section<"carta"> = {
      pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
      decirlo (en la carta sí estaba, en `priceNote`). */
   vatIncluded: "IVE incluído",
-  priceNote: "Prezos orientativos, IVE incluído. Pregunta pola lousa do día.",
+  priceNote: "Prezos co IVE incluído, os mesmos que na carta do local. A sobremesa do día e as suxestións anúncianse alí.",
 
   /* ── Panel de filtros ── */
   filters: "Filtros",

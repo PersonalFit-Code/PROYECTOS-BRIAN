@@ -11,7 +11,7 @@ const carta = {
   title: "A Ementa",
   accent: "da Tixola",
   description:
-    "Toda a ementa à vista: filtre por categoria, procure um prato ou pergunte ao empregado virtual. Preços indicativos, IVA incluído.",
+    "Toda a ementa à vista: filtre por categoria, procure um prato ou pergunte ao empregado virtual. Preços com IVA incluído.",
   dailyBoard: "Sugestões do dia",
   physicalMenu: "Ementa física",
   dailyBoardAlt: "Quadro de sugestões do dia da Tixola Tapería escrito a giz, com as sugestões da lota e do mercado",
@@ -40,7 +40,7 @@ const carta = {
      pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
      decirlo (en la carta sí estaba, en `priceNote`). */
   vatIncluded: "IVA incluído",
-  priceNote: "Preços indicativos, IVA incluído. Pergunte pelas sugestões do dia.",
+  priceNote: "Preços com IVA incluído, os mesmos da ementa do restaurante. A sobremesa do dia e as sugestões são anunciadas lá.",
 
   /* ── Painel de filtros ── */
   filters: "Filtros",

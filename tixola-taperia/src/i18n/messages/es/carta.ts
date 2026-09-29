@@ -8,7 +8,7 @@ const carta = {
   title: "La Carta",
   accent: "de Tixola",
   description:
-    "Toda la carta a la vista: filtra por categoría, busca un plato o pregúntale al camarero virtual. Precios orientativos, IVA incluido.",
+    "Toda la carta a la vista: filtra por categoría, busca un plato o pregúntale al camarero virtual. Precios con IVA incluido.",
   dailyBoard: "Pizarra del día",
   physicalMenu: "Carta física",
   dailyBoardAlt: "Pizarra del día de Tixola Tapería escrita con tiza, con las sugerencias de la lonja y del mercado",
@@ -37,7 +37,7 @@ const carta = {
      pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
      decirlo (en la carta sí estaba, en `priceNote`). */
   vatIncluded: "IVA incluido",
-  priceNote: "Precios orientativos, IVA incluido. Pregunta por la pizarra del día.",
+  priceNote: "Precios con IVA incluido, los mismos que en la carta del local. El postre del día y las sugerencias se anuncian allí.",
 
   /* ── Panel de filtros ── */
   filters: "Filtros",

@@ -10,7 +10,8 @@ import { useChatSession } from "@/components/chat/useChatSession";
 import { TMark } from "@/components/ui/Logo";
 import { useKeyboardViewport } from "@/hooks/useKeyboardViewport";
 import { useCoarsePointer, useIsMobile } from "@/hooks/useIsMobile";
-import { useLocale, useMessages } from "@/i18n/LocaleProvider";
+import Link from "next/link";
+import { useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { lockScroll } from "@/lib/scrollLock";
 import { cn } from "@/lib/utils";
 import { CHAT_LIMITS } from "@/lib/waiter/types";
@@ -65,6 +66,8 @@ const iconButton =
 export default function ChatWidget() {
   const m = useMessages();
   const locale = useLocale();
+  const lp = useLocalePath();
+  const privacidadHref = lp(`/legal/${m.legal.privacy.slug}`);
   const { isOpen, close, page, prefill, consumePrefill } = useChat();
   const session = useChatSession({ locale, page });
   const { messages, status, mode, errorKind, send, retry, stop, reset } = session;
@@ -571,11 +574,17 @@ export default function ChatWidget() {
               </p>
             </form>
 
-            {/* Pie: aviso + firma */}
-            <footer className="relative flex items-center gap-2 px-4 pb-3 font-sans text-[11px] leading-snug text-cream-faint /* A pantalla completa el pie llega al borde del teléfono: se respeta la franja del indicador de inicio. */ max-md:pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-              <Sparkles aria-hidden className="h-3.5 w-3.5 shrink-0 text-gold/80" />
+            {/* Pie: aviso de alérgenos + primera capa de privacidad + firma.
+                La primera capa (art. 13 RGPD) va AQUÍ, debajo de donde se escribe, y no solo en la
+                política: la ley pide lo esencial en el momento de dar el dato, no a dos clics. */}
+            <footer className="relative flex items-start gap-2 px-4 pb-3 font-sans text-[11px] leading-snug text-cream-faint /* A pantalla completa el pie llega al borde del teléfono: se respeta la franja del indicador de inicio. */ max-md:pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+              <Sparkles aria-hidden className="mt-px h-3.5 w-3.5 shrink-0 text-gold/80" />
               <p className="min-w-0 flex-1">
-                {m.chat.disclaimer} <span className="whitespace-nowrap text-cream-faint/80">· {m.chat.poweredBy}</span>
+                {m.chat.disclaimer} {m.chat.privacyNote}{" "}
+                <Link href={privacidadHref} className="whitespace-nowrap underline underline-offset-2 transition-colors hover:text-cream">
+                  {m.chat.privacyLink}
+                </Link>{" "}
+                <span className="whitespace-nowrap text-cream-faint/80">· {m.chat.poweredBy}</span>
               </p>
             </footer>
           </motion.section>

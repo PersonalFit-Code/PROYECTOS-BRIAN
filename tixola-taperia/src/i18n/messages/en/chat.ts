@@ -36,6 +36,8 @@ const chat = {
   rateLimited: "You've sent a lot of questions in a row. Wait a minute, or call us and we'll help you straight away.",
   retry: "Retry",
   disclaimer: "Answers are for guidance only. For serious allergies, always check with our staff.",
+  privacyNote: "What you type is sent to our AI provider to write the reply, and stays in your browser for this visit only. We don't store it, and you don't need to give us any personal details.",
+  privacyLink: "How we handle your data",
   callCta: "Call",
   clear: "New conversation",
   cleared: "Conversation reset.",

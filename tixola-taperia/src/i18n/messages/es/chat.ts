@@ -33,6 +33,13 @@ const chat = {
   rateLimited: "Has hecho muchas preguntas seguidas. Espera un minuto o llámanos y te atendemos al momento.",
   retry: "Reintentar",
   disclaimer: "Las respuestas son orientativas. Ante alergias graves, consulta siempre al personal.",
+  /* PRIMERA CAPA de información (art. 13 RGPD), en el sitio donde se recogen los datos.
+     La política completa ya explica todo esto, pero la ley pide que lo esencial esté DONDE se
+     escribe, no a dos clics. Es literal: los mensajes salen del navegador hacia Anthropic vía
+     nuestro servidor, la conversación se guarda en el `sessionStorage` del visitante y nada de
+     esto se almacena en nuestros servidores. */
+  privacyNote: "Lo que escribas se envía a nuestro proveedor de IA para redactar la respuesta y se queda en tu navegador mientras dure la visita. No lo guardamos ni hace falta que nos des datos personales.",
+  privacyLink: "Cómo tratamos tus datos",
   callCta: "Llamar",
   clear: "Nueva conversación",
   cleared: "Conversación reiniciada.",
