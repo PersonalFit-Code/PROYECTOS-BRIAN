@@ -21,13 +21,16 @@ maqueta mientras llegan las reales:
 | Piñitas (sólo portada) | `assets/placeholder-tarta.jpg` (compartido) | ⏳ pendiente |
 | El obrador (sólo galería) | `assets/placeholder-tarta.jpg` (compartido) | ⏳ pendiente |
 
-Las 4 pendientes comparten un único `placeholder-tarta.jpg` (el mismo degradado
-rosa de siempre, sin texto encima) — así en el carrusel de la galería se ve
-consistente hasta que llegue cada una. Para sustituir cualquiera cuando llegue
-la foto real, hay que cambiarle el `src` en `index.html` a un archivo propio
-(por ejemplo `assets/cookies.jpg`) y añadir ese archivo — a diferencia de las
-5 ya puestas, éstas SÍ requieren tocar el HTML porque hoy apuntan todas al
-mismo placeholder compartido.
+**Las 4 pendientes están escondidas** desde el remate de antes de la
+presentación (ver «El remate antes de enseñarla»): una foto de rayas en medio
+de las de verdad es lo primero que se ve. En la portada sus tarjetas siguen en
+el HTML pero una regla (`.carta:has(.foto-pendiente){ display:none }`) las
+oculta; en la galería, sus tres diapositivas están dentro de un comentario
+HTML justo después de la de los golfeados. Cuando llegue cada foto: cambiar el
+`src` a un archivo propio (por ejemplo `assets/cookies.webp`), quitar la clase
+`foto-pendiente` de la tarjeta de portada, y en la galería sacar la diapositiva
+del comentario y añadir su punto abajo (`data-punto` 5, 6 y 7, y las etiquetas
+«de 5» pasan a «de 6», «de 7»…).
 Formato: vertical, relación 4:5 (1000×1250 o más).
 
 **Son maqueta con IA, no fotos reales del obrador.** Mientras estén puestas,
@@ -206,9 +209,14 @@ un Reel incrustado metería el script de Meta y sus cookies, y aquí se sirve el
 archivo y ya. Nada se descarga hasta que alguien pulsa play (`preload="none"`),
 que la mayoría entra por el móvil con datos.
 
-El hueco lleva de momento un marcador con el mismo lenguaje visual que las
-fotos pendientes. **Cuando llegue el clip**, `prepara_video.py` (en el cuaderno
-de la sesión) hace todo el trabajo:
+El hueco lleva de momento un **adelanto** (`.video-pronto`): la foto de la
+pastelera con un velo oscuro, un botón de play que no hace nada y la píldora
+«Vídeo del obrador · en camino». Antes era una caja de rayas con un icono, y
+en un recorrido por la web era el único bloque que parecía a medio hacer.
+Ahora se lee como «aquí va un vídeo», que es lo que es. El script del vídeo
+busca un `<video>` dentro de la caja y, si no lo hay, no hace nada, así que el
+adelanto no le molesta. **Cuando llegue el clip**, `prepara_video.py` (en el
+cuaderno de la sesión) hace todo el trabajo:
 
     python3 prepara_video.py /ruta/al/clip.mov [nombre]
 
@@ -706,6 +714,56 @@ Medido con `rendimiento.mjs` sobre el `dist/` servido por HTTP:
 El documento son 388 KB que Vercel sirve en **105 comprimidos**, así que lo que
 viaja de verdad ronda los 760 KB.
 
+## El remate antes de enseñarla
+
+La víspera de la presentación se hizo un recorrido entero por la web, en
+ordenador y en móvil, apuntando lo que aún «cantaba» a obra en marcha. No
+era cerrarla al cien por cien, era que lo que Luisa viese estuviera bonito.
+Lo que salió y lo que se hizo:
+
+- **Tres tarjetas de rayas en la portada** (cookies, mesa de dulces,
+  piñitas) al lado de cinco fotos de verdad. Se esconden con una regla de CSS
+  (`.carta:has(.foto-pendiente){ display:none }`) en vez de borrarlas: cuando
+  llegue la foto, se le quita la clase y la tarjeta vuelve sola. La portada
+  queda con 5 tarjetas, que cabe mejor que 8.
+- **Tres diapositivas de rayas en el carrusel** (cookies, mesa, el obrador).
+  Ahí no vale esconderlas con CSS porque el carrusel cuenta hijos para saber
+  cuántas tiene: están en un comentario HTML justo después de los golfeados,
+  con sus puntos quitados y las etiquetas «de 8» pasadas a «de 5».
+- **La caja del vídeo** era un rectángulo de rayas con un icono; ahora es un
+  adelanto con la foto de la pastelera, un play y «Vídeo del obrador · en
+  camino» (ver «El vídeo»).
+- **El recuadro de la historia hablaba en plural** («este trozo lo escribís
+  vosotras»). Brian sólo trata con Luisa, así que ahora le habla a ella:
+  «Este trozo lo escribes tú · Tu historia», en los tres idiomas.
+- **Viudas en los titulares**: `text-wrap:balance` en `h1`, `h2`, `h3`, las
+  citas y las frases destacadas. Un titular de dos líneas ya no deja una
+  palabra sola en la segunda. Chromium y Safari lo hacen; donde no, no pasa
+  nada.
+- **El icono de la pestaña** era el logo de 191×222 achatado a un cuadrado.
+  Ahora hay `assets/favicon.png` (192×192, 9 KB) y `assets/icono-180.png`
+  para cuando alguien se la guarde en la pantalla de inicio del iPhone (fondo
+  crema, que iOS no admite transparencias ahí).
+- **La imagen de compartir** no existía: `og:image` apuntaba a un archivo
+  que no estaba. Ahora es `assets/og-image.jpg` (1200×630, 105 KB): la foto de
+  la pastelera a la derecha, el logo, «Tartas personalizadas en Ourense» y el
+  lema. Es lo que enseña WhatsApp al pegar el enlace. Se genera desde
+  `og/og.html` en el cuaderno de la sesión. Las tres direcciones (`og:url`,
+  `og:image`, `twitter:image`) apuntan a `bincamicakes.vercel.app`, que es la
+  que existe: si apuntasen al dominio de `bincamicakes.es` que aún no responde,
+  WhatsApp no enseñaría foto. Al tener dominio, cambiar las tres (hay un
+  comentario al lado).
+
+Lo que se miró y se dejó como estaba: el peso. El documento son 437 KB que
+viajan en 120 comprimidos; minificar el CSS y el JS o quitar los comentarios
+habría ahorrado unos 30 KB comprimidos a cambio de tocar mucho la víspera.
+No compensaba.
+
+Y una cosa que no se tocó a propósito: el lema de la portada dice «Tú
+imaginas, nosotros lo hacemos» (masculino) mientras el resto de la web habla
+de «nosotras». Puede ser su lema de verdad tal cual: hay que preguntárselo a
+Luisa antes de cambiarlo.
+
 ## Falta todavía
 
 - [ ] **Alérgenos**: los de las cuatro fichas están DEDUCIDOS de lo que la propia
@@ -720,8 +778,11 @@ viaja de verdad ronda los 760 KB.
 - [ ] **La foto del local ya está puesta**, pero con dos cabos sueltos:
       confirmar que se puede usar (parece de un fotógrafo) y conseguir el
       original, que la que hay son 768×432 y se queda justa en un móvil fino
-- [ ] Las 3 fotos que siguen faltando (cookies, mesa de dulces, piñitas) + regenerar la de "tarta temática" sin texto horneado
-- [ ] Imagen de compartir `assets/og-image.png` (1200×630)
+- [ ] Las 4 fotos que siguen faltando (cookies, mesa de dulces, piñitas, el
+      obrador) + regenerar la de "tarta temática" sin texto horneado. Mientras,
+      sus tarjetas y diapositivas están escondidas (ver «Añadir las fotos»)
+- [ ] El vídeo del obrador: hasta que llegue, la sección enseña un adelanto
+      con la foto de la pastelera (ver «El vídeo»)
 - [ ] Conectar el alta de novedades a un servicio de listas: hay una constante
       `ENDPOINT` vacía en el JS. Mientras esté vacía, el formulario prepara el
       alta por WhatsApp con el consentimiento escrito, que funciona de verdad
