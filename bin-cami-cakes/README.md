@@ -386,6 +386,63 @@ Y mientras no hay fecha, el hueco del resultado no está vacío: dice qué falta
 saliendo de un único sitio, el mismo que publica la pregunta frecuente de
 debajo.
 
+## Lo que Chromium no enseña: el Safari del iPhone
+
+**Aquí no hay WebKit.** Todo lo que se ha probado se ha probado en Chromium, y
+Brian enseña desde un iPhone. No se puede abrir Safari desde el sandbox, así
+que lo que se hizo fue pasar revista, una por una, a las cosas que Safari trata
+distinto y que Chromium jamás iba a delatar:
+
+- **`vh` mide la pantalla SIN las barras del navegador.** En iPhone (y en
+  Chrome de Android) `100vh` es la altura con las barras escondidas, así que
+  con la barra puesta las cajas ancladas abajo o al centro salían más altas que
+  lo visible y se comían la X de cerrar (en un iPhone SE, la ficha se pasaba
+  unos 35 px por arriba). Ahora la ficha, el visor de fotos y el panel del
+  presupuesto usan `--vh-visible`, que vale `1svh` (la pantalla con las barras
+  puestas, que es la que se ve) y cae a `1vh` en navegadores que no lo saben.
+  En el ordenador valen lo mismo, así que allí no cambia nada.
+- **Zoom al tocar un campo.** Safari hace zoom a toda la página al enfocar un
+  campo con letra menor de 16 px y no lo deshace solo. El del correo del
+  boletín tenía 15. Ahora 16.
+- **`scroll-behavior:smooth` al restaurar el scroll.** Al cerrar la ficha se
+  devuelve la página a su sitio; con el scroll suave de la web eso se veía como
+  un deslizamiento. Se quita un instante y se devuelve.
+
+Lo que **no** se ha podido comprobar y hay que mirar en un iPhone real la
+primera vez que se despliegue (un minuto):
+
+1. Tocar «Ver ficha e ingredientes»: la hoja sube desde abajo, se ve la X, y
+   arrastrando hacia abajo se cierra. Con la barra de Safari desplegada y
+   recogida.
+2. Tocar el campo del correo (sección de novedades): **no** debe hacer zoom.
+3. Con la ficha abierta, intentar mover la página de detrás con el dedo: no
+   debe moverse. Es el punto más dudoso: se bloquea con `overflow:hidden` en
+   `<html>`, y Safari no siempre lo respeta.
+4. Calendario: elegir un día, cambiar de mes, cambiar de tipo de tarta.
+
+## Las pistas de primera visita, en el móvil
+
+Las dos burbujas oscuras («¿No sabes por dónde empezar?» y «Pulsa cualquier
+dulce…») funcionaban en el ordenador y en el móvil fallaban de tres maneras que
+sólo se ven bajando la página con el dedo:
+
+- **La del mostrador se descartaba sin salir.** Observaba la *sección* entera y
+  se daba por avisada en cuanto asomaba el 30%; en el móvil eso ocurre con las
+  tarjetas todavía por debajo de la pantalla, así que no salía y no volvía
+  nunca. Ahora observa la *tarjeta*, y el observador no se apaga hasta que la
+  pista ha salido de verdad.
+- **Salían las dos a la vez**, apiladas, tapando medio contenido. Ahora sale una
+  a la vez; la segunda espera a que se cierre la primera.
+- **Tapaban la barra de abajo**, y el piquito de la del asistente apuntaba al
+  lado contrario del botón. Ahora se colocan por encima de la barra, el piquito
+  mira hacia donde está el botón, y la del mostrador no le cae encima a los dos
+  botones redondos.
+
+Y una más, la que le habría pasado a Luisa en su primera visita: a los 3 s salía
+la pista del asistente y a los 6 s (o al bajar media pantalla) el aviso de
+cookies encima, que además esconde los botones. Ahora las pistas **esperan a
+que las cookies estén decididas**.
+
 ## El calendario está escrito a mano, y no por capricho
 
 Brian pasó un componente de calendario de shadcn/React Aria. **No se puede
@@ -674,34 +731,48 @@ viaja de verdad ronda los 760 KB.
 
 ## Despliegue
 
-Proyecto en Vercel, equipo **BRIAN** (`centropersonalfit`).
+Equipo de Vercel **BRIAN** (`centropersonalfit`, `team_NO14SkEOGredEikP1xjacWZu`).
+Las webs se publican **arrastrando la carpeta** a Vercel (despliegues de tipo
+*drop*), no desde git: `git push` sube el código pero **no** publica nada. Por
+eso la web en vivo se puede quedar por detrás del repositorio sin que se note.
 
-| | |
-|---|---|
-| URL de producción | https://bin-cami-cakes-centropersonalfit.vercel.app *(sin verificar)* |
-| Project ID | `prj_cYpupFUqwiUhVJFiEXSKHNrWj6uG` |
-| Team ID | `team_NO14SkEOGredEikP1xjacWZu` |
+Estado a 29/9, comprobado por la API de Vercel comparando el `index.html`
+publicado (su SHA-1) con el de cada commit:
 
-La URL está sin verificar a propósito: desde aquí no se puede abrir (el proxy
-bloquea `*.vercel.app`) ni consultar por la API, así que no se afirma que esté
-en pie. Ábrela tú para saberlo.
+| Dirección | Proyecto | Subida | Es exactamente el commit | Para qué sirve |
+|---|---|---|---|---|
+| **https://bincamicakes.vercel.app** | `bincamicakes` (`prj_RbIyZwyhqWXDA96W9eVAztDEDtiz`) | 28/9 22:46 UTC | `b937d63` | **La que se enseña.** Foto del local, cinta arreglada, los 15 arreglos, calendario, sin cursor |
+| https://bincami.vercel.app | `bincami` (`prj_zM8H0KwGKorjA9SB3UZgrh7MMJEd`) | 28/9 09:41 UTC | `364da56` | **Desfasada.** Es la de la mañana: con el «tas» en la cinta y con los fallos que luego salieron en la revisión (entre ellos, tocar «volver arriba» en el móvil abría WhatsApp) |
+| bin-cami-cakes(-web).vercel.app | `bin-cami-cakes`, `bin-cami-cakes-web` | 23/9 | — | Intentos del principio; obsoletos |
 
-### Ahora mismo no se puede desplegar desde aquí
+**Riesgo real: enseñar la dirección equivocada.** Hay dos que se parecen y sólo
+una está al día. Conviene borrar en Vercel los proyectos que no valen (`bincami`,
+`bin-cami-cakes`, `bin-cami-cakes-web`) para que el enlace de la reunión sólo
+pueda ser uno. Es decisión de Brian: nada se borra desde aquí.
 
-Los dos caminos están cerrados, y los dos se abren desde tu cuenta:
+### Cómo saber si lo que hay en vivo es lo último
 
-1. **GitHub.** `git push` devuelve 403: «Claude doesn't have GitHub access to
-   PersonalFit-Code/PROYECTOS-BRIAN for your organization». Falta instalar la
-   app de Claude en la organización, desde https://claude.ai/connect-github.
-2. **Vercel.** La conexión de Vercel de esta sesión sólo alcanza los proyectos
-   `personalfit` y `personalfit-xi.vercel.app`. El proyecto `bin-cami-cakes`
-   existe (crearlo devuelve «already exists») pero no se ve ni se puede
-   desplegar: producción y preview devuelven 403. Hay que volver a autorizar
-   la conexión de Vercel incluyendo `bin-cami-cakes`, o darle acceso a todos
-   los proyectos.
+Cada archivo de un despliegue lleva su SHA-1. Se compara el del `index.html`
+publicado con el del `dist/index.html` de este repositorio:
 
-Con lo primero arreglado, lo segundo sobra: se conecta el repo a Vercel y cada
-push publica solo. Poner `bin-cami-cakes` como *Root Directory* del proyecto.
+```
+sha1sum bin-cami-cakes/dist/index.html
+```
+
+y se pide a la API de Vercel la lista de archivos del despliegue en producción
+(`list_deployment_files`). Si coinciden, en vivo está exactamente lo que hay
+aquí; si no, falta arrastrar el zip. Es lo que se hizo para escribir la tabla
+de arriba, y lleva diez segundos.
+
+### Lo que sí y lo que no se puede hacer desde aquí
+
+- `git push` funciona; sube a la rama de trabajo.
+- La API de Vercel se puede **leer** (proyectos, despliegues, archivos), que es
+  lo que permite la comprobación de arriba.
+- Publicar sigue siendo un gesto de Brian: arrastrar la carpeta o el zip. Y
+  abrir la web en vivo desde el sandbox no se puede (el proxy bloquea
+  `*.vercel.app`), así que lo que se afirma de ella sale de la API, no de haberla
+  visto cargar.
 
 La web está con `noindex` a propósito hasta que lleguen las fotos y el dominio
 real; hasta entonces se puede compartir el enlace sin que Google la indexe.

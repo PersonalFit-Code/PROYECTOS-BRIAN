@@ -222,7 +222,15 @@
     --oro:161 105 54; --oro-claro:207 164 89; --amarillo:252 229 153;
     --tinta:58 49 54; --crema:253 250 247;
     --emoji:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Android Emoji','EmojiSymbols';
+    /* 1svh y no 1vh para lo que se ancla abajo o al centro (la ficha, el visor
+       de fotos, el panel del presupuesto). En iPhone y en Chrome de Android
+       100vh es la pantalla CON las barras del navegador escondidas, así que con
+       la barra puesta esas cajas salían más altas que lo que se ve y se comían
+       la X de cerrar. svh es la pantalla con las barras puestas, que es la que
+       hay delante. En el ordenador valen lo mismo. */
+    --vh-visible:1vh;
   }
+  @supports (height:1svh){ :root{ --vh-visible:1svh; } }
   /* El atributo hidden lo pisaba cualquier clase de Tailwind que fijara el
      display. [hidden]{display:none} de la hoja base y .grid{display:grid}
      tienen la misma especificidad, y las utilidades de Tailwind se inyectan
@@ -858,14 +866,14 @@
   .cf-carta[data-centro="true"]{ cursor:pointer; }
   .cf-carta[data-centro="true"] .cf-lupa{ cursor:zoom-in; }
 
-  .visor{ width:min(96vw, 60rem); max-width:none; max-height:94vh; padding:0; border:none;
+  .visor{ width:min(96vw, 60rem); max-width:none; max-height:calc(94 * var(--vh-visible)); padding:0; border:none;
           background:transparent; overflow:visible; color:#fff; }
   .visor::backdrop{ background:rgb(20 14 17 / .86);
                     -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
   .visor[open]{ animation:visorEntra .3s cubic-bezier(.16,1,.3,1); }
   @keyframes visorEntra{ from{ opacity:0; transform:scale(.97); } to{ opacity:1; transform:none; } }
   .visor-caja{ margin:0; position:relative; }
-  .visor-caja img{ display:block; width:100%; max-height:78vh; object-fit:contain;
+  .visor-caja img{ display:block; width:100%; max-height:calc(78 * var(--vh-visible)); object-fit:contain;
                    border-radius:1.1rem; background:rgb(var(--tinta)); }
   .visor-pie{ padding:.9rem .25rem 0; text-align:center; }
   .visor-cuenta{ margin-top:.35rem; font-family:'Plus Jakarta Sans',system-ui,sans-serif;
@@ -877,7 +885,7 @@
             transition:background .2s, transform .2s; }
   .visor-cerrar:hover, .visor-flecha:hover{ background:rgb(var(--frambuesa)); }
   .visor-cerrar{ top:-3.4rem; right:0; }
-  .visor-flecha{ top:calc(39vh - 1.4rem); }
+  .visor-flecha{ top:calc(39 * var(--vh-visible) - 1.4rem); }
   .visor-ant{ left:-3.5rem; }
   .visor-sig{ right:-3.5rem; }
   @media (max-width:900px){
@@ -886,7 +894,7 @@
     .visor-flecha{ top:auto; bottom:.75rem; }
     .visor-ant{ left:.75rem; } .visor-sig{ right:.75rem; }
     .visor-cerrar{ top:-3.1rem; }
-    .visor-caja img{ max-height:64vh; }
+    .visor-caja img{ max-height:calc(64 * var(--vh-visible)); }
   }
   @media (prefers-reduced-motion: reduce){ .visor[open]{ animation:none; } }
 
@@ -900,7 +908,7 @@
      móvil lo pisaba la regla base de .ficha-marco, que está más abajo en el
      archivo y pesa lo mismo, y el marco salía 4vh más alto que su propia
      caja. Lo que se recortaba era justo el botón de WhatsApp del final. */
-  .ficha{ --alto-hoja:92vh;
+  .ficha{ --alto-hoja:calc(92 * var(--vh-visible));
           width:min(96vw, 54rem); max-width:none; max-height:var(--alto-hoja); padding:0;
           border:none; border-radius:1.6rem; overflow:hidden;
           background:rgb(var(--crema)); color:rgb(var(--tinta)); }
@@ -923,14 +931,14 @@
                          border-radius:9999px; background:rgb(255 255 255 / .85);
                          box-shadow:0 1px 3px rgb(0 0 0 / .25); }
   @media (max-width:639.98px){
-    .ficha{ --alto-hoja:88vh; width:100%; max-width:100%;
+    .ficha{ --alto-hoja:calc(88 * var(--vh-visible)); width:100%; max-width:100%;
             margin:auto auto 0;                       /* pegada abajo, no centrada */
             border-radius:1.4rem 1.4rem 0 0; }
     .ficha[open]{ animation:fichaSube .32s cubic-bezier(.16,1,.3,1); }
     /* El agarre va por encima de la foto, centrado; el botón de cerrar sigue en
        su esquina derecha y por encima de él (z-index), así que se tocan cada
        uno lo suyo. */
-    .ficha-lado{ height:min(26vh, 11.5rem); }
+    .ficha-lado{ height:min(calc(26 * var(--vh-visible)), 11.5rem); }
     .ficha-agarre{ display:block; }
     /* Mientras se arrastra manda el dedo, no la animación. */
     .ficha.arrastrando{ animation:none; transition:none; }
@@ -944,7 +952,7 @@
   @media (min-width:768px){
     .ficha-marco{ grid-template-columns:19rem 1fr; grid-template-rows:minmax(0,1fr); }
   }
-  .ficha-lado{ position:relative; height:min(30vh, 13rem); overflow:hidden;
+  .ficha-lado{ position:relative; height:min(calc(30 * var(--vh-visible)), 13rem); overflow:hidden;
                background:rgb(var(--rosa-nube)); }
   @media (min-width:768px){ .ficha-lado{ height:auto; min-height:14rem; } }
   .ficha-lado img{ display:block; width:100%; height:100%; object-fit:cover; }
@@ -1174,6 +1182,7 @@
   .pista::after{ content:''; position:absolute; width:.8rem; height:.8rem;
                  background:rgb(var(--tinta)); transform:rotate(45deg); }
   .pista[data-pico="abajo-izq"]::after{ bottom:-.35rem; left:1.6rem; }
+  .pista[data-pico="abajo-der"]::after{ bottom:-.35rem; right:1.6rem; }
   .pista[data-pico="arriba-der"]::after{ top:-.35rem; right:1.6rem; }
   @media (prefers-reduced-motion: reduce){
     .pista{ transition:none; transform:none; }
@@ -1621,7 +1630,7 @@
   @media (max-width:639.98px){
     #panel-chat{ left:.75rem; right:.75rem; width:auto;
                  bottom:calc(10.3rem + env(safe-area-inset-bottom,0px));
-                 max-height:min(30rem, calc(100vh - 13rem)); }
+                 max-height:min(30rem, calc(100 * var(--vh-visible) - 13rem)); }
   }
   #panel-chat.abierto{ transform:none; opacity:1; pointer-events:auto; }
   /* pre-line: el resumen del encargo se escribe con saltos de línea y sin esto
@@ -2956,7 +2965,7 @@
             <label for="bol-email" class="block font-rotulo text-sm font-bold text-tinta" data-i18n="bol.correo">Tu correo electrónico</label>
             <div class="mt-2 flex flex-col gap-2.5 sm:flex-row">
               <input id="bol-email" name="email" type="email" autocomplete="email" inputmode="email"
-                     class="campo min-w-0 flex-1 rounded-2xl border border-rosa-palo bg-crema px-4 py-3 text-[15px] text-tinta placeholder:text-tinta/40"
+                     class="campo min-w-0 flex-1 rounded-2xl border border-rosa-palo bg-crema px-4 py-3 text-base text-tinta placeholder:text-tinta/40"
                      placeholder="tucorreo@ejemplo.com" aria-describedby="bol-estado">
               <button type="submit"
                       class="destello shrink-0 rounded-2xl bg-frambuesa px-6 py-3 font-rotulo text-sm font-bold text-white transition hover:bg-frambuesa-oscuro"
@@ -4595,8 +4604,14 @@
   /* pulsar el fondo cierra: el propio <dialog> es el fondo, sus hijos no */
   dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
   dlg.addEventListener('close', function(){
-    document.documentElement.style.overflow = '';
+    var raiz = document.documentElement;
+    raiz.style.overflow = '';
+    /* Sin el scroll-behavior:smooth de la página: si no, al devolverla a su
+       sitio se vería a la página deslizarse hasta donde ya estaba. */
+    var suave = raiz.style.scrollBehavior;
+    raiz.style.scrollBehavior = 'auto';
     window.scrollTo(0, yGuardada);
+    raiz.style.scrollBehavior = suave;
     if (devolverFoco) { try { devolverFoco.focus(); } catch(err){} }
     devolverFoco = null;
   });
@@ -4968,6 +4983,11 @@
     aplicar(estado);
     mostrarBanner(false);
   }
+
+  /* Lo consultan las pistas de primera visita: mientras esto no esté decidido,
+     el aviso está delante o está a punto de salir, y una pista al lado es un
+     segundo cartel peleándose con el primero. */
+  window.cookiesPendientes = function(){ return leer() === null; };
 
   var guardado = leer();
   aplicar(guardado === 'todo' ? 'todo' : 'necesarias');
@@ -5719,73 +5739,150 @@
 
   /* ---- pistas de primera visita ----
      Dos, y sólo una vez en la vida de cada visitante. La primera sale junto
-     al asistente a los tres segundos; la segunda, cuando el mostrador entra
-     en pantalla, que es justo cuando sirve saber que las tarjetas se pulsan.
-     Cualquier clic en la página las cierra: no hay que acertarle a la equis. */
+     al asistente a los tres segundos; la segunda, cuando la primera tarjeta
+     del mostrador está DE VERDAD a la vista, que es justo cuando sirve saber
+     que las tarjetas se pulsan. Cualquier clic en la página las cierra, y si
+     nadie las toca se van solas a los once segundos.
+
+     Tres cosas que el ordenador no enseñaba y el móvil sí:
+      · Sale UNA a la vez. Con las dos a la vez, en una pantalla de 390 px salían
+        dos burbujas oscuras apiladas que tapaban medio contenido. La que llega
+        segunda espera a que se cierre la primera.
+      · La del mostrador observa la TARJETA, no la sección entera. Observaba la
+        sección y se daba por avisada en cuanto asomaba el 30%: en el móvil
+        eso pasa con las tarjetas todavía por debajo de la pantalla, la pista
+        se descartaba sin salir y ya no volvía nunca.
+      · Se coloca por encima de la barra de pestañas de abajo, no encima de
+        ella, y el piquito apunta hacia el lado donde está el botón. */
   (function(){
     var PISTAS = [
-      { id:'asistente', ancla:'#chat-abrir', pico:'abajo-izq', espera:3000,
+      { id:'asistente', ancla:'#chat-abrir', pico:'abajo', espera:3000,
         txt:'<strong>¿No sabes por dónde empezar?</strong> Te preparo el presupuesto en cinco preguntas.' },
-      { id:'mostrador', ancla:'#venezolana .mostrador', pico:'arriba-der', alVer:'#venezolana',
+      { id:'mostrador', ancla:'#venezolana .mostrador', pico:'arriba-der', alVer:true,
         txt:'Pulsa cualquier dulce y verás sus <strong>ingredientes y alérgenos</strong>.' }
     ];
+    var enPantalla = null;   /* la pista que hay ahora delante: de una en una */
+
+    /* El aviso de cookies tiene la palabra primero: sale a los seis segundos o al
+       bajar media pantalla, y esconde los dos botones. Una pista que apunta a un
+       botón escondido, junto a un cartel de cookies, es un mal primer minuto. */
+    function cookiesDelante(){
+      var ck = document.getElementById('banner-cookies');
+      if (ck && ck.classList.contains('a-la-vista')) return true;
+      return !!(window.cookiesPendientes && window.cookiesPendientes());
+    }
+
     function vista(id){
       try { return localStorage.getItem('pista-' + id) === '1'; } catch(e){ return true; }
     }
     function marcar(id){ try { localStorage.setItem('pista-' + id, '1'); } catch(e){} }
 
+    /* true si la pista ha salido o ya no hace falta; false si hay que volver a
+       intentarlo más tarde */
     function soltar(p){
-      if (vista(p.id)) return;
+      if (vista(p.id)) return true;
+      if (enPantalla || cookiesDelante()) return false;
       var ancla = document.querySelector(p.ancla);
-      if (!ancla) return;
+      if (!ancla) return true;
       var c = ancla.getBoundingClientRect();
-      if (!c.width || c.bottom < 0 || c.top > innerHeight) return;
+      if (!c.width || c.bottom < 0 || c.top > innerHeight) return false;
       marcar(p.id);
 
       var caja = document.createElement('div');
       caja.className = 'pista no-print';
-      caja.setAttribute('data-pico', p.pico);
       caja.setAttribute('role', 'status');
       caja.innerHTML = tx('pista.' + p.id, p.txt) +
         '<button type="button" class="pista-cerrar" aria-label="' + tx('aria.cerrar', 'Cerrar') + '">' +
         '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
       document.body.appendChild(caja);
+      enPantalla = caja;
 
       /* colocada después de existir: hasta que no está en el documento no se
          puede saber cuánto mide */
       var b = caja.getBoundingClientRect();
       var margen = 12;
-      var arriba = p.pico === 'abajo-izq';
-      var top = arriba ? c.top - b.height - margen : c.bottom + margen;
-      var left = arriba ? c.left : c.right - b.width;
-      caja.style.top = Math.max(margen, Math.min(innerHeight - b.height - margen, top)) + 'px';
-      caja.style.left = Math.max(margen, Math.min(innerWidth - b.width - margen, left)) + 'px';
+      /* la barra de abajo del móvil no es del bocadillo: se coloca por encima
+         de ella. En pantalla ancha no existe y vale 0. */
+      var barra = document.querySelector('.barra-tabs');
+      var suelo = innerHeight - (barra ? barra.offsetHeight : 0);
+      var encima = p.pico === 'abajo';
+      var top = encima ? c.top - b.height - margen : c.bottom + margen;
+      var left = encima ? c.left : c.right - b.width;
+      var y = Math.max(margen, Math.min(suelo - b.height - margen, top));
+      /* Sin taparle al dedo los dos botones redondos de la esquina: si el
+         bocadillo (el del asistente ya va por encima de ellos) va a caer sobre
+         esa columna, se para a su izquierda. Tocar el bocadillo sólo lo cierra;
+         el botón de debajo no se enteraba. */
+      var derecha = innerWidth - margen;
+      var fl = document.querySelector('.acciones-flotantes');
+      var fc = fl && fl.getBoundingClientRect();
+      if (!encima && fc && fc.width && y < fc.bottom && y + b.height > fc.top)
+        derecha = Math.min(derecha, fc.left - 8);
+      var x = Math.max(margen, Math.min(derecha - b.width, left));
+      caja.style.top = y + 'px';
+      caja.style.left = x + 'px';
+      /* el piquito, del lado del botón: si el botón queda a la derecha del
+         centro del bocadillo, a la derecha */
+      var lado = (c.left + c.width / 2) > (x + b.width / 2) ? 'der' : 'izq';
+      caja.setAttribute('data-pico', encima ? 'abajo-' + lado : p.pico);
       requestAnimationFrame(function(){ caja.classList.add('a-la-vista'); });
 
+      var reloj;
       function fuera(){
         caja.classList.remove('a-la-vista');
         setTimeout(function(){ caja.remove(); }, 380);
         document.removeEventListener('click', fuera, true);
         clearTimeout(reloj);
+        if (enPantalla === caja) enPantalla = null;
+        /* si había otra esperando su turno, ahora le toca */
+        setTimeout(revisa, 600);
       }
       caja.querySelector('.pista-cerrar').addEventListener('click', fuera);
       /* en captura: se cierra aunque el clic sea sobre el propio botón al que
          apunta, que es lo que suele pasar y lo que se quiere */
       setTimeout(function(){ document.addEventListener('click', fuera, true); }, 400);
-      var reloj = setTimeout(fuera, 11000);
+      reloj = setTimeout(fuera, 11000);
+      return true;
     }
+
+    /* las pistas que esperan a ver algo y no han salido: si lo tienen delante
+       ahora, salen (lo llama el cierre de la que ocupaba el sitio) */
+    function revisa(){
+      PISTAS.forEach(function(p){
+        if (!p.alVer || vista(p.id)) return;
+        var a = document.querySelector(p.ancla);
+        if (!a) return;
+        var c = a.getBoundingClientRect();
+        if (c.width && c.top >= 0 && c.bottom <= innerHeight) soltar(p);
+      });
+    }
+
+    /* al decidir las cookies se vacía el sitio: las que esperaban a ver su
+       tarjeta y la tienen delante salen ahora, sin tener que volver a asomar */
+    window.addEventListener('cookies', function(){ setTimeout(revisa, 1200); });
 
     PISTAS.forEach(function(p){
       if (vista(p.id)) return;
-      if (p.espera){ setTimeout(function(){ soltar(p); }, p.espera); return; }
+      if (p.espera){
+        /* primer intento a los 3 s; si hay algo delante (el aviso de cookies,
+           otra pista), se reintenta cada segundo, hasta minuto y medio */
+        var intentos = 0;
+        var intenta = function(){
+          if (soltar(p) || ++intentos > 90) return;
+          setTimeout(intenta, 1000);
+        };
+        setTimeout(intenta, p.espera);
+        return;
+      }
       if (!('IntersectionObserver' in window)) return;
-      var zona = document.querySelector(p.alVer);
+      var zona = document.querySelector(p.ancla);
       if (!zona) return;
+      /* se observa la tarjeta, y el observador NO se apaga hasta que la pista
+         ha salido de verdad */
       var ojo = new IntersectionObserver(function(e){
         if (!e[0].isIntersecting) return;
-        ojo.disconnect();
-        setTimeout(function(){ soltar(p); }, 700);
-      }, { threshold: 0.3 });
+        setTimeout(function(){ if (soltar(p)) ojo.disconnect(); }, 700);
+      }, { threshold: 0.6 });
       ojo.observe(zona);
     });
   })();
