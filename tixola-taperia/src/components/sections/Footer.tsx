@@ -115,7 +115,10 @@ export default function Footer({ year: buildYear }: FooterProps) {
           {/* Marca */}
           <div>
             <Link href={lp("/")} aria-label={m.nav.homeAria} className="inline-block rounded-md">
-              <Logo size="lg" decorative />
+              {/* El pie es donde la marca se firma, y donde hay sitio: aquí va el logotipo ENTERO
+                  tal y como está impreso en la carta —manuscrito y "vinoteca - tapería" incluidos—
+                  a un tamaño en el que se lee. En la cabecera no cabe así. */}
+              <Logo variant="stacked" size="lg" decorative />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-cream-muted text-pretty">{m.footer.about}</p>
             <p className="mt-3 font-display text-base italic leading-snug text-cream-faint">{m.footer.tixolaMeaning}</p>

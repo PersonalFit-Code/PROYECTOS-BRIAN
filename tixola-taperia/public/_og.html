@@ -1,0 +1,90 @@
+<!doctype html>
+<!--
+  PLANTILLA DE LA IMAGEN QUE SALE AL COMPARTIR EL ENLACE (Open Graph, 1200×630).
+
+  Es un archivo de TRABAJO, no una página del sitio: se sirve desde `public/`, se fotografía con el
+  navegador y de ahí sale `public/og.jpg`. Está aquí y no en un montaje aparte para que herede las
+  fuentes y los tokens de color REALES del sitio (enlaza su misma hoja de estilos y lleva las clases
+  de fuente del `<html>` de verdad): así, cuando cambia el granate, la miniatura de WhatsApp cambia
+  con él en vez de quedarse con los colores del año pasado.
+
+  Para regenerarla: `npm run build`, levantar `next start`, abrir /_og.html a 1200×630 y guardar.
+  Las referencias a la hoja de estilos hay que actualizarlas si cambian de hash.
+-->
+<html lang="es" class="cormorant_garamond_a4d55701-module__OKdQ9q__variable cinzel_bc049cf1-module__xiPK-G__variable manrope_bfe354df-module__TsHL_q__variable bebas_neue_da3e386-module__bYT8gW__variable">
+<head>
+<meta charset="utf-8">
+<title>OG · Tixola</title>
+<link rel="stylesheet" href="/_next/static/chunks/3p9j7-g7wbg2m.css">
+<link rel="stylesheet" href="/_next/static/chunks/2zn4zjdjb1d9m.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden;
+    background: #3b1613;
+    font-family: var(--font-manrope), Manrope, system-ui, sans-serif;
+    color: #f6f4e7;
+  }
+  .lienzo { position: relative; width: 1200px; height: 630px; display: flex; align-items: center; }
+  /* Mismo ambiente de brasa que la portada, pero quieto. */
+  .brasa {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(820px 520px at 78% 42%, rgba(158,22,24,0.55), transparent 68%),
+      radial-gradient(620px 420px at 18% 110%, rgba(90,20,24,0.5), transparent 70%);
+  }
+  .foto {
+    position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+    width: 560px; height: 560px; border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 10px rgba(246,244,231,0.07), 0 40px 90px -30px rgba(0,0,0,0.85);
+  }
+  /* Velo para que el texto no se meta en la foto. */
+  .velo {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, #3b1613 0%, rgba(59,22,19,0.96) 42%, rgba(59,22,19,0.55) 60%, transparent 76%);
+  }
+  .copy { position: relative; padding: 0 64px; max-width: 700px; }
+  .kicker {
+    font-family: var(--font-cinzel), Cinzel, Georgia, serif;
+    font-size: 19px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: #f0838a; margin: 0 0 22px;
+  }
+  h1 {
+    font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+    font-size: 76px; line-height: 1.02; margin: 0 0 24px; font-weight: 500;
+  }
+  h1 em { font-style: italic; color: #e8c27a; }
+  p { font-size: 25px; line-height: 1.45; margin: 0 0 32px; color: rgba(246,244,231,0.82); }
+  .chips { display: flex; gap: 14px; align-items: center; margin-bottom: 26px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 9px;
+    border: 1px solid rgba(246,244,231,0.18); background: rgba(246,244,231,0.06);
+    border-radius: 999px; padding: 11px 20px; font-size: 20px; font-weight: 600;
+  }
+  .chip .estrella { color: #e8c27a; }
+  .pie { display: flex; align-items: center; gap: 18px; font-size: 20px; color: rgba(246,244,231,0.66); }
+  .logo { height: 62px; width: auto; }
+</style>
+</head>
+<body>
+  <div class="lienzo">
+    <div class="brasa"></div>
+    <img class="foto" src="/images/tixola-raxo-croquetas.jpg" alt="">
+    <div class="velo"></div>
+    <div class="copy">
+      <p class="kicker">Tapería · Vinoteca · Ourense</p>
+      <h1>El Arte del Tapeo<br>en el <em>Corazón</em> de Ourense</h1>
+      <p>Tixolas de hierro, zamburiñas, pulpo y croquetas caseras, a un minuto de la Catedral.</p>
+      <div class="chips">
+        <span class="chip"><span class="estrella">★</span> 4,4 · 858 reseñas en Google</span>
+        <span class="chip">10 € – 20 €</span>
+      </div>
+      <div class="pie">
+        <img class="logo" src="/brand/tixola-mark.png" alt="">
+        <span>Rúa Juan de Austria, 7 · 646 45 72 74</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
