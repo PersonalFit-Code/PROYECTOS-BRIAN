@@ -128,7 +128,7 @@ export default function ChapterNav() {
         aria-valuetext={t(m.scroll.progressValue, { percent: 0 })}
         /* Estado inicial en `transform` (no en la propiedad `scale` de Tailwind v4): GSAP anima `transform`. */
         style={{ transform: "scaleX(0)" }}
-        className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-[linear-gradient(90deg,var(--color-pimenton-dark),var(--color-pimenton-light)_55%,var(--color-ember))] shadow-[0_0_12px_rgba(216,50,60,0.55)]"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-[linear-gradient(90deg,var(--color-pimenton-dark),var(--color-pimenton-light)_55%,var(--color-ember))] shadow-[0_0_12px_rgba(232,86,90,0.55)]"
       />
 
       {/* Puntos laterales (lg+) */}

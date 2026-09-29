@@ -335,7 +335,7 @@ export default function ChatMessageBubble({ message, errorKind = null, onRetry }
   if (isUser) {
     return (
       <motion.div initial={ENTER.user.initial} animate={ENTER.shown} transition={ENTER.transition} className="flex justify-end pl-8">
-        <div className="max-w-[88%] rounded-2xl rounded-tr-md border border-pimenton/35 bg-gradient-to-br from-pimenton/20 to-pimenton/8 px-4 py-3 text-[14px] leading-relaxed text-cream shadow-[0_12px_32px_-18px_rgba(178,30,39,0.9)]">
+        <div className="max-w-[88%] rounded-2xl rounded-tr-md border border-pimenton/35 bg-gradient-to-br from-pimenton/20 to-pimenton/8 px-4 py-3 text-[14px] leading-relaxed text-cream shadow-[0_12px_32px_-18px_rgba(158,22,24,0.9)]">
           <span className="sr-only">{m.chat.you}: </span>
           <p className="whitespace-pre-wrap [overflow-wrap:anywhere]">{message.content}</p>
         </div>
@@ -353,7 +353,7 @@ export default function ChatMessageBubble({ message, errorKind = null, onRetry }
         ) : (
           <div
             className={cn(
-              "space-y-2 rounded-2xl rounded-tl-md border border-cream/10 bg-gradient-to-br from-iron-700/90 to-iron-800 px-4 py-3 text-[14px] leading-relaxed text-cream-200 shadow-[0_10px_28px_-20px_rgba(0,0,0,0.9)] [overflow-wrap:anywhere]",
+              "space-y-2 rounded-2xl rounded-tl-md border border-cream/10 bg-gradient-to-br from-granate-700/90 to-granate-800 px-4 py-3 text-[14px] leading-relaxed text-cream-200 shadow-[0_10px_28px_-20px_rgba(0,0,0,0.9)] [overflow-wrap:anywhere]",
               streaming && !message.content && "inline-flex min-h-11 items-center",
             )}
           >

@@ -62,13 +62,13 @@ export default function CartaHero({ animate = true, className }: CartaHeroProps)
           <li key={p.src} className={cn("list-none", p.offset)}>
             <figure
               className={cn(
-                "group w-[124px] rounded-sm bg-cream p-2 pb-3 text-iron shadow-card transition-transform duration-500 ease-[var(--ease-out-expo)] hover:z-10 hover:rotate-0 hover:scale-105 md:w-[140px]",
+                "group w-[124px] rounded-sm bg-cream p-2 pb-3 text-granate shadow-card transition-transform duration-500 ease-[var(--ease-out-expo)] hover:z-10 hover:rotate-0 hover:scale-105 md:w-[140px]",
                 p.rotate,
                 animate && "motion-safe:animate-float",
               )}
               style={animate ? { animationDelay: `${i * 1.6}s`, animationDuration: "7s" } : undefined}
             >
-              <span className="relative block aspect-square overflow-hidden rounded-[2px] bg-iron-800">
+              <span className="relative block aspect-square overflow-hidden rounded-[2px] bg-granate-800">
                 <Image src={p.src} alt={p.alt} width={336} height={336} sizes="140px" className="h-full w-full object-cover" priority={i === 0} />
                 {/* Cinta adhesiva */}
                 <span
@@ -76,7 +76,7 @@ export default function CartaHero({ animate = true, className }: CartaHeroProps)
                   className="absolute -top-2 left-1/2 h-4 w-14 -translate-x-1/2 -rotate-3 bg-cream-200/70 shadow-sm [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"
                 />
               </span>
-              <figcaption className="mt-2 text-center font-display text-[13px] italic leading-none text-iron-800">{p.caption}</figcaption>
+              <figcaption className="mt-2 text-center font-display text-[13px] italic leading-none text-granate-800">{p.caption}</figcaption>
             </figure>
           </li>
         ))}

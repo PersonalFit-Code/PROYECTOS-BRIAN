@@ -51,7 +51,7 @@ const TONE: Record<Tone, { dot: string; halo: string; text: string; glow: string
     dot: "bg-pimenton-light",
     halo: "bg-pimenton-light/60",
     text: "text-pimenton-a11y",
-    glow: "shadow-[0_0_12px_rgba(216,50,60,0.8)]",
+    glow: "shadow-[0_0_12px_rgba(232,86,90,0.8)]",
   },
 };
 
@@ -133,7 +133,7 @@ export default function OpenStatus({ className }: OpenStatusProps) {
        fotograma del scroll. Mismo borde y misma sombra; el fondo tapa un poco más y el texto gana. */
     <div
       className={cn(
-        "flex h-full flex-col rounded-[28px] border border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.88),rgba(20,20,20,0.72))] p-5 shadow-glass md:p-7",
+        "flex h-full flex-col rounded-[28px] border border-cream/10 bg-[linear-gradient(160deg,rgba(64,25,21,0.88),rgba(64,25,21,0.72))] p-5 shadow-glass md:p-7",
         className,
       )}
     >

@@ -39,7 +39,7 @@ interface NotFoundCopy {
 }
 
 /* El `<body>` de este esqueleto no lleva las clases del layout de idioma: sin esto saldría blanco. */
-const BODY_STYLE = "body{margin:0;background:#121212;color:#f9f6f0}";
+const BODY_STYLE = "body{margin:0;background:#3b1613;color:#f6f4e7}";
 
 const COPY: Record<Locale, NotFoundCopy> = {
   es: esCommon.notFound,
@@ -61,7 +61,7 @@ export default function NotFound() {
         lang={LOCALE_META[locale].hreflang}
         className={cn(
           fontVariables,
-          "container-page relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-iron text-center text-cream antialiased",
+          "container-page relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-granate text-center text-cream antialiased",
         )}
       >
         {/* Brasa de fondo, como en el resto de la web. Horneada: era la capa más grande de esta página
@@ -75,7 +75,7 @@ export default function NotFound() {
         <p className="mt-4 max-w-md text-cream-muted text-pretty">{nf.text}</p>
         <Link
           href={localePath(locale, "/")}
-          className="mt-8 inline-flex h-12 items-center rounded-full bg-pimenton px-6 font-sans font-semibold text-cream transition-colors duration-300 hover:bg-pimenton-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron"
+          className="mt-8 inline-flex h-12 items-center rounded-full bg-pimenton px-6 font-sans font-semibold text-cream transition-colors duration-300 hover:bg-pimenton-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-granate"
         >
           {nf.back}
         </Link>

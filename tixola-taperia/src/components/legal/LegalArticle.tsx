@@ -334,7 +334,7 @@ export default function LegalArticle({ docKey }: { docKey: LegalDocKey }) {
         </p>
       </header>
 
-      <div className="divider-iron my-10 md:my-12" aria-hidden />
+      <div className="divider-granate my-10 md:my-12" aria-hidden />
 
       <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14 xl:grid-cols-[17rem_minmax(0,1fr)]">
         {/* Índice: plegable en móvil/tablet, pegajoso en escritorio */}

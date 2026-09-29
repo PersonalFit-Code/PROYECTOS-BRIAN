@@ -107,7 +107,7 @@ function ConsentToggle({ id, checked, locked = false, onChange, label, descripti
         disabled={locked}
         onClick={() => onChange?.(!checked)}
         className={cn(
-          "relative mt-0.5 grid h-11 w-14 shrink-0 place-items-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron",
+          "relative mt-0.5 grid h-11 w-14 shrink-0 place-items-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-granate",
           locked && "cursor-not-allowed",
         )}
       >
@@ -258,7 +258,7 @@ export default function CookieConsent() {
                 /* Nunca backdrop-filter, tampoco en escritorio: el aviso se pinta ENCIMA de la portada,
                    cuyas capas ya están animando, así que cada fotograma tendría que volver a desenfocar
                    350 px de pantalla. Y es lo primero que ve un visitante. */
-                className="noise after:noise-after relative overflow-hidden rounded-3xl border border-cream/10 bg-iron-900/95 p-5 shadow-card md:p-6"
+                className="noise after:noise-after relative overflow-hidden rounded-3xl border border-cream/10 bg-granate-900/95 p-5 shadow-card md:p-6"
               >
                 {/* Brasa decorativa */}
                 {/* `ember-wash` y no `ember-glow`: el original era un color PLANO al que el desenfoque solo plumeaba el borde, así que un radial de pico y caída rápida perdía ~3,5 veces de luz. Alfa igual que el original. */}

@@ -348,8 +348,8 @@ export default function DishCarousel3D({
         </div>
 
         {/* Desvanecido lateral: las caras de los extremos se funden con el hierro */}
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-iron to-transparent md:w-28 lg:w-48" />
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-iron to-transparent md:w-28 lg:w-48" />
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-granate to-transparent md:w-28 lg:w-48" />
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-granate to-transparent md:w-28 lg:w-48" />
 
         <ArrowButton dir="prev" label={m.dishes.carousel.prev} onClick={() => goBy(-1)} className="absolute left-3 top-1/2 z-20 -translate-y-1/2 max-md:hidden lg:left-10" />
         <ArrowButton dir="next" label={m.dishes.carousel.next} onClick={() => goBy(1)} className="absolute right-3 top-1/2 z-20 -translate-y-1/2 max-md:hidden lg:right-10" />
@@ -377,7 +377,7 @@ export default function DishCarousel3D({
                     /* `transition-all` animaba también la sombra neón; solo ancho y color, y en 200 ms:
                        el punto confirma el toque, no ambienta. */
                     "block h-1.5 rounded-full transition-[width,background-color] duration-200 ease-[var(--ease-out-expo)]",
-                    isActive ? "w-6 bg-pimenton-light shadow-[0_0_12px_rgba(216,50,60,0.8)]" : "w-1.5 bg-cream/30",
+                    isActive ? "w-6 bg-pimenton-light shadow-[0_0_12px_rgba(232,86,90,0.8)]" : "w-1.5 bg-cream/30",
                   )}
                 />
               </button>
@@ -462,12 +462,12 @@ function DishFace({ slide, index, total, active, steam, hintId, angle, radius, o
         </motion.div>
 
         {/* Degradado inferior para que se lea el nombre */}
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-iron-900 via-iron-900/75 to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-granate-900 via-granate-900/75 to-transparent" />
         {/* Velo de las caras laterales: la de delante manda */}
         <div
           aria-hidden
           className={cn(
-            "pointer-events-none absolute inset-0 rounded-[inherit] bg-iron-900 transition-opacity duration-500 ease-[var(--ease-out-expo)]",
+            "pointer-events-none absolute inset-0 rounded-[inherit] bg-granate-900 transition-opacity duration-500 ease-[var(--ease-out-expo)]",
             active ? "opacity-0" : "opacity-45",
           )}
         />
@@ -476,14 +476,14 @@ function DishFace({ slide, index, total, active, steam, hintId, angle, radius, o
           aria-hidden
           /* Respuesta a hover/foco: 160 ms. A 500 ms el brillo llegaba después de que el usuario ya
              hubiera decidido, y la afordancia dejaba de leerse como consecuencia del gesto. */
-          className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(216,50,60,0.5),0_0_60px_-10px_rgba(178,30,39,0.7)] transition-opacity duration-160 group-focus-within:opacity-100 group-hover:opacity-100"
+          className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(232,86,90,0.5),0_0_60px_-10px_rgba(158,22,24,0.7)] transition-opacity duration-160 group-focus-within:opacity-100 group-hover:opacity-100"
         />
 
         {dish.badge && (
           /* Sin `backdrop-blur-sm`: un backdrop-filter dentro de un contenedor `preserve-3d` que gira
              obliga al compositor a leer el fondo YA proyectado, y esto se pintaba en las nueve caras a
              la vez. Con el hierro al 90 % la insignia se lee igual (mejor contraste, de hecho). */
-          <span className="absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-pimenton-light/45 bg-iron-900/90 px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.16em] text-cream shadow-[0_0_20px_rgba(178,30,39,0.4)]">
+          <span className="absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-pimenton-light/45 bg-granate-900/90 px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.16em] text-cream shadow-[0_0_20px_rgba(158,22,24,0.4)]">
             <Sparkles size={11} aria-hidden className="text-gold" />
             {dish.badge}
           </span>
@@ -537,7 +537,7 @@ function ArrowButton({ dir, label, onClick, className }: { dir: "prev" | "next";
       className={cn(
         /* 44×44 px: el cristal ahí no se ve, y estas flechas viven sobre el escenario en perspectiva.
            Hierro horneado al 90 % con el mismo filo de luz que daba `glass-smoke`. */
-        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-iron-900/90 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
+        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-granate-900/90 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
         className,
       )}
     >

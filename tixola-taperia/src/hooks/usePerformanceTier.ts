@@ -302,7 +302,7 @@ function renderDiagnostics(): void {
       "pointer-events:none",
       "padding:6px 10px",
       "border-radius:6px",
-      "background:rgba(10,10,10,0.82)",
+      "background:rgba(34,12,10,0.82)",
       "color:#f1e2cc",
       "font:11px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace",
       "letter-spacing:0.02em",

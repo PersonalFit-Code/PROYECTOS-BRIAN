@@ -29,17 +29,17 @@ export type NeonButtonProps = ButtonProps | AnchorProps;
  * `active:`, así que el hundido de la pulsación tardaba 300 ms en notarse) y `active:duration-100`
  * separa la realimentación del dedo del resto: pulsar responde en 100 ms, el hover en 200. */
 const base =
-  "group relative inline-flex items-center justify-center gap-2 rounded-full text-center font-sans font-semibold leading-snug tracking-wide transition-[translate,scale,background-color,border-color,box-shadow,color,opacity] duration-200 active:duration-100 ease-[var(--ease-out-expo)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-iron disabled:opacity-50 disabled:pointer-events-none";
+  "group relative inline-flex items-center justify-center gap-2 rounded-full text-center font-sans font-semibold leading-snug tracking-wide transition-[translate,scale,background-color,border-color,box-shadow,color,opacity] duration-200 active:duration-100 ease-[var(--ease-out-expo)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-granate disabled:opacity-50 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-pimenton text-cream border border-pimenton-light/60 hover:bg-pimenton-light hover:-translate-y-0.5 hover:shadow-[0_0_40px_rgba(216,50,60,0.75)] active:translate-y-0",
+    "bg-pimenton text-cream border border-pimenton-light/60 hover:bg-pimenton-light hover:-translate-y-0.5 hover:shadow-[0_0_40px_rgba(232,86,90,0.75)] active:translate-y-0",
   ghost: "bg-transparent text-cream hover:bg-cream/10 border border-transparent",
   /* Sin `backdrop-blur`: el CTA secundario de la portada vive sobre capas que respiran en bucle (halo
      de calor, vaho), y el desenfoque del fondo habría que recalcularlo con cada fotograma de ellas. */
   outline:
     "bg-transparent text-cream border border-cream/30 hover:border-cream/70 hover:bg-cream/5 hover:-translate-y-0.5",
-  cream: "bg-cream text-iron border border-cream hover:bg-white hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(249,246,240,0.35)]",
+  cream: "bg-cream text-granate border border-cream hover:bg-white hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(246,244,231,0.35)]",
 };
 
 /* `min-h-*` + padding vertical en vez de `h-*` fija: con una sola línea el botón mide exactamente

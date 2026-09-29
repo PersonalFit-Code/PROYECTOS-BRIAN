@@ -42,12 +42,12 @@ function PanGlyph() {
   return (
     <g>
       {/* mango */}
-      <path d="M25.5 15.5 L36.5 4.5" stroke="#b21e27" strokeWidth="4.2" strokeLinecap="round" />
-      <path d="M27 14 L35.5 5.5" stroke="#d8323c" strokeWidth="1.2" strokeLinecap="round" opacity="0.8" />
+      <path d="M25.5 15.5 L36.5 4.5" stroke="#9e1618" strokeWidth="4.2" strokeLinecap="round" />
+      <path d="M27 14 L35.5 5.5" stroke="#e8565a" strokeWidth="1.2" strokeLinecap="round" opacity="0.8" />
       {/* cuerpo de la sartén */}
-      <circle cx="16.5" cy="24" r="12" fill="#7d131a" />
-      <circle cx="16.5" cy="24" r="10.4" fill="#b21e27" />
-      <circle cx="16.5" cy="24" r="7.2" fill="#3a0e13" />
+      <circle cx="16.5" cy="24" r="12" fill="#7a1012" />
+      <circle cx="16.5" cy="24" r="10.4" fill="#9e1618" />
+      <circle cx="16.5" cy="24" r="7.2" fill="#5a1418" />
       {/* reflejo del aceite caliente */}
       <path d="M11.5 21.5a6.2 6.2 0 0 1 5.4-3.6" stroke="#ff6a3d" strokeWidth="1.4" strokeLinecap="round" opacity="0.9" />
       {/* brasa central */}
@@ -72,8 +72,8 @@ function PanGlyph() {
 function TGlyph() {
   return (
     <g>
-      <circle cx="20" cy="20" r="19" fill="#7d131a" />
-      <circle cx="20" cy="20" r="17.4" fill="#b21e27" />
+      <circle cx="20" cy="20" r="19" fill="#7a1012" />
+      <circle cx="20" cy="20" r="17.4" fill="#9e1618" />
       <circle cx="20" cy="20" r="17.4" fill="none" stroke="#e8c27a" strokeOpacity="0.45" strokeWidth="1" />
       <text
         x="20"
@@ -81,7 +81,7 @@ function TGlyph() {
         fontSize="22"
         fontWeight={600}
         textAnchor="middle"
-        fill="#f9f6f0"
+        fill="#f6f4e7"
         style={{ fontFamily: CINZEL }}
       >
         T

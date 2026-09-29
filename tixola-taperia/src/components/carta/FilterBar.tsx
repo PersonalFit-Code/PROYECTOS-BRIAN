@@ -88,7 +88,7 @@ function SearchField({ id, value, onChange, className }: SearchFieldProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={m.carta.search}
-        className="h-11 w-full rounded-full border border-cream/15 bg-iron/60 pl-10 pr-11 text-[15px] text-cream placeholder:text-cream-faint transition-colors focus:border-pimenton-light/70 focus:bg-iron/80 focus:outline-none focus:ring-2 focus:ring-pimenton-light/40 [&::-webkit-search-cancel-button]:hidden"
+        className="h-11 w-full rounded-full border border-cream/15 bg-granate/60 pl-10 pr-11 text-[15px] text-cream placeholder:text-cream-faint transition-colors focus:border-pimenton-light/70 focus:bg-granate/80 focus:outline-none focus:ring-2 focus:ring-pimenton-light/40 [&::-webkit-search-cancel-button]:hidden"
       />
       {value && (
         <button
@@ -155,7 +155,7 @@ export default function FilterBar({
         {/* Hierro casi opaco en TODAS las gamas: un `backdrop-filter` pegajoso sobre contenido que se
             desplaza por debajo se recalcula en cada fotograma de scroll y no debe existir en ninguna
             gama. De paso el texto de los filtros gana contraste. */}
-        <div className="border-x-0 border-y border-cream/10 bg-iron-900/95 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]">
+        <div className="border-x-0 border-y border-cream/10 bg-granate-900/95 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]">
           <div className={CARTA_CONTAINER}>
             {/* ── Fila principal ── */}
             <div className="flex items-center gap-3">
@@ -218,7 +218,7 @@ export default function FilterBar({
           aria-hidden={!open || undefined}
           inert={!open || undefined}
           className={cn(
-            "absolute inset-x-0 top-full z-10 origin-top overflow-hidden border-b border-cream/10 bg-iron-900/95 shadow-[0_22px_45px_-24px_rgba(0,0,0,0.95)]",
+            "absolute inset-x-0 top-full z-10 origin-top overflow-hidden border-b border-cream/10 bg-granate-900/95 shadow-[0_22px_45px_-24px_rgba(0,0,0,0.95)]",
             "transition-[opacity,translate] duration-180 ease-[var(--ease-out-expo)] motion-reduce:transition-none",
             open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
           )}
@@ -245,7 +245,7 @@ export default function FilterBar({
                             className={cn(
                               "inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-[background-color,border-color,box-shadow,color] duration-150 ease-[var(--ease-out-expo)]",
                               pressed
-                                ? "border-pimenton-light/80 bg-pimenton/30 text-cream shadow-[0_0_18px_rgba(216,50,60,0.4)]"
+                                ? "border-pimenton-light/80 bg-pimenton/30 text-cream shadow-[0_0_18px_rgba(232,86,90,0.4)]"
                                 : "border-cream/15 text-cream-muted hover:border-cream/40 hover:text-cream",
                             )}
                           >
@@ -284,7 +284,7 @@ export default function FilterBar({
                             className={cn(
                               "relative inline-flex h-11 items-center gap-2 rounded-full border py-1 pl-1 pr-3 transition-[background-color,border-color,box-shadow] duration-150 ease-[var(--ease-out-expo)]",
                               pressed
-                                ? "border-pimenton-light/80 bg-pimenton/20 shadow-[0_0_16px_rgba(216,50,60,0.35)]"
+                                ? "border-pimenton-light/80 bg-pimenton/20 shadow-[0_0_16px_rgba(232,86,90,0.35)]"
                                 : "border-cream/10 hover:border-cream/35 hover:bg-cream/5",
                             )}
                           >
@@ -295,7 +295,7 @@ export default function FilterBar({
                             {pressed && (
                               <span
                                 aria-hidden
-                                className="absolute -right-1 -top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-pimenton-light text-cream shadow-[0_0_10px_rgba(216,50,60,0.8)]"
+                                className="absolute -right-1 -top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-pimenton-light text-cream shadow-[0_0_10px_rgba(232,86,90,0.8)]"
                               >
                                 <X size={10} strokeWidth={3} />
                               </span>

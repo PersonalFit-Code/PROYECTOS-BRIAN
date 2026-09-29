@@ -1,6 +1,10 @@
+<!-- Insignia de Tixola: sartén crema sobre el rojo de marca (#9e1618), como el logotipo impreso.
+     Antes era una sartén roja sobre fondo casi negro. Con la página en granate eso dejaba un icono
+     oscuro sobre oscuro que a 16 px, que es el tamaño en el que de verdad se ve, era una mancha:
+     el contraste de la insignia lo da el rojo lleno, no el dibujo. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#121212"/>
-  <circle cx="30" cy="34" r="17" fill="#1f1f1f" stroke="#B21E27" stroke-width="3"/>
-  <circle cx="30" cy="34" r="9" fill="#B21E27" opacity="0.85"/>
-  <rect x="44" y="30" width="16" height="7" rx="3.5" fill="#B21E27"/>
+  <rect width="64" height="64" rx="14" fill="#9e1618"/>
+  <circle cx="30" cy="34" r="17" fill="none" stroke="#f6f4e7" stroke-width="3.5"/>
+  <circle cx="30" cy="34" r="8" fill="#f6f4e7" opacity="0.9"/>
+  <rect x="44" y="30.5" width="16" height="7" rx="3.5" fill="#f6f4e7"/>
 </svg>

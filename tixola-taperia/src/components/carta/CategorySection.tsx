@@ -110,7 +110,7 @@ export default function CategorySection({
       className={cn(
         "relative scroll-mt-[calc(var(--header-h)+84px)] [content-visibility:auto]",
         "[contain-intrinsic-size:auto_var(--cat-size-sm)] md:[contain-intrinsic-size:auto_var(--cat-size-md)] xl:[contain-intrinsic-size:auto_var(--cat-size-xl)]",
-        chalkboard && "rounded-3xl border-2 border-dashed border-cream/25 bg-iron-900/60 p-5 shadow-card md:p-8 lg:-rotate-[0.3deg] lg:p-10",
+        chalkboard && "rounded-3xl border-2 border-dashed border-cream/25 bg-granate-900/60 p-5 shadow-card md:p-8 lg:-rotate-[0.3deg] lg:p-10",
       )}
     >
       {chalkboard && (
@@ -119,7 +119,7 @@ export default function CategorySection({
           <span aria-hidden className="pointer-events-none absolute inset-2 rounded-[1.25rem] border border-cream/10" />
           <span
             aria-hidden
-            className="pointer-events-none absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rounded-full bg-pimenton-light shadow-[0_0_16px_rgba(216,50,60,0.8),inset_0_-2px_3px_rgba(0,0,0,0.5)]"
+            className="pointer-events-none absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rounded-full bg-pimenton-light shadow-[0_0_16px_rgba(232,86,90,0.8),inset_0_-2px_3px_rgba(0,0,0,0.5)]"
           />
         </>
       )}
@@ -135,7 +135,7 @@ export default function CategorySection({
             id={headingId}
             className={cn(
               "font-condensed text-3xl uppercase leading-[0.95] tracking-wide text-cream-200 md:text-6xl lg:text-7xl",
-              "[text-shadow:0_0_1px_rgba(249,246,240,0.5),0_0_24px_rgba(249,246,240,0.12),0_12px_30px_rgba(0,0,0,0.6)]",
+              "[text-shadow:0_0_1px_rgba(246,244,231,0.5),0_0_24px_rgba(246,244,231,0.12),0_12px_30px_rgba(0,0,0,0.6)]",
             )}
           >
             {category.label}

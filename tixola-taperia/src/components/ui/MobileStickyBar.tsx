@@ -25,7 +25,7 @@ const itemGhost = "text-cream-200 hover:bg-cream/8 hover:text-cream";
 /** "Estás aquí": el mismo rojo de la marca, pero sin relleno, para no confundirse con el botón de acción. */
 const itemHere = "bg-pimenton/12 text-pimenton-light";
 const itemPrimary =
-  "bg-pimenton text-cream border border-pimenton-light/60 shadow-[0_0_24px_rgba(178,30,39,0.55)] hover:bg-pimenton-light";
+  "bg-pimenton text-cream border border-pimenton-light/60 shadow-[0_0_24px_rgba(158,22,24,0.55)] hover:bg-pimenton-light";
 
 /** Secciones de la home que tienen su reflejo en la barra. La carta es una ruta aparte. */
 const WATCHED_SECTIONS = ["experiencia"] as const;
@@ -63,7 +63,7 @@ export default function MobileStickyBar() {
 
   /** Filo superior del elemento activo: el remate que hace que se lea como pestaña, no como botón. */
   const hereEdge = (
-    <span aria-hidden className="absolute inset-x-4 top-0 h-0.5 rounded-full bg-pimenton-light shadow-[0_0_10px_rgba(216,50,60,0.8)]" />
+    <span aria-hidden className="absolute inset-x-4 top-0 h-0.5 rounded-full bg-pimenton-light shadow-[0_0_10px_rgba(232,86,90,0.8)]" />
   );
 
   return (
@@ -81,7 +81,7 @@ export default function MobileStickyBar() {
         {/* Hierro casi opaco en lugar de cristal: esta barra está fija sobre la portada, cuyas capas
             (halo de calor, vaho, chispas) se mueven en bucle, y un `backdrop-filter` obligaría a volver
             a desenfocar toda la franja en cada fotograma (el escenario móvil más caro de la página). */}
-        <div className="border-t border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.97),rgba(16,16,16,0.95))] pb-[env(safe-area-inset-bottom)] shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.7)]">
+        <div className="border-t border-cream/10 bg-[linear-gradient(160deg,rgba(64,25,21,0.97),rgba(53,19,17,0.95))] pb-[env(safe-area-inset-bottom)] shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.7)]">
           <ul className="grid h-[var(--mobile-bar-h)] grid-cols-4 gap-1 px-2 py-1.5">
             {/* La píldora roja era "Reservar". Sin reservas, la hereda la carta, que es la acción
                 que de verdad mueve a alguien a venir. Cuando ya estás EN la carta, la acción se
@@ -128,7 +128,7 @@ export default function MobileStickyBar() {
                     <span
                       aria-hidden
                       className={cn(
-                        "absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full ring-2 ring-iron",
+                        "absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full ring-2 ring-granate",
                         status.isOpen ? "bg-emerald-400" : "bg-cream-faint",
                       )}
                     />

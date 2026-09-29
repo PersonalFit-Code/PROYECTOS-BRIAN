@@ -84,8 +84,8 @@ export default function Footer({ year: buildYear }: FooterProps) {
   const trip = BUSINESS.ratings.tripadvisor;
 
   return (
-    <footer id="footer" className="noise after:noise-after relative isolate overflow-hidden bg-iron-900 text-cream">
-      <div aria-hidden className="divider-iron absolute inset-x-0 top-0" />
+    <footer id="footer" className="noise after:noise-after relative isolate overflow-hidden bg-granate-900 text-cream">
+      <div aria-hidden className="divider-granate absolute inset-x-0 top-0" />
       {/* Brasa lateral: 420² px de `blur-3xl` sobre un color plano. El mismo halo, horneado.
           `ember-wash` y no `ember-glow`: el original era un color PLANO al que el desenfoque solo plumeaba el borde, así que un radial de pico y caída rápida perdía ~3,5 veces de luz. Alfa igual que el original. */}
       <div

@@ -237,8 +237,8 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
         </div>
 
         {/* Desvanecido en los bordes: las tarjetas vecinas se funden con el hierro */}
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-iron/90 to-transparent md:w-24 lg:w-40" />
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-iron/90 to-transparent md:w-24 lg:w-40" />
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-granate/90 to-transparent md:w-24 lg:w-40" />
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-granate/90 to-transparent md:w-24 lg:w-40" />
 
         {/* Flechas laterales (tablet/escritorio) */}
         <ArrowButton dir="prev" label={m.dishes.carousel.prev} onClick={scrollPrev} className="absolute left-3 top-1/2 z-20 -translate-y-1/2 max-md:hidden lg:left-8" />
@@ -266,7 +266,7 @@ export default function DishCarousel({ slides, onOpen, steam = true, autoplay = 
                     /* Mismo criterio que el carrusel 3D: el punto confirma el toque, así que solo ancho
                        y color (no la sombra neón de `transition-all`) y en 200 ms. */
                     "block h-1.5 rounded-full transition-[width,background-color] duration-200 ease-[var(--ease-out-expo)]",
-                    isActive ? "w-7 bg-pimenton-light shadow-[0_0_12px_rgba(216,50,60,0.8)]" : "w-1.5 bg-cream/30",
+                    isActive ? "w-7 bg-pimenton-light shadow-[0_0_12px_rgba(232,86,90,0.8)]" : "w-1.5 bg-cream/30",
                   )}
                 />
               </button>
@@ -332,25 +332,25 @@ function DishSlideCard({ slide, index, total, active, steam, hintId, onOpen, but
           active ? "scale-100 opacity-100" : "scale-[0.92] opacity-60",
         )}
       >
-        <article className="group relative aspect-[3/4] overflow-hidden rounded-[1.75rem] border border-cream/10 bg-iron-800 shadow-card">
+        <article className="group relative aspect-[3/4] overflow-hidden rounded-[1.75rem] border border-cream/10 bg-granate-800 shadow-card">
           {/* Foto (o tixola compuesta): elemento compartido con el detalle */}
           <motion.div layoutId={dishVisualLayoutId(dish.id)} transition={DISH_LAYOUT_TRANSITION} className="absolute inset-0">
             <DishVisual dish={dish} photo={photo} sizes={SLIDE_SIZES} steam={steam && active} variant="slide" />
           </motion.div>
 
           {/* Degradado inferior para la legibilidad del texto */}
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[64%] bg-gradient-to-t from-iron-900 via-iron-900/75 to-transparent" />
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[64%] bg-gradient-to-t from-granate-900 via-granate-900/75 to-transparent" />
           {/* Brillo rojo al pasar el ratón o enfocar */}
           <div
             aria-hidden
             /* Respuesta a hover/foco: 160 ms (ver DishCarousel3D). */
-            className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(216,50,60,0.45),0_0_60px_-10px_rgba(178,30,39,0.6)] transition-opacity duration-160 group-focus-within:opacity-100 group-hover:opacity-100"
+            className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(232,86,90,0.45),0_0_60px_-10px_rgba(158,22,24,0.6)] transition-opacity duration-160 group-focus-within:opacity-100 group-hover:opacity-100"
           />
 
           {dish.badge && (
             /* Sin `backdrop-blur-sm`: la insignia se pinta sobre la foto del plato, que ya tapa; el
                hierro al 90 % da el mismo cuerpo y el contraste del texto sube. */
-            <span className="absolute left-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-pimenton-light/45 bg-iron-900/90 px-3 py-1.5 font-caps text-[10px] uppercase tracking-[0.18em] text-cream shadow-[0_0_20px_rgba(178,30,39,0.4)]">
+            <span className="absolute left-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-pimenton-light/45 bg-granate-900/90 px-3 py-1.5 font-caps text-[10px] uppercase tracking-[0.18em] text-cream shadow-[0_0_20px_rgba(158,22,24,0.4)]">
               <Sparkles size={12} aria-hidden className="text-gold" />
               {dish.badge}
             </span>
@@ -404,7 +404,7 @@ function ArrowButton({ dir, label, onClick, className }: ArrowButtonProps) {
       aria-label={label}
       className={cn(
         /* Hierro horneado en vez de cristal: son 44×44 px sobre las tarjetas, nadie ve el desenfoque. */
-        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-iron-900/90 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
+        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-granate-900/90 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
         className,
       )}
     >

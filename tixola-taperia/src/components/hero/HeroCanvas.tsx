@@ -314,7 +314,7 @@ export default function HeroCanvas() {
   }, [locale, m, t]);
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden bg-iron">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden bg-granate">
       <style href="tixola-hero-keyframes" precedence="default">
         {HERO_KEYFRAMES}
       </style>
@@ -326,12 +326,12 @@ export default function HeroCanvas() {
 
         {/* Luz de la parrilla. Sigue a la sartén en cada composición (arriba, al 56 % del ancho, en
             móvil; a la derecha en escritorio) y es la que da el aire cálido de la portada. */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_72%_48%_at_56%_30%,rgba(190,36,44,0.68)_0%,rgba(126,22,28,0.34)_46%,transparent_74%)] lg:bg-[radial-gradient(ellipse_54%_62%_at_76%_52%,rgba(190,36,44,0.7)_0%,rgba(126,22,28,0.36)_44%,transparent_74%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_72%_48%_at_56%_30%,rgba(172,32,34,0.68)_0%,rgba(112,17,18,0.34)_46%,transparent_74%)] lg:bg-[radial-gradient(ellipse_54%_62%_at_76%_52%,rgba(172,32,34,0.7)_0%,rgba(112,17,18,0.36)_44%,transparent_74%)]" />
         {/* Segundo foco, más apretado y anaranjado: el rescoldo. Sin él el glow se lee como un filtro rojo. */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_34%_30%_at_56%_29%,rgba(255,122,58,0.42)_0%,rgba(215,80,40,0.16)_45%,transparent_72%)] lg:bg-[radial-gradient(ellipse_26%_34%_at_76%_50%,rgba(255,122,58,0.44)_0%,rgba(215,80,40,0.18)_45%,transparent_72%)]" />
         {/* Suelo: burdeos profundo abajo, con una línea de brasa al fondo. Ancla la escena y deja el pie
             oscuro para que el copy y el fundido con la sección siguiente tengan contraste. */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_58%_at_50%_106%,rgba(255,110,52,0.26)_0%,rgba(74,18,24,0.82)_42%,rgba(18,18,18,0.35)_72%,transparent_88%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_58%_at_50%_106%,rgba(255,110,52,0.26)_0%,rgba(74,15,16,0.82)_42%,rgba(59,22,19,0.35)_72%,transparent_88%)]" />
       </div>
 
       {/* ── La tixola ─────────────────────────────────────────────────────────────────── */}
@@ -342,7 +342,7 @@ export default function HeroCanvas() {
               de centrado vive dentro de las keyframes porque `transform` es una sola propiedad: si la
               animación lo escribiera sin él, el halo saltaría a su esquina en el primer fotograma. */}
           <div
-            className="absolute aspect-square w-[135%] rounded-full bg-[radial-gradient(closest-side,rgba(255,146,80,0.34)_0%,rgba(190,36,44,0.26)_42%,transparent_76%)]"
+            className="absolute aspect-square w-[135%] rounded-full bg-[radial-gradient(closest-side,rgba(255,146,80,0.34)_0%,rgba(172,32,34,0.26)_42%,transparent_76%)]"
             style={{
               left: `${PAN.cx}%`,
               top: `${PAN.cy}%`,
@@ -352,7 +352,7 @@ export default function HeroCanvas() {
           />
           {/* Brasas bajo el hierro: la luz que sube de la parrilla y separa la sartén del fondo */}
           <div
-            className="absolute aspect-[5/2] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgba(255,132,62,0.52)_0%,rgba(190,36,44,0.24)_52%,transparent_80%)]"
+            className="absolute aspect-[5/2] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgba(255,132,62,0.52)_0%,rgba(172,32,34,0.24)_52%,transparent_80%)]"
             style={{ left: `${PAN.cx}%`, top: `${PAN.cy + 14}%`, width: `${PAN.diameter * 1.2}%` }}
           />
           {/* Sombra proyectada, encima de esa luz y POR DEBAJO del borde del disco (el pie de la caja
@@ -442,7 +442,7 @@ export default function HeroCanvas() {
       <div
         data-hero-dim
         aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(120%_100%_at_50%_45%,rgba(12,12,12,0.45)_0%,rgba(12,12,12,0.78)_48%,rgba(12,12,12,1)_100%)] opacity-0"
+        className="absolute inset-0 bg-[radial-gradient(120%_100%_at_50%_45%,rgba(42,15,13,0.45)_0%,rgba(42,15,13,0.78)_48%,rgba(42,15,13,1)_100%)] opacity-0"
       />
     </div>
   );

@@ -56,7 +56,7 @@ export const ALLERGENS: Allergen[] = [
   { id: "apio", label: "Apio", code: "AP", description: "Apio y productos derivados.", icon: "Leaf", color: "#7CC47F" },
   { id: "mostaza", label: "Mostaza", code: "MO", description: "Mostaza y productos derivados.", icon: "Flame", color: "#D9B23A" },
   { id: "sesamo", label: "Sésamo", code: "SE", description: "Granos de sésamo y productos a base de sésamo.", icon: "CircleDot", color: "#D8C7A0" },
-  { id: "sulfitos", label: "Sulfitos", code: "SU", description: "Dióxido de azufre y sulfitos (> 10 mg/kg). Presente en vinos y encurtidos.", icon: "Wine", color: "#B21E27" },
+  { id: "sulfitos", label: "Sulfitos", code: "SU", description: "Dióxido de azufre y sulfitos (> 10 mg/kg). Presente en vinos y encurtidos.", icon: "Wine", color: "#9e1618" },
   { id: "altramuces", label: "Altramuces", code: "AL", description: "Altramuces y productos a base de altramuces.", icon: "Sprout", color: "#E6D35A" },
   { id: "moluscos", label: "Moluscos", code: "ML", description: "Pulpo, calamar, zamburiñas, mejillones, almejas…", icon: "Snail", color: "#8E6BC1" },
 ];

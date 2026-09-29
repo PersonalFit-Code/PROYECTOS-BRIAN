@@ -69,8 +69,8 @@ export default function CategoryChips({ categories, selected, counts, allCount, 
   return (
     <nav aria-label={m.carta.categoriesAria} className={cn("relative min-w-0", className)}>
       {/* Desvanecidos laterales del scroller (solo cuando hay scroll horizontal) */}
-      <span aria-hidden className="pointer-events-none absolute inset-y-0 -left-4 z-10 w-4 bg-gradient-to-r from-iron-900/90 to-transparent sm:-left-6 sm:w-6 lg:hidden" />
-      <span aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-iron-900/90 to-transparent lg:hidden" />
+      <span aria-hidden className="pointer-events-none absolute inset-y-0 -left-4 z-10 w-4 bg-gradient-to-r from-granate-900/90 to-transparent sm:-left-6 sm:w-6 lg:hidden" />
+      <span aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-granate-900/90 to-transparent lg:hidden" />
 
       <div
         ref={scrollerRef}
@@ -100,7 +100,7 @@ export default function CategoryChips({ categories, selected, counts, allCount, 
                   layoutId="carta-chip-active"
                   aria-hidden
                   transition={SPRING}
-                  className="absolute inset-0 rounded-full border border-pimenton-light/70 bg-pimenton shadow-[0_0_22px_rgba(216,50,60,0.45)]"
+                  className="absolute inset-0 rounded-full border border-pimenton-light/70 bg-pimenton shadow-[0_0_22px_rgba(232,86,90,0.45)]"
                 />
               )}
               <span className="relative font-condensed text-lg uppercase leading-none tracking-wide">{chip.label}</span>

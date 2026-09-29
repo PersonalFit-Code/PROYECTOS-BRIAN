@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 export const viewport: Viewport = {
-  themeColor: "#121212",
+  themeColor: "#3b1613",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -153,7 +153,7 @@ export default async function LocaleLayout({
           }}
         />
       </head>
-      <body className="min-h-dvh bg-iron text-cream antialiased">
+      <body className="min-h-dvh bg-granate text-cream antialiased">
         <LocaleProvider locale={locale} messages={messages}>
           {children}
           {/* FAQPage + WebSite JSON-LD (solo emite en la portada de cada idioma) */}

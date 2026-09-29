@@ -99,11 +99,11 @@ const IRON_BODY: CSSProperties = {
     "0 36px 60px -14px rgba(0,0,0,0.92), 0 0 0 1px rgba(255,255,255,0.05), inset 0 2px 2px rgba(255,255,255,0.16), inset 0 -10px 22px rgba(0,0,0,0.65)",
 };
 const IRON_WELL: CSSProperties = {
-  background: "radial-gradient(circle at 50% 42%, #2b1b18 0%, #161313 48%, #0a0a0a 100%)",
+  background: "radial-gradient(circle at 50% 42%, #2b1b18 0%, #161313 48%, #220c0a 100%)",
   boxShadow: "inset 0 14px 28px rgba(0,0,0,0.9), inset 0 -3px 8px rgba(255,255,255,0.05), 0 1px 0 rgba(255,255,255,0.09)",
 };
 const IRON_HANDLE: CSSProperties = {
-  background: "linear-gradient(180deg, #3a3a3a 0%, #1c1c1c 55%, #0a0a0a 100%)",
+  background: "linear-gradient(180deg, #3a3a3a 0%, #1c1c1c 55%, #220c0a 100%)",
   boxShadow: "0 8px 14px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.14)",
 };
 /*
@@ -116,7 +116,7 @@ const IRON_HANDLE: CSSProperties = {
  * Va en un envoltorio QUIETO — la flotación (`tx-dish-float`) se aplica a un hijo sin filtro.
  */
 const ICON_GLOW: CSSProperties = {
-  filter: "drop-shadow(0 0 16px rgba(216,50,60,0.8)) drop-shadow(0 4px 9px rgba(0,0,0,0.7))",
+  filter: "drop-shadow(0 0 16px rgba(232,86,90,0.8)) drop-shadow(0 4px 9px rgba(0,0,0,0.7))",
 };
 
 export default function DishVisual({ dish, photo, sizes, steam = true, variant = "slide", priority = false, className }: DishVisualProps) {
@@ -136,7 +136,7 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
   /* ── Foto real ── */
   if (photo) {
     return (
-      <div className={cn("absolute inset-0 overflow-hidden bg-iron-800", className)}>
+      <div className={cn("absolute inset-0 overflow-hidden bg-granate-800", className)}>
         <Image
           src={photo.src}
           alt={photo.alt}
@@ -167,7 +167,7 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
       role="img"
       aria-label={t(m.dishes.visual.label, { name: dish.name })}
       style={vars}
-      className={cn("absolute inset-0 overflow-hidden bg-iron-900 [container-type:size]", className)}
+      className={cn("absolute inset-0 overflow-hidden bg-granate-900 [container-type:size]", className)}
     >
       <style href="tixola-dish-visual" precedence="default">
         {STEAM_CSS}
@@ -175,7 +175,7 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
 
       {/* 1 · Pizarra de fondo + viñeta oscura */}
       <div aria-hidden className="absolute inset-0 bg-[url('/textures/slate.webp')] bg-cover bg-center opacity-60" />
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_45%,transparent_30%,rgba(12,12,12,0.92)_100%)]" />
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_45%,transparent_30%,rgba(42,15,13,0.92)_100%)]" />
 
       {/* 2 · Brasa horneada: UNA capa con el halo rojo y el reflejo del acento fundidos en el mismo
              degradado. Antes eran dos divs con `blur-2xl` y `blur-3xl`, es decir dos superficies extra
@@ -186,7 +186,7 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
         aria-hidden
         className="absolute left-1/2 top-[52%] h-[74%] w-[96%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-85 transition-opacity duration-200 group-hover:opacity-100"
         style={{
-          background: `radial-gradient(closest-side, rgba(216,50,60,0.5) 0%, ${dish.accent}4d 30%, rgba(178,30,39,0.18) 56%, rgba(178,30,39,0.06) 76%, transparent 100%)`,
+          background: `radial-gradient(closest-side, rgba(232,86,90,0.5) 0%, ${dish.accent}4d 30%, rgba(158,22,24,0.18) 56%, rgba(158,22,24,0.06) 76%, transparent 100%)`,
         }}
       />
 
@@ -225,7 +225,7 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
           {WISPS.map((w) => (
             <span
               key={w.left}
-              className="tx-steam-wisp absolute bottom-0 h-24 rounded-full bg-[radial-gradient(closest-side,rgba(249,246,240,0.3),rgba(249,246,240,0.14)_46%,rgba(249,246,240,0.04)_72%,transparent_100%)]"
+              className="tx-steam-wisp absolute bottom-0 h-24 rounded-full bg-[radial-gradient(closest-side,rgba(246,244,231,0.3),rgba(246,244,231,0.14)_46%,rgba(246,244,231,0.04)_72%,transparent_100%)]"
               style={
                 {
                   left: w.left,

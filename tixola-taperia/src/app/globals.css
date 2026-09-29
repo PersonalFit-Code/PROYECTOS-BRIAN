@@ -2,31 +2,46 @@
 
 /* ─────────────────────────────────────────────────────────────
    DESIGN TOKENS · Tixola Tapería
-   Rojo Pimentón · Negro Pizarra / Hierro Fundido · Crema Piedra Catedral
+   Rojo de marca · Granate de la carta · Crema del logotipo
+
+   LOS COLORES SALEN DE LA CARTA DE PAPEL Y DEL LOGOTIPO, no de un muestrario.
+   El rojo (#9e1618) y la crema (#f6f4e7) están muestreados del archivo del logo, que es digital y
+   limpio; el granate, de las dos caras de la carta impresa. Las fotos de la carta se hicieron con
+   flash y salen más claras que el papel (#50231b), así que la escala va un punto por debajo: en
+   pantalla, un fondo de página tan claro deja el texto flotando y las tarjetas sin separarse.
+
+   La escala `granate-*` era antes `iron-*` y era negra. Se renombró con el cambio: un token que se
+   llama "hierro" y pinta burdeos es una trampa para quien lo lea dentro de seis meses.
    ───────────────────────────────────────────────────────────── */
 @theme {
-  --color-pimenton: #b21e27;
-  --color-pimenton-light: #d8323c;
-  --color-pimenton-dark: #7d131a;
-  /* Variante AA-safe de pimentón para texto pequeño/normal sobre iron/burgundy (≥4.5:1).
-     `pimenton-light` (~4:1) se reserva para texto grande, iconos, bordes y superficies de botón. */
-  --color-pimenton-a11y: #ed6e77;
+  /* Rojo del logotipo. Con crema encima da 7,4:1, de sobra para el texto de un botón. */
+  --color-pimenton: #9e1618;
+  /* Para TEXTO GRANDE (≥24 px), iconos y bordes: 4,0:1 sobre la tarjeta y 4,5:1 sobre la página. */
+  --color-pimenton-light: #e8565a;
+  --color-pimenton-dark: #7a1012;
+  /* Para TEXTO NORMAL sobre granate: 5,6:1 sobre la tarjeta. El valor viejo (#f0838a) daba 6,3:1
+     sobre el negro de antes pero se quedaba en 4,8:1 sobre el granate — pasaba raspando, y raspando
+     no es sitio donde dejar un mínimo legal mientras el granate todavía se está afinando. */
+  --color-pimenton-a11y: #f0838a;
   --color-ember: #ff6a3d;
   --color-gold: #e8c27a;
 
-  --color-iron: #121212;
-  --color-iron-900: #0c0c0c;
-  --color-iron-800: #1a1a1a;
-  --color-iron-700: #232323;
-  --color-iron-600: #2e2e2e;
-  --color-burgundy: #3a0e13;
-  --color-burgundy-deep: #22080b;
+  /* Superficies, de la página (más oscura) a la tarjeta elevada (más clara). */
+  --color-granate: #3b1613;
+  --color-granate-900: #2a0f0d;
+  --color-granate-800: #472019;
+  --color-granate-700: #552a20;
+  --color-granate-600: #653427;
+  /* Rojo profundo para los velos y cristales tintados. Más SATURADO que la escala de superficie a
+     propósito: sobre una página granate, un velo granate no se ve. */
+  --color-burgundy: #5a1418;
+  --color-burgundy-deep: #3a0d10;
 
-  --color-cream: #f9f6f0;
-  --color-cream-200: #efe9dd;
-  --color-cream-400: #d9d0bf;
-  --color-cream-muted: rgba(249, 246, 240, 0.68);
-  --color-cream-faint: rgba(249, 246, 240, 0.62);
+  --color-cream: #f6f4e7;
+  --color-cream-200: #ece9d8;
+  --color-cream-400: #d6d2bd;
+  --color-cream-muted: rgba(246,244,231, 0.68);
+  --color-cream-faint: rgba(246,244,231, 0.62);
 
   /* Cormorant Garamond: titulares editoriales, finos y elegantes (portada, secciones, marquee) */
   --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
@@ -35,9 +50,9 @@
   --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-condensed: var(--font-bebas), "Bebas Neue", Impact, "Arial Narrow", sans-serif;
 
-  --shadow-neon: 0 0 24px rgba(178, 30, 39, 0.55), 0 0 64px rgba(178, 30, 39, 0.25);
-  --shadow-card: 0 30px 60px -20px rgba(0, 0, 0, 0.8), 0 10px 20px -10px rgba(0, 0, 0, 0.6);
-  --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 20px 50px -20px rgba(0, 0, 0, 0.7);
+  --shadow-neon: 0 0 24px rgba(158,22,24, 0.55), 0 0 64px rgba(158,22,24, 0.25);
+  --shadow-card: 0 30px 60px -20px rgba(0,0,0, 0.8), 0 10px 20px -10px rgba(0,0,0, 0.6);
+  --shadow-glass: inset 0 1px 0 rgba(255,255,255, 0.08), 0 20px 50px -20px rgba(0,0,0, 0.7);
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
@@ -139,7 +154,7 @@ html {
 }
 
 body {
-  background-color: var(--color-iron);
+  background-color: var(--color-granate);
   color: var(--color-cream);
   font-family: var(--font-sans);
   overflow-x: hidden;
@@ -166,8 +181,8 @@ body::before {
   z-index: -50;
   pointer-events: none;
   background-image:
-    radial-gradient(1200px 600px at 80% -10%, rgba(58, 14, 19, 0.55), transparent 60%),
-    radial-gradient(900px 500px at -10% 110%, rgba(58, 14, 19, 0.35), transparent 60%);
+    radial-gradient(1200px 600px at 80% -10%, rgba(90,20,24, 0.55), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(90,20,24, 0.35), transparent 60%);
 }
 
 ::selection {
@@ -178,14 +193,14 @@ body::before {
 /* scrollbar discreto */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(249, 246, 240, 0.18) transparent;
+  scrollbar-color: rgba(246,244,231, 0.18) transparent;
 }
 *::-webkit-scrollbar {
   height: 8px;
   width: 8px;
 }
 *::-webkit-scrollbar-thumb {
-  background: rgba(249, 246, 240, 0.18);
+  background: rgba(246,244,231, 0.18);
   border-radius: 999px;
 }
 
@@ -221,20 +236,20 @@ body::before {
      originales (0,08 / 0,02), no menos. La versión anterior bajaba la primera parada mientras el
      comentario de arriba prometía lo contrario, y las cuatro tarjetas de indicadores y el `details` de
      las páginas legales quedaban un punto más transparentes que antes Y sin blur. */
-  background: linear-gradient(135deg, rgba(249, 246, 240, 0.1), rgba(249, 246, 240, 0.03));
-  border: 1px solid rgba(249, 246, 240, 0.12);
+  background: linear-gradient(135deg, rgba(246,244,231, 0.1), rgba(246,244,231, 0.03));
+  border: 1px solid rgba(246,244,231, 0.12);
   box-shadow: var(--shadow-glass);
 }
 
 @utility glass-smoke {
-  background: linear-gradient(160deg, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.78));
-  border: 1px solid rgba(249, 246, 240, 0.1);
+  background: linear-gradient(160deg, rgba(64,25,21, 0.9), rgba(64,25,21, 0.78));
+  border: 1px solid rgba(246,244,231, 0.1);
   box-shadow: var(--shadow-glass);
 }
 
 @utility glass-red {
-  background: linear-gradient(135deg, rgba(178, 30, 39, 0.3), rgba(178, 30, 39, 0.12));
-  border: 1px solid rgba(216, 50, 60, 0.35);
+  background: linear-gradient(135deg, rgba(158,22,24, 0.3), rgba(158,22,24, 0.12));
+  border: 1px solid rgba(232,86,90, 0.35);
 }
 
 /*
@@ -273,7 +288,7 @@ body::before {
  */
 @media (min-width: 768px) {
   :root[data-gpu="high"] [data-navbar-surface] {
-    background-image: linear-gradient(160deg, rgba(20, 20, 20, 0.86), rgba(18, 18, 18, 0.66));
+    background-image: linear-gradient(160deg, rgba(64,25,21, 0.86), rgba(59,22,19, 0.66));
     backdrop-filter: blur(20px) saturate(120%);
   }
 }
@@ -340,7 +355,7 @@ body::before {
 }
 
 @utility text-glow-red {
-  text-shadow: 0 0 18px rgba(216, 50, 60, 0.7), 0 0 42px rgba(178, 30, 39, 0.35);
+  text-shadow: 0 0 18px rgba(232,86,90, 0.7), 0 0 42px rgba(158,22,24, 0.35);
 }
 
 @utility text-gradient-cream {
@@ -360,12 +375,12 @@ body::before {
 /* Texto con extrusión "3D" (capas de sombra) para el titular */
 @utility text-3d {
   text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.08),
-    0 2px 0 rgba(0, 0, 0, 0.35),
-    0 4px 0 rgba(0, 0, 0, 0.3),
-    0 6px 0 rgba(0, 0, 0, 0.25),
-    0 10px 20px rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(178, 30, 39, 0.25);
+    0 1px 0 rgba(255,255,255, 0.08),
+    0 2px 0 rgba(0,0,0, 0.35),
+    0 4px 0 rgba(0,0,0, 0.3),
+    0 6px 0 rgba(0,0,0, 0.25),
+    0 10px 20px rgba(0,0,0, 0.6),
+    0 0 40px rgba(158,22,24, 0.25);
 }
 
 /* Grano fino sobre fondos oscuros */
@@ -487,9 +502,9 @@ body::before {
 }
 
 /* Línea decorativa tipo hierro */
-@utility divider-iron {
+@utility divider-granate {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(249, 246, 240, 0.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(246,244,231, 0.25), transparent);
 }
 
 /* Anillo de foco accesible */

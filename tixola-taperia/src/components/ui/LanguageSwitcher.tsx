@@ -104,7 +104,7 @@ function LanguageChips({ onSelect, className }: Pick<LanguageSwitcherProps, "onS
               className={cn(
                 "flex h-11 flex-col items-center justify-center rounded-xl border font-caps text-[12px] tracking-[0.2em] transition-colors duration-150 ease-[var(--ease-out-expo)]",
                 active
-                  ? "border-pimenton-light/70 bg-pimenton/25 text-cream shadow-[0_0_18px_rgba(178,30,39,0.35)]"
+                  ? "border-pimenton-light/70 bg-pimenton/25 text-cream shadow-[0_0_18px_rgba(158,22,24,0.35)]"
                   : "border-cream/12 text-cream-muted hover:border-cream/30 hover:text-cream",
               )}
             >
@@ -225,7 +225,7 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
                  opaco al 96 %, o sea, nada que se llegara a ver. Y abrir el selector de idioma es lo
                  primero que se toca en una demo multilingüe: no puede costar una capa de desenfoque.
                  Las paradas suben a 0,97 / 0,94 para cubrir lo poquísimo que aportaba el filtro. */
-              "border border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.97),rgba(20,20,20,0.94))] shadow-card",
+              "border border-cream/10 bg-[linear-gradient(160deg,rgba(64,25,21,0.97),rgba(64,25,21,0.94))] shadow-card",
               align === "right" ? "right-0" : "left-0",
             )}
           >

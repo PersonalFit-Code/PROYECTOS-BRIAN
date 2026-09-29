@@ -187,7 +187,7 @@ export default function ReviewCard({ review, maxLines = 7, className }: ReviewCa
     <article
       aria-label={t(m.social.card.by, { author: review.author })}
       className={cn(
-        "relative flex shrink-0 flex-col gap-4 overflow-hidden rounded-2xl border border-cream/10 bg-iron-800/90 p-5 text-left shadow-card",
+        "relative flex shrink-0 flex-col gap-4 overflow-hidden rounded-2xl border border-cream/10 bg-granate-800/90 p-5 text-left shadow-card",
         className,
       )}
     >
@@ -228,7 +228,7 @@ export default function ReviewCard({ review, maxLines = 7, className }: ReviewCa
       {/* Pie: plataforma + fecha */}
       <footer className="relative mt-auto flex items-center justify-between gap-3 border-t border-cream/10 pt-3">
         <span
-          className="inline-flex items-center gap-1.5 rounded-full border border-cream/10 bg-iron/60 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-cream-200"
+          className="inline-flex items-center gap-1.5 rounded-full border border-cream/10 bg-granate/60 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-cream-200"
           aria-label={t(m.social.card.on, { source: review.source })}
         >
           <PlatformGlyph source={review.source} className="h-3.5 w-3.5" />

@@ -221,7 +221,7 @@ export default function Navbar() {
                vuelve en ≥ md cuando el equipo ha demostrado GPU: lo decide el ÚNICO interruptor del
                proyecto, `:root[data-gpu="high"] [data-navbar-surface]` en globals.css. Aquí solo se marca
                la capa; este componente no consulta la gama. */
-            "bg-[linear-gradient(160deg,rgba(20,20,20,0.96),rgba(18,18,18,0.92))] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]",
+            "bg-[linear-gradient(160deg,rgba(64,25,21,0.96),rgba(59,22,19,0.92))] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]",
             solid ? "border-cream/10 opacity-100" : "border-transparent opacity-0",
           )}
         />
@@ -236,14 +236,14 @@ export default function Navbar() {
           >
             {/* El realce NO se hace animando un `filter`: eso obliga a re-rasterizar el logotipo entero en
                 cada fotograma del hover. Pero el cambio de color tampoco servía: en `Logo.tsx` solo el
-                `Wordmark` usa `fill="currentColor"`, así que el hover pasaba TIXOLA de #f9f6f0 a #ffffff
+                `Wordmark` usa `fill="currentColor"`, así que el hover pasaba TIXOLA de #f6f4e7 a #ffffff
                 —imperceptible— y la sartén, que es la que daba el halo rojo, no se movía.
                 Así que el halo vuelve, pero ESTÁTICO y en su propia capa: el filtro no existe, es un
                 degradado radial quieto y lo único que se anima es su opacidad, que el compositor resuelve
                 sin volver a pintar nada. */}
             <span
               aria-hidden
-              className="pointer-events-none absolute left-0 top-1/2 h-16 w-40 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(216,50,60,0.4),rgba(216,50,60,0.14)_52%,transparent_100%)] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              className="pointer-events-none absolute left-0 top-1/2 h-16 w-40 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(232,86,90,0.4),rgba(232,86,90,0.14)_52%,transparent_100%)] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
             />
             <Logo size="md" decorative className="relative text-cream transition-colors duration-200 group-hover:text-white" />
           </Link>
@@ -312,7 +312,7 @@ export default function Navbar() {
               aria-label={menuOpen ? m.nav.closeMenu : m.nav.openMenu}
               /* Sin `glass` (blur 18 px): la hamburguesa solo existe por debajo de lg, justo donde
                  flota sobre la portada animada. */
-              className="relative grid h-11 w-11 place-items-center rounded-full border border-cream/12 bg-iron-900/92 text-cream shadow-glass transition-colors hover:text-pimenton-light lg:hidden"
+              className="relative grid h-11 w-11 place-items-center rounded-full border border-cream/12 bg-granate-900/92 text-cream shadow-glass transition-colors hover:text-pimenton-light lg:hidden"
             >
               <span className="relative block h-5 w-5">
                 <Menu
@@ -358,7 +358,7 @@ export default function Navbar() {
                portada seguía animando debajo, y con un fondo sólido no hay nada que desenfocar — la
                portada deja de asomar por completo. (Con el menú abierto, además, `HeroCanvas` pausa
                sus animaciones: es un panel modal y escribe `data-scroll-lock`.) */
-            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden bg-[linear-gradient(180deg,#0c0c0c,#22080b)] lg:hidden"
+            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden bg-[linear-gradient(180deg,#2a0f0d,#3a0d10)] lg:hidden"
           >
             {/* Brasa decorativa */}
             {/* Radial prehorneado en lugar de `bg-pimenton/30 blur-3xl`: desenfocar 64 px una superficie de

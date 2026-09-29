@@ -82,7 +82,7 @@ export default function Counter({
       ref={ref}
       className={cn(
         "inline-flex items-baseline font-condensed leading-none tracking-wide text-cream text-3d",
-        counted && "drop-shadow-[0_0_22px_rgba(216,50,60,0.55)]",
+        counted && "drop-shadow-[0_0_22px_rgba(232,86,90,0.55)]",
         className,
       )}
     >

@@ -49,7 +49,7 @@ function Marquee({ items, label, pauseLabel, playLabel }: { items: readonly stri
   const paused = userPaused || !inView;
 
   return (
-    <div ref={trackRef} className="relative overflow-hidden border-y border-cream/10 bg-iron-900/80 py-4 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] md:py-5">
+    <div ref={trackRef} className="relative overflow-hidden border-y border-cream/10 bg-granate-900/80 py-4 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] md:py-5">
       <p className="sr-only">
         {label}: {items.join(", ")}.
       </p>
@@ -83,7 +83,7 @@ function Marquee({ items, label, pauseLabel, playLabel }: { items: readonly stri
         onClick={() => setUserPaused((v) => !v)}
         aria-pressed={userPaused}
         aria-label={userPaused ? playLabel : pauseLabel}
-        className="absolute right-2 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-cream/15 bg-iron-900/90 text-cream-muted transition-colors duration-300 hover:text-cream motion-reduce:hidden"
+        className="absolute right-2 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-cream/15 bg-granate-900/90 text-cream-muted transition-colors duration-300 hover:text-cream motion-reduce:hidden"
       >
         {userPaused ? <Play size={14} aria-hidden /> : <Pause size={14} aria-hidden />}
       </button>
@@ -111,7 +111,7 @@ export default function Experience() {
   const parallax = useCanAfford("parallax");
 
   return (
-    <section id="experiencia" ref={sectionRef} className="noise after:noise-after relative isolate overflow-clip bg-iron">
+    <section id="experiencia" ref={sectionRef} className="noise after:noise-after relative isolate overflow-clip bg-granate">
       <Marquee items={x.marquee} label={x.marqueeAria} pauseLabel={x.marqueePause} playLabel={x.marqueePlay} />
 
       {/* 1 · Bloque cinematográfico: terraza real con Santa Eufemia al fondo */}
@@ -130,22 +130,41 @@ export default function Experience() {
             style={{ objectPosition: terrace?.focus ?? "50% 45%" }}
           />
         </div>
-        {/* velos: cabecera, pie (legibilidad del titular) y lateral izquierdo */}
+        {/* Velos: cabecera, cuerpo (legibilidad del titular) y lateral izquierdo.
+            La rampa de abajo empieza al 40 % y no al 78 %: el bloque de texto va anclado al pie,
+            pero el titular más la descripción ocupan media sección y en gallego y portugués una
+            línea más, así que el encabezado acababa cayendo en la franja de 0,15 de velo —sobre la
+            piedra clara de la Catedral, texto crema sobre fondo casi blanco—. El 40 % superior de
+            la foto sigue limpio, que es donde está la iglesia y es lo que la sección va a enseñar. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(18,18,18,0.72)_0%,rgba(18,18,18,0.15)_28%,rgba(18,18,18,0.2)_50%,rgba(18,18,18,0.86)_78%,#121212_100%)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(59,22,19,0.72)_0%,rgba(59,22,19,0.16)_22%,rgba(59,22,19,0.40)_42%,rgba(59,22,19,0.70)_62%,rgba(59,22,19,0.90)_80%,#3b1613_100%)]"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(12,12,12,0.7)_0%,rgba(12,12,12,0.35)_40%,transparent_70%)] lg:block"
+          className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(42,15,13,0.7)_0%,rgba(42,15,13,0.35)_40%,transparent_70%)] lg:block"
         />
 
         <div className="container-page relative z-10 flex min-h-[72svh] flex-col justify-end pb-14 pt-28 md:min-h-[82vh] md:pb-20 md:pt-36">
-          <SectionHeading kicker={x.kicker} title={x.title} accent={x.accent} description={x.description} className="max-w-2xl" />
-          <p data-reveal="fade" className="mt-8 inline-flex items-center gap-3 font-caps text-[10px] uppercase tracking-[0.3em] text-cream-faint">
-            <span aria-hidden className="h-px w-8 bg-gold/60" />
-            {x.photoBadge} · {x.photoCaption}
-          </p>
+          {/* El velo va pegado AL BLOQUE DE TEXTO, no a la sección.
+              El degradado grande de arriba oscurece por ALTURA FIJA, y este bloque no la tiene: en
+              gallego y en portugués el titular ocupa una línea más y sube hasta donde la foto es
+              piedra iluminada. Medido sobre píxeles, el antetítulo se quedaba en 1,7:1. Arreglarlo
+              oscureciendo la sección entera funcionaba, pero a costa de apagar la Catedral, que es
+              justo lo que esta sección va a enseñar. Atado al texto, el velo crece con él en los
+              cuatro idiomas, se desvanece por arriba —así no se lee como una caja pegada— y la
+              foto sigue viva por encima. */}
+          <div className="relative">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -inset-x-5 -bottom-6 -top-14 -z-10 bg-[linear-gradient(0deg,rgba(42,15,13,0.94)_0%,rgba(42,15,13,0.94)_84%,rgba(42,15,13,0.66)_94%,transparent_100%)]"
+            />
+            <SectionHeading kicker={x.kicker} title={x.title} accent={x.accent} description={x.description} className="max-w-2xl" />
+            <p data-reveal="fade" className="mt-8 inline-flex items-center gap-3 font-caps text-[10px] uppercase tracking-[0.3em] text-cream-faint">
+              <span aria-hidden className="h-px w-8 bg-gold/60" />
+              {x.photoBadge} · {x.photoCaption}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -160,7 +179,7 @@ export default function Experience() {
           </p>
         </div>
 
-        <div aria-hidden className="divider-iron mt-8" />
+        <div aria-hidden className="divider-granate mt-8" />
         <ol className="grid divide-y divide-cream/10 md:grid-cols-3 md:divide-x md:divide-y-0">
           {x.story.map((step, i) => {
             const Icon = STORY_ICONS[i] ?? Sun;
@@ -178,7 +197,7 @@ export default function Experience() {
             );
           })}
         </ol>
-        <div aria-hidden className="divider-iron" />
+        <div aria-hidden className="divider-granate" />
       </div>
 
       {/* 3 · Estado en vivo + ubicación */}

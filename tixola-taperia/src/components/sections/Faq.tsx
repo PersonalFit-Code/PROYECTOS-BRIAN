@@ -34,7 +34,7 @@ export default function Faq({ className }: { className?: string }) {
           const question = t(item.q, vars);
           return (
             <li key={question} data-reveal="fade">
-              <details className="group rounded-2xl border border-cream/10 bg-iron-900/70 px-5 py-4 transition-colors duration-300 open:border-cream/20 hover:border-cream/25">
+              <details className="group rounded-2xl border border-cream/10 bg-granate-900/70 px-5 py-4 transition-colors duration-300 open:border-cream/20 hover:border-cream/25">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-4 font-sans text-[15px] font-semibold text-cream marker:content-none [&::-webkit-details-marker]:hidden">
                   <span className="text-pretty">{question}</span>
                   <Plus

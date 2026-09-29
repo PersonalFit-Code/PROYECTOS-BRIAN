@@ -40,7 +40,7 @@ export function AllergenLegendGrid({ className, dense = false }: { className?: s
           <li
             key={a.id}
             title={`${a.code} · ${a.label}: ${a.description}`}
-            className="flex items-start gap-3 rounded-2xl border border-cream/10 bg-iron/40 p-3 transition-colors hover:border-cream/25"
+            className="flex items-start gap-3 rounded-2xl border border-cream/10 bg-granate/40 p-3 transition-colors hover:border-cream/25"
           >
             <AllergenIcon id={a.id} size="md" decorative />
             <div className="min-w-0 flex-1">
@@ -129,7 +129,7 @@ function SheetInner({ onClose }: { onClose: () => void }) {
       transition={{ duration: 0.25 }}
     >
       {/* Fondo */}
-      <button type="button" aria-label={m.carta.legendClose} onClick={onClose} className="absolute inset-0 bg-iron-900/85" />
+      <button type="button" aria-label={m.carta.legendClose} onClick={onClose} className="absolute inset-0 bg-granate-900/85" />
 
       {/* Hoja */}
       <motion.div
@@ -144,7 +144,7 @@ function SheetInner({ onClose }: { onClose: () => void }) {
         /* Cristal horneado en todas las gamas: detrás hay un velo opaco al 85 %, así que el
            `backdrop-filter` desenfocaba algo que ya no se ve, y encima lo hacía en cada fotograma de
            la animación de entrada de la hoja. */
-        className="relative flex max-h-[88dvh] w-full flex-col rounded-t-3xl border border-cream/10 bg-iron-900/95 shadow-glass lg:max-h-[85dvh] lg:max-w-4xl lg:rounded-3xl"
+        className="relative flex max-h-[88dvh] w-full flex-col rounded-t-3xl border border-cream/10 bg-granate-900/95 shadow-glass lg:max-h-[85dvh] lg:max-w-4xl lg:rounded-3xl"
       >
         {/* Asa (móvil) */}
         <span aria-hidden className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-cream/25 lg:hidden" />

@@ -118,12 +118,12 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
           "relative flex w-full flex-col overflow-hidden rounded-2xl",
           "transition-[translate,border-color,background-color,box-shadow] duration-200 ease-[var(--ease-out-expo)]",
           chalk
-            ? "border border-dashed border-cream/25 bg-iron-900/55 hover:border-cream/50 hover:bg-iron-900/70"
+            ? "border border-dashed border-cream/25 bg-granate-900/55 hover:border-cream/50 hover:bg-granate-900/70"
             : cn(
-                "border border-cream/10 bg-iron-800/90 shadow-card",
+                "border border-cream/10 bg-granate-800/90 shadow-card",
                 /* Sombra de hover más corta: un desenfoque de 60 px con 49 tarjetas en la página es
                    una superficie enorme que repintar por un halo que casi no se ve. */
-                "hover:-translate-y-1 hover:border-pimenton-light/60 hover:shadow-[0_0_0_1px_rgba(216,50,60,0.35),0_12px_30px_-16px_rgba(178,30,39,0.6)]",
+                "hover:-translate-y-1 hover:border-pimenton-light/60 hover:shadow-[0_0_0_1px_rgba(232,86,90,0.35),0_12px_30px_-16px_rgba(158,22,24,0.6)]",
               ),
         )}
       >
@@ -137,10 +137,10 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
               ? {
                   opacity: [0, 1, 1, 0],
                   boxShadow: [
-                    "inset 0 0 0 0px rgba(216,50,60,0), 0 0 0px rgba(216,50,60,0)",
-                    "inset 0 0 0 3px rgba(216,50,60,0.95), 0 0 48px rgba(216,50,60,0.6)",
-                    "inset 0 0 0 3px rgba(216,50,60,0.7), 0 0 36px rgba(216,50,60,0.4)",
-                    "inset 0 0 0 0px rgba(216,50,60,0), 0 0 0px rgba(216,50,60,0)",
+                    "inset 0 0 0 0px rgba(232,86,90,0), 0 0 0px rgba(232,86,90,0)",
+                    "inset 0 0 0 3px rgba(232,86,90,0.95), 0 0 48px rgba(232,86,90,0.6)",
+                    "inset 0 0 0 3px rgba(232,86,90,0.7), 0 0 36px rgba(232,86,90,0.4)",
+                    "inset 0 0 0 0px rgba(232,86,90,0), 0 0 0px rgba(232,86,90,0)",
                   ],
                 }
               : { opacity: 0 }
@@ -161,7 +161,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             className="flex w-full items-center gap-3 p-2.5 text-left"
           >
             {item.image ? (
-              <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-iron-800">
+              <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-granate-800">
                 <Image
                   src={item.image}
                   alt=""
@@ -176,7 +176,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             ) : (
               <span
                 aria-hidden
-                className="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-cream/10 bg-[radial-gradient(circle_at_30%_30%,#2e2e2e,#121212_75%)] text-gold"
+                className="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-cream/10 bg-[radial-gradient(circle_at_30%_30%,#653427,#3b1613_75%)] text-gold"
               >
                 <DishIcon iconKey={item.emoji} size={24} strokeWidth={1.5} />
               </span>
@@ -221,7 +221,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             type="button"
             onClick={() => onOpen(item)}
             aria-label={t(m.carta.openDish, { name: item.name })}
-            className="group/foto relative aspect-[4/3] w-full overflow-hidden bg-iron-800 max-md:hidden"
+            className="group/foto relative aspect-[4/3] w-full overflow-hidden bg-granate-800 max-md:hidden"
           >
             <Image
               src={item.image}
@@ -231,10 +231,10 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
               className="object-cover transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
               style={{ objectPosition: photo?.focus ?? "50% 50%" }}
             />
-            <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-iron-900/90 via-iron-900/30 to-transparent" />
+            <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-granate-900/90 via-granate-900/30 to-transparent" />
             <span
               aria-hidden
-              className="absolute bottom-3 left-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-cream/15 bg-iron/90 text-gold shadow-[0_8px_20px_-8px_rgba(0,0,0,0.9)]"
+              className="absolute bottom-3 left-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-cream/15 bg-granate/90 text-gold shadow-[0_8px_20px_-8px_rgba(0,0,0,0.9)]"
             >
               <DishIcon iconKey={item.emoji} size={22} />
             </span>
@@ -242,7 +242,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
                 teclado. Sin puntero (táctil) no se pinta, que allí ya manda la fila compacta. */}
             <span
               aria-hidden
-              className="pointer-events-none absolute bottom-3 right-3 hidden items-center gap-1.5 rounded-full border border-cream/20 bg-iron-900/85 px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.18em] text-cream opacity-0 transition-opacity duration-300 group-hover/foto:opacity-100 group-focus-visible/foto:opacity-100 [@media(hover:hover)]:inline-flex"
+              className="pointer-events-none absolute bottom-3 right-3 hidden items-center gap-1.5 rounded-full border border-cream/20 bg-granate-900/85 px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.18em] text-cream opacity-0 transition-opacity duration-300 group-hover/foto:opacity-100 group-focus-visible/foto:opacity-100 [@media(hover:hover)]:inline-flex"
             >
               <Expand size={11} />
               {m.carta.openDishCta}
@@ -255,11 +255,11 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
               className={cn(
                 "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border text-gold",
                 chalk
-                  ? "border-cream/20 bg-iron-900/70"
+                  ? "border-cream/20 bg-granate-900/70"
                   /* Solo el radial prehorneado: el volumen del disco lo dan el degradado y el borde.
                      La doble sombra (una interior de 1 px y otra de 24 px de desenfoque) se pintaba
                      49 veces por una insinuación de relieve que a este tamaño no se distingue. */
-                  : "border-cream/10 bg-[radial-gradient(circle_at_30%_30%,#2e2e2e,#121212_75%)]",
+                  : "border-cream/10 bg-[radial-gradient(circle_at_30%_30%,#653427,#3b1613_75%)]",
               )}
             >
               <DishIcon iconKey={item.emoji} size={30} strokeWidth={1.5} />
@@ -275,7 +275,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             id={titleId}
             className={cn(
               "font-condensed text-2xl uppercase leading-[0.95] tracking-wide text-cream md:text-[1.75rem]",
-              chalk && "[text-shadow:0_0_1px_rgba(249,246,240,0.55),0_0_12px_rgba(249,246,240,0.18)]",
+              chalk && "[text-shadow:0_0_1px_rgba(246,244,231,0.55),0_0_12px_rgba(246,244,231,0.18)]",
             )}
           >
             {item.name}
@@ -308,7 +308,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
                   )}
                   <span>
                     {v.label}{" "}
-                    {/* `text-pimenton-a11y` (no `-light`): 16 px es texto normal y necesita 4,5:1 sobre iron-800.
+                    {/* `text-pimenton-a11y` (no `-light`): 16 px es texto normal y necesita 4,5:1 sobre granate-800.
                         El precio grande de arriba es texto grande (3:1) y sí puede llevar `-light`. */}
                     <span className={cn("font-condensed text-base tracking-wide", chalk ? "text-gold" : "text-pimenton-a11y")}>
                       {formatPrice(v.price, locale)}

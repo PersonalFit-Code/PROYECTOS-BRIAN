@@ -469,7 +469,7 @@ export default function FloatingWhatsApp() {
                    así el desplazamiento no arrastra consigo el margen invisible de la zona pulsable. */
                 "transition-[translate,scale,background-color] duration-200 group-active:duration-100 ease-[var(--ease-out-expo)] group-hover:-translate-y-0.5 group-hover:bg-pimenton-light group-active:scale-95",
                 /* El anillo de foco ciñe el disco, no la caja de 44: se ve dónde está el botón. */
-                "group-focus-visible:ring-2 group-focus-visible:ring-pimenton-light group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-iron",
+                "group-focus-visible:ring-2 group-focus-visible:ring-pimenton-light group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-granate",
               )}
             >
               {/* Pulso neón: el resplandor es estático y lo que late es la opacidad de esta capa
@@ -492,7 +492,7 @@ export default function FloatingWhatsApp() {
                 "pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1.5",
                 /* Sin `backdrop-blur`: el fondo ya es hierro al 95 %, no se veía nada detrás que
                    desenfocar. Y la transición se acota a las dos propiedades que de verdad cambian. */
-                "border border-cream/10 bg-iron-900/95 font-caps text-[11px] tracking-[0.25em] text-cream shadow-card",
+                "border border-cream/10 bg-granate-900/95 font-caps text-[11px] tracking-[0.25em] text-cream shadow-card",
                 "translate-x-1 opacity-0 transition-[translate,opacity] duration-150 ease-[var(--ease-out-expo)] group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100",
                 "[@media(hover:hover)]:block",
               )}

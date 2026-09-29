@@ -429,7 +429,7 @@ export default function ChatWidget() {
                 hijo, así que todo lo demás se pinta encima sin tocar el flujo del panel. */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[linear-gradient(170deg,rgba(20,20,20,0.93),rgba(10,10,10,0.98))]"
+              className="pointer-events-none absolute inset-0 bg-[linear-gradient(170deg,rgba(64,25,21,0.93),rgba(34,12,10,0.98))]"
             />
             {/* Filo de luz superior */}
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cream/25 to-transparent" />
@@ -441,7 +441,7 @@ export default function ChatWidget() {
                 {/* Punto "al habla": el camarero responde ahora mismo */}
                 <motion.span
                   aria-hidden
-                  className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-iron-900 bg-emerald-400"
+                  className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-granate-900 bg-emerald-400"
                   animate={{ opacity: [0.65, 1, 0.65] }}
                   transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                 />
@@ -460,7 +460,7 @@ export default function ChatWidget() {
 
             {/* Nota de modo (sin conexión / respaldo) */}
             {modeNote && (
-              <p className="relative flex items-start gap-2 border-b border-cream/10 bg-iron-900/60 px-4 py-2 font-sans text-[11px] leading-snug text-cream-muted">
+              <p className="relative flex items-start gap-2 border-b border-cream/10 bg-granate-900/60 px-4 py-2 font-sans text-[11px] leading-snug text-cream-muted">
                 <WifiOff aria-hidden className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
                 <span>{modeNote}</span>
               </p>
@@ -521,7 +521,7 @@ export default function ChatWidget() {
 
             {/* Entrada */}
             <form onSubmit={onSubmit} className={cn("relative px-4 pb-2 pt-3", streaming && "border-t border-cream/10")}>
-              <div className="flex items-end gap-2 rounded-2xl border border-cream/12 bg-iron-900/80 p-1.5 transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out-expo)] focus-within:border-pimenton-light/60 focus-within:shadow-[0_0_0_3px_rgba(178,30,39,0.16)]">
+              <div className="flex items-end gap-2 rounded-2xl border border-cream/12 bg-granate-900/80 p-1.5 transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out-expo)] focus-within:border-pimenton-light/60 focus-within:shadow-[0_0_0_3px_rgba(158,22,24,0.16)]">
                 <label htmlFor="tixola-chat-input" className="sr-only">
                   {m.chat.inputLabel}
                 </label>
@@ -558,7 +558,7 @@ export default function ChatWidget() {
                     title={m.chat.send}
                     className={cn(
                       iconButton,
-                      "bg-pimenton text-cream shadow-[0_0_18px_rgba(178,30,39,0.45)] hover:bg-pimenton-light",
+                      "bg-pimenton text-cream shadow-[0_0_18px_rgba(158,22,24,0.45)] hover:bg-pimenton-light",
                       "disabled:cursor-not-allowed disabled:bg-cream/10 disabled:text-cream-faint disabled:shadow-none",
                     )}
                   >

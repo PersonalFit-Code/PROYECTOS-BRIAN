@@ -204,7 +204,7 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
                    dispara el <button>, pero quien se mueve es el disco, no la caja pulsable. */
                 "transition-[translate,scale,background-color,box-shadow] duration-200 group-active:duration-100 ease-[var(--ease-out-expo)] group-hover:-translate-y-0.5 group-hover:bg-pimenton/40 group-active:scale-95",
                 /* El anillo de foco ciñe el disco, no la caja de 44: se ve dónde está el botón. */
-                "group-focus-visible:ring-2 group-focus-visible:ring-pimenton-light group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-iron",
+                "group-focus-visible:ring-2 group-focus-visible:ring-pimenton-light group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-granate",
               )}
             >
               <MessageSquareText aria-hidden className="relative h-5 w-5 md:h-6 md:w-6" strokeWidth={1.8} />
@@ -213,7 +213,7 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
               {!hasOpened && (
                 <span aria-hidden className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center">
                   <span className="absolute inset-0 animate-ping rounded-full bg-pimenton-light/60 [animation-duration:2.4s]" />
-                  <span className="relative h-3 w-3 rounded-full border-2 border-iron bg-pimenton-light" />
+                  <span className="relative h-3 w-3 rounded-full border-2 border-granate bg-pimenton-light" />
                 </span>
               )}
             </span>
@@ -224,7 +224,7 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
               className={cn(
                 "pointer-events-none absolute left-full top-1/2 ml-3 hidden -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1.5",
                 /* Sin `backdrop-blur`: el fondo ya es hierro al 95 %, no había nada visible detrás. */
-                "border border-cream/10 bg-iron-900/95 font-caps text-[11px] tracking-[0.25em] text-cream shadow-card",
+                "border border-cream/10 bg-granate-900/95 font-caps text-[11px] tracking-[0.25em] text-cream shadow-card",
                 "-translate-x-1 opacity-0 transition-[translate,opacity] duration-150 ease-[var(--ease-out-expo)] group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100",
                 "[@media(hover:hover)]:block",
               )}

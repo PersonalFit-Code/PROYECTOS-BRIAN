@@ -99,7 +99,7 @@ export default function PromoBand({ className }: { className?: string }) {
     <aside
       aria-label={t.title}
       className={cn(
-        "relative flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-gold/30 bg-[linear-gradient(120deg,rgba(58,14,19,0.9),rgba(20,20,20,0.9))] px-4 py-3 pr-12 sm:px-6",
+        "relative flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-gold/30 bg-[linear-gradient(120deg,rgba(90,20,24,0.9),rgba(64,25,21,0.9))] px-4 py-3 pr-12 sm:px-6",
         className,
       )}
     >

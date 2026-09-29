@@ -268,7 +268,7 @@ export default function SocialProof() {
   ];
 
   return (
-    <section ref={sectionRef} id="opiniones" className="noise after:noise-after relative isolate overflow-hidden bg-iron">
+    <section ref={sectionRef} id="opiniones" className="noise after:noise-after relative isolate overflow-hidden bg-granate">
       {/* Textura de brasas anclada abajo (con profundidad de capítulo) */}
       <div
         aria-hidden
@@ -278,14 +278,14 @@ export default function SocialProof() {
       {/* Velo oscuro: opaco arriba (continúa la sección anterior), deja respirar las brasas abajo */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,var(--color-iron)_0%,rgba(18,18,18,0.96)_22%,rgba(18,18,18,0.86)_60%,rgba(18,18,18,0.72)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,var(--color-granate)_0%,rgba(59,22,19,0.96)_22%,rgba(59,22,19,0.86)_60%,rgba(59,22,19,0.72)_100%)]"
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(60%_60%_at_50%_100%,rgba(178,30,39,0.35),transparent_70%)]"
+        className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(60%_60%_at_50%_100%,rgba(158,22,24,0.35),transparent_70%)]"
       />
       <EmberField count={emberCount} paused={!inView} />
-      <div aria-hidden className="divider-iron absolute inset-x-0 top-0" />
+      <div aria-hidden className="divider-granate absolute inset-x-0 top-0" />
 
       <div className="container-page relative py-20 md:py-28 lg:py-32">
         {/* 1 · Cabecera */}
@@ -344,7 +344,7 @@ export default function SocialProof() {
               </p>
             </div>
             <div data-reveal="fade" className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex h-9 items-center gap-1.5 rounded-full border border-cream/15 bg-iron-900/60 px-3 font-caps text-[10px] uppercase tracking-[0.22em] text-cream-200">
+              <span className="inline-flex h-9 items-center gap-1.5 rounded-full border border-cream/15 bg-granate-900/60 px-3 font-caps text-[10px] uppercase tracking-[0.22em] text-cream-200">
                 <BadgeCheck className="h-3.5 w-3.5 text-gold" aria-hidden />
                 {s.realReviews}
               </span>
@@ -372,7 +372,7 @@ export default function SocialProof() {
                 aria-label={`${p.cta} · ${p.source} ${fmtRating(p.rating)} · ${p.meta} · ${m.common.misc.newTab}`}
                 className="glass-smoke group flex min-h-[72px] items-center gap-4 rounded-2xl p-4 transition-all duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:border-cream/25 hover:shadow-card md:p-5"
               >
-                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-iron/70 ring-1 ring-cream/10">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-granate/70 ring-1 ring-cream/10">
                   <PlatformGlyph source={p.source} className="h-6 w-6" />
                 </span>
                 <span className="min-w-0 flex-1">
@@ -396,13 +396,13 @@ export default function SocialProof() {
 
         {/* 5 · Galería de fotos. El hueco se reserva por CSS para que el montaje diferido no desplace las
             preguntas frecuentes ni invalide los disparadores de scroll de más abajo. */}
-        <div aria-hidden className="divider-iron mt-16 md:mt-24" />
+        <div aria-hidden className="divider-granate mt-16 md:mt-24" />
         <div ref={galleryRef} className="mt-12 min-h-[400px] md:mt-16 md:min-h-[500px] lg:min-h-[580px]">
           {galleryNear && <PhotoGallery />}
         </div>
 
         {/* 6 · Preguntas frecuentes (mismo texto que el FAQPage de HomeJsonLd) */}
-        <div aria-hidden className="divider-iron mt-16 md:mt-24" />
+        <div aria-hidden className="divider-granate mt-16 md:mt-24" />
         <Faq className="mt-12 md:mt-16" />
       </div>
     </section>

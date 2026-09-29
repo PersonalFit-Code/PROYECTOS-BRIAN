@@ -253,7 +253,7 @@ function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
             texto sin tocar el flujo, y `rounded-[inherit]` para no asomar por las esquinas. */}
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-[linear-gradient(165deg,rgba(24,24,24,0.97),rgba(12,12,12,0.99))]"
+          className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-[linear-gradient(165deg,rgba(71,32,25,0.97),rgba(42,15,13,0.99))]"
         />
 
         {/* Halo del color de acento tras el panel. Sin `blur-3xl`: eran 384×384 px con radio 64 DENTRO
@@ -276,7 +276,7 @@ function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
           aria-label={m.dishes.spotlight.close}
           /* Sin `backdrop-blur-sm`: 44×44 px sobre la foto del plato. Con el hierro al 88 % se lee
              igual y desaparece un backdrop-filter que se componía durante la apertura del panel. */
-          className="absolute right-3 top-3 z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/15 bg-iron-900/88 text-cream transition-colors duration-160 hover:bg-cream/10 md:right-4 md:top-4"
+          className="absolute right-3 top-3 z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/15 bg-granate-900/88 text-cream transition-colors duration-160 hover:bg-cream/10 md:right-4 md:top-4"
         >
           <X size={18} aria-hidden />
         </button>
@@ -293,7 +293,7 @@ function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
               <DishVisual dish={dish} photo={photo} sizes={SHEET_SIZES} steam={steam} variant="sheet" />
             </motion.div>
             {/* Funde el borde inferior de la foto con el panel (móvil) / el lateral (escritorio) */}
-            <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-iron-900/85 to-transparent md:inset-y-0 md:left-auto md:right-0 md:h-auto md:w-16 md:bg-gradient-to-l" />
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-granate-900/85 to-transparent md:inset-y-0 md:left-auto md:right-0 md:h-auto md:w-16 md:bg-gradient-to-l" />
           </motion.div>
 
           {/* Asa de arrastre (móvil) */}
@@ -401,7 +401,7 @@ function DishDetails({ dish, titleId, descId, onClose, showMenuLink }: DishDetai
         {dish.description}
       </p>
 
-      <div className="divider-iron my-5" />
+      <div className="divider-granate my-5" />
 
       {/* Ingredientes: despiece que solo tienen los platos estrella. Sin ellos, ni el rótulo ni la
           lista vacía: un encabezado con nada debajo se lee como un fallo. */}

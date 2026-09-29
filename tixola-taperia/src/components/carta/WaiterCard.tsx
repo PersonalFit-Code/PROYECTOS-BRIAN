@@ -35,7 +35,7 @@ export default function WaiterCard({ className }: WaiterCardProps) {
     <section
       aria-labelledby={titleId}
       className={cn(
-        "noise after:noise-after relative overflow-hidden rounded-3xl border border-pimenton-light/35 bg-[linear-gradient(160deg,rgba(58,14,19,0.85),rgba(18,18,18,0.92)_58%,rgba(34,8,11,0.9))] shadow-card",
+        "noise after:noise-after relative overflow-hidden rounded-3xl border border-pimenton-light/35 bg-[linear-gradient(160deg,rgba(90,20,24,0.85),rgba(59,22,19,0.92)_58%,rgba(58,13,16,0.9))] shadow-card",
         className,
       )}
     >
@@ -64,7 +64,7 @@ export default function WaiterCard({ className }: WaiterCardProps) {
               <button
                 type="button"
                 onClick={() => chat.open({ prefill: question, page: "carta" })}
-                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-cream/15 bg-iron/40 px-3.5 py-2 text-left text-sm text-cream-200 transition-colors hover:border-pimenton-light/60 hover:bg-pimenton/15 hover:text-cream"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-cream/15 bg-granate/40 px-3.5 py-2 text-left text-sm text-cream-200 transition-colors hover:border-pimenton-light/60 hover:bg-pimenton/15 hover:text-cream"
               >
                 <Sparkles size={14} aria-hidden className="shrink-0 text-gold" />
                 {question}

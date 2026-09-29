@@ -91,7 +91,7 @@ export const STAR_DISHES: StarDish[] = [
       do: "D.O. Ribeira Sacra",
       why: "Un tinto ligero y fresco que aguanta el queso fundido sin tapar el adobo de la carne.",
     },
-    accent: "#D8323C",
+    accent: "#e8565a",
     emoji: "🍳",
     image: "/images/tixola-raxo-croquetas.jpg",
     badge: "La más pedida",

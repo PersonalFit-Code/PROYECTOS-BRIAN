@@ -170,12 +170,12 @@ export default function StarDishes() {
     <section
       ref={sectionRef}
       id="platos"
-      className="noise after:noise-after relative overflow-hidden bg-iron bg-[url('/textures/iron.webp')] bg-cover bg-center"
+      className="noise after:noise-after relative overflow-hidden bg-granate bg-[url('/textures/iron.webp')] bg-cover bg-center"
     >
       {/* Capas de fondo: velo oscuro para legibilidad + brasa roja tras el carrusel (con profundidad) */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(180deg,var(--color-iron)_0%,rgba(18,18,18,0.88)_18%,rgba(18,18,18,0.86)_82%,var(--color-iron)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,var(--color-granate)_0%,rgba(59,22,19,0.88)_18%,rgba(59,22,19,0.86)_82%,var(--color-granate)_100%)]"
       />
       {/* La brasa más grande de la web: hasta 1400×760 px. Llevaba `blur-3xl` (64 px de radio) encima de
           un degradado radial que ya era suave, y además se desplaza con el scroll (`data-depth`) dentro
@@ -186,8 +186,8 @@ export default function StarDishes() {
         data-depth="0.35"
         className="ember-glow absolute left-1/2 top-[55%] h-[80vw] max-h-[760px] w-[130vw] max-w-[1400px] -translate-x-1/2 -translate-y-1/2 rounded-full [--ember-a1:0.34]"
       />
-      <div aria-hidden className="divider-iron absolute inset-x-0 top-0" />
-      <div aria-hidden className="divider-iron absolute inset-x-0 bottom-0" />
+      <div aria-hidden className="divider-granate absolute inset-x-0 top-0" />
+      <div aria-hidden className="divider-granate absolute inset-x-0 bottom-0" />
 
       <div className="container-page relative pt-20 md:pt-28 lg:pt-32">
         <SectionHeading

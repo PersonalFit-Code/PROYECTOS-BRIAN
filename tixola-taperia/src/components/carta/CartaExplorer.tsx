@@ -315,13 +315,13 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, he
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="noise after:noise-after relative overflow-x-clip bg-iron bg-[url('/textures/slate.webp')] bg-[length:900px_900px] bg-repeat">
+      <div className="noise after:noise-after relative overflow-x-clip bg-granate bg-[url('/textures/slate.webp')] bg-[length:900px_900px] bg-repeat">
         {/* Velo oscuro sobre la pizarra para legibilidad */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(18,18,18,0.9)_0%,rgba(18,18,18,0.8)_25%,rgba(18,18,18,0.84)_70%,var(--color-iron)_100%)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(59,22,19,0.9)_0%,rgba(59,22,19,0.8)_25%,rgba(59,22,19,0.84)_70%,var(--color-granate)_100%)]"
         />
-        <div aria-hidden className="divider-iron absolute inset-x-0 top-0" />
+        <div aria-hidden className="divider-granate absolute inset-x-0 top-0" />
 
         {/* Cabecera + camarero virtual (banda en móvil / tablet) */}
         <div className={cn(CARTA_CONTAINER, "relative")}>
@@ -435,8 +435,8 @@ function EmptyState({ query, onReset }: { query: string; onReset: () => void }) 
   /* Cristal horneado: degradado de hierro + borde, sin `backdrop-filter`. Sobre la pizarra oscura el
      desenfoque no aportaba nada visible y era una capa más que componer en cada fotograma. */
   return (
-    <div className="flex flex-col items-center gap-4 rounded-3xl border border-cream/10 bg-iron-800/90 px-6 py-14 text-center shadow-card">
-      <span aria-hidden className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-cream/10 bg-iron/60 text-gold">
+    <div className="flex flex-col items-center gap-4 rounded-3xl border border-cream/10 bg-granate-800/90 px-6 py-14 text-center shadow-card">
+      <span aria-hidden className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-cream/10 bg-granate/60 text-gold">
         <Utensils size={24} strokeWidth={1.8} />
       </span>
       <p className="font-condensed text-3xl uppercase tracking-wide text-cream">{m.carta.empty}</p>

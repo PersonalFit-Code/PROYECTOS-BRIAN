@@ -335,7 +335,7 @@ export default function Hero() {
       : { initial: { opacity: 0, y: 22 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.9, ease: EASE_OUT_EXPO, delay } };
 
   return (
-    <section ref={sectionRef} id="hero" style={PAN_VARS} className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-iron">
+    <section ref={sectionRef} id="hero" style={PAN_VARS} className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-granate">
       {/* Fondo de la portada (foto de la tixola sobre la brasa). El contenedor data-hero-canvas lo
           anima el módulo de scroll: `HeroTransition` lo busca por ese atributo para el alejamiento. */}
       <div data-hero-canvas className="absolute inset-0 -z-10">
@@ -349,8 +349,8 @@ export default function Hero() {
         aria-hidden
         className={cn(
           "pointer-events-none absolute inset-0 -z-[5]",
-          "bg-[linear-gradient(180deg,rgba(18,18,18,0.55)_0%,rgba(18,18,18,0)_18%,rgba(18,18,18,0)_30%,rgba(18,18,18,0.55)_42%,rgba(18,18,18,0.85)_62%,#121212_100%)]",
-          "lg:bg-[linear-gradient(180deg,rgba(18,18,18,0.5)_0%,rgba(18,18,18,0)_22%,rgba(18,18,18,0)_70%,#121212_100%)]",
+          "bg-[linear-gradient(180deg,rgba(59,22,19,0.55)_0%,rgba(59,22,19,0)_18%,rgba(59,22,19,0)_30%,rgba(59,22,19,0.55)_42%,rgba(59,22,19,0.85)_62%,#3b1613_100%)]",
+          "lg:bg-[linear-gradient(180deg,rgba(59,22,19,0.5)_0%,rgba(59,22,19,0)_22%,rgba(59,22,19,0)_70%,#3b1613_100%)]",
         )}
       />
       {/* Velo lateral: SOLO escritorio, donde el copy manda en la mitad izquierda y la tixola en la
@@ -358,7 +358,7 @@ export default function Hero() {
           el velo que hace falta ahí es el del propio copy, más abajo. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-[5] hidden bg-[linear-gradient(90deg,rgba(12,12,12,0.82)_0%,rgba(12,12,12,0.5)_34%,rgba(12,12,12,0.12)_52%,transparent_64%)] lg:block"
+        className="pointer-events-none absolute inset-0 -z-[5] hidden bg-[linear-gradient(90deg,rgba(42,15,13,0.82)_0%,rgba(42,15,13,0.5)_34%,rgba(42,15,13,0.12)_52%,transparent_64%)] lg:block"
       />
 
       {/* Copy: anclado abajo a la izquierda (portada). El contenedor data-hero-copy lo anima el módulo de scroll.
@@ -418,7 +418,7 @@ export default function Hero() {
           <div
             aria-hidden
             data-hero-veil
-            className="pointer-events-none absolute -inset-x-6 -bottom-10 -top-8 -z-10 bg-[linear-gradient(180deg,transparent_0px,rgba(10,10,10,0.42)_28px,rgba(10,10,10,0.72)_64px,rgba(10,10,10,0.8)_40%,rgba(10,10,10,0.86)_100%)] lg:hidden"
+            className="pointer-events-none absolute -inset-x-6 -bottom-10 -top-8 -z-10 bg-[linear-gradient(180deg,transparent_0px,rgba(34,12,10,0.42)_28px,rgba(34,12,10,0.72)_64px,rgba(34,12,10,0.8)_40%,rgba(34,12,10,0.86)_100%)] lg:hidden"
           />
 
           {/* Kicker */}

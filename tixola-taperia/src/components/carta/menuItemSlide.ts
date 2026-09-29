@@ -61,7 +61,7 @@ export function useMenuItemSlide(): (item: MenuItem, kicker: string) => DishSlid
           allergens: item.allergens,
           /* Solo el vino; la D.O. y el porqué son cosecha de los platos estrella. */
           pairing: { wine: item.pairing ?? "", do: "", why: "" },
-          accent: "#B21E27",
+          accent: "#9e1618",
           emoji: item.emoji,
           image: item.image,
         },

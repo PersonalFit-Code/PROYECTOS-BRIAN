@@ -238,7 +238,7 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
     >
       {children}
       {/* Telón oscuro: opacidad controlada por GSAP (0 en SSR / sin efectos). */}
-      <div ref={curtainRef} aria-hidden className="pointer-events-none absolute inset-0 z-30 bg-iron-900 opacity-0" />
+      <div ref={curtainRef} aria-hidden className="pointer-events-none absolute inset-0 z-30 bg-granate-900 opacity-0" />
     </div>
   );
 }

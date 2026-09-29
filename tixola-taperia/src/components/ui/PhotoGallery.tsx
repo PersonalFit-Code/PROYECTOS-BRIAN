@@ -277,8 +277,8 @@ export default function PhotoGallery({ className }: PhotoGalleryProps) {
         </div>
 
         {/* Desvanecido en los bordes: las fotos se funden con el hierro */}
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 z-10 w-4 bg-gradient-to-r from-iron/90 to-transparent md:w-16" />
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-4 bg-gradient-to-l from-iron/90 to-transparent md:w-16" />
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 z-10 w-4 bg-gradient-to-r from-granate/90 to-transparent md:w-16" />
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-4 bg-gradient-to-l from-granate/90 to-transparent md:w-16" />
 
         {/* Flechas laterales (tablet/escritorio) */}
         <ArrowButton dir="prev" label={g.prev} onClick={scrollPrev} className="absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 md:inline-flex" />
@@ -305,7 +305,7 @@ export default function PhotoGallery({ className }: PhotoGalleryProps) {
                   aria-hidden
                   className={cn(
                     "block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-out-expo)]",
-                    isActive ? "w-7 bg-pimenton-light shadow-[0_0_12px_rgba(216,50,60,0.8)]" : "w-1.5 bg-cream/30",
+                    isActive ? "w-7 bg-pimenton-light shadow-[0_0_12px_rgba(232,86,90,0.8)]" : "w-1.5 bg-cream/30",
                   )}
                 />
               </button>
@@ -395,7 +395,7 @@ function GallerySlide({ slide, total, active, hintId, onOpen }: GallerySlideProp
     >
       <figure
         className={cn(
-          "group relative m-0 h-full w-full overflow-hidden rounded-2xl border border-cream/10 bg-iron-800 shadow-card transition-opacity duration-500",
+          "group relative m-0 h-full w-full overflow-hidden rounded-2xl border border-cream/10 bg-granate-800 shadow-card transition-opacity duration-500",
           active ? "opacity-100" : "opacity-85",
         )}
       >
@@ -409,11 +409,11 @@ function GallerySlide({ slide, total, active, hintId, onOpen }: GallerySlideProp
           style={{ objectPosition: photo.focus ?? "50% 50%" }}
         />
         {/* Degradado inferior para la legibilidad del pie */}
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-iron-900/90 via-iron-900/40 to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-granate-900/90 via-granate-900/40 to-transparent" />
         {/* Brillo rojo al pasar el ratón o enfocar */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(216,50,60,0.45),0_0_50px_-10px_rgba(178,30,39,0.6)] transition-opacity duration-500 group-focus-within:opacity-100 group-hover:opacity-100"
+          className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 shadow-[inset_0_0_0_1px_rgba(232,86,90,0.45),0_0_50px_-10px_rgba(158,22,24,0.6)] transition-opacity duration-500 group-focus-within:opacity-100 group-hover:opacity-100"
         />
         <figcaption className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-3 p-4">
           <span className="font-display text-base italic leading-snug text-cream text-balance md:text-lg">{caption}</span>
@@ -455,7 +455,7 @@ function ArrowButton({ dir, label, onClick, className }: ArrowButtonProps) {
       aria-label={label}
       className={cn(
         /* Hierro horneado: 44×44 px, el desenfoque no se ve y sí se compone. */
-        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-iron-900/85 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
+        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-granate-900/85 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
         className,
       )}
     >
@@ -515,7 +515,7 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
          contenedor animada 0→1 y 1→0, así que durante ~300 ms el navegador componía un desenfoque de
          todo el viewport fotograma a fotograma… sobre un fondo que al 95 % ya no dejaba ver nada
          detrás. Sube al 97 % y el coste visual del recorte es literalmente cero. */
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-iron-900/97 p-4 md:p-10"
+      className="fixed inset-0 z-[120] flex items-center justify-center bg-granate-900/97 p-4 md:p-10"
     >
       <motion.figure
         onClick={(e) => e.stopPropagation()}
@@ -527,7 +527,7 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
         className="relative m-0 flex max-w-full flex-col"
       >
         <div
-          className="relative overflow-hidden rounded-2xl border border-cream/10 bg-iron-800 shadow-card"
+          className="relative overflow-hidden rounded-2xl border border-cream/10 bg-granate-800 shadow-card"
           style={{ aspectRatio: `${photo.width} / ${photo.height}`, width: `min(90vw, calc(78vh * ${ratio}))` }}
         >
           {/* Al cambiar de foto la nueva entra con un fundido breve */}
@@ -549,7 +549,7 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
         type="button"
         onClick={stop(onClose)}
         aria-label={lb.close}
-        className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-iron-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:right-6 md:top-6"
+        className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-granate-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:right-6 md:top-6"
       >
         <X size={20} aria-hidden />
       </button>
@@ -561,7 +561,7 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
             type="button"
             onClick={stop(onPrev)}
             aria-label={lb.prev}
-            className="absolute bottom-4 left-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-iron-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:left-6 md:top-1/2 md:-translate-y-1/2"
+            className="absolute bottom-4 left-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-granate-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:left-6 md:top-1/2 md:-translate-y-1/2"
           >
             <ChevronLeft size={22} aria-hidden />
           </button>
@@ -569,7 +569,7 @@ function Lightbox({ photo, index, total, onClose, onPrev, onNext }: LightboxProp
             type="button"
             onClick={stop(onNext)}
             aria-label={lb.next}
-            className="absolute bottom-4 right-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-iron-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:right-6 md:top-1/2 md:-translate-y-1/2"
+            className="absolute bottom-4 right-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-granate-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:right-6 md:top-1/2 md:-translate-y-1/2"
           >
             <ChevronRight size={22} aria-hidden />
           </button>

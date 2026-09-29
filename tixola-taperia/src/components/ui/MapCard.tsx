@@ -297,7 +297,7 @@ const WALK_BADGE = uv(24, 7);
    Plano dibujado
    ════════════════════════════════════════════════════════════ */
 
-const PLOT_STROKE = { stroke: "#f9f6f0", strokeOpacity: 0.15, strokeWidth: 0.4 } as const;
+const PLOT_STROKE = { stroke: "#f6f4e7", strokeOpacity: 0.15, strokeWidth: 0.4 } as const;
 
 function HistoricPlan({ ariaLabel }: { ariaLabel: string }) {
   /* `useId` lleva dos puntos, que en un `url(#…)` no molestan pero ensucian el marcado: fuera. */
@@ -316,14 +316,14 @@ function HistoricPlan({ ariaLabel }: { ariaLabel: string }) {
         </linearGradient>
         {/* Retícula grabada de 16 m: da el aire de plano de piedra sin coste (un solo patrón). */}
         <pattern id={engrave} width="16" height="16" patternUnits="userSpaceOnUse">
-          <path d="M 0 0 H 16 M 0 0 V 16" fill="none" stroke="#f9f6f0" strokeOpacity="0.045" strokeWidth="0.22" />
+          <path d="M 0 0 H 16 M 0 0 V 16" fill="none" stroke="#f6f4e7" strokeOpacity="0.045" strokeWidth="0.22" />
         </pattern>
         {/* Resplandores con degradado radial en vez de desenfoques: un `filter` sobre media lámina
             obliga al navegador a rasterizar y difuminar toda esa zona; un degradado es un relleno. */}
         <radialGradient id={warmth}>
-          <stop offset="0" stopColor="#d8323c" stopOpacity="0.3" />
-          <stop offset="0.55" stopColor="#b21e27" stopOpacity="0.1" />
-          <stop offset="1" stopColor="#b21e27" stopOpacity="0" />
+          <stop offset="0" stopColor="#e8565a" stopOpacity="0.3" />
+          <stop offset="0.55" stopColor="#9e1618" stopOpacity="0.1" />
+          <stop offset="1" stopColor="#9e1618" stopOpacity="0" />
         </radialGradient>
         <radialGradient id={gold}>
           <stop offset="0" stopColor="#e8c27a" stopOpacity="0.2" />
@@ -389,7 +389,7 @@ function HistoricPlan({ ariaLabel }: { ariaLabel: string }) {
       </g>
 
       {/* Santa Eufemia */}
-      <g transform={CHURCH.transform} fill="#5f5648" stroke="#efe9dd" strokeOpacity="0.4" strokeWidth="0.5">
+      <g transform={CHURCH.transform} fill="#5f5648" stroke="#ece9d8" strokeOpacity="0.4" strokeWidth="0.5">
         <rect {...CHURCH.nave} />
         {CHURCH.towers.map((t, i) => (
           <rect key={`t${i}`} {...t} />
@@ -399,9 +399,9 @@ function HistoricPlan({ ariaLabel }: { ariaLabel: string }) {
 
       {/* Tixola: el único volumen en pimentón de todo el plano */}
       <g transform={STREET_TRANSFORM}>
-        <rect {...TIXOLA_PLOT} fill="#5a1b21" stroke="#ffb3b8" strokeOpacity="0.8" strokeWidth="0.7" rx={0.8} />
+        <rect {...TIXOLA_PLOT} fill="#701112" stroke="#ffb3b8" strokeOpacity="0.8" strokeWidth="0.7" rx={0.8} />
         {/* Terraza: tres sombrillas a pie de calle frente a la puerta */}
-        <g fill="#b21e27" fillOpacity="0.9">
+        <g fill="#9e1618" fillOpacity="0.9">
           {TERRACE.map((t, i) => (
             <circle key={`p${i}`} cx={t.cx} cy={t.cy} r={1.5} />
           ))}
@@ -413,7 +413,7 @@ function HistoricPlan({ ariaLabel }: { ariaLabel: string }) {
 
       {/* Anillos de la chincheta. `animate-neon-pulse` solo mueve la opacidad, y la regla global de
           `prefers-reduced-motion` lo deja quieto para quien pide menos movimiento. */}
-      <g className="animate-neon-pulse" fill="none" stroke="#d8323c">
+      <g className="animate-neon-pulse" fill="none" stroke="#e8565a">
         <circle cx={DOOR[0]} cy={DOOR[1]} r={9} strokeOpacity="0.55" strokeWidth="0.9" />
         <circle cx={DOOR[0]} cy={DOOR[1]} r={16} strokeOpacity="0.28" strokeWidth="0.7" />
       </g>
@@ -427,7 +427,7 @@ function HistoricPlan({ ariaLabel }: { ariaLabel: string }) {
           textLength={46}
           lengthAdjust="spacingAndGlyphs"
           fontSize={4.4}
-          fill="#f9f6f0"
+          fill="#f6f4e7"
           fillOpacity="0.55"
           className="font-caps uppercase"
         >
@@ -465,9 +465,9 @@ function FacadePhoto({ caption }: { caption: string }) {
       />
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,12,12,0.1)_0%,rgba(12,12,12,0.28)_45%,rgba(12,12,12,0.88)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(42,15,13,0.1)_0%,rgba(42,15,13,0.28)_45%,rgba(42,15,13,0.88)_100%)]"
       />
-      <div className="absolute inset-x-3 bottom-3 z-[6] flex items-center gap-3 rounded-2xl border border-cream/10 bg-iron-900/90 px-3 py-2.5 shadow-glass md:inset-x-4 md:bottom-4 md:px-4 md:py-3">
+      <div className="absolute inset-x-3 bottom-3 z-[6] flex items-center gap-3 rounded-2xl border border-cream/10 bg-granate-900/90 px-3 py-2.5 shadow-glass md:inset-x-4 md:bottom-4 md:px-4 md:py-3">
         <span aria-hidden className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pimenton text-cream shadow-neon">
           <MapPin className="h-4 w-4" />
         </span>
@@ -526,7 +526,7 @@ function ViewSwitch({
     );
   };
   return (
-    <div role="group" aria-label={label} className="flex shrink-0 items-center rounded-full border border-cream/10 bg-iron-900/70 p-0.5">
+    <div role="group" aria-label={label} className="flex shrink-0 items-center rounded-full border border-cream/10 bg-granate-900/70 p-0.5">
       {option("map", mapLabel, <Globe className="h-3.5 w-3.5" aria-hidden />)}
       {option("plan", planLabel, <Map className="h-3.5 w-3.5" aria-hidden />)}
       {option("photo", photoLabel, <ImageIcon className="h-3.5 w-3.5" aria-hidden />)}
@@ -550,7 +550,7 @@ function Legend({ items, label }: { items: ReadonlyArray<{ text: string; dot: st
          lo largo de la calle: se leía «…DE AU» y el resto asomaba tenue por detrás del fondo, que parece
          un recorte defectuoso y no una decisión. Arriba a la izquierda solo tiene debajo manzanas de
          granito, y el ancho se limita para no llegar a la rosa de los vientos. */
-      className="absolute left-3 top-3 z-[6] flex max-w-[calc(100%-4.75rem)] flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl border border-cream/10 bg-iron-900/90 px-3 py-1.5 font-caps text-[9px] uppercase tracking-[0.18em] text-cream-200 shadow-glass sm:bottom-3 sm:top-auto sm:max-w-[calc(100%-1.5rem)]"
+      className="absolute left-3 top-3 z-[6] flex max-w-[calc(100%-4.75rem)] flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl border border-cream/10 bg-granate-900/90 px-3 py-1.5 font-caps text-[9px] uppercase tracking-[0.18em] text-cream-200 shadow-glass sm:bottom-3 sm:top-auto sm:max-w-[calc(100%-1.5rem)]"
     >
       {items.map((item) => (
         <li key={item.text} className="inline-flex items-center gap-1.5">
@@ -617,7 +617,7 @@ export default function MapCard({ className }: MapCardProps) {
 
   const legend = useMemo(
     () => [
-      { text: x.legendYou, dot: "bg-pimenton-light shadow-[0_0_8px_rgba(216,50,60,0.9)]" },
+      { text: x.legendYou, dot: "bg-pimenton-light shadow-[0_0_8px_rgba(232,86,90,0.9)]" },
       { text: x.legendCathedral, dot: "bg-gold shadow-[0_0_8px_rgba(232,194,122,0.8)]" },
       { text: x.legendChurch, dot: "bg-cream-400" },
     ],
@@ -643,13 +643,13 @@ export default function MapCard({ className }: MapCardProps) {
     <div className={cn("flex flex-col", className)}>
       {/* Degradado prehorneado en lugar de `glass-smoke`: el mismo hierro ahumado sin pedirle al
           navegador que vuelva a desenfocar el fondo en cada repintado de la tarjeta. */}
-      <div className="relative overflow-hidden rounded-[28px] border border-cream/10 bg-[linear-gradient(160deg,rgba(20,20,20,0.92),rgba(20,20,20,0.82))] p-2 shadow-card">
+      <div className="relative overflow-hidden rounded-[28px] border border-cream/10 bg-[linear-gradient(160deg,rgba(64,25,21,0.92),rgba(64,25,21,0.82))] p-2 shadow-card">
         {/* Visor: aspecto fijo 4:3, el mismo del viewBox del plano */}
         <div
           /* `data-map-viewport` es el asidero de scripts/qa-hero.cjs, que comprueba que este visor no
              se queda en negro. No tiene efecto visual. */
           data-map-viewport
-          className="relative aspect-[4/3] select-none overflow-hidden rounded-[20px] bg-iron-900"
+          className="relative aspect-[4/3] select-none overflow-hidden rounded-[20px] bg-granate-900"
         >
           {/* Plano. Se queda montado siempre (es SVG, no cuesta nada) y solo se oculta: así conmutar de
               vista no vuelve a construir el dibujo. `inert` saca de la accesibilidad y del tabulador lo
@@ -692,7 +692,7 @@ export default function MapCard({ className }: MapCardProps) {
                    ruta hecha: en un móvil eso es lo que se quiere, no arrastrar un mapa incrustado.
                    Con ratón sí escucha: allí el gesto de scroll ya lo protege el propio Google
                    pidiendo Ctrl, y arrastrar con el ratón no compite con nada. */
-                className="block h-full w-full border-0 bg-iron-900 max-md:pointer-events-none"
+                className="block h-full w-full border-0 bg-granate-900 max-md:pointer-events-none"
               />
             </div>
           )}
@@ -715,14 +715,14 @@ export default function MapCard({ className }: MapCardProps) {
           {view !== "map" && (
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(120%_90%_at_50%_45%,transparent_55%,rgba(12,12,12,0.6)_100%)]"
+              className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(120%_90%_at_50%_45%,transparent_55%,rgba(42,15,13,0.6)_100%)]"
             />
           )}
 
           {/* Pestaña del mapa sin permiso para cargarlo: se dice qué pasa al cargarlo y se ofrece
               hacerlo solo para esta visita. Nada se conecta con Google hasta que se pulsa. */}
           {view === "map" && !mapReady && (
-            <div className="absolute inset-0 z-[6] grid place-items-center bg-iron-900 px-6 text-center">
+            <div className="absolute inset-0 z-[6] grid place-items-center bg-granate-900 px-6 text-center">
               <div className="max-w-[26rem]">
                 <Globe className="mx-auto h-7 w-7 text-cream-muted" aria-hidden />
                 <p className="mt-3 font-sans text-sm leading-relaxed text-cream-200">{x.mapNotice}</p>
@@ -756,7 +756,7 @@ export default function MapCard({ className }: MapCardProps) {
                   style={atMeters(TIXOLA_LABEL[0], TIXOLA_LABEL[1])}
                   className={cn(
                     LABEL_CLASS,
-                    "absolute -translate-x-1/2 -translate-y-1/2 border-pimenton-light/60 bg-iron-900/90 text-cream shadow-neon",
+                    "absolute -translate-x-1/2 -translate-y-1/2 border-pimenton-light/60 bg-granate-900/90 text-cream shadow-neon",
                   )}
                 >
                   {x.legendYou}
@@ -765,7 +765,7 @@ export default function MapCard({ className }: MapCardProps) {
                   style={atMeters(CATHEDRAL.label[0], CATHEDRAL.label[1])}
                   className={cn(
                     LABEL_CLASS,
-                    "absolute hidden -translate-x-1/2 -translate-y-1/2 border-gold/40 bg-iron-900/85 text-gold sm:block",
+                    "absolute hidden -translate-x-1/2 -translate-y-1/2 border-gold/40 bg-granate-900/85 text-gold sm:block",
                   )}
                 >
                   {x.legendCathedral}
@@ -774,7 +774,7 @@ export default function MapCard({ className }: MapCardProps) {
                   style={atMeters(CHURCH.center[0], CHURCH.center[1])}
                   className={cn(
                     LABEL_CLASS,
-                    "absolute hidden -translate-x-1/2 -translate-y-1/2 border-cream/30 bg-iron-900/85 text-cream-200 sm:block",
+                    "absolute hidden -translate-x-1/2 -translate-y-1/2 border-cream/30 bg-granate-900/85 text-cream-200 sm:block",
                   )}
                 >
                   {x.legendChurch}
@@ -783,7 +783,7 @@ export default function MapCard({ className }: MapCardProps) {
                 ya la dice el panel de abajo con su texto traducido ("A un minuto de la Catedral"). */}
                 <span
                   style={atMeters(WALK_BADGE[0], WALK_BADGE[1])}
-                  className="absolute inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full border border-gold/30 bg-iron-900/90 px-2 py-0.5 font-sans text-[10px] font-medium text-gold"
+                  className="absolute inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full border border-gold/30 bg-granate-900/90 px-2 py-0.5 font-sans text-[10px] font-medium text-gold"
                 >
                   <Footprints className="h-3 w-3" />1 min
                 </span>
@@ -792,7 +792,7 @@ export default function MapCard({ className }: MapCardProps) {
               {/* Rosa de los vientos: el plano está orientado al norte, conviene decirlo. */}
               <span
                 aria-hidden
-                className="absolute right-3 top-3 z-[6] inline-flex items-center gap-1 rounded-full border border-cream/10 bg-iron-900/85 px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.22em] text-cream/80"
+                className="absolute right-3 top-3 z-[6] inline-flex items-center gap-1 rounded-full border border-cream/10 bg-granate-900/85 px-2.5 py-1 font-caps text-[9px] uppercase tracking-[0.22em] text-cream/80"
               >
                 <ArrowUp className="h-3 w-3 text-pimenton-light" />N
               </span>
