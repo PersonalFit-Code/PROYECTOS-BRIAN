@@ -372,7 +372,17 @@ export default function Hero() {
       <div
         data-hero-copy
         className={cn(
-          "container-page relative z-10 flex flex-1 flex-col justify-end",
+          /*
+            En el teléfono el bloque se CENTRA en el hueco que queda bajo la sartén, y de `sm` en
+            adelante sigue anclado abajo como hasta ahora. Sin el párrafo, el copy ocupa 120 px menos y
+            en un móvil alto (844 px) todo ese aire se acumulaba de golpe entre la foto y el kicker: un
+            agujero negro de 145 px en mitad de la primera pantalla. Centrando, ese hueco se parte en
+            dos de ~83 px —uno sobre el kicker y otro bajo la valoración— y el segundo es justo el
+            respiro que pedía el cliente antes de entrar en los platos. En las pantallas cortas, que son
+            las que motivaron el recorte, no cambia nada: ahí no sobra ni un píxel y centrar es lo mismo
+            que anclar abajo.
+          */
+          "container-page relative z-10 flex flex-1 flex-col justify-center sm:justify-end",
           "pt-[calc(var(--header-h)+var(--pan-h)+0.75rem)] pb-[calc(var(--mobile-bar-h)+1.75rem)] md:pb-24 lg:pb-[clamp(3rem,7vh,5.5rem)] lg:pt-[calc(var(--header-h)+2rem)]",
         )}
       >
@@ -424,16 +434,33 @@ export default function Hero() {
 
           <Headline lines={m.hero.titleLines} accent={m.hero.accent} fullTitle={m.hero.title} reduced={reduced} />
 
-          {/* Subtítulo */}
+          {/*
+            SUBTÍTULO — se ve de `sm` en adelante y se oculta en el teléfono.
+
+            No es un recorte de texto sino de ALTURA. Medido a 390 px: el párrafo ocupa 104 px más sus
+            16 px de separación, y con él la portada no bajaba de 801 px hiciera lo que hiciera el
+            viewport. En un navegador incrustado (el de WhatsApp o Instagram, que es por donde va a
+            llegar la mitad de la gente) el hueco útil ronda los 620-700 px, así que la barra fija se
+            comía media píldora de "Reservar Mesa" y la valoración de Google entera: el cliente lo vio
+            en su propio teléfono. Sin el párrafo la portada baja a ~680 px y las dos píldoras y la
+            valoración caben enteras, que es lo que tiene que pasar en la primera pantalla.
+
+            Se oculta, no se borra: el texto sigue en el HTML para quien lo rastrea y para `sm` en
+            adelante, donde sobra sitio y el párrafo hace su trabajo de venta. Lo que cuenta lo repiten
+            además la banda de cifras y el pie, así que el teléfono no se queda sin ese argumento, solo
+            lo recibe más abajo.
+          */}
           <motion.p
             {...fadeUp(afterHeadline)}
-            className="mt-5 max-w-xl font-sans text-base leading-relaxed text-cream-muted text-pretty lg:mt-7 lg:text-lg"
+            className="mt-5 hidden max-w-xl font-sans text-base leading-relaxed text-cream-muted text-pretty sm:block lg:mt-7 lg:text-lg"
           >
             {m.hero.subtitle}
           </motion.p>
 
-          {/* CTAs */}
-          <motion.div {...fadeUp(afterHeadline + 0.12)} className="mt-6 flex items-stretch gap-2 sm:items-center sm:gap-3 lg:mt-9">
+          {/* CTAs. En el teléfono cuelgan del titular (el párrafo de arriba no está), así que necesitan
+              su propio aire: 32 px, que es lo que separaba al titular del párrafo más lo que el párrafo
+              dejaba antes de las píldoras, para que el salto del titular a la acción no quede pegado. */}
+          <motion.div {...fadeUp(afterHeadline + 0.12)} className="mt-8 flex items-stretch gap-2 sm:mt-6 sm:items-center sm:gap-3 lg:mt-9">
             {/* `pulse={ambient}`: la animación del halo neón es `animate-neon-pulse`, un bucle CSS infinito sobre
                 una sombra difusa. Se apaga cuando la portada deja de verse. */}
             <NeonButton variant="primary" size="lg" pulse={ambient} onClick={open} icon={<CalendarCheck aria-hidden />} className={HERO_CTA}>
