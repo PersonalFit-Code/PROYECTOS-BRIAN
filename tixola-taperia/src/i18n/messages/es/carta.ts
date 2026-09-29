@@ -72,7 +72,11 @@ const carta = {
   legendCode: "Código {code}",
   legendNote:
     "Información sobre alérgenos según el Reglamento (UE) 1169/2011. Consulta al personal ante cualquier duda; nuestra cocina manipula todos los alérgenos.",
-  noAllergens: "Sin alérgenos declarados",
+  /* Lo que se pinta cuando un plato no tiene alérgenos declarados. NO dice "sin alérgenos": la web
+     solo declara PRESENCIA, nunca ausencia (no sabemos en qué aceite se fríe ni qué plancha se
+     comparte), y una lista vacía que se lea como "esto es seguro" es justo el fallo que manda a
+     alguien a urgencias. Es además lo que dice la carta de papel al pie de las dos caras. */
+  allergensAsk: "Consulta los alérgenos con el personal",
   allergensAria: "Alérgenos",
 
   /* ── Tarjeta de plato ── */
@@ -90,7 +94,7 @@ const carta = {
   /* ── Camarero virtual ── */
   askWaiter: "Pregúntale al camarero virtual",
   askWaiterKicker: "Camarero virtual",
-  askWaiterSub: "¿Sin gluten? ¿Qué vino va con el pulpo? ¿Algo vegano? Te lo cuenta al momento.",
+  askWaiterSub: "¿Qué lleva este plato? ¿Media ración o entera? ¿Algo vegano? Te lo cuenta al momento.",
   askWaiterHint: "Prueba a preguntar",
   askWaiterCta: "Abrir el chat",
   askWaiterNote: "Responde con la carta y el horario de hoy. Ante alergias graves, confirma siempre con el personal.",

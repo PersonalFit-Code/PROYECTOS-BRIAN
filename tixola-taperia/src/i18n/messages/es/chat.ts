@@ -15,11 +15,11 @@ const chat = {
   stop: "Detener la respuesta",
   thinking: "Escribiendo…",
   welcome:
-    "¡Hola! Soy el camarero virtual de Tixola. Pregúntame por la carta, los alérgenos, qué vino marida con cada plato o cómo llegar.",
+    "¡Hola! Soy el camarero virtual de Tixola. Pregúntame por la carta, los alérgenos, qué vino recomendamos o cómo llegar.",
   quickReplies: [
     "¿Qué platos no llevan gluten?",
     "¿Qué me recomiendas para compartir?",
-    "¿Qué vino va con el pulpo?",
+    "¿Qué vino me recomiendas?",
     "¿A qué hora abrís hoy?",
     "¿Tenéis opciones veganas?",
   ],
@@ -40,9 +40,13 @@ const chat = {
   /** Plantillas del motor determinista (sin clave de API o si el modelo falla). */
   offline: {
     greeting:
-      "¡Hola! Soy el camarero virtual de Tixola. Puedo contarte qué lleva cada plato, qué no lleva gluten o lácteos, qué vino marida con cada uno, el horario y cómo llegar. ¿Por dónde empezamos?",
+      "¡Hola! Soy el camarero virtual de Tixola. Puedo contarte qué lleva cada plato, qué no lleva gluten o lácteos, qué vinos recomendamos, el horario y cómo llegar. ¿Por dónde empezamos?",
     thanks: "¡A ti! Aquí me tienes para lo que necesites. Y si te animas a venir, estamos a un minuto de la Catedral.",
-    allergenFree: "Según nuestra carta, estos platos **no llevan {allergen}**:",
+    /* "No llevan X DECLARADO", no "no llevan X". La carta declara PRESENCIA de alérgenos, nunca
+       ausencia: que un plato no los liste no garantiza que no los lleve (misma cocina, misma
+       freidora, y el proveedor puede cambiar). Decirlo en seco convertía al camarero en una
+       promesa de seguridad alimentaria que ni la web ni yo podemos firmar. */
+    allergenFree: "Estos platos **no llevan {allergen} entre sus alérgenos declarados**:",
     allergenFreeEmpty:
       "Ahora mismo no encuentro platos sin {allergen} en la carta. Pregunta al personal: en cocina pueden adaptar algún plato.",
     diet: "Estas son nuestras opciones **{diet}**:",
@@ -61,6 +65,11 @@ const chat = {
     pairingDishSimple: "Con **{dish}** te recomiendo **{wine}**, un vino gallego de nuestra vinoteca.",
     pairingWine: "El **{wine}** va de maravilla con:",
     pairingIntro: "Nuestros maridajes de la casa, con vinos gallegos de la vinoteca:",
+    /* La carta de vinos no está en la web todavía (Tatiana está decidiendo qué vinos sigue
+       comprando). Hasta entonces el camarero enseña los tres maridajes de la casa y dice la
+       verdad sobre el resto, en vez de callarse o inventar una bodega. */
+    wineListPending:
+      "La carta de vinos todavía no está en la web. Pregúntanos en el local o llámanos y te contamos lo que tenemos abierto.",
     hoursIntro: "Nuestro horario (hora de Ourense):",
     hoursNow: "Ahora mismo: {status}.",
     location: "Estamos en **{address}**, {landmark}. [Cómo llegar]({url})",
@@ -73,14 +82,14 @@ const chat = {
     pricesExtra: "Los precios son orientativos, con IVA incluido. Aceptamos tarjeta.",
     dishInfo: "**{name}** — {price}. {description}",
     dishAllergens: "Alérgenos: {allergens}.",
-    dishNoAllergens: "Sin alérgenos declarados.",
+    dishNoAllergens: "Consulta los alérgenos con el personal.",
     dishPairing: "Marida con **{wine}**.",
     safety: "Ante alergias o intolerancias, confírmalo siempre con el personal: nuestra cocina manipula todos los alérgenos.",
     fallback: "No estoy seguro de haberte entendido. Puedo ayudarte con:",
     fallbackItems: [
       "Platos sin gluten, sin lactosa, veganos o vegetarianos",
       "Qué hay en cada categoría: croquetas, tixolas, del mar, postres…",
-      "Qué vino marida con cada plato",
+      "Qué vinos recomendamos con nuestros platos",
       "Horario, cómo llegar y si hace falta reservar",
     ],
     fullMenu: "Tienes la carta completa, con los alérgenos plato a plato, en [la carta digital]({url}).",

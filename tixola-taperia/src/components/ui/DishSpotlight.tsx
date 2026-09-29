@@ -379,6 +379,19 @@ function DishDetails({ dish, titleId, descId, onClose, showMenuLink }: DishDetai
         <span className="text-xs text-cream-faint">· {m.carta.vatIncluded}</span>
       </p>
 
+      {/* Media ración / ración. Solo lo traen algunos platos de la carta (los destacados de la
+          portada, ninguno), y es justo el dato que en móvil no se veía en ningún sitio. */}
+      {dish.variants && dish.variants.length > 0 && (
+        <p className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm text-cream-muted" aria-label={m.carta.variants}>
+          {dish.variants.map((v) => (
+            <span key={v.label}>
+              {v.label}{" "}
+              <span className="font-condensed text-base tracking-wide text-pimenton-a11y">{formatPrice(v.price, locale)}</span>
+            </span>
+          ))}
+        </p>
+      )}
+
       {/* Titular + descripción. El titular es cosa de los platos estrella (una frase escrita a mano
           para cada uno); un plato de la carta no lo tiene y entonces manda la descripción. */}
       {dish.headline && (
@@ -415,7 +428,7 @@ function DishDetails({ dish, titleId, descId, onClose, showMenuLink }: DishDetai
           <p className="mt-2 text-xs text-cream-muted">{t(m.dishes.spotlight.contains, { list: allergenList })}</p>
         </>
       ) : (
-        <p className="mt-2 text-xs text-cream-muted">{m.dishes.noAllergens}</p>
+        <p className="mt-2 text-xs text-cream-muted">{m.dishes.allergensAsk}</p>
       )}
       <p className="mt-1 text-[11px] leading-relaxed text-cream-faint">{m.dishes.allergensNote}</p>
 

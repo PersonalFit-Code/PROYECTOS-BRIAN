@@ -55,6 +55,9 @@ export function useMenuItemSlide(): (item: MenuItem, kicker: string) => DishSlid
           ingredients: [],
           price: item.price,
           unit: item.unit ?? "",
+          /* La media ración viaja a la ficha: en móvil la ficha ES la carta, y un plato que se puede
+             pedir a mitad de precio no puede quedarse sin decirlo. */
+          variants: item.variants,
           allergens: item.allergens,
           /* Solo el vino; la D.O. y el porqué son cosecha de los platos estrella. */
           pairing: { wine: item.pairing ?? "", do: "", why: "" },

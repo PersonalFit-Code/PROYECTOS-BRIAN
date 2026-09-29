@@ -143,33 +143,27 @@ const DIET_WORDS: Partial<Record<DietTag, readonly string[]>> = {
 const DIET_REGEX = (Object.keys(DIET_WORDS) as DietTag[]).map((tag) => ({ tag, re: compile(DIET_WORDS[tag] ?? []) }));
 
 const CATEGORY_WORDS: Record<MenuCategoryId, readonly string[]> = {
-  sugerencias: ["sugerencia*", "pizarra", "del dia", "especial*", "novedad*", "specials", "suggestion*", "recomendacion*"],
-  croquetas: ["croqueta*", "croquette*"],
-  tixolas: ["tixola*", "sarten*", "skillet*"],
-  mar: ["del mar", "mar", "pescado*", "marisco*", "seafood", "peixe", "sea"],
-  tierra: ["tierra", "carne*", "meat", "racion", "raciones", "embutido*", "queso*", "cheese*", "tapa", "tapas"],
-  ensaladas: ["ensalada*", "salad*", "ensaladas"],
-  postres: ["postre*", "dulce*", "dessert*", "sobremesa*", "tarta*", "sweet*"],
-  vinos: ["vino*", "wine*", "vinho*", "vinoteca", "godello", "albarino", "ribeiro", "mencia", "treixadura"],
-  bebidas: ["cerveza*", "beer*", "cana", "canas", "refresco*", "agua", "water", "bebida*", "drink*", "cervexa*", "cerveja*", "artesan*"],
+  tostas: ["tosta*", "toast*", "montadito*", "pan con"],
+  tixolas: ["tixola*", "sarten*", "skillet*", "huevos rotos"],
+  ensaladas: ["ensalada*", "salad*"],
+  cocina: ["croqueta*", "croquette*", "frito*", "fritura*", "racion", "raciones", "cocina", "cocina*", "tapa", "tapas", "patatas", "brava*", "calamar*", "mejillon*", "tortilla*", "finger*"],
+  especiales: ["especial*", "zamburina*", "zamburiña*", "oreja*", "brocheta*", "recomendacion*", "suggestion*", "specials"],
+  pulpo: ["pulpo*", "polbo*", "octopus", "polvo", "a feira", "gallega"],
+  embutidos: ["embutido*", "queso*", "cheese*", "jamon*", "cecina*", "tabla*"],
+  revueltos: ["revuelto*", "scrambl*", "mexido*", "huevo*"],
+  varios: ["postre*", "dulce*", "dessert*", "sobremesa*", "pan", "bread", "tomate"],
 };
-const CATEGORY_ORDER: readonly MenuCategoryId[] = ["croquetas", "tixolas", "mar", "tierra", "ensaladas", "postres", "vinos", "bebidas", "sugerencias"];
+/* ORDEN DE DESEMPATE, no de pintado: cuando una pregunta encaja con varias categorías, gana la
+   primera. Las genéricas van al final a propósito — "ración", "tapa" o "postre" aparecen en
+   muchísimas preguntas y se llevarían por delante a las específicas. */
+const CATEGORY_ORDER: readonly MenuCategoryId[] = ["pulpo", "tixolas", "ensaladas", "tostas", "embutidos", "revueltos", "especiales", "cocina", "varios"];
 const CATEGORY_REGEX = CATEGORY_ORDER.map((id) => ({ id, re: compile(CATEGORY_WORDS[id]) }));
 
 /** Categorías de comida (para listados dietéticos, recomendaciones y precios). */
 const FOOD_CATEGORIES: ReadonlySet<MenuCategoryId> = new Set<MenuCategoryId>([
-  "sugerencias", "croquetas", "tixolas", "mar", "tierra", "ensaladas", "postres",
+  "tostas", "tixolas", "ensaladas", "cocina", "especiales", "pulpo", "embutidos", "revueltos", "varios",
 ]);
 
-/** Vino por defecto por categoría cuando el plato no tiene maridaje propio. */
-const DEFAULT_PAIRING: Partial<Record<MenuCategoryId, string>> = {
-  sugerencias: "vin-albarino",
-  croquetas: "vin-ribeiro",
-  tixolas: "vin-mencia",
-  mar: "vin-albarino",
-  tierra: "vin-mencia",
-  ensaladas: "vin-ribeiro",
-};
 
 /** Palabras genéricas que no identifican un plato concreto. */
 const DISH_STOPWORDS = new Set(
@@ -282,7 +276,11 @@ export function detectIntent(text: string, locale: Locale = "es"): OfflineIntent
   if (allergens.length && (exclusion || allergens.some((a) => AVOIDED_ALLERGENS.has(a)))) {
     return { kind: "allergenFree", allergens, diet: null };
   }
-  if (KW.pairing.test(text) || (dishes.length && KW.drink.test(text))) return { kind: "pairing", dishes };
+  /* `KW.drink` ya no exige que la pregunta nombre un plato. "¿Qué vinos tenéis?" caía en el "no te
+     he entendido", que en un sitio que se llama vinoteca es la peor respuesta posible; ahora cae en
+     los maridajes de la casa, que es lo único que podemos decir con verdad hasta que llegue la carta
+     de vinos de Tatiana. Sin plato, `answerPairing` usa su rama genérica. */
+  if (KW.pairing.test(text) || KW.drink.test(text)) return { kind: "pairing", dishes };
   if (KW.hours.test(text)) return { kind: "hours" };
   if (KW.location.test(text)) return { kind: "location" };
   if (dishes.length) return { kind: "dish", dishes, askedAllergens: false };
@@ -386,9 +384,10 @@ function wineFor(item: MenuItem, ctx: AnswerContext): { wine: string; why: strin
   const star = ctx.stars.find((s) => s.menuId === item.id);
   if (star) return { wine: `${star.pairing.wine} ${star.pairing.do}`, why: star.pairing.why };
   if (item.pairing) return { wine: item.pairing, why: null };
-  const fallbackId = DEFAULT_PAIRING[item.category];
-  const wine = fallbackId ? ctx.items.find((i) => i.id === fallbackId) : undefined;
-  return wine ? { wine: wine.name, why: null } : null;
+  /* Aquí había un vino por defecto según la categoría, que buscaba un id de la propia carta. La
+     carta real no trae vinos todavía, así que esa búsqueda no encontraría nada nunca: mejor no
+     recomendar que recomendar un vino que el local quizá no sirva. */
+  return null;
 }
 
 function answerPairing(intent: Extract<OfflineIntent, { kind: "pairing" }>, ctx: AnswerContext): string {
@@ -397,15 +396,6 @@ function answerPairing(intent: Extract<OfflineIntent, { kind: "pairing" }>, ctx:
   const blocks: Array<string | string[]> = [];
 
   for (const dish of intent.dishes) {
-    if (dish.category === "vinos") {
-      // Preguntan por un vino concreto: qué platos le van bien.
-      const stem = normalizeText(dish.name).split(" ")[0] ?? "";
-      const dishes = ctx.items.filter((i) => i.pairing && normalizeText(i.pairing).includes(stem) && FOOD_CATEGORIES.has(i.category));
-      if (dishes.length) {
-        blocks.push([format(o.pairingWine, { wine: dish.name }), ...dishes.slice(0, 6).map((d) => `- ${itemLine(d, ctx)}`)]);
-        continue;
-      }
-    }
     const pairing = wineFor(dish, ctx);
     if (!pairing) continue;
     blocks.push(
@@ -416,11 +406,14 @@ function answerPairing(intent: Extract<OfflineIntent, { kind: "pairing" }>, ctx:
   }
 
   if (!blocks.length) {
-    // Sin plato concreto: maridajes de los platos estrella.
+    /* Sin plato concreto —o con uno que no tiene maridaje, que ahora son casi todos—: los maridajes
+       de los platos estrella, más el aviso de que la carta de vinos aún no está publicada. Sin ese
+       aviso, tres recomendaciones se leerían como "esto es todo lo que tenemos de vino". */
     blocks.push([
       o.pairingIntro,
       ...ctx.stars.map((star) => `- ${format(o.linePairing, { name: star.name, wine: `${star.pairing.wine} ${star.pairing.do}` })}`),
     ]);
+    blocks.push(o.wineListPending);
   }
 
   return joinParagraphs(...blocks, o.more);
@@ -487,7 +480,7 @@ function answerCategory(intent: Extract<OfflineIntent, { kind: "category" }>, ct
 
 function answerRecommend(ctx: AnswerContext): string {
   const o = ctx.m.chat.offline;
-  const stars = ctx.items.filter((i) => i.tags.includes("estrella") && FOOD_CATEGORIES.has(i.category) && i.category !== "postres");
+  const stars = ctx.items.filter((i) => i.tags.includes("estrella") && FOOD_CATEGORIES.has(i.category) && i.category !== "varios");
   return joinParagraphs(o.recommend, stars.slice(0, 6).map((i) => `- ${itemLine(i, ctx)}`), o.recommendOutro);
 }
 

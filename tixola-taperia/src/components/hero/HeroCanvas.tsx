@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useHeroStillVisible } from "@/components/scroll/HeroTransition";
+import type { MenuItemId } from "@/data/menu";
 import { localizeMenuItems } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -34,7 +35,7 @@ export const HERO_PAN_WIDTH = "min(74vw, 62svh, 300px)";
 export const HERO_PAN_HEIGHT = `calc(${HERO_PAN_WIDTH} * ${(HERO_PHOTO.height / HERO_PHOTO.width).toFixed(4)})`;
 
 /** Plato de la carta que sale en la foto: su nombre localizado alimenta el `alt` (`dishes.photoOf`). */
-const HERO_DISH_ID = "sug-raxo-arzua";
+const HERO_DISH_ID: MenuItemId = "tix-raxo-arzua";
 
 /**
  * Dónde cae la SARTÉN dentro del recorte de la foto, medido sobre el canal alfa (script de medición en

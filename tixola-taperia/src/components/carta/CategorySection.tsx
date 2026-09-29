@@ -62,7 +62,9 @@ export default function CategorySection({
   const m = useMessages();
   const t = useFormat();
   const sectionRef = useRef<HTMLElement>(null);
-  const chalkboard = category.id === "sugerencias";
+  /* Lo decide el dato, no el componente: antes era `category.id === "sugerencias"` y al cambiar
+     la carta esa categoría desapareció, así que el efecto se habría perdido en silencio. */
+  const chalkboard = category.chalkboard ?? false;
   const headingId = `${categoryAnchorId(category.id)}-title`;
 
   /* ── Revelado: solo se oculta (en el siguiente frame) si la sección está fuera de pantalla ── */

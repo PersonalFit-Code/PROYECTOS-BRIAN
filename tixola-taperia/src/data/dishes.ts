@@ -1,12 +1,27 @@
 import type { AllergenId } from "./allergens";
+import { assertMenuIntegrity } from "./integrity";
+import type { MenuItemId, MenuVariant } from "./menu";
 
 /**
- * PLATOS ESTRELLA — módulo interactivo 3D (tarjetas con tilt + flip).
- * Cada plato enlaza con su ítem de la carta (`menuId`) y con un maridaje gallego.
+ * PLATOS ESTRELLA — el carrusel de la portada.
+ *
+ * Son TRES, no ocho. Antes eran ocho porque la carta era inventada y las fichas también; con la
+ * carta real encima de la mesa, solo hay tres platos de los que exista una foto de verdad, y un
+ * carrusel de "platos estrella" ilustrado con dibujos vende bastante menos que uno con comida.
+ * En cuanto lleguen fotos nuevas, añadir un destacado es una entrada aquí y otra en `photos.ts`.
+ *
+ * `menuId` es el enlace con la carta y va tipado con `MenuItemId`: un id que deje de existir ya no
+ * pasa desapercibido (antes era una cadena suelta y el enlace "Ver en la carta" simplemente no
+ * hacía nada). El precio, la unidad y los alérgenos se repiten aquí y en `menu.ts` por comodidad de
+ * quien edita, pero los vigila `assertMenuIntegrity()` para que no puedan discrepar.
+ *
+ * ⚠️ Los maridajes de esta sección son los ÚNICOS que quedan en la web: son recomendaciones de
+ * vino que el local ya hacía, no una promesa de tenerlo en carta. Cuando llegue la carta de vinos,
+ * conviene revisarlos contra ella.
  */
 export interface StarDish {
   id: string;
-  menuId: string;
+  menuId: MenuItemId;
   name: string;
   kicker: string;
   headline: string;
@@ -14,6 +29,13 @@ export interface StarDish {
   ingredients: string[];
   price: number;
   unit: string;
+  /**
+   * Media ración y ración, cuando el plato las tiene. Ninguno de los tres destacados las tiene, pero
+   * esta misma ficha la reutiliza la carta entera (`useMenuItemSlide`) y allí hay cuatro platos que
+   * sí: sin este campo, en móvil —que es por donde entra casi todo el mundo— la media ración no
+   * aparecía por ninguna parte.
+   */
+  variants?: MenuVariant[];
   allergens: AllergenId[];
   pairing: {
     wine: string;
@@ -32,20 +54,20 @@ export interface StarDish {
 export const STAR_DISHES: StarDish[] = [
   {
     id: "zamburinas",
-    menuId: "mar-zamburinas-plancha",
+    menuId: "esp-zamburinas-plancha",
     name: "Zamburiñas a la plancha",
     kicker: "Plato estrella",
     headline: "Las zamburiñas que han hecho famoso al local",
     description:
       "Zamburiñas gallegas abiertas en su concha y marcadas a la plancha con aceite de oliva virgen extra, ajo laminado y perejil fresco. Jugosas, con ese punto de brasa que solo da el hierro.",
-    ingredients: ["Zamburiñas de la ría", "AOVE", "Ajo laminado", "Perejil fresco", "Sal de Arousa", "Limón"],
-    price: 14,
-    unit: "6 uds",
+    ingredients: ["Zamburiñas de la ría", "AOVE", "Ajo laminado", "Perejil fresco", "Sal", "Limón"],
+    price: 18,
+    unit: "ración",
     allergens: ["moluscos"],
     pairing: {
       wine: "Albariño",
       do: "D.O. Rías Baixas",
-      why: "Su salinidad y acidez limpian la grasa del aceite y realzan el dulzor del molusco.",
+      why: "Su salinidad y su acidez limpian la grasa del aceite y realzan el dulzor del molusco.",
     },
     accent: "#F0A868",
     emoji: "🐚",
@@ -53,146 +75,52 @@ export const STAR_DISHES: StarDish[] = [
     badge: "Nº 1 en zamburiñas",
   },
   {
-    id: "pulpo",
-    menuId: "sug-pulpo-grelos",
-    name: "Pulpo a la gallega · con grelos",
-    kicker: "Tradición",
-    headline: "El pulpo de Ourense, capital gallega del pulpo",
-    description:
-      "Lo servimos de dos formas: á feira, cocido en pota de cobre con cachelos y pimentón, o a la plancha sobre grelos salteados con ajo y pimentón de La Vera. Tierno por dentro, tostado por fuera.",
-    ingredients: ["Pulpo de la ría", "Grelos", "Cachelos", "Pimentón de La Vera", "AOVE", "Sal gorda"],
-    price: 16,
-    unit: "ración",
-    allergens: ["moluscos"],
-    pairing: {
-      wine: "Godello",
-      do: "D.O. Valdeorras",
-      why: "Un blanco con cuerpo y mineralidad que acompaña la textura del pulpo sin taparlo.",
-    },
-    accent: "#B21E27",
-    emoji: "🐙",
-  },
-  {
-    id: "bacalao",
-    menuId: "mar-bacalao-tempura",
-    name: "Bacalao en tempura",
-    kicker: "Crujiente",
-    headline: "Tempura ligera, bacalao en lascas",
-    description:
-      "Lomos de bacalao desalado en casa envueltos en una tempura aireada y muy fina, fritos al momento y servidos con alioli suave de ajo asado.",
-    ingredients: ["Bacalao desalado", "Tempura ligera", "Alioli de ajo asado", "Cebollino", "AOVE"],
-    price: 13.5,
-    unit: "ración",
-    allergens: ["pescado", "gluten", "huevos"],
-    pairing: {
-      wine: "Ribeiro Treixadura",
-      do: "D.O. Ribeiro",
-      why: "El vino de Ourense: floral y ligero, contrasta con el rebozado y refresca cada bocado.",
-    },
-    accent: "#E8C27A",
-    emoji: "🐟",
-  },
-  {
-    id: "oreja",
-    menuId: "tie-oreja",
-    name: "Oreja a la plancha",
-    kicker: "Tapeo clásico",
-    headline: "Crujiente por fuera, melosa por dentro",
-    description:
-      "Oreja de cerdo cocida lentamente y marcada a la plancha hasta quedar crujiente, terminada con pimentón, sal gorda y un hilo de aceite. La tapa de toda la vida, hecha con mimo.",
-    ingredients: ["Oreja de cerdo", "Pimentón dulce y picante", "Sal gorda", "AOVE", "Ajo"],
-    price: 9.5,
-    unit: "ración",
-    allergens: [],
-    pairing: {
-      wine: "Mencía",
-      do: "D.O. Ribeira Sacra",
-      why: "Un tinto atlántico fresco y frutal que equilibra la untuosidad de la oreja.",
-    },
-    accent: "#D8323C",
-    emoji: "🔥",
-    badge: "Sin gluten",
-  },
-  {
-    id: "croquetas",
-    menuId: "croq-grelo-chipiron",
-    name: "Croquetas de grelo con chipirón",
-    kicker: "Bechamel de 24 h",
-    headline: "Las croquetas más aplaudidas de Ourense",
-    description:
-      "Bechamel de grelo que reposa veinticuatro horas antes de formarse, con chipirón en su tinta. Crujientes por fuera y tan cremosas por dentro que casi se beben.",
-    ingredients: ["Grelos", "Chipirón en su tinta", "Bechamel de 24 h", "Pan rallado", "AOVE"],
-    price: 9.5,
-    unit: "8 uds",
-    allergens: ["gluten", "lacteos", "huevos", "moluscos"],
-    pairing: {
-      wine: "Ribeiro Treixadura",
-      do: "D.O. Ribeiro",
-      why: "El blanco de Ourense: su acidez floral corta la untuosidad de la bechamel y deja la boca limpia.",
-    },
-    accent: "#C9A227",
-    emoji: "🥟",
-    badge: "Las más pedidas",
-  },
-  {
-    id: "chistorra",
-    menuId: "tix-chistorra-huevos",
-    name: "Tixola de chistorra con huevos",
+    id: "raxo",
+    menuId: "tix-raxo-arzua",
+    name: "Tixola de raxo y Arzúa",
     kicker: "La especialidad de la casa",
     headline: "La sartén que llega chisporroteando a la mesa",
     description:
-      "Chistorra a la brasa, huevos camperos rotos y patatas paja, servidos en la tixola de hierro al rojo. Se mezcla todo en la mesa y se come con pan de Cea.",
-    ingredients: ["Chistorra", "Huevos camperos", "Patatas paja", "Pimentón", "AOVE"],
-    price: 11.5,
+      "Raxo de cerdo adobado al estilo gallego sobre huevos y patatas fritas, con queso Arzúa-Ulloa fundido por encima, servido en la propia sartén de hierro. Se oye antes de verse.",
+    ingredients: ["Raxo de cerdo", "Queso Arzúa-Ulloa D.O.P.", "Huevos camperos", "Patatas", "Pimentón", "AOVE"],
+    price: 12.9,
     unit: "sartén",
     allergens: ["huevos", "lacteos"],
     pairing: {
       wine: "Mencía",
       do: "D.O. Ribeira Sacra",
-      why: "Un tinto de viñedo heroico, fresco y ligero, que aguanta el punto especiado de la chistorra.",
+      why: "Un tinto ligero y fresco que aguanta el queso fundido sin tapar el adobo de la carne.",
     },
-    accent: "#E0552F",
+    accent: "#D8323C",
     emoji: "🍳",
+    image: "/images/tixola-raxo-croquetas.jpg",
+    badge: "La más pedida",
   },
   {
-    id: "quesos",
-    menuId: "tie-tabla-quesos",
-    name: "Tabla de quesos gallegos",
-    kicker: "Para compartir",
-    headline: "Los tres quesos de Galicia, en una tabla",
+    id: "croquetas",
+    menuId: "coc-croquetas-grelos-chipiron",
+    name: "Croquetas de grelos y chipirón",
+    kicker: "Bechamel que reposa",
+    headline: "Verde y mar en la misma croqueta",
     description:
-      "Arzúa-Ulloa cremoso, San Simón da Costa ahumado con abedul y Tetilla suave, con membrillo casero y nueces. La tabla que mejor acompaña una botella de la vinoteca.",
-    ingredients: ["Arzúa-Ulloa D.O.P.", "San Simón da Costa D.O.P.", "Tetilla D.O.P.", "Membrillo casero", "Nueces"],
-    price: 13,
-    unit: "tabla",
-    allergens: ["lacteos", "frutos-cascara"],
+      "Grelos salteados y chipirón dentro de una bechamel que reposa hasta cuajar, empanadas y fritas al momento. Crujen al morder y por dentro siguen casi líquidas.",
+    ingredients: ["Grelos", "Chipirón", "Bechamel de 24 h", "Pan rallado", "Huevo", "AOVE"],
+    price: 11.5,
+    unit: "ración",
+    allergens: ["gluten", "lacteos", "huevos", "moluscos"],
     pairing: {
       wine: "Godello",
       do: "D.O. Valdeorras",
-      why: "Su cuerpo y su punto mineral sostienen el ahumado del San Simón sin taparlo.",
-    },
-    accent: "#C58B3D",
-    emoji: "🧀",
-  },
-  {
-    id: "vegana",
-    menuId: "tix-vegana",
-    name: "Tixola vegana de setas y verduras",
-    kicker: "100 % vegetal",
-    headline: "Una tixola que no renuncia a nada",
-    description:
-      "Setas de temporada, pimiento, calabacín y tofu ahumado salteados con pimentón de La Vera en la sartén de hierro. Vegana y sin gluten, con el mismo punto de brasa.",
-    ingredients: ["Setas de temporada", "Pimiento", "Calabacín", "Tofu ahumado", "Pimentón de La Vera", "AOVE"],
-    price: 10.5,
-    unit: "sartén",
-    allergens: ["soja"],
-    pairing: {
-      wine: "Ribeiro Treixadura",
-      do: "D.O. Ribeiro",
-      why: "Ligero y floral, realza las setas sin pisar el ahumado del tofu.",
+      why: "Tiene cuerpo para la bechamel y el amargor justo para acompañar al grelo.",
     },
     accent: "#8FA35C",
-    emoji: "🍄",
-    badge: "Vegana",
+    emoji: "🥟",
+    image: "/images/tixola-raxo-croquetas.jpg",
+    badge: "Las más pedidas",
   },
 ];
+
+/* Se ejecuta al cargar el módulo, es decir, durante `next build`. Si la carta y los platos estrella
+   discrepan, el despliegue no sale: con datos estáticos, más vale un build roto que una carta que
+   anuncia un precio que no es. */
+assertMenuIntegrity();

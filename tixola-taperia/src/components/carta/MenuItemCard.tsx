@@ -95,6 +95,10 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
   const tags = TAG_ORDER.filter((tag) => item.tags.includes(tag));
   const titleId = `carta-item-${item.id}-title`;
   const photo = item.image ? PHOTO_BY_SRC.get(item.image) : undefined;
+  /* La variante más barata, para la fila de móvil. Las variantes van de menor a mayor y la mayor
+     es, por contrato, el precio base que la fila ya enseña: repetirla sería decir dos veces lo
+     mismo. (Lo vigila `assertMenuIntegrity`, que rompe el build si dejan de cuadrar.) */
+  const mediaRacion = item.variants && item.variants.length > 1 ? item.variants[0] : undefined;
 
   const askWaiter = () => chat.open({ prefill: t(m.carta.askAboutDish, { name: item.name }), page: "carta" });
 
@@ -180,9 +184,22 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
 
             {/* Solo el nombre, a dos líneas como mucho. La descripción recortada a una línea no
                 distinguía nada ("Zamburiñas de la rí…") y costaba un renglón en cada una de las
-                cuarenta filas: se lee entera al desplegar, que es para lo que está el acordeón. */}
-            <span className="line-clamp-2 min-w-0 flex-1 font-condensed text-lg uppercase leading-[1.1] tracking-wide text-cream">
-              {item.name}
+                cuarenta filas: se lee entera al desplegar, que es para lo que está el acordeón.
+                La excepción son las MEDIAS RACIONES: eso no es adorno, es un precio distinto, y es
+                de lo primero que se mira en una carta de tapas. Va aquí y no solo en la ficha
+                porque en móvil la fila es lo único que se ve sin abrir nada. */}
+            <span className="min-w-0 flex-1">
+              <span className="line-clamp-2 block font-condensed text-lg uppercase leading-[1.1] tracking-wide text-cream">
+                {item.name}
+              </span>
+              {mediaRacion && (
+                <span className="mt-1 block truncate text-[11px] leading-none text-cream-faint">
+                  {mediaRacion.label}{" "}
+                  <span className={cn("font-condensed text-[13px] tracking-wide", chalk ? "text-gold" : "text-pimenton-a11y")}>
+                    {formatPrice(mediaRacion.price, locale)}
+                  </span>
+                </span>
+              )}
             </span>
 
             <span className="flex shrink-0 items-center gap-1">
@@ -322,7 +339,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             {item.allergens.length > 0 ? (
               <AllergenRow ids={item.allergens} size="xs" />
             ) : (
-              <span className="text-xs text-cream-faint">{m.carta.noAllergens}</span>
+              <span className="text-xs text-cream-faint">{m.carta.allergensAsk}</span>
             )}
 
             {item.pairing && (

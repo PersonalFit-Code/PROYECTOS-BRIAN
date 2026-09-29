@@ -4,6 +4,7 @@ import { ChatProvider } from "@/components/chat/ChatProvider";
 import MobileStickyBar from "@/components/ui/MobileStickyBar";
 import Hero from "@/components/sections/Hero";
 import StarDishes from "@/components/sections/StarDishes";
+import PromoBand from "@/components/ui/PromoBand";
 import Experience from "@/components/sections/Experience";
 import SocialProof from "@/components/sections/SocialProof";
 import Footer from "@/components/sections/Footer";
@@ -41,6 +42,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <HeroTransition />
           <Chapter id="platos" title={m.scroll.chapters.dishes} overlapsHero>
             <StarDishes />
+            {/* Promoción del mes, si la hay: `src/data/promos.ts`. Va DESPUÉS de los platos —cuando
+                ya ha entrado por el ojo— y antes de las opiniones, no arriba del todo: una banda
+                sobre la portada taparía justo lo que hace que alguien se quede. */}
+            <div className="container-page mt-10">
+              <PromoBand />
+            </div>
           </Chapter>
           {/* Las OPINIONES van antes que la ubicación, por petición del cliente: quien llega desde
               la ficha de Google todavía está decidiendo dónde comer, y lo que le hace decidirse son

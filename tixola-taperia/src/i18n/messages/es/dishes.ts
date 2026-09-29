@@ -11,7 +11,8 @@ const dishes = {
   hint: "Toca para ver detalles",
   ingredients: "Ingredientes",
   allergens: "Alérgenos",
-  noAllergens: "Sin alérgenos declarados",
+  /* Sin alérgenos declarados ≠ sin alérgenos. Ver la nota en `es/carta.ts`. */
+  allergensAsk: "Consulta los alérgenos con el personal",
   allergensNote: "Ante cualquier alergia o intolerancia, dínoslo al pedir: lo preparamos con cuidado.",
   pairing: "Maridaje recomendado",
   pairingWhy: "Por qué funciona",

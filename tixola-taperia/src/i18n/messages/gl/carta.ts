@@ -74,7 +74,7 @@ const carta: Section<"carta"> = {
   legendCode: "Código {code}",
   legendNote:
     "Información sobre alérxenos segundo o Regulamento (UE) 1169/2011. Pregúntalle ao persoal ante calquera dúbida; a nosa cociña manipula todos os alérxenos.",
-  noAllergens: "Sen alérxenos declarados",
+  allergensAsk: "Consulta os alérxenos co persoal",
   allergensAria: "Alérxenos",
 
   /* ── Tarxeta de prato ── */
@@ -92,7 +92,7 @@ const carta: Section<"carta"> = {
   /* ── Camareiro virtual ── */
   askWaiter: "Pregúntalle ao camareiro virtual",
   askWaiterKicker: "Camareiro virtual",
-  askWaiterSub: "Sen glute? Que viño vai co polbo? Algo vegano? Cóntacho de contado.",
+  askWaiterSub: "Que leva este prato? Media ración ou enteira? Algo vegano? Cóntacho de contado.",
   askWaiterHint: "Proba a preguntar",
   askWaiterCta: "Abrir o chat",
   askWaiterNote: "Responde coa carta e o horario de hoxe. Ante alerxias graves, confirma sempre co persoal.",

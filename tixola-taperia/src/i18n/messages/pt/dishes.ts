@@ -14,7 +14,7 @@ const dishes = {
   hint: "Toque para ver detalhes",
   ingredients: "Ingredientes",
   allergens: "Alergénios",
-  noAllergens: "Sem alergénios declarados",
+  allergensAsk: "Consulte os alergénios com o pessoal",
   allergensNote: "Em caso de alergia ou intolerância, diga-nos ao pedir: preparamos tudo com cuidado.",
   pairing: "Harmonização recomendada",
   pairingWhy: "Porque resulta",

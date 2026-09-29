@@ -117,7 +117,7 @@ export default memo(AllergenIcon);
 export function AllergenRow({ ids, size = "xs", className }: { ids: AllergenId[]; size?: "xs" | "sm"; className?: string }) {
   const m = useMessages();
   if (!ids.length) {
-    return <span className={cn("text-xs text-cream-faint", className)}>{m.carta.noAllergens}</span>;
+    return <span className={cn("text-xs text-cream-faint", className)}>{m.carta.allergensAsk}</span>;
   }
   return (
     <span role="group" aria-label={m.carta.allergensAria} className={cn("inline-flex flex-wrap items-center gap-1.5", className)}>

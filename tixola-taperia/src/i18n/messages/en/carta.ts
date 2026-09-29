@@ -75,7 +75,7 @@ const carta = {
   legendCode: "Code {code}",
   legendNote:
     "Allergen information in accordance with Regulation (EU) No 1169/2011. If in any doubt, ask our staff: our kitchen handles all the allergens.",
-  noAllergens: "No declared allergens",
+  allergensAsk: "Ask our staff about allergens",
   allergensAria: "Allergens",
 
   /* ── Dish card ── */
@@ -93,7 +93,7 @@ const carta = {
   /* ── Virtual waiter ── */
   askWaiter: "Ask the virtual waiter",
   askWaiterKicker: "Virtual waiter",
-  askWaiterSub: "Gluten-free? Which wine goes with the octopus? Anything vegan? Get an answer on the spot.",
+  askWaiterSub: "What is in this dish? Half portion or full? Anything vegan? Get an answer on the spot.",
   askWaiterHint: "Try asking",
   askWaiterCta: "Open the chat",
   askWaiterNote: "Answers are based on the menu and today's opening hours. For serious allergies, always check with our staff.",

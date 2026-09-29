@@ -75,7 +75,7 @@ const carta = {
   legendCode: "Código {code}",
   legendNote:
     "Informação sobre alergénios de acordo com o Regulamento (UE) n.º 1169/2011. Em caso de dúvida, consulte o pessoal; a nossa cozinha manipula todos os alergénios.",
-  noAllergens: "Sem alergénios declarados",
+  allergensAsk: "Consulte os alergénios com o pessoal",
   allergensAria: "Alergénios",
 
   /* ── Cartão de prato ── */
@@ -93,7 +93,7 @@ const carta = {
   /* ── Empregado virtual ── */
   askWaiter: "Pergunte ao empregado virtual",
   askWaiterKicker: "Empregado virtual",
-  askWaiterSub: "Sem glúten? Que vinho vai com o polvo? Algo vegano? Responde-lhe na hora.",
+  askWaiterSub: "O que leva este prato? Meia dose ou inteira? Algo vegano? Responde-lhe na hora.",
   askWaiterHint: "Experimente perguntar",
   askWaiterCta: "Abrir o chat",
   askWaiterNote: "Responde com a ementa e o horário de hoje. Em caso de alergias graves, confirme sempre com o pessoal.",

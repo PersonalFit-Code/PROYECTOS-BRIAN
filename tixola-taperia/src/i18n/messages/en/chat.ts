@@ -18,11 +18,11 @@ const chat = {
   stop: "Stop the reply",
   thinking: "Typing…",
   welcome:
-    "Hi! I'm Tixola's virtual waiter. Ask me about the menu, allergens, which wine goes with each dish, or how to find us.",
+    "Hi! I'm Tixola's virtual waiter. Ask me about the menu, allergens, which wine we recommend, or how to find us.",
   quickReplies: [
     "Which dishes are gluten-free?",
     "What do you recommend for sharing?",
-    "Which wine goes with the octopus?",
+    "Which wine do you recommend?",
     "What time do you open today?",
     "Do you have vegan options?",
   ],
@@ -43,9 +43,9 @@ const chat = {
   /** Templates for the deterministic engine (no API key, or when the model fails). */
   offline: {
     greeting:
-      "Hi! I'm Tixola's virtual waiter. I can tell you what's in each dish, what's gluten-free or dairy-free, which wine goes with what, our opening hours and how to find us. Where shall we start?",
+      "Hi! I'm Tixola's virtual waiter. I can tell you what's in each dish, what's gluten-free or dairy-free, which wines we recommend, our opening hours and how to find us. Where shall we start?",
     thanks: "My pleasure! I'm here whenever you need me. And if you fancy coming by, we're one minute from the Cathedral.",
-    allergenFree: "According to our menu, these dishes are **free from {allergen}**:",
+    allergenFree: "These dishes **don't list {allergen} among their declared allergens**:",
     allergenFreeEmpty:
       "I can't find any dishes without {allergen} on the menu right now. Ask our staff: the kitchen can often adapt a dish.",
     diet: "Here are our **{diet}** options:",
@@ -64,6 +64,8 @@ const chat = {
     pairingDishSimple: "With **{dish}** I'd recommend **{wine}**, a Galician wine from our cellar.",
     pairingWine: "**{wine}** goes beautifully with:",
     pairingIntro: "Our house pairings, with Galician wines from our cellar:",
+    wineListPending:
+      "Our full wine list isn't online yet. Ask us at the bar, or give us a call and we'll tell you what's open.",
     hoursIntro: "Our opening hours (Ourense local time):",
     hoursNow: "Right now: {status}.",
     location: "We're at **{address}**, {landmark}. [Get directions]({url})",
@@ -76,14 +78,14 @@ const chat = {
     pricesExtra: "Prices are a guide and include VAT. We accept cards.",
     dishInfo: "**{name}** — {price}. {description}",
     dishAllergens: "Allergens: {allergens}.",
-    dishNoAllergens: "No declared allergens.",
+    dishNoAllergens: "Ask our staff about allergens.",
     dishPairing: "Pairs with **{wine}**.",
     safety: "For allergies or intolerances, always double-check with our staff: our kitchen handles all the allergens.",
     fallback: "I'm not sure I understood. I can help you with:",
     fallbackItems: [
       "Gluten-free, dairy-free, vegan or vegetarian dishes",
       "What's in each category: croquetas, skillets, from the sea, desserts…",
-      "Which wine goes with each dish",
+      "Which wines we recommend with our dishes",
       "Opening hours, directions and whether you need to book",
     ],
     fullMenu: "You'll find the full menu, with allergens dish by dish, on [the digital menu]({url}).",

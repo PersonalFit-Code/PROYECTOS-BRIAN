@@ -8,250 +8,262 @@ import type { DataTranslations } from "@/i18n/data";
  */
 const pt: DataTranslations = {
   categories: {
-    sugerencias: {
-      label: "Sugestões",
-      kicker: "Quadro do dia",
-      description: "O que hoje entra pela porta, vindo da lota e do mercado.",
-    },
-    croquetas: {
-      label: "Croquetes",
-      kicker: "Caseiros · 8 un.",
-      description: "O nosso béchamel repousa 24 h. Estaladiços por fora, cremosos por dentro.",
+    tostas: {
+      label: "Tostas",
+      kicker: "Para começar",
+      description: "Pão torrado e, por cima, pouco e bom. A primeira dentada enquanto se decide o resto.",
     },
     tixolas: {
       label: "Tixolas",
       kicker: "A especialidade da casa",
-      description: "«Tixola» é frigideira em galego. Frigideiras de ferro fundido que chegam à mesa a chiar.",
-    },
-    mar: {
-      label: "Do Mar",
-      kicker: "Lota galega",
-      description: "Zamburiñas (vieiras pequenas), polvo, bacalhau e lula. Produto das rias, cozinhado na hora.",
-    },
-    tierra: {
-      label: "Da Terra",
-      kicker: "Doses para partilhar",
-      description: "Raxo (lombo de porco marinado), orelha, queijos galegos e clássicos dos petiscos de Ourense.",
+      description: "«Tixola» é frigideira em galego. Ferro fundido que chega à mesa a chiar, e todas levam ovos e batatas fritas.",
     },
     ensaladas: {
       label: "Saladas",
-      kicker: "Fresco e da época",
-      description: "Legumes das hortas de Ourense com toques criativos.",
+      kicker: "Fresco, e de prato único",
+      description: "Grandes, para comer delas e não para acompanhar. Da horta e da lota em partes iguais.",
     },
-    postres: {
-      label: "Sobremesas",
-      kicker: "Caseiras",
-      description: "O final doce, feito em casa todas as manhãs.",
+    cocina: {
+      label: "A nossa cozinha",
+      kicker: "O de sempre, bem feito",
+      description: "Croquetes, fritos e doses para partilhar. O que sai da cozinha o dia inteiro.",
     },
-    vinos: {
-      label: "Vinhos",
-      kicker: "Garrafeira galega",
-      description: "Godello, Ribeiro, Albariño e Mencía. A copo ou à garrafa.",
+    especiales: {
+      label: "Especiais",
+      kicker: "O que há mesmo que provar",
+      description: "As zamburiñas (vieiras pequenas) que nos puseram no mapa e os clássicos que não faltam em mesa nenhuma.",
     },
-    bebidas: {
-      label: "Cervejas e mais",
-      kicker: "Artesanais e refrigerantes",
-      description: "Cerveja artesanal galega, imperiais bem tiradas e refrigerantes.",
+    pulpo: {
+      label: "Polvo",
+      kicker: "Da ria",
+      description: "Cozido em panela de cobre ou marcado na chapa. Em Ourense o polvo tem secção própria.",
+    },
+    embutidos: {
+      label: "Enchidos e queijos",
+      kicker: "Tábua e faca",
+      description: "Para abrir o apetite ou para esticar a conversa à mesa com o que sobrar no copo.",
+    },
+    revueltos: {
+      label: "Ovos mexidos",
+      kicker: "Ovo e frigideira",
+      description: "Coalhados no ponto, nem secos nem líquidos. O prato de colher de quem não pega nela.",
+    },
+    varios: {
+      label: "Vários",
+      kicker: "Sobremesa e mesa",
+      description: "O final doce e o que acompanha tudo o resto.",
     },
   },
 
   menuItems: {
-    // ─── SUGESTÕES ─────────────────────────────────────────────────
-    "sug-zamburinas-rellenas": {
-      description: "Zamburiñas (vieiras pequenas) da ria recheadas com um refogado de cebola, presunto e pão ralado, gratinadas no forno.",
-      unit: "6 un.",
-      pairing: "Albariño D.O. Rías Baixas",
+    // ─── TOSTAS ────────────────────────────────────────────────────
+    "tos-salmon-queso": {
+      description: "Salmão fumado e queijo cremoso sobre pão torrado. Fria, suave e direta: a que se pede sem pensar enquanto chega o resto.",
+      unit: "unidade",
     },
-    "sug-raxo-arzua": {
-      description: "Lombo de porco marinado à galega (raxo), batatas à padeiro e queijo Arzúa-Ulloa derretido.",
-      unit: "frigideira",
-      pairing: "Mencía D.O. Ribeira Sacra",
+    "tos-trigueros-jamon-codorniz": {
+      description: "Espargos verdes na chapa, presunto e um ovo de codorniz por cima. Come-se em duas dentadas e a gema faz o resto.",
+      unit: "unidade",
     },
-    "sug-pulpo-grelos": {
-      description: "Polvo da ria marcado na chapa sobre uma cama de grelos salteados com alho e pimentão de La Vera.",
-      unit: "dose",
-      pairing: "Godello D.O. Valdeorras",
-    },
-
-    // ─── CROQUETES ─────────────────────────────────────────────────
-    "croq-grelo-chipiron": {
-      description: "Os mais aplaudidos de Ourense: béchamel de grelos com chipirões (lulas pequenas) na sua tinta.",
-      unit: "8 un.",
-      variants: ["Meia dose (4 un.)", "Dose (8 un.)"],
-      pairing: "Ribeiro Treixadura",
-    },
-    "croq-jamon": {
-      description: "Receita da avó, com presunto ibérico picado à faca.",
-      unit: "8 un.",
-      variants: ["Meia dose (4 un.)", "Dose (8 un.)"],
-    },
-    "croq-cecina-cabra": {
-      description: "Cecina de León fumada (carne de vaca curada) com coração de queijo de cabra.",
-      unit: "8 un.",
-    },
-    "croq-bacalao-singluten": {
-      description: "Panados com farinha de milho e de arroz. Adequados para celíacos.",
-      unit: "8 un.",
+    "tos-cebolla-foie-cabra": {
+      description: "Cebola cozinhada devagar até ficar doce, foie gras e um medalhão de queijo de cabra. A mais gulosa das três.",
+      unit: "unidade",
     },
 
     // ─── TIXOLAS ───────────────────────────────────────────────────
-    "tix-chistorra-huevos": {
-      description: "Chistorra navarra (enchido de porco com pimentão) na brasa, ovos do campo estrelados e desfeitos e batata palha.",
-      unit: "frigideira",
-      pairing: "Mencía D.O. Ribeira Sacra",
-    },
-    "tix-huevos-rotos-jamon": {
-      description: "O clássico: ovos do campo, batatas e presunto ibérico sobre ferro quente.",
+    "tix-piquillos-panceta": {
+      description: "Pimentos do piquillo caramelizados e entremeada estaladiça sobre a frigideira de ferro, com os seus ovos e as suas batatas. Doce e salgado na mesma dentada.",
       unit: "frigideira",
     },
-    "tix-raxo-queso-azul": {
-      description: "Raxo (lombo de porco marinado), ovos estrelados desfeitos e creme de queijo azul galego.",
+    "tix-chistorra": {
+      description: "Chistorra (enchido de porco com pimentão) feita na própria frigideira, com ovos e batatas fritas. A mais simples e a que mais se repete.",
       unit: "frigideira",
-      pairing: "Godello D.O. Valdeorras",
     },
-    "tix-gulas-setas-gambas": {
-      description: "Gulas (sucedâneo de meixão) com alho, cogumelos da época, gambas e malagueta.",
+    "tix-gulas-setas-langostinos": {
+      description: "Gulas (sucedâneo de meixão), cogumelos salteados e gambas sobre o ferro quente, com ovos e batatas. A mais completa da secção.",
       unit: "frigideira",
-      pairing: "Albariño D.O. Rías Baixas",
     },
-    "tix-vegana": {
-      description: "Cogumelos, pimentos, curgete e tofu fumado com pimentão. 100 % vegetal.",
+    "tix-raxo-arzua": {
+      description: "Raxo (lombo de porco marinado à galega) com queijo Arzúa-Ulloa derretido por cima, sobre ovos e batatas. É a que aparece em todas as fotografias da casa.",
       unit: "frigideira",
-      pairing: "Ribeiro Treixadura",
     },
-
-    // ─── DO MAR ────────────────────────────────────────────────────
-    "mar-zamburinas-plancha": {
-      description: "Zamburiñas galegas (vieiras pequenas) grelhadas com azeite virgem, alho e salsa. O nosso prato estrela.",
-      unit: "6 un.",
-      pairing: "Albariño D.O. Rías Baixas",
-    },
-    "mar-pulpo-feira": {
-      description: "Polvo à galega: cozido em panela de cobre, com cachelos (batatas cozidas), pimentão e azeite. Tradição pura.",
-      unit: "dose",
-      pairing: "Ribeiro Treixadura",
-    },
-    "mar-bacalao-tempura": {
-      description: "Lombos de bacalhau demolhado em tempura leve e estaladiça, com alioli suave de alho assado.",
-      unit: "dose",
-      pairing: "Godello D.O. Valdeorras",
-    },
-    "mar-calamares": {
-      description: "Anéis de lula fresca, polme fino e limão.",
-      unit: "dose",
-    },
-    "mar-choubas": {
-      description: "Petingas fritas inteiras, estaladiças, com sal grosso e limão.",
-      unit: "dose",
-    },
-    "mar-pastel-cabracho": {
-      description: "Pastel caseiro de rascasso (cabracho) com maionese de pimentos e tostas.",
-      unit: "dose",
-    },
-
-    // ─── DA TERRA ──────────────────────────────────────────────────
-    "tie-oreja": {
-      description: "Orelha de porco cozida e marcada na chapa até ficar estaladiça, com pimentão e sal grosso.",
-      unit: "dose",
-      pairing: "Mencía D.O. Ribeira Sacra",
-    },
-    "tie-fingers-pollo": {
-      description: "Tiras de frango panadas em casa, com molho de mel e mostarda.",
-      unit: "dose",
-    },
-    "tie-raxo-patatas": {
-      description: "Lombo de porco marinado com alho, pimentão e orégãos, com batatas fritas.",
-      unit: "dose",
-    },
-    "tie-queso-frito": {
-      description: "Queijo Tetilla panado e frito, com doce de tomate caseiro.",
-      unit: "dose",
-    },
-    "tie-bravas": {
-      description: "Batatas fritas com o nosso molho bravo «fora do comum» e alioli.",
-      unit: "dose",
-    },
-    "tie-padron": {
-      description: "Uns picam e outros não. Fritos em azeite, com sal grosso.",
-      unit: "dose",
-    },
-    "tie-tabla-quesos": {
-      description: "Arzúa-Ulloa, San Simón da Costa fumado e Tetilla, com marmelada e nozes.",
-      unit: "tábua",
-      pairing: "Godello D.O. Valdeorras",
-    },
-    "tie-tabla-embutidos": {
-      description: "Chouriço, lacón (pá de porco curada) e cecina, com pão de Cea (IGP), o pão de lenha de Ourense.",
-      unit: "tábua",
-      pairing: "Mencía D.O. Ribeira Sacra",
+    "tix-pisto-verduras": {
+      description: "Pisto de legumes (o refogado espanhol, feito devagar), com ovos e batatas fritas. A opção sem carne da secção, e não é prémio de consolação.",
+      unit: "frigideira",
     },
 
     // ─── SALADAS ───────────────────────────────────────────────────
+    "ens-gulas-setas-langostinos": {
+      description: "Cama de rebentos com gulas (sucedâneo de meixão), cogumelos salteados e gambas. Morna por cima e fresca por baixo: come-se como prato único.",
+      unit: "dose",
+    },
     "ens-pollo-crujiente": {
-      description: "Mistura de alfaces, frango panado, tomate cherry, parmesão e vinagreta de mel e mostarda.",
+      description: "Tiras de frango panado frito na hora, nozes e maçã. A que pedem os que não vêm para comer salada.",
       unit: "dose",
     },
     "ens-ventresca": {
-      description: "Tomate da época, ventresca de bonito, cebola nova e azeite virgem extra.",
+      description: "Ventresca de atum sobre legumes frescos. Pouco mais: quando a ventresca é boa, o resto está a mais.",
       unit: "dose",
     },
-    "ens-vegana-quinoa": {
-      description: "Quinoa, abacate, edamame, romã e sementes de sésamo com lima.",
+    "ens-cecina-helado-oveja": {
+      description: "Lâminas de cecina (carne de vaca curada e fumada) e uma quenelle de gelado de queijo de ovelha que se vai desfazendo por cima. A mais vistosa da ementa.",
+      unit: "dose",
+    },
+    "ens-aguacate-bacalao": {
+      description: "Abacate e bacalhau fumado, suave e amanteigado. A mais leve das cinco.",
       unit: "dose",
     },
 
-    // ─── SOBREMESAS ────────────────────────────────────────────────
-    "pos-coulant": {
-      description: "Bolo de chocolate com coração derretido e gelado de baunilha.",
-      unit: "un.",
+    // ─── A NOSSA COZINHA ───────────────────────────────────────────
+    "coc-patatas": {
+      description: "Batatas fritas com molho bravo, com alioli ou com os dois ao mesmo tempo. A escolha é sua; as mistas são o que pede quase toda a gente.",
+      unit: "dose",
     },
-    "pos-flan-choco-blanco": {
-      description: "Pudim caseiro de chocolate branco com caramelo e natas.",
-      unit: "un.",
+    "coc-croquetas-jamon": {
+      description: "Béchamel que repousa até ganhar corpo, presunto bem picado e fritura à última hora. Estaladiços por fora, quase líquidos por dentro.",
+      unit: "dose",
+      variants: ["Meia dose", "Dose"],
     },
-    "pos-tarta-queso": {
-      description: "No forno, com base de bolacha e coulis de frutos vermelhos.",
-      unit: "un.",
+    "coc-croquetas-grelos-chipiron": {
+      description: "Grelos e chipirão (lula pequena) dentro da béchamel: verde e mar no mesmo croquete. Os mais galegos e os que mais se repetem nas avaliações.",
+      unit: "dose",
+      variants: ["Meia dose", "Dose"],
     },
-    "pos-pina": {
-      description: "Ananás fresco laminado, sumo de lima e folhas de hortelã.",
-      unit: "un.",
+    "coc-croquetas-cecina-cabra": {
+      description: "Cecina (carne de vaca curada e fumada) e queijo de cabra derretidos na béchamel. Os mais intensos dos três; uma dose chega e sobra para dois.",
+      unit: "dose",
+      variants: ["Meia dose", "Dose"],
+    },
+    "coc-mejillones-tigre": {
+      description: "Mexilhão picado e ligado com béchamel, devolvido à concha e panado. O petisco de balcão de sempre, feito como deve ser.",
+      unit: "dose",
+    },
+    "coc-calamares": {
+      description: "Anéis de lula passados por farinha e fritos na hora. Com limão ao lado e sem mais cerimónia.",
+      unit: "dose",
+    },
+    "coc-bacalao-tempura": {
+      description: "Cubos de bacalhau em tempura fina, com pimentos ao lado. Estala ao trincar e por dentro continua suculento.",
+      unit: "dose",
+    },
+    "coc-salteado-verdura-arroz": {
+      description: "Legumes e cogumelos salteados em lume forte com arroz. Um prato completo para quem não quer fritos.",
+      unit: "dose",
+    },
+    "coc-croquetas-sin-gluten": {
+      description: "O mesmo croquete, feito sem glúten. Está na ementa porque no-lo pedem todos os dias; avise ao pedir para que a cozinha o tenha em conta.",
+      unit: "dose",
+    },
+    "coc-tortilla-champinones": {
+      description: "Tortilha suculenta terminada num guisado curto com cogumelos. Come-se com pão e não sobra nada.",
+      unit: "dose",
+    },
+    "coc-fingers-pollo": {
+      description: "Tiras de frango panadas e fritas. O prato a que os miúdos se agarram e de que os crescidos acabam por petiscar.",
+      unit: "dose",
+    },
+    "coc-pastel-cabracho": {
+      description: "O clássico do norte: rascasso (cabracho), ovo e natas no forno, servido frio com pão torrado. Suave e com muito sabor a mar.",
+      unit: "dose",
     },
 
-    // ─── VINHOS ────────────────────────────────────────────────────
-    "vin-godello": {
-      description: "Branco mineral e fresco, o favorito da casa para o polvo e o bacalhau.",
-      unit: "copo",
-      variants: ["Copo", "Garrafa"],
+    // ─── ESPECIAIS ─────────────────────────────────────────────────
+    "esp-timbal-vegetal": {
+      description: "Legumes montados em camadas, feitos na hora. A entrada mais leve da ementa.",
+      unit: "dose",
     },
-    "vin-ribeiro": {
-      description: "O vinho de Ourense por excelência: floral, leve, perfeito com croquetes.",
-      unit: "copo",
-      variants: ["Copo", "Garrafa"],
+    "esp-brocheta-xxl": {
+      description: "Espetada grande na chapa, como o nome indica. Para partilhar ou para quem chega com fome a sério.",
+      unit: "unidade",
     },
-    "vin-albarino": {
-      description: "Aromático e salino. A harmonização natural das zamburiñas.",
-      unit: "copo",
-      variants: ["Copo", "Garrafa"],
+    "esp-ajada-bacalao": {
+      description: "Bacalhau com ajada galega: azeite, alho e pimentão por cima. Receita de sempre, das que se limpam com pão.",
+      unit: "dose",
+      variants: ["Meia dose", "Dose"],
     },
-    "vin-mencia": {
-      description: "Tinto atlântico de viticultura heroica. Frutos vermelhos e frescura para as tixolas.",
-      unit: "copo",
-      variants: ["Copo", "Garrafa"],
+    "esp-zamburinas-plancha": {
+      description: "Zamburiñas (vieiras pequenas) da ria marcadas na chapa, na própria concha. Pouco lume e nada que as tape: o prato que nos deu nome.",
+      unit: "dose",
+    },
+    "esp-zamburinas-rellenas": {
+      description: "As mesmas zamburiñas, recheadas com um refogado e gratinadas no forno. A versão gulosa da anterior.",
+      unit: "dose",
+    },
+    "esp-queso-frito": {
+      description: "Cubos de queijo panados e fritos, mornos e derretidos por dentro. Dura pouco na mesa.",
+      unit: "dose",
+    },
+    "esp-oreja-plancha": {
+      description: "Orelha de porco cozida e depois marcada na chapa até estalar por fora. Petisco de Ourense sem rodeios.",
+      unit: "dose",
     },
 
-    // ─── BEBIDAS ───────────────────────────────────────────────────
-    "beb-artesana": {
-      description: "Seleção rotativa de cervejeiras galegas. Pergunte pela de hoje.",
-      unit: "33 cl",
+    // ─── POLVO ─────────────────────────────────────────────────────
+    "pul-gallega-plancha": {
+      description: "Como preferir: á feira, com cachelos (batatas cozidas), pimentão e azeite, ou marcado na chapa. O mesmo polvo, duas escolas.",
+      unit: "dose",
     },
-    "beb-cana": {
-      description: "Imperial bem tirada, com a tapa da casa.",
-      unit: "imperial",
+    "pul-plancha-grelos": {
+      description: "Polvo marcado na chapa sobre uma cama de grelos salteados. O amargo do grelo com o doce do polvo.",
+      unit: "dose",
     },
-    "beb-agua": {
-      description: "Com ou sem gás.",
-      unit: "50 cl",
+    "pul-salteado-salmon-langostinos": {
+      description: "Polvo, salmão e gambas salteados juntos na frigideira. O prato mais caro da ementa e o que mais mar tem.",
+      unit: "dose",
+    },
+    "pul-tempura": {
+      description: "Pedaços de polvo em tempura leve, fritos na hora. Estala por fora e continua tenro por dentro.",
+      unit: "dose",
+    },
+
+    // ─── ENCHIDOS E QUEIJOS ────────────────────────────────────────
+    "emb-jamon-serrano": {
+      description: "Cortado à faca e servido à temperatura certa, para que solte a gordura. Com pão ao lado e pouco mais.",
+      unit: "dose",
+    },
+    "emb-queso-pais": {
+      description: "Queijo galego da zona, tenro e suave. O que melhor acompanha um copo sem o tapar.",
+      unit: "dose",
+    },
+    "emb-queso-oveja": {
+      description: "Curado de ovelha, com mais carácter do que o do país. Para quem quer que o queijo se note.",
+      unit: "dose",
+    },
+    "emb-queso-cabra": {
+      description: "Queijo de cabra em rolo, às rodelas, ácido e cremoso. O contraponto da tábua.",
+      unit: "dose",
+    },
+
+    // ─── OVOS MEXIDOS ──────────────────────────────────────────────
+    "rev-algas-langostinos": {
+      description: "Ovo coalhado no ponto com algas e gambas. Sabe a mar sem ser peixe.",
+      unit: "dose",
+    },
+    "rev-bacalao-grelos-langostinos": {
+      description: "Bacalhau desfiado, grelos e gambas ligados com ovo. O mais completo dos três.",
+      unit: "dose",
+    },
+    "rev-setas-oreja": {
+      description: "Cogumelos e orelha estaladiça sobre ovo coalhado. Terra pura, e o que mais enche.",
+      unit: "dose",
+    },
+
+    // ─── VÁRIOS ────────────────────────────────────────────────────
+    "var-postre": {
+      description: "Muda conforme o dia e conforme o que tiver saído nessa manhã. Pergunte ao pessoal: há sempre algo caseiro.",
+      unit: "dose",
+    },
+    "var-postre-sin-gluten": {
+      description: "A alternativa doce feita sem glúten, para que ninguém fique sem final. Pergunte qual há hoje.",
+      unit: "dose",
+    },
+    "var-pan": {
+      description: "Pão do dia no seu cesto, para limpar o que ficar na frigideira.",
+      unit: "cesto",
+    },
+    "var-pan-tomate": {
+      description: "Pão torrado esfregado com tomate e azeite. Entra sozinho enquanto chega o resto.",
+      unit: "dose",
     },
   },
 
@@ -261,76 +273,30 @@ const pt: DataTranslations = {
       headline: "As zamburiñas que tornaram a casa famosa",
       description:
         "Zamburiñas galegas (vieiras pequenas) abertas na concha e marcadas na chapa com azeite virgem extra, alho laminado e salsa fresca. Suculentas, com aquele ponto de brasa que só o ferro dá.",
-      ingredients: ["Zamburiñas da ria", "Azeite virgem extra", "Alho laminado", "Salsa fresca", "Sal de Arousa", "Limão"],
-      unit: "6 un.",
+      ingredients: ["Zamburiñas da ria", "Azeite virgem extra", "Alho laminado", "Salsa fresca", "Sal", "Limão"],
+      unit: "dose",
       badge: "N.º 1 em zamburiñas",
-      pairingWhy: "A sua salinidade e acidez limpam a gordura do azeite e realçam a doçura do molusco.",
+      pairingWhy: "A sua salinidade e a sua acidez limpam a gordura do azeite e realçam a doçura do molusco.",
     },
-    pulpo: {
-      kicker: "Tradição",
-      headline: "O polvo de Ourense, capital galega do polvo",
+    raxo: {
+      kicker: "A especialidade da casa",
+      headline: "A frigideira que chega a chiar à mesa",
       description:
-        "Servimo-lo de duas formas: á feira (à galega), cozido em panela de cobre com cachelos e pimentão, ou na chapa sobre grelos salteados com alho e pimentão de La Vera. Tenro por dentro, tostado por fora.",
-      ingredients: ["Polvo da ria", "Grelos", "Cachelos (batatas cozidas)", "Pimentão de La Vera", "Azeite virgem extra", "Sal grosso"],
-      unit: "dose",
-      pairingWhy: "Um branco com corpo e mineralidade que acompanha a textura do polvo sem a tapar.",
-    },
-    bacalao: {
-      kicker: "Estaladiço",
-      headline: "Tempura leve, bacalhau em lascas",
-      description:
-        "Lombos de bacalhau demolhado em casa, envoltos numa tempura arejada e muito fina, fritos na hora e servidos com alioli suave de alho assado.",
-      ingredients: ["Bacalhau demolhado", "Tempura leve", "Alioli de alho assado", "Cebolinho", "Azeite virgem extra"],
-      unit: "dose",
-      pairingWhy: "O vinho de Ourense: floral e leve, contrasta com o polme e refresca cada garfada.",
-    },
-    oreja: {
-      kicker: "Petisco clássico",
-      headline: "Estaladiça por fora, macia por dentro",
-      description:
-        "Orelha de porco cozida lentamente e marcada na chapa até ficar estaladiça, terminada com pimentão, sal grosso e um fio de azeite. A tapa de sempre, feita com carinho.",
-      ingredients: ["Orelha de porco", "Pimentão doce e picante", "Sal grosso", "Azeite virgem extra", "Alho"],
-      unit: "dose",
-      badge: "Sem glúten",
-      pairingWhy: "Um tinto atlântico fresco e frutado que equilibra a untuosidade da orelha.",
+        "Raxo (lombo de porco marinado à galega) sobre ovos e batatas fritas, com queijo Arzúa-Ulloa derretido por cima, servido na própria frigideira de ferro. Ouve-se antes de se ver.",
+      ingredients: ["Raxo de porco", "Queijo Arzúa-Ulloa D.O.P.", "Ovos do campo", "Batatas", "Pimentão", "Azeite virgem extra"],
+      unit: "frigideira",
+      badge: "A mais pedida",
+      pairingWhy: "Um tinto leve e fresco que aguenta o queijo derretido sem tapar o marinado da carne.",
     },
     croquetas: {
-      kicker: "Béchamel de 24 h",
-      headline: "Os croquetes mais aplaudidos de Ourense",
+      kicker: "Béchamel que repousa",
+      headline: "Verde e mar no mesmo croquete",
       description:
-        "Béchamel de grelos que repousa vinte e quatro horas antes de ser moldada, com chipirões na sua tinta. Estaladiços por fora e tão cremosos por dentro que quase se bebem.",
-      ingredients: ["Grelos", "Chipirões na sua tinta", "Béchamel de 24 h", "Pão ralado", "Azeite virgem extra"],
-      unit: "8 un.",
+        "Grelos salteados e chipirão dentro de uma béchamel que repousa até ganhar corpo, panados e fritos na hora. Estalam ao trincar e por dentro continuam quase líquidos.",
+      ingredients: ["Grelos", "Chipirão", "Béchamel de 24 h", "Pão ralado", "Ovo", "Azeite virgem extra"],
+      unit: "dose",
       badge: "Os mais pedidos",
-      pairingWhy: "O branco de Ourense: a sua acidez floral corta a untuosidade da béchamel e deixa a boca limpa.",
-    },
-    chistorra: {
-      kicker: "A especialidade da casa",
-      headline: "A frigideira que chega a crepitar à mesa",
-      description:
-        "Chistorra na brasa, ovos do campo desfeitos e batata palha, servidos na tixola de ferro ainda a escaldar. Mistura-se tudo à mesa e come-se com pão de Cea.",
-      ingredients: ["Chistorra", "Ovos do campo", "Batata palha", "Pimentão", "Azeite virgem extra"],
-      unit: "frigideira",
-      pairingWhy: "Um tinto de vinha heroica, fresco e leve, que aguenta o toque especiado da chistorra.",
-    },
-    quesos: {
-      kicker: "Para partilhar",
-      headline: "Os três queijos da Galiza, numa tábua",
-      description:
-        "Arzúa-Ulloa cremoso, San Simón da Costa fumado com bétula e Tetilla suave, com marmelada caseira e nozes. A tábua que melhor acompanha uma garrafa da garrafeira.",
-      ingredients: ["Arzúa-Ulloa D.O.P.", "San Simón da Costa D.O.P.", "Tetilla D.O.P.", "Marmelada caseira", "Nozes"],
-      unit: "tábua",
-      pairingWhy: "O seu corpo e o seu toque mineral sustentam o fumado do San Simón sem o tapar.",
-    },
-    vegana: {
-      kicker: "100 % vegetal",
-      headline: "Uma tixola que não abdica de nada",
-      description:
-        "Cogumelos da época, pimento, curgete e tofu fumado salteados com pimentão de La Vera na frigideira de ferro. Vegana e sem glúten, com o mesmo ponto de brasa.",
-      ingredients: ["Cogumelos da época", "Pimento", "Curgete", "Tofu fumado", "Pimentão de La Vera", "Azeite virgem extra"],
-      unit: "frigideira",
-      badge: "Vegana",
-      pairingWhy: "Leve e floral, realça os cogumelos sem pisar o fumado do tofu.",
+      pairingWhy: "Tem corpo para a béchamel e o amargo certo para acompanhar o grelo.",
     },
   },
 

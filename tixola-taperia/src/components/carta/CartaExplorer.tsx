@@ -16,6 +16,7 @@ import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 import AllergenLegendSheet from "./AllergenLegend";
 import CartaCta from "./CartaCta";
+import PromoBand from "@/components/ui/PromoBand";
 import CartaHero from "./CartaHero";
 import CategorySection from "./CategorySection";
 import { useMenuItemSlide } from "./menuItemSlide";
@@ -325,6 +326,8 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, he
         {/* Cabecera + camarero virtual (banda en móvil / tablet) */}
         <div className={cn(CARTA_CONTAINER, "relative")}>
           <CartaHero animate={heroFloat} />
+          {/* Promoción del mes, si la hay: `src/data/promos.ts`. Si no, no pinta nada. */}
+          <PromoBand className="mb-6" />
           <WaiterCard className="mb-6 lg:hidden" />
         </div>
 

@@ -7,250 +7,262 @@ import type { DataTranslations } from "@/i18n/data";
  */
 const en: DataTranslations = {
   categories: {
-    sugerencias: {
-      label: "Specials",
-      kicker: "Today's board",
-      description: "Whatever came through the door today from the fish market and the produce market.",
-    },
-    croquetas: {
-      label: "Croquetas",
-      kicker: "Homemade · 8 pcs",
-      description: "Our béchamel rests for 24 hours. Crisp outside, creamy inside.",
+    tostas: {
+      label: "Tostas",
+      kicker: "To begin",
+      description: "Toasted bread and, on top, not much but all of it good. The first bite while you decide on the rest.",
     },
     tixolas: {
       label: "Tixolas",
       kicker: "The house speciality",
-      description: "“Tixola” is Galician for frying pan: cast-iron skillets that reach the table still sizzling.",
-    },
-    mar: {
-      label: "From the Sea",
-      kicker: "Galician fish market",
-      description: "Zamburiñas (small scallops), octopus, cod and squid. Produce from the rías, cooked to order.",
-    },
-    tierra: {
-      label: "From the Land",
-      kicker: "Sharing plates",
-      description: "Raxo (marinated pork loin), pig's ear, Galician cheeses and the classics of Ourense tapas.",
+      description: "“Tixola” is Galician for frying pan. Cast iron that reaches the table still sizzling, and every one comes with eggs and chips.",
     },
     ensaladas: {
       label: "Salads",
-      kicker: "Fresh and seasonal",
-      description: "Vegetables from Ourense's market gardens with a creative twist.",
+      kicker: "Fresh, and a meal on their own",
+      description: "Big enough to eat from rather than eat alongside. Half market garden, half fish market.",
     },
-    postres: {
-      label: "Desserts",
-      kicker: "Homemade",
-      description: "The sweet finish, made in-house every morning.",
+    cocina: {
+      label: "A nosa cociña",
+      kicker: "The usual, done properly",
+      description: "“A nosa cociña” is Galician for our kitchen: croquetas, fried plates and portions to share, coming out all day long.",
     },
-    vinos: {
-      label: "Wines",
-      kicker: "Galician wine list",
-      description: "Godello, Ribeiro, Albariño and Mencía. By the glass or by the bottle.",
+    especiales: {
+      label: "Specials",
+      kicker: "What you have to try",
+      description: "The zamburiñas (small scallops) we are known for, and the classics that turn up on every table.",
     },
-    bebidas: {
-      label: "Beers & more",
-      kicker: "Craft beers and soft drinks",
-      description: "Galician craft beer, perfectly poured cañas and soft drinks.",
+    pulpo: {
+      label: "Octopus",
+      kicker: "From the ría",
+      description: "Boiled in a copper pot or seared on the griddle. In Ourense, octopus gets a section of its own.",
+    },
+    embutidos: {
+      label: "Cured meats & cheeses",
+      kicker: "Board and knife",
+      description: "To open the meal, or to keep the table going long after the plates have gone.",
+    },
+    revueltos: {
+      label: "Revueltos",
+      kicker: "Eggs and a hot pan",
+      description: "Softly scrambled and set just right, neither dry nor runny. The nearest thing to a stew for anyone who will not have one.",
+    },
+    varios: {
+      label: "Extras",
+      kicker: "Pudding and bread",
+      description: "The sweet finish, and what goes alongside everything else.",
     },
   },
 
   menuItems: {
-    // ─── SPECIALS ──────────────────────────────────────────────────
-    "sug-zamburinas-rellenas": {
-      description: "Zamburiñas (small Galician scallops) from the ría stuffed with a sofrito of onion, ham and breadcrumbs, gratinated in the oven.",
-      unit: "6 pcs",
-      pairing: "Albariño D.O. Rías Baixas",
+    // ─── TOSTAS ────────────────────────────────────────────────────
+    "tos-salmon-queso": {
+      description: "Smoked salmon and soft cheese on toasted bread. Cold, mild and straight to the point: the one you order without thinking while the rest arrives.",
+      unit: "each",
     },
-    "sug-raxo-arzua": {
-      description: "Galician-style marinated pork loin (raxo) with sliced pan-fried potatoes and melted Arzúa-Ulloa cheese.",
-      unit: "skillet",
-      pairing: "Mencía D.O. Ribeira Sacra",
+    "tos-trigueros-jamon-codorniz": {
+      description: "Griddled wild asparagus, ham and a quail's egg on top. Two bites, and the yolk does the rest.",
+      unit: "each",
     },
-    "sug-pulpo-grelos": {
-      description: "Octopus from the ría seared on the griddle over a bed of grelos (turnip greens) sautéed with garlic and La Vera smoked paprika.",
-      unit: "portion",
-      pairing: "Godello D.O. Valdeorras",
-    },
-
-    // ─── CROQUETAS ─────────────────────────────────────────────────
-    "croq-grelo-chipiron": {
-      description: "The most talked-about croquetas in Ourense: grelo (turnip greens) béchamel with baby squid in its own ink.",
-      unit: "8 pcs",
-      variants: ["Half (4 pcs)", "Full (8 pcs)"],
-      pairing: "Ribeiro Treixadura",
-    },
-    "croq-jamon": {
-      description: "Grandma's recipe, with hand-cut Ibérico ham.",
-      unit: "8 pcs",
-      variants: ["Half (4 pcs)", "Full (8 pcs)"],
-    },
-    "croq-cecina-cabra": {
-      description: "Smoked cecina (cured beef) from León with a goat's cheese centre.",
-      unit: "8 pcs",
-    },
-    "croq-bacalao-singluten": {
-      description: "Cod croquetas coated in corn and rice flour. Suitable for coeliacs.",
-      unit: "8 pcs",
+    "tos-cebolla-foie-cabra": {
+      description: "Onion cooked down slowly until it turns sweet, foie and a medallion of goat's cheese. The most indulgent of the three.",
+      unit: "each",
     },
 
     // ─── TIXOLAS ───────────────────────────────────────────────────
-    "tix-chistorra-huevos": {
-      description: "Chargrilled chistorra (Navarran paprika sausage), broken free-range eggs and matchstick chips.",
-      unit: "skillet",
-      pairing: "Mencía D.O. Ribeira Sacra",
-    },
-    "tix-huevos-rotos-jamon": {
-      description: "The classic: free-range eggs, potatoes and Ibérico ham on hot iron.",
+    "tix-piquillos-panceta": {
+      description: "Caramelised piquillo peppers and crisp pork belly on the cast-iron pan, over its eggs and its chips. Sweet and salty in the same mouthful.",
       unit: "skillet",
     },
-    "tix-raxo-queso-azul": {
-      description: "Marinated pork loin (raxo), broken eggs and a Galician blue cheese cream.",
+    "tix-chistorra": {
+      description: "Chistorra (a paprika-spiced sausage) cooked in the pan itself, with eggs and chips. The plainest of them, and the one people come back for.",
       unit: "skillet",
-      pairing: "Godello D.O. Valdeorras",
     },
-    "tix-gulas-setas-gambas": {
-      description: "Gulas (surimi baby eels) with garlic, seasonal mushrooms, prawns and chilli.",
+    "tix-gulas-setas-langostinos": {
+      description: "Gulas (baby-eel look-alikes), sautéed mushrooms and king prawns on the hot iron, with eggs and chips. The fullest skillet of the lot.",
       unit: "skillet",
-      pairing: "Albariño D.O. Rías Baixas",
     },
-    "tix-vegana": {
-      description: "Mushrooms, peppers, courgette and smoked tofu with paprika. 100% plant-based.",
+    "tix-raxo-arzua": {
+      description: "Raxo — Galician marinated pork — under melted Arzúa-Ulloa cheese, over eggs and chips. It is the one in every photo of the place.",
       unit: "skillet",
-      pairing: "Ribeiro Treixadura",
     },
-
-    // ─── FROM THE SEA ──────────────────────────────────────────────
-    "mar-zamburinas-plancha": {
-      description: "Galician zamburiñas (small scallops) grilled with virgin olive oil, garlic and parsley. Our signature dish.",
-      unit: "6 pcs",
-      pairing: "Albariño D.O. Rías Baixas",
-    },
-    "mar-pulpo-feira": {
-      description: "Galician-style octopus boiled in a copper pot, served with cachelos (boiled potatoes), paprika and olive oil. Pure tradition.",
-      unit: "portion",
-      pairing: "Ribeiro Treixadura",
-    },
-    "mar-bacalao-tempura": {
-      description: "Desalted cod loins in a light, crisp tempura, with a mild roasted-garlic aioli.",
-      unit: "portion",
-      pairing: "Godello D.O. Valdeorras",
-    },
-    "mar-calamares": {
-      description: "Fresh squid rings in a light Andalusian-style coating, with lemon.",
-      unit: "portion",
-    },
-    "mar-choubas": {
-      description: "Whole fried baby sardines, crisp, with coarse salt and lemon.",
-      unit: "portion",
-    },
-    "mar-pastel-cabracho": {
-      description: "Homemade scorpion fish terrine with red pepper mayonnaise and toasts.",
-      unit: "portion",
-    },
-
-    // ─── FROM THE LAND ─────────────────────────────────────────────
-    "tie-oreja": {
-      description: "Pig's ear, boiled then seared on the griddle until crisp, with paprika and coarse salt.",
-      unit: "portion",
-      pairing: "Mencía D.O. Ribeira Sacra",
-    },
-    "tie-fingers-pollo": {
-      description: "Chicken strips breaded in-house, with honey and mustard sauce.",
-      unit: "portion",
-    },
-    "tie-raxo-patatas": {
-      description: "Pork loin marinated with garlic, paprika and oregano, served with chips.",
-      unit: "portion",
-    },
-    "tie-queso-frito": {
-      description: "Breaded and fried Tetilla cheese with homemade tomato jam.",
-      unit: "portion",
-    },
-    "tie-bravas": {
-      description: "Chips with our “out of the ordinary” brava sauce and aioli.",
-      unit: "portion",
-    },
-    "tie-padron": {
-      description: "“Some are hot and some are not.” Fried in olive oil with coarse salt.",
-      unit: "portion",
-    },
-    "tie-tabla-quesos": {
-      description: "Arzúa-Ulloa, smoked San Simón da Costa and Tetilla, with quince jelly and walnuts.",
-      unit: "board",
-      pairing: "Godello D.O. Valdeorras",
-    },
-    "tie-tabla-embutidos": {
-      description: "Chorizo, lacón (cured pork shoulder) and cecina with Cea bread (PGI), Ourense's wood-fired loaf.",
-      unit: "board",
-      pairing: "Mencía D.O. Ribeira Sacra",
+    "tix-pisto-verduras": {
+      description: "Slow-cooked pisto, a stew of peppers, courgette and tomato, with eggs and chips. The meat-free skillet, and nobody's consolation prize.",
+      unit: "skillet",
     },
 
     // ─── SALADS ────────────────────────────────────────────────────
+    "ens-gulas-setas-langostinos": {
+      description: "A bed of leaves with gulas (baby-eel look-alikes), sautéed mushrooms and king prawns. Warm on top, cool underneath: a meal on its own.",
+      unit: "portion",
+    },
     "ens-pollo-crujiente": {
-      description: "Mixed leaves, breaded chicken, cherry tomatoes, Parmesan and a honey-mustard vinaigrette.",
+      description: "Strips of chicken breaded and fried to order, with walnuts and apple. The one ordered by people who did not come here for salad.",
       unit: "portion",
     },
     "ens-ventresca": {
-      description: "Seasonal tomato, bonito tuna belly, spring onion and extra virgin olive oil.",
+      description: "Tuna belly over fresh leaves and vegetables. Little else: when the ventresca is this good, the rest only gets in the way.",
       unit: "portion",
     },
-    "ens-vegana-quinoa": {
-      description: "Quinoa, avocado, edamame, pomegranate and sesame seeds with lime.",
+    "ens-cecina-helado-oveja": {
+      description: "Slices of cecina (air-dried cured beef) and a quenelle of sheep's cheese ice cream melting slowly over them. The best-looking plate on the menu.",
+      unit: "portion",
+    },
+    "ens-aguacate-bacalao": {
+      description: "Avocado and smoked cod, mild and buttery. The lightest of the five.",
       unit: "portion",
     },
 
-    // ─── DESSERTS ──────────────────────────────────────────────────
-    "pos-coulant": {
-      description: "Chocolate sponge with a molten centre and vanilla ice cream.",
-      unit: "each",
+    // ─── A NOSA COCIÑA ─────────────────────────────────────────────
+    "coc-patatas": {
+      description: "Chips with spicy brava sauce, with aioli, or with both. Your call, though almost everyone goes for both.",
+      unit: "portion",
     },
-    "pos-flan-choco-blanco": {
-      description: "Homemade white chocolate crème caramel with caramel and cream.",
-      unit: "each",
+    "coc-croquetas-jamon": {
+      description: "Béchamel left to rest until it sets, finely chopped ham and frying at the last minute. Crisp outside, almost liquid inside.",
+      unit: "portion",
+      variants: ["Half portion", "Full portion"],
     },
-    "pos-tarta-queso": {
-      description: "Baked, with a biscuit base and a red berry coulis.",
-      unit: "each",
+    "coc-croquetas-grelos-chipiron": {
+      description: "Grelos (turnip greens) and baby squid folded into the béchamel: garden and sea in the same croqueta. The most Galician of the three, and the ones the reviews keep mentioning.",
+      unit: "portion",
+      variants: ["Half portion", "Full portion"],
     },
-    "pos-pina": {
-      description: "Fresh sliced pineapple, lime juice and mint leaves.",
-      unit: "each",
+    "coc-croquetas-cecina-cabra": {
+      description: "Cecina (air-dried cured beef) and goat's cheese melted into the béchamel. The strongest of the three; one portion is plenty for two.",
+      unit: "portion",
+      variants: ["Half portion", "Full portion"],
+    },
+    "coc-mejillones-tigre": {
+      description: "Mussel chopped and bound with béchamel, returned to its shell and breadcrumbed. The old bar-counter mouthful, made the way it should be.",
+      unit: "portion",
+    },
+    "coc-calamares": {
+      description: "Squid rings floured and fried to order. Lemon on the side and no further ceremony.",
+      unit: "portion",
+    },
+    "coc-bacalao-tempura": {
+      description: "Chunks of cod in a fine tempura, with peppers alongside. It cracks when you bite and stays juicy inside.",
+      unit: "portion",
+    },
+    "coc-salteado-verdura-arroz": {
+      description: "Vegetables and mushrooms tossed over a high flame with rice. A full plate for anyone who would rather skip the fryer.",
+      unit: "portion",
+    },
+    "coc-croquetas-sin-gluten": {
+      description: "The same croqueta, made without gluten. It is on the menu because we are asked for it daily; do say so when you order, so the kitchen has it in mind.",
+      unit: "portion",
+    },
+    "coc-tortilla-champinones": {
+      description: "A soft tortilla finished in a short mushroom stew. Eaten with bread, and nothing is left over.",
+      unit: "portion",
+    },
+    "coc-fingers-pollo": {
+      description: "Breaded chicken strips, fried. The plate the children lay claim to and the one the adults end up picking at.",
+      unit: "portion",
+    },
+    "coc-pastel-cabracho": {
+      description: "The northern classic: scorpion fish, egg and cream baked together, served cold with toast. Mild, and full of the sea.",
+      unit: "portion",
     },
 
-    // ─── WINES ─────────────────────────────────────────────────────
-    "vin-godello": {
-      description: "A fresh, mineral white: the house favourite with octopus and cod.",
-      unit: "glass",
-      variants: ["Glass", "Bottle"],
+    // ─── SPECIALS ──────────────────────────────────────────────────
+    "esp-timbal-vegetal": {
+      description: "Vegetables built up in layers, made to order. The lightest starter on the menu.",
+      unit: "portion",
     },
-    "vin-ribeiro": {
-      description: "The quintessential Ourense wine: floral, light, perfect with croquetas.",
-      unit: "glass",
-      variants: ["Glass", "Bottle"],
+    "esp-brocheta-xxl": {
+      description: "A large skewer off the griddle, exactly as the name promises. To share, or for anyone who arrives properly hungry.",
+      unit: "each",
     },
-    "vin-albarino": {
-      description: "Aromatic and saline. The natural partner for zamburiñas.",
-      unit: "glass",
-      variants: ["Glass", "Bottle"],
+    "esp-ajada-bacalao": {
+      description: "Cod under a Galician ajada: hot oil, garlic and paprika poured over the top. An old recipe, and one that has you mopping the plate.",
+      unit: "portion",
+      variants: ["Half portion", "Full portion"],
     },
-    "vin-mencia": {
-      description: "An Atlantic red from heroic hillside vineyards. Red fruit and freshness for the skillets.",
-      unit: "glass",
-      variants: ["Glass", "Bottle"],
+    "esp-zamburinas-plancha": {
+      description: "Zamburiñas (small scallops) from the ría, seared on the griddle in their shells. Little heat and nothing to mask them: the dish we are known for.",
+      unit: "portion",
+    },
+    "esp-zamburinas-rellenas": {
+      description: "The same zamburiñas, filled with a slow-cooked sofrito and browned in the oven. The richer version of the one above.",
+      unit: "portion",
+    },
+    "esp-queso-frito": {
+      description: "Cubes of cheese, breaded and fried, warm and molten inside. It does not last long on the table.",
+      unit: "portion",
+    },
+    "esp-oreja-plancha": {
+      description: "Pig's ear, boiled and then seared on the griddle until the edges crisp. Ourense tapas, no frills.",
+      unit: "portion",
     },
 
-    // ─── DRINKS ────────────────────────────────────────────────────
-    "beb-artesana": {
-      description: "A rotating selection from Galician craft breweries. Ask what's on today.",
-      unit: "330 ml",
+    // ─── OCTOPUS ───────────────────────────────────────────────────
+    "pul-gallega-plancha": {
+      description: "However you prefer it: á feira, with cachelos (boiled potatoes), paprika and oil, or seared on the griddle. The same octopus, two schools of thought.",
+      unit: "portion",
     },
-    "beb-cana": {
-      description: "Perfectly poured, served with a house tapa.",
-      unit: "caña",
+    "pul-plancha-grelos": {
+      description: "Octopus seared on the griddle over a bed of sautéed grelos (turnip greens). The bitterness of the greens against the sweetness of the octopus.",
+      unit: "portion",
     },
-    "beb-agua": {
-      description: "Still or sparkling.",
-      unit: "500 ml",
+    "pul-salteado-salmon-langostinos": {
+      description: "Octopus, salmon and king prawns tossed together in the pan. The dearest plate on the menu, and the one with the most sea in it.",
+      unit: "portion",
+    },
+    "pul-tempura": {
+      description: "Pieces of octopus in a light tempura, fried to order. Crisp outside and still tender within.",
+      unit: "portion",
+    },
+
+    // ─── CURED MEATS & CHEESES ─────────────────────────────────────
+    "emb-jamon-serrano": {
+      description: "Hand-carved and served at room temperature, so the fat softens. Bread on the side and little else.",
+      unit: "portion",
+    },
+    "emb-queso-pais": {
+      description: "A young, mild Galician cheese from nearby. The one that sits best beside a glass without covering it.",
+      unit: "portion",
+    },
+    "emb-queso-oveja": {
+      description: "A cured sheep's cheese, with more character than the local one. For anyone who wants the cheese to speak up.",
+      unit: "portion",
+    },
+    "emb-queso-cabra": {
+      description: "Goat's cheese log in slices, tangy and creamy. The counterpoint on the board.",
+      unit: "portion",
+    },
+
+    // ─── REVUELTOS ─────────────────────────────────────────────────
+    "rev-algas-langostinos": {
+      description: "Eggs set just right with seaweed and king prawns. Tastes of the sea without being fish.",
+      unit: "portion",
+    },
+    "rev-bacalao-grelos-langostinos": {
+      description: "Flaked cod, grelos (turnip greens) and king prawns bound with egg. The fullest of the three.",
+      unit: "portion",
+    },
+    "rev-setas-oreja": {
+      description: "Mushrooms and crisp pig's ear over softly set eggs. Pure earth, and the most filling of the three.",
+      unit: "portion",
+    },
+
+    // ─── EXTRAS ────────────────────────────────────────────────────
+    "var-postre": {
+      description: "It changes with the day and with whatever came out of the kitchen that morning. Ask the staff: there is always something homemade.",
+      unit: "portion",
+    },
+    "var-postre-sin-gluten": {
+      description: "The sweet option made without gluten, so nobody is left without an ending. Ask what there is today.",
+      unit: "portion",
+    },
+    "var-pan": {
+      description: "The day's bread in its basket, for mopping up whatever is left in the pan.",
+      unit: "basket",
+    },
+    "var-pan-tomate": {
+      description: "Toasted bread rubbed with tomato and olive oil. It goes down on its own while the rest arrives.",
+      unit: "portion",
     },
   },
 
@@ -260,76 +272,30 @@ const en: DataTranslations = {
       headline: "The zamburiñas that made this place famous",
       description:
         "Galician zamburiñas (small scallops) opened in their shell and seared on the griddle with extra virgin olive oil, sliced garlic and fresh parsley. Juicy, with that touch of char only hot iron can give.",
-      ingredients: ["Zamburiñas from the ría", "Extra virgin olive oil", "Sliced garlic", "Fresh parsley", "Arousa sea salt", "Lemon"],
-      unit: "6 pcs",
+      ingredients: ["Zamburiñas from the ría", "Extra virgin olive oil", "Sliced garlic", "Fresh parsley", "Salt", "Lemon"],
+      unit: "portion",
       badge: "No. 1 for zamburiñas",
       pairingWhy: "Its salinity and acidity cut through the oil and bring out the natural sweetness of the scallop.",
     },
-    pulpo: {
-      kicker: "Tradition",
-      headline: "Octopus from Ourense, Galicia's octopus capital",
-      description:
-        "We serve it two ways: á feira, boiled in a copper pot with cachelos (boiled potatoes) and paprika, or seared on the griddle over grelos (turnip greens) sautéed with garlic and La Vera smoked paprika. Tender inside, charred outside.",
-      ingredients: ["Octopus from the ría", "Grelos (turnip greens)", "Cachelos (boiled potatoes)", "La Vera smoked paprika", "Extra virgin olive oil", "Coarse salt"],
-      unit: "portion",
-      pairingWhy: "A white with body and minerality that keeps up with the texture of the octopus without overpowering it.",
-    },
-    bacalao: {
-      kicker: "Crisp",
-      headline: "Light tempura, cod in flakes",
-      description:
-        "Cod loins desalted in-house, wrapped in an airy, paper-thin tempura, fried to order and served with a mild roasted-garlic aioli.",
-      ingredients: ["Desalted cod", "Light tempura", "Roasted-garlic aioli", "Chives", "Extra virgin olive oil"],
-      unit: "portion",
-      pairingWhy: "The Ourense wine: floral and light, it contrasts with the batter and refreshes every bite.",
-    },
-    oreja: {
-      kicker: "Classic tapa",
-      headline: "Crisp outside, meltingly soft inside",
-      description:
-        "Pig's ear slow-cooked, then seared on the griddle until crisp and finished with paprika, coarse salt and a drizzle of oil. The all-time classic tapa, made with care.",
-      ingredients: ["Pig's ear", "Sweet and hot paprika", "Coarse salt", "Extra virgin olive oil", "Garlic"],
-      unit: "portion",
-      badge: "Gluten-free",
-      pairingWhy: "A fresh, fruity Atlantic red that balances the richness of the ear.",
-    },
-    croquetas: {
-      kicker: "24-hour béchamel",
-      headline: "The most talked-about croquetas in Ourense",
-      description:
-        "Grelo (turnip greens) béchamel rested for twenty-four hours before shaping, with baby squid in its own ink. Crisp outside and so creamy inside you almost drink them.",
-      ingredients: ["Turnip greens", "Baby squid in its ink", "24-hour béchamel", "Breadcrumbs", "Extra virgin olive oil"],
-      unit: "8 pcs",
-      badge: "Most ordered",
-      pairingWhy: "Ourense's own white: its floral acidity cuts through the béchamel and leaves the palate clean.",
-    },
-    chistorra: {
+    raxo: {
       kicker: "The house speciality",
       headline: "The skillet that reaches the table still sizzling",
       description:
-        "Chargrilled chistorra, broken free-range eggs and matchstick chips, served in the cast-iron tixola straight off the heat. You mix it at the table and eat it with Cea bread.",
-      ingredients: ["Chistorra sausage", "Free-range eggs", "Matchstick chips", "Paprika", "Extra virgin olive oil"],
+        "Raxo — Galician marinated pork — over eggs and chips, with Arzúa-Ulloa cheese melted on top and served in the cast-iron pan it was cooked in. You hear it before you see it.",
+      ingredients: ["Raxo (marinated pork)", "Arzúa-Ulloa PDO cheese", "Free-range eggs", "Potatoes", "Paprika", "Extra virgin olive oil"],
       unit: "skillet",
-      pairingWhy: "A red from the heroic vineyards of the Sil: fresh and light, it stands up to the spice of the chistorra.",
+      badge: "The most ordered",
+      pairingWhy: "A light, fresh red that stands up to the melted cheese without covering the marinade on the pork.",
     },
-    quesos: {
-      kicker: "To share",
-      headline: "The three cheeses of Galicia, on one board",
+    croquetas: {
+      kicker: "Béchamel left to rest",
+      headline: "Garden and sea in the same croqueta",
       description:
-        "Creamy Arzúa-Ulloa, birch-smoked San Simón da Costa and mild Tetilla, with homemade quince jelly and walnuts. The board that best suits a bottle from the cellar.",
-      ingredients: ["Arzúa-Ulloa PDO", "San Simón da Costa PDO", "Tetilla PDO", "Homemade quince jelly", "Walnuts"],
-      unit: "board",
-      pairingWhy: "Its body and mineral edge carry the smoke of the San Simón without covering it.",
-    },
-    vegana: {
-      kicker: "100% plant-based",
-      headline: "A skillet that gives nothing up",
-      description:
-        "Seasonal mushrooms, peppers, courgette and smoked tofu seared with La Vera paprika in the cast-iron pan. Vegan and gluten-free, with the same ember finish.",
-      ingredients: ["Seasonal mushrooms", "Peppers", "Courgette", "Smoked tofu", "La Vera paprika", "Extra virgin olive oil"],
-      unit: "skillet",
-      badge: "Vegan",
-      pairingWhy: "Light and floral, it lifts the mushrooms without treading on the smoked tofu.",
+        "Sautéed grelos (turnip greens) and baby squid inside a béchamel left to rest until it sets, breadcrumbed and fried to order. They crack when you bite and stay almost liquid inside.",
+      ingredients: ["Grelos (turnip greens)", "Baby squid", "24-hour béchamel", "Breadcrumbs", "Egg", "Extra virgin olive oil"],
+      unit: "portion",
+      badge: "The most ordered",
+      pairingWhy: "It has the body for the béchamel and just the right bitterness to go with the grelos.",
     },
   },
 

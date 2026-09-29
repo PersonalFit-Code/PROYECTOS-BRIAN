@@ -17,11 +17,11 @@ const chat: Section<"chat"> = {
   stop: "Deter a resposta",
   thinking: "Escribindo…",
   welcome:
-    "Ola! Son o camareiro virtual de Tixola. Pregúntame pola carta, os alérxenos, que viño marida con cada prato ou como chegar.",
+    "Ola! Son o camareiro virtual de Tixola. Pregúntame pola carta, os alérxenos, que viño recomendamos ou como chegar.",
   quickReplies: [
     "Que pratos non levan glute?",
     "Que me recomendas para compartir?",
-    "Que viño vai co polbo?",
+    "Que viño me recomendas?",
     "A que hora abrides hoxe?",
     "Tedes opcións veganas?",
   ],
@@ -42,9 +42,9 @@ const chat: Section<"chat"> = {
   /** Patróns do motor determinista (sen clave de API ou se o modelo falla). */
   offline: {
     greeting:
-      "Ola! Son o camareiro virtual de Tixola. Podo contarche que leva cada prato, cales non levan glute nin lácteos, que viño marida con cada un, o horario e como chegar. Por onde empezamos?",
+      "Ola! Son o camareiro virtual de Tixola. Podo contarche que leva cada prato, cales non levan glute nin lácteos, que viños recomendamos, o horario e como chegar. Por onde empezamos?",
     thanks: "Grazas a ti! Aquí me tes para o que necesites. E se te animas a vir, estamos a un minuto da Catedral.",
-    allergenFree: "Segundo a nosa carta, estes pratos **non levan {allergen}**:",
+    allergenFree: "Estes pratos **non levan {allergen} entre os seus alérxenos declarados**:",
     allergenFreeEmpty:
       "Agora mesmo non atopo pratos sen {allergen} na carta. Pregúntalle ao persoal: en cociña poden adaptar algún prato.",
     diet: "Estas son as nosas opcións **{diet}**:",
@@ -63,6 +63,8 @@ const chat: Section<"chat"> = {
     pairingDishSimple: "Con **{dish}** recoméndoche **{wine}**, un viño galego da nosa vinoteca.",
     pairingWine: "O **{wine}** vai de marabilla con:",
     pairingIntro: "As nosas maridaxes da casa, con viños galegos da vinoteca:",
+    wineListPending:
+      "A carta de viños aínda non está na web. Pregúntanos no local ou chámanos e contámosche o que temos aberto.",
     hoursIntro: "O noso horario (hora de Ourense):",
     hoursNow: "Agora mesmo: {status}.",
     location: "Estamos en **{address}**, {landmark}. [Como chegar]({url})",
@@ -75,14 +77,14 @@ const chat: Section<"chat"> = {
     pricesExtra: "Os prezos son orientativos, con IVE incluído. Aceptamos tarxeta.",
     dishInfo: "**{name}** — {price}. {description}",
     dishAllergens: "Alérxenos: {allergens}.",
-    dishNoAllergens: "Sen alérxenos declarados.",
+    dishNoAllergens: "Consulta os alérxenos co persoal.",
     dishPairing: "Marida con **{wine}**.",
     safety: "Ante alerxias ou intolerancias, confírmao sempre co persoal: a nosa cociña manipula todos os alérxenos.",
     fallback: "Non estou seguro de entenderte. Podo axudarte con:",
     fallbackItems: [
       "Pratos sen glute, sen lactosa, veganos ou vexetarianos",
       "Que hai en cada categoría: croquetas, tixolas, do mar, sobremesas…",
-      "Que viño marida con cada prato",
+      "Que viños recomendamos cos nosos pratos",
       "Horario, como chegar e se fai falta reservar",
     ],
     fullMenu: "Tes a carta completa, cos alérxenos prato a prato, na [carta dixital]({url}).",

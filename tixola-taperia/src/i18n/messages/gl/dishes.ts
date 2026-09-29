@@ -13,7 +13,7 @@ const dishes: Section<"dishes"> = {
   hint: "Toca para ver os detalles",
   ingredients: "Ingredientes",
   allergens: "Alérxenos",
-  noAllergens: "Sen alérxenos declarados",
+  allergensAsk: "Consulta os alérxenos co persoal",
   allergensNote: "Ante calquera alerxia ou intolerancia, dínolo ao pedir: preparámolo con coidado.",
   pairing: "Maridaxe recomendada",
   pairingWhy: "Por que funciona",

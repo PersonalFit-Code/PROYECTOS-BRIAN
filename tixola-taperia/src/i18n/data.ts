@@ -4,16 +4,19 @@
  * y estas funciones devuelven los datos ya localizados (con fallback al español).
  */
 import { ALLERGENS, type Allergen, type AllergenId } from "@/data/allergens";
-import { DIET_TAG_LABELS, MENU_CATEGORIES, MENU_ITEMS, type DietTag, type MenuCategory, type MenuItem } from "@/data/menu";
+import { DIET_TAG_LABELS, MENU_CATEGORIES, MENU_ITEMS, type DietTag, type MenuCategory, type MenuCategoryId, type MenuItem, type MenuItemId } from "@/data/menu";
 import { STAR_DISHES, type StarDish } from "@/data/dishes";
 import { PHOTOS, type Photo } from "@/data/photos";
 import { BUSINESS } from "@/data/business";
 import type { Locale } from "./config";
 
 export interface DataTranslations {
-  categories?: Partial<Record<string, Partial<Pick<MenuCategory, "label" | "kicker" | "description">>>>;
+  /* Las claves van TIPADAS con los ids reales: una traducción que hable de un plato o de una
+     categoría que ya no existe es un error de compilación, no un texto que se queda en castellano
+     sin que nadie lo note. Es el fallo típico al cambiar la carta. */
+  categories?: Partial<Record<MenuCategoryId, Partial<Pick<MenuCategory, "label" | "kicker" | "description">>>>;
   menuItems?: Partial<
-    Record<string, Partial<Pick<MenuItem, "name" | "description" | "unit" | "pairing">> & { variants?: string[] }>
+    Record<MenuItemId, Partial<Pick<MenuItem, "name" | "description" | "unit" | "pairing">> & { variants?: string[] }>
   >;
   starDishes?: Partial<
     Record<
@@ -31,11 +34,18 @@ export interface DataTranslations {
   photos?: Partial<Record<string, Partial<Pick<Photo, "alt" | "caption">>>>;
 }
 
+import { assertTranslationIntegrity } from "@/data/integrity";
 import gl from "./data/gl";
 import en from "./data/en";
 import pt from "./data/pt";
 
 const TRANSLATIONS: Record<Locale, DataTranslations> = { es: {}, gl, en, pt };
+
+/* Rompe el build si una traducción declara un número de variantes distinto del de la carta. El tipo
+   `MenuItemId` ya impide traducir un plato inexistente, pero `variants?: string[]` no tiene longitud:
+   una lista de 1 o de 3 compilaría y cambiaría las etiquetas de sitio EN SILENCIO —las variantes se
+   emparejan por posición—, de modo que la media ración acabaría anunciando el precio de la entera. */
+assertTranslationIntegrity(TRANSLATIONS);
 
 export function localizeCategories(locale: Locale): MenuCategory[] {
   const t = TRANSLATIONS[locale].categories ?? {};
