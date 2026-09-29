@@ -69,26 +69,27 @@ export const BUSINESS = {
    * Vacío = cerrado.
    */
   hours: {
-    // Fuente: ficha de Google Business (sept. 2026). Lunes solo cenas; domingo cerrado.
+    /* Fuente: la propia Tatiana (sept. 2026), que corrige a la ficha de Google: la cocina de
+       mediodía arranca a las 13:00, no a las 12:00. Lunes solo cenas; domingo cerrado. */
     mon: [{ open: "19:30", close: "00:00" }],
     tue: [
-      { open: "12:00", close: "16:00" },
+      { open: "13:00", close: "16:00" },
       { open: "20:00", close: "00:00" },
     ],
     wed: [
-      { open: "12:00", close: "16:00" },
+      { open: "13:00", close: "16:00" },
       { open: "20:00", close: "00:00" },
     ],
     thu: [
-      { open: "12:00", close: "16:00" },
+      { open: "13:00", close: "16:00" },
       { open: "20:00", close: "00:00" },
     ],
     fri: [
-      { open: "12:00", close: "16:00" },
+      { open: "13:00", close: "16:00" },
       { open: "20:00", close: "00:00" },
     ],
     sat: [
-      { open: "12:00", close: "16:00" },
+      { open: "13:00", close: "16:00" },
       { open: "20:00", close: "00:00" },
     ],
     sun: [],
