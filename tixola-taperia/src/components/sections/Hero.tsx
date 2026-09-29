@@ -245,22 +245,34 @@ const PAN_VARS = { "--pan-w": HERO_PAN_WIDTH, "--pan-h": HERO_PAN_HEIGHT } as CS
  * portada entra completa y las dos decisiones (reservar ya / mirar antes qué hay) se ven a la vez, sin
  * que una parezca el paso siguiente de la otra.
  *
- * `flex-1 basis-0` y no `w-1/2`: las dos píldoras miden LO MISMO pase lo que pase con la etiqueta, que
- * es lo que hace que el par se lea como un bloque y no como dos botones sueltos. `min-w-0` es lo que
- * autoriza a encogerse por debajo de su ancho de contenido; sin él, la caja flexible se planta en el
- * ancho del texto y el par desborda el carril del copy (en portugués, "Ir para a Ementa").
+ * `flex-1` y no `w-1/2`: las dos píldoras miden LO MISMO pase lo que pase con la etiqueta, que es lo
+ * que hace que el par se lea como un bloque y no como dos botones sueltos (`flex: 1` ya deja la base en
+ * 0, así que no hace falta acompañarlo de `basis-0`). `min-w-0` es lo que autoriza a encogerse por
+ * debajo del ancho de la palabra más larga; sin él, con la letra del sistema agrandada las dos cajas se
+ * plantan en su mínimo de contenido y el par desborda el carril del copy.
  *
  * Por debajo de `sm` la talla `lg` se aprieta: menos aire lateral, hueco más corto entre icono y texto
- * y cuerpo de letra elástico (`clamp`) en vez de fijo, porque el presupuesto por botón es medio
- * contenedor — unos 175 px en un iPhone de 390 y 140 px en uno de 320. El `min-h-14` de la talla sigue
- * mandando, así que el objetivo táctil no baja de 56 px ni cuando la letra encoge; y si en el móvil más
- * estrecho aun así no cabe en una línea, la píldora crece a dos y las dos crecen igual
- * (`items-stretch`), que es mejor que texto desbordado. De `sm` en adelante nada cambia: cada botón
- * vuelve a medir lo que pide su etiqueta.
+ * y la letra atada al ancho de pantalla, porque el presupuesto por botón es medio contenedor — unos
+ * 175 px en un iPhone de 390 y 140 px en uno de 320. El `clamp` pasa la mayor parte del catálogo de
+ * móviles pegado a su suelo (0,78 rem hasta unos 390 px de ancho) y solo crece en los teléfonos grandes;
+ * ese suelo es deliberado: por debajo la etiqueta dejaría de leerse de un vistazo, y lo que cede
+ * entonces es el número de líneas, no el cuerpo. El `min-h-14` de la talla sigue mandando, así que el
+ * objetivo táctil no baja de 56 px; y si en el móvil más estrecho no cabe en una línea, la píldora
+ * reparte en dos y las dos crecen igual (`items-stretch`), que es mejor que texto desbordado. De `sm`
+ * en adelante nada cambia: cada botón vuelve a medir lo que pide su etiqueta.
+ *
+ * El `clamp` está en `rem` a propósito: quien lleva la letra del sistema agrandada tiene que ver la
+ * etiqueta agrandada también. Lo que eso destapa es que una PALABRA suelta no tiene por dónde partirse:
+ * medido a 390 px con la raíz al 200 %, "Reservar" llegaba al borde con 0 px de margen, y con el zoom de
+ * página de Safari (viewport de ~195 px) se salía 1 px y lo recortaba el `overflow-hidden` de la
+ * sección. Por eso `hyphens-auto` —que con el `lang` de cada idioma corta por sílaba, "Reser-var", y no
+ * por donde caiga— y `[overflow-wrap:anywhere]` como último recurso si el idioma no trae diccionario de
+ * guionado. A tamaño normal no se nota ninguna de las dos: solo actúan cuando la palabra ya no cabe.
  */
 const HERO_CTA = cn(
-  "min-w-0 flex-1 basis-0 sm:flex-none sm:basis-auto",
+  "min-w-0 flex-1 sm:flex-none",
   "max-sm:gap-1.5 max-sm:px-3 max-sm:text-[clamp(0.78rem,3.2vw,1rem)]",
+  "max-sm:hyphens-auto max-sm:[overflow-wrap:anywhere]",
 );
 
 /**
