@@ -236,7 +236,22 @@ vale — lleva la interfaz de Instagram dentro y va recomprimida dos veces. El
 original lo tiene quien lo grabó, o se baja desde la propia cuenta de
 Instagram (⋯ → «Guardar en el carrete» en su propio Reel).
 
-## Idiomas: castellano · galego · English
+## La dirección de Vercel ha cambiado tres veces
+
+`bincamicakes` → `bincamicakess` → **`binycamicakes`** (con «y», como el correo).
+Cada vez que cambia, las **tres etiquetas de compartir** del `<head>`
+(`og:url`, `og:image`, `twitter:image`) se quedan apuntando a un proyecto que ya
+no existe y WhatsApp enseña el enlace sin foto. No da error en ningún sitio:
+simplemente deja de salir la imagen. Si vuelve a cambiar, hay que tocarlas.
+
+Un despiste que costó un rato: Brian dijo que la web no reflejaba los cambios.
+Comparando el SHA-1 del `index.html` publicado con el del repositorio,
+**coincidía exactamente**: estaba todo subido. Lo que parecía un hueco era el
+recuadro del pie que decía «Razón social y NIF en el aviso legal», que no era un
+hueco sino un texto que remitía al aviso legal. Ahora dice el nombre
+directamente, que se entiende sin abrir nada.
+
+## Idiomas: castellano · galego · English · português
 
 Selector en la cabecera (y arriba del menú del móvil). El castellano no está
 en ningún diccionario: **se lee del propio HTML al arrancar**, así nunca
@@ -964,6 +979,46 @@ Eso se ha traducido así, y conviene no cambiarlo sin pensarlo:
 
 Merece la pena que Brian le confirme esta lectura: es lo único de todo lo que
 mandó donde equivocarse tiene consecuencias de verdad.
+
+## El portugués
+
+Ourense está a 40 minutos de Portugal, así que el cuarto idioma tiene sentido
+comercial. Son las mismas 393 claves de `TRAD`, traducidas desde el gallego
+(que es la lengua más próxima) y contrastadas con el inglés.
+
+Lo que hubo que vigilar:
+
+- **«Obrador» no se traduce por «oficina».** En portugués de Portugal una
+  «oficina» es un taller mecánico. Va como **«pastelaria»**. Salió en 10 cadenas
+  y en todas estaba mal.
+- **Portugués de Portugal, no de Brasil**: «pequeno-almoço» y no «café da
+  manhã», «telemóvel» y no «celular».
+- La cabecera **se desbordaba en un portátil de 1280** con el cuarto botón de
+  idioma. Se apretó el selector y «Opiniones» pasó a salir sólo a partir de
+  1536, como ya hacían «Vídeo» y «Encargar».
+
+Al fusionar se comprueba, clave a clave, que el HTML de dentro es idéntico, que
+los marcadores (`{n}`, `{h}`, `{d}`) siguen ahí y que las listas separadas por
+`|` tienen el mismo número de elementos. `chat.pasos` no es texto sino una lista
+de objetos, y se valida aparte.
+
+### El susto de los alérgenos en cuatro idiomas
+
+Al traducir salió a la luz un fallo que llevaba horas puesto: cuando se cambió
+el aviso de alérgenos a «los catorce», **sólo se cambió el castellano**. En
+gallego e inglés seguía diciendo «se manipulan gluten, huevo, lácteos y frutos
+secos», que es una declaración MÁS DÉBIL que la que hace el obrador. Quien
+leyera la web en inglés se llevaba peor información que quien la leyera en
+castellano, y en alérgenos eso no es una errata.
+
+Estaba en tres sitios por idioma: `fic.obrador`, `fic.obrador.e` y la pregunta
+frecuente `faq.3.r` (ésta además en el schema de Google y en el HTML visible). Y
+en castellano también se había quedado sin cambiar `fic.obrador.e`, la de las
+tartas de encargo.
+
+**Lección: un texto con consecuencias legales o de seguridad no se cambia sólo
+en un idioma.** El script de fusión termina buscando la lista vieja de cuatro
+alérgenos en los cuatro idiomas y en el HTML, y no deja seguir si la encuentra.
 
 ## Falta todavía
 
