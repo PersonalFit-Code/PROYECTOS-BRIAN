@@ -864,7 +864,25 @@ Luisa antes de cambiarlo.
 
 ## Qué pedirle a Luisa
 
-En `para-luisa/MENSAJE-PARA-LUISA.md` está escrito para copiar y pegar: el
+En la carpeta `para-luisa/`:
+
+| Archivo | Para qué |
+|---|---|
+| `Bin-y-Cami-Cakes-lo-que-falta.png` | **La lista, para mandarle por WhatsApp.** 32 casillas agrupadas, sin mensajes |
+| `Bin-y-Cami-Cakes-lo-que-falta.pdf` | Lo mismo para imprimir y llevárselo en mano |
+| `MENSAJE-PARA-LUISA.md` | El mensaje escrito, por si se prefiere pedirlo hablando |
+
+La lista salió de barrer el proyecto con tres auditorías independientes (código,
+documentación y contenido) más una cuarta pasada buscando lo que las tres se
+habían dejado: 63 hallazgos en bruto, 32 después de fundir duplicados y quitar
+lo que es trabajo de Brian y no de ella. Se regenera con `lista/pinta.mjs` en el
+cuaderno de la sesión, que saca el PNG y el PDF del mismo `lista.html`.
+
+Un item que la auditoría propuso y **se quitó a mano**: el número de registro
+sanitario. En España se exige en el etiquetado, no en una web, y no se le pide a
+un cliente un dato inventándose una obligación legal que no existe.
+
+En `MENSAJE-PARA-LUISA.md` está además escrito para copiar y pegar: el
 mensaje corto de WhatsApp, los cuatro trucos para hacer las fotos con el móvil
 y la lista completa de lo que falta, ordenada por lo que más bloquea.
 
