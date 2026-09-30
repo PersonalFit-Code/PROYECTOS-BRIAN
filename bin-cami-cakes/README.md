@@ -248,8 +248,22 @@ Un despiste que costó un rato: Brian dijo que la web no reflejaba los cambios.
 Comparando el SHA-1 del `index.html` publicado con el del repositorio,
 **coincidía exactamente**: estaba todo subido. Lo que parecía un hueco era el
 recuadro del pie que decía «Razón social y NIF en el aviso legal», que no era un
-hueco sino un texto que remitía al aviso legal. Ahora dice el nombre
-directamente, que se entiende sin abrir nada.
+hueco sino un texto que remitía al aviso legal.
+
+Ese recuadro pasó por dos manos el mismo día: primero se cambió para que dijera
+el nombre y el NIF directamente (así no parecía un hueco), y enseguida Brian
+pidió esconderlo, con razón: el nombre completo y el número fiscal de Luisa no
+tienen por qué ir de cartel en todas las páginas. Ahora es un `<details>`
+plegado que sólo enseña «Datos de la empresa», con el mismo gesto de + y − que
+los textos legales. La ley pide que el dato esté **accesible**, no a la vista.
+
+**Un detalle de navegador que hay que saber para testear esto:** el Chromium de
+ahora ya no esconde el contenido de un `<details>` cerrado con `display:none`,
+sino con `content-visibility`. No se pinta, pero **sí se puede medir**:
+`getBoundingClientRect()` devuelve su alto igual que si estuviera abierto. Un
+test que compruebe `alto === 0` falla aunque todo esté bien; hay que usar
+`checkVisibility()`. Es lo mismo que hizo que `pulsables.mjs` diera por
+«tapados» los correos de dentro del aviso legal.
 
 ## Idiomas: castellano · galego · English · português
 

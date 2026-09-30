@@ -1150,6 +1150,15 @@
   /* ===== TEXTOS LEGALES Y FORMULARIO =====
      Van en el pie, sobre fondo oscuro. El cuerpo se limita a 68 caracteres de
      ancho: un aviso legal a todo lo ancho de 1280 px no lo lee nadie. */
+  /* El recuadro de datos del pie, plegado. Mismo gesto que los textos legales
+     pero en pequeño: el dato tiene que estar accesible, no a la vista. */
+  .pie-datos summary{ list-style:none; cursor:pointer; display:flex;
+                      align-items:center; justify-content:space-between; gap:.75rem; }
+  .pie-datos summary::-webkit-details-marker{ display:none; }
+  .pie-datos summary::after{ content:'+'; font-size:1.05rem; line-height:1;
+                             color:rgb(255 255 255 / .45); transition:color .2s; }
+  .pie-datos[open] summary::after{ content:'–'; }
+  .pie-datos summary:hover::after{ color:rgb(var(--oro-claro)); }
   .legal summary{ list-style:none; }
   .legal summary::-webkit-details-marker{ display:none; }
   .legal summary::after{ content:'+'; float:right; font-size:1.25rem; line-height:1;
@@ -2140,11 +2149,11 @@
           <li><a href="#aviso-legal" class="transition hover:text-oro-claro" data-i18n="pie.aviso">Aviso legal</a></li>
           <li><button type="button" id="abrir-cookies" class="text-left transition hover:text-oro-claro" data-i18n="pie.prefs">Preferencias de cookies</button></li>
         </ul>
-        <p class="mt-5 rounded-2xl bg-white/5 p-4 text-[13px] leading-relaxed text-white/50">
-          <span class="font-semibold text-white/75" data-i18n="pie.datos.h">Datos de la empresa</span><br>
-          <span data-i18n="pie.datos.p">Luisa Rosa Chourio Aristizabal · NIF Y8990764D.
-          Responsable del tratamiento. Los datos completos, en el aviso legal.</span>
-        </p>
+        <details class="pie-datos mt-5 rounded-2xl bg-white/5 px-4 py-3">
+          <summary class="text-[13px] font-semibold text-white/75" data-i18n="pie.datos.h">Datos de la empresa</summary>
+          <p class="mt-2 text-[13px] leading-relaxed text-white/50" data-i18n="pie.datos.p">Luisa Rosa Chourio Aristizabal · NIF Y8990764D.
+          Responsable del tratamiento. Los datos completos, en el aviso legal.</p>
+        </details>
       </div>
     </div>
 
