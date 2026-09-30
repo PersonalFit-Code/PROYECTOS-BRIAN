@@ -714,6 +714,103 @@ Medido con `rendimiento.mjs` sobre el `dist/` servido por HTTP:
 El documento son 388 KB que Vercel sirve en **105 comprimidos**, así que lo que
 viaja de verdad ronda los 760 KB.
 
+## Dos páginas, un solo archivo que se edita
+
+Hasta ahora la web era un único `index.html`. Desde que hay catálogo son dos
+direcciones:
+
+| Dirección | Archivo | Qué es |
+|---|---|---|
+| `/` | `index.html` | La portada. **Es el archivo que se edita.** |
+| `/mostrador` | `mostrador.html` | El catálogo del mostrador. **Se genera, no se edita.** |
+
+`mostrador.html` lleva dentro una copia de la cabecera, el pie, los estilos,
+las fichas de producto, el aviso de cookies y todo el JavaScript. Escribirlo a
+mano habría significado tener dos archivos de seis mil líneas con el mismo
+teléfono dentro: cambiarlo en uno y olvidarse del otro es cuestión de tiempo,
+y el validador ya avisa de que el teléfono tiene que aparecer una sola vez.
+
+Así que se genera. `construye_mostrador.py` (en el cuaderno de la sesión) coge
+`index.html`, le cambia el `<main>` por el del catálogo (que vive aparte, en
+`catalogo-cuerpo.html`), le pone su propio título y sus etiquetas de compartir,
+y convierte los enlaces del menú que apuntaban a secciones de la portada
+(`#nosotras`) en enlaces a la portada (`index.html#nosotras`). El resultado es
+`mostrador.html`, con un aviso arriba de que no se toca a mano.
+
+**Hay que volver a pasarlo cada vez que se toca `index.html`.** `build.sh` lo
+hace, y `construye_dist.py` mete las dos páginas en `dist/` y en el zip.
+
+### Lo que hubo que tocar para que un mismo JS sirva en las dos páginas
+
+Tres cosas, y las tres son mejoras también para la portada:
+
+1. **El vigía del menú** hacía `querySelector(href)` con todos los enlaces.
+   `querySelector('mostrador.html')` no es un selector válido: lanza una
+   excepción y se llevaba por delante el bloque entero de JavaScript. Ahora
+   sólo mira los que empiezan por `#` y descarta los que no resuelven, en vez
+   de apagarse si falta uno.
+2. **El título por idioma.** `document.title = t('titulo')` daba el título de
+   la portada en cualquier página. Ahora cada página dice cuál es su clave con
+   `data-titulo` en el `<html>`, y el castellano sale de su propio `<title>`.
+3. **El nombre del dulce** va dentro de un `<button>`, y un botón no parte la
+   línea solo: en el móvil «Cookies estilo NY» se salía de la tarjeta.
+
+Lo que **no** hizo falta tocar: ninguno de los ocho bloques de JavaScript
+protesta al no encontrar el carrusel, el mapa, el calendario o la portada. Ya
+estaban escritos a la defensiva (`if (!x) return;`), y se nota: la página del
+catálogo carga sin un solo error de consola sin haber tenido que partir el JS.
+
+### Lo que queda pendiente de esto
+
+Las dos páginas llevan dentro el mismo CSS y el mismo JavaScript, cada una su
+copia. Quien entre por la portada y pase al mostrador se descarga todo dos
+veces. Se arregla sacando el `<style>` grande y los `<script>` a un
+`estilos.css` y un `guion.js` que compartan las dos, y eso lo puede hacer
+`construye_dist.py` al compilar, dejando el `index.html` de trabajo como está.
+No se hizo ahora por no meter dos cambios gordos a la vez.
+
+## Nuestro mostrador: el catálogo
+
+La página `/mostrador`: una tarjeta por dulce con su foto, su lema, su precio y
+un enlace a la ficha de siempre (ingredientes y alérgenos). **No es una tienda:
+no hay carrito ni se cobra nada.** Los encargos siguen yendo por WhatsApp, por
+teléfono o en el local, que es lo que dice el aviso legal.
+
+Las tarjetas están escritas en el HTML, no las pinta el JavaScript: así las lee
+Google y se leen aunque el JavaScript falle. **Lo único que pone el JavaScript
+es el precio**, y lo saca de `DULCES`, que es donde vive el dato. Un precio
+escrito en dos sitios acaba siendo dos precios distintos, y eso en una
+pastelería se paga en el mostrador.
+
+### Mientras no haya precios
+
+`precio: null` en `DULCES` significa que el obrador todavía no lo ha pasado. La
+tarjeta dice «Pregúntanos» y la ficha remite a WhatsApp, que es exactamente lo
+que pasa hoy en la tienda. **No se inventan precios.** Para ponerlo:
+
+```js
+precio: '3,50 €', unidad: 'porcion'
+```
+
+Tal cual va a leerse: coma decimal y el símbolo detrás, como en España.
+`unidad` puede ser `'porcion'` o `'unidad'`, y va traducida a los tres idiomas.
+
+### Para añadir un dulce
+
+Dos sitios, y están señalados con un comentario en cada uno:
+
+1. Su entrada en `DULCES` (en el JavaScript de `index.html`): nombre, lema,
+   foto, emoji, ingredientes, alérgenos, precio.
+2. Su tarjeta en `catalogo-cuerpo.html`, copiando cualquiera de las que hay y
+   cambiando el `data-dulce`, el `data-i18n` y la foto.
+
+Si falta la 1, la ficha sale vacía. Si falta la 2, el dulce no se ve. Después,
+`build.sh`.
+
+Las tarjetas sin foto todavía no enseñan un rectángulo de rayas: llevan el
+degradado de la casa con el emoji del dulce, el mismo recurso que ya usaba la
+ficha. Una foto de rayas se lee como un error; esto no.
+
 ## El remate antes de enseñarla
 
 La víspera de la presentación se hizo un recorrido entero por la web, en
@@ -765,8 +862,22 @@ imaginas, nosotros lo hacemos» (masculino) mientras el resto de la web habla
 de «nosotras». Puede ser su lema de verdad tal cual: hay que preguntárselo a
 Luisa antes de cambiarlo.
 
+## Qué pedirle a Luisa
+
+En `para-luisa/MENSAJE-PARA-LUISA.md` está escrito para copiar y pegar: el
+mensaje corto de WhatsApp, los cuatro trucos para hacer las fotos con el móvil
+y la lista completa de lo que falta, ordenada por lo que más bloquea.
+
+Lo que de verdad frena la publicación son tres datos (**nombre fiscal, NIF y
+correo**), que los exige la ley. Lo demás se puede ir metiendo después.
+
+Y aparte, con calma y por escrito: **que repase los alérgenos**. Los de las
+cuatro fichas están deducidos, no confirmados. Eso no es un trámite.
+
 ## Falta todavía
 
+- [ ] **Los precios del mostrador**: `precio: null` en las cuatro entradas de
+      `DULCES`. Mientras sigan así, cada tarjeta dice «Pregúntanos»
 - [ ] **Alérgenos**: los de las cuatro fichas están DEDUCIDOS de lo que la propia
       web dice de cada producto, no confirmados por el obrador. Mientras
       `ALERGENOS_VALIDADOS` siga en `false` cada ficha lo avisa en amarillo.
