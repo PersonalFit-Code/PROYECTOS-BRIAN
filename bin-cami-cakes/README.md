@@ -1034,6 +1034,104 @@ tartas de encargo.
 en un idioma.** El script de fusión termina buscando la lista vieja de cuatro
 alérgenos en los cuatro idiomas y en el HTML, y no deja seguir si la encuentra.
 
+## Todo por iconos, nada de emojis
+
+Petición de Brian el 30/9: «quita todos los emojis de la página y los
+reemplazamos por iconos. Trabajamos siempre por iconos. **Menos en reseñas**,
+trabajamos todo por iconos».
+
+La excepción es literal y tiene sentido: una reseña de Google es la voz del
+cliente, y si Kimberly escribió «Muy bonito el local ☺️, la atención estupenda
+👌» eso se copia tal cual. Cambiarlo sería reescribirle la reseña. Así que los
+emojis **sólo** viven dentro del texto de las opiniones (y de la cita destacada,
+que también es una reseña). Por eso `--emoji` sigue en la pila de fuentes del
+`body`: sin ella, en Android esos caracteres salen en blanco y negro.
+
+### El sprite
+
+Los iconos son un `<symbol>` por dibujo dentro de un `<svg>` oculto que va
+**justo antes de `<main>`** — antes, porque un `<use href="#ic-…">` sólo
+encuentra el símbolo si ya está en el documento. Se usan así:
+
+```html
+<svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-tarrina"/></svg>
+```
+
+Son 23: `porcion rollo hojaldre galleta tarta anillos pincel tarrina pan
+empanada brownie alfajor caramelo vaso helado fruta plato bandeja globo taza
+aviso lapiz destello`. Todos con `viewBox="0 0 24 24"`, `fill="none"`,
+`stroke="currentColor"` y `stroke-width="1.7"`, que es lo que hace que un
+icono nuevo encaje con los demás sin pensarlo.
+
+Como heredan `currentColor`, se tiñen con `color:` desde el CSS del sitio donde
+van. El del mostrador se pone blanco al pasar el ratón sin tocar el SVG.
+
+### La trampa con la que se perdió una vuelta
+
+Al sustituir un emoji por un `<svg>` es muy fácil dejar el CSS del emoji puesto:
+
+```css
+.mos-teja-emoji{ font-family:var(--emoji); font-size:1.7rem; }  /* ← inútil */
+```
+
+`font-size` dimensiona un glifo de texto; **a un `<svg>` no le hace nada**, así
+que se dibuja a su tamaño por defecto y sale enorme, ocupando media tarjeta. Se
+vio en una captura, no en una prueba. Todo icono que sustituya a un emoji
+necesita `width` y `height` explícitos. Los tres sitios donde pasó:
+
+| clase | qué le pasaba | cómo quedó |
+|---|---|---|
+| `.mos-teja-ico` | era `font-size:1.7rem` | chapa de `2.9rem` con `padding` |
+| `.mos-sin svg` | era `font-size:2.4rem` | `3.2rem` |
+| `.ico-linea` | ninguno (spans nuevos) | `1.05rem` y `flex:none` |
+
+`.ico-linea` lleva `flex:none` aparte: dentro de un `display:flex` un SVG sin
+ancho fijo se deja encoger hasta desaparecer cuando el texto de al lado es
+largo, y en gallego lo es.
+
+### Qué se convirtió
+
+- Los 8 dulces de `DULCES`: `emoji:'🍰'` → `icono:'porcion'`, y la ficha
+  construye el `<svg><use>` con `createElementNS` (un `<use>` creado con
+  `createElement` a secas no pinta: está en el espacio de nombres SVG)
+- El hueco de las tarjetas sin foto (`.mos-sin`)
+- La galleta del aviso de cookies
+- El adorno `✦` de la cita, el lápiz `✎` del hueco de «tu historia» y el
+  triángulo `⚠` del aviso de la ficha, que eran entidades HTML
+- El 🧁 del saludo del asistente, en los cuatro idiomas: eso es texto de la
+  web, no una reseña, así que se va sin sustituto
+
+### Cómo comprobar que no se cuela uno
+
+```
+node z-ico-fin.mjs     # recorre el DOM de las dos páginas y avisa de cualquier
+                       # pictograma que no esté dentro de una reseña
+```
+
+## Las fichas del mostrador («Todo lo que hay»)
+
+Eran 18 pastillas de texto puestas en fila. Brian, el 30/9: «hay que darle
+importancia a lo que tenemos… Son ventas del día a día… hay que hacerlo
+atractivo, hay que hacerlo más llamativo para poder venderlo».
+
+Ahora son 16 fichas (`.mos-teja`), 11 de mostrador y 5 de encargo. Faltan dos
+de la lista de Luisa a propósito: «tartas en porción» y «cookies» ya son dos de
+las cuatro tarjetas grandes de arriba, y repetirlas sobraba.
+
+Cada ficha lleva icono, nombre, una línea de qué es y «Pregúntanos →». **La
+ficha entera es el enlace** a WhatsApp con el producto ya escrito en el mensaje:
+en el móvil se acierta con el dedo sin apuntar a un enlace de 12 px. Las de
+encargo van sobre crema (`.es-encargo`) para que se distingan de un vistazo de
+lo que se compra en el momento.
+
+Lo que **no** hacen es abrir ficha de producto, y es deliberado: de estos 16 no
+tenemos ni ingredientes ni alérgenos, y aquí no se inventan.
+
+> Las descripciones (`mt.N.d`) las escribí yo por lo que se entiende del
+> nombre. Están marcadas **POR CONFIRMAR CON LUISA** en el HTML. Son suaves a
+> propósito («Postres de cuchara, en tarrina»), pero si dice otra cosa, manda
+> ella.
+
 ## Falta todavía
 
 - [x] **Datos del aviso legal**: puestos el 30/9
@@ -1056,6 +1154,9 @@ alérgenos en los cuatro idiomas y en el HTML, y no deja seguir si la encuentra.
       sus tarjetas y diapositivas están escondidas (ver «Añadir las fotos»).
       No se le piden en la hoja: las pasa Luisa cuando quiere y las que quiere
       (decidido el 30/9)
+- [ ] **Las descripciones de las 16 fichas del mostrador**: puestas por
+      deducción del nombre (claves `mt.N.d` en las traducciones). Que las
+      repase y diga las suyas
 - [ ] El vídeo del obrador: hasta que llegue, la sección enseña un adelanto
       con la foto de la pastelera (ver «El vídeo»)
 - [ ] Conectar el alta de novedades a un servicio de listas: hay una constante
