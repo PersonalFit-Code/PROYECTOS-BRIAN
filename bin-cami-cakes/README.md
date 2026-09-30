@@ -878,16 +878,17 @@ En la carpeta `para-luisa/`:
 
 | Archivo | Para qué |
 |---|---|
-| `Bin-y-Cami-Cakes-lo-que-falta.png` | **La lista, para mandarle por WhatsApp.** 21 casillas agrupadas, sin mensajes |
-| `Bin-y-Cami-Cakes-lo-que-falta.pdf` | Lo mismo en un A4, para imprimir y llevárselo en mano |
-| `lista.html` + `pinta-lista.mjs` | La fuente: se editan las casillas en el HTML y `node pinta-lista.mjs` saca el PNG y el PDF. Antes de pintar comprueba que los contadores sumen y que nada se salga de su columna |
+| `Bin-y-Cami-Cakes-lo-que-falta.png` | **La lista, para mandarle por WhatsApp.** 10 casillas agrupadas, sin mensajes |
+| `Bin-y-Cami-Cakes-lo-que-falta.pdf` | Lo mismo en PDF (una sola página), para imprimir y llevárselo en mano |
+| `lista.html` + `pinta-lista.mjs` | La fuente: se editan las casillas en el HTML y `node pinta-lista.mjs` saca el PNG y el PDF. Antes de pintar comprueba que los contadores sumen, que nada se salga de su columna y que el PDF salga en una sola página |
 | `MENSAJE-PARA-LUISA.md` | El mensaje escrito, por si se prefiere pedirlo hablando |
 
 La lista salió de barrer el proyecto con tres auditorías independientes (código,
 documentación y contenido) más una cuarta pasada buscando lo que las tres se
 habían dejado: 63 hallazgos en bruto, 32 después de fundir duplicados y quitar
-lo que es trabajo de Brian y no de ella. **Brian la dejó en 21** el 30/9. Lo que
-quitó, y por qué, para que no vuelva a proponerse:
+lo que es trabajo de Brian y no de ella. **Brian la dejó en 21** el 30/9 y, ese
+mismo día, en **10**, al quitar todo lo de las fotos. Lo que quitó, y por qué,
+para que no vuelva a proponerse:
 
 | Se quitó | Motivo |
 |---|---|
@@ -898,12 +899,20 @@ quitó, y por qué, para que no vuelva a proponerse:
 | Formas de pago · ¿Sin gluten o veganas? · ¿Llevan la tarta al sitio? | No se piden |
 | Plazos de encargo | Se queda en 72 h, como está en la web |
 | Dominio propio | Lo gestiona Brian |
+| Todas las fotos (el bloque de 11 casillas, incluidos obrador, vídeo y logo) y el pie que decía que las de la web son de muestra | Las pasa Luisa cuando quiere y las que quiere. No se le piden |
 | Registro sanitario (lo propuso la auditoría) | En España se exige en el etiquetado, no en una web: no se le pide un dato a una clienta inventándose una obligación legal |
 
-Se quedaron **todas las fotos** (también el obrador, el vídeo y el logo: no se
-mencionaron al recortar) y la sub-línea de los alérgenos se dejó en «Confírmalos
-uno por uno», sin la frase de que están puestos a ojo. Está escrita en singular,
-para Luisa sola.
+Se dejó **«La foto del local»**, que está en el recuadro de lo que bloquea la
+publicación: no es una petición de foto nueva sino una duda de derechos sobre
+una que ya está en la web (parece de un fotógrafo). La sub-línea de los
+alérgenos se dejó en «Confírmalos uno por uno», sin la frase de que están
+puestos a ojo. La hoja está escrita en singular, para Luisa sola.
+
+**Ojo con el PDF:** la hoja mide con decimales (1224,34 px). La primera versión
+sin fotos redondeaba el alto hacia abajo y esos 0,34 px caían a una segunda
+página, con el pie dentro. Antes había holgura porque la hoja se estiraba a un
+A4; al quitarla apareció. `pinta-lista.mjs` redondea hacia arriba y se niega a
+terminar si el PDF no sale en una página.
 
 En `MENSAJE-PARA-LUISA.md` está además escrito para copiar y pegar: el
 mensaje corto de WhatsApp, los cuatro trucos para hacer las fotos con el móvil
@@ -933,7 +942,9 @@ cuatro fichas están deducidos, no confirmados. Eso no es un trámite.
       original, que la que hay son 768×432 y se queda justa en un móvil fino
 - [ ] Las 4 fotos que siguen faltando (cookies, mesa de dulces, piñitas, el
       obrador) + regenerar la de "tarta temática" sin texto horneado. Mientras,
-      sus tarjetas y diapositivas están escondidas (ver «Añadir las fotos»)
+      sus tarjetas y diapositivas están escondidas (ver «Añadir las fotos»).
+      No se le piden en la hoja: las pasa Luisa cuando quiere y las que quiere
+      (decidido el 30/9)
 - [ ] El vídeo del obrador: hasta que llegue, la sección enseña un adelanto
       con la foto de la pastelera (ver «El vídeo»)
 - [ ] Conectar el alta de novedades a un servicio de listas: hay una constante

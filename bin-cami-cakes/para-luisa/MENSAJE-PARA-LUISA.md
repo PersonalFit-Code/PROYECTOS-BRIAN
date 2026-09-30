@@ -1,7 +1,7 @@
 # Qué pedirle a Luisa
 
 **Lo que se le manda es la hoja `Bin-y-Cami-Cakes-lo-que-falta.png` (o el PDF):
-21 casillas, sin explicaciones.** Esto es el guion por si se prefiere pedirlo
+10 casillas, sin explicaciones.** Esto es el guion por si se prefiere pedirlo
 hablando: el mensaje corto de WhatsApp, el detalle de las fotos por si pregunta
 cómo hacerlas, y la lista de lo que falta para publicar.
 
@@ -16,11 +16,9 @@ Cópialo tal cual. Va en dos mensajes seguidos para que no sea un ladrillo.
 > Para poder cerrarla necesito dos cosas de tu parte, y con eso ya la dejamos
 > publicada.
 >
-> **1. Fotos de los dulces.** Estoy montando una página con todo lo que tienes
-> en el mostrador: cada dulce con su foto, lo que lleva y su precio. Me haría
-> falta una foto de cada cosa que vendas (las piñitas, las cookies, la mesa de
-> dulces...) y el precio de cada porción de las que se compran en el momento.
-> Con el móvil vale de sobra, ahora te paso cuatro trucos para que salgan bien.
+> **1. El precio de cada porción del mostrador.** Estoy montando una página con
+> todo lo que tienes en el mostrador: cada dulce con lo que lleva y su precio.
+> Me haría falta el de cada porción, las que se compran en el momento.
 
 > **2. Los datos para el aviso legal.** Por ley la web tiene que llevarlos, y
 > son sólo tres:
@@ -34,6 +32,9 @@ Cópialo tal cual. Va en dos mensajes seguidos para que no sea un ladrillo.
 ---
 
 ## 2. Si te pregunta cómo hacer las fotos
+
+Ya no se le piden las fotos: las pasa ella cuando quiere y las que quiere. Esto
+queda sólo por si pregunta cómo hacerlas.
 
 > Con el móvil vale, no hace falta nada especial. Cuatro cosas y salen bien:
 >
@@ -58,12 +59,12 @@ Ordenado por lo que más bloquea:
 |---|---|---|
 | Nombre fiscal, NIF y correo | Los exige la ley (LSSI y RGPD). Sin ellos la web no se puede publicar | ❌ |
 | Precio de cada porción | Sólo las del mostrador, que se compran en el momento. Los de tartas y encargos se presupuestan por WhatsApp. La página del mostrador dice «Pregúntanos» hasta que lleguen | ❌ |
-| Fotos de sus productos | Las 5 que hay son maqueta de IA: hacen falta todas las reales | ❌ |
+| Fotos reales | Las 5 que hay son maqueta de IA. **No se le piden**: las pasa ella cuando quiere y las que quiere. Hasta entonces la web sigue en `noindex` | ⏳ |
 | **Repasar los alérgenos** | Están DEDUCIDOS, no confirmados por el obrador. Cada ficha lo avisa en amarillo | ❌ |
 | Su historia | El recuadro de «Quiénes somos» está a propósito en blanco | ❌ |
 | El horario del martes | En Google pone «10:00–2:00» y parece una errata | ❌ |
 | Permiso de la foto del local | Parece de un fotógrafo. Conviene confirmarlo y pedir el original | ❌ |
-| El vídeo del obrador | Hay un hueco preparado con un adelanto | ❌ |
+| El vídeo del obrador | Hay un hueco preparado con un adelanto. Tampoco se le pide | ⏳ |
 
 ### Lo de los alérgenos, que no es un trámite
 

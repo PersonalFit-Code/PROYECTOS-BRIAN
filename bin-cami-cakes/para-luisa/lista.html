@@ -15,11 +15,11 @@
     --rosa-nube:#F9EBF1; --rosa-palo:#EBCBD8;
   }
   *{ margin:0; padding:0; box-sizing:border-box; }
-  body{ background:#fff; font-family:'Plus Jakarta Sans',system-ui,sans-serif; color:var(--tinta); }
+  html, body{ background:var(--crema); }
+  body{ font-family:'Plus Jakarta Sans',system-ui,sans-serif; color:var(--tinta); }
 
-  /* Proporción de un A4 (1 : 1,414) para que el PDF se imprima sin bandas. Si el
-     contenido no llega, el pie se queda abajo; si se pasa, la hoja crece. */
-  .hoja{ width:1200px; min-height:1697px; display:flex; flex-direction:column;
+  /* Alto natural: con 10 casillas estirarla a un A4 la dejaba medio vacía. */
+  .hoja{ width:1200px; display:flex; flex-direction:column;
          background:var(--crema); padding:64px 68px 54px; position:relative; overflow:hidden; }
   .hoja::before{ content:''; position:absolute; inset:0 0 auto 0; height:10px;
                  background:linear-gradient(90deg,var(--frambuesa),var(--oro) 55%,var(--amarillo)); }
@@ -35,9 +35,10 @@
   .fecha{ margin-top:14px; font-family:'Caveat',cursive; font-weight:700; font-size:30px; color:var(--oro); }
   .regla{ margin:30px 0 0; height:2px; background:var(--rosa-palo); }
 
-  /* Quedan pocas casillas: en vez de dejar la hoja medio vacía se agranda todo
-     lo de dentro (zoom escala letra, huecos y casillas a la vez). Dos columnas
-     explícitas, no CSS columns: así se decide qué va con qué y quedan parejas. */
+  /* Quedan pocas casillas: se agranda todo lo de dentro (zoom escala letra,
+     huecos y casillas a la vez). Dos columnas explícitas, no CSS columns: así se
+     decide qué va con qué y quedan parejas (el recuadro rosa a un lado, lo demás
+     al otro). */
   .cols{ zoom:1.42; margin-top:26px; display:grid; grid-template-columns:1fr 1fr;
          column-gap:38px; align-items:start; }
   .col > .bloque:last-child{ margin-bottom:0; }
@@ -61,8 +62,8 @@
   .txt strong, .txt span, .pie .nota{ text-wrap:balance; }
   .txt span{ display:block; margin-top:2px; font-size:14.5px; line-height:1.4; color:rgba(58,49,54,.62); }
 
-  .pie{ margin-top:auto; padding-top:24px; border-top:2px solid var(--rosa-palo);
-        display:flex; align-items:baseline; justify-content:space-between; gap:24px; }
+  .pie{ margin-top:auto; padding-top:20px; border-top:2px solid var(--rosa-palo);
+        display:flex; align-items:baseline; justify-content:flex-end; gap:24px; }
   .pie .nota{ font-size:17px; line-height:1.45; color:rgba(58,49,54,.6); max-width:780px; }
   .pie .nota b{ color:var(--frambuesa); font-weight:800; }
   .pie .sello{ font-family:'Caveat',cursive; font-weight:700; font-size:34px; color:var(--oro); white-space:nowrap; }
@@ -104,41 +105,9 @@
         </ul>
       </div>
 
-      <div class="bloque">
-        <div class="titulo-bloque"><b>Confirmar</b><i></i><span class="cuantos">3</span></div>
-        <ul>
-          <li><span class="caja"></span><span class="txt"><strong>Dirección y teléfono</strong>
-            <span>Rúa do Progreso 27, bajo 3 · 656 584 027</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>El horario del martes</strong>
-            <span>En Google pone 10:00–2:00. ¿Son las 20:00?</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Todo lo que vendes</strong>
-            <span>La lista entera del mostrador, para la página nueva.</span></span></li>
-        </ul>
-      </div>
-
     </div>
 
     <div class="col">
-
-      <div class="bloque">
-        <div class="titulo-bloque"><b>Fotos</b><i></i><span class="cuantos">11</span></div>
-        <ul>
-          <li><span class="caja"></span><span class="txt"><strong>Tarta de cumpleaños</strong></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Tarta de boda</strong></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Tarta temática o con figuras</strong></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Porción de tres leches</strong></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Golfeados</strong></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Piñitas</strong></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Cookies estilo NY</strong></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Mesa de dulces montada</strong>
-            <span>De algún evento de verdad.</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>El obrador por dentro</strong></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Vídeo corto trabajando</strong>
-            <span>El archivo original, no una grabación de pantalla de Instagram.</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>El logo en grande</strong>
-            <span>El archivo original con el que se hizo.</span></span></li>
-        </ul>
-      </div>
 
       <div class="bloque">
         <div class="titulo-bloque"><b>Precios</b><i></i><span class="cuantos">1</span></div>
@@ -156,6 +125,19 @@
         </ul>
       </div>
 
+
+      <div class="bloque">
+        <div class="titulo-bloque"><b>Confirmar</b><i></i><span class="cuantos">3</span></div>
+        <ul>
+          <li><span class="caja"></span><span class="txt"><strong>Dirección y teléfono</strong>
+            <span>Rúa do Progreso 27, bajo 3 · 656 584 027</span></span></li>
+          <li><span class="caja"></span><span class="txt"><strong>El horario del martes</strong>
+            <span>En Google pone 10:00–2:00. ¿Son las 20:00?</span></span></li>
+          <li><span class="caja"></span><span class="txt"><strong>Todo lo que vendes</strong>
+            <span>La lista entera del mostrador, para la página nueva.</span></span></li>
+        </ul>
+      </div>
+
     </div>
 
   </div>
@@ -163,9 +145,7 @@
   <div class="aire"></div>
 
   <div class="pie">
-    <p class="nota">Las fotos que hay ahora en la web son <b>de muestra</b>, no del obrador.
-      Hasta que lleguen las de verdad, la web no aparece en Google.</p>
-    <p class="sello">21 cosas</p>
+    <p class="sello">10 cosas</p>
   </div>
 
 </div>

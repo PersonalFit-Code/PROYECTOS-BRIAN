@@ -13,6 +13,7 @@
 import { chromium } from 'playwright';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import fs from 'node:fs';
 
 const carpeta = path.resolve(process.argv[2] || path.dirname(fileURLToPath(import.meta.url)));
 const b = await chromium.launch({
@@ -36,7 +37,9 @@ const r = await p.evaluate(() => {
       if (e.getBoundingClientRect().right > cr.right + 1) fuera.push(e.textContent.trim().slice(0, 40));
     });
   });
-  return { cajas, contadores, porBloque, sello, w: Math.round(h.width), h: Math.round(h.height), cols, fuera };
+  /* ceil, no round: la hoja mide con decimales (p. ej. 1224,34) y si la página del PDF
+     se queda en 1224 esos 0,34 px se caen a una segunda hoja */
+  return { cajas, contadores, porBloque, sello, w: Math.ceil(h.width), h: Math.ceil(h.height), cols, fuera };
 });
 
 let mal = 0;
@@ -45,7 +48,7 @@ ok(JSON.stringify(r.contadores) === JSON.stringify(r.porBloque),
    `cada bloque suma lo que dice su contador: ${JSON.stringify(r.porBloque)}`);
 ok(r.cajas === r.sello, `el pie dice «${r.sello} cosas» y hay ${r.cajas} casillas`);
 ok(r.fuera.length === 0, 'ningún texto se sale de su columna' + (r.fuera.length ? ': ' + r.fuera.join(' | ') : ''));
-console.log(`  · hoja ${r.w}×${r.h}px (A4 = 1200×1697) · alto de las columnas: ${r.cols.join(' / ')}`);
+console.log(`  · hoja ${r.w}×${r.h}px · alto de las columnas: ${r.cols.join(' / ')}`);
 if (mal) { console.log('\nNO se pinta: arregla lista.html'); await b.close(); process.exit(1); }
 
 await p.setViewportSize({ width:r.w, height:r.h });
@@ -54,5 +57,10 @@ await p.screenshot({ path: path.join(carpeta, 'Bin-y-Cami-Cakes-lo-que-falta.png
 await p.pdf({ path: path.join(carpeta, 'Bin-y-Cami-Cakes-lo-que-falta.pdf'),
               width:`${r.w}px`, height:`${r.h}px`, printBackground:true,
               margin:{ top:'0', bottom:'0', left:'0', right:'0' } });
+/* que el PDF sea UNA página: si se cuela una segunda, el pie se cae a ella */
+const pdf = path.join(carpeta, 'Bin-y-Cami-Cakes-lo-que-falta.pdf');
+const paginas = (fs.readFileSync(pdf).toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
+if (paginas !== 1) { console.log(`  ❌ el PDF tiene ${paginas} páginas, tiene que tener 1`); await b.close(); process.exit(1); }
+console.log('  ✓ el PDF tiene 1 página');
 console.log('\nPNG y PDF listos en', carpeta);
 await b.close();
