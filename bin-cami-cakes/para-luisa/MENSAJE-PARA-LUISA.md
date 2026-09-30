@@ -1,7 +1,9 @@
 # Qué pedirle a Luisa
 
-Tres mensajes: el corto para mandar por WhatsApp, el detalle de las fotos por
-si pregunta cómo hacerlas, y la lista completa de lo que falta para publicar.
+**Lo que se le manda es la hoja `Bin-y-Cami-Cakes-lo-que-falta.png` (o el PDF):
+21 casillas, sin explicaciones.** Esto es el guion por si se prefiere pedirlo
+hablando: el mensaje corto de WhatsApp, el detalle de las fotos por si pregunta
+cómo hacerlas, y la lista de lo que falta para publicar.
 
 ---
 
@@ -17,8 +19,8 @@ Cópialo tal cual. Va en dos mensajes seguidos para que no sea un ladrillo.
 > **1. Fotos de los dulces.** Estoy montando una página con todo lo que tienes
 > en el mostrador: cada dulce con su foto, lo que lleva y su precio. Me haría
 > falta una foto de cada cosa que vendas (las piñitas, las cookies, la mesa de
-> dulces...) y el precio de cada una. Con el móvil vale de sobra, ahora te paso
-> cuatro trucos para que salgan bien.
+> dulces...) y el precio de cada porción de las que se compran en el momento.
+> Con el móvil vale de sobra, ahora te paso cuatro trucos para que salgan bien.
 
 > **2. Los datos para el aviso legal.** Por ley la web tiene que llevarlos, y
 > son sólo tres:
@@ -55,14 +57,13 @@ Ordenado por lo que más bloquea:
 | Qué | Por qué hace falta | Estado |
 |---|---|---|
 | Nombre fiscal, NIF y correo | Los exige la ley (LSSI y RGPD). Sin ellos la web no se puede publicar | ❌ |
-| Precio de cada dulce | La página del mostrador dice «Pregúntanos» hasta que lleguen | ❌ |
-| Fotos de los dulces | Hoy hay 2 de 4, y las que faltan salen con un dibujo | ❌ |
+| Precio de cada porción | Sólo las del mostrador, que se compran en el momento. Los de tartas y encargos se presupuestan por WhatsApp. La página del mostrador dice «Pregúntanos» hasta que lleguen | ❌ |
+| Fotos de sus productos | Las 5 que hay son maqueta de IA: hacen falta todas las reales | ❌ |
 | **Repasar los alérgenos** | Están DEDUCIDOS, no confirmados por el obrador. Cada ficha lo avisa en amarillo | ❌ |
 | Su historia | El recuadro de «Quiénes somos» está a propósito en blanco | ❌ |
 | El horario del martes | En Google pone «10:00–2:00» y parece una errata | ❌ |
 | Permiso de la foto del local | Parece de un fotógrafo. Conviene confirmarlo y pedir el original | ❌ |
 | El vídeo del obrador | Hay un hueco preparado con un adelanto | ❌ |
-| Dominio propio | Ahora está en una dirección de Vercel | ❌ |
 
 ### Lo de los alérgenos, que no es un trámite
 

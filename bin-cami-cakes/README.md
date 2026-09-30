@@ -795,6 +795,17 @@ precio: '3,50 €', unidad: 'porcion'
 Tal cual va a leerse: coma decimal y el símbolo detrás, como en España.
 `unidad` puede ser `'porcion'` o `'unidad'`, y va traducida a los tres idiomas.
 
+**Ojo, hay una cosa que hacer en el código al poner el primer precio:** la fila
+«Precio» de la ficha sigue diciendo «Te lo confirmamos por WhatsApp según el
+tamaño y la fecha» aunque la tarjeta ya enseñe uno, y las dos se contradicen.
+Hay que hacer que la ficha de un dulce del mostrador enseñe el precio de
+`DULCES` cuando lo tiene. Ahora no se nota porque los cuatro están en `null`.
+
+**Qué lleva precio publicado y qué no** (decidido el 30/9): sólo las porciones
+del mostrador, que se compran en el momento. Las tartas y los dulces por
+encargo no llevan precio en la web: se presupuestan por WhatsApp, como hasta
+ahora.
+
 ### Para añadir un dulce
 
 Dos sitios, y están señalados con un comentario en cada uno:
@@ -859,8 +870,7 @@ No compensaba.
 
 Y una cosa que no se tocó a propósito: el lema de la portada dice «Tú
 imaginas, nosotros lo hacemos» (masculino) mientras el resto de la web habla
-de «nosotras». Puede ser su lema de verdad tal cual: hay que preguntárselo a
-Luisa antes de cambiarlo.
+de «nosotras». **Decidido el 30/9: se queda como está y no se pregunta.**
 
 ## Qué pedirle a Luisa
 
@@ -868,19 +878,32 @@ En la carpeta `para-luisa/`:
 
 | Archivo | Para qué |
 |---|---|
-| `Bin-y-Cami-Cakes-lo-que-falta.png` | **La lista, para mandarle por WhatsApp.** 32 casillas agrupadas, sin mensajes |
-| `Bin-y-Cami-Cakes-lo-que-falta.pdf` | Lo mismo para imprimir y llevárselo en mano |
+| `Bin-y-Cami-Cakes-lo-que-falta.png` | **La lista, para mandarle por WhatsApp.** 21 casillas agrupadas, sin mensajes |
+| `Bin-y-Cami-Cakes-lo-que-falta.pdf` | Lo mismo en un A4, para imprimir y llevárselo en mano |
+| `lista.html` + `pinta-lista.mjs` | La fuente: se editan las casillas en el HTML y `node pinta-lista.mjs` saca el PNG y el PDF. Antes de pintar comprueba que los contadores sumen y que nada se salga de su columna |
 | `MENSAJE-PARA-LUISA.md` | El mensaje escrito, por si se prefiere pedirlo hablando |
 
 La lista salió de barrer el proyecto con tres auditorías independientes (código,
 documentación y contenido) más una cuarta pasada buscando lo que las tres se
 habían dejado: 63 hallazgos en bruto, 32 después de fundir duplicados y quitar
-lo que es trabajo de Brian y no de ella. Se regenera con `lista/pinta.mjs` en el
-cuaderno de la sesión, que saca el PNG y el PDF del mismo `lista.html`.
+lo que es trabajo de Brian y no de ella. **Brian la dejó en 21** el 30/9. Lo que
+quitó, y por qué, para que no vuelva a proponerse:
 
-Un item que la auditoría propuso y **se quitó a mano**: el número de registro
-sanitario. En España se exige en el etiquetado, no en una web, y no se le pide a
-un cliente un dato inventándose una obligación legal que no existe.
+| Se quitó | Motivo |
+|---|---|
+| Precio de una tarta entera · Señal y cancelaciones | Las tartas se presupuestan por WhatsApp, como hasta ahora |
+| Precio «de cada dulce» | Idem. Sólo se piden los precios de las **porciones del mostrador**, que se compran en el momento y sin plazo |
+| Quién es Bin y quién es Cami · El lema | No se pregunta. El lema se queda como está |
+| ¿Croissants y barras de pan? · ¿Memory Cakes, Crumbl, tartas con luces? | No van |
+| Formas de pago · ¿Sin gluten o veganas? · ¿Llevan la tarta al sitio? | No se piden |
+| Plazos de encargo | Se queda en 72 h, como está en la web |
+| Dominio propio | Lo gestiona Brian |
+| Registro sanitario (lo propuso la auditoría) | En España se exige en el etiquetado, no en una web: no se le pide un dato a una clienta inventándose una obligación legal |
+
+Se quedaron **todas las fotos** (también el obrador, el vídeo y el logo: no se
+mencionaron al recortar) y la sub-línea de los alérgenos se dejó en «Confírmalos
+uno por uno», sin la frase de que están puestos a ojo. Está escrita en singular,
+para Luisa sola.
 
 En `MENSAJE-PARA-LUISA.md` está además escrito para copiar y pegar: el
 mensaje corto de WhatsApp, los cuatro trucos para hacer las fotos con el móvil
@@ -904,7 +927,7 @@ cuatro fichas están deducidos, no confirmados. Eso no es un trámite.
       privacidad: seis huecos marcados en amarillo (`.pendiente`)
 - [ ] **La historia de Bin y Cami**: el recuadro de «Quiénes somos» está a
       propósito sin rellenar — año de apertura, de dónde vienen, quién es quién
-- [ ] ¿Hacen croissants y barras de pan? Si sí, van a la cinta del mostrador
+- [x] ¿Croissants y barras de pan? Decidido el 30/9: no van, no se pregunta
 - [ ] **La foto del local ya está puesta**, pero con dos cabos sueltos:
       confirmar que se puede usar (parece de un fotógrafo) y conseguir el
       original, que la que hay son 768×432 y se queda justa en un móvil fino
@@ -918,7 +941,7 @@ cuatro fichas están deducidos, no confirmados. Eso no es un trámite.
       alta por WhatsApp con el consentimiento escrito, que funciona de verdad
 - [ ] Confirmar el horario del martes (la ficha de Google pone «10:00–2:00»)
 - [ ] Dominio: ahora el canonical apunta a `bincamicakes.es`, que hay que ajustar
-      al dominio real antes de publicar
+      al dominio real antes de publicar (lo gestiona Brian, no se le pregunta a Luisa)
 
 ## Despliegue
 
