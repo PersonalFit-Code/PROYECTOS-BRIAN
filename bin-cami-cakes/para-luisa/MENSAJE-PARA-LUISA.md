@@ -1,7 +1,7 @@
 # Qué pedirle a Luisa
 
 **Lo que se le manda es la hoja `Bin-y-Cami-Cakes-lo-que-falta.png` (o el PDF):
-10 casillas, sin explicaciones.** Esto es el guion por si se prefiere pedirlo
+2 casillas, sin explicaciones.** Esto es el guion por si se prefiere pedirlo
 hablando: el mensaje corto de WhatsApp, el detalle de las fotos por si pregunta
 cómo hacerlas, y la lista de lo que falta para publicar.
 

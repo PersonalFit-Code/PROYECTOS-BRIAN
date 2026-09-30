@@ -24,7 +24,9 @@ await p.evaluate(() => document.fonts.ready);
 await p.waitForTimeout(500);
 
 const r = await p.evaluate(() => {
-  const cajas = document.querySelectorAll('.caja').length;
+  /* El «N cosas» del pie es lo que queda POR HACER: las casillas ya marcadas
+     (.tic) siguen en la hoja para que se vea el avance, pero no se cuentan. */
+  const cajas = document.querySelectorAll('.caja:not(.tic)').length;
   const contadores = [...document.querySelectorAll('.cuantos')].map(e => +e.textContent);
   const porBloque = [...document.querySelectorAll('.bloque')].map(bq => bq.querySelectorAll('.caja').length);
   const sello = +(document.querySelector('.sello').textContent.match(/\d+/) || [0])[0];
@@ -46,7 +48,7 @@ let mal = 0;
 const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ❌ ') + m); if (!c) mal++; };
 ok(JSON.stringify(r.contadores) === JSON.stringify(r.porBloque),
    `cada bloque suma lo que dice su contador: ${JSON.stringify(r.porBloque)}`);
-ok(r.cajas === r.sello, `el pie dice «${r.sello} cosas» y hay ${r.cajas} casillas`);
+ok(r.cajas === r.sello, `el pie dice «${r.sello} cosas» y quedan ${r.cajas} sin marcar`);
 ok(r.fuera.length === 0, 'ningún texto se sale de su columna' + (r.fuera.length ? ': ' + r.fuera.join(' | ') : ''));
 console.log(`  · hoja ${r.w}×${r.h}px · alto de las columnas: ${r.cols.join(' / ')}`);
 if (mal) { console.log('\nNO se pinta: arregla lista.html'); await b.close(); process.exit(1); }

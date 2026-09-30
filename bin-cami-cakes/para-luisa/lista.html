@@ -62,6 +62,13 @@
   .txt strong, .txt span, .pie .nota{ text-wrap:balance; }
   .txt span{ display:block; margin-top:2px; font-size:14.5px; line-height:1.4; color:rgba(58,49,54,.62); }
 
+  /* Lo ya resuelto se queda a la vista, tachado: enseña que va avanzando y
+     evita que vuelva a mandar lo que ya mandó. */
+  .hechas li{ opacity:.5; }
+  .hechas .txt strong{ text-decoration:line-through; font-weight:700; }
+  .caja.tic{ position:relative; background:var(--frambuesa); border-color:var(--frambuesa); }
+  .caja.tic::after{ content:''; position:absolute; left:6px; top:2px; width:6px; height:12px;
+                    border:solid #fff; border-width:0 2.5px 2.5px 0; transform:rotate(42deg); }
   .pie{ margin-top:auto; padding-top:20px; border-top:2px solid var(--rosa-palo);
         display:flex; align-items:baseline; justify-content:flex-end; gap:24px; }
   .pie .nota{ font-size:17px; line-height:1.45; color:rgba(58,49,54,.6); max-width:780px; }
@@ -90,18 +97,12 @@
     <div class="col">
 
       <div class="bloque urgente">
-        <div class="titulo-bloque"><b>Sin esto no se puede publicar</b><i></i><span class="cuantos">5</span></div>
+        <div class="titulo-bloque"><b>Lo que falta</b><i></i><span class="cuantos">2</span></div>
         <ul>
-          <li><span class="caja"></span><span class="txt"><strong>Nombre fiscal</strong>
-            <span>El de las facturas. La empresa, o tu nombre completo si eres autónoma.</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>NIF o CIF</strong>
-            <span>El número fiscal del negocio.</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Un correo de contacto</strong>
-            <span>Para el aviso legal y la política de privacidad.</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Repasar los alérgenos</strong>
-            <span>Confírmalos uno por uno.</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>La foto del local</strong>
-            <span>¿Se puede usar la que hay, o mejor una tuya?</span></span></li>
+          <li><span class="caja"></span><span class="txt"><strong>Tu historia, en cuatro líneas</strong>
+            <span>Año de apertura, de dónde vienes, de quién es la receta del tres leches.</span></span></li>
+          <li><span class="caja"></span><span class="txt"><strong>Qué día libráis</strong>
+            <span>Dijiste que estabais por confirmar un día de descanso.</span></span></li>
         </ul>
       </div>
 
@@ -110,31 +111,15 @@
     <div class="col">
 
       <div class="bloque">
-        <div class="titulo-bloque"><b>Precios</b><i></i><span class="cuantos">1</span></div>
-        <ul>
-          <li><span class="caja"></span><span class="txt"><strong>Precio de cada porción</strong>
-            <span>Las del mostrador, que se compran en el momento.</span></span></li>
-        </ul>
-      </div>
-
-      <div class="bloque">
-        <div class="titulo-bloque"><b>Textos</b><i></i><span class="cuantos">1</span></div>
-        <ul>
-          <li><span class="caja"></span><span class="txt"><strong>Tu historia, en cuatro líneas</strong>
-            <span>Año de apertura, de dónde vienes, de quién es la receta del tres leches.</span></span></li>
-        </ul>
-      </div>
-
-
-      <div class="bloque">
-        <div class="titulo-bloque"><b>Confirmar</b><i></i><span class="cuantos">3</span></div>
-        <ul>
-          <li><span class="caja"></span><span class="txt"><strong>Dirección y teléfono</strong>
-            <span>Rúa do Progreso 27, bajo 3 · 656 584 027</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>El horario del martes</strong>
-            <span>En Google pone 10:00–2:00. ¿Son las 20:00?</span></span></li>
-          <li><span class="caja"></span><span class="txt"><strong>Todo lo que vendes</strong>
-            <span>La lista entera del mostrador, para la página nueva.</span></span></li>
+        <div class="titulo-bloque"><b>Ya está hecho</b><i></i><span class="cuantos">7</span></div>
+        <ul class="hechas">
+          <li><span class="caja tic"></span><span class="txt"><strong>Nombre fiscal, NIF y correo</strong></span></li>
+          <li><span class="caja tic"></span><span class="txt"><strong>Alérgenos</strong></span></li>
+          <li><span class="caja tic"></span><span class="txt"><strong>La foto del local</strong></span></li>
+          <li><span class="caja tic"></span><span class="txt"><strong>Precio de la porción</strong></span></li>
+          <li><span class="caja tic"></span><span class="txt"><strong>Dirección y teléfono</strong></span></li>
+          <li><span class="caja tic"></span><span class="txt"><strong>Horario</strong></span></li>
+          <li><span class="caja tic"></span><span class="txt"><strong>Todo lo que vendes</strong></span></li>
         </ul>
       </div>
 
@@ -145,7 +130,7 @@
   <div class="aire"></div>
 
   <div class="pie">
-    <p class="sello">10 cosas</p>
+    <p class="sello">2 cosas</p>
   </div>
 
 </div>

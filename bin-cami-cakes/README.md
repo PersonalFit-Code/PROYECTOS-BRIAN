@@ -924,22 +924,64 @@ correo**), que los exige la ley. Lo demás se puede ir metiendo después.
 Y aparte, con calma y por escrito: **que repase los alérgenos**. Los de las
 cuatro fichas están deducidos, no confirmados. Eso no es un trámite.
 
+## Lo que contestó Luisa (30/9)
+
+Lo mandó por WhatsApp de golpe. Está aplicado:
+
+| Lo que dijo | Dónde ha ido |
+|---|---|
+| Titular **Luisa Rosa Chourio Aristizabal**, NIE **Y8990764D**, correo **binycamicakes2023@gmail.com** | Los seis huecos del aviso legal y la privacidad. Es autónoma, así que pone «Titular» y no «Denominación social». El NIE se comprobó: la letra de control cuadra |
+| «Alérgenos todos» + foto del cartel que tienen en la tienda | Ninguna ficha dice ya «no contiene». Ver abajo |
+| «Porción 6 €» | `precio: '6 €'` en el tres leches. Sale en la tarjeta del mostrador y en la ficha |
+| «Todos los días de 11 am a 9 pm» | La tabla del horario, el `openingHoursSpecification` del schema y el array `H` del cartel «abierto ahora». Antes eran tres horarios distintos sacados de Google |
+| Dirección y teléfono | Confirmados tal cual estaban |
+| 18 productos | La sección «Todo lo que hay» de la página del mostrador, separando lo que se compra al momento de lo que va por encargo |
+| Foto del local, suya | Sustituye a la que había, que tenía pinta de ser de un fotógrafo. La vieja (`pastelera.*`) se borró |
+
+Sigue sin contestar: **su historia** y **qué día libran** (dijo que estaban por
+confirmar un día de descanso).
+
+### Lo de «alérgenos todos», que hay que entender bien
+
+Preguntada por los alérgenos uno por uno, contestó «Alérgenos todos» y mandó la
+foto del cartel que tienen colgado en la tienda: el de Reglamento (UE) 1169/2011
+y Real Decreto 126/2015, con los catorce iconos. O sea: **el obrador no descarta
+ninguno de los catorce.**
+
+Eso se ha traducido así, y conviene no cambiarlo sin pensarlo:
+
+- **Ninguna ficha dice ya «no contiene».** Lo que la receta lleva va como
+  «contiene» y **todo lo demás como «puede contener trazas»**. Declarar de más
+  es seguro; declarar de menos es lo que hace daño.
+- El aviso de debajo de la lista dice ahora que en el obrador se manipulan los
+  catorce y que lo de arriba es lo que lleva la receta, y remite al mostrador,
+  que es lo que hace su propio cartel.
+- `ALERGENOS_VALIDADOS` pasa a `true`: ella ya lo ha declarado. Pero los
+  **ingredientes** de cada dulce siguen siendo deducidos, así que hay una
+  bandera nueva, `INGREDIENTES_VALIDADOS`, todavía en `false`, y es la que
+  enciende el recuadro amarillo. Cuando Luisa repase los ingredientes producto
+  a producto, se pone en `true`.
+
+Merece la pena que Brian le confirme esta lectura: es lo único de todo lo que
+mandó donde equivocarse tiene consecuencias de verdad.
+
 ## Falta todavía
 
-- [ ] **Los precios del mostrador**: `precio: null` en las cuatro entradas de
-      `DULCES`. Mientras sigan así, cada tarjeta dice «Pregúntanos»
-- [ ] **Alérgenos**: los de las cuatro fichas están DEDUCIDOS de lo que la propia
-      web dice de cada producto, no confirmados por el obrador. Mientras
-      `ALERGENOS_VALIDADOS` siga en `false` cada ficha lo avisa en amarillo.
-      Cuando Luisa repase los cuatro, se corrigen y se pone en `true`.
-- [ ] **Denominación social, NIF y correo** para el aviso legal y la política de
-      privacidad: seis huecos marcados en amarillo (`.pendiente`)
+- [x] **Datos del aviso legal**: puestos el 30/9
+- [x] **Alérgenos**: declarados el 30/9 («todos»). Lo que queda es que repase los
+      **ingredientes** producto a producto, que siguen deducidos
+      (`INGREDIENTES_VALIDADOS` en `false`)
+- [ ] **Precios del mostrador**: sólo está el de la porción (6 €). Golfeados,
+      piñitas y cookies siguen en `precio: null` y dicen «Pregúntanos»
+- [ ] **Qué día libran**: dijo que estaban por confirmar un día de descanso.
+      Mientras, el horario es de 11:00 a 21:00 los siete días. Cuando lo diga,
+      a ese día se le pone `[0,0]` en el array `H`
 - [ ] **La historia de Bin y Cami**: el recuadro de «Quiénes somos» está a
       propósito sin rellenar — año de apertura, de dónde vienen, quién es quién
 - [x] ¿Croissants y barras de pan? Decidido el 30/9: no van, no se pregunta
-- [ ] **La foto del local ya está puesta**, pero con dos cabos sueltos:
-      confirmar que se puede usar (parece de un fotógrafo) y conseguir el
-      original, que la que hay son 768×432 y se queda justa en un móvil fino
+- [x] **La foto del local**: resuelto el 30/9. Mandó una suya (1200×1600), que
+      va recortada a 4:3 en `assets/local.webp`. La anterior, con dudas de
+      derechos, se borró
 - [ ] Las 4 fotos que siguen faltando (cookies, mesa de dulces, piñitas, el
       obrador) + regenerar la de "tarta temática" sin texto horneado. Mientras,
       sus tarjetas y diapositivas están escondidas (ver «Añadir las fotos»).
@@ -950,7 +992,7 @@ cuatro fichas están deducidos, no confirmados. Eso no es un trámite.
 - [ ] Conectar el alta de novedades a un servicio de listas: hay una constante
       `ENDPOINT` vacía en el JS. Mientras esté vacía, el formulario prepara el
       alta por WhatsApp con el consentimiento escrito, que funciona de verdad
-- [ ] Confirmar el horario del martes (la ficha de Google pone «10:00–2:00»)
+- [x] Horario: confirmado el 30/9, de 11:00 a 21:00 todos los días
 - [ ] Dominio: ahora el canonical apunta a `bincamicakes.es`, que hay que ajustar
       al dominio real antes de publicar (lo gestiona Brian, no se le pregunta a Luisa)
 
