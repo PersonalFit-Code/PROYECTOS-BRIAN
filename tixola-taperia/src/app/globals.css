@@ -513,3 +513,53 @@ body::before {
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   EL MAPA DE LAS DENOMINACIONES (/vinos): el vino fluyendo hacia Tixola
+
+   Cinco caminos salen de las cinco denominaciones y confluyen en el local. El movimiento se hace con
+   `stroke-dashoffset` sobre trazos con `pathLength="100"`, así que los valores son por ciento del
+   recorrido y da igual lo largo que sea cada camino: los cinco van al mismo ritmo.
+
+   TODO ESTO VIVE DENTRO DE `no-preference` A PROPÓSITO. La regla global de arriba (línea ~143) para
+   el movimiento acortando la duración, pero no quita `stroke-dasharray`: un trazo discontinuo
+   congelado se vería como una línea rota, no como un camino. Declarando también la discontinuidad
+   aquí dentro, quien pide menos movimiento ve los cinco caminos ENTEROS y quietos, que siguen
+   contando lo mismo.
+   ────────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes flujo-vino {
+    from {
+      stroke-dashoffset: 100;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* El latido del local: un anillo que se abre y se desvanece. Nace a opacidad 0 en el HTML, así que
+     sin animación no se ve nada en vez de quedarse un círculo fijo encima del punto. */
+  @keyframes latido-tixola {
+    0% {
+      transform: scale(0.55);
+      opacity: 0.7;
+    }
+    70% {
+      opacity: 0;
+    }
+    100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  [data-flujo] {
+    stroke-dasharray: 11 89;
+    animation: flujo-vino var(--flujo-dur, 3.6s) linear infinite;
+    animation-delay: var(--flujo-delay, 0s);
+  }
+
+  [data-latido] {
+    animation: latido-tixola 2.8s ease-out infinite;
+  }
+}

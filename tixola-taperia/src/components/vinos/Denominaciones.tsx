@@ -1,14 +1,15 @@
 "use client";
 
-import { useId } from "react";
-import { MapPin } from "lucide-react";
+import { useEffect, useId, type CSSProperties } from "react";
+import { MapPin, Plus } from "lucide-react";
 import { BUSINESS } from "@/data/business";
+import { GALICIA_OUTLINE, GALICIA_RATIO } from "@/data/geo/galicia";
 import { OURENSE_ON_MAP, WINE_REGION_LIST, type GalicianDoId, type WineRegion } from "@/data/wines";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
 /**
- * LAS CINCO DENOMINACIONES DE GALICIA — mapa esquemático y fichas.
+ * LAS CINCO DENOMINACIONES DE GALICIA — mapa con el vino viniendo hacia aquí, y fichas desplegables.
  *
  * POR QUÉ ESTO ESTÁ EN LA PÁGINA. La carta de vinos todavía no existe, y una página que solo dijera
  * "próximamente" no merece una visita. Esto sí: es información verdadera, contrastada contra el
@@ -19,35 +20,88 @@ import { cn } from "@/lib/utils";
  * pequeña: el mapa enseña de dónde sale el vino gallego, no de dónde sale el de esta casa, y
  * confundir las dos cosas sería volver a prometer botellas que no hay.
  *
- * EL MAPA NO ES UN DIBUJO DE GALICIA. No se traza una silueta de la comunidad porque una silueta
- * aproximada es una silueta equivocada, y aquí no hay forma de verificarla. Lo que sí está
- * verificado es DÓNDE CAE CADA ZONA: las posiciones salen de la longitud y la latitud reales de la
- * sede de cada consejo regulador, proyectadas sobre el encuadre (ver `map` en `wines.ts`). El
- * Atlántico a la izquierda y Portugal abajo son las dos referencias que hacen falta para leerlo.
+ * EL MAPA SÍ ES GALICIA, Y ES UN DATO. La silueta no está dibujada a mano: es el contorno
+ * administrativo de OpenStreetMap (`src/data/geo/galicia.ts`), y las seis posiciones son longitudes
+ * y latitudes reales proyectadas sobre el mismo encuadre, así que cada denominación cae dentro de la
+ * silueta donde cae de verdad. Esa es la razón por la que antes aquí no había mapa de Galicia: una
+ * silueta aproximada es una silueta equivocada. La licencia ODbL EXIGE atribución visible, y la pinta
+ * `m.vinos.mapCredit` debajo del mapa: no quitarla sin cambiar de fuente.
  *
- * Las chapas son ENLACES a la ficha de abajo (`#do-…`), no botones con estado: el navegador ya sabe
- * llevar a un ancla, y así funciona también sin JavaScript.
+ * LOS CINCO CAMINOS son la idea del cliente: cada denominación en su sitio, y el vino fluyendo desde
+ * todas ellas hasta Ourense, al local. No es adorno gratuito, es el argumento de la página en una
+ * imagen —"el vino de aquí se hace al lado"—. El movimiento vive en `globals.css` (`[data-flujo]`),
+ * dentro de `prefers-reduced-motion: no-preference`: quien pide menos movimiento ve los cinco
+ * caminos enteros y quietos, que cuentan lo mismo.
+ *
+ * POR QUÉ FICHAS DESPLEGABLES Y NO UNA REJILLA. Cinco tarjetas en una rejilla de tres columnas dejan
+ * una fila de tres y otra de dos, y ese hueco se ve. Cinco filas desplegables en una columna al lado
+ * del mapa no tienen hueco posible, caben en una pantalla y, con `<details name>`, abrir una cierra
+ * la anterior, así que la lista nunca crece por debajo del mapa. Son `<details>` nativos: funcionan
+ * sin JavaScript y el contenido va en el HTML, que es lo que leen los buscadores.
  */
 
-/**
- * Proporción de la caja del mapa: la MISMA que el encuadre geográfico del que salen las
- * coordenadas (202 × 78 km ≈ 2,6:1, ver `map` en `wines.ts`). Si se cambia una sin la otra, las
- * distancias entre denominaciones dejan de ser las reales.
- */
-const MAPA_RATIO = "aspect-[2.6/1]";
+type Lado = "arriba" | "abajo" | "izquierda" | "derecha";
 
 /**
- * Qué chapas llevan el nombre ENCIMA del punto en vez de debajo. Por defecto va debajo, que se lee
- * mejor; estas dos son excepciones medidas, no gusto:
- *  · Monterrei está casi pegada al borde sur, y debajo se le saldría del mapa.
- *  · Ribeira Sacra tiene a Ourense justo debajo a la izquierda; con los dos nombres abajo se tocaban
- *    a 768 px (comprobado). Subiéndola, se separan en todos los anchos.
+ * EN EL MAPA NO HAY NOMBRES, HAY NÚMEROS, y es una decisión medida: con las posiciones reales, el
+ * punto del Ribeiro cae a diez unidades del local —la ciudad de Ourense está DENTRO de su zona de
+ * producción—, que a cualquier ancho son menos píxeles de los que ocupa una sola de las dos palabras.
+ * Cinco nombres sobre el mapa se pisaban entre ellos en los cuatro idiomas y en los seis anchos
+ * probados. Mover los puntos para que quepan sería mentir sobre dónde está cada zona, que es lo único
+ * que el mapa aporta; así que el nombre vive en la ficha, el número empareja las dos cosas, y el mapa
+ * se queda legible hasta en 320 px.
+ *
+ * El nombre SÍ aparece al pasar por encima o al llegar con el teclado, en un globo flotante que no
+ * ocupa sitio en reposo. Este registro dice hacia qué lado se abre para que no se salga del mapa:
+ * Valdeorras es el punto más oriental y Monterrei casi toca el borde sur.
  */
-const ETIQUETA_ARRIBA: Partial<Record<GalicianDoId, boolean>> = { monterrei: true, "ribeira-sacra": true };
+const ETIQUETA: Record<GalicianDoId, Lado> = {
+  "rias-baixas": "abajo",
+  ribeiro: "izquierda",
+  "ribeira-sacra": "arriba",
+  valdeorras: "izquierda",
+  monterrei: "arriba",
+};
+
+/** Curvatura de los caminos, en proporción a su largo. Suficiente para que se vean cinco trazos y no cinco radios. */
+const CURVATURA = 0.15;
+
+/** Un camino de ida: de la denominación al local, curvado siempre hacia el mismo lado. */
+function camino(desde: { x: number; y: number }, hasta: { x: number; y: number }) {
+  const dx = hasta.x - desde.x;
+  const dy = hasta.y - desde.y;
+  /* Perpendicular al segmento (girada siempre en el mismo sentido): los cinco caminos se arquean
+     igual y el conjunto se lee como un remolino hacia el centro, no como cinco líneas sueltas. */
+  const cx = (desde.x + hasta.x) / 2 - dy * CURVATURA;
+  const cy = (desde.y + hasta.y) / 2 + dx * CURVATURA;
+  return `M${desde.x} ${desde.y} Q${cx.toFixed(2)} ${cy.toFixed(2)} ${hasta.x} ${hasta.y}`;
+}
+
+/** Color del vino dominante de la zona: dorado para blanco, pimentón para tinto. */
+function tono(region: WineRegion) {
+  return region.mostly === "tinto" ? "var(--color-pimenton-light)" : "var(--color-gold)";
+}
 
 export default function Denominaciones() {
   const m = useMessages();
   const tituloId = useId();
+
+  /**
+   * Las chapas del mapa son enlaces a `#do-…`: sin JavaScript el navegador ya lleva a la ficha, que
+   * es lo importante. Con JavaScript la abre además, porque llegar a una ficha cerrada después de
+   * pinchar en el mapa es llegar a medias.
+   */
+  useEffect(() => {
+    const abrirLaDelAncla = () => {
+      const id = window.location.hash.slice(1);
+      if (!id.startsWith("do-")) return;
+      const ficha = document.getElementById(id)?.querySelector("details");
+      if (ficha instanceof HTMLDetailsElement) ficha.open = true;
+    };
+    abrirLaDelAncla();
+    window.addEventListener("hashchange", abrirLaDelAncla);
+    return () => window.removeEventListener("hashchange", abrirLaDelAncla);
+  }, []);
 
   return (
     <section aria-labelledby={tituloId} className="container-page pb-16 md:pb-24">
@@ -60,18 +114,28 @@ export default function Denominaciones() {
       </h2>
       <p className="mt-5 max-w-2xl text-base leading-relaxed text-cream-muted text-pretty">{m.vinos.regionsLead}</p>
 
-      <Mapa />
+      {/* Mapa a la izquierda, fichas a la derecha. El mapa se queda quieto mientras se recorren las
+          cinco fichas: así el nombre que abres y su sitio en Galicia se ven a la vez. */}
+      <div className="mt-10 grid items-start gap-8 lg:grid-cols-[minmax(0,28rem)_1fr] lg:gap-12">
+        <div className="lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
+          <Mapa />
+          {/* Atribución obligatoria del contorno (ODbL). No es letra pequeña opcional: es la licencia. */}
+          <p className="mt-3 text-[11px] leading-relaxed text-cream-faint/80">{m.vinos.mapCredit}</p>
+        </div>
 
-      {/* La aclaración que impide leer el mapa como si fuera la carta. Visible, no en letra pequeña. */}
-      <p className="mt-5 max-w-2xl border-l-2 border-pimenton-light/40 pl-4 text-sm leading-relaxed text-cream-faint">
-        {m.vinos.regionsNote}
-      </p>
+        <div>
+          <ol className="grid gap-3">
+            {WINE_REGION_LIST.map((region, i) => (
+              <FichaDenominacion key={region.id} region={region} numero={i + 1} />
+            ))}
+          </ol>
 
-      <ul className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {WINE_REGION_LIST.map((region) => (
-          <FichaDenominacion key={region.id} region={region} />
-        ))}
-      </ul>
+          {/* La aclaración que impide leer el mapa como si fuera la carta. Visible, no en letra pequeña. */}
+          <p className="mt-6 border-l-2 border-pimenton-light/40 pl-4 text-sm leading-relaxed text-cream-faint">
+            {m.vinos.regionsNote}
+          </p>
+        </div>
+      </div>
     </section>
   );
 }
@@ -82,56 +146,120 @@ export default function Denominaciones() {
 
 function Mapa() {
   const m = useMessages();
+  const gradienteId = useId();
+  const tierra = `tierra-${gradienteId.replace(/:/g, "")}`;
 
   return (
-    <figure /* EL MAPA NO SE PINTA EN EL TELÉFONO, y no es por pereza. Por debajo de 1024 px la caja se queda tan baja que
-          las cinco chapas se pisan entre ellas y con el rótulo del Atlántico: medido a 390 y a 768, no
-          supuesto. Comprimir el mapa para que quepan sería mentir sobre dónde está cada zona, que es
-          lo único que el mapa aporta. Las fichas de abajo llevan TODOS los datos y se leen muy bien en
-          vertical, así que en el móvil no se pierde información: se pierde un adorno que allí no
-          funciona. */
-      className={cn("relative mt-10 hidden w-full overflow-hidden rounded-3xl border border-cream/12 bg-granate-900/60 lg:block", MAPA_RATIO)}>
-      {/* Lavado del Atlántico por el borde oeste y rescoldo tierra adentro: las dos referencias que
-          orientan el mapa sin dibujar una costa que no se puede verificar. */}
-      <span aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,rgba(28,48,66,0.55)_0%,rgba(28,48,66,0.18)_14%,transparent_30%)]" />
-      <span aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_52%_60%_at_58%_42%,rgba(172,32,34,0.3)_0%,transparent_72%)]" />
-      {/* Frontera con Portugal: una línea discontinua al sur, que es lo que ancla Monterrei. */}
-      <span aria-hidden className="absolute inset-x-0 bottom-[7%] h-px bg-[repeating-linear-gradient(90deg,rgba(246,244,231,0.3)_0_10px,transparent_10px_20px)]" />
+    <figure className={cn("relative w-full overflow-hidden rounded-3xl border border-cream/12 bg-granate-900/70", GALICIA_RATIO)}>
+      {/* El Atlántico lavando el borde oeste: la referencia que orienta el mapa de un vistazo. */}
+      <span aria-hidden className="absolute inset-0 bg-[linear-gradient(105deg,rgba(28,48,66,0.6)_0%,rgba(28,48,66,0.22)_18%,transparent_42%)]" />
 
-      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-caps text-[10px] uppercase tracking-[0.3em] text-cream-faint [writing-mode:vertical-rl] md:left-5 md:text-[11px]">
+      {/*
+        `preserveAspectRatio="none"` es deliberado: el contorno y las seis posiciones ya vienen en 0-100
+        del lienzo, así que estirar el lienzo a la caja es exactamente lo correcto. La caja usa la
+        proporción real del encuadre (`GALICIA_RATIO`), con lo que el estirón es del 3 % y no se ve; y
+        los trazos llevan `vector-effect` para que ni ese 3 % les cambie el grosor.
+      */}
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden className="absolute inset-0 h-full w-full">
+        <defs>
+          <linearGradient id={tierra} x1="0" y1="0" x2="0.6" y2="1">
+            <stop offset="0%" stopColor="#5f3327" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#2a0f0d" stopOpacity="0.9" />
+          </linearGradient>
+        </defs>
+
+        <path
+          d={GALICIA_OUTLINE}
+          fill={`url(#${tierra})`}
+          stroke="rgba(246,244,231,0.42)"
+          strokeWidth={1}
+          vectorEffect="non-scaling-stroke"
+        />
+
+        {WINE_REGION_LIST.map((region, i) => {
+          const d = camino(region.map, OURENSE_ON_MAP);
+          return (
+            <g key={region.id}>
+              {/* El camino quieto: siempre visible, también sin animación. */}
+              <path d={d} fill="none" stroke="rgba(246,244,231,0.16)" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+              {/* El vino que viaja por él. La discontinuidad la pone `globals.css`. */}
+              <path
+                data-flujo
+                d={d}
+                pathLength={100}
+                fill="none"
+                stroke={tono(region)}
+                strokeWidth={2}
+                strokeLinecap="round"
+                vectorEffect="non-scaling-stroke"
+                style={{ "--flujo-delay": `${(i * 0.5).toFixed(1)}s` } as CSSProperties}
+              />
+            </g>
+          );
+        })}
+      </svg>
+
+      <span className="absolute left-[7%] top-[8%] font-caps text-[9px] uppercase tracking-[0.3em] text-cream-faint md:text-[10px]">
         {m.vinos.mapAtlantic}
       </span>
-      <span className="absolute bottom-[2%] left-1/2 -translate-x-1/2 font-caps text-[10px] uppercase tracking-[0.3em] text-cream-faint md:text-[11px]">
+      <span className="absolute bottom-[1.5%] left-[30%] font-caps text-[9px] uppercase tracking-[0.3em] text-cream-faint/80 md:text-[10px]">
         {m.vinos.mapPortugal}
       </span>
 
-      {/* Ourense: el punto desde el que se mira todo lo demás. */}
-      <span
-        data-chapa="ourense"
-        className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
-        style={{ left: `${OURENSE_ON_MAP.x}%`, top: `${OURENSE_ON_MAP.y}%` }}
-      >
-        <MapPin size={18} aria-hidden className="text-pimenton-light drop-shadow-[0_0_8px_rgba(232,86,90,0.8)]" />
-        <span className="whitespace-nowrap text-center font-caps text-[10px] uppercase leading-tight tracking-[0.22em] text-cream md:text-[11px]">
-          {BUSINESS.address.city}
-          <span className="block text-[8px] tracking-[0.18em] text-pimenton-a11y md:text-[9px]">{m.vinos.mapHere}</span>
-        </span>
-      </span>
-
-      {WINE_REGION_LIST.map((region) => (
-        <Chapa key={region.id} region={region} />
+      {WINE_REGION_LIST.map((region, i) => (
+        <Chapa key={region.id} region={region} numero={i + 1} />
       ))}
 
-      <figcaption className="sr-only">{m.vinos.mapAria}</figcaption>
+      <Local />
+
+      <figcaption className="sr-only">
+        {m.vinos.mapAria} {m.vinos.mapFlow}
+      </figcaption>
     </figure>
   );
 }
 
-/** Una denominación sobre el mapa: punto del color de su vino dominante y nombre. */
-function Chapa({ region }: { region: WineRegion }) {
+/** Tixola, el punto al que van los cinco caminos. */
+function Local() {
+  const m = useMessages();
+
+  return (
+    /*
+      El contenedor es SOLO el alfiler, y el rótulo va `absolute` a su derecha. Si el rótulo contara
+      para el ancho, el conjunto se centraría sobre el punto y el alfiler acabaría desplazado a la
+      izquierda del sitio donde está Ourense de verdad —y pisando el punto del Ribeiro, que cae a diez
+      unidades—. Así el alfiler marca el punto exacto y el rótulo cuelga de él.
+    */
+    <span
+      data-chapa="ourense"
+      className="absolute flex h-5 w-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
+      style={{ left: `${OURENSE_ON_MAP.x}%`, top: `${OURENSE_ON_MAP.y}%` }}
+    >
+      {/* El latido. Nace invisible: sin animación no se ve un anillo fijo encima del punto. */}
+      <span data-latido aria-hidden className="absolute inset-0 rounded-full border border-pimenton-light/70 opacity-0" />
+      <MapPin size={18} aria-hidden className="relative text-pimenton-light drop-shadow-[0_0_8px_rgba(232,86,90,0.9)]" />
+
+      <span
+        data-rotulo="ourense"
+        /* Se encoge por debajo de 640 px: a 320 px el mapa mide 278 px y el rótulo entero llegaba a
+           tocar el punto de Valdeorras, el más oriental de los cinco (medido, no supuesto). */
+        className="absolute left-full ml-1 whitespace-nowrap font-caps text-[9px] uppercase leading-tight tracking-[0.14em] text-cream sm:text-[10px] sm:tracking-[0.18em] md:text-[11px]"
+      >
+        {BUSINESS.address.city}
+        <span className="block text-[7px] tracking-[0.1em] text-pimenton-a11y sm:text-[8px] sm:tracking-[0.14em] md:text-[9px]">{m.vinos.mapHere}</span>
+      </span>
+    </span>
+  );
+}
+
+/**
+ * Una denominación sobre el mapa: su número y, al pasar por encima, su nombre. El número es el mismo
+ * que lleva la ficha de abajo: es lo que empareja mapa y lista sin depender de que el nombre quepa.
+ */
+function Chapa({ region, numero }: { region: WineRegion; numero: number }) {
   const m = useMessages();
   const t = useFormat();
-  const arriba = ETIQUETA_ARRIBA[region.id] ?? false;
+  const lado = ETIQUETA[region.id];
 
   return (
     <a
@@ -139,22 +267,30 @@ function Chapa({ region }: { region: WineRegion }) {
       data-chapa={region.id}
       aria-label={t(m.vinos.regionAria, { name: region.label })}
       className={cn(
-        "group absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5 rounded-lg px-1.5 py-1",
-        "outline-none transition-transform duration-300 ease-[var(--ease-out-expo)] hover:scale-110 focus-visible:ring-2 focus-visible:ring-cream",
-        arriba && "flex-col-reverse",
+        "group absolute flex h-[18px] w-[18px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full",
+        "font-caps text-[10px] leading-none ring-2 ring-granate-900/80 outline-none",
+        "transition-transform duration-300 ease-[var(--ease-out-expo)] hover:scale-125 focus-visible:scale-125 focus-visible:ring-cream",
+        region.mostly === "tinto"
+          ? "bg-pimenton-light text-granate-900 shadow-[0_0_10px_rgba(232,86,90,0.85)]"
+          : "bg-gold text-granate-900 shadow-[0_0_10px_rgba(232,194,122,0.85)]",
       )}
       style={{ left: `${region.map.x}%`, top: `${region.map.y}%` }}
     >
+      {numero}
+      {/* El globo flotante. `absolute` + `pointer-events-none`: en reposo no ocupa sitio, así que no
+          hay dos nombres que puedan chocar, y tampoco tapa el punto de al lado al abrirse. */}
       <span
         aria-hidden
         className={cn(
-          "h-2.5 w-2.5 shrink-0 rounded-full ring-2 ring-granate-900/70 transition-shadow",
-          region.mostly === "tinto"
-            ? "bg-pimenton-light shadow-[0_0_10px_rgba(232,86,90,0.9)]"
-            : "bg-gold shadow-[0_0_10px_rgba(232,194,122,0.9)]",
+          "pointer-events-none absolute z-10 whitespace-nowrap rounded-md bg-granate-900/95 px-2 py-1",
+          "font-caps text-[10px] uppercase tracking-[0.14em] text-cream opacity-0 shadow-lg ring-1 ring-cream/15",
+          "transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100",
+          lado === "arriba" && "bottom-full left-1/2 mb-1.5 -translate-x-1/2",
+          lado === "abajo" && "left-1/2 top-full mt-1.5 -translate-x-1/2",
+          lado === "izquierda" && "right-full mr-1.5",
+          lado === "derecha" && "left-full ml-1.5",
         )}
-      />
-      <span className="whitespace-nowrap font-caps text-[10px] uppercase tracking-[0.18em] text-cream-muted transition-colors group-hover:text-cream md:text-[12px]">
+      >
         {region.label}
       </span>
     </a>
@@ -165,50 +301,75 @@ function Chapa({ region }: { region: WineRegion }) {
    Las fichas
    ────────────────────────────────────────────────────────────── */
 
-function FichaDenominacion({ region }: { region: WineRegion }) {
+function FichaDenominacion({ region, numero }: { region: WineRegion; numero: number }) {
   const m = useMessages();
   const t = useFormat();
 
   return (
-    <li
-      id={`do-${region.id}`}
-      className="noise after:noise-after relative scroll-mt-28 overflow-hidden rounded-2xl border border-cream/12 bg-granate-800/50 p-5 md:p-6"
-    >
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <h3 className="font-display text-2xl font-medium text-cream md:text-[1.7rem]">
-          <span className="font-caps text-sm tracking-[0.12em] text-cream-faint">{m.vinos.doPrefix}</span> {region.label}
-        </h3>
-        {region.since ? (
-          <span className="font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint">
-            {t(m.vinos.since, { year: region.since })}
+    <li id={`do-${region.id}`} className="scroll-mt-28">
+      {/*
+        `name` las agrupa: abrir una cierra la que estuviera abierta (acordeón exclusivo del propio
+        HTML, sin estado en React). Donde el navegador no lo entienda, cada ficha se abre y se cierra
+        por su cuenta, que sigue funcionando.
+      */}
+      <details
+        name="denominacion"
+        className="group overflow-hidden rounded-2xl border border-cream/10 bg-granate-800/50 transition-colors duration-300 open:border-cream/20 open:bg-granate-800/70 hover:border-cream/25"
+      >
+        <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3.5 marker:content-none md:px-5 [&::-webkit-details-marker]:hidden">
+          <span
+            aria-hidden
+            className={cn(
+              "flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-caps text-[11px] leading-none",
+              region.mostly === "tinto" ? "bg-pimenton-light/90 text-granate-900" : "bg-gold/90 text-granate-900",
+            )}
+          >
+            {numero}
           </span>
-        ) : null}
-      </div>
 
-      <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-cream-faint">
-        {/* Separador neutro: así no hay que traducir ninguna conjunción. */}
-        <span>{region.provinces.join(" · ")}</span>
-        {region.inOurense ? (
-          <span className="rounded-full border border-pimenton-light/40 px-2 py-0.5 font-caps text-[9px] uppercase tracking-[0.18em] text-pimenton-a11y">
-            {m.vinos.inOurense}
+          <span className="min-w-0 flex-1">
+            <span className="block font-display text-xl font-medium leading-tight text-cream md:text-2xl">
+              <span className="font-caps text-xs tracking-[0.12em] text-cream-faint">{m.vinos.doPrefix}</span> {region.label}
+            </span>
+            <span className="mt-0.5 block truncate text-[11px] text-cream-faint">
+              {/* Separador neutro: así no hay que traducir ninguna conjunción. */}
+              {region.provinces.join(" · ")}
+              {region.since ? ` · ${t(m.vinos.since, { year: region.since })}` : ""}
+            </span>
           </span>
-        ) : null}
-        <span
-          className={cn(
-            "rounded-full px-2 py-0.5 font-caps text-[9px] uppercase tracking-[0.18em]",
-            region.mostly === "tinto" ? "bg-pimenton/25 text-pimenton-a11y" : "bg-gold/15 text-gold",
-          )}
-        >
-          {m.vinos.mostly[region.mostly]}
-        </span>
-      </p>
 
-      <p className="mt-4 text-sm leading-relaxed text-cream-muted">{m.vinos.regionCharacter[region.id]}</p>
+          <Plus
+            aria-hidden
+            className="h-5 w-5 shrink-0 text-pimenton-a11y transition-transform duration-300 ease-[var(--ease-out-expo)] group-open:rotate-45"
+            strokeWidth={2}
+          />
+        </summary>
 
-      <dl className="mt-5 grid gap-3 text-sm">
-        <Uvas titulo={m.vinos.whites} lista={region.whites} tono="blanco" />
-        <Uvas titulo={m.vinos.reds} lista={region.reds} tono="tinto" />
-      </dl>
+        <div className="border-t border-cream/10 px-4 py-4 md:px-5">
+          <p className="flex flex-wrap items-center gap-2">
+            {region.inOurense ? (
+              <span className="rounded-full border border-pimenton-light/40 px-2 py-0.5 font-caps text-[9px] uppercase tracking-[0.18em] text-pimenton-a11y">
+                {m.vinos.inOurense}
+              </span>
+            ) : null}
+            <span
+              className={cn(
+                "rounded-full px-2 py-0.5 font-caps text-[9px] uppercase tracking-[0.18em]",
+                region.mostly === "tinto" ? "bg-pimenton/25 text-pimenton-a11y" : "bg-gold/15 text-gold",
+              )}
+            >
+              {m.vinos.mostly[region.mostly]}
+            </span>
+          </p>
+
+          <p className="mt-3 text-sm leading-relaxed text-cream-muted text-pretty">{m.vinos.regionCharacter[region.id]}</p>
+
+          <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+            <Uvas titulo={m.vinos.whites} lista={region.whites} tono="blanco" />
+            <Uvas titulo={m.vinos.reds} lista={region.reds} tono="tinto" />
+          </dl>
+        </div>
+      </details>
     </li>
   );
 }
@@ -216,7 +377,7 @@ function FichaDenominacion({ region }: { region: WineRegion }) {
 /** Una lista de variedades. Los nombres de uva no se traducen: son nombres propios de variedad. */
 function Uvas({ titulo, lista, tono }: { titulo: string; lista: readonly string[]; tono: "blanco" | "tinto" }) {
   return (
-    <div className="grid gap-1.5">
+    <div className="grid content-start gap-1.5">
       <dt className="font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint">{titulo}</dt>
       <dd className="flex flex-wrap gap-1.5">
         {lista.map((uva, i) => (

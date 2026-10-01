@@ -1,0 +1,328 @@
+"use client";
+
+import { useMemo, type ReactNode } from "react";
+import { Plus } from "lucide-react";
+import { formatPrice } from "@/data/menu";
+import {
+  WINE_AXES,
+  WINE_KINDS,
+  WINE_REGIONS,
+  winesByKind,
+  type Wine,
+  type WineAxis,
+  type WineKind,
+} from "@/data/wines";
+import { localizeMenuItems } from "@/i18n/data";
+import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
+import { formatNumber } from "@/lib/format";
+import { cn } from "@/lib/utils";
+
+/**
+ * LA CARTA DE VINOS — una ficha desplegable por botella.
+ *
+ * MIENTRAS NO HAYA VINOS, ESTO NO PINTA NADA (`WINES` está vacía y devuelve `null`): la página enseña
+ * el aviso de que la carta se está cerrando. Pero el renderizador existe y está probado, que es justo
+ * lo que faltaba — hasta ahora, el día que llegara la lista de Tatiana no se habría visto ni una
+ * botella por mucho que se rellenara `wines.ts`.
+ *
+ * LO QUE ENSEÑA Y EN QUÉ ORDEN. Es la lista que pidió el cliente, en sus cuatro bloques:
+ *   · SIN DESPLEGAR, lo que decide la compra: nombre, bodega, denominación, añada y precio de copa y
+ *     de botella. Con eso se elige un vino, y son cinco líneas, no veinte.
+ *   · AL DESPLEGAR, el resto en tres bloques — uva y elaboración, cata y servicio, origen e historia.
+ *
+ * POR QUÉ DESPLEGABLE Y NO TODO A LA VISTA. Es el mismo problema que ya resolvió la carta de comer:
+ * con la ficha completa abierta, cada vino ocupa una pantalla y una carta de treinta botellas son
+ * treinta pantallas de dedo. Plegada, cada vino es una fila. Y son `<details>` nativos: el contenido
+ * va en el HTML (lo leen los buscadores), funcionan sin JavaScript y el teclado los abre solo.
+ *
+ * CADA DATO ES OPCIONAL, Y ESO NO ES PEREZA. No hay dos bodegas que publiquen lo mismo: unas dan el
+ * porcentaje del ensamblaje y otras solo la uva mayoritaria, unas puntúan en guías y otras no existen
+ * para las guías. Un campo que falta simplemente no se pinta, ni con guión ni con "no disponible". La
+ * alternativa —rellenar huecos— es inventarse una ficha técnica, y es exactamente el error que esta
+ * web ya corrigió una vez.
+ */
+
+export default function CartaDeVinos() {
+  const m = useMessages();
+  const t = useFormat();
+  const locale = useLocale();
+
+  /**
+   * Nombre traducido de cada plato, para pintar los maridajes. La relación vive en el VINO
+   * (`pairsWith`), así que aquí solo hay que traducir los nombres; `MenuItemId` ya garantiza que el
+   * plato existe.
+   */
+  const nombreDePlato = useMemo(
+    () => new Map(localizeMenuItems(locale).map((plato) => [plato.id, plato.name])),
+    [locale],
+  );
+
+  const grupos = WINE_KINDS.map((kind) => ({ kind, vinos: winesByKind(kind) })).filter((g) => g.vinos.length > 0);
+  /* Sin vinos no hay carta: la página ya enseña el aviso de `WINES_PENDING` en su lugar. */
+  if (!grupos.length) return null;
+
+  const total = grupos.reduce((n, g) => n + g.vinos.length, 0);
+
+  return (
+    <section className="container-page pb-16 md:pb-20">
+      <p className="font-caps text-xs uppercase tracking-[0.3em] text-cream-faint">{t(m.vinos.count, { count: total })}</p>
+
+      <div className="mt-6 grid gap-10">
+        {grupos.map(({ kind, vinos }) => (
+          <GrupoPorTipo key={kind} kind={kind} vinos={vinos} nombreDePlato={nombreDePlato} />
+        ))}
+      </div>
+
+      <p className="mt-10 text-xs text-cream-faint">{m.vinos.priceNote}</p>
+    </section>
+  );
+}
+
+/** Los vinos de un tipo: blancos, tintos, rosados… en el orden de `WINE_KINDS`. */
+function GrupoPorTipo({
+  kind,
+  vinos,
+  nombreDePlato,
+}: {
+  kind: WineKind;
+  vinos: readonly Wine[];
+  nombreDePlato: Map<string, string>;
+}) {
+  const m = useMessages();
+
+  return (
+    <section aria-labelledby={`vinos-${kind}`}>
+      <h2 id={`vinos-${kind}`} className="flex items-baseline gap-3 font-display text-2xl font-medium text-cream md:text-3xl">
+        {m.vinos.kinds[kind]}
+        <span aria-hidden className="h-px flex-1 bg-cream/12" />
+        <span className="font-caps text-xs tracking-[0.2em] text-cream-faint">{vinos.length}</span>
+      </h2>
+
+      <ul className="mt-4 grid gap-3">
+        {vinos.map((vino) => (
+          <FichaVino key={vino.id} vino={vino} nombreDePlato={nombreDePlato} />
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────
+   La ficha
+   ────────────────────────────────────────────────────────────── */
+
+function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<string, string> }) {
+  const m = useMessages();
+  const t = useFormat();
+  const locale = useLocale();
+
+  const denominacion =
+    typeof vino.origin === "string"
+      ? `${m.vinos.doPrefix} ${WINE_REGIONS[vino.origin].label}`
+      : `${vino.origin.label} · ${vino.origin.area}`;
+
+  /* Monovarietal o ensamblaje se deduce de la lista de uvas: un dato menos que escribir a mano. */
+  const tipoDeMezcla = vino.grapes.length === 1 ? m.vinos.monovarietal : m.vinos.blend;
+
+  const maridajes = (vino.pairsWith ?? []).map((id) => nombreDePlato.get(id)).filter((n): n is string => Boolean(n));
+  const ejes = WINE_AXES.filter((eje) => vino.profile?.[eje] !== undefined);
+
+  const hayCata = Boolean(vino.notes || ejes.length || vino.serveC || maridajes.length);
+  const hayOrigen = Boolean(vino.subzone || vino.terroir || vino.winemaker || vino.awards?.length || vino.story);
+
+  return (
+    <li id={`vino-${vino.id}`} className="scroll-mt-28">
+      <details className="group overflow-hidden rounded-2xl border border-cream/10 bg-granate-800/45 transition-colors duration-300 open:border-cream/20 open:bg-granate-800/70 hover:border-cream/25">
+        <summary className="flex cursor-pointer list-none items-start gap-4 px-4 py-4 marker:content-none md:px-5 [&::-webkit-details-marker]:hidden">
+          <span className="min-w-0 flex-1">
+            <span className="block font-display text-xl font-medium leading-tight text-cream md:text-2xl">{vino.name}</span>
+            <span className="mt-1 block text-[13px] leading-snug text-cream-faint">
+              {vino.winery} · {denominacion}
+              {vino.vintage ? ` · ${vino.vintage}` : ""}
+            </span>
+          </span>
+
+          {/* Los precios: lo segundo que se mira después del nombre, así que van alineados a la derecha
+              y en columna, nunca en la misma línea que la bodega. */}
+          <span className="shrink-0 text-right">
+            {vino.glassPrice !== undefined ? (
+              <span className="block whitespace-nowrap text-[13px] text-cream-muted">
+                <span className="font-caps text-[10px] uppercase tracking-[0.18em] text-cream-faint">{m.vinos.glass}</span>{" "}
+                {formatPrice(vino.glassPrice, locale)}
+              </span>
+            ) : null}
+            {vino.bottlePrice !== undefined ? (
+              <span className="block whitespace-nowrap font-sans text-lg font-semibold text-pimenton-a11y">
+                {formatPrice(vino.bottlePrice, locale)}
+              </span>
+            ) : null}
+          </span>
+
+          <Plus
+            aria-hidden
+            className="mt-1 h-5 w-5 shrink-0 text-pimenton-a11y transition-transform duration-300 ease-[var(--ease-out-expo)] group-open:rotate-45"
+            strokeWidth={2}
+          />
+        </summary>
+
+        {/* Los tres bloques en columnas que se reparten el ancho que haya: tres en escritorio, una en
+            el teléfono, y si un vino solo trae un bloque ese bloque ocupa todo en vez de dejar dos
+            huecos. Con una sola columna, en una pantalla ancha cada dato se quedaba solo en una línea
+            de mil píxeles. */}
+        <div className="grid items-start gap-6 border-t border-cream/10 px-4 py-5 md:px-5 lg:grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] lg:gap-8">
+          {/* ── Bloque 1 · uva y elaboración ── */}
+          <Bloque titulo={m.vinos.blockGrape}>
+            <Dato titulo={`${m.vinos.grapes} · ${tipoDeMezcla}`}>
+              <span className="flex flex-wrap gap-1.5">
+                {vino.grapes.map((uva, i) => {
+                  const parte = vino.grapeShares?.[uva];
+                  return (
+                    <span
+                      key={uva}
+                      className={cn(
+                        "rounded-full border px-2.5 py-1 text-[12px] leading-none",
+                        i === 0 ? "border-gold/45 bg-gold/12 text-cream" : "border-cream/15 text-cream-muted",
+                      )}
+                    >
+                      {uva}
+                      {parte !== undefined ? (
+                        <span className="ml-1.5 text-cream-faint">{t(m.vinos.percent, { value: formatNumber(parte, locale) })}</span>
+                      ) : null}
+                    </span>
+                  );
+                })}
+              </span>
+            </Dato>
+
+            {vino.ageing ? <Dato titulo={m.vinos.ageing}>{vino.ageing}</Dato> : null}
+            {vino.winemaking ? <Dato titulo={m.vinos.winemaking}>{vino.winemaking}</Dato> : null}
+
+            {vino.methods?.length ? (
+              <Dato titulo={m.vinos.methodsTitle}>
+                <span className="flex flex-wrap gap-1.5">
+                  {vino.methods.map((metodo) => (
+                    <span
+                      key={metodo}
+                      className="rounded-full border border-pimenton-light/35 bg-pimenton/15 px-2.5 py-1 font-caps text-[10px] uppercase tracking-[0.14em] text-pimenton-a11y"
+                    >
+                      {m.vinos.methods[metodo]}
+                    </span>
+                  ))}
+                </span>
+              </Dato>
+            ) : null}
+
+            {vino.abv !== undefined ? (
+              <Dato titulo={m.vinos.abv}>{t(m.vinos.abvValue, { value: formatNumber(vino.abv, locale) })}</Dato>
+            ) : null}
+            {vino.bottleCl !== undefined ? (
+              <Dato titulo={m.vinos.format}>{t(m.vinos.formatValue, { cl: formatNumber(vino.bottleCl, locale) })}</Dato>
+            ) : null}
+          </Bloque>
+
+          {/* ── Bloque 2 · cata y servicio ── */}
+          {hayCata ? (
+            <Bloque titulo={m.vinos.blockTasting}>
+              {ejes.length ? (
+                <dl className="grid gap-2 sm:max-w-sm">
+                  {ejes.map((eje) => (
+                    <Eje key={eje} eje={eje} valor={vino.profile?.[eje] ?? 1} />
+                  ))}
+                </dl>
+              ) : null}
+
+              {vino.notes ? <Dato titulo={m.vinos.notes}>{vino.notes}</Dato> : null}
+              {vino.serveC ? (
+                <Dato titulo={m.vinos.serve}>{t(m.vinos.serveValue, { min: vino.serveC[0], max: vino.serveC[1] })}</Dato>
+              ) : null}
+
+              {maridajes.length ? (
+                <Dato titulo={m.vinos.pairsWith}>
+                  <span className="flex flex-wrap gap-1.5">
+                    {maridajes.map((plato) => (
+                      <span key={plato} className="rounded-full border border-cream/15 px-2.5 py-1 text-[12px] leading-none text-cream-muted">
+                        {plato}
+                      </span>
+                    ))}
+                  </span>
+                </Dato>
+              ) : null}
+            </Bloque>
+          ) : null}
+
+          {/* ── Bloque 3 · origen e historia ── */}
+          {hayOrigen ? (
+            <Bloque titulo={m.vinos.blockOrigin}>
+              {vino.subzone ? <Dato titulo={m.vinos.subzone}>{vino.subzone}</Dato> : null}
+              {vino.terroir ? <Dato titulo={m.vinos.terroir}>{vino.terroir}</Dato> : null}
+              {vino.winemaker ? <Dato titulo={m.vinos.winemaker}>{vino.winemaker}</Dato> : null}
+
+              {vino.awards?.length ? (
+                <Dato titulo={m.vinos.awards}>
+                  <span className="grid gap-1">
+                    {vino.awards.map((premio) => (
+                      <span key={`${premio.source}-${premio.year ?? ""}-${premio.score ?? ""}`}>
+                        {premio.source}
+                        {premio.score ? ` · ${premio.score}` : ""}
+                        {premio.year ? ` (${premio.year})` : ""}
+                      </span>
+                    ))}
+                  </span>
+                </Dato>
+              ) : null}
+
+              {vino.story ? <Dato titulo={m.vinos.story}>{vino.story}</Dato> : null}
+            </Bloque>
+          ) : null}
+        </div>
+      </details>
+    </li>
+  );
+}
+
+/** Uno de los tres bloques de la ficha. */
+function Bloque({ titulo, children }: { titulo: string; children: ReactNode }) {
+  return (
+    <div>
+      <p className="font-caps text-[11px] uppercase tracking-[0.26em] text-pimenton-a11y">{titulo}</p>
+      <dl className="mt-3 grid gap-3">{children}</dl>
+    </div>
+  );
+}
+
+/** Un dato con su rótulo. El rótulo arriba y el valor debajo: en móvil no hay sitio para dos columnas. */
+function Dato({ titulo, children }: { titulo: string; children: ReactNode }) {
+  return (
+    <div className="grid gap-1.5">
+      <dt className="font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint">{titulo}</dt>
+      <dd className="text-sm leading-relaxed text-cream-muted text-pretty">{children}</dd>
+    </div>
+  );
+}
+
+/**
+ * Un eje del perfil de boca, en cinco tramos. Es la parte de la ficha pensada para quien no entiende
+ * de vino: "Cuerpo ▮▮▮▯▯" se lee sin saber nada, y una nota de cata de cinco líneas no.
+ *
+ * Los tramos son `aria-hidden` y el valor va en el texto alternativo del `<dd>`: cinco cajitas no
+ * significan nada leídas en voz alta.
+ */
+function Eje({ eje, valor }: { eje: WineAxis; valor: number }) {
+  const m = useMessages();
+  const t = useFormat();
+
+  return (
+    <div className="flex items-center gap-3">
+      <dt className="w-24 shrink-0 font-caps text-[10px] uppercase tracking-[0.18em] text-cream-faint">{m.vinos.axes[eje]}</dt>
+      <dd className="flex items-center gap-1" aria-label={t(m.vinos.axisAria, { axis: m.vinos.axes[eje], value: valor })}>
+        {[1, 2, 3, 4, 5].map((tramo) => (
+          <span
+            key={tramo}
+            aria-hidden
+            className={cn("h-1.5 w-5 rounded-full", tramo <= valor ? "bg-pimenton-light" : "bg-cream/12")}
+          />
+        ))}
+      </dd>
+    </div>
+  );
+}

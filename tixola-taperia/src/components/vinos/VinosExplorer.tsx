@@ -5,6 +5,7 @@ import { MessageCircle, Wine } from "lucide-react";
 import { useChat } from "@/components/chat/ChatProvider";
 import NeonButton from "@/components/ui/NeonButton";
 import { BUSINESS } from "@/data/business";
+import CartaDeVinos from "@/components/vinos/CartaDeVinos";
 import Denominaciones from "@/components/vinos/Denominaciones";
 import { WINES_PENDING } from "@/data/wines";
 import { useMessages } from "@/i18n/LocaleProvider";
@@ -12,20 +13,17 @@ import { useMessages } from "@/i18n/LocaleProvider";
 /**
  * VinosExplorer — la vinoteca.
  *
- * Hoy la página tiene dos piezas: la cabecera editorial y el aviso honesto de que la carta se está
- * cerrando. Cuando `WINES_PENDING` se apague (= haya vinos en `src/data/wines.ts`), el aviso deja
- * paso a la lista sin tocar nada más aquí.
+ * Hoy la página tiene tres piezas: la cabecera editorial, el aviso honesto de que la carta se está
+ * cerrando y el mapa de las cinco denominaciones gallegas. Cuando `WINES_PENDING` se apague (= haya
+ * vinos en `src/data/wines.ts`), el aviso deja su sitio a la carta de verdad sin tocar nada aquí.
  */
 export default function VinosExplorer() {
-  const m = useMessages();
-
   return (
     <>
       <VinosHero />
-      {WINES_PENDING ? <CartaEnCamino /> : null}
+      {/* O la carta, o el aviso de que todavía no está. Nunca las dos, nunca ninguna. */}
+      {WINES_PENDING ? <CartaEnCamino /> : <CartaDeVinos />}
       <Denominaciones />
-      {/* Nota de precios: solo tiene sentido cuando hay precios que mirar. */}
-      {WINES_PENDING ? null : <p className="container-page pb-16 text-xs text-cream-faint">{m.vinos.priceNote}</p>}
     </>
   );
 }

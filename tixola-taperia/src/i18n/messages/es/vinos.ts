@@ -39,7 +39,10 @@ const vinos = {
   regionsNote:
     "Este es el mapa del vino gallego, no nuestra carta todavía: cuando la cerremos te diremos de cuáles de estas zonas viene cada botella.",
   mapAria: "Mapa de Galicia con las cinco denominaciones de origen de vino",
-  mapTitle: "Galicia",
+  /** Los cinco caminos animados del mapa, contados para quien no los ve. */
+  mapFlow: "Desde cada una de ellas sale un camino hasta Ourense, donde está Tixola.",
+  /** Atribución del contorno de Galicia: la licencia ODbL de OpenStreetMap la EXIGE visible. */
+  mapCredit: "Contorno de Galicia: datos de OpenStreetMap, licencia ODbL.",
   inOurense: "Provincia de Ourense",
   whites: "Uvas blancas",
   reds: "Uvas tintas",
@@ -75,17 +78,54 @@ const vinos = {
     espumoso: "Espumosos",
     dulce: "Dulces",
   },
+  count: "{count} vinos",
+
+  /* Lo que se ve sin desplegar la ficha: nombre, bodega, denominación, añada y precio. */
   glass: "Copa",
   bottle: "Botella",
-  grapes: "Uva",
-  vintage: "Añada",
-  ageing: "Crianza",
-  abv: "Graduación",
   winery: "Bodega",
+  vintage: "Añada",
+
+  /* Bloque 1 · uva y elaboración. */
+  blockGrape: "Uva y elaboración",
+  grapes: "Uva",
+  /* Se calcula de la lista de uvas (una sola o varias), no se escribe vino a vino. */
+  monovarietal: "Monovarietal",
+  blend: "Ensamblaje",
+  percent: "{value} %",
+  ageing: "Crianza",
+  winemaking: "Elaboración",
+  methodsTitle: "Viñedo",
+  /* "Ecológico" y "vegano" son certificaciones: solo se marcan si la bodega las tiene. */
+  methods: {
+    ecologico: "Ecológico",
+    biodinamico: "Biodinámico",
+    natural: "Natural",
+    vegano: "Vegano",
+    "de-pago": "Vino de pago",
+    "de-parcela": "Vino de parcela",
+  },
+  abv: "Graduación",
+  abvValue: "{value} % vol.",
+  format: "Formato",
+  formatValue: "{cl} cl",
+
+  /* Bloque 2 · cata y servicio. */
+  blockTasting: "Cata y servicio",
+  notes: "Nota de cata",
+  axes: { body: "Cuerpo", acidity: "Acidez", tannin: "Taninos", sweetness: "Dulzor" },
+  axisAria: "{axis}: {value} de 5",
+  serve: "Temperatura de servicio",
+  serveValue: "de {min} a {max} °C",
   pairsWith: "Marida con",
-  openWine: "Ver la ficha de {name}",
-  closeWine: "Cerrar la ficha",
-  count: "{count} vinos",
+
+  /* Bloque 3 · de dónde sale y quién lo hace. */
+  blockOrigin: "Origen e historia",
+  subzone: "Subzona",
+  terroir: "El terreno",
+  winemaker: "Enólogo",
+  awards: "Puntuaciones y premios",
+  story: "La historia",
   priceNote: "Precios con IVA incluido, los mismos que en la carta del local.",
 
   /* ── SEO (metadatos de /vinos; no se pintan en pantalla) ── */
