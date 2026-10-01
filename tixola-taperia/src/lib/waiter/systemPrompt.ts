@@ -15,8 +15,31 @@ import { getOpenStatus } from "@/lib/openStatus";
 import { describeOpenStatus, getKnowledgeMarkdown } from "./knowledge";
 import type { WaiterPage } from "./types";
 
-/** Modelo por defecto (se puede cambiar con CHAT_MODEL; ver .env.example). */
-export const WAITER_DEFAULT_MODEL = "claude-opus-5";
+/**
+ * Modelo por defecto (se puede cambiar con CHAT_MODEL; ver .env.example).
+ *
+ * HAIKU, NO OPUS. El trabajo de este camarero no es razonar: es leer un contexto que ya le damos
+ * masticado —la carta entera, el horario, los alérgenos— y contestar con lo que pone. Para eso Haiku
+ * va sobrado, y cuesta cinco veces menos (1 $/5 $ por millón de tokens frente a 5 $/25 $ de Opus 5).
+ * En un bar, eso es la diferencia entre uno o dos euros al mes y diez.
+ */
+export const WAITER_DEFAULT_MODEL = "claude-haiku-4-5";
+
+/**
+ * Si el modelo acepta `output_config.effort`.
+ *
+ * HAIKU NO LO ACEPTA: devuelve un 400. Y aquí eso no se vería, que es lo grave: `route.ts` cae al
+ * motor sin conexión cuando la API falla, así que el chat seguiría contestando —con palabras clave—
+ * mientras la clave de la API no se usa NUNCA. Pagar por una IA y no enterarse de que no está
+ * funcionando es el peor fallo posible de esta ruta, y por eso la comprobación vive aquí al lado del
+ * modelo por defecto y no escondida en la petición.
+ *
+ * Se niega por familia y no por id exacto a propósito: si mañana sale un Haiku que sí lo admite,
+ * perdemos un ajuste de coste, que es un fallo barato. Al revés se rompe el chat.
+ */
+export function supportsEffort(model: string): boolean {
+  return !model.startsWith("claude-haiku");
+}
 
 /** Nombre del idioma de respuesta tal y como se le indica al modelo. */
 export const RESPONSE_LANGUAGE: Record<Locale, string> = {

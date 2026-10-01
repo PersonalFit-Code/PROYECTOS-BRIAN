@@ -12,7 +12,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { isLocale, type Locale } from "@/i18n/config";
 import { answerOffline } from "@/lib/waiter/offlineEngine";
-import { buildContextSuffix, getSystemPrompt, WAITER_DEFAULT_MODEL } from "@/lib/waiter/systemPrompt";
+import { buildContextSuffix, getSystemPrompt, supportsEffort, WAITER_DEFAULT_MODEL } from "@/lib/waiter/systemPrompt";
 import { CHAT_LIMITS, isWaiterPage, WAITER_MODE_HEADER, type ChatRole, type WaiterMode, type WaiterPage } from "@/lib/waiter/types";
 
 export const runtime = "nodejs";
@@ -177,7 +177,9 @@ export async function POST(req: Request): Promise<Response> {
     {
       model,
       max_tokens: 1200,
-      output_config: { effort: "low" },
+      /* `effort` solo donde el modelo lo admite: ver `supportsEffort`. Con Haiku, mandarlo es un 400
+         silencioso que degrada el chat al motor sin conexión para siempre. */
+      ...(supportsEffort(model) ? { output_config: { effort: "low" as const } } : {}),
       system: [{ type: "text", text: getSystemPrompt(), cache_control: { type: "ephemeral" } }],
       messages: withContextSuffix(messages, buildContextSuffix({ locale, page, now })),
     },
