@@ -68,9 +68,12 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231E3A8A'/%3E%3Cpath d='M26 62V44l24-16 24 16v18' fill='none' stroke='%23F59E0B' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M42 74V56h16v18' fill='none' stroke='%23fff' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<!-- Las tipografias van en assets/fuentes/, no en Google Fonts. Con el <link>
+     a fonts.googleapis.com la IP de cada visitante salia hacia Google antes de
+     que nadie aceptara nada (hay sentencias en Europa por esto), y ademas eran
+     dos conexiones a otro dominio y una hoja que bloquea el pintado, justo
+     delante del primer pintado. Los @font-face estan en el <style> de abajo.
+     Si cambias de tipografia: bajatela y dejala aqui, no la enlaces. -->
 
 <!-- ===== Schema.org · LocalBusiness con NAP + geolocalización ===== -->
 <script type="application/ld+json">
@@ -245,6 +248,11 @@
 </script>
 
 <style>
+  /* Las dos tipografias, servidas desde la propia web (ver el <head>).
+     El eje de peso viene recortado a lo que se usa: Inter 400-700,
+     Jakarta 600-800. */
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 700;font-display:swap;src:url(assets/fuentes/inter.woff2) format('woff2')}@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:600 800;font-display:swap;src:url(assets/fuentes/jakarta.woff2) format('woff2')}
+
   /* ==========================================================
      PALETA · cambia estos 6 valores y toda la landing se retiñe
      ========================================================== */
@@ -1071,18 +1079,32 @@
             </span>
             <p class="mt-4 font-display text-lg font-bold text-slate-900">Rúa do Progreso 45, Baixo</p>
             <p class="text-slate-600">32003 Ourense (Galicia)</p>
-            <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+45,+32003+Ourense"
-               target="_blank" rel="noopener"
-               class="mt-5 inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-brand-dark">
-              Abrir en Google Maps
-            </a>
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+              <a href="https://www.google.com/maps?q=R%C3%BAa+do+Progreso+45,+32003+Ourense"
+                 target="_blank" rel="noopener"
+                 class="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-3 font-display text-sm font-bold text-white transition hover:bg-brand-dark">
+                Cómo llegar
+              </a>
+              <button type="button" id="mapa-activar"
+                      class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 font-display text-sm font-bold text-slate-700 transition hover:border-brand hover:text-brand">
+                Ver el mapa aquí
+              </button>
+            </div>
+            <p class="mt-3 text-xs leading-relaxed text-slate-500">
+              Al cargarlo, Google Maps puede registrar tu IP y usar sus cookies.
+            </p>
           </div>
         </div>
-        <iframe
+        <!-- El mapa NO se carga solo: incrustarlo manda la IP del visitante a
+             Google antes de que haya aceptado nada. Con la direccion ya escrita
+             encima, cargarlo de entrada tampoco aporta tanto. Se carga cuando lo
+             piden, y entonces el aviso de arriba ya aplica.
+             Para volver atras: pasa data-src a src y quita el hidden. -->
+        <iframe id="mapa-marco" hidden
           title="Mapa de localización de Reformas Auria en Rúa do Progreso 45, Ourense"
-          src="https://maps.google.com/maps?q=R%C3%BAa%20do%20Progreso%2045%2C%2032003%20Ourense&z=15&output=embed"
+          data-src="https://maps.google.com/maps?q=R%C3%BAa%20do%20Progreso%2045%2C%2032003%20Ourense&z=15&output=embed"
           class="relative h-full w-full" style="border:0;min-height:460px" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -1227,8 +1249,9 @@
           <summary class="cursor-pointer font-display text-sm font-bold text-white">Política de cookies</summary>
           <div class="mt-3 space-y-2 text-sm leading-relaxed text-slate-400">
             <p>Esta web <strong class="text-slate-200">no instala cookies propias de analítica ni de publicidad</strong>.</p>
-            <p>Al cargar el mapa de Google Maps y las tipografías de Google Fonts, esos servicios pueden registrar tu IP y establecer cookies técnicas propias. Son cookies de terceros necesarias para mostrar el contenido incrustado.</p>
-            <p>Puedes bloquearlas desde la configuración de tu navegador. Si más adelante se añade Google Analytics o píxeles publicitarios, será obligatorio incorporar un banner de consentimiento previo.</p>
+            <p>Las tipografías se sirven desde esta misma web, así que <strong class="text-slate-200">no se conecta con Google Fonts</strong>.</p>
+            <p>El mapa de Google Maps <strong class="text-slate-200">no se carga solo</strong>: hasta que pulsas «Ver el mapa aquí» no se pide nada a Google. Si lo cargas, Google puede registrar tu IP y usar sus cookies para mostrarlo.</p>
+            <p>Si más adelante se añade Google Analytics o píxeles publicitarios, será obligatorio incorporar un banner de consentimiento previo.</p>
           </div>
         </details>
 
@@ -1396,7 +1419,20 @@
     });
   }
 
-  /* ---------- 6. Iconos Lucide ---------- */
+  /* ---------- 6. El mapa, solo cuando lo piden ---------- */
+  var mapaBoton = document.getElementById('mapa-activar');
+  var mapaMarco = document.getElementById('mapa-marco');
+  if (mapaBoton && mapaMarco) {
+    mapaBoton.addEventListener('click', function () {
+      if (!mapaMarco.getAttribute('src')) mapaMarco.src = mapaMarco.getAttribute('data-src');
+      mapaMarco.hidden = false;
+      /* la tarjeta con la direccion se queda debajo del mapa, como antes */
+      var reserva = mapaBoton.closest('.absolute');
+      if (reserva) reserva.hidden = true;
+    });
+  }
+
+  /* ---------- 7. Iconos Lucide ---------- */
   function iniciarIconos() {
     if (window.lucide && typeof window.lucide.createIcons === 'function') {
       window.lucide.createIcons({ attrs: { 'aria-hidden': 'true', focusable: 'false' } });

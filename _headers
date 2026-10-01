@@ -1,0 +1,14 @@
+# Cabeceras de seguridad para Netlify (en Vercel las pone vercel.json, que dice
+# exactamente lo mismo). Si cambias una, cambia la otra.
+#
+# No hay Content-Security-Policy a propósito: ver el README, apartado
+# «Seguridad». Mientras la plantilla cargue Tailwind y Lucide por CDN, la CSP
+# tiene que autorizar esos dominios, y una CSP mal ajustada deja la landing en
+# blanco sin avisar. El sitio para ponerla es junto a la compilación del CSS.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin
