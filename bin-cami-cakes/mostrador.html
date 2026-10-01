@@ -2792,8 +2792,12 @@
   window.t = t;
   window.idiomaActual = function(){ return actual; };
 
+  /* La lista va explicita a proposito: con «!TRAD[lang]» colaban valores
+     heredados de Object.prototype (__proto__, constructor...), que no son
+     idiomas pero dan objeto. Lo guardado en el navegador no se cree. */
+  var IDIOMAS = ['es', 'gl', 'en', 'pt'];
   function aplicar(lang){
-    if (lang !== 'es' && !TRAD[lang]) lang = 'es';
+    if (IDIOMAS.indexOf(lang) < 0) lang = 'es';
     actual = lang;
     nodos.forEach(function(el){
       var k = el.getAttribute('data-i18n');

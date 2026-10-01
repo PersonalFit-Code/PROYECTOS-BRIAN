@@ -1166,6 +1166,106 @@ tenemos ni ingredientes ni alérgenos, y aquí no se inventan.
 - [ ] Dominio: ahora el canonical apunta a `bincamicakes.es`, que hay que ajustar
       al dominio real antes de publicar (lo gestiona Brian, no se le pregunta a Luisa)
 
+## Seguridad: lo que manda el servidor
+
+Revisión del 1/10 con las *Anthropic Cybersecurity Skills* (818 fichas, Apache-2.0).
+De ahí sólo aplica un puñado a un sitio estático sin servidor ni base de datos:
+cabeceras, clickjacking, XSS, CSP, exposición de datos y privacidad. El resto
+(SQL, JWT, Active Directory, SOC…) no toca nada de esto.
+
+**Lo que había**: `vercel.json` sólo decía `cleanUrls`. Ni una cabecera de
+seguridad. Cualquiera podía meter la web en un `<iframe>` suyo y montarle un
+clickjacking encima, y no había ninguna red por debajo si algún día se cuela un
+`<script>` que no es nuestro.
+
+**Lo que hay ahora**, generado por `construye_dist.py` en cada build:
+
+| cabecera | para qué |
+|---|---|
+| `Content-Security-Policy` | la grande, abajo |
+| `X-Content-Type-Options: nosniff` | que el navegador no adivine tipos |
+| `X-Frame-Options: DENY` | clickjacking (el veterano) |
+| `Referrer-Policy: strict-origin-when-cross-origin` | no filtrar la URL entera a terceros |
+| `Permissions-Policy` | cámara, micro, ubicación, pagos y USB: denegados |
+| `Strict-Transport-Security` | un año, **sin `preload`** |
+| `Cross-Origin-Opener-Policy: same-origin` | aislar la pestaña |
+
+`preload` se deja fuera a propósito: entrar en la lista de precarga de los
+navegadores es fácil y salir tarda meses, y el dominio todavía no es suyo.
+`Cross-Origin-Embedder-Policy` tampoco se pone: tumbaría el mapa.
+
+### La CSP va por hash, no por `unsafe-inline`
+
+La web es un archivo con 11 `<script>` dentro. Lo cómodo sería
+`script-src 'unsafe-inline'`, y no serviría **para nada**: eso autoriza
+cualquier script en línea, incluido el que inyecte un atacante. Lo que se hace
+es calcular el `sha256` de cada bloque y listarlos:
+
+```
+script-src 'sha256-3KKMI4lE…' 'sha256-8e1QDwAh…' … (11)
+```
+
+Así un `<script>` metido a posteriori **no se ejecuta**, porque su hash no está
+en la lista. Esto sólo es posible porque la página no tiene ni un manejador
+`onclick=` ni una URL `javascript:` — el build lo comprueba y se para si
+aparece alguno.
+
+`style-src` sí lleva `'unsafe-inline'`, y es a conciencia: hay atributos
+`style=`, y hashes y `'unsafe-inline'` no se mezclan (poner un hash anula al
+otro). Inyectar estilo sin poder inyectar script no da ejecución de código.
+
+> **Al tocar el JS**: cualquier cambio en un `<script>` cambia su hash. Por eso
+> `vercel.json` se **genera** en el build y no se escribe a mano. Si se
+> publicara un `dist/` con el `vercel.json` de antes, la web se quedaría **sin
+> JavaScript** en el navegador de todo el mundo, en silencio. De eso avisa
+> `verifica_cabeceras.py`.
+
+### Las dos pruebas
+
+```
+node z-csp.mjs        # la web entera funciona CON las cabeceras puestas:
+                      # idiomas, fichas, asistente, mapa, catálogo
+node z-csp-muerde.mjs # y la CSP bloquea de verdad: <script> inyectado,
+                      # onerror=, script de fuera, iframe ajeno
+python3 verifica_cabeceras.py   # los hashes del vercel.json son los del dist/
+```
+
+Las pruebas van contra `servidor_csp.py` (puerto 8779), que sirve `dist/`
+**con sus cabeceras de verdad**. Con `python3 -m http.server` no se puede
+probar una CSP: no manda ninguna cabecera y la página aprueba por no estar
+protegida, que es justo lo contrario de lo que se quiere saber.
+
+### Lo que ya estaba bien
+
+No todo era arreglar. Lo que la revisión confirmó:
+
+- **Cero scripts de terceros** en lo que se publica. Tailwind va compilado, las
+  tipografías son locales. Lo único externo es el mapa, y espera al consentimiento
+- Las 28 pestañas nuevas llevan `rel="noopener"`
+- Nada de contenido mixto (`http://`)
+- Las reseñas se escapan antes de ir a `innerHTML`
+- Los mensajes de WhatsApp pasan todos por `encodeURIComponent`
+- Ninguna clave ni credencial en el repositorio
+- La política de privacidad ya nombra a WhatsApp, Meta, Google y Vercel
+
+### Lo que se cambió en el HTML
+
+- El marco del mapa traía `referrerpolicy="no-referrer-when-downgrade"`, que le
+  manda a Google la **dirección entera** de la página. Quitado el atributo, vale
+  la cabecera del despliegue y Google recibe el dominio y nada más
+- El idioma guardado en el navegador se tomaba tal cual, y `TRAD["__proto__"]`
+  existe (es `Object.prototype`): colaba el guardia y dejaba la página con un
+  `lang=` absurdo. Ahora hay lista blanca
+
+### Lo que NO se ha hecho, y por qué
+
+- **`sandbox` en el iframe del mapa**: sería una capa más, pero desde aquí no
+  puedo cargar Google Maps para comprobar que no lo rompe. Romper el mapa es
+  peor que la mejora
+- **CSP en `<meta>` además de en la cabecera**: duplicar la lista de hashes en
+  dos sitios se desincroniza solo. La cabecera es el mecanismo bueno y
+  `vercel.json` viaja dentro del zip
+
 ## Despliegue
 
 Equipo de Vercel **BRIAN** (`centropersonalfit`, `team_NO14SkEOGredEikP1xjacWZu`).

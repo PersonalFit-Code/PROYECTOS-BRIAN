@@ -3190,7 +3190,7 @@
           <iframe id="mapa-marco" title="Mapa de Bin &amp; Cami Cakes en Rúa do Progreso 27, Ourense"
             data-src="https://maps.google.com/maps?q=R%C3%BAa%20do%20Progreso%2027%2C%2032005%20Ourense&z=16&output=embed"
             class="absolute inset-0 h-full w-full" style="border:0" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            allowfullscreen></iframe>
         </div>
         <!-- En el móvil el botón se pone debajo y a todo lo ancho: en una fila
              de 350 px se comía el sitio de la dirección, que salía partida en
@@ -3753,8 +3753,12 @@
   window.t = t;
   window.idiomaActual = function(){ return actual; };
 
+  /* La lista va explicita a proposito: con «!TRAD[lang]» colaban valores
+     heredados de Object.prototype (__proto__, constructor...), que no son
+     idiomas pero dan objeto. Lo guardado en el navegador no se cree. */
+  var IDIOMAS = ['es', 'gl', 'en', 'pt'];
   function aplicar(lang){
-    if (lang !== 'es' && !TRAD[lang]) lang = 'es';
+    if (IDIOMAS.indexOf(lang) < 0) lang = 'es';
     actual = lang;
     nodos.forEach(function(el){
       var k = el.getAttribute('data-i18n');
