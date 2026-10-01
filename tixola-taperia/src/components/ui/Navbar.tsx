@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
    Enlaces de navegación (etiquetas desde m.nav.links; rutas sin prefijo → lp())
    ────────────────────────────────────────────────────────────── */
 
-export type NavKey = "dishes" | "menu" | "location" | "reviews";
+export type NavKey = "dishes" | "menu" | "wines" | "location" | "reviews";
 
 export interface NavItem {
   key: NavKey;
@@ -36,6 +36,11 @@ export interface NavItem {
 const NAV_ITEMS: readonly { key: NavKey; href: string }[] = [
   { key: "dishes", href: "/#platos" },
   { key: "menu", href: "/carta" },
+  /* Los vinos van entre la carta y la ubicación porque es donde los pidió el cliente, y además es
+     donde tienen sentido: quien acaba de mirar qué comer es quien se pregunta qué beber. Es una
+     RUTA, no un ancla de la portada, igual que "/carta" — esta lista mezcla las dos cosas a
+     propósito y `hashOf()` distingue una de otra para el `aria-current`. */
+  { key: "wines", href: "/vinos" },
   { key: "location", href: "/#experiencia" },
   { key: "reviews", href: "/#opiniones" },
 ];

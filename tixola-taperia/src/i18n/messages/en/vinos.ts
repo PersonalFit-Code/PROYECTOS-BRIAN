@@ -1,0 +1,72 @@
+import type esVinos from "@/i18n/messages/es/vinos";
+import type { Translation } from "./shape";
+
+/** Texts for the /vinos page (wine bar). See the comment in es/vinos.ts on why it ships with no wines. */
+const vinos = {
+  kicker: "Wine bar",
+  title: "The Wine",
+  accent: "List",
+  description:
+    "Tixola is a tapas bar and a wine bar: Galician wine isn't a side here, it's half the house. This is where the list will live, with each bottle's winery, grape and price.",
+
+  pendingKicker: "In the works",
+  pendingTitle: "We're still finalising the wine list",
+  pendingText:
+    "It isn't published yet, and we'd rather keep it that way a few more days: we want every bottle on this list to be one we can actually open for you, not one that was on last year's menu.",
+  pendingAction: "In the meantime, just ask: we'll tell you what's open today and what goes well with whatever you're eating.",
+  pendingAsk: "What wines do you have today, and which one would you recommend?",
+  pendingCta: "Ask the virtual waiter",
+  pendingWhatsapp: "Ask on WhatsApp",
+
+  regionsKicker: "Where it comes from",
+  regionsTitle: "Galicia's five",
+  regionsAccent: "wine regions",
+  regionsLead:
+    "Galicia has five denominations of origin and four of them have vineyards in the province of Ourense. The city's own municipality sits inside D.O. Ribeiro: the wine here is made, quite literally, next door.",
+  regionsNote:
+    "This is the map of Galician wine, not our list yet: once it's finalised we'll tell you which of these areas each bottle comes from.",
+  mapAria: "Map of Galicia with its five wine denominations of origin",
+  mapTitle: "Galicia",
+  inOurense: "Province of Ourense",
+  whites: "White grapes",
+  reds: "Red grapes",
+  since: "D.O. since {year}",
+  regionAria: "{name} denomination of origin",
+  /** Abreviatura de "denominación de origen", delante del nombre protegido. */
+  doPrefix: "D.O.",
+  mapAtlantic: "Atlantic",
+  mapPortugal: "Portugal",
+  mapHere: "We're here",
+  mostly: { blanco: "Mostly white", tinto: "Mostly red" },
+  regionCharacter: {
+    "rias-baixas":
+      "An Atlantic climate with the sea right there, and vineyards below 300 metres. The whites that come out are about sharp acidity and aroma rather than alcohol — exactly what shellfish asks for.",
+    ribeiro:
+      "A transition zone, its Atlantic air softened by the mountains that close it off to the north and west. Day and night differ widely in temperature, so the grape ripens slowly and keeps its aroma and freshness.",
+    "ribeira-sacra":
+      "Vines on terraces above the Miño and Sil canyons, on slopes so steep the work is known as heroic viticulture. More continental than Atlantic: long hot summers, mild autumns.",
+    valdeorras:
+      "Mediterranean with an Atlantic influence, in the Sil valley and above 450 metres. On slate soils, the wines come out with a pronounced mineral character.",
+    monterrei:
+      "The only one of the five that drains into the Douro, via the Támega, hard against the Portuguese border. Hot dry summers, cold winters, and up to 20 degrees between day and night as the grape ripens.",
+  },
+
+  kinds: { blanco: "Whites", tinto: "Reds", rosado: "Rosés", espumoso: "Sparkling", dulce: "Sweet" },
+  glass: "Glass",
+  bottle: "Bottle",
+  grapes: "Grape",
+  vintage: "Vintage",
+  ageing: "Ageing",
+  abv: "ABV",
+  winery: "Winery",
+  pairsWith: "Pairs with",
+  openWine: "See the details for {name}",
+  closeWine: "Close details",
+  count: "{count} wines",
+  priceNote: "Prices include VAT, the same as on the menu in the bar.",
+
+  seoTitle: "Galician wine list in Ourense",
+  seoDescription:
+    "Wine bar next to Ourense Cathedral: wines from Galicia's five denominations — Ribeiro, Valdeorras, Monterrei, Ribeira Sacra and Rías Baixas — to go with the tapas.",
+} satisfies Translation<typeof esVinos>;
+export default vinos;

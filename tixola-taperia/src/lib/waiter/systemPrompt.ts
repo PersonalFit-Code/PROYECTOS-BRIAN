@@ -30,6 +30,10 @@ export const RESPONSE_LANGUAGE: Record<Locale, string> = {
 const PAGE_CONTEXT: Record<WaiterPage, string> = {
   home: "la portada de la web (puede ver la carta completa en el enlace de la carta digital)",
   carta: "la carta digital (puede filtrar por categorías y alérgenos en esta misma página)",
+  /* En la vinoteca el camarero NO tiene todavía una lista de vinos que ofrecer: la carta de vinos
+     está sin cerrar. Se le dice aquí para que no se invente botellas, que es justo lo que haría un
+     modelo al que le preguntan por vinos estando en la página de vinos. */
+  vinos: "la página de la vinoteca. IMPORTANTE: la carta de vinos todavía no está cerrada y NO tienes la lista de vinos del local. Si te preguntan por un vino concreto, dilo con naturalidad y ofrece preguntar en la barra o por WhatsApp; nunca inventes nombres de vino, bodegas ni precios",
   legal: "una página legal de la web (aviso legal, privacidad o cookies)",
 };
 

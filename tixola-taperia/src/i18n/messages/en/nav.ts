@@ -6,6 +6,7 @@ const nav = {
   links: {
     dishes: "Signature dishes",
     menu: "Menu",
+    wines: "Wines",
     location: "Find us",
     reviews: "Reviews",
   },
@@ -13,6 +14,7 @@ const nav = {
   shortLinks: {
     dishes: "Dishes",
     menu: "Menu",
+    wines: "Wines",
     location: "Find us",
     reviews: "Reviews",
   },

@@ -6,9 +6,10 @@ import experience from "./experience";
 import social from "./social";
 import footer from "./footer";
 import carta from "./carta";
+import vinos from "./vinos";
 import chat from "./chat";
 import legal from "./legal";
 import scroll from "./scroll";
 
-const es = { common, nav, hero, dishes, experience, social, footer, carta, chat, legal, scroll };
+const es = { common, nav, hero, dishes, experience, social, footer, carta, vinos, chat, legal, scroll };
 export default es;

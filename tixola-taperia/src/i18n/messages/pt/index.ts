@@ -7,6 +7,7 @@ import experience from "./experience";
 import social from "./social";
 import footer from "./footer";
 import carta from "./carta";
+import vinos from "./vinos";
 import chat from "./chat";
 import legal from "./legal";
 import scroll from "./scroll";
@@ -17,5 +18,5 @@ import scroll from "./scroll";
  * pelo que nada cai para o espanhol. A conversão é necessária apenas porque as fontes
  * espanholas são `as const` e `DeepPartial<Messages>` transporta por isso tipos literais.
  */
-const pt = { common, nav, hero, dishes, experience, social, footer, carta, chat, legal, scroll };
+const pt = { common, nav, hero, dishes, experience, social, footer, carta, vinos, chat, legal, scroll };
 export default pt as DeepPartial<Messages>;

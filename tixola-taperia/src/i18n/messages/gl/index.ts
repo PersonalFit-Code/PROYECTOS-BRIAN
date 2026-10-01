@@ -7,6 +7,7 @@ import experience from "./experience";
 import social from "./social";
 import footer from "./footer";
 import carta from "./carta";
+import vinos from "./vinos";
 import chat from "./chat";
 import legal from "./legal";
 import scroll from "./scroll";
@@ -17,5 +18,5 @@ import scroll from "./scroll";
  * ningunha clave cae ao español. O cast é necesario só porque as fontes en castelán se
  * declaran `as const` e `DeepPartial<Messages>` arrastra por iso tipos literais.
  */
-const gl = { common, nav, hero, dishes, experience, social, footer, carta, chat, legal, scroll };
+const gl = { common, nav, hero, dishes, experience, social, footer, carta, vinos, chat, legal, scroll };
 export default gl as DeepPartial<Messages>;

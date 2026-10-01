@@ -9,9 +9,9 @@
 import type { Locale } from "@/i18n/config";
 
 /** Página desde la que se abre el chat: contexto para el prompt y para las respuestas sin conexión. */
-export type WaiterPage = "home" | "carta" | "legal";
+export type WaiterPage = "home" | "carta" | "vinos" | "legal";
 
-export const WAITER_PAGES: readonly WaiterPage[] = ["home", "carta", "legal"];
+export const WAITER_PAGES: readonly WaiterPage[] = ["home", "carta", "vinos", "legal"];
 
 export function isWaiterPage(value: unknown): value is WaiterPage {
   return typeof value === "string" && (WAITER_PAGES as readonly string[]).includes(value);

@@ -9,6 +9,11 @@ type ChangeFrequency = "weekly" | "monthly" | "yearly";
 const PATHS: Array<{ path: string; priority: number; changeFrequency: ChangeFrequency }> = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/carta", priority: 0.9, changeFrequency: "weekly" },
+  /* La vinoteca entra en el sitemap aunque la lista de vinos todavía no esté: la página se
+     publica con el aviso de que se está cerrando y con el mapa de las denominaciones, que es
+     contenido real. No es el caso de las páginas legales de abajo, que sí se esconden porque lo
+     que les falta (los datos del responsable) es justo lo que les da validez. */
+  { path: "/vinos", priority: 0.8, changeFrequency: "monthly" },
   /* Páginas legales: los slugs son los del español (compartidos por todos los idiomas, ver legal/[slug]/page.tsx).
      Quedan fuera mientras los datos del responsable sigan sin rellenar — entonces van con `noindex`. */
   ...(LEGAL_IDENTITY_PENDING

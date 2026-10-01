@@ -1,0 +1,71 @@
+import type { Section } from "./shape";
+
+/** Textos da páxina /vinos (vinoteca). Ver o comentario de es/vinos.ts sobre por que se publica sen viños. */
+const vinos: Section<"vinos"> = {
+  kicker: "Vinoteca",
+  title: "A Carta",
+  accent: "de Viños",
+  description:
+    "Tixola é tapería e vinoteca: o viño galego non é aquí un acompañamento, é a metade da casa. Aquí irá a carta coa súa adega, a súa uva e o seu prezo.",
+
+  pendingKicker: "En preparación",
+  pendingTitle: "Estamos a pechar a carta de viños",
+  pendingText:
+    "Aínda non está publicada, e preferimos que siga así uns días máis: queremos que cada botella desta lista sexa unha que de verdade poidamos descorchar, non unha que estivese na carta o ano pasado.",
+  pendingAction: "Mentres tanto, pregúntanos: contámosche que hai aberto hoxe e que lle vai ben ao que vaias comer.",
+  pendingAsk: "Que viños tedes hoxe e cal me recomendades?",
+  pendingCta: "Preguntar ao camareiro virtual",
+  pendingWhatsapp: "Preguntar por WhatsApp",
+
+  regionsKicker: "De onde vén",
+  regionsTitle: "As cinco denominacións",
+  regionsAccent: "de Galicia",
+  regionsLead:
+    "Galicia ten cinco denominacións de orixe e catro teñen viñedo na provincia de Ourense. O propio concello da cidade está dentro da D.O. Ribeiro: o viño de aquí faise, literalmente, ao lado.",
+  regionsNote:
+    "Este é o mapa do viño galego, aínda non a nosa carta: cando a pechemos dirémosche de cales destas zonas vén cada botella.",
+  mapAria: "Mapa de Galicia coas cinco denominacións de orixe de viño",
+  mapTitle: "Galicia",
+  inOurense: "Provincia de Ourense",
+  whites: "Uvas brancas",
+  reds: "Uvas tintas",
+  since: "D.O. desde {year}",
+  regionAria: "Denominación de orixe {name}",
+  /** Abreviatura de "denominación de origen", delante del nombre protegido. */
+  doPrefix: "D.O.",
+  mapAtlantic: "Atlántico",
+  mapPortugal: "Portugal",
+  mapHere: "Estamos aquí",
+  mostly: { blanco: "Sobre todo branco", tinto: "Sobre todo tinto" },
+  regionCharacter: {
+    "rias-baixas":
+      "Clima atlántico e o mar ao lado, co viñedo por debaixo dos 300 metros. De aí saen brancos de acidez marcada e moito aroma máis que de moito alcol: xusto o que pide o marisco.",
+    ribeiro:
+      "Zona de transición, co aire atlántico suavizado polas montañas que a pechan ao norte e ao oeste. Entre o día e a noite hai moita diferenza de temperatura, así que a uva madura amodo e conserva o aroma e o frescor.",
+    "ribeira-sacra":
+      "Viñedo en socalcos sobre os canóns do Miño e do Sil, en ladeiras tan bruscas que a isto chámanlle viticultura heroica. Máis continental ca atlántica: veráns longos e calorosos, outonos temperados.",
+    valdeorras:
+      "Mediterráneo con influencia atlántica, no val do Sil e por riba dos 450 metros. Sobre chan de lousa, os viños saen cun carácter mineral moi marcado.",
+    monterrei:
+      "A única das cinco que verte ao Douro, polo Támega, pegada á fronteira con Portugal. Veráns calorosos e secos, invernos fríos, e ata 20 graos de diferenza entre o día e a noite cando madura a uva.",
+  },
+
+  kinds: { blanco: "Brancos", tinto: "Tintos", rosado: "Rosados", espumoso: "Espumosos", dulce: "Doces" },
+  glass: "Copa",
+  bottle: "Botella",
+  grapes: "Uva",
+  vintage: "Colleita",
+  ageing: "Crianza",
+  abv: "Graduación",
+  winery: "Adega",
+  pairsWith: "Marida con",
+  openWine: "Ver a ficha de {name}",
+  closeWine: "Pechar a ficha",
+  count: "{count} viños",
+  priceNote: "Prezos con IVE incluído, os mesmos que na carta do local.",
+
+  seoTitle: "Carta de viños galegos en Ourense",
+  seoDescription:
+    "Vinoteca xunto á Catedral de Ourense: viños das cinco denominacións galegas —Ribeiro, Valdeorras, Monterrei, Ribeira Sacra e Rías Baixas— para acompañar as tapas.",
+};
+export default vinos;

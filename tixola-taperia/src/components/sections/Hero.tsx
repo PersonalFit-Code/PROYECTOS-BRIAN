@@ -4,7 +4,8 @@ import { useRef, useSyncExternalStore, type CSSProperties, type ReactNode, type 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Star, UtensilsCrossed } from "lucide-react";
 import NeonButton from "@/components/ui/NeonButton";
-import HeroCanvas, { HERO_PAN_HEIGHT, HERO_PAN_WIDTH } from "@/components/hero/HeroCanvas";
+import HeroCanvas, { HERO_MARK_BAND_HEIGHT, HERO_MARK_BAND_WIDTH } from "@/components/hero/HeroCanvas";
+import HeroMark, { PAN_DISC } from "@/components/hero/HeroMark";
 import { useHeroStillVisible } from "@/components/scroll/HeroTransition";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useInView } from "@/hooks/useInViewOnce";
@@ -38,6 +39,34 @@ interface HeadlineProps {
   reduced: boolean;
 }
 
+/**
+ * Tipografía del titular, en una constante porque la usan DOS elementos: el `<h1>` de verdad y el
+ * "titular fantasma" que cuelga la sartén del final de la primera línea. Si los dos no comparten
+ * exactamente la misma fuente, cuerpo, interlineado y tracking, el fantasma mide distinto y la
+ * sartén deja de caer sobre la "o". Por eso se escribe una vez.
+ */
+/**
+ * Cuánto hay que subir la sartén, en `em` del titular, para que su disco quede centrado en la "o" y
+ * no colgando de la línea base.
+ *
+ * El ancla de la que cuelga es un `<span>` de ancho CERO, y un inline-block vacío tiene también
+ * altura cero: su `top: 50 %` es, en la práctica, la línea base del texto. Si no se corrige, el
+ * centro del disco cae justo sobre esa línea base, que está al pie de las letras, no en su mitad.
+ *
+ * El valor no está puesto a ojo: con el disco en la línea base, medido en los cuatro idiomas y en
+ * seis anchos, el desfase era de 26 px a 1024 y de 39 px a 1920 — siempre 0,32 veces el cuerpo del
+ * titular. Al ir en `em`, la corrección escala sola con la tipografía fluida.
+ */
+const ALTURA_O = 0.32;
+
+/** Caja de una línea del titular. La máscara (`overflow-hidden`) la añade solo el h1 de verdad. */
+const CAJA_LINEA = "-mx-[0.08em] -mb-[0.1em] block px-[0.08em] pb-[0.1em]";
+
+const TIPO_TITULAR = cn(
+  "font-display font-medium text-cream lg:font-normal",
+  "text-[clamp(2.6rem,11vw,3.6rem)] leading-[0.92] tracking-[-0.01em] lg:text-[clamp(3.2rem,8vw,7.5rem)]",
+);
+
 /** Palabra a palabra: la palabra acentuada va en cursiva con `text-gradient-ember`. */
 function LineWords({ text, accent }: { text: string; accent: string }) {
   const words = text.split(" ");
@@ -70,17 +99,14 @@ function Headline({ lines, accent, fullTitle, reduced }: HeadlineProps) {
   return (
     <h1
       aria-label={fullTitle}
-      className={cn(
-        "font-display font-medium text-cream lg:font-normal",
-        "text-[clamp(2.6rem,11vw,3.6rem)] leading-[0.92] tracking-[-0.01em] lg:text-[clamp(3.2rem,8vw,7.5rem)]",
-      )}
+      className={cn(TIPO_TITULAR)}
     >
       {visible.map((line, i) => (
         <span
           key={line}
           aria-hidden
           /* La máscara deja un pequeño margen inferior/lateral para no recortar descendentes ni la cursiva */
-          className="-mx-[0.08em] -mb-[0.1em] block overflow-hidden px-[0.08em] pb-[0.1em]"
+          className={cn(CAJA_LINEA, "overflow-hidden")}
         >
           {/* Sin `will-change-transform`: la entrada dura 1,4 s al cargar y el navegador ya promueve la
               capa por sí solo mientras hay un `transform` animado. Dejarlo declarado mantenía las tres
@@ -228,13 +254,15 @@ function ScrollCue({
    ────────────────────────────────────────────────────────────── */
 
 /**
- * Medidas de la foto de la tixola en la composición apilada (móvil), como variables CSS de la sección.
- * Las define `HeroCanvas` (que es quien conoce la foto) y aquí se publican en `<section>` para que las
- * lean las dos partes: la caja de la foto (`w-[var(--pan-w)]`) y el padding superior del copy
- * (`var(--pan-h)`), que reserva la banda. Un solo origen: si mañana la foto cambia de proporción o de
- * tamaño, el copy se aparta solo.
+ * Medidas de la banda de la marca en la composición apilada (MÓVIL), como variables CSS de la
+ * sección. Las define `HeroCanvas` (que es quien conoce el dibujo) y aquí se publican en `<section>`
+ * para que las lean las dos partes: la caja de la marca (`w-[var(--marca-w)]`) y el padding superior
+ * del copy (`var(--marca-h)`), que reserva la banda. Un solo origen: si mañana la marca cambia de
+ * proporción o de tamaño, el copy se aparta solo.
+ *
+ * En escritorio no hacen falta: allí la sartén cuelga del titular y su hueco lo da la propia línea.
  */
-const PAN_VARS = { "--pan-w": HERO_PAN_WIDTH, "--pan-h": HERO_PAN_HEIGHT } as CSSProperties;
+const MARCA_VARS = { "--marca-w": HERO_MARK_BAND_WIDTH, "--marca-h": HERO_MARK_BAND_HEIGHT } as CSSProperties;
 
 /**
  * Los dos CTA de la portada, HOMBRO CON HOMBRO también en el móvil.
@@ -276,11 +304,11 @@ const HERO_CTA = cn(
 
 /**
  * Portada a pantalla completa con criterio editorial (portada de revista):
- *  - Fondo (`HeroCanvas`): la FOTO real de una tixola del local levitando sobre hierro y brasas,
- *    con vaho y chispas. En escritorio la sartén ocupa la mitad derecha y su mango asoma detrás del
- *    titular; en móvil ocupa una banda propia bajo la cabecera (`--pan-h`) y el copy empieza debajo,
- *    alineado a la izquierda: si no cabe todo en 100svh, la portada crece y se hace scroll (mejor una
- *    sartén grande que una moneda). Las dos composiciones las resuelve el propio fondo con el
+ *  - Fondo (`HeroCanvas`): el LOGOTIPO de la casa, grande, sobre hierro y brasas, con chispas y un
+ *    brillo lento que le recorre los trazos. En escritorio ocupa la mitad derecha sin llegar a pisar
+ *    el titular; en móvil ocupa una banda propia bajo la cabecera (`--marca-h`) y el copy empieza
+ *    debajo, alineado a la izquierda: si no cabe todo en 100svh, la portada crece y se hace scroll
+ *    (mejor una marca grande que un sello). Las dos composiciones las resuelve el propio fondo con el
  *    breakpoint `lg`.
  *  - Kicker en Cinzel, H1 enorme en Cormorant anclado abajo a la izquierda, con la palabra
  *    acentuada en cursiva y degradado de brasa; subtítulo, CTAs neón y valoración discreta.
@@ -335,8 +363,8 @@ export default function Hero() {
       : { initial: { opacity: 0, y: 22 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.9, ease: EASE_OUT_EXPO, delay } };
 
   return (
-    <section ref={sectionRef} id="hero" style={PAN_VARS} className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-granate">
-      {/* Fondo de la portada (foto de la tixola sobre la brasa). El contenedor data-hero-canvas lo
+    <section ref={sectionRef} id="hero" style={MARCA_VARS} className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-granate">
+      {/* Fondo de la portada (el logotipo sobre la brasa). El contenedor data-hero-canvas lo
           anima el módulo de scroll: `HeroTransition` lo busca por ese atributo para el alejamiento. */}
       <div data-hero-canvas className="absolute inset-0 -z-10">
         <HeroLayer parallax={parallax} target={sectionRef} variant="canvas" className="absolute inset-0">
@@ -362,18 +390,18 @@ export default function Hero() {
       />
 
       {/* Copy: anclado abajo a la izquierda (portada). El contenedor data-hero-copy lo anima el módulo de scroll.
-          Por debajo de `lg` el padding superior reserva la banda de la foto (cabecera + `--pan-h` + un
-          respiro): el copy nunca se cruza con la sartén, mida lo que mida en cada idioma. En pantallas
-          altas `justify-end` deja el aire entre la foto y el texto; en las bajas la sección crece.
+          Por debajo de `lg` el padding superior reserva la banda de la marca (cabecera + `--marca-h` + un
+          respiro): el copy nunca se cruza con el logotipo, mida lo que mida en cada idioma. En pantallas
+          altas `justify-end` deja el aire entre la marca y el texto; en las bajas la sección crece.
           El respiro sobre la barra móvil fija es de 1,75 rem (eran 3,25): cada píxel que se ahorra
           aquí es un píxel menos de scroll antes de ver los CTAs en un teléfono bajo. */}
       <div
         data-hero-copy
         className={cn(
           /*
-            En el teléfono el bloque se CENTRA en el hueco que queda bajo la sartén, y de `sm` en
+            En el teléfono el bloque se CENTRA en el hueco que queda bajo el logotipo, y de `sm` en
             adelante sigue anclado abajo como hasta ahora. Sin el párrafo, el copy ocupa 120 px menos y
-            en un móvil alto (844 px) todo ese aire se acumulaba de golpe entre la foto y el kicker: un
+            en un móvil alto (844 px) todo ese aire se acumulaba de golpe entre la marca y el kicker: un
             agujero negro de 145 px en mitad de la primera pantalla. Centrando, ese hueco se parte en
             dos de ~83 px —uno sobre el kicker y otro bajo la valoración— y el segundo es justo el
             respiro que pedía el cliente antes de entrar en los platos. En las pantallas cortas, que son
@@ -381,15 +409,15 @@ export default function Hero() {
             que anclar abajo.
           */
           "container-page relative z-10 flex flex-1 flex-col justify-center sm:justify-end",
-          "pt-[calc(var(--header-h)+var(--pan-h)+0.75rem)] pb-[calc(var(--mobile-bar-h)+1.75rem)] md:pb-24 lg:pb-[clamp(3rem,7vh,5.5rem)] lg:pt-[calc(var(--header-h)+2rem)]",
+          "pt-[calc(var(--header-h)+var(--marca-h)+0.75rem)] pb-[calc(var(--mobile-bar-h)+1.75rem)] md:pb-24 lg:pb-[clamp(3rem,7vh,5.5rem)] lg:pt-[calc(var(--header-h)+2rem)]",
         )}
       >
         <HeroLayer parallax={parallax} target={sectionRef} variant="copy" className="relative w-full lg:max-w-[58rem]">
           {/*
-            VELO DEL COPY (solo por debajo de lg). Desde que la foto tiene su banda propia (`--pan-h`) el
-            texto ya no se pinta encima de la sartén, pero el velo se queda: detrás del copy siguen los
+            VELO DEL COPY (solo por debajo de lg). Desde que la marca tiene su banda propia (`--marca-h`) el
+            texto ya no se pinta encima del logotipo, pero el velo se queda: detrás del copy siguen los
             focos rojos de la parrilla y la línea de brasa del pie, y su arranque suave es lo que funde el
-            borde inferior de la sartén con la sombra en vez de dejarla recortada. La historia de abajo
+            borde inferior del dibujo con la sombra en vez de dejarlo recortado. La historia de abajo
             explica por qué es un degradado vertical medido en píxeles y no un radial.
             En la composición apilada anterior el titular subía hasta el 24 % de la pantalla y se pintaba
             encima del aceite. Medido con estilo calculado a 360×640: el fondo bajo «El Arte del Tapeo»
@@ -409,7 +437,7 @@ export default function Hero() {
             bloque de texto— en llegar a su opacidad de trabajo (0,74): ese arranque hace que la tixola se
             funda con el velo en vez de quedar cortada por una línea recta, que es como se veía con un
             radial (el borde superior de la caja recortaba el degradado a media opacidad y dejaba un canto
-            visible cruzando la sartén). Arriba de ese arranque la tixola sigue encendida; debajo, el aceite
+            visible cruzando la sartén). Arriba de ese arranque la marca sigue encendida; debajo, el fondo
             se ve atenuado detrás de las letras, que es el aire cinematográfico que pedía el diseño. La
             opacidad está calibrada midiendo: el píxel de fondo más claro bajo el titular baja de 245 a 68,
             es decir contraste ≥ 5:1 con el crema del texto (antes, 1:1).
@@ -430,7 +458,64 @@ export default function Hero() {
             <span>{m.hero.kicker}</span>
           </motion.p>
 
-          <Headline lines={m.hero.titleLines} accent={m.hero.accent} fullTitle={m.hero.title} reduced={reduced} />
+          {/*
+            EL TITULAR Y LA SARTÉN COLGADA DE LA "o".
+
+            El cliente pidió que la sartén quede "enlazando justo con la o de Tapeo". Eso no se puede
+            escribir como un porcentaje de la ventana: medido en los cuatro idiomas y en seis anchos,
+            el final de esa primera línea cae entre el 54,9 % y el 62,9 % del ancho de la pantalla, y
+            además sube y baja (del 31,5 % al 43,7 % del alto). Cualquier cifra fija acertaría en un
+            idioma y fallaría en los otros tres.
+
+            La solución es un TITULAR FANTASMA: una copia invisible de la primera línea, con la misma
+            tipografía y la misma caja, superpuesta al h1 de verdad. Su primera línea termina
+            exactamente donde termina la real —porque es la misma maqueta—, y de ese final cuelga la
+            sartén. Funciona en los cuatro idiomas, a cualquier ancho, SIN medir nada con JavaScript:
+            sale ya colocada en el HTML del servidor.
+
+            El ancla es un `<span>` de ancho cero (`w-0`), así que no empuja el texto ni cambia dónde
+            rompe la línea. Lo único visible del fantasma es la sartén.
+          */}
+          <div className="relative">
+            <Headline lines={m.hero.titleLines} accent={m.hero.accent} fullTitle={m.hero.title} reduced={reduced} />
+            <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
+              <p className={cn(TIPO_TITULAR, "invisible")}>
+                <span className={CAJA_LINEA}>
+                  <span className="block">
+                    <LineWords text={m.hero.titleLines[0]} accent={m.hero.accent} />
+                    <span className="relative inline-block w-0 align-baseline">
+                      {/*
+                        Colocación de la sartén respecto a ese punto:
+                         · `left-0` = el final exacto de la línea; `-translate-x-[3%]` la mete 3 % de
+                           su ancho hacia la izquierda, que es el SOLAPE que pidió el cliente ("que
+                           enlace con la o"). Sin texto en el dibujo, lo que pisa la letra son trazos
+                           finos y aire, no una mancha.
+                         · `top-1/2` es el centro vertical de la línea; `-translate-y` lleva ahí el
+                           centro del DISCO de la sartén (32,3 % de la altura del dibujo, medido), no
+                           el centro de la caja: por encima del disco solo hay mango.
+                        Las dos cifras salen de `PAN_DISC`, que es donde están medidas.
+
+                        EL TAMAÑO (`36vw`) NO ES UN GUSTO, ES EL MÁXIMO QUE CABE. El dibujo arranca
+                        donde termina el titular, así que todo lo que crece se va hacia el borde
+                        derecho. El caso más apretado es el portugués a 1600 px, donde su primera
+                        línea ("A Arte do Petisco") llega al 62,9 % del ancho y solo quedan 586 px
+                        hasta el margen: por encima de ~36,6vw la rama de perejil se sale de la
+                        pantalla. Se deja en 36vw, con tope de 680 px para que en un monitor muy
+                        ancho no se convierta en un cartel, y un `svh` para que en un portátil bajo
+                        encoja sola en vez de comerse la altura.
+                      */}
+                      <span
+                        className="visible absolute left-0 top-1/2 block w-[min(36vw,66svh,680px)]"
+                        style={{ transform: `translate(-3%, calc(-${PAN_DISC.centerYPct}% - ${ALTURA_O}em))` }}
+                      >
+                        <HeroMark />
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </p>
+            </div>
+          </div>
 
           {/*
             SUBTÍTULO — se ve de `sm` en adelante y se oculta en el teléfono.

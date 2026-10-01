@@ -5,6 +5,7 @@ const nav: Section<"nav"> = {
   links: {
     dishes: "Pratos estrela",
     menu: "Carta",
+    wines: "Viños",
     location: "Localización",
     reviews: "Opinións",
   },
@@ -12,6 +13,7 @@ const nav: Section<"nav"> = {
   shortLinks: {
     dishes: "Pratos",
     menu: "Carta",
+    wines: "Viños",
     location: "Localización",
     reviews: "Opinións",
   },

@@ -7,6 +7,7 @@ import experience from "./experience";
 import social from "./social";
 import footer from "./footer";
 import carta from "./carta";
+import vinos from "./vinos";
 import chat from "./chat";
 import legal from "./legal";
 import scroll from "./scroll";
@@ -17,5 +18,5 @@ import scroll from "./scroll";
  * back to Spanish. The cast is needed only because the Spanish sources are `as const` and
  * `DeepPartial<Messages>` therefore carries literal string types.
  */
-const en = { common, nav, hero, dishes, experience, social, footer, carta, chat, legal, scroll };
+const en = { common, nav, hero, dishes, experience, social, footer, carta, vinos, chat, legal, scroll };
 export default en as DeepPartial<Messages>;

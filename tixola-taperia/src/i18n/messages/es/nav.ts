@@ -3,6 +3,7 @@ const nav = {
   links: {
     dishes: "Platos estrella",
     menu: "Carta",
+    wines: "Vinos",
     location: "Ubicación",
     reviews: "Opiniones",
   },
@@ -10,6 +11,7 @@ const nav = {
   shortLinks: {
     dishes: "Platos",
     menu: "Carta",
+    wines: "Vinos",
     location: "Ubicación",
     reviews: "Opiniones",
   },
