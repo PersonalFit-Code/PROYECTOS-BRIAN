@@ -185,11 +185,18 @@ export default function CookieConsent() {
   }, [consent]);
 
   /* Publicamos la visibilidad para que los botones flotantes se aparten mientras el aviso ocupa
-     la parte baja de la pantalla (en móvil los cubre enteros). */
+     la parte baja de la pantalla (en móvil los cubre enteros).
+     SOLO LA APERTURA VA AQUÍ. El cierre lo anuncia `onExitComplete` (ver abajo): el aviso sigue en
+     pantalla 400 ms más mientras se desvanece, y decir que se ha ido antes de tiempo tenía
+     consecuencias reales. */
   useEffect(() => {
-    setCookieBannerOpen(open);
-    return () => setCookieBannerOpen(false);
+    if (open) setCookieBannerOpen(true);
   }, [open]);
+
+  /* Limpieza SOLO al desmontar, con lista de dependencias vacía. Estaba dentro del efecto de arriba
+     y ahí no valía: React ejecuta la limpieza del efecto anterior en cuanto `open` cambia, así que
+     el cierre se seguía anunciando al instante por mucho que lo avisara `onExitComplete` después. */
+  useEffect(() => () => setCookieBannerOpen(false), []);
 
   /* Al reabrir desde el pie movemos el foco al panel; al cerrar lo devolvemos al botón. */
   useEffect(() => {
@@ -236,7 +243,17 @@ export default function CookieConsent() {
       <div aria-live="polite">
         <p className="sr-only">{announcement}</p>
 
-        <AnimatePresence>
+        {/*
+          `onExitComplete` y no el `useEffect` de arriba: el aviso tarda 400 ms en salir del DOM
+          (medido) mientras se desvanece, y durante esos 400 ms SIGUE tapando los botones flotantes.
+
+          Anunciar el cierre antes de tiempo dejaba al camarero virtual y al de WhatsApp invisibles
+          y con `inert` puesto —ni se veían ni se podían pulsar— durante el resto de la visita en un
+          teléfono: al enterarse del cierre volvían a mirar qué tenían debajo, y a los 16 ms todavía
+          encontraban este aviso. Nada volvía a mirar después, así que el apartado se quedaba fijo
+          hasta que al visitante se le ocurriera desplazar la página.
+        */}
+        <AnimatePresence onExitComplete={() => setCookieBannerOpen(false)}>
           {open && (
             <div
               className={cn(

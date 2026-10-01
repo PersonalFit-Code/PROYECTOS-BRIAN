@@ -220,7 +220,23 @@ function controlUnder(box: DOMRect): boolean {
  * opacidad) vive en una capa interior y no en el envoltorio, que si se desplazara haría medir el
  * rectángulo 24-32 px corrido y contestar sobre un trozo de pantalla que no es el del botón.
  */
-export function useControlUnderFloat(ref: RefObject<HTMLElement | null>, enabled: boolean): boolean {
+export function useControlUnderFloat(
+  ref: RefObject<HTMLElement | null>,
+  enabled: boolean,
+  /**
+   * Cualquier valor que, al cambiar, obligue a volver a mirar qué hay debajo.
+   *
+   * EXISTE POR UN FALLO REAL, y era el peor de los tres que arregló esta ronda: el aviso de cookies
+   * es una capa fija que en el móvil cae JUSTO sobre los dos flotantes. La primera medición, hecha
+   * al cargar, encontraba sus botones debajo y apartaba los discos — correcto. Pero al aceptar las
+   * cookies el aviso desaparece y aquí no pasaba nada: esto solo se recalcula al asentarse un
+   * desplazamiento, al cambiar el tamaño o al navegar, y aceptar cookies no es ninguna de las tres.
+   * Resultado: en un teléfono, nada más entrar y aceptar, el camarero y el WhatsApp se quedaban
+   * invisibles Y con `inert` puesto —ni se veían ni se podían pulsar— hasta que al visitante se le
+   * ocurriera desplazar. Que es exactamente la queja de "en el móvil los iconos tardan en verse".
+   */
+  recalcularCon?: unknown,
+): boolean {
   const pathname = usePathname();
   const [blocked, setBlocked] = useState(false);
 
@@ -245,8 +261,9 @@ export function useControlUnderFloat(ref: RefObject<HTMLElement | null>, enabled
       window.removeEventListener("resize", check);
     };
     /* `pathname` entra como dependencia para volver a mirar tras una navegación de cliente: el
-       documento cambia entero sin que haya pasado un solo `scroll`. */
-  }, [enabled, pathname, ref]);
+       documento cambia entero sin que haya pasado un solo `scroll`. `recalcularCon`, por lo mismo:
+       una capa fija que se quita tampoco mueve el scroll ni cambia la ruta. */
+  }, [enabled, pathname, recalcularCon, ref]);
 
   /* Se contesta `false` en vez de reiniciar el estado desde el efecto: poner `setBlocked(false)` en el
      cuerpo del efecto encadena un render de más cada vez que `enabled` cambia (y lo hace al girar el
@@ -397,7 +414,7 @@ export default function FloatingWhatsApp() {
      en escritorio y todas las capturas se hicieron a 390 px. La maquinaria ya estaba escrita; lo
      único que faltaba era dejarla trabajar aquí. */
   const boxRef = useRef<HTMLDivElement>(null);
-  const overControl = useControlUnderFloat(boxRef, true);
+  const overControl = useControlUnderFloat(boxRef, true, bannerOpen);
 
   const hidden = (heroHidden && mobile) || covered || overControl;
   const pinging = !noticed && !hidden;

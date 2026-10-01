@@ -1,14 +1,11 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, MotionConfig } from "framer-motion";
 import { MessageSquareText } from "lucide-react";
 import { useCookieBannerOpen } from "@/components/legal/CookieConsent";
 import { FLOATING_TRANSITION, useControlUnderFloat, useFooterUnderFloats, useIsScrolling } from "@/components/ui/FloatingWhatsApp";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { useScrollPastViewport } from "@/hooks/useScrollPast";
-import { stripLocale } from "@/i18n/config";
 import { useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
@@ -17,11 +14,77 @@ const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 /** id del botón para devolverle el foco al cerrar el widget. */
 export const CHAT_LAUNCHER_ID = "tixola-chat-launcher";
 
+/* ──────────────────────────────────────────────────────────────
+   LA LLAMADA: el globo que avisa de que hay un camarero detrás del disco
+   ────────────────────────────────────────────────────────────── */
+
 /**
- * En la home y en móvil el lanzador espera a que el usuario haya bajado esta fracción del viewport,
- * igual que el botón de WhatsApp: así no tapa los CTAs de la portada en la primera impresión.
+ * Cuánto espera el globo desde que el lanzador está a la vista, y cuánto se queda.
+ *
+ * EL RETARDO NO ES UN ADORNO: el disco entra con 0,3 s de espera más 0,6 s de animación, así que un
+ * globo más rápido saldría señalando a un botón que todavía está apareciendo.
+ *
+ * LA DURACIÓN ES DE SEIS SEGUNDOS, no de dos. El cliente pidió "dos segundos", y dos segundos dan
+ * para verlo pero no para leerlo, decidir y levantar el dedo —menos aún en un móvil mientras se
+ * baja la página—. Seis sigue siendo un aviso que se quita solo y no un cartel que haya que cerrar.
  */
-const HOME_REVEAL_RATIO = 0.45;
+const LLAMADA_RETARDO_MS = 1300;
+const LLAMADA_DURACION_MS = 6000;
+
+/** Una vez por visita. `sessionStorage` y no `localStorage`: si vuelve otro día, vuelve a saludar. */
+const LLAMADA_CLAVE = "tixola:waiter:llamada:v1";
+
+/* En navegación privada o con las cookies bloqueadas, `sessionStorage` LANZA al tocarlo. Un aviso
+   decorativo no puede tumbar la página: si no se puede recordar, el globo sale otra vez y ya está. */
+function llamadaYaVista(): boolean {
+  try {
+    return window.sessionStorage.getItem(LLAMADA_CLAVE) === "1";
+  } catch {
+    return false;
+  }
+}
+function marcarLlamadaVista(): void {
+  try {
+    window.sessionStorage.setItem(LLAMADA_CLAVE, "1");
+  } catch {
+    /* Sin almacenamiento no hay memoria, y no pasa nada. */
+  }
+}
+
+/**
+ * Saca el globo una sola vez por visita, y solo mientras `activa` sea cierto —es decir, mientras el
+ * lanzador esté de verdad a la vista—.
+ *
+ * LOS DOS TEMPORIZADORES VAN EN EFECTOS SEPARADOS A PROPÓSITO. Con los dos en el mismo efecto, que
+ * `activa` pasara a falso mientras el globo estaba fuera (basta con que el dedo empiece a desplazar)
+ * limpiaba también el temporizador de retirada, y el globo se quedaba puesto para siempre.
+ */
+function useLlamada(activa: boolean): boolean {
+  const [visible, setVisible] = useState(false);
+  const yaSalio = useRef(false);
+
+  useEffect(() => {
+    if (!activa || yaSalio.current) return;
+    if (llamadaYaVista()) {
+      yaSalio.current = true;
+      return;
+    }
+    const temporizador = window.setTimeout(() => {
+      yaSalio.current = true;
+      marcarLlamadaVista();
+      setVisible(true);
+    }, LLAMADA_RETARDO_MS);
+    return () => window.clearTimeout(temporizador);
+  }, [activa]);
+
+  useEffect(() => {
+    if (!visible) return;
+    const temporizador = window.setTimeout(() => setVisible(false), LLAMADA_DURACION_MS);
+    return () => window.clearTimeout(temporizador);
+  }, [visible]);
+
+  return visible;
+}
 
 export interface ChatLauncherProps {
   isOpen: boolean;
@@ -48,18 +111,26 @@ export interface ChatLauncherProps {
  */
 export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }: ChatLauncherProps) {
   const m = useMessages();
-  const pathname = usePathname();
-  const isHome = stripLocale(pathname ?? "/").path === "/";
-  /* Del almacén único de scroll: este hook era una copia literal del de FloatingWhatsApp. */
-  const scrolled = useScrollPastViewport(HOME_REVEAL_RATIO);
   const mobile = useIsMobile(768);
   /* El mismo almacén que usa el botón de WhatsApp, para que los dos se aparten y vuelvan a la vez:
      si cada uno llevara su temporizador, bastaría un render desacompasado para verlos desfilar. */
   const scrolling = useIsScrolling();
 
-  /* Oculto (solo < md) mientras la portada de la home está a la vista; se resuelve con clases
-     max-md:* para que el HTML del servidor ya salga correcto y no parpadee al hidratar. */
-  const heroHidden = isHome && !scrolled && !isOpen;
+  /*
+    EL CAMARERO SE VE DESDE EL PRIMER SEGUNDO, TAMBIÉN EN LA PORTADA DEL MÓVIL.
+
+    Antes esperaba a que el visitante bajara el 45 % de la pantalla, como su gemelo de WhatsApp, para
+    no tapar los botones de la portada. Pero eso dejaba el camarero invisible justo donde entra casi
+    todo el mundo —la home, en un teléfono— y escondido detrás de un gesto que mucha gente no llega a
+    hacer. Un asistente que hay que descubrir desplazando no es un asistente, es un secreto.
+
+    Lo que protegía de taparlo sigue en pie y es mejor: `useControlUnderFloat` aparta el disco en
+    cuanto le queda DEBAJO algo pulsable, sea en la portada o donde sea. Es una medida real de lo que
+    hay bajo el botón, no una suposición sobre cuánto ha bajado el dedo.
+
+    El de WhatsApp sí conserva su espera: el cliente pidió destacar el camarero, y si los dos
+    aparecieran a la vez sobre la portada volveríamos a la pantalla llena de discos que ya se corrigió.
+  */
   /* El aviso de cookies ocupa todo el ancho y ~350 px de alto en móvil: taparía este botón. Desde
      `md` se centra (`md:w-[min(42rem,100vw-3rem)]`), así que su borde izquierdo sigue cayendo sobre
      el lanzador hasta ~816 px de ancho — tablets en vertical. Por eso el apartado por el aviso usa
@@ -103,15 +174,25 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
      libres—, salvo cuando el panel está abierto, que entonces el lanzador ya no se pinta. El porqué
      y lo que se descartó, en `useControlUnderFloat`. */
   const boxRef = useRef<HTMLDivElement>(null);
-  const overControl = useControlUnderFloat(boxRef, !isOpen);
+  /* `bannerOpen` como tercer argumento: al cerrarse el aviso de cookies hay que volver a mirar qué
+     hay debajo, o el disco se queda apartado por una medición vieja (ver `useControlUnderFloat`). */
+  const overControl = useControlUnderFloat(boxRef, !isOpen, bannerOpen);
 
   /* Los dos motivos de retirada, YA con la ventana de devolución aplicada. Se calculan una sola vez y
      los usan tanto el `inert`/`tabIndex` como las clases que apartan el disco: si la ventana solo
      levantara el `inert`, el botón recibiría el foco pero seguiría a opacidad 0 y desplazado fuera —el
      foco estaría puesto en algo invisible, que es el otro lado del mismo fallo. */
-  const retracted = !returning && (heroHidden || footerUnder || overControl);
+  const retracted = !returning && (footerUnder || overControl);
   const bannerRetracted = !returning && bannerOpen;
   const hidden = isOpen || (retracted && mobile) || (bannerRetracted && bannerOverlaps);
+
+  /* EL GLOBO SOLO SALE CON EL LANZADOR QUIETO Y A LA VISTA, y esto es lo único delicado de la pieza:
+     en la home del móvil el disco no existe hasta haber bajado media pantalla, y con el aviso de
+     cookies abierto está apartado. Un temporizador que arrancara al cargar la página señalaría a una
+     esquina vacía justo donde más gente entra. Por eso la cuenta empieza AQUÍ, cuando el botón está
+     de verdad donde el globo va a apuntar. */
+  const lanzadorQuieto = !isOpen && !hidden && !retracted && !bannerRetracted && !scrolling;
+  const llamada = useLlamada(!hasOpened && lanzadorQuieto);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -140,7 +221,7 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
           /* El `pointer-events` se queda AQUÍ, no en la capa que se desplaza: esta caja sigue ocupando
              sus 44 px y, apagada solo por dentro, se tragaría el toque del contenido de debajo mientras
              el botón está apartado (ver el gemelo en `FloatingWhatsApp`). */
-          (!returning && (heroHidden || footerUnder)) && "max-md:pointer-events-none",
+          (!returning && footerUnder) && "max-md:pointer-events-none",
           /* `overControl` SIN `max-md:`: el disco también cae sobre controles en escritorio
              (su gemelo de WhatsApp lo hacía sobre el botón "Filtros" de la carta). */
           (!returning && overControl) && "pointer-events-none",
@@ -150,12 +231,15 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
       >
         <div
           className={cn(
+            /* `relative` para que el globo cuelgue de aquí: así hereda TODO el apartado (portada,
+               cookies, pie, control debajo, desplazamiento) sin repetir ni una condición. */
+            "relative",
             /* `translate`, no `transform`: `-translate-x-6` es la propiedad `translate` en Tailwind v4. */
             FLOATING_TRANSITION,
             /* Al apartarse sale hacia SU borde, el izquierdo: por eso el signo es negativo aquí y
                positivo en el de WhatsApp. Estos motivos (portada, aviso, pie, control debajo) no llevan
                `motion-safe:`: retirarse aquí no es adorno, es liberar algo que hay que poder pulsar. */
-            (!returning && (heroHidden || footerUnder)) && "max-md:-translate-x-6 max-md:opacity-0",
+            (!returning && footerUnder) && "max-md:-translate-x-6 max-md:opacity-0",
             /* Aparte y sin `max-md:`, para que en escritorio el apartado sea también VISUAL:
                dejarlo solo en `inert` deja un disco opaco encima de algo que hay que pulsar y
                que ya no responde, que parece un botón roto. */
@@ -168,11 +252,13 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
         <motion.div
           initial={{ opacity: 0, scale: 0.6 }}
           animate={isOpen ? { opacity: 0, scale: 0.4, x: 0 } : { opacity: 1, scale: 1, x: 0 }}
-          /* El retardo de 1,2 s es la ENTRADA del botón al cargar la página (espera a que la portada se
-             asiente). No vale para la vuelta tras cerrar el panel: ahí el lanzador acaba de recibir el
-             foco (ver la ventana de devolución arriba) y se quedaba invisible casi dos segundos con el
-             foco puesto — justo lo que la WCAG pide que no pase. `hasOpened` distingue las dos
-             situaciones sin estado nuevo: es false solo en la primera aparición. */
+          /* La ENTRADA del botón al cargar la página. Eran 1,2 s de espera "a que la portada se
+             asiente", y sumados a que en el móvil no salía hasta bajar media pantalla, el camarero
+             tardaba demasiado en existir. Ahora entra casi de inmediato: lo justo para que no aparezca
+             a mitad de la primera pintada. No vale para la vuelta tras cerrar el panel: ahí el
+             lanzador acaba de recibir el foco (ver la ventana de devolución arriba) y se quedaría
+             invisible con el foco puesto — justo lo que la WCAG pide que no pase. `hasOpened`
+             distingue las dos situaciones sin estado nuevo: es false solo en la primera aparición. */
           transition={
             isOpen
               ? { duration: 0.25, ease: EASE_OUT_EXPO }
@@ -242,6 +328,34 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
             </span>
           </button>
         </motion.div>
+
+        {/*
+          EL GLOBO. Sale a la derecha del disco —el lanzador vive en la esquina IZQUIERDA—, se quita
+          solo y abre el camarero si lo pulsan.
+
+          ES UN DUPLICADO DECORATIVO, de ahí el `aria-hidden` y el `tabIndex={-1}`: justo al lado hay
+          un botón de verdad, etiquetado y en el orden de tabulación, que hace exactamente lo mismo.
+          Anunciarlo otra vez —o peor, como región viva que interrumpe— sería repetirle lo mismo dos
+          veces a quien usa lector de pantalla.
+
+          Y NO LLEVA `motion-safe:`: quien pide menos movimiento ve el globo aparecer y desaparecer
+          sin deslizamiento (la regla global de `globals.css` le deja la transición en 0,001 ms), que
+          es lo correcto. Esconderle el aviso entero sería quitarle información, no movimiento.
+        */}
+        <button
+          type="button"
+          aria-hidden
+          tabIndex={-1}
+          onClick={onToggle}
+          className={cn(
+            "absolute left-full top-1/2 ml-2 max-w-[calc(100vw-5.5rem)] -translate-y-1/2 truncate rounded-full px-3 py-2 md:ml-3 md:px-4",
+            "border border-pimenton-light/40 bg-granate-900/95 text-left font-sans text-[12px] font-semibold text-cream shadow-card md:text-[13px]",
+            "transition-[translate,opacity] duration-500 ease-[var(--ease-out-expo)]",
+            llamada ? "translate-x-0 opacity-100" : "pointer-events-none -translate-x-2 opacity-0",
+          )}
+        >
+          {m.chat.cue}
+        </button>
         </div>
       </div>
     </MotionConfig>

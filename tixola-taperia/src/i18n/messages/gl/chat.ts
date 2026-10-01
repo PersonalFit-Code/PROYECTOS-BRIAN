@@ -6,6 +6,7 @@ import type { Section } from "./shape";
  */
 const chat: Section<"chat"> = {
   launcher: "Camareiro virtual",
+  cue: "Axúdoche a elixir?",
   launcherAria: "Abrir o camareiro virtual de Tixola",
   closeAria: "Pechar o camareiro virtual",
   title: "Camareiro virtual",

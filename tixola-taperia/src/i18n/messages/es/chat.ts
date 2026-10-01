@@ -4,6 +4,9 @@
  */
 const chat = {
   launcher: "Camarero virtual",
+  /* La llamada que sale sola a los pocos segundos, junto al disco del camarero. Corta a
+     propósito: tiene que leerse de un vistazo y cabe en una pantalla de 320 px. */
+  cue: "¿Te ayudo a elegir?",
   launcherAria: "Abrir el camarero virtual de Tixola",
   closeAria: "Cerrar el camarero virtual",
   title: "Camarero virtual",

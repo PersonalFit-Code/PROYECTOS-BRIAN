@@ -7,6 +7,7 @@ import type { Translation } from "./shape";
  */
 const chat = {
   launcher: "Empregado virtual",
+  cue: "Ajudo-te a escolher?",
   launcherAria: "Abrir o empregado virtual da Tixola",
   closeAria: "Fechar o empregado virtual",
   title: "Empregado virtual",

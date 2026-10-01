@@ -7,6 +7,7 @@ import type { Translation } from "./shape";
  */
 const chat = {
   launcher: "Virtual waiter",
+  cue: "Need a hand choosing?",
   launcherAria: "Open Tixola's virtual waiter",
   closeAria: "Close the virtual waiter",
   title: "Virtual waiter",
