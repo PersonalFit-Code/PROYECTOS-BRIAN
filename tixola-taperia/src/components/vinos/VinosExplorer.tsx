@@ -32,7 +32,10 @@ export default function VinosExplorer() {
 function VinosHero() {
   const m = useMessages();
   return (
-    <header className="container-page relative grid gap-8 py-10 md:py-14 lg:py-16">
+    /* `overflow-x-clip`: la brasa de abajo mide 420 px fijos y a 320 px de ancho asomaba 4 px por la
+       derecha, lo justo para que la página entera se pudiera arrastrar en horizontal. `clip` la
+       recorta sin crear contenedor de scroll (que sí rompería cualquier `sticky` de dentro). */
+    <header className="container-page relative grid gap-8 overflow-x-clip py-10 md:py-14 lg:py-16">
       {/* Brasa de fondo tras el titular, horneada (sin `blur`, que rasterizaría 420² px al abrir). */}
       <span aria-hidden className="ember-glow absolute -left-24 top-1/2 -z-10 h-[420px] w-[420px] -translate-y-1/2 rounded-full [--ember-a1:0.3]" />
       <div className="max-w-3xl">

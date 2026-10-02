@@ -60,6 +60,8 @@ const vinos: Section<"vinos"> = {
   winery: "Adega",
   vintage: "Colleita",
 
+  bottlePhoto: "Botella de {name}",
+
   blockGrape: "Uva e elaboración",
   grapes: "Uva",
   monovarietal: "Monovarietal",

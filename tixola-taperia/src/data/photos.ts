@@ -71,6 +71,206 @@ export const PHOTOS: Photo[] = [
     tags: ["local"],
     focus: "50% 40%",
   },
+
+  /* ─────────────────────────────────────────────────────────────
+     Fotos de la casa, hechas por Brian el 2 de octubre de 2026.
+
+     QUÉ SE PUBLICA Y QUÉ NO. De las 104 fotos de la carpeta se han dejado fuera las del comedor
+     lleno: salían clientes con la cara perfectamente reconocible y nadie les ha pedido permiso
+     para aparecer en la web del bar. Por lo mismo, el rótulo de la calle va recortado por encima
+     de la gente que pasaba. No es exceso de celo: es que una foto así no se puede retirar de
+     Internet una vez publicada.
+
+     EL `alt` DICE LO QUE SE VE, NO LO QUE NOS GUSTARÍA QUE FUERA. Un plato solo se enlaza a su
+     entrada de la carta (`dishIds`) cuando se reconoce sin discusión —la chistorra se ve, el
+     aguacate se ve—. Los dos platos de croquetas van SIN `dishIds` a propósito: en la foto no hay
+     forma de saber si son las de jamón, las de grelos y chipirón o las de cecina, y colgarlas de
+     una entrada concreta sería prometer un relleno al azar. Salen en la galería, que no afirma
+     nada, y ahí cumplen igual.
+     ───────────────────────────────────────────────────────────── */
+
+  /* Platos */
+  {
+    id: "tixola-raxo",
+    src: "/images/tixola-raxo.webp",
+    width: 1200,
+    height: 900,
+    alt: "Tixola de raxo con queso de Arzúa: sartén de cerámica con patatas, tacos de raxo y queso fundido, servida sobre la barra de Tixola Tapería",
+    caption: "Tixola de raxo y Arzúa",
+    tags: ["plato"],
+    dishIds: ["raxo", "tix-raxo-arzua" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
+  {
+    id: "tixola-chistorra",
+    src: "/images/tixola-chistorra.webp",
+    width: 1200,
+    height: 900,
+    alt: "Tixola con chistorra: sartén con patatas, huevo cuajado y rodajas de chistorra, con los armarios de vino de la tapería al fondo",
+    caption: "Tixola con chistorra",
+    tags: ["plato"],
+    dishIds: ["tix-chistorra" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
+  {
+    id: "tixola-gulas-langostinos",
+    src: "/images/tixola-gulas-langostinos.webp",
+    width: 1200,
+    height: 900,
+    alt: "Tixola con gulas, setas y langostinos: sartén de mango de madera con patatas, huevo y gulas, sobre la mesa de la tapería",
+    caption: "Tixola con gulas, setas y langostinos",
+    tags: ["plato"],
+    dishIds: ["tix-gulas-setas-langostinos" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
+  {
+    id: "patatas-alioli",
+    src: "/images/patatas-alioli.webp",
+    width: 1200,
+    height: 900,
+    alt: "Ración de patatas con alioli y perejil en cuenco de cerámica verde, en Tixola Tapería de Ourense",
+    caption: "Patatas con alioli",
+    tags: ["plato"],
+    dishIds: ["coc-patatas" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
+  {
+    id: "calamares-fritos",
+    src: "/images/calamares-fritos.webp",
+    width: 1200,
+    height: 900,
+    alt: "Calamares fritos en aros sobre patatas panadera, con limón y ensalada, en Tixola Tapería",
+    caption: "Calamares fritos",
+    tags: ["plato"],
+    dishIds: ["coc-calamares" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
+  {
+    id: "pulpo-tempura",
+    src: "/images/pulpo-tempura.webp",
+    width: 1200,
+    height: 900,
+    alt: "Pulpo en tempura sobre cama de patatas, con limón y salsa de pimentón en salsera aparte, en fuente de cerámica verde",
+    caption: "Pulpo en tempura",
+    tags: ["plato"],
+    dishIds: ["pul-tempura" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
+  {
+    id: "revuelto-bacalao-grelos",
+    src: "/images/revuelto-bacalao-grelos.webp",
+    width: 1200,
+    height: 1600,
+    alt: "Revuelto de bacalao, grelos y langostinos en plato blanco con un hilo de reducción, con la vinoteca al fondo",
+    caption: "Revuelto de bacalao, grelos y langostinos",
+    tags: ["plato"],
+    dishIds: ["rev-bacalao-grelos-langostinos" satisfies MenuItemId],
+    focus: "50% 55%",
+  },
+  {
+    id: "ensalada-pollo-crujiente",
+    src: "/images/ensalada-pollo-crujiente.webp",
+    width: 1200,
+    height: 900,
+    alt: "Ensalada de pollo crujiente con nueces, manzana en bastones, tomate y brotes verdes, en plato hondo de cerámica",
+    caption: "Ensalada de pollo crujiente, nueces y manzana",
+    tags: ["plato"],
+    dishIds: ["ens-pollo-crujiente" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
+  {
+    id: "ensalada-aguacate-bacalao",
+    src: "/images/ensalada-aguacate-bacalao.webp",
+    width: 1200,
+    height: 900,
+    alt: "Ensalada de aguacate y bacalao ahumado con canónigos, tomate, pimiento rojo y aceitunas negras, en plato blanco",
+    caption: "Ensalada de aguacate y bacalao ahumado",
+    tags: ["plato"],
+    dishIds: ["ens-aguacate-bacalao" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
+  {
+    id: "croquetas-tabla",
+    src: "/images/croquetas-tabla.webp",
+    width: 1200,
+    height: 900,
+    alt: "Croquetas caseras recién fritas sobre tabla de madera, con la vinoteca de Tixola Tapería al fondo",
+    caption: "Croquetas de la casa",
+    tags: ["plato"],
+    focus: "50% 50%",
+  },
+  {
+    id: "croquetas-racion",
+    src: "/images/croquetas-racion.webp",
+    width: 1200,
+    height: 1600,
+    alt: "Ración de croquetas caseras alineadas en plato alargado blanco sobre la mesa de madera de la tapería",
+    caption: "Ración de croquetas",
+    tags: ["plato"],
+    focus: "50% 50%",
+  },
+
+  /* El local y la vinoteca */
+  {
+    id: "rotulo-noche",
+    src: "/images/rotulo-noche.webp",
+    width: 1200,
+    height: 1234,
+    alt: "Rótulo de Tixola vinoteca-tapería iluminado de noche en el casco histórico de Ourense",
+    caption: "El rótulo, de noche en el casco histórico",
+    tags: ["local"],
+    focus: "60% 40%",
+  },
+  {
+    id: "barra",
+    src: "/images/barra.webp",
+    width: 1200,
+    height: 900,
+    alt: "Barra de Tixola Tapería con las botellas en las estanterías y las paredes granates del local",
+    caption: "La barra",
+    tags: ["local", "vinos"],
+    focus: "50% 50%",
+  },
+  {
+    id: "vinoteca-armarios",
+    src: "/images/vinoteca-armarios.webp",
+    width: 1200,
+    height: 900,
+    alt: "Armarios climatizados de la vinoteca de Tixola, con cajas de madera de bodega encima",
+    caption: "La vinoteca",
+    tags: ["local", "vinos"],
+    focus: "50% 50%",
+  },
+  {
+    id: "vinoteca-botellas",
+    src: "/images/vinoteca-botellas.webp",
+    width: 1200,
+    height: 1600,
+    alt: "Botellas de vino gallego y de otras denominaciones ordenadas en los estantes de la vinoteca de Tixola",
+    caption: "Botellas en el estante",
+    tags: ["vinos", "local"],
+    focus: "50% 50%",
+  },
+  {
+    id: "pizarra-vinos",
+    src: "/images/pizarra-vinos.webp",
+    width: 1200,
+    height: 1600,
+    alt: "Pizarra de Tixola con los vinos recomendados por copa escritos a mano, por denominación de origen",
+    caption: "Los vinos recomendados del día",
+    tags: ["vinos", "local"],
+    focus: "50% 45%",
+  },
+  {
+    id: "cubitera-regina",
+    src: "/images/cubitera-regina.webp",
+    width: 1200,
+    height: 1600,
+    alt: "Cubitera de metal con botellas enfriándose en la vinoteca de Tixola Tapería",
+    caption: "Enfriando para la siguiente ronda",
+    tags: ["vinos", "local"],
+    focus: "50% 50%",
+  },
 ];
 
 export const photoById = (id: string) => PHOTOS.find((p) => p.id === id);

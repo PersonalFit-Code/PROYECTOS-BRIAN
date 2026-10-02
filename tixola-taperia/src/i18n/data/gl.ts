@@ -350,6 +350,76 @@ const gl: DataTranslations = {
       alt: "Fachada de Tixola Tapería na Rúa Juan de Austria 7, casco histórico de Ourense, cos seus toldos vermellos e a lousa do día",
       caption: "Rúa Juan de Austria, 7",
     },
+
+    /* Fotos da casa do 2 de outubro de 2026 */
+    "tixola-raxo": {
+      alt: "Tixola de raxo con queixo de Arzúa: tixola de cerámica con patacas, tacos de raxo e queixo fundido, servida na barra de Tixola Tapería",
+      caption: "Tixola de raxo e Arzúa",
+    },
+    "tixola-chistorra": {
+      alt: "Tixola con chistorra: tixola con patacas, ovo callado e rodas de chistorra, cos armarios de viño da tapería ao fondo",
+      caption: "Tixola con chistorra",
+    },
+    "tixola-gulas-langostinos": {
+      alt: "Tixola con angulas de imitación, fungos e lagostinos: tixola de mango de madeira con patacas e ovo, na mesa da tapería",
+      caption: "Tixola con gulas, fungos e lagostinos",
+    },
+    "patatas-alioli": {
+      alt: "Ración de patacas con allada e perexil en cunca de cerámica verde, en Tixola Tapería de Ourense",
+      caption: "Patacas con alioli",
+    },
+    "calamares-fritos": {
+      alt: "Calamares fritos en aros sobre patacas panadeira, con limón e ensalada, en Tixola Tapería",
+      caption: "Calamares fritos",
+    },
+    "pulpo-tempura": {
+      alt: "Polbo en tempura sobre cama de patacas, con limón e salsa de pemento en salseira á parte, en fonte de cerámica verde",
+      caption: "Polbo en tempura",
+    },
+    "revuelto-bacalao-grelos": {
+      alt: "Revolto de bacallau, grelos e lagostinos en prato branco cun fío de redución, coa vinoteca ao fondo",
+      caption: "Revolto de bacallau, grelos e lagostinos",
+    },
+    "ensalada-pollo-crujiente": {
+      alt: "Ensalada de polo crocante con noces, mazá en bastóns, tomate e gromos verdes, en prato fondo de cerámica",
+      caption: "Ensalada de polo crocante, noces e mazá",
+    },
+    "ensalada-aguacate-bacalao": {
+      alt: "Ensalada de abacate e bacallau afumado con canónigos, tomate, pemento vermello e olivas negras, en prato branco",
+      caption: "Ensalada de abacate e bacallau afumado",
+    },
+    "croquetas-tabla": {
+      alt: "Croquetas caseiras recén fritas sobre taboleiro de madeira, coa vinoteca de Tixola Tapería ao fondo",
+      caption: "Croquetas da casa",
+    },
+    "croquetas-racion": {
+      alt: "Ración de croquetas caseiras aliñadas en prato alongado branco sobre a mesa de madeira da tapería",
+      caption: "Ración de croquetas",
+    },
+    "rotulo-noche": {
+      alt: "Rótulo de Tixola vinoteca-tapería iluminado de noite no casco histórico de Ourense",
+      caption: "O rótulo, de noite no casco histórico",
+    },
+    barra: {
+      alt: "Barra de Tixola Tapería coas botellas nos estantes e as paredes granates do local",
+      caption: "A barra",
+    },
+    "vinoteca-armarios": {
+      alt: "Armarios climatizados da vinoteca de Tixola, con caixas de madeira de adega enriba",
+      caption: "A vinoteca",
+    },
+    "vinoteca-botellas": {
+      alt: "Botellas de viño galego e doutras denominacións ordenadas nos estantes da vinoteca de Tixola",
+      caption: "Botellas no estante",
+    },
+    "pizarra-vinos": {
+      alt: "Lousa de Tixola cos viños recomendados por copa escritos a man, por denominación de orixe",
+      caption: "Os viños recomendados do día",
+    },
+    "cubitera-regina": {
+      alt: "Cubiteira de metal con botellas arrefriando na vinoteca de Tixola Tapería",
+      caption: "Arrefriando para a seguinte rolda",
+    },
   },
 };
 export default gl;

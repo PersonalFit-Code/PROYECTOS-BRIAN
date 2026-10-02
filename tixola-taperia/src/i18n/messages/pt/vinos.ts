@@ -61,6 +61,8 @@ const vinos = {
   winery: "Adega",
   vintage: "Colheita",
 
+  bottlePhoto: "Garrafa de {name}",
+
   blockGrape: "Casta e elaboração",
   grapes: "Casta",
   monovarietal: "Monovarietal",

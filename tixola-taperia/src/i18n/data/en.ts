@@ -350,6 +350,76 @@ const en: DataTranslations = {
       alt: "Front of Tixola Tapería at Rúa Juan de Austria 7 in the old town of Ourense, with its red awnings and the daily chalkboard",
       caption: "Rúa Juan de Austria, 7",
     },
+
+    /* Photos taken at the bar on 2 October 2026 */
+    "tixola-raxo": {
+      alt: "Tixola of raxo with Arzúa cheese: a ceramic pan of potatoes, marinated pork and melted cheese, served on the counter at Tixola Tapería",
+      caption: "Raxo and Arzúa pan",
+    },
+    "tixola-chistorra": {
+      alt: "Chistorra tixola: a pan of potatoes, set egg and sliced chistorra sausage, with the bar's wine cabinets behind",
+      caption: "Chistorra pan",
+    },
+    "tixola-gulas-langostinos": {
+      alt: "Tixola with baby eels, mushrooms and prawns: a wooden-handled pan of potatoes and egg on the bar's table",
+      caption: "Pan with baby eels, mushrooms and prawns",
+    },
+    "patatas-alioli": {
+      alt: "Potatoes with alioli and parsley in a green ceramic bowl at Tixola Tapería in Ourense",
+      caption: "Potatoes with alioli",
+    },
+    "calamares-fritos": {
+      alt: "Fried squid rings over sliced potatoes with lemon and salad at Tixola Tapería",
+      caption: "Fried squid",
+    },
+    "pulpo-tempura": {
+      alt: "Tempura octopus on a bed of potatoes, with lemon and paprika sauce served on the side, in a green ceramic dish",
+      caption: "Tempura octopus",
+    },
+    "revuelto-bacalao-grelos": {
+      alt: "Scrambled eggs with cod, turnip greens and prawns on a white plate with a drizzle of reduction, the wine room behind",
+      caption: "Scrambled eggs with cod, greens and prawns",
+    },
+    "ensalada-pollo-crujiente": {
+      alt: "Crispy chicken salad with walnuts, apple batons, tomato and green leaves in a deep ceramic bowl",
+      caption: "Crispy chicken, walnut and apple salad",
+    },
+    "ensalada-aguacate-bacalao": {
+      alt: "Avocado and smoked cod salad with lamb's lettuce, tomato, red pepper and black olives on a white plate",
+      caption: "Avocado and smoked cod salad",
+    },
+    "croquetas-tabla": {
+      alt: "Freshly fried homemade croquettes on a wooden board, with the Tixola Tapería wine room behind",
+      caption: "House croquettes",
+    },
+    "croquetas-racion": {
+      alt: "A portion of homemade croquettes lined up on a long white plate on the bar's wooden table",
+      caption: "A portion of croquettes",
+    },
+    "rotulo-noche": {
+      alt: "The Tixola vinoteca-tapería sign lit up at night in the old town of Ourense",
+      caption: "The sign, at night in the old town",
+    },
+    barra: {
+      alt: "The counter at Tixola Tapería, bottles on the shelves and the deep red walls of the room",
+      caption: "The counter",
+    },
+    "vinoteca-armarios": {
+      alt: "Temperature-controlled wine cabinets at Tixola, with wooden winery crates stacked on top",
+      caption: "The wine room",
+    },
+    "vinoteca-botellas": {
+      alt: "Bottles of Galician wine and other appellations lined up on the shelves of the Tixola wine room",
+      caption: "Bottles on the shelf",
+    },
+    "pizarra-vinos": {
+      alt: "Tixola's chalkboard with the wines recommended by the glass, handwritten by appellation",
+      caption: "Today's recommended wines",
+    },
+    "cubitera-regina": {
+      alt: "A metal ice bucket with bottles chilling in the Tixola Tapería wine room",
+      caption: "Chilling for the next round",
+    },
   },
 };
 export default en;

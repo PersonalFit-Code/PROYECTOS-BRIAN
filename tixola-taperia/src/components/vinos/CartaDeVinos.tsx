@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, type ReactNode } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Wine as WineIcon } from "lucide-react";
 import { formatPrice } from "@/data/menu";
 import {
   isGalicianOrigin,
@@ -49,6 +50,14 @@ import { cn } from "@/lib/utils";
  * para las guías. Un campo que falta simplemente no se pinta, ni con guión ni con "no disponible". La
  * alternativa —rellenar huecos— es inventarse una ficha técnica, y es exactamente el error que esta
  * web ya corrigió una vez.
+ *
+ * LAS FOTOS DE BOTELLA (`vino.image`) son las que hizo Brian en el propio local: 33 de los 52 vinos
+ * las tienen. Van en dos sitios —miniatura en la fila y foto grande al desplegar— y donde no hay
+ * foto va una copa dibujada del mismo tamaño, para que las filas no bailen según haya foto o no.
+ *
+ * Y UN VINO DEL QUE NO SE SEPA NADA MÁS NO SE DESPLIEGA. Antes todas las filas eran `<details>`,
+ * así que la mitad de la carta abría un panel vacío con un borde: el "+" prometía algo que no
+ * existía. Si no hay ni foto ni ningún bloque que pintar, la fila se queda como fila.
  */
 
 export default function CartaDeVinos() {
@@ -186,12 +195,13 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
   );
   const hayCata = Boolean(vino.notes || ejes.length || vino.serveC || maridajes.length);
   const hayOrigen = Boolean(vino.subzone || vino.terroir || vino.winemaker || vino.awards?.length || vino.story);
+  /* Sin foto y sin ningún bloque no hay ficha que desplegar: la fila se queda quieta. */
+  const hayFicha = Boolean(vino.image) || hayTecnica || hayCata || hayOrigen;
 
-  return (
-    <li id={`vino-${vino.id}`} className="scroll-mt-28">
-      <details className="group overflow-hidden rounded-2xl border border-cream/10 bg-granate-800/45 transition-colors duration-300 open:border-cream/20 open:bg-granate-800/70 hover:border-cream/25">
-        <summary className="flex cursor-pointer list-none items-start gap-4 px-4 py-4 marker:content-none md:px-5 [&::-webkit-details-marker]:hidden">
-          <span className="min-w-0 flex-1">
+  const cabecera = (
+    <>
+      <Miniatura vino={vino} />
+      <span className="min-w-0 flex-1">
             <span className="block font-display text-xl font-medium leading-tight text-cream md:text-2xl">{vino.name}</span>
             {/* Solo se pinta la línea de debajo si hay algo que poner: la carta de papel da el
                 nombre y poco más, y un "·" suelto delataría el hueco. La crianza NO va aquí aunque se
@@ -219,19 +229,69 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
               </span>
             ) : null}
           </span>
+    </>
+  );
+
+  if (!hayFicha) {
+    return (
+      <li id={`vino-${vino.id}`} className="scroll-mt-28">
+        <div className="flex items-center gap-4 rounded-2xl border border-cream/10 bg-granate-800/45 px-4 py-3 md:px-5">
+          {cabecera}
+          {/* Hueco del mismo ancho que el "+" de las fichas que sí se abren, para que los precios de
+              toda la carta queden en la misma columna. */}
+          <span aria-hidden className="h-5 w-5 shrink-0" />
+        </div>
+      </li>
+    );
+  }
+
+  return (
+    <li id={`vino-${vino.id}`} className="scroll-mt-28">
+      <details className="group overflow-hidden rounded-2xl border border-cream/10 bg-granate-800/45 transition-colors duration-300 open:border-cream/20 open:bg-granate-800/70 hover:border-cream/25">
+        <summary className="flex cursor-pointer list-none items-center gap-4 px-4 py-3 marker:content-none md:px-5 [&::-webkit-details-marker]:hidden">
+          {cabecera}
 
           <Plus
             aria-hidden
-            className="mt-1 h-5 w-5 shrink-0 text-pimenton-a11y transition-transform duration-300 ease-[var(--ease-out-expo)] group-open:rotate-45"
+            className="h-5 w-5 shrink-0 text-pimenton-a11y transition-transform duration-300 ease-[var(--ease-out-expo)] group-open:rotate-45"
             strokeWidth={2}
           />
         </summary>
 
+        <div className="flex flex-col gap-6 border-t border-cream/10 px-4 py-5 md:px-5 lg:flex-row lg:gap-8">
+          {/* La botella, grande. Va dentro del <details> y no en la fila: en la fila es una miniatura
+              que solo tiene que decir "de qué color es esto", y aquí se lee la etiqueta. */}
+          {vino.image ? (
+            <figure
+              className={cn(
+                "relative mx-auto aspect-[3/4] shrink-0 self-start overflow-hidden rounded-xl border border-cream/10 bg-granate-900",
+                /* De la mitad de la carta no se sabe más que el nombre y el precio: ahí la botella es
+                   TODO lo que hay dentro de la ficha, así que se queda centrada y algo mayor. Pegada a
+                   la izquierda dejaba un metro de granate vacío a su derecha en escritorio. */
+                hayTecnica || hayCata || hayOrigen ? "w-40 sm:w-48 lg:mx-0" : "w-48 sm:w-56",
+              )}
+            >
+              <Image
+                src={vino.image}
+                alt={t(m.vinos.bottlePhoto, { name: vino.name })}
+                fill
+                sizes="(max-width: 640px) 192px, 224px"
+                quality={80}
+                className="object-cover"
+              />
+            </figure>
+          ) : null}
+
         {/* Los tres bloques en columnas que se reparten el ancho que haya: tres en escritorio, una en
             el teléfono, y si un vino solo trae un bloque ese bloque ocupa todo en vez de dejar dos
             huecos. Con una sola columna, en una pantalla ancha cada dato se quedaba solo en una línea
-            de mil píxeles. */}
-        <div className="grid items-start gap-6 border-t border-cream/10 px-4 py-5 md:px-5 lg:grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] lg:gap-8">
+            de mil píxeles.
+
+            Y si no hay NINGÚN bloque, esto no se pinta: un `flex-1` vacío sigue comiéndose todo el
+            ancho, así que la botella de los vinos que solo traen foto se quedaba pegada al borde
+            izquierdo por mucho `mx-auto` que llevara. */}
+        {hayTecnica || hayCata || hayOrigen ? (
+        <div className="grid min-w-0 flex-1 items-start gap-6 lg:grid-cols-[repeat(auto-fit,minmax(17rem,1fr))] lg:gap-8">
           {/* ── Bloque 1 · uva y elaboración ── */}
           {hayTecnica ? (
           <Bloque titulo={m.vinos.blockGrape}>
@@ -341,8 +401,32 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
             </Bloque>
           ) : null}
         </div>
+        ) : null}
+        </div>
       </details>
     </li>
+  );
+}
+
+/**
+ * La miniatura de la fila. Decorativa a propósito (`alt=""` vía `aria-hidden`): el nombre del vino
+ * está justo al lado y repetirlo en la foto sería leerlo dos veces con el lector de pantalla.
+ * Los vinos sin foto llevan una copa dibujada del mismo tamaño para que las filas no bailen.
+ */
+function Miniatura({ vino }: { vino: Wine }) {
+  return (
+    <span
+      aria-hidden
+      className="relative block h-16 w-12 shrink-0 overflow-hidden rounded-lg border border-cream/10 bg-granate-900 md:h-20 md:w-[3.75rem]"
+    >
+      {vino.image ? (
+        <Image src={vino.image} alt="" fill sizes="60px" quality={70} className="scale-[1.45] object-cover" />
+      ) : (
+        <span className="flex h-full w-full items-center justify-center text-cream/20">
+          <WineIcon className="h-5 w-5" strokeWidth={1.5} />
+        </span>
+      )}
+    </span>
   );
 }
 

@@ -88,6 +88,10 @@ const vinos = {
   vintage: "Añada",
 
   /* Bloque 1 · uva y elaboración. */
+  /* Alternativo de la foto de la botella: la etiqueta ya está en la foto, así que el texto dice
+     de qué botella se trata y nada más. */
+  bottlePhoto: "Botella de {name}",
+
   blockGrape: "Uva y elaboración",
   grapes: "Uva",
   /* Se calcula de la lista de uvas (una sola o varias), no se escribe vino a vino. */

@@ -45,6 +45,13 @@ const AUTOPLAY_DELAY_MS = 4000;
 const EMBLA_OPTIONS = { loop: true, align: "start", skipSnaps: false, dragThreshold: 6 } as const;
 /** Con pocas fotos el bucle de Embla no puede llenar el viewport: se repite la lista hasta este mínimo. */
 const MIN_SLIDES = 6;
+/**
+ * A partir de aquí los puntos dejan de caber y se cambian por una barra de avance con contador.
+ * Un punto ocupa 28 px de zona táctil: con las cuatro fotos de antes eran 112 px y sobraba sitio;
+ * con veintitantos serían más de 600, que no caben ni en un portátil, y a 390 px de ancho se
+ * desbordaban en tres filas de confeti. Ocho es lo último que entra holgado en un móvil estrecho.
+ */
+const MAX_PUNTOS = 8;
 const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 type Shape = "landscape" | "portrait" | "square";
@@ -285,33 +292,54 @@ export default function PhotoGallery({ className }: PhotoGalleryProps) {
         <ArrowButton dir="next" label={g.next} onClick={scrollNext} className="absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 md:inline-flex" />
       </div>
 
-      {/* Controles: flechas (móvil) + puntos + pausa */}
+      {/* Controles: flechas (móvil) + puntos o barra de avance + pausa */}
       <div className="mt-3 flex items-center justify-center gap-1 md:mt-4">
         <ArrowButton dir="prev" label={g.prev} onClick={scrollPrev} className="md:hidden" />
-        <div role="group" aria-label={g.label} className="flex items-center">
-          {photos.map((photo, i) => {
-            const isActive = i === currentPhotoIndex;
-            const caption = photo.caption ?? photo.alt;
-            return (
-              <button
-                key={photo.id}
-                type="button"
-                onClick={() => scrollTo(i)}
-                aria-label={`${t(g.goTo, { index: i + 1, caption })}${isActive ? ` (${g.current})` : ""}`}
-                aria-current={isActive ? "true" : undefined}
-                className="flex h-11 w-7 items-center justify-center"
-              >
-                <span
-                  aria-hidden
-                  className={cn(
-                    "block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-out-expo)]",
-                    isActive ? "w-7 bg-pimenton-light shadow-[0_0_12px_rgba(232,86,90,0.8)]" : "w-1.5 bg-cream/30",
-                  )}
-                />
-              </button>
-            );
-          })}
-        </div>
+        {total > MAX_PUNTOS ? (
+          /* Barra + contador. No es un control: con tantas fotos, saltar a la número 17 de un toque no
+             le sirve a nadie —no se sabe qué hay en la 17—, y las flechas, el arrastre y el teclado
+             siguen llevando a todas. Lo que sí hace falta es saber por dónde se va, y eso lo dice la
+             barra. El recuento vive en la región `aria-live` de arriba, así que aquí sobra. */
+          <div aria-hidden className="mx-2 flex items-center gap-3">
+            <span className="block h-1.5 w-32 overflow-hidden rounded-full bg-cream/15 sm:w-44">
+              <span
+                className="block h-full rounded-full bg-pimenton-light shadow-[0_0_12px_rgba(232,86,90,0.8)] transition-transform duration-500 ease-[var(--ease-out-expo)]"
+                style={{
+                  width: `${100 / total}%`,
+                  transform: `translateX(${currentPhotoIndex * 100}%)`,
+                }}
+              />
+            </span>
+            <span className="font-caps text-[11px] uppercase tracking-[0.2em] text-cream-faint tabular-nums">
+              {currentPhotoIndex + 1}/{total}
+            </span>
+          </div>
+        ) : (
+          <div role="group" aria-label={g.label} className="flex items-center">
+            {photos.map((photo, i) => {
+              const isActive = i === currentPhotoIndex;
+              const caption = photo.caption ?? photo.alt;
+              return (
+                <button
+                  key={photo.id}
+                  type="button"
+                  onClick={() => scrollTo(i)}
+                  aria-label={`${t(g.goTo, { index: i + 1, caption })}${isActive ? ` (${g.current})` : ""}`}
+                  aria-current={isActive ? "true" : undefined}
+                  className="flex h-11 w-7 items-center justify-center"
+                >
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-out-expo)]",
+                      isActive ? "w-7 bg-pimenton-light shadow-[0_0_12px_rgba(232,86,90,0.8)]" : "w-1.5 bg-cream/30",
+                    )}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        )}
         <ArrowButton dir="next" label={g.next} onClick={scrollNext} className="md:hidden" />
         {autoplay && (
           <button

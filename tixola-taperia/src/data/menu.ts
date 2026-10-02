@@ -236,6 +236,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Chistorra hecha en la propia sartén, con huevos y patatas fritas. La más sencilla y la que más se repite.",
     price: 11.5,
     unit: "sartén",
+    image: "/images/tixola-chistorra.webp",
     allergens: ["huevos"],
     tags: [],
     emoji: "🍳",
@@ -247,13 +248,16 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Gulas, setas salteadas y langostinos sobre el hierro caliente, con huevos y patatas. La más completa de la sección.",
     price: 16.9,
     unit: "sartén",
+    image: "/images/tixola-gulas-langostinos.webp",
     allergens: ["huevos", "crustaceos", "pescado", "gluten", "soja"],
     tags: [],
     emoji: "🍳",
   },
   {
     id: "tix-raxo-arzua",
-    image: "/images/tixola-raxo-croquetas.jpg",
+    /* Antes abría con la foto de la terraza, donde la tixola comparte mesa con croquetas y dos
+       copas: bonita de ambiente, mala de ficha. Esta es la sartén sola. */
+    image: "/images/tixola-raxo.webp",
     name: "Tixola de raxo y Arzúa",
     category: "tixolas",
     description: "Raxo de cerdo adobado al estilo gallego con queso Arzúa-Ulloa fundido por encima, sobre huevos y patatas. Es la que sale en todas las fotos del local.",
@@ -294,6 +298,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Tiras de pollo rebozado recién frito, nueces y manzana. La que piden los que no vienen a comer ensalada.",
     price: 14.3,
     unit: "ración",
+    image: "/images/ensalada-pollo-crujiente.webp",
     allergens: ["gluten", "frutos-cascara", "huevos"],
     tags: [],
     emoji: "🥗",
@@ -327,6 +332,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Aguacate y bacalao ahumado, suave y mantecoso. La más ligera de las cinco.",
     price: 16.9,
     unit: "ración",
+    image: "/images/ensalada-aguacate-bacalao.webp",
     allergens: ["pescado"],
     tags: [],
     emoji: "🥑",
@@ -340,6 +346,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Patatas fritas con salsa brava, con alioli o con las dos. Tú eliges; las mixtas son lo que pide casi todo el mundo.",
     price: 8.5,
     unit: "ración",
+    image: "/images/patatas-alioli.webp",
     allergens: ["huevos"],
     tags: ["vegetariano"],
     emoji: "🥔",
@@ -361,7 +368,11 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "coc-croquetas-grelos-chipiron",
-    image: "/images/tixola-raxo-croquetas.jpg",
+    /* Antes abría con la foto de la terraza, donde el plato del centro es una tixola de raxo y las
+       croquetas quedan en una esquina: quien pinchaba "Croquetas" veía patatas con carne. Esta es una
+       tabla de croquetas de la casa. Por fuera todas las croquetas se parecen y la foto no dice cuál
+       es: queda anotado en docs/fotos-para-revisar.md para que Tatiana confirme o la cambie. */
+    image: "/images/croquetas-tabla.webp",
     name: "Croquetas de grelos y chipirón",
     category: "cocina",
     description: "Grelos y chipirón dentro de la bechamel: verde y mar en la misma croqueta. Las más gallegas y las que más se repiten en las reseñas.",
@@ -408,6 +419,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Anillas de calamar enharinadas y fritas al momento. Con limón al lado y sin más ceremonia.",
     price: 12.9,
     unit: "ración",
+    image: "/images/calamares-fritos.webp",
     allergens: ["moluscos", "gluten"],
     tags: [],
     emoji: "🦑",
@@ -604,6 +616,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Trozos de pulpo en tempura ligera, fritos al momento. Cruje por fuera y sigue tierno dentro.",
     price: 18,
     unit: "ración",
+    image: "/images/pulpo-tempura.webp",
     allergens: ["moluscos", "gluten", "huevos"],
     tags: [],
     emoji: "🐙",
@@ -674,6 +687,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Bacalao desmigado, grelos y langostinos ligados con huevo. El más completo de los tres.",
     price: 13.9,
     unit: "ración",
+    image: "/images/revuelto-bacalao-grelos.webp",
     allergens: ["huevos", "pescado", "crustaceos"],
     tags: [],
     emoji: "🥚",

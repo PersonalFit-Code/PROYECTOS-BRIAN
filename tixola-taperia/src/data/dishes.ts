@@ -93,7 +93,9 @@ export const STAR_DISHES: StarDish[] = [
     },
     accent: "#e8565a",
     emoji: "🍳",
-    image: "/images/tixola-raxo-croquetas.jpg",
+    /* La sartén sola, de la tanda del 2 de octubre de 2026. La anterior era la de la terraza, donde
+       la tixola comparte mesa con croquetas y dos copas: esa sigue en la galería, que es su sitio. */
+    image: "/images/tixola-raxo.webp",
     badge: "La más pedida",
   },
   {
@@ -115,7 +117,10 @@ export const STAR_DISHES: StarDish[] = [
     },
     accent: "#8FA35C",
     emoji: "🥟",
-    image: "/images/tixola-raxo-croquetas.jpg",
+    /* Mismo cambio que en `menu.ts`: una tabla de croquetas en vez de la foto de la terraza, donde
+       el plato del centro era una tixola de raxo. Qué croqueta es exactamente, lo confirma Tatiana
+       (docs/fotos-para-revisar.md). */
+    image: "/images/croquetas-tabla.webp",
     badge: "Las más pedidas",
   },
 ];

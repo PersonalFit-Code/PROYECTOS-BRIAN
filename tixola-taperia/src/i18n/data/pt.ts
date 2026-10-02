@@ -351,6 +351,76 @@ const pt: DataTranslations = {
       alt: "Fachada da Tixola Tapería na Rúa Juan de Austria 7, centro histórico de Ourense, com os seus toldos vermelhos e a ardósia do dia",
       caption: "Rúa Juan de Austria, 7",
     },
+
+    /* Fotos tiradas na casa a 2 de outubro de 2026 */
+    "tixola-raxo": {
+      alt: "Tixola de raxo com queijo de Arzúa: frigideira de cerâmica com batatas, tacos de porco adobado e queijo derretido, servida ao balcão da Tixola Tapería",
+      caption: "Tixola de raxo e Arzúa",
+    },
+    "tixola-chistorra": {
+      alt: "Tixola com chistorra: frigideira com batatas, ovo coalhado e rodelas de chistorra, com os armários de vinho da tapería ao fundo",
+      caption: "Tixola com chistorra",
+    },
+    "tixola-gulas-langostinos": {
+      alt: "Tixola com gulas, cogumelos e lagostins: frigideira de cabo de madeira com batatas e ovo, na mesa da tapería",
+      caption: "Tixola com gulas, cogumelos e lagostins",
+    },
+    "patatas-alioli": {
+      alt: "Batatas com alioli e salsa em taça de cerâmica verde, na Tixola Tapería de Ourense",
+      caption: "Batatas com alioli",
+    },
+    "calamares-fritos": {
+      alt: "Lulas fritas em argolas sobre batatas às rodelas, com limão e salada, na Tixola Tapería",
+      caption: "Lulas fritas",
+    },
+    "pulpo-tempura": {
+      alt: "Polvo em tempura sobre cama de batatas, com limão e molho de colorau à parte, em travessa de cerâmica verde",
+      caption: "Polvo em tempura",
+    },
+    "revuelto-bacalao-grelos": {
+      alt: "Ovos mexidos com bacalhau, grelos e lagostins em prato branco com um fio de redução, com a garrafeira ao fundo",
+      caption: "Ovos mexidos com bacalhau, grelos e lagostins",
+    },
+    "ensalada-pollo-crujiente": {
+      alt: "Salada de frango crocante com nozes, maçã em palitos, tomate e rebentos verdes, em prato fundo de cerâmica",
+      caption: "Salada de frango crocante, nozes e maçã",
+    },
+    "ensalada-aguacate-bacalao": {
+      alt: "Salada de abacate e bacalhau fumado com alface de cordeiro, tomate, pimento vermelho e azeitonas pretas, em prato branco",
+      caption: "Salada de abacate e bacalhau fumado",
+    },
+    "croquetas-tabla": {
+      alt: "Croquetes caseiros acabados de fritar sobre tábua de madeira, com a garrafeira da Tixola Tapería ao fundo",
+      caption: "Croquetes da casa",
+    },
+    "croquetas-racion": {
+      alt: "Dose de croquetes caseiros alinhados em prato comprido branco sobre a mesa de madeira da tapería",
+      caption: "Dose de croquetes",
+    },
+    "rotulo-noche": {
+      alt: "Tabuleta da Tixola vinoteca-tapería iluminada à noite no centro histórico de Ourense",
+      caption: "A tabuleta, à noite no centro histórico",
+    },
+    barra: {
+      alt: "Balcão da Tixola Tapería com as garrafas nas prateleiras e as paredes grená da sala",
+      caption: "O balcão",
+    },
+    "vinoteca-armarios": {
+      alt: "Armários climatizados da garrafeira da Tixola, com caixas de madeira de adega por cima",
+      caption: "A garrafeira",
+    },
+    "vinoteca-botellas": {
+      alt: "Garrafas de vinho galego e de outras denominações arrumadas nas prateleiras da garrafeira da Tixola",
+      caption: "Garrafas na prateleira",
+    },
+    "pizarra-vinos": {
+      alt: "Ardósia da Tixola com os vinhos recomendados a copo escritos à mão, por denominação de origem",
+      caption: "Os vinhos recomendados do dia",
+    },
+    "cubitera-regina": {
+      alt: "Balde de gelo com garrafas a refrescar na garrafeira da Tixola Tapería",
+      caption: "A refrescar para a ronda seguinte",
+    },
   },
 };
 export default pt;
