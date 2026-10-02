@@ -24,7 +24,8 @@ const vinos = {
   regionsLead:
     "Galicia has five denominations of origin and four of them have vineyards in the province of Ourense. The city's own municipality sits inside D.O. Ribeiro: the wine here is made, quite literally, next door.",
   regionsNote:
-    "This is the map of Galician wine, not our list yet: once it's finalised we'll tell you which of these areas each bottle comes from.",
+    "Our list has bottles from all five. Tap a denomination to see the ones we pour from that area.",
+  inList: "{count} on the list",
   mapAria: "Map of Galicia with its five wine denominations of origin",
   mapFlow: "A trail runs from each one to Ourense, where Tixola is.",
   mapCredit: "Outline of Galicia: data from OpenStreetMap, ODbL licence.",
@@ -96,6 +97,23 @@ const vinos = {
   awards: "Scores and awards",
   story: "The story",
   priceNote: "Prices include VAT, the same as on the menu in the bar.",
+
+  indexLabel: "Jump to a denomination",
+  origins: {
+    "fuera-do-ribeiro": "Outside D.O. · Ribeiro",
+    "ribera-del-duero": "D.O. Ribera del Duero",
+    rioja: "D.O. Rioja",
+    bierzo: "D.O. Bierzo",
+    somontano: "D.O. Somontano",
+    dao: "D.O. Dão",
+    douro: "D.O. Douro",
+    bairrada: "D.O.C. Bairrada",
+    rhone: "D.O. Vallée du Rhône",
+    argentina: "Argentina",
+    sudafrica: "South Africa",
+  },
+  countries: { espana: "Spain", portugal: "Portugal", francia: "France", ninguno: "" },
+  offMenuNote: "And do ask: we usually have other bottles that aren't on the list.",
 
   seoTitle: "Galician wine list in Ourense",
   seoDescription:

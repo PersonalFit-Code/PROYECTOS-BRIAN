@@ -68,8 +68,7 @@ const chat = {
     pairingDishSimple: "Com **{dish}** recomendo **{wine}**, um vinho galego da nossa garrafeira.",
     pairingWine: "O **{wine}** vai às mil maravilhas com:",
     pairingIntro: "As nossas harmonizações da casa, com vinhos galegos da garrafeira:",
-    wineListPending:
-      "A carta de vinhos ainda não está no site. Pergunte-nos no local ou ligue-nos e dizemos-lhe o que temos aberto.",
+    wineList: "E temos {count} vinhos na carta, por denominação e com o seu preço: [a carta de vinhos]({url}).",
     hoursIntro: "O nosso horário (hora de Ourense):",
     hoursNow: "Neste momento: {status}.",
     location: "Estamos na **{address}**, {landmark}. [Como chegar]({url})",

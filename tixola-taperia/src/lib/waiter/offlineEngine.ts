@@ -18,6 +18,7 @@ import gl from "@/i18n/messages/gl";
 import en from "@/i18n/messages/en";
 import pt from "@/i18n/messages/pt";
 import { deepMerge, type Messages } from "@/i18n/types";
+import { WINES } from "@/data/wines";
 import { getOpenStatus } from "@/lib/openStatus";
 import { describeOpenStatus, hoursLines } from "./knowledge";
 import { turnText, type WaiterPage, type WaiterTurn } from "./types";
@@ -315,6 +316,7 @@ interface AnswerContext extends LocaleContext {
   page: WaiterPage;
   now: Date;
   cartaUrl: string;
+  vinosUrl: string;
 }
 
 /** Línea de listado "**Nombre** — 9,50 € · 8 uds" (con variantes si las hay). */
@@ -415,13 +417,13 @@ function answerPairing(intent: Extract<OfflineIntent, { kind: "pairing" }>, ctx:
 
   if (!blocks.length) {
     /* Sin plato concreto —o con uno que no tiene maridaje, que ahora son casi todos—: los maridajes
-       de los platos estrella, más el aviso de que la carta de vinos aún no está publicada. Sin ese
-       aviso, tres recomendaciones se leerían como "esto es todo lo que tenemos de vino". */
+       de los platos estrella y el enlace a la carta de vinos. Sin ese enlace, tres recomendaciones se
+       leerían como "esto es todo lo que tenemos de vino", y son 52 botellas. */
     blocks.push([
       o.pairingIntro,
       ...ctx.stars.map((star) => `- ${format(o.linePairing, { name: star.name, wine: `${star.pairing.wine} ${star.pairing.do}` })}`),
     ]);
-    blocks.push(o.wineListPending);
+    blocks.push(format(o.wineList, { count: WINES.length, url: ctx.vinosUrl }));
   }
 
   return joinParagraphs(...blocks, o.more);
@@ -527,6 +529,7 @@ export function answerOffline(messages: ReadonlyArray<WaiterTurn>, locale: Local
     page: options.page ?? "home",
     now: options.now ?? new Date(),
     cartaUrl: localePath(locale, "/carta"),
+    vinosUrl: localePath(locale, "/vinos"),
   };
   const text = normalizeText(lastUserText(messages));
   const intent = text ? detectIntent(text, locale) : { kind: "greeting" as const };

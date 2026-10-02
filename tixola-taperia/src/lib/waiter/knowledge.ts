@@ -11,8 +11,10 @@
  * del usuario desde systemPrompt.ts (`buildContextSuffix`).
  */
 import { BUSINESS, DAY_LABELS, type DayKey } from "@/data/business";
+import { isGalicianOrigin, ORIGIN_ORDER, WINE_REGIONS, WINES, winesByOrigin } from "@/data/wines";
 import type { MenuItem } from "@/data/menu";
 import type { Locale } from "@/i18n/config";
+import es from "@/i18n/messages/es";
 import {
   localizeAllergenMap,
   localizeAllergens,
@@ -252,6 +254,32 @@ export function renderKnowledge(k: WaiterKnowledge): string {
     out.push(
       `- ${d.name} (id carta: ${d.menuId}) · ${d.price} / ${d.unit}${badge} · ${d.kicker}: "${d.headline}" · Ingredientes: ${d.ingredients.join(", ")} · Alérgenos: ${d.allergens.length ? d.allergens.join(", ") : "ninguno declarado"} · Maridaje: ${d.pairing.wine} (${d.pairing.do}) — ${d.pairing.why} · ${d.description}`,
     );
+  }
+
+  if (WINES.length) {
+    out.push("");
+    out.push(`## Carta de vinos (${WINES.length} botellas; el precio es por BOTELLA, IVA incluido)`);
+    /* Este aviso es la mitad del valor de la sección. El modelo tiene en la cabeza miles de fichas de
+       vino y, preguntado por la uva de un Ribeiro, la contestará encantado; pero lo que de verdad
+       sabemos de estas botellas es solo lo que imprime la carta de papel de la casa. */
+    out.push(
+      "AVISO IMPORTANTE: de cada vino sabemos SOLO lo que figura abajo. NUNCA inventes ni deduzcas la bodega, la uva, la añada, la crianza, la graduación ni una nota de cata, aunque creas conocer el vino: si te preguntan por eso, dilo con naturalidad y ofrece preguntarlo en la barra. Tampoco hay precio por copa: solo botella.",
+    );
+    out.push("Hay más referencias fuera de carta; para esas, que pregunten en el local.");
+    for (const origin of ORIGIN_ORDER) {
+      const vinos = winesByOrigin(origin);
+      if (!vinos.length) continue;
+      /* Los títulos van en español aunque el resto esté localizado, igual que los encabezados de
+         arriba: son nombres propios de denominación y el modelo ya los traduce al responder. */
+      const titulo = isGalicianOrigin(origin)
+        ? `D.O. ${WINE_REGIONS[origin].label} (${WINE_REGIONS[origin].provinces.join(" · ")})`
+        : es.vinos.origins[origin];
+      out.push(`### ${titulo}`);
+      for (const w of vinos) {
+        const partes = [w.name, w.kind ?? null, w.winery, w.ageing, w.grapes?.join(", ") || null, fmtEur(w.bottlePrice ?? 0)];
+        out.push(`- ${partes.filter(Boolean).join(" · ")}`);
+      }
+    }
   }
 
   return out.join("\n");

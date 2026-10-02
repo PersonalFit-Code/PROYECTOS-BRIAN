@@ -208,6 +208,62 @@ export const WINE_REGION_LIST: readonly WineRegion[] = GALICIAN_DO_IDS.map((id) 
 export const REGIONS_IN_OURENSE = WINE_REGION_LIST.filter((r) => r.inOurense).length;
 
 /* ──────────────────────────────────────────────────────────────
+   Lo que no es gallego
+   ────────────────────────────────────────────────────────────── */
+
+/**
+ * Las demás procedencias de la carta, en el orden en que se presentan: primero el resto de España,
+ * después Portugal, y al final lo de más lejos.
+ *
+ * SUS NOMBRES NO VIVEN AQUÍ, viven en los mensajes (`m.vinos.origins`). Casi todos son nombres
+ * propios que se escriben igual en los cuatro idiomas, pero uno no lo es —"Fuera D.O. Ribeiro" es una
+ * frase, no un nombre— y tener la mitad de los títulos en los datos y la otra mitad en las
+ * traducciones sería peor que tenerlos todos en el mismo sitio.
+ */
+export const OTHER_ORIGIN_IDS = [
+  "fuera-do-ribeiro",
+  "ribera-del-duero",
+  "rioja",
+  "bierzo",
+  "somontano",
+  "dao",
+  "douro",
+  "bairrada",
+  "rhone",
+  "argentina",
+  "sudafrica",
+] as const;
+export type OtherOriginId = (typeof OTHER_ORIGIN_IDS)[number];
+
+/** De dónde es cada una. `undefined` cuando el propio nombre YA es el país y repetirlo sobraría. */
+export const ORIGIN_COUNTRY: Record<OtherOriginId, "espana" | "portugal" | "francia" | undefined> = {
+  "fuera-do-ribeiro": "espana",
+  "ribera-del-duero": "espana",
+  rioja: "espana",
+  bierzo: "espana",
+  somontano: "espana",
+  dao: "portugal",
+  douro: "portugal",
+  bairrada: "portugal",
+  rhone: "francia",
+  argentina: undefined,
+  sudafrica: undefined,
+};
+
+/** Procedencia de un vino: una de las cinco gallegas o una de las de fuera. */
+export type WineOrigin = GalicianDoId | OtherOriginId;
+
+/** Todas, en el orden en que se recorren en la página: Galicia de oeste a este y luego el resto. */
+export const ORIGIN_ORDER: readonly WineOrigin[] = [...GALICIAN_DO_IDS, ...OTHER_ORIGIN_IDS];
+
+const GALICIAN_SET = new Set<string>(GALICIAN_DO_IDS);
+
+/** Si la procedencia es una de las cinco gallegas (y entonces tiene ficha y sitio en el mapa). */
+export function isGalicianOrigin(origin: WineOrigin): origin is GalicianDoId {
+  return GALICIAN_SET.has(origin);
+}
+
+/* ──────────────────────────────────────────────────────────────
    Los vinos
    ────────────────────────────────────────────────────────────── */
 
@@ -216,16 +272,25 @@ export interface Wine {
   id: string;
   /** Nombre de la botella, como en la etiqueta. No se traduce. */
   name: string;
-  /** Bodega. No se traduce. */
-  winery: string;
   /**
-   * Denominación: el id de una de las cinco gallegas, o el nombre tal cual para lo que venga de
-   * fuera de Galicia (un cava, un ribera). Así la carta puede crecer sin forzar que todo sea gallego.
+   * Bodega. No se traduce. OPCIONAL: la carta de la casa casi nunca la imprime —en muchos vinos el
+   * nombre de la botella ES el de la bodega— y poner la que uno supone es exactamente lo que esta
+   * web no hace.
    */
-  origin: GalicianDoId | { label: string; area: string };
-  kind: WineKind;
-  /** Variedades, la mayoritaria primero. Una sola = monovarietal; varias = ensamblaje. */
-  grapes: readonly string[];
+  winery?: string;
+  /** Denominación o procedencia: una de las cinco gallegas o una de `OTHER_ORIGIN_IDS`. */
+  origin: WineOrigin;
+  /**
+   * Blanco, tinto… OPCIONAL porque la carta no lo dice de todos: marca el color en Monterrei,
+   * Valdeorras y Ribeira Sacra, y en las demás secciones lo da por sabido. Donde no consta ni se
+   * puede leer de la propia carta, se deja sin color antes que adivinarlo.
+   */
+  kind?: WineKind;
+  /**
+   * Variedades, la mayoritaria primero. Una sola = monovarietal; varias = ensamblaje. OPCIONAL: la
+   * carta solo las imprime en cuatro vinos, y el resto hay que buscarlos ficha a ficha.
+   */
+  grapes?: readonly string[];
   /**
    * El reparto del ensamblaje en %, por nombre de uva. Aparte de `grapes` y no dentro, para que un
    * monovarietal o un vino cuya bodega no publica porcentajes se escriba en una línea y sin ceros de
@@ -284,12 +349,78 @@ export interface Wine {
 }
 
 /**
- * LA CARTA DE VINOS. Vacía hasta que llegue la lista definitiva de Tatiana.
+ * LA CARTA DE VINOS: los 52 vinos de la carta de papel de la casa, transcritos de las dos caras
+ * fotografiadas el 2 de octubre de 2026.
  *
- * Al rellenarla: un vino por entrada, `id` único en minúsculas con guiones, y `pairsWith` apuntando
- * a platos que existan (el tipo lo comprueba). `assertWineIntegrity()` repasa el resto.
+ * AQUÍ SOLO ESTÁ LO QUE EL PAPEL IMPRIME: nombre, denominación, color y precio de botella. Nada más.
+ * No hay bodega inventada, ni uva deducida, ni nota de cata escrita de memoria — y por eso casi todos
+ * los campos del tipo `Wine` son opcionales. Las fichas completas se irán rellenando vino a vino con
+ * lo que publiquen la bodega o el consejo regulador, y lo confirmará Tatiana.
+ *
+ * EL COLOR, CUANDO NO CONSTA. La carta marca [BLANCO] / [TINTO] en Monterrei, Valdeorras y Ribeira
+ * Sacra, y lo calla en las demás secciones. Donde lo calla se lee de la PROPIA carta, no del mundo:
+ * la columna izquierda de la primera cara son los blancos gallegos (Ribeiro y Rías Baixas están ahí,
+ * entre secciones marcadas [BLANCO]) y toda la segunda cara son los tintos de fuera. El único que no
+ * se deja leer así es el VX Cuvée Caco, y ese se queda SIN color hasta que alguien lo confirme.
+ * El reparto completo de qué consta y qué se ha leído está en `docs/vinos-para-revisar.md`.
+ *
+ * Al añadir vinos: `id` único en minúsculas con guiones, y `pairsWith` apuntando a platos que
+ * existan (el tipo lo comprueba). `assertWineIntegrity()` repasa el resto.
  */
-export const WINES: Wine[] = [];
+export const WINES: Wine[] = [
+  { id: "condes-de-albarei", name: "Condes de Albarei", origin: "rias-baixas", kind: "blanco", bottlePrice: 18 },
+  { id: "pazo-baion", name: "Pazo Baión", origin: "rias-baixas", kind: "blanco", bottlePrice: 29 },
+  { id: "bot-ribeiro", name: "Bot. Ribeiro", origin: "ribeiro", kind: "blanco", bottlePrice: 16 },
+  { id: "a-flor-e-a-abella", name: "A Flor e a Abella", origin: "ribeiro", kind: "blanco", bottlePrice: 17 },
+  { id: "el-canto-del-cuco", name: "El Canto del Cuco", origin: "ribeiro", kind: "blanco", bottlePrice: 17 },
+  { id: "outeiro-da-barra", name: "Outeiro da Barra", origin: "ribeiro", kind: "blanco", bottlePrice: 17 },
+  { id: "casal-de-arman", name: "Casal de Armán", origin: "ribeiro", kind: "blanco", bottlePrice: 23 },
+  { id: "eduardo-pena", name: "Eduardo Peña", origin: "ribeiro", kind: "blanco", bottlePrice: 24 },
+  { id: "lagar-do-merens", name: "Lagar do Meréns", origin: "ribeiro", kind: "blanco", bottlePrice: 29 },
+  { id: "ramon-do-casar", name: "Ramón do Casar", origin: "ribeiro", kind: "blanco", grapes: ["Treixadura"], bottlePrice: 22 },
+  { id: "cunas-davia", name: "Cuñas Davia", origin: "ribeiro", kind: "blanco", bottlePrice: 24 },
+  { id: "regoa", name: "Régoa", origin: "ribeira-sacra", kind: "tinto", bottlePrice: 16 },
+  { id: "algueira", name: "Algueira", origin: "ribeira-sacra", kind: "tinto", bottlePrice: 18 },
+  { id: "vel-uveyra", name: "Vel'Uveyra", origin: "ribeira-sacra", kind: "tinto", bottlePrice: 19 },
+  { id: "la-lama", name: "La Lama", origin: "ribeira-sacra", kind: "tinto", bottlePrice: 32 },
+  { id: "a-moucha", name: "A Moucha", origin: "ribeira-sacra", kind: "tinto", bottlePrice: 29 },
+  { id: "la-lume", name: "La Lume", origin: "ribeira-sacra", kind: "blanco", bottlePrice: 34 },
+  { id: "manueleira-blanco", name: "Manueleira", origin: "valdeorras", kind: "blanco", bottlePrice: 16 },
+  { id: "guitian", name: "Guitián", origin: "valdeorras", kind: "blanco", bottlePrice: 24.5 },
+  { id: "guitian-sobre-lias", name: "Guitián sobre lías", origin: "valdeorras", kind: "blanco", ageing: "Sobre lías", bottlePrice: 30 },
+  { id: "pagos-de-galir", name: "Pagos de Galir", origin: "valdeorras", kind: "tinto", bottlePrice: 16 },
+  { id: "manueleira-tinto", name: "Manueleira ou similar", origin: "valdeorras", kind: "tinto", bottlePrice: 16 },
+  { id: "pajaro-loco", name: "Pájaro Loco", origin: "monterrei", kind: "blanco", bottlePrice: 17 },
+  { id: "crego-e-monaguillo-blanco", name: "Crego e Monaguillo", origin: "monterrei", kind: "blanco", bottlePrice: 17 },
+  { id: "castro-de-lobarzan", name: "Castro de Lobarzán", origin: "monterrei", kind: "blanco", bottlePrice: 18 },
+  { id: "crego-e-monaguillo-tinto", name: "Crego e Monaguillo", origin: "monterrei", kind: "tinto", bottlePrice: 17 },
+  { id: "quinta-da-muradela-alanda", name: "Quinta da Muradela · Alanda", origin: "monterrei", kind: "tinto", bottlePrice: 47 },
+  { id: "vx-cuvee-caco", name: "VX Cuvée Caco", origin: "fuera-do-ribeiro", bottlePrice: 44 },
+  { id: "a-capela", name: "A Capela ou similar", origin: "ribera-del-duero", kind: "tinto", bottlePrice: 16 },
+  { id: "hito", name: "Hito", origin: "ribera-del-duero", kind: "tinto", bottlePrice: 19 },
+  { id: "carmelo-rodero-9-meses", name: "Carmelo Rodero 9 meses", origin: "ribera-del-duero", kind: "tinto", grapes: ["Tempranillo"], ageing: "9 meses", bottlePrice: 24 },
+  { id: "arzuaga-crianza", name: "Arzuaga Crianza", origin: "ribera-del-duero", kind: "tinto", ageing: "Crianza", bottlePrice: 39 },
+  { id: "tomas-postigo-3-ano", name: "Tomás Postigo 3º año", origin: "ribera-del-duero", kind: "tinto", bottlePrice: 54 },
+  { id: "quinta-sardonia", name: "Quinta Sardonia", origin: "ribera-del-duero", kind: "tinto", bottlePrice: 52 },
+  { id: "malabrigo", name: "Malabrigo", origin: "ribera-del-duero", kind: "tinto", bottlePrice: 55 },
+  { id: "dehesa-de-los-canonigos", name: "Dehesa de los Canónigos", origin: "ribera-del-duero", kind: "tinto", bottlePrice: 40 },
+  { id: "carmelo-rodero-reserva", name: "Carmelo Rodero Reserva", origin: "ribera-del-duero", kind: "tinto", ageing: "Reserva", bottlePrice: 52 },
+  { id: "bot-rioja", name: "Bot. Rioja", origin: "rioja", kind: "tinto", bottlePrice: 16 },
+  { id: "baigorri", name: "Baigorri", origin: "rioja", kind: "tinto", bottlePrice: 19 },
+  { id: "luis-canas", name: "Luis Cañas", origin: "rioja", kind: "tinto", bottlePrice: 18 },
+  { id: "marques-de-murrieta", name: "Marqués de Murrieta", origin: "rioja", kind: "tinto", bottlePrice: 40 },
+  { id: "malpuesto", name: "Malpuesto", origin: "rioja", kind: "tinto", bottlePrice: 56 },
+  { id: "macan-clasico", name: "Macán Clásico", winery: "Vega Sicilia", origin: "rioja", kind: "tinto", bottlePrice: 95 },
+  { id: "macan-etiqueta-dorada", name: "Macán · Etiqueta dorada", winery: "Vega Sicilia", origin: "rioja", kind: "tinto", bottlePrice: 150 },
+  { id: "banzao", name: "Banzao", origin: "bierzo", kind: "tinto", bottlePrice: 23 },
+  { id: "enate", name: "Enate", origin: "somontano", kind: "tinto", grapes: ["Tempranillo", "Cabernet Sauvignon"], bottlePrice: 18 },
+  { id: "quinta-do-escudial", name: "Quinta do Escudial Reserva", origin: "dao", kind: "tinto", ageing: "Reserva", bottlePrice: 23 },
+  { id: "carqueijal", name: "Carqueijal", origin: "douro", kind: "tinto", bottlePrice: 16 },
+  { id: "quinta-das-bagueiras", name: "Quinta das Bagueiras Reserva", origin: "bairrada", kind: "tinto", ageing: "Reserva", bottlePrice: 24 },
+  { id: "piaugier-sablet", name: "Piaugier · Sablet", origin: "rhone", kind: "tinto", bottlePrice: 24 },
+  { id: "terrazas-de-los-andes", name: "Terrazas de los Andes", origin: "argentina", kind: "tinto", grapes: ["Malbec"], bottlePrice: 25 },
+  { id: "abbotsdale", name: "Abbotsdale", origin: "sudafrica", kind: "tinto", bottlePrice: 25 },
+];
 
 assertWineIntegrity(WINES);
 
@@ -333,13 +464,13 @@ function assertWineIntegrity(wines: readonly Wine[]): void {
     if (vistos.has(w.id)) errors.push(`el id "${w.id}" está repetido`);
     vistos.add(w.id);
 
-    if (!w.grapes.length) errors.push(`"${quien}": sin variedades de uva`);
+    if (w.grapes && !w.grapes.length) errors.push(`"${quien}": la lista de uvas está vacía (si no se saben, se deja fuera el campo)`);
 
     if (w.grapeShares) {
       let suma = 0;
       for (const [uva, parte] of Object.entries(w.grapeShares)) {
         if (parte === undefined) continue;
-        if (!w.grapes.includes(uva)) errors.push(`"${quien}": el porcentaje habla de "${uva}", que no está en sus uvas`);
+        if (!w.grapes?.includes(uva)) errors.push(`"${quien}": el porcentaje habla de "${uva}", que no está en sus uvas`);
         if (parte <= 0 || parte > 100) errors.push(`"${quien}": "${uva}" al ${parte} %`);
         suma += parte;
       }
@@ -367,10 +498,6 @@ function assertWineIntegrity(wines: readonly Wine[]): void {
       if (min < 0 || max > 24) errors.push(`"${quien}": se sirve entre ${min} y ${max} grados`);
     }
 
-    if (typeof w.origin === "object" && (!w.origin.label.trim() || !w.origin.area.trim())) {
-      errors.push(`"${quien}": origen de fuera de Galicia sin denominación o sin zona`);
-    }
-
     for (const premio of w.awards ?? []) {
       if (!premio.source.trim()) errors.push(`"${quien}": una puntuación sin decir quién la da`);
     }
@@ -385,9 +512,19 @@ function assertWineIntegrity(wines: readonly Wine[]): void {
 
 export const WINES_PENDING = WINES.length === 0;
 
-/** Los vinos de un tipo, respetando el orden de `WINE_KINDS`. */
+/** Los vinos de un tipo. Los que no traen color declarado no salen en ninguno. */
 export function winesByKind(kind: WineKind): Wine[] {
   return WINES.filter((w) => w.kind === kind);
+}
+
+/** Los vinos de una procedencia, en el orden en que están escritos en la carta de la casa. */
+export function winesByOrigin(origin: WineOrigin): Wine[] {
+  return WINES.filter((w) => w.origin === origin);
+}
+
+/** Cuántos vinos hay de cada procedencia. Lo usa el mapa para decir "4 vinos en carta". */
+export function wineCountByOrigin(origin: WineOrigin): number {
+  return winesByOrigin(origin).length;
 }
 
 /**

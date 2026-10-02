@@ -78,8 +78,7 @@ const chat = {
     /* La carta de vinos no está en la web todavía (Tatiana está decidiendo qué vinos sigue
        comprando). Hasta entonces el camarero enseña los tres maridajes de la casa y dice la
        verdad sobre el resto, en vez de callarse o inventar una bodega. */
-    wineListPending:
-      "La carta de vinos todavía no está en la web. Pregúntanos en el local o llámanos y te contamos lo que tenemos abierto.",
+    wineList: "Y tenemos {count} vinos en carta, por denominación y con su precio: [la carta de vinos]({url}).",
     hoursIntro: "Nuestro horario (hora de Ourense):",
     hoursNow: "Ahora mismo: {status}.",
     location: "Estamos en **{address}**, {landmark}. [Cómo llegar]({url})",

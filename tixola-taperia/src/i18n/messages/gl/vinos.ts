@@ -23,7 +23,8 @@ const vinos: Section<"vinos"> = {
   regionsLead:
     "Galicia ten cinco denominacións de orixe e catro teñen viñedo na provincia de Ourense. O propio concello da cidade está dentro da D.O. Ribeiro: o viño de aquí faise, literalmente, ao lado.",
   regionsNote:
-    "Este é o mapa do viño galego, aínda non a nosa carta: cando a pechemos dirémosche de cales destas zonas vén cada botella.",
+    "Na nosa carta hai botellas das cinco. Preme nunha denominación para ver as que temos desa zona.",
+  inList: "{count} en carta",
   mapAria: "Mapa de Galicia coas cinco denominacións de orixe de viño",
   mapFlow: "Desde cada unha delas sae un camiño ata Ourense, onde está Tixola.",
   mapCredit: "Contorno de Galicia: datos de OpenStreetMap, licenza ODbL.",
@@ -95,6 +96,23 @@ const vinos: Section<"vinos"> = {
   awards: "Puntuacións e premios",
   story: "A historia",
   priceNote: "Prezos con IVE incluído, os mesmos que na carta do local.",
+
+  indexLabel: "Ir a unha denominación",
+  origins: {
+    "fuera-do-ribeiro": "Fóra de D.O. · Ribeiro",
+    "ribera-del-duero": "D.O. Ribera del Duero",
+    rioja: "D.O. Rioja",
+    bierzo: "D.O. Bierzo",
+    somontano: "D.O. Somontano",
+    dao: "D.O. Dão",
+    douro: "D.O. Douro",
+    bairrada: "D.O.C. Bairrada",
+    rhone: "D.O. Vallée du Rhône",
+    argentina: "Arxentina",
+    sudafrica: "South Africa",
+  },
+  countries: { espana: "España", portugal: "Portugal", francia: "Francia", ninguno: "" },
+  offMenuNote: "E pregúntanos: adoitamos ter outras referencias fóra de carta.",
 
   seoTitle: "Carta de viños galegos en Ourense",
   seoDescription:

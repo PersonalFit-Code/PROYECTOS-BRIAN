@@ -66,8 +66,7 @@ const chat: Section<"chat"> = {
     pairingDishSimple: "Con **{dish}** recoméndoche **{wine}**, un viño galego da nosa vinoteca.",
     pairingWine: "O **{wine}** vai de marabilla con:",
     pairingIntro: "As nosas maridaxes da casa, con viños galegos da vinoteca:",
-    wineListPending:
-      "A carta de viños aínda non está na web. Pregúntanos no local ou chámanos e contámosche o que temos aberto.",
+    wineList: "E temos {count} viños en carta, por denominación e co seu prezo: [a carta de viños]({url}).",
     hoursIntro: "O noso horario (hora de Ourense):",
     hoursNow: "Agora mesmo: {status}.",
     location: "Estamos en **{address}**, {landmark}. [Como chegar]({url})",

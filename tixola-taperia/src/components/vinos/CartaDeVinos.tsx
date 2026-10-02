@@ -4,13 +4,16 @@ import { useMemo, type ReactNode } from "react";
 import { Plus } from "lucide-react";
 import { formatPrice } from "@/data/menu";
 import {
+  isGalicianOrigin,
+  ORIGIN_COUNTRY,
+  ORIGIN_ORDER,
   WINE_AXES,
   WINE_KINDS,
   WINE_REGIONS,
-  winesByKind,
+  winesByOrigin,
   type Wine,
   type WineAxis,
-  type WineKind,
+  type WineOrigin,
 } from "@/data/wines";
 import { localizeMenuItems } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
@@ -24,6 +27,12 @@ import { cn } from "@/lib/utils";
  * el aviso de que la carta se está cerrando. Pero el renderizador existe y está probado, que es justo
  * lo que faltaba — hasta ahora, el día que llegara la lista de Tatiana no se habría visto ni una
  * botella por mucho que se rellenara `wines.ts`.
+ *
+ * SE AGRUPA POR DENOMINACIÓN, no por color, y es lo que pidió el cliente: "pinchamos en Rías Baixas
+ * y aparecen todos los vinos que tenemos de las Rías Baixas". Tiene sentido en esta carta: 52 vinos
+ * de 16 procedencias distintas, desde el Ribeiro de al lado hasta Sudáfrica. Agrupados por color
+ * serían dos listas enormes donde el origen —que es justo lo que esta casa vende— se perdería.
+ * Dentro de una denominación con blancos y tintos, se separan por color.
  *
  * LO QUE ENSEÑA Y EN QUÉ ORDEN. Es la lista que pidió el cliente, en sus cuatro bloques:
  *   · SIN DESPLEGAR, lo que decide la compra: nombre, bodega, denominación, añada y precio de copa y
@@ -57,7 +66,7 @@ export default function CartaDeVinos() {
     [locale],
   );
 
-  const grupos = WINE_KINDS.map((kind) => ({ kind, vinos: winesByKind(kind) })).filter((g) => g.vinos.length > 0);
+  const grupos = ORIGIN_ORDER.map((origin) => ({ origin, vinos: winesByOrigin(origin) })).filter((g) => g.vinos.length > 0);
   /* Sin vinos no hay carta: la página ya enseña el aviso de `WINES_PENDING` en su lugar. */
   if (!grupos.length) return null;
 
@@ -67,42 +76,92 @@ export default function CartaDeVinos() {
     <section className="container-page pb-16 md:pb-20">
       <p className="font-caps text-xs uppercase tracking-[0.3em] text-cream-faint">{t(m.vinos.count, { count: total })}</p>
 
-      <div className="mt-6 grid gap-10">
-        {grupos.map(({ kind, vinos }) => (
-          <GrupoPorTipo key={kind} kind={kind} vinos={vinos} nombreDePlato={nombreDePlato} />
+      {/* Índice de denominaciones. Son anclas, no filtros: el navegador ya sabe llevar a un sitio de
+          la página, así funciona sin JavaScript y los 52 vinos siguen estando en el HTML. */}
+      <nav aria-label={m.vinos.indexLabel} className="mt-4 flex flex-wrap gap-2">
+        {grupos.map(({ origin, vinos }) => (
+          <a
+            key={origin}
+            href={`#vinos-${origin}`}
+            className="inline-flex items-center gap-1.5 rounded-full border border-cream/15 px-3 py-1.5 font-caps text-[11px] uppercase tracking-[0.14em] text-cream-muted transition-colors hover:border-cream/40 hover:text-cream"
+          >
+            {nombreDeOrigen(origin, m)}
+            <span className="text-cream-faint">{vinos.length}</span>
+          </a>
+        ))}
+      </nav>
+
+      <div className="mt-8 grid gap-10">
+        {grupos.map(({ origin, vinos }) => (
+          <GrupoPorOrigen key={origin} origin={origin} vinos={vinos} nombreDePlato={nombreDePlato} />
         ))}
       </div>
 
-      <p className="mt-10 text-xs text-cream-faint">{m.vinos.priceNote}</p>
+      <p className="mt-10 text-xs leading-relaxed text-cream-faint">{m.vinos.priceNote}</p>
+      {/* La carta de papel lo dice al pie de las dos caras, y es verdad: la lista no es cerrada. */}
+      <p className="mt-2 text-xs leading-relaxed text-cream-faint">{m.vinos.offMenuNote}</p>
     </section>
   );
 }
 
-/** Los vinos de un tipo: blancos, tintos, rosados… en el orden de `WINE_KINDS`. */
-function GrupoPorTipo({
-  kind,
+/** El título de una procedencia: "D.O. Ribeiro" para las gallegas, su nombre impreso para el resto. */
+function nombreDeOrigen(origin: WineOrigin, m: ReturnType<typeof useMessages>): string {
+  return isGalicianOrigin(origin) ? `${m.vinos.doPrefix} ${WINE_REGIONS[origin].label}` : m.vinos.origins[origin];
+}
+
+/** Los vinos de una denominación. Si los hay de varios colores, se separan por color dentro. */
+function GrupoPorOrigen({
+  origin,
   vinos,
   nombreDePlato,
 }: {
-  kind: WineKind;
+  origin: WineOrigin;
   vinos: readonly Wine[];
   nombreDePlato: Map<string, string>;
 }) {
   const m = useMessages();
+  const gallega = isGalicianOrigin(origin);
+  /* La procedencia de abajo: las provincias en las gallegas, el país en las de fuera. En Argentina y
+     Sudáfrica el propio nombre ya es el país, así que `ORIGIN_COUNTRY` los deja sin nada. */
+  const pie = gallega ? WINE_REGIONS[origin].provinces.join(" · ") : m.vinos.countries[ORIGIN_COUNTRY[origin] ?? "ninguno"];
+
+  /* Los colores presentes, en el orden de `WINE_KINDS`; los vinos sin color declarado van al final. */
+  const porColor = WINE_KINDS.map((kind) => ({ kind, lista: vinos.filter((v) => v.kind === kind) })).filter((g) => g.lista.length > 0);
+  const sinColor = vinos.filter((v) => !v.kind);
+  const separar = porColor.length > 1 || sinColor.length > 0;
 
   return (
-    <section aria-labelledby={`vinos-${kind}`}>
-      <h2 id={`vinos-${kind}`} className="flex items-baseline gap-3 font-display text-2xl font-medium text-cream md:text-3xl">
-        {m.vinos.kinds[kind]}
-        <span aria-hidden className="h-px flex-1 bg-cream/12" />
-        <span className="font-caps text-xs tracking-[0.2em] text-cream-faint">{vinos.length}</span>
+    <section id={`vinos-${origin}`} aria-labelledby={`t-vinos-${origin}`} className="scroll-mt-28">
+      <h2 id={`t-vinos-${origin}`} className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span className="font-display text-2xl font-medium text-cream md:text-3xl">{nombreDeOrigen(origin, m)}</span>
+        {pie ? <span className="font-caps text-[11px] uppercase tracking-[0.2em] text-cream-faint">{pie}</span> : null}
       </h2>
+      <span aria-hidden className="mt-2 block h-px w-full bg-cream/12" />
 
-      <ul className="mt-4 grid gap-3">
-        {vinos.map((vino) => (
-          <FichaVino key={vino.id} vino={vino} nombreDePlato={nombreDePlato} />
+      <div className="mt-4 grid gap-5">
+        {porColor.map(({ kind, lista }) => (
+          <div key={kind}>
+            {separar ? (
+              <p className="mb-2 font-caps text-[10px] uppercase tracking-[0.26em] text-pimenton-a11y">{m.vinos.kinds[kind]}</p>
+            ) : null}
+            <ul className="grid gap-3">
+              {lista.map((vino) => (
+                <FichaVino key={vino.id} vino={vino} nombreDePlato={nombreDePlato} />
+              ))}
+            </ul>
+          </div>
         ))}
-      </ul>
+
+        {sinColor.length ? (
+          <div>
+            <ul className="grid gap-3">
+              {sinColor.map((vino) => (
+                <FichaVino key={vino.id} vino={vino} nombreDePlato={nombreDePlato} />
+              ))}
+            </ul>
+          </div>
+        ) : null}
+      </div>
     </section>
   );
 }
@@ -116,17 +175,15 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
   const t = useFormat();
   const locale = useLocale();
 
-  const denominacion =
-    typeof vino.origin === "string"
-      ? `${m.vinos.doPrefix} ${WINE_REGIONS[vino.origin].label}`
-      : `${vino.origin.label} · ${vino.origin.area}`;
-
   /* Monovarietal o ensamblaje se deduce de la lista de uvas: un dato menos que escribir a mano. */
-  const tipoDeMezcla = vino.grapes.length === 1 ? m.vinos.monovarietal : m.vinos.blend;
+  const tipoDeMezcla = vino.grapes?.length === 1 ? m.vinos.monovarietal : m.vinos.blend;
 
   const maridajes = (vino.pairsWith ?? []).map((id) => nombreDePlato.get(id)).filter((n): n is string => Boolean(n));
   const ejes = WINE_AXES.filter((eje) => vino.profile?.[eje] !== undefined);
 
+  const hayTecnica = Boolean(
+    vino.grapes?.length || vino.ageing || vino.winemaking || vino.methods?.length || vino.abv !== undefined || vino.bottleCl !== undefined,
+  );
   const hayCata = Boolean(vino.notes || ejes.length || vino.serveC || maridajes.length);
   const hayOrigen = Boolean(vino.subzone || vino.terroir || vino.winemaker || vino.awards?.length || vino.story);
 
@@ -136,10 +193,15 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
         <summary className="flex cursor-pointer list-none items-start gap-4 px-4 py-4 marker:content-none md:px-5 [&::-webkit-details-marker]:hidden">
           <span className="min-w-0 flex-1">
             <span className="block font-display text-xl font-medium leading-tight text-cream md:text-2xl">{vino.name}</span>
-            <span className="mt-1 block text-[13px] leading-snug text-cream-faint">
-              {vino.winery} · {denominacion}
-              {vino.vintage ? ` · ${vino.vintage}` : ""}
-            </span>
+            {/* Solo se pinta la línea de debajo si hay algo que poner: la carta de papel da el
+                nombre y poco más, y un "·" suelto delataría el hueco. La crianza NO va aquí aunque se
+                sepa: en esta carta suele formar parte del propio nombre ("Arzuaga Crianza") y repetida
+                debajo se leía como un tartamudeo. Vive dentro de la ficha, con su rótulo. */}
+            {[vino.winery, vino.vintage ? String(vino.vintage) : null].filter(Boolean).length ? (
+              <span className="mt-1 block text-[13px] leading-snug text-cream-faint">
+                {[vino.winery, vino.vintage ? String(vino.vintage) : null].filter(Boolean).join(" · ")}
+              </span>
+            ) : null}
           </span>
 
           {/* Los precios: lo segundo que se mira después del nombre, así que van alineados a la derecha
@@ -171,7 +233,9 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
             de mil píxeles. */}
         <div className="grid items-start gap-6 border-t border-cream/10 px-4 py-5 md:px-5 lg:grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] lg:gap-8">
           {/* ── Bloque 1 · uva y elaboración ── */}
+          {hayTecnica ? (
           <Bloque titulo={m.vinos.blockGrape}>
+            {vino.grapes?.length ? (
             <Dato titulo={`${m.vinos.grapes} · ${tipoDeMezcla}`}>
               <span className="flex flex-wrap gap-1.5">
                 {vino.grapes.map((uva, i) => {
@@ -193,6 +257,7 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
                 })}
               </span>
             </Dato>
+            ) : null}
 
             {vino.ageing ? <Dato titulo={m.vinos.ageing}>{vino.ageing}</Dato> : null}
             {vino.winemaking ? <Dato titulo={m.vinos.winemaking}>{vino.winemaking}</Dato> : null}
@@ -219,6 +284,7 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
               <Dato titulo={m.vinos.format}>{t(m.vinos.formatValue, { cl: formatNumber(vino.bottleCl, locale) })}</Dato>
             ) : null}
           </Bloque>
+          ) : null}
 
           {/* ── Bloque 2 · cata y servicio ── */}
           {hayCata ? (

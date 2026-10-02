@@ -53,10 +53,11 @@ export const RESPONSE_LANGUAGE: Record<Locale, string> = {
 const PAGE_CONTEXT: Record<WaiterPage, string> = {
   home: "la portada de la web (puede ver la carta completa en el enlace de la carta digital)",
   carta: "la carta digital (puede filtrar por categorías y alérgenos en esta misma página)",
-  /* En la vinoteca el camarero NO tiene todavía una lista de vinos que ofrecer: la carta de vinos
-     está sin cerrar. Se le dice aquí para que no se invente botellas, que es justo lo que haría un
-     modelo al que le preguntan por vinos estando en la página de vinos. */
-  vinos: "la página de la vinoteca. IMPORTANTE: la carta de vinos todavía no está cerrada y NO tienes la lista de vinos del local. Si te preguntan por un vino concreto, dilo con naturalidad y ofrece preguntar en la barra o por WhatsApp; nunca inventes nombres de vino, bodegas ni precios",
+  /* La carta de vinos YA está publicada, así que aquí el camarero sí puede nombrar botellas: las que
+     están en su base de conocimiento y ninguna más. Lo que sigue prohibido —y es lo que haría un
+     modelo al que le preguntan por un Ribeiro que cree conocer— es rellenar los huecos: de la mayoría
+     solo sabemos nombre, denominación, color y precio. */
+  vinos: "la página de la vinoteca, donde está la carta de vinos completa con su precio. Puedes nombrar y recomendar los vinos de tu base de conocimiento, agrupados por denominación. De casi todos solo sabes nombre, denominación, color y precio: si te preguntan por la uva, la añada, la bodega o a qué sabe, dilo con naturalidad y ofrece preguntarlo en la barra en vez de deducirlo",
   legal: "una página legal de la web (aviso legal, privacidad o cookies)",
 };
 

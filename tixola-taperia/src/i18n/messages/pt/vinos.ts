@@ -24,7 +24,8 @@ const vinos = {
   regionsLead:
     "A Galiza tem cinco denominações de origem e quatro têm vinha na província de Ourense. O próprio município da cidade está dentro da D.O. Ribeiro: o vinho daqui faz-se, literalmente, ao lado.",
   regionsNote:
-    "Este é o mapa do vinho galego, ainda não a nossa carta: quando a fecharmos diremos de quais destas zonas vem cada garrafa.",
+    "Na nossa carta há garrafas das cinco. Toque numa denominação para ver as que temos dessa zona.",
+  inList: "{count} na carta",
   mapAria: "Mapa da Galiza com as cinco denominações de origem de vinho",
   mapFlow: "De cada uma delas sai um caminho até Ourense, onde fica o Tixola.",
   mapCredit: "Contorno da Galiza: dados do OpenStreetMap, licença ODbL.",
@@ -96,6 +97,23 @@ const vinos = {
   awards: "Pontuações e prémios",
   story: "A história",
   priceNote: "Preços com IVA incluído, os mesmos que na carta do local.",
+
+  indexLabel: "Ir para uma denominação",
+  origins: {
+    "fuera-do-ribeiro": "Fora da D.O. · Ribeiro",
+    "ribera-del-duero": "D.O. Ribera del Duero",
+    rioja: "D.O. Rioja",
+    bierzo: "D.O. Bierzo",
+    somontano: "D.O. Somontano",
+    dao: "D.O. Dão",
+    douro: "D.O. Douro",
+    bairrada: "D.O.C. Bairrada",
+    rhone: "D.O. Vallée du Rhône",
+    argentina: "Argentina",
+    sudafrica: "South Africa",
+  },
+  countries: { espana: "Espanha", portugal: "Portugal", francia: "França", ninguno: "" },
+  offMenuNote: "E pergunte-nos: costumamos ter outras referências fora da carta.",
 
   seoTitle: "Carta de vinhos galegos em Ourense",
   seoDescription:

@@ -37,7 +37,8 @@ const vinos = {
     "Galicia tiene cinco denominaciones de origen y cuatro tienen viñedo en la provincia de Ourense. El propio ayuntamiento de la ciudad está dentro de la D.O. Ribeiro: el vino de aquí se hace, literalmente, al lado.",
   /* La aclaración que impide leer el mapa como si fuera la carta. Va visible, no en letra pequeña. */
   regionsNote:
-    "Este es el mapa del vino gallego, no nuestra carta todavía: cuando la cerremos te diremos de cuáles de estas zonas viene cada botella.",
+    "En nuestra carta hay botellas de las cinco. Pincha en una denominación para ver las que tenemos de esa zona.",
+  inList: "{count} en carta",
   mapAria: "Mapa de Galicia con las cinco denominaciones de origen de vino",
   /** Los cinco caminos animados del mapa, contados para quien no los ve. */
   mapFlow: "Desde cada una de ellas sale un camino hasta Ourense, donde está Tixola.",
@@ -127,6 +128,27 @@ const vinos = {
   awards: "Puntuaciones y premios",
   story: "La historia",
   priceNote: "Precios con IVA incluido, los mismos que en la carta del local.",
+
+  /* ── Procedencias de fuera de Galicia ── */
+  /* Casi todos son nombres propios y se escriben igual en los cuatro idiomas; viven aquí y no en los
+     datos porque "Fuera D.O. Ribeiro" no es un nombre, es una frase, y sí hay que traducirla. */
+  indexLabel: "Ir a una denominación",
+  origins: {
+    "fuera-do-ribeiro": "Fuera de D.O. · Ribeiro",
+    "ribera-del-duero": "D.O. Ribera del Duero",
+    rioja: "D.O. Rioja",
+    bierzo: "D.O. Bierzo",
+    somontano: "D.O. Somontano",
+    dao: "D.O. Dão",
+    douro: "D.O. Douro",
+    bairrada: "D.O.C. Bairrada",
+    rhone: "D.O. Vallée du Rhône",
+    argentina: "Argentina",
+    sudafrica: "South Africa",
+  },
+  countries: { espana: "España", portugal: "Portugal", francia: "Francia", ninguno: "" },
+  /* Lo dice la carta de papel al pie de las dos caras, y es verdad: la lista no es cerrada. */
+  offMenuNote: "Y pregúntanos: solemos tener otras referencias fuera de carta.",
 
   /* ── SEO (metadatos de /vinos; no se pintan en pantalla) ── */
   seoTitle: "Carta de vinos gallegos en Ourense",

@@ -4,7 +4,7 @@ import { useEffect, useId, type CSSProperties } from "react";
 import { MapPin, Plus } from "lucide-react";
 import { BUSINESS } from "@/data/business";
 import { GALICIA_OUTLINE, GALICIA_RATIO } from "@/data/geo/galicia";
-import { OURENSE_ON_MAP, WINE_REGION_LIST, type GalicianDoId, type WineRegion } from "@/data/wines";
+import { OURENSE_ON_MAP, wineCountByOrigin, WINE_REGION_LIST, type GalicianDoId, type WineRegion } from "@/data/wines";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
@@ -304,6 +304,7 @@ function Chapa({ region, numero }: { region: WineRegion; numero: number }) {
 function FichaDenominacion({ region, numero }: { region: WineRegion; numero: number }) {
   const m = useMessages();
   const t = useFormat();
+  const enCarta = wineCountByOrigin(region.id);
 
   return (
     <li id={`do-${region.id}`} className="scroll-mt-28">
@@ -363,6 +364,18 @@ function FichaDenominacion({ region, numero }: { region: WineRegion; numero: num
           </p>
 
           <p className="mt-3 text-sm leading-relaxed text-cream-muted text-pretty">{m.vinos.regionCharacter[region.id]}</p>
+
+          {/* El puente entre el mapa y la carta: cuántas botellas de esta zona hay abajo, y un enlace
+              que lleva justo a ellas. Se calcula, no se escribe: si mañana cambia la carta, el número
+              cambia solo. */}
+          {enCarta > 0 ? (
+            <a
+              href={`#vinos-${region.id}`}
+              className="mt-4 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1.5 font-caps text-[10px] uppercase tracking-[0.18em] text-gold transition-colors hover:border-gold/70 hover:bg-gold/20"
+            >
+              {t(m.vinos.inList, { count: enCarta })}
+            </a>
+          ) : null}
 
           <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
             <Uvas titulo={m.vinos.whites} lista={region.whites} tono="blanco" />
