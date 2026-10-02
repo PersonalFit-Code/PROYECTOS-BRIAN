@@ -172,7 +172,7 @@ const gl: DataTranslations = {
       unit: "ración",
     },
     "esp-brocheta-xxl": {
-      description: "Brocheta grande á prancha, como indica o nome. Para compartir ou para quen vén con fame de verdade.",
+      description: "Brocheta grande de porco adobado, feita á prancha. Para compartir ou para quen vén con fame de verdade.",
       unit: "unidade",
     },
     "esp-ajada-bacalao": {

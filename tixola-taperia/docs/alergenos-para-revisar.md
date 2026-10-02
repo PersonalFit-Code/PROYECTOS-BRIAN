@@ -35,7 +35,7 @@ con alergia puede leerlo como «este puedo comerlo».
 
 | Plato | Lo que pregunto |
 |---|---|
-| **Brocheta XXL** (13,90 €) | ¿De qué es la carne? ¿Lleva adobo o salsa comprada? Muchos adobos llevan **sulfitos**, **mostaza** o **soja**. ¿Se hace en la misma plancha que el pescado? |
+| **Brocheta XXL** (13,90 €) | **RESPONDIDO A MEDIAS.** De qué es: cerdo, 100 % magro, adobado (ficha de Requeno Cárnicas «Moruno», rev. 3, 01/02/2026). Plancha: **no se hace en la misma que el pescado** (confirmado por el cliente). **Sigue pendiente lo de los alérgenos:** la ficha no declara ninguno, y el adobo comercial CEYLAMIX 028-S/N lleva «especias» y «aroma (preparación aromatizante)», que es donde suelen esconderse **mostaza**, **apio** o **soja**. Hace falta la etiqueta de la bandeja o la ficha de alérgenos del preparado. |
 | **Oreja a la plancha** (8,20 €) | ¿Lleva algún aliño o salsa por encima? ¿El pimentón que usáis es puro o mezcla? |
 | **Jamón serrano** (12,90 €) | ¿Qué marca? Muchos jamones curados llevan **sulfitos** declarados en la etiqueta. Basta con mirar el paquete. |
 

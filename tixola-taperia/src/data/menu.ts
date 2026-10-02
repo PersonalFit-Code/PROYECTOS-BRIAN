@@ -495,7 +495,7 @@ export const MENU_ITEMS: MenuItem[] = [
     id: "esp-brocheta-xxl",
     name: "Brocheta XXL",
     category: "especiales",
-    description: "Brocheta grande a la plancha, como indica el nombre. Para compartir o para quien viene con hambre de verdad.",
+    description: "Brocheta grande de cerdo adobado, hecha a la plancha. Para compartir o para quien viene con hambre de verdad.",
     price: 13.9,
     unit: "unidad",
     allergens: [],

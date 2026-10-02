@@ -173,7 +173,7 @@ const pt: DataTranslations = {
       unit: "dose",
     },
     "esp-brocheta-xxl": {
-      description: "Espetada grande na chapa, como o nome indica. Para partilhar ou para quem chega com fome a sério.",
+      description: "Espetada grande de porco marinado, feita na chapa. Para partilhar ou para quem chega com fome a sério.",
       unit: "unidade",
     },
     "esp-ajada-bacalao": {

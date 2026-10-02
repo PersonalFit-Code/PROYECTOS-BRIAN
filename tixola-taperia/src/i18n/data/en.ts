@@ -172,7 +172,7 @@ const en: DataTranslations = {
       unit: "portion",
     },
     "esp-brocheta-xxl": {
-      description: "A large skewer off the griddle, exactly as the name promises. To share, or for anyone who arrives properly hungry.",
+      description: "A large skewer of marinated pork, cooked on the griddle. To share, or for anyone who arrives properly hungry.",
       unit: "each",
     },
     "esp-ajada-bacalao": {
