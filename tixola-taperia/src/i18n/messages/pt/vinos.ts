@@ -29,6 +29,20 @@ const vinos = {
   mapAria: "Mapa da Galiza com as cinco denominações de origem de vinho",
   mapFlow: "De cada uma delas sai um caminho até Ourense, onde fica o Tixola.",
   mapCredit: "Contorno da Galiza: dados do OpenStreetMap, licença ODbL.",
+
+  /* ── O mapa do mundo ── */
+  mapWorldKicker: "De onde vem",
+  mapWorldTitle: "O mundo, na prateleira",
+  mapWorldLead:
+    "{count} garrafas de {countries} países. Amplia com a roda ou com dois dedos, arrasta para te moveres, e carrega num pino para veres o que temos de lá.",
+  mapWorldAria: "Mapa do mundo com os {countries} países de onde vêm os {count} vinhos da carta",
+  mapWorldPin: "{country}, {count} vinhos",
+  mapWorldCardCount: "{count} vinhos · {origins} denominações",
+  mapWorldCredit: "Contorno: Natural Earth (domínio público)",
+  mapZoomIn: "Aproximar o mapa",
+  mapZoomOut: "Afastar o mapa",
+  mapReset: "Voltar à vista inicial",
+  nations: { espana: "Espanha", portugal: "Portugal", francia: "França", argentina: "Argentina", sudafrica: "África do Sul" },
   inOurense: "Província de Ourense",
   whites: "Castas brancas",
   reds: "Castas tintas",

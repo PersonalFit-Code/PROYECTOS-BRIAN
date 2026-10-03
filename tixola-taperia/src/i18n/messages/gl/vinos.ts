@@ -28,6 +28,20 @@ const vinos: Section<"vinos"> = {
   mapAria: "Mapa de Galicia coas cinco denominacións de orixe de viño",
   mapFlow: "Desde cada unha delas sae un camiño ata Ourense, onde está Tixola.",
   mapCredit: "Contorno de Galicia: datos de OpenStreetMap, licenza ODbL.",
+
+  /* ── O mapa do mundo ── */
+  mapWorldKicker: "De onde vén",
+  mapWorldTitle: "O mundo, no andel",
+  mapWorldLead:
+    "{count} botellas de {countries} países. Amplía coa roda ou con dous dedos, arrastra para moverte, e pincha unha chincheta para ver que temos de alí.",
+  mapWorldAria: "Mapa do mundo cos {countries} países dos que veñen os {count} viños da carta",
+  mapWorldPin: "{country}, {count} viños",
+  mapWorldCardCount: "{count} viños · {origins} denominacións",
+  mapWorldCredit: "Contorno: Natural Earth (dominio público)",
+  mapZoomIn: "Achegar o mapa",
+  mapZoomOut: "Afastar o mapa",
+  mapReset: "Volver á vista inicial",
+  nations: { espana: "España", portugal: "Portugal", francia: "Francia", argentina: "Arxentina", sudafrica: "Sudáfrica" },
   inOurense: "Provincia de Ourense",
   whites: "Uvas brancas",
   reds: "Uvas tintas",

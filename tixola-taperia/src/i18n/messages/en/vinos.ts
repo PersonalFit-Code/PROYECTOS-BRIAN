@@ -29,6 +29,20 @@ const vinos = {
   mapAria: "Map of Galicia with its five wine denominations of origin",
   mapFlow: "A trail runs from each one to Ourense, where Tixola is.",
   mapCredit: "Outline of Galicia: data from OpenStreetMap, ODbL licence.",
+
+  /* ── The world map ── */
+  mapWorldKicker: "Where it comes from",
+  mapWorldTitle: "The world, on the shelf",
+  mapWorldLead:
+    "{count} bottles from {countries} countries. Zoom with the wheel or two fingers, drag to move around, and tap a pin to see what we have from there.",
+  mapWorldAria: "World map showing the {countries} countries the {count} wines on the list come from",
+  mapWorldPin: "{country}, {count} wines",
+  mapWorldCardCount: "{count} wines · {origins} denominations",
+  mapWorldCredit: "Outline: Natural Earth (public domain)",
+  mapZoomIn: "Zoom in",
+  mapZoomOut: "Zoom out",
+  mapReset: "Back to the initial view",
+  nations: { espana: "Spain", portugal: "Portugal", francia: "France", argentina: "Argentina", sudafrica: "South Africa" },
   inOurense: "Province of Ourense",
   whites: "White grapes",
   reds: "Red grapes",

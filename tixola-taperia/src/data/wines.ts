@@ -253,6 +253,66 @@ export const ORIGIN_COUNTRY: Record<OtherOriginId, "espana" | "portugal" | "fran
 /** Procedencia de un vino: una de las cinco gallegas o una de las de fuera. */
 export type WineOrigin = GalicianDoId | OtherOriginId;
 
+/* ──────────────────────────────────────────────────────────────
+   Los países de la carta (para el mapa del mundo)
+   ────────────────────────────────────────────────────────────── */
+
+/** Los cinco países de los que hay vino en la carta. */
+export const NATION_IDS = ["espana", "portugal", "francia", "argentina", "sudafrica"] as const;
+export type NationId = (typeof NATION_IDS)[number];
+
+export interface Nation {
+  id: NationId;
+  /**
+   * El nombre del país EN INGLÉS tal y como lo escribe Natural Earth, que es de donde sale el
+   * contorno (`src/data/geo/mundo.ts`). No se pinta en ningún sitio: es la clave con la que el mapa
+   * encuentra la silueta que tiene que resaltar. Si se cambia la fuente del mapa, se cambia aquí.
+   */
+  naturalEarth: string;
+  /**
+   * Dónde se clava la chincheta, en longitud y latitud reales. NO es la capital ni el centro
+   * geométrico del país: es un punto dentro de su zona de viñedo, que es de lo que habla el mapa.
+   * España cae entre Galicia y el Bierzo, Portugal entre el Dão y el Douro, Francia en el Ródano,
+   * Argentina en Mendoza y Sudáfrica en el Cabo Occidental. A la escala de este mapa (1 px ≈ 0,18°)
+   * un par de décimas no se ven; lo que importa es que la chincheta caiga dentro del país y sobre
+   * la zona de la que viene el vino, no en una capital que no tiene nada que ver.
+   */
+  lonLat: readonly [number, number];
+}
+
+export const NATIONS: Record<NationId, Nation> = {
+  espana: { id: "espana", naturalEarth: "Spain", lonLat: [-6.0, 42.2] },
+  portugal: { id: "portugal", naturalEarth: "Portugal", lonLat: [-7.9, 40.9] },
+  francia: { id: "francia", naturalEarth: "France", lonLat: [4.8, 44.3] },
+  argentina: { id: "argentina", naturalEarth: "Argentina", lonLat: [-68.8, -32.9] },
+  sudafrica: { id: "sudafrica", naturalEarth: "South Africa", lonLat: [19.0, -33.6] },
+};
+
+/**
+ * De qué país es cada procedencia. `ORIGIN_COUNTRY` (arriba) no sirve para esto: ese deja fuera a
+ * las gallegas —son España y se da por sabido— y deja en blanco Argentina y Sudáfrica, porque su
+ * nombre YA es el del país y repetirlo en la ficha sería tonto. Aquí, en cambio, hace falta que las
+ * dieciséis procedencias tengan país, porque es lo que agrupa las chinchetas del mapa.
+ */
+export const ORIGIN_NATION: Record<WineOrigin, NationId> = {
+  "rias-baixas": "espana",
+  ribeiro: "espana",
+  "ribeira-sacra": "espana",
+  valdeorras: "espana",
+  monterrei: "espana",
+  "fuera-do-ribeiro": "espana",
+  "ribera-del-duero": "espana",
+  rioja: "espana",
+  bierzo: "espana",
+  somontano: "espana",
+  dao: "portugal",
+  douro: "portugal",
+  bairrada: "portugal",
+  rhone: "francia",
+  argentina: "argentina",
+  sudafrica: "sudafrica",
+};
+
 /** Todas, en el orden en que se recorren en la página: Galicia de oeste a este y luego el resto. */
 export const ORIGIN_ORDER: readonly WineOrigin[] = [...GALICIAN_DO_IDS, ...OTHER_ORIGIN_IDS];
 

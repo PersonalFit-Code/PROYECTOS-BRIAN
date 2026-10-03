@@ -44,6 +44,22 @@ const vinos = {
   mapFlow: "Desde cada una de ellas sale un camino hasta Ourense, donde está Tixola.",
   /** Atribución del contorno de Galicia: la licencia ODbL de OpenStreetMap la EXIGE visible. */
   mapCredit: "Contorno de Galicia: datos de OpenStreetMap, licencia ODbL.",
+
+  /* ── El mapa del mundo ── */
+  mapWorldKicker: "De dónde viene",
+  mapWorldTitle: "El mundo, en la estantería",
+  mapWorldLead:
+    "{count} botellas de {countries} países. Amplía con la rueda o con dos dedos, arrastra para moverte, y pincha una chincheta para ver qué tenemos de ahí.",
+  mapWorldAria: "Mapa del mundo con los {countries} países de los que vienen los {count} vinos de la carta",
+  mapWorldPin: "{country}, {count} vinos",
+  mapWorldCardCount: "{count} vinos · {origins} denominaciones",
+  /* Natural Earth es dominio público y no exige cita; se pone igualmente porque un mapa sin decir de
+     dónde sale su contorno es un mapa del que no te puedes fiar. */
+  mapWorldCredit: "Contorno: Natural Earth (dominio público)",
+  mapZoomIn: "Acercar el mapa",
+  mapZoomOut: "Alejar el mapa",
+  mapReset: "Volver a la vista inicial",
+  nations: { espana: "España", portugal: "Portugal", francia: "Francia", argentina: "Argentina", sudafrica: "Sudáfrica" },
   inOurense: "Provincia de Ourense",
   whites: "Uvas blancas",
   reds: "Uvas tintas",

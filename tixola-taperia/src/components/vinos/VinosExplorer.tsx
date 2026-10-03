@@ -7,21 +7,26 @@ import NeonButton from "@/components/ui/NeonButton";
 import { BUSINESS } from "@/data/business";
 import CartaDeVinos from "@/components/vinos/CartaDeVinos";
 import Denominaciones from "@/components/vinos/Denominaciones";
+import MapaDelMundo from "@/components/vinos/MapaDelMundo";
 import { WINES_PENDING } from "@/data/wines";
 import { useMessages } from "@/i18n/LocaleProvider";
 
 /**
  * VinosExplorer — la vinoteca.
  *
- * Tres piezas, en el orden en que se recorren: la cabecera editorial, el mapa de las denominaciones
- * —por donde se entra— y la carta con su buscador. Mientras `WINES_PENDING` siga en pie, en el sitio
- * de la carta va el aviso honesto de que todavía se está cerrando.
+ * Cuatro piezas, en el orden en que se recorren: la cabecera editorial, el mapa del MUNDO con los
+ * países de los que viene el vino, el mapa de GALICIA con sus cinco denominaciones, y la carta con
+ * su buscador. Mientras `WINES_PENDING` siga en pie no hay mapa del mundo —sin vinos no hay países
+ * que enseñar— y en el sitio de la carta va el aviso de que todavía se está cerrando.
  */
 export default function VinosExplorer() {
   return (
     <>
       <VinosHero />
-      {/* EL MAPA VA ANTES QUE LA LISTA, y no al revés como estaba. Es el recorrido que describió el
+      {/* Primero el mundo —de dónde vienen las dieciséis procedencias— y después Galicia en detalle.
+          Las dos llevan al mismo sitio: a las botellas de abajo. */}
+      {WINES_PENDING ? null : <MapaDelMundo />}
+      {/* EL MAPA DE GALICIA VA ANTES QUE LA LISTA, y no al revés como estaba. Es el recorrido que describió el
           cliente: "me gustaría que la persona viera esto [el mapa] ... me apetece uno de Monterrei,
           pues pincho y que me salgan todos los de Monterrei con la foto". Con la lista delante, el
           mapa quedaba detrás de 52 botellas y no lo veía nadie; delante, es la puerta de entrada y
