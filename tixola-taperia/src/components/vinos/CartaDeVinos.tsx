@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Check, Search, SlidersHorizontal, Wine as WineIcon, X } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useDeferredValue, useId, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { useCallback, useDeferredValue, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { normalizeText } from "@/components/carta/useMenuFilters";
 import VinoSpotlight, { nombreDeOrigen, VINO_LAYOUT_TRANSITION, vinoLayoutId } from "@/components/vinos/VinoSpotlight";
 import { formatPrice } from "@/data/menu";
@@ -70,22 +70,19 @@ export default function CartaDeVinos() {
    *
    * Dentro de un grupo suman (o Monterrei O Valdeorras); entre grupos, restan (Monterrei Y blanco).
    */
-  const [origenes, setOrigenes] = useState<readonly WineOrigin[]>([]);
+  const [origen, setOrigen] = useState<WineOrigin | "todos">("todos");
   const [colores, setColores] = useState<readonly WineKind[]>([]);
   const [panelAbierto, setPanelAbierto] = useState(false);
   const idPanel = useId();
+  const idBusquedaPanel = useId();
   const refBotonFiltros = useRef<HTMLButtonElement>(null);
 
-  const alternarOrigen = useCallback(
-    (origin: WineOrigin) => setOrigenes((previo) => (previo.includes(origin) ? previo.filter((o) => o !== origin) : [...previo, origin])),
-    [],
-  );
   const alternarColor = useCallback(
     (kind: WineKind) => setColores((previo) => (previo.includes(kind) ? previo.filter((k) => k !== kind) : [...previo, kind])),
     [],
   );
   const limpiar = useCallback(() => {
-    setOrigenes([]);
+    setOrigen("todos");
     setColores([]);
     setConsulta("");
   }, []);
@@ -172,79 +169,105 @@ export default function CartaDeVinos() {
   }, []);
   const enCarta = useMemo(() => todos.reduce((n, g) => n + g.vinos.length, 0), [todos]);
 
-  const grupos = useMemo(() => {
-    const sinFiltrar = !palabras.length && !origenes.length && !colores.length;
-    if (sinFiltrar) return todos.filter((g) => g.vinos.length > 0);
-    return todos
-      .filter(({ origin }) => !origenes.length || origenes.includes(origin))
-      .map(({ origin, vinos }) => ({
-        origin,
-        vinos: vinos.filter((vino) => {
-          if (colores.length && (!vino.kind || !colores.includes(vino.kind))) return false;
-          if (!palabras.length) return true;
-          const texto = indice.get(vino.id) ?? "";
-          return palabras.every((palabra) => texto.includes(palabra));
-        }),
-      }))
-      .filter((g) => g.vinos.length > 0);
-  }, [todos, palabras, indice, origenes, colores]);
+  /**
+   * El filtrado va en dos pasos, y el orden importa.
+   *
+   * 1. Los filtros DE CONTENIDO —la búsqueda y el color— se aplican a todo. De ahí sale `porOrigen`,
+   *    que es lo que lleva el número de cada chapa: así "D.O. Rioja 2" quiere decir "dos riojas de
+   *    los que estás buscando", no "siete riojas en total". Es lo mismo que hace la carta de platos.
+   * 2. La DENOMINACIÓN elegida reduce esa lista a una sola sección. Va después porque, si fuera
+   *    antes, las chapas de las demás denominaciones se quedarían todas a cero.
+   */
+  const porOrigen = useMemo(() => {
+    return todos.map(({ origin, vinos }) => ({
+      origin,
+      vinos: vinos.filter((vino) => {
+        if (colores.length && (!vino.kind || !colores.includes(vino.kind))) return false;
+        if (!palabras.length) return true;
+        const texto = indice.get(vino.id) ?? "";
+        return palabras.every((palabra) => texto.includes(palabra));
+      }),
+    }));
+  }, [todos, palabras, indice, colores]);
+
+  const grupos = useMemo(
+    () => porOrigen.filter((g) => g.vinos.length > 0 && (origen === "todos" || g.origin === origen)),
+    [porOrigen, origen],
+  );
 
   /* Sin vinos no hay carta: la página ya enseña el aviso de `WINES_PENDING` en su lugar. Esto es
      "no hay carta", no "la búsqueda no encuentra nada", que se resuelve más abajo y con un texto. */
   if (!enCarta) return null;
 
-  const filtrando = palabras.length > 0 || origenes.length > 0 || colores.length > 0;
-  const activos = origenes.length + colores.length;
+  const filtrando = palabras.length > 0 || origen !== "todos" || colores.length > 0;
+  /* El número del botón cuenta solo lo que vive DENTRO del panel: el color y la búsqueda. La
+     denominación no, porque su chapa ya se ve pulsada en la fila. */
+  const activos = colores.length + (consulta.trim() ? 1 : 0);
   const total = grupos.reduce((n, g) => n + g.vinos.length, 0);
+  const conFiltrosDeContenido = porOrigen.reduce((n, g) => n + g.vinos.length, 0);
 
   return (
     <section className="container-page pb-16 md:pb-20">
-      {/* LA BARRA: una sola fila —buscador y botón de filtros— y debajo el contador. Antes aquí
-          vivían también las quince chapas de denominación, que en un teléfono eran once filas: media
-          pantalla gastada antes de ver la primera botella. Ahora viven en el panel. */}
+      {/* LA BARRA, IGUAL QUE LA DE LA CARTA DE PLATOS, que es lo que pidió el cliente: "mete el
+          filtro aquí como se hace en el menú, algo así pero para vinos, sin emojis ni nada, que sea
+          bonito y simple". Una fila de chapas que se desplaza en horizontal con las denominaciones,
+          y a la derecha el botón de filtros con lo demás. Sin iconos: los platos los llevan porque
+          "vegano" o "sin gluten" son conceptos y un icono ayuda; "blanco" y "tinto" no lo necesitan. */}
       <div className="sticky top-[var(--header-h)] z-20 -mx-4 md:-mx-6" onKeyDown={alPulsarTecla}>
         <div className="relative">
-          <div className="border-y border-cream/10 bg-granate-900/95 px-4 py-2.5 shadow-[0_18px_40px_-28px_rgba(0,0,0,0.9)] md:px-6">
-            <div className="flex items-center gap-2.5">
-              <CampoDeBusqueda id={idBusqueda} valor={consulta} onCambio={setConsulta} className="min-w-0 flex-1" />
+          <div className="border-y border-cream/10 bg-granate-900/95 shadow-[0_18px_40px_-28px_rgba(0,0,0,0.9)]">
+            <div className="px-4 md:px-6">
+              <div className="flex items-center gap-3">
+                <ChapasDeOrigen
+                  className="min-w-0 flex-1"
+                  grupos={porOrigen}
+                  elegido={origen}
+                  todosCuentan={conFiltrosDeContenido}
+                  onElegir={setOrigen}
+                />
 
-              <button
-                ref={refBotonFiltros}
-                type="button"
-                onClick={() => setPanelAbierto((v) => !v)}
-                aria-expanded={panelAbierto}
-                aria-controls={idPanel}
-                className={cn(
-                  "inline-flex h-11 shrink-0 items-center gap-2 rounded-full border px-3.5 text-sm font-semibold transition-colors sm:px-4",
-                  panelAbierto || activos > 0
-                    ? "border-pimenton-light/70 bg-pimenton/20 text-cream"
-                    : "border-cream/20 text-cream-muted hover:border-cream/45 hover:text-cream",
-                )}
-              >
-                <SlidersHorizontal size={16} aria-hidden />
-                <span className="max-sm:sr-only">{m.vinos.filters}</span>
-                {activos > 0 ? (
-                  <>
-                    {/* Un `aria-label` sobre un `<span>` genérico no lo anuncia ningún lector (ARIA
-                        1.2): el número va `aria-hidden` y al lado un texto de verdad. */}
-                    <span
-                      aria-hidden
-                      className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-pimenton-light px-1.5 text-[11px] font-bold tabular-nums text-cream"
-                    >
-                      {activos}
-                    </span>
-                    <span className="sr-only">{t(m.vinos.filtersActive, { count: activos })}</span>
-                  </>
-                ) : null}
-              </button>
+                <div className="flex shrink-0 items-center gap-2 py-2">
+                  <CampoDeBusqueda id={idBusqueda} valor={consulta} onCambio={setConsulta} className="hidden w-56 lg:block xl:w-72" />
+
+                  <button
+                    ref={refBotonFiltros}
+                    type="button"
+                    onClick={() => setPanelAbierto((v) => !v)}
+                    aria-expanded={panelAbierto}
+                    aria-controls={idPanel}
+                    className={cn(
+                      "inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors duration-150 ease-[var(--ease-out-expo)]",
+                      panelAbierto || activos > 0
+                        ? "border-pimenton-light/70 bg-pimenton/20 text-cream"
+                        : "border-cream/20 text-cream-muted hover:border-cream/45 hover:text-cream",
+                    )}
+                  >
+                    <SlidersHorizontal size={16} aria-hidden />
+                    <span>{m.vinos.filters}</span>
+                    {activos > 0 ? (
+                      <>
+                        {/* Un `aria-label` sobre un `<span>` genérico no lo anuncia ningún lector
+                            (ARIA 1.2): el número va `aria-hidden` y al lado un texto de verdad. */}
+                        <span
+                          aria-hidden
+                          className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-pimenton-light px-1.5 text-[11px] font-bold tabular-nums text-cream"
+                        >
+                          {activos}
+                        </span>
+                        <span className="sr-only">{t(m.vinos.filtersActive, { count: activos })}</span>
+                      </>
+                    ) : null}
+                  </button>
+                </div>
+              </div>
+
+              <p aria-live="polite" aria-atomic="true" className="sr-only">
+                {t(m.vinos.searchCount, { count: total, total: enCarta })}
+              </p>
             </div>
-
-            <p aria-live="polite" className="mt-1.5 font-caps text-[10px] uppercase tracking-[0.26em] text-cream-faint">
-              {filtrando ? t(m.vinos.searchCount, { count: total, total: enCarta }) : t(m.vinos.count, { count: enCarta })}
-            </p>
           </div>
 
-          {/* EL PANEL cuelga en `absolute` del envoltorio, así que no empuja la lista al abrirse: se
+          {/* EL PANEL cuelga en `absolute` del envoltorio, así que al abrirse no empuja la lista: se
               anima solo con `opacity` y `translate`, las dos propiedades que el navegador compone en
               la GPU. `inert` lo apaga del todo mientras está cerrado (ni foco ni lector). */}
           <div
@@ -257,30 +280,22 @@ export default function CartaDeVinos() {
               panelAbierto ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
             )}
           >
-            <section aria-label={m.vinos.filtersAria} className="max-h-[min(62dvh,560px)] overflow-y-auto overscroll-contain px-4 pb-4 pt-4 md:px-6">
+            <section aria-label={m.vinos.filtersAria} className="max-h-[min(62dvh,560px)] overflow-y-auto overscroll-contain px-4 pb-5 pt-4 md:px-6">
               <div className="flex flex-col gap-5">
-                <GrupoDeFiltro titulo={m.vinos.filterByOrigin}>
-                  {todos.map(({ origin, vinos }) => (
-                    <Chapa
-                      key={origin}
-                      pulsada={origenes.includes(origin)}
-                      onClick={() => alternarOrigen(origin)}
-                      cuenta={vinos.length}
-                    >
-                      {nombreDeOrigen(origin, m)}
-                    </Chapa>
-                  ))}
-                </GrupoDeFiltro>
+                <CampoDeBusqueda id={idBusquedaPanel} valor={consulta} onCambio={setConsulta} className="lg:hidden" />
 
-                <GrupoDeFiltro titulo={m.vinos.filterByKind}>
-                  {coloresEnCarta.map(({ kind, cuenta }) => (
-                    <Chapa key={kind} pulsada={colores.includes(kind)} onClick={() => alternarColor(kind)} cuenta={cuenta}>
-                      {m.vinos.kinds[kind]}
-                    </Chapa>
-                  ))}
-                </GrupoDeFiltro>
+                <div>
+                  <p className="mb-2.5 font-caps text-[11px] uppercase tracking-[0.3em] text-cream-faint">{m.vinos.filterByKind}</p>
+                  <ul className="flex flex-wrap gap-2">
+                    {coloresEnCarta.map(({ kind, cuenta }) => (
+                      <Chapa key={kind} pulsada={colores.includes(kind)} onClick={() => alternarColor(kind)} cuenta={cuenta}>
+                        {m.vinos.kinds[kind]}
+                      </Chapa>
+                    ))}
+                  </ul>
+                </div>
 
-                {activos > 0 || consulta ? (
+                {filtrando ? (
                   <button
                     type="button"
                     onClick={limpiar}
@@ -295,8 +310,12 @@ export default function CartaDeVinos() {
         </div>
       </div>
 
+      <p className="mt-6 font-caps text-xs uppercase tracking-[0.3em] text-cream-faint">
+        {filtrando ? t(m.vinos.searchCount, { count: total, total: enCarta }) : t(m.vinos.count, { count: enCarta })}
+      </p>
+
       {grupos.length ? (
-        <div className="mt-8 grid gap-12">
+        <div className="mt-6 grid gap-12">
           {grupos.map(({ origin, vinos }) => (
             <GrupoPorOrigen key={origin} origin={origin} vinos={vinos} onAbrir={setAbierto} />
           ))}
@@ -499,16 +518,6 @@ function TarjetaVino({ vino, onAbrir }: { vino: Wine; onAbrir: (v: Wine) => void
   );
 }
 
-/** Un grupo del panel: su rótulo y sus chapas. */
-function GrupoDeFiltro({ titulo, children }: { titulo: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <p className="mb-2.5 font-caps text-[11px] uppercase tracking-[0.3em] text-cream-faint">{titulo}</p>
-      <ul className="flex flex-wrap gap-2">{children}</ul>
-    </div>
-  );
-}
-
 /** Chapa de filtro: se pulsa y se queda pulsada. `aria-pressed` es lo que la hace un interruptor. */
 function Chapa({
   pulsada,
@@ -539,5 +548,104 @@ function Chapa({
         {pulsada ? <Check size={13} strokeWidth={3} aria-hidden className="text-pimenton-a11y" /> : null}
       </button>
     </li>
+  );
+}
+
+/**
+ * La fila de denominaciones: selección única, exactamente como las categorías de la carta de
+ * platos, y por la misma razón — es el eje por el que está ORDENADA la lista de abajo, así que
+ * elegir una es "enséñame esta sección", no "añade un criterio".
+ *
+ * En el teléfono se desplaza en horizontal con dos desvanecidos a los lados para que se note que
+ * hay más; en escritorio se reparte en varias líneas. El número de cada chapa cuenta los vinos que
+ * ya pasan la búsqueda y el color, no los totales: "D.O. Rioja 2" es "dos riojas de los que buscas".
+ */
+function ChapasDeOrigen({
+  grupos,
+  elegido,
+  todosCuentan,
+  onElegir,
+  className,
+}: {
+  grupos: { origin: WineOrigin; vinos: readonly Wine[] }[];
+  elegido: WineOrigin | "todos";
+  todosCuentan: number;
+  onElegir: (origen: WineOrigin | "todos") => void;
+  className?: string;
+}) {
+  const m = useMessages();
+  const t = useFormat();
+  const refScroll = useRef<HTMLDivElement>(null);
+
+  /* Centra la chapa elegida si se queda fuera de la vista: al llegar desde el mapa o desde un
+     enlace, la denominación puede estar quince chapas a la derecha y no se vería. */
+  useEffect(() => {
+    const scroller = refScroll.current;
+    const chapa = scroller?.querySelector<HTMLElement>(`[data-chapa="${elegido}"]`);
+    if (!scroller || !chapa) return;
+    const izq = chapa.offsetLeft;
+    const der = izq + chapa.offsetWidth;
+    if (izq >= scroller.scrollLeft + 12 && der <= scroller.scrollLeft + scroller.clientWidth - 12) return;
+    scroller.scrollTo({
+      left: Math.max(0, izq - scroller.clientWidth / 2 + chapa.offsetWidth / 2),
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
+  }, [elegido]);
+
+  const chapas: { id: WineOrigin | "todos"; etiqueta: string; cuenta: number }[] = [
+    { id: "todos", etiqueta: m.vinos.allOrigins, cuenta: todosCuentan },
+    ...grupos.map(({ origin, vinos }) => ({ id: origin, etiqueta: nombreDeOrigen(origin, m), cuenta: vinos.length })),
+  ];
+
+  return (
+    <nav aria-label={m.vinos.filterByOrigin} className={cn("relative min-w-0", className)}>
+      <span aria-hidden className="pointer-events-none absolute inset-y-0 -left-4 z-10 w-4 bg-gradient-to-r from-granate-900 to-transparent md:-left-6 md:w-6 lg:hidden" />
+      <span aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-granate-900 to-transparent lg:hidden" />
+
+      <div
+        ref={refScroll}
+        className="no-scrollbar -ml-4 flex snap-x gap-2 overflow-x-auto py-2 pl-4 pr-8 md:-ml-6 md:pl-6 lg:ml-0 lg:flex-wrap lg:overflow-visible lg:pl-0 lg:pr-0"
+      >
+        {chapas.map(({ id, etiqueta, cuenta }) => {
+          const activa = id === elegido;
+          return (
+            <button
+              key={id}
+              type="button"
+              data-chapa={id}
+              aria-pressed={activa}
+              onClick={() => onElegir(id)}
+              className={cn(
+                "relative inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full border px-4 transition-colors duration-150 ease-[var(--ease-out-expo)] focus-visible:outline-offset-2",
+                activa ? "border-transparent text-cream" : "border-cream/15 text-cream-muted hover:border-cream/40 hover:text-cream",
+                cuenta === 0 && !activa && "opacity-50",
+              )}
+            >
+              {activa ? (
+                <motion.span
+                  layoutId="vinos-chapa-activa"
+                  aria-hidden
+                  transition={{ type: "spring", stiffness: 420, damping: 38, mass: 0.8 }}
+                  className="absolute inset-0 rounded-full border border-pimenton-light/70 bg-pimenton shadow-[0_0_22px_rgba(232,86,90,0.45)]"
+                />
+              ) : null}
+              <span className="relative font-condensed text-lg uppercase leading-none tracking-wide">{etiqueta}</span>
+              {/* ARIA 1.2 no permite nombrar un `<span>` genérico: el número es decorativo y el texto
+                  completo viaja en un `sr-only` dentro del propio botón. */}
+              <span
+                aria-hidden
+                className={cn(
+                  "relative min-w-[1.4rem] rounded-full px-1.5 py-px text-center font-sans text-[11px] font-semibold tabular-nums leading-4",
+                  activa ? "bg-cream/20 text-cream" : "bg-cream/[0.06] text-cream-faint",
+                )}
+              >
+                {cuenta}
+              </span>
+              <span className="sr-only">{t(m.vinos.mapWorldWines, { count: cuenta })}</span>
+            </button>
+          );
+        })}
+      </div>
+    </nav>
   );
 }

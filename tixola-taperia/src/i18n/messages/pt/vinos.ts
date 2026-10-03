@@ -84,6 +84,8 @@ const vinos = {
   filtersActive: "{count} filtros ativos",
   filtersAria: "Filtrar a carta de vinhos",
   filterByOrigin: "Denominação",
+  /* La primera chapa de la fila, la que vuelve a enseñar la carta entera. */
+  allOrigins: "Todas",
   filterByKind: "Cor",
   filtersClear: "Limpar os filtros",
   searchCount: "{count} de {total} vinhos",

@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useId, type CSSProperties } from "react";
+import { useEffect, useId, useState, type CSSProperties } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { MapPin, Plus } from "lucide-react";
 import { BUSINESS } from "@/data/business";
 import { GALICIA_OUTLINE, GALICIA_RATIO } from "@/data/geo/galicia";
-import { OURENSE_ON_MAP, wineCountByOrigin, WINE_REGION_LIST, type GalicianDoId, type WineRegion } from "@/data/wines";
+import { GALICIAN_DO_IDS, OURENSE_ON_MAP, wineCountByOrigin, WINE_REGION_LIST, type GalicianDoId, type WineRegion } from "@/data/wines";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
@@ -35,9 +36,9 @@ import { cn } from "@/lib/utils";
  *
  * POR QUÉ FICHAS DESPLEGABLES Y NO UNA REJILLA. Cinco tarjetas en una rejilla de tres columnas dejan
  * una fila de tres y otra de dos, y ese hueco se ve. Cinco filas desplegables en una columna al lado
- * del mapa no tienen hueco posible, caben en una pantalla y, con `<details name>`, abrir una cierra
- * la anterior, así que la lista nunca crece por debajo del mapa. Son `<details>` nativos: funcionan
- * sin JavaScript y el contenido va en el HTML, que es lo que leen los buscadores.
+ * del mapa no tienen hueco posible, caben en una pantalla y, abriéndose de una en una, la lista
+ * nunca crece por debajo del mapa. El contenido de las cinco va SIEMPRE en el HTML —plegado a altura
+ * cero, no desmontado—, que es lo que leen los buscadores y lo que encuentra el Ctrl+F.
  */
 
 type Lado = "arriba" | "abajo" | "izquierda" | "derecha";
@@ -87,16 +88,32 @@ export default function Denominaciones() {
   const tituloId = useId();
 
   /**
-   * Las chapas del mapa son enlaces a `#do-…`: sin JavaScript el navegador ya lleva a la ficha, que
-   * es lo importante. Con JavaScript la abre además, porque llegar a una ficha cerrada después de
-   * pinchar en el mapa es llegar a medias.
+   * QUÉ FICHA ESTÁ ABIERTA. Solo una: es un acordeón, y las cinco abiertas a la vez dejarían el mapa
+   * de al lado flotando sobre metro y medio de texto.
+   *
+   * Antes esto no era estado de React sino `<details name="denominacion">`, el acordeón que trae el
+   * propio HTML. Funcionaba y no costaba nada, pero `<details>` abre de golpe: no hay forma de
+   * animar la apertura, porque el navegador pasa el contenido de `display:none` a visible en un
+   * fotograma. El cliente pidió animarlo ("métele animaciones a esto al desplegarlo"), así que la
+   * apertura pasa a ser estado y la altura la anima framer.
+   *
+   * El contenido de las cinco sigue estando SIEMPRE en el HTML, plegado a altura cero, y no se monta
+   * y desmonta: así sigue saliendo en el buscador del navegador y leyéndolo un rastreador, que es la
+   * mitad del valor de esta sección.
+   */
+  const [abierta, setAbierta] = useState<GalicianDoId | null>(null);
+
+  /**
+   * Las chapas del mapa son enlaces a `#do-…`: el navegador ya lleva a la ficha, que es lo
+   * importante. Aquí además se abre, porque llegar a una ficha cerrada después de pinchar en el mapa
+   * es llegar a medias.
    */
   useEffect(() => {
     const abrirLaDelAncla = () => {
       const id = window.location.hash.slice(1);
       if (!id.startsWith("do-")) return;
-      const ficha = document.getElementById(id)?.querySelector("details");
-      if (ficha instanceof HTMLDetailsElement) ficha.open = true;
+      const region = id.slice(3);
+      if (GALICIAN_DO_IDS.includes(region as GalicianDoId)) setAbierta(region as GalicianDoId);
     };
     abrirLaDelAncla();
     window.addEventListener("hashchange", abrirLaDelAncla);
@@ -126,7 +143,13 @@ export default function Denominaciones() {
         <div>
           <ol className="grid gap-3">
             {WINE_REGION_LIST.map((region, i) => (
-              <FichaDenominacion key={region.id} region={region} numero={i + 1} />
+              <FichaDenominacion
+                key={region.id}
+                region={region}
+                numero={i + 1}
+                abierta={abierta === region.id}
+                onAlternar={() => setAbierta((previa) => (previa === region.id ? null : region.id))}
+              />
             ))}
           </ol>
 
@@ -301,23 +324,38 @@ function Chapa({ region, numero }: { region: WineRegion; numero: number }) {
    Las fichas
    ────────────────────────────────────────────────────────────── */
 
-function FichaDenominacion({ region, numero }: { region: WineRegion; numero: number }) {
+function FichaDenominacion({
+  region,
+  numero,
+  abierta,
+  onAlternar,
+}: {
+  region: WineRegion;
+  numero: number;
+  abierta: boolean;
+  onAlternar: () => void;
+}) {
   const m = useMessages();
   const t = useFormat();
+  const reducido = useReducedMotion();
+  const idPanel = useId();
   const enCarta = wineCountByOrigin(region.id);
 
   return (
     <li id={`do-${region.id}`} className="scroll-mt-28">
-      {/*
-        `name` las agrupa: abrir una cierra la que estuviera abierta (acordeón exclusivo del propio
-        HTML, sin estado en React). Donde el navegador no lo entienda, cada ficha se abre y se cierra
-        por su cuenta, que sigue funcionando.
-      */}
-      <details
-        name="denominacion"
-        className="group overflow-hidden rounded-2xl border border-cream/10 bg-granate-800/50 transition-colors duration-300 open:border-cream/20 open:bg-granate-800/70 hover:border-cream/25"
+      <div
+        className={cn(
+          "overflow-hidden rounded-2xl border bg-granate-800/50 transition-colors duration-300",
+          abierta ? "border-cream/20 bg-granate-800/70" : "border-cream/10 hover:border-cream/25",
+        )}
       >
-        <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3.5 marker:content-none md:px-5 [&::-webkit-details-marker]:hidden">
+        <button
+          type="button"
+          onClick={onAlternar}
+          aria-expanded={abierta}
+          aria-controls={idPanel}
+          className="flex w-full cursor-pointer items-center gap-3 px-4 py-3.5 text-left md:px-5"
+        >
           <span
             aria-hidden
             className={cn(
@@ -341,48 +379,81 @@ function FichaDenominacion({ region, numero }: { region: WineRegion; numero: num
 
           <Plus
             aria-hidden
-            className="h-5 w-5 shrink-0 text-pimenton-a11y transition-transform duration-300 ease-[var(--ease-out-expo)] group-open:rotate-45"
+            className={cn(
+              "h-5 w-5 shrink-0 text-pimenton-a11y transition-transform duration-300 ease-[var(--ease-out-expo)]",
+              abierta && "rotate-45",
+            )}
             strokeWidth={2}
           />
-        </summary>
+        </button>
 
-        <div className="border-t border-cream/10 px-4 py-4 md:px-5">
-          <p className="flex flex-wrap items-center gap-2">
-            {region.inOurense ? (
-              <span className="rounded-full border border-pimenton-light/40 px-2 py-0.5 font-caps text-[9px] uppercase tracking-[0.18em] text-pimenton-a11y">
-                {m.vinos.inOurense}
+        {/*
+          EL DESPLIEGUE. `height: auto` lo resuelve framer midiendo el contenido, así que la ficha
+          crece hasta donde tenga que crecer sin número mágico ninguno. Van dos cosas a la vez y
+          escalonadas a propósito: la altura abre la caja y, un pelín después, el contenido entra
+          deslizándose desde arriba — si el texto apareciera del tirón al terminar la altura, la
+          animación se vería en dos tiempos.
+
+          `visibility` apaga el panel plegado para el teclado y los lectores de pantalla (altura cero
+          sola no basta: el contenido seguiría siendo enfocable), pero el texto sigue en el HTML.
+
+          Con `prefers-reduced-motion` no hay recorrido: se abre y se cierra, sin transición.
+        */}
+        <motion.div
+          id={idPanel}
+          initial={false}
+          animate={abierta ? "abierta" : "cerrada"}
+          variants={{
+            abierta: { height: "auto", visibility: "visible" },
+            cerrada: { height: 0, transitionEnd: { visibility: "hidden" } },
+          }}
+          transition={reducido ? { duration: 0 } : { duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+          className="overflow-hidden"
+        >
+          <motion.div
+            variants={{
+              abierta: { opacity: 1, y: 0, transition: { duration: 0.34, delay: 0.08, ease: [0.16, 1, 0.3, 1] } },
+              cerrada: { opacity: 0, y: -8, transition: { duration: 0.16 } },
+            }}
+            className="border-t border-cream/10 px-4 py-4 md:px-5"
+          >
+            <p className="flex flex-wrap items-center gap-2">
+              {region.inOurense ? (
+                <span className="rounded-full border border-pimenton-light/40 px-2 py-0.5 font-caps text-[9px] uppercase tracking-[0.18em] text-pimenton-a11y">
+                  {m.vinos.inOurense}
+                </span>
+              ) : null}
+              <span
+                className={cn(
+                  "rounded-full px-2 py-0.5 font-caps text-[9px] uppercase tracking-[0.18em]",
+                  region.mostly === "tinto" ? "bg-pimenton/25 text-pimenton-a11y" : "bg-gold/15 text-gold",
+                )}
+              >
+                {m.vinos.mostly[region.mostly]}
               </span>
+            </p>
+
+            <p className="mt-3 text-sm leading-relaxed text-cream-muted text-pretty">{m.vinos.regionCharacter[region.id]}</p>
+
+            {/* El puente entre el mapa y la carta: cuántas botellas de esta zona hay abajo, y un
+                enlace que lleva justo a ellas. Se calcula, no se escribe: si mañana cambia la carta,
+                el número cambia solo. */}
+            {enCarta > 0 ? (
+              <a
+                href={`#vinos-${region.id}`}
+                className="mt-4 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1.5 font-caps text-[10px] uppercase tracking-[0.18em] text-gold transition-colors hover:border-gold/70 hover:bg-gold/20"
+              >
+                {t(m.vinos.inList, { count: enCarta })}
+              </a>
             ) : null}
-            <span
-              className={cn(
-                "rounded-full px-2 py-0.5 font-caps text-[9px] uppercase tracking-[0.18em]",
-                region.mostly === "tinto" ? "bg-pimenton/25 text-pimenton-a11y" : "bg-gold/15 text-gold",
-              )}
-            >
-              {m.vinos.mostly[region.mostly]}
-            </span>
-          </p>
 
-          <p className="mt-3 text-sm leading-relaxed text-cream-muted text-pretty">{m.vinos.regionCharacter[region.id]}</p>
-
-          {/* El puente entre el mapa y la carta: cuántas botellas de esta zona hay abajo, y un enlace
-              que lleva justo a ellas. Se calcula, no se escribe: si mañana cambia la carta, el número
-              cambia solo. */}
-          {enCarta > 0 ? (
-            <a
-              href={`#vinos-${region.id}`}
-              className="mt-4 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1.5 font-caps text-[10px] uppercase tracking-[0.18em] text-gold transition-colors hover:border-gold/70 hover:bg-gold/20"
-            >
-              {t(m.vinos.inList, { count: enCarta })}
-            </a>
-          ) : null}
-
-          <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-            <Uvas titulo={m.vinos.whites} lista={region.whites} tono="blanco" />
-            <Uvas titulo={m.vinos.reds} lista={region.reds} tono="tinto" />
-          </dl>
-        </div>
-      </details>
+            <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+              <Uvas titulo={m.vinos.whites} lista={region.whites} tono="blanco" />
+              <Uvas titulo={m.vinos.reds} lista={region.reds} tono="tinto" />
+            </dl>
+          </motion.div>
+        </motion.div>
+      </div>
     </li>
   );
 }

@@ -83,6 +83,8 @@ const vinos: Section<"vinos"> = {
   filtersActive: "{count} filtros activos",
   filtersAria: "Filtrar a carta de viños",
   filterByOrigin: "Denominación",
+  /* La primera chapa de la fila, la que vuelve a enseñar la carta entera. */
+  allOrigins: "Todas",
   filterByKind: "Cor",
   filtersClear: "Quitar os filtros",
   searchCount: "{count} de {total} viños",
