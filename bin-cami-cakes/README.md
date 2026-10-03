@@ -738,6 +738,60 @@ con el resultado final a la proporción del hueco. Con las cookies hizo falta:
 el logo bajaba hasta el 33% de la altura y el «¡IRRESISTIBLE» subía hasta el
 88%, y eso sólo se ve mirando las franjas ampliadas.
 
+## La galería de tartas
+
+De las 38 fotos del Drive entraron cuatro en los huecos que había. Quedaban
+**19 tartas muy buenas sin sitio**, y el problema no era que faltara una foto:
+era que faltaba una galería. La web tenía sitio para seis fotos de tarta (las
+del carrusel) y cuatro del mostrador, y nada más.
+
+Va dentro de `#galeria` (lo que el menú llama «Tartas»), debajo del carrusel y
+encima del enlace a Instagram. Rejilla de 2 columnas en el móvil, 3 en tableta
+y 4 en escritorio.
+
+**En vertical, que es como las hizo Luisa.** Una rejilla de retratos no recorta
+nada, y recortar era justo lo que estropeaba estas fotos en las cajas
+apaisadas: con 3:4 se aprovechan enteras y además se ven más grandes en el
+móvil, que es por donde entra casi todo el mundo.
+
+Cada pieza es un `<button>`, no un `<div>` con un `onclick`: así se alcanza con
+el teclado y se anuncia como pulsable.
+
+### El visor es el mismo que el del carrusel
+
+Antes miraba sólo las `.cf-carta`. Ahora elige lista al abrirse:
+
+```js
+window.abrirVisor(i)          // el carrusel
+window.abrirVisorGaleria(i)   // la galería
+```
+
+Lo único que había que vigilar: al cerrarse, el visor dejaba el carrusel en la
+foto donde lo hubieras dejado (`carruselIrA(actual)`). Abierto desde la galería
+eso movía el carrusel a un índice de **otra** lista, así que ese paso ahora
+sólo corre si se abrió desde el carrusel. Está cubierto en `z-galeria.mjs`.
+
+### El peso, que es lo que se paga
+
+19 fotos a 860 px son **1,9 MB en WebP**. No se nota al entrar porque van con
+`loading="lazy"`: la portada sigue cargando **5 imágenes y unos 100 KB**, y las
+de la galería se piden según bajas. 860 px da para la miniatura (~300 px) y
+para el visor ampliado sin pedir un segundo archivo.
+
+El zip pasa de 2,8 a 7,7 MB, casi todo por los **JPG de respaldo** (uno por
+cada WebP, como el resto del sitio). Hoy los usa menos del 1% de los
+navegadores, pero la regla del sitio es que ninguna foto dependa de un solo
+formato, y mantenerla vale más que los megas de un zip que se arrastra una vez.
+
+### Para añadir una tarta
+
+```
+python3 mete_foto.py ORIGEN tarta-20 --retrato
+```
+
+y copiar una pieza de la rejilla cambiando el archivo, el `alt` y el
+`data-gal`, que va seguido.
+
 ## El tono lo ponen ellas, no nosotros
 
 Brian pasó su Instagram (@bin_camicakes) para que la web suene "como si fuera
