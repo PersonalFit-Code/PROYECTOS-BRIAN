@@ -56,6 +56,15 @@ const vinos = {
   kinds: { blanco: "Whites", tinto: "Reds", rosado: "Rosés", espumoso: "Sparkling", dulce: "Sweet" },
   count: "{count} wines",
 
+  /* ── Search ── */
+  searchLabel: "Search the wine list",
+  search: "Try: godello, Monterrei, mencía…",
+  searchClear: "Clear the search",
+  searchCount: "{count} of {total} wines",
+  noResults: "No wine matches “{query}”",
+  noResultsHint:
+    "You can search by name, winery, grape (godello, mencía, albariño), denomination and province (Monterrei, Ourense). And if it isn't there, ask us at the bar: we usually have bottles that aren't on the list.",
+
   /* ── The sheet (animated panel) ── */
   openSheet: "See the details for {name}",
   closeOverlay: "Close the wine details",

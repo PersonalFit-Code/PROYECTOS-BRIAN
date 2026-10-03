@@ -56,6 +56,15 @@ const vinos = {
   kinds: { blanco: "Brancos", tinto: "Tintos", rosado: "Rosés", espumoso: "Espumantes", dulce: "Doces" },
   count: "{count} vinhos",
 
+  /* ── O buscador ── */
+  searchLabel: "Procurar um vinho",
+  search: "Procura: godello, Monterrei, mencía…",
+  searchClear: "Limpar a procura",
+  searchCount: "{count} de {total} vinhos",
+  noResults: "Nenhum vinho corresponde a «{query}»",
+  noResultsHint:
+    "Procura-se por nome, adega, casta (godello, mencía, alvarinho), denominação e província (Monterrei, Ourense). E se não aparecer, pergunta-nos ao balcão: costumamos ter referências fora da carta.",
+
   /* ── A ficha (folha animada) ── */
   openSheet: "Ver a ficha de {name}",
   closeOverlay: "Fechar a ficha",

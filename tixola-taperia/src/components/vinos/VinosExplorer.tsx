@@ -13,17 +13,22 @@ import { useMessages } from "@/i18n/LocaleProvider";
 /**
  * VinosExplorer — la vinoteca.
  *
- * Hoy la página tiene tres piezas: la cabecera editorial, el aviso honesto de que la carta se está
- * cerrando y el mapa de las cinco denominaciones gallegas. Cuando `WINES_PENDING` se apague (= haya
- * vinos en `src/data/wines.ts`), el aviso deja su sitio a la carta de verdad sin tocar nada aquí.
+ * Tres piezas, en el orden en que se recorren: la cabecera editorial, el mapa de las denominaciones
+ * —por donde se entra— y la carta con su buscador. Mientras `WINES_PENDING` siga en pie, en el sitio
+ * de la carta va el aviso honesto de que todavía se está cerrando.
  */
 export default function VinosExplorer() {
   return (
     <>
       <VinosHero />
+      {/* EL MAPA VA ANTES QUE LA LISTA, y no al revés como estaba. Es el recorrido que describió el
+          cliente: "me gustaría que la persona viera esto [el mapa] ... me apetece uno de Monterrei,
+          pues pincho y que me salgan todos los de Monterrei con la foto". Con la lista delante, el
+          mapa quedaba detrás de 52 botellas y no lo veía nadie; delante, es la puerta de entrada y
+          cada denominación lleva a su sitio de la carta. */}
+      <Denominaciones />
       {/* O la carta, o el aviso de que todavía no está. Nunca las dos, nunca ninguna. */}
       {WINES_PENDING ? <CartaEnCamino /> : <CartaDeVinos />}
-      <Denominaciones />
     </>
   );
 }

@@ -158,12 +158,18 @@ function Block({ block, ctx, fmt }: { block: LegalBlock; ctx: InlineContext; fmt
     case "dl":
       return (
         <dl className="grid gap-x-6 gap-y-3 rounded-2xl border border-cream/10 bg-cream/[0.03] p-5 sm:grid-cols-[minmax(0,13rem)_1fr] sm:gap-y-4">
-          {block.items.map((item, i) => (
+          {/* Una fila cuyo valor se queda vacío no se pinta. Pasa con los datos registrales: la LSSI
+              solo los pide a quien esté inscrito en un registro mercantil, y el titular de Tixola es
+              una empresaria individual, que no lo está. Antes de este filtro ahí salía el rótulo
+              "Datos registrales" seguido de nada, que es peor que no decirlo: parece un olvido. */}
+          {block.items
+            .filter((item) => fmt(item.desc).trim() !== "")
+            .map((item, i) => (
             <Fragment key={i}>
               <dt className="font-caps text-[11px] uppercase leading-relaxed tracking-[0.25em] text-pimenton-a11y">{inline(item.term)}</dt>
               <dd className={cn(bodyText, "text-cream")}>{inline(item.desc)}</dd>
             </Fragment>
-          ))}
+            ))}
         </dl>
       );
 

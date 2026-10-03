@@ -55,6 +55,15 @@ const vinos: Section<"vinos"> = {
   kinds: { blanco: "Brancos", tinto: "Tintos", rosado: "Rosados", espumoso: "Espumosos", dulce: "Doces" },
   count: "{count} viños",
 
+  /* ── O buscador ── */
+  searchLabel: "Buscar un viño",
+  search: "Busca: godello, Monterrei, mencía…",
+  searchClear: "Borrar a busca",
+  searchCount: "{count} de {total} viños",
+  noResults: "Ningún viño casa con «{query}»",
+  noResultsHint:
+    "Búscase por nome, adega, uva (godello, mencía, albariño), denominación e provincia (Monterrei, Ourense). E se non aparece, pregúntanos na barra: adoitamos ter referencias fóra de carta.",
+
   /* ── A ficha (folla animada) ── */
   openSheet: "Ver a ficha de {name}",
   closeOverlay: "Pechar a ficha",

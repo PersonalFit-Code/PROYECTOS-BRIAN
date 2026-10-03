@@ -23,25 +23,34 @@ export function isLegalDocKey(value: string): value is LegalDocKey {
  * Fecha ISO (AAAA-MM-DD) de la última revisión de los textos legales.
  * Actualízala cada vez que cambie cualquiera de los tres documentos.
  */
-export const LEGAL_UPDATED_AT = "2026-09-29";
+export const LEGAL_UPDATED_AT = "2026-10-03";
 
 /**
- * Datos del responsable del tratamiento que el cliente debe confirmar.
- * Mientras conserven los corchetes se muestran RESALTADOS en la web para que no pasen
- * desapercibidos. Sustitúyelos por los datos reales y desaparecerá el resalte.
- * ⚠️ No inventar: la razón social puede no coincidir con el nombre comercial "Tixola Tapería".
+ * Datos del responsable del tratamiento. Los mandó la casa el 3 de octubre de 2026: el negocio es
+ * de una empresaria individual, Tatiana González Ferreira, con NIF 44450501B y domicilio en el
+ * propio local de Rúa Juan de Austria 7.
+ *
+ * FALTA UNO, el correo, y por eso sigue entre corchetes: el art. 10.1.a de la LSSI exige una
+ * dirección de correo electrónico, y además es el canal escrito por el que alguien ejerce sus
+ * derechos del RGPD. Un correo no se puede deducir del nombre ni del dominio: o lo da la casa, o no
+ * se publica. Mientras tanto se resalta en la web y las tres páginas legales siguen sin indexar
+ * (ver `LEGAL_IDENTITY_PENDING`), que es justo lo que tiene que pasar.
  */
 export const LEGAL_PLACEHOLDERS = {
-  /** Razón social del titular (persona física o jurídica) */
-  companyName: "[RAZÓN SOCIAL]",
-  /** NIF / CIF del titular */
-  nif: "[NIF]",
-  /** Domicilio social (puede coincidir con el local) */
-  registeredOffice: "[DOMICILIO SOCIAL]",
+  /** Titular del negocio. Es una persona física, así que el titular es ella y no una sociedad. */
+  companyName: "Tatiana González Ferreira",
+  /** NIF del titular */
+  nif: "44450501B",
+  /** Domicilio a efectos legales: el propio local */
+  registeredOffice: "Rúa Juan de Austria 7, 32005 Ourense",
   /** Correo para contacto y ejercicio de derechos */
   email: "[EMAIL DE CONTACTO]",
-  /** Datos de inscripción registral, solo si el titular es una sociedad */
-  registry: "[DATOS REGISTRALES, SI PROCEDE]",
+  /**
+   * Inscripción registral. Vacío A PROPÓSITO y no por falta de dato: el art. 10.1.b de la LSSI pide
+   * los datos de inscripción SOLO a quien esté inscrito en un registro mercantil o equivalente, y
+   * una empresaria individual no lo está. `LegalArticle` se salta la fila cuando queda vacía.
+   */
+  registry: "",
 } as const;
 
 export type LegalPlaceholderKey = keyof typeof LEGAL_PLACEHOLDERS;

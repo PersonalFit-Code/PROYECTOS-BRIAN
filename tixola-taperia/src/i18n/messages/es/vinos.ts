@@ -81,6 +81,18 @@ const vinos = {
   },
   count: "{count} vinos",
 
+  /* ── El buscador ── */
+  /* El marcador enseña CÓMO se busca mejor que cualquier explicación: una uva y una zona. Los dos
+     ejemplos están elegidos porque DEVUELVEN ALGO con la carta de hoy — un marcador que propone
+     algo que no encuentra nada es peor que no poner marcador. */
+  searchLabel: "Buscar un vino",
+  search: "Busca: godello, Monterrei, mencía…",
+  searchClear: "Borrar la búsqueda",
+  searchCount: "{count} de {total} vinos",
+  noResults: "Ningún vino casa con «{query}»",
+  noResultsHint:
+    "Se busca por nombre, bodega, uva (godello, mencía, albariño), denominación y provincia (Monterrei, Ourense). Y si no aparece, pregúntanos en la barra: solemos tener referencias fuera de carta.",
+
   /* ── La ficha (hoja animada) ── */
   /* Etiqueta del botón de cada botella en la cuadrícula: el nombre solo no dice qué va a pasar. */
   openSheet: "Ver la ficha de {name}",
