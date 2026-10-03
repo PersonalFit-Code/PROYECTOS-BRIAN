@@ -526,7 +526,7 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "esp-zamburinas-plancha",
-    image: "/images/zamburinas-plancha.jpg",
+    image: "/images/zamburinas-plancha.webp",
     name: "Zamburiñas a la plancha",
     category: "especiales",
     description: "Zamburiñas de la ría marcadas a la plancha, en su concha. Poco fuego y nada que las tape: el plato por el que nos conocen.",

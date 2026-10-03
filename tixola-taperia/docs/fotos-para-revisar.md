@@ -30,6 +30,20 @@ iguales seguidas no aportan nada.
 
 ---
 
+## 1b · Las zamburiñas: ¿a la plancha o rellenas?
+
+La foto nueva de las zamburiñas está puesta en **"Zamburiñas a la plancha"** (y en el destacado de
+la portada), porque es lo que se ve: la vieira al descubierto con la ajada de ajo y perejil por
+encima. Si fueran las **rellenas** —sofrito y gratinado— tendrían otra pinta.
+
+Brian la mandó dudando ("las zamburiñas rellenas o a la plancha"), así que **conviene confirmarlo**.
+Moverla es cambiar un id en `dishIds` dentro de `src/data/photos.ts`.
+
+De paso: la foto que había antes de este plato era de archivo, no de la casa. Esta es de la mesa de
+Tixola, con la pared de botellas detrás, así que el cambio es ganancia en los dos sentidos.
+
+---
+
 ## 2 · Platos enlazados a su entrada de la carta
 
 Estos nueve sí se reconocen sin discusión y van enlazados a su plato. Si alguno no es lo que

@@ -340,7 +340,7 @@ const pt: DataTranslations = {
       caption: "A esplanada, com Santa Eufemia ao fundo",
     },
     "zamburinas-plancha": {
-      alt: "Vieiras galegas (zamburiñas) grelhadas na concha com azeite, alho e salsa, prato estrela da Tixola Tapería em Ourense",
+      alt: "Oito vieiras grelhadas na concha, com um molho de alho e salsa por cima, servidas em prato branco com um fio de redução ao lado",
       caption: "Vieiras galegas grelhadas",
     },
     "tixola-raxo-croquetas": {
@@ -390,7 +390,7 @@ const pt: DataTranslations = {
       caption: "Batatas com alioli",
     },
     "calamares-fritos": {
-      alt: "Lulas fritas em argolas sobre batatas às rodelas, com limão e salada, na Tixola Tapería",
+      alt: "Lulas fritas em argolas sobre batatas às rodelas, com um gomo de limão e algumas folhas de salada, servidas em taça de barro na mesa da Tixola Tapería",
       caption: "Lulas fritas",
     },
     "pulpo-tempura": {

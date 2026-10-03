@@ -339,7 +339,7 @@ const en: DataTranslations = {
       caption: "The terrace, with Santa Eufemia behind",
     },
     "zamburinas-plancha": {
-      alt: "Galician zamburiñas (queen scallops) grilled in their shells with olive oil, garlic and parsley, a signature dish at Tixola Tapería in Ourense",
+      alt: "Eight queen scallops grilled in their shells, topped with a garlic and parsley dressing, served on a white plate with a drizzle of reduction beside them",
       caption: "Grilled Galician scallops",
     },
     "tixola-raxo-croquetas": {
@@ -389,7 +389,7 @@ const en: DataTranslations = {
       caption: "Potatoes with alioli",
     },
     "calamares-fritos": {
-      alt: "Fried squid rings over sliced potatoes with lemon and salad at Tixola Tapería",
+      alt: "Fried squid rings over sliced potatoes, with a lemon wedge and a few salad leaves, served in an earthenware bowl on a table at Tixola Tapería",
       caption: "Fried squid",
     },
     "pulpo-tempura": {

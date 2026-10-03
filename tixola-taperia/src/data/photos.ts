@@ -47,14 +47,20 @@ export const PHOTOS: Photo[] = [
        platos, porque va la primera del manifiesto y gana el `find`. */
     focus: "50% 45%",
   },
+  /* LA FOTO DEL PLATO QUE DA NOMBRE A LA CASA, y ahora es suya: la que había era de archivo y esta
+     es la de la mesa de Tixola, con la pared de botellas detrás.
+     Va en "a la plancha" y no en "rellenas" porque es lo que se ve: la vieira al descubierto con su
+     ajada verde por encima, no un sofrito gratinado. El cliente lo mandó dudando ("las rellenas o a
+     la plancha"), así que queda anotado en docs/fotos-para-revisar.md; moverla es cambiar un id. */
   {
     id: "zamburinas-plancha",
-    src: "/images/zamburinas-plancha.jpg",
-    width: 1000,
-    height: 1335,
-    alt: "Zamburiñas gallegas a la plancha en su concha con aceite de oliva, ajo y perejil, plato estrella de Tixola Tapería en Ourense",
+    src: "/images/zamburinas-plancha.webp",
+    srcTall: "/images/zamburinas-plancha-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Ocho zamburiñas a la plancha en su concha, con ajada de ajo y perejil por encima, servidas en plato blanco con un cordón de reducción al lado",
     caption: "Zamburiñas a la plancha",
-    tags: ["plato"],
+    tags: ["plato", "local"],
     dishIds: ["zamburinas", "esp-zamburinas-plancha" satisfies MenuItemId],
     focus: "50% 50%",
   },
@@ -230,9 +236,9 @@ export const PHOTOS: Photo[] = [
     srcTall: "/images/calamares-fritos-alto.webp",
     width: 1800,
     height: 1350,
-    alt: "Calamares fritos en aros sobre patatas panadera, con limón y ensalada, en Tixola Tapería",
+    alt: "Calamares fritos en aros sobre patatas panadera, con una cuña de limón y unas hojas de ensalada, servidos en cuenco de barro sobre la mesa de Tixola Tapería",
     caption: "Calamares fritos",
-    tags: ["plato"],
+    tags: ["plato", "local"],
     dishIds: ["coc-calamares" satisfies MenuItemId],
     focus: "50% 50%",
   },

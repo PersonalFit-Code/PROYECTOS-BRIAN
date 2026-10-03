@@ -339,7 +339,7 @@ const gl: DataTranslations = {
       caption: "A terraza, con Santa Eufemia ao fondo",
     },
     "zamburinas-plancha": {
-      alt: "Zamburiñas galegas á prancha na súa cuncha con aceite de oliva, allo e perexil, prato estrela de Tixola Tapería en Ourense",
+      alt: "Oito zamburiñas á prancha na súa cuncha, con allada de allo e perexil por riba, servidas en prato branco cun cordón de redución ao lado",
       caption: "Zamburiñas á prancha",
     },
     "tixola-raxo-croquetas": {
@@ -389,7 +389,7 @@ const gl: DataTranslations = {
       caption: "Patacas con alioli",
     },
     "calamares-fritos": {
-      alt: "Calamares fritos en aros sobre patacas panadeira, con limón e ensalada, en Tixola Tapería",
+      alt: "Calamares fritos en aros sobre patacas panadeira, cunha cuña de limón e unhas follas de ensalada, servidos en cunca de barro sobre a mesa de Tixola Tapería",
       caption: "Calamares fritos",
     },
     "pulpo-tempura": {

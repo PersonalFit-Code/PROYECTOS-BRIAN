@@ -71,7 +71,7 @@ export const STAR_DISHES: StarDish[] = [
     },
     accent: "#F0A868",
     emoji: "🐚",
-    image: "/images/zamburinas-plancha.jpg",
+    image: "/images/zamburinas-plancha.webp",
     badge: "Nº 1 en zamburiñas",
   },
   {

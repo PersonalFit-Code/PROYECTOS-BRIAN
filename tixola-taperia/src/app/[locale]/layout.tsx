@@ -91,7 +91,7 @@ function restaurantJsonLd(locale: Locale, description: string) {
        si enseña un botón de "Reservar" en la ficha del negocio, así que dejarlo en "True" era
        mandar gente a intentar algo que no existe. */
     acceptsReservations: "False",
-    image: [`${SITE_URL}/og.jpg`, `${SITE_URL}/images/terraza-catedral.jpg`, `${SITE_URL}/images/zamburinas-plancha.jpg`],
+    image: [`${SITE_URL}/og.jpg`, `${SITE_URL}/images/terraza-catedral.jpg`, `${SITE_URL}/images/zamburinas-plancha.webp`],
     address: {
       "@type": "PostalAddress",
       streetAddress: BUSINESS.address.street,
