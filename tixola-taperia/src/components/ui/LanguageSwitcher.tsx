@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils";
 
 const COOKIE = "NEXT_LOCALE";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
-const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
 export interface LanguageSwitcherProps {
   /** `dropdown` (cabecera de escritorio) o `chips` (fila de 4 botones en el menú móvil). */
@@ -198,8 +197,8 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
         aria-controls={listId}
         aria-label={`${m.nav.languageSwitcher} · ${t(m.nav.language.current, { language: meta.native })}`}
         className={cn(
-          "inline-flex h-11 items-center gap-1.5 rounded-full px-3 font-caps text-[12px] tracking-[0.25em] transition-colors duration-150 ease-[var(--ease-out-expo)]",
-          open ? "text-cream" : "text-cream-muted hover:text-cream",
+          "pulsable inline-flex h-11 items-center gap-1.5 rounded-full px-3 font-caps text-[12px] tracking-[0.25em]",
+          open ? "bg-cream/[0.1] text-cream" : "text-cream-muted hover:bg-cream/[0.05] hover:text-cream",
         )}
       >
         <Globe className="h-4 w-4 text-pimenton-light" aria-hidden />
@@ -215,18 +214,17 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
             role="menu"
             aria-label={m.nav.languageSwitcher}
             onKeyDown={onListKeyDown}
-            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            /* Crece DESDE el botón que lo abre (el `origin-top-*` de abajo apunta a él) con un
+               muelle corto, como un menú de iOS 26; se va con un fundido rápido, sin rebote. */
+            initial={{ opacity: 0, y: -4, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.98, transition: { duration: 0.15 } }}
-            transition={{ duration: 0.2, ease: EASE_OUT_EXPO }}
+            exit={{ opacity: 0, y: -2, scale: 0.96, transition: { duration: 0.14 } }}
+            transition={{ type: "spring", stiffness: 520, damping: 32, mass: 0.7 }}
             className={cn(
-              "absolute top-full z-50 mt-2 min-w-[11.5rem] origin-top overflow-hidden rounded-2xl p-1.5",
-              /* Sin `backdrop-blur-xl`: desenfocaba 24 px lo que había detrás de un fondo que ya era
-                 opaco al 96 %, o sea, nada que se llegara a ver. Y abrir el selector de idioma es lo
-                 primero que se toca en una demo multilingüe: no puede costar una capa de desenfoque.
-                 Las paradas suben a 0,97 / 0,94 para cubrir lo poquísimo que aportaba el filtro. */
-              "border border-cream/10 bg-[linear-gradient(160deg,rgba(64,25,21,0.97),rgba(64,25,21,0.94))] shadow-card",
-              align === "right" ? "right-0" : "left-0",
+              /* Liquid Glass: un menú es un control, va en cristal fuerte (lleva texto). Radio 22 con
+                 6 px de relleno → las filas de dentro llevan 16 (rounded-2xl): curvas concéntricas. */
+              "liquid-glass liquid-glass-strong absolute top-full z-50 mt-3 min-w-[11.5rem] overflow-hidden rounded-[22px] p-1.5",
+              align === "right" ? "right-0 origin-top-right" : "left-0 origin-top-left",
             )}
           >
             {LOCALES.map((locale, i) => {
@@ -245,7 +243,7 @@ function LanguageDropdown({ align = "right", onSelect, className }: Omit<Languag
                   lang={item.hreflang}
                   onClick={(e) => select(locale, e)}
                   className={cn(
-                    "flex h-11 w-full items-center justify-between gap-3 rounded-xl px-3 text-left font-sans text-sm transition-colors duration-200",
+                    "pulsable flex h-11 w-full items-center justify-between gap-3 rounded-2xl px-3 text-left font-sans text-sm",
                     active ? "bg-pimenton/20 text-cream" : "text-cream-muted hover:bg-cream/8 hover:text-cream focus-visible:bg-cream/8",
                   )}
                 >

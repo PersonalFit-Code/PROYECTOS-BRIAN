@@ -141,10 +141,10 @@ function SheetInner({ onClose }: { onClose: () => void }) {
         exit={{ y: 48, opacity: 0, transition: { duration: 0.2 } }}
         /* 300 ms: transición de estado CON desplazamiento, el techo del criterio de respuesta. */
         transition={{ duration: 0.3, ease: EASE_OUT_EXPO }}
-        /* Cristal horneado en todas las gamas: detrás hay un velo opaco al 85 %, así que el
-           `backdrop-filter` desenfocaba algo que ya no se ve, y encima lo hacía en cada fotograma de
-           la animación de entrada de la hoja. */
-        className="relative flex max-h-[88dvh] w-full flex-col rounded-t-3xl border border-cream/10 bg-granate-900/95 shadow-glass lg:max-h-[85dvh] lg:max-w-4xl lg:rounded-3xl"
+        /* El material del cristal (canto, brillo, borde) pero `sin-desenfoque`: detrás hay un velo opaco
+           al 85 %, así que el `backdrop-filter` desenfocaría algo que ya no se ve, y lo haría en cada
+           fotograma de la animación de entrada de la hoja. */
+        className="liquid-glass liquid-glass-strong sin-desenfoque relative flex max-h-[88dvh] w-full flex-col rounded-t-3xl lg:max-h-[85dvh] lg:max-w-4xl lg:rounded-3xl"
       >
         {/* Asa (móvil) */}
         <span aria-hidden className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-cream/25 lg:hidden" />

@@ -125,6 +125,53 @@
   color-scheme: dark;
   --header-h: 72px;
   --mobile-bar-h: 64px;
+
+  /*
+   * LIQUID GLASS · el material (adaptación web del lenguaje de iOS 26 / macOS Tahoe)
+   * ──────────────────────────────────────────────────────────────────────────────
+   * La regla que manda: EL CRISTAL ES PARA LOS CONTROLES. Cabecera, barra inferior, botones
+   * flotantes, menús, desplegables, hojas y modales flotan sobre la página con `.liquid-glass`. El
+   * CONTENIDO —tarjetas, filas, celdas, todo lo que se repite— va sobre `--capa-1/2/3`: superficies
+   * translúcidas SIN `backdrop-filter`. Y nunca cristal sobre cristal: un botón dentro de una barra de
+   * cristal no lleva desenfoque propio.
+   *
+   * La web solo tiene tema oscuro (el granate es el de la carta de papel, y lo eligió el cliente), así
+   * que estos valores son los del cristal oscuro. Dos adaptaciones deliberadas a la marca respecto a la
+   * receta de Apple: el tinte del cristal no es el gris neutro rgba(28,28,30,.55) sino el granate de la
+   * casa a la misma opacidad —en gris, sobre una página granate, el cristal se lee como una mancha
+   * sucia—, y el brillo especular es más tenue que en claro, pero está: sin él el cristal oscuro queda
+   * plano.
+   */
+  --glass-bg: rgba(42, 15, 13, 0.58);
+  /* Para texto encima con el peor fondo debajo (foto clara de la portada): 0,82 sostiene el crema por
+     encima de 4,5:1 incluso sobre blanco puro (medido, ver el informe). */
+  --glass-bg-strong: rgba(36, 12, 11, 0.82);
+  /* Lo que queda cuando el usuario pide menos transparencia. */
+  --glass-solid: #2a0f0d;
+  --glass-blur: blur(20px) saturate(180%);
+  --glass-border: rgba(246, 244, 231, 0.16);
+  /* El canto: un filo de luz interior arriba y un hilo casi invisible alrededor. */
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 0 0 0.5px rgba(255, 255, 255, 0.04);
+  /* La luz que rebota en el canto superior y se apaga hacia el centro. Va como `background-image`
+     encima del color y no en un `::before`: un pseudo-elemento `absolute` exige que el control esté
+     posicionado, y la mitad de estos son `fixed`, `sticky` o `absolute` según el ancho — un `::before`
+     que se cuelga del antepasado equivocado es un brillo flotando en mitad de la página. */
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 24%, rgba(255, 255, 255, 0) 52%);
+  --glass-shadow: 0 22px 48px -20px rgba(0, 0, 0, 0.72), 0 4px 14px -6px rgba(0, 0, 0, 0.4);
+
+  /* Superficies de CONTENIDO: de la más baja a la más elevada. Sin desenfoque, nunca. */
+  --capa-1: rgba(71, 32, 25, 0.42);
+  --capa-2: rgba(71, 32, 25, 0.66);
+  --capa-3: rgba(85, 42, 32, 0.86);
+  --capa-borde: rgba(246, 244, 231, 0.1);
+
+  /* Texto sobre el color de acento (pimentón). Un token, no un `text-white` suelto: si el acento
+     cambia algún día, el texto cambia con él en un solo sitio. */
+  --on-accent: #fffaf2;
+
+  /* Movimiento: los estados MORFAN, no saltan. Curva de muelle con un pelín de rebote. */
+  --ease-muelle: cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --dur-morph: 320ms;
 }
 
 html {
@@ -218,81 +265,156 @@ body::before {
    UTILIDADES DE MARCA
    ───────────────────────────────────────────────────────────── */
 /*
- * CRISTAL HORNEADO · un único interruptor de gama
- * ────────────────────────────────────────────────
- * `backdrop-filter` vivía DENTRO de estas tres utilidades, así que cada superficie de cristal de la
- * web (41 en total) tenía que decidir por su cuenta si podía permitírselo: 18 lo condicionaban a mano
- * por tier en ocho ficheros —arrastrando una prop `glass` por todo el árbol— y 23 no lo condicionaban,
- * de modo que un móvil de gama media desenfocaba pantallas enteras sin que nadie se lo hubiera pedido.
- *
- * Ahora la utilidad es HORNEADA por defecto: solo degradado, borde y sombra. Ninguna capa pide al
- * compositor que lea lo que hay detrás. El desenfoque real se reactiva desde UN solo punto, el
- * selector `:root[data-gpu="high"]` de más abajo, que solo se escribe en la gama alta (escritorio con
- * holgura de núcleos y memoria, sin ahorro de datos y sin movimiento reducido).
- *
- * Las opacidades suben un par de puntos respecto a las originales: sin desenfoque el ojo lee el borde
- * y el filo de luz superior como cristal, no el blur, pero necesita que el fondo tape algo más para
- * que el texto no compita con lo que pasa por debajo. De paso el contraste del texto MEJORA.
+ * CAPAS DE CONTENIDO · `glass`, `glass-smoke`, `glass-red`
+ * ─────────────────────────────────────────────────────────
+ * Los nombres se quedan (los usan una docena de componentes y cambiarlos no aporta nada), pero desde
+ * la pasada Liquid Glass son SUPERFICIES DE CONTENIDO: tarjetas de enlace, avisos, el índice de las
+ * páginas legales. Por eso ya no tienen, en ningún equipo, `backdrop-filter`: el cristal es para los
+ * controles que flotan, y un desenfoque repartido por contenido repetido es justo lo que hace que el
+ * scroll vaya a tirones. Antes se encendía en gama alta con `:root[data-gpu="high"]`; ese interruptor
+ * ya no enciende nada aquí.
  */
 @utility glass {
-  /* 0,10 / 0,03 y no 0,07 / 0,02: sin desenfoque estas superficies necesitan tapar algo MÁS que las
-     originales (0,08 / 0,02), no menos. La versión anterior bajaba la primera parada mientras el
-     comentario de arriba prometía lo contrario, y las cuatro tarjetas de indicadores y el `details` de
-     las páginas legales quedaban un punto más transparentes que antes Y sin blur. */
-  background: linear-gradient(135deg, rgba(246,244,231, 0.1), rgba(246,244,231, 0.03));
-  border: 1px solid rgba(246,244,231, 0.12);
-  box-shadow: var(--shadow-glass);
+  background-color: var(--capa-2);
+  border: 1px solid var(--capa-borde);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 @utility glass-smoke {
-  background: linear-gradient(160deg, rgba(64,25,21, 0.9), rgba(64,25,21, 0.78));
-  border: 1px solid rgba(246,244,231, 0.1);
-  box-shadow: var(--shadow-glass);
+  background-color: var(--capa-3);
+  border: 1px solid var(--capa-borde);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 18px 40px -24px rgba(0, 0, 0, 0.7);
 }
 
 @utility glass-red {
-  background: linear-gradient(135deg, rgba(158,22,24, 0.3), rgba(158,22,24, 0.12));
-  border: 1px solid rgba(232,86,90, 0.35);
+  background: linear-gradient(135deg, rgba(158, 22, 24, 0.3), rgba(158, 22, 24, 0.12));
+  border: 1px solid rgba(232, 86, 90, 0.35);
 }
 
 /*
- * El interruptor. Fuera de `@utility` (y por tanto fuera de `@layer utilities`) a propósito: el CSS sin
- * capa gana siempre a las utilidades de Tailwind, así que el desenfoque no depende del orden de la hoja
- * ni de la especificidad de las clases que acompañen a la superficie.
- * `data-gpu="high"` lo escribe `syncGlassSwitch()` en `src/hooks/usePerformanceTier.ts` (en <html>, una
- * sola vez, solo en cliente y solo en gama alta). Es el único escritor y el único lector.
- * Antes exigía además que la gama estuviera MEDIDA por la sonda de fotogramas de la escena 3D; al
- * quitar Three.js esa sonda desapareció, y pedir una medición que ya nadie toma habría dejado el
- * desenfoque apagado para siempre en todos los equipos.
+ * EL CRISTAL DE LOS CONTROLES · `liquid-glass`
+ * ─────────────────────────────────────────────
+ * Color translúcido + brillo especular (degradado arriba) + filo de luz interior + sombra amplia. La
+ * variante `liquid-glass-strong` sube la opacidad para los controles con texto largo encima.
  *
- * El prefijo `-webkit-` NO se escribe a mano al lado del estándar. Se hacía, y el minificador de CSS de
- * Next (Lightning CSS) colapsaba la pareja dejando SOLO la versión con prefijo, que Chromium y Firefox no
- * reconocen (su `CSS.supports` devuelve false): el cristal se desenfocaba únicamente en Safari. El prefijo
- * lo añade el propio minificador según los navegadores objetivo, que es su trabajo; se verifica en el CSS
- * construido (`.next/static/chunks/*.css`), no aquí.
+ * Presupuesto: unas pocas superficies a la vez. En la portada de un móvil, como mucho cuatro —la
+ * cápsula de la cabecera, el dock de abajo, WhatsApp y el camarero—; en escritorio, la cabecera y los
+ * dos flotantes. Las cifras de fotograma están en el informe de la pasada.
  */
-:root[data-gpu="high"] .glass {
-  backdrop-filter: blur(18px) saturate(140%);
+@utility liquid-glass {
+  background-color: var(--glass-bg);
+  background-image: var(--glass-sheen);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
 }
-:root[data-gpu="high"] .glass-smoke {
-  backdrop-filter: blur(22px) saturate(120%);
+
+/* Para los controles que llevan TEXTO encima. La cuenta (crema y crema atenuado sobre el cristal,
+   con BLANCO PURO debajo, que es lo peor que puede pasar por detrás: un plato sobre mantel, el cielo
+   de la foto de la terraza): con 0,58 el crema da 4,0:1 y el crema atenuado 2,8:1 — suspenso. Con
+   0,82, 9,9:1 y 5,6:1; hasta el más tenue de la casa (`cream-faint`) llega a 4,9:1. Así que todo
+   control con texto va en `strong`, y el cristal fino queda para los botones de solo icono, que
+   piden 3:1 y lo pasan (4,0:1).
+   Se hace cambiando la VARIABLE y no el `background-color`: dos utilidades que escriben la misma
+   propiedad se resuelven por el orden en que Tailwind las imprima, y eso no se controla desde aquí. */
+@utility liquid-glass-strong {
+  --glass-bg: var(--glass-bg-strong);
 }
-:root[data-gpu="high"] .glass-red {
-  backdrop-filter: blur(18px) saturate(140%);
+
+/* Cristal TINTADO con el acento (el botón de WhatsApp, la acción principal del dock): el mismo
+   material, teñido de pimentón, con su texto en `--on-accent`. */
+@utility liquid-glass-accent {
+  --glass-bg: rgba(158, 22, 24, 0.78);
+  --glass-border: rgba(232, 86, 90, 0.6);
+  color: var(--on-accent);
 }
+
 /*
- * La banda de la cabecera. Excepción DOCUMENTADA a "cada componente escribe su propio degradado y no
- * pide `backdrop-filter`": es la única superficie que el cliente tiene delante durante toda la demo, y
- * en escritorio pasó de dejar ver la página desenfocada por detrás a ser una franja negra maciza. Sigue
- * siendo un solo interruptor y sigue viviendo en esta hoja, no en el componente: `Navbar` marca la capa
- * con `data-navbar-surface` y no decide nada por su cuenta.
- * Solo en ≥ md: en móvil la banda convive con el dibujo de la portada y el menú a pantalla completa, y
- * ahí el fondo casi opaco es la decisión correcta en cualquier gama.
+ * El desenfoque, FUERA de `@utility` a propósito: el CSS sin capa gana siempre a las utilidades de
+ * Tailwind, así que ninguna clase `bg-*` o `backdrop-*` que acompañe al control lo apaga por orden.
+ *
+ * El prefijo `-webkit-` NO se escribe a mano al lado del estándar, y es lo contrario de la receta
+ * habitual: el minificador de CSS de Next (Lightning CSS) colapsaba la pareja dejando SOLO la versión
+ * con prefijo, que Chromium y Firefox no reconocen, y el cristal se desenfocaba únicamente en Safari.
+ * El prefijo lo añade el propio minificador; se COMPRUEBA en el CSS construido
+ * (`.next/static/chunks/*.css` debe llevar las dos líneas), no aquí.
  */
-@media (min-width: 768px) {
-  :root[data-gpu="high"] [data-navbar-surface] {
-    background-image: linear-gradient(160deg, rgba(64,25,21, 0.86), rgba(59,22,19, 0.66));
-    backdrop-filter: blur(20px) saturate(120%);
+.liquid-glass {
+  backdrop-filter: var(--glass-blur);
+}
+/* El material sin el desenfoque: para hojas con un velo opaco debajo, donde desenfocar no cambia
+   nada de lo que se ve y solo cuesta fotogramas. */
+.liquid-glass.sin-desenfoque {
+  backdrop-filter: none;
+}
+
+/*
+ * SUPERFICIES ANCHAS · `cristal-ancho` (la cápsula de la cabecera, las barras de filtros, el dock)
+ * ────────────────────────────────────────────────────────────────────────────────────────────────
+ * Medido, no supuesto. Con desenfoque en TODAS las superficies, el scroll de la portada en escritorio
+ * pasó de ~32 a ~67 fotogramas perdidos de 220 y el de /vinos de ~1 a ~26 (Chromium, 1440 px, cuatro
+ * rondas intercaladas contra el build anterior). Quitándolo SOLO de la cápsula de la cabecera, la
+ * diferencia desaparecía; con un desenfoque más ligero (8 px) seguía ahí (~46). Es lo que avisa toda
+ * la literatura de este material: lo caro no es el cristal, es un cristal ANCHO con la página entera
+ * deslizándose por debajo, recalculado en cada fotograma.
+ * Así que estas tres llevan el material entero —tinte fuerte, brillo, canto, sombra— y el desenfoque
+ * real solo donde el equipo ha demostrado que puede pagarlo: bajo `:root[data-gpu="high"]`, el único
+ * interruptor de gama del proyecto (lo escribe `usePerformanceTier`). Es la misma regla que ya tenía la
+ * banda de la cabecera antes de esta pasada, así que en ningún equipo va peor que antes. Los controles
+ * pequeños (botones flotantes, menús, popovers, el raíl de capítulos) sí desenfocan siempre: medidos
+ * sin la cabecera, no movían las cifras.
+ */
+.liquid-glass.cristal-ancho {
+  backdrop-filter: none;
+}
+:root[data-gpu="high"] .liquid-glass.cristal-ancho {
+  backdrop-filter: var(--glass-blur);
+}
+
+/* Al pulsar, el control se hunde un poco y vuelve con muelle. `scale` y no `transform`: Tailwind 4
+   escribe `translate` y `scale` como propiedades sueltas, así que esto no pisa ningún `-translate-*`
+   que el control ya lleve para colocarse. Sin capa, por lo mismo que el desenfoque. */
+.pulsable {
+  transition-property: scale, translate, color, background-color, border-color, box-shadow, opacity;
+  transition-duration: var(--dur-morph);
+  transition-timing-function: var(--ease-muelle);
+}
+.pulsable:active {
+  scale: 0.96;
+  transition-duration: 120ms;
+}
+
+/* Pedir menos transparencia: el cristal se vuelve macizo y las capas de contenido, opacas. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --capa-1: #3f1a15;
+    --capa-2: #45201a;
+    --capa-3: #4f271e;
+  }
+  .liquid-glass,
+  :root[data-gpu="high"] .liquid-glass.cristal-ancho {
+    backdrop-filter: none;
+    background-color: var(--glass-solid);
+    background-image: none;
+  }
+  .liquid-glass.liquid-glass-accent {
+    background-color: var(--color-pimenton);
+  }
+}
+
+/* Pedir más contraste: fondos más tapados y bordes que se vean. */
+@media (prefers-contrast: more) {
+  :root {
+    --glass-bg: var(--glass-bg-strong);
+    --glass-border: rgba(246, 244, 231, 0.5);
+    --capa-borde: rgba(246, 244, 231, 0.32);
+  }
+}
+
+/* Movimiento reducido: sin muelle ni hundimiento. (La regla global de más arriba ya deja las
+   transiciones en un instante; esto quita además el escalado.) */
+@media (prefers-reduced-motion: reduce) {
+  .pulsable:active {
+    scale: none;
   }
 }
 

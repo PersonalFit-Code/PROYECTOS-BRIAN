@@ -535,9 +535,9 @@ function ArrowButton({ dir, label, onClick, className }: { dir: "prev" | "next";
       onClick={onClick}
       aria-label={label}
       className={cn(
-        /* 44×44 px: el cristal ahí no se ve, y estas flechas viven sobre el escenario en perspectiva.
-           Hierro horneado al 90 % con el mismo filo de luz que daba `glass-smoke`. */
-        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-granate-900/90 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
+        /* Liquid Glass: las flechas son controles que flotan sobre el carrusel, así que van en cristal
+           fino (solo icono). 44×44 px: la superficie más barata de desenfocar que hay. */
+        "inline-flex h-11 w-11 items-center justify-center rounded-full liquid-glass pulsable text-cream hover:scale-105 hover:[--glass-bg:rgba(71,32,25,0.75)]",
         className,
       )}
     >

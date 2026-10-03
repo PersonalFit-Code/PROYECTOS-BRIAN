@@ -150,12 +150,19 @@ export default function FilterBar({
        participa en el flujo. Antes crecía en `height` (propiedad de MAQUETA, que no se compone en la
        GPU) dentro de una barra `sticky`, así que en cada uno de los ~27 fotogramas de la apertura
        empujaba y volvía a maquetar toda la rejilla de resultados que hay debajo. */
-    <div className={cn("sticky top-[var(--header-h)] z-30", className)} onKeyDown={onKeyDown}>
+    <div className={cn("sticky top-[var(--header-h)] z-30 pt-1", className)} onKeyDown={onKeyDown}>
       <div className="relative">
-        {/* Hierro casi opaco en TODAS las gamas: un `backdrop-filter` pegajoso sobre contenido que se
-            desplaza por debajo se recalcula en cada fotograma de scroll y no debe existir en ninguna
-            gama. De paso el texto de los filtros gana contraste. */}
-        <div className="border-x-0 border-y border-cream/10 bg-granate-900/95 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]">
+        {/*
+          LIQUID GLASS · la barra de filtros es un CONTROL que flota sobre la carta, así que deja de ser
+          una franja de hierro de borde a borde y pasa a ser una cápsula de cristal fuerte con los
+          mismos cantos que la de la cabecera (8 / 12 / 20 px), de modo que las dos se leen como una
+          sola pila de controles. Fuerte porque lleva texto y por debajo pasan fotos de plato.
+          `cristal-ancho`: un `backdrop-filter` pegajoso y ancho se recalcula en cada fotograma de
+          scroll, y medido empeoraba el scroll; el desenfoque real se queda para la gama alta (ver
+          globals.css). Las chapas de dentro no llevan cristal propio.
+          `overflow-hidden` recorta la fila de chapas por la curva de la cápsula.
+        */}
+        <div className="liquid-glass liquid-glass-strong cristal-ancho mx-2 overflow-hidden rounded-[30px] sm:mx-3 lg:mx-5">
           <div className={CARTA_CONTAINER}>
             {/* ── Fila principal ── */}
             <div className="flex items-center gap-3">
@@ -179,7 +186,7 @@ export default function FilterBar({
                   aria-controls={panelId}
                   aria-label={open ? m.carta.filtersClose : m.carta.filtersOpen}
                   className={cn(
-                    "relative inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors duration-150 ease-[var(--ease-out-expo)] active:duration-75",
+                    "pulsable relative inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold",
                     open || badge > 0 ? "border-pimenton-light/70 bg-pimenton/20 text-cream" : "border-cream/20 text-cream-muted hover:border-cream/45 hover:text-cream",
                   )}
                 >
@@ -217,10 +224,13 @@ export default function FilterBar({
           id={panelId}
           aria-hidden={!open || undefined}
           inert={!open || undefined}
+          /* Un popover de cristal que CRECE desde el botón "Filtros" (esquina superior derecha: ahí
+             apunta el `origin`), con muelle. Solo `opacity` y `scale`, que se componen en la GPU. */
           className={cn(
-            "absolute inset-x-0 top-full z-10 origin-top overflow-hidden border-b border-cream/10 bg-granate-900/95 shadow-[0_22px_45px_-24px_rgba(0,0,0,0.95)]",
-            "transition-[opacity,translate] duration-180 ease-[var(--ease-out-expo)] motion-reduce:transition-none",
-            open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+            "liquid-glass liquid-glass-strong absolute inset-x-2 top-full z-10 mt-2 origin-top-right overflow-hidden rounded-[28px] sm:inset-x-3 lg:inset-x-5",
+            "transition-[opacity,scale] duration-[var(--dur-morph)] ease-[var(--ease-muelle)] motion-reduce:transition-none",
+            /* Abierto, sin `scale` fijo (ver la nota de la cápsula de la cabecera en `Navbar`). */
+            open ? "opacity-100" : "pointer-events-none scale-[0.96] opacity-0",
           )}
         >
           <div className={CARTA_CONTAINER}>

@@ -153,9 +153,9 @@ function detectDevice(): DeviceFlags {
 }
 
 /**
- * Interruptor ÚNICO del cristal real: escribe `data-gpu="high"` en <html> y con él se reactivan los
- * `backdrop-filter` de `.glass`, `.glass-smoke`, `.glass-red` y de la banda de la cabecera
- * (`src/app/globals.css`). Sin esta línea el selector de la hoja sería CSS muerto y el cristal no
+ * Interruptor ÚNICO del cristal real en las superficies ANCHAS: escribe `data-gpu="high"` en <html> y
+ * con él se reactiva el `backdrop-filter` de las `.liquid-glass.cristal-ancho` (la cápsula de la
+ * cabecera, las barras de filtros y el dock; ver `src/app/globals.css`, donde están las cifras). Sin esta línea el selector de la hoja sería CSS muerto y el cristal no
  * volvería NUNCA, en ningún equipo: la decisión "el cristal real se reserva a gama alta" se
  * convertiría en "el cristal real se elimina".
  *

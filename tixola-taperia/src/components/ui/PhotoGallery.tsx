@@ -292,7 +292,7 @@ function Chapa({ label, count, activa, onClick }: ChapaProps) {
       aria-pressed={activa}
       onClick={onClick}
       className={cn(
-        "relative inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full border px-4 transition-colors duration-150 ease-[var(--ease-out-expo)] focus-visible:outline-offset-2",
+        "pulsable relative inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full border px-4 focus-visible:outline-offset-2",
         activa ? "border-transparent text-cream" : "border-cream/15 text-cream-muted hover:border-cream/40 hover:text-cream",
       )}
     >
@@ -301,7 +301,9 @@ function Chapa({ label, count, activa, onClick }: ChapaProps) {
           layoutId="galeria-chapa-activa"
           aria-hidden
           transition={SPRING}
-          className="absolute inset-0 rounded-full border border-pimenton-light/70 bg-pimenton shadow-[0_0_22px_rgba(232,86,90,0.45)]"
+          /* Solo sombras interiores: la fila es `overflow-x-auto` y un resplandor exterior se recortaba
+             en un recuadro de cantos rectos. */
+          className="absolute inset-0 rounded-full border border-pimenton-light/70 bg-pimenton shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_0_14px_rgba(232,86,90,0.55)]"
         />
       )}
       <span className="relative font-condensed text-lg uppercase leading-none tracking-wide">{label}</span>
@@ -467,7 +469,7 @@ function Visor({ photo, index, total, onClose, onPrev, onNext }: VisorProps) {
         type="button"
         onClick={stop(onClose)}
         aria-label={lb.close}
-        className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-granate-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:right-6 md:top-6"
+        className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full liquid-glass pulsable text-cream transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:right-6 md:top-6"
       >
         <X size={20} aria-hidden />
       </button>
@@ -479,7 +481,7 @@ function Visor({ photo, index, total, onClose, onPrev, onNext }: VisorProps) {
             type="button"
             onClick={stop(onPrev)}
             aria-label={lb.prev}
-            className="absolute bottom-4 left-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-granate-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:left-6 md:top-1/2 md:-translate-y-1/2"
+            className="absolute bottom-4 left-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full liquid-glass pulsable text-cream transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:left-6 md:top-1/2 md:-translate-y-1/2"
           >
             <ChevronLeft size={22} aria-hidden />
           </button>
@@ -487,7 +489,7 @@ function Visor({ photo, index, total, onClose, onPrev, onNext }: VisorProps) {
             type="button"
             onClick={stop(onNext)}
             aria-label={lb.next}
-            className="absolute bottom-4 right-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/12 bg-granate-900/85 text-cream shadow-glass transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:right-6 md:top-1/2 md:-translate-y-1/2"
+            className="absolute bottom-4 right-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full liquid-glass pulsable text-cream transition-colors duration-160 hover:border-pimenton-light/60 hover:text-pimenton-light md:bottom-auto md:right-6 md:top-1/2 md:-translate-y-1/2"
           >
             <ChevronRight size={22} aria-hidden />
           </button>

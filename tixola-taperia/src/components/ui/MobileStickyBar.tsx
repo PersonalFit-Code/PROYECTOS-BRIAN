@@ -19,13 +19,17 @@ const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
    `leading-tight` + `text-center`: las etiquetas son de una palabra salvo en inglés, y si alguna
    necesitara dos líneas la caja las admite en vez de recortarlas contra el borde de la barra. */
+/* Radio concéntrico: el dock es una cápsula de 56 px (radio 28) con 6 px de relleno, así que cada
+   pestaña lleva 28 − 6 = 22 px y sus curvas corren paralelas a las del dock. */
 const itemBase =
-  "relative flex h-full flex-col items-center justify-center gap-1 rounded-2xl px-0.5 text-center font-sans text-[11px] font-bold uppercase leading-tight tracking-[0.1em] transition-[scale,background-color,color] duration-180 active:duration-100 ease-[var(--ease-out-expo)] active:scale-95 [&>svg]:h-5 [&>svg]:w-5";
+  "pulsable relative flex h-full flex-col items-center justify-center gap-1 rounded-[22px] px-0.5 text-center font-sans text-[11px] font-bold uppercase leading-tight tracking-[0.1em] [&>svg]:h-5 [&>svg]:w-5";
 const itemGhost = "text-cream-200 hover:bg-cream/8 hover:text-cream";
 /** "Estás aquí": el mismo rojo de la marca, pero sin relleno, para no confundirse con el botón de acción. */
 const itemHere = "bg-pimenton/12 text-pimenton-light";
+/* Dentro del dock: sin desenfoque propio (nunca cristal sobre cristal), solo el tinte de acento, su
+   filo de luz y el texto en `--on-accent`. */
 const itemPrimary =
-  "bg-pimenton text-cream border border-pimenton-light/60 shadow-[0_0_24px_rgba(158,22,24,0.55)] hover:bg-pimenton-light";
+  "bg-pimenton text-[var(--on-accent)] border border-pimenton-light/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(158,22,24,0.45)] hover:bg-pimenton-light";
 
 /** Secciones de la home que tienen su reflejo en la barra. La carta es una ruta aparte. */
 const WATCHED_SECTIONS = ["experiencia"] as const;
@@ -63,7 +67,7 @@ export default function MobileStickyBar() {
 
   /** Filo superior del elemento activo: el remate que hace que se lea como pestaña, no como botón. */
   const hereEdge = (
-    <span aria-hidden className="absolute inset-x-4 top-0 h-0.5 rounded-full bg-pimenton-light shadow-[0_0_10px_rgba(232,86,90,0.8)]" />
+    <span aria-hidden className="absolute inset-x-5 top-1 h-0.5 rounded-full bg-pimenton-light shadow-[0_0_10px_rgba(232,86,90,0.8)]" />
   );
 
   return (
@@ -78,11 +82,18 @@ export default function MobileStickyBar() {
         transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
         className="fixed inset-x-0 bottom-0 z-40 md:hidden"
       >
-        {/* Hierro casi opaco en lugar de cristal: esta barra está fija sobre la portada, cuyas capas
-            (halo de calor, vaho, chispas) se mueven en bucle, y un `backdrop-filter` obligaría a volver
-            a desenfocar toda la franja en cada fotograma (el escenario móvil más caro de la página). */}
-        <div className="border-t border-cream/10 bg-[linear-gradient(160deg,rgba(64,25,21,0.97),rgba(53,19,17,0.95))] pb-[env(safe-area-inset-bottom)] shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.7)]">
-          <ul className="grid h-[var(--mobile-bar-h)] grid-cols-4 gap-1 px-2 py-1.5">
+        {/*
+          EL DOCK DE CRISTAL (Liquid Glass). Antes era una franja de hierro casi opaca de borde a borde;
+          ahora es una cápsula que flota a 8 px de los cantos, como la barra de pestañas de iOS 26.
+          La huella total NO cambia: la cápsula mide `--mobile-bar-h` − 8 px y el margen inferior pone
+          los 8 px que faltan, así que todo lo que se coloca contra esa medida (WhatsApp, el camarero, el
+          relleno inferior de las páginas) sigue en su sitio.
+          Casi todo el ancho de la pantalla sobre la portada animada: `cristal-ancho`, con el
+          desenfoque real solo en gama alta (ver globals.css). Cristal fuerte: lleva texto, y debajo
+          puede pasar una foto blanca.
+        */}
+        <div className="liquid-glass liquid-glass-strong cristal-ancho mx-2 mb-[calc(0.5rem+env(safe-area-inset-bottom))] rounded-[28px]">
+          <ul className="grid h-[calc(var(--mobile-bar-h)-0.5rem)] grid-cols-4 gap-1 p-1.5">
             {/* La píldora roja era "Reservar". Sin reservas, la hereda la carta, que es la acción
                 que de verdad mueve a alguien a venir. Cuando ya estás EN la carta, la acción se
                 convierte en ubicación: manda el "estás aquí", que también es rojo y se pisarían. */}

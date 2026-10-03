@@ -211,23 +211,24 @@ export default function Navbar() {
   return (
     <MotionConfig reducedMotion="user">
       <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)]">
-        {/* Fondo cristal ahumado que aparece con el scroll */}
+        {/* LA CÁPSULA DE CRISTAL (Liquid Glass). Antes era una banda de borde a borde pegada arriba;
+            ahora flota separada de los cantos, con el radio de cápsula de los controles de iOS 26, y
+            aparece con el scroll creciendo un pelín desde su sitio en vez de fundirse sin más. Es la
+            superficie de cristal más ancha de la web, con la página entera pasando por debajo, y por
+            eso `cristal-ancho`: el desenfoque real solo en gama alta (las cifras, en globals.css). */}
         <div
           aria-hidden
           data-navbar-surface
           className={cn(
-            "absolute inset-0 border-b transition-[opacity,border-color] duration-500 ease-[var(--ease-out-expo)]",
-            /* Degradado casi opaco POR DEFECTO, sin `backdrop-filter`: es la superficie que más se
-               recompone de toda la sesión —una banda `fixed` de 72 px por el ancho completo con TODA la
-               página deslizándose por debajo—, así que un `backdrop-blur-xl` permanente aquí es un
-               impuesto sobre cualquier scroll en un portátil con gráfica integrada.
-               Pero unificarlo en 0,96/0,92 a todos los anchos convertía la cabecera de escritorio en una
-               franja negra maciza, y es lo que el cliente tiene delante durante toda la demo. El cristal
-               vuelve en ≥ md cuando el equipo ha demostrado GPU: lo decide el ÚNICO interruptor del
-               proyecto, `:root[data-gpu="high"] [data-navbar-surface]` en globals.css. Aquí solo se marca
-               la capa; este componente no consulta la gama. */
-            "bg-[linear-gradient(160deg,rgba(64,25,21,0.96),rgba(59,22,19,0.92))] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]",
-            solid ? "border-cream/10 opacity-100" : "border-transparent opacity-0",
+            "liquid-glass liquid-glass-strong cristal-ancho absolute inset-x-2 inset-y-2 rounded-full transition-[opacity,scale] duration-[var(--dur-morph)] ease-[var(--ease-muelle)] sm:inset-x-3 lg:inset-x-5",
+            /* Oculta (opacidad 0) en lo alto de la portada: ahí la cabecera flota sobre el dibujo sin
+               superficie. El desenfoque de una capa a opacidad 0 no se pinta, así que esconderla no
+               cuesta nada; al aparecer crece un 2 % desde su sitio con la curva de muelle. */
+            /* Visible SIN `scale` (ni siquiera `scale-100`): medido, dejar un `scale: 1` fijo en esta
+               cápsula de 1.400 px costaba ~5 fotogramas de cada 220 al hacer scroll en /vinos con la CPU
+               ralentizada. El escalado solo existe mientras está oculta, y de `0.98` a `none` el
+               navegador interpola igual. */
+            solid ? "opacity-100" : "scale-[0.98] opacity-0",
           )}
         />
 
@@ -263,18 +264,22 @@ export default function Navbar() {
                     href={lp(item.href)}
                     aria-current={ariaCurrentFor(item.href, active)}
                     className={cn(
-                      "group relative inline-flex h-11 items-center px-3 font-caps text-[11px] uppercase tracking-[0.22em] transition-colors duration-300 xl:px-4 xl:text-[12px] xl:tracking-[0.25em]",
-                      active ? "text-cream" : "text-cream-muted hover:text-cream",
+                      "pulsable group relative isolate inline-flex h-11 items-center rounded-full px-3 font-caps text-[11px] uppercase tracking-[0.22em] xl:px-4 xl:text-[12px] xl:tracking-[0.25em]",
+                      active ? "text-cream" : "text-cream-muted hover:bg-cream/[0.05] hover:text-cream",
                     )}
                   >
                     {item.shortLabel}
-                    <span
-                      aria-hidden
-                      className={cn(
-                        "absolute inset-x-3 -bottom-px h-px origin-left bg-pimenton-light transition-transform duration-500 ease-[var(--ease-out-expo)] xl:inset-x-4",
-                        active ? "scale-x-100 shadow-neon" : "scale-x-0 group-hover:scale-x-100",
-                      )}
-                    />
+                    {/* La sección activa va dentro de una cápsula que VIAJA de un enlace al siguiente
+                        (layoutId) en vez de apagarse en uno y encenderse en otro. Es contenido dentro
+                        del cristal: sin desenfoque propio, solo un velo y su filo de luz. */}
+                    {active && (
+                      <motion.span
+                        layoutId="nav-capsula-activa"
+                        aria-hidden
+                        transition={{ type: "spring", stiffness: 420, damping: 34, mass: 0.8 }}
+                        className="absolute inset-y-1 inset-x-0 -z-10 rounded-full bg-cream/[0.1] shadow-[inset_0_1px_0_rgba(255,255,255,0.16)]"
+                      />
+                    )}
                   </Link>
                 </li>
               );
@@ -315,9 +320,10 @@ export default function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="menu-movil"
               aria-label={menuOpen ? m.nav.closeMenu : m.nav.openMenu}
-              /* Sin `glass` (blur 18 px): la hamburguesa solo existe por debajo de lg, justo donde
-                 flota sobre la portada animada. */
-              className="relative grid h-11 w-11 place-items-center rounded-full border border-cream/12 bg-granate-900/92 text-cream shadow-glass transition-colors hover:text-pimenton-light lg:hidden"
+              /* Sin cristal propio: vive DENTRO de la cápsula de la cabecera (nunca cristal sobre
+                 cristal). En lo alto de la portada, con la cápsula aún oculta, el velo granate al 70 %
+                 le basta para leerse sobre el dibujo. */
+              className="pulsable relative grid h-10 w-10 place-items-center rounded-full border border-cream/15 bg-granate-900/70 text-cream hover:text-pimenton-light lg:hidden"
             >
               <span className="relative block h-5 w-5">
                 <Menu
@@ -358,12 +364,12 @@ export default function Navbar() {
             animate="show"
             exit="hidden"
             onKeyDown={trapFocus}
-            /* Degradado OPACO (iron → burgundy-deep) y sin `backdrop-filter`: el desenfoque de
-               40 px obligaba a releer y desenfocar el viewport entero en cada fotograma mientras la
-               portada seguía animando debajo, y con un fondo sólido no hay nada que desenfocar — la
-               portada deja de asomar por completo. (Con el menú abierto, además, `HeroCanvas` pausa
-               sus animaciones: es un panel modal y escribe `data-scroll-lock`.) */
-            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden bg-[linear-gradient(180deg,#2a0f0d,#3a0d10)] lg:hidden"
+            /* Liquid Glass: el menú es una HOJA de cristal fuerte sobre la página, no un telón opaco.
+               El desenfoque a pantalla completa es asumible aquí porque mientras está abierto lo de
+               debajo está QUIETO: el scroll está bloqueado y `HeroCanvas` pausa sus animaciones, así
+               que el fondo se desenfoca una vez y no en cada fotograma. Con `liquid-glass-strong` el
+               texto pasa AA aunque debajo quede la foto más clara de la portada. */
+            className="liquid-glass liquid-glass-strong fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden rounded-none border-0 lg:hidden"
           >
             {/* Brasa decorativa */}
             {/* Radial prehorneado en lugar de `bg-pimenton/30 blur-3xl`: desenfocar 64 px una superficie de
@@ -378,8 +384,9 @@ export default function Navbar() {
               aria-hidden
               className="ember-wash absolute -bottom-32 left-1/2 h-72 w-[120vw] -translate-x-1/2 rounded-full [--ember-a1:0.3]"
             />
-            <span aria-hidden className="pointer-events-none absolute right-[-30%] top-[10%] select-none font-caps text-[34vw] font-semibold leading-none text-cream/[0.04]">
-              TIXOLA
+            {/* La firma manuscrita del logo, igual que la marca de agua del pie. */}
+            <span aria-hidden className="font-script pointer-events-none absolute right-[-18%] top-[6%] select-none whitespace-nowrap text-[52vw] font-normal leading-[0.8] text-cream/[0.05]">
+              Tixola
             </span>
 
             <div className="container-page relative flex min-h-full flex-col pt-[calc(var(--header-h)+1.5rem)] pb-[calc(var(--mobile-bar-h)+env(safe-area-inset-bottom)+1.5rem)]">

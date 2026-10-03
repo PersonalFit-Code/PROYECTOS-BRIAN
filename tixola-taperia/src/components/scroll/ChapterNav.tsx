@@ -185,8 +185,10 @@ export default function ChapterNav() {
             );
           })}
         </ol>
-        {/* Hilo vertical decorativo tras los puntos */}
-        <span aria-hidden className="pointer-events-none absolute top-2 bottom-2 right-[15px] -z-10 w-px bg-cream/12" />
+        {/* Liquid Glass: los puntos van sobre un RAÍL de cristal (una cápsula vertical de 34 px), como
+            el índice lateral de iOS. Las etiquetas que asoman a la izquierda no llevan cristal propio:
+            una cápsula por etiqueta serían cinco superficies desenfocadas más por un adorno. */}
+        <span aria-hidden className="liquid-glass pointer-events-none absolute -top-1 -bottom-1 right-[-1px] -z-10 w-[34px] rounded-full" />
       </nav>
     </>
   );

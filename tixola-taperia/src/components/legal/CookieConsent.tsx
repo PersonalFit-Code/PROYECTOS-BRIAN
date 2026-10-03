@@ -272,10 +272,11 @@ export default function CookieConsent() {
                 animate={{ y: 0, opacity: 1, scale: 1 }}
                 exit={{ y: 32, opacity: 0, scale: 0.98, transition: { duration: 0.3, ease: "easeIn" } }}
                 transition={{ duration: 0.7, ease: EASE_OUT_EXPO }}
-                /* Nunca backdrop-filter, tampoco en escritorio: el aviso se pinta ENCIMA de la portada,
-                   cuyas capas ya están animando, así que cada fotograma tendría que volver a desenfocar
-                   350 px de pantalla. Y es lo primero que ve un visitante. */
-                className="noise after:noise-after relative overflow-hidden rounded-3xl border border-cream/10 bg-granate-900/95 p-5 shadow-card md:p-6"
+                /* Liquid Glass: el aviso es una hoja que flota sobre la página → cristal fuerte (lleva
+                   texto y botones). Se pinta encima de la portada, que anima en bucle, así que el
+                   desenfoque se recalcula mientras está abierto: lo medido está en el informe de la
+                   pasada, y es una hoja que se cierra con un toque y no vuelve. */
+                className="liquid-glass liquid-glass-strong relative overflow-hidden rounded-3xl p-5 md:p-6"
               >
                 {/* Brasa decorativa */}
                 {/* `ember-wash` y no `ember-glow`: el original era un color PLANO al que el desenfoque solo plumeaba el borde, así que un radial de pico y caída rápida perdía ~3,5 veces de luz. Alfa igual que el original. */}

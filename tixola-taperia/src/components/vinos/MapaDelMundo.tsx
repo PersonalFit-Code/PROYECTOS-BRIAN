@@ -463,7 +463,8 @@ function BotonMapa({ etiqueta, onClick, children }: { etiqueta: string; onClick:
       onClick={onClick}
       aria-label={etiqueta}
       title={etiqueta}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-cream/20 bg-black/35 text-cream/80 backdrop-blur-sm transition-colors hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
+      /* Liquid Glass: los mandos del mapa son controles que flotan sobre él → cristal fino (icono). */
+      className="liquid-glass pulsable inline-flex h-9 w-9 items-center justify-center rounded-full text-cream/85 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
     >
       {children}
     </button>
@@ -541,12 +542,14 @@ function TarjetaDePais({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 18 }}
-      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-      className="absolute inset-x-2 bottom-2 flex max-h-[82%] flex-col overflow-hidden rounded-2xl border border-gold/25 shadow-card backdrop-blur-md md:inset-x-auto md:bottom-4 md:left-4 md:top-4 md:max-h-none md:w-[340px]"
-      style={{ background: "rgba(27,14,9,0.92)" }}
+      /* Liquid Glass: la ficha del país es un popover → cristal fuerte con el filo en oro (el color
+         de las chinchetas). Crece con muelle desde abajo en el móvil y desde la izquierda en
+         escritorio, que es donde está anclada. */
+      initial={{ opacity: 0, y: 12, scale: 0.94 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 8, scale: 0.97, transition: { duration: 0.16 } }}
+      transition={{ type: "spring", stiffness: 460, damping: 34, mass: 0.8 }}
+      className="liquid-glass liquid-glass-strong absolute inset-x-2 bottom-2 flex max-h-[82%] origin-bottom flex-col overflow-hidden rounded-[22px] [--glass-border:rgba(232,194,122,0.35)] md:inset-x-auto md:bottom-4 md:left-4 md:top-4 md:max-h-none md:w-[340px] md:origin-left"
     >
       <div className="flex shrink-0 items-start justify-between gap-3 border-b border-cream/10 px-4 py-3">
         <div className="min-w-0">

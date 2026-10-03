@@ -244,9 +244,12 @@ export default function CartaDeVinos() {
         Sigue sin iconos: los platos los llevan porque "vegano" o "sin gluten" son conceptos y un
         icono ayuda; "D.O. Valdeorras" no lo necesita.
       */}
-      <div className="sticky top-[var(--header-h)] z-20 -mx-4 md:-mx-6" onKeyDown={alPulsarTecla}>
+      <div className="sticky top-[var(--header-h)] z-20 -mx-4 pt-1 md:-mx-6" onKeyDown={alPulsarTecla}>
         <div className="relative">
-          <div className="border-y border-cream/10 bg-granate-900/95 shadow-[0_18px_40px_-28px_rgba(0,0,0,0.9)]">
+          {/* Liquid Glass: la barra es un control flotante → cápsula de cristal fuerte, la misma
+              hechura que la de la carta de platos (ver `FilterBar`). Los botones de dentro no llevan
+              cristal propio. */}
+          <div className="liquid-glass liquid-glass-strong cristal-ancho mx-2 overflow-hidden rounded-[30px]">
             <div className="px-4 md:px-6">
               <div className="flex items-center gap-3">
                 {/* Denominación. El envoltorio se queda con el hueco sobrante para que el botón sea
@@ -259,7 +262,7 @@ export default function CartaDeVinos() {
                     aria-expanded={panel === "origen"}
                     aria-controls={idPanelOrigen}
                     className={cn(
-                      "inline-flex h-11 min-w-0 max-w-full items-center gap-2 rounded-full border px-4 transition-colors duration-150 ease-[var(--ease-out-expo)]",
+                      "pulsable inline-flex h-11 min-w-0 max-w-full items-center gap-2 rounded-full border px-4",
                       panel === "origen" || origen !== "todos"
                         ? "border-pimenton-light/70 bg-pimenton/20 text-cream"
                         : "border-cream/20 text-cream-muted hover:border-cream/45 hover:text-cream",
@@ -295,7 +298,7 @@ export default function CartaDeVinos() {
                     aria-expanded={panel === "filtros"}
                     aria-controls={idPanel}
                     className={cn(
-                      "inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors duration-150 ease-[var(--ease-out-expo)]",
+                      "pulsable inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold",
                       panel === "filtros" || activos > 0
                         ? "border-pimenton-light/70 bg-pimenton/20 text-cream"
                         : "border-cream/20 text-cream-muted hover:border-cream/45 hover:text-cream",
@@ -338,9 +341,10 @@ export default function CartaDeVinos() {
             aria-hidden={panel !== "origen" || undefined}
             inert={panel !== "origen" || undefined}
             className={cn(
-              "absolute inset-x-0 top-full z-10 origin-top overflow-hidden border-b border-cream/10 bg-granate-900 shadow-[0_22px_45px_-24px_rgba(0,0,0,0.95)]",
-              "transition-[opacity,translate] duration-200 ease-[var(--ease-out-expo)] motion-reduce:transition-none",
-              panel === "origen" ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+              /* Popover de cristal que crece desde el botón de denominación (arriba a la izquierda). */
+              "liquid-glass liquid-glass-strong absolute inset-x-2 top-full z-10 mt-2 origin-top-left overflow-hidden rounded-[28px]",
+              "transition-[opacity,scale] duration-[var(--dur-morph)] ease-[var(--ease-muelle)] motion-reduce:transition-none",
+              panel === "origen" ? "opacity-100" : "pointer-events-none scale-[0.96] opacity-0",
             )}
           >
             <section aria-label={m.vinos.filterByOrigin} className="max-h-[min(62dvh,560px)] overflow-y-auto overscroll-contain px-4 pb-5 pt-4 md:px-6">
@@ -366,9 +370,10 @@ export default function CartaDeVinos() {
             aria-hidden={panel !== "filtros" || undefined}
             inert={panel !== "filtros" || undefined}
             className={cn(
-              "absolute inset-x-0 top-full z-10 origin-top overflow-hidden border-b border-cream/10 bg-granate-900 shadow-[0_22px_45px_-24px_rgba(0,0,0,0.95)]",
-              "transition-[opacity,translate] duration-200 ease-[var(--ease-out-expo)] motion-reduce:transition-none",
-              panel === "filtros" ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+              /* Popover de cristal que crece desde el botón "Filtros" (arriba a la derecha). */
+              "liquid-glass liquid-glass-strong absolute inset-x-2 top-full z-10 mt-2 origin-top-right overflow-hidden rounded-[28px]",
+              "transition-[opacity,scale] duration-[var(--dur-morph)] ease-[var(--ease-muelle)] motion-reduce:transition-none",
+              panel === "filtros" ? "opacity-100" : "pointer-events-none scale-[0.96] opacity-0",
             )}
           >
             <section aria-label={m.vinos.filtersAria} className="max-h-[min(62dvh,560px)] overflow-y-auto overscroll-contain px-4 pb-5 pt-4 md:px-6">

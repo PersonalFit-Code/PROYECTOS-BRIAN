@@ -418,22 +418,13 @@ export default function ChatWidget() {
                  despliega la barra de direcciones y el panel se recomponía a mitad de scroll. */
               "md:inset-x-auto md:left-4 md:top-auto md:origin-bottom-left md:rounded-3xl md:bottom-6",
               "md:w-[min(420px,calc(100vw-2rem))] md:h-[min(640px,80svh)] md:max-h-[calc(100dvh-2rem)]",
-              /* `glass-smoke` sin condicionar la gama: la utilidad es horneada (degradado + borde) y
-                 solo recupera el `backdrop-filter` bajo `:root[data-gpu="high"]`, que escribe el hook de
-                 gama. Un consumidor menos del almacén de rendimiento. */
-              "glass-smoke",
+              /* Liquid Glass: el camarero es una hoja flotante SIN velo debajo, así que aquí el cristal
+                 sí se ve. Fuerte (0,82): con texto encima pasa AA aunque por detrás quede blanco puro, y
+                 también donde el navegador no aplica el desenfoque, que es lo que antes obligaba a poner
+                 un telón opaco. */
+              "liquid-glass liquid-glass-strong",
             )}
           >
-            {/* Telón de contraste. `glass-smoke` cuenta con que el `backdrop-filter` emborrone lo que
-                hay detrás, pero ese filtro no siempre llega: el navegador puede no soportarlo, tenerlo
-                desactivado o correr sin aceleración, y entonces el panel se queda casi transparente
-                sobre la portada encendida —el titular del hero se leía a través de la conversación—.
-                El telón asegura el fondo sin renunciar al cristal donde sí funciona. Va como primer
-                hijo, así que todo lo demás se pinta encima sin tocar el flujo del panel. */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[linear-gradient(170deg,rgba(64,25,21,0.93),rgba(34,12,10,0.98))]"
-            />
             {/* Filo de luz superior */}
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cream/25 to-transparent" />
 

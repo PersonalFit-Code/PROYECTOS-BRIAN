@@ -244,24 +244,20 @@ function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
           /* Sombra de 40 px en vez de 80: el radio de difuminado es el que fija cuánta superficie tiene que
              rasterizar el compositor, y este panel se anima y se arrastra. A ojo, la misma elevación. */
           "noise after:noise-after after:rounded-[inherit] relative flex max-h-[92dvh] w-full flex-col rounded-t-[28px] shadow-[0_-14px_40px_-16px_rgba(0,0,0,0.9)] outline-none",
-          /* `glass-smoke` sin condicionar la gama a mano. La utilidad es horneada (degradado + borde +
-             sombra) y el `backdrop-filter` solo vuelve bajo `:root[data-gpu="high"]`, que escribe el hook
-             de gama: un único interruptor para las 41 superficies de cristal de la web. El ternario
-             anterior hacía justo lo que el contrato del proyecto prohíbe, y su efecto práctico era que la
-             MISMA ficha se veía más transparente en el ordenador bueno que en el flojo. */
+          /* `glass-smoke` es ya una capa de contenido maciza (ver globals.css): sin desenfoque. */
           "glass-smoke",
-          "sm:max-w-lg sm:rounded-[28px] sm:shadow-card",
+          /* Liquid Glass: la hoja lleva el CANTO del cristal (borde claro y filo de luz interior) pero
+             NO desenfoque, y es una decisión, no un olvido: se arrastra con el dedo y se anima al
+             abrir —un `backdrop-filter` se recalcularía en cada fotograma del gesto— y debajo hay un
+             velo negro al 80 %, así que desenfocar no cambiaría nada de lo que se ve. */
+          "border-[color:var(--glass-border)] shadow-[var(--glass-highlight),0_-14px_40px_-16px_rgba(0,0,0,0.9)]",
+          "sm:max-w-lg sm:rounded-[28px]",
           "md:h-[min(86dvh,760px)] md:max-h-none md:max-w-4xl md:flex-row",
         )}
       >
-        {/* TELÓN OPACO, primer hijo de todos. `glass-smoke` cuenta con que el `backdrop-filter` emborrone
-            lo que hay detrás, pero ese filtro solo vuelve bajo `:root[data-gpu="high"]`: en un móvil de
-            gama media —o sea, en la mayoría de los teléfonos que van a abrir esta ficha— la superficie
-            se queda casi transparente y los platos de la carta se leen POR DEBAJO del nombre y del
-            precio. Medido en una captura: detrás de "Zamburiñas rellenas gratinadas" se veían las filas
-            de "Tixola de raxo" y "Pulpo a la plancha". Es el mismo fallo que ya se arregló en el panel
-            del camarero virtual y se arregla igual: un fondo horneado que asegura el contraste sin
-            renunciar al cristal donde sí funciona. `-z-10` para quedar por detrás de la foto y del
+        {/* TELÓN OPACO, primer hijo de todos: el fondo de lectura de la ficha. La hoja no lleva
+            desenfoque (se arrastra y se anima; ver arriba), así que sin él los platos de la carta se
+            leerían por debajo del nombre y del precio. `-z-10` para quedar por detrás de la foto y del
             texto sin tocar el flujo, y `rounded-[inherit]` para no asomar por las esquinas. */}
         <span
           aria-hidden
@@ -286,9 +282,8 @@ function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
           type="button"
           onClick={onClose}
           aria-label={m.dishes.spotlight.close}
-          /* Sin `backdrop-blur-sm`: 44×44 px sobre la foto del plato. Con el hierro al 88 % se lee
-             igual y desaparece un backdrop-filter que se componía durante la apertura del panel. */
-          className="absolute right-3 top-3 z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/15 bg-granate-900/88 text-cream transition-colors duration-160 hover:bg-cream/10 md:right-4 md:top-4"
+          /* Botón de cerrar = control flotante sobre la foto: cristal fino (solo icono). */
+          className="liquid-glass pulsable absolute right-3 top-3 z-30 inline-flex h-11 w-11 items-center justify-center rounded-full text-cream hover:[--glass-bg:rgba(71,32,25,0.75)] md:right-4 md:top-4"
         >
           <X size={18} aria-hidden />
         </button>

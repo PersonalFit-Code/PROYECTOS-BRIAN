@@ -68,13 +68,13 @@ export default function CategoryChips({ categories, selected, counts, allCount, 
 
   return (
     <nav aria-label={m.carta.categoriesAria} className={cn("relative min-w-0", className)}>
-      {/* Desvanecidos laterales del scroller (solo cuando hay scroll horizontal) */}
-      <span aria-hidden className="pointer-events-none absolute inset-y-0 -left-4 z-10 w-4 bg-gradient-to-r from-granate-900/90 to-transparent sm:-left-6 sm:w-6 lg:hidden" />
-      <span aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-granate-900/90 to-transparent lg:hidden" />
-
+      {/* Los desvanecidos de los lados son una MÁSCARA del propio scroller y no dos degradados
+          pintados encima: sobre el cristal de la cápsula, un degradado de color se veía como una
+          franja más oscura con canto recto. La máscara hace transparentes las chapas que se van, y
+          detrás se ve el cristal tal cual. */}
       <div
         ref={scrollerRef}
-        className="no-scrollbar -ml-4 flex snap-x gap-2 overflow-x-auto py-2 pl-4 pr-8 sm:-ml-6 sm:pl-6 lg:ml-0 lg:flex-wrap lg:overflow-visible lg:pl-0 lg:pr-0"
+        className="no-scrollbar -ml-4 flex snap-x gap-2 overflow-x-auto py-2 pl-4 pr-8 [mask-image:linear-gradient(90deg,transparent,#000_16px,#000_calc(100%-40px),transparent)] sm:-ml-6 sm:pl-6 lg:ml-0 lg:flex-wrap lg:overflow-visible lg:pl-0 lg:pr-0 lg:[mask-image:none]"
       >
         {/* Sin `LayoutGroup`: `layoutId` ya comparte contexto de layout a nivel de aplicación y en la
             página solo existe UNA fila de chips, así que el grupo no aportaba nada y sí un contexto
@@ -90,7 +90,7 @@ export default function CategoryChips({ categories, selected, counts, allCount, 
               aria-pressed={active}
               onClick={() => onSelect(chip.id)}
               className={cn(
-                "relative inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full border px-4 transition-colors duration-150 ease-[var(--ease-out-expo)] focus-visible:outline-offset-2",
+                "pulsable relative inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full border px-4 focus-visible:outline-offset-2",
                 active ? "border-transparent text-cream" : "border-cream/15 text-cream-muted hover:border-cream/40 hover:text-cream",
                 empty && !active && "opacity-50",
               )}
@@ -100,7 +100,10 @@ export default function CategoryChips({ categories, selected, counts, allCount, 
                   layoutId="carta-chip-active"
                   aria-hidden
                   transition={SPRING}
-                  className="absolute inset-0 rounded-full border border-pimenton-light/70 bg-pimenton shadow-[0_0_22px_rgba(232,86,90,0.45)]"
+                  /* Solo sombras INTERIORES: esta fila es `overflow-x-auto`, y un resplandor exterior
+                     quedaba recortado por el scroller y dibujaba un recuadro de cantos rectos detrás
+                     de la chapa. El brillo va hacia dentro y el filo de luz arriba, como el cristal. */
+                  className="absolute inset-0 rounded-full border border-pimenton-light/70 bg-pimenton shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_0_14px_rgba(232,86,90,0.55)]"
                 />
               )}
               <span className="relative font-condensed text-lg uppercase leading-none tracking-wide">{chip.label}</span>

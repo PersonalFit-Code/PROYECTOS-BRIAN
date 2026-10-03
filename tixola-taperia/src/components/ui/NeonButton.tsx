@@ -29,16 +29,18 @@ export type NeonButtonProps = ButtonProps | AnchorProps;
  * `active:`, así que el hundido de la pulsación tardaba 300 ms en notarse) y `active:duration-100`
  * separa la realimentación del dedo del resto: pulsar responde en 100 ms, el hover en 200. */
 const base =
-  "group relative inline-flex items-center justify-center gap-2 rounded-full text-center font-sans font-semibold leading-snug tracking-wide transition-[translate,scale,background-color,border-color,box-shadow,color,opacity] duration-200 active:duration-100 ease-[var(--ease-out-expo)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-granate disabled:opacity-50 disabled:pointer-events-none";
+  "group relative inline-flex items-center justify-center gap-2 rounded-full text-center font-sans font-semibold leading-snug tracking-wide transition-[translate,scale,background-color,border-color,box-shadow,color,opacity] duration-[var(--dur-morph)] active:duration-100 ease-[var(--ease-muelle)] active:scale-[0.96] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-granate disabled:opacity-50 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
+  /* Liquid Glass: los botones son cápsulas con el CANTO del cristal (filo de luz interior arriba)
+     y el texto del acento en `--on-accent`. Sin desenfoque: viven DENTRO del contenido —la portada,
+     las secciones—, no flotan sobre él, y sobre capas que respiran en bucle el blur se recalcularía
+     con cada fotograma de ellas. */
   primary:
-    "bg-pimenton text-cream border border-pimenton-light/60 hover:bg-pimenton-light hover:-translate-y-0.5 hover:shadow-[0_0_40px_rgba(232,86,90,0.75)] active:translate-y-0",
+    "bg-pimenton text-[var(--on-accent)] border border-pimenton-light/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.28)] hover:bg-pimenton-light hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_0_40px_rgba(232,86,90,0.75)] active:translate-y-0",
   ghost: "bg-transparent text-cream hover:bg-cream/10 border border-transparent",
-  /* Sin `backdrop-blur`: el CTA secundario de la portada vive sobre capas que respiran en bucle (halo
-     de calor, vaho), y el desenfoque del fondo habría que recalcularlo con cada fotograma de ellas. */
   outline:
-    "bg-transparent text-cream border border-cream/30 hover:border-cream/70 hover:bg-cream/5 hover:-translate-y-0.5",
+    "bg-cream/[0.06] text-cream border border-cream/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] hover:border-cream/70 hover:bg-cream/[0.1] hover:-translate-y-0.5",
   cream: "bg-cream text-granate border border-cream hover:bg-white hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(246,244,231,0.35)]",
 };
 

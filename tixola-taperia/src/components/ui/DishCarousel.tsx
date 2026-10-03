@@ -420,8 +420,8 @@ function ArrowButton({ dir, label, onClick, className }: ArrowButtonProps) {
       onClick={onClick}
       aria-label={label}
       className={cn(
-        /* Hierro horneado en vez de cristal: son 44×44 px sobre las tarjetas, nadie ve el desenfoque. */
-        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/10 bg-granate-900/90 text-cream shadow-glass transition-[background-color,scale] duration-160 hover:scale-105 hover:bg-cream/10 active:scale-95",
+        /* Liquid Glass: control flotante sobre las tarjetas → cristal fino (solo icono). */
+        "inline-flex h-11 w-11 items-center justify-center rounded-full liquid-glass pulsable text-cream hover:scale-105 hover:[--glass-bg:rgba(71,32,25,0.75)]",
         className,
       )}
     >

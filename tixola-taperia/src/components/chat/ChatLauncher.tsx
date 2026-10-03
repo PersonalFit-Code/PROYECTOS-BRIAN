@@ -288,16 +288,17 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
           >
             <span
               className={cn(
-                "relative grid h-9 w-9 place-items-center rounded-full text-cream shadow-neon md:h-14 md:w-14",
-                /* Burdeos opaco en TODAS las gamas (era lo que ya veían media y baja): el disco flota
-                   sobre la portada, cuyas capas se mueven en bucle, así que un `backdrop-filter` habría
-                   que recalcularlo con cada fotograma. Y sin leer la gama, este botón deja de suscribirse
-                   al almacén de rendimiento. */
-                "border border-pimenton-light/50 bg-burgundy",
+                "relative grid h-9 w-9 place-items-center rounded-full text-cream md:h-14 md:w-14",
+                /* Liquid Glass: es un control flotante, así que va en cristal (fino: solo lleva un icono,
+                   que pide 3:1 y lo pasa con 4:1 incluso con blanco debajo). Antes era burdeos opaco
+                   por miedo a recalcular el desenfoque con la portada animándose debajo; un disco de
+                   36-56 px es la superficie más barata de desenfocar de toda la página, y las cifras de
+                   fotograma de la pasada lo confirman. */
+                "liquid-glass",
                 /* `scale` y `translate` son propiedades propias en Tailwind v4: van nombradas para que
                    `active:scale-95` responda en 100 ms y no herede los 300 del hover. El gesto lo
                    dispara el <button>, pero quien se mueve es el disco, no la caja pulsable. */
-                "transition-[translate,scale,background-color,box-shadow] duration-200 group-active:duration-100 ease-[var(--ease-out-expo)] group-hover:-translate-y-0.5 group-hover:bg-pimenton/40 group-active:scale-95",
+                "transition-[translate,scale,background-color,box-shadow] duration-[var(--dur-morph)] group-active:duration-100 ease-[var(--ease-muelle)] group-hover:-translate-y-0.5 group-hover:[--glass-bg:rgba(90,20,24,0.72)] group-active:scale-[0.96]",
                 /* El anillo de foco ciñe el disco, no la caja de 44: se ve dónde está el botón. */
                 "group-focus-visible:ring-2 group-focus-visible:ring-pimenton-light group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-granate",
               )}
@@ -318,8 +319,7 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
               role="tooltip"
               className={cn(
                 "pointer-events-none absolute left-full top-1/2 ml-3 hidden -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1.5",
-                /* Sin `backdrop-blur`: el fondo ya es hierro al 95 %, no había nada visible detrás. */
-                "border border-cream/10 bg-granate-900/95 font-caps text-[11px] tracking-[0.25em] text-cream shadow-card",
+                "liquid-glass liquid-glass-strong font-caps text-[11px] tracking-[0.25em] text-cream",
                 "-translate-x-1 opacity-0 transition-[translate,opacity] duration-150 ease-[var(--ease-out-expo)] group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100",
                 "[@media(hover:hover)]:block",
               )}
@@ -349,7 +349,8 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
           onClick={onToggle}
           className={cn(
             "absolute left-full top-1/2 ml-2 max-w-[calc(100vw-5.5rem)] -translate-y-1/2 truncate rounded-full px-3 py-2 md:ml-3 md:px-4",
-            "border border-pimenton-light/40 bg-granate-900/95 text-left font-sans text-[12px] font-semibold text-cream shadow-card md:text-[13px]",
+            /* Un toast: cristal fuerte (lleva texto), con el filo en pimentón para que se lea como del camarero. */
+            "liquid-glass liquid-glass-strong [--glass-border:rgba(232,86,90,0.45)] text-left font-sans text-[12px] font-semibold text-cream md:text-[13px]",
             "transition-[translate,opacity] duration-500 ease-[var(--ease-out-expo)]",
             llamada ? "translate-x-0 opacity-100" : "pointer-events-none -translate-x-2 opacity-0",
           )}

@@ -235,8 +235,11 @@ function Hoja({
         dragElastic={{ top: 0, bottom: 0.6 }}
         onDragEnd={alSoltar}
         className={cn(
-          "noise after:noise-after after:rounded-[inherit] relative flex max-h-[94dvh] w-full flex-col rounded-t-[28px] bg-granate-900 shadow-[0_-14px_40px_-16px_rgba(0,0,0,0.9)] outline-none",
-          "sm:max-w-md sm:rounded-[28px] sm:shadow-card",
+          "noise after:noise-after after:rounded-[inherit] relative flex max-h-[94dvh] w-full flex-col rounded-t-[28px] bg-granate-900 outline-none",
+          /* El canto del cristal sin desenfoque: misma razón que la ficha de plato (`DishSpotlight`) —
+             se arrastra, se anima, y debajo hay un velo negro al 80 %. */
+          "border border-[color:var(--glass-border)] shadow-[var(--glass-highlight),0_-14px_40px_-16px_rgba(0,0,0,0.9)]",
+          "sm:max-w-md sm:rounded-[28px]",
           "md:h-[min(88dvh,780px)] md:max-h-none md:max-w-4xl md:flex-row",
         )}
       >
@@ -246,7 +249,8 @@ function Hoja({
           type="button"
           onClick={onClose}
           aria-label={m.vinos.close}
-          className="absolute right-3 top-3 z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/15 bg-granate-900/88 text-cream transition-colors duration-160 hover:bg-cream/10 md:right-4 md:top-4"
+          /* Botón de cerrar = control flotante sobre la foto: cristal fino (solo icono). */
+          className="liquid-glass pulsable absolute right-3 top-3 z-30 inline-flex h-11 w-11 items-center justify-center rounded-full text-cream hover:[--glass-bg:rgba(71,32,25,0.75)] md:right-4 md:top-4"
         >
           <X size={18} aria-hidden />
         </button>
