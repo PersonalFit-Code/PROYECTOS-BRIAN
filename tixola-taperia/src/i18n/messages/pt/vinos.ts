@@ -63,6 +63,14 @@ const vinos = {
 
   bottlePhoto: "Garrafa de {name}",
 
+  blockRegion: "A denominação",
+  regionProvinces: "Onde",
+  regionGrapes: "Castas preferentes",
+  askAboutWine: "Fala-me do vinho {name}. A que sabe e com que prato da carta o beberias?",
+  askAboutWineCta: "Perguntar ao empregado",
+  askAboutWineAria: "Perguntar ao empregado virtual sobre {name}",
+  pendingSheet: "Desta garrafa ainda não temos ficha completa. Pergunte-nos ao balcão, ou ao empregado virtual.",
+
   blockGrape: "Casta e elaboração",
   grapes: "Casta",
   monovarietal: "Monovarietal",
@@ -90,6 +98,7 @@ const vinos = {
   axisAria: "{axis}: {value} de 5",
   serve: "Temperatura de serviço",
   serveValue: "de {min} a {max} °C",
+  serveValueOne: "{min} °C",
   pairsWith: "Harmoniza com",
 
   blockOrigin: "Origem e história",

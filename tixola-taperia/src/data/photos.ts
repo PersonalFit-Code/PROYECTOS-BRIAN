@@ -13,6 +13,16 @@ export type PhotoTag = "plato" | "terraza" | "local" | "catedral" | "vinos";
 export interface Photo {
   id: string;
   src: string;
+  /**
+   * Recorte VERTICAL (2:3) de la misma foto, para la columna de la ficha de plato.
+   *
+   * No es un capricho de diseño: esa columna mide 375 × 758 px en escritorio —proporción 1:2— y la
+   * foto va a sangre (`object-cover`). Metiendo ahí la versión apaisada, el navegador la agranda
+   * hasta cubrir los 758 px de alto y enseña una franja estrecha del centro: del plato se ve un
+   * tercio, y encima ampliado, o sea borroso. Con el recorte vertical el plato entra entero y cada
+   * píxel de la pantalla es un píxel de la foto. Quien no lo tenga sigue funcionando con `src`.
+   */
+  srcTall?: string;
   width: number;
   height: number;
   alt: string;
@@ -32,7 +42,9 @@ export const PHOTOS: Photo[] = [
     alt: "Terraza de Tixola Tapería en Rúa Juan de Austria con una tixola de raxo, croquetas y dos copas de vino blanco, y la iglesia de Santa Eufemia de Ourense al fondo",
     caption: "La terraza, con Santa Eufemia al fondo",
     tags: ["terraza", "catedral", "plato", "vinos"],
-    dishIds: ["tix-raxo-arzua", "coc-croquetas-grelos-chipiron"] satisfies MenuItemId[],
+    /* También sin `dishIds`, y por lo mismo que la de abajo: es una foto de terraza con mesa puesta,
+       y mientras siguiera reclamando el raxo y las croquetas tapaba las fotos propias de esos dos
+       platos, porque va la primera del manifiesto y gana el `find`. */
     focus: "50% 45%",
   },
   {
@@ -54,11 +66,13 @@ export const PHOTOS: Photo[] = [
     alt: "Tixola de raxo con queso de Arzúa en sartén de hierro, croquetas caseras y vino blanco gallego en la terraza de Tixola Tapería, Ourense",
     caption: "Tixola de raxo con queso de Arzúa y croquetas",
     tags: ["plato", "terraza"],
-    /* Las croquetas de ESTA foto son las de grelos y chipirón. Las de jamón estuvieron aquí un rato
-       y se quitaron: la ficha las abría con una foto en la que el plato del centro es una tixola de
-       raxo, así que quien pinchaba "Croquetas de jamón" veía patatas con carne y queso. Sin foto
-       sale el icono, que no promete nada. Cuando Brian traiga la suya, se añade con su propia entrada. */
-    dishIds: ["raxo", "croquetas", "tix-raxo-arzua" satisfies MenuItemId, "coc-croquetas-grelos-chipiron" satisfies MenuItemId],
+    /* SIN `dishIds`, Y ESO ES UN ARREGLO, NO UN OLVIDO. Esta foto es de mesa puesta: una tixola, unas
+       croquetas y dos copas. Mientras fue la única que había, se colgaba del raxo y de las croquetas
+       porque algo había que enseñar. Ahora los dos platos tienen su propia foto cenital, y como
+       `localizePhotos(locale).find(...)` se queda con la PRIMERA del manifiesto que reclame el plato
+       —y esta va antes—, seguir reclamándolos aquí tapaba las nuevas: la ficha del raxo abría con la
+       mesa entera en vez de con su sartén. Se queda en la galería, que es donde una foto de ambiente
+       vale por sí sola. */
     focus: "50% 50%",
   },
   {
@@ -93,9 +107,10 @@ export const PHOTOS: Photo[] = [
   {
     id: "tixola-raxo",
     src: "/images/tixola-raxo.webp",
-    width: 1200,
-    height: 900,
-    alt: "Tixola de raxo con queso de Arzúa: sartén de cerámica con patatas, tacos de raxo y queso fundido, servida sobre la barra de Tixola Tapería",
+    srcTall: "/images/tixola-raxo-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Tixola de raxo con queso de Arzúa vista desde arriba: sartén con patatas, tacos de raxo y huevo cuajado, sobre la mesa de Tixola Tapería",
     caption: "Tixola de raxo y Arzúa",
     tags: ["plato"],
     dishIds: ["raxo", "tix-raxo-arzua" satisfies MenuItemId],
@@ -104,9 +119,10 @@ export const PHOTOS: Photo[] = [
   {
     id: "tixola-chistorra",
     src: "/images/tixola-chistorra.webp",
-    width: 1200,
-    height: 900,
-    alt: "Tixola con chistorra: sartén con patatas, huevo cuajado y rodajas de chistorra, con los armarios de vino de la tapería al fondo",
+    srcTall: "/images/tixola-chistorra-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Tixola con chistorra vista desde arriba: sartén con patatas, huevo cuajado y rodajas de chistorra",
     caption: "Tixola con chistorra",
     tags: ["plato"],
     dishIds: ["tix-chistorra" satisfies MenuItemId],
@@ -115,9 +131,10 @@ export const PHOTOS: Photo[] = [
   {
     id: "tixola-gulas-langostinos",
     src: "/images/tixola-gulas-langostinos.webp",
-    width: 1200,
-    height: 900,
-    alt: "Tixola con gulas, setas y langostinos: sartén de mango de madera con patatas, huevo y gulas, sobre la mesa de la tapería",
+    srcTall: "/images/tixola-gulas-langostinos-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Tixola con gulas, setas y langostinos vista desde arriba: sartén de mango de madera con patatas, huevo y gulas",
     caption: "Tixola con gulas, setas y langostinos",
     tags: ["plato"],
     dishIds: ["tix-gulas-setas-langostinos" satisfies MenuItemId],
@@ -126,8 +143,9 @@ export const PHOTOS: Photo[] = [
   {
     id: "patatas-alioli",
     src: "/images/patatas-alioli.webp",
-    width: 1200,
-    height: 900,
+    srcTall: "/images/patatas-alioli-alto.webp",
+    width: 1800,
+    height: 1350,
     alt: "Ración de patatas con alioli y perejil en cuenco de cerámica verde, en Tixola Tapería de Ourense",
     caption: "Patatas con alioli",
     tags: ["plato"],
@@ -137,8 +155,9 @@ export const PHOTOS: Photo[] = [
   {
     id: "calamares-fritos",
     src: "/images/calamares-fritos.webp",
-    width: 1200,
-    height: 900,
+    srcTall: "/images/calamares-fritos-alto.webp",
+    width: 1800,
+    height: 1350,
     alt: "Calamares fritos en aros sobre patatas panadera, con limón y ensalada, en Tixola Tapería",
     caption: "Calamares fritos",
     tags: ["plato"],
@@ -148,8 +167,9 @@ export const PHOTOS: Photo[] = [
   {
     id: "pulpo-tempura",
     src: "/images/pulpo-tempura.webp",
-    width: 1200,
-    height: 900,
+    srcTall: "/images/pulpo-tempura-alto.webp",
+    width: 1800,
+    height: 1350,
     alt: "Pulpo en tempura sobre cama de patatas, con limón y salsa de pimentón en salsera aparte, en fuente de cerámica verde",
     caption: "Pulpo en tempura",
     tags: ["plato"],
@@ -159,19 +179,21 @@ export const PHOTOS: Photo[] = [
   {
     id: "revuelto-bacalao-grelos",
     src: "/images/revuelto-bacalao-grelos.webp",
-    width: 1200,
-    height: 1600,
-    alt: "Revuelto de bacalao, grelos y langostinos en plato blanco con un hilo de reducción, con la vinoteca al fondo",
+    srcTall: "/images/revuelto-bacalao-grelos-alto.webp",
+    width: 2000,
+    height: 1500,
+    alt: "Revuelto de bacalao, grelos y langostinos visto desde arriba, en plato blanco con un hilo de reducción",
     caption: "Revuelto de bacalao, grelos y langostinos",
     tags: ["plato"],
     dishIds: ["rev-bacalao-grelos-langostinos" satisfies MenuItemId],
-    focus: "50% 55%",
+    focus: "50% 50%",
   },
   {
     id: "ensalada-pollo-crujiente",
     src: "/images/ensalada-pollo-crujiente.webp",
-    width: 1200,
-    height: 900,
+    srcTall: "/images/ensalada-pollo-crujiente-alto.webp",
+    width: 1800,
+    height: 1350,
     alt: "Ensalada de pollo crujiente con nueces, manzana en bastones, tomate y brotes verdes, en plato hondo de cerámica",
     caption: "Ensalada de pollo crujiente, nueces y manzana",
     tags: ["plato"],
@@ -181,8 +203,9 @@ export const PHOTOS: Photo[] = [
   {
     id: "ensalada-aguacate-bacalao",
     src: "/images/ensalada-aguacate-bacalao.webp",
-    width: 1200,
-    height: 900,
+    srcTall: "/images/ensalada-aguacate-bacalao-alto.webp",
+    width: 1800,
+    height: 1350,
     alt: "Ensalada de aguacate y bacalao ahumado con canónigos, tomate, pimiento rojo y aceitunas negras, en plato blanco",
     caption: "Ensalada de aguacate y bacalao ahumado",
     tags: ["plato"],
@@ -192,18 +215,24 @@ export const PHOTOS: Photo[] = [
   {
     id: "croquetas-tabla",
     src: "/images/croquetas-tabla.webp",
-    width: 1200,
-    height: 900,
-    alt: "Croquetas caseras recién fritas sobre tabla de madera, con la vinoteca de Tixola Tapería al fondo",
+    srcTall: "/images/croquetas-tabla-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Croquetas caseras recién fritas, vistas desde arriba sobre una tabla de madera alargada",
     caption: "Croquetas de la casa",
     tags: ["plato"],
+    /* Solo reclama el destacado de la portada, NO la entrada de la carta: por fuera no se sabe de
+       qué croqueta es, y eso sigue pendiente de que lo confirme Tatiana (docs/fotos-para-revisar.md).
+       La tarjeta de la carta la saca igual por `MenuItem.image`, que no afirma autoría de la foto. */
+    dishIds: ["croquetas"],
     focus: "50% 50%",
   },
   {
     id: "croquetas-racion",
     src: "/images/croquetas-racion.webp",
-    width: 1200,
-    height: 1600,
+    srcTall: "/images/croquetas-racion-alto.webp",
+    width: 1500,
+    height: 2000,
     alt: "Ración de croquetas caseras alineadas en plato alargado blanco sobre la mesa de madera de la tapería",
     caption: "Ración de croquetas",
     tags: ["plato"],

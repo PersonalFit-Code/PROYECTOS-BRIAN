@@ -157,7 +157,7 @@ export default function StarDishes() {
       const fromManifest = photos.find((p) => p.dishIds?.includes(dish.id) || p.dishIds?.includes(dish.menuId));
       let photo: DishPhoto | null = null;
       if (fromManifest) {
-        photo = { src: fromManifest.src, alt: fromManifest.alt, focus: fromManifest.focus };
+        photo = { src: fromManifest.src, srcTall: fromManifest.srcTall, alt: fromManifest.alt, focus: fromManifest.focus };
       } else if (dish.image) {
         photo = { src: dish.image, alt: t(m.dishes.photoOf, { name: dish.name }), focus: "50% 50%" };
       }

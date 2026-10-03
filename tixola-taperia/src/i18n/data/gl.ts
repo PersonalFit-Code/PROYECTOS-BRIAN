@@ -353,15 +353,15 @@ const gl: DataTranslations = {
 
     /* Fotos da casa do 2 de outubro de 2026 */
     "tixola-raxo": {
-      alt: "Tixola de raxo con queixo de Arzúa: tixola de cerámica con patacas, tacos de raxo e queixo fundido, servida na barra de Tixola Tapería",
+      alt: "Tixola de raxo con queixo de Arzúa vista desde arriba: tixola con patacas, tacos de raxo e ovo callado, sobre a mesa de Tixola Tapería",
       caption: "Tixola de raxo e Arzúa",
     },
     "tixola-chistorra": {
-      alt: "Tixola con chistorra: tixola con patacas, ovo callado e rodas de chistorra, cos armarios de viño da tapería ao fondo",
+      alt: "Tixola con chistorra vista desde arriba: tixola con patacas, ovo callado e rodas de chistorra",
       caption: "Tixola con chistorra",
     },
     "tixola-gulas-langostinos": {
-      alt: "Tixola con angulas de imitación, fungos e lagostinos: tixola de mango de madeira con patacas e ovo, na mesa da tapería",
+      alt: "Tixola con gulas, fungos e lagostinos vista desde arriba: tixola de mango de madeira con patacas e ovo",
       caption: "Tixola con gulas, fungos e lagostinos",
     },
     "patatas-alioli": {
@@ -377,7 +377,7 @@ const gl: DataTranslations = {
       caption: "Polbo en tempura",
     },
     "revuelto-bacalao-grelos": {
-      alt: "Revolto de bacallau, grelos e lagostinos en prato branco cun fío de redución, coa vinoteca ao fondo",
+      alt: "Revolto de bacallau, grelos e lagostinos visto desde arriba, en prato branco cun fío de redución",
       caption: "Revolto de bacallau, grelos e lagostinos",
     },
     "ensalada-pollo-crujiente": {
@@ -389,7 +389,7 @@ const gl: DataTranslations = {
       caption: "Ensalada de abacate e bacallau afumado",
     },
     "croquetas-tabla": {
-      alt: "Croquetas caseiras recén fritas sobre taboleiro de madeira, coa vinoteca de Tixola Tapería ao fondo",
+      alt: "Croquetas caseiras recén fritas, vistas desde arriba sobre un taboleiro de madeira alongado",
       caption: "Croquetas da casa",
     },
     "croquetas-racion": {

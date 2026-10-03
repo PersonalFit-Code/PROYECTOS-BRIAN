@@ -63,6 +63,14 @@ const vinos = {
 
   bottlePhoto: "Bottle of {name}",
 
+  blockRegion: "The appellation",
+  regionProvinces: "Where",
+  regionGrapes: "Preferred grapes",
+  askAboutWine: "Tell me about {name}. What does it taste like and which dish would you have it with?",
+  askAboutWineCta: "Ask the waiter",
+  askAboutWineAria: "Ask the virtual waiter about {name}",
+  pendingSheet: "We don't have a full sheet for this bottle yet. Ask us at the bar, or ask the virtual waiter.",
+
   blockGrape: "Grapes and winemaking",
   grapes: "Grape",
   monovarietal: "Single variety",
@@ -90,6 +98,7 @@ const vinos = {
   axisAria: "{axis}: {value} out of 5",
   serve: "Serving temperature",
   serveValue: "{min} to {max} °C",
+  serveValueOne: "{min} °C",
   pairsWith: "Pairs with",
 
   blockOrigin: "Origin and story",

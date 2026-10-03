@@ -353,15 +353,15 @@ const en: DataTranslations = {
 
     /* Photos taken at the bar on 2 October 2026 */
     "tixola-raxo": {
-      alt: "Tixola of raxo with Arzúa cheese: a ceramic pan of potatoes, marinated pork and melted cheese, served on the counter at Tixola Tapería",
+      alt: "Overhead view of the raxo and Arzúa pan: potatoes, marinated pork and set egg, on the table at Tixola Tapería",
       caption: "Raxo and Arzúa pan",
     },
     "tixola-chistorra": {
-      alt: "Chistorra tixola: a pan of potatoes, set egg and sliced chistorra sausage, with the bar's wine cabinets behind",
+      alt: "Overhead view of the chistorra pan: potatoes, set egg and sliced chistorra sausage",
       caption: "Chistorra pan",
     },
     "tixola-gulas-langostinos": {
-      alt: "Tixola with baby eels, mushrooms and prawns: a wooden-handled pan of potatoes and egg on the bar's table",
+      alt: "Overhead view of the pan with baby eels, mushrooms and prawns: potatoes and egg in a wooden-handled pan",
       caption: "Pan with baby eels, mushrooms and prawns",
     },
     "patatas-alioli": {
@@ -377,7 +377,7 @@ const en: DataTranslations = {
       caption: "Tempura octopus",
     },
     "revuelto-bacalao-grelos": {
-      alt: "Scrambled eggs with cod, turnip greens and prawns on a white plate with a drizzle of reduction, the wine room behind",
+      alt: "Overhead view of scrambled eggs with cod, turnip greens and prawns on a white plate with a drizzle of reduction",
       caption: "Scrambled eggs with cod, greens and prawns",
     },
     "ensalada-pollo-crujiente": {
@@ -389,7 +389,7 @@ const en: DataTranslations = {
       caption: "Avocado and smoked cod salad",
     },
     "croquetas-tabla": {
-      alt: "Freshly fried homemade croquettes on a wooden board, with the Tixola Tapería wine room behind",
+      alt: "Overhead view of freshly fried homemade croquettes on a long wooden board",
       caption: "House croquettes",
     },
     "croquetas-racion": {

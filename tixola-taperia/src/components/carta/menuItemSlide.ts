@@ -38,7 +38,7 @@ export function useMenuItemSlide(): (item: MenuItem, kicker: string) => DishSlid
       const fromManifest = localizePhotos(locale).find((p) => p.dishIds?.includes(item.id));
       let photo: DishPhoto | null = null;
       if (fromManifest) {
-        photo = { src: fromManifest.src, alt: fromManifest.alt, focus: fromManifest.focus };
+        photo = { src: fromManifest.src, srcTall: fromManifest.srcTall, alt: fromManifest.alt, focus: fromManifest.focus };
       } else if (item.image) {
         photo = { src: item.image, alt: t(m.carta.photoOf, { name: item.name }), focus: "50% 50%" };
       }

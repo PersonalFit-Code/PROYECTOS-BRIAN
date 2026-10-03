@@ -62,6 +62,14 @@ const vinos: Section<"vinos"> = {
 
   bottlePhoto: "Botella de {name}",
 
+  blockRegion: "A denominación",
+  regionProvinces: "Onde",
+  regionGrapes: "Uvas preferentes",
+  askAboutWine: "Fálame do viño {name}. A que sabe e con que prato da carta o tomarías?",
+  askAboutWineCta: "Preguntar ao camareiro",
+  askAboutWineAria: "Preguntar ao camareiro virtual por {name}",
+  pendingSheet: "Desta botella aínda non temos ficha completa. Pregúntanos na barra, ou ao camareiro virtual.",
+
   blockGrape: "Uva e elaboración",
   grapes: "Uva",
   monovarietal: "Monovarietal",
@@ -89,6 +97,7 @@ const vinos: Section<"vinos"> = {
   axisAria: "{axis}: {value} de 5",
   serve: "Temperatura de servizo",
   serveValue: "de {min} a {max} °C",
+  serveValueOne: "{min} °C",
   pairsWith: "Marida con",
 
   blockOrigin: "Orixe e historia",

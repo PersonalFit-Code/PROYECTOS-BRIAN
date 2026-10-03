@@ -63,7 +63,19 @@ export interface DishSpotlightProps {
 type CSSVars = CSSProperties & Record<`--${string}`, string | number>;
 
 const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const SHEET_SIZES = "(max-width: 768px) 100vw, (max-width: 1024px) 60vw, 380px";
+/**
+ * `sizes` NO es el ancho del hueco. Con `object-cover`, el navegador agranda la foto hasta cubrir la
+ * caja y de esa foto agrandada solo se ve una franja: lo que hay que declarar es el ancho de la foto
+ * YA agrandada. Medido en la ficha de los calamares: la columna es de 375 × 758 px en escritorio, y
+ * ahí una foto vertical (2:3) acaba midiendo 505 px de ancho, no 375.
+ *
+ * Antes decía `380px`, así que el navegador se bajaba un archivo de 828 px donde hacía falta el
+ * doble, y la foto de la ficha se veía blanda en cuanto se ampliaba. Son dos juegos porque la fuente
+ * cambia con el ancho (ver `DishVisual`): vertical en escritorio, apaisada en móvil.
+ */
+const SHEET_SIZES = "(max-width: 767px) 100vw, (max-width: 1023px) 46vw, 520px";
+/** Respaldo para los platos que aún no tienen recorte vertical: ahí sigue entrando la apaisada. */
+const SHEET_SIZES_WIDE = "(max-width: 767px) 100vw, (max-width: 1023px) 92vw, 1024px";
 
 /** Bottom‑sheet (móvil): entra deslizándose desde abajo. */
 const SHEET_VARIANTS: Variants = {
@@ -290,7 +302,7 @@ function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
           >
             {/* `layout` en el hijo: framer corrige la distorsión al cambiar de proporción (3:4 → 4:3) */}
             <motion.div layout transition={DISH_LAYOUT_TRANSITION} className="absolute inset-0">
-              <DishVisual dish={dish} photo={photo} sizes={SHEET_SIZES} steam={steam} variant="sheet" />
+              <DishVisual dish={dish} photo={photo} sizes={photo?.srcTall ? SHEET_SIZES : SHEET_SIZES_WIDE} steam={steam} variant="sheet" />
             </motion.div>
             {/* Funde el borde inferior de la foto con el panel (móvil) / el lateral (escritorio) */}
             <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-granate-900/85 to-transparent md:inset-y-0 md:left-auto md:right-0 md:h-auto md:w-16 md:bg-gradient-to-l" />

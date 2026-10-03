@@ -6,6 +6,7 @@ import type { CSSProperties } from "react";
 import { DishIcon } from "@/components/icons/DishIcons";
 import type { StarDish } from "@/data/dishes";
 import type { Photo } from "@/data/photos";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useCanAfford } from "@/hooks/usePerformanceTier";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -25,7 +26,7 @@ import { cn } from "@/lib/utils";
  */
 
 /** Foto mínima que necesita el visual (subconjunto de `Photo` del manifiesto o `StarDish.image`). */
-export type DishPhoto = Pick<Photo, "src" | "alt" | "focus">;
+export type DishPhoto = Pick<Photo, "src" | "alt" | "focus" | "srcTall">;
 
 /** Plato + su foto ya resuelta (`null` → visual compuesto). Lo comparten carrusel y detalle. */
 export interface DishSlide {
@@ -133,12 +134,26 @@ export default function DishVisual({ dish, photo, sizes, steam = true, variant =
      ambiental (gama media y sin `prefers-reduced-motion`). */
   const canSteam = useCanAfford("ambientMotion");
 
+  /* LA COLUMNA DE LA FICHA ES VERTICAL (375 × 758 px en escritorio, o sea 1:2) y la foto va a
+     sangre. Con la versión apaisada ahí dentro, `object-cover` la agranda hasta cubrir el alto y de
+     un plato de 4:3 se ve una franja del centro, ampliada: es el "al hacer zoom se ve mal". Con el
+     recorte vertical (`srcTall`) el plato entra entero y a su tamaño.
+
+     En móvil NO: allí el hueco es 4:3 apaisado y la buena es la ancha.
+
+     `useIsMobile` devuelve `false` hasta montar, así que el primer fotograma de escritorio pinta la
+     ancha. No es un parpadeo ni una descarga de más: es EXACTAMENTE la foto que el navegador acaba
+     de bajar para la tarjeta sobre la que se ha pulsado —viaja con `layoutId` desde ella—, así que
+     está en caché y se ve al instante mientras llega la vertical. */
+  const esMovil = useIsMobile();
+  const fuente = variant === "sheet" && !esMovil && photo?.srcTall ? photo.srcTall : photo?.src;
+
   /* ── Foto real ── */
-  if (photo) {
+  if (photo && fuente) {
     return (
       <div className={cn("absolute inset-0 overflow-hidden bg-granate-800", className)}>
         <Image
-          src={photo.src}
+          src={fuente}
           alt={photo.alt}
           fill
           sizes={sizes}

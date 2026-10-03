@@ -202,3 +202,93 @@ Dos preguntas rápidas que desbloquean bastante:
 | Vino | Color | Precio |
 |---|---|---|
 | Abbotsdale | tinto | 25 € |
+
+---
+---
+
+# Segunda ronda · las fichas técnicas (3 de octubre de 2026)
+
+Las fichas de la web ya no están vacías. Se ha buscado, vino a vino, lo que publican **la bodega,
+el consejo regulador de su denominación o la ficha técnica oficial**, y se ha volcado a la web:
+uva, crianza, elaboración, graduación, temperatura de servicio, nota de cata, terreno, enólogo y
+premios. **No se ha copiado nada de blogs, foros ni Vivino**, y cada dato tiene su fuente anotada.
+
+**Dónde estamos: 31 de los 52 vinos tienen ya ficha técnica, y 31 llevan el nombre de su bodega.**
+De los 21 restantes, 2 no son vinos («Bot. Ribeiro» y «Bot. Rioja» son líneas genéricas de la carta
+de papel), 9 son los de Ribera del Duero —que se están buscando ahora— y el resto está en una de las
+dos listas de abajo.
+
+Y una regla que no se ha roto: **no se ha publicado ninguna añada**. La botella que se fotografió
+era la de ese día; imprimir su cosecha sería prometer que se sirve esa y no la siguiente.
+
+---
+
+## A · Vinos que hay que mirar en la botella
+
+En todos estos, **la bodega vende dos o más vinos con el mismo nombre** —casi siempre un blanco y
+un tinto—, así que no hay forma de saber cuál es el de la casa sin ver la etiqueta. De estos solo
+se ha publicado lo que vale para toda la gama (la bodega, la subzona, el terreno): **ninguna uva,
+ninguna crianza, ninguna nota de cata**, porque serían las del vino equivocado la mitad de las veces.
+
+| Vino | Qué hay que mirar |
+|---|---|
+| **A Flor e a Abella** (Ribeiro) | Coto de Gomariz llama así a dos vinos: el blanco de Treixadura y el tinto de Sousón. Lo dice la propia bodega. |
+| **El Canto del Cuco** (Ribeiro) | Existe blanco y tinto, los dos de Lagar do Meréns. Además, la marca no aparece en la web de la bodega. |
+| **Outeiro da Barra** (Ribeiro) | Adega Fernando Cibeira publica un blanco y un tinto con ese nombre. |
+| **Casal de Armán** (Ribeiro) | La bodega tiene «Casal de Armán Blanco» y «Casal de Armán Tinto», más otros seis vinos. |
+| **Ramón do Casar** (Ribeiro) | Cinco blancos distintos: RC Varietal, Treixadura, Nobre, Godello y Lento. |
+| **Régoa** (Ribeira Sacra) | Cinco tintos y **ninguno se llama solo «Régoa»**: Copas, Esencial, TN, Iria y Brancellao. |
+| **Algueira** (Ribeira Sacra) | Doce vinos bajo esa marca, tintos y blancos. Hay que leer el apellido de la etiqueta. |
+| **Vel'Uveyra** (Ribeira Sacra) | Un blanco de godello y un tinto de mencía, los dos de Ronsel do Sil. |
+| **Pagos de Galir** (Valdeorras) | Blanco de godello y tinto de mencía. Además la bodega los está renombrando «Val do Galir». |
+| **Alanda** (Monterrei) | El consejo regulador registra «Alanda Branco» y «Alanda Tinto» de Quinta da Muradella. |
+| **Banzao** (Bierzo) | «Banzao» es la marca, no el vino: la bodega embotella siete, tintos y blancos. Confirmada la D.O. Bierzo. |
+
+Con una foto de cada etiqueta —o un «es el blanco» por WhatsApp— cada una de estas once fichas se
+completa en un rato.
+
+---
+
+## B · Tres cosas que no cuadran y conviene saber
+
+**1 · «Carmelo Rodero Reserva» ya no se fabrica con ese nombre.**
+La bodega lo renombró **Raza**, y su gama actual es 9 Meses, Carmelo Rodero (Crianza), Raza, Pago
+de Valtarreña y TSM. Encima, las dos fichas que circulan de Raza no coinciden entre sí (una dice
+90 % tinta del país + 10 % cabernet y 21 meses de barrica; la de la bodega, 100 % tempranillo y 9
+meses). Por eso el vino sigue publicado con su nombre de la carta y sin uva ni crianza. **Hay que
+mirar si la botella pone «Reserva» (etiqueta vieja) o «Raza».**
+
+**2 · «Lalume» no es Ribeira Sacra: es D.O. Ribeiro.**
+La carta de papel lo coloca en Ribeira Sacra y así está publicado, porque es donde lo pusiste tú.
+Pero Dominio do Bibei lo embotella como Ribeiro, y el registro de marcas de esa bodega en el
+consejo regulador da Ribeira Sacra lista Lacima, Lalama, Lapena, Lapola y A Moucha… y **no Lalume**.
+Si se confirma, hay que moverlo de sección.
+
+**3 · «Manueleira» no aparece por ningún sitio oficial.**
+Ni en el listado de bodegas inscritas de la D.O. Valdeorras ni en el de bodegas con producto
+certificado. Solo lo venden tiendas online, atribuyéndolo a una tal «Discarou» que tampoco figura.
+No se ha publicado ni un dato de este vino, ni del blanco ni del tinto. **¿Quién os lo sirve?**
+
+Y dos avisos menores, ya resueltos en la web pero que conviene que sepas:
+
+- **A Moucha**: el distribuidor dice que la bodega es Pedro Villamarín González y el consejo
+  regulador la registra a nombre de Dominio do Bibei. Se ha publicado el vino **sin nombre de
+  bodega** hasta aclararlo; lo demás (uva, crianza, grado, terreno) sí está.
+- **Macán**: la carta decía «Vega Sicilia» y en realidad Macán lo firman a medias **Benjamin de
+  Rothschild & Vega Sicilia**. Corregido en la web.
+- **Quinta das Bágeiras**: la carta lo escribe «Bagueiras». La bodega lo escribe **Bágeiras**.
+  Corregido.
+
+---
+
+## C · Lo que las bodegas no publican
+
+Tres datos se han dejado fuera a conciencia aunque circulen por las tiendas, porque las cifras se
+contradicen entre sí o cambian con cada cosecha:
+
+- **Graduación** de Condes de Albarei, Pazo Baión, Baigorri y Pájaro Loco.
+- **Crianza** de Pazo Baión (cada tienda dice una cosa: 8 meses en acero, 6 sobre lías, 9 en foudre).
+- **Porcentajes de uva** de Luis Cañas, Cuñas Davia y Crego e Monaguillo blanco — en este último la
+  propia bodega publica 90/10 en su web y 85/15 en su PDF.
+
+Si os interesa tenerlos, se piden a la bodega y se ponen en cinco minutos.

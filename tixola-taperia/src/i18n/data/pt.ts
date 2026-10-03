@@ -354,15 +354,15 @@ const pt: DataTranslations = {
 
     /* Fotos tiradas na casa a 2 de outubro de 2026 */
     "tixola-raxo": {
-      alt: "Tixola de raxo com queijo de Arzúa: frigideira de cerâmica com batatas, tacos de porco adobado e queijo derretido, servida ao balcão da Tixola Tapería",
+      alt: "Tixola de raxo com queijo de Arzúa vista de cima: frigideira com batatas, tacos de porco adobado e ovo coalhado, na mesa da Tixola Tapería",
       caption: "Tixola de raxo e Arzúa",
     },
     "tixola-chistorra": {
-      alt: "Tixola com chistorra: frigideira com batatas, ovo coalhado e rodelas de chistorra, com os armários de vinho da tapería ao fundo",
+      alt: "Tixola com chistorra vista de cima: frigideira com batatas, ovo coalhado e rodelas de chistorra",
       caption: "Tixola com chistorra",
     },
     "tixola-gulas-langostinos": {
-      alt: "Tixola com gulas, cogumelos e lagostins: frigideira de cabo de madeira com batatas e ovo, na mesa da tapería",
+      alt: "Tixola com gulas, cogumelos e lagostins vista de cima: frigideira de cabo de madeira com batatas e ovo",
       caption: "Tixola com gulas, cogumelos e lagostins",
     },
     "patatas-alioli": {
@@ -378,7 +378,7 @@ const pt: DataTranslations = {
       caption: "Polvo em tempura",
     },
     "revuelto-bacalao-grelos": {
-      alt: "Ovos mexidos com bacalhau, grelos e lagostins em prato branco com um fio de redução, com a garrafeira ao fundo",
+      alt: "Ovos mexidos com bacalhau, grelos e lagostins vistos de cima, em prato branco com um fio de redução",
       caption: "Ovos mexidos com bacalhau, grelos e lagostins",
     },
     "ensalada-pollo-crujiente": {
@@ -390,7 +390,7 @@ const pt: DataTranslations = {
       caption: "Salada de abacate e bacalhau fumado",
     },
     "croquetas-tabla": {
-      alt: "Croquetes caseiros acabados de fritar sobre tábua de madeira, com a garrafeira da Tixola Tapería ao fundo",
+      alt: "Croquetes caseiros acabados de fritar, vistos de cima sobre uma tábua de madeira comprida",
       caption: "Croquetes da casa",
     },
     "croquetas-racion": {

@@ -92,6 +92,19 @@ const vinos = {
      de qué botella se trata y nada más. */
   bottlePhoto: "Botella de {name}",
 
+  /* ── La denominación, dentro de la ficha de cada vino ──────────────────────────────────────
+     De la mitad de la carta no sabemos más que el nombre y el precio, pero de las cinco gallegas
+     sabemos mucho y está verificado contra sus consejos reguladores (`WINE_REGIONS`). Así una ficha
+     escueta sigue contando algo cierto en vez de abrir un panel vacío. */
+  blockRegion: "La denominación",
+  regionProvinces: "Dónde",
+  regionGrapes: "Uvas preferentes",
+  askAboutWine: "Háblame del vino {name}. ¿A qué sabe y con qué plato de la carta lo tomarías?",
+  askAboutWineCta: "Preguntar al camarero",
+  askAboutWineAria: "Preguntar al camarero virtual por {name}",
+  /* Lo que la casa todavía no ha rellenado. Dicho sin rodeos y sin fingir que no falta. */
+  pendingSheet: "De esta botella aún no tenemos ficha completa. Pregúntanos en la barra, o al camarero virtual.",
+
   blockGrape: "Uva y elaboración",
   grapes: "Uva",
   /* Se calcula de la lista de uvas (una sola o varias), no se escribe vino a vino. */
@@ -122,6 +135,7 @@ const vinos = {
   axisAria: "{axis}: {value} de 5",
   serve: "Temperatura de servicio",
   serveValue: "de {min} a {max} °C",
+  serveValueOne: "{min} °C",
   pairsWith: "Marida con",
 
   /* Bloque 3 · de dónde sale y quién lo hace. */
