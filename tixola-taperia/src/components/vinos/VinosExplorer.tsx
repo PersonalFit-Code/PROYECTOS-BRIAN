@@ -44,7 +44,7 @@ function VinosHero() {
           {m.vinos.kicker}
         </p>
         <h1 className="mt-4 font-display text-5xl font-medium leading-[0.95] tracking-[-0.01em] text-cream text-balance md:text-6xl lg:text-7xl">
-          {m.vinos.title} <em className="text-gradient-ember font-light italic">{m.vinos.accent}</em>
+          {m.vinos.title} <em className="text-gradient-ember font-script text-[1.26em] font-normal not-italic leading-[0.74]">{m.vinos.accent}</em>
         </h1>
         <p className="mt-5 max-w-xl text-base leading-relaxed text-cream-muted text-pretty md:text-lg">{m.vinos.description}</p>
       </div>

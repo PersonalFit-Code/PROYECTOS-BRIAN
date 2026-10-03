@@ -360,6 +360,14 @@ const gl: DataTranslations = {
       alt: "Tixola con chistorra vista desde arriba: tixola con patacas, ovo callado e rodas de chistorra",
       caption: "Tixola con chistorra",
     },
+    "tixola-raxo-mesa": {
+      alt: "Tixola de raxo con patacas e ovo callado servida na mesa de Tixola Tapería, coa vinoteca e as caixas de madeira das adegas ao fondo",
+      caption: "Tixola de raxo, coa vinoteca detrás",
+    },
+    "tixola-chistorra-mesa": {
+      alt: "Tixola con chistorra, patacas e ovo callado servida na mesa con dous garfos, e os expositores de viño da sala ao fondo",
+      caption: "Tixola con chistorra, servida na mesa",
+    },
     "tixola-gulas-langostinos": {
       alt: "Tixola con gulas, fungos e lagostinos vista desde arriba: tixola de mango de madeira con patacas e ovo",
       caption: "Tixola con gulas, fungos e lagostinos",

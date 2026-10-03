@@ -361,6 +361,14 @@ const pt: DataTranslations = {
       alt: "Tixola com chistorra vista de cima: frigideira com batatas, ovo coalhado e rodelas de chistorra",
       caption: "Tixola com chistorra",
     },
+    "tixola-raxo-mesa": {
+      alt: "Tixola de raxo com batatas e ovo coalhado servida à mesa na Tixola Tapería, com a garrafeira e as caixas de madeira das adegas ao fundo",
+      caption: "Tixola de raxo, com a garrafeira atrás",
+    },
+    "tixola-chistorra-mesa": {
+      alt: "Tixola com chistorra, batatas e ovo coalhado servida à mesa com dois garfos, e os expositores de vinho da sala ao fundo",
+      caption: "Tixola com chistorra, servida à mesa",
+    },
     "tixola-gulas-langostinos": {
       alt: "Tixola com gulas, cogumelos e lagostins vista de cima: frigideira de cabo de madeira com batatas e ovo",
       caption: "Tixola com gulas, cogumelos e lagostins",

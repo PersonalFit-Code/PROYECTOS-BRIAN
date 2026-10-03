@@ -128,6 +128,30 @@ export const PHOTOS: Photo[] = [
     dishIds: ["tix-chistorra" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* Las dos de abajo son los MISMOS platos que las cenitales de arriba, pero vistas desde la mesa,
+     con la pared de botellas detrás. No llevan `dishIds` a propósito: la foto que abre la ficha de
+     un plato tiene que ser la cenital, donde se ve lo que lleva. Estas cuentan la otra mitad de la
+     casa —que se come rodeado de vino— y por eso van a la galería y no a la ficha. */
+  {
+    id: "tixola-raxo-mesa",
+    src: "/images/tixola-raxo-mesa.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Tixola de raxo con patatas y huevo cuajado servida en la mesa de Tixola Tapería, con la vinoteca y las cajas de madera de las bodegas al fondo",
+    caption: "Tixola de raxo, con la vinoteca detrás",
+    tags: ["plato", "local", "vinos"],
+    focus: "50% 55%",
+  },
+  {
+    id: "tixola-chistorra-mesa",
+    src: "/images/tixola-chistorra-mesa.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Tixola con chistorra, patatas y huevo cuajado servida en la mesa con dos tenedores, y los expositores de vino de la sala al fondo",
+    caption: "Tixola con chistorra, servida en mesa",
+    tags: ["plato", "local", "vinos"],
+    focus: "50% 55%",
+  },
   {
     id: "tixola-gulas-langostinos",
     src: "/images/tixola-gulas-langostinos.webp",

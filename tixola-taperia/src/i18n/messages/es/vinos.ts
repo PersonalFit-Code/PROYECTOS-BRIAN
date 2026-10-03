@@ -14,7 +14,7 @@ const vinos = {
   title: "La Carta",
   accent: "de Vinos",
   description:
-    "Tixola es tapería y vinoteca: el vino gallego no es aquí un acompañamiento, es la mitad de la casa. Aquí irá la carta con su bodega, su uva y su precio.",
+    "Tixola es tapería y vinoteca: el vino gallego no es aquí un acompañamiento, es la mitad de la casa. Pincha en una botella y verás su bodega, su uva, su crianza y su precio.",
 
   /* ── Aviso mientras no hay vinos ── */
   pendingKicker: "En preparación",
@@ -80,6 +80,14 @@ const vinos = {
     dulce: "Dulces",
   },
   count: "{count} vinos",
+
+  /* ── La ficha (hoja animada) ── */
+  /* Etiqueta del botón de cada botella en la cuadrícula: el nombre solo no dice qué va a pasar. */
+  openSheet: "Ver la ficha de {name}",
+  closeOverlay: "Cerrar la ficha",
+  close: "Cerrar",
+  /* El tirador de la hoja en el móvil: quien no ve la pantalla necesita saber que se arrastra. */
+  dragHandle: "Arrastra hacia abajo para cerrar",
 
   /* Lo que se ve sin desplegar la ficha: nombre, bodega, denominación, añada y precio. */
   glass: "Copa",

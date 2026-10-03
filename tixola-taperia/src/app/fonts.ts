@@ -1,4 +1,4 @@
-import { Cormorant_Garamond, Cinzel, Manrope, Bebas_Neue } from "next/font/google";
+import { Cormorant_Garamond, Cinzel, Manrope, Bebas_Neue, Niconne } from "next/font/google";
 
 /**
  * Fuentes de la web, en un módulo aparte porque las cargan DOS raíces distintas:
@@ -24,9 +24,17 @@ const cinzel = Cinzel({
   display: "swap",
 });
 
+/* Niconne: la letra manuscrita del LOGOTIPO. No es un adorno elegido por gusto — es la que firma la
+   carta de papel y el rótulo, y de las treinta manuscritas que se compararon contra el archivo del
+   logo es la que clava las formas: la "T" de brazo curvo, la "x" con el lazo y la cola, y el mismo
+   contraste entre trazo grueso y fino. Un solo peso y solo donde el nombre de la casa aparece como
+   nombre (cabecera y palabra acentuada del titular): en texto corrido una manuscrita no se lee.
+   Un woff2 de 15 kB. */
+const niconne = Niconne({ subsets: ["latin"], weight: "400", variable: "--font-niconne", display: "swap" });
+
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas", display: "swap" });
 
 /** Clases de variables CSS para el `<html>`: `${cormorant.variable} ${cinzel.variable} …`. */
-export const fontVariables = `${cormorant.variable} ${cinzel.variable} ${manrope.variable} ${bebas.variable}`;
+export const fontVariables = `${cormorant.variable} ${cinzel.variable} ${niconne.variable} ${manrope.variable} ${bebas.variable}`;

@@ -12,11 +12,6 @@ const carta = {
   accent: "da Tixola",
   description:
     "Toda a ementa à vista: filtre por categoria, procure um prato ou pergunte ao empregado virtual. Preços com IVA incluído.",
-  dailyBoard: "Sugestões do dia",
-  physicalMenu: "Ementa física",
-  dailyBoardAlt: "Quadro de sugestões do dia da Tixola Tapería escrito a giz, com as sugestões da lota e do mercado",
-  physicalMenuAlt: "Ementa física impressa da Tixola Tapería em Ourense",
-  polaroidsAria: "Fotografias do quadro de sugestões e da ementa física",
 
   /* ── Chips de categorias ── */
   all: "Toda a ementa",

@@ -47,6 +47,9 @@
   --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   /* Cinzel: kickers y etiquetas en versalitas con aire de piedra tallada */
   --font-caps: var(--font-cinzel), "Cinzel", "Trajan Pro", Georgia, serif;
+  /* Niconne: la manuscrita del logotipo. Solo para el nombre de la casa y la palabra que se resalta
+     en un titular — nunca para texto corrido ni para nada que haya que leer deprisa. */
+  --font-script: var(--font-niconne), "Niconne", "Brush Script MT", cursive;
   --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-condensed: var(--font-bebas), "Bebas Neue", Impact, "Arial Narrow", sans-serif;
 

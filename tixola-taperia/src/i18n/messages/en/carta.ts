@@ -12,11 +12,6 @@ const carta = {
   accent: "at Tixola",
   description:
     "The whole menu at a glance: filter by category, search for a dish or ask the virtual waiter. Prices include VAT.",
-  dailyBoard: "Today's board",
-  physicalMenu: "Printed menu",
-  dailyBoardAlt: "Tixola Tapería's chalkboard of the day, with the specials from the fish market and the produce market",
-  physicalMenuAlt: "Printed menu of Tixola Tapería in Ourense",
-  polaroidsAria: "Photos of the chalkboard and the printed menu",
 
   /* ── Category chips ── */
   all: "Whole menu",

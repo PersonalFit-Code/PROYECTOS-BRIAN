@@ -395,6 +395,7 @@ export const WINES: Wine[] = [
     story: "Se elabora solo con uva vendimiada en la propia finca, bajo el concepto de vino de pago.",
     subzone: "Valle del Salnés",
     terroir: "Finca de 22 hectáreas de albariño, llena de microclimas, en el corazón del Valle del Salnés",
+    image: "/images/vinos/pazo-baion.webp",
   },
   { id: "bot-ribeiro", name: "Bot. Ribeiro", origin: "ribeiro", kind: "blanco", bottlePrice: 16 },
   { id: "a-flor-e-a-abella", name: "A Flor e a Abella", origin: "ribeiro", kind: "blanco", bottlePrice: 17 },

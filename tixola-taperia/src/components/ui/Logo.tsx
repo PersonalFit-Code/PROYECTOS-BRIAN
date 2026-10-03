@@ -24,12 +24,11 @@ import { cn } from "@/lib/utils";
  * que hace falta fuera de la web (redes, cartelería, la propia carta).
  *
  * QUÉ VARIANTE VA DÓNDE
- *  · `full` (cabecera) — sartén real + TIXOLA en Cinzel. El nombre en tipografía y no manuscrito
- *    **porque a 36 px tiene que LEERSE**: es el nombre del negocio, no un adorno. La sartén sí va
- *    donde iba la sartén, que es lo que pidió el cliente.
+ *  · `full` (cabecera) — sartén real + "Tixola" en Niconne, la manuscrita del logotipo. Como
+ *    fuente y no como recorte del PNG: a 36 px el archivo se emborrona y la fuente no.
  *  · `stacked` (pie) — el logotipo entero tal cual, con el manuscrito y "vinoteca - tapería". Allí
  *    hay sitio para enseñarlo a un tamaño en el que se lee, y es donde la marca se firma.
- *  · `wordmark` — solo TIXOLA en Cinzel.
+ *  · `wordmark` — solo "Tixola" manuscrito.
  *  · `mark` — solo la sartén con la ramita.
  *  · `t` (avatar del chat, 28-40 px) — sartén CREMA SOBRE ROJO, simplificada, la misma que el icono
  *    de la pestaña. A ese tamaño el trazo fino del logotipo real se convierte en una mancha; lo que
@@ -70,12 +69,12 @@ const SIZE_CLASS: Record<LogoSize, string> = {
 /* La sartén ocupa toda la altura pedida; la palabra, algo menos, para que su altura de mayúscula
    case con el cuerpo de la sartén y no parezca que flota. */
 const ALTURA_PALABRA: Record<LogoSize, string> = {
-  sm: "h-5",
-  md: "h-6 md:h-7",
-  lg: "h-8 md:h-9",
+  sm: "h-6",
+  md: "h-7 md:h-9",
+  lg: "h-9 md:h-11",
 };
 
-const CINZEL = "var(--font-cinzel), 'Cinzel', 'Trajan Pro', Georgia, serif";
+const MANUSCRITA = "var(--font-niconne), 'Niconne', 'Brush Script MT', cursive";
 
 /** La sartén real, como imagen. Hereda nada: el archivo ya viene en crema de marca (#f6f4e7). */
 function Marca({ clase, altura }: { clase: string; altura?: number }) {
@@ -94,30 +93,39 @@ function Marca({ clase, altura }: { clase: string; altura?: number }) {
 }
 
 /**
- * "TIXOLA" en Cinzel, versalitas talladas con tracking amplio. Sigue siendo SVG y no imagen porque
- * es texto: escala sin pesar, hereda `currentColor` y se puede animar. `textLength` fija la anchura
- * para que no salte mientras carga la fuente web.
+ * "Tixola" EN LA LETRA DEL LOGOTIPO, no en versalitas.
+ *
+ * Hasta aquí la cabecera ponía TIXOLA en Cinzel, y el razonamiento era que a 36 px la manuscrita del
+ * logotipo impreso —que es un PNG de 267 px— se convierte en un garabato. Eso sigue siendo verdad
+ * del archivo, pero no de la letra: Niconne reproduce esas mismas formas como fuente, así que se
+ * dibuja nítida a cualquier tamaño, en cualquier pantalla, y además es texto (escala, hereda
+ * `currentColor`, se anima y se puede seleccionar). El nombre de la casa en la cabecera vuelve a
+ * escribirse como está escrito en la carta y en el rótulo.
+ *
+ * `textLength` fija la anchura para que la cabecera no dé un salto mientras carga la fuente web; el
+ * `viewBox` son las medidas reales de la tinta de "Tixola" en Niconne a cuerpo 100 (ancho 233,
+ * alto 73 desde el remate de la "T" hasta el pie), medidas en el navegador y no estimadas: así el
+ * SVG se ajusta a la letra sin aire muerto a los lados.
  */
 function Palabra({ clase, altura }: { clase: string; altura?: number }) {
   return (
     <svg
-      viewBox="0 0 160 40"
+      viewBox="0 0 233 73"
       height={altura}
-      width={altura ? Math.round((altura * 160) / 40) : undefined}
+      width={altura ? Math.round((altura * 233) / 73) : undefined}
       aria-hidden
-      className={cn("w-auto shrink-0", clase)}
+      className={cn("w-auto shrink-0 overflow-visible", clase)}
     >
       <text
-        x="4"
-        y="30.5"
-        fontSize="27"
-        fontWeight={600}
-        textLength="152"
+        x="2"
+        y="71"
+        fontSize="100"
+        textLength="230"
         lengthAdjust="spacingAndGlyphs"
         fill="currentColor"
-        style={{ fontFamily: CINZEL, letterSpacing: "0.14em" }}
+        style={{ fontFamily: MANUSCRITA }}
       >
-        TIXOLA
+        Tixola
       </text>
     </svg>
   );
@@ -194,7 +202,7 @@ export default function Logo({ size = "md", variant = "full", className, decorat
   return (
     <span className={cn("inline-flex items-center gap-2 text-cream md:gap-2.5", className)} {...a11y}>
       <Marca clase={claseAltura} altura={fijo ? size : undefined} />
-      <Palabra clase={clasePalabra} altura={fijo ? Math.round(size * 0.66) : undefined} />
+      <Palabra clase={clasePalabra} altura={fijo ? Math.round(size * 0.8) : undefined} />
     </span>
   );
 }

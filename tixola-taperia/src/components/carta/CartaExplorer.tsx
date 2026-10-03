@@ -266,7 +266,6 @@ function CartaLive() {
          revelado por scroll ni el fundido de entrada deben añadir trabajo. `can()` se encarga además de
          `prefers-reduced-motion`. */
       animations={perf.can("entranceMotion") && perf.atLeast("mid")}
-      heroFloat={perf.can("ambientMotion") && perf.atLeast("high")}
       actions={actions}
     />
   );
@@ -278,7 +277,7 @@ function CartaStatic() {
   const locale = useLocale();
   const results = useMenuFilters(DEFAULT_FILTERS, locale);
   return (
-    <CartaView filters={DEFAULT_FILTERS} results={results} highlightedId={null} legendOpen={false} animations={false} heroFloat={false} actions={NOOP_ACTIONS} />
+    <CartaView filters={DEFAULT_FILTERS} results={results} highlightedId={null} legendOpen={false} animations={false} actions={NOOP_ACTIONS} />
   );
 }
 
@@ -291,12 +290,10 @@ interface CartaViewProps {
   legendOpen: boolean;
   /** revelado por scroll + fundido de entrada de las tarjetas al filtrar */
   animations: boolean;
-  /** flotación de las polaroids de la cabecera */
-  heroFloat: boolean;
   actions: CartaActions;
 }
 
-function CartaView({ filters, results, highlightedId, legendOpen, animations, heroFloat, actions }: CartaViewProps) {
+function CartaView({ filters, results, highlightedId, legendOpen, animations, actions }: CartaViewProps) {
   /* Ficha del plato. El cliente la pidió con estas palabras: "poder pinchar en un plato y ver la
      descripción del producto"; es la MISMA que abren los platos estrella en la home, para que haya
      una sola forma de mirar un plato en toda la web. El estado vive en esta vista, que es quien pinta
@@ -325,7 +322,7 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, he
 
         {/* Cabecera + camarero virtual (banda en móvil / tablet) */}
         <div className={cn(CARTA_CONTAINER, "relative")}>
-          <CartaHero animate={heroFloat} />
+          <CartaHero />
           {/* Promoción del mes, si la hay: `src/data/promos.ts`. Si no, no pinta nada. */}
           <PromoBand className="mb-6" />
           <WaiterCard className="mb-6 lg:hidden" />

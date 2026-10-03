@@ -11,11 +11,6 @@ const carta: Section<"carta"> = {
   accent: "de Tixola",
   description:
     "Toda a carta á vista: filtra por categoría, busca un prato ou pregúntalle ao camareiro virtual. Prezos co IVE incluído.",
-  dailyBoard: "Lousa do día",
-  physicalMenu: "Carta física",
-  dailyBoardAlt: "Lousa do día de Tixola Tapería escrita con xiz, coas suxestións da lonxa e do mercado",
-  physicalMenuAlt: "Carta física impresa de Tixola Tapería en Ourense",
-  polaroidsAria: "Fotos da lousa e da carta física",
 
   /* ── Chips de categorías ── */
   all: "Toda a carta",

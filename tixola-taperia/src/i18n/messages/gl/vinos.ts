@@ -6,7 +6,7 @@ const vinos: Section<"vinos"> = {
   title: "A Carta",
   accent: "de Viños",
   description:
-    "Tixola é tapería e vinoteca: o viño galego non é aquí un acompañamento, é a metade da casa. Aquí irá a carta coa súa adega, a súa uva e o seu prezo.",
+    "Tixola é tapería e vinoteca: o viño galego non é aquí un acompañamento, é a metade da casa. Pincha nunha botella e verás a súa adega, a súa uva, a súa crianza e o seu prezo.",
 
   pendingKicker: "En preparación",
   pendingTitle: "Estamos a pechar a carta de viños",
@@ -54,6 +54,12 @@ const vinos: Section<"vinos"> = {
 
   kinds: { blanco: "Brancos", tinto: "Tintos", rosado: "Rosados", espumoso: "Espumosos", dulce: "Doces" },
   count: "{count} viños",
+
+  /* ── A ficha (folla animada) ── */
+  openSheet: "Ver a ficha de {name}",
+  closeOverlay: "Pechar a ficha",
+  close: "Pechar",
+  dragHandle: "Arrastra cara abaixo para pechar",
 
   glass: "Copa",
   bottle: "Botella",

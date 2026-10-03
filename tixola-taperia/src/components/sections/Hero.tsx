@@ -47,7 +47,20 @@ const TIPO_TITULAR = cn(
   "text-[clamp(2.6rem,11vw,3.6rem)] leading-[0.92] tracking-[-0.01em] lg:text-[clamp(3.2rem,8vw,7.5rem)]",
 );
 
-/** Palabra a palabra: la palabra acentuada va en cursiva con `text-gradient-ember`. */
+/**
+ * Palabra a palabra: la palabra acentuada va EN LA LETRA DEL LOGOTIPO (Niconne) con el degradado de
+ * brasa. Antes iba en cursiva de Cormorant, que es elegante pero no dice nada de esta casa; ahora el
+ * titular lleva la misma mano con la que está escrito el nombre en la carta y en el rótulo.
+ *
+ * SOLO ESA PALABRA, y no el titular entero: una manuscrita a tres líneas y a 7,5 rem es un cartel
+ * bonito e ilegible, sobre todo en un teléfono y en cuatro idiomas. Una palabra resaltada se lee de
+ * un vistazo porque el resto del titular la sostiene.
+ *
+ * Los dos números de la clase no son decorativos. `text-[1.26em]` compensa que la altura de "x" de
+ * una manuscrita es mucho menor que la de Cormorant —al mismo cuerpo la palabra parecería encogida—
+ * y `leading-[0.72]` devuelve la caja de línea a la altura que tenía (1,26 × 0,72 ≈ 0,91, el
+ * `leading` del titular), para que la línea no crezca y se salga de su máscara `overflow-hidden`.
+ */
 function LineWords({ text, accent }: { text: string; accent: string }) {
   const words = text.split(" ");
   return (
@@ -57,7 +70,7 @@ function LineWords({ text, accent }: { text: string; accent: string }) {
         return (
           <span key={`${word}-${i}`}>
             {isAccent ? (
-              <em className="text-gradient-ember pr-[0.05em] font-normal italic">{word}</em>
+              <em className="text-gradient-ember font-script pr-[0.08em] text-[1.26em] font-normal not-italic leading-[0.72]">{word}</em>
             ) : (
               word
             )}

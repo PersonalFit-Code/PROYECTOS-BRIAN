@@ -360,6 +360,14 @@ const en: DataTranslations = {
       alt: "Overhead view of the chistorra pan: potatoes, set egg and sliced chistorra sausage",
       caption: "Chistorra pan",
     },
+    "tixola-raxo-mesa": {
+      alt: "Raxo tixola with potatoes and set egg served at the table in Tixola Tapería, with the wine room and the wooden winery crates behind",
+      caption: "Raxo tixola, with the wine room behind",
+    },
+    "tixola-chistorra-mesa": {
+      alt: "Chistorra tixola with potatoes and set egg served at the table with two forks, and the dining-room wine displays behind",
+      caption: "Chistorra tixola, served at the table",
+    },
     "tixola-gulas-langostinos": {
       alt: "Overhead view of the pan with baby eels, mushrooms and prawns: potatoes and egg in a wooden-handled pan",
       caption: "Pan with baby eels, mushrooms and prawns",

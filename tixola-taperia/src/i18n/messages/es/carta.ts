@@ -9,11 +9,6 @@ const carta = {
   accent: "de Tixola",
   description:
     "Toda la carta a la vista: filtra por categoría, busca un plato o pregúntale al camarero virtual. Precios con IVA incluido.",
-  dailyBoard: "Pizarra del día",
-  physicalMenu: "Carta física",
-  dailyBoardAlt: "Pizarra del día de Tixola Tapería escrita con tiza, con las sugerencias de la lonja y del mercado",
-  physicalMenuAlt: "Carta física impresa de Tixola Tapería en Ourense",
-  polaroidsAria: "Fotos de la pizarra y de la carta física",
 
   /* ── Chips de categorías ── */
   all: "Toda la carta",

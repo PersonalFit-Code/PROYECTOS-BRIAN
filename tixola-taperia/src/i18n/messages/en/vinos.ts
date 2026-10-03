@@ -7,7 +7,7 @@ const vinos = {
   title: "The Wine",
   accent: "List",
   description:
-    "Tixola is a tapas bar and a wine bar: Galician wine isn't a side here, it's half the house. This is where the list will live, with each bottle's winery, grape and price.",
+    "Tixola is a tapas bar and a wine bar: Galician wine isn't a side here, it's half the house. Tap a bottle to see its winery, grape, ageing and price.",
 
   pendingKicker: "In the works",
   pendingTitle: "We're still finalising the wine list",
@@ -55,6 +55,12 @@ const vinos = {
 
   kinds: { blanco: "Whites", tinto: "Reds", rosado: "Rosés", espumoso: "Sparkling", dulce: "Sweet" },
   count: "{count} wines",
+
+  /* ── The sheet (animated panel) ── */
+  openSheet: "See the details for {name}",
+  closeOverlay: "Close the wine details",
+  close: "Close",
+  dragHandle: "Drag down to close",
 
   glass: "Glass",
   bottle: "Bottle",
