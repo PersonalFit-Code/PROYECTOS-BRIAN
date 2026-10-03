@@ -49,7 +49,6 @@ import { cn } from "@/lib/utils";
 
 const COLOR = {
   fondo: "#2B1810",
-  fondoClaro: "#3D2415",
   /* La tierra ERA casi tan oscura como el mar y las fronteras no se leían: el mapa parecía una
      mancha. Subida a un marrón medio, con el borde en crema a un tercio de opacidad, se distingue
      país por país sin que el fondo deje de ser chocolate. */
@@ -296,17 +295,16 @@ export default function MapaDelMundo() {
           onPointerCancel={alSoltarPuntero}
         >
           <defs>
-            <radialGradient id="mapa-brillo" cx="50%" cy="42%" r="62%">
-              <stop offset="0%" stopColor={COLOR.fondoClaro} />
-              <stop offset="100%" stopColor={COLOR.fondo} />
-            </radialGradient>
+            {/* El fondo del mapa llevaba un degradado radial que aclaraba el centro. Lo quitó el
+                cliente —"no hace falta que brille"— y tenía razón: en un mapa, cualquier mancha de
+                luz que no sea tierra se lee como información y no lo es. Fondo plano. */}
             <radialGradient id="mapa-chincheta" cx="38%" cy="32%" r="70%">
               <stop offset="0%" stopColor={COLOR.chinchetaClara} />
               <stop offset="100%" stopColor={COLOR.chinchetaOscura} />
             </radialGradient>
           </defs>
 
-          <rect width={MUNDO_VIEWBOX.width} height={MUNDO_VIEWBOX.height} fill="url(#mapa-brillo)" />
+          <rect width={MUNDO_VIEWBOX.width} height={MUNDO_VIEWBOX.height} fill={COLOR.fondo} />
 
           <g transform={`translate(${encuadre.x} ${encuadre.y}) scale(${encuadre.k})`}>
             {/* Los 176 contornos. `vectorEffect` mantiene el borde a 0,6 px aunque se amplíe siete

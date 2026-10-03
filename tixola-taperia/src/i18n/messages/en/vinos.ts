@@ -78,6 +78,14 @@ const vinos = {
   searchLabel: "Search the wine list",
   search: "Try: godello, Monterrei, mencía…",
   searchClear: "Clear the search",
+
+  /* ── The filter panel ── */
+  filters: "Filters",
+  filtersActive: "{count} active filters",
+  filtersAria: "Filter the wine list",
+  filterByOrigin: "Denomination",
+  filterByKind: "Colour",
+  filtersClear: "Clear the filters",
   searchCount: "{count} of {total} wines",
   noResults: "No wine matches “{query}”",
   noResultsHint:
@@ -142,7 +150,6 @@ const vinos = {
   story: "The story",
   priceNote: "Prices include VAT, the same as on the menu in the bar.",
 
-  indexLabel: "Jump to a denomination",
   origins: {
     "fuera-do-ribeiro": "Outside D.O. · Ribeiro",
     "ribera-del-duero": "D.O. Ribera del Duero",

@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Search, Wine as WineIcon, X } from "lucide-react";
+import { Check, Search, SlidersHorizontal, Wine as WineIcon, X } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useDeferredValue, useId, useMemo, useState } from "react";
+import { useCallback, useDeferredValue, useId, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { normalizeText } from "@/components/carta/useMenuFilters";
 import VinoSpotlight, { nombreDeOrigen, VINO_LAYOUT_TRANSITION, vinoLayoutId } from "@/components/vinos/VinoSpotlight";
 import { formatPrice } from "@/data/menu";
@@ -15,6 +15,7 @@ import {
   WINE_REGIONS,
   winesByOrigin,
   type Wine,
+  type WineKind,
   type WineOrigin,
 } from "@/data/wines";
 import { localizeMenuItems } from "@/i18n/data";
@@ -59,6 +60,35 @@ export default function CartaDeVinos() {
      detrás, en una pasada de baja prioridad. Con 52 no se nota; con la carta llena de un día de
      estos, sí — y escribir en un buscador que se atasca es de las cosas que más molestan. */
   const consultaDiferida = useDeferredValue(consulta);
+
+  /**
+   * LOS FILTROS, DENTRO DE UN BOTÓN. Antes el índice de denominaciones estaba siempre a la vista:
+   * quince chapas que en un teléfono eran once filas —media pantalla— antes de ver la primera
+   * botella. El cliente lo dijo claro: "hazlo menos espacioso, ponlo como un botón de filtro y que
+   * ahí aparezcan todas las denominaciones". Y de paso dejan de ser anclas para ser FILTROS de
+   * verdad, que es lo que la gente espera al pulsarlas.
+   *
+   * Dentro de un grupo suman (o Monterrei O Valdeorras); entre grupos, restan (Monterrei Y blanco).
+   */
+  const [origenes, setOrigenes] = useState<readonly WineOrigin[]>([]);
+  const [colores, setColores] = useState<readonly WineKind[]>([]);
+  const [panelAbierto, setPanelAbierto] = useState(false);
+  const idPanel = useId();
+  const refBotonFiltros = useRef<HTMLButtonElement>(null);
+
+  const alternarOrigen = useCallback(
+    (origin: WineOrigin) => setOrigenes((previo) => (previo.includes(origin) ? previo.filter((o) => o !== origin) : [...previo, origin])),
+    [],
+  );
+  const alternarColor = useCallback(
+    (kind: WineKind) => setColores((previo) => (previo.includes(kind) ? previo.filter((k) => k !== kind) : [...previo, kind])),
+    [],
+  );
+  const limpiar = useCallback(() => {
+    setOrigenes([]);
+    setColores([]);
+    setConsulta("");
+  }, []);
 
   /**
    * Nombre traducido de cada plato, para pintar los maridajes. La relación vive en el VINO
@@ -122,57 +152,147 @@ export default function CartaDeVinos() {
   const palabras = useMemo(() => normalizeText(consultaDiferida).split(" ").filter(Boolean), [consultaDiferida]);
 
   const todos = useMemo(() => ORIGIN_ORDER.map((origin) => ({ origin, vinos: winesByOrigin(origin) })), []);
+
+  /* Los colores que de verdad hay en la carta, con cuántos de cada uno. Si un día no hay ni un
+     rosado, su chapa no sale: un filtro que no puede devolver nada es una promesa rota. */
+  const coloresEnCarta = useMemo(() => {
+    const cuenta = new Map<WineKind, number>();
+    for (const { vinos } of todos) for (const vino of vinos) if (vino.kind) cuenta.set(vino.kind, (cuenta.get(vino.kind) ?? 0) + 1);
+    return WINE_KINDS.filter((kind) => cuenta.has(kind)).map((kind) => ({ kind, cuenta: cuenta.get(kind) ?? 0 }));
+  }, [todos]);
+
+  /* Escape cierra el panel y devuelve el foco al botón, que es de donde salió. */
+  const alPulsarTecla = useCallback((e: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "Escape") return;
+    e.stopPropagation();
+    setPanelAbierto((abierto) => {
+      if (abierto) refBotonFiltros.current?.focus();
+      return false;
+    });
+  }, []);
   const enCarta = useMemo(() => todos.reduce((n, g) => n + g.vinos.length, 0), [todos]);
 
   const grupos = useMemo(() => {
-    if (!palabras.length) return todos.filter((g) => g.vinos.length > 0);
+    const sinFiltrar = !palabras.length && !origenes.length && !colores.length;
+    if (sinFiltrar) return todos.filter((g) => g.vinos.length > 0);
     return todos
+      .filter(({ origin }) => !origenes.length || origenes.includes(origin))
       .map(({ origin, vinos }) => ({
         origin,
         vinos: vinos.filter((vino) => {
+          if (colores.length && (!vino.kind || !colores.includes(vino.kind))) return false;
+          if (!palabras.length) return true;
           const texto = indice.get(vino.id) ?? "";
           return palabras.every((palabra) => texto.includes(palabra));
         }),
       }))
       .filter((g) => g.vinos.length > 0);
-  }, [todos, palabras, indice]);
+  }, [todos, palabras, indice, origenes, colores]);
 
   /* Sin vinos no hay carta: la página ya enseña el aviso de `WINES_PENDING` en su lugar. Esto es
      "no hay carta", no "la búsqueda no encuentra nada", que se resuelve más abajo y con un texto. */
   if (!enCarta) return null;
 
-  const buscando = palabras.length > 0;
+  const filtrando = palabras.length > 0 || origenes.length > 0 || colores.length > 0;
+  const activos = origenes.length + colores.length;
   const total = grupos.reduce((n, g) => n + g.vinos.length, 0);
 
   return (
     <section className="container-page pb-16 md:pb-20">
-      {/* La barra se queda pegada bajo la cabecera: con 52 vinos en quince denominaciones, el
-          buscador tiene que seguir ahí cuando ya has bajado media página. */}
-      <div className="sticky top-[var(--header-h)] z-20 -mx-4 bg-granate/85 px-4 py-3 backdrop-blur-md md:-mx-6 md:px-6">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-          <CampoDeBusqueda id={idBusqueda} valor={consulta} onCambio={setConsulta} className="min-w-0 flex-1 sm:max-w-sm" />
-          <p aria-live="polite" className="font-caps text-xs uppercase tracking-[0.3em] text-cream-faint">
-            {buscando ? t(m.vinos.searchCount, { count: total, total: enCarta }) : t(m.vinos.count, { count: enCarta })}
-          </p>
-        </div>
+      {/* LA BARRA: una sola fila —buscador y botón de filtros— y debajo el contador. Antes aquí
+          vivían también las quince chapas de denominación, que en un teléfono eran once filas: media
+          pantalla gastada antes de ver la primera botella. Ahora viven en el panel. */}
+      <div className="sticky top-[var(--header-h)] z-20 -mx-4 md:-mx-6" onKeyDown={alPulsarTecla}>
+        <div className="relative">
+          <div className="border-y border-cream/10 bg-granate-900/95 px-4 py-2.5 shadow-[0_18px_40px_-28px_rgba(0,0,0,0.9)] md:px-6">
+            <div className="flex items-center gap-2.5">
+              <CampoDeBusqueda id={idBusqueda} valor={consulta} onCambio={setConsulta} className="min-w-0 flex-1" />
 
-        {/* Índice de denominaciones. Son anclas, no filtros: el navegador ya sabe llevar a un sitio de
-            la página, así funciona sin JavaScript. Con una búsqueda en marcha solo salen las
-            denominaciones que tienen algo, y con el número de lo que tienen. */}
-        {grupos.length > 1 ? (
-          <nav aria-label={m.vinos.indexLabel} className="mt-3 flex flex-wrap gap-2">
-            {grupos.map(({ origin, vinos }) => (
-              <a
-                key={origin}
-                href={`#vinos-${origin}`}
-                className="inline-flex items-center gap-1.5 rounded-full border border-cream/15 px-3 py-1.5 font-caps text-[11px] uppercase tracking-[0.14em] text-cream-muted transition-colors hover:border-cream/40 hover:text-cream"
+              <button
+                ref={refBotonFiltros}
+                type="button"
+                onClick={() => setPanelAbierto((v) => !v)}
+                aria-expanded={panelAbierto}
+                aria-controls={idPanel}
+                className={cn(
+                  "inline-flex h-11 shrink-0 items-center gap-2 rounded-full border px-3.5 text-sm font-semibold transition-colors sm:px-4",
+                  panelAbierto || activos > 0
+                    ? "border-pimenton-light/70 bg-pimenton/20 text-cream"
+                    : "border-cream/20 text-cream-muted hover:border-cream/45 hover:text-cream",
+                )}
               >
-                {nombreDeOrigen(origin, m)}
-                <span className="text-cream-faint">{vinos.length}</span>
-              </a>
-            ))}
-          </nav>
-        ) : null}
+                <SlidersHorizontal size={16} aria-hidden />
+                <span className="max-sm:sr-only">{m.vinos.filters}</span>
+                {activos > 0 ? (
+                  <>
+                    {/* Un `aria-label` sobre un `<span>` genérico no lo anuncia ningún lector (ARIA
+                        1.2): el número va `aria-hidden` y al lado un texto de verdad. */}
+                    <span
+                      aria-hidden
+                      className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-pimenton-light px-1.5 text-[11px] font-bold tabular-nums text-cream"
+                    >
+                      {activos}
+                    </span>
+                    <span className="sr-only">{t(m.vinos.filtersActive, { count: activos })}</span>
+                  </>
+                ) : null}
+              </button>
+            </div>
+
+            <p aria-live="polite" className="mt-1.5 font-caps text-[10px] uppercase tracking-[0.26em] text-cream-faint">
+              {filtrando ? t(m.vinos.searchCount, { count: total, total: enCarta }) : t(m.vinos.count, { count: enCarta })}
+            </p>
+          </div>
+
+          {/* EL PANEL cuelga en `absolute` del envoltorio, así que no empuja la lista al abrirse: se
+              anima solo con `opacity` y `translate`, las dos propiedades que el navegador compone en
+              la GPU. `inert` lo apaga del todo mientras está cerrado (ni foco ni lector). */}
+          <div
+            id={idPanel}
+            aria-hidden={!panelAbierto || undefined}
+            inert={!panelAbierto || undefined}
+            className={cn(
+              "absolute inset-x-0 top-full z-10 origin-top overflow-hidden border-b border-cream/10 bg-granate-900 shadow-[0_22px_45px_-24px_rgba(0,0,0,0.95)]",
+              "transition-[opacity,translate] duration-200 ease-[var(--ease-out-expo)] motion-reduce:transition-none",
+              panelAbierto ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+            )}
+          >
+            <section aria-label={m.vinos.filtersAria} className="max-h-[min(62dvh,560px)] overflow-y-auto overscroll-contain px-4 pb-4 pt-4 md:px-6">
+              <div className="flex flex-col gap-5">
+                <GrupoDeFiltro titulo={m.vinos.filterByOrigin}>
+                  {todos.map(({ origin, vinos }) => (
+                    <Chapa
+                      key={origin}
+                      pulsada={origenes.includes(origin)}
+                      onClick={() => alternarOrigen(origin)}
+                      cuenta={vinos.length}
+                    >
+                      {nombreDeOrigen(origin, m)}
+                    </Chapa>
+                  ))}
+                </GrupoDeFiltro>
+
+                <GrupoDeFiltro titulo={m.vinos.filterByKind}>
+                  {coloresEnCarta.map(({ kind, cuenta }) => (
+                    <Chapa key={kind} pulsada={colores.includes(kind)} onClick={() => alternarColor(kind)} cuenta={cuenta}>
+                      {m.vinos.kinds[kind]}
+                    </Chapa>
+                  ))}
+                </GrupoDeFiltro>
+
+                {activos > 0 || consulta ? (
+                  <button
+                    type="button"
+                    onClick={limpiar}
+                    className="self-start rounded-full border border-cream/25 px-4 py-2 font-caps text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:border-cream/50 hover:bg-cream/5"
+                  >
+                    {m.vinos.filtersClear}
+                  </button>
+                ) : null}
+              </div>
+            </section>
+          </div>
+        </div>
       </div>
 
       {grupos.length ? (
@@ -182,7 +302,7 @@ export default function CartaDeVinos() {
           ))}
         </div>
       ) : (
-        <SinResultados consulta={consulta} onLimpiar={() => setConsulta("")} />
+        <SinResultados consulta={consulta} onLimpiar={limpiar} />
       )}
 
       <p className="mt-10 text-xs leading-relaxed text-cream-faint">{m.vinos.priceNote}</p>
@@ -374,6 +494,49 @@ function TarjetaVino({ vino, onAbrir }: { vino: Wine; onAbrir: (v: Wine) => void
             ) : null}
           </span>
         </span>
+      </button>
+    </li>
+  );
+}
+
+/** Un grupo del panel: su rótulo y sus chapas. */
+function GrupoDeFiltro({ titulo, children }: { titulo: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="mb-2.5 font-caps text-[11px] uppercase tracking-[0.3em] text-cream-faint">{titulo}</p>
+      <ul className="flex flex-wrap gap-2">{children}</ul>
+    </div>
+  );
+}
+
+/** Chapa de filtro: se pulsa y se queda pulsada. `aria-pressed` es lo que la hace un interruptor. */
+function Chapa({
+  pulsada,
+  cuenta,
+  onClick,
+  children,
+}: {
+  pulsada: boolean;
+  cuenta: number;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <li>
+      <button
+        type="button"
+        aria-pressed={pulsada}
+        onClick={onClick}
+        className={cn(
+          "inline-flex h-10 items-center gap-1.5 rounded-full border px-3.5 font-caps text-[11px] uppercase tracking-[0.14em] transition-colors",
+          pulsada
+            ? "border-pimenton-light/80 bg-pimenton/25 text-cream"
+            : "border-cream/15 text-cream-muted hover:border-cream/40 hover:text-cream",
+        )}
+      >
+        {children}
+        <span className={pulsada ? "text-cream/70" : "text-cream-faint"}>{cuenta}</span>
+        {pulsada ? <Check size={13} strokeWidth={3} aria-hidden className="text-pimenton-a11y" /> : null}
       </button>
     </li>
   );

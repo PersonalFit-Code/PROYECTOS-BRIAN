@@ -78,6 +78,14 @@ const vinos = {
   searchLabel: "Procurar um vinho",
   search: "Procura: godello, Monterrei, mencía…",
   searchClear: "Limpar a procura",
+
+  /* ── O painel de filtros ── */
+  filters: "Filtros",
+  filtersActive: "{count} filtros ativos",
+  filtersAria: "Filtrar a carta de vinhos",
+  filterByOrigin: "Denominação",
+  filterByKind: "Cor",
+  filtersClear: "Limpar os filtros",
   searchCount: "{count} de {total} vinhos",
   noResults: "Nenhum vinho corresponde a «{query}»",
   noResultsHint:
@@ -142,7 +150,6 @@ const vinos = {
   story: "A história",
   priceNote: "Preços com IVA incluído, os mesmos que na carta do local.",
 
-  indexLabel: "Ir para uma denominação",
   origins: {
     "fuera-do-ribeiro": "Fora da D.O. · Ribeiro",
     "ribera-del-duero": "D.O. Ribera del Duero",

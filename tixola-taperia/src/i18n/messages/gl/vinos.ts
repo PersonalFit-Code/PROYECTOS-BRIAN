@@ -77,6 +77,14 @@ const vinos: Section<"vinos"> = {
   searchLabel: "Buscar un viño",
   search: "Busca: godello, Monterrei, mencía…",
   searchClear: "Borrar a busca",
+
+  /* ── O panel de filtros ── */
+  filters: "Filtros",
+  filtersActive: "{count} filtros activos",
+  filtersAria: "Filtrar a carta de viños",
+  filterByOrigin: "Denominación",
+  filterByKind: "Cor",
+  filtersClear: "Quitar os filtros",
   searchCount: "{count} de {total} viños",
   noResults: "Ningún viño casa con «{query}»",
   noResultsHint:
@@ -141,7 +149,6 @@ const vinos: Section<"vinos"> = {
   story: "A historia",
   priceNote: "Prezos con IVE incluído, os mesmos que na carta do local.",
 
-  indexLabel: "Ir a unha denominación",
   origins: {
     "fuera-do-ribeiro": "Fóra de D.O. · Ribeiro",
     "ribera-del-duero": "D.O. Ribera del Duero",

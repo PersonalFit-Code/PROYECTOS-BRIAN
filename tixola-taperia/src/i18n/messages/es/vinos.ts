@@ -110,6 +110,14 @@ const vinos = {
   searchLabel: "Buscar un vino",
   search: "Busca: godello, Monterrei, mencía…",
   searchClear: "Borrar la búsqueda",
+
+  /* ── El panel de filtros ── */
+  filters: "Filtros",
+  filtersActive: "{count} filtros activos",
+  filtersAria: "Filtrar la carta de vinos",
+  filterByOrigin: "Denominación",
+  filterByKind: "Color",
+  filtersClear: "Quitar los filtros",
   searchCount: "{count} de {total} vinos",
   noResults: "Ningún vino casa con «{query}»",
   noResultsHint:
@@ -192,7 +200,6 @@ const vinos = {
   /* ── Procedencias de fuera de Galicia ── */
   /* Casi todos son nombres propios y se escriben igual en los cuatro idiomas; viven aquí y no en los
      datos porque "Fuera D.O. Ribeiro" no es un nombre, es una frase, y sí hay que traducirla. */
-  indexLabel: "Ir a una denominación",
   origins: {
     "fuera-do-ribeiro": "Fuera de D.O. · Ribeiro",
     "ribera-del-duero": "D.O. Ribera del Duero",
