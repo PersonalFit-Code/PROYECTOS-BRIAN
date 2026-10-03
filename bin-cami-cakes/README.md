@@ -674,6 +674,70 @@ que todavía no está.
 > la foto hay globos y un lazo dorado, que parecen de un día especial y no de
 > un martes cualquiera.
 
+## Las fotos del Drive (3/10) y las que siguen siendo de muestra
+
+Luisa mandó 38 fotos a una carpeta del Drive («BinCami»). Están miradas una a
+una y catalogadas en `para-luisa/FOTOS-QUE-MANDO-LUISA.md`: qué es cada una, si
+lleva texto quemado y dónde encajaría.
+
+**Cuatro entraron en la web:**
+
+| foto | dónde va | qué cambió |
+|---|---|---|
+| f07 | `cookies` | el hueco llevaba vacío desde el principio |
+| f28 | `tarta-cumpleanos` | **sustituye a una foto de muestra** |
+| f14 | `tarta-tematica` (el Lamborghini) | **sustituye a una foto de muestra** |
+| f30 | `vitrina` | nueva, en «Todo lo que hay» del catálogo |
+
+Con las cookies, su diapositiva sale del comentario y **el carrusel pasa de 5 a
+6**. El JS cuenta las diapositivas del DOM, así que basta con descomentar el
+`<figure>`, ponerle su foto y añadir el punto de abajo (ojo: hay que repasar los
+`aria-label` de los puntos, que dicen «de N»).
+
+### Lo que sigue siendo de muestra, y es lo importante
+
+De las 38 **no hay ninguna** de estas seis:
+
+- **Tarta de boda** — la diapositiva 1 del carrusel sigue con foto de muestra
+- **Porción de tres leches** — sigue con foto de muestra, y es «la que nos trajo
+  hasta aquí»
+- **Golfeados** — sigue con foto de muestra
+- **Piñitas** — sigue sin foto (el recuadro rosa con el icono)
+- **Mesa de dulces** y **el obrador por dentro** — siguen comentadas en el
+  carrusel
+
+Mientras queden fotos de muestra, la web sigue en `noindex`: enseñar como
+propio un dulce que no es suyo es justo lo que esta web no hace. Las dos que
+más urgen son el tres leches y los golfeados, que son los dos clásicos
+venezolanos de la casa.
+
+### Por qué muchas no se pueden usar tal cual
+
+Buena parte de las 38 son publicaciones de Instagram con el texto quemado
+encima: «Batido de Ponche de Crema», «Ferrero Rocher & Nutella», «CHURROS»,
+descripciones, el teléfono y la dirección. Eso no puede entrar en la web por
+dos motivos: el texto está sólo en castellano y la web tiene cuatro idiomas, y
+la tipografía choca con la del sitio. En varias el producto está en el centro y
+el texto en los bordes, así que recortando se salvan — el catálogo dice cuáles
+y por dónde.
+
+### Cómo meter una foto nueva
+
+Cada foto del sitio son **tres** cosas, y si falta una se nota:
+
+```
+python3 mete_foto.py ORIGEN NOMBRE [RECORTE]     # en el cuaderno de trabajo
+#   -> assets/NOMBRE.webp   lo que pide el HTML
+#   -> assets/NOMBRE.jpg    el respaldo que pone el JS si el webp falla
+#   -> .lqip-NOMBRE         la miniatura borrosa del CSS, para que no salte el gris
+# RECORTE va en porcentajes izq/arr/der/aba, p.ej. 0/34/100/88
+```
+
+El recorte **hay que verlo, no deducirlo**: `prueba_recortes.py` monta una tira
+con el resultado final a la proporción del hueco. Con las cookies hizo falta:
+el logo bajaba hasta el 33% de la altura y el «¡IRRESISTIBLE» subía hasta el
+88%, y eso sólo se ve mirando las franjas ampliadas.
+
 ## El tono lo ponen ellas, no nosotros
 
 Brian pasó su Instagram (@bin_camicakes) para que la web suene "como si fuera
@@ -1190,11 +1254,12 @@ tenemos ni ingredientes ni alérgenos, y aquí no se inventan.
 - [x] **La foto del local**: resuelto el 30/9. Mandó una suya (1200×1600), que
       va recortada a 4:3 en `assets/local.webp`. La anterior, con dudas de
       derechos, se borró
-- [ ] Las 4 fotos que siguen faltando (cookies, mesa de dulces, piñitas, el
-      obrador) + regenerar la de "tarta temática" sin texto horneado. Mientras,
-      sus tarjetas y diapositivas están escondidas (ver «Añadir las fotos»).
-      No se le piden en la hoja: las pasa Luisa cuando quiere y las que quiere
-      (decidido el 30/9)
+- [x] Cookies: resuelto el 3/10 con la foto de Luisa (f07)
+- [ ] **Las seis fotos que faltan**: tarta de boda, porción de tres leches,
+      golfeados, piñitas, mesa de dulces y el obrador por dentro. Las tres
+      primeras tienen hoy foto DE MUESTRA, que es peor que no tener ninguna;
+      las piñitas están sin foto y las dos últimas, comentadas. Entre las 38
+      del Drive no había ninguna de las seis
 - [ ] **Las descripciones de las 16 fichas del mostrador**: puestas por
       deducción del nombre (claves `mt.N.d` en las traducciones). Que las
       repase y diga las suyas
