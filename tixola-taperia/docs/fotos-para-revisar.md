@@ -44,6 +44,18 @@ Tixola, con la pared de botellas detrás, así que el cambio es ganancia en los 
 
 ---
 
+## 1c · Los pimientos de Padrón no están en la carta
+
+Brian mandó su foto y pidió integrarlos "aunque no los haya en la carta como tal". Está publicada
+**en la galería**, que es donde una foto puede enseñar lo que hay en la casa sin afirmar que sea un
+plato de carta.
+
+**Para que entren en la carta solo falta una cosa: su precio.** Con el precio (y si se sirven por
+ración, media ración o las dos) se dan de alta como un plato más, con su ficha y su enlace desde la
+foto. Sin él no se pueden publicar: un precio inventado en una carta es el peor error posible.
+
+---
+
 ## 2 · Platos enlazados a su entrada de la carta
 
 Estos nueve sí se reconocen sin discusión y van enlazados a su plato. Si alguno no es lo que

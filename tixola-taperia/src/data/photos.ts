@@ -242,6 +242,37 @@ export const PHOTOS: Photo[] = [
     dishIds: ["coc-calamares" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* PULPO Á FEIRA: cachelos, pimentón y aceite sobre el plato de madera de siempre. Va en "Pulpo a
+     la gallega o a la plancha", que es la entrada que la carta ofrece de las dos maneras: la foto
+     enseña una de ellas y la descripción sigue contando que se puede pedir de la otra. */
+  {
+    id: "pulpo-feira",
+    src: "/images/pulpo-feira.webp",
+    srcTall: "/images/pulpo-feira-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Pulpo á feira en plato de madera: rodajas de pulpo cocido sobre cachelos, con pimentón y aceite de oliva por encima",
+    caption: "Pulpo á feira",
+    tags: ["plato", "local"],
+    dishIds: ["pul-gallega-plancha" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
+  /* PIMIENTOS DE PADRÓN, Y SIN `dishIds` A PROPÓSITO: no están en la carta de papel, así que no hay
+     entrada a la que enlazarlos — y darles una obligaría a ponerles un precio que nadie ha dicho.
+     El cliente pidió integrarlos igual ("aunque no los haya en la carta como tal"), y la galería es
+     justo el sitio donde una foto enseña lo que hay en la casa sin afirmar que sea un plato de
+     carta. Si Tatiana quiere que entren en la carta, lo único que falta es su precio. */
+  {
+    id: "pimientos-padron",
+    src: "/images/pimientos-padron.webp",
+    srcTall: "/images/pimientos-padron-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Fuente de pimientos de Padrón fritos y espolvoreados con sal gorda, en plato de cerámica verde sobre la mesa de madera de Tixola Tapería",
+    caption: "Pimientos de Padrón",
+    tags: ["plato", "local"],
+    focus: "50% 50%",
+  },
   {
     id: "pulpo-tempura",
     src: "/images/pulpo-tempura.webp",

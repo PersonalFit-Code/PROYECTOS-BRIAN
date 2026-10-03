@@ -361,6 +361,14 @@ const pt: DataTranslations = {
       alt: "Tixola com chistorra vista de cima: frigideira com batatas, ovo coalhado e rodelas de chistorra",
       caption: "Tixola com chistorra",
     },
+    "pulpo-feira": {
+      alt: "Polvo à feira em prato de madeira: rodelas de polvo cozido sobre batatas, com colorau e azeite por cima",
+      caption: "Polvo à feira",
+    },
+    "pimientos-padron": {
+      alt: "Travessa de pimentos de Padrón fritos e polvilhados com sal grosso, em prato de cerâmica verde na mesa de madeira da Tixola Tapería",
+      caption: "Pimentos de Padrón",
+    },
     "queso-frito": {
       alt: "Dose de queijo frito: quatro barras de queijo panadas e douradas sobre folhas de alface, com uma taça de nozes descascadas e outra de molho vermelho ao lado",
       caption: "Queijo frito, com nozes e molho",

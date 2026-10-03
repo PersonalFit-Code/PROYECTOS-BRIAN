@@ -360,6 +360,14 @@ const gl: DataTranslations = {
       alt: "Tixola con chistorra vista desde arriba: tixola con patacas, ovo callado e rodas de chistorra",
       caption: "Tixola con chistorra",
     },
+    "pulpo-feira": {
+      alt: "Polbo á feira en prato de madeira: rodas de polbo cocido sobre cachelos, con pemento e aceite de oliva por riba",
+      caption: "Polbo á feira",
+    },
+    "pimientos-padron": {
+      alt: "Fonte de pementos de Padrón fritos e espolvoreados con sal grosa, en prato de cerámica verde sobre a mesa de madeira de Tixola Tapería",
+      caption: "Pementos de Padrón",
+    },
     "queso-frito": {
       alt: "Ración de queixo frito: catro tacos de queixo rebozados e dourados sobre follas de leituga, cun cunco de noces peladas e outro de salsa vermella ao lado",
       caption: "Queixo frito, con noces e salsa",

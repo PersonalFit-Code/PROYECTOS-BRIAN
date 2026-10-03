@@ -360,6 +360,14 @@ const en: DataTranslations = {
       alt: "Overhead view of the chistorra pan: potatoes, set egg and sliced chistorra sausage",
       caption: "Chistorra pan",
     },
+    "pulpo-feira": {
+      alt: "Pulpo á feira on a wooden plate: slices of boiled octopus over potatoes, dusted with paprika and dressed with olive oil",
+      caption: "Galician-style octopus",
+    },
+    "pimientos-padron": {
+      alt: "A dish of fried Padrón peppers sprinkled with coarse salt, on a green ceramic plate on a wooden table at Tixola Tapería",
+      caption: "Padrón peppers",
+    },
     "queso-frito": {
       alt: "A plate of fried cheese: four breaded, golden cheese sticks on lettuce leaves, with a small bowl of shelled walnuts and another of red sauce beside them",
       caption: "Fried cheese, with walnuts and sauce",
