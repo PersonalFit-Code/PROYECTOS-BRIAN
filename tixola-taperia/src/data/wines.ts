@@ -862,13 +862,32 @@ export const WINES: Wine[] = [
     terroir: "Finca histórica a orillas del Duero, con vinificaciones separadas por parcela, tipo de suelo y variedad",
     image: "/images/vinos/dehesa-de-los-canonigos.webp",
   },
+  /* LOS DOS CARMELOS, con la foto de la botella que hay en casa.
+     El de abajo figura en la carta de papel como "Carmelo Rodero Reserva", a 52 €, pero la botella
+     que está en la estantería es la RAZA Edición Limitada 2021: la bodega vende hoy esa etiqueta en
+     el lugar que ocupaba su reserva. Se escribe el nombre que pone la botella, porque es el que va a
+     leer quien la vea en la mesa, y el precio se deja como está en la carta. Pendiente de que
+     Tatiana confirme nombre y precio (anotado en docs/vinos-para-revisar.md). */
   {
     id: "carmelo-rodero-reserva",
-    name: "Carmelo Rodero Reserva",
+    name: "Carmelo Rodero Raza",
+    winery: "Bodegas Carmelo Rodero",
     origin: "ribera-del-duero",
     kind: "tinto",
-    ageing: "Reserva",
     bottlePrice: 52,
+    image: "/images/vinos/carmelo-rodero-raza.webp",
+  },
+  /* Este NO está en la carta de papel: es una de las referencias de fuera de carta que la propia
+     carta anuncia al pie ("solemos tener otras referencias"). Por eso va SIN PRECIO: el de la casa
+     no lo ha dicho, y poner uno sería inventarlo. Tampoco es el "9 meses" de arriba, que es otro
+     vino de la misma bodega; la etiqueta de esta pone Crianza 2022. */
+  {
+    id: "carmelo-rodero-crianza",
+    name: "Carmelo Rodero Crianza",
+    winery: "Bodegas Carmelo Rodero",
+    origin: "ribera-del-duero",
+    kind: "tinto",
+    image: "/images/vinos/carmelo-rodero-crianza.webp",
   },
   { id: "bot-rioja", name: "Bot. Rioja", origin: "rioja", kind: "tinto", bottlePrice: 16 },
   {

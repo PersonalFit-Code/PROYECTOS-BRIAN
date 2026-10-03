@@ -49,10 +49,16 @@ const vinos = {
   mapWorldKicker: "De dónde viene",
   mapWorldTitle: "El mundo, en la estantería",
   mapWorldLead:
-    "{count} botellas de {countries} países. Amplía con la rueda o con dos dedos, arrastra para moverte, y pincha una chincheta para ver qué tenemos de ahí.",
+    "{count} botellas de {countries} países. Amplía con la rueda o con dos dedos, arrastra para moverte, y pincha un país —o su chincheta— para ver todos los vinos que tenemos de ahí.",
   mapWorldAria: "Mapa del mundo con los {countries} países de los que vienen los {count} vinos de la carta",
   mapWorldPin: "{country}, {count} vinos",
-  mapWorldCardCount: "{count} vinos · {origins} denominaciones",
+  /* Singular y plural aparte porque el interpolador solo sustituye marcadores, no sabe de números:
+     con una sola clave, Argentina salía como "1 vinos · 1 denominaciones". */
+  mapWorldWines: "{count} vinos",
+  mapWorldOneWine: "1 vino",
+  mapWorldOrigins: "{count} denominaciones",
+  mapWorldOneOrigin: "1 denominación",
+  mapWorldPinOne: "{country}, 1 vino",
   /* Natural Earth es dominio público y no exige cita; se pone igualmente porque un mapa sin decir de
      dónde sale su contorno es un mapa del que no te puedes fiar. */
   mapWorldCredit: "Contorno: Natural Earth (dominio público)",

@@ -145,7 +145,7 @@ Dos preguntas rápidas que desbloquean bastante:
 | Quinta Sardonia | tinto | 52 € |
 | Malabrigo | tinto | 55 € |
 | Dehesa de los Canónigos | tinto | 40 € |
-| Carmelo Rodero Reserva | tinto | 52 € |
+| Carmelo Rodero Reserva → **Raza** | tinto | 52 € |
 
 ### D.O. Rioja
 
@@ -256,12 +256,21 @@ completa en un rato.
 
 ## B · Tres cosas que no cuadran y conviene saber
 
-**1 · «Carmelo Rodero Reserva» ya no se fabrica con ese nombre.**
+**1 · «Carmelo Rodero Reserva» ya no se fabrica con ese nombre: RESUELTO A MEDIAS.**
 La bodega lo renombró **Raza**, y su gama actual es 9 Meses, Carmelo Rodero (Crianza), Raza, Pago
-de Valtarreña y TSM. Encima, las dos fichas que circulan de Raza no coinciden entre sí (una dice
+de Valtarreña y TSM. La foto que mandó Brian de la botella que hay en casa lo confirma: pone
+**«raza · Carmelo Rodero · 2021 · Edición Limitada · Ribera del Duero»**. Así que en la web ese vino
+pasa a llamarse **Carmelo Rodero Raza**, con esa foto, y conserva el precio de la carta (52 €).
+Queda por confirmar: **¿los 52 € siguen siendo el precio de esta botella?** Y se publica sin uva ni
+crianza a propósito, porque las dos fichas que circulan de Raza no coinciden entre sí (una dice
 90 % tinta del país + 10 % cabernet y 21 meses de barrica; la de la bodega, 100 % tempranillo y 9
-meses). Por eso el vino sigue publicado con su nombre de la carta y sin uva ni crianza. **Hay que
-mirar si la botella pone «Reserva» (etiqueta vieja) o «Raza».**
+meses), y no vamos a elegir una a ojo.
+
+**1b · Hay un Carmelo Rodero Crianza 2022 en casa que NO está en la carta de papel.**
+Brian mandó también su foto. Es otro vino distinto del «9 meses» que sí figura en la carta. Está
+publicado **sin precio**, como una de esas «otras referencias fuera de carta» que la propia carta
+anuncia al pie. **Si se queda en carta, hace falta su precio**; si es cosa de un pedido suelto, se
+quita y ya.
 
 **2 · «Lalume» no es Ribeira Sacra: es D.O. Ribeiro.**
 La carta de papel lo coloca en Ribeira Sacra y así está publicado, porque es donde lo pusiste tú.

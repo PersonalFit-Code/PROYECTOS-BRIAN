@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Minus, Plus, RotateCcw, Wine as WineIcon, X } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useId, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import VinoSpotlight, { nombreDeOrigen } from "@/components/vinos/VinoSpotlight";
 import { MUNDO_PAISES, MUNDO_VIEWBOX, proyectar } from "@/data/geo/mundo";
 import { formatPrice } from "@/data/menu";
@@ -50,10 +50,14 @@ import { cn } from "@/lib/utils";
 const COLOR = {
   fondo: "#2B1810",
   fondoClaro: "#3D2415",
-  tierra: "#4A2E1D",
-  tierraActiva: "#6B4428",
-  borde: "rgba(246,244,231,0.22)",
-  bordeActivo: "rgba(240,208,128,0.85)",
+  /* La tierra ERA casi tan oscura como el mar y las fronteras no se leían: el mapa parecía una
+     mancha. Subida a un marrón medio, con el borde en crema a un tercio de opacidad, se distingue
+     país por país sin que el fondo deje de ser chocolate. */
+  tierra: "#5C3A26",
+  tierraActiva: "#8A5A33",
+  tierraEncima: "#A06C3E",
+  borde: "rgba(246,244,231,0.32)",
+  bordeActivo: "rgba(240,208,128,0.9)",
   chinchetaOscura: "#C9962E",
   chinchetaClara: "#F0D080",
 } as const;
@@ -111,6 +115,7 @@ export default function MapaDelMundo() {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [encuadre, setEncuadre] = useState<Encuadre>(INICIO);
   const [paisAbierto, setPaisAbierto] = useState<NationId | null>(null);
+  const [paisEncima, setPaisEncima] = useState<NationId | null>(null);
   const [vinoAbierto, setVinoAbierto] = useState<Wine | null>(null);
 
   /* Punteros activos, para distinguir arrastre (uno) de pellizco (dos). Van en una `ref` y no en el
@@ -141,8 +146,16 @@ export default function MapaDelMundo() {
   /** Solo los países que de verdad tienen vino en la carta; si mañana no hay ninguno, no hay mapa. */
   const naciones = useMemo(() => NATION_IDS.filter((id) => (porPais.get(id)?.length ?? 0) > 0), [porPais]);
 
-  /** Siluetas a resaltar: las de los países con vino. Se cruza por el nombre de Natural Earth. */
-  const resaltados = useMemo(() => new Set(naciones.map((id) => NATIONS[id].naturalEarth)), [naciones]);
+  /**
+   * Del nombre que usa Natural Earth al país nuestro. Antes esto era solo un conjunto de nombres
+   * para pintarlos distintos; ahora es un mapa porque LA SILUETA ENTERA ES PULSABLE: pinchar en
+   * España abre sus vinos igual que pinchar su chincheta. Lo pidió el cliente, y tiene razón —
+   * acertarle a un país es mucho más fácil que acertarle a una chincheta, sobre todo con el dedo.
+   */
+  const paisPorNombre = useMemo(
+    () => new Map(naciones.map((id) => [NATIONS[id].naturalEarth, id])),
+    [naciones],
+  );
 
   /** Píxel de pantalla → punto del lienzo (hace falta para ampliar donde está el cursor). */
   const aLienzo = useCallback((clientX: number, clientY: number) => {
@@ -160,10 +173,19 @@ export default function MapaDelMundo() {
     return caja ? MUNDO_VIEWBOX.width / caja.width : 1;
   }, []);
 
+  /**
+   * EL PUNTERO NO SE CAPTURA AL APOYAR, SINO AL EMPEZAR A ARRASTRAR DE VERDAD, y la diferencia no es
+   * un detalle: cuando un elemento captura el puntero, el navegador le manda a ÉL el `click`
+   * posterior en vez de a lo que haya debajo. Capturando en el `pointerdown`, el `click` se lo
+   * quedaba el `<svg>` entero y los `onClick` de los países y de las chinchetas no llegaban a
+   * ejecutarse nunca: el mapa se arrastraba de maravilla y no se podía pinchar nada.
+   *
+   * Capturando solo cuando el dedo ya se ha movido unos píxeles se tienen las dos cosas: un clic
+   * limpio llega a su país, y un arrastre sigue funcionando aunque el dedo se salga del mapa.
+   */
   const alBajarPuntero = (e: ReactPointerEvent<SVGSVGElement>) => {
     punteros.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     arrastrado.current = false;
-    e.currentTarget.setPointerCapture(e.pointerId);
   };
 
   const alMoverPuntero = (e: ReactPointerEvent<SVGSVGElement>) => {
@@ -184,30 +206,50 @@ export default function MapaDelMundo() {
       }
       pellizco.current = { dist, cx: medio.px, cy: medio.py };
       arrastrado.current = true;
+      if (!e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.setPointerCapture(e.pointerId);
       return;
     }
 
     const escala = porPixel();
     const dx = (e.clientX - anterior.x) * escala;
     const dy = (e.clientY - anterior.y) * escala;
-    if (Math.abs(dx) + Math.abs(dy) > 0.5) arrastrado.current = true;
+    if (Math.abs(dx) + Math.abs(dy) > 0.5) {
+      arrastrado.current = true;
+      /* Ahora sí: esto es un arrastre, así que se captura el puntero para que seguir moviéndose
+         fuera del mapa no lo interrumpa. */
+      if (!e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.setPointerCapture(e.pointerId);
+    }
     setEncuadre((enc) => encajar({ ...enc, x: enc.x + dx, y: enc.y + dy }));
   };
 
   const alSoltarPuntero = (e: ReactPointerEvent<SVGSVGElement>) => {
     punteros.current.delete(e.pointerId);
     if (punteros.current.size < 2) pellizco.current = null;
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
   };
 
-  const alRodar = (e: ReactWheelEvent<SVGSVGElement>) => {
-    /* Sin `preventDefault`: el oyente de React es pasivo y el navegador lo ignoraría con un aviso en
-       la consola. El `touch-action: none` del SVG ya impide que la página se desplace con el dedo, y
-       con rueda de ratón ampliar sin bloquear el desplazamiento de la página es lo que espera la
-       gente — un mapa que secuestra la rueda es de las cosas más molestas que hay en una web. */
-    if (!e.ctrlKey && Math.abs(e.deltaY) < 8) return;
-    const { px, py } = aLienzo(e.clientX, e.clientY);
-    setEncuadre((enc) => ampliarEn(enc, e.deltaY < 0 ? 1.18 : 1 / 1.18, px, py));
-  };
+  /**
+   * LA RUEDA AMPLÍA Y LA PÁGINA NO SE MUEVE. Parece una tontería y no lo es: el `onWheel` de React
+   * se registra como oyente PASIVO, y un oyente pasivo no puede llamar a `preventDefault()` — el
+   * navegador lo ignora y avisa por consola. Resultado: la rueda ampliaba el mapa Y desplazaba la
+   * página a la vez, que es justo lo que no se quiere. Por eso el oyente se pone a mano, con
+   * `{ passive: false }`, que es la única forma de que `preventDefault()` cuente.
+   *
+   * El del dedo ya estaba resuelto por el `touch-action: none` del SVG.
+   */
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const alRodar = (e: WheelEvent) => {
+      e.preventDefault();
+      const { px, py } = aLienzo(e.clientX, e.clientY);
+      /* Solo cuenta el signo: hay ratones que mandan 3 y paneles táctiles que mandan 300, y usar el
+         valor crudo hace que con unos el mapa no se mueva y con otros se dispare. */
+      setEncuadre((enc) => ampliarEn(enc, e.deltaY < 0 ? 1.15 : 1 / 1.15, px, py));
+    };
+    svg.addEventListener("wheel", alRodar, { passive: false });
+    return () => svg.removeEventListener("wheel", alRodar);
+  }, [aLienzo]);
 
   /** Lleva el encuadre a un país y abre su tarjeta. Es lo que hacen los botones de debajo del mapa. */
   const irA = useCallback((id: NationId) => {
@@ -252,7 +294,6 @@ export default function MapaDelMundo() {
           onPointerMove={alMoverPuntero}
           onPointerUp={alSoltarPuntero}
           onPointerCancel={alSoltarPuntero}
-          onWheel={alRodar}
         >
           <defs>
             <radialGradient id="mapa-brillo" cx="50%" cy="42%" r="62%">
@@ -272,15 +313,43 @@ export default function MapaDelMundo() {
                 veces: sin eso, al acercarse las fronteras se convierten en morcillas. */}
             <g strokeLinejoin="round">
               {MUNDO_PAISES.map((pais) => {
-                const activo = resaltados.has(pais.name);
+                const nuestro = paisPorNombre.get(pais.name);
+                if (!nuestro) {
+                  /* Los otros 171. No son pulsables ni tienen `title`: son el fondo sobre el que se
+                     leen los cinco que importan, y un mapa en el que todo responde no dirige a nada. */
+                  return (
+                    <path
+                      key={pais.id}
+                      d={pais.d}
+                      fill={COLOR.tierra}
+                      stroke={COLOR.borde}
+                      strokeWidth={0.6}
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  );
+                }
+                const encima = paisEncima === nuestro;
+                const abierto = paisAbierto === nuestro;
                 return (
                   <path
                     key={pais.id}
                     d={pais.d}
-                    fill={activo ? COLOR.tierraActiva : COLOR.tierra}
-                    stroke={activo ? COLOR.bordeActivo : COLOR.borde}
-                    strokeWidth={activo ? 1.1 : 0.6}
+                    /* Pulsable con el ratón y con el dedo, pero NO es una parada del tabulador ni la
+                       anuncia el lector de pantalla: de cada país ya hay dos — su chincheta, aquí al
+                       lado, y su botón debajo del mapa. Tres anuncios de "España, 46 vinos" seguidos
+                       no son más accesible, son ruido. */
+                    aria-hidden
+                    fill={encima || abierto ? COLOR.tierraEncima : COLOR.tierraActiva}
+                    stroke={COLOR.bordeActivo}
+                    strokeWidth={abierto ? 2 : 1.2}
                     vectorEffect="non-scaling-stroke"
+                    className="cursor-pointer transition-[fill] duration-200 focus-visible:outline-none"
+                    onPointerEnter={() => setPaisEncima(nuestro)}
+                    onPointerLeave={() => setPaisEncima((previo) => (previo === nuestro ? null : previo))}
+                    onClick={() => {
+                      if (arrastrado.current) return;
+                      setPaisAbierto((previo) => (previo === nuestro ? null : nuestro));
+                    }}
                   />
                 );
               })}
@@ -294,7 +363,11 @@ export default function MapaDelMundo() {
               return (
                 <g key={id} transform={`translate(${x} ${y}) scale(${1 / encuadre.k})`}>
                   <Chincheta
-                    etiqueta={t(m.vinos.mapWorldPin, { country: m.vinos.nations[id], count: cuantos })}
+                    etiqueta={
+                      cuantos === 1
+                        ? t(m.vinos.mapWorldPinOne, { country: m.vinos.nations[id] })
+                        : t(m.vinos.mapWorldPin, { country: m.vinos.nations[id], count: cuantos })
+                    }
                     abierta={paisAbierto === id}
                     pulso={!reducido}
                     onAbrir={() => {
@@ -479,7 +552,10 @@ function TarjetaDePais({
         <div className="min-w-0">
           <p className="font-display text-xl leading-tight text-cream">{m.vinos.nations[pais]}</p>
           <p className="mt-0.5 font-caps text-[10px] uppercase tracking-[0.2em] text-gold/80">
-            {t(m.vinos.mapWorldCardCount, { count: total, origins: grupos.length })}
+            {[
+              total === 1 ? m.vinos.mapWorldOneWine : t(m.vinos.mapWorldWines, { count: total }),
+              grupos.length === 1 ? m.vinos.mapWorldOneOrigin : t(m.vinos.mapWorldOrigins, { count: grupos.length }),
+            ].join(" · ")}
           </p>
         </div>
         <button
