@@ -25,7 +25,11 @@ const itemBase =
   "pulsable relative flex h-full flex-col items-center justify-center gap-1 rounded-[22px] px-0.5 text-center font-sans text-[11px] font-bold uppercase leading-tight tracking-[0.1em] [&>svg]:h-5 [&>svg]:w-5";
 const itemGhost = "text-cream-200 hover:bg-cream/8 hover:text-cream";
 /** "Estás aquí": el mismo rojo de la marca, pero sin relleno, para no confundirse con el botón de acción. */
-const itemHere = "bg-pimenton/12 text-pimenton-light";
+/* El TEXTO en crema y el rojo en el icono y en el filo superior. Sobre el cristal del dock, con una
+   foto blanca debajo (el peor caso), ningún rojo de la casa llega a 4,5:1 a 11 px: el claro daba
+   3,1:1 (medido en el navegador) y el accesible 4,3:1. El crema da 8,4:1; el icono, que no es texto
+   y pide 3:1, se queda rojo (4,3:1). Se sigue leyendo "estás aquí" de un vistazo. */
+const itemHere = "bg-cream/[0.06] text-cream [&>svg]:text-pimenton-a11y";
 /* Dentro del dock: sin desenfoque propio (nunca cristal sobre cristal), solo el tinte de acento, su
    filo de luz y el texto en `--on-accent`. */
 const itemPrimary =
@@ -43,7 +47,7 @@ const WATCHED_SECTIONS = ["experiencia"] as const;
  *  · la ruta (`usePathname`) marca "Ver carta" mientras se está en /carta;
  *  · un `IntersectionObserver` marca "Llegar" cuando la sección de ubicación ocupa el centro.
  * El estado activo NO es la píldora roja rellena: esa se queda para "Ver carta", que es una ACCIÓN y
- * no un sitio. El "estás aquí" es texto en pimentón, fondo apenas teñido y un filo superior; se
+ * no un sitio. El "estás aquí" es icono en pimentón, fondo apenas aclarado y un filo superior; se
  * distinguen de un vistazo y no compiten. `aria-current` lo dice también a los lectores de pantalla.
  *
  * Se desliza fuera de la pantalla mientras el camarero virtual está abierto.
