@@ -269,9 +269,12 @@ export const PHOTOS: Photo[] = [
     dishIds: ["esp-ajada-bacalao" satisfies MenuItemId],
     focus: "50% 50%",
   },
-  /* PULPO Á FEIRA: cachelos, pimentón y aceite sobre el plato de madera de siempre. Va en "Pulpo a
-     la gallega o a la plancha", que es la entrada que la carta ofrece de las dos maneras: la foto
-     enseña una de ellas y la descripción sigue contando que se puede pedir de la otra. */
+  /* PULPO Á FEIRA: cachelos, pimentón y aceite sobre el plato de madera de siempre.
+     Va en las DOS entradas de pulpo a la plancha, que es lo que pidió el cliente. En "Pulpo a la
+     gallega o a la plancha" es exactamente el plato. En "Pulpo a la plancha con grelos" NO lo es
+     —ahí el pulpo va sobre una cama de grelos, no sobre cachelos— y queda dicho en
+     docs/fotos-para-revisar.md: enseña el mismo pulpo y la misma mano, que es lo que se busca, pero
+     el día que haya una foto con los grelos, esa manda y basta con cambiar el id. */
   {
     id: "pulpo-feira",
     src: "/images/pulpo-feira.webp",
@@ -281,7 +284,7 @@ export const PHOTOS: Photo[] = [
     alt: "Pulpo á feira en plato de madera: rodajas de pulpo cocido sobre cachelos, con pimentón y aceite de oliva por encima",
     caption: "Pulpo á feira",
     tags: ["plato", "local"],
-    dishIds: ["pul-gallega-plancha" satisfies MenuItemId],
+    dishIds: ["pul-gallega-plancha" satisfies MenuItemId, "pul-plancha-grelos" satisfies MenuItemId],
     focus: "50% 50%",
   },
   /* PIMIENTOS DE PADRÓN, Y SIN `dishIds` A PROPÓSITO: no están en la carta de papel, así que no hay

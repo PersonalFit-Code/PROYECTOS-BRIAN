@@ -68,6 +68,21 @@ vistazo**; moverlo a otro plato es cambiar un id en `dishIds`.
 
 ---
 
+## 1e · El pulpo con grelos lleva la foto del pulpo á feira
+
+Lo pidió Brian: la misma foto en las dos entradas de pulpo a la plancha. En **"Pulpo a la gallega o
+a la plancha"** es literalmente el plato. En **"Pulpo a la plancha con grelos"** no lo es: ahí el
+pulpo va sobre una cama de grelos salteados, y en la foto va sobre cachelos con pimentón.
+
+Se publica igual porque enseña el mismo pulpo y la misma mano, que es lo que se busca en una
+tarjeta. Pero **con una foto del plato con grelos, esa manda** — cambiarla es quitar un id de
+`dishIds` en `src/data/photos.ts` y poner el nuevo.
+
+Queda sin foto el **salteado de pulpo, salmón y langostinos**: ahí la diferencia ya no es el
+acompañamiento, son otros dos ingredientes principales, y esa sí engañaría.
+
+---
+
 ## 2 · Platos enlazados a su entrada de la carta
 
 Estos nueve sí se reconocen sin discusión y van enlazados a su plato. Si alguno no es lo que
