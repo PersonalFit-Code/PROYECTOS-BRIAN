@@ -551,10 +551,14 @@ export const MENU_ITEMS: MenuItem[] = [
     id: "esp-queso-frito",
     name: "Queso frito",
     category: "especiales",
-    description: "Tacos de queso rebozados y fritos, tibios y fundentes por dentro. Dura poco en la mesa.",
+    /* Las nueces van SIEMPRE con este plato — lo confirmó la casa cuando se le preguntó por la foto,
+       donde salen en su cuenco al lado. Van en la descripción y en los alérgenos aunque sean un
+       acompañamiento y no el plato: a quien tiene alergia a los frutos secos le da igual que la
+       nuez sea el extra; lo que necesita saber es que está en el plato que le van a servir. */
+    description: "Tacos de queso rebozados y fritos, tibios y fundentes por dentro. Se sirven con nueces y salsa al lado. Dura poco en la mesa.",
     price: 6.9,
     unit: "ración",
-    allergens: ["lacteos", "gluten", "huevos"],
+    allergens: ["lacteos", "gluten", "huevos", "frutos-cascara"],
     tags: ["vegetariano"],
     emoji: "🧀",
   },

@@ -134,12 +134,10 @@ export const PHOTOS: Photo[] = [
     dishIds: ["tix-chistorra" satisfies MenuItemId],
     focus: "50% 50%",
   },
-  /* OJO CON ESTA FOTO: el queso frito sale acompañado de NUECES, y la lista de alérgenos del plato
-     —que viene de la carta de papel— no declara frutos de cáscara. No se toca la lista aquí: los
-     alérgenos los firma la casa, no se deducen de una foto. Pero la foto se publica y la pregunta
-     queda anotada arriba del todo en docs/alergenos-para-revisar.md, que es lo primero que hay que
-     resolver con Tatiana. El `alt` nombra las nueces expresamente, para que quien no vea la imagen
-     tenga la misma información que quien sí la ve. */
+  /* Esta foto destapó un alérgeno que faltaba: el queso frito sale con NUECES y la carta no las
+     declaraba. Preguntado a la casa, van siempre, así que el plato ya declara frutos de cáscara
+     (`src/data/menu.ts`) y lo dice su descripción. El `alt` las nombra igualmente, para que quien no
+     vea la imagen tenga la misma información que quien sí la ve. */
   {
     id: "queso-frito",
     src: "/images/queso-frito.webp",

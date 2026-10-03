@@ -189,7 +189,7 @@ const gl: DataTranslations = {
       unit: "ración",
     },
     "esp-queso-frito": {
-      description: "Tacos de queixo rebozados e fritos, mornos e fundentes por dentro. Dura pouco na mesa.",
+      description: "Tacos de queixo rebozados e fritos, mornos e fundentes por dentro. Sérvense con noces e salsa ao lado. Dura pouco na mesa.",
       unit: "ración",
     },
     "esp-oreja-plancha": {

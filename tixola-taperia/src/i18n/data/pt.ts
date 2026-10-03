@@ -190,7 +190,7 @@ const pt: DataTranslations = {
       unit: "dose",
     },
     "esp-queso-frito": {
-      description: "Cubos de queijo panados e fritos, mornos e derretidos por dentro. Dura pouco na mesa.",
+      description: "Cubos de queijo panados e fritos, mornos e derretidos por dentro. Servem-se com nozes e molho ao lado. Dura pouco na mesa.",
       unit: "dose",
     },
     "esp-oreja-plancha": {

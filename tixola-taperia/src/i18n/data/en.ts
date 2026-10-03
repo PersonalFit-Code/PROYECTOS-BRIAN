@@ -189,7 +189,7 @@ const en: DataTranslations = {
       unit: "portion",
     },
     "esp-queso-frito": {
-      description: "Cubes of cheese, breaded and fried, warm and molten inside. It does not last long on the table.",
+      description: "Cubes of cheese, breaded and fried, warm and molten inside. Served with walnuts and a sauce on the side. It does not last long on the table.",
       unit: "portion",
     },
     "esp-oreja-plancha": {
