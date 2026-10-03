@@ -361,6 +361,10 @@ const pt: DataTranslations = {
       alt: "Tixola com chistorra vista de cima: frigideira com batatas, ovo coalhado e rodelas de chistorra",
       caption: "Tixola com chistorra",
     },
+    "queso-frito": {
+      alt: "Dose de queijo frito: quatro barras de queijo panadas e douradas sobre folhas de alface, com uma taça de nozes descascadas e outra de molho vermelho ao lado",
+      caption: "Queijo frito, com nozes e molho",
+    },
     "mejillones-tigre": {
       alt: "Dose de mexilhões tigre: oito conchas recheadas e panadas, douradas, sobre uma cama de folhas de salada em prato verde",
       caption: "Mexilhões tigre",

@@ -360,6 +360,10 @@ const gl: DataTranslations = {
       alt: "Tixola con chistorra vista desde arriba: tixola con patacas, ovo callado e rodas de chistorra",
       caption: "Tixola con chistorra",
     },
+    "queso-frito": {
+      alt: "Ración de queixo frito: catro tacos de queixo rebozados e dourados sobre follas de leituga, cun cunco de noces peladas e outro de salsa vermella ao lado",
+      caption: "Queixo frito, con noces e salsa",
+    },
     "mejillones-tigre": {
       alt: "Ración de mexillóns tigre: oito cunchas recheas e rebozadas, douradas, sobre un leito de brotes de ensalada en prato verde",
       caption: "Mexillóns tigre",

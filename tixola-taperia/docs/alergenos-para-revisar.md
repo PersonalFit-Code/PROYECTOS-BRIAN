@@ -16,6 +16,24 @@ digas lo que lleva de verdad, basta.**
 
 ---
 
+## ⚠️ LO PRIMERO: EL QUESO FRITO Y LAS NUECES
+
+En la foto del **queso frito** que mandó Brian, el plato sale con **un cuenco de nueces** al lado. La
+lista de alérgenos que la web publica hoy para ese plato es *lácteos, gluten y huevos*: **no declara
+frutos de cáscara**.
+
+No lo he cambiado yo, porque los alérgenos los firmas tú y no se deducen de una foto. Pero es la
+pregunta más urgente de todo este documento, porque una alergia a los frutos secos es de las graves:
+
+- **¿Las nueces van siempre con el queso frito?** → hay que añadir *frutos de cáscara* a su lista.
+- **¿Son de ese día, o del montaje de la foto?** → no se toca nada, pero conviene decirlo en barra.
+- **¿Se pueden servir sin ellas si alguien lo pide?** → también vale la pena que lo sepa la web.
+
+La foto se publica igual, y su texto alternativo nombra las nueces expresamente, para que quien no
+pueda ver la imagen tenga la misma información que quien sí la ve.
+
+---
+
 ## Las tres reglas con las que está hecho esto
 
 1. **Solo se dice lo que un plato LLEVA, nunca lo que no lleva.** La web no dice de ningún plato que

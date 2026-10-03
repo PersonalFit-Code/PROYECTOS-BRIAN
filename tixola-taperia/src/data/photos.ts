@@ -128,6 +128,24 @@ export const PHOTOS: Photo[] = [
     dishIds: ["tix-chistorra" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* OJO CON ESTA FOTO: el queso frito sale acompañado de NUECES, y la lista de alérgenos del plato
+     —que viene de la carta de papel— no declara frutos de cáscara. No se toca la lista aquí: los
+     alérgenos los firma la casa, no se deducen de una foto. Pero la foto se publica y la pregunta
+     queda anotada arriba del todo en docs/alergenos-para-revisar.md, que es lo primero que hay que
+     resolver con Tatiana. El `alt` nombra las nueces expresamente, para que quien no vea la imagen
+     tenga la misma información que quien sí la ve. */
+  {
+    id: "queso-frito",
+    src: "/images/queso-frito.webp",
+    srcTall: "/images/queso-frito-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Ración de queso frito: cuatro tacos de queso rebozados y dorados sobre hojas de lechuga, con un cuenco de nueces peladas y otro de salsa roja al lado",
+    caption: "Queso frito, con nueces y salsa",
+    tags: ["plato", "local"],
+    dishIds: ["esp-queso-frito" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
   {
     id: "mejillones-tigre",
     src: "/images/mejillones-tigre.webp",

@@ -360,6 +360,10 @@ const en: DataTranslations = {
       alt: "Overhead view of the chistorra pan: potatoes, set egg and sliced chistorra sausage",
       caption: "Chistorra pan",
     },
+    "queso-frito": {
+      alt: "A plate of fried cheese: four breaded, golden cheese sticks on lettuce leaves, with a small bowl of shelled walnuts and another of red sauce beside them",
+      caption: "Fried cheese, with walnuts and sauce",
+    },
     "mejillones-tigre": {
       alt: "A plate of tiger mussels: eight stuffed, breaded and fried mussel shells, golden, on a bed of salad leaves on a green plate",
       caption: "Tiger mussels",
