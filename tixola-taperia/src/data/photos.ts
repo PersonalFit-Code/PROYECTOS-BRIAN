@@ -275,10 +275,20 @@ export const PHOTOS: Photo[] = [
     alt: "Croquetas caseras recién fritas, vistas desde arriba sobre una tabla de madera alargada",
     caption: "Croquetas de la casa",
     tags: ["plato"],
-    /* Solo reclama el destacado de la portada, NO la entrada de la carta: por fuera no se sabe de
-       qué croqueta es, y eso sigue pendiente de que lo confirme Tatiana (docs/fotos-para-revisar.md).
-       La tarjeta de la carta la saca igual por `MenuItem.image`, que no afirma autoría de la foto. */
-    dishIds: ["croquetas"],
+    /* LA MISMA FOTO PARA LAS CUATRO CROQUETAS, y lo decidió la casa: "al final no se va a
+       diferenciar por el exterior, sino por el interior, así que con la misma nos vale". Es verdad —
+       de jamón, de grelos y chipirón, de cecina con queso de cabra o sin gluten, por fuera son la
+       misma croqueta dorada—, y resuelve la duda que estaba anotada en docs/fotos-para-revisar.md:
+       la foto ya no tiene que decir cuál es, porque lo dice el nombre del plato encima.
+       El primero de la lista es el destacado de la portada; los otros cuatro, las entradas de la
+       carta. */
+    dishIds: [
+      "croquetas",
+      "coc-croquetas-jamon" satisfies MenuItemId,
+      "coc-croquetas-grelos-chipiron" satisfies MenuItemId,
+      "coc-croquetas-cecina-cabra" satisfies MenuItemId,
+      "coc-croquetas-sin-gluten" satisfies MenuItemId,
+    ],
     focus: "50% 50%",
   },
   {

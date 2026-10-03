@@ -21,8 +21,9 @@ import { cn } from "@/lib/utils";
  *    ya abren los platos estrella: foto grande, precio, alérgenos, maridaje y camarero.
  *  - EN ESCRITORIO la tarjeta se queda como estaba (toda la información a la vista) y la FOTO es el
  *    botón que abre esa misma ficha. Una sola manera de ver un plato en toda la web.
- *  - Con foto (`item.image`): imagen 4:3 arriba (next/image, `object-position` del manifiesto de
- *    fotos) con el icono del plato en un disco de hierro sobre la esquina.
+ *  - Con foto —la escrita en `MenuItem.image` o la del manifiesto que reclame el plato por
+ *    `dishIds`—: imagen 4:3 arriba (next/image, con el `object-position` del manifiesto de fotos) y
+ *    el icono del plato en un disco de hierro sobre la esquina.
  *  - Sin foto: cabecera fina con el icono del plato (DishIcon) en dorado sobre un disco de hierro.
  *  - Nombre en Bebas Neue mayúsculas, descripción, precio grande en rojo pimentón + unidad, variantes
  *    en línea, chips dietéticos (lucide), fila de alérgenos, maridaje ("Marida con: …") y un botón
@@ -82,6 +83,22 @@ const TAG_ORDER: DietTag[] = ["estrella", "nuevo", "vegano", "vegetariano", "sin
 /** Foto del manifiesto por ruta (para el `object-position`). */
 const PHOTO_BY_SRC: ReadonlyMap<string, Photo> = new Map(PHOTOS.map((p) => [p.src, p]));
 
+/**
+ * Foto del manifiesto por PLATO, para las que no van escritas en `MenuItem.image`.
+ *
+ * La tarjeta solo miraba `item.image`, así que una foto que reclamaba su plato desde el manifiesto
+ * (`dishIds`) salía en la ficha al pinchar… y la tarjeta seguía enseñando el icono. Ahora el
+ * manifiesto vale para las dos, y `dishIds` es el único sitio donde hay que enlazar una foto con su
+ * plato — que además es el que lleva el `alt` traducido y el punto de encuadre.
+ *
+ * El `.reverse()` no es un adorno: `new Map` se queda con la ÚLTIMA entrada repetida, y aquí el
+ * criterio es el mismo que en el resto de la web (`.find()`), o sea la PRIMERA foto del manifiesto
+ * que reclame ese plato. Dándole la vuelta a la lista, la primera acaba sobrescribiendo a las demás.
+ */
+const PHOTO_BY_DISH: ReadonlyMap<string, Photo> = new Map(
+  PHOTOS.flatMap((p) => (p.dishIds ?? []).map((id) => [id, p] as const)).reverse(),
+);
+
 /** Anchos reales de la columna de la rejilla (1 col móvil · 2 cols md · 3 cols xl junto al camarero). */
 const IMAGE_SIZES = "(min-width: 1280px) 300px, (min-width: 768px) 45vw, calc(100vw - 32px)";
 
@@ -94,7 +111,10 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
   const chalk = variant === "chalk";
   const tags = TAG_ORDER.filter((tag) => item.tags.includes(tag));
   const titleId = `carta-item-${item.id}-title`;
-  const photo = item.image ? PHOTO_BY_SRC.get(item.image) : undefined;
+  const delManifiesto = PHOTO_BY_DISH.get(item.id);
+  const photo = item.image ? PHOTO_BY_SRC.get(item.image) : delManifiesto;
+  /* La ruta que se pinta: la escrita en el plato manda, y si no la hay, la del manifiesto. */
+  const fotoSrc = item.image ?? delManifiesto?.src;
   /* La variante más barata, para la fila de móvil. Las variantes van de menor a mayor y la mayor
      es, por contrato, el precio base que la fila ya enseña: repetirla sería decir dos veces lo
      mismo. (Lo vigila `assertMenuIntegrity`, que rompe el build si dejan de cuadrar.) */
@@ -160,10 +180,10 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             aria-label={t(m.carta.openDish, { name: item.name })}
             className="flex w-full items-center gap-3 p-2.5 text-left"
           >
-            {item.image ? (
+            {fotoSrc ? (
               <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-granate-800">
                 <Image
-                  src={item.image}
+                  src={fotoSrc}
                   alt=""
                   fill
                   /* 64 px de caja en una pantalla de hasta 3x: pedir 192 px es todo lo que puede
@@ -216,7 +236,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
         {/* ── Cabecera: foto 4:3 o disco con el icono del plato ──
             La foto es el BOTÓN que abre la ficha en escritorio (en móvil la abre la fila de arriba).
             Toda esta cabecera va oculta por debajo de `md`, donde manda la fila compacta. */}
-        {item.image ? (
+        {fotoSrc ? (
           <button
             type="button"
             onClick={() => onOpen(item)}
@@ -224,7 +244,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             className="group/foto relative aspect-[4/3] w-full overflow-hidden bg-granate-800 max-md:hidden"
           >
             <Image
-              src={item.image}
+              src={fotoSrc}
               alt={t(m.carta.photoOf, { name: item.name })}
               fill
               sizes={IMAGE_SIZES}

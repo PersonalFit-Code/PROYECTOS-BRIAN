@@ -10,25 +10,23 @@ ojo que estuvo en la cocina.
 
 ---
 
-## 1 · Las croquetas: ¿cuáles son?
+## 1 · Las croquetas: ¿cuáles son? — RESUELTO
 
-**Dónde sale.** En la tarjeta de *Croquetas de grelos y chipirón* (en la carta y en el carrusel de
-la portada), con la foto `croquetas-tabla.webp` — la tabla de madera.
+**La decisión de la casa:** *"al final no se va a diferenciar por el exterior, sino por el interior,
+así que si coges la misma foto nos vale"*. Así que `croquetas-tabla.webp` sale ahora en **las cuatro
+croquetas de la carta** —jamón, grelos y chipirón, cecina y queso de cabra, y sin gluten— y en el
+destacado de la portada.
 
-**El problema.** Por fuera todas las croquetas se parecen. En esa foto no hay forma de saber si son
-las de grelos y chipirón, las de jamón o las de cecina y queso de cabra.
+**Por qué funciona.** Por fuera son la misma croqueta dorada, y quien la mira ya sabe cuál es porque
+tiene el nombre del plato encima. La foto no afirma de qué está rellena: enseña cómo se sirven.
 
-**Por qué está puesta igual.** La que había antes era peor: era la foto de la terraza, donde el
-plato del centro es una tixola de raxo y las croquetas quedan en una esquina. Quien pinchaba
-"Croquetas" veía patatas con carne.
+**Si algún día cambia**, es un sitio: el campo `dishIds` de la foto `croquetas-tabla` en
+`src/data/photos.ts`. Quitando un id de ahí, esa croqueta se queda sin foto; poniendo otra foto con
+ese id, la cambia.
 
-**Qué hace falta.** Que Tatiana diga de qué croqueta es la foto. Tres salidas posibles:
-- Son las de grelos y chipirón → no hay que tocar nada.
-- Son otras → se mueve la foto a esa tarjeta.
-- No se sabe → se quita de las tarjetas y se queda solo en la galería, donde no afirma nada.
-
-La segunda foto de croquetas (`croquetas-racion.webp`, el plato alargado) está **solo en la
-galería**, sin enlazar a ningún plato, exactamente por lo mismo.
+La segunda foto de croquetas (`croquetas-racion.webp`, el plato alargado) sigue **solo en la
+galería**, sin enlazar a ningún plato: con una ya basta para las cuatro tarjetas y dos fotos casi
+iguales seguidas no aportan nada.
 
 ---
 

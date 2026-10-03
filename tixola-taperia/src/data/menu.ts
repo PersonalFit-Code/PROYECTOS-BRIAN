@@ -368,11 +368,6 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "coc-croquetas-grelos-chipiron",
-    /* Antes abría con la foto de la terraza, donde el plato del centro es una tixola de raxo y las
-       croquetas quedan en una esquina: quien pinchaba "Croquetas" veía patatas con carne. Esta es una
-       tabla de croquetas de la casa. Por fuera todas las croquetas se parecen y la foto no dice cuál
-       es: queda anotado en docs/fotos-para-revisar.md para que Tatiana confirme o la cambie. */
-    image: "/images/croquetas-tabla.webp",
     name: "Croquetas de grelos y chipirón",
     category: "cocina",
     description: "Grelos y chipirón dentro de la bechamel: verde y mar en la misma croqueta. Las más gallegas y las que más se repiten en las reseñas.",
