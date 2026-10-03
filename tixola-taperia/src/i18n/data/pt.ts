@@ -361,6 +361,10 @@ const pt: DataTranslations = {
       alt: "Tixola com chistorra vista de cima: frigideira com batatas, ovo coalhado e rodelas de chistorra",
       caption: "Tixola com chistorra",
     },
+    "ensalada-gulas-langostinos": {
+      alt: "Salada de gulas, cogumelos e lagostins: folhas de alface e rodelas de tomate com gulas, cogumelos salteados e lagostins por cima, em taça de barro",
+      caption: "Salada de gulas, cogumelos e lagostins",
+    },
     "ajada-bacalao": {
       alt: "Bacalhau com ajada: bacalhau desfiado com azeite, alho e colorau por cima, com uma batata cozida ao lado, em taça de cerâmica verde",
       caption: "Bacalhau com ajada",

@@ -360,6 +360,10 @@ const en: DataTranslations = {
       alt: "Overhead view of the chistorra pan: potatoes, set egg and sliced chistorra sausage",
       caption: "Chistorra pan",
     },
+    "ensalada-gulas-langostinos": {
+      alt: "Salad with baby eels, mushrooms and prawns: lettuce leaves and tomato slices topped with baby eels, sautéed mushrooms and prawns, in an earthenware bowl",
+      caption: "Baby eel, mushroom and prawn salad",
+    },
     "ajada-bacalao": {
       alt: "Cod in ajada: flaked salt cod dressed with olive oil, garlic and paprika, with a boiled potato beside it, in a green ceramic bowl",
       caption: "Cod in Galician ajada",

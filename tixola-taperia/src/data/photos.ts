@@ -240,6 +240,18 @@ export const PHOTOS: Photo[] = [
     dishIds: ["coc-calamares" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  {
+    id: "ensalada-gulas-langostinos",
+    src: "/images/ensalada-gulas-langostinos.webp",
+    srcTall: "/images/ensalada-gulas-langostinos-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Ensalada de gulas, setas y langostinos: brotes de lechuga y rodajas de tomate con gulas, setas salteadas y langostinos por encima, en cuenco de barro",
+    caption: "Ensalada de gulas, setas y langostinos",
+    tags: ["plato", "local"],
+    dishIds: ["ens-gulas-setas-langostinos" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
   /* AJADA DE BACALAO. Brian mandó la foto sin acordarse del nombre ("algo de bacalao"), y es esta:
      bacalao desmigado con la ajada por encima —aceite, ajo y pimentón— y su cachelo al lado, que es
      literalmente lo que describe la carta. No es el de tempura (ese va rebozado) ni el revuelto
