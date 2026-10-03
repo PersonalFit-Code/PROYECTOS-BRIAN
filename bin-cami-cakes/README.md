@@ -633,6 +633,47 @@ Dos cosas pendientes de verdad, las dos para Brian:
 Va en 16:9 y se ve entera. Recortada a 4:3 se perdían los globos de un lado y
 la vitrina del otro, que son justo lo que cuenta de qué va la tienda.
 
+## Las dos fotos del local, y cuál va dónde
+
+Son dos y se confunden con facilidad:
+
+| archivo | qué es | dónde va |
+|---|---|---|
+| `pastelera.webp` | la pastelera sonriendo en el mostrador (768×432) | «Quiénes somos», en la portada |
+| `local.webp` | la fachada vista desde la calle (1200×900), la que mandó Luisa | cabecera del catálogo + ficha de contacto |
+
+La de Luisa estuvo desde el 30/9 de fondo del adelanto del vídeo, oscurecida
+bajo el botón de play, donde no se veía — y el día que llegue el vídeo
+desaparecía. El 3/10 pasó a los dos sitios donde trabaja:
+
+**Cabecera del catálogo.** La página se llama «Nuestro mostrador» y la foto *es*
+el mostrador. Ahí le da identidad propia a la segunda página, que hasta ahora
+heredaba toda la de la portada. Va al lado del titular (en el móvil, debajo),
+a 4:3, que es el recorte nativo: no se pierde nada. Aprovechando el hueco, el
+catálogo estrena arriba la misma llamada con la que ya cerraba
+(`mos.cta`, clave compartida a propósito): era una página larga en la que había
+que recorrerlo todo para poder preguntar.
+
+**Ficha de contacto.** Es donde más trabaja, aunque no lo parezca: lo difícil no
+es llegar a la calle, es **reconocer la tienda**. «Bajo 3» no se ve desde la
+acera; los globos y el cartel iluminado sí. Va a 3:2 encima de la dirección,
+con un pie que lo dice: «Busca los globos y el cartel del cupcake».
+
+**Y el adelanto del vídeo se quedó sin ella**, por dos motivos y el segundo pesa
+más: ya salía grande en la ficha de contacto de esa misma página, y sobre todo
+enseñaba **la fachada** bajo un rótulo que dice «grabado en el propio obrador».
+Pequeño, pero es exactamente el tipo de cosa que esta web no hace. Ahora es el
+degradado de la casa con el play y el rótulo: se entiende que ahí va un vídeo y
+que todavía no está.
+
+> **La resolución es el límite.** 1200×900 da de sobra para las dos cajas de
+> ahora (la mayor es de unos 450 px de ancho, o sea 2,6×). Para una franja a
+> todo lo ancho se quedaría corta: llegó por WhatsApp, que comprime. Si algún
+> día se quiere así, **pídele el archivo original** por correo o como
+> «documento». Y conviene que confirme que le vale como cara de la tienda: en
+> la foto hay globos y un lazo dorado, que parecen de un día especial y no de
+> un martes cualquiera.
+
 ## El tono lo ponen ellas, no nosotros
 
 Brian pasó su Instagram (@bin_camicakes) para que la web suene "como si fuera
