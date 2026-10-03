@@ -56,6 +56,18 @@ foto. Sin él no se pueden publicar: un precio inventado en una carta es el peor
 
 ---
 
+## 1d · «Algo de bacalao»: está puesta en la ajada
+
+Brian mandó la foto sin acordarse del nombre del plato ("van pasando muy rápido"). Está publicada en
+**Ajada de bacalao**, porque es lo que se ve y lo que describe la carta: bacalao desmigado con la
+ajada por encima —aceite, ajo y pimentón— y su cachelo al lado.
+
+Descartados los otros dos bacalaos de la carta: los **tacos en tempura** van rebozados, y el
+**revuelto** lleva huevo, grelos y langostinos. Aun así, **conviene que Tatiana lo confirme de un
+vistazo**; moverlo a otro plato es cambiar un id en `dishIds`.
+
+---
+
 ## 2 · Platos enlazados a su entrada de la carta
 
 Estos nueve sí se reconocen sin discusión y van enlazados a su plato. Si alguno no es lo que

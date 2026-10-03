@@ -360,6 +360,10 @@ const en: DataTranslations = {
       alt: "Overhead view of the chistorra pan: potatoes, set egg and sliced chistorra sausage",
       caption: "Chistorra pan",
     },
+    "ajada-bacalao": {
+      alt: "Cod in ajada: flaked salt cod dressed with olive oil, garlic and paprika, with a boiled potato beside it, in a green ceramic bowl",
+      caption: "Cod in Galician ajada",
+    },
     "pulpo-feira": {
       alt: "Pulpo á feira on a wooden plate: slices of boiled octopus over potatoes, dusted with paprika and dressed with olive oil",
       caption: "Galician-style octopus",

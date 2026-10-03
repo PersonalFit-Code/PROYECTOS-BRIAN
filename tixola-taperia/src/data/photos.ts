@@ -242,6 +242,23 @@ export const PHOTOS: Photo[] = [
     dishIds: ["coc-calamares" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* AJADA DE BACALAO. Brian mandó la foto sin acordarse del nombre ("algo de bacalao"), y es esta:
+     bacalao desmigado con la ajada por encima —aceite, ajo y pimentón— y su cachelo al lado, que es
+     literalmente lo que describe la carta. No es el de tempura (ese va rebozado) ni el revuelto
+     (ese lleva huevo, grelos y langostinos). Queda anotado en docs/fotos-para-revisar.md por si
+     Tatiana lo ve de otra manera; cambiarlo de plato es cambiar un id. */
+  {
+    id: "ajada-bacalao",
+    src: "/images/ajada-bacalao.webp",
+    srcTall: "/images/ajada-bacalao-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Ajada de bacalao: bacalao desmigado con aceite, ajo y pimentón por encima, con una patata cocida al lado, en cuenco de cerámica verde",
+    caption: "Ajada de bacalao",
+    tags: ["plato", "local"],
+    dishIds: ["esp-ajada-bacalao" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
   /* PULPO Á FEIRA: cachelos, pimentón y aceite sobre el plato de madera de siempre. Va en "Pulpo a
      la gallega o a la plancha", que es la entrada que la carta ofrece de las dos maneras: la foto
      enseña una de ellas y la descripción sigue contando que se puede pedir de la otra. */

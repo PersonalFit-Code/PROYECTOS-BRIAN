@@ -361,6 +361,10 @@ const pt: DataTranslations = {
       alt: "Tixola com chistorra vista de cima: frigideira com batatas, ovo coalhado e rodelas de chistorra",
       caption: "Tixola com chistorra",
     },
+    "ajada-bacalao": {
+      alt: "Bacalhau com ajada: bacalhau desfiado com azeite, alho e colorau por cima, com uma batata cozida ao lado, em taça de cerâmica verde",
+      caption: "Bacalhau com ajada",
+    },
     "pulpo-feira": {
       alt: "Polvo à feira em prato de madeira: rodelas de polvo cozido sobre batatas, com colorau e azeite por cima",
       caption: "Polvo à feira",

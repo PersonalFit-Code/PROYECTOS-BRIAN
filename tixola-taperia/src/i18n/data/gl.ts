@@ -360,6 +360,10 @@ const gl: DataTranslations = {
       alt: "Tixola con chistorra vista desde arriba: tixola con patacas, ovo callado e rodas de chistorra",
       caption: "Tixola con chistorra",
     },
+    "ajada-bacalao": {
+      alt: "Allada de bacallau: bacallau esmigallado con aceite, allo e pemento por riba, cunha pataca cocida ao lado, en cunca de cerámica verde",
+      caption: "Allada de bacallau",
+    },
     "pulpo-feira": {
       alt: "Polbo á feira en prato de madeira: rodas de polbo cocido sobre cachelos, con pemento e aceite de oliva por riba",
       caption: "Polbo á feira",
