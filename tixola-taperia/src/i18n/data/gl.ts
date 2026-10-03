@@ -360,6 +360,10 @@ const gl: DataTranslations = {
       alt: "Tixola con chistorra vista desde arriba: tixola con patacas, ovo callado e rodas de chistorra",
       caption: "Tixola con chistorra",
     },
+    "mejillones-tigre": {
+      alt: "Ración de mexillóns tigre: oito cunchas recheas e rebozadas, douradas, sobre un leito de brotes de ensalada en prato verde",
+      caption: "Mexillóns tigre",
+    },
     "postre-chocolate": {
       alt: "Sobremesa de chocolate con azucre glas e xarope, servida en prato verde cunha bóla de xeado de vainilla e dúas de nata montada, sobre a mesa de Tixola Tapería",
       caption: "A sobremesa: chocolate, xeado e nata",

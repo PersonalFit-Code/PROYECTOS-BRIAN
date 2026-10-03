@@ -360,6 +360,10 @@ const en: DataTranslations = {
       alt: "Overhead view of the chistorra pan: potatoes, set egg and sliced chistorra sausage",
       caption: "Chistorra pan",
     },
+    "mejillones-tigre": {
+      alt: "A plate of tiger mussels: eight stuffed, breaded and fried mussel shells, golden, on a bed of salad leaves on a green plate",
+      caption: "Tiger mussels",
+    },
     "postre-chocolate": {
       alt: "Chocolate dessert dusted with icing sugar and drizzled with syrup, served on a green plate with a scoop of vanilla ice cream and two of whipped cream, on a table at Tixola Tapería",
       caption: "The dessert: chocolate, ice cream and cream",

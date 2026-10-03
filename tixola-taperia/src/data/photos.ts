@@ -128,6 +128,18 @@ export const PHOTOS: Photo[] = [
     dishIds: ["tix-chistorra" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  {
+    id: "mejillones-tigre",
+    src: "/images/mejillones-tigre.webp",
+    srcTall: "/images/mejillones-tigre-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Ración de mejillones tigre: ocho conchas rellenas y rebozadas, doradas, sobre un lecho de brotes de ensalada en plato verde",
+    caption: "Mejillones tigre",
+    tags: ["plato", "local"],
+    dishIds: ["coc-mejillones-tigre" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
   /* EL POSTRE. La carta lo llama "Postre del día" y dice que cambia, y eso sigue siendo verdad: la
      foto no la contradice, la acompaña. Lo que pasa es que últimamente la casa mantiene el mismo, y
      una foto de lo que hay de verdad vale más que un icono de postre genérico. Si cambia el postre,
