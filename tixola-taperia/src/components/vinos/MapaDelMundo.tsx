@@ -269,15 +269,17 @@ export default function MapaDelMundo() {
 
   return (
     <section aria-labelledby={tituloId} className="container-page pb-14 md:pb-20">
-      <p className="font-caps text-xs uppercase tracking-[0.3em] text-pimenton-a11y">{m.vinos.mapWorldKicker}</p>
-      <h2 id={tituloId} className="mt-3 max-w-2xl font-display text-3xl font-medium leading-[1.02] text-cream text-balance md:text-4xl">
+      <p data-reveal="fade" className="font-caps text-xs uppercase tracking-[0.3em] text-pimenton-a11y">{m.vinos.mapWorldKicker}</p>
+      <h2 data-reveal id={tituloId} className="mt-3 max-w-2xl font-display text-3xl font-medium leading-[1.02] text-cream text-balance md:text-4xl">
         {m.vinos.mapWorldTitle}
       </h2>
-      <p className="mt-3 max-w-xl text-sm leading-relaxed text-cream-muted text-pretty md:text-base">
+      <p data-reveal="fade" className="mt-3 max-w-xl text-sm leading-relaxed text-cream-muted text-pretty md:text-base">
         {t(m.vinos.mapWorldLead, { count: totalVinos, countries: naciones.length })}
       </p>
 
-      <div className="relative mt-6 overflow-hidden rounded-3xl border border-cream/10 shadow-card" style={{ background: COLOR.fondo }}>
+      {/* Solo fundido (`fade`), nunca deslizamiento: el mapa se arrastra y se hace zoom leyendo
+          coordenadas de pantalla, y moverlo mientras entra las descolocaría. */}
+      <div data-reveal="fade" className="relative mt-6 overflow-hidden rounded-3xl border border-cream/10 shadow-card" style={{ background: COLOR.fondo }}>
         <svg
           ref={svgRef}
           viewBox={`0 0 ${MUNDO_VIEWBOX.width} ${MUNDO_VIEWBOX.height}`}
@@ -420,7 +422,7 @@ export default function MapaDelMundo() {
 
       {/* Los cinco países, en botones. Es la versión que funciona siempre: con el teclado, con un
           lector de pantalla, y para quien no quiera pelearse con un mapa en un teléfono. */}
-      <ul className="mt-4 flex flex-wrap gap-2">
+      <ul data-reveal="fade" className="mt-4 flex flex-wrap gap-2">
         {naciones.map((id) => {
           const cuantos = (porPais.get(id) ?? []).reduce((n, g) => n + g.vinos.length, 0);
           return (

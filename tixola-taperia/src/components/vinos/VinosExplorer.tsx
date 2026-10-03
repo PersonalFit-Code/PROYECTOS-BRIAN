@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useRef } from "react";
 import { MessageCircle, Wine } from "lucide-react";
 import { useChat } from "@/components/chat/ChatProvider";
 import NeonButton from "@/components/ui/NeonButton";
@@ -9,6 +9,7 @@ import CartaDeVinos from "@/components/vinos/CartaDeVinos";
 import Denominaciones from "@/components/vinos/Denominaciones";
 import MapaDelMundo from "@/components/vinos/MapaDelMundo";
 import { WINES_PENDING } from "@/data/wines";
+import { useReveal } from "@/hooks/useReveal";
 import { useMessages } from "@/i18n/LocaleProvider";
 
 /**
@@ -18,10 +19,26 @@ import { useMessages } from "@/i18n/LocaleProvider";
  * países de los que viene el vino, el mapa de GALICIA con sus cinco denominaciones, y la carta con
  * su buscador. Mientras `WINES_PENDING` siga en pie no hay mapa del mundo —sin vinos no hay países
  * que enseñar— y en el sitio de la carta va el aviso de que todavía se está cerrando.
+ *
+ * LOS REVELADOS AL SCROLL de los dos mapas cuelgan de aquí: `useReveal` observa los `[data-reveal]`
+ * de todo lo que hay dentro, estén en el componente que estén. Tres cosas que NO llevan revelado, y
+ * cada una por su motivo:
+ *  · La CABECERA, porque su titular es el elemento más grande de la primera pintura (el LCP de esta
+ *    página). Nacer a opacidad cero y tardar 0,7 s en aparecer es empeorar la métrica a cambio de una
+ *    animación que nadie llega a ver: ya está en pantalla cuando se carga.
+ *  · La CARTA DE VINOS, porque su lista se refiltra con cada letra del buscador. Las tarjetas que
+ *    entran serían nodos nuevos, se darían de alta como "por revelar" y aparecerían con un fundido
+ *    en cada pulsación: escribir en el buscador se vería como un parpadeo.
+ *  · La BARRA de filtros, que es `sticky`: no se le pone un `transform` a algo que tiene que quedarse
+ *    pegado al borde de la pantalla.
+ * `useReveal` y no `useScrollReveal`: aquí no hay ni una capa de parallax, así que no hace falta GSAP.
  */
 export default function VinosExplorer() {
+  const raiz = useRef<HTMLDivElement>(null);
+  useReveal(raiz);
+
   return (
-    <>
+    <div ref={raiz}>
       <VinosHero />
       {/* Primero el mundo —de dónde vienen las dieciséis procedencias— y después Galicia en detalle.
           Las dos llevan al mismo sitio: a las botellas de abajo. */}
@@ -34,7 +51,7 @@ export default function VinosExplorer() {
       <Denominaciones />
       {/* O la carta, o el aviso de que todavía no está. Nunca las dos, nunca ninguna. */}
       {WINES_PENDING ? <CartaEnCamino /> : <CartaDeVinos />}
-    </>
+    </div>
   );
 }
 

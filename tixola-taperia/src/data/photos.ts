@@ -83,9 +83,17 @@ export const PHOTOS: Photo[] = [
   },
   {
     id: "fachada",
+    /* RECORTADA EL 3-10-2026, y no por encuadre: el archivo original era una CAPTURA DE PANTALLA de
+       un visor de fotos. Traía las barras blancas del visor arriba y abajo y, sobre el muro de la
+       casa de al lado, su botón de cerrar —un círculo blanco con una × — perfectamente visible. En el
+       carrusel anterior pasaba medio desapercibido; en el mural de la galería, a 290 px de ancho y
+       quieto, se ve a la primera, y además sale en la tarjeta de ubicación (`MapCard`). El recorte
+       quita las barras y el botón sin inventar un solo píxel: solo se pierden ~90 px del borde
+       derecho (parte del portal rojo del vecino) y el rótulo entero se queda dentro.
+       Sigue pendiente SUSTITUIRLA por una foto propia de la fachada: ver docs/fotos-para-revisar.md. */
     src: "/images/fachada.jpg",
-    width: 806,
-    height: 490,
+    width: 712,
+    height: 454,
     alt: "Fachada de Tixola Tapería en Rúa Juan de Austria 7, casco histórico de Ourense, con sus toldos rojos y la pizarra del día",
     caption: "Rúa Juan de Austria, 7",
     tags: ["local"],

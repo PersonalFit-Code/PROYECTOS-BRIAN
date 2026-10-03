@@ -61,18 +61,21 @@ const social = {
     accent: "imágenes",
     description: "El local, la terraza y los platos tal cual son: fotos reales, sin filtros ni retoques.",
     label: "Galería de fotos de Tixola Tapería",
-    prev: "Foto anterior",
-    next: "Foto siguiente",
-    goTo: "Ver la foto {index}: {caption}",
-    current: "actual",
+    /** Recuento de fotos: va en las chapas del filtro (para lectores de pantalla) */
+    count: "{count} fotos",
+    /** Filtro por tema del mural */
+    themesAria: "Filtrar la galería por tema",
+    themes: {
+      all: "Todas",
+      plato: "Platos",
+      local: "El local",
+      vinos: "Vinos",
+      terraza: "Terraza",
+    },
+    showAll: "Ver las {count} fotos",
+    showLess: "Ver menos",
     open: "Ampliar la foto: {caption}",
     hint: "Pulsa una foto para ampliarla",
-    swipe: "Ver más fotos",
-    pause: "Pausar la galería",
-    play: "Reanudar la galería",
-    slide: "Foto {index} de {total}",
-    /** Anuncio para lectores de pantalla al cambiar de foto (solo con la galería en pausa). */
-    status: "Foto {index} de {total}: {caption}",
     /** Visor a pantalla completa */
     lightbox: {
       label: "Foto ampliada: {caption}",

@@ -122,14 +122,14 @@ export default function Denominaciones() {
 
   return (
     <section aria-labelledby={tituloId} className="container-page pb-16 md:pb-24">
-      <p className="inline-flex items-center gap-3 font-caps text-xs uppercase tracking-[0.3em] text-pimenton-a11y">
+      <p data-reveal="fade" className="inline-flex items-center gap-3 font-caps text-xs uppercase tracking-[0.3em] text-pimenton-a11y">
         <span aria-hidden className="h-px w-8 bg-pimenton-light/70" />
         {m.vinos.regionsKicker}
       </p>
-      <h2 id={tituloId} className="mt-4 font-display text-4xl font-medium leading-[0.98] text-cream text-balance md:text-5xl">
+      <h2 data-reveal id={tituloId} className="mt-4 font-display text-4xl font-medium leading-[0.98] text-cream text-balance md:text-5xl">
         {m.vinos.regionsTitle} <em className="text-gradient-ember font-light italic">{m.vinos.regionsAccent}</em>
       </h2>
-      <p className="mt-5 max-w-2xl text-base leading-relaxed text-cream-muted text-pretty">{m.vinos.regionsLead}</p>
+      <p data-reveal="fade" className="mt-5 max-w-2xl text-base leading-relaxed text-cream-muted text-pretty">{m.vinos.regionsLead}</p>
 
       {/* Mapa a la izquierda, fichas a la derecha. El mapa se queda quieto mientras se recorren las
           cinco fichas: así el nombre que abres y su sitio en Galicia se ven a la vez. */}
@@ -154,7 +154,7 @@ export default function Denominaciones() {
           </ol>
 
           {/* La aclaración que impide leer el mapa como si fuera la carta. Visible, no en letra pequeña. */}
-          <p className="mt-6 border-l-2 border-pimenton-light/40 pl-4 text-sm leading-relaxed text-cream-faint">
+          <p data-reveal="fade" className="mt-6 border-l-2 border-pimenton-light/40 pl-4 text-sm leading-relaxed text-cream-faint">
             {m.vinos.regionsNote}
           </p>
         </div>
@@ -173,7 +173,9 @@ function Mapa() {
   const tierra = `tierra-${gradienteId.replace(/:/g, "")}`;
 
   return (
-    <figure className={cn("relative w-full overflow-hidden rounded-3xl border border-cream/12 bg-granate-900/70", GALICIA_RATIO)}>
+    /* El revelado va aquí y no en el envoltorio de arriba porque ese es el `lg:sticky`: un
+       `transform` en el elemento pegajoso es justo lo que no conviene tocar. */
+    <figure data-reveal="fade" className={cn("relative w-full overflow-hidden rounded-3xl border border-cream/12 bg-granate-900/70", GALICIA_RATIO)}>
       {/* El Atlántico lavando el borde oeste: la referencia que orienta el mapa de un vistazo. */}
       <span aria-hidden className="absolute inset-0 bg-[linear-gradient(105deg,rgba(28,48,66,0.6)_0%,rgba(28,48,66,0.22)_18%,transparent_42%)]" />
 
@@ -342,7 +344,7 @@ function FichaDenominacion({
   const enCarta = wineCountByOrigin(region.id);
 
   return (
-    <li id={`do-${region.id}`} className="scroll-mt-28">
+    <li data-reveal="fade" id={`do-${region.id}`} className="scroll-mt-28">
       <div
         className={cn(
           "overflow-hidden rounded-2xl border bg-granate-800/50 transition-colors duration-300",

@@ -134,3 +134,30 @@ Con una foto de cada una, en el mismo sitio y con la misma luz que las demás, q
 **no se ha copiado ninguna**: la botella fotografiada es la de ese día, y publicar su añada sería
 prometer que se sirve esa y no la siguiente. Eso sigue como estaba, pendiente de
 `docs/vinos-para-revisar.md`.
+
+---
+
+## 5 · La foto de la fachada (3-10-2026) — recortada, y conviene sustituirla
+
+Al rehacer la galería como mural salió a la luz una cosa que en el carrusel pasaba desapercibida:
+**`public/images/fachada.jpg` no era una foto, era una captura de pantalla de un visor de fotos.**
+Traía las dos barras blancas del visor (arriba y abajo) y, sobre el muro del portal de al lado, su
+botón de cerrar: un círculo blanco con una ×, bien visible. Esa imagen salía en dos sitios de la
+web — la galería de la portada y la tarjeta de ubicación (el "ver la fachada" del mapa).
+
+**Qué se ha hecho ya.** Recortarla: 806×490 → 712×454. Se van las barras y el botón, y no se
+inventa un solo píxel —no hay retoque ninguno—; lo único que se pierde son unos 90 px del borde
+derecho, que eran parte del portal rojo del vecino. El rótulo, los dos toldos y las dos pizarras
+quedan enteros.
+
+**Qué hace falta de Brian, y es lo importante.**
+
+1. **Una foto propia de la fachada.** Entre las 104 del 2 de octubre no había ninguna de la calle.
+   Con la misma cámara y a la misma hora que las de dentro, de frente y desde la acera de enfrente,
+   queda mejor que esta y se acaba el problema.
+2. **Saber de dónde salió esta.** Al ser una captura de un visor, lo más probable es que venga de
+   una ficha de Google o de una reseña, y entonces la foto no es de la casa: publicarla en la web
+   del negocio sería usar una foto ajena. Mientras no se confirme, se queda porque es la única que
+   hay de la fachada, pero la sustitución del punto 1 cierra también esto.
+3. **El camarero que sale en ella.** Se le reconoce, aunque lleve mascarilla. Si es de la casa,
+   basta con que esté de acuerdo; si no, la foto nueva lo resuelve igual.

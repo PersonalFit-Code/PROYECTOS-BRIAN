@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useSyncExternalStore } from "react";
+import { useCallback, useRef, useSyncExternalStore } from "react";
 import { ArrowUp, ArrowUpRight, Clock, Cookie, MapPin, MessageCircle, Navigation, Phone, Utensils } from "lucide-react";
 import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
 import { formatNumber } from "@/lib/format";
@@ -10,6 +10,7 @@ import { LEGAL_DOC_KEYS } from "@/data/legal";
 import Logo from "@/components/ui/Logo";
 import { useNavItems } from "@/components/ui/Navbar";
 import { useLocalizedOpenStatus } from "@/hooks/useLocalizedOpenStatus";
+import { useReveal } from "@/hooks/useReveal";
 import { PlatformGlyph, Stars } from "@/components/ui/ReviewCard";
 import { LOCALES, LOCALE_META, localePath, stripLocale } from "@/i18n/config";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
@@ -71,6 +72,16 @@ export default function Footer({ year: buildYear }: FooterProps) {
   const navItems = useNavItems();
   const pathname = usePathname();
   const status = useLocalizedOpenStatus();
+  const footerRef = useRef<HTMLElement>(null);
+  /* El pie sale en TODAS las páginas, y hasta ahora era el único bloque largo que aparecía de golpe:
+     se llegaba a él con el scroll suave de la home y las cuatro columnas ya estaban ahí, quietas.
+     Con el observador compartido entran escalonadas al asomar, igual que el resto de la web.
+
+     `useReveal` y NO `useScrollReveal`: el segundo trae GSAP + ScrollTrigger de forma estática, y el
+     pie se pinta también en /carta, /vinos y las tres legales, donde no hay ni scroll suave ni una
+     capa de parallax. Serían ~28 kB comprimidos de más en cada una de esas páginas para hacer cuatro
+     fundidos. */
+  useReveal(footerRef);
   const serverYear = useCallback(() => String(buildYear), [buildYear]);
   const year = useSyncExternalStore(subscribeMinute, getYear, serverYear);
 
@@ -84,7 +95,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
   const trip = BUSINESS.ratings.tripadvisor;
 
   return (
-    <footer id="footer" className="noise after:noise-after relative isolate overflow-hidden bg-granate-900 text-cream">
+    <footer ref={footerRef} id="footer" className="noise after:noise-after relative isolate overflow-hidden bg-granate-900 text-cream">
       <div aria-hidden className="divider-granate absolute inset-x-0 top-0" />
       {/* Brasa lateral: 420² px de `blur-3xl` sobre un color plano. El mismo halo, horneado.
           `ember-wash` y no `ember-glow`: el original era un color PLANO al que el desenfoque solo plumeaba el borde, así que un radial de pico y caída rápida perdía ~3,5 veces de luz. Alfa igual que el original. */}
@@ -92,12 +103,36 @@ export default function Footer({ year: buildYear }: FooterProps) {
         aria-hidden
         className="ember-wash absolute -left-40 top-1/3 -z-10 h-[420px] w-[420px] rounded-full [--ember-a1:0.6] [--ember-rgb:58_14_19]"
       />
-      {/* Marca de agua en Cinzel */}
+      {/*
+        MARCA DE AGUA CON LA LETRA DEL LOGO. Antes era "TIXOLA" en Cinzel: mayúsculas romanas, la
+        tipografía de los titulares, que en el fondo del pie se leía como un texto más —grande y
+        apagado, pero del mismo alfabeto que todo lo demás—. La firma de la casa es manuscrita (es la
+        que está impresa en la carta y la que lleva el logotipo), así que la marca de agua la usa:
+        `font-script` es Niconne, la misma familia del logotipo de la cabecera.
+
+        Tres ajustes que pide el cambio de alfabeto, medidos, no a ojo:
+         · TAMAÑO. "Tixola" en Niconne mide 2,30 em de ancho; "TIXOLA" en Cinzel con su letterspacing,
+           4,8 em. Al mismo cuerpo, el manuscrito ocupa la mitad: de ahí el salto de 26vw a 44vw para
+           que la firma siga cruzando el pie de lado a lado.
+         · ALTURA DE LÍNEA. El trazo de Niconne llena 0,73 em de los 1 em de la caja, así que con
+           `leading-none` quedaba un dedo de aire muerto por debajo; `leading-[0.78]` pega la firma al
+           borde inferior, que es donde tiene que morir.
+         · OPACIDAD. 0,035 estaba calibrado para el palo grueso de una mayúscula de Cinzel. El trazo
+           manuscrito es fino y a esa opacidad desaparecía: sube a 0,055, que es la misma presencia
+           visual con un tercio del área de tinta.
+        Y sin `tracking`: separar las letras de una cursiva rompe justo lo que la hace cursiva.
+
+        SIN PARALLAX, y no por no haberlo intentado: el `<footer>` es `overflow-hidden` —tiene que
+        serlo, la firma se sale por los lados a propósito— y eso lo convierte en contenedor de scroll,
+        así que una animación ligada al scroll (`animation-timeline: view()`) mide la posición de la
+        firma DENTRO del pie, que no cambia nunca, y se queda congelada. Y traer GSAP para moverla
+        costaría ScrollTrigger en las seis páginas que pintan el pie. Se queda quieta.
+      */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -bottom-[0.12em] left-1/2 -z-10 -translate-x-1/2 select-none whitespace-nowrap font-caps text-[26vw] font-semibold leading-none tracking-[0.08em] text-cream/[0.035] md:text-[19vw] lg:text-[14rem]"
+        className="font-script pointer-events-none absolute -bottom-[0.04em] left-1/2 -z-10 -translate-x-1/2 select-none whitespace-nowrap text-[44vw] font-normal leading-[0.78] text-cream/[0.055] md:text-[34vw] lg:text-[20rem]"
       >
-        TIXOLA
+        Tixola
       </span>
 
       <div className="container-page relative pt-16 md:pt-20">
@@ -113,7 +148,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
             aligerada. Así el logotipo y la tabla de horario siempre tienen los 288 px que piden. */}
         <div className="grid gap-8 md:grid-cols-2 md:gap-12 lg:grid-cols-[1.4fr_1fr_1.1fr_1fr] lg:gap-10">
           {/* Marca */}
-          <div>
+          <div data-reveal>
             <Link href={lp("/")} aria-label={m.nav.homeAria} className="inline-block rounded-md">
               {/* El pie es donde la marca se firma, y donde hay sitio: aquí va el logotipo ENTERO
                   tal y como está impreso en la carta —manuscrito y "vinoteca - tapería" incluidos—
@@ -154,7 +189,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
           </div>
 
           {/* Contacto */}
-          <div>
+          <div data-reveal>
             <h2 className={headingClass}>{m.footer.contact}</h2>
             <address className="flex flex-col gap-2 not-italic">
               <a
@@ -204,7 +239,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
           </div>
 
           {/* Horario */}
-          <div>
+          <div data-reveal>
             <h2 className={cn(headingClass, "flex flex-wrap items-center gap-3")}>
               {m.footer.hours}
               {status && (
@@ -267,7 +302,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
           </div>
 
           {/* Carta / Enlaces */}
-          <div>
+          <div data-reveal>
             <h2 className={headingClass}>{m.footer.links}</h2>
             {/* Dos columnas en móvil: son siete etiquetas cortas (la más larga, «Carta con
                 alérgenos», parte en dos líneas y ya está), así que pasan de siete filas de 44 px a
@@ -308,7 +343,7 @@ export default function Footer({ year: buildYear }: FooterProps) {
         </div>
 
         {/* Barra inferior: legal + © + crédito + volver arriba */}
-        <div className="mt-10 border-t border-cream/10 py-6 md:mt-20">
+        <div data-reveal="fade" className="mt-10 border-t border-cream/10 py-6 md:mt-20">
           <nav aria-label={m.footer.legal} className="flex flex-wrap items-center gap-x-5 gap-y-1">
             {/* Los slugs viven en m.legal.<doc>.slug (misma fuente que el banner, LegalArticle y el sitemap). */}
             {LEGAL_DOC_KEYS.map((key) => (
