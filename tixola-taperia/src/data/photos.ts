@@ -128,6 +128,24 @@ export const PHOTOS: Photo[] = [
     dishIds: ["tix-chistorra" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* EL POSTRE. La carta lo llama "Postre del día" y dice que cambia, y eso sigue siendo verdad: la
+     foto no la contradice, la acompaña. Lo que pasa es que últimamente la casa mantiene el mismo, y
+     una foto de lo que hay de verdad vale más que un icono de postre genérico. Si cambia el postre,
+     se cambia la foto y ya está — por eso el pie no dice "nuestro postre" sino lo que se ve.
+     El `alt` describe lo que hay en el plato y nada más: ni "coulant" ni "casero" ni ningún adjetivo
+     que no se pueda comprobar mirando la foto. */
+  {
+    id: "postre-chocolate",
+    src: "/images/postre-chocolate.webp",
+    srcTall: "/images/postre-chocolate-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Postre de chocolate con azúcar glas y sirope, servido en plato verde con una bola de helado de vainilla y dos de nata montada, sobre la mesa de Tixola Tapería",
+    caption: "El postre: chocolate, helado y nata",
+    tags: ["plato", "local"],
+    dishIds: ["var-postre" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
   /* Las dos de abajo son los MISMOS platos que las cenitales de arriba, pero vistas desde la mesa,
      con la pared de botellas detrás. No llevan `dishIds` a propósito: la foto que abre la ficha de
      un plato tiene que ser la cenital, donde se ve lo que lleva. Estas cuentan la otra mitad de la

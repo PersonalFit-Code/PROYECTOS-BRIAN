@@ -361,6 +361,10 @@ const pt: DataTranslations = {
       alt: "Tixola com chistorra vista de cima: frigideira com batatas, ovo coalhado e rodelas de chistorra",
       caption: "Tixola com chistorra",
     },
+    "postre-chocolate": {
+      alt: "Sobremesa de chocolate com açúcar em pó e calda, servida em prato verde com uma bola de gelado de baunilha e duas de chantilly, na mesa da Tixola Tapería",
+      caption: "A sobremesa: chocolate, gelado e chantilly",
+    },
     "tixola-raxo-mesa": {
       alt: "Tixola de raxo com batatas e ovo coalhado servida à mesa na Tixola Tapería, com a garrafeira e as caixas de madeira das adegas ao fundo",
       caption: "Tixola de raxo, com a garrafeira atrás",
