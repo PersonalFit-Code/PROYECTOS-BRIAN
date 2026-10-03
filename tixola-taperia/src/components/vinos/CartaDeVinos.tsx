@@ -186,6 +186,14 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
   const t = useFormat();
   const locale = useLocale();
 
+  /* La bodega, debajo del nombre — salvo cuando el nombre YA la dice. Hay doce vinos en esta carta
+     que se llaman como quien los hace ("Quinta Sardonia", "Enate", "Tomás Postigo 3º año"), y
+     repetirlo debajo se leía como un eco: "Quinta Sardonia · Quinta Sardonia". */
+  const bodegaRedundante = Boolean(vino.winery && vino.name.startsWith(vino.winery));
+  const subtitulo = [bodegaRedundante ? null : vino.winery, vino.vintage ? String(vino.vintage) : null]
+    .filter(Boolean)
+    .join(" · ");
+
   /* Monovarietal o ensamblaje se deduce de la lista de uvas: un dato menos que escribir a mano. */
   const tipoDeMezcla = vino.grapes?.length === 1 ? m.vinos.monovarietal : m.vinos.blend;
 
@@ -214,11 +222,7 @@ function FichaVino({ vino, nombreDePlato }: { vino: Wine; nombreDePlato: Map<str
                 nombre y poco más, y un "·" suelto delataría el hueco. La crianza NO va aquí aunque se
                 sepa: en esta carta suele formar parte del propio nombre ("Arzuaga Crianza") y repetida
                 debajo se leía como un tartamudeo. Vive dentro de la ficha, con su rótulo. */}
-            {[vino.winery, vino.vintage ? String(vino.vintage) : null].filter(Boolean).length ? (
-              <span className="mt-1 block text-[13px] leading-snug text-cream-faint">
-                {[vino.winery, vino.vintage ? String(vino.vintage) : null].filter(Boolean).join(" · ")}
-              </span>
-            ) : null}
+            {subtitulo ? <span className="mt-1 block text-[13px] leading-snug text-cream-faint">{subtitulo}</span> : null}
           </span>
 
           {/* Los precios: lo segundo que se mira después del nombre, así que van alineados a la derecha

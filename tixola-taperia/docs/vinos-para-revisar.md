@@ -37,8 +37,12 @@ izquierda de la primera cara son los blancos gallegos, y toda la segunda cara so
 | Argentina (1) | tinto | **No, lo he deducido** |
 | South Africa (1) | tinto | **No, lo he deducido** |
 
-> El **VX Cuvée Caco** es el único que sale sin color, porque la carta lo pone bajo
-> «Fuera D.O. Ribeiro» y no hay forma de saberlo. ¿Blanco o tinto?
+> ~~El **VX Cuvée Caco** es el único que sale sin color.~~ **Resuelto el 3 de octubre:** es
+> **tinto**, y lo hace **Coto de Gomariz** (sousón, caíño longo, caíño da terra, carabuñeira y
+> mencía, 20 meses de barrica). La bodega declara expresamente que va «sin D.O.», así que la carta
+> acierta al ponerlo fuera del Ribeiro. Ya está publicado con su color y su ficha.
+>
+> **Ahora mismo no queda ni un vino de los 52 sin color.**
 
 ---
 
@@ -127,7 +131,7 @@ Dos preguntas rápidas que desbloquean bastante:
 
 | Vino | Color | Precio |
 |---|---|---|
-| VX Cuvée Caco | — | 44 € |
+| VX Cuvée Caco | tinto | 44 € |
 
 ### D.O. Ribera del Duero
 
@@ -213,10 +217,9 @@ el consejo regulador de su denominación o la ficha técnica oficial**, y se ha 
 uva, crianza, elaboración, graduación, temperatura de servicio, nota de cata, terreno, enólogo y
 premios. **No se ha copiado nada de blogs, foros ni Vivino**, y cada dato tiene su fuente anotada.
 
-**Dónde estamos: 31 de los 52 vinos tienen ya ficha técnica, y 31 llevan el nombre de su bodega.**
-De los 21 restantes, 2 no son vinos («Bot. Ribeiro» y «Bot. Rioja» son líneas genéricas de la carta
-de papel), 9 son los de Ribera del Duero —que se están buscando ahora— y el resto está en una de las
-dos listas de abajo.
+**Dónde estamos: 38 de los 52 vinos tienen ya ficha técnica y 39 llevan el nombre de su bodega.**
+De los 14 restantes, 2 no son vinos («Bot. Ribeiro» y «Bot. Rioja» son líneas genéricas de la carta
+de papel), 1 no se ha podido identificar y los otros 11 están en la lista A de aquí abajo.
 
 Y una regla que no se ha roto: **no se ha publicado ninguna añada**. La botella que se fotografió
 era la de ese día; imprimir su cosecha sería prometer que se sirve esa y no la siguiente.
@@ -243,6 +246,8 @@ ninguna crianza, ninguna nota de cata**, porque serían las del vino equivocado 
 | **Pagos de Galir** (Valdeorras) | Blanco de godello y tinto de mencía. Además la bodega los está renombrando «Val do Galir». |
 | **Alanda** (Monterrei) | El consejo regulador registra «Alanda Branco» y «Alanda Tinto» de Quinta da Muradella. |
 | **Banzao** (Bierzo) | «Banzao» es la marca, no el vino: la bodega embotella siete, tintos y blancos. Confirmada la D.O. Bierzo. |
+| **Quinta Sardonia** (Ribera del Duero) | La marca ampara tres tintos: QS, QS2 y Sardón. Y ojo, que no es Ribera del Duero (ver abajo). |
+| **Dehesa de los Canónigos** (Ribera del Duero) | Seis vinos con esa marca, y **ninguno se llama ya «Crianza» ni «Reserva»**: hoy son 15 Meses, Solideo, Quinta Generación, Albillo Mayor, el gran reserva y un clarete. |
 
 Con una foto de cada etiqueta —o un «es el blanco» por WhatsApp— cada una de estas once fichas se
 completa en un rato.
@@ -264,7 +269,16 @@ Pero Dominio do Bibei lo embotella como Ribeiro, y el registro de marcas de esa 
 consejo regulador da Ribeira Sacra lista Lacima, Lalama, Lapena, Lapola y A Moucha… y **no Lalume**.
 Si se confirma, hay que moverlo de sección.
 
-**3 · «Manueleira» no aparece por ningún sitio oficial.**
+**3 · «Quinta Sardonia» no es Ribera del Duero.**
+Lo publica el propio grupo Terras Gauda, que es quien la lleva: «elabora vinos de la Tierra de
+Castilla y León». La finca está en Sardón de Duero, **fuera de los límites de la D.O.** En la web
+sigue donde lo pone la carta de papel, pero si se confirma habría que sacarlo de esa sección.
+
+**4 · «A Capela ou similar» no se ha podido identificar.**
+Lo más parecido es «Acappela», de Bodegas Monteabellón, pero ni el nombre coincide del todo ni hay
+una sola etiqueta: tiene joven, roble y crianza. No se ha publicado ni un dato. **¿Cuál es?**
+
+**5 · «Manueleira» no aparece por ningún sitio oficial.**
 Ni en el listado de bodegas inscritas de la D.O. Valdeorras ni en el de bodegas con producto
 certificado. Solo lo venden tiendas online, atribuyéndolo a una tal «Discarou» que tampoco figura.
 No se ha publicado ni un dato de este vino, ni del blanco ni del tinto. **¿Quién os lo sirve?**
@@ -278,6 +292,9 @@ Y dos avisos menores, ya resueltos en la web pero que conviene que sepas:
   Rothschild & Vega Sicilia**. Corregido en la web.
 - **Quinta das Bágeiras**: la carta lo escribe «Bagueiras». La bodega lo escribe **Bágeiras**.
   Corregido.
+- **Malabrigo** es de **Bodegas Cepa 21**, la misma que hace el Hito. Publicado.
+- **Carmelo Rodero 9 meses**: la carta dice «tempranillo» y la bodega publica tinto fino (que es la
+  misma uva) más cabernet sauvignon, merlot y albillo. Se ha puesto la lista completa.
 
 ---
 
@@ -286,7 +303,7 @@ Y dos avisos menores, ya resueltos en la web pero que conviene que sepas:
 Tres datos se han dejado fuera a conciencia aunque circulen por las tiendas, porque las cifras se
 contradicen entre sí o cambian con cada cosecha:
 
-- **Graduación** de Condes de Albarei, Pazo Baión, Baigorri y Pájaro Loco.
+- **Graduación** de Condes de Albarei, Pazo Baión, Baigorri, Pájaro Loco, Hito y Malabrigo.
 - **Crianza** de Pazo Baión (cada tienda dice una cosa: 8 meses en acero, 6 sobre lías, 9 en foudre).
 - **Porcentajes de uva** de Luis Cañas, Cuñas Davia y Crego e Monaguillo blanco — en este último la
   propia bodega publica 90/10 en su web y 85/15 en su PDF.
