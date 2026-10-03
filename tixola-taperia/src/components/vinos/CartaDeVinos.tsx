@@ -11,6 +11,7 @@ import {
   isGalicianOrigin,
   ORIGIN_COUNTRY,
   ORIGIN_ORDER,
+  SHOW_WINE_PRICES,
   WINE_KINDS,
   WINE_REGIONS,
   winesByOrigin,
@@ -324,7 +325,8 @@ export default function CartaDeVinos() {
         <SinResultados consulta={consulta} onLimpiar={limpiar} />
       )}
 
-      <p className="mt-10 text-xs leading-relaxed text-cream-faint">{m.vinos.priceNote}</p>
+      {/* El aviso del IVA solo tiene sentido si hay precios; sin ellos sobra. */}
+      {SHOW_WINE_PRICES ? <p className="mt-10 text-xs leading-relaxed text-cream-faint">{m.vinos.priceNote}</p> : null}
       {/* La carta de papel lo dice al pie de las dos caras, y es verdad: la lista no es cerrada. */}
       <p className="mt-2 text-xs leading-relaxed text-cream-faint">{m.vinos.offMenuNote}</p>
 
@@ -501,17 +503,19 @@ function TarjetaVino({ vino, onAbrir }: { vino: Wine; onAbrir: (v: Wine) => void
           {vino.winery && !vino.name.startsWith(vino.winery) ? (
             <span className="mt-0.5 block truncate text-[12px] leading-snug text-cream-faint">{vino.winery}</span>
           ) : null}
-          <span className="mt-2 flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
-            {vino.bottlePrice !== undefined ? (
-              <span className="font-sans text-[15px] font-semibold text-pimenton-a11y">{formatPrice(vino.bottlePrice, locale)}</span>
-            ) : null}
-            {vino.glassPrice !== undefined ? (
-              <span className="text-[12px] text-cream-muted">
-                <span className="font-caps text-[9px] uppercase tracking-[0.16em] text-cream-faint">{m.vinos.glass}</span>{" "}
-                {formatPrice(vino.glassPrice, locale)}
-              </span>
-            ) : null}
-          </span>
+          {SHOW_WINE_PRICES ? (
+            <span className="mt-2 flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+              {vino.bottlePrice !== undefined ? (
+                <span className="font-sans text-[15px] font-semibold text-pimenton-a11y">{formatPrice(vino.bottlePrice, locale)}</span>
+              ) : null}
+              {vino.glassPrice !== undefined ? (
+                <span className="text-[12px] text-cream-muted">
+                  <span className="font-caps text-[9px] uppercase tracking-[0.16em] text-cream-faint">{m.vinos.glass}</span>{" "}
+                  {formatPrice(vino.glassPrice, locale)}
+                </span>
+              ) : null}
+            </span>
+          ) : null}
         </span>
       </button>
     </li>

@@ -250,6 +250,24 @@ export const ORIGIN_COUNTRY: Record<OtherOriginId, "espana" | "portugal" | "fran
   sudafrica: undefined,
 };
 
+/**
+ * ¿SE ENSEÑA EL PRECIO DE LOS VINOS? No, y lo pidió Tatiana: en la web se ve la foto de la botella y
+ * su ficha, y el precio se dice en la barra. Tiene su lógica — una carta de vinos cambia de precio
+ * con cada pedido a la bodega, y un precio viejo publicado es peor que ninguno.
+ *
+ * Los precios SIGUEN EN LOS DATOS de abajo, transcritos de la carta de papel, porque son
+ * información cierta y volver a teclear cincuenta y tres números el día que se quieran enseñar otra
+ * vez sería absurdo. Lo único que hace esta constante es apagar todos los sitios donde se pintan
+ * —la cuadrícula, la ficha, la tarjeta del mapa, el aviso del IVA al pie— y callárselos también al
+ * camarero virtual, para que no diga en el chat un precio que la página no enseña.
+ *
+ * Para volver a enseñarlos: `true` aquí, y ya está.
+ *
+ * Los PLATOS no entran en esto: sus precios se siguen publicando, que es lo que pidió la casa desde
+ * el principio y lo que espera cualquiera que mire una carta de tapas.
+ */
+export const SHOW_WINE_PRICES = false;
+
 /** Procedencia de un vino: una de las cinco gallegas o una de las de fuera. */
 export type WineOrigin = GalicianDoId | OtherOriginId;
 

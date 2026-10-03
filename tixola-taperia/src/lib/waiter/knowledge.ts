@@ -11,7 +11,7 @@
  * del usuario desde systemPrompt.ts (`buildContextSuffix`).
  */
 import { BUSINESS, DAY_LABELS, type DayKey } from "@/data/business";
-import { isGalicianOrigin, ORIGIN_ORDER, WINE_REGIONS, WINES, winesByOrigin } from "@/data/wines";
+import { isGalicianOrigin, ORIGIN_ORDER, SHOW_WINE_PRICES, WINE_REGIONS, WINES, winesByOrigin } from "@/data/wines";
 import type { MenuItem } from "@/data/menu";
 import type { Locale } from "@/i18n/config";
 import es from "@/i18n/messages/es";
@@ -263,7 +263,11 @@ export function renderKnowledge(k: WaiterKnowledge): string {
        vino y, preguntado por la uva de un Ribeiro, la contestará encantado; pero lo que de verdad
        sabemos de estas botellas es solo lo que imprime la carta de papel de la casa. */
     out.push(
-      "AVISO IMPORTANTE: de cada vino sabemos SOLO lo que figura abajo. NUNCA inventes ni deduzcas la bodega, la uva, la añada, la crianza, la graduación ni una nota de cata, aunque creas conocer el vino: si te preguntan por eso, dilo con naturalidad y ofrece preguntarlo en la barra. Tampoco hay precio por copa: solo botella.",
+      SHOW_WINE_PRICES
+        ? "AVISO IMPORTANTE: de cada vino sabemos SOLO lo que figura abajo. NUNCA inventes ni deduzcas la bodega, la uva, la añada, la crianza, la graduación ni una nota de cata, aunque creas conocer el vino: si te preguntan por eso, dilo con naturalidad y ofrece preguntarlo en la barra. Tampoco hay precio por copa: solo botella."
+        : /* Sin precios en la lista, el camarero tampoco los da: si los diera, estaría diciendo en el
+             chat justo lo que la casa ha decidido no publicar en la página. */
+          "AVISO IMPORTANTE: de cada vino sabemos SOLO lo que figura abajo. NUNCA inventes ni deduzcas la bodega, la uva, la añada, la crianza, la graduación ni una nota de cata, aunque creas conocer el vino: si te preguntan por eso, dilo con naturalidad y ofrece preguntarlo en la barra. Y NO HAY PRECIOS DE VINO: no los sabes, no los estimes y no los deduzcas de otros vinos parecidos; si preguntan cuánto cuesta una botella, di que los precios de la bodega se consultan en el local y ofrece el teléfono.",
     );
     out.push("Hay más referencias fuera de carta; para esas, que pregunten en el local.");
     for (const origin of ORIGIN_ORDER) {
@@ -276,7 +280,14 @@ export function renderKnowledge(k: WaiterKnowledge): string {
         : es.vinos.origins[origin];
       out.push(`### ${titulo}`);
       for (const w of vinos) {
-        const partes = [w.name, w.kind ?? null, w.winery, w.ageing, w.grapes?.join(", ") || null, fmtEur(w.bottlePrice ?? 0)];
+        const partes = [
+          w.name,
+          w.kind ?? null,
+          w.winery,
+          w.ageing,
+          w.grapes?.join(", ") || null,
+          SHOW_WINE_PRICES ? fmtEur(w.bottlePrice ?? 0) : null,
+        ];
         out.push(`- ${partes.filter(Boolean).join(" · ")}`);
       }
     }

@@ -254,6 +254,11 @@ completa en un rato.
 
 ---
 
+> **LOS PRECIOS YA NO SE PUBLICAN.** Lo pidió Tatiana: en la web se ve la foto de la botella y su
+> ficha, y el precio se dice en la barra. Los que aparecen en las tablas de abajo siguen siendo los
+> de la carta de papel y se conservan en los datos —apagados, no borrados—, así que volver a
+> enseñarlos es cambiar una línea. El camarero virtual tampoco los dice.
+
 ## B · Tres cosas que no cuadran y conviene saber
 
 **1 · «Carmelo Rodero Reserva» ya no se fabrica con ese nombre: RESUELTO A MEDIAS.**

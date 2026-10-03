@@ -17,6 +17,7 @@ import { useChat } from "@/components/chat/ChatProvider";
 import { formatPrice } from "@/data/menu";
 import {
   isGalicianOrigin,
+  SHOW_WINE_PRICES,
   WINE_AXES,
   WINE_REGIONS,
   type GalicianDoId,
@@ -307,10 +308,10 @@ function Hoja({
             {bodega ? <p className="mt-1.5 text-sm leading-snug text-cream-faint">{bodega}</p> : null}
 
             <p className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              {vino.bottlePrice !== undefined ? (
+              {SHOW_WINE_PRICES && vino.bottlePrice !== undefined ? (
                 <span className="font-sans text-2xl font-semibold text-pimenton-a11y">{formatPrice(vino.bottlePrice, locale)}</span>
               ) : null}
-              {vino.glassPrice !== undefined ? (
+              {SHOW_WINE_PRICES && vino.glassPrice !== undefined ? (
                 <span className="text-sm text-cream-muted">
                   <span className="font-caps text-[10px] uppercase tracking-[0.18em] text-cream-faint">{m.vinos.glass}</span>{" "}
                   {formatPrice(vino.glassPrice, locale)}

@@ -7,7 +7,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState, type PointerE
 import VinoSpotlight, { nombreDeOrigen } from "@/components/vinos/VinoSpotlight";
 import { MUNDO_PAISES, MUNDO_VIEWBOX, proyectar } from "@/data/geo/mundo";
 import { formatPrice } from "@/data/menu";
-import { NATION_IDS, NATIONS, ORIGIN_NATION, ORIGIN_ORDER, winesByOrigin, type NationId, type Wine, type WineOrigin } from "@/data/wines";
+import { NATION_IDS, NATIONS, ORIGIN_NATION, ORIGIN_ORDER, SHOW_WINE_PRICES, winesByOrigin, type NationId, type Wine, type WineOrigin } from "@/data/wines";
 import { localizeMenuItems } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
@@ -597,7 +597,7 @@ function TarjetaDePais({
                           .join(" · ")}
                       </span>
                     </span>
-                    {vino.bottlePrice !== undefined ? (
+                    {SHOW_WINE_PRICES && vino.bottlePrice !== undefined ? (
                       <span className="shrink-0 font-sans text-[13px] font-semibold text-gold">{formatPrice(vino.bottlePrice, locale)}</span>
                     ) : null}
                   </button>
