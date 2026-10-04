@@ -1291,6 +1291,80 @@ tenemos ni ingredientes ni alérgenos, y aquí no se inventan.
 > propósito («Postres de cuchara, en tarrina»), pero si dice otra cosa, manda
 > ella.
 
+## Lavado de cara «Liquid Glass»
+
+Pasada sólo de aspecto, con el lenguaje de Apple (iOS 26 / macOS Tahoe)
+llevado a la web. No cambia lógica, datos, funciones, ids ni atributos que
+usen el JS o las pruebas. Todo va en una capa CSS al final del `<style>` de
+`index.html` (busca `LIQUID GLASS`); el único cambio de marcado es la clase
+`cabecera-capsula` en la caja interior de la cabecera.
+
+**La regla: el cristal es para los controles, nunca para el contenido.**
+
+| Lleva cristal (flota sobre la página) | Por qué |
+|---|---|
+| Cápsula de la cabecera | navegación fija; el contenido pasa por debajo |
+| Barra de pestañas del móvil (cápsula en `::before`) | navegación fija |
+| Menú del móvil | hoja que nace del botón; cristal de lectura (.93) |
+| Botón del chat, «volver arriba» | botones flotantes |
+| Panel del presupuesto, aviso de cookies, ficha de un dulce | hojas y paneles; cristal de lectura (.93) |
+| Flechas y lupa del carrusel, botones del visor | controles sobre fotos (cristal oscuro) |
+| Índice lateral, avisos (toast), pistas | controles y mensajes efímeros |
+
+| Sin cristal | Por qué |
+|---|---|
+| Tarjetas, especialidades, pasos, reseñas, galería, tejas del mostrador | contenido que se repite: capas `--capa-1/2/3` sin desenfoque |
+| Pie de foto del carrusel | contenido: capa oscura al 86 %, sin desenfoque |
+| Insignia de la portada, rótulo del vídeo | contenido |
+| Velo de los diálogos | oscurece pero ya no desenfoca: encima va una hoja de cristal y no se apila cristal sobre cristal |
+| Botón de WhatsApp | acento sólido: es la acción principal |
+
+**Decisiones tomadas (por si hay que revisarlas):**
+
+- **No hay tema oscuro.** La web nunca lo tuvo; no se inventa uno. Se declara
+  `color-scheme: light` para que el navegador no oscurezca formularios.
+- **Sin refracción SVG.** Sólo funciona en Chromium y no se puede probar en
+  Safari ni Firefox desde aquí; el efecto no compensa el riesgo.
+- **Cristal apagado al ocultarse.** Un panel a opacidad 0 sigue pidiendo su
+  desenfoque en cada fotograma: cerrados, chat, aviso, «arriba» y las lupas de
+  las tarjetas laterales pierden cristal y sombra (con retraso, para no saltar
+  en el fundido).
+- **Aurora fija.** Las manchas de color del fondo van en `body::before` fijo
+  (no `background-attachment: fixed`, que iOS ignora): se pinta una vez.
+- **Texto secundario sobre cristal** sube al 86 % de tinta y el oro de los
+  rótulos pasa a `--oro-hondo`: con un fondo negro debajo del cristal se
+  quedaban en 2,7–3,5:1.
+
+**Comprobado** (en Chromium, con estilos calculados, no leyendo el CSS):
+
+- Contraste AA de 87 textos e iconos sobre 15 superficies de cristal, cada
+  uno con el PEOR fondo (negro, y blanco con el brillo al máximo): 0 fallos.
+  El más justo, un icono a 3,31:1 (mínimo 3).
+- `prefers-reduced-transparency`: ningún `backdrop-filter`, todo opaco, sin
+  aurora. `prefers-contrast: more`: cristal al 97 % y borde oscuro.
+  `prefers-reduced-motion`: menú y panel sin escalar, sólo funden.
+- Las 22 pruebas de la copia de trabajo y las 16 de `dist/`, en verde.
+- Rendimiento haciendo scroll (traza del compositor, mediana de 3 rondas,
+  render por software, así que las cifras absolutas son pesimistas):
+
+| | fotograma medio antes → después | perdidos antes → después |
+|---|---|---|
+| Portada 390 px | 16,69 → 16,67 ms | 6 → 7 de ~880 (0,6 → 0,8 %) |
+| Portada 1440 px | 16,88 → 16,78 ms | 1,5 → 1,1 % |
+| Mostrador 390 px | 16,67 → 16,67 ms | 0 → 0 |
+
+  El tiempo de dibujo por fotograma en escritorio sí sube algo (8,8–10,2 →
+  10,9 ms de media; el p95 baja de 20–24 a 17,7 ms): es la cápsula de la
+  cabecera, que es el cristal más grande. El fotograma y los perdidos, que es
+  lo que se nota, no empeoran.
+
+**Safari, sin probar aquí.** En este entorno sólo hay Chromium. Lo que se
+hizo para que Safari salga bien: cada `backdrop-filter` va con su
+`-webkit-backdrop-filter` escrito en literal y no con la variable (comprobado: 25 reglas, todas emparejadas y con el mismo valor),
+la aurora no usa
+`background-attachment: fixed`, y si el navegador no tiene `backdrop-filter`
+el cristal pasa a opaco. **Conviene abrirla en un iPhone antes de enseñarla.**
+
 ## Falta todavía
 
 - [x] **Datos del aviso legal**: puestos el 30/9

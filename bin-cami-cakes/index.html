@@ -1887,6 +1887,410 @@
     *,*::before,*::after{ animation-duration:.001ms!important; transition-duration:.001ms!important; }
   }
   @media print{ .no-print{ display:none!important; } }
+
+  /* ==================================================================
+     LIQUID GLASS — la capa de aspecto (3/10/2026)
+     ==================================================================
+     Es SÓLO aspecto: no toca lógica, ids ni atributos que usen el JS o las
+     pruebas. Va al final para pisar lo de arriba, y con :root delante de
+     cada selector para ganar a las utilidades de Tailwind sin depender del
+     orden de las hojas (en la copia de trabajo el CDN inyecta la suya
+     DESPUÉS de esta).
+
+     LA REGLA QUE MANDA: el cristal es para los CONTROLES que flotan sobre la
+     página. El CONTENIDO no lleva cristal.
+       Cristal ...... cabecera (cápsula), menú del móvil, barra de pestañas,
+                      botones flotantes, panel del presupuesto, aviso de
+                      cookies, hoja de producto, flechas y lupa del carrusel,
+                      botones del visor, índice lateral, avisos y pistas.
+       Sin cristal .. tarjetas, fotos, reseñas, el pie de las fotos del
+                      carrusel, la etiqueta de la portada, secciones: usan
+                      --capa-*, semiopacas y SIN desenfoque.
+       Nunca cristal sobre cristal: lo que va DENTRO de una superficie de
+       cristal (idiomas, botón de cerrar la ficha) no lleva backdrop-filter.
+
+     CONTRASTE: la opacidad de cada cristal está calculada para que su texto
+     llegue a AA (4,5:1) con NEGRO debajo, que es el peor caso real: por
+     debajo de la cabecera pasan las fotos de chocolate de la vitrina.
+       tinta al 100 %   -> basta .62  (--glass-bg es .66)
+       iconos frambuesa -> 3:1 pide .73 (--glass-bg-strong es .80)
+       texto frambuesa  -> pide .89: por eso NO va texto frambuesa sobre
+                           cristal, salvo en las hojas (--glass-bg-hoja .93)
+       El nombre de la marca en la cabecera es logotipo: WCAG no le pide
+       contraste. Lo comprueba glass/contraste.mjs, en el navegador.
+
+     SAFARI: -webkit-backdrop-filter va con el valor LITERAL (no con la
+     variable) y DESPUÉS del estándar: en Safari 18 las dos propiedades son
+     alias y gana la última. Si cambias --glass-blur, cambia también el
+     literal (lo vigila glass/contraste.mjs).                              */
+
+  :root{
+    color-scheme:light;
+    /* — el material — */
+    --glass-bg:            rgb(255 253 250 / .66);
+    --glass-bg-strong:     rgb(255 253 250 / .80);
+    --glass-bg-hoja:       rgb(255 253 250 / .93);
+    --glass-blur:          blur(20px) saturate(180%);
+    --glass-border:        rgb(255 255 255 / .42);
+    --glass-highlight:     inset 0 1px 0 rgb(255 255 255 / .55), inset 0 -1px 0 rgb(255 255 255 / .14);
+    --glass-sheen:         linear-gradient(180deg, rgb(255 255 255 / .38), rgb(255 255 255 / 0) 46%);
+    --glass-shadow:        0 14px 34px -16px rgb(58 49 54 / .32), 0 2px 8px -3px rgb(58 49 54 / .10);
+    /* cristal oscuro: para controles sobre fotos o sobre el velo de un diálogo.
+       También lleva su brillo y su borde claro, o queda plano. */
+    --glass-osc-bg:        rgb(30 26 28 / .58);
+    --glass-osc-bg-strong: rgb(30 26 28 / .84);
+    --glass-osc-border:    rgb(255 255 255 / .16);
+    --glass-osc-highlight: inset 0 1px 0 rgb(255 255 255 / .22), inset 0 -1px 0 rgb(255 255 255 / .05);
+    --glass-osc-sheen:     linear-gradient(180deg, rgb(255 255 255 / .14), rgb(255 255 255 / 0) 50%);
+    --glass-osc-shadow:    0 12px 30px -14px rgb(0 0 0 / .5);
+    /* — el contenido: semiopaco y SIN desenfoque — */
+    --capa-1:     rgb(255 255 255 / .74);
+    --capa-2:     rgb(255 255 255 / .9);
+    --capa-3:     rgb(var(--rosa-nube) / .72);
+    --capa-borde: rgb(255 255 255 / .78);
+    --capa-sombra: inset 0 1px 0 rgb(255 255 255 / .9), 0 1px 2px rgb(58 49 54 / .04),
+                   0 16px 32px -22px rgb(58 49 54 / .30);
+    /* — formas: cápsulas para botones y pestañas; los radios interiores se
+       calculan contra el del contenedor para que las curvas vayan paralelas — */
+    --r-capsula: 999px;
+    --r-panel:   1.75rem;
+    /* — movimiento — */
+    --muelle: cubic-bezier(.2,.9,.3,1.2);
+    --suave:  cubic-bezier(.2,.8,.2,1);
+    --t-morfo: 320ms;
+    /* — texto sobre el acento: un solo sitio para cambiarlo — */
+    --on-accent: #fff;
+    /* lo que la barra de pestañas flotante sube respecto a la de antes */
+    --hueco-barra: .4rem;
+  }
+
+  /* ---------- 1. EL MATERIAL ---------- */
+  :root :is(.cabecera-capsula, #menu-movil, .accion-chat, .arriba, .cf-flecha, .indice,
+            #panel-chat, .cookies, .ficha){
+    background-color:var(--glass-bg-strong);
+    background-image:var(--glass-sheen);
+    border:1px solid var(--glass-border);
+    box-shadow:var(--glass-highlight), var(--glass-shadow);
+    backdrop-filter:var(--glass-blur);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+  }
+  :root .cabecera-capsula{ background-color:var(--glass-bg); }
+  /* donde se LEE una lista o un texto largo, el cristal más cerrado: con el
+     .80 del menú se veía una banda frambuesa de la página detrás de una fila */
+  :root :is(#panel-chat, .cookies, .ficha, #menu-movil){ background-color:var(--glass-bg-hoja); }
+
+  :root :is(.cf-lupa, .visor-cerrar, .visor-flecha, #aviso, .pista){
+    background-color:var(--glass-osc-bg);
+    background-image:var(--glass-osc-sheen);
+    border:1px solid var(--glass-osc-border);
+    color:#fff;
+    box-shadow:var(--glass-osc-highlight), var(--glass-osc-shadow);
+    backdrop-filter:var(--glass-blur);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+  }
+  /* con texto encima: blanco sobre .84 da más de 8:1 aunque debajo haya blanco */
+  :root :is(#aviso, .pista){ background-color:var(--glass-osc-bg-strong); }
+  :root .pista::after{ background:var(--glass-osc-bg-strong); }
+
+  /* ---------- 2. LA CABECERA: una cápsula que flota ----------
+     #cabecera sigue siendo la franja fija de arriba (lo que vigilan las
+     pruebas y donde vive la barra de progreso), pero ahora es transparente y
+     no recibe toques; el cristal es la cápsula de dentro. Alto total igual o
+     MENOR que antes (4,75rem), para que nada quede debajo. La altura ya no se
+     anima al bajar: animar height es lo que no hay que hacer. Al bajar sólo
+     cambia la opacidad y el logo se encoge con transform, como antes. */
+  :root #cabecera, :root #cabecera.posada{
+    background:transparent; box-shadow:none;
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+    padding:.5rem .5rem 0; pointer-events:none;
+  }
+  :root #cabecera > :not(#progreso){ pointer-events:auto; }
+  :root #cabecera::after{ display:none; }
+  :root .cabecera-capsula{
+    border-radius:var(--r-capsula);
+    padding-inline:.7rem .45rem;
+    transition:background-color var(--t-morfo) var(--suave), box-shadow var(--t-morfo) var(--suave);
+  }
+  :root #cabecera.posada .cabecera-capsula{ background-color:var(--glass-bg-strong); }
+  :root .cabecera-caja, :root #cabecera.posada .cabecera-caja{ height:3.6rem; transition:none; }
+  :root .cabecera-logo img{ height:2.6rem; }
+  @media (min-width:1024px){
+    :root #cabecera, :root #cabecera.posada{ padding:.75rem .75rem 0; }
+    :root .cabecera-caja, :root #cabecera.posada .cabecera-caja{ height:3.75rem; }
+    :root .cabecera-capsula{ padding-inline:1.1rem .5rem; }
+    :root .cabecera-logo img{ height:2.85rem; }
+  }
+  /* dentro de la cápsula: nada lleva su propio desenfoque */
+  :root .nav-enlace{
+    color:rgb(var(--tinta) / .9); border-radius:var(--r-capsula);
+    transition:color .25s var(--suave), background-color var(--t-morfo) var(--suave);
+  }
+  :root .nav-enlace::after{ display:none; }      /* el filete de antes; ahora marca la píldora */
+  :root .nav-enlace:hover{ color:rgb(var(--tinta)); background-color:rgb(255 255 255 / .6); }
+  /* la sección activa va en TINTA con una píldora frambuesa detrás: en
+     frambuesa sobre el cristal no llegaba a 4,5:1 con fondo oscuro */
+  :root .nav-enlace[aria-current="page"],
+  :root .nav-enlace[aria-current="location"]{ color:rgb(var(--tinta)); background-color:rgb(var(--frambuesa) / .12); }
+  :root .idioma{ color:rgb(var(--tinta) / .82);
+                 transition:background-color .25s var(--suave), color .25s var(--suave), scale .3s var(--muelle); }
+  :root .idioma[aria-pressed="true"]{ background:rgb(var(--frambuesa)); color:var(--on-accent); }
+  :root #btn-menu{ border-radius:var(--r-capsula); background-color:rgb(255 255 255 / .5);
+                   transition:background-color .25s var(--suave), scale .3s var(--muelle); }
+
+  /* ---------- 3. EL MENÚ DEL MÓVIL: crece desde su botón ----------
+     Antes era cristal DENTRO de la cabecera, que también lo es: cristal sobre
+     cristal. Ahora es una superficie aparte, debajo de la cápsula, que nace
+     del botón de menú (esquina de arriba a la derecha). */
+  :root #menu-movil{
+    margin:.5rem auto 0; max-width:min(92rem, 100%);
+    border-radius:var(--r-panel);
+    transform-origin:calc(100% - 1.75rem) 0;
+    transition:opacity .22s var(--suave), transform .42s var(--muelle),
+               display .42s allow-discrete;
+  }
+  :root #menu-movil.hidden{ opacity:0; transform:translateY(-.4rem) scale(.9); }
+  @starting-style{ :root #menu-movil{ opacity:0; transform:translateY(-.4rem) scale(.9); } }
+  /* radio concéntrico: el del panel menos su relleno */
+  :root #menu-movil nav{ padding:.9rem 1rem 1rem; }
+  :root #menu-movil li > a{ border-radius:calc(var(--r-panel) - 1rem); }
+
+  /* ---------- 4. LA BARRA DE PESTAÑAS: una cápsula flotante ----------
+     El contenedor sigue anclado abajo y de lado a lado (lo comprueba
+     app.mjs), pero es transparente y no recibe toques: el cristal es la
+     cápsula que dibuja ::before, separada del borde. */
+  @media (max-width:639.98px){
+    :root .barra-tabs{
+      background:none; border-top:0;
+      backdrop-filter:none; -webkit-backdrop-filter:none;
+      padding:calc(var(--hueco-barra) + .2rem) calc(var(--hueco-barra) + .25rem)
+              calc(var(--hueco-barra) + .2rem + env(safe-area-inset-bottom,0px));
+      pointer-events:none; isolation:isolate;
+    }
+    :root .barra-tabs::before{
+      content:''; position:absolute; z-index:-1; pointer-events:none;
+      inset:var(--hueco-barra) var(--hueco-barra) calc(var(--hueco-barra) + env(safe-area-inset-bottom,0px));
+      border-radius:var(--r-capsula);
+      background-color:var(--glass-bg-strong); background-image:var(--glass-sheen);
+      border:1px solid var(--glass-border);
+      box-shadow:var(--glass-highlight), var(--glass-shadow);
+      backdrop-filter:var(--glass-blur);
+      -webkit-backdrop-filter:blur(20px) saturate(180%);
+    }
+    /* la pestaña activa es una píldora concéntrica con la cápsula */
+    :root .barra-tabs .tab{
+      pointer-events:auto; height:3.1rem; border-radius:var(--r-capsula);
+      color:rgb(var(--tinta) / .88);
+      transition:background-color var(--t-morfo) var(--suave), color .2s var(--suave), scale .3s var(--muelle);
+    }
+    :root .barra-tabs .tab[aria-current="location"]{ color:rgb(var(--tinta)); background:rgb(var(--frambuesa) / .13); }
+    /* todo lo que se apoyaba sobre la barra sube lo mismo que ella */
+    :root .acciones-flotantes{ bottom:calc(4.2rem + var(--hueco-barra) + env(safe-area-inset-bottom,0px)); }
+    :root body{ padding-bottom:calc(4.1rem + var(--hueco-barra) + env(safe-area-inset-bottom,0px)); }
+    :root #aviso{ bottom:calc(10.1rem + var(--hueco-barra) + env(safe-area-inset-bottom,0px)); }
+    :root #panel-chat{ bottom:calc(10.3rem + var(--hueco-barra) + env(safe-area-inset-bottom,0px)); }
+  }
+
+  /* ---------- 5. LOS BOTONES FLOTANTES ---------- */
+  :root .accion{ transition:transform .3s var(--muelle), scale .3s var(--muelle),
+                            background-color .25s var(--suave), color .25s var(--suave), box-shadow .25s var(--suave); }
+  :root .accion-chat{ color:rgb(var(--frambuesa)); }
+  :root .accion-chat:hover, :root .accion-chat[aria-expanded="true"]{ background-color:rgb(255 253 250 / .92); }
+  /* el de WhatsApp es el acento: macizo, sin desenfoque (no se ve a través),
+     con su brillo de canto y la sombra del color */
+  :root .accion-wa{
+    background:rgb(var(--frambuesa)); color:var(--on-accent);
+    border-color:rgb(255 255 255 / .28);
+    box-shadow:inset 0 1px 0 rgb(255 255 255 / .35), 0 12px 26px -12px rgb(var(--frambuesa) / .85);
+  }
+  :root .arriba{ color:rgb(var(--frambuesa));
+                 transition:opacity .3s var(--suave), transform .35s var(--muelle), scale .3s var(--muelle),
+                            background-color .25s var(--suave); }
+  :root .indice{ padding:.6rem .42rem; border-radius:var(--r-capsula); }
+
+  /* ---------- 6. EL PANEL DEL PRESUPUESTO: nace del botón que lo abre ---------- */
+  :root #panel-chat{
+    border-radius:var(--r-panel);
+    transform-origin:calc(100% - 1.5rem) 100%;
+    transform:scale(.55); opacity:0;
+    transition:transform .44s var(--muelle), opacity .24s var(--suave);
+  }
+  :root #panel-chat.abierto{ transform:none; opacity:1; }
+
+  /* ---------- 6b. CRISTAL APAGADO MIENTRAS NO SE VE ----------
+     Un panel a opacidad 0 sigue pidiendo su desenfoque y su sombra en cada
+     fotograma (lo enseñó la traza de rendimiento). Cerrado: sin cristal ni
+     sombra. Se apaga con retraso, cuando ya terminó de fundirse, y se
+     enciende al instante al abrir (la transición de la clase abierta no
+     incluye estas propiedades). */
+  :root :is(#panel-chat:not(.abierto), #aviso:not(.visible), .arriba:not(.visible),
+            .cf-carta:not([data-centro="true"]) .cf-lupa){
+    backdrop-filter:none; -webkit-backdrop-filter:none; box-shadow:none; }
+  :root #panel-chat:not(.abierto){
+    transition:transform .44s var(--muelle), opacity .24s var(--suave),
+               backdrop-filter 0s .3s, -webkit-backdrop-filter 0s .3s, box-shadow 0s .3s; }
+  :root #aviso:not(.visible){
+    transition:opacity .25s ease, transform .25s cubic-bezier(.16,1,.3,1),
+               backdrop-filter 0s .26s, -webkit-backdrop-filter 0s .26s, box-shadow 0s .26s; }
+  :root .arriba:not(.visible){
+    transition:opacity .3s var(--suave), transform .35s var(--muelle), scale .3s var(--muelle),
+               background-color .25s var(--suave),
+               backdrop-filter 0s .32s, -webkit-backdrop-filter 0s .32s, box-shadow 0s .32s; }
+
+  /* ---------- 7. EL AVISO DE COOKIES ---------- */
+  :root .cookies{ border-radius:var(--r-panel); }
+
+  /* ---------- 8. LOS DIÁLOGOS ----------
+     El velo de detrás oscurece pero ya NO desenfoca: encima va una hoja de
+     cristal (o los botones de cristal del visor), y desenfocar dos veces es
+     cristal sobre cristal y doble trabajo por fotograma. */
+  :root .ficha::backdrop, :root .visor::backdrop{ backdrop-filter:none; -webkit-backdrop-filter:none; }
+  :root .ficha::backdrop{ background:rgb(20 14 17 / .58); }
+  :root .ficha{ border-radius:var(--r-panel); }
+  :root .ficha[open]{ animation-timing-function:var(--muelle); }
+  @media (max-width:639.98px){
+    /* la hoja sube desde abajo: sin muelle, que rebotaría por encima de su sitio */
+    :root .ficha[open]{ animation-timing-function:var(--suave); }
+    :root .ficha{ border-radius:var(--r-panel) var(--r-panel) 0 0; }
+  }
+  :root .ficha-cerrar{                      /* dentro de la hoja: sin desenfoque propio */
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+    background:var(--capa-2); border-color:rgb(var(--rosa-palo));
+    transition:background-color .2s var(--suave), color .2s var(--suave), scale .3s var(--muelle);
+  }
+  :root .visor[open]{ animation-timing-function:var(--muelle); }
+  :root :is(.visor-cerrar, .visor-flecha){ transition:background-color .25s var(--suave), scale .3s var(--muelle); }
+
+  /* ---------- 9. EL CARRUSEL ---------- */
+  :root .cf-flecha{ color:rgb(var(--frambuesa));
+                    transition:background-color .25s var(--suave), scale .3s var(--muelle), opacity .3s var(--suave); }
+  /* el pie de la foto es CONTENIDO: fuera el desenfoque, y una capa oscura
+     que deja el texto blanco por encima de 7:1 aunque la foto sea blanca */
+  :root .cf-cuerpo{
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+    background:rgb(30 24 27 / .86);
+    border:1px solid rgb(255 255 255 / .14);
+    box-shadow:inset 0 1px 0 rgb(255 255 255 / .12), 0 12px 30px -16px rgb(0 0 0 / .55);
+  }
+
+  /* ---------- 9b. TEXTO SECUNDARIO SOBRE CRISTAL ----------
+     Medido en el navegador sobre el PEOR fondo (negro debajo del cristal):
+     la tinta al 55-60 % y el oro de los rótulos bajaban a 2,7-3,5:1. Sobre
+     cristal el texto secundario va al 86 % (necesita velo >= .72; el más
+     fino es .80) y el oro pasa a un tono hondo que da 4,5:1 sobre .80. */
+  :root{ --oro-hondo:116 72 34; }
+  :root :is(.cabecera-capsula, #menu-movil, #panel-chat, .cookies, .ficha) :is([class*="text-tinta/"], .ficha-dato dt){
+    color:rgb(var(--tinta) / .86); }
+  :root :is(.cabecera-capsula, #menu-movil, #panel-chat, .cookies, .ficha) :is(.marca em:not(.marca-clara), .antetitulo){
+    color:rgb(var(--oro-hondo)); }
+
+  /* ---------- 10. LO QUE ERA CRISTAL Y ES CONTENIDO ---------- */
+  :root .video-pronto-texto{ backdrop-filter:none; -webkit-backdrop-filter:none; background:var(--capa-2); }
+  :root #inicio .vidrio{
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+    background:var(--capa-2); border-color:var(--capa-borde); box-shadow:var(--capa-sombra);
+  }
+
+  /* ---------- 11. EL CONTENIDO: capas semiopacas, SIN desenfoque ---------- */
+  :root .tarjeta, :root .mos-carta, :root .resena{
+    border-color:var(--capa-borde); box-shadow:var(--capa-sombra);
+  }
+  :root .tarjeta.bg-white, :root .mos-carta, :root .resena{ background-color:var(--capa-2); }
+  :root .esp.tarjeta, :root .paso.tarjeta{ background-color:var(--capa-3); }
+  :root .mos-teja{ background-color:var(--capa-2); box-shadow:var(--capa-sombra); }
+  :root .mos-teja.es-encargo{ background-color:rgb(var(--crema) / .9); }
+  :root .gal-pieza{ box-shadow:var(--capa-sombra); }
+
+  /* El fondo: unas manchas de color muy suaves detrás de todo, para que el
+     cristal tenga algo que refractar. Sin filtro de desenfoque (los degradados
+     radiales ya son suaves). Las secciones se vuelven un poco translúcidas
+     para dejarlo ver. */
+  :root body{ background-color:rgb(var(--crema)); }
+  /* La aurora va en una capa FIJA detrás de todo: se pinta una vez y el
+     scroll sólo la compone (medido: ~1 ms menos por fotograma en escritorio
+     que el mosaico que se desplazaba con la página). Es un pseudoelemento
+     fijo y no background-attachment:fixed, que Safari de iOS ignora. */
+  :root body::before{
+    content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(36rem 24rem at 6% 14%, rgb(var(--rosa-palo) / .62), transparent 70%),
+      radial-gradient(32rem 22rem at 94% 52%, rgb(var(--amarillo) / .42), transparent 70%),
+      radial-gradient(38rem 26rem at 22% 86%, rgb(var(--lila) / .48), transparent 70%),
+      radial-gradient(28rem 20rem at 80% 10%, rgb(var(--frambuesa) / .11), transparent 70%);
+  }
+  @media print{ :root body::before{ display:none; } }
+  :root main > section.bg-white{ background-color:rgb(255 255 255 / .58); }
+  :root main > section.bg-crema{ background-color:rgb(var(--crema) / .62); }
+  :root main > section.bg-rosa-nube{ background-color:rgb(var(--rosa-nube) / .6); }
+
+  /* ---------- 12. AL PULSAR: un hundimiento breve ----------
+     Con la propiedad scale y no con transform, para no pisar los transform
+     que ya colocan algunos de estos botones (las flechas van centradas así). */
+  :root :is(.accion, .arriba, .cf-flecha, .tab, .idioma, #btn-menu, .chip,
+            .visor-cerrar, .visor-flecha, .ficha-cerrar):active{ scale:.96; }
+
+  /* ---------- 13. will-change sólo mientras dura la animación ----------
+     Las tartas de la portada vuelan una vez al cargar: la capa sólo entonces.
+     La inclinación, sólo mientras se inclina. El carrusel lo conserva: se
+     mueve solo cada pocos segundos todo el rato que está a la vista. */
+  :root .carta{ will-change:auto; }
+  :root .cartas.entrando .carta{ will-change:transform; }
+  @media (hover:hover) and (pointer:fine){
+    :root .inclina{ will-change:auto; }
+    :root .inclina.inclinando{ will-change:transform; }
+  }
+
+  /* ---------- 14. PREFERENCIAS DEL SISTEMA ---------- */
+  /* Menos movimiento: sin muelles ni escalados, sólo fundidos. El sitio
+     tiene un interruptor general (más arriba) que deja TODA transición en
+     .001ms; aquí se rescata el fundido de los controles de cristal. */
+  @media (prefers-reduced-motion: reduce){
+    :root :is(.accion, .arriba, .cf-flecha, .tab, .idioma, #btn-menu, .chip,
+              .visor-cerrar, .visor-flecha, .ficha-cerrar):active{ scale:none; }
+    :root #panel-chat, :root #panel-chat.abierto{ transform:none; }
+    :root #panel-chat{ transition:opacity .2s linear !important; transition-duration:.2s !important; }
+    :root #menu-movil, :root #menu-movil.hidden{ transform:none; }
+    :root #menu-movil{ transition:opacity .2s linear, display .2s allow-discrete !important;
+                       transition-duration:.2s !important; }
+    @starting-style{ :root #menu-movil{ transform:none; } }
+    :root .ficha[open], :root .visor[open]{ animation:lg-fundido .2s linear !important;
+                                            animation-duration:.2s !important; }
+  }
+  @keyframes lg-fundido{ from{ opacity:0; } to{ opacity:1; } }
+
+  /* Menos transparencia: fuera el cristal, fondos opacos, sin manchas. */
+  @media (prefers-reduced-transparency: reduce){
+    :root{
+      --glass-bg:rgb(var(--crema)); --glass-bg-strong:rgb(var(--crema)); --glass-bg-hoja:rgb(var(--crema));
+      --glass-osc-bg:rgb(38 32 35); --glass-osc-bg-strong:rgb(38 32 35);
+      --glass-sheen:none; --glass-osc-sheen:none;
+      --capa-1:#fff; --capa-2:#fff; --capa-3:rgb(var(--rosa-nube));
+    }
+    :root :is(.cabecera-capsula, #menu-movil, .accion-chat, .arriba, .cf-flecha, .indice,
+              #panel-chat, .cookies, .ficha, .cf-lupa, .visor-cerrar, .visor-flecha, #aviso, .pista),
+    :root .barra-tabs::before{ backdrop-filter:none; -webkit-backdrop-filter:none; }
+    :root body::before{ display:none; }
+    :root main > section.bg-white{ background-color:#fff; }
+    :root main > section.bg-crema{ background-color:rgb(var(--crema)); }
+    :root main > section.bg-rosa-nube{ background-color:rgb(var(--rosa-nube)); }
+  }
+
+  /* Más contraste: bordes marcados y cristal casi opaco. */
+  @media (prefers-contrast: more){
+    :root{
+      --glass-bg:rgb(255 253 250 / .95); --glass-bg-strong:rgb(255 253 250 / .97); --glass-bg-hoja:rgb(255 253 250);
+      --glass-border:rgb(var(--tinta) / .55);
+      --glass-osc-bg:rgb(20 16 18 / .92); --glass-osc-bg-strong:rgb(20 16 18 / .96);
+      --glass-osc-border:rgb(255 255 255 / .6);
+      --capa-borde:rgb(var(--tinta) / .35);
+    }
+    :root :is(.nav-enlace, .idioma:not([aria-pressed="true"]), .barra-tabs .tab){ color:rgb(var(--tinta)); }
+  }
+
+  /* Navegador sin backdrop-filter: el cristal se vuelve casi opaco. */
+  @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+    :root{ --glass-bg:rgb(255 253 250 / .96); --glass-bg-strong:rgb(255 253 250 / .97);
+           --glass-osc-bg:rgb(30 26 28 / .94); }
+  }
 </style>
 </head>
 
@@ -1901,7 +2305,7 @@
   <!-- La barra es de ancho completo y no tiene por qué ceñirse al max-w-7xl
        del contenido: en una pantalla de 1600 sobraban 200 px a cada lado
        mientras el botón de "Cuéntanos tu idea" se salía por la derecha. -->
-  <div class="mx-auto max-w-[92rem] px-4 sm:px-6 lg:px-8">
+  <div class="cabecera-capsula mx-auto max-w-[92rem] px-4 sm:px-6 lg:px-8">
     <div class="cabecera-caja flex items-center justify-between gap-3">
 
       <a href="#inicio" class="cabecera-logo flex shrink-0 items-center gap-3" aria-label="Bin y Cami Cakes · inicio">
