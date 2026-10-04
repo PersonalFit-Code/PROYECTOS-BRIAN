@@ -1,38 +1,83 @@
 # Guía para las fotos de plato — Tixola
 
-Para el fin de semana de mucho tráfico. El objetivo no es hacer fotos bonitas: es que **se puedan
-usar en la web sin retocar**, que es otra cosa.
+> **Actualizada el 4-10-2026.** Tatiana tenía razón: faltan bastantes. De los 47 platos de la carta,
+> **21 ya tienen foto de verdad y 26 siguen con el dibujo**. Esta es la lista exacta — comprobada
+> contra `src/data/menu.ts` y `src/data/photos.ts`, no a ojo — y el orden en el que conviene tirarlas.
 
 ---
 
 ## Lo primero: qué platos, y en qué orden
 
-Si solo da tiempo a unos pocos, este es el orden. Está hecho por lo que más vende y por dónde hay
-huecos en la web, no por gusto.
+Por categoría, con el precio al lado (lo que más vende primero dentro de cada una). Los que ya
+estaban en la ronda anterior y siguen sin foto llevan una ⚠️.
 
-### Imprescindibles (los que hoy salen con un dibujo)
+### Tostas — 0 de 3
 
-1. **Pulpo a la plancha con grelos** (19,50 €) — el plato más caro que la gente busca, y el único
-   «pulpo» de la carta sin foto. Si solo haces una, esta.
-2. **Zamburiñas rellenas** (19,00 €) — tenemos la foto de las de plancha, no la de estas.
-3. **Tixola con gulas, setas y langostinos** (16,90 €) — la tixola más cara y la más vistosa.
-4. **Tacos de bacalao en tempura con pimientos** (15,60 €).
-5. **Ensalada de cecina con helado de queso de oveja** (17,80 €) — la más fotogénica de las ensaladas.
-6. **Mejillones tigre** (10,50 €).
-7. **Calamares fritos** (12,90 €).
-8. **Pastel de cabracho** (10,00 €).
+1. **Tosta de crema de cebolla, foie y rulo de cabra** (7,50 €)
+2. **Tosta de trigueros, jamón y huevo de codorniz** (7,20 €)
+3. **Tosta de salmón y queso** (6,80 €)
 
-### Si sobra tiempo
+### Embutidos y quesos — 0 de 4
 
-Croquetas de cecina y queso de cabra · Tosta de crema de cebolla, foie y rulo de cabra · Revuelto de
-bacalao, grelos y langostinos · Oreja a la plancha · Queso frito · Timbal vegetal.
+Toda la categoría sin una sola foto. Se tiran las cuatro en la misma sesión: es una tabla con el
+corte, va rápido.
 
-### Y una que no es de plato, pero es la más importante de todas
+4. **Jamón serrano** (12,90 €)
+5. **Queso de cabra** (9,90 €)
+6. **Queso de oveja** (9,80 €)
+7. **Queso del país** (9,50 €)
+
+### Pulpo — 1 de 4
+
+8. **Salteado de pulpo, salmón y langostinos** (20,50 €) — el plato más caro de toda la carta sin
+   foto. Si solo da tiempo a una de esta lista, esta.
+
+### Especiales — 3 de 7 ⚠️
+
+9. **Zamburiñas rellenas** (19,00 €) — ya estaba en la lista anterior. Tenemos la de plancha, no la
+   de rellenas, y son platos distintos.
+10. **Brocheta XXL** (13,90 €)
+11. **Timbal vegetal** (9,50 €) ⚠️
+12. **Oreja a la plancha** (8,20 €) ⚠️
+
+### Ensaladas — 3 de 5
+
+13. **Ensalada de cecina con helado de queso de oveja** (17,80 €) — la más fotogénica de las que
+    faltan.
+14. **Ensalada de ventresca** (13,90 €)
+
+### Revueltos — 1 de 3
+
+15. **Revuelto de algas y langostinos** (12,80 €)
+16. **Revuelto de setas y oreja** (12,50 €)
+
+### Cocina — 7 de 12
+
+17. **Tacos de bacalao en tempura con pimientos** (15,60 €) — ya estaba en la lista anterior.
+18. **Tortilla guisada con champiñones** (11,90 €)
+19. **Salteado de verdura, arroz y setas** (11,50 €)
+20. **Pastel de cabracho** (10,00 €) ⚠️
+21. **Fingers de pollo** (7,90 €)
+
+### Tixolas — 3 de 5
+
+22. **Tixola de piquillos caramelizados y panceta** (12,50 €)
+23. **Tixola de pisto de verduras** (11,50 €)
+
+### Varios — 1 de 4
+
+24. **Postre sin gluten** (6,00 €) — si no se parece al postre normal; si es el mismo plato con otra
+    base, no hace falta, ya tenemos foto del postre.
+25. **Ración de pan con tomate** (3,50 €)
+26. **Ración de pan** (1,60 €) — la última de la lista a propósito: es pan, no vende por la foto.
+
+### Y una que no es de plato, pero sigue siendo la más importante
 
 **Las dos caras de la carta de papel, de cerca y enfocadas, sobre todo la columna de los alérgenos.**
-La que tengo es un sello de 336 px: se adivinan los cuadraditos, pero no se leen. Con una foto buena
-dejo de deducir alérgenos y publico los vuestros. Es lo que desbloquea que la carta se pueda dar por
-cerrada.
+Esto llevaba pendiente desde la ronda anterior y sigue pendiente: la que hay
+(`public/images/carta-fisica.png`) es un sello de 336 px, ilegible. Con una foto buena se dejan de
+**deducir** alérgenos de la receta y se publican los de verdad. Es lo único que falta para que las
+tres páginas legales dejen de llevar el aviso de "faltan datos" y entren en el buscador.
 
 ---
 
@@ -86,7 +131,8 @@ elijo la buena.
 
 ## Qué pasa después
 
-Cada foto que llegue es una línea en el manifiesto de fotos y otra en la carta. En cuanto haya tres o
-cuatro buenas, **el carrusel de platos estrella de la portada puede volver a crecer**: hoy está en
-tres porque son los tres únicos platos de los que existe una foto de verdad, y un carrusel de
-«destacados» ilustrado con dibujos vende bastante menos que uno con comida.
+Cada foto que llegue es una línea en el manifiesto de fotos y otra en la carta. El carrusel de platos
+estrella de la portada ya tiene tres fotos de verdad (zamburiñas, raxo con Arzúa y croquetas de
+grelos); con un par más de estos 26 puede crecer a cuatro o cinco sin que se note el hueco. La
+galería del final de la portada ya enseña las 30 que hay hoy, con filtro por tema — cuantas más
+lleguen, más grande se ve.
