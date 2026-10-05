@@ -482,3 +482,37 @@ body::before {
 #app-shell {
   overflow-x: clip;
 }
+
+/* El mapa de las denominaciones (/vinos): el vino viajando de cada zona al bar. Todo dentro de
+   `no-preference`: sin movimiento, los cinco caminos se ven enteros y quietos. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes flujo-vino {
+    from {
+      stroke-dashoffset: 100;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes latido {
+    0% {
+      transform: scale(0.55);
+      opacity: 0.7;
+    }
+    70% {
+      opacity: 0;
+    }
+    100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+  [data-flujo] {
+    stroke-dasharray: 11 89;
+    animation: flujo-vino var(--flujo-dur, 3.6s) linear infinite;
+    animation-delay: var(--flujo-delay, 0s);
+  }
+  [data-latido] {
+    animation: latido 2.8s ease-out infinite;
+  }
+}

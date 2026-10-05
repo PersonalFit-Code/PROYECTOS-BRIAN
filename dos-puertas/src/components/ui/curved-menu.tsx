@@ -50,7 +50,9 @@ function NavLink({ item, index, onNavigate }: { item: CurvedMenuItem; index: num
             aria-hidden
             className={cn(
               "block font-display text-[2rem] leading-none font-medium sm:text-[2.6rem]",
-              item.active ? "text-gradient-marca" : "text-cream group-hover:text-oro-light",
+              /* Color sólido y no degradado recortado: las letras van en inline-block animadas y el
+              `background-clip: text` del padre no las alcanza (se quedaban transparentes). */
+              item.active ? "text-oro-light" : "text-cream group-hover:text-oro-light",
             )}
             variants={{ initial: { x: 0 }, enter: { x: 0 }, hover: { x: -6 } }}
             transition={{ type: "spring", staggerChildren: 0.03 }}
