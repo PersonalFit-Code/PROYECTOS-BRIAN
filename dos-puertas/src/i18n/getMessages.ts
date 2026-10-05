@@ -1,9 +1,10 @@
 import es from "./messages/es";
+import gl from "./messages/gl";
 import type { Locale } from "./config";
 
 export type Messages = typeof es;
 
-const MESSAGES: Record<Locale, Messages> = { es };
+const MESSAGES: Record<Locale, Messages> = { es, gl };
 
 export function getMessages(locale: Locale): Messages {
   return MESSAGES[locale];
