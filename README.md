@@ -5,4 +5,4 @@ Repositorio con los proyectos web de Brian. Cada proyecto vive en su propia carp
 ## Proyectos
 
 - **tixola-taperia** — página web de la tapería Tixola.
-- **Dos Puertas** — brief de contenido e investigación listos en `dos-puertas/BRIEF.md`. Pendiente: prompt de diseño de la página.
+- **dos-puertas** — web del Café Bar Dos Puertas (Ourense). Primera versión del frontend; pendientes en `dos-puertas/README.md`.

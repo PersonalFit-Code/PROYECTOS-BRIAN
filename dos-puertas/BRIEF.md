@@ -64,12 +64,12 @@ Usar la historia real de arriba (fundadores, anécdota de los calamares, relevo 
 
 ## 5. Guía de estilo visual (de tu brief original)
 
-- Paleta: castaño/madera oscura, blanco roto/crema de fondo, rojo vino o ámbar dorado de acento
+- Paleta: ~~castaño/madera + vino~~ → sustituida por la del rótulo real (azul tinta + oro + luz ámbar), a petición de Brian
 - Tipografía: Playfair Display (títulos, legado histórico) + Inter o Roboto (cuerpo, legible en móvil mientras se tapea)
 - Ambiente real a transmitir: local pequeño, de pie en barra, "castizo" y animado, pleno casco histórico — nada de mesas ni reservas, eso es parte de la autenticidad, no una limitación a esconder
 
 ## 6. Pendiente
 
-- [ ] Prompt de diseño de la página (lo manda Brian)
+- [x] Prompt de diseño de la página (aplicado: ver README.md)
 - [ ] Fotos reales del local / platos (o banco de imágenes provisional)
 - [ ] Confirmar con Marisa si el nombre correcto a mostrar es "Marisol y Marisa" o solo una de ellas como contacto público
