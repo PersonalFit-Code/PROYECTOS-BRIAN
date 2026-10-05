@@ -376,8 +376,8 @@ const faq = {
 
 const footer = {
   about: "Bar de pinchos en la zona de Os Viños de Ourense desde 1974.",
-  contact: "Contacto",
   hours: "Horario",
+  location: "Ubicación",
   links: "La casa",
   rights: "© {year} Café Bar Dos Puertas",
   legal: "Aviso legal",
