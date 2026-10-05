@@ -1291,6 +1291,51 @@ tenemos ni ingredientes ni alérgenos, y aquí no se inventan.
 > propósito («Postres de cuchara, en tarrina»), pero si dice otra cosa, manda
 > ella.
 
+## Las porciones de la vitrina (5/10)
+
+Brian mandó tres fotos de porciones hechas en la tienda, con el nombre tal
+como las canta él: «dulce de leche topping raffaelo rellena», «vainilla dulce
+leche topping cereza», «vainilla kinder bueno topping fresa chocolate».
+
+Van en `mostrador.html`, entre las cuatro fichas grandes y «Todo lo que hay»:
+un bloque `.porciones` con tres tarjetas `.porcion` (foto 4:3, nombre, una
+línea y «Pregúntanos →», con la tarjeta entera de enlace a WhatsApp).
+
+| Archivo | Porción | Recorte |
+|---|---|---|
+| `porcion-dulce-leche` | Vainilla con dulce de leche | `1/27/80/75` |
+| `porcion-kinder` | Vainilla con Kinder Bueno | `9/29/85/79` |
+| `porcion-raffaello` | Dulce de leche con Raffaello | `0/29/78/77` |
+
+El recorte de la de Kinder Bueno se ajustó dos veces: con el primero entraba
+por la derecha un trozo de un adorno verde del mostrador, que en una tarjeta
+pequeña parecía una mancha.
+
+**No son fichas de producto, y es a propósito.** De una tarta cortada no hay
+receta publicada, así que no llevan precio ni lista de ingredientes y no usan
+`.mos-carta` (la prueba del mostrador cuenta 4 fichas y debe seguir contando
+4). Lo que sí se dice, debajo del bloque y en los cuatro idiomas (`mos.porc.al`):
+
+> Las tres llevan bizcocho (harina de trigo), huevo y lácteos. La del Raffaello
+> y la del Kinder Bueno llevan además frutos de cáscara, y todas salen del
+> mismo obrador donde se manipulan. Si tienes una alergia, dínoslo antes de
+> pedir.
+
+Eso no es inventar: lo del bizcocho, el huevo y los lácteos ya es lo que se
+dice de las tartas de encargo, y que un Raffaello lleva almendra y coco y un
+Kinder Bueno lleva avellana es lo que pone en el propio producto. Declarar de
+más es seguro; declarar de menos, no.
+
+> **POR CONFIRMAR CON LUISA**: los nombres y las descripciones los escribí yo
+> a partir de la nota de Brian y de lo que se ve en la foto. Y que estas tres
+> estén siempre no lo sabe nadie: por eso el texto dice «lo que hay cortado
+> cambia según el día».
+
+La prueba `z-porciones.mjs` (en la batería, contra el 8777 y el 8778)
+comprueba que las tres fotos cargan de verdad, que cada enlace de WhatsApp
+nombra su porción, que no hay hueco sin traducir en gl/en/pt, que el aviso de
+alérgenos sigue entero y que las tarjetas no llevan cristal encima.
+
 ## Lavado de cara «Liquid Glass»
 
 Pasada sólo de aspecto, con el lenguaje de Apple (iOS 26 / macOS Tahoe)
