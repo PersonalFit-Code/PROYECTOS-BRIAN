@@ -9,15 +9,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = getMessages(locale);
-  return pageMetadata(locale, "/barra", { title: m.barra.pageTitle, description: m.barra.pageLead });
+  return pageMetadata(locale, "/carta", { title: m.barra.pageTitle, description: m.barra.pageLead });
 }
 
-export default async function BarraPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function CartaPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
   const m = getMessages(isLocale(raw) ? raw : "es");
   return (
     <>
-      <PageHeader kicker={m.barra.kicker} before={m.barra.titleBefore} accent={m.barra.titleAccent} lead={m.barra.pageLead} />
+      <PageHeader kicker={m.barra.pageTitle} before={m.barra.titleBefore} accent={m.barra.titleAccent} lead={m.barra.pageLead} />
       <BarraExplorer />
     </>
   );

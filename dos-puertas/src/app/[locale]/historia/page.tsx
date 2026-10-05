@@ -21,18 +21,7 @@ export default async function HistoriaPage({ params }: { params: Promise<{ local
     <>
       <PageHeader kicker={t.kicker} before={t.titleBefore} accent={t.titleAccent} after={t.titleAfter} lead={t.pageLead} />
       <Timeline />
-      <div className="container-page grid gap-10 py-10 lg:grid-cols-2">
-        <dl className="grid grid-cols-2 gap-px self-start overflow-hidden rounded-3xl bg-cream/10 ring-1 ring-cream/10">
-          {t.stats.map((s) => (
-            <div key={s.label} className="bg-tinta-800 p-5 sm:p-6">
-              <dt className="sr-only">{s.label}</dt>
-              <dd>
-                <span className="block font-condensed text-5xl leading-none tracking-wide text-gradient-marca">{s.value}</span>
-                <span className="mt-2 block text-[13px] leading-snug text-cream-muted">{s.label}</span>
-              </dd>
-            </div>
-          ))}
-        </dl>
+      <div className="container-page max-w-3xl py-10">
         <FamousCard />
       </div>
     </>

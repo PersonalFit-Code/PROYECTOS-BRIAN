@@ -14,7 +14,7 @@ export function isLocale(value: string | undefined | null): value is Locale {
   return !!value && (LOCALES as readonly string[]).includes(value);
 }
 
-/** localePath("es", "/barra") → "/es/barra" · localePath("es", "/#barra") → "/es#barra" */
+/** localePath("es", "/carta") → "/es/carta" · localePath("es", "/#barra") → "/es#barra" */
 export function localePath(locale: Locale, path = "/"): string {
   if (/^(https?:|tel:|mailto:)/.test(path)) return path;
   if (path.startsWith("#")) return `/${locale}${path}`;

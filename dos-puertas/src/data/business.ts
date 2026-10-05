@@ -45,6 +45,8 @@ export const BUSINESS = {
   reservations: false,
   managers: "Marisol y Marisa López",
   maps: "https://www.google.com/maps/search/?api=1&query=Bar+Dos+Puertas%2C+R%C3%BAa+dos+Fornos+7%2C+32005+Ourense",
+  /* Mapa incrustable de Google sin clave de API (búsqueda por nombre y dirección). */
+  mapEmbed: "https://maps.google.com/maps?q=Bar%20Dos%20Puertas%2C%20R%C3%BAa%20dos%20Fornos%207%2C%2032005%20Ourense&z=17&hl=es&output=embed",
   social: {
     tripadvisor: "https://www.tripadvisor.es/Restaurant_Review-g644337-d3173430-Reviews-Dos_Puertas-Ourense_Province_of_Ourense_Galicia.html",
     facebook: "https://www.facebook.com/p/Bar-Dos-Puertas-100054258110551/",

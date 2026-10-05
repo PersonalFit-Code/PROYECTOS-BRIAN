@@ -5,6 +5,7 @@ import { Banknote, CreditCard, MapPin, Navigation, Phone, Smartphone, Ban } from
 import SectionHeading from "@/components/ui/SectionHeading";
 import HoursList from "@/components/ui/HoursList";
 import StatusPill from "@/components/ui/StatusPill";
+import MapEmbed from "@/components/ui/MapEmbed";
 import { useMessages } from "@/i18n/LocaleProvider";
 import { useReveal } from "@/hooks/useReveal";
 import { BUSINESS } from "@/data/business";
@@ -27,6 +28,7 @@ export default function VisitBlock({ withHeading = true }: { withHeading?: boole
         <div className="mt-10 grid gap-4 lg:grid-cols-[1.1fr_1fr]">
           <div data-reveal className="capa-alta grano relative overflow-hidden rounded-[32px] p-6 sm:p-8">
             <div aria-hidden className="glow absolute -top-24 -right-24 -z-0 size-80 [--glow-a:0.2]" />
+            <MapEmbed title={t.mapLabel} className="relative -mx-2 -mt-2 mb-7 h-56 rounded-[22px] sm:-mx-4 sm:-mt-4 sm:h-72" />
             <h3 className="relative font-caps text-[11px] font-semibold tracking-[0.28em] text-oro-a11y uppercase">{t.addressTitle}</h3>
             <p className="relative mt-3 font-display text-3xl leading-tight font-medium sm:text-4xl">{BUSINESS.address.street}</p>
             <p className="relative mt-1 text-cream-muted">

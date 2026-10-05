@@ -9,7 +9,7 @@ export default function ChapterRail() {
   const m = useMessages();
   const chapters = [
     { id: "inicio", label: m.nav.home },
-    { id: "barra", label: m.nav.barra },
+    { id: "barra", label: m.barra.kicker },
     { id: "historia", label: m.nav.historia },
     { id: "resenas", label: m.social.kicker },
     { id: "visita", label: m.nav.visita },

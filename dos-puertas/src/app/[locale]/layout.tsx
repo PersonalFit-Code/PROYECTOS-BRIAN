@@ -69,7 +69,7 @@ function barJsonLd(locale: Locale, description: string) {
         closes: r.close === "00:00" ? "23:59" : r.close,
       })),
     ),
-    hasMenu: `${SITE_URL}/${locale}/barra`,
+    hasMenu: `${SITE_URL}/${locale}/carta`,
     sameAs: [BUSINESS.social.tripadvisor, BUSINESS.social.facebook],
   };
 }

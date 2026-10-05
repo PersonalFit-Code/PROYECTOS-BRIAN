@@ -61,7 +61,7 @@ export default function StarPinchos() {
 
       <div className="container-page mt-8">
         <Link
-          href={lp("/barra")}
+          href={lp("/carta")}
           className="pulsable inline-flex min-h-12 items-center gap-2 rounded-full border border-oro/40 px-6 text-[15px] font-semibold text-oro-light hover:bg-oro/10"
         >
           {t.seeAll}

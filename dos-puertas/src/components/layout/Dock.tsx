@@ -18,7 +18,7 @@ export default function Dock() {
       aria-label={m.nav.dockLabel}
       className="fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(12px,env(safe-area-inset-bottom))] md:hidden"
     >
-      <ul className="liquid-glass liquid-glass-strong cristal-ancho mx-auto grid h-[var(--dock-h)] max-w-md grid-cols-4 rounded-full p-1.5">
+      <ul className="liquid-glass liquid-glass-strong cristal-ancho mx-auto grid h-[var(--dock-h)] max-w-md grid-cols-5 rounded-full p-1.5">
         {NAV_ITEMS.map(({ key, path, icon: Icon }) => {
           const active = isActive(pathname, path);
           return (
@@ -27,7 +27,7 @@ export default function Dock() {
                 href={lp(path)}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "pulsable flex flex-1 flex-col items-center justify-center gap-0.5 rounded-full text-[11px] font-medium",
+                  "pulsable flex flex-1 flex-col items-center justify-center gap-0.5 rounded-full text-[10.5px] font-medium",
                   active ? "bg-oro text-tinta" : "text-cream-muted",
                 )}
               >

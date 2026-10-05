@@ -1,5 +1,6 @@
 import type { CategoryId, PinchoId } from "@/data/menu";
 import type { DayKey } from "@/data/business";
+import type { DoId } from "@/data/denominaciones";
 
 const common = {
   tagline: "El sabor auténtico de Los Vinos desde 1974",
@@ -8,6 +9,7 @@ const common = {
   skipToContent: "Saltar al contenido",
   call: "Llamar",
   directions: "Cómo llegar",
+  openInMaps: "Abrir en Google Maps",
   pending: "Pendiente de confirmar",
   photoPending: "Foto real próximamente",
   close: "Cerrar",
@@ -39,7 +41,8 @@ const common = {
 
 const nav = {
   home: "Inicio",
-  barra: "La Barra",
+  carta: "Carta",
+  vinos: "Vinos",
   historia: "Historia",
   visita: "Visítanos",
   mainLabel: "Navegación principal",
@@ -54,10 +57,21 @@ const hero = {
   subtitle: "Tradición, autenticidad y los pinchos de siempre en la rúa dos Fornos desde 1974.",
   ctaPrimary: "Ver la Barra de Pinchos",
   ctaSecondary: "Cómo llegar",
-  proofPress: "En La Voz de Galicia",
-  proofYears: "Más de 50 años de barra",
-  scrollHint: "Baja y pasa",
-  artLabel: "Ilustración de la fachada del Dos Puertas: dos puertas en arco de granito con la luz de la barra encendida dentro.",
+  photoAlt: "La barra de granito con los pinchos del día expuestos y el equipo detrás.",
+  press: {
+    outlet: "La Voz de Galicia",
+    aria: "Leer el reportaje de La Voz de Galicia sobre el Dos Puertas",
+    items: ["Hasta Amancio Ortega se dejó conquistar por sus «calamares»", "Más de 50 años de barra en la rúa dos Fornos", "Un mítico de la zona de Os Viños"],
+  },
+  showcase: {
+    label: "La barra, hoy",
+    tablistLabel: "Qué ver de la barra",
+    tabs: { barra: "La barra", pinchos: "Pinchos" },
+    boardLabel: "En la pizarra de la puerta",
+    boardPrices: "Pinchos 2 € · Bocadillos 4 €",
+    seePinchos: "Los de la casa",
+    seeCarta: "Ver la carta",
+  },
 };
 
 const manifesto = {
@@ -80,9 +94,9 @@ const barra = {
   titleAccent: "de siempre",
   titleAfter: "",
   lead: "Expuestos en la barra para pedir al momento, como desde el primer día. Estos son los cuatro que no fallan.",
-  seeAll: "Ver toda la barra",
+  seeAll: "Ver la carta completa",
   openDetail: "Ver la historia de {name}",
-  pageTitle: "La Barra",
+  pageTitle: "Carta",
   pageLead:
     "Lo que se pide en el Dos Puertas, de pie y sin prisa. Se cambia según el día: lo que ves en la barra es lo que hay.",
   priceNote: "Según la pizarra de la fachada: pinchos a 2 € y bocadillos a 4 €. Precios de raciones pendientes de confirmar con la casa.",
@@ -207,12 +221,51 @@ const historia = {
   famousText:
     "La familia recuerda con orgullo que Amancio Ortega estuvo en el bar y que le encantaron los «calamares». También eran habituales Fran, el del Deportivo, la gaitera Cristina Pato y políticos como Feijóo.",
   pressLink: "Leer el reportaje en La Voz de Galicia",
-  stats: [
-    { value: "1974", label: "Año de apertura" },
-    { value: "4.100", label: "Pinchos a la semana en sus mejores años" },
-    { value: "25 pta", label: "Lo que costaba el primer moruno" },
-    { value: "2 €", label: "Lo que cuesta hoy un pincho" },
-  ],
+};
+
+const vinos = {
+  kicker: "Vinos",
+  titleBefore: "Vinos de",
+  titleAccent: "la tierra",
+  pageLead:
+    "En Os Viños se viene a pinchar y a beber vino gallego. Cuatro de las cinco denominaciones de origen de Galicia tienen viñedo en la provincia de Ourense.",
+  houseKicker: "En la barra",
+  houseTitle: "La selección de la casa",
+  houseText: "Vinos de las denominaciones gallegas, por copas, para acompañar la ronda de pinchos.",
+  housePending: "Referencias concretas pendientes de confirmar con la casa.",
+  quoteLabel: "Lo que dicen del vino",
+  doKicker: "Las denominaciones",
+  doTitle: "Cinco orígenes, un mismo país",
+  ourenseBadge: "Ourense",
+  whites: "Blancas",
+  reds: "Tintas",
+  items: {
+    ribeiro: {
+      name: "Ribeiro",
+      zone: "Valles del Miño, el Avia y el Arnoia, al oeste de la ciudad",
+      text: "Una de las denominaciones más antiguas de España. Blancos aromáticos de Treixadura y tintos de variedades autóctonas.",
+    },
+    "ribeira-sacra": {
+      name: "Ribeira Sacra",
+      zone: "Cañones del Sil y del Miño, entre Ourense y Lugo",
+      text: "Viñedo en bancales sobre laderas imposibles: la llamada viticultura heroica. Tierra de tintos de Mencía.",
+    },
+    valdeorras: {
+      name: "Valdeorras",
+      zone: "Valle del Sil, en el extremo oriental de la provincia",
+      text: "La casa del Godello, el gran blanco gallego de interior, y de tintos de Mencía sobre suelos de pizarra.",
+    },
+    monterrei: {
+      name: "Monterrei",
+      zone: "Valle de Monterrei, en torno a Verín, junto a Portugal",
+      text: "La más pequeña de las gallegas, con blancos de Godello y Treixadura y tintos de Mencía.",
+    },
+    "rias-baixas": {
+      name: "Rías Baixas",
+      zone: "Costa atlántica de Pontevedra y sur de A Coruña",
+      text: "La única de las cinco fuera de Ourense: el reino del Albariño, el blanco atlántico.",
+    },
+  } satisfies Record<DoId, { name: string; zone: string; text: string }>,
 };
 
 const social = {
@@ -220,10 +273,11 @@ const social = {
   titleBefore: "Una parada",
   titleAccent: "obligada",
   titleAfter: "",
-  lead: "Reseñas reales de quienes pasan por la barra. Copiadas tal cual, con su nombre.",
+  lead: "{count} reseñas reales de 4 y 5 estrellas en Google y TripAdvisor, copiadas tal cual y con su nombre.",
   ratingLabel: "Nota de calidad-precio",
   ratingCount: "{count} opiniones en TripAdvisor",
   readOn: "Leer más en TripAdvisor",
+  readOnGoogle: "Ver todas en Google",
   stars: "{n} de 5",
 };
 
@@ -271,5 +325,5 @@ const notFound = {
   back: "Volver a la barra",
 };
 
-const es = { common, nav, hero, manifesto, barra, historia, social, visita, footer, legal, notFound };
+const es = { common, nav, hero, manifesto, barra, vinos, historia, social, visita, footer, legal, notFound };
 export default es;
