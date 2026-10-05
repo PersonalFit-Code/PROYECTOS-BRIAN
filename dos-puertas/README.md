@@ -33,8 +33,10 @@ La navegación va en el menú lateral curvo (`src/components/ui/curved-menu.tsx`
 ## Dónde está cada cosa
 
 - Datos: `src/data/business.ts`, `menu.ts`, `reviews.ts` (un dato = un fichero).
-- Textos: `src/i18n/messages/es/index.ts` (nada de literales en componentes; para añadir gallego o
-  inglés basta con un fichero más y una entrada en `src/i18n/config.ts`).
+- Textos: `src/i18n/messages/{es,gl,en,pt}/index.ts` (nada de literales en componentes). El idioma
+  va en la dirección (/es, /gl, /en, /pt) y se elige en el menú o en el pie; quien entra sin idioma
+  va al de su navegador (`src/proxy.ts`). Los textos legales se quedan en español en todos, con
+  aviso: es la versión que vale.
 - Colores y tipografías: `src/app/globals.css` (`@theme`).
 - Cookies: `src/lib/consent.ts` (la elección) y `src/components/consent/CookieConsent.tsx` (el
   aviso). Nada que instale cookies se carga antes de aceptar; hoy solo el mapa de Google. Un
@@ -65,3 +67,5 @@ La navegación va en el menú lateral curvo (`src/components/ui/curved-menu.tsx`
       Brian: falta el enlace al artículo (`src/data/photos.ts`).
 - [ ] Confirmar lo marcado en Preguntas (y en el camarero): perros, para llevar, alérgenos y precios.
 - [ ] Foto de los carteles negros del interior: hoy llevan frases de reseñas (`src/data/carteles.ts`).
+- [ ] Que alguien nativo repase el gallego y el portugués (web y camarero). Dudas abiertas: «Baixa»
+      para «Desliza», «dos Viños» contraído, «Presunto e queijo» (¿jamón serrano o york?).

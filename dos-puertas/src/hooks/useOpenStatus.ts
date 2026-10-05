@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getOpenStatus, type OpenStatus } from "@/lib/openStatus";
-import { useMessages } from "@/i18n/LocaleProvider";
+import { useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { format } from "@/i18n/getMessages";
 
 /** Estado en vivo (se recalcula cada minuto). `null` hasta montar: el servidor no sabe la hora del visitante. */
@@ -20,6 +20,8 @@ export function useOpenStatus(): OpenStatus | null {
 /** Texto localizado del estado: { label, detail }. */
 export function useOpenStatusText(status: OpenStatus | null) {
   const m = useMessages();
+  /* El día va en minúscula dentro de la frase, salvo en inglés («on Wednesday»). */
+  const enFrase = useLocale() === "en" ? (d: string) => d : (d: string) => d.toLowerCase();
   if (!status) return null;
   const s = m.common.status;
   switch (status.kind) {
@@ -35,7 +37,7 @@ export function useOpenStatusText(status: OpenStatus | null) {
         status.nextDayOffset === 1
           ? format(s.opensTomorrow, { time })
           : status.nextDayKey
-            ? format(s.opensOn, { day: m.common.days[status.nextDayKey].toLowerCase(), time })
+            ? format(s.opensOn, { day: enFrase(m.common.days[status.nextDayKey]), time })
             : "";
       return { label: status.kind === "closedToday" ? s.closedToday : s.closed, detail };
     }
