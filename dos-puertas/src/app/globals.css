@@ -424,12 +424,30 @@ body::before {
   filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.45)) drop-shadow(0 0 40px rgba(232, 162, 74, 0.28));
 }
 /* Mientras se ve la portada de entrada, la marca de la cabecera se esconde (no repetir el logo). */
+/* La cabecera es una isla centrada: la marca se pliega a ancho cero para que el resto siga en el centro. */
 .marca-cabecera {
-  transition: opacity 0.45s var(--ease-out-expo);
+  display: grid;
+  grid-template-columns: 1fr;
+  transition:
+    grid-template-columns 0.5s var(--ease-out-expo),
+    opacity 0.45s var(--ease-out-expo),
+    visibility 0s;
 }
 :root[data-portada] .marca-cabecera {
+  grid-template-columns: 0fr;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transition:
+    grid-template-columns 0.5s var(--ease-out-expo),
+    opacity 0.3s var(--ease-out-expo),
+    visibility 0s 0.5s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marca-cabecera,
+  :root[data-portada] .marca-cabecera {
+    transition: none;
+  }
 }
 /* La gota que baja por la línea de «desliza». */
 @media (prefers-reduced-motion: no-preference) {

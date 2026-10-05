@@ -12,7 +12,7 @@ import { BUSINESS } from "@/data/business";
 import { cn } from "@/lib/cn";
 import { LEGAL_PAGES, NAV_ITEMS, isActive } from "./navItems";
 
-/** Cabecera mínima: la marca, el estado, «Llamar» y el botón del menú lateral con todas las secciones. */
+/** Cabecera mínima y centrada: la marca, el estado, «Llamar» y el botón del menú lateral con todas las secciones. */
 export default function Header() {
   const m = useMessages();
   const lp = useLocalePath();
@@ -63,34 +63,42 @@ export default function Header() {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-40 px-2.5 pt-[max(10px,env(safe-area-inset-top))] sm:px-5 sm:pt-4">
       <div
         className={cn(
-          "pointer-events-auto mx-auto flex h-[60px] max-w-6xl items-center justify-between gap-3 rounded-full pr-2 pl-5 transition-[background-color,border-color,box-shadow] duration-500",
+          "pointer-events-auto mx-auto flex h-[60px] w-fit max-w-full items-center gap-2 rounded-full px-2 transition-[background-color,border-color,box-shadow] duration-500",
           scrolled ? "liquid-glass liquid-glass-strong cristal-ancho" : "border border-transparent",
         )}
       >
-        <Link href={lp("/")} aria-label={`${BUSINESS.legalName} · ${m.nav.items.home}`} className="marca-cabecera pulsable shrink-0 rounded-md">
-          <Wordmark size="sm" />
-        </Link>
-
-        <div className="flex items-center gap-2">
-          <span className="hidden pr-2 md:block">
-            <StatusPill compact />
-          </span>
-          <a
-            href={`tel:${BUSINESS.phone.e164}`}
-            className="pulsable inline-flex size-11 items-center justify-center gap-2 rounded-full bg-oro text-sm font-semibold text-botella hover:bg-oro-light sm:w-auto sm:px-5"
-          >
-            <Phone aria-hidden className="size-[18px]" />
-            <span className="sr-only sm:not-sr-only">{m.common.call}</span>
-          </a>
-          <CurvedMenu
-            items={items}
-            label={m.nav.menu.label}
-            openLabel={m.nav.menu.open}
-            closeLabel={m.nav.menu.close}
-            heading={m.nav.menu.heading}
-            footer={menuFooter}
-          />
+        {/* La marca se pliega mientras se ve el logo grande de la portada; el resto queda centrado. */}
+        <div className="marca-cabecera">
+          <div className="min-w-0 overflow-hidden">
+            <Link
+              href={lp("/")}
+              aria-label={`${BUSINESS.legalName} · ${m.nav.items.home}`}
+              className="pulsable block w-max rounded-full py-1 pr-2 pl-3 focus-visible:outline-offset-[-2px] sm:pr-3"
+            >
+              <Wordmark size="sm" />
+            </Link>
+          </div>
         </div>
+
+        <span className="hidden px-3 md:block">
+          <StatusPill compact />
+        </span>
+        <a
+          href={`tel:${BUSINESS.phone.e164}`}
+          className="pulsable inline-flex size-11 shrink-0 items-center justify-center gap-2 rounded-full bg-oro text-sm font-semibold text-botella hover:bg-oro-light sm:w-auto sm:px-5"
+        >
+          <Phone aria-hidden className="size-[18px]" />
+          <span className="sr-only sm:not-sr-only">{m.common.call}</span>
+        </a>
+        <CurvedMenu
+          items={items}
+          label={m.nav.menu.label}
+          openLabel={m.nav.menu.open}
+          closeLabel={m.nav.menu.close}
+          heading={m.nav.menu.heading}
+          footer={menuFooter}
+          triggerClassName="shrink-0"
+        />
       </div>
     </header>
   );
