@@ -87,7 +87,7 @@ const pt: CamareroTexts = {
     },
     recomienda: {
       q: "O que me recomenda?",
-      a: "Os quatro da casa: chicharrones (torresmos), «calamares», tortilha e empanadillas (empadinhas). Se é a primeira vez, comece pelo de calamares e pelo de chicharrones, os que as avaliações mais referem. E, como dizem os clientes, com dois ou três pinchos fica jantado.",
+      a: "Os quatro da casa: chicharrones (torresmos), «calamares», tortilha e empanadillas. Se é a primeira vez, comece pelo de calamares e pelo de chicharrones, os que as avaliações mais referem. E, como dizem os clientes, com dois ou três pinchos fica jantado.",
       keys: ["recomend", "pincho", "petisc", "comer", "especialidade", "provar", "ementa", "carta", "jantar"],
     },
     precio: {
