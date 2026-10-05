@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { LOCALES, LOCALE_META, localePath, type Locale } from "@/i18n/config";
 
-/* PENDIENTE: dominio definitivo. */
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dospuertas.example";
+/* Hasta que haya dominio propio, el de Vercel. */
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dos-puertas.vercel.app";
 
 export function pageMetadata(locale: Locale, path: string, { title, description }: { title: string; description: string }): Metadata {
   const languages = Object.fromEntries(LOCALES.map((l) => [LOCALE_META[l].hreflang, localePath(l, path)]));

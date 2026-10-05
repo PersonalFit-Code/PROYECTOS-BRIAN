@@ -4,6 +4,12 @@ Propuesta de web para el Dos Puertas (rúa dos Fornos, 7 · Ourense). Mismo leng
 `tixola-taperia`, con la marca sacada del rótulo real: tablero azul tinta, letras doradas
 (Pirata One) y la luz ámbar que lo ilumina.
 
+**En vivo:** https://dos-puertas.vercel.app (proyecto `dos-puertas` en el equipo BRIAN de Vercel, carpeta raíz
+`dos-puertas/`). La integración de GitHub de Vercel no tiene acceso de escritura al repo, así que el
+proyecto no se redespliega solo con cada push: cada versión se lanza a producción desde el commit de
+GitHub (API de Vercel con `gitSource`). Para que sea automático, dar acceso a la app de Vercel en
+GitHub y conectar el repo desde Settings → Git del proyecto.
+
 ```bash
 npm install
 npm run dev        # http://localhost:3000 → redirige a /es
@@ -34,5 +40,5 @@ npm run typecheck && npm run lint && npm run build
 - [ ] Precios de las raciones y referencias de vinos.
 - [ ] Alérgenos.
 - [ ] Teléfono y horario: TripAdvisor publica otro número (988 22 11 16) y apertura a las 18:00.
-- [ ] Coordenadas exactas, dominio y datos del titular para el aviso legal.
+- [ ] Coordenadas exactas, dominio propio y datos del titular para el aviso legal.
 - [ ] Foto nítida del rótulo para afinar color y tipografía.
