@@ -71,6 +71,37 @@ const cover = {
   scroll: "Desliza",
 };
 
+const puertas = {
+  kicker: "Dos puertas",
+  titleBefore: "¿Por cuál",
+  titleAccent: "entras?",
+  lead: "Fuera, el rótulo de 1974. Dentro, una barra al día.",
+  hint: "Desliza para abrirlas o toca una puerta",
+  open: "Abrir la puerta {n}: {name}",
+  doors: {
+    siempre: {
+      n: "1",
+      label: "Puerta 1",
+      name: "La de siempre",
+      text: "Pinchos de siempre y medio siglo de historia.",
+      links: [
+        { path: "/carta", label: "La carta" },
+        { path: "/historia", label: "La historia" },
+      ],
+    },
+    hoy: {
+      n: "2",
+      label: "Puerta 2",
+      name: "La de hoy",
+      text: "Vino gallego, cañas bien tiradas y el local renovado.",
+      links: [
+        { path: "/vinos", label: "Los vinos" },
+        { path: "/#por-dentro", label: "Por dentro" },
+      ],
+    },
+  },
+};
+
 const hero = {
   kicker: "Rúa dos Fornos, 7 · Desde 1974",
   titleBefore: "El corazón de",
@@ -744,5 +775,5 @@ const notFound = {
   back: "Volver a la barra",
 };
 
-const es = { common, nav, cover, hero, manifesto, barra, vinos, historia, social, interior, visita, faq, footer, consent, camarero, legal, notFound };
+const es = { common, nav, cover, puertas, hero, manifesto, barra, vinos, historia, social, interior, visita, faq, footer, consent, camarero, legal, notFound };
 export default es;

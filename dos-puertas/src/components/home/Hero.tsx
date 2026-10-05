@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, MapPin } from "lucide-react";
 import HeroSpotlight from "./hero/HeroSpotlight";
 import HeroShowcase from "./hero/HeroShowcase";
@@ -15,9 +15,25 @@ export default function Hero() {
   const m = useMessages();
   const lp = useLocalePath();
   const [mapOpen, setMapOpen] = useState(false);
+  /* La entrada escalonada (`.hero-in`) arranca cuando la sección asoma, no al cargar. */
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        el.setAttribute("data-visto", "");
+        io.disconnect();
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <section id="inicio" aria-labelledby="hero-title" className="grano relative isolate overflow-hidden">
+    <section ref={ref} id="inicio" aria-labelledby="hero-title" className="grano relative isolate overflow-hidden">
       <HeroSpotlight />
 
       <div className="container-page grid min-h-[100svh] grid-cols-1 items-center gap-10 pt-20 pb-14 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-14 lg:pt-32 lg:pb-20">

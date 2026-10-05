@@ -68,7 +68,7 @@ export default function LogoCover() {
         </motion.div>
 
         <motion.a
-          href="#inicio"
+          href="#puertas"
           style={reduced ? undefined : { opacity: cue }}
           className="absolute bottom-[max(28px,env(safe-area-inset-bottom))] flex flex-col items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-cream-faint uppercase hover:text-cream"
         >

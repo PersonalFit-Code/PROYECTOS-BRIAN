@@ -494,6 +494,11 @@ body::before {
     animation: hero-in 0.9s var(--ease-out-expo) both;
     animation-delay: calc(0.25s + var(--i, 0) * 0.09s);
   }
+  /* Con las dos puertas delante, la entrada espera a verse. Solo con el JS armado: si no llega,
+     el vigía quita `data-reveal-armed` y la animación corre igual. */
+  :root[data-reveal-armed] #inicio:not([data-visto]) .hero-in {
+    animation-play-state: paused;
+  }
 }
 
 /* Red de seguridad: ningún halo decorativo puede ensanchar la página en móvil (en iOS/Android un
@@ -664,4 +669,20 @@ body::before {
 /* El campo del chat ya enseña el foco con el anillo de su píldora (`focus-within`). */
 .campo-camarero:focus-visible {
   outline: none;
+}
+
+/* El brillo que cruza el cristal de las puertas de vez en cuando. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes brillo-cristal {
+    0%,
+    62% {
+      transform: translate3d(0, 0, 0) skewX(-18deg);
+    }
+    100% {
+      transform: translate3d(480%, 0, 0) skewX(-18deg);
+    }
+  }
+  .brillo-cristal {
+    animation: brillo-cristal 5.5s var(--ease-out-expo) infinite;
+  }
 }
