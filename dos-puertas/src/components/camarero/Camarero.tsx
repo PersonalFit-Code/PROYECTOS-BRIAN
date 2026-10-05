@@ -3,11 +3,41 @@
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUp, ExternalLink, Phone, X } from "lucide-react";
-import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
+import {
+  Armchair,
+  ArrowUp,
+  Beer,
+  BookOpen,
+  CalendarDays,
+  CalendarX,
+  ChefHat,
+  ChevronRight,
+  Clock,
+  Coins,
+  CreditCard,
+  DoorOpen,
+  ExternalLink,
+  Fish,
+  Flame,
+  Egg,
+  LayoutGrid,
+  MapPin,
+  PawPrint,
+  Phone,
+  ShoppingBag,
+  Star,
+  Users,
+  Wheat,
+  Wine,
+  X,
+  type LucideIcon,
+} from "lucide-react";
+import { useLocale, useLocalePath } from "@/i18n/LocaleProvider";
 import { format } from "@/i18n/getMessages";
-import { useOpenStatus, useOpenStatusText } from "@/hooks/useOpenStatus";
-import { CAMARERO, CAMARERO_IDS, CAMARERO_INICIO, buscaPregunta, type CamareroAccion, type CamareroId } from "@/data/camarero";
+import { CAMARERO_LANGS, CAMARERO_LANG_NAMES, CAMARERO_TEXTS, isCamareroLang, langFromNavigator, type CamareroLang, type CamareroTexts } from "@/i18n/camarero";
+import { useOpenStatus } from "@/hooks/useOpenStatus";
+import type { OpenStatus } from "@/lib/openStatus";
+import { CAMARERO, CAMARERO_GRUPOS, CAMARERO_IDS, CAMARERO_INICIO, buscaPregunta, type CamareroAccion, type CamareroId } from "@/data/camarero";
 import { BUSINESS } from "@/data/business";
 import { cn } from "@/lib/cn";
 
@@ -16,6 +46,66 @@ type Msg =
   | { id: number; from: "bot"; kind: "fallback" }
   | { id: number; from: "bot"; kind: "answer"; item: CamareroId }
   | { id: number; from: "user"; text: string };
+
+/* Un icono por pregunta, para que la cuadrícula se lea de un vistazo. */
+const ICONOS: Record<CamareroId, LucideIcon> = {
+  ahora: Clock,
+  horario: CalendarDays,
+  donde: MapPin,
+  telefono: Phone,
+  reservar: CalendarX,
+  mesas: Armchair,
+  gente: Users,
+  recomienda: ChefHat,
+  precio: Coins,
+  calamares: Fish,
+  chicharrones: Flame,
+  tortilla: Egg,
+  vinos: Wine,
+  canas: Beer,
+  pagar: CreditCard,
+  llevar: ShoppingBag,
+  alergenos: Wheat,
+  perro: PawPrint,
+  historia: BookOpen,
+  nombre: DoorOpen,
+  famosos: Star,
+};
+
+const ENLACES: Record<Exclude<CamareroAccion, "call" | "maps">, string> = {
+  carta: "/carta",
+  vinos: "/vinos",
+  historia: "/historia",
+  visita: "/visita",
+  preguntas: "/preguntas",
+};
+
+/* En inglés, «7:30 pm» y «midnight»; en los demás, la hora tal cual («19:30»). */
+function hora(time: string | null, lang: CamareroLang) {
+  if (!time || lang !== "en") return time ?? "";
+  const [h, m] = time.split(":").map(Number);
+  if (h === 0 && m === 0) return "midnight";
+  return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "am" : "pm"}`;
+}
+
+/** «Abierto ahora · hasta las 00:00» en el idioma del chat. */
+function textoEstado(s: OpenStatus | null, t: CamareroTexts, lang: CamareroLang) {
+  if (!s) return null;
+  const st = t.status;
+  switch (s.kind) {
+    case "open":
+      return { label: st.open, detail: format(st.closesAt, { time: hora(s.closeTime, lang) }) };
+    case "closingSoon":
+      return { label: st.closingSoon, detail: format(st.closesAt, { time: hora(s.closeTime, lang) }) };
+    case "opensToday":
+      return { label: st.closed, detail: format(st.opensToday, { time: hora(s.openTime, lang) }) };
+    default: {
+      const time = hora(s.openTime, lang);
+      const detail = s.nextDayOffset === 1 ? format(st.opensTomorrow, { time }) : s.nextDayKey ? format(st.opensOn, { day: t.days[s.nextDayKey], time }) : "";
+      return { label: s.kind === "closedToday" ? st.closedToday : st.closed, detail };
+    }
+  }
+}
 
 /** La pajarita del camarero: el icono del botón y del avatar. */
 function Pajarita({ className }: { className?: string }) {
@@ -36,26 +126,27 @@ function Avatar({ small = false }: { small?: boolean }) {
   );
 }
 
-const ENLACES: Record<Exclude<CamareroAccion, "call" | "maps">, string> = {
-  carta: "/carta",
-  vinos: "/vinos",
-  historia: "/historia",
-  visita: "/visita",
-  preguntas: "/preguntas",
-};
+const TILE =
+  "pulsable group flex h-full min-h-[68px] w-full flex-col items-start gap-1.5 rounded-2xl border border-oro/20 bg-oro/[0.06] p-3 text-left text-[13px] leading-snug text-cream hover:border-oro/50 hover:bg-oro/[0.12]";
+const ROW =
+  "pulsable group flex w-full items-center gap-3 rounded-2xl border border-oro/20 bg-oro/[0.06] px-3.5 py-2.5 text-left text-[13.5px] leading-snug text-cream hover:border-oro/50 hover:bg-oro/[0.12]";
 
 /**
- * El camarero virtual: preguntas fijas con respuestas de la casa (ver `data/camarero.ts`). Se
- * puede tocar una pregunta o escribir; lo escrito se compara en el propio navegador con las
- * palabras clave de cada pregunta y no se envía a ningún sitio. En el móvil ocupa la pantalla y
- * es modal; en escritorio flota en la esquina y deja leer la web.
+ * El camarero virtual: preguntas fijas con respuestas de la casa (ver `data/camarero.ts`), en
+ * español, gallego, inglés y portugués. Se puede tocar una pregunta o escribir; lo escrito se
+ * compara en el propio navegador con las palabras clave del idioma elegido y no se envía a
+ * ningún sitio. En el móvil ocupa la pantalla y es modal; en escritorio flota en la esquina.
  */
 export default function Camarero() {
   const lp = useLocalePath();
-  const t = useMessages().camarero;
+  const locale = useLocale();
+  const siteLang: CamareroLang = isCamareroLang(locale) ? locale : "es";
   const reduced = useReducedMotion() ?? false;
   const status = useOpenStatus();
-  const statusText = useOpenStatusText(status);
+
+  const [lang, setLang] = useState<CamareroLang | null>(null);
+  const L = lang ?? siteLang;
+  const t = CAMARERO_TEXTS[L];
 
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState(false);
@@ -70,6 +161,7 @@ export default function Camarero() {
   const panelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
+  const allRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
   const inputId = useId();
   const noteId = useId();
@@ -105,10 +197,12 @@ export default function Camarero() {
     };
   }, [open, modal]);
 
-  /* Cada mensaje nuevo, al fondo de la conversación. */
+  /* Cada mensaje nuevo, al fondo; «Ver todas», desde el principio de la lista. */
   useEffect(() => {
     const log = logRef.current;
-    if (log) log.scrollTo({ top: log.scrollHeight, behavior: reduced ? "auto" : "smooth" });
+    if (!log) return;
+    const top = showAll && allRef.current ? allRef.current.offsetTop - 12 : log.scrollHeight;
+    log.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
   }, [msgs.length, typing, showAll, reduced]);
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
@@ -137,19 +231,22 @@ export default function Camarero() {
     ask(buscaPregunta(text, claves), text);
   };
 
-  /* Qué preguntas se ofrecen: las de después de la última respuesta, sin repetir las ya hechas. */
+  /* Después de una respuesta, sus tres siguientes sin repetir las ya hechas. */
   const asked = new Set(msgs.flatMap((x) => (x.from === "bot" && x.kind === "answer" ? [x.item] : [])));
   const last = msgs[msgs.length - 1];
-  const base: readonly CamareroId[] = showAll ? CAMARERO_IDS : last.from === "bot" && last.kind === "answer" ? CAMARERO[last.item].luego : CAMARERO_INICIO;
-  let sugerencias = showAll ? [...base] : base.filter((id) => !asked.has(id));
-  if (!showAll && sugerencias.length < 3) sugerencias = [...sugerencias, ...CAMARERO_INICIO.filter((id) => !asked.has(id) && !sugerencias.includes(id))].slice(0, 3);
+  const tras = last.from === "bot" && last.kind === "answer" ? last.item : null;
+  let siguientes: CamareroId[] = tras ? CAMARERO[tras].luego.filter((id) => !asked.has(id)) : [];
+  if (tras && siguientes.length < 3) siguientes = [...siguientes, ...CAMARERO_INICIO.filter((id) => !asked.has(id) && !siguientes.includes(id))].slice(0, 3);
 
   const phone = BUSINESS.phone.display;
   const close = () => setOpen(false);
+  const estado = textoEstado(status, t, L);
+
+  const entra = (i = 0) =>
+    reduced ? {} : { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.35, delay: i * 0.035, ease: [0.16, 1, 0.3, 1] as const } };
 
   const accion = (a: CamareroAccion): ReactNode => {
-    const cls =
-      "pulsable inline-flex min-h-9 items-center gap-1.5 rounded-full bg-cream/[0.08] px-3 text-[13px] font-medium text-cream ring-1 ring-cream/15 hover:ring-oro/45";
+    const cls = "pulsable inline-flex min-h-9 items-center gap-1.5 rounded-full bg-cream/[0.08] px-3 text-[13px] font-medium text-cream ring-1 ring-cream/15 hover:ring-oro/45";
     if (a === "call")
       return (
         <a key={a} href={`tel:${BUSINESS.phone.e164}`} className={cls}>
@@ -184,19 +281,38 @@ export default function Camarero() {
     const meta = CAMARERO[msg.item];
     return (
       <>
-        {msg.item === "ahora" && statusText ? (
-          <p className="mb-1.5 font-semibold text-cream">{format(t.nowLine, { label: statusText.label, detail: statusText.detail ? ` · ${statusText.detail}` : "" })}</p>
+        {msg.item === "ahora" && estado ? (
+          <p className="mb-1.5 font-semibold text-cream">{format(t.nowLine, { label: estado.label, detail: estado.detail ? ` · ${estado.detail}` : "" })}</p>
         ) : null}
         <p>{format(item.a, { phone })}</p>
-        {meta.pending ? (
-          <p className="mt-2 inline-flex rounded-full bg-oro/12 px-2.5 py-0.5 text-[11px] font-medium text-oro-a11y ring-1 ring-oro/30">{t.pending}</p>
-        ) : null}
+        {meta.pending ? <p className="mt-2 inline-flex rounded-full bg-oro/12 px-2.5 py-0.5 text-[11px] font-medium text-oro-a11y ring-1 ring-oro/30">{t.pending}</p> : null}
         {meta.acciones?.length ? <div className="mt-3 flex flex-wrap gap-2">{meta.acciones.map(accion)}</div> : null}
       </>
     );
   };
 
-  const entra = reduced ? {} : { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const } };
+  /* Una pregunta como baldosa (cuadrícula) o como fila (después de una respuesta). */
+  const pregunta = (id: CamareroId, i: number, fila = false) => {
+    const Icon = ICONOS[id];
+    return (
+      <motion.button key={`${id}-${fila ? "f" : "t"}`} {...entra(i)} type="button" onClick={() => ask(id, t.items[id].q)} className={fila ? ROW : TILE}>
+        <Icon aria-hidden className="size-4 shrink-0 text-oro-light" />
+        <span className="min-w-0 flex-1">{t.items[id].q}</span>
+        {fila ? <ChevronRight aria-hidden className="size-4 shrink-0 text-oro/60 transition-transform group-hover:translate-x-0.5" /> : null}
+      </motion.button>
+    );
+  };
+
+  const verTodas = (
+    <button
+      type="button"
+      onClick={() => setShowAll(true)}
+      className="pulsable flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-cream/20 py-2.5 text-[13px] font-medium text-cream-muted hover:border-cream/40 hover:text-cream"
+    >
+      <LayoutGrid aria-hidden className="size-4" />
+      {t.more}
+    </button>
+  );
 
   return (
     <>
@@ -207,6 +323,8 @@ export default function Camarero() {
         aria-expanded={open}
         onClick={() => {
           setModal(window.matchMedia("(max-width: 639px)").matches);
+          /* Si nadie ha elegido idioma, el del navegador (un turista portugués lo ve en portugués). */
+          if (lang === null) setLang(langFromNavigator() ?? siteLang);
           setOpen(true);
         }}
         className={cn(
@@ -226,44 +344,68 @@ export default function Camarero() {
             key="camarero"
             ref={panelRef}
             role="dialog"
+            lang={L}
             aria-modal={modal}
             aria-labelledby={titleId}
             tabIndex={-1}
-            className="fixed inset-x-2 top-[max(8px,env(safe-area-inset-top))] bottom-[max(8px,env(safe-area-inset-bottom))] z-50 flex origin-bottom-right flex-col overflow-hidden rounded-[28px] bg-botella-800 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.9)] ring-1 ring-cream/12 outline-none sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[min(660px,calc(100dvh-48px))] sm:w-[400px]"
+            className="fixed inset-x-2 top-[max(8px,env(safe-area-inset-top))] bottom-[max(8px,env(safe-area-inset-bottom))] z-50 flex origin-bottom-right flex-col overflow-hidden rounded-[28px] bg-botella-800 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.9)] ring-1 ring-cream/12 outline-none sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[min(680px,calc(100dvh-48px))] sm:w-[410px]"
             initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.97 }}
             transition={{ duration: reduced ? 0.15 : 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="flex items-center gap-3 border-b border-cream/10 bg-botella-900/60 px-4 py-3">
-              <Avatar />
-              <div className="min-w-0 flex-1">
-                <h2 id={titleId} className="font-display text-lg leading-tight font-medium">
-                  {t.title}
-                </h2>
-                <p className="truncate text-xs text-cream-faint">{t.subtitle}</p>
+            <div className="border-b border-cream/10 bg-botella-900/60 px-4 pt-3 pb-2.5">
+              <div className="flex items-center gap-3">
+                <Avatar />
+                <div className="min-w-0 flex-1">
+                  <h2 id={titleId} className="font-display text-lg leading-tight font-medium">
+                    {t.title}
+                  </h2>
+                  <p className="truncate text-xs text-cream-faint">{t.subtitle}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={close}
+                  aria-label={t.close}
+                  className="pulsable inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-cream/15 bg-cream/[0.06] hover:border-oro/45"
+                >
+                  <X aria-hidden className="size-5" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={close}
-                aria-label={t.close}
-                className="pulsable inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-cream/15 bg-cream/[0.06] hover:border-oro/45"
-              >
-                <X aria-hidden className="size-5" />
-              </button>
+              {/* Los cuatro idiomas del chat. */}
+              <div role="group" aria-label={t.language} className="relative mt-2.5 grid grid-cols-4 gap-1 rounded-full bg-cream/[0.05] p-1 ring-1 ring-cream/10">
+                {CAMARERO_LANGS.map((code) => {
+                  const on = code === L;
+                  return (
+                    <button
+                      key={code}
+                      type="button"
+                      lang={code}
+                      aria-pressed={on}
+                      aria-label={CAMARERO_LANG_NAMES[code].name}
+                      title={CAMARERO_LANG_NAMES[code].name}
+                      onClick={() => setLang(code)}
+                      className={cn("pulsable relative min-h-8 rounded-full text-[12px] font-semibold tracking-wide", on ? "text-botella" : "text-cream-muted hover:text-cream")}
+                    >
+                      {on ? <motion.span layoutId="idioma-camarero" className="absolute inset-0 rounded-full bg-oro" transition={{ type: "spring", stiffness: 420, damping: 34 }} /> : null}
+                      <span className="relative">{CAMARERO_LANG_NAMES[code].short}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            <div ref={logRef} role="log" aria-label={t.log} aria-live="polite" className="flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4">
+            <div ref={logRef} role="log" aria-label={t.log} aria-live="polite" className="relative flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4">
               {msgs.map((msg) =>
                 msg.from === "user" ? (
-                  <motion.div key={msg.id} {...entra} className="flex justify-end">
+                  <motion.div key={msg.id} {...entra()} className="flex justify-end">
                     <p className="max-w-[82%] rounded-2xl rounded-tr-md bg-oro px-3.5 py-2 text-[14.5px] leading-snug text-botella">
                       <span className="sr-only">{t.you}: </span>
                       {msg.text}
                     </p>
                   </motion.div>
                 ) : (
-                  <motion.div key={msg.id} {...entra} className="flex items-start gap-2">
+                  <motion.div key={msg.id} {...entra()} className="flex items-start gap-2">
                     <Avatar small />
                     <div className="max-w-[86%] rounded-2xl rounded-tl-md bg-cream/[0.07] px-3.5 py-2.5 text-[14.5px] leading-relaxed text-cream/90 ring-1 ring-cream/10">
                       <span className="sr-only">{t.title}: </span>
@@ -283,32 +425,32 @@ export default function Camarero() {
                     ))}
                   </span>
                 </div>
-              ) : (
-                <div className="pt-1 pl-9">
-                  {showAll ? <p className="mb-2 text-[11px] font-semibold tracking-[0.2em] text-oro-a11y uppercase">{t.others}</p> : null}
-                  <div className="flex flex-wrap gap-2">
-                    {sugerencias.map((id) => (
-                      <button
-                        key={id}
-                        type="button"
-                        onClick={() => ask(id, t.items[id].q)}
-                        className="pulsable inline-flex min-h-9 items-center rounded-full border border-oro/35 bg-oro/[0.08] px-3.5 py-1.5 text-left text-[13px] leading-snug text-oro-a11y hover:bg-oro/15"
-                      >
-                        {t.items[id].q}
-                      </button>
-                    ))}
-                    {!showAll ? (
-                      <button
-                        type="button"
-                        onClick={() => setShowAll(true)}
-                        className="pulsable inline-flex min-h-9 items-center rounded-full px-3 text-[13px] font-medium text-cream-muted underline underline-offset-4 hover:text-cream"
-                      >
-                        {t.more}
-                      </button>
-                    ) : null}
-                  </div>
+              ) : showAll ? (
+                /* Todas, por temas. */
+                <div ref={allRef} className="space-y-4 pt-1">
+                  {CAMARERO_GRUPOS.map((g, gi) => (
+                    <section key={g.id} aria-label={t.groups[g.id]}>
+                      <p className="mb-2 flex items-center gap-2 font-caps text-[10px] font-semibold tracking-[0.24em] text-oro-a11y uppercase">
+                        <span aria-hidden className="h-px w-5 bg-oro-light/60" />
+                        {t.groups[g.id]}
+                      </p>
+                      <div className="grid auto-rows-fr grid-cols-2 gap-2">{g.items.map((id, i) => pregunta(id, gi * 2 + i))}</div>
+                    </section>
+                  ))}
                 </div>
-              )}
+              ) : tras ? (
+                /* Después de una respuesta: tres siguientes en fila. */
+                <div className="space-y-2 pt-1">
+                  {siguientes.map((id, i) => pregunta(id, i, true))}
+                  {verTodas}
+                </div>
+              ) : last.from === "bot" ? (
+                /* Al abrir (o tras «no lo sé»): las seis de entrada en cuadrícula. */
+                <div className="space-y-2 pt-1">
+                  <div className="grid auto-rows-fr grid-cols-2 gap-2">{CAMARERO_INICIO.map((id, i) => pregunta(id, i))}</div>
+                  {verTodas}
+                </div>
+              ) : null}
             </div>
 
             <form onSubmit={onSubmit} className="border-t border-cream/10 bg-botella-900/60 px-3 pt-3 pb-2.5">
@@ -326,7 +468,7 @@ export default function Camarero() {
                   autoComplete="off"
                   enterKeyHint="send"
                   maxLength={160}
-                  className="min-h-10 min-w-0 flex-1 bg-transparent text-[16px] text-cream outline-none placeholder:text-cream-faint campo-camarero"
+                  className="campo-camarero min-h-10 min-w-0 flex-1 bg-transparent text-[16px] text-cream outline-none placeholder:text-cream-faint"
                 />
                 <button
                   type="submit"

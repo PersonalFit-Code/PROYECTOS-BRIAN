@@ -1,8 +1,8 @@
 /**
  * El camarero virtual: preguntas fijas con respuestas ya escritas a partir de lo que cuenta la
  * propia web (horario, carta, vinos, historia, preguntas frecuentes y reseñas). Sin IA y sin
- * servidor: todo pasa en el navegador. Los textos están en los mensajes (`camarero.items`); aquí,
- * el orden, los botones de cada respuesta y qué preguntas se sugieren después.
+ * servidor: todo pasa en el navegador. Los textos, en cuatro idiomas, están en `src/i18n/camarero/`;
+ * aquí, el orden, los grupos, los botones de cada respuesta y qué preguntas se sugieren después.
  *
  * Lo que no está confirmado con la casa lleva `pending` y el chat lo marca, igual que en la web.
  */
@@ -61,12 +61,22 @@ export const CAMARERO: Record<CamareroId, { acciones?: CamareroAccion[]; pending
 /* Las que se ofrecen nada más abrir el chat. */
 export const CAMARERO_INICIO: readonly CamareroId[] = ["ahora", "recomienda", "donde", "precio", "reservar", "vinos"];
 
+/* «Ver todas las preguntas», por temas. Entre todos los grupos están todas las preguntas. */
+export type CamareroGrupo = "lugar" | "funciona" | "pinchos" | "beber" | "casa";
+export const CAMARERO_GRUPOS: readonly { id: CamareroGrupo; items: readonly CamareroId[] }[] = [
+  { id: "lugar", items: ["ahora", "horario", "donde", "telefono"] },
+  { id: "funciona", items: ["reservar", "mesas", "gente", "pagar", "llevar", "perro"] },
+  { id: "pinchos", items: ["recomienda", "precio", "calamares", "chicharrones", "tortilla", "alergenos"] },
+  { id: "beber", items: ["vinos", "canas"] },
+  { id: "casa", items: ["historia", "nombre", "famosos"] },
+];
+
 /** Minúsculas, sin tildes ni signos: para comparar lo que se escribe con las palabras clave. */
 export function normaliza(text: string) {
   return ` ${text
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9ñ ]+/g, " ")
     .replace(/\s+/g, " ")
     .trim()} `;
@@ -74,8 +84,8 @@ export function normaliza(text: string) {
 
 /**
  * La pregunta que mejor encaja con lo escrito. Cada clave cuenta si aparece al principio de una
- * palabra («reserv» vale para reserva, reservar, reservamos…); las claves largas pesan más.
- * `null` si no encaja ninguna.
+ * palabra («reserv» vale para reserva, reservar, reservamos…); las de tres letras o menos, solo
+ * como palabra entera («can» no es «canto»). Las claves largas pesan más. `null` si no encaja.
  */
 export function buscaPregunta(text: string, claves: Record<CamareroId, readonly string[]>): CamareroId | null {
   const t = normaliza(text);
@@ -83,7 +93,10 @@ export function buscaPregunta(text: string, claves: Record<CamareroId, readonly 
   let bestScore = 0;
   for (const id of CAMARERO_IDS) {
     let score = 0;
-    for (const k of claves[id]) if (t.includes(` ${normaliza(k).trim()}`)) score += k.length;
+    for (const k of claves[id]) {
+      const n = normaliza(k).trim();
+      if (t.includes(n.length <= 3 ? ` ${n} ` : ` ${n}`)) score += n.length;
+    }
     if (score > bestScore) {
       best = id;
       bestScore = score;

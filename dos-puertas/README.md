@@ -40,8 +40,11 @@ La navegación va en el menú lateral curvo (`src/components/ui/curved-menu.tsx`
   aviso). Nada que instale cookies se carga antes de aceptar; hoy solo el mapa de Google. Un
   servicio nuevo (analítica, vídeo…) = una categoría más ahí, subir `VERSION` y contarlo en la
   política de cookies.
-- Camarero virtual: preguntas y orden en `src/data/camarero.ts`; textos y palabras clave en los
-  mensajes (`camarero`). Funciona en el navegador, sin IA ni servidor.
+- Camarero virtual: preguntas, grupos y orden en `src/data/camarero.ts`; textos y palabras clave
+  en cuatro idiomas (español, gallego, inglés y portugués) en `src/i18n/camarero/`. Arranca en el
+  idioma del navegador si es uno de esos. Funciona en el navegador, sin IA ni servidor.
+- Las dos puertas: `src/components/home/DosPuertas.tsx` (tras el logo de entrada) y la transición
+  de puertas entre páginas en `src/app/[locale]/template.tsx`.
 - Fuentes de los datos: `BRIEF.md`.
 
 ## Pendiente de confirmar con Marisa
