@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import { ExternalLink, Quote } from "lucide-react";
+import { useReveal } from "@/hooks/useReveal";
 import { useMessages } from "@/i18n/LocaleProvider";
 import { BUSINESS } from "@/data/business";
 
@@ -9,8 +11,10 @@ export default function FamousCard() {
   const m = useMessages();
   const t = m.historia;
   const press = BUSINESS.press.vozGalicia;
+  const ref = useRef<HTMLDivElement>(null);
+  useReveal(ref);
   return (
-    <div data-reveal className="relative self-start lg:sticky lg:top-28">
+    <div ref={ref} data-reveal className="relative self-start">
       <div aria-hidden className="glow absolute inset-x-0 -inset-y-16 -z-10 [--glow-a:0.16]" />
       <article className="capa-alta grano overflow-hidden rounded-[32px] p-6 sm:p-8">
         <p className="font-caps text-[11px] font-semibold tracking-[0.28em] text-oro-a11y uppercase">{t.famousKicker}</p>

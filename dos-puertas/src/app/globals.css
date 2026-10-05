@@ -415,6 +415,37 @@ body::before {
   }
 }
 
+/* El logo grande de la portada de entrada: oro del rótulo con un brillo de luz. */
+.logo-oro {
+  background: linear-gradient(180deg, #fcecb6 0%, #ecd082 34%, #d6ad55 68%, #a87a33 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.45)) drop-shadow(0 0 40px rgba(232, 162, 74, 0.28));
+}
+/* Mientras se ve la portada de entrada, la marca de la cabecera se esconde (no repetir el logo). */
+.marca-cabecera {
+  transition: opacity 0.45s var(--ease-out-expo);
+}
+:root[data-portada] .marca-cabecera {
+  opacity: 0;
+  pointer-events: none;
+}
+/* La gota que baja por la línea de «desliza». */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes gota {
+    0% {
+      transform: translate3d(0, -100%, 0);
+    }
+    100% {
+      transform: translate3d(0, 260%, 0);
+    }
+  }
+  .cue-gota {
+    animation: gota 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+}
+
 /* Micro-marquee horizontal (prensa). Sin movimiento, se queda en el primer titular. */
 @media (prefers-reduced-motion: no-preference) {
   @keyframes marquee-x {

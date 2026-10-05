@@ -1,6 +1,7 @@
 import type { CategoryId, PinchoId } from "@/data/menu";
 import type { DayKey } from "@/data/business";
 import type { DoId } from "@/data/denominaciones";
+import type { PhotoId } from "@/data/photos";
 
 const common = {
   tagline: "El sabor auténtico de Los Vinos desde 1974",
@@ -11,7 +12,7 @@ const common = {
   directions: "Cómo llegar",
   openInMaps: "Abrir en Google Maps",
   loadMap: "Cargar mapa",
-  loadMapNote: "Al cargarlo, Google puede usar sus cookies.",
+  loadMapNote: "El mapa lo sirve Google, que puede usar sus cookies.",
   loadMapPolicy: "Política de cookies",
   pending: "Pendiente de confirmar",
   photoPending: "Foto real próximamente",
@@ -63,6 +64,12 @@ const nav = {
   hoursShort: "Miércoles a domingo, 19:30 – 00:00",
 };
 
+const cover = {
+  label: "Café Bar Dos Puertas",
+  tagline: "Ourense · Desde 1974",
+  scroll: "Desliza",
+};
+
 const hero = {
   kicker: "Rúa dos Fornos, 7 · Desde 1974",
   titleBefore: "El corazón de",
@@ -71,19 +78,14 @@ const hero = {
   subtitle: "Tradición, autenticidad y los pinchos de siempre en la rúa dos Fornos desde 1974.",
   ctaPrimary: "Ver la Barra de Pinchos",
   ctaSecondary: "Cómo llegar",
-  photoAlt: "La barra de granito con los pinchos del día expuestos y el equipo detrás.",
   press: {
     outlet: "La Voz de Galicia",
     aria: "Leer el reportaje de La Voz de Galicia sobre el Dos Puertas",
     items: ["Hasta Amancio Ortega se dejó conquistar por sus «calamares»", "Más de 50 años de barra en la rúa dos Fornos", "Un mítico de la zona de Os Viños"],
   },
   showcase: {
-    label: "La barra, hoy",
-    tablistLabel: "Qué ver de la barra",
-    tabs: { barra: "La barra", pinchos: "Pinchos" },
-    boardLabel: "En la pizarra de la puerta",
-    boardPrices: "Pinchos 2 € · Bocadillos 4 €",
-    seePinchos: "Los de la casa",
+    label: "Los de la casa",
+    boardPrices: "Pinchos a 2 €",
     seeCarta: "Ver la carta",
   },
 };
@@ -190,9 +192,6 @@ const historia = {
   titleBefore: "Más de 50 años",
   titleAccent: "de historia",
   titleAfter: "viva",
-  lead:
-    "Una pareja de Laza que aprendió hostelería en Suiza, una barra con los pinchos a la vista y una calle que todavía no era «la zona de los vinos».",
-  cta: "Leer la historia completa",
   pageTitle: "Historia",
   pageLead:
     "El Dos Puertas abrió en 1974, cuando en la rúa dos Fornos solo estaba O Campante. Esta es su historia, contada por la familia que lo fundó.",
@@ -200,42 +199,64 @@ const historia = {
     {
       year: "Años 50",
       title: "De Laza a Basilea",
-      text: "Irene Fernández y José García emigran a Suiza. Allí aprenden de hostelería «todo lo que luego pusimos en práctica en Ourense».",
+      text: "Irene Fernández y José García emigran de Laza a Basilea, en Suiza. Allí aprenden de hostelería «todo lo que luego pusimos en práctica en Ourense».",
     },
     {
       year: "1974",
       title: "Se abren las dos puertas",
-      text: "Abren el bar en la rúa dos Fornos con dos puertas para que la gente circule y una novedad: todos los pinchos expuestos en la barra para pedir al momento. José en los fogones, Irene en la barra.",
+      text: "Vuelven para estar cerca de su hija Rosa y abren el bar en la rúa dos Fornos, con dos puertas para facilitar el paso y una novedad: todos los pinchos expuestos en la barra para pedir al momento. José en los fogones, Irene en la barra.",
     },
     {
-      year: "1974",
-      title: "El moruno de 25 pesetas",
-      text: "El primer pincho estrella, con ganchos de acero traídos de Suiza y una salsa que José nunca reveló. Fueron también los primeros en servir bollitos de pan hechos a mano.",
+      year: "Los 70",
+      title: "El moruno de la casa",
+      text: "El pincho más popular de los primeros años: ganchos de acero traídos de Suiza, una salsa que José nunca reveló y un precio de cerca de 25 pesetas. Fueron también los primeros en servir bollitos de pan, hechos a mano por un panadero.",
+      photo: "anos70" as PhotoId,
     },
     {
       year: "1984",
       title: "Llegan los «calamares»",
-      text: "Se incorpora Luis Aguiar. De una confusión con un bollito de panceta crujiente nace el pincho de calamares. Los viernes y sábados salían más de 1.200 bollitos al día.",
+      text: "Se incorpora Luis Aguiar, marido de Rosa. De una confusión con un bollito de panceta tan crujiente que los turistas lo pedían como «el de calamares» nace el pincho más famoso. Los viernes y sábados salían más de 1.200 bollitos al día.",
     },
     {
       year: "Años 90",
       title: "Tortilla y chicharrones",
-      text: "Llega la tortilla sin cebolla y los chicharrones hechos a diario, que pronto se convierten en uno de los pinchos más vendidos.",
+      text: "Llega la tortilla de patata, sin cebolla porque así lo pedían los clientes, y los chicharrones hechos en casa cada día, que pronto se convierten en uno de los pinchos más vendidos.",
+    },
+    {
+      year: "Años 2000",
+      title: "El relevo en casa",
+      text: "Se jubilan José e Irene y coge el relevo Luis, que mantiene el negocio intacto. Con la llegada del euro, el pincho pasa de 80 pesetas a 65 céntimos.",
     },
     {
       year: "Hoy",
       title: "Marisol y Marisa",
-      text: "Desde la pandemia llevan el bar las hermanas Marisol y Marisa López, con larga experiencia en la hostelería de Ourense, manteniendo intacta la esencia del Dos Puertas.",
+      text: "Desde la pandemia llevan el bar las hermanas Marisol y Marisa López, con amplia experiencia en la hostelería de Ourense, que han querido mantener intacta la esencia del Dos Puertas.",
+      photo: "hoy" as PhotoId,
     },
   ],
+  photos: {
+    anos70: {
+      alt: "Fotografía en blanco y negro: Irene detrás de la barra del Dos Puertas, con clientes al otro lado, a finales de los años setenta.",
+      caption: "Irene, dentro de la barra del Dos Puertas, a finales de los años setenta.",
+      credit: "Foto: La Voz de Galicia",
+    },
+    hoy: {
+      alt: "El equipo de hoy detrás de la barra de granito, con los pinchos del día.",
+      caption: "La barra, hoy.",
+      credit: "Foto: Faro de Vigo",
+    },
+  } satisfies Record<PhotoId, { alt: string; caption: string; credit: string }>,
+  sourceLabel: "Fuente",
+  source: "La Voz de Galicia, “Hasta Amancio Ortega se dejó conquistar por los «calamares» del Dos Puertas de Ourense”, 2 de marzo de 2024.",
   quote: "Lo nuestro eran los pinchos a buen precio.",
   quoteAuthor: "Luis Aguiar, a La Voz de Galicia",
   famousKicker: "Por la barra pasaron",
   famousTitle: "Hasta Amancio Ortega",
   famousText:
-    "La familia recuerda con orgullo que Amancio Ortega estuvo en el bar y que le encantaron los «calamares». También eran habituales Fran, el del Deportivo, la gaitera Cristina Pato y políticos como Feijóo.",
+    "La familia recuerda con orgullo que Amancio Ortega estuvo en el bar y que le encantaron los «calamares». También venían mucho Fran, el jugador del Deportivo, la cantante Cristina Pato y políticos como Feijóo o Santalices.",
   pressLink: "Leer el reportaje en La Voz de Galicia",
 };
+
 
 const vinos = {
   kicker: "Vinos",
@@ -466,7 +487,7 @@ const legal = {
         {
           title: "El mapa de Google",
           body: [
-            "El mapa solo se carga si pulsas «Cargar mapa». En ese momento tu navegador se conecta con Google, que actúa como responsable independiente y puede usar cookies (política de Google: policies.google.com/privacy). Si no lo cargas, no se envía nada a Google.",
+            "El mapa solo se carga cuando lo pides: al pulsar «Cómo llegar» o «Cargar mapa». En ese momento tu navegador se conecta con Google, que actúa como responsable independiente y puede usar cookies (política de Google: policies.google.com/privacy). Si no lo cargas, no se envía nada a Google.",
           ],
         },
         {
@@ -504,13 +525,13 @@ const legal = {
         {
           title: "Almacenamiento local",
           body: [
-            "Si pulsas «Cargar mapa», guardamos en tu navegador (almacenamiento local, clave «dp-mapa») que ya has aceptado cargarlo, para no volver a preguntarte. Es un dato técnico que no sale de tu dispositivo y que solo existe porque tú lo has pedido.",
+            "Si pulsas «Cargar mapa» en la página de Visítanos, guardamos en tu navegador (almacenamiento local, clave «dp-mapa») que ya has aceptado cargarlo, para no volver a preguntarte. Es un dato técnico que no sale de tu dispositivo y que solo existe porque tú lo has pedido.",
           ],
         },
         {
           title: "Cookies de Google Maps",
           body: [
-            "Al cargar el mapa, Google puede instalar sus propias cookies, por ejemplo para recordar preferencias o medir el uso del mapa. Solo ocurre después de tu clic. Más información en policies.google.com/technologies/cookies.",
+            "Al cargar el mapa, Google puede instalar sus propias cookies, por ejemplo para recordar preferencias o medir el uso del mapa. Solo ocurre cuando pides el mapa («Cómo llegar» o «Cargar mapa»). Más información en policies.google.com/technologies/cookies.",
           ],
         },
         {
@@ -518,7 +539,7 @@ const legal = {
           body: [],
           list: [
             "dp-mapa · esta web · recuerda que aceptaste cargar el mapa · hasta que lo borres",
-            "Cookies de Google · Google LLC · funcionamiento del mapa · las que indique Google · solo tras cargar el mapa",
+            "Cookies de Google · Google LLC · funcionamiento del mapa · las que indique Google · solo cuando pides el mapa",
           ],
         },
         {
@@ -538,5 +559,5 @@ const notFound = {
   back: "Volver a la barra",
 };
 
-const es = { common, nav, hero, manifesto, barra, vinos, historia, social, visita, faq, footer, legal, notFound };
+const es = { common, nav, cover, hero, manifesto, barra, vinos, historia, social, visita, faq, footer, legal, notFound };
 export default es;

@@ -20,7 +20,7 @@ export default function Hero() {
     <section id="inicio" aria-labelledby="hero-title" className="grano relative isolate overflow-hidden">
       <HeroSpotlight />
 
-      <div className="container-page grid min-h-[100svh] grid-cols-1 items-center gap-10 pt-28 pb-14 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-14 lg:pt-32 lg:pb-20">
+      <div className="container-page grid min-h-[100svh] grid-cols-1 items-center gap-10 pt-20 pb-14 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-14 lg:pt-32 lg:pb-20">
         <div className="relative z-10 min-w-0">
           <p className="hero-in flex items-center gap-3 font-caps text-[11px] font-semibold tracking-[0.28em] text-oro-a11y uppercase [--i:0]">
             <span aria-hidden className="h-px w-8 bg-oro-light/70" />

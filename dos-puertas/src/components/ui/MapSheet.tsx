@@ -1,14 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { Navigation, Phone } from "lucide-react";
 import MapEmbed from "./MapEmbed";
 import Sheet from "./Sheet";
-import { useMessages } from "@/i18n/LocaleProvider";
+import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { BUSINESS } from "@/data/business";
 
 /** «Cómo llegar» sin salir de la web: el mapa, la dirección y el salto a Google Maps. */
 export default function MapSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const m = useMessages();
+  const lp = useLocalePath();
   return (
     <Sheet open={open} onClose={onClose} labelledBy="map-title" className="md:max-w-2xl">
       <p className="font-caps text-[11px] font-semibold tracking-[0.24em] text-oro-a11y uppercase">{m.common.directions}</p>
@@ -18,7 +20,13 @@ export default function MapSheet({ open, onClose }: { open: boolean; onClose: ()
       <p className="mt-1 text-sm text-cream-muted">
         {BUSINESS.address.postalCode} {BUSINESS.address.city} · {BUSINESS.address.area}
       </p>
-      <MapEmbed title={m.visita.mapLabel} className="mt-5 aspect-[4/3] rounded-2xl md:aspect-[16/10]" />
+      <MapEmbed autoLoad title={m.visita.mapLabel} className="mt-5 aspect-[4/3] rounded-2xl md:aspect-[16/10]" />
+      <p className="mt-2 text-[11px] text-cream-faint">
+        {m.common.loadMapNote}{" "}
+        <Link href={lp("/legal/cookies")} onClick={onClose} className="underline underline-offset-2 hover:text-cream">
+          {m.common.loadMapPolicy}
+        </Link>
+      </p>
       <div className="mt-5 flex flex-wrap gap-3">
         <a
           href={BUSINESS.maps}

@@ -67,7 +67,7 @@ export default function Header() {
           scrolled ? "liquid-glass liquid-glass-strong cristal-ancho" : "border border-transparent",
         )}
       >
-        <Link href={lp("/")} aria-label={`${BUSINESS.legalName} · ${m.nav.items.home}`} className="pulsable shrink-0 rounded-md">
+        <Link href={lp("/")} aria-label={`${BUSINESS.legalName} · ${m.nav.items.home}`} className="marca-cabecera pulsable shrink-0 rounded-md">
           <Wordmark size="sm" />
         </Link>
 
