@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Quote, Star, Wine } from "lucide-react";
-import PinchoArt from "@/components/ui/PinchoArt";
+import ParedDelBar from "@/components/interior/ParedDelBar";
 import PageHeader from "@/components/ui/PageHeader";
 import Denominaciones from "@/components/vinos/Denominaciones";
 import { isLocale, type Locale } from "@/i18n/config";
@@ -44,10 +44,10 @@ export default async function VinosPage({ params }: { params: Promise<{ locale: 
 
       <section aria-labelledby="casa-title" className="container-page">
         <div className="capa-alta grano relative grid gap-8 overflow-hidden rounded-[32px] p-6 sm:p-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-12 lg:p-10">
-          <div aria-hidden className="glow absolute -top-24 -left-24 size-96 [--glow-a:0.18]" />
+          {/* La pared de vinos del local: copas colgadas y baldas con su LED azul. */}
+          <ParedDelBar carteles={false} baldas={1} className="-mx-6 -mt-6 sm:-mx-8 sm:-mt-8 lg:col-span-2 lg:-mx-10 lg:-mt-10" />
           <div className="relative flex flex-col items-start">
-            <PinchoArt kind="copa" className="w-20 sm:w-24" />
-            <p className="mt-4 flex items-center gap-3 font-caps text-[11px] font-semibold tracking-[0.28em] text-oro-a11y uppercase">
+            <p className="flex items-center gap-3 font-caps text-[11px] font-semibold tracking-[0.28em] text-oro-a11y uppercase">
               <span aria-hidden className="h-px w-8 bg-oro-light/70" />
               {t.houseKicker}
             </p>

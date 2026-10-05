@@ -47,6 +47,8 @@
   /* Inter: cuerpo, legible en el móvil mientras se tapea. */
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-condensed: var(--font-bebas), "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  /* Caveat: el mensaje a mano de los carteles negros del interior. Solo ahí. */
+  --font-mano: var(--font-caveat), "Caveat", "Segoe Print", cursive;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -532,5 +534,93 @@ body::before {
   }
   [data-latido] {
     animation: latido 2.8s ease-out infinite;
+  }
+}
+
+/* El interior (ParedDelBar): la pared blanca del local, las copas colgadas que tintinean al
+   asomar, los carteles negros que se mecen y el LED azul marino de las baldas. */
+.pared {
+  color: #1a1a1a;
+  background:
+    radial-gradient(90% 60% at 50% 0%, rgba(255, 255, 255, 0.7), transparent 70%),
+    linear-gradient(180deg, #f3efe7 0%, #e6e0d2 100%);
+}
+.copa-colgada {
+  transform-origin: 50% 2px;
+}
+.cartel-colgado {
+  transform-origin: 50% 4px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes tintineo {
+    0% {
+      transform: rotate(0deg);
+    }
+    14% {
+      transform: rotate(6deg);
+    }
+    32% {
+      transform: rotate(-4deg);
+    }
+    52% {
+      transform: rotate(2.2deg);
+    }
+    72% {
+      transform: rotate(-1deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  /* El mismo vaivén con otro nombre, para que vuelva a empezar al pasar el cursor. */
+  @keyframes tintineo-otra {
+    0% {
+      transform: rotate(0deg);
+    }
+    14% {
+      transform: rotate(-6deg);
+    }
+    32% {
+      transform: rotate(4deg);
+    }
+    52% {
+      transform: rotate(-2.2deg);
+    }
+    72% {
+      transform: rotate(1deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  @keyframes colgar {
+    0%,
+    100% {
+      transform: rotate(-1.3deg);
+    }
+    50% {
+      transform: rotate(1.3deg);
+    }
+  }
+  @keyframes led {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.78;
+    }
+  }
+  [data-visto] .copa-colgada {
+    animation: tintineo 2.2s var(--ease-out-expo) calc(var(--i, 0) * 45ms) both;
+  }
+  [data-visto] .copa-colgada:hover {
+    animation: tintineo-otra 1.6s var(--ease-out-expo) both;
+  }
+  .cartel-colgado {
+    animation: colgar var(--dur, 6s) ease-in-out var(--delay, 0s) infinite;
+  }
+  [data-led] {
+    animation: led 5s ease-in-out infinite;
   }
 }

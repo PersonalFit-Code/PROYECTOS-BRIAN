@@ -324,6 +324,16 @@ const social = {
   stars: "{n} de 5",
 };
 
+const interior = {
+  kicker: "Por dentro",
+  titleBefore: "Así es",
+  titleAccent: "por dentro",
+  lead:
+    "Paredes blancas, estanterías llenas de vino con su luz azul, las copas colgadas boca abajo sobre la barra y carteles negros con mensajes de bar de los de siempre, en positivo.",
+  signsLabel: "Carteles de la pared",
+  note: "Ilustración del local. En los carteles van frases de clientes en Google y TripAdvisor hasta que tengamos foto de los carteles de verdad.",
+};
+
 const visita = {
   kicker: "Visítanos",
   titleBefore: "En pleno",
@@ -567,5 +577,5 @@ const notFound = {
   back: "Volver a la barra",
 };
 
-const es = { common, nav, cover, hero, manifesto, barra, vinos, historia, social, visita, faq, footer, legal, notFound };
+const es = { common, nav, cover, hero, manifesto, barra, vinos, historia, social, interior, visita, faq, footer, legal, notFound };
 export default es;
