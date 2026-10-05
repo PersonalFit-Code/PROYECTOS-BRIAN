@@ -7,6 +7,7 @@ import { MapPin, Phone } from "lucide-react";
 import Wordmark from "@/components/ui/Wordmark";
 import StatusPill from "@/components/ui/StatusPill";
 import CurvedMenu from "@/components/ui/curved-menu";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { BUSINESS } from "@/data/business";
 import { cn } from "@/lib/cn";
@@ -100,6 +101,7 @@ export default function Header() {
           openLabel={m.nav.menu.open}
           closeLabel={m.nav.menu.close}
           heading={m.nav.menu.heading}
+          top={<LanguageSwitcher id="menu" />}
           footer={menuFooter}
           triggerClassName="shrink-0"
         />

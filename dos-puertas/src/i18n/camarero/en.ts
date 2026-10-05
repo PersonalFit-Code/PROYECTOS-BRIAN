@@ -20,7 +20,6 @@ const en: CamareroTexts = {
   pending: "Still to be confirmed with the bar",
   log: "Chat with the waiter",
   you: "You",
-  language: "Chat language",
   groups: { lugar: "Hours & place", funciona: "How it works", pinchos: "Pinchos", beber: "Drinks", casa: "The bar" },
   status: {
     open: "Open now",

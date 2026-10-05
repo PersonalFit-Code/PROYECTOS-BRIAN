@@ -21,7 +21,7 @@ export default function MapSheet({ open, onClose }: { open: boolean; onClose: ()
         {BUSINESS.address.street}
       </h2>
       <p className="mt-1 text-sm text-cream-muted">
-        {BUSINESS.address.postalCode} {BUSINESS.address.city} · {BUSINESS.address.area}
+        {BUSINESS.address.postalCode} {BUSINESS.address.city} · {m.common.area}
       </p>
       <MapEmbed title={m.visita.mapLabel} className="mt-5 aspect-[4/3] rounded-2xl md:aspect-[16/10]" />
       {mapsOn ? (

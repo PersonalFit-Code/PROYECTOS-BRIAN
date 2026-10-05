@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Languages } from "lucide-react";
 import type { Messages } from "@/i18n/getMessages";
 import { format } from "@/i18n/getMessages";
 import { localePath, type Locale } from "@/i18n/config";
@@ -38,6 +38,8 @@ export default function LegalDoc({ slug, locale, m }: { slug: LegalSlug; locale:
     phone: `${BUSINESS.phone.display}`,
   };
   const pending = Object.values(l).some((v) => v === null);
+  /* En gallego, inglés y portugués el texto legal sigue en español (la versión que vale). */
+  const docLang = locale === "es" ? undefined : "es";
 
   return (
     <article className="container-page pt-32 pb-16 sm:pt-40">
@@ -47,8 +49,16 @@ export default function LegalDoc({ slug, locale, m }: { slug: LegalSlug; locale:
           {t.kicker}
         </p>
         <h1 className="mt-4 font-display text-[2.6rem] leading-none font-medium sm:text-6xl">{doc.title}</h1>
-        <p className="mt-5 text-[15px] leading-relaxed text-cream-muted sm:text-base">{doc.lead}</p>
+        <p lang={docLang} className="mt-5 text-[15px] leading-relaxed text-cream-muted sm:text-base">
+          {doc.lead}
+        </p>
         <p className="mt-3 text-xs text-cream-faint">{t.updated}</p>
+        {t.onlySpanish ? (
+          <p className="mt-6 flex gap-3 rounded-2xl border border-cream/15 bg-cream/[0.05] p-4 text-sm leading-relaxed text-cream">
+            <Languages aria-hidden className="mt-0.5 size-4 shrink-0 text-oro-light" />
+            {t.onlySpanish}
+          </p>
+        ) : null}
         {pending ? (
           <p className="mt-6 flex gap-3 rounded-2xl border border-oro/30 bg-oro/[0.07] p-4 text-sm leading-relaxed text-cream">
             <AlertTriangle aria-hidden className="mt-0.5 size-4 shrink-0 text-oro-light" />
@@ -60,7 +70,7 @@ export default function LegalDoc({ slug, locale, m }: { slug: LegalSlug; locale:
       <div className="mt-12 grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
         <nav aria-label={t.tocLabel} className="lg:sticky lg:top-28 lg:self-start">
           <p className="font-caps text-[10px] font-semibold tracking-[0.26em] text-oro-a11y uppercase">{t.tocLabel}</p>
-          <ol className="mt-3 space-y-1 text-sm">
+          <ol lang={docLang} className="mt-3 space-y-1 text-sm">
             {doc.sections.map((s, i) => (
               <li key={s.title}>
                 <a href={`#s${i + 1}`} className="inline-flex min-h-9 items-center text-cream-muted hover:text-cream">
@@ -73,7 +83,7 @@ export default function LegalDoc({ slug, locale, m }: { slug: LegalSlug; locale:
 
         <div className="max-w-2xl space-y-10">
           {doc.sections.map((s, i) => (
-            <section key={s.title} id={`s${i + 1}`} className="scroll-mt-28">
+            <section key={s.title} id={`s${i + 1}`} lang={docLang} className="scroll-mt-28">
               <h2 className="font-display text-2xl font-medium">
                 <span className="mr-3 font-condensed text-xl tracking-wide text-oro/70">{String(i + 1).padStart(2, "0")}</span>
                 {s.title}

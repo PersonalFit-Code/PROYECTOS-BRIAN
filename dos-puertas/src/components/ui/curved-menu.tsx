@@ -97,6 +97,7 @@ export default function CurvedMenu({
   openLabel,
   closeLabel,
   heading,
+  top,
   footer,
   triggerClassName,
 }: {
@@ -106,6 +107,8 @@ export default function CurvedMenu({
   openLabel: string;
   closeLabel: string;
   heading: string;
+  /** Debajo del título del panel (el selector de idioma). */
+  top?: ReactNode;
   footer?: ReactNode;
   triggerClassName?: string;
 }) {
@@ -205,6 +208,15 @@ export default function CurvedMenu({
                           </span>
                         </button>
                       </div>
+                      {top ? (
+                        <motion.div
+                          className="mt-4"
+                          initial={reduced ? false : { opacity: 0, y: -8 }}
+                          animate={{ opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE, delay: 0.2 } }}
+                        >
+                          {top}
+                        </motion.div>
+                      ) : null}
                       <motion.ul initial="initial" animate="enter" className="mt-2">
                         {items.map((item, i) => (
                           <NavLink key={item.href} item={item} index={i} onNavigate={() => setOpen(false)} />

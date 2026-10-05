@@ -8,6 +8,8 @@ const common = {
   description:
     "Bar de pinchos en la rúa dos Fornos, zona de Os Viños de Ourense, desde 1974. Chicharrones, calamares, tortilla y empanadillas de siempre, de pie y en barra.",
   skipToContent: "Saltar al contenido",
+  area: "Casco histórico · Zona de Os Viños",
+  language: "Idioma",
   call: "Llamar",
   directions: "Cómo llegar",
   openInMaps: "Abrir en Google Maps",
@@ -464,6 +466,8 @@ const legal = {
   updated: "Última actualización: 5 de octubre de 2026",
   tocLabel: "En esta página",
   otherDocs: "Otros textos legales",
+  /* Solo en los otros idiomas: los textos legales se publican en español. */
+  onlySpanish: "",
   pending: {
     holder: "pendiente: nombre o razón social del titular",
     taxId: "pendiente: NIF/CIF",

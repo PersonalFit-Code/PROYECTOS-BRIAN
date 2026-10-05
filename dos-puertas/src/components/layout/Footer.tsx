@@ -8,14 +8,17 @@ import HoursList from "@/components/ui/HoursList";
 import StatusPill from "@/components/ui/StatusPill";
 import MapEmbed from "@/components/ui/MapEmbed";
 import MapSheet from "@/components/ui/MapSheet";
-import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
+import { useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
+import { LOCALE_META } from "@/i18n/config";
 import { format } from "@/i18n/getMessages";
 import { BUSINESS } from "@/data/business";
 import { LEGAL_PAGES, NAV_ITEMS } from "./navItems";
 import { CookieSettingsLink } from "@/components/consent/CookieConsent";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 export default function Footer() {
   const m = useMessages();
+  const locale = useLocale();
   const lp = useLocalePath();
   const ta = BUSINESS.ratings.tripadvisor;
   const [mapOpen, setMapOpen] = useState(false);
@@ -38,7 +41,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="mt-5 inline-flex items-baseline gap-2 text-sm text-cream-muted hover:text-cream"
           >
-            <span className="font-condensed text-3xl leading-none text-oro-light">{ta.valueForMoney.toLocaleString("es-ES")}</span>
+            <span className="font-condensed text-3xl leading-none text-oro-light">{ta.valueForMoney.toLocaleString(LOCALE_META[locale].intl)}</span>
             <span>
               {m.social.ratingLabel}
               <span className="block text-xs text-cream-faint">{format(m.social.ratingCount, { count: ta.count })}</span>
@@ -48,6 +51,7 @@ export default function Footer() {
             <Phone aria-hidden className="size-4 shrink-0 text-oro-light" />
             {BUSINESS.phone.display}
           </a>
+          <LanguageSwitcher id="pie" className="mt-6 max-w-[240px]" />
           <nav aria-label={m.footer.links} className="mt-6">
             <h2 className="font-caps text-[11px] font-semibold tracking-[0.28em] text-oro-a11y uppercase">{m.footer.links}</h2>
             <ul className="mt-2 grid grid-cols-2 gap-x-6 text-sm">
@@ -77,7 +81,7 @@ export default function Footer() {
             <MapPin aria-hidden className="mt-0.5 size-4 shrink-0 text-oro-light" />
             <span>
               {BUSINESS.address.street} · {BUSINESS.address.postalCode} {BUSINESS.address.city}
-              <span className="block text-cream-faint">{BUSINESS.address.area}</span>
+              <span className="block text-cream-faint">{m.common.area}</span>
             </span>
           </a>
           <div className="mt-4 flex flex-wrap gap-2.5">

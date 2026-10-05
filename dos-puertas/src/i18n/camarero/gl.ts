@@ -20,7 +20,6 @@ const gl: CamareroTexts = {
   pending: "Pendente de confirmar coa casa",
   log: "Conversa co camareiro",
   you: "Ti",
-  language: "Idioma do chat",
   groups: { lugar: "Horario e lugar", funciona: "Como funciona", pinchos: "Pinchos", beber: "Para beber", casa: "A casa" },
   status: {
     open: "Aberto agora",

@@ -4,7 +4,7 @@ import ParedDelBar from "@/components/interior/ParedDelBar";
 import PageHeader from "@/components/ui/PageHeader";
 import Denominaciones from "@/components/vinos/Denominaciones";
 import { isLocale, type Locale } from "@/i18n/config";
-import { getMessages } from "@/i18n/getMessages";
+import { format, getMessages } from "@/i18n/getMessages";
 import { pageMetadata } from "@/lib/seo";
 import { REVIEWS } from "@/data/reviews";
 
@@ -72,7 +72,7 @@ export default async function VinosPage({ params }: { params: Promise<{ locale: 
               {WINE_REVIEWS.map((r) => (
                 <figure key={r.id} className="flex h-full flex-col rounded-2xl bg-botella-900/55 p-5 ring-1 ring-cream/10">
                   <div className="flex items-center justify-between">
-                    <span className="flex gap-0.5 text-oro" role="img" aria-label={`${r.rating} de 5`}>
+                    <span className="flex gap-0.5 text-oro" role="img" aria-label={format(m.social.stars, { n: r.rating })}>
                       {Array.from({ length: 5 }, (_, i) => (
                         <Star key={i} aria-hidden className="size-3.5" fill={i < r.rating ? "currentColor" : "none"} strokeWidth={1.5} />
                       ))}

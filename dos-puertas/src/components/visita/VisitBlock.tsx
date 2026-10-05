@@ -32,7 +32,7 @@ export default function VisitBlock({ withHeading = true }: { withHeading?: boole
             <h3 className="relative font-caps text-[11px] font-semibold tracking-[0.28em] text-oro-a11y uppercase">{t.addressTitle}</h3>
             <p className="relative mt-3 font-display text-3xl leading-tight font-medium sm:text-4xl">{BUSINESS.address.street}</p>
             <p className="relative mt-1 text-cream-muted">
-              {BUSINESS.address.postalCode} {BUSINESS.address.city} · {BUSINESS.address.area}
+              {BUSINESS.address.postalCode} {BUSINESS.address.city} · {m.common.area}
             </p>
             <div className="relative mt-6 flex flex-wrap gap-3">
               <a

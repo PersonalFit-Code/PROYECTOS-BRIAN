@@ -18,7 +18,6 @@ const es = {
   pending: "Pendiente de confirmar con la casa",
   log: "Conversación con el camarero",
   you: "Tú",
-  language: "Idioma del chat",
   groups: { lugar: "Horario y sitio", funciona: "Cómo funciona", pinchos: "Pinchos", beber: "Para beber", casa: "La casa" },
   status: {
     open: "Abierto ahora",

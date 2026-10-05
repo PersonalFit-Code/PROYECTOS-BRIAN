@@ -5,7 +5,10 @@ import { LOCALES, LOCALE_META, localePath, type Locale } from "@/i18n/config";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dos-puertas.vercel.app";
 
 export function pageMetadata(locale: Locale, path: string, { title, description }: { title: string; description: string }): Metadata {
-  const languages = Object.fromEntries(LOCALES.map((l) => [LOCALE_META[l].hreflang, localePath(l, path)]));
+  const languages = {
+    ...Object.fromEntries(LOCALES.map((l) => [LOCALE_META[l].hreflang, localePath(l, path)])),
+    "x-default": localePath("es", path),
+  };
   return {
     title,
     description,

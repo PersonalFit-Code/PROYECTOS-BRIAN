@@ -34,7 +34,7 @@ import {
 } from "lucide-react";
 import { useLocale, useLocalePath } from "@/i18n/LocaleProvider";
 import { format } from "@/i18n/getMessages";
-import { CAMARERO_LANGS, CAMARERO_LANG_NAMES, CAMARERO_TEXTS, isCamareroLang, langFromNavigator, type CamareroLang, type CamareroTexts } from "@/i18n/camarero";
+import { CAMARERO_TEXTS, isCamareroLang, type CamareroLang, type CamareroTexts } from "@/i18n/camarero";
 import { useOpenStatus } from "@/hooks/useOpenStatus";
 import type { OpenStatus } from "@/lib/openStatus";
 import { CAMARERO, CAMARERO_GRUPOS, CAMARERO_IDS, CAMARERO_INICIO, buscaPregunta, type CamareroAccion, type CamareroId } from "@/data/camarero";
@@ -132,20 +132,18 @@ const ROW =
   "pulsable group flex w-full items-center gap-3 rounded-2xl border border-oro/20 bg-oro/[0.06] px-3.5 py-2.5 text-left text-[13.5px] leading-snug text-cream hover:border-oro/50 hover:bg-oro/[0.12]";
 
 /**
- * El camarero virtual: preguntas fijas con respuestas de la casa (ver `data/camarero.ts`), en
- * español, gallego, inglés y portugués. Se puede tocar una pregunta o escribir; lo escrito se
- * compara en el propio navegador con las palabras clave del idioma elegido y no se envía a
- * ningún sitio. En el móvil ocupa la pantalla y es modal; en escritorio flota en la esquina.
+ * El camarero virtual: preguntas fijas con respuestas de la casa (ver `data/camarero.ts`), en el
+ * idioma de la web (español, gallego, inglés o portugués). Se puede tocar una pregunta o escribir;
+ * lo escrito se compara en el propio navegador con las palabras clave de ese idioma y no se envía
+ * a ningún sitio. En el móvil ocupa la pantalla y es modal; en escritorio flota en la esquina.
  */
 export default function Camarero() {
   const lp = useLocalePath();
   const locale = useLocale();
-  const siteLang: CamareroLang = isCamareroLang(locale) ? locale : "es";
+  /* El chat habla el idioma que se ha elegido para la web (selector del menú). */
+  const L: CamareroLang = isCamareroLang(locale) ? locale : "es";
   const reduced = useReducedMotion() ?? false;
   const status = useOpenStatus();
-
-  const [lang, setLang] = useState<CamareroLang | null>(null);
-  const L = lang ?? siteLang;
   const t = CAMARERO_TEXTS[L];
 
   const [open, setOpen] = useState(false);
@@ -323,8 +321,6 @@ export default function Camarero() {
         aria-expanded={open}
         onClick={() => {
           setModal(window.matchMedia("(max-width: 639px)").matches);
-          /* Si nadie ha elegido idioma, el del navegador (un turista portugués lo ve en portugués). */
-          if (lang === null) setLang(langFromNavigator() ?? siteLang);
           setOpen(true);
         }}
         className={cn(
@@ -354,7 +350,7 @@ export default function Camarero() {
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.97 }}
             transition={{ duration: reduced ? 0.15 : 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="border-b border-cream/10 bg-botella-900/60 px-4 pt-3 pb-2.5">
+            <div className="border-b border-cream/10 bg-botella-900/60 px-4 py-3">
               <div className="flex items-center gap-3">
                 <Avatar />
                 <div className="min-w-0 flex-1">
@@ -371,27 +367,6 @@ export default function Camarero() {
                 >
                   <X aria-hidden className="size-5" />
                 </button>
-              </div>
-              {/* Los cuatro idiomas del chat. */}
-              <div role="group" aria-label={t.language} className="relative mt-2.5 grid grid-cols-4 gap-1 rounded-full bg-cream/[0.05] p-1 ring-1 ring-cream/10">
-                {CAMARERO_LANGS.map((code) => {
-                  const on = code === L;
-                  return (
-                    <button
-                      key={code}
-                      type="button"
-                      lang={code}
-                      aria-pressed={on}
-                      aria-label={CAMARERO_LANG_NAMES[code].name}
-                      title={CAMARERO_LANG_NAMES[code].name}
-                      onClick={() => setLang(code)}
-                      className={cn("pulsable relative min-h-8 rounded-full text-[12px] font-semibold tracking-wide", on ? "text-botella" : "text-cream-muted hover:text-cream")}
-                    >
-                      {on ? <motion.span layoutId="idioma-camarero" className="absolute inset-0 rounded-full bg-oro" transition={{ type: "spring", stiffness: 420, damping: 34 }} /> : null}
-                      <span className="relative">{CAMARERO_LANG_NAMES[code].short}</span>
-                    </button>
-                  );
-                })}
               </div>
             </div>
 
