@@ -20,10 +20,15 @@ npm run typecheck && npm run lint && npm run build
 
 | Ruta | Qué hay |
 | --- | --- |
-| `/es` | Portada: fachada ilustrada (la luz depende de si está abierto ahora), la barra, cómo funciona, historia, reseñas, visita |
-| `/es/barra` | Toda la barra con filtros por categoría y ficha de cada pincho |
+| `/es` | Portada tipo presentación: entrada con panel modular, los cuatro pinchos de la casa y reseñas en cascada |
+| `/es/carta` | Toda la barra con filtros y ficha de cada pincho (`/es/barra` redirige aquí) |
+| `/es/vinos` | Las cinco denominaciones gallegas y la selección de la casa (pendiente) |
 | `/es/historia` | Línea de tiempo 1950s → hoy y la anécdota de Amancio Ortega |
-| `/es/visita` | Horario en vivo, dirección, pago y preguntas frecuentes |
+| `/es/visita` | Mapa (se carga solo con consentimiento), horario en vivo, pago y cómo funciona la barra |
+| `/es/preguntas` | Preguntas frecuentes (con JSON-LD FAQPage) |
+| `/es/legal/aviso-legal` · `/privacidad` · `/cookies` | Textos legales (noindex hasta tener los datos del titular) |
+
+La navegación va en el menú lateral curvo (`src/components/ui/curved-menu.tsx`, adaptado de 21st.dev).
 
 ## Dónde está cada cosa
 
@@ -41,4 +46,10 @@ npm run typecheck && npm run lint && npm run build
 - [ ] Alérgenos.
 - [ ] Teléfono y horario: TripAdvisor publica otro número (988 22 11 16) y apertura a las 18:00.
 - [ ] Coordenadas exactas, dominio propio y datos del titular para el aviso legal.
-- [ ] Foto nítida del rótulo para afinar color y tipografía.
+- [ ] Foto nítida del rótulo para afinar la tipografía.
+- [ ] Datos del titular para los textos legales (nombre o razón social, NIF/CIF, domicilio, correo,
+      datos registrales) en `src/data/business.ts` → `legal`. Después, quitar el `noindex` y que
+      lo revise un profesional.
+- [ ] Foto de la barra (`public/images/barra-dos-puertas.webp`): confirmar origen y permiso; salen
+      personas reconocibles (derecho a la propia imagen).
+- [ ] Confirmar lo marcado en Preguntas: perros, para llevar, alérgenos y precios.

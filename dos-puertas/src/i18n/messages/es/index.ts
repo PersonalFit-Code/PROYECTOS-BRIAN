@@ -10,6 +10,9 @@ const common = {
   call: "Llamar",
   directions: "Cómo llegar",
   openInMaps: "Abrir en Google Maps",
+  loadMap: "Cargar mapa",
+  loadMapNote: "Al cargarlo, Google puede usar sus cookies.",
+  loadMapPolicy: "Política de cookies",
   pending: "Pendiente de confirmar",
   photoPending: "Foto real próximamente",
   close: "Cerrar",
@@ -40,13 +43,24 @@ const common = {
 };
 
 const nav = {
-  home: "Inicio",
-  carta: "Carta",
-  vinos: "Vinos",
-  historia: "Historia",
-  visita: "Visítanos",
-  mainLabel: "Navegación principal",
-  dockLabel: "Secciones",
+  items: {
+    home: "Inicio",
+    carta: "Carta",
+    vinos: "Vinos",
+    historia: "Historia",
+    visita: "Visítanos",
+    preguntas: "Preguntas",
+  },
+  subheadings: {
+    home: "La portada",
+    carta: "Pinchos, montados, bocadillos y raciones",
+    vinos: "Las denominaciones gallegas",
+    historia: "Quiénes somos, desde 1974",
+    visita: "Horario, mapa y cómo funciona la barra",
+    preguntas: "Reservas, precios, perros, alérgenos…",
+  },
+  menu: { label: "Menú", open: "Abrir el menú", close: "Cerrar el menú", heading: "Navegación" },
+  hoursShort: "Miércoles a domingo, 19:30 – 00:00",
 };
 
 const hero = {
@@ -294,14 +308,49 @@ const visita = {
   noReservations: "No aceptamos reservas: tapeo de barra, por orden de llegada.",
   pageTitle: "Visítanos",
   pageLead: "Todo lo que hace falta saber antes de cruzar cualquiera de las dos puertas.",
-  faqTitle: "Antes de venir",
-  faq: [
-    { q: "¿Se puede reservar?", a: "No. El Dos Puertas es un bar de barra, sin mesas: se llega, se pide y se tapea de pie." },
-    { q: "¿Qué días abrís?", a: "De miércoles a domingo, de 19:30 a 00:00. Lunes y martes descansamos." },
-    { q: "¿Cuánto cuesta un pincho?", a: "Según la pizarra de la puerta, 2 € el pincho y 4 € el bocadillo." },
-    { q: "¿Se puede pagar con tarjeta?", a: "Sí: efectivo, tarjeta y pago móvil." },
-  ],
   mapLabel: "Mapa de la zona de Os Viños con la ubicación del Dos Puertas",
+  faqLink: "Preguntas frecuentes",
+};
+
+const faq = {
+  kicker: "Preguntas",
+  titleBefore: "Antes de",
+  titleAccent: "cruzar la puerta",
+  pageLead: "Lo que más nos preguntan: reservas, horarios, precios y todo lo demás. Si te queda alguna duda, llámanos.",
+  pendingBadge: "Pendiente de confirmar",
+  ctaTitle: "¿Te queda alguna duda?",
+  ctaText: "Llámanos en horario de apertura y te lo contamos.",
+  groups: [
+    {
+      title: "Antes de venir",
+      items: [
+        { q: "¿Se puede reservar?", a: "No. El Dos Puertas es un bar de barra: se llega, se pide y se tapea, por orden de llegada." },
+        { q: "¿Hay mesas para sentarse?", a: "No. Aquí se tapea de pie, en la barra, como desde 1974. Es parte de la gracia." },
+        { q: "¿Qué días y a qué hora abrís?", a: "De miércoles a domingo, de 19:30 a 00:00. Lunes y martes descansamos." },
+        { q: "¿Cuándo hay más gente?", a: "Según cuentan los clientes, las noches del fin de semana la barra se llena hasta arriba. Buena señal." },
+        { q: "¿Dónde estáis?", a: "En la Rúa dos Fornos, 7, en pleno casco histórico de Ourense y a dos pasos de la catedral: la zona de Os Viños.", link: { path: "/visita", label: "Ver el mapa" } },
+      ],
+    },
+    {
+      title: "En la barra",
+      items: [
+        { q: "¿Cuánto cuesta un pincho?", a: "Según la pizarra de la puerta, 2 € el pincho y 4 € el bocadillo.", pending: true },
+        { q: "¿Cuáles son los pinchos de la casa?", a: "Los chicharrones, el de calamares, la tortilla y las empanadillas. También hay rixones y montados.", link: { path: "/carta", label: "Ver la carta" } },
+        { q: "¿Los «calamares» son calamares?", a: "El pincho nació en los 80 de una confusión con un bollito de panceta crujiente que los turistas pedían como «el de calamares». Lo que se sirve son chipirones, pero el nombre se quedó." },
+        { q: "¿La tortilla lleva cebolla?", a: "No. Al principio la llevaba, pero mucha gente protestaba y desde los años 90 se hace sin." },
+        { q: "¿Qué vinos tenéis?", a: "Vinos de las denominaciones gallegas, por copas, para acompañar la ronda.", link: { path: "/vinos", label: "Ver los vinos" } },
+        { q: "¿Se puede pedir para llevar?", a: "Las fichas del bar en internet indican que sí. Pregunta en la barra.", pending: true },
+        { q: "¿Tenéis información sobre alérgenos?", a: "Pregunta en la barra antes de pedir y te indicamos qué lleva cada pincho.", pending: true },
+      ],
+    },
+    {
+      title: "Otras dudas",
+      items: [
+        { q: "¿Se puede pagar con tarjeta?", a: "Sí: efectivo, tarjeta y pago con el móvil." },
+        { q: "¿Puedo entrar con mi perro?", a: "Varios clientes cuentan en sus reseñas que entraron con su perro sin problema; a uno hasta le pusieron agua.", pending: true },
+      ],
+    },
+  ],
 };
 
 const footer = {
@@ -315,8 +364,172 @@ const footer = {
 };
 
 const legal = {
-  title: "Aviso legal",
-  text: "Página pendiente: faltan los datos del titular del negocio. Se completará antes de publicar la web.",
+  kicker: "Legal",
+  draftNotice:
+    "Borrador: faltan los datos del titular del negocio (marcados en dorado) y conviene que un profesional lo revise antes de publicar la web definitiva.",
+  updated: "Última actualización: 5 de octubre de 2026",
+  tocLabel: "En esta página",
+  otherDocs: "Otros textos legales",
+  pending: {
+    holder: "pendiente: nombre o razón social del titular",
+    taxId: "pendiente: NIF/CIF",
+    fiscalAddress: "pendiente: domicilio del titular",
+    email: "pendiente: correo electrónico de contacto",
+    registry: "pendiente: datos registrales, si es una sociedad",
+  },
+  docs: {
+    "aviso-legal": {
+      title: "Aviso legal",
+      lead: "Quién está detrás de esta web y en qué condiciones se usa, conforme a la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE).",
+      sections: [
+        {
+          title: "Titular de la web",
+          body: ["En cumplimiento del artículo 10 de la LSSI-CE, estos son los datos del titular:"],
+          list: [
+            "Titular: {holder}",
+            "NIF/CIF: {taxId}",
+            "Domicilio: {fiscalAddress}",
+            "Establecimiento: Café Bar Dos Puertas, Rúa dos Fornos, 7, 32005 Ourense",
+            "Teléfono: {phone}",
+            "Correo electrónico: {email}",
+            "Datos registrales: {registry}",
+          ],
+        },
+        {
+          title: "Objeto de la web",
+          body: [
+            "Esta web informa sobre el Café Bar Dos Puertas: su historia, su barra, su horario y cómo llegar. A través de ella no se venden productos ni servicios y no se aceptan reservas.",
+          ],
+        },
+        {
+          title: "Condiciones de uso",
+          body: [
+            "El acceso es libre y gratuito. Quien la visita se compromete a hacer un uso adecuado de sus contenidos y a no utilizarlos para actividades ilícitas o contrarias a la buena fe.",
+          ],
+        },
+        {
+          title: "Precios, horarios y carta",
+          body: [
+            "Los precios, horarios y productos que aparecen en la web son orientativos y pueden cambiar sin previo aviso. Los que valen son los que se indican en el propio establecimiento.",
+          ],
+        },
+        {
+          title: "Propiedad intelectual e industrial",
+          body: [
+            "Los textos, el diseño, las ilustraciones y la marca de esta web pertenecen a su titular o se utilizan con permiso. No se permite reproducirlos con fines comerciales sin autorización.",
+            "Las reseñas de clientes pertenecen a sus autores y se citan con su nombre y la plataforma de origen (Google o TripAdvisor). El reportaje enlazado pertenece a La Voz de Galicia.",
+          ],
+        },
+        {
+          title: "Enlaces a otras webs",
+          body: [
+            "Esta web enlaza a servicios de terceros (Google Maps, TripAdvisor, Facebook y La Voz de Galicia). Sus contenidos y sus condiciones son responsabilidad de esos terceros.",
+          ],
+        },
+        {
+          title: "Responsabilidad",
+          body: [
+            "El titular procura que la información esté actualizada y sea correcta, pero no responde de interrupciones del servicio, de errores en servicios de terceros ni de los daños derivados de un uso indebido de la web.",
+          ],
+        },
+        {
+          title: "Ley aplicable y jurisdicción",
+          body: [
+            "Estas condiciones se rigen por la legislación española. Las controversias se someterán a los juzgados y tribunales que correspondan conforme a la ley; si quien reclama actúa como consumidor, a los de su domicilio.",
+          ],
+        },
+      ],
+    },
+    privacidad: {
+      title: "Privacidad",
+      lead: "Cómo se tratan los datos personales en esta web, conforme al Reglamento (UE) 2016/679 (RGPD) y a la Ley Orgánica 3/2018 de Protección de Datos (LOPDGDD).",
+      sections: [
+        {
+          title: "Responsable del tratamiento",
+          body: [],
+          list: ["Responsable: {holder}", "NIF/CIF: {taxId}", "Domicilio: {fiscalAddress}", "Teléfono: {phone}", "Correo electrónico: {email}"],
+        },
+        {
+          title: "Qué datos recogemos",
+          body: [
+            "Esta web no tiene formularios, registro de usuarios ni herramientas de analítica o de publicidad: no recogemos datos personales a través de ella.",
+            "Si nos llamas por teléfono, los datos que nos des se usarán solo para atender tu consulta y no se guardarán más allá de lo necesario.",
+          ],
+        },
+        {
+          title: "Datos técnicos del alojamiento",
+          body: [
+            "La web está alojada en Vercel Inc. Como cualquier servidor, registra datos técnicos de cada visita (dirección IP, navegador, página solicitada y hora) para que la web funcione y sea segura. La base legal es el interés legítimo (artículo 6.1.f del RGPD) y esos registros se conservan el tiempo mínimo que fija el proveedor.",
+            "Vercel puede tratar estos datos en Estados Unidos con las garantías que prevé el RGPD (Marco de Privacidad de Datos UE-EE. UU. o cláusulas contractuales tipo).",
+          ],
+        },
+        {
+          title: "El mapa de Google",
+          body: [
+            "El mapa solo se carga si pulsas «Cargar mapa». En ese momento tu navegador se conecta con Google, que actúa como responsable independiente y puede usar cookies (política de Google: policies.google.com/privacy). Si no lo cargas, no se envía nada a Google.",
+          ],
+        },
+        {
+          title: "Enlaces externos",
+          body: [
+            "Al abrir un enlace a Google Maps, TripAdvisor, Facebook o La Voz de Galicia sales de esta web y se aplican las políticas de privacidad de esos servicios.",
+          ],
+        },
+        {
+          title: "Tus derechos",
+          body: [
+            "Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad escribiendo a {email}, con una copia de un documento que acredite tu identidad.",
+            "Si crees que no hemos atendido bien tu solicitud, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es).",
+          ],
+        },
+        {
+          title: "Menores y cambios",
+          body: [
+            "Esta web no está dirigida a menores de 14 años. Esta política puede actualizarse; la fecha de la última versión aparece arriba.",
+          ],
+        },
+      ],
+    },
+    cookies: {
+      title: "Cookies",
+      lead: "Qué cookies y tecnologías parecidas usa esta web, conforme al artículo 22.2 de la LSSI-CE y a la guía sobre cookies de la AEPD.",
+      sections: [
+        {
+          title: "En resumen",
+          body: [
+            "Esta web no instala cookies al entrar: ni propias ni de terceros, ni de analítica ni de publicidad. Por eso no te pedimos permiso con un aviso nada más llegar.",
+            "Las tipografías se sirven desde la propia web, sin conectar con Google Fonts.",
+          ],
+        },
+        {
+          title: "Almacenamiento local",
+          body: [
+            "Si pulsas «Cargar mapa», guardamos en tu navegador (almacenamiento local, clave «dp-mapa») que ya has aceptado cargarlo, para no volver a preguntarte. Es un dato técnico que no sale de tu dispositivo y que solo existe porque tú lo has pedido.",
+          ],
+        },
+        {
+          title: "Cookies de Google Maps",
+          body: [
+            "Al cargar el mapa, Google puede instalar sus propias cookies, por ejemplo para recordar preferencias o medir el uso del mapa. Solo ocurre después de tu clic. Más información en policies.google.com/technologies/cookies.",
+          ],
+        },
+        {
+          title: "Qué se guarda",
+          body: [],
+          list: [
+            "dp-mapa · esta web · recuerda que aceptaste cargar el mapa · hasta que lo borres",
+            "Cookies de Google · Google LLC · funcionamiento del mapa · las que indique Google · solo tras cargar el mapa",
+          ],
+        },
+        {
+          title: "Cómo borrarlas",
+          body: [
+            "Puedes borrar las cookies y el almacenamiento local desde los ajustes de tu navegador (Chrome, Safari, Firefox o Edge). Si lo haces, el mapa volverá a pedirte permiso antes de cargarse.",
+          ],
+        },
+      ],
+    },
+  },
 };
 
 const notFound = {
@@ -325,5 +538,5 @@ const notFound = {
   back: "Volver a la barra",
 };
 
-const es = { common, nav, hero, manifesto, barra, vinos, historia, social, visita, footer, legal, notFound };
+const es = { common, nav, hero, manifesto, barra, vinos, historia, social, visita, faq, footer, legal, notFound };
 export default es;

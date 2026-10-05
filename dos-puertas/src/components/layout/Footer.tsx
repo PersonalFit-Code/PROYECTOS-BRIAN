@@ -8,7 +8,7 @@ import StatusPill from "@/components/ui/StatusPill";
 import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { format } from "@/i18n/getMessages";
 import { BUSINESS } from "@/data/business";
-import { NAV_ITEMS } from "./navItems";
+import { LEGAL_PAGES, NAV_ITEMS } from "./navItems";
 
 export default function Footer() {
   const m = useMessages();
@@ -16,7 +16,7 @@ export default function Footer() {
   const ta = BUSINESS.ratings.tripadvisor;
 
   return (
-    <footer className="grano relative isolate mt-10 overflow-hidden border-t border-cream/10 bg-tinta-900">
+    <footer className="grano relative isolate mt-10 overflow-hidden border-t border-cream/10 bg-botella-900">
       <p aria-hidden className="pointer-events-none absolute -bottom-6 left-1/2 -z-10 -translate-x-1/2 font-rotulo text-[34vw] leading-none whitespace-nowrap text-cream/[0.05] uppercase lg:text-[22vw]">
         Dos Puertas
       </p>
@@ -77,7 +77,7 @@ export default function Footer() {
             {NAV_ITEMS.map((item) => (
               <li key={item.key}>
                 <Link href={lp(item.path)} className="flex min-h-11 items-center text-cream-muted hover:text-cream">
-                  {m.nav[item.key]}
+                  {m.nav.items[item.key]}
                 </Link>
               </li>
             ))}
@@ -88,9 +88,15 @@ export default function Footer() {
       <div className="container-page flex flex-col gap-2 border-t border-cream/10 py-6 text-xs text-cream-faint sm:flex-row sm:items-center sm:justify-between">
         <p>{format(m.footer.rights, { year: new Date().getFullYear() })}</p>
         <p>{m.footer.credits}</p>
-        <Link href={lp("/legal")} className="hover:text-cream">
-          {m.footer.legal}
-        </Link>
+        <ul className="flex flex-wrap gap-x-4 gap-y-1">
+          {LEGAL_PAGES.map((slug) => (
+            <li key={slug}>
+              <Link href={lp(`/legal/${slug}`)} className="inline-flex min-h-8 items-center hover:text-cream">
+                {m.legal.docs[slug].title}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </footer>
   );

@@ -43,7 +43,7 @@ export default async function VinosPage({ params }: { params: Promise<{ locale: 
             <p className="font-caps text-[10px] font-semibold tracking-[0.26em] text-oro-a11y uppercase">{t.quoteLabel}</p>
             <div className="mt-3 space-y-3">
               {WINE_REVIEWS.map((r) => (
-                <figure key={r.id} className="rounded-2xl bg-tinta-900/50 p-4 ring-1 ring-cream/10">
+                <figure key={r.id} className="rounded-2xl bg-botella-900/50 p-4 ring-1 ring-cream/10">
                   <Quote aria-hidden className="size-4 text-oro-light" />
                   <blockquote className="mt-2 font-display text-lg leading-snug italic">«{r.text}»</blockquote>
                   <figcaption className="mt-2 text-xs text-cream-faint">

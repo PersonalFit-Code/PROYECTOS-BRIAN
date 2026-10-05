@@ -36,7 +36,7 @@ export default function Hero() {
           <div className="hero-in mt-6 flex flex-wrap items-center gap-2.5 sm:gap-3 [--i:4]">
             <Link
               href={lp("/#barra")}
-              className="btn-brillo pulsable inline-flex min-h-12 items-center gap-2 rounded-full bg-oro px-6 text-[15px] font-semibold text-tinta"
+              className="btn-brillo pulsable inline-flex min-h-12 items-center gap-2 rounded-full bg-oro px-6 text-[15px] font-semibold text-botella"
             >
               {m.hero.ctaPrimary}
               <ArrowDown aria-hidden className="size-4" />

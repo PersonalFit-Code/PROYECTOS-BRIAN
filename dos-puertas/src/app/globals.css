@@ -2,16 +2,16 @@
 
 /* ─────────────────────────────────────────────────────────────
    DESIGN TOKENS · Café Bar Dos Puertas
-   Azul tinta del rótulo · Oro de sus letras · Luz ámbar que lo ilumina · Granito de la fachada
+   Verde botella · Oro de las letras del rótulo · Luz ámbar
 
-   LOS COLORES SALEN DEL RÓTULO REAL de la rúa dos Fornos: un tablero azul tinta casi negro con
-   «CAFE - BAR DOS PUERTAS» en letras doradas, iluminado desde abajo con luz cálida, sobre la
-   fachada de granito. Muestreados a ojo de una foto pública de Google (2025).
-   PENDIENTE: volver a muestrear con una foto propia y nítida del rótulo.
+   El oro y la letra (Pirata One) salen del rótulo real de la rúa dos Fornos. El fondo era al
+   principio el azul tinta del tablero; Brian lo pidió en verde oscuro con las letras doradas para
+   destacar, así que las superficies son verde botella —el de las botellas de la barra— y el acento
+   sigue siendo el oro. Si se vuelve al azul, basta con cambiar la escala `botella-*`.
    ───────────────────────────────────────────────────────────── */
 @theme {
-  /* Oro de las letras del rótulo: ACENTO único. Es claro, así que el texto encima es tinta
-     (`--on-accent`, 11:1). */
+  /* Oro de las letras del rótulo: ACENTO único. Es claro, así que el texto encima es verde
+     (`--on-accent`, 10:1). */
   --color-oro: #e3c46a;
   --color-oro-dark: #b8963f;
   /* Texto GRANDE, iconos y bordes. */
@@ -22,12 +22,12 @@
   --color-ambar: #e8a24a;
   --color-brasa: #d9783a;
 
-  /* Superficies: el azul tinta del tablero, de la página (más oscura) a la tarjeta elevada. */
-  --color-tinta: #121826;
-  --color-tinta-900: #0b101a;
-  --color-tinta-800: #182033;
-  --color-tinta-700: #1f2940;
-  --color-tinta-600: #29354f;
+  /* Superficies verde botella, de la página (más oscura) a la tarjeta elevada. */
+  --color-botella: #0f1d17;
+  --color-botella-900: #0a1510;
+  --color-botella-800: #13261e;
+  --color-botella-700: #1a3227;
+  --color-botella-600: #234032;
   --color-granito: #8d8a84;
 
   --color-cream: #f3ecdc;
@@ -65,12 +65,11 @@
 
 :root {
   color-scheme: dark;
-  --dock-h: 64px;
 
-  /* LIQUID GLASS · solo para CONTROLES (cabecera, dock, hojas, botones flotantes). */
-  --glass-bg: rgba(18, 24, 38, 0.58);
-  --glass-bg-strong: rgba(14, 19, 31, 0.84);
-  --glass-solid: #121826;
+  /* LIQUID GLASS · solo para CONTROLES (cabecera, menú, hojas, botones flotantes). */
+  --glass-bg: rgba(15, 29, 23, 0.58);
+  --glass-bg-strong: rgba(11, 22, 17, 0.84);
+  --glass-solid: #0f1d17;
   --glass-blur: blur(20px) saturate(180%);
   --glass-border: rgba(243, 236, 220, 0.16);
   --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 0 0 0.5px rgba(255, 255, 255, 0.04);
@@ -78,12 +77,12 @@
   --glass-shadow: 0 22px 48px -20px rgba(0, 0, 0, 0.72), 0 4px 14px -6px rgba(0, 0, 0, 0.4);
 
   /* Superficies de CONTENIDO. Sin desenfoque, nunca. */
-  --capa-1: rgba(41, 53, 79, 0.36);
-  --capa-2: rgba(41, 53, 79, 0.58);
-  --capa-3: rgba(44, 57, 85, 0.9);
+  --capa-1: rgba(35, 64, 50, 0.36);
+  --capa-2: rgba(35, 64, 50, 0.58);
+  --capa-3: rgba(38, 70, 55, 0.9);
   --capa-borde: rgba(243, 236, 220, 0.1);
 
-  --on-accent: #121826;
+  --on-accent: #0f1d17;
 
   --ease-muelle: cubic-bezier(0.2, 0.9, 0.3, 1.2);
   --dur-morph: 320ms;
@@ -109,7 +108,7 @@ html {
 }
 
 body {
-  background-color: var(--color-tinta);
+  background-color: var(--color-botella);
   color: var(--color-cream);
   font-family: var(--font-sans);
   overflow-x: hidden;
@@ -126,24 +125,17 @@ body::before {
   pointer-events: none;
   background-image:
     radial-gradient(1100px 620px at 85% -10%, rgba(232, 162, 74, 0.12), transparent 60%),
-    radial-gradient(900px 520px at -10% 110%, rgba(41, 53, 79, 0.55), transparent 60%);
+    radial-gradient(900px 520px at -10% 110%, rgba(35, 64, 50, 0.55), transparent 60%);
 }
 
 ::selection {
   background: var(--color-oro);
-  color: var(--color-tinta);
+  color: var(--color-botella);
 }
 
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(243, 236, 220, 0.18) transparent;
-}
-
-/* Hueco para el dock flotante de móvil. */
-@media (max-width: 767px) {
-  body {
-    padding-bottom: calc(var(--dock-h) + 20px + env(safe-area-inset-bottom));
-  }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -186,7 +178,7 @@ body::before {
 .liquid-glass.sin-desenfoque {
   backdrop-filter: none;
 }
-/* Superficies anchas (cabecera, dock): desenfoque solo en gama alta. */
+/* Superficies anchas (cabecera): desenfoque solo en gama alta. */
 .liquid-glass.cristal-ancho {
   backdrop-filter: none;
 }
@@ -206,9 +198,9 @@ body::before {
 
 @media (prefers-reduced-transparency: reduce) {
   :root {
-    --capa-1: #1c2538;
-    --capa-2: #212b40;
-    --capa-3: #29354f;
+    --capa-1: #1a3127;
+    --capa-2: #1e372c;
+    --capa-3: #234032;
   }
   .liquid-glass,
   :root[data-gpu="high"] .liquid-glass.cristal-ancho {
@@ -354,7 +346,7 @@ body::before {
 /* Panel de cristal de la columna derecha (pedido expresamente): un solo desenfoque, de tamaño
    acotado, sobre el fondo quieto de la portada. */
 .panel-cristal {
-  background-color: rgba(18, 24, 38, 0.55);
+  background-color: rgba(15, 29, 23, 0.55);
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 38%);
   border: 1px solid rgba(243, 236, 220, 0.12);
   box-shadow:
@@ -365,7 +357,7 @@ body::before {
 @media (prefers-reduced-transparency: reduce) {
   .panel-cristal {
     backdrop-filter: none;
-    background-color: var(--color-tinta-800);
+    background-color: var(--color-botella-800);
   }
 }
 
@@ -454,7 +446,7 @@ body::before {
 }
 
 /* Red de seguridad: ningún halo decorativo puede ensanchar la página en móvil (en iOS/Android un
-   solo elemento desbordado agranda el viewport de diseño y descoloca la cabecera y el dock).
+   solo elemento desbordado agranda el viewport de diseño y descoloca la cabecera).
    `clip` y no `hidden`: no crea contenedor de scroll, así que `position: sticky` sigue funcionando. */
 #app-shell {
   overflow-x: clip;

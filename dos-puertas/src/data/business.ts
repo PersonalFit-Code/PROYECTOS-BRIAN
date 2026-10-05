@@ -59,6 +59,15 @@ export const BUSINESS = {
       url: "https://www.lavozdegalicia.es/noticia/ourense/ourense/2024/03/01/amancio-ortega-dejo-conquistar-calamares-dos-puertas-ourense/00031709305710141411475.htm",
     },
   },
+  /* Datos del titular para el aviso legal y la privacidad (LSSI art. 10, RGPD art. 13).
+     TODO PENDIENTE: pedírselos a Marisa (persona física o sociedad que explota el bar). */
+  legal: {
+    holder: null as string | null,
+    taxId: null as string | null,
+    fiscalAddress: null as string | null,
+    email: null as string | null,
+    registry: null as string | null,
+  },
   ratings: {
     /* Medias públicas de TripAdvisor (99 opiniones), consultadas el 05/10/2026. */
     tripadvisor: { value: 3.9, count: 99, valueForMoney: 4.3 },

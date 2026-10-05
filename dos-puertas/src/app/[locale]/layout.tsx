@@ -7,7 +7,6 @@ import { getMessages } from "@/i18n/getMessages";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
 import { SITE_URL, serializeJsonLd } from "@/lib/seo";
 import Header from "@/components/layout/Header";
-import Dock from "@/components/layout/Dock";
 import Footer from "@/components/layout/Footer";
 import ClientBoot from "@/components/layout/ClientBoot";
 import "../globals.css";
@@ -30,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 export const viewport: Viewport = {
-  themeColor: "#121826",
+  themeColor: "#0f1d17",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -94,11 +93,11 @@ export default async function LocaleLayout({ children, params }: Readonly<{ chil
           }}
         />
       </head>
-      <body className="min-h-dvh bg-tinta text-cream antialiased">
+      <body className="min-h-dvh bg-botella text-cream antialiased">
         <LocaleProvider locale={locale} messages={messages}>
           <a
             href="#main"
-            className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100] focus-visible:rounded-full focus-visible:bg-oro focus-visible:px-5 focus-visible:py-3 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-tinta"
+            className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100] focus-visible:rounded-full focus-visible:bg-oro focus-visible:px-5 focus-visible:py-3 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-botella"
           >
             {messages.common.skipToContent}
           </a>
@@ -108,7 +107,6 @@ export default async function LocaleLayout({ children, params }: Readonly<{ chil
             <main id="main">{children}</main>
             <Footer />
           </div>
-          <Dock />
         </LocaleProvider>
       </body>
     </html>

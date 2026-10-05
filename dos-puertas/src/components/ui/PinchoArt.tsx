@@ -2,7 +2,7 @@ import type { Illustration } from "@/data/menu";
 import { cn } from "@/lib/cn";
 
 /**
- * Ilustraciones de la barra, mientras llegan las fotos reales. Plato azul tinta (el del rótulo) y
+ * Ilustraciones de la barra, mientras llegan las fotos reales. Plato verde botella y
  * los pinchos en dorados y ámbar. Decorativas: el nombre va siempre en texto al lado.
  */
 const BUN = "#d9a35f";
@@ -156,8 +156,8 @@ export default function PinchoArt({ kind, className }: { kind: Illustration; cla
     <svg viewBox="0 0 120 120" aria-hidden className={cn("block", className)}>
       <defs>
         <radialGradient id={`plato-${kind}`} cx="50%" cy="40%" r="60%">
-          <stop offset="0" stopColor="#2a3653" />
-          <stop offset="1" stopColor="#151c2c" />
+          <stop offset="0" stopColor="#244436" />
+          <stop offset="1" stopColor="#11211a" />
         </radialGradient>
       </defs>
       <circle cx={60} cy={62} r={50} fill={`url(#plato-${kind})`} stroke="#f3ecdc" strokeOpacity={0.12} />

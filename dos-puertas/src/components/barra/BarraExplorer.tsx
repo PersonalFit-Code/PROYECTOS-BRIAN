@@ -44,7 +44,7 @@ export default function BarraExplorer() {
                 onClick={() => setFilter(f)}
                 className={cn(
                   "pulsable min-h-10 shrink-0 rounded-full px-4 text-sm font-medium whitespace-nowrap",
-                  filter === f ? "bg-oro text-tinta" : "text-cream-muted hover:text-cream",
+                  filter === f ? "bg-oro text-botella" : "text-cream-muted hover:text-cream",
                 )}
               >
                 {f === "all" ? t.all : t.categories[f]}

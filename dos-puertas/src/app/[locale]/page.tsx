@@ -1,21 +1,14 @@
 import Hero from "@/components/home/Hero";
-import Manifesto from "@/components/home/Manifesto";
 import StarPinchos from "@/components/home/StarPinchos";
-import HistoryTeaser from "@/components/home/HistoryTeaser";
 import SocialProof from "@/components/home/SocialProof";
-import VisitBlock from "@/components/visita/VisitBlock";
-import ChapterRail from "@/components/home/ChapterRail";
 
+/** Portada como una presentación: la entrada, los cuatro de la casa y lo que dicen. El resto, en el menú. */
 export default function HomePage() {
   return (
     <>
       <Hero />
       <StarPinchos />
-      <Manifesto />
-      <HistoryTeaser />
       <SocialProof />
-      <VisitBlock />
-      <ChapterRail />
     </>
   );
 }

@@ -17,7 +17,7 @@ export default function Timeline() {
         <li key={h.title} data-reveal className={cn("relative pb-12 pl-8 lg:w-1/2 lg:pl-0", i % 2 ? "lg:ml-auto lg:pl-12" : "lg:pr-12 lg:text-right")}>
           <span
             aria-hidden
-            className={cn("absolute top-2 left-0 size-[11px] rounded-full bg-oro ring-4 ring-tinta", i % 2 ? "lg:-left-[5px]" : "lg:right-[-6px] lg:left-auto")}
+            className={cn("absolute top-2 left-0 size-[11px] rounded-full bg-oro ring-4 ring-botella", i % 2 ? "lg:-left-[5px]" : "lg:right-[-6px] lg:left-auto")}
           />
           <p className="font-condensed text-4xl leading-none tracking-wide text-gradient-marca">{h.year}</p>
           <h2 className="mt-2 font-display text-2xl font-medium sm:text-3xl">{h.title}</h2>

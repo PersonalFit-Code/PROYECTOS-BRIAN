@@ -55,7 +55,7 @@ export default function HeroShowcase({ className }: { className?: string }) {
           onKeyDown={onTabKey}
           className={cn(
             "pulsable relative min-h-9 rounded-full px-4 text-[13px] font-medium",
-            tab === id ? "text-tinta" : "text-cream-muted hover:text-cream",
+            tab === id ? "text-botella" : "text-cream-muted hover:text-cream",
           )}
         >
           {tab === id ? (
@@ -94,9 +94,9 @@ export default function HeroShowcase({ className }: { className?: string }) {
                 sizes="(min-width: 1024px) 560px, 100vw"
                 className="object-cover object-[50%_42%]"
               />
-              <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,transparent_45%,rgba(11,16,26,0.85))]" />
+              <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,transparent_45%,rgba(10,21,16,0.85))]" />
               <div className="absolute inset-x-4 bottom-4 flex flex-wrap items-end justify-between gap-3 sm:inset-x-5 sm:bottom-5">
-                <div className="rounded-2xl bg-tinta-900/80 px-4 py-3 ring-1 ring-cream/10">
+                <div className="rounded-2xl bg-botella-900/80 px-4 py-3 ring-1 ring-cream/10">
                   <span className="block font-caps text-[9px] font-semibold tracking-[0.26em] text-oro-a11y uppercase">{t.boardLabel}</span>
                   <span className="mt-1 block font-condensed text-2xl leading-none tracking-wide text-cream sm:text-[26px]">{t.boardPrices}</span>
                 </div>

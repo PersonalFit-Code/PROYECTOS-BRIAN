@@ -36,7 +36,7 @@ export default function Sheet({
   useEffect(() => {
     if (!open) return;
     const returnFocus = document.activeElement as HTMLElement | null;
-    const blocked = [document.getElementById("app-shell"), document.getElementById("dock")];
+    const blocked = [document.getElementById("app-shell")];
     blocked.forEach((el) => el?.setAttribute("inert", ""));
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -62,7 +62,7 @@ export default function Sheet({
     <AnimatePresence>
       {open ? (
         <div className="fixed inset-0 z-50 flex items-end justify-center md:items-center md:p-6" key="sheet">
-          <motion.div className="absolute inset-0 bg-tinta-900/85" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
+          <motion.div className="absolute inset-0 bg-botella-900/85" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
           <motion.div
             role="dialog"
             aria-modal="true"

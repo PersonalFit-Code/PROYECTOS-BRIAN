@@ -39,7 +39,7 @@ export default function VisitBlock({ withHeading = true }: { withHeading?: boole
                 href={BUSINESS.maps}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="pulsable inline-flex min-h-12 items-center gap-2 rounded-full bg-oro px-6 text-[15px] font-semibold text-tinta hover:bg-oro-light"
+                className="pulsable inline-flex min-h-12 items-center gap-2 rounded-full bg-oro px-6 text-[15px] font-semibold text-botella hover:bg-oro-light"
               >
                 <Navigation aria-hidden className="size-4" />
                 {m.common.directions}

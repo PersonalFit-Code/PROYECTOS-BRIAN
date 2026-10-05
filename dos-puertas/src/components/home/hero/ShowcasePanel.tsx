@@ -26,7 +26,7 @@ export default function ShowcasePanel({
         </p>
         {actions}
       </header>
-      <div className="relative overflow-hidden rounded-[22px] bg-tinta-900/50 ring-1 ring-cream/[0.08]">{children}</div>
+      <div className="relative overflow-hidden rounded-[22px] bg-botella-900/50 ring-1 ring-cream/[0.08]">{children}</div>
     </section>
   );
 }

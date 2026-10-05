@@ -45,7 +45,7 @@ export default function HeroSpotlight() {
     <>
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(900px_520px_at_18%_-8%,rgba(227,196,106,0.16),transparent_62%),radial-gradient(760px_620px_at_82%_48%,rgba(232,162,74,0.11),transparent_65%),radial-gradient(1200px_500px_at_50%_115%,rgba(41,53,79,0.7),transparent_70%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(900px_520px_at_18%_-8%,rgba(227,196,106,0.16),transparent_62%),radial-gradient(760px_620px_at_82%_48%,rgba(232,162,74,0.11),transparent_65%),radial-gradient(1200px_500px_at_50%_115%,rgba(35,64,50,0.7),transparent_70%)]"
       />
       <div
         ref={spotRef}
