@@ -6,11 +6,14 @@ import MapEmbed from "./MapEmbed";
 import Sheet from "./Sheet";
 import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { BUSINESS } from "@/data/business";
+import { useConsent } from "@/hooks/useConsent";
+import { openConsentSettings } from "@/lib/consent";
 
 /** «Cómo llegar» sin salir de la web: el mapa, la dirección y el salto a Google Maps. */
 export default function MapSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const m = useMessages();
   const lp = useLocalePath();
+  const mapsOn = useConsent()?.maps === true;
   return (
     <Sheet open={open} onClose={onClose} labelledBy="map-title" className="md:max-w-2xl">
       <p className="font-caps text-[11px] font-semibold tracking-[0.24em] text-oro-a11y uppercase">{m.common.directions}</p>
@@ -20,13 +23,26 @@ export default function MapSheet({ open, onClose }: { open: boolean; onClose: ()
       <p className="mt-1 text-sm text-cream-muted">
         {BUSINESS.address.postalCode} {BUSINESS.address.city} · {BUSINESS.address.area}
       </p>
-      <MapEmbed autoLoad title={m.visita.mapLabel} className="mt-5 aspect-[4/3] rounded-2xl md:aspect-[16/10]" />
-      <p className="mt-2 text-[11px] text-cream-faint">
-        {m.common.loadMapNote}{" "}
-        <Link href={lp("/legal/cookies")} onClick={onClose} className="underline underline-offset-2 hover:text-cream">
-          {m.common.loadMapPolicy}
-        </Link>
-      </p>
+      <MapEmbed title={m.visita.mapLabel} className="mt-5 aspect-[4/3] rounded-2xl md:aspect-[16/10]" />
+      {mapsOn ? (
+        <p className="mt-2 text-[11px] text-cream-faint">
+          {m.consent.mapsOn}{" "}
+          <button
+            type="button"
+            onClick={() => {
+              onClose();
+              openConsentSettings();
+            }}
+            className="underline underline-offset-2 hover:text-cream"
+          >
+            {m.consent.change}
+          </button>{" "}
+          ·{" "}
+          <Link href={lp("/legal/cookies")} onClick={onClose} className="underline underline-offset-2 hover:text-cream">
+            {m.common.loadMapPolicy}
+          </Link>
+        </p>
+      ) : null}
       <div className="mt-5 flex flex-wrap gap-3">
         <a
           href={BUSINESS.maps}

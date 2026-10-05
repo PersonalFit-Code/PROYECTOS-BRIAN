@@ -5,6 +5,7 @@ import { format } from "@/i18n/getMessages";
 import { localePath, type Locale } from "@/i18n/config";
 import { LEGAL_PAGES, type LegalSlug } from "@/components/layout/navItems";
 import { BUSINESS } from "@/data/business";
+import { CookieSettingsLink } from "@/components/consent/CookieConsent";
 
 /** Los huecos `[pendiente: …]` se pintan resaltados para que nadie publique sin rellenarlos. */
 function WithPending({ text }: { text: string }) {
@@ -96,6 +97,12 @@ export default function LegalDoc({ slug, locale, m }: { slug: LegalSlug; locale:
               ) : null}
             </section>
           ))}
+
+          {slug === "cookies" ? (
+            <CookieSettingsLink className="pulsable inline-flex min-h-12 items-center rounded-full bg-oro px-6 text-[15px] font-semibold text-botella hover:bg-oro-light">
+              {m.consent.footerLink}
+            </CookieSettingsLink>
+          ) : null}
 
           <div className="border-t border-cream/10 pt-8">
             <p className="font-caps text-[10px] font-semibold tracking-[0.26em] text-oro-a11y uppercase">{t.otherDocs}</p>

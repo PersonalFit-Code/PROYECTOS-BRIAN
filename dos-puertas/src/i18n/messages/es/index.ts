@@ -2,6 +2,7 @@ import type { CategoryId, PinchoId } from "@/data/menu";
 import type { DayKey } from "@/data/business";
 import type { DoId } from "@/data/denominaciones";
 import type { PhotoId } from "@/data/photos";
+import type { CamareroId } from "@/data/camarero";
 
 const common = {
   tagline: "El sabor auténtico de Los Vinos desde 1974",
@@ -402,6 +403,165 @@ const footer = {
   credits: "Propuesta de web · fotos e información pendientes de validar con la casa",
 };
 
+const consent = {
+  title: "Cookies, solo si tú quieres",
+  settingsTitle: "Configurar cookies",
+  text: "Aquí no hay cookies de analítica ni de publicidad. Lo único que las usa es el mapa de Google, y no se carga hasta que lo aceptes.",
+  policy: "Política de cookies",
+  accept: "Aceptar todas",
+  reject: "Rechazar",
+  configure: "Configurar",
+  save: "Guardar mi selección",
+  close: "Cerrar sin cambiar nada",
+  necessary: {
+    title: "Necesarias",
+    always: "Siempre activas",
+    text: "Guardan en tu navegador lo que eliges aquí, para no preguntártelo en cada página. No salen de tu dispositivo.",
+  },
+  maps: {
+    title: "Mapa de Google",
+    text: "Carga Google Maps para ver cómo llegar sin salir de la web. Al cargarlo, Google puede instalar sus propias cookies.",
+  },
+  footerLink: "Configurar cookies",
+  mapsOn: "Mapa de Google cargado con tu permiso.",
+  change: "Cambiar",
+};
+
+const camarero = {
+  open: "Pregunta al camarero",
+  title: "El camarero",
+  subtitle: "Virtual · respuestas de la casa",
+  close: "Cerrar el chat",
+  greeting: "¡Boas! Soy el camarero virtual del Dos Puertas. Pregúntame lo que quieras de la casa o toca una de estas preguntas.",
+  nowLine: "Ahora mismo: {label}{detail}.",
+  more: "Ver todas las preguntas",
+  others: "Otras preguntas",
+  placeholder: "Escribe tu pregunta…",
+  send: "Enviar",
+  typing: "El camarero está escribiendo…",
+  fallback: "Eso no lo tengo apuntado en la libreta. Pregúntalo en la barra o llámanos al {phone} y te lo contamos.",
+  note: "Respuestas ya escritas con la información de esta web. Lo que escribes no sale de tu móvil.",
+  pending: "Pendiente de confirmar con la casa",
+  log: "Conversación con el camarero",
+  you: "Tú",
+  actions: {
+    call: "Llamar",
+    maps: "Abrir en Google Maps",
+    carta: "Ver la carta",
+    vinos: "Ver los vinos",
+    historia: "Leer la historia",
+    visita: "Horario y mapa",
+    preguntas: "Más preguntas",
+  },
+  items: {
+    ahora: {
+      q: "¿Estáis abiertos ahora?",
+      a: "Abrimos de miércoles a domingo, de 19:30 a 00:00. Lunes y martes descansamos.",
+      keys: ["abiert", "ahora", "hoy", "cerrad", "abris hoy"],
+    },
+    horario: {
+      q: "¿Qué horario tenéis?",
+      a: "De miércoles a domingo, de 19:30 a 00:00. Lunes y martes descansamos.",
+      keys: ["horari", "hora", "abris", "abren", "cierra", "cerrais", "dias", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo", "fin de semana"],
+    },
+    donde: {
+      q: "¿Dónde estáis?",
+      a: "En la Rúa dos Fornos, 7, en pleno casco histórico de Ourense y a dos pasos de la catedral: la zona de Os Viños. Busca el rótulo verde de la fachada.",
+      keys: ["donde", "direccion", "ubicacion", "llegar", "calle", "mapa", "fornos", "catedral", "zona"],
+    },
+    telefono: {
+      q: "¿Cómo os llamo?",
+      a: "Al {phone}, en horario de apertura.",
+      keys: ["telefono", "llamar", "llamo", "contacto", "numero", "whatsapp", "movil de"],
+    },
+    reservar: {
+      q: "¿Se puede reservar?",
+      a: "No. Esto es un bar de barra: se llega, se pide y se tapea, por orden de llegada.",
+      keys: ["reserv", "grupo", "cumple", "celebra"],
+    },
+    mesas: {
+      q: "¿Hay mesas para sentarse?",
+      a: "No: aquí se tapea de pie, en la barra, como desde 1974. Es parte de la gracia.",
+      keys: ["mesa", "sentar", "silla", "taburete", "de pie"],
+    },
+    gente: {
+      q: "¿Cuándo hay más gente?",
+      a: "Según los clientes, en hora punta se pone hasta arriba, sobre todo las noches del fin de semana. Eso sí: hablan de una barra rápida y bien atendida.",
+      keys: ["gente", "llen", "cola", "esperar", "espera", "hora punta", "tranquil", "ambiente"],
+    },
+    recomienda: {
+      q: "¿Qué me recomiendas?",
+      a: "Los cuatro de la casa: chicharrones, «calamares», tortilla y empanadillas. Si es tu primera vez, empieza por el de calamares y el de chicharrones, que son los que más nombran las reseñas. Y como dicen los clientes, con dos o tres pinchos vas cenado.",
+      keys: ["recomiend", "pincho", "comer", "especialidad", "probar", "carta", "empanadill", "rixon", "montad", "bocadill", "racion", "cenar", "tapa"],
+    },
+    precio: {
+      q: "¿Cuánto cuesta un pincho?",
+      a: "Según la pizarra de la puerta, 2 € el pincho y 4 € el bocadillo.",
+      keys: ["precio", "cuesta", "cuanto", "caro", "barato", "euro", "vale un", "valen"],
+    },
+    calamares: {
+      q: "¿Los «calamares» son calamares?",
+      a: "Casi: son chipirones. El pincho nació en los 80 de una confusión con un bollito de panceta tan crujiente que los turistas lo pedían como «el de calamares», y el nombre se quedó. La familia cuenta que a Amancio Ortega le encantaron.",
+      keys: ["calamar", "chipiron", "bollito", "panceta"],
+    },
+    chicharrones: {
+      q: "¿Cómo son los chicharrones?",
+      a: "Crujientes, con la receta tradicional y el pincho más buscado de la barra. Llegaron en los 90 y se hacían en casa cada día. Una clienta lo resume así: «chicharrones ricos, nada aceitosos».",
+      keys: ["chicharr"],
+    },
+    tortilla: {
+      q: "¿La tortilla lleva cebolla?",
+      a: "No. Al principio la llevaba, pero mucha gente protestaba y desde los años 90 se hace sin.",
+      keys: ["tortill", "ceboll", "huevo", "patata"],
+    },
+    vinos: {
+      q: "¿Qué vinos tenéis?",
+      a: "Vino gallego por copas, de las denominaciones de origen de Galicia, para acompañar la ronda. Las referencias concretas están pendientes de confirmar con la casa.",
+      keys: ["vino", "albarin", "godello", "mencia", "ribeiro", "ribeira", "valdeorras", "monterrei", "copa", "tinto", "blanco", "denominacion"],
+    },
+    canas: {
+      q: "¿Hay cañas?",
+      a: "¡Claro! La caña de siempre, bien tirada, para acompañar la ronda. Un cliente lo dice así: «cañas y pinchos buenísimos».",
+      keys: ["cana", "cerveza", "birra", "beber", "bebida", "refresco"],
+    },
+    pagar: {
+      q: "¿Se puede pagar con tarjeta?",
+      a: "Sí: efectivo, tarjeta y pago con el móvil.",
+      keys: ["tarjeta", "pagar", "pago", "efectivo", "bizum", "cobr"],
+    },
+    llevar: {
+      q: "¿Se puede pedir para llevar?",
+      a: "Las fichas del bar en internet dicen que sí. Mejor pregúntalo en la barra o llámanos.",
+      keys: ["llevar", "domicilio", "encargo", "encargar", "glovo", "pedido"],
+    },
+    alergenos: {
+      q: "¿Tenéis información de alérgenos?",
+      a: "Pregunta en la barra antes de pedir y te decimos qué lleva cada pincho.",
+      keys: ["alerg", "celiac", "gluten", "intoleran", "lactosa", "vegan", "vegetarian", "sin gluten"],
+    },
+    perro: {
+      q: "¿Puedo ir con mi perro?",
+      a: "Varios clientes cuentan en sus reseñas que entraron con su perro sin problema; a uno hasta le pusieron agua.",
+      keys: ["perr", "mascota", "animal"],
+    },
+    historia: {
+      q: "¿Desde cuándo está el bar?",
+      a: "Desde 1974. Lo abrieron Irene Fernández y José García al volver de Suiza, cuando en la rúa dos Fornos solo estaba O Campante. Hoy lo llevan las hermanas Marisol y Marisa López.",
+      keys: ["historia", "desde cuando", "cuantos anos", "antiguo", "1974", "fundad", "abrio", "duen", "quien lleva", "familia", "marisa", "marisol"],
+    },
+    nombre: {
+      q: "¿Por qué se llama Dos Puertas?",
+      a: "Porque las tiene: Irene y José abrieron el local en 1974 con dos puertas para facilitar el paso, y así se entra por una y se sale por la otra sin parar la barra.",
+      keys: ["por que se llama", "nombre", "puertas", "puerta"],
+    },
+    famosos: {
+      q: "¿Ha venido alguien famoso?",
+      a: "La familia recuerda que estuvo Amancio Ortega y que le encantaron los «calamares». También venían mucho Fran, el jugador del Deportivo, la cantante Cristina Pato y políticos como Feijóo o Santalices.",
+      keys: ["famos", "amancio", "ortega", "conocid", "cristina pato", "feijoo", "futbol", "deportivo"],
+    },
+  } satisfies Record<CamareroId, { q: string; a: string; keys: string[] }>,
+};
+
 const legal = {
   kicker: "Legal",
   draftNotice:
@@ -496,6 +656,12 @@ const legal = {
           ],
         },
         {
+          title: "El camarero virtual",
+          body: [
+            "El camarero virtual funciona entero en tu navegador, con respuestas ya escritas. Lo que escribes no se envía a ningún servidor ni se guarda: desaparece al cerrar la página.",
+          ],
+        },
+        {
           title: "Datos técnicos del alojamiento",
           body: [
             "La web está alojada en Vercel Inc. Como cualquier servidor, registra datos técnicos de cada visita (dirección IP, navegador, página solicitada y hora) para que la web funcione y sea segura. La base legal es el interés legítimo (artículo 6.1.f del RGPD) y esos registros se conservan el tiempo mínimo que fija el proveedor.",
@@ -505,7 +671,7 @@ const legal = {
         {
           title: "El mapa de Google",
           body: [
-            "El mapa solo se carga cuando lo pides: al pulsar «Cómo llegar» o «Cargar mapa». En ese momento tu navegador se conecta con Google, que actúa como responsable independiente y puede usar cookies (política de Google: policies.google.com/privacy). Si no lo cargas, no se envía nada a Google.",
+            "El mapa solo se carga si lo aceptas: en el aviso de cookies, en «Configurar cookies» o con el botón «Cargar mapa». Entonces tu navegador se conecta con Google, que actúa como responsable independiente y puede usar cookies (política de Google: policies.google.com/privacy). Si no lo aceptas, no se envía nada a Google.",
           ],
         },
         {
@@ -536,34 +702,35 @@ const legal = {
         {
           title: "En resumen",
           body: [
-            "Esta web no instala cookies al entrar: ni propias ni de terceros, ni de analítica ni de publicidad. Por eso no te pedimos permiso con un aviso nada más llegar.",
-            "Las tipografías se sirven desde la propia web, sin conectar con Google Fonts.",
+            "Al entrar te preguntamos con un aviso. Hasta que eliges, la web no carga nada que instale cookies, ni propias ni de terceros. Si rechazas, todo funciona igual salvo el mapa incrustado: tienes la dirección y el enlace para abrirla en Google Maps.",
+            "No usamos cookies de analítica ni de publicidad. Las tipografías se sirven desde la propia web, sin conectar con Google Fonts.",
           ],
         },
         {
-          title: "Almacenamiento local",
+          title: "Tu elección",
           body: [
-            "Si pulsas «Cargar mapa» en la página de Visítanos, guardamos en tu navegador (almacenamiento local, clave «dp-mapa») que ya has aceptado cargarlo, para no volver a preguntarte. Es un dato técnico que no sale de tu dispositivo y que solo existe porque tú lo has pedido.",
+            "Lo que eliges en el aviso se guarda en tu navegador (almacenamiento local, clave «dp-consent»): si aceptas o no el mapa y la fecha. Es un dato técnico, necesario para respetar tu decisión, que no sale de tu dispositivo. Te lo volvemos a preguntar al cabo de un año.",
+            "Puedes cambiar de opinión cuando quieras con «Configurar cookies», al pie de cada página o en el botón de aquí abajo.",
           ],
         },
         {
           title: "Cookies de Google Maps",
           body: [
-            "Al cargar el mapa, Google puede instalar sus propias cookies, por ejemplo para recordar preferencias o medir el uso del mapa. Solo ocurre cuando pides el mapa («Cómo llegar» o «Cargar mapa»). Más información en policies.google.com/technologies/cookies.",
+            "Solo si aceptas el mapa (en el aviso, en «Configurar cookies» o con el botón «Cargar mapa»), tu navegador se conecta con Google, que puede instalar sus propias cookies, por ejemplo para recordar preferencias o medir el uso del mapa. Google actúa como responsable independiente: policies.google.com/technologies/cookies.",
           ],
         },
         {
           title: "Qué se guarda",
           body: [],
           list: [
-            "dp-mapa · esta web · recuerda que aceptaste cargar el mapa · hasta que lo borres",
-            "Cookies de Google · Google LLC · funcionamiento del mapa · las que indique Google · solo cuando pides el mapa",
+            "dp-consent · esta web · tu elección sobre las cookies · 12 meses",
+            "Cookies de Google · Google LLC · funcionamiento del mapa · las que indique Google · solo si aceptas el mapa",
           ],
         },
         {
-          title: "Cómo borrarlas",
+          title: "Cómo retirar el permiso y borrarlas",
           body: [
-            "Puedes borrar las cookies y el almacenamiento local desde los ajustes de tu navegador (Chrome, Safari, Firefox o Edge). Si lo haces, el mapa volverá a pedirte permiso antes de cargarse.",
+            "Para retirar el permiso, entra en «Configurar cookies» y desactiva el mapa: deja de cargarse al momento. Las cookies que Google ya hubiera instalado se borran desde los ajustes de tu navegador (Chrome, Safari, Firefox o Edge).",
           ],
         },
       ],
@@ -577,5 +744,5 @@ const notFound = {
   back: "Volver a la barra",
 };
 
-const es = { common, nav, cover, hero, manifesto, barra, vinos, historia, social, interior, visita, faq, footer, legal, notFound };
+const es = { common, nav, cover, hero, manifesto, barra, vinos, historia, social, interior, visita, faq, footer, consent, camarero, legal, notFound };
 export default es;

@@ -624,3 +624,44 @@ body::before {
     animation: led 5s ease-in-out infinite;
   }
 }
+
+/* El camarero virtual: el botón se aparta mientras está el logo de la portada o el aviso de
+   cookies (no tapar la primera impresión ni competir con la elección). */
+.boton-camarero {
+  transition:
+    opacity 0.4s var(--ease-out-expo),
+    transform 0.4s var(--ease-out-expo),
+    visibility 0s;
+}
+:root[data-portada] .boton-camarero,
+:root[data-aviso-cookies] .boton-camarero {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 16px, 0);
+  pointer-events: none;
+  transition:
+    opacity 0.3s var(--ease-out-expo),
+    transform 0.3s var(--ease-out-expo),
+    visibility 0s 0.3s;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes escribiendo {
+    0%,
+    60%,
+    100% {
+      transform: translate3d(0, 0, 0);
+      opacity: 0.5;
+    }
+    30% {
+      transform: translate3d(0, -4px, 0);
+      opacity: 1;
+    }
+  }
+  .punto-escribiendo {
+    animation: escribiendo 1s ease-in-out infinite;
+  }
+}
+/* El campo del chat ya enseña el foco con el anillo de su píldora (`focus-within`). */
+.campo-camarero:focus-visible {
+  outline: none;
+}

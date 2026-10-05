@@ -9,6 +9,8 @@ import { SITE_URL, serializeJsonLd } from "@/lib/seo";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ClientBoot from "@/components/layout/ClientBoot";
+import CookieConsent from "@/components/consent/CookieConsent";
+import Camarero from "@/components/camarero/Camarero";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -101,12 +103,16 @@ export default async function LocaleLayout({ children, params }: Readonly<{ chil
           >
             {messages.common.skipToContent}
           </a>
+          {/* El aviso va antes que la web: es lo primero que alcanza el tabulador. */}
+          <CookieConsent />
           <ClientBoot />
           <div id="app-shell">
             <Header />
             <main id="main">{children}</main>
             <Footer />
           </div>
+          {/* Fuera de #app-shell: en el móvil el chat deja la web inerte por detrás. */}
+          <Camarero />
         </LocaleProvider>
       </body>
     </html>

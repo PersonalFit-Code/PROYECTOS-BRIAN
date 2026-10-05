@@ -1,44 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { BUSINESS } from "@/data/business";
+import { useConsent } from "@/hooks/useConsent";
+import { saveConsent } from "@/lib/consent";
 import { cn } from "@/lib/cn";
 
 /*
- * Consentimiento del mapa: Google Maps instala cookies de terceros, así que el iframe NO se carga
- * hasta que la persona lo pide. La elección se recuerda en localStorage («dp-mapa»), envuelto en
- * try/catch porque en modo privado o con datos bloqueados puede fallar.
+ * Google Maps instala cookies de terceros: el iframe NO se carga hasta que hay consentimiento para
+ * el mapa (aviso de cookies, «Configurar cookies» o el botón «Cargar mapa» de aquí). Ni siquiera
+ * «Cómo llegar» se lo salta: sin permiso, enseña esta misma fachada.
  */
-const KEY = "dp-mapa";
-const EVENT = "dp-mapa-change";
-
-function subscribe(cb: () => void) {
-  window.addEventListener(EVENT, cb);
-  window.addEventListener("storage", cb);
-  return () => {
-    window.removeEventListener(EVENT, cb);
-    window.removeEventListener("storage", cb);
-  };
-}
-function readConsent() {
-  try {
-    return window.localStorage.getItem(KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-function grantConsent() {
-  try {
-    window.localStorage.setItem(KEY, "1");
-  } catch {
-    /* sin almacenamiento: el mapa se carga igual en esta visita */
-  }
-  window.dispatchEvent(new Event(EVENT));
-}
 
 /* Calles sugeridas: fondo decorativo mientras no hay mapa (no es un plano real). */
 function Calles() {
@@ -94,13 +70,11 @@ function MapaVivo({ title }: { title: string }) {
   );
 }
 
-/** Mapa de Google en tema oscuro, con fachada de consentimiento hasta que se pide cargarlo. */
-export default function MapEmbed({ title, className, autoLoad = false }: { title: string; className?: string; autoLoad?: boolean }) {
+/** Mapa de Google en tema oscuro, con fachada de consentimiento hasta que se acepta el mapa. */
+export default function MapEmbed({ title, className }: { title: string; className?: string }) {
   const m = useMessages();
   const lp = useLocalePath();
-  const stored = useSyncExternalStore(subscribe, readConsent, () => false);
-  /* `autoLoad`: la persona ha pedido el mapa expresamente («Cómo llegar»). */
-  const consent = autoLoad || stored;
+  const consent = useConsent()?.maps === true;
 
   return (
     <div className={cn("relative overflow-hidden bg-botella-800", className)}>
@@ -114,7 +88,7 @@ export default function MapEmbed({ title, className, autoLoad = false }: { title
           </span>
           <button
             type="button"
-            onClick={grantConsent}
+            onClick={() => saveConsent({ maps: true })}
             className="pulsable relative inline-flex min-h-11 items-center rounded-full bg-cream/10 px-5 text-sm font-semibold text-cream ring-1 ring-cream/20 hover:bg-cream/15"
           >
             {m.common.loadMap}

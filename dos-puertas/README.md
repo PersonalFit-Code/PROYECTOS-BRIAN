@@ -36,6 +36,12 @@ La navegación va en el menú lateral curvo (`src/components/ui/curved-menu.tsx`
 - Textos: `src/i18n/messages/es/index.ts` (nada de literales en componentes; para añadir gallego o
   inglés basta con un fichero más y una entrada en `src/i18n/config.ts`).
 - Colores y tipografías: `src/app/globals.css` (`@theme`).
+- Cookies: `src/lib/consent.ts` (la elección) y `src/components/consent/CookieConsent.tsx` (el
+  aviso). Nada que instale cookies se carga antes de aceptar; hoy solo el mapa de Google. Un
+  servicio nuevo (analítica, vídeo…) = una categoría más ahí, subir `VERSION` y contarlo en la
+  política de cookies.
+- Camarero virtual: preguntas y orden en `src/data/camarero.ts`; textos y palabras clave en los
+  mensajes (`camarero`). Funciona en el navegador, sin IA ni servidor.
 - Fuentes de los datos: `BRIEF.md`.
 
 ## Pendiente de confirmar con Marisa
@@ -54,4 +60,5 @@ La navegación va en el menú lateral curvo (`src/components/ui/curved-menu.tsx`
       `barra-anos-70.webp` es de La Voz de Galicia (pie original: «Irene, dentro de la barra del Dos
       Puertas, a finales de los años setenta»); `barra-dos-puertas.webp`, del Faro de Vigo según
       Brian: falta el enlace al artículo (`src/data/photos.ts`).
-- [ ] Confirmar lo marcado en Preguntas: perros, para llevar, alérgenos y precios.
+- [ ] Confirmar lo marcado en Preguntas (y en el camarero): perros, para llevar, alérgenos y precios.
+- [ ] Foto de los carteles negros del interior: hoy llevan frases de reseñas (`src/data/carteles.ts`).

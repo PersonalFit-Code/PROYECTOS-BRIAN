@@ -12,6 +12,7 @@ import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { format } from "@/i18n/getMessages";
 import { BUSINESS } from "@/data/business";
 import { LEGAL_PAGES, NAV_ITEMS } from "./navItems";
+import { CookieSettingsLink } from "@/components/consent/CookieConsent";
 
 export default function Footer() {
   const m = useMessages();
@@ -112,6 +113,9 @@ export default function Footer() {
               </Link>
             </li>
           ))}
+          <li>
+            <CookieSettingsLink className="inline-flex min-h-8 items-center hover:text-cream">{m.consent.footerLink}</CookieSettingsLink>
+          </li>
         </ul>
       </div>
       <MapSheet open={mapOpen} onClose={() => setMapOpen(false)} />

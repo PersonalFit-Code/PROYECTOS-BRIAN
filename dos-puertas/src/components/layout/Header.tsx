@@ -11,6 +11,7 @@ import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { BUSINESS } from "@/data/business";
 import { cn } from "@/lib/cn";
 import { LEGAL_PAGES, NAV_ITEMS, isActive } from "./navItems";
+import { CookieSettingsLink } from "@/components/consent/CookieConsent";
 
 /** Cabecera mínima y centrada: la marca, el estado, «Llamar» y el botón del menú lateral con todas las secciones. */
 export default function Header() {
@@ -55,6 +56,9 @@ export default function Header() {
             </Link>
           </li>
         ))}
+        <li>
+          <CookieSettingsLink className="inline-flex min-h-8 items-center hover:text-cream">{m.consent.footerLink}</CookieSettingsLink>
+        </li>
       </ul>
     </div>
   );
