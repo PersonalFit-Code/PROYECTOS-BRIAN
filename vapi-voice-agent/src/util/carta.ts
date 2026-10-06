@@ -1,9 +1,8 @@
 /**
  * Busquedas sobre la carta de un negocio.
  *
- * Duplica por ahora la funcion de src/restaurant.ts; la diferencia es que la
- * carta entra por parametro en lugar de leerse de la constante del modulo.
- * Cuando se complete el refactor a Business, esta sera la unica version.
+ * La carta entra por parametro, en lugar de leerse de una constante del
+ * modulo: asi la misma busqueda sirve para cualquier negocio.
  */
 
 import type { MenuItem } from "../db/types";

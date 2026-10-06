@@ -2,14 +2,14 @@
  * Calculo del total del pedido. Vive en el servidor a proposito: un modelo de
  * lenguaje sumando precios de viva voz se equivoca, y aqui el importe sale de
  * la misma carta que el agente ha leido al cliente.
+ *
+ * Todo entra por parametro: el negocio decide la carta y los gastos de envio,
+ * asi que el mismo calculo sirve para cualquier local.
  */
 
-import {
-  buscarPlato,
-  formatearEuros,
-  restaurante,
-  type MenuItem,
-} from "./restaurant";
+import type { Business, MenuItem } from "./db/types";
+import { buscarPlato } from "./util/carta";
+import { formatearEuros } from "./util/format";
 
 export type TipoEntrega = "reparto" | "recogida";
 
@@ -61,6 +61,7 @@ function normalizarTipoEntrega(valor: unknown): TipoEntrega {
 }
 
 export function calcularTotal(
+  business: Business,
   lineas: readonly LineaPedido[],
   tipoEntregaBruto: unknown,
 ): TotalPedido {
@@ -71,9 +72,12 @@ export function calcularTotal(
   const tipoEntrega = normalizarTipoEntrega(tipoEntregaBruto);
 
   const calculadas: LineaCalculada[] = lineas.map((linea) => {
-    const plato: MenuItem | undefined = buscarPlato(String(linea.plato ?? ""));
+    const plato: MenuItem | undefined = buscarPlato(
+      business.carta,
+      String(linea.plato ?? ""),
+    );
     if (!plato) {
-      const disponibles = restaurante.carta.map((p) => p.nombre).join(", ");
+      const disponibles = business.carta.map((p) => p.nombre).join(", ");
       throw new PedidoInvalidoError(
         `"${linea.plato}" no esta en la carta. Solo hay: ${disponibles}.`,
       );
@@ -94,11 +98,11 @@ export function calcularTotal(
 
   const envioGratis =
     tipoEntrega === "recogida" ||
-    subtotalCentimos >= restaurante.entrega.envioGratisDesdeCentimos;
+    subtotalCentimos >= business.entrega.envioGratisDesdeCentimos;
 
   const gastosEnvioCentimos = envioGratis
     ? 0
-    : restaurante.entrega.gastosEnvioCentimos;
+    : business.entrega.gastosEnvioCentimos;
 
   return {
     lineas: calculadas,
@@ -115,7 +119,10 @@ export function calcularTotal(
  * Vapi entrega el resultado de la herramienta al modelo como texto, asi que
  * sale mas fiable una frase ya redactada que un JSON que el modelo reinterprete.
  */
-export function describirTotal(total: TotalPedido): string {
+export function describirTotal(
+  business: Business,
+  total: TotalPedido,
+): string {
   const lineas = total.lineas
     .map(
       (linea) =>
@@ -130,7 +137,7 @@ export function describirTotal(total: TotalPedido): string {
     partes.push("Recogida en el local, sin gastos de envio.");
   } else if (total.envioGratis) {
     partes.push(
-      `Envio gratis por superar ${formatearEuros(restaurante.entrega.envioGratisDesdeCentimos)}.`,
+      `Envio gratis por superar ${formatearEuros(business.entrega.envioGratisDesdeCentimos)}.`,
     );
   } else {
     partes.push(

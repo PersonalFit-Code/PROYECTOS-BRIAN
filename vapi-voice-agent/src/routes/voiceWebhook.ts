@@ -2,6 +2,8 @@ import { Router, type Request, type Response } from "express";
 
 import { buildAssistant } from "../assistant";
 import { config } from "../config";
+import { fallbackBusiness } from "../db/fallbackBusiness";
+import { TOOL_CALCULAR_TOTAL } from "../tools/names";
 import {
   PedidoInvalidoError,
   calcularTotal,
@@ -87,11 +89,15 @@ function ejecutarHerramienta(
   argumentos: Record<string, unknown>,
 ): string {
   switch (nombre) {
-    case "calcular_total": {
+    case TOOL_CALCULAR_TOTAL: {
       try {
         const articulos = argumentos.articulos as LineaPedido[] | undefined;
-        const total = calcularTotal(articulos ?? [], argumentos.entrega);
-        return describirTotal(total);
+        const total = calcularTotal(
+          fallbackBusiness,
+          articulos ?? [],
+          argumentos.entrega,
+        );
+        return describirTotal(fallbackBusiness, total);
       } catch (error) {
         if (error instanceof PedidoInvalidoError) {
           return `No se ha podido calcular el total: ${error.message}`;
@@ -140,7 +146,9 @@ voiceWebhookRouter.post("/voice-webhook", (req: Request, res: Response) => {
     case "assistant-request": {
       // Vapi corta esta peticion a los 7,5 segundos, asi que la respuesta se
       // construye en memoria: sin consultas a disco, red ni base de datos.
-      const respuesta: VapiAssistantResponse = { assistant: buildAssistant() };
+      const respuesta: VapiAssistantResponse = {
+        assistant: buildAssistant(fallbackBusiness),
+      };
       res.json(respuesta);
       return;
     }

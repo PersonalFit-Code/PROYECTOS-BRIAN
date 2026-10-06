@@ -2,20 +2,20 @@
  * Configuracion del asistente de voz que este servidor devuelve a Vapi cuando
  * recibe un mensaje "assistant-request".
  *
- * El System Prompt se genera a partir de src/restaurant.ts, de modo que la
- * carta, los precios y los horarios que el agente dice en voz alta son
- * exactamente los que usa el calculo del total.
+ * Todo sale del Business que entra por parametro: el mismo System Prompt sirve
+ * para una pizzeria, una taperia o cualquier otro local, y para cambiar de
+ * negocio basta con pasar otro Business. Como la carta y los precios vienen
+ * del mismo objeto que usa el calculo del total, lo que el agente dice en voz
+ * alta y lo que se cobra no pueden descuadrarse.
  */
 
 import { config } from "./config";
-import {
-  formatearEuros,
-  momentoActual,
-  restaurante,
-} from "./restaurant";
+import type { Business } from "./db/types";
+import { TOOL_CALCULAR_TOTAL } from "./tools/names";
+import { formatearEuros, momentoActual } from "./util/format";
 
-function cartaEnTexto(): string {
-  return restaurante.carta
+function cartaEnTexto(business: Business): string {
+  return business.carta
     .map(
       (plato) =>
         `- ${plato.nombre} (${plato.descripcion}): ${formatearEuros(plato.precioCentimos)}. Identificador para la herramienta: "${plato.id}".`,
@@ -23,18 +23,34 @@ function cartaEnTexto(): string {
     .join("\n");
 }
 
-export function buildSystemPrompt(): string {
-  const { nombre, ciudad, direccion, zonaReparto, horario, entrega, pago } =
-    restaurante;
+export function buildSystemPrompt(business: Business): string {
+  const {
+    nombre,
+    ciudad,
+    direccion,
+    zonaReparto,
+    zonaHoraria,
+    tipoLabel,
+    categorias,
+    categoriasSingular,
+    carta,
+    horario,
+    entrega,
+    pago,
+  } = business;
+
+  // acciones es un array y con noUncheckedIndexedAccess el primer elemento
+  // puede ser undefined, asi que se deja un valor de respaldo.
+  const accion = business.acciones[0] ?? "pedidos";
 
   return `# QUIEN ERES
 
-Eres el asistente telefonico de ${nombre}, una pizzeria de ${ciudad}.
-Atiendes llamadas para tomar pedidos de pizza, a domicilio o para recoger.
+Eres el asistente telefonico de ${nombre}, ${tipoLabel} de ${ciudad}.
+Atiendes llamadas para tomar ${accion}, a domicilio o para recoger.
 Hablas por telefono con una persona real: eres amable, rapido y resolutivo, como
 un buen camarero que coge el telefono en plena hora punta.
 
-El momento actual es: ${momentoActual()} (hora de ${ciudad}).
+El momento actual es: ${momentoActual(zonaHoraria)} (hora de ${ciudad}).
 
 # COMO HABLAS
 
@@ -52,12 +68,13 @@ El momento actual es: ${momentoActual()} (hora de ${ciudad}).
 
 # LA CARTA
 
-Estos son los UNICOS tres platos que se pueden pedir:
+Estos son los UNICOS ${carta.length} platos que se pueden pedir:
 
-${cartaEnTexto()}
+${cartaEnTexto(business)}
 
-No hay bebidas, postres, entrantes, extras ni ingredientes a mayores. Si piden
-cualquier otra cosa, dilo con naturalidad y recuerda las tres pizzas que hay.
+No hay nada fuera de la carta: ni bebidas, ni postres, ni extras.
+Si piden cualquier otra cosa, dilo con naturalidad y recuerda las
+${carta.length} opciones de ${categorias} que hay.
 No inventes platos, tamanos, medias raciones, promociones ni descuentos.
 
 # HORARIOS
@@ -88,8 +105,9 @@ Antes de tomar un pedido, comprueba la hora actual que tienes arriba:
 Sigue estos pasos en orden. No te salgas del orden ni te adelantes.
 
 1. Saluda, di el nombre del restaurante y pregunta que le pongo.
-2. Toma el pedido plato a plato. De cada uno confirma cual es y cuantas
-   unidades. Solo platos de la carta.
+2. Toma el pedido ${categoriasSingular} a ${categoriasSingular}.
+   De cada una confirma cual es y cuantas unidades.
+   Solo lo que haya en la carta.
 3. Cuando termine de pedir, repite el pedido completo en voz alta (platos y
    cantidades) y pregunta si esta correcto. Si corrige algo, vuelve a repetirlo.
 4. Pregunta si es para recoger en el local o para llevar a domicilio.
@@ -136,7 +154,7 @@ siquiera para un solo plato.
  * Herramienta que el agente usa para calcular el importe. Vapi la expone al
  * modelo y envia la llamada a este mismo servidor como mensaje "tool-calls".
  */
-function buildTools() {
+function buildTools(business: Business) {
   return [
     {
       type: "function" as const,
@@ -148,7 +166,7 @@ function buildTools() {
         },
       ],
       function: {
-        name: "calcular_total",
+        name: TOOL_CALCULAR_TOTAL,
         description:
           "Calcula el importe de un pedido a partir de los platos de la carta y el tipo de entrega. Devuelve el desglose por plato, el subtotal, los gastos de envio y el total a pagar. Hay que usarla siempre antes de decir un importe al cliente.",
         parameters: {
@@ -163,7 +181,7 @@ function buildTools() {
                   plato: {
                     type: "string" as const,
                     description: "Identificador del plato en la carta.",
-                    enum: restaurante.carta.map((plato) => plato.id),
+                    enum: business.carta.map((plato) => plato.id),
                   },
                   cantidad: {
                     type: "integer" as const,
@@ -195,19 +213,21 @@ function buildTools() {
  * de Vapi; estos son valores razonables para castellano, pero hay que
  * ajustarlos a los proveedores disponibles.
  */
-export function buildAssistant() {
+export function buildAssistant(business: Business) {
   return {
-    name: `Asistente de ${restaurante.nombre}`,
+    name: `Asistente de ${business.nombre}`,
 
-    firstMessage: `${restaurante.nombre}, buenas. ¿Que le pongo?`,
+    firstMessage: `${business.nombre}, buenas. ¿Que le pongo?`,
     firstMessageMode: "assistant-speaks-first" as const,
 
     model: {
       provider: "anthropic" as const,
       model: config.vapiModel,
       temperature: 0.3,
-      messages: [{ role: "system" as const, content: buildSystemPrompt() }],
-      tools: buildTools(),
+      messages: [
+        { role: "system" as const, content: buildSystemPrompt(business) },
+      ],
+      tools: buildTools(business),
     },
 
     transcriber: {
