@@ -207,13 +207,29 @@ function buildTools(business: Business) {
 }
 
 /**
+ * URL a la que Vapi mandara los tool-calls. Lleva el negocio en el query solo
+ * cuando la llamada venia identificada; sin identificador se deja la URL
+ * limpia y el servidor resolvera el negocio por defecto.
+ */
+function urlDelWebhook(businessId?: string): string {
+  const base = `${config.publicServerUrl}/voice-webhook`;
+  const id = businessId?.trim() ?? "";
+  return id ? `${base}?business=${encodeURIComponent(id)}` : base;
+}
+
+/**
  * Asistente transitorio: Vapi lo usa para esta llamada y no lo guarda.
+ *
+ * businessId es el identificador tal como llego en la URL. Se arrastra hasta
+ * el server.url que se le devuelve a Vapi para que los tool-calls de esta
+ * llamada vuelvan al mismo negocio: sin el, una llamada de un local acabaria
+ * calculando totales con la carta de otro.
  *
  * Voz y transcriptor dependen de los proveedores que tenga activados la cuenta
  * de Vapi; estos son valores razonables para castellano, pero hay que
  * ajustarlos a los proveedores disponibles.
  */
-export function buildAssistant(business: Business) {
+export function buildAssistant(business: Business, businessId?: string) {
   return {
     name: `Asistente de ${business.nombre}`,
 
@@ -257,7 +273,7 @@ export function buildAssistant(business: Business) {
     ...(config.publicServerUrl
       ? {
           server: {
-            url: `${config.publicServerUrl}/voice-webhook`,
+            url: urlDelWebhook(businessId),
             ...(config.vapiServerSecret
               ? { secret: config.vapiServerSecret }
               : {}),

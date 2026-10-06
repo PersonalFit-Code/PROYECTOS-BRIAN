@@ -2,7 +2,8 @@ import { Router, type Request, type Response } from "express";
 
 import { buildAssistant } from "../assistant";
 import { config } from "../config";
-import { fallbackBusiness } from "../db/fallbackBusiness";
+import { getBusiness } from "../db/businesses";
+import type { Business } from "../db/types";
 import { TOOL_CALCULAR_TOTAL } from "../tools/names";
 import {
   PedidoInvalidoError,
@@ -85,6 +86,7 @@ function normalizarLlamadas(message: VapiMessage): LlamadaHerramienta[] {
  * tambien cuando hay error: el agente debe poder leerla en voz alta.
  */
 function ejecutarHerramienta(
+  business: Business,
   nombre: string,
   argumentos: Record<string, unknown>,
 ): string {
@@ -92,12 +94,8 @@ function ejecutarHerramienta(
     case TOOL_CALCULAR_TOTAL: {
       try {
         const articulos = argumentos.articulos as LineaPedido[] | undefined;
-        const total = calcularTotal(
-          fallbackBusiness,
-          articulos ?? [],
-          argumentos.entrega,
-        );
-        return describirTotal(fallbackBusiness, total);
+        const total = calcularTotal(business, articulos ?? [], argumentos.entrega);
+        return describirTotal(business, total);
       } catch (error) {
         if (error instanceof PedidoInvalidoError) {
           return `No se ha podido calcular el total: ${error.message}`;
@@ -113,17 +111,49 @@ function ejecutarHerramienta(
   }
 }
 
-function handleToolCalls(message: VapiMessage): VapiToolCallsResponse {
+function handleToolCalls(
+  message: VapiMessage,
+  business: Business,
+): VapiToolCallsResponse {
   return {
     results: normalizarLlamadas(message).map((llamada) => ({
       toolCallId: llamada.id,
       name: llamada.nombre,
-      result: ejecutarHerramienta(llamada.nombre, llamada.argumentos),
+      result: ejecutarHerramienta(business, llamada.nombre, llamada.argumentos),
     })),
   };
 }
 
-voiceWebhookRouter.post("/voice-webhook", (req: Request, res: Response) => {
+/**
+ * Negocio al que va dirigida la peticion. Vapi lo trae en el query de la URL
+ * del webhook (?business=tixola), que es la que se le dio al construir el
+ * asistente. Si no viene, se usa el de la configuracion.
+ */
+function leerBusinessId(req: Request): string {
+  const businessIdRaw = req.query.business;
+  return typeof businessIdRaw === "string" && businessIdRaw.trim() !== ""
+    ? businessIdRaw.trim()
+    : config.defaultBusinessId;
+}
+
+voiceWebhookRouter.post(
+  "/voice-webhook",
+  async (req: Request, res: Response) => {
+    // El handler es async y Express 4 no recoge las promesas rechazadas: sin
+    // este try/catch un fallo inesperado dejaria la peticion colgada y Vapi
+    // esperando hasta el timeout.
+    try {
+      await atender(req, res);
+    } catch (error) {
+      console.error("[voice-webhook] error inesperado", error);
+      if (!res.headersSent) {
+        res.status(500).json({ error: "Error interno del servidor." });
+      }
+    }
+  },
+);
+
+async function atender(req: Request, res: Response): Promise<void> {
   if (!isAuthorized(req)) {
     res.status(401).json({ error: "Secreto de Vapi invalido o ausente." });
     return;
@@ -137,9 +167,13 @@ voiceWebhookRouter.post("/voice-webhook", (req: Request, res: Response) => {
     return;
   }
 
+  const businessId = leerBusinessId(req);
+  const business = await getBusiness(businessId);
+
   console.log(
-    `[voice-webhook] ${message.type}` +
-      (message.call?.id ? ` (call ${message.call.id})` : ""),
+    `[voice-webhook] ${message.type} (` +
+      (message.call?.id ? `call ${message.call.id}, ` : "") +
+      `business=${businessId || "(por defecto)"})`,
   );
 
   switch (message.type) {
@@ -147,14 +181,14 @@ voiceWebhookRouter.post("/voice-webhook", (req: Request, res: Response) => {
       // Vapi corta esta peticion a los 7,5 segundos, asi que la respuesta se
       // construye en memoria: sin consultas a disco, red ni base de datos.
       const respuesta: VapiAssistantResponse = {
-        assistant: buildAssistant(fallbackBusiness),
+        assistant: buildAssistant(business, businessId),
       };
       res.json(respuesta);
       return;
     }
 
     case "tool-calls":
-      res.json(handleToolCalls(message));
+      res.json(handleToolCalls(message, business));
       return;
 
     case "function-call": {
@@ -165,7 +199,11 @@ voiceWebhookRouter.post("/voice-webhook", (req: Request, res: Response) => {
         return;
       }
       res.json({
-        result: ejecutarHerramienta(call.name, parseArgs(call.parameters)),
+        result: ejecutarHerramienta(
+          business,
+          call.name,
+          parseArgs(call.parameters),
+        ),
       });
       return;
     }
@@ -186,4 +224,4 @@ voiceWebhookRouter.post("/voice-webhook", (req: Request, res: Response) => {
       res.json({ received: true, type: message.type, handled: false });
       return;
   }
-});
+}
