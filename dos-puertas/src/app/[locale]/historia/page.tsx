@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/ui/PageHeader";
+import Migas from "@/components/seo/Migas";
 import Timeline from "@/components/historia/Timeline";
 import FamousCard from "@/components/historia/FamousCard";
 import { isLocale, type Locale } from "@/i18n/config";
@@ -11,15 +12,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = getMessages(locale);
-  return pageMetadata(locale, "/historia", { title: m.historia.pageTitle, description: m.historia.pageLead });
+  return pageMetadata(locale, "/historia", { title: m.seo.historia.title, description: m.seo.historia.description, imageAlt: m.seo.ogAlt });
 }
 
 export default async function HistoriaPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
-  const m = getMessages(isLocale(raw) ? raw : "es");
+  const locale: Locale = isLocale(raw) ? raw : "es";
+  const m = getMessages(locale);
   const t = m.historia;
   return (
     <>
+      <Migas locale={locale} home={m.nav.items.home} name={m.nav.items.historia} path="/historia" />
       <PageHeader kicker={t.kicker} before={t.titleBefore} accent={t.titleAccent} after={t.titleAfter} lead={t.pageLead} />
       <Timeline />
       <div className="container-page max-w-3xl py-10">

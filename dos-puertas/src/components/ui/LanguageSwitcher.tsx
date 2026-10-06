@@ -35,7 +35,6 @@ export default function LanguageSwitcher({ className, onNavigate, id = "idioma" 
             hrefLang={LOCALE_META[l].hreflang}
             lang={LOCALE_META[l].hreflang}
             aria-current={on ? "true" : undefined}
-            aria-label={LOCALE_META[l].label}
             title={LOCALE_META[l].label}
             onClick={onNavigate}
             scroll={false}
@@ -43,6 +42,8 @@ export default function LanguageSwitcher({ className, onNavigate, id = "idioma" 
           >
             {on ? <motion.span layoutId={`idioma-${id}`} className="absolute inset-0 rounded-full bg-oro" transition={{ type: "spring", stiffness: 420, damping: 34 }} /> : null}
             <span className="relative">{LOCALE_META[l].short}</span>
+            {/* El nombre accesible empieza por lo que se ve («GL») y sigue con el idioma. */}
+            <span className="sr-only"> · {LOCALE_META[l].label}</span>
           </Link>
         );
       })}

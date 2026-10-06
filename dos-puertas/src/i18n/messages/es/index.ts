@@ -459,6 +459,35 @@ const consent = {
   change: "Cambiar",
 };
 
+/* Títulos y descripciones para buscadores: lo que sale en Google. Títulos ≤ 60 caracteres. */
+const seo = {
+  home: {
+    title: "Dos Puertas · Bar de pinchos en la zona de vinos de Ourense",
+    description: "Bar de pinchos en la rúa dos Fornos, en Os Viños (la zona de vinos de Ourense), desde 1974: calamares, chicharrones, tortilla y vino gallego. Sin reservas.",
+},
+  carta: {
+    title: "Carta de pinchos en Ourense · Dos Puertas",
+    description: "Pinchos de calamares, chicharrones, tortilla y empanadillas, montados, bocadillos y raciones en la zona de vinos de Ourense. De pie y en barra, como desde 1974.",
+},
+  vinos: {
+    title: "Vinos gallegos por copas en Os Viños, Ourense · Dos Puertas",
+    description: "Vino gallego por copas en la zona de vinos de Ourense y las cinco D.O. de Galicia en un mapa: Ribeiro, Ribeira Sacra, Valdeorras, Monterrei y Rías Baixas.",
+},
+  historia: {
+    title: "Historia del Dos Puertas, bar de Ourense desde 1974",
+    description: "De Laza a Basilea y a la rúa dos Fornos: cómo nació en 1974 el Dos Puertas, el pincho de «calamares» y los chicharrones de la zona de vinos de Ourense.",
+},
+  visita: {
+    title: "Horario y dirección · Dos Puertas, Rúa dos Fornos 7, Ourense",
+    description: "De miércoles a domingo, de 19:30 a 00:00, en la rúa dos Fornos 7 (calle Hornos), junto a la catedral de Ourense. Sin reservas: tapeo de pie en barra.",
+},
+  preguntas: {
+    title: "Preguntas frecuentes · Dos Puertas, bar de pinchos en Ourense",
+    description: "¿Se puede reservar? ¿Cuánto cuesta un pincho? ¿Puedo ir con perro? Respuestas sobre el Dos Puertas, bar de pinchos de la zona de vinos de Ourense.",
+},
+  ogAlt: "Café Bar Dos Puertas, bar de pinchos en Ourense desde 1974",
+};
+
 const legal = {
   kicker: "Legal",
   draftNotice:
@@ -643,5 +672,5 @@ const notFound = {
   back: "Volver a la barra",
 };
 
-const es = { common, nav, cover, puertas, hero, manifesto, barra, vinos, historia, social, interior, visita, faq, footer, consent, legal, notFound };
+const es = { common, nav, cover, puertas, hero, manifesto, barra, vinos, historia, social, interior, visita, faq, footer, consent, seo, legal, notFound };
 export default es;

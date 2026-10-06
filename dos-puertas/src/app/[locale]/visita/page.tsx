@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import Migas from "@/components/seo/Migas";
 import VisitBlock from "@/components/visita/VisitBlock";
 import Manifesto from "@/components/home/Manifesto";
 import { isLocale, localePath, type Locale } from "@/i18n/config";
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = getMessages(locale);
-  return pageMetadata(locale, "/visita", { title: m.visita.pageTitle, description: m.visita.pageLead });
+  return pageMetadata(locale, "/visita", { title: m.seo.visita.title, description: m.seo.visita.description, imageAlt: m.seo.ogAlt });
 }
 
 export default async function VisitaPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -22,6 +23,7 @@ export default async function VisitaPage({ params }: { params: Promise<{ locale:
   const t = m.visita;
   return (
     <>
+      <Migas locale={locale} home={m.nav.items.home} name={m.nav.items.visita} path="/visita" />
       <PageHeader kicker={t.kicker} before={t.titleBefore} accent={t.titleAccent} lead={t.pageLead} />
       <VisitBlock withHeading={false} />
       <Manifesto />

@@ -319,6 +319,7 @@ export default function Camarero() {
         type="button"
         aria-haspopup="dialog"
         aria-expanded={open}
+        data-nosnippet
         onClick={() => {
           setModal(window.matchMedia("(max-width: 639px)").matches);
           setOpen(true);
@@ -340,6 +341,7 @@ export default function Camarero() {
             key="camarero"
             ref={panelRef}
             role="dialog"
+            data-nosnippet
             lang={L}
             aria-modal={modal}
             aria-labelledby={titleId}

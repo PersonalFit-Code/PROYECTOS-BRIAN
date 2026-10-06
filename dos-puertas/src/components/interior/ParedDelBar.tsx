@@ -80,7 +80,7 @@ function BotellaSvg({ b }: { b: Botella }) {
 
 /** Una balda blanca llena de botellas, con la tira LED azul marino debajo. */
 export function Balda({ seed, className }: { seed: number; className?: string }) {
-  const botellas = surtido(seed, 56);
+  const botellas = surtido(seed, 44);
   return (
     <div aria-hidden className={cn("relative", className)}>
       {/* El azul que sube por la pared desde el LED de debajo y recorta las botellas a contraluz. */}
@@ -104,7 +104,7 @@ export function Copero({ className }: { className?: string }) {
     <div aria-hidden className={cn("relative", className)}>
       <div className="relative z-10 h-3.5 bg-gradient-to-b from-[#4a3828] to-[#21180f] shadow-[0_6px_10px_-4px_rgba(0,0,0,0.45)]" />
       <div className="-mt-px flex justify-center gap-3 overflow-hidden px-2 drop-shadow-[0_8px_6px_rgba(0,0,0,0.12)] sm:gap-4">
-        {Array.from({ length: 40 }, (_, i) => (
+        {Array.from({ length: 32 }, (_, i) => (
           <svg key={i} viewBox="0 0 30 88" className="copa-colgada h-[70px] w-auto shrink-0 sm:h-[84px]" style={{ "--i": i % 12 } as CSSProperties}>
             <ellipse cx={15} cy={2.6} rx={11} ry={2.2} fill="url(#dp-cristal)" stroke="#5f7184" strokeOpacity={0.5} strokeWidth={0.7} />
             <rect x={14.2} y={4} width={1.6} height={28} fill="#b9c6d2" />

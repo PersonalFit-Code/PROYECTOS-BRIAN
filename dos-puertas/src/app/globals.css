@@ -478,6 +478,23 @@ body::before {
   }
 }
 
+/* El logo de la portada de entrada: aparece con CSS desde el primer pintado (LCP sin esperar al JS). */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes portada-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .portada-in {
+    animation: portada-in 1.2s var(--ease-out-expo) 0.15s both;
+  }
+}
+
 /* Entrada de la portada: escalonada con `--i`, sin JS. */
 @media (prefers-reduced-motion: no-preference) {
   @keyframes hero-in {

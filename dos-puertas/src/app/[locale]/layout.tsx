@@ -21,11 +21,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = getMessages(locale);
-  const title = `${BUSINESS.legalName} · ${m.hero.titleBefore} ${m.hero.titleAccent} ${m.hero.titleAfter}`;
   return {
     metadataBase: new URL(SITE_URL),
-    title: { default: title, template: `%s · ${BUSINESS.legalName}` },
-    description: m.common.description,
+    title: { default: m.seo.home.title, template: `%s · ${BUSINESS.legalName}` },
+    description: m.seo.home.description,
     icons: { icon: "/favicon.svg" },
   };
 }
@@ -45,13 +44,16 @@ function barJsonLd(locale: Locale, description: string) {
     "@type": "BarOrPub",
     "@id": `${SITE_URL}/#bar`,
     name: BUSINESS.legalName,
+    /* Los nombres con los que aparece en directorios y redes: ayudan a Google a juntarlos. */
+    alternateName: ["Dos Puertas", "Bar Dos Puertas"],
     description,
-    inLanguage: LOCALE_META[locale].hreflang,
     url: `${SITE_URL}/${locale}`,
+    image: `${SITE_URL}/og/${locale}.jpg`,
     telephone: BUSINESS.phone.e164,
     priceRange: BUSINESS.priceRangeSchema,
-    servesCuisine: ["Galician", "Tapas"],
-    acceptsReservations: "False",
+    servesCuisine: ["Tapas", "Pinchos", "Galician"],
+    acceptsReservations: false,
+    hasMap: BUSINESS.maps,
     foundingDate: String(BUSINESS.founded),
     address: {
       "@type": "PostalAddress",
@@ -84,7 +86,7 @@ export default async function LocaleLayout({ children, params }: Readonly<{ chil
   return (
     <html lang={LOCALE_META[locale].hreflang} className={fontVariables}>
       <head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(barJsonLd(locale, messages.common.description)) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(barJsonLd(locale, messages.seo.home.description)) }} />
         {/* Arma el ocultado de los revelados antes del primer pintado; el vigía lo suelta a los 2,6 s
             si el JS no llega, para que nunca quede una sección en blanco. */}
         <script

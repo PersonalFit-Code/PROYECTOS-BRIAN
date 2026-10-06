@@ -483,6 +483,33 @@ const en: Messages = {
     change: "Change",
   },
 
+  seo: {
+    home: {
+      title: "Dos Puertas · Pincho bar in Ourense's wine-bar quarter",
+      description: "Standing-room pincho bar on Rúa dos Fornos, in Ourense's Os Viños wine-bar district, since 1974: «calamares», chicharrones, tortilla and Galician wine.",
+    },
+    carta: {
+      title: "Pinchos menu in Ourense · Dos Puertas",
+      description: "Calamares, chicharrones, tortilla and empanadillas, plus montados, bocadillos and sharing plates in Ourense's wine-bar district. Standing at the bar since 1974.",
+    },
+    vinos: {
+      title: "Galician wine by the glass in Ourense · Dos Puertas",
+      description: "Galician wine by the glass in Ourense's wine-bar district, and Galicia's five D.O. wine regions on a map, from Ribeiro to Rías Baixas.",
+    },
+    historia: {
+      title: "The story of Dos Puertas, an Ourense bar since 1974",
+      description: "From Laza to Basel to Rúa dos Fornos: how Dos Puertas opened in 1974 and how its «calamares» and chicharrones became Ourense wine-bar classics.",
+    },
+    visita: {
+      title: "Opening hours & address · Dos Puertas, Ourense",
+      description: "Wednesday to Sunday, 7:30 pm to midnight, at Rúa dos Fornos 7, next to Ourense Cathedral in the Os Viños district. No bookings: pinchos standing at the bar.",
+    },
+    preguntas: {
+      title: "FAQ · Dos Puertas, pincho bar in Ourense",
+      description: "Can I book? How much is a pincho? Can I bring my dog? Answers about Dos Puertas, a pincho bar in Ourense's wine-bar district.",
+    },
+    ogAlt: "Café Bar Dos Puertas, pincho bar in Ourense since 1974",
+  },
   legal: {
     ...es.legal,
     kicker: "Legal",

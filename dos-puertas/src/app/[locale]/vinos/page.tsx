@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Quote, Star, Wine } from "lucide-react";
 import ParedDelBar from "@/components/interior/ParedDelBar";
 import PageHeader from "@/components/ui/PageHeader";
+import Migas from "@/components/seo/Migas";
 import Denominaciones from "@/components/vinos/Denominaciones";
 import { isLocale, type Locale } from "@/i18n/config";
 import { format, getMessages } from "@/i18n/getMessages";
@@ -31,15 +32,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = getMessages(locale);
-  return pageMetadata(locale, "/vinos", { title: m.vinos.kicker, description: m.vinos.pageLead });
+  return pageMetadata(locale, "/vinos", { title: m.seo.vinos.title, description: m.seo.vinos.description, imageAlt: m.seo.ogAlt });
 }
 
 export default async function VinosPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
-  const m = getMessages(isLocale(raw) ? raw : "es");
+  const locale: Locale = isLocale(raw) ? raw : "es";
+  const m = getMessages(locale);
   const t = m.vinos;
   return (
     <>
+      <Migas locale={locale} home={m.nav.items.home} name={m.nav.items.vinos} path="/vinos" />
       <PageHeader kicker={t.kicker} before={t.titleBefore} accent={t.titleAccent} lead={t.pageLead} />
 
       <section aria-labelledby="casa-title" className="container-page">

@@ -463,6 +463,33 @@ const gl: Messages = {
   },
 
   /* Os textos legais quedan en castelán (versión vinculante): só se traducen os rótulos e os títulos. */
+  seo: {
+    home: {
+      title: "Dos Puertas · Bar de pinchos na zona dos viños de Ourense",
+      description: "Bar de pinchos na rúa dos Fornos, nos Viños de Ourense, dende 1974: calamares, chicharróns, tortilla e viño galego. Sen reservas, de pé e na barra.",
+    },
+    carta: {
+      title: "Carta de pinchos en Ourense · Dos Puertas",
+      description: "Pinchos de calamares, chicharróns, tortilla e empanadillas, montados, bocadillos e racións na zona dos viños de Ourense. De pé e na barra, como dende 1974.",
+    },
+    vinos: {
+      title: "Viños galegos por copas nos Viños, Ourense · Dos Puertas",
+      description: "Viño galego por copas na zona dos viños de Ourense e as cinco D.O. de Galicia nun mapa: Ribeiro, Ribeira Sacra, Valdeorras, Monterrei e Rías Baixas.",
+    },
+    historia: {
+      title: "Historia do Dos Puertas, bar de Ourense dende 1974",
+      description: "De Laza a Basilea e á rúa dos Fornos: como naceu en 1974 o Dos Puertas, o pincho de «calamares» e os chicharróns da zona dos viños de Ourense.",
+    },
+    visita: {
+      title: "Horario e enderezo · Dos Puertas, Rúa dos Fornos 7, Ourense",
+      description: "De mércores a domingo, de 19:30 a 00:00, na rúa dos Fornos 7, a carón da catedral de Ourense (zona dos Viños). Sen reservas: tapeo de pé na barra.",
+    },
+    preguntas: {
+      title: "Preguntas frecuentes · Dos Puertas, bar de pinchos en Ourense",
+      description: "Pódese reservar? Canto custa un pincho? Podo ir co can? Respostas sobre o Dos Puertas, bar de pinchos da zona dos viños de Ourense.",
+    },
+    ogAlt: "Café Bar Dos Puertas, bar de pinchos en Ourense dende 1974",
+  },
   legal: {
     ...es.legal,
     kicker: "Legal",

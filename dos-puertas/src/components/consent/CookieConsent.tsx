@@ -88,6 +88,7 @@ export default function CookieConsent() {
           key="aviso"
           ref={panelRef}
           role="dialog"
+          data-nosnippet
           aria-modal="false"
           aria-labelledby={titleId}
           aria-describedby={textId}

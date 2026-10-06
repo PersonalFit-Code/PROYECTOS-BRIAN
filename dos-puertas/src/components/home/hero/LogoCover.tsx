@@ -50,11 +50,8 @@ export default function LogoCover() {
         </motion.svg>
 
         <motion.div className="relative px-4 text-center" style={reduced ? undefined : { scale, y, opacity }}>
-          <motion.div
-            initial={reduced ? false : { opacity: 0, y: 24, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-          >
+          {/* Entrada por CSS (.portada-in): se pinta en el primer fotograma, sin esperar al JS. */}
+          <div className="portada-in">
             <p className="font-caps text-[clamp(0.85rem,3vw,1.5rem)] font-semibold tracking-[0.55em] text-oro-a11y">CAFÉ · BAR</p>
             <p className="logo-oro mt-1 font-rotulo text-[clamp(4.6rem,25vw,8rem)] leading-[0.82] uppercase sm:mt-2 sm:text-[clamp(5rem,15vw,14rem)] sm:leading-[0.9]">
               <span className="block sm:inline">Dos</span> <span className="block sm:inline">Puertas</span>
@@ -64,7 +61,7 @@ export default function LogoCover() {
               {t.tagline}
               <span aria-hidden className="h-px w-10 bg-gradient-to-l from-transparent to-oro/70" />
             </p>
-          </motion.div>
+          </div>
         </motion.div>
 
         <motion.a

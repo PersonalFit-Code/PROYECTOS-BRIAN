@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Phone } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import Migas from "@/components/seo/Migas";
 import Faq from "@/components/faq/Faq";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
@@ -11,12 +12,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = getMessages(locale);
-  return pageMetadata(locale, "/preguntas", { title: m.nav.items.preguntas, description: m.faq.pageLead });
+  return pageMetadata(locale, "/preguntas", { title: m.seo.preguntas.title, description: m.seo.preguntas.description, imageAlt: m.seo.ogAlt });
 }
 
 export default async function PreguntasPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
-  const m = getMessages(isLocale(raw) ? raw : "es");
+  const locale: Locale = isLocale(raw) ? raw : "es";
+  const m = getMessages(locale);
   const t = m.faq;
   /* El MISMO texto que se ve en la página. */
   const faqLd = {
@@ -26,6 +28,7 @@ export default async function PreguntasPage({ params }: { params: Promise<{ loca
   };
   return (
     <>
+      <Migas locale={locale} home={m.nav.items.home} name={m.nav.items.preguntas} path="/preguntas" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqLd) }} />
       <PageHeader kicker={t.kicker} before={t.titleBefore} accent={t.titleAccent} lead={t.pageLead} />
       <Faq />
