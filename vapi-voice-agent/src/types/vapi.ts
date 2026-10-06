@@ -18,13 +18,21 @@ export type VapiMessageType =
   | "transcript"
   | "user-interrupted";
 
+/** Formato plano, el que documenta Vapi para "tool-calls". */
+export interface VapiToolCallListItem {
+  id: string;
+  name: string;
+  parameters?: Record<string, unknown> | string;
+}
+
+/** Formato estilo OpenAI, que Vapi tambien envia segun la configuracion. */
 export interface VapiToolCall {
   id: string;
-  type: "function";
+  type?: "function";
   function: {
     name: string;
-    /** Vapi lo manda como objeto, pero algunos modelos envian un JSON en texto. */
-    arguments: Record<string, unknown> | string;
+    /** Puede llegar como objeto o como JSON en texto, segun el modelo. */
+    arguments?: Record<string, unknown> | string;
   };
 }
 
@@ -32,10 +40,12 @@ export interface VapiMessage {
   type: VapiMessageType | string;
   timestamp?: number;
   call?: { id?: string; orgId?: string; [key: string]: unknown };
-  /** Presente en los mensajes de tipo "tool-calls". */
+  /** "tool-calls", formato plano documentado. */
+  toolCallList?: VapiToolCallListItem[];
+  /** "tool-calls", formato estilo OpenAI. */
   toolCalls?: VapiToolCall[];
-  /** Presente en los mensajes de tipo "function-call" (formato antiguo). */
-  functionCall?: { name: string; parameters?: Record<string, unknown> };
+  /** "function-call" (formato antiguo, una sola funcion). */
+  functionCall?: { name: string; parameters?: Record<string, unknown> | string };
   [key: string]: unknown;
 }
 
@@ -45,5 +55,14 @@ export interface VapiWebhookBody {
 
 /** Respuesta a un "tool-calls": un resultado por cada llamada recibida. */
 export interface VapiToolCallsResponse {
-  results: Array<{ toolCallId: string; result: string }>;
+  results: Array<{ toolCallId: string; name: string; result: string }>;
+}
+
+/**
+ * Respuesta a un "assistant-request". Ademas de un asistente transitorio,
+ * Vapi acepta { assistantId }, { destination } o { error } para que el motivo
+ * se le diga en voz alta a quien llama.
+ */
+export interface VapiAssistantResponse {
+  assistant: Record<string, unknown>;
 }

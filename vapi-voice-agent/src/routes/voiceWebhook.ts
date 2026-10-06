@@ -1,9 +1,16 @@
 import { Router, type Request, type Response } from "express";
 
+import { buildAssistant } from "../assistant";
 import { config } from "../config";
+import {
+  PedidoInvalidoError,
+  calcularTotal,
+  describirTotal,
+  type LineaPedido,
+} from "../pedido";
 import type {
+  VapiAssistantResponse,
   VapiMessage,
-  VapiToolCall,
   VapiToolCallsResponse,
   VapiWebhookBody,
 } from "../types/vapi";
@@ -19,12 +26,15 @@ function isAuthorized(req: Request): boolean {
   return req.header("x-vapi-secret") === config.vapiServerSecret;
 }
 
-function parseArguments(toolCall: VapiToolCall): Record<string, unknown> {
-  const { arguments: args } = toolCall.function;
-  if (typeof args !== "string") return args ?? {};
+/** Los argumentos pueden llegar como objeto o como JSON en texto. */
+function parseArgs(raw: unknown): Record<string, unknown> {
+  if (raw && typeof raw === "object" && !Array.isArray(raw)) {
+    return raw as Record<string, unknown>;
+  }
+  if (typeof raw !== "string") return {};
   try {
-    const parsed: unknown = JSON.parse(args);
-    return typeof parsed === "object" && parsed !== null
+    const parsed: unknown = JSON.parse(raw);
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
       ? (parsed as Record<string, unknown>)
       : {};
   } catch {
@@ -32,25 +42,77 @@ function parseArguments(toolCall: VapiToolCall): Record<string, unknown> {
   }
 }
 
+interface LlamadaHerramienta {
+  id: string;
+  nombre: string;
+  argumentos: Record<string, unknown>;
+}
+
 /**
- * Punto unico donde se resuelven las herramientas que el agente de voz puede
- * invocar. Por ahora devuelve un texto de marcador: aqui es donde ira la
- * logica real (consultar reservas, horarios, disponibilidad...).
+ * Vapi manda las llamadas a herramientas en dos formatos segun la
+ * configuracion: el plano (toolCallList) y el estilo OpenAI (toolCalls). Aqui
+ * se normalizan los dos a una sola forma, sin duplicar por id.
  */
-function runTool(name: string, args: Record<string, unknown>): string {
-  switch (name) {
+function normalizarLlamadas(message: VapiMessage): LlamadaHerramienta[] {
+  const porId = new Map<string, LlamadaHerramienta>();
+
+  for (const item of message.toolCallList ?? []) {
+    if (!item?.id) continue;
+    porId.set(item.id, {
+      id: item.id,
+      nombre: item.name,
+      argumentos: parseArgs(item.parameters),
+    });
+  }
+
+  for (const item of message.toolCalls ?? []) {
+    if (!item?.id || porId.has(item.id)) continue;
+    porId.set(item.id, {
+      id: item.id,
+      nombre: item.function?.name ?? "",
+      argumentos: parseArgs(item.function?.arguments),
+    });
+  }
+
+  return [...porId.values()];
+}
+
+/**
+ * Punto unico donde se resuelven las herramientas del agente de voz. El
+ * resultado vuelve al modelo como texto, asi que se devuelve una frase legible
+ * tambien cuando hay error: el agente debe poder leerla en voz alta.
+ */
+function ejecutarHerramienta(
+  nombre: string,
+  argumentos: Record<string, unknown>,
+): string {
+  switch (nombre) {
+    case "calcular_total": {
+      try {
+        const articulos = argumentos.articulos as LineaPedido[] | undefined;
+        const total = calcularTotal(articulos ?? [], argumentos.entrega);
+        return describirTotal(total);
+      } catch (error) {
+        if (error instanceof PedidoInvalidoError) {
+          return `No se ha podido calcular el total: ${error.message}`;
+        }
+        console.error("[calcular_total] error inesperado", error);
+        return "No se ha podido calcular el total ahora mismo.";
+      }
+    }
+
     default:
-      console.warn(`[voice-webhook] herramienta sin implementar: ${name}`, args);
-      return `La herramienta "${name}" todavia no esta implementada.`;
+      console.warn(`[voice-webhook] herramienta sin implementar: ${nombre}`, argumentos);
+      return `La herramienta "${nombre}" no esta disponible.`;
   }
 }
 
 function handleToolCalls(message: VapiMessage): VapiToolCallsResponse {
-  const toolCalls = message.toolCalls ?? [];
   return {
-    results: toolCalls.map((toolCall) => ({
-      toolCallId: toolCall.id,
-      result: runTool(toolCall.function.name, parseArguments(toolCall)),
+    results: normalizarLlamadas(message).map((llamada) => ({
+      toolCallId: llamada.id,
+      name: llamada.nombre,
+      result: ejecutarHerramienta(llamada.nombre, llamada.argumentos),
     })),
   };
 }
@@ -75,6 +137,14 @@ voiceWebhookRouter.post("/voice-webhook", (req: Request, res: Response) => {
   );
 
   switch (message.type) {
+    case "assistant-request": {
+      // Vapi corta esta peticion a los 7,5 segundos, asi que la respuesta se
+      // construye en memoria: sin consultas a disco, red ni base de datos.
+      const respuesta: VapiAssistantResponse = { assistant: buildAssistant() };
+      res.json(respuesta);
+      return;
+    }
+
     case "tool-calls":
       res.json(handleToolCalls(message));
       return;
@@ -86,7 +156,9 @@ voiceWebhookRouter.post("/voice-webhook", (req: Request, res: Response) => {
         res.status(400).json({ error: 'Falta "functionCall" en el mensaje.' });
         return;
       }
-      res.json({ result: runTool(call.name, call.parameters ?? {}) });
+      res.json({
+        result: ejecutarHerramienta(call.name, parseArgs(call.parameters)),
+      });
       return;
     }
 
