@@ -32,5 +32,9 @@ export const config = {
   /** URL publica del servidor (tunel o despliegue). Vacio en local. */
   publicServerUrl: readPublicUrl(process.env.PUBLIC_SERVER_URL),
   vapiModel: process.env.VAPI_MODEL?.trim() || MODELO_POR_DEFECTO,
+  /** Cuenta de servicio de Firebase, en JSON o en base64. Vacio = sin Firestore. */
+  firebaseServiceAccount: process.env.FIREBASE_SERVICE_ACCOUNT ?? "",
+  /** Negocio que se usa cuando la peticion no trae ?business=. */
+  defaultBusinessId: process.env.DEFAULT_BUSINESS_ID ?? "",
   nodeEnv: process.env.NODE_ENV ?? "development",
 } as const;
