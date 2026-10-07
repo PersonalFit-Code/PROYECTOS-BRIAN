@@ -11,7 +11,10 @@
 
 import { config } from "./config";
 import type { Business } from "./db/types";
-import { TOOL_CALCULAR_TOTAL } from "./tools/names";
+import {
+  TOOL_CALCULAR_TOTAL,
+  TOOL_REGISTRAR_PEDIDO,
+} from "./tools/names";
 import { formatearEuros, momentoActual } from "./util/format";
 
 function cartaEnTexto(business: Business): string {
@@ -120,8 +123,13 @@ Sigue estos pasos en orden. No te salgas del orden ni te adelantes.
 6. Llama a la herramienta calcular_total con los platos, las cantidades y el
    tipo de entrega.
 7. Di el desglose y el total exactamente como te los devuelva la herramienta.
-8. Di el tiempo estimado de entrega y recuerda como se paga.
-9. Despidete, da las gracias y confirma que el pedido queda registrado.
+8. Registra el pedido con la herramienta registrar_pedido, con los mismos
+   platos y cantidades, el tipo de entrega y, si es a domicilio, la direccion
+   y el telefono que te ha confirmado.
+9. Dile el codigo de pedido que te devuelva la herramienta, letra a letra, y
+   pidele que lo tenga a mano por si tiene que llamar.
+10. Di el tiempo estimado de entrega y recuerda como se paga.
+11. Despidete y da las gracias.
 
 # EL TOTAL LO CALCULA LA HERRAMIENTA
 
@@ -135,6 +143,20 @@ siquiera para un solo plato.
 - Di el importe que devuelve la herramienta, sin redondear ni ajustar nada.
 - Si la herramienta da un error o no responde, no te inventes el total: di que
   el importe exacto se lo confirman al entregar el pedido, y sigue adelante.
+
+# EL PEDIDO HAY QUE REGISTRARLO
+
+Un pedido que no se registra no llega a la cocina. Por eso:
+
+- Llama a registrar_pedido SIEMPRE, antes de despedirte, una vez el cliente ha
+  confirmado el pedido y los datos de entrega.
+- Llamala una sola vez por pedido. Si ya la llamaste y el cliente cambia algo,
+  dile que el cambio lo gestionan al llamar al restaurante.
+- Si la herramienta te devuelve un codigo, el pedido esta hecho: dilo con
+  claridad y lee el codigo.
+- Si la herramienta devuelve un error, NO digas que el pedido esta hecho.
+  Pide disculpas, explica que no se ha podido registrar y pidele que llame al
+  restaurante para confirmarlo.
 
 # LIMITES
 
@@ -155,6 +177,36 @@ siquiera para un solo plato.
  * modelo y envia la llamada a este mismo servidor como mensaje "tool-calls".
  */
 function buildTools(business: Business) {
+  // El esquema de los articulos se repite en las dos herramientas: los mismos
+  // platos, los mismos identificadores.
+  const articulos = {
+    type: "array" as const,
+    description: "Los platos que ha pedido el cliente.",
+    items: {
+      type: "object" as const,
+      properties: {
+        plato: {
+          type: "string" as const,
+          description: "Identificador del plato en la carta.",
+          enum: business.carta.map((plato) => plato.id),
+        },
+        cantidad: {
+          type: "integer" as const,
+          description: "Numero de unidades de ese plato.",
+          minimum: 1,
+        },
+      },
+      required: ["plato", "cantidad"],
+    },
+  };
+
+  const entrega = {
+    type: "string" as const,
+    description:
+      "'reparto' si es a domicilio, 'recogida' si el cliente lo recoge en el local.",
+    enum: ["reparto", "recogida"],
+  };
+
   return [
     {
       type: "function" as const,
@@ -171,32 +223,42 @@ function buildTools(business: Business) {
           "Calcula el importe de un pedido a partir de los platos de la carta y el tipo de entrega. Devuelve el desglose por plato, el subtotal, los gastos de envio y el total a pagar. Hay que usarla siempre antes de decir un importe al cliente.",
         parameters: {
           type: "object" as const,
+          properties: { articulos, entrega },
+          required: ["articulos", "entrega"],
+        },
+      },
+    },
+
+    {
+      type: "function" as const,
+      messages: [
+        {
+          type: "request-start" as const,
+          content: "Perfecto, le registro el pedido.",
+        },
+      ],
+      function: {
+        name: TOOL_REGISTRAR_PEDIDO,
+        description:
+          "Registra el pedido definitivo para que llegue a la cocina y devuelve un codigo de pedido. Hay que usarla una sola vez, cuando el cliente ya ha confirmado los platos y, si es a domicilio, la direccion. El importe se recalcula en el servidor, no hay que mandarlo.",
+        parameters: {
+          type: "object" as const,
           properties: {
-            articulos: {
-              type: "array" as const,
-              description: "Los platos que ha pedido el cliente.",
-              items: {
-                type: "object" as const,
-                properties: {
-                  plato: {
-                    type: "string" as const,
-                    description: "Identificador del plato en la carta.",
-                    enum: business.carta.map((plato) => plato.id),
-                  },
-                  cantidad: {
-                    type: "integer" as const,
-                    description: "Numero de unidades de ese plato.",
-                    minimum: 1,
-                  },
-                },
-                required: ["plato", "cantidad"],
-              },
-            },
-            entrega: {
+            articulos,
+            entrega,
+            direccion: {
               type: "string" as const,
               description:
-                "'reparto' si es a domicilio, 'recogida' si el cliente lo recoge en el local.",
-              enum: ["reparto", "recogida"],
+                "Direccion completa de entrega: calle, numero, piso y puerta. Obligatoria si la entrega es 'reparto'.",
+            },
+            telefono: {
+              type: "string" as const,
+              description: "Telefono de contacto del cliente.",
+            },
+            notas: {
+              type: "string" as const,
+              description:
+                "Indicaciones del cliente: alergias que haya mencionado, como llegar al portal, preferencias.",
             },
           },
           required: ["articulos", "entrega"],

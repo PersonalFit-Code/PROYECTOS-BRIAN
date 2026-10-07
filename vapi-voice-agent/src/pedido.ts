@@ -19,6 +19,8 @@ export interface LineaPedido {
 }
 
 export interface LineaCalculada {
+  /** Identificador del plato en la carta, para guardarlo con el pedido. */
+  platoId: string;
   nombre: string;
   cantidad: number;
   precioUnidadCentimos: number;
@@ -84,6 +86,7 @@ export function calcularTotal(
     }
     const cantidad = normalizarCantidad(linea.cantidad, plato.nombre);
     return {
+      platoId: plato.id,
       nombre: plato.nombre,
       cantidad,
       precioUnidadCentimos: plato.precioCentimos,

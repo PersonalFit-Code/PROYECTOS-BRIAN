@@ -3,8 +3,13 @@ import { Router, type Request, type Response } from "express";
 import { buildAssistant } from "../assistant";
 import { config } from "../config";
 import { getBusiness } from "../db/businesses";
+import { PedidoNoGuardadoError, guardarPedido } from "../db/orders";
 import type { Business } from "../db/types";
-import { TOOL_CALCULAR_TOTAL } from "../tools/names";
+import { formatearEuros } from "../util/format";
+import {
+  TOOL_CALCULAR_TOTAL,
+  TOOL_REGISTRAR_PEDIDO,
+} from "../tools/names";
 import {
   PedidoInvalidoError,
   calcularTotal,
@@ -85,11 +90,12 @@ function normalizarLlamadas(message: VapiMessage): LlamadaHerramienta[] {
  * resultado vuelve al modelo como texto, asi que se devuelve una frase legible
  * tambien cuando hay error: el agente debe poder leerla en voz alta.
  */
-function ejecutarHerramienta(
+async function ejecutarHerramienta(
   business: Business,
   nombre: string,
   argumentos: Record<string, unknown>,
-): string {
+  callId: string,
+): Promise<string> {
   switch (nombre) {
     case TOOL_CALCULAR_TOTAL: {
       try {
@@ -105,23 +111,63 @@ function ejecutarHerramienta(
       }
     }
 
+    case TOOL_REGISTRAR_PEDIDO: {
+      try {
+        const articulos = argumentos.articulos as LineaPedido[] | undefined;
+        const pedido = await guardarPedido(business, {
+          articulos: articulos ?? [],
+          entrega: argumentos.entrega,
+          direccion: argumentos.direccion as string | undefined,
+          telefono: argumentos.telefono as string | undefined,
+          notas: argumentos.notas as string | undefined,
+          callId,
+        });
+        return (
+          `Pedido registrado. El codigo es ${pedido.codigo.split("").join(" ")}. ` +
+          `Total: ${formatearEuros(pedido.totalCentimos)}.`
+        );
+      } catch (error) {
+        // Ni PedidoInvalido ni PedidoNoGuardado deben sonar a "ya esta hecho":
+        // el agente tiene instrucciones de no confirmar si esto falla.
+        if (
+          error instanceof PedidoNoGuardadoError ||
+          error instanceof PedidoInvalidoError
+        ) {
+          return `NO se ha podido registrar el pedido: ${error.message}. Pide disculpas y dile al cliente que llame al restaurante para confirmarlo.`;
+        }
+        console.error("[registrar_pedido] error inesperado", error);
+        return "NO se ha podido registrar el pedido. Pide disculpas y dile al cliente que llame al restaurante para confirmarlo.";
+      }
+    }
+
     default:
       console.warn(`[voice-webhook] herramienta sin implementar: ${nombre}`, argumentos);
       return `La herramienta "${nombre}" no esta disponible.`;
   }
 }
 
-function handleToolCalls(
+async function handleToolCalls(
   message: VapiMessage,
   business: Business,
-): VapiToolCallsResponse {
-  return {
-    results: normalizarLlamadas(message).map((llamada) => ({
+): Promise<VapiToolCallsResponse> {
+  const callId = message.call?.id ?? "";
+
+  // En paralelo: Vapi puede mandar varias herramientas en el mismo mensaje y
+  // no hay motivo para encadenarlas.
+  const results = await Promise.all(
+    normalizarLlamadas(message).map(async (llamada) => ({
       toolCallId: llamada.id,
       name: llamada.nombre,
-      result: ejecutarHerramienta(business, llamada.nombre, llamada.argumentos),
+      result: await ejecutarHerramienta(
+        business,
+        llamada.nombre,
+        llamada.argumentos,
+        callId,
+      ),
     })),
-  };
+  );
+
+  return { results };
 }
 
 /**
@@ -188,7 +234,7 @@ async function atender(req: Request, res: Response): Promise<void> {
     }
 
     case "tool-calls":
-      res.json(handleToolCalls(message, business));
+      res.json(await handleToolCalls(message, business));
       return;
 
     case "function-call": {
@@ -199,10 +245,11 @@ async function atender(req: Request, res: Response): Promise<void> {
         return;
       }
       res.json({
-        result: ejecutarHerramienta(
+        result: await ejecutarHerramienta(
           business,
           call.name,
           parseArgs(call.parameters),
+          message.call?.id ?? "",
         ),
       });
       return;

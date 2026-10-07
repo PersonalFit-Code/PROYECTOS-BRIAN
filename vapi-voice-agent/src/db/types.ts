@@ -81,3 +81,47 @@ export interface Business {
   /** Direccion a la que se avisara de los pedidos. Vacio = sin aviso. */
   emailPedidos: string;
 }
+
+/** Como quiere el cliente recibir el pedido. */
+export type TipoEntrega = "reparto" | "recogida";
+
+/** Una linea del pedido, ya resuelta contra la carta del negocio. */
+export interface LineaGuardada {
+  /** Identificador del plato en la carta del negocio. */
+  platoId: string;
+  /** Nombre tal como se le dijo al cliente. */
+  nombre: string;
+  cantidad: number;
+  precioUnidadCentimos: number;
+  importeCentimos: number;
+}
+
+/**
+ * Un pedido tal como queda guardado en Firestore, en
+ * /businesses/{businessId}/pedidos/{id}.
+ *
+ * Los importes se guardan en centimos, igual que la carta, para que lo que se
+ * cobra sea exactamente lo que el agente dijo por telefono.
+ */
+export interface Pedido {
+  /** Codigo corto que el agente le dice al cliente: "su pedido es el K3F7". */
+  codigo: string;
+  businessId: string;
+  lineas: LineaGuardada[];
+  subtotalCentimos: number;
+  gastosEnvioCentimos: number;
+  totalCentimos: number;
+  tipoEntrega: TipoEntrega;
+  /** Direccion completa. Vacia cuando el cliente lo recoge en el local. */
+  direccion: string;
+  /** Telefono de contacto. Vacio cuando no se pidio. */
+  telefono: string;
+  /** Lo que el cliente anadio de viva voz: alergias, portal, indicaciones. */
+  notas: string;
+  /** Identificador de la llamada en Vapi, para cruzarlo con la grabacion. */
+  callId: string;
+  /** En que punto esta. El agente siempre crea pedidos "pendiente". */
+  estado: "pendiente";
+  /** Momento de creacion en ISO, ademas del timestamp del servidor. */
+  creadoEnIso: string;
+}
