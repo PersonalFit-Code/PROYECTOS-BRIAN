@@ -39,11 +39,8 @@ function NavLink({ item, index, onNavigate }: { item: CurvedMenuItem; index: num
         href={item.href}
         onClick={onNavigate}
         aria-current={item.active ? "page" : undefined}
-        className="flex items-baseline gap-4 py-3.5 outline-offset-4 sm:py-4"
+        className="flex items-baseline py-3.5 outline-offset-4 sm:py-4"
       >
-        <span aria-hidden className={cn("w-7 shrink-0 font-condensed text-lg tracking-wide", item.active ? "text-oro" : "text-oro/55")}>
-          {String(index + 1).padStart(2, "0")}
-        </span>
         <span className="min-w-0">
           <span className="sr-only">{item.heading}</span>
           <motion.span
