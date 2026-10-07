@@ -132,3 +132,33 @@ export async function guardarPedido(
     throw new PedidoNoGuardadoError(`no se ha podido guardar: ${motivo}`);
   }
 }
+
+/**
+ * Ultimos pedidos de un negocio, del mas reciente al mas antiguo.
+ *
+ * Devuelve lista vacia si no hay Firestore o si la consulta falla: el panel
+ * tiene que poder dibujarse igual y decir que no hay nada, en lugar de
+ * reventar con un error en la cara.
+ */
+export async function listarPedidos(
+  businessId: string,
+  limite = 50,
+): Promise<Pedido[]> {
+  if (!firestore) return [];
+
+  try {
+    const consulta = await firestore
+      .collection("businesses")
+      .doc(businessId)
+      .collection(SUBCOLECCION)
+      .orderBy("creadoEn", "desc")
+      .limit(limite)
+      .get();
+
+    return consulta.docs.map((documento) => documento.data() as Pedido);
+  } catch (error) {
+    const motivo = error instanceof Error ? error.message : String(error);
+    console.error(`[pedidos] no se han podido leer los de ${businessId}: ${motivo}`);
+    return [];
+  }
+}

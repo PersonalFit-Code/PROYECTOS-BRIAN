@@ -4,6 +4,7 @@ import express, {
   type Response,
 } from "express";
 
+import { panelRouter } from "./routes/panel";
 import { voiceWebhookRouter } from "./routes/voiceWebhook";
 
 export function createApp() {
@@ -16,6 +17,7 @@ export function createApp() {
   });
 
   app.use(voiceWebhookRouter);
+  app.use(panelRouter);
 
   app.use((_req: Request, res: Response) => {
     res.status(404).json({ error: "Ruta no encontrada." });

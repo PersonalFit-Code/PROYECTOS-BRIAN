@@ -36,5 +36,11 @@ export const config = {
   firebaseServiceAccount: process.env.FIREBASE_SERVICE_ACCOUNT ?? "",
   /** Negocio que se usa cuando la peticion no trae ?business=. */
   defaultBusinessId: process.env.DEFAULT_BUSINESS_ID ?? "",
+  /**
+   * Contrasena del panel de pedidos. Si esta vacia, el panel solo responde a
+   * peticiones desde el propio ordenador: mejor eso que dejar direcciones y
+   * telefonos de clientes abiertos en internet por despiste.
+   */
+  panelPassword: process.env.PANEL_PASSWORD ?? "",
   nodeEnv: process.env.NODE_ENV ?? "development",
 } as const;
