@@ -370,6 +370,16 @@ const en: Messages = {
       "White walls, shelves full of wine lit in blue, glasses hanging upside down above the bar and black signs with good old-fashioned bar sayings, all of them upbeat.",
     signsLabel: "Signs on the wall",
     note: "An illustration of the bar. The signs carry quotes from customers on Google and TripAdvisor until we have a photo of the real ones.",
+    photos: {
+      kicker: "At the bar, for real",
+      captions: {
+        ronda: "A round of pinchos",
+        canaBocadillos: "A beer and bocadillos at the bar",
+        pinchoCerca: "A freshly made pincho",
+        tortillaEmpanada: "Tortilla and empanada",
+        canaEmpanadilla: "A beer and an empanadilla",
+      },
+    },
   },
 
   visita: {

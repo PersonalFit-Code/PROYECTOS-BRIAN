@@ -375,6 +375,16 @@ const pt: Messages = {
       "Paredes brancas, prateleiras cheias de vinho com a sua luz azul, os copos pendurados de cabeça para baixo sobre o balcão e cartazes pretos com mensagens de bar das de sempre, pela positiva.",
     signsLabel: "Cartazes da parede",
     note: "Ilustração do espaço. Nos cartazes estão frases de clientes no Google e no TripAdvisor até termos fotografias dos cartazes verdadeiros.",
+    photos: {
+      kicker: "Ao balcão, a sério",
+      captions: {
+        ronda: "Uma rodada de pinchos",
+        canaBocadillos: "Imperial e sandes ao balcão",
+        pinchoCerca: "Pincho acabado de fazer",
+        tortillaEmpanada: "Tortilha e empanada",
+        canaEmpanadilla: "Imperial e empanadilha",
+      },
+    },
   },
 
   visita: {

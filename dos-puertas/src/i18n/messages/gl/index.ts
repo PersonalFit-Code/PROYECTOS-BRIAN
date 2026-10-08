@@ -368,6 +368,16 @@ const gl: Messages = {
       "Paredes brancas, andeis cheos de viño coa súa luz azul, as copas colgadas boca abaixo sobre a barra e carteis negros con mensaxes de bar dos de sempre, en positivo.",
     signsLabel: "Carteis da parede",
     note: "Ilustración do local. Nos carteis van frases de clientes en Google e TripAdvisor ata que teñamos foto dos carteis de verdade.",
+    photos: {
+      kicker: "Na barra, de verdade",
+      captions: {
+        ronda: "Unha rolda de pinchos",
+        canaBocadillos: "Caña e bocadillos na barra",
+        pinchoCerca: "Pincho acabado de facer",
+        tortillaEmpanada: "Tortilla e empanada",
+        canaEmpanadilla: "Caña e empanadilla",
+      },
+    },
   },
 
   visita: {

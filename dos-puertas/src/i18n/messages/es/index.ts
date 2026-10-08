@@ -365,6 +365,16 @@ const interior = {
     "Paredes blancas, estanterías llenas de vino con su luz azul, las copas colgadas boca abajo sobre la barra y carteles negros con mensajes de bar de los de siempre, en positivo.",
   signsLabel: "Carteles de la pared",
   note: "Ilustración del local. En los carteles van frases de clientes en Google y TripAdvisor hasta que tengamos foto de los carteles de verdad.",
+  photos: {
+    kicker: "En la barra, de verdad",
+    captions: {
+      ronda: "Una ronda de pinchos",
+      canaBocadillos: "Caña y bocadillos en la barra",
+      pinchoCerca: "Pincho recién hecho",
+      tortillaEmpanada: "Tortilla y empanada",
+      canaEmpanadilla: "Caña y empanadilla",
+    },
+  },
 };
 
 const visita = {
