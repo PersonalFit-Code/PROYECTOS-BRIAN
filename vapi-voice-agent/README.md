@@ -169,6 +169,26 @@ hace falta decidir donde va (una base de datos, el TPV del restaurante, un aviso
 por correo o Whatsapp) y añadir una herramienta `registrar_pedido` junto a
 `calcular_total` en `src/routes/voiceWebhook.ts`.
 
+## Sobre los avisos de `npm audit`
+
+`npm install` avisa de **2 vulnerabilidades moderadas** en `uuid`, que llegan
+por esta cadena:
+
+```
+firebase-admin -> @google-cloud/storage -> gaxios -> uuid@9
+```
+
+No nos afectan, y por eso no se fuerza la version:
+
+- El fallo (GHSA-w5hq-g745-h8pq) esta en `uuid` v3, v5 y v6 cuando se les pasa
+  un bufer. `gaxios` solo llama a `uuid.v4()`, y sin bufer.
+- La cadena viene de Cloud Storage, que este proyecto no usa.
+- Forzar una version distinta tocaria una dependencia interna de
+  `firebase-admin`, lo que arriesga mas de lo que arregla.
+
+Se resolvera solo cuando `firebase-admin` actualice `gaxios`. `npm audit fix`
+no lo corrige (lo deja igual), y `--force` no se usa.
+
 ## Estructura
 
 ```
