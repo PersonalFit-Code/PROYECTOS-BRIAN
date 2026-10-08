@@ -16,8 +16,8 @@ import { Router, type Request, type Response } from "express";
 
 import { config } from "../config";
 import { getBusiness } from "../db/businesses";
-import { listarPedidos } from "../db/orders";
-import type { Pedido } from "../db/types";
+import { listarPedidos, marcarAtendido } from "../db/orders";
+import type { PedidoConId } from "../db/types";
 import { formatearEuros } from "../util/format";
 
 export const panelRouter = Router();
@@ -49,6 +49,36 @@ function credencialesCorrectas(req: Request): boolean {
   );
 }
 
+/**
+ * Deja pasar o corta. Se aplica igual a ver el panel y a marcar un pedido:
+ * si una cosa esta protegida, la otra tambien.
+ */
+function permitido(req: Request, res: Response): boolean {
+  if (config.panelPassword) {
+    if (credencialesCorrectas(req)) return true;
+    res
+      .status(401)
+      .set("WWW-Authenticate", 'Basic realm="Panel de pedidos"')
+      .send("Acceso restringido.");
+    return false;
+  }
+
+  if (esLocal(req)) return true;
+  res
+    .status(403)
+    .send(
+      "El panel esta cerrado: define PANEL_PASSWORD para abrirlo fuera de este ordenador.",
+    );
+  return false;
+}
+
+/** El negocio al que se refiere la peticion, del query o del por defecto. */
+function leerBusinessId(valor: unknown): string {
+  return typeof valor === "string" && valor.trim() !== ""
+    ? valor.trim()
+    : config.defaultBusinessId;
+}
+
 /** Escapa el texto antes de meterlo en el HTML: viene de una llamada real. */
 function escapar(valor: string): string {
   return valor
@@ -70,7 +100,12 @@ function horaCorta(iso: string, zonaHoraria: string): string {
   }).format(fecha);
 }
 
-function pintarPedido(pedido: Pedido, zonaHoraria: string): string {
+function pintarPedido(
+  pedido: PedidoConId,
+  zonaHoraria: string,
+  businessId: string,
+  verTodo: boolean,
+): string {
   const lineas = pedido.lineas
     .map(
       (linea) =>
@@ -97,8 +132,21 @@ function pintarPedido(pedido: Pedido, zonaHoraria: string): string {
       ? `<span class="envio">+ ${formatearEuros(pedido.gastosEnvioCentimos)} envio</span>`
       : "";
 
+  const atendido = pedido.estado === "atendido";
+
+  // Formulario normal en vez de javascript: funciona siempre, tambien en un
+  // movil viejo o con la conexion a medias.
+  const boton = atendido
+    ? `<div class="hecho">Atendido</div>`
+    : `<form method="post" action="/pedidos/atendido">
+         <input type="hidden" name="business" value="${escapar(businessId)}">
+         <input type="hidden" name="docId" value="${escapar(pedido.docId)}">
+         <input type="hidden" name="verTodo" value="${verTodo ? "1" : ""}">
+         <button type="submit">Marcar atendido</button>
+       </form>`;
+
   return `
-    <article class="pedido">
+    <article class="pedido${atendido ? " atendido" : ""}">
       <header>
         <span class="codigo">${escapar(pedido.codigo)}</span>
         <span class="hora">${horaCorta(pedido.creadoEnIso, zonaHoraria)}</span>
@@ -108,18 +156,34 @@ function pintarPedido(pedido: Pedido, zonaHoraria: string): string {
       <div class="total">${formatearEuros(pedido.totalCentimos)} ${envio}</div>
       ${telefono}
       ${notas}
+      ${boton}
     </article>`;
 }
 
 function pintarPagina(
   nombreNegocio: string,
   businessId: string,
-  pedidos: Pedido[],
+  pedidos: PedidoConId[],
   zonaHoraria: string,
+  verTodo: boolean,
 ): string {
-  const contenido = pedidos.length
-    ? pedidos.map((pedido) => pintarPedido(pedido, zonaHoraria)).join("")
-    : `<p class="vacio">Todavia no hay pedidos.</p>`;
+  // Los pendientes primero: son los que hay que sacar.
+  const ordenados = [...pedidos].sort((a, b) => {
+    if (a.estado === b.estado) return 0;
+    return a.estado === "pendiente" ? -1 : 1;
+  });
+
+  const pendientes = pedidos.filter((p) => p.estado === "pendiente").length;
+
+  const contenido = ordenados.length
+    ? ordenados
+        .map((pedido) => pintarPedido(pedido, zonaHoraria, businessId, verTodo))
+        .join("")
+    : `<p class="vacio">${verTodo ? "Todavia no hay pedidos." : "Hoy no ha entrado ningun pedido."}</p>`;
+
+  const enlace = verTodo
+    ? `<a href="/pedidos?business=${encodeURIComponent(businessId)}">Ver solo los de hoy</a>`
+    : `<a href="/pedidos?business=${encodeURIComponent(businessId)}&amp;ver=todo">Ver todos</a>`;
 
   return `<!doctype html>
 <html lang="es">
@@ -157,48 +221,76 @@ function pintarPagina(
   .dato, .notas { font-size:.9rem; margin-top:6px; }
   .notas { color:var(--acento); }
   .vacio { color:var(--suave); }
+  .pedido.atendido { opacity:.5; }
+  .pedido form { margin-top:10px; }
+  .pedido button { width:100%; padding:9px; border:0; border-radius:8px; cursor:pointer;
+                   background:var(--acento); color:#fff; font:inherit; font-weight:600; }
+  .pedido button:hover { filter:brightness(1.1); }
+  .hecho { margin-top:10px; text-align:center; font-size:.8rem; font-weight:600;
+           text-transform:uppercase; letter-spacing:.04em; color:var(--suave); }
+  .sub a { color:var(--acento); }
 </style>
 </head>
 <body>
   <h1>${escapar(nombreNegocio)}</h1>
-  <div class="sub">${pedidos.length} pedido${pedidos.length === 1 ? "" : "s"} ·
-    ${escapar(businessId)} · se actualiza solo cada 15 s</div>
+  <div class="sub">
+    <b>${pendientes} pendiente${pendientes === 1 ? "" : "s"}</b>
+    de ${pedidos.length} ${verTodo ? "en total" : "hoy"} ·
+    ${escapar(businessId)} · se actualiza solo cada 15 s · ${enlace}
+  </div>
   <div class="rejilla">${contenido}</div>
 </body>
 </html>`;
 }
 
 panelRouter.get("/pedidos", async (req: Request, res: Response) => {
-  if (config.panelPassword) {
-    if (!credencialesCorrectas(req)) {
-      res
-        .status(401)
-        .set("WWW-Authenticate", 'Basic realm="Panel de pedidos"')
-        .send("Acceso restringido.");
-      return;
-    }
-  } else if (!esLocal(req)) {
-    res
-      .status(403)
-      .send(
-        "El panel esta cerrado: define PANEL_PASSWORD para abrirlo fuera de este ordenador.",
-      );
-    return;
-  }
+  if (!permitido(req, res)) return;
 
-  const businessIdBruto = req.query.business;
-  const businessId =
-    typeof businessIdBruto === "string" && businessIdBruto.trim() !== ""
-      ? businessIdBruto.trim()
-      : config.defaultBusinessId;
+  const businessId = leerBusinessId(req.query.business);
+  const verTodo = req.query.ver === "todo";
 
   const business = await getBusiness(businessId);
   // Los pedidos se guardaron bajo el id del negocio resuelto, no el pedido.
-  const pedidos = await listarPedidos(business.id);
+  const pedidos = await listarPedidos(business.id, {
+    soloHoy: !verTodo,
+    zonaHoraria: business.zonaHoraria,
+  });
 
   res
     .type("html")
     .send(
-      pintarPagina(business.nombre, business.id, pedidos, business.zonaHoraria),
+      pintarPagina(
+        business.nombre,
+        business.id,
+        pedidos,
+        business.zonaHoraria,
+        verTodo,
+      ),
     );
+});
+
+/**
+ * Marcar un pedido como atendido. Responde con una redireccion de vuelta al
+ * panel para que al recargar no se repita el envio del formulario.
+ */
+panelRouter.post("/pedidos/atendido", async (req: Request, res: Response) => {
+  if (!permitido(req, res)) return;
+
+  const cuerpo = req.body as Record<string, unknown> | undefined;
+  const businessId = leerBusinessId(cuerpo?.business);
+  const docId = typeof cuerpo?.docId === "string" ? cuerpo.docId : "";
+  const verTodo = Boolean(cuerpo?.verTodo);
+
+  const business = await getBusiness(businessId);
+  const hecho = await marcarAtendido(business.id, docId);
+
+  if (!hecho) {
+    res.status(500).send("No se ha podido marcar el pedido. Vuelve atras y reintenta.");
+    return;
+  }
+
+  const destino =
+    `/pedidos?business=${encodeURIComponent(business.id)}` +
+    (verTodo ? "&ver=todo" : "");
+  res.redirect(303, destino);
 });

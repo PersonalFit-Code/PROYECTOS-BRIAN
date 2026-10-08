@@ -85,6 +85,9 @@ export interface Business {
 /** Como quiere el cliente recibir el pedido. */
 export type TipoEntrega = "reparto" | "recogida";
 
+/** En que punto del circuito esta un pedido. */
+export type EstadoPedido = "pendiente" | "atendido";
+
 /** Una linea del pedido, ya resuelta contra la carta del negocio. */
 export interface LineaGuardada {
   /** Identificador del plato en la carta del negocio. */
@@ -120,8 +123,17 @@ export interface Pedido {
   notas: string;
   /** Identificador de la llamada en Vapi, para cruzarlo con la grabacion. */
   callId: string;
-  /** En que punto esta. El agente siempre crea pedidos "pendiente". */
-  estado: "pendiente";
+  /**
+   * En que punto esta. El agente siempre crea pedidos "pendiente"; pasa a
+   * "atendido" cuando alguien lo marca desde el panel.
+   */
+  estado: EstadoPedido;
   /** Momento de creacion en ISO, ademas del timestamp del servidor. */
   creadoEnIso: string;
+}
+
+/** Un pedido leido de la base de datos, con el id de su documento. */
+export interface PedidoConId extends Pedido {
+  /** Id del documento en Firestore. Es el identificador de la llamada. */
+  docId: string;
 }

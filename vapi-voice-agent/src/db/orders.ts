@@ -19,7 +19,12 @@ import { FieldValue } from "firebase-admin/firestore";
 
 import { calcularTotal, type LineaPedido, type TotalPedido } from "../pedido";
 import { firestore } from "./firebase";
-import type { Business, Pedido, TipoEntrega } from "./types";
+import type {
+  Business,
+  Pedido,
+  PedidoConId,
+  TipoEntrega,
+} from "./types";
 
 const SUBCOLECCION = "pedidos";
 
@@ -186,7 +191,54 @@ export async function guardarPedido(
 }
 
 /**
- * Ultimos pedidos de un negocio, del mas reciente al mas antiguo.
+ * Instante en que empezo el dia de hoy en la zona horaria del negocio.
+ *
+ * No vale con la medianoche del servidor: puede estar en otro huso, y "los
+ * pedidos de hoy" significa los de hoy en el restaurante.
+ */
+export function comienzoDelDia(zonaHoraria: string, ahora = new Date()): Date {
+  const partes = new Intl.DateTimeFormat("en-CA", {
+    timeZone: zonaHoraria,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).formatToParts(ahora);
+
+  const buscar = (tipo: string): number =>
+    Number(partes.find((parte) => parte.type === tipo)?.value ?? "0");
+
+  // Diferencia entre la hora local del negocio y la UTC, en milisegundos.
+  const comoSiFueraUtc = Date.UTC(
+    buscar("year"),
+    buscar("month") - 1,
+    buscar("day"),
+    buscar("hour") === 24 ? 0 : buscar("hour"),
+    buscar("minute"),
+    buscar("second"),
+  );
+  const desfase = comoSiFueraUtc - Math.floor(ahora.getTime() / 1000) * 1000;
+
+  const medianocheLocal = Date.UTC(
+    buscar("year"),
+    buscar("month") - 1,
+    buscar("day"),
+  );
+  return new Date(medianocheLocal - desfase);
+}
+
+export interface FiltroPedidos {
+  /** Solo los del dia en curso en la zona del negocio. Por defecto, si. */
+  soloHoy?: boolean;
+  zonaHoraria?: string;
+  limite?: number;
+}
+
+/**
+ * Pedidos de un negocio, del mas reciente al mas antiguo.
  *
  * Devuelve lista vacia si no hay Firestore o si la consulta falla: el panel
  * tiene que poder dibujarse igual y decir que no hay nada, en lugar de
@@ -194,23 +246,61 @@ export async function guardarPedido(
  */
 export async function listarPedidos(
   businessId: string,
-  limite = 50,
-): Promise<Pedido[]> {
+  filtro: FiltroPedidos = {},
+): Promise<PedidoConId[]> {
   if (!firestore) return [];
 
+  const { soloHoy = true, zonaHoraria = "Europe/Madrid", limite = 100 } = filtro;
+
   try {
-    const consulta = await firestore
+    let consulta = firestore
       .collection("businesses")
       .doc(businessId)
       .collection(SUBCOLECCION)
       .orderBy("creadoEn", "desc")
-      .limit(limite)
-      .get();
+      .limit(limite);
 
-    return consulta.docs.map((documento) => documento.data() as Pedido);
+    if (soloHoy) {
+      // El rango y el orden van sobre el mismo campo, asi que Firestore no
+      // necesita ningun indice compuesto para esto.
+      consulta = consulta.where("creadoEn", ">=", comienzoDelDia(zonaHoraria));
+    }
+
+    const resultado = await consulta.get();
+    return resultado.docs.map((documento) => ({
+      ...(documento.data() as Pedido),
+      docId: documento.id,
+    }));
   } catch (error) {
     const motivo = error instanceof Error ? error.message : String(error);
     console.error(`[pedidos] no se han podido leer los de ${businessId}: ${motivo}`);
     return [];
+  }
+}
+
+/**
+ * Marca un pedido como atendido. Devuelve false si no se pudo, para que el
+ * panel lo diga en lugar de aparentar que si.
+ */
+export async function marcarAtendido(
+  businessId: string,
+  docId: string,
+): Promise<boolean> {
+  if (!firestore || !docId) return false;
+
+  try {
+    await firestore
+      .collection("businesses")
+      .doc(businessId)
+      .collection(SUBCOLECCION)
+      .doc(docId)
+      .update({ estado: "atendido", atendidoEnIso: new Date().toISOString() });
+
+    console.log(`[pedido] ${docId} marcado como atendido en ${businessId}`);
+    return true;
+  } catch (error) {
+    const motivo = error instanceof Error ? error.message : String(error);
+    console.error(`[pedido] no se ha podido marcar ${docId}: ${motivo}`);
+    return false;
   }
 }
