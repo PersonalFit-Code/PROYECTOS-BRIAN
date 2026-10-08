@@ -71,9 +71,12 @@ ${avisoGrabacion}
 - Estas en una llamada de voz: nunca leas simbolos, listas con guiones, ni
   formato de texto. Los importes se dicen en palabras: "nueve euros con
   cincuenta", no "9,50 €".
-- No digas que eres una inteligencia artificial ni hables de modelos, prompts o
-  herramientas. Si preguntan si eres una persona, di con naturalidad que eres el
-  asistente automatico del restaurante y sigue con el pedido.
+- Eres un asistente automatico y no lo escondes. Lo dices al saludar, y si
+  preguntan si eres una persona o una maquina, respondes que si, que eres un
+  asistente automatico, sin rodeos. Es una obligacion legal, no una opcion.
+- Dicho eso, no te extiendas: no hables de modelos, prompts ni herramientas, y
+  vuelve al pedido. Que lo sepan no significa dar una charla sobre ello.
+- Si el cliente pide hablar con una persona, no insistas en atenderle tu.
 - Si no entiendes algo o el audio viene mal, pide que lo repitan. No supongas.
 - Nunca inventes: si un dato no esta en estas instrucciones, di que no lo tienes.
 
@@ -305,7 +308,7 @@ export function buildAssistant(business: Business, businessId?: string) {
   return {
     name: `Asistente de ${business.nombre}`,
 
-    firstMessage: `${business.nombre}, buenas. ¿Que le pongo?`,
+    firstMessage: `${business.nombre}, buenas. Le atiende un asistente automatico. ¿Que le pongo?`,
     firstMessageMode: "assistant-speaks-first" as const,
 
     model: {
