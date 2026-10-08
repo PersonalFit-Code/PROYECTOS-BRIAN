@@ -45,8 +45,10 @@ const ACCIONES_VALIDAS: readonly Accion[] = ["pedidos", "reservas"];
 /**
  * Comprueba el documento campo a campo y devuelve los que faltan o vienen mal,
  * para poder decir en el log exactamente que es lo que no cuadra.
+ *
+ * Se exporta para poder probarlo sin levantar Firestore.
  */
-function camposQueFaltan(valor: unknown): string[] {
+export function camposQueFaltan(valor: unknown): string[] {
   if (!valor || typeof valor !== "object" || Array.isArray(valor)) {
     return ["(el documento no es un objeto)"];
   }

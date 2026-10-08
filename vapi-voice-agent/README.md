@@ -27,7 +27,10 @@ npm start              # arranca dist/index.js
 | `npm run dev` | Servidor en desarrollo con recarga al guardar. |
 | `npm run build` | Compila `src/` a `dist/`. |
 | `npm start` | Arranca la version compilada. |
-| `npm run typecheck` | Comprueba los tipos sin generar ficheros. |
+| `npm run typecheck` | Comprueba los tipos sin generar ficheros (tests incluidos). |
+| `npm test` | Ejecuta los tests. |
+| `npm run prueba:pedido [negocio]` | Manda un pedido de prueba al servidor local. |
+| `npm run crear:negocio <id>` | Da de alta un negocio de ejemplo en Firestore. |
 
 ## El modelo: Claude Haiku 4.5, no 3.5
 
@@ -168,6 +171,33 @@ toma, lo confirma y dice el total, pero al colgar no queda registrado. Para eso
 hace falta decidir donde va (una base de datos, el TPV del restaurante, un aviso
 por correo o Whatsapp) y añadir una herramienta `registrar_pedido` junto a
 `calcular_total` en `src/routes/voiceWebhook.ts`.
+
+## Tests
+
+```bash
+npm test
+```
+
+Usan el ejecutor que trae Node, sin librerias de testing. Cubren lo que, si se
+rompe, cuesta dinero o confianza:
+
+- **El calculo del total**: umbrales de envio gratis (y el centimo justo por
+  encima y por debajo), recogida, cantidades invalidas, platos fuera de carta
+  y que los importes en centimos no acumulen errores de coma flotante.
+- **La validacion de negocios** que llegan de Firestore, campo a campo.
+- **El comienzo del dia** en la zona del negocio, con horario de verano e
+  invierno, cruce de medianoche y varios husos.
+- **El pedido que se guarda**: codigo sin caracteres que se confundan al
+  telefono, direccion obligatoria en reparto, limpieza de los datos.
+- **El resumen de la llamada**: duracion, que se guarde la URL duradera de la
+  grabacion y no la que caduca, y que aguante eventos incompletos.
+
+Los tests se comprobaron rompiendo el codigo a proposito (el umbral del envio,
+el limite de cantidades y el alfabeto del codigo): los tres fallos los detecta.
+No entran en `dist/`: el build usa `tsconfig.build.json`, que los excluye.
+
+Lo que **no** cubren todavia: el webhook de punta a punta y el panel. Eso se
+comprueba a mano contra un Firestore simulado.
 
 ## Grabacion de llamadas: apagada a proposito
 
