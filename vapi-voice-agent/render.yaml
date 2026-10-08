@@ -1,0 +1,30 @@
+# Despliegue en Render. Con este fichero en el repositorio, Render monta el
+# servicio solo al conectar el repo: Blueprints -> New Blueprint Instance.
+#
+# Las claves NO van aqui: se ponen a mano en el panel de Render
+# (Environment), porque este fichero esta en GitHub.
+services:
+  - type: web
+    name: vapi-voice-agent
+    runtime: docker
+    dockerfilePath: ./vapi-voice-agent/Dockerfile
+    dockerContext: ./vapi-voice-agent
+    region: frankfurt
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Estas cuatro se rellenan en el panel de Render, no aqui:
+      #   VAPI_SERVER_SECRET      el secreto compartido con Vapi
+      #   FIREBASE_SERVICE_ACCOUNT la cuenta de servicio en base64
+      #   PUBLIC_SERVER_URL        la URL que Render asigne, sin barra final
+      #   PANEL_PASSWORD           contrasena del panel de pedidos
+      - key: VAPI_SERVER_SECRET
+        sync: false
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false
+      - key: PUBLIC_SERVER_URL
+        sync: false
+      - key: PANEL_PASSWORD
+        sync: false

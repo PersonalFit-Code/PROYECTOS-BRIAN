@@ -172,6 +172,47 @@ hace falta decidir donde va (una base de datos, el TPV del restaurante, un aviso
 por correo o Whatsapp) y añadir una herramienta `registrar_pedido` junto a
 `calcular_total` en `src/routes/voiceWebhook.ts`.
 
+## Desplegar en un servidor siempre encendido
+
+Mientras el servidor corra en un portatil, el agente deja de atender al
+cerrarlo. Para usarlo de verdad hay que ponerlo en algun sitio que no se
+apague.
+
+El repositorio trae un `Dockerfile` (dos etapas: compila con las dependencias
+de desarrollo y publica solo lo necesario, sin correr como root) y un
+`render.yaml`, asi que vale para Render, Railway, Fly o Cloud Run.
+
+### Con Render, paso a paso
+
+1. En https://dashboard.render.com, **New** -> **Blueprint**, y conecta este
+   repositorio. Render lee `render.yaml` y crea el servicio.
+2. Cuando termine, copia la URL que te asigna (algo como
+   `https://vapi-voice-agent.onrender.com`).
+3. En **Environment**, añade las cuatro variables, que no estan en el
+   repositorio a proposito:
+
+   | Variable | Que poner |
+   | --- | --- |
+   | `VAPI_SERVER_SECRET` | el mismo secreto que en Vapi |
+   | `FIREBASE_SERVICE_ACCOUNT` | la cuenta de servicio en base64 (la misma del `.env`) |
+   | `PUBLIC_SERVER_URL` | la URL de Render, **sin barra final** |
+   | `PANEL_PASSWORD` | una contrasena para el panel |
+
+4. Render reinicia solo. Comprueba `https://<tu-url>/health`.
+5. En Vapi, pon como **Server URL** `https://<tu-url>/voice-webhook` y el
+   mismo secreto.
+
+`PUBLIC_SERVER_URL` es lo del huevo y la gallina: no la sabes hasta que
+despliegas. Por eso se rellena despues, en el paso 3.
+
+**No te saltes `PANEL_PASSWORD`.** Sin ella el panel se cierra a cualquiera
+que no sea el propio servidor, asi que no lo podrias abrir; y lo peor seria
+abrirlo sin contrasena, porque enseña direcciones y telefonos de clientes.
+
+Los comandos `crear:negocio` y `prueba:pedido` no viajan en la imagen: son
+herramientas de desarrollo. Se lanzan desde tu ordenador, que apunta a la
+misma base de datos.
+
 ## Tests
 
 ```bash
