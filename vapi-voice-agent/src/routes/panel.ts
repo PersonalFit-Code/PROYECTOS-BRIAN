@@ -160,11 +160,11 @@ function pintarPedido(
     </article>`;
 }
 
-function pintarPagina(
-  nombreNegocio: string,
-  businessId: string,
+/** Solo la rejilla de pedidos: es lo que se refresca sin recargar la pagina. */
+function pintarRejilla(
   pedidos: PedidoConId[],
   zonaHoraria: string,
+  businessId: string,
   verTodo: boolean,
 ): string {
   // Los pendientes primero: son los que hay que sacar.
@@ -173,13 +173,27 @@ function pintarPagina(
     return a.estado === "pendiente" ? -1 : 1;
   });
 
-  const pendientes = pedidos.filter((p) => p.estado === "pendiente").length;
-
-  const contenido = ordenados.length
+  return ordenados.length
     ? ordenados
         .map((pedido) => pintarPedido(pedido, zonaHoraria, businessId, verTodo))
         .join("")
     : `<p class="vacio">${verTodo ? "Todavia no hay pedidos." : "Hoy no ha entrado ningun pedido."}</p>`;
+}
+
+/** Los codigos de los pedidos pendientes, para detectar los que son nuevos. */
+function codigosPendientes(pedidos: PedidoConId[]): string[] {
+  return pedidos.filter((p) => p.estado === "pendiente").map((p) => p.codigo);
+}
+
+function pintarPagina(
+  nombreNegocio: string,
+  businessId: string,
+  pedidos: PedidoConId[],
+  zonaHoraria: string,
+  verTodo: boolean,
+): string {
+  const pendientes = codigosPendientes(pedidos).length;
+  const contenido = pintarRejilla(pedidos, zonaHoraria, businessId, verTodo);
 
   const enlace = verTodo
     ? `<a href="/pedidos?business=${encodeURIComponent(businessId)}">Ver solo los de hoy</a>`
@@ -229,16 +243,94 @@ function pintarPagina(
   .hecho { margin-top:10px; text-align:center; font-size:.8rem; font-weight:600;
            text-transform:uppercase; letter-spacing:.04em; color:var(--suave); }
   .sub a { color:var(--acento); }
+  #sonido { margin-bottom:14px; padding:8px 14px; border:1px solid var(--borde);
+            border-radius:8px; background:var(--tarjeta); color:var(--texto);
+            font:inherit; cursor:pointer; }
+  #sonido:disabled { opacity:.6; cursor:default; }
 </style>
 </head>
 <body>
   <h1>${escapar(nombreNegocio)}</h1>
   <div class="sub">
-    <b>${pendientes} pendiente${pendientes === 1 ? "" : "s"}</b>
+    <b><span id="cuenta">${pendientes}</span> pendiente${pendientes === 1 ? "" : "s"}</b>
     de ${pedidos.length} ${verTodo ? "en total" : "hoy"} ·
     ${escapar(businessId)} · se actualiza solo cada 15 s · ${enlace}
   </div>
-  <div class="rejilla">${contenido}</div>
+  <button id="sonido" type="button" hidden>Activar aviso sonoro</button>
+  <div class="rejilla" id="rejilla">${contenido}</div>
+
+<script>
+// Sin javascript la pagina sigue funcionando: el <meta refresh> la recarga
+// cada 15 segundos. Con javascript se hace mejor: se refresca solo la lista,
+// sin parpadeo, y suena un aviso cuando entra un pedido nuevo.
+(function () {
+  var meta = document.querySelector('meta[http-equiv="refresh"]');
+  if (meta) meta.remove();
+
+  var rejilla = document.getElementById("rejilla");
+  var cuenta = document.getElementById("cuenta");
+  var boton = document.getElementById("sonido");
+  var datos = ${JSON.stringify(`/pedidos/datos?business=${encodeURIComponent(businessId)}${verTodo ? "&ver=todo" : ""}`)};
+  var conocidos = ${JSON.stringify(codigosPendientes(pedidos))};
+  var titulo = document.title;
+  var audio = null;
+
+  // El navegador no deja sonar nada hasta que la persona toca la pagina, asi
+  // que el primer clic en este boton es el que habilita el aviso.
+  boton.hidden = false;
+  boton.addEventListener("click", function () {
+    try {
+      audio = new (window.AudioContext || window.webkitAudioContext)();
+      audio.resume();
+      pitar();
+      boton.textContent = "Aviso sonoro activado";
+      boton.disabled = true;
+    } catch (e) {
+      boton.textContent = "Este navegador no deja poner sonido";
+      boton.disabled = true;
+    }
+  });
+
+  function pitar() {
+    if (!audio) return;
+    // Dos pitidos cortos: se oyen en una cocina sin ser molestos.
+    [0, 0.25].forEach(function (retraso) {
+      var osc = audio.createOscillator();
+      var vol = audio.createGain();
+      osc.frequency.value = 880;
+      vol.gain.value = 0.12;
+      osc.connect(vol).connect(audio.destination);
+      osc.start(audio.currentTime + retraso);
+      osc.stop(audio.currentTime + retraso + 0.15);
+    });
+  }
+
+  function avisar(nuevos) {
+    pitar();
+    document.title = "(" + nuevos + ") " + titulo;
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    setTimeout(function () { document.title = titulo; }, 20000);
+  }
+
+  function refrescar() {
+    fetch(datos, { headers: { Accept: "application/json" } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d) return;
+        rejilla.innerHTML = d.html;
+        if (cuenta) cuenta.textContent = d.pendientes;
+        var nuevos = d.codigos.filter(function (c) {
+          return conocidos.indexOf(c) === -1;
+        });
+        conocidos = d.codigos;
+        if (nuevos.length) avisar(nuevos.length);
+      })
+      .catch(function () { /* sin red: se reintenta en el siguiente ciclo */ });
+  }
+
+  setInterval(refrescar, 15000);
+})();
+</script>
 </body>
 </html>`;
 }
@@ -267,6 +359,29 @@ panelRouter.get("/pedidos", async (req: Request, res: Response) => {
         verTodo,
       ),
     );
+});
+
+/**
+ * La lista de pedidos en JSON, para refrescar sin recargar la pagina.
+ * Protegida igual que el panel: devuelve los mismos datos de clientes.
+ */
+panelRouter.get("/pedidos/datos", async (req: Request, res: Response) => {
+  if (!permitido(req, res)) return;
+
+  const businessId = leerBusinessId(req.query.business);
+  const verTodo = req.query.ver === "todo";
+
+  const business = await getBusiness(businessId);
+  const pedidos = await listarPedidos(business.id, {
+    soloHoy: !verTodo,
+    zonaHoraria: business.zonaHoraria,
+  });
+
+  res.json({
+    html: pintarRejilla(pedidos, business.zonaHoraria, business.id, verTodo),
+    codigos: codigosPendientes(pedidos),
+    pendientes: codigosPendientes(pedidos).length,
+  });
 });
 
 /**
