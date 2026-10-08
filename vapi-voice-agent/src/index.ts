@@ -4,6 +4,11 @@ import { config } from "./config";
 const server = createApp().listen(config.port, () => {
   console.log(`Servidor escuchando en http://localhost:${config.port}`);
   console.log(`Webhook de Vapi: POST http://localhost:${config.port}/voice-webhook`);
+  console.log(
+    config.grabarLlamadas
+      ? "Grabacion de llamadas: ACTIVADA. El agente avisa al descolgar."
+      : "Grabacion de llamadas: desactivada.",
+  );
   if (!config.vapiServerSecret) {
     console.warn(
       "VAPI_SERVER_SECRET no esta definido: el webhook acepta cualquier peticion.",

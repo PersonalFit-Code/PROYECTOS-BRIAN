@@ -169,6 +169,33 @@ hace falta decidir donde va (una base de datos, el TPV del restaurante, un aviso
 por correo o Whatsapp) y añadir una herramienta `registrar_pedido` junto a
 `calcular_total` en `src/routes/voiceWebhook.ts`.
 
+## Grabacion de llamadas: apagada a proposito
+
+Vapi graba las llamadas **por defecto**. Aqui se envia siempre el valor de
+forma explicita y viene **desactivado**, porque grabar la voz de un cliente no
+es una decision tecnica:
+
+- En España, grabar una llamada con un cliente obliga a **informarle antes**
+  de que empiece (RGPD y LOPDGDD), a guardar la grabacion solo el tiempo
+  necesario y a poder borrarla si la pide.
+- Esto no es asesoramiento legal. Antes de activarlo conviene mirarlo con
+  quien lleve la proteccion de datos del restaurante.
+
+Si decides activarlo, `GRABAR_LLAMADAS=si` en el `.env`. Entonces:
+
+- Vapi graba y se guarda la URL de la grabacion junto al resumen de la llamada.
+- El guion del agente incluye el aviso y lo dice **nada mas descolgar**, antes
+  de tomar ningun dato.
+- El servidor lo escribe al arrancar: `Grabacion de llamadas: ACTIVADA`.
+
+Con la grabacion apagada **si se guarda la transcripcion** de la conversacion,
+que es lo que sirve para resolver un "yo no pedi eso". Tambien es un dato
+personal: se guarda en Firestore, en `/businesses/{id}/llamadas`.
+
+La URL de la grabacion no es publica: para descargarla hace falta la clave de
+la API de Vapi. Las URL firmadas que Vapi incluye en el evento no se guardan,
+porque caducan.
+
 ## Sobre los avisos de `npm audit`
 
 `npm install` avisa de **2 vulnerabilidades moderadas** en `uuid`, que llegan

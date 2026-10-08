@@ -46,6 +46,14 @@ export function buildSystemPrompt(business: Business): string {
   // puede ser undefined, asi que se deja un valor de respaldo.
   const accion = business.acciones[0] ?? "pedidos";
 
+  // Si se graba, hay que decirlo: avisar es obligacion legal, no cortesia.
+  const avisoGrabacion = config.grabarLlamadas
+    ? `
+Esta llamada se graba. Dilo en cuanto saludes, con naturalidad y en una frase
+corta, antes de tomar ningun dato.
+`
+    : "";
+
   return `# QUIEN ERES
 
 Eres el asistente telefonico de ${nombre}, ${tipoLabel} de ${ciudad}.
@@ -54,7 +62,7 @@ Hablas por telefono con una persona real: eres amable, rapido y resolutivo, como
 un buen camarero que coge el telefono en plena hora punta.
 
 El momento actual es: ${momentoActual(zonaHoraria)} (hora de ${ciudad}).
-
+${avisoGrabacion}
 # COMO HABLAS
 
 - Hablas en castellano de España, en tono cercano y natural, tratando de usted.
@@ -327,6 +335,10 @@ export function buildAssistant(business: Business, businessId?: string) {
       "status-update",
       "end-of-call-report",
     ] as const,
+
+    // Explicito en los dos sentidos: Vapi graba por defecto y no queremos
+    // que la grabacion dependa de un valor que no hayamos escrito nosotros.
+    artifactPlan: { recordingEnabled: config.grabarLlamadas },
 
     endCallMessage: "Gracias por llamar. ¡Hasta luego!",
     endCallPhrases: ["hasta luego", "adios", "nada mas, gracias"],

@@ -20,6 +20,16 @@ function readPort(raw: string | undefined): number {
   return port;
 }
 
+/**
+ * Lee un interruptor de texto. Acepta las formas en que una persona escribe
+ * "si" de verdad, con tilde o en ingles: callar un "si" mal escrito y no
+ * activar nada seria una sorpresa desagradable.
+ */
+function esAfirmativo(raw: string | undefined): boolean {
+  const valor = (raw ?? "").trim().toLowerCase();
+  return ["si", "sí", "yes", "true", "1"].includes(valor);
+}
+
 /** Quita la barra final para poder concatenar rutas sin duplicarla. */
 function readPublicUrl(raw: string | undefined): string {
   return (raw ?? "").trim().replace(/\/+$/, "");
@@ -42,5 +52,12 @@ export const config = {
    * telefonos de clientes abiertos en internet por despiste.
    */
   panelPassword: process.env.PANEL_PASSWORD ?? "",
+  /**
+   * Si se graba el audio de las llamadas. Vapi lo trae activado por defecto;
+   * aqui se apaga salvo que se pida expresamente, porque grabar a un cliente
+   * obliga a avisarle (ver README). Con GRABAR_LLAMADAS=si, el agente lo
+   * anuncia al descolgar.
+   */
+  grabarLlamadas: esAfirmativo(process.env.GRABAR_LLAMADAS),
   nodeEnv: process.env.NODE_ENV ?? "development",
 } as const;

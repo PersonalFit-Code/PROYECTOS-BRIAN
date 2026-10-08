@@ -3,6 +3,7 @@ import { Router, type Request, type Response } from "express";
 import { buildAssistant } from "../assistant";
 import { config } from "../config";
 import { getBusiness } from "../db/businesses";
+import { guardarResumenLlamada } from "../db/calls";
 import { PedidoNoGuardadoError, guardarPedido } from "../db/orders";
 import type { Business } from "../db/types";
 import { formatearEuros } from "../util/format";
@@ -259,8 +260,14 @@ async function atender(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    case "status-update":
     case "end-of-call-report":
+      // Se archiva la llamada, pero la respuesta no espera a Firestore: Vapi
+      // solo necesita el 200 y el archivo no debe retrasarlo.
+      void guardarResumenLlamada(business, message as Record<string, unknown>);
+      res.json({ received: true, type: message.type });
+      return;
+
+    case "status-update":
     case "transcript":
     case "speech-update":
     case "conversation-update":
