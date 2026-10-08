@@ -114,7 +114,7 @@ async function ejecutarHerramienta(
     case TOOL_REGISTRAR_PEDIDO: {
       try {
         const articulos = argumentos.articulos as LineaPedido[] | undefined;
-        const pedido = await guardarPedido(business, {
+        const { pedido, yaExistia } = await guardarPedido(business, {
           articulos: articulos ?? [],
           entrega: argumentos.entrega,
           direccion: argumentos.direccion as string | undefined,
@@ -122,10 +122,14 @@ async function ejecutarHerramienta(
           notas: argumentos.notas as string | undefined,
           callId,
         });
-        return (
-          `Pedido registrado. El codigo es ${pedido.codigo.split("").join(" ")}. ` +
-          `Total: ${formatearEuros(pedido.totalCentimos)}.`
-        );
+
+        // Deletreado: el agente lo lee letra a letra por telefono.
+        const codigo = pedido.codigo.split("").join(" ");
+        const total = formatearEuros(pedido.totalCentimos);
+
+        return yaExistia
+          ? `Este pedido ya estaba registrado, no se ha duplicado. El codigo sigue siendo ${codigo} y el total ${total}. Leeselo al cliente y no vuelvas a registrarlo.`
+          : `Pedido registrado. El codigo es ${codigo}. Total: ${total}.`;
       } catch (error) {
         // Ni PedidoInvalido ni PedidoNoGuardado deben sonar a "ya esta hecho":
         // el agente tiene instrucciones de no confirmar si esto falla.

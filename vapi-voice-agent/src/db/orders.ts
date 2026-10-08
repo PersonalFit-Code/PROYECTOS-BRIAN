@@ -10,6 +10,9 @@
  * - Si no se puede guardar, no se finge que si. Quien llame a esta funcion
  *   recibe el error y debe decirle al cliente que confirme por telefono; el
  *   pedido se vuelca ademas al log para no perderlo.
+ * - Una llamada, un pedido. El documento se guarda con el identificador de la
+ *   llamada como clave, asi que un reintento de Vapi o una segunda llamada a
+ *   la herramienta no pueden crear un pedido repetido.
  */
 
 import { FieldValue } from "firebase-admin/firestore";
@@ -31,6 +34,34 @@ export interface DatosPedido {
 }
 
 export class PedidoNoGuardadoError extends Error {}
+
+export interface ResultadoGuardado {
+  pedido: Pedido;
+  /**
+   * true cuando ya habia un pedido para esta llamada: no se ha vuelto a
+   * guardar y lo que se devuelve es el que ya estaba.
+   */
+  yaExistia: boolean;
+}
+
+/** Codigo gRPC de Firestore cuando el documento ya existe. */
+const YA_EXISTE = 6;
+
+function esDocumentoYaExistente(error: unknown): boolean {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    (error as { code?: unknown }).code === YA_EXISTE
+  );
+}
+
+/**
+ * El identificador de la llamada hace de clave del pedido. Se limpia de
+ * caracteres que Firestore no admite en un id de documento.
+ */
+function idDocumento(callId: string): string {
+  return callId.replace(/[^A-Za-z0-9_-]/g, "-").slice(0, 200);
+}
 
 /**
  * Alfabeto sin caracteres que se confunden al deletrearlos por telefono: sin
@@ -97,7 +128,7 @@ export function construirPedido(
 export async function guardarPedido(
   business: Business,
   datos: DatosPedido,
-): Promise<Pedido> {
+): Promise<ResultadoGuardado> {
   // El total se recalcula aqui: es la misma funcion que uso calcular_total.
   const total = calcularTotal(business, datos.articulos, datos.entrega);
   const pedido = construirPedido(business, datos, total);
@@ -112,18 +143,39 @@ export async function guardarPedido(
     throw new PedidoNoGuardadoError("la base de datos no esta configurada");
   }
 
+  const coleccion = firestore
+    .collection("businesses")
+    .doc(business.id)
+    .collection(SUBCOLECCION);
+
+  // Con identificador de llamada, ese es el id del documento; sin el no hay
+  // forma de reconocer un repetido y se deja que Firestore ponga uno.
+  const clave = idDocumento(texto(datos.callId));
+  const documento = clave ? coleccion.doc(clave) : coleccion.doc();
+
   try {
-    const documento = await firestore
-      .collection("businesses")
-      .doc(business.id)
-      .collection(SUBCOLECCION)
-      .add({ ...pedido, creadoEn: FieldValue.serverTimestamp() });
+    // create() falla si el documento ya existe, y esa es justo la proteccion:
+    // la comprobacion y la escritura son una sola operacion, sin ventana por
+    // la que se cuelen dos pedidos a la vez.
+    await documento.create({
+      ...pedido,
+      creadoEn: FieldValue.serverTimestamp(),
+    });
 
     console.log(
       `[pedido] guardado ${pedido.codigo} (${documento.id}) para ${business.id}: ${pedido.totalCentimos} centimos`,
     );
-    return pedido;
+    return { pedido, yaExistia: false };
   } catch (error) {
+    if (esDocumentoYaExistente(error)) {
+      const anterior = (await documento.get()).data() as Pedido | undefined;
+      if (anterior) {
+        console.warn(
+          `[pedido] la llamada ${clave} ya tenia el pedido ${anterior.codigo}; no se guarda otro`,
+        );
+        return { pedido: anterior, yaExistia: true };
+      }
+    }
     const motivo = error instanceof Error ? error.message : String(error);
     console.error(
       `[pedido] NO GUARDADO, error de Firestore (${motivo}):`,

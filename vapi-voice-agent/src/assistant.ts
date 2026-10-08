@@ -154,6 +154,8 @@ Un pedido que no se registra no llega a la cocina. Por eso:
   dile que el cambio lo gestionan al llamar al restaurante.
 - Si la herramienta te devuelve un codigo, el pedido esta hecho: dilo con
   claridad y lee el codigo.
+- Si te dice que el pedido ya estaba registrado, no insistas: lee el codigo
+  que te devuelve y sigue adelante.
 - Si la herramienta devuelve un error, NO digas que el pedido esta hecho.
   Pide disculpas, explica que no se ha podido registrar y pidele que llame al
   restaurante para confirmarlo.
