@@ -7,6 +7,7 @@
  * campo en la base de datos.
  */
 
+import { conLimite } from "../util/espera";
 import { fallbackBusiness } from "./fallbackBusiness";
 import { firestore } from "./firebase";
 import type { Accion, Business } from "./types";
@@ -20,6 +21,14 @@ const COLECCION = "businesses";
  * reiniciar el servidor.
  */
 const TTL_MS = 60_000;
+
+/**
+ * Lo maximo que se espera a Firestore dentro de una llamada en curso. Vapi
+ * corta la peticion mucho antes de que a una consulta lenta se le acabe su
+ * propio plazo, asi que aqui se corta primero y se sigue con el negocio de
+ * ejemplo: el agente atiende aunque la base de datos este torpe.
+ */
+const MAX_ESPERA_FIRESTORE_MS = 2_500;
 
 const cache = new Map<string, { business: Business; expira: number }>();
 
@@ -177,10 +186,17 @@ export async function getBusiness(id: string): Promise<Business> {
   }
 
   try {
-    const documento = await firestore
-      .collection(COLECCION)
-      .doc(buscado)
-      .get();
+    const documento = await conLimite(
+      firestore.collection(COLECCION).doc(buscado).get(),
+      MAX_ESPERA_FIRESTORE_MS,
+    );
+
+    if (documento === null) {
+      console.error(
+        `Firestore tardo mas de ${MAX_ESPERA_FIRESTORE_MS} ms en dar el negocio "${buscado}", usando negocio de ejemplo.`,
+      );
+      return fallbackBusiness;
+    }
 
     if (!documento.exists) {
       // El panel pregunta cada pocos segundos: se avisa una vez por negocio

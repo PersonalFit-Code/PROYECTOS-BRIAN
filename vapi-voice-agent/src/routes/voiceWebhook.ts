@@ -12,6 +12,7 @@ import {
   TOOL_REGISTRAR_PEDIDO,
 } from "../tools/names";
 import { normalizarLlamadas, parseArgs } from "../tools/normalizar";
+import { conLimite } from "../util/espera";
 import {
   PedidoInvalidoError,
   calcularTotal,
@@ -101,6 +102,53 @@ async function ejecutarHerramienta(
   }
 }
 
+/**
+ * Lo maximo que se deja tardar a una herramienta. Vapi corta la peticion por
+ * su cuenta y entonces el agente se queda callado hasta que la llamada muere
+ * por silencio: mas vale contestar tarde pero contestar, con una frase que el
+ * agente pueda leer, que dejar al cliente oyendo nada.
+ */
+const MAX_HERRAMIENTA_MS = 8_000;
+
+function mensajeDeTardanza(nombre: string): string {
+  if (nombre === TOOL_REGISTRAR_PEDIDO) {
+    return "NO se ha podido registrar el pedido: el sistema ha tardado demasiado. Pide disculpas y dile al cliente que llame al restaurante para confirmarlo.";
+  }
+  if (nombre === TOOL_CALCULAR_TOTAL) {
+    return "No se ha podido calcular el total ahora mismo. Dile al cliente que el importe exacto se lo confirman al entregar el pedido, y sigue adelante.";
+  }
+  return `La herramienta "${nombre}" ha tardado demasiado y no ha dado respuesta.`;
+}
+
+/**
+ * Ejecuta una herramienta con tope de tiempo y deja en el log cuanto ha
+ * tardado y que se ha contestado. Nunca lanza: siempre sale una frase.
+ */
+async function ejecutarConLimite(
+  business: Business,
+  llamada: { nombre: string; argumentos: Record<string, unknown> },
+  callId: string,
+): Promise<string> {
+  const inicio = Date.now();
+  let texto: string;
+
+  try {
+    const resultado = await conLimite(
+      ejecutarHerramienta(business, llamada.nombre, llamada.argumentos, callId),
+      MAX_HERRAMIENTA_MS,
+    );
+    texto = resultado ?? mensajeDeTardanza(llamada.nombre);
+  } catch (error) {
+    console.error(`[herramienta] ${llamada.nombre} ha fallado`, error);
+    texto = mensajeDeTardanza(llamada.nombre);
+  }
+
+  console.log(
+    `[herramienta] ${llamada.nombre} (${Date.now() - inicio} ms) -> ${texto}`,
+  );
+  return texto;
+}
+
 async function handleToolCalls(
   message: VapiMessage,
   business: Business,
@@ -126,12 +174,7 @@ async function handleToolCalls(
     llamadas.map(async (llamada) => ({
       toolCallId: llamada.id,
       name: llamada.nombre,
-      result: await ejecutarHerramienta(
-        business,
-        llamada.nombre,
-        llamada.argumentos,
-        callId,
-      ),
+      result: await ejecutarConLimite(business, llamada, callId),
     })),
   );
 
@@ -168,6 +211,8 @@ voiceWebhookRouter.post(
 );
 
 async function atender(req: Request, res: Response): Promise<void> {
+  const inicio = Date.now();
+
   if (!isAuthorized(req)) {
     res.status(401).json({ error: "Secreto de Vapi invalido o ausente." });
     return;
@@ -201,9 +246,14 @@ async function atender(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    case "tool-calls":
-      res.json(await handleToolCalls(message, business));
+    case "tool-calls": {
+      const respuesta = await handleToolCalls(message, business);
+      res.json(respuesta);
+      console.log(
+        `[voice-webhook] tool-calls respondido en ${Date.now() - inicio} ms`,
+      );
       return;
+    }
 
     case "function-call": {
       // Formato antiguo de Vapi: una sola funcion por peticion.
