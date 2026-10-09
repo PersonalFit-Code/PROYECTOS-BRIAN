@@ -192,7 +192,7 @@ const legal: LegalMessages = {
                 [
                   "Responder a tus preguntas mediante el camarero virtual",
                   "Tu consentimiento al iniciar la conversación (art. 6.1.a RGPD)",
-                  "Solo durante la sesión de navegación; no se guarda en nuestros servidores",
+                  "Solo durante la sesión de navegación; no se guarda en nuestros servidores. El proveedor del modelo la elimina de sus sistemas en un máximo de 30 días",
                 ],
                 [
                   "Garantizar la seguridad y el funcionamiento técnico de la web",
@@ -235,7 +235,7 @@ const legal: LegalMessages = {
               items: [
                 "**No almacenamos la conversación en nuestros servidores**: se procesa al vuelo para responder y no existe ninguna base de datos de chats. Solo contamos las peticiones por dirección IP durante diez minutos, en memoria, para evitar abusos.",
                 "En tu navegador la conversación se guarda en el almacenamiento de sesión (sessionStorage) para que no se pierda al cambiar de página; desaparece al cerrar la pestaña y puedes borrarla en cualquier momento con el botón del propio chat.",
-                "Anthropic tiene su sede en Estados Unidos. La transferencia se ampara en garantías adecuadas: cláusulas contractuales tipo aprobadas por la Comisión Europea y, en su caso, la adhesión del proveedor al Marco de Privacidad de Datos UE-EE. UU., según su documentación vigente. Conforme a sus condiciones comerciales, Anthropic no utiliza el contenido enviado por API para entrenar sus modelos y lo conserva únicamente durante un periodo limitado para prestar el servicio y aplicar sus políticas de uso.",
+                "Anthropic tiene su sede en Estados Unidos. La transferencia se ampara en garantías adecuadas: cláusulas contractuales tipo aprobadas por la Comisión Europea y, en su caso, la adhesión del proveedor al Marco de Privacidad de Datos UE-EE. UU., según su documentación vigente. Conforme a sus condiciones comerciales, Anthropic no utiliza el contenido enviado por API para entrenar sus modelos y según su documentación vigente elimina las entradas y salidas de sus sistemas en un máximo de 30 días, salvo que deba conservarlas más tiempo por ley o porque su sistema detecte un uso que incumple sus políticas (en ese caso, hasta 2 años).",
                 "Si no hay conexión con el proveedor, responde un motor local con la carta y el horario, sin enviar nada fuera.",
                 "Las respuestas se generan automáticamente y pueden contener errores. **Para alergias e intolerancias, confirma siempre con nuestro personal en el local.**",
                 "No escribas datos personales tuyos ni de terceros (nombres, teléfonos, datos de salud) en el chat: no los necesitamos para ayudarte.",

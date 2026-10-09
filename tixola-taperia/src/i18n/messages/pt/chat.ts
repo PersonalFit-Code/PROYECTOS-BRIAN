@@ -19,7 +19,7 @@ const chat = {
   stop: "Parar a resposta",
   thinking: "A escrever…",
   welcome:
-    "Olá! Sou o empregado virtual da Tixola. Pergunte-me pela ementa, pelos alergénios, que vinho recomendamos ou como chegar.",
+    "Olá! Sou o empregado virtual da Tixola, um assistente de inteligência artificial (não uma pessoa). Pergunte-me pela ementa, pelos alergénios, que vinho recomendamos ou como chegar.",
   quickReplies: [
     "Que pratos não têm glúten?",
     "O que me recomendas para partilhar?",
@@ -38,7 +38,7 @@ const chat = {
   retry: "Tentar de novo",
   disclaimer: "As respostas são indicativas. Em caso de alergias graves, consulte sempre o pessoal.",
   privacyNote:
-    "O que escrever é enviado ao nosso fornecedor de IA para redigir a resposta e fica no seu navegador enquanto durar a visita. Não o guardamos nem precisa de nos dar dados pessoais.",
+    "O que escrever é enviado ao nosso fornecedor de IA (Anthropic, nos EUA) para redigir a resposta. Nós não o guardamos; fica no seu navegador enquanto durar a visita e o fornecedor elimina-o dos seus sistemas, por norma, em 30 dias no máximo. Não escreva dados pessoais nem de saúde: pergunte por pratos ou ingredientes.",
   privacyLink: "Como tratamos os seus dados",
   callCta: "Ligar",
   clear: "Nova conversa",

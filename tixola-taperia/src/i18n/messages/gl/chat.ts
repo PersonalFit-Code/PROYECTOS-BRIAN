@@ -18,7 +18,7 @@ const chat: Section<"chat"> = {
   stop: "Deter a resposta",
   thinking: "Escribindo…",
   welcome:
-    "Ola! Son o camareiro virtual de Tixola. Pregúntame pola carta, os alérxenos, que viño recomendamos ou como chegar.",
+    "Ola! Son o camareiro virtual de Tixola, un asistente de intelixencia artificial (non unha persoa). Pregúntame pola carta, os alérxenos, que viño recomendamos ou como chegar.",
   quickReplies: [
     "Que pratos non levan glute?",
     "Que me recomendas para compartir?",
@@ -36,7 +36,7 @@ const chat: Section<"chat"> = {
   rateLimited: "Fixeches moitas preguntas seguidas. Agarda un minuto ou chámanos e atendémoste de contado.",
   retry: "Tentar de novo",
   disclaimer: "As respostas son orientativas. Ante alerxias graves, consulta sempre co persoal.",
-  privacyNote: "O que escribas envíase ao noso provedor de IA para redactar a resposta e queda no teu navegador mentres dure a visita. Non o gardamos nin fai falta que nos deas datos persoais.",
+  privacyNote: "O que escribas envíase ao noso provedor de IA (Anthropic, nos EE. UU.) para redactar a resposta. Nós non o gardamos; queda no teu navegador mentres dure a visita e o provedor elimínao dos seus sistemas, por norma, en 30 días como máximo. Non escribas datos persoais nin de saúde: pregunta por pratos ou ingredientes.",
   privacyLink: "Como tratamos os teus datos",
   callCta: "Chamar",
   clear: "Nova conversa",

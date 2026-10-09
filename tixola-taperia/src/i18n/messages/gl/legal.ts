@@ -141,7 +141,7 @@ const legal: LegalMessages = {
                 [
                   "Responder ás túas preguntas mediante o camareiro virtual",
                   "O teu consentimento ao iniciar a conversa (art. 6.1.a RXPD)",
-                  "Só durante a sesión de navegación; non se garda nos nosos servidores",
+                  "Só durante a sesión de navegación; non se garda nos nosos servidores. O provedor do modelo elimínaa dos seus sistemas nun máximo de 30 días",
                 ],
                 [
                   "Garantir a seguridade e o funcionamento técnico da web",
@@ -184,7 +184,7 @@ const legal: LegalMessages = {
               items: [
                 "**Non almacenamos a conversa nos nosos servidores**: procésase ao voo para responder e non existe ningunha base de datos de chats. Só contamos as peticións por enderezo IP durante dez minutos, en memoria, para evitar abusos.",
                 "No teu navegador a conversa gárdase no almacenamento de sesión (sessionStorage) para que non se perda ao cambiar de páxina; desaparece ao pechar a lapela e podes borrala en calquera momento co botón do propio chat.",
-                "Anthropic ten a súa sede nos Estados Unidos. A transferencia ampárase en garantías adecuadas: cláusulas contractuais tipo aprobadas pola Comisión Europea e, de ser o caso, a adhesión do provedor ao Marco de Privacidade de Datos UE-EUA, segundo a súa documentación vixente. Conforme ás súas condicións comerciais, Anthropic non utiliza o contido enviado por API para adestrar os seus modelos e consérvao unicamente durante un período limitado para prestar o servizo e aplicar as súas políticas de uso.",
+                "Anthropic ten a súa sede nos Estados Unidos. A transferencia ampárase en garantías adecuadas: cláusulas contractuais tipo aprobadas pola Comisión Europea e, de ser o caso, a adhesión do provedor ao Marco de Privacidade de Datos UE-EUA, segundo a súa documentación vixente. Conforme ás súas condicións comerciais, Anthropic non utiliza o contido enviado por API para adestrar os seus modelos e segundo a súa documentación vixente elimina as entradas e saídas dos seus sistemas nun máximo de 30 días, salvo que deba conservalas máis tempo por lei ou porque o seu sistema detecte un uso que incumpre as súas políticas (nese caso, ata 2 anos).",
                 "Se non hai conexión co provedor, responde un motor local coa carta e o horario, sen enviar nada fóra.",
                 "As respostas xéranse automaticamente e poden conter erros. **Para alerxias e intolerancias, confirma sempre co noso persoal no local.**",
                 "Non escribas datos persoais teus nin de terceiros (nomes, teléfonos, datos de saúde) no chat: non os necesitamos para axudarche.",

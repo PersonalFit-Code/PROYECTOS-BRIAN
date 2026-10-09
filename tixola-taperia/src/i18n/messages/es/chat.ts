@@ -18,7 +18,7 @@ const chat = {
   stop: "Detener la respuesta",
   thinking: "Escribiendo…",
   welcome:
-    "¡Hola! Soy el camarero virtual de Tixola. Pregúntame por la carta, los alérgenos, qué vino recomendamos o cómo llegar.",
+    "¡Hola! Soy el camarero virtual de Tixola, un asistente de inteligencia artificial (no una persona). Pregúntame por la carta, los alérgenos, qué vino recomendamos o cómo llegar.",
   quickReplies: [
     "¿Qué platos no llevan gluten?",
     "¿Qué me recomiendas para compartir?",
@@ -41,7 +41,7 @@ const chat = {
      escribe, no a dos clics. Es literal: los mensajes salen del navegador hacia Anthropic vía
      nuestro servidor, la conversación se guarda en el `sessionStorage` del visitante y nada de
      esto se almacena en nuestros servidores. */
-  privacyNote: "Lo que escribas se envía a nuestro proveedor de IA para redactar la respuesta y se queda en tu navegador mientras dure la visita. No lo guardamos ni hace falta que nos des datos personales.",
+  privacyNote: "Lo que escribas se envía a nuestro proveedor de IA (Anthropic, en EE. UU.) para redactar la respuesta. Nosotros no lo guardamos; se queda en tu navegador mientras dure la visita y el proveedor lo elimina de sus sistemas, por norma, en 30 días como máximo. No escribas datos personales ni de salud: pregunta por platos o ingredientes.",
   privacyLink: "Cómo tratamos tus datos",
   callCta: "Llamar",
   clear: "Nueva conversación",

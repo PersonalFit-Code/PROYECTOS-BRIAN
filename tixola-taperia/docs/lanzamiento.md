@@ -55,3 +55,24 @@ gestoría de Tatiana.
 - Mirar el consumo real del camarero en la consola de Anthropic a la semana; recarga automática
   desactivada y límite mensual puesto.
 - Vigilar que no entren cambios de precios/alérgenos sin pasar por la lista de integridad (`menu.ts`).
+
+## E · Auditoría del camarero virtual (9-10-2026)
+
+Comprobado en el navegador y leyendo `src/app/api/chat/route.ts`:
+
+- **Se sabe que es IA:** la bienvenida dice "asistente de inteligencia artificial (no una persona)", la
+  etiqueta "Asistente con IA" va en el pie del panel y el prompt le obliga a decirlo si le preguntan.
+- **No guarda datos:** el servidor no tiene base de datos ni escribe el contenido de los mensajes en los
+  registros; solo cuenta peticiones por IP durante 10 minutos en memoria (contra abusos), y está dicho en
+  la política. En el navegador la conversación vive en `sessionStorage` (se borra al cerrar la pestaña o
+  con "Nueva conversación"); no pone cookies, no usa `localStorage` y no llama a ningún tercero.
+- **Lo que sí ocurre y ahora se dice con claridad:** el texto sale hacia Anthropic (EE. UU.), que según su
+  documentación (privacy.claude.com, 1-7-2026) lo elimina en 30 días como máximo, salvo ley o un uso que
+  incumpla sus políticas (hasta 2 años). Antes el aviso decía solo "no lo guardamos".
+- **Datos de salud:** preguntar por alérgenos invita a contar "soy celíaco". El aviso pide no escribir datos
+  personales ni de salud, y el prompt le prohíbe pedirlos o repetirlos.
+- **Pendiente de la casa:** el contrato con Anthropic (cuenta y facturación) debe estar a nombre de quien
+  figure como responsable; si la cuenta es de Brian y la web de Tatiana, Brian actúa como encargado y
+  conviene un acuerdo de tratamiento de datos entre ambos.
+- **Nota:** la obligación de avisar de que se habla con una IA (Reglamento de IA, art. 50) es exigible
+  desde agosto de 2026; confirmar con la gestoría el alcance exacto para un chat de un bar.

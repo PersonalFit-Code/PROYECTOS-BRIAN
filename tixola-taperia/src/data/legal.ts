@@ -23,7 +23,7 @@ export function isLegalDocKey(value: string): value is LegalDocKey {
  * Fecha ISO (AAAA-MM-DD) de la última revisión de los textos legales.
  * Actualízala cada vez que cambie cualquiera de los tres documentos.
  */
-export const LEGAL_UPDATED_AT = "2026-10-03";
+export const LEGAL_UPDATED_AT = "2026-10-09";
 
 /**
  * Datos del responsable del tratamiento. Los mandó la casa el 3 de octubre de 2026: el negocio es

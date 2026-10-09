@@ -140,7 +140,7 @@ const legal: LegalMessages = {
                 [
                   "Answering your questions through the virtual waiter",
                   "Your consent when starting the conversation (Art. 6(1)(a) GDPR)",
-                  "Only during the browsing session; not stored on our servers",
+                  "Only during the browsing session; not stored on our servers. The model provider deletes it from its systems within 30 days",
                 ],
                 [
                   "Ensuring the security and technical operation of the website",
@@ -183,7 +183,7 @@ const legal: LegalMessages = {
               items: [
                 "**We do not store the conversation on our servers**: it is processed on the fly to generate a reply, and there is no chat database. We only count requests per IP address for ten minutes, in memory, to prevent abuse.",
                 "In your browser, the conversation is kept in session storage (sessionStorage) so that it is not lost when you change page; it disappears when you close the tab, and you can delete it at any time using the button in the chat itself.",
-                "Anthropic is headquartered in the United States. The transfer is covered by appropriate safeguards: standard contractual clauses approved by the European Commission and, where applicable, the provider's certification under the EU-US Data Privacy Framework, in accordance with its current documentation. Under its commercial terms, Anthropic does not use content submitted via the API to train its models and retains it only for a limited period in order to provide the service and enforce its usage policies.",
+                "Anthropic is headquartered in the United States. The transfer is covered by appropriate safeguards: standard contractual clauses approved by the European Commission and, where applicable, the provider's certification under the EU-US Data Privacy Framework, in accordance with its current documentation. Under its commercial terms, Anthropic does not use content submitted via the API to train its models and according to its current documentation, deletes inputs and outputs from its systems within 30 days, unless it must keep them longer by law or because its systems detect a use that breaches its policies (in which case, up to 2 years).",
                 "If the provider cannot be reached, a local engine replies using the menu and opening hours, without sending anything outside.",
                 "Replies are generated automatically and may contain errors. **For allergies and intolerances, always confirm with our staff on the premises.**",
                 "Do not type personal data, yours or anyone else's (names, phone numbers, health data), into the chat: we do not need it to help you.",
