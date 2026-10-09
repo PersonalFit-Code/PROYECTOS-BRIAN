@@ -12,7 +12,11 @@ const server = createApp().listen(config.port, () => {
       : "PUBLIC_SERVER_URL vacio: Vapi no sabra donde mandar los tool-calls.",
   );
   console.log(
-    `Voz: ${config.vozProveedor} / ${config.vozId}. Sonido de fondo: ${config.sonidoFondo}.`,
+    `Voz: ${config.vozProveedor} / ${config.vozId}` +
+      (config.vozProveedor === "11labs"
+        ? ` (${config.vozModelo}, velocidad ${config.vozVelocidad})`
+        : "") +
+      `. Sonido de fondo: ${config.sonidoFondo}.`,
   );
   console.log(
     config.grabarLlamadas

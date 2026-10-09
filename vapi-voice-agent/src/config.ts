@@ -30,6 +30,22 @@ function esAfirmativo(raw: string | undefined): boolean {
   return ["si", "sí", "yes", "true", "1"].includes(valor);
 }
 
+/**
+ * Velocidad de la voz. Se acepta la coma decimal porque es como se escribe
+ * aqui, y un valor fuera de rango para la llamada en seco al arrancar en vez
+ * de romper una llamada de verdad mas tarde.
+ */
+function readVelocidad(raw: string | undefined): number {
+  if (!raw || raw.trim() === "") return 1.05;
+  const velocidad = Number(raw.trim().replace(",", "."));
+  if (!Number.isFinite(velocidad) || velocidad < 0.7 || velocidad > 1.2) {
+    throw new Error(
+      `VOZ_VELOCIDAD tiene que ser un numero entre 0.7 y 1.2: "${raw}"`,
+    );
+  }
+  return velocidad;
+}
+
 /** Quita la barra final para poder concatenar rutas sin duplicarla. */
 function readPublicUrl(raw: string | undefined): string {
   return (raw ?? "").trim().replace(/\/+$/, "");
@@ -67,6 +83,14 @@ export const config = {
    */
   vozProveedor: process.env.VOZ_PROVEEDOR?.trim() || "azure",
   vozId: process.env.VOZ_ID?.trim() || "es-ES-ElviraNeural",
+  /**
+   * Modelo de voz. Solo lo usa ElevenLabs. "eleven_flash_v2_5" es el rapido,
+   * que ademas es el unico al que se le puede forzar el idioma; los otros lo
+   * deducen del texto y dan error si se les manda.
+   */
+  vozModelo: process.env.VOZ_MODELO?.trim() || "eleven_flash_v2_5",
+  /** Velocidad al hablar, de 0,7 a 1,2. Solo ElevenLabs. */
+  vozVelocidad: readVelocidad(process.env.VOZ_VELOCIDAD),
   /**
    * Sonido de fondo de la llamada: "office" (murmullo de oficina, el de Vapi
    * por defecto en telefono), "off" para silencio, o la URL de un audio propio

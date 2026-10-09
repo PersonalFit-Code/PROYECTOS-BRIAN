@@ -139,8 +139,9 @@ tras cambiarla, se vacian las dos variables.
 defecto), `off`, o la URL de un audio propio.
 
 Los turnos de palabra (`stopSpeakingPlan` y `startSpeakingPlan` en
-`src/assistant.ts`) estan ajustados para que un ruido o un "vale" suelto no
-corten al agente a mitad de frase.
+`src/assistant.ts`) estan ajustados para una conversacion fluida: el agente se
+calla en cuanto el cliente habla (como una persona), pero un ruido corto no
+basta para cortarlo, y contesta en cuanto el cliente termina la frase.
 
 ## Variables de entorno
 
@@ -152,6 +153,8 @@ corten al agente a mitad de frase.
 | `VAPI_MODEL` | `claude-haiku-4-5-20251001` | Modelo del asistente, entre los que acepta el proveedor `anthropic` de Vapi. |
 | `VOZ_PROVEEDOR` | `azure` | Proveedor de la voz (`azure`, `11labs`, `cartesia`...), tal como aparece en la Voice Library de Vapi. |
 | `VOZ_ID` | `es-ES-ElviraNeural` | Identificador de la voz dentro de ese proveedor. |
+| `VOZ_MODELO` | `eleven_flash_v2_5` | Solo ElevenLabs. El flash es el rapido y el unico al que se le fuerza el espanol. |
+| `VOZ_VELOCIDAD` | `1.05` | Solo ElevenLabs. De `0.7` a `1.2`; acepta coma decimal. Fuera de rango, el servidor no arranca. |
 | `SONIDO_FONDO` | `office` | Ambiente detras de la voz: `office`, `off` o la URL de un audio. |
 
 ## Probar en local
