@@ -17,6 +17,12 @@ import {
 } from "./tools/names";
 import { formatearEuros, momentoActual } from "./util/format";
 
+/**
+ * La frase con la que el agente cuelga. Larga a proposito: tiene que ser algo
+ * que no pueda decir por accidente en mitad de la conversacion.
+ */
+const FRASE_DE_DESPEDIDA = "hasta luego y gracias por llamar";
+
 function cartaEnTexto(business: Business): string {
   return business.carta
     .map(
@@ -148,7 +154,12 @@ Sigue estos pasos en orden. No te salgas del orden ni te adelantes.
 9. Dile el codigo de pedido que te devuelva la herramienta, letra a letra, y
    pidele que lo tenga a mano por si tiene que llamar.
 10. Di el tiempo estimado de entrega y recuerda como se paga.
-11. Despidete y da las gracias.
+11. Para colgar, y solo cuando ya no quede nada por hablar, termina diciendo
+    exactamente esta frase, sin cambiar ni una palabra:
+    "${FRASE_DE_DESPEDIDA}".
+    No la digas antes de tiempo ni en mitad de la conversacion: en cuanto la
+    dices, la llamada se corta. Si todavia estas tomando el pedido, no te
+    despidas de ninguna forma, ni digas "adios" ni "hasta luego" sueltos.
 
 # EL TOTAL LO CALCULA LA HERRAMIENTA
 
@@ -394,13 +405,12 @@ export function buildAssistant(business: Business, businessId?: string) {
     //   ruido ni un "si" suelto.
     // - Antes de contestar espera un poco mas que el valor por defecto, y
     //   usa la deteccion de fin de frase que Vapi recomienda fuera del ingles.
-    // numWords 0: el agente se calla en cuanto oye al cliente, sin esperar a
-    // que se transcriban palabras. Es lo que hace que se pueda interrumpir
-    // como a una persona. voiceSeconds 0.3 es el seguro contra el ruido de
-    // fondo: un golpe o una tos no bastan para callarlo.
+    // Cuando el agente deja de hablar porque el cliente ha empezado. Se
+    // ajusta desde el .env porque el punto justo depende del telefono: con
+    // manos libres el agente se oye a si mismo y hay que ser menos sensible.
     stopSpeakingPlan: {
-      numWords: 0,
-      voiceSeconds: 0.3,
+      numWords: config.interrupcionPalabras,
+      voiceSeconds: config.interrupcionSegundos,
       backoffSeconds: 1,
     },
     startSpeakingPlan: {
@@ -429,8 +439,13 @@ export function buildAssistant(business: Business, businessId?: string) {
     // que la grabacion dependa de un valor que no hayamos escrito nosotros.
     artifactPlan: { recordingEnabled: config.grabarLlamadas },
 
-    endCallMessage: "Gracias por llamar. ¡Hasta luego!",
-    endCallPhrases: ["hasta luego", "adios", "nada mas, gracias"],
+    // CUIDADO: Vapi cuelga en cuanto el agente dice una de estas frases, y
+    // las busca como texto suelto dentro de lo que diga. Un "adios" o un
+    // "hasta luego" a secas cuelgan la llamada en mitad de un pedido, asi
+    // que aqui va una sola frase larga que solo tiene sentido al final, y el
+    // prompt le pide que la diga tal cual para despedirse.
+    endCallMessage: FRASE_DE_DESPEDIDA,
+    endCallPhrases: [FRASE_DE_DESPEDIDA.toLowerCase()],
     maxDurationSeconds: 600,
 
     // Si el servidor es accesible desde internet, se le dice a Vapi donde

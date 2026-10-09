@@ -138,6 +138,13 @@ tras cambiarla, se vacian las dos variables.
 `SONIDO_FONDO` pone ambiente detras de la voz: `office` (el de Vapi por
 defecto), `off`, o la URL de un audio propio.
 
+**`endCallPhrases` cuelga la llamada en cuanto el agente dice una de esas
+frases, buscandolas como texto suelto.** Una llamada real se corto en mitad de
+un pedido porque la lista llevaba `"adios"` y `"hasta luego"`. Por eso ahora
+hay una sola frase larga (`FRASE_DE_DESPEDIDA` en `src/assistant.ts`), el
+prompt le pide al agente que la diga tal cual para despedirse, y hay tests que
+rechazan cualquier frase corta o corriente.
+
 Los turnos de palabra (`stopSpeakingPlan` y `startSpeakingPlan` en
 `src/assistant.ts`) estan ajustados para una conversacion fluida: el agente se
 calla en cuanto el cliente habla (como una persona), pero un ruido corto no
@@ -156,6 +163,8 @@ basta para cortarlo, y contesta en cuanto el cliente termina la frase.
 | `VOZ_MODELO` | `eleven_flash_v2_5` | Solo ElevenLabs. El flash es el rapido y el unico al que se le fuerza el espanol. |
 | `VOZ_VELOCIDAD` | `1.05` | Solo ElevenLabs. De `0.7` a `1.2`; acepta coma decimal. Fuera de rango, el servidor no arranca. |
 | `SONIDO_FONDO` | `office` | Ambiente detras de la voz: `office`, `off` o la URL de un audio. |
+| `INTERRUPCION_PALABRAS` | `1` | Palabras del cliente para que el agente se calle. `0` es lo mas natural, pero con manos libres el agente se corta a si mismo. |
+| `INTERRUPCION_SEGUNDOS` | `0.4` | Segundos de voz seguidos antes de callarse. Subelo si se entrecorta con ruido. |
 
 ## Probar en local
 

@@ -6,7 +6,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { construirVoz } from "../assistant";
+import { buildAssistant, construirVoz } from "../assistant";
+import { fallbackBusiness } from "../db/fallbackBusiness";
 
 describe("construirVoz", () => {
   it("con Azure manda solo proveedor e identificador", () => {
@@ -62,5 +63,46 @@ describe("construirVoz", () => {
     }
     const latencia = voz.optimizeStreamingLatency;
     assert.ok(typeof latencia === "number" && latencia >= 0 && latencia <= 4);
+  });
+});
+
+/**
+ * Vapi cuelga en cuanto el agente dice una de las endCallPhrases, buscandolas
+ * como texto suelto. Una llamada real se corto por esto: la lista llevaba
+ * "adios" y "hasta luego".
+ */
+describe("frases que cuelgan la llamada", () => {
+  const asistente = buildAssistant(fallbackBusiness) as unknown as {
+    endCallPhrases: string[];
+    model: { messages: Array<{ content: string }> };
+  };
+
+  it("ninguna es una despedida corriente que se pueda soltar sin querer", () => {
+    const peligrosas = ["adios", "hasta luego", "gracias", "vale", "nada mas"];
+    for (const frase of asistente.endCallPhrases) {
+      assert.ok(
+        !peligrosas.includes(frase.trim().toLowerCase()),
+        `"${frase}" se dice en cualquier conversacion y colgaria la llamada`,
+      );
+    }
+  });
+
+  it("son frases largas, no una palabra suelta", () => {
+    for (const frase of asistente.endCallPhrases) {
+      assert.ok(
+        frase.trim().split(/\s+/).length >= 4,
+        `"${frase}" es demasiado corta para no decirla por accidente`,
+      );
+    }
+  });
+
+  it("el prompt le dice al agente la frase exacta con la que despedirse", () => {
+    const prompt = asistente.model.messages[0]?.content ?? "";
+    for (const frase of asistente.endCallPhrases) {
+      assert.ok(
+        prompt.toLowerCase().includes(frase.trim().toLowerCase()),
+        `el prompt no menciona "${frase}", asi que el agente no sabe como colgar`,
+      );
+    }
   });
 });

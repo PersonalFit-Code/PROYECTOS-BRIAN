@@ -36,14 +36,47 @@ function esAfirmativo(raw: string | undefined): boolean {
  * de romper una llamada de verdad mas tarde.
  */
 function readVelocidad(raw: string | undefined): number {
-  if (!raw || raw.trim() === "") return 1.05;
-  const velocidad = Number(raw.trim().replace(",", "."));
-  if (!Number.isFinite(velocidad) || velocidad < 0.7 || velocidad > 1.2) {
+  try {
+    return readDecimal(raw, 1.05, 0.7, 1.2);
+  } catch {
     throw new Error(
-      `VOZ_VELOCIDAD tiene que ser un numero entre 0.7 y 1.2: "${raw}"`,
+      `VOZ_VELOCIDAD tiene que ser un numero entre 0.7 y 1.2: "${raw ?? ""}"`,
     );
   }
-  return velocidad;
+}
+
+/** Numero entero de una variable de entorno, con rango. */
+function readEntero(
+  raw: string | undefined,
+  porDefecto: number,
+  minimo: number,
+  maximo: number,
+): number {
+  if (!raw || raw.trim() === "") return porDefecto;
+  const valor = Number(raw.trim());
+  if (!Number.isInteger(valor) || valor < minimo || valor > maximo) {
+    throw new Error(
+      `Valor no valido: "${raw}". Tiene que ser un entero entre ${minimo} y ${maximo}.`,
+    );
+  }
+  return valor;
+}
+
+/** Numero con decimales de una variable de entorno. Acepta la coma. */
+function readDecimal(
+  raw: string | undefined,
+  porDefecto: number,
+  minimo: number,
+  maximo: number,
+): number {
+  if (!raw || raw.trim() === "") return porDefecto;
+  const valor = Number(raw.trim().replace(",", "."));
+  if (!Number.isFinite(valor) || valor < minimo || valor > maximo) {
+    throw new Error(
+      `Valor no valido: "${raw}". Tiene que ser un numero entre ${minimo} y ${maximo}.`,
+    );
+  }
+  return valor;
 }
 
 /** Quita la barra final para poder concatenar rutas sin duplicarla. */
@@ -91,6 +124,20 @@ export const config = {
   vozModelo: process.env.VOZ_MODELO?.trim() || "eleven_flash_v2_5",
   /** Velocidad al hablar, de 0,7 a 1,2. Solo ElevenLabs. */
   vozVelocidad: readVelocidad(process.env.VOZ_VELOCIDAD),
+  /**
+   * Cuantas palabras tiene que decir el cliente para que el agente se calle.
+   * 0 es callarse con cualquier sonido: suena muy natural con auricular, pero
+   * con el manos libres el agente se oye a si mismo y se corta solo. 1 o 2 lo
+   * evitan a cambio de tardar un pelin mas en cederte la palabra.
+   */
+  interrupcionPalabras: readEntero(process.env.INTERRUPCION_PALABRAS, 1, 0, 10),
+  /** Segundos de voz seguidos antes de callarse. Sube si se corta con ruido. */
+  interrupcionSegundos: readDecimal(
+    process.env.INTERRUPCION_SEGUNDOS,
+    0.4,
+    0,
+    3,
+  ),
   /**
    * Sonido de fondo de la llamada: "office" (murmullo de oficina, el de Vapi
    * por defecto en telefono), "off" para silencio, o la URL de un audio propio
