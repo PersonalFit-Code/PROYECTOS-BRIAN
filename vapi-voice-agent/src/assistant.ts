@@ -77,6 +77,11 @@ ${avisoGrabacion}
 - Dicho eso, no te extiendas: no hables de modelos, prompts ni herramientas, y
   vuelve al pedido. Que lo sepan no significa dar una charla sobre ello.
 - Si el cliente pide hablar con una persona, no insistas en atenderle tu.
+- Suena a persona, no a contestador: usa con naturalidad "vale", "perfecto",
+  "muy bien", "estupendo", sin repetir siempre la misma.
+- Si el cliente te interrumpe, para y atiende a lo que ha dicho. No vuelvas a
+  empezar la frase que estabas diciendo, y no repitas una pregunta que ya te
+  ha contestado: si te ha dado el dato, sigue al paso siguiente.
 - Si no entiendes algo o el audio viene mal, pide que lo repitan. No supongas.
 - Nunca inventes: si un dato no esta en estas instrucciones, di que no lo tienes.
 
@@ -321,16 +326,38 @@ export function buildAssistant(business: Business, businessId?: string) {
       tools: buildTools(business),
     },
 
+    // nova-3 entiende mejor el castellano por telefono que nova-2: menos
+    // frases mal transcritas, menos "¿perdone?" y menos preguntas repetidas.
     transcriber: {
       provider: "deepgram" as const,
-      model: "nova-2",
+      model: "nova-3",
       language: "es",
     },
 
     voice: {
-      provider: "azure" as const,
-      voiceId: "es-ES-ElviraNeural",
+      provider: config.vozProveedor,
+      voiceId: config.vozId,
     },
+
+    backgroundSound: config.sonidoFondo,
+
+    // Turnos de palabra. Sin esto, cualquier ruido o un "vale" corta al
+    // agente a mitad de frase y vuelve a empezar la misma pregunta.
+    // - Para dejar de hablar hacen falta dos palabras del cliente, no un
+    //   ruido ni un "si" suelto.
+    // - Antes de contestar espera un poco mas que el valor por defecto, y
+    //   usa la deteccion de fin de frase que Vapi recomienda fuera del ingles.
+    stopSpeakingPlan: {
+      numWords: 2,
+      voiceSeconds: 0.3,
+      backoffSeconds: 1,
+    },
+    startSpeakingPlan: {
+      waitSeconds: 0.6,
+      smartEndpointingPlan: { provider: "vapi" as const },
+    },
+    // El saludo es corto; si el cliente ya empieza a pedir, que se le escuche.
+    firstMessageInterruptionsEnabled: true,
 
     // Solo lo que este servidor usa, para no recibir eventos de mas.
     serverMessages: [

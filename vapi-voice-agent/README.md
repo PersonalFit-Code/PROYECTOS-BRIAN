@@ -128,10 +128,19 @@ el agente sepa si esta abierto y no tome pedidos fuera de horario.
 
 ### Voz y transcriptor
 
-La configuracion trae Deepgram (`nova-2`, `es`) para transcribir y Azure
-(`es-ES-ElviraNeural`) para la voz. Son valores razonables para castellano, pero
-**dependen de los proveedores que tenga activados la cuenta de Vapi**: hay que
-ajustarlos en `src/assistant.ts` a los que esten disponibles.
+La configuracion trae Deepgram (`nova-3`, `es`) para transcribir y Azure
+(`es-ES-ElviraNeural`) para la voz. La voz se cambia sin tocar codigo con
+`VOZ_PROVEEDOR` y `VOZ_ID`: en el panel de Vapi, **Resources > Voice Library**,
+se filtran las voces en espanol, se escuchan y se copia el identificador. Una
+voz que Vapi no reconozca hace fallar la llamada entera; si deja de conectar
+tras cambiarla, se vacian las dos variables.
+
+`SONIDO_FONDO` pone ambiente detras de la voz: `office` (el de Vapi por
+defecto), `off`, o la URL de un audio propio.
+
+Los turnos de palabra (`stopSpeakingPlan` y `startSpeakingPlan` en
+`src/assistant.ts`) estan ajustados para que un ruido o un "vale" suelto no
+corten al agente a mitad de frase.
 
 ## Variables de entorno
 
@@ -141,6 +150,9 @@ ajustarlos en `src/assistant.ts` a los que esten disponibles.
 | `VAPI_SERVER_SECRET` | *(vacio)* | Secreto compartido con Vapi. Si esta vacio, el webhook **no** valida la cabecera `x-vapi-secret`; conviene definirlo antes de exponer el servidor a internet. Cuando esta definido, se incluye en `assistant.server.secret` para que Vapi lo mande en los tool-calls. |
 | `PUBLIC_SERVER_URL` | *(vacio)* | URL publica del servidor, sin barra final. Si se define, el asistente le dice a Vapi que envie los tool-calls a `<url>/voice-webhook`. |
 | `VAPI_MODEL` | `claude-haiku-4-5-20251001` | Modelo del asistente, entre los que acepta el proveedor `anthropic` de Vapi. |
+| `VOZ_PROVEEDOR` | `azure` | Proveedor de la voz (`azure`, `11labs`, `cartesia`...), tal como aparece en la Voice Library de Vapi. |
+| `VOZ_ID` | `es-ES-ElviraNeural` | Identificador de la voz dentro de ese proveedor. |
+| `SONIDO_FONDO` | `office` | Ambiente detras de la voz: `office`, `off` o la URL de un audio. |
 
 ## Probar en local
 

@@ -59,5 +59,19 @@ export const config = {
    * anuncia al descolgar.
    */
   grabarLlamadas: esAfirmativo(process.env.GRABAR_LLAMADAS),
+  /**
+   * Voz del agente. Se eligen en el panel de Vapi (Voice Library), donde se
+   * pueden escuchar antes: se copia el proveedor y el identificador aqui. Una
+   * voz que Vapi no reconozca hace fallar la llamada entera, asi que por
+   * defecto se deja una que ya se ha probado en una llamada real.
+   */
+  vozProveedor: process.env.VOZ_PROVEEDOR?.trim() || "azure",
+  vozId: process.env.VOZ_ID?.trim() || "es-ES-ElviraNeural",
+  /**
+   * Sonido de fondo de la llamada: "office" (murmullo de oficina, el de Vapi
+   * por defecto en telefono), "off" para silencio, o la URL de un audio propio
+   * (por ejemplo, ambiente de cocina o de bar).
+   */
+  sonidoFondo: process.env.SONIDO_FONDO?.trim() || "office",
   nodeEnv: process.env.NODE_ENV ?? "development",
 } as const;
