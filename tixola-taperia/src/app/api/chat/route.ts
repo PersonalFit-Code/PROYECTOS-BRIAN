@@ -7,7 +7,7 @@
  *   - `claude`   → respuesta del modelo (SDK oficial, prompt de sistema cacheado).
  *   - `offline`  → no hay ANTHROPIC_API_KEY: responde el motor determinista (offlineEngine).
  *   - `fallback` → el modelo ha fallado (429, 5xx, red…): responde el motor determinista.
- * Errores de validación → 400 JSON; cuota por IP superada (30 peticiones / 10 min) → 429 JSON.
+ * Petición que no viene de la propia web → 403; cuerpo enorme → 413; errores de validación → 400 JSON; cuota por IP superada (30 peticiones / 10 min) → 429 JSON.
  */
 import Anthropic from "@anthropic-ai/sdk";
 import { isLocale, type Locale } from "@/i18n/config";
@@ -47,6 +47,32 @@ function takeToken(ip: string, now = Date.now()): { ok: true } | { ok: false; re
   if (bucket.count >= CHAT_LIMITS.rateLimit) return { ok: false, retryAfter: Math.ceil((bucket.resetAt - now) / 1000) };
   bucket.count++;
   return { ok: true };
+}
+
+/* ────────────────────────────────────────────────────────────
+   Filtro anti-bots: solo la propia web, y con un cuerpo de tamaño razonable
+   ──────────────────────────────────────────────────────────── */
+
+/** Tope del cuerpo en bytes: 20 mensajes × 1000 caracteres caben de sobra (hasta 4 bytes por letra). */
+const MAX_BODY_BYTES = 96 * 1024;
+
+/**
+ * Cada pregunta al camarero cuesta dinero (la API de Anthropic se paga por uso). Un navegador SIEMPRE
+ * manda `Origin` en un `fetch` POST, así que una petición sin él, o desde otra web, no viene del chat:
+ * es un script o una página ajena intentando gastar la clave. Se rechaza antes de leer nada.
+ * No es infalible (un script puede falsificar la cabecera), pero quita de en medio a los bots
+ * genéricos y a cualquier web que quiera usar nuestro camarero como API gratis; la cuota por IP de
+ * arriba y el tope de gasto de la cuenta de Anthropic cubren el resto.
+ */
+function isSameOrigin(req: Request): boolean {
+  const origin = req.headers.get("origin");
+  if (!origin) return false;
+  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
+  try {
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -155,9 +181,16 @@ export async function POST(req: Request): Promise<Response> {
     });
   }
 
+  if (!isSameOrigin(req)) return jsonError(403, "Origen no permitido.");
+  if (!req.headers.get("content-type")?.includes("application/json")) return jsonError(415, "Se esperaba JSON.");
+  if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) return jsonError(413, "Petición demasiado grande.");
+
   let raw: unknown;
   try {
-    raw = await req.json();
+    /* Se lee como texto y se mide: `content-length` puede faltar (envío por trozos) o mentir. */
+    const body = await req.text();
+    if (body.length > MAX_BODY_BYTES) return jsonError(413, "Petición demasiado grande.");
+    raw = JSON.parse(body);
   } catch {
     return jsonError(400, "Cuerpo JSON no válido.");
   }

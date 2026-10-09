@@ -63,7 +63,7 @@ function useSwitchLocale(onSelect?: (locale: Locale) => void) {
         onSelect?.(next);
         return;
       }
-      document.cookie = `${COOKIE}=${next}; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax`;
+      document.cookie = `${COOKIE}=${next}; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax${location.protocol === "https:" ? "; secure" : ""}`;
       const { search, hash } = window.location;
       router.push(`${localePath(next, path)}${search}${hash}`);
       onSelect?.(next);

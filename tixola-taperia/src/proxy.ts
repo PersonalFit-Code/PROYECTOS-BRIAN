@@ -3,6 +3,21 @@ import { DEFAULT_LOCALE, LOCALES, isLocale, type Locale } from "@/i18n/config";
 
 const COOKIE = "NEXT_LOCALE";
 
+/**
+ * Opciones de la cookie de idioma. Solo guarda "es"/"gl"/"en"/"pt" (no identifica a nadie, por eso es
+ * técnica y no necesita consentimiento), pero igualmente: `secure` para que no viaje nunca por http,
+ * `sameSite: "lax"` para que no la manden otras webs. Sin `httpOnly` a propósito: el selector de idioma
+ * (`LanguageSwitcher`) la reescribe desde el navegador, y no guarda nada que merezca esconderse.
+ */
+function cookieOptions(request: NextRequest) {
+  return {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: "lax" as const,
+    secure: request.nextUrl.protocol === "https:",
+  };
+}
+
 function detectLocale(request: NextRequest): Locale {
   const cookie = request.cookies.get(COOKIE)?.value;
   if (isLocale(cookie)) return cookie;
@@ -29,7 +44,7 @@ export function proxy(request: NextRequest) {
   if (isLocale(first)) {
     const res = NextResponse.next();
     if (request.cookies.get(COOKIE)?.value !== first) {
-      res.cookies.set(COOKIE, first, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+      res.cookies.set(COOKIE, first, cookieOptions(request));
     }
     return res;
   }
@@ -38,7 +53,7 @@ export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   url.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
   const res = NextResponse.redirect(url, 307);
-  res.cookies.set(COOKIE, locale, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+  res.cookies.set(COOKIE, locale, cookieOptions(request));
   return res;
 }
 

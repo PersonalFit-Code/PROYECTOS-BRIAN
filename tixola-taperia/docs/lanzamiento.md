@@ -76,3 +76,24 @@ Comprobado en el navegador y leyendo `src/app/api/chat/route.ts`:
   conviene un acuerdo de tratamiento de datos entre ambos.
 - **Nota:** la obligación de avisar de que se habla con una IA (Reglamento de IA, art. 50) es exigible
   desde agosto de 2026; confirmar con la gestoría el alcance exacto para un chat de un bar.
+
+## F · Seguridad: las "20 cosas antes de lanzar" (9-10-2026)
+
+La web no tiene base de datos, ni usuarios con contraseña, ni subida de archivos. Por eso la mitad de
+la lista no aplica: no hay nada que filtrar por usuario ni contraseñas que proteger. Lo que sí aplica:
+
+| # | Punto | Estado |
+|---|---|---|
+| 1 | Ocultar API keys | OK. `ANTHROPIC_API_KEY` solo en el servidor (Vercel, marcada como sensible); no aparece en el código que descarga el navegador. |
+| 2 | Secretos fuera de Git | OK. Revisado todo el historial: ninguna clave. `.env` está en `.gitignore`. |
+| 3–10 | Key de BD, RLS, cifrado, login, acceso a registros, campos, cookies de sesión, contraseñas | No aplica (sin BD ni login). La única cookie, `NEXT_LOCALE` (idioma), va ahora con `Secure` y `SameSite=Lax`. |
+| 11 | Rate limiting | OK. 30 preguntas por IP cada 10 min en `/api/chat`. **Además: poner un tope de gasto mensual en la consola de Anthropic y desactivar la recarga automática.** |
+| 12 | Protección contra bots | Añadido. `/api/chat` rechaza (403) peticiones que no vengan de la propia web, y (413) cuerpos de más de 96 KB. |
+| 13 | Queries parametrizadas | No aplica (sin BD). |
+| 14 | Validar inputs | OK. Máx. 20 mensajes × 1000 caracteres, roles válidos, idioma y página en lista cerrada. |
+| 15 | Sanitizar contenido | OK. Las respuestas del chat se pintan como texto con React (nunca HTML) y solo con enlaces seguros; el JSON-LD escapa `<` `>` `&`. |
+| 16 | Restringir archivos | No aplica (no se suben archivos). |
+| 17 | Devolver solo lo necesario | OK. La API devuelve solo el texto de la respuesta; los errores no enseñan detalles internos. |
+| 18 | Cabeceras de seguridad | Añadido en `next.config.ts`: CSP, HSTS, nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy, COOP; quitado `X-Powered-By`. |
+| 19 | Forzar HTTPS | OK. Vercel redirige a HTTPS y HSTS obliga al navegador a no usar http. |
+| 20 | Escanear dependencias | Hecho. Next 16.4.0 y sharp 0.35.5 parcheados. Queda un aviso en `braces` (solo herramienta de lint, no llega a la web; el "arreglo" propuesto es bajar a una versión vieja). Repetir `npm audit` antes de cada cambio grande. |
