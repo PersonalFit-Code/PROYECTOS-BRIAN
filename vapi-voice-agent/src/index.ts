@@ -4,6 +4,16 @@ import { config } from "./config";
 const server = createApp().listen(config.port, () => {
   console.log(`Servidor escuchando en http://localhost:${config.port}`);
   console.log(`Webhook de Vapi: POST http://localhost:${config.port}/voice-webhook`);
+  // Lo que se le dice a Vapi, para poder compararlo de un vistazo con lo que
+  // hay puesto en su panel sin tener que abrir el .env.
+  console.log(
+    config.publicServerUrl
+      ? `Direccion publica (la que debe estar en Vapi): ${config.publicServerUrl}/voice-webhook`
+      : "PUBLIC_SERVER_URL vacio: Vapi no sabra donde mandar los tool-calls.",
+  );
+  console.log(
+    `Voz: ${config.vozProveedor} / ${config.vozId}. Sonido de fondo: ${config.sonidoFondo}.`,
+  );
   console.log(
     config.grabarLlamadas
       ? "Grabacion de llamadas: ACTIVADA. El agente avisa al descolgar."
