@@ -35,6 +35,8 @@ export function invalidateBusinessCache(id?: string): void {
 // Los avisos de "no hay Firebase" se dan una vez, no en cada tool-call.
 let avisadoSinFirebase = false;
 let avisadoSinId = false;
+/** Negocios que no estan en Firestore y ya se han avisado en el log. */
+const avisadosInexistentes = new Set<string>();
 
 function esTextoNoVacio(valor: unknown): boolean {
   return typeof valor === "string" && valor.trim().length > 0;
@@ -181,11 +183,20 @@ export async function getBusiness(id: string): Promise<Business> {
       .get();
 
     if (!documento.exists) {
-      console.warn(
-        `El negocio "${buscado}" no existe en /${COLECCION}, usando negocio de ejemplo.`,
-      );
+      // El panel pregunta cada pocos segundos: se avisa una vez por negocio
+      // y la respuesta se guarda como cualquier otra, para no repetir ni el
+      // aviso ni la consulta en cada refresco.
+      if (!avisadosInexistentes.has(buscado)) {
+        console.warn(
+          `El negocio "${buscado}" no existe en /${COLECCION}, usando negocio de ejemplo.`,
+        );
+        avisadosInexistentes.add(buscado);
+      }
+      cache.set(buscado, { business: fallbackBusiness, expira: Date.now() + TTL_MS });
       return fallbackBusiness;
     }
+
+    avisadosInexistentes.delete(buscado);
 
     // El id del documento manda sobre el campo id, si viniera distinto.
     const datos: unknown = { ...documento.data(), id: documento.id };

@@ -11,6 +11,7 @@ import {
   TOOL_CALCULAR_TOTAL,
   TOOL_REGISTRAR_PEDIDO,
 } from "../tools/names";
+import { normalizarLlamadas, parseArgs } from "../tools/normalizar";
 import {
   PedidoInvalidoError,
   calcularTotal,
@@ -33,57 +34,6 @@ export const voiceWebhookRouter = Router();
 function isAuthorized(req: Request): boolean {
   if (!config.vapiServerSecret) return true;
   return req.header("x-vapi-secret") === config.vapiServerSecret;
-}
-
-/** Los argumentos pueden llegar como objeto o como JSON en texto. */
-function parseArgs(raw: unknown): Record<string, unknown> {
-  if (raw && typeof raw === "object" && !Array.isArray(raw)) {
-    return raw as Record<string, unknown>;
-  }
-  if (typeof raw !== "string") return {};
-  try {
-    const parsed: unknown = JSON.parse(raw);
-    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
-      ? (parsed as Record<string, unknown>)
-      : {};
-  } catch {
-    return {};
-  }
-}
-
-interface LlamadaHerramienta {
-  id: string;
-  nombre: string;
-  argumentos: Record<string, unknown>;
-}
-
-/**
- * Vapi manda las llamadas a herramientas en dos formatos segun la
- * configuracion: el plano (toolCallList) y el estilo OpenAI (toolCalls). Aqui
- * se normalizan los dos a una sola forma, sin duplicar por id.
- */
-function normalizarLlamadas(message: VapiMessage): LlamadaHerramienta[] {
-  const porId = new Map<string, LlamadaHerramienta>();
-
-  for (const item of message.toolCallList ?? []) {
-    if (!item?.id) continue;
-    porId.set(item.id, {
-      id: item.id,
-      nombre: item.name,
-      argumentos: parseArgs(item.parameters),
-    });
-  }
-
-  for (const item of message.toolCalls ?? []) {
-    if (!item?.id || porId.has(item.id)) continue;
-    porId.set(item.id, {
-      id: item.id,
-      nombre: item.function?.name ?? "",
-      argumentos: parseArgs(item.function?.arguments),
-    });
-  }
-
-  return [...porId.values()];
 }
 
 /**
@@ -156,11 +106,24 @@ async function handleToolCalls(
   business: Business,
 ): Promise<VapiToolCallsResponse> {
   const callId = message.call?.id ?? "";
+  const llamadas = normalizarLlamadas(message);
+
+  // Si Vapi cambia otra vez la forma del mensaje, que el log lo diga claro en
+  // lugar de un "herramienta sin implementar: undefined".
+  if (llamadas.length === 0 || llamadas.some((l) => !l.nombre)) {
+    console.warn(
+      "[voice-webhook] tool-calls con un formato que no se reconoce:",
+      JSON.stringify({
+        toolCallList: message.toolCallList,
+        toolCalls: message.toolCalls,
+      }).slice(0, 2000),
+    );
+  }
 
   // En paralelo: Vapi puede mandar varias herramientas en el mismo mensaje y
   // no hay motivo para encadenarlas.
   const results = await Promise.all(
-    normalizarLlamadas(message).map(async (llamada) => ({
+    llamadas.map(async (llamada) => ({
       toolCallId: llamada.id,
       name: llamada.nombre,
       result: await ejecutarHerramienta(

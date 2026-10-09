@@ -18,21 +18,22 @@ export type VapiMessageType =
   | "transcript"
   | "user-interrupted";
 
-/** Formato plano, el que documenta Vapi para "tool-calls". */
-export interface VapiToolCallListItem {
-  id: string;
-  name: string;
+/**
+ * Una llamada a herramienta dentro de un "tool-calls". Vapi la manda en mas de
+ * una forma (nombre en el primer nivel o dentro de "function", argumentos como
+ * "parameters" o "arguments", en objeto o en texto), asi que todo es opcional
+ * y se lee con src/tools/normalizar.ts.
+ */
+export interface VapiToolCallItem {
+  id?: string;
+  type?: string;
+  name?: string;
   parameters?: Record<string, unknown> | string;
-}
-
-/** Formato estilo OpenAI, que Vapi tambien envia segun la configuracion. */
-export interface VapiToolCall {
-  id: string;
-  type?: "function";
-  function: {
-    name: string;
-    /** Puede llegar como objeto o como JSON en texto, segun el modelo. */
+  arguments?: Record<string, unknown> | string;
+  function?: {
+    name?: string;
     arguments?: Record<string, unknown> | string;
+    parameters?: Record<string, unknown> | string;
   };
 }
 
@@ -40,10 +41,9 @@ export interface VapiMessage {
   type: VapiMessageType | string;
   timestamp?: number;
   call?: { id?: string; orgId?: string; [key: string]: unknown };
-  /** "tool-calls", formato plano documentado. */
-  toolCallList?: VapiToolCallListItem[];
-  /** "tool-calls", formato estilo OpenAI. */
-  toolCalls?: VapiToolCall[];
+  /** "tool-calls": Vapi puede mandar uno, otro o los dos con lo mismo. */
+  toolCallList?: VapiToolCallItem[];
+  toolCalls?: VapiToolCallItem[];
   /** "function-call" (formato antiguo, una sola funcion). */
   functionCall?: { name: string; parameters?: Record<string, unknown> | string };
   [key: string]: unknown;
