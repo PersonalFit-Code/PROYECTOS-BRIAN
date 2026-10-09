@@ -233,15 +233,22 @@ export function construirVoz(opciones: {
     // Vapi devuelve error si se manda, asi que ni se incluye.
     ...(modelo === "eleven_flash_v2_5" ? { language: "es" } : {}),
     speed: velocidad,
-    // Menos estabilidad es mas variacion en la entonacion, que es lo que
-    // distingue una voz viva de una plana. Por debajo de 0,4 empieza a
-    // pronunciar raro.
-    stability: 0.45,
+    // Estos dos valores se eligen por latencia, no por gusto. En una llamada
+    // el audio va en streaming: si el generador tarda mas de lo que dura el
+    // trozo que esta sonando, la voz se entrecorta. Y pasa que los dos
+    // ajustes que mas la adornan son los dos que mas la frenan:
+    //
+    // - style por encima de 0 cuesta computo extra y sube la latencia.
+    // - useSpeakerBoost tambien, a cambio de parecerse mas al original.
+    //
+    // Con los dos puestos la voz se cortaba en una llamada real, asi que van
+    // apagados: mas vale una voz entera que una voz expresiva a trompicones.
+    stability: 0.5,
     similarityBoost: 0.75,
-    style: 0.3,
-    useSpeakerBoost: true,
-    // 3 es el valor por defecto de Vapi: en una llamada la latencia se nota
-    // mas que el ultimo punto de calidad, pero 4 ya empeora la pronunciacion.
+    style: 0,
+    useSpeakerBoost: false,
+    // 3 es el valor por defecto de Vapi. El 4 recorta mas latencia pero
+    // empeora como pronuncia los numeros, y aqui se dicen precios.
     optimizeStreamingLatency: 3,
   };
 }

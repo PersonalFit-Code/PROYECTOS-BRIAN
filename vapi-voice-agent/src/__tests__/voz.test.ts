@@ -47,6 +47,17 @@ describe("construirVoz", () => {
     assert.equal("language" in voz, false);
   });
 
+  it("no activa los ajustes que suben la latencia y entrecortan la voz", () => {
+    const voz = construirVoz({
+      proveedor: "11labs",
+      voiceId: "abc123",
+      modelo: "eleven_flash_v2_5",
+      velocidad: 1.05,
+    });
+    assert.equal(voz.style, 0, "style > 0 sube la latencia y corta el audio");
+    assert.equal(voz.useSpeakerBoost, false, "speaker boost sube la latencia");
+  });
+
   it("los ajustes de ElevenLabs estan dentro de los rangos que acepta", () => {
     const voz = construirVoz({
       proveedor: "11labs",
