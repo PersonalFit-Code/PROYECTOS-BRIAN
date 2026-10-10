@@ -5,6 +5,7 @@ import { fontVariables } from "@/app/fonts";
 import { LOCALES, LOCALE_META, isLocale, type Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
+import AnalyticsGate from "@/components/legal/AnalyticsGate";
 import CookieConsent from "@/components/legal/CookieConsent";
 import HomeJsonLd from "@/components/legal/HomeJsonLd";
 import { SITE_URL, pageMetadata, serializeJsonLd } from "@/lib/seo";
@@ -185,6 +186,9 @@ export default async function LocaleLayout({
           <HomeJsonLd locale={locale} />
           {/* Aviso de cookies: localStorage `tixola_consent`, se reabre con `tixola:cookie-settings` */}
           <CookieConsent />
+          {/* Medición de visitas, solo con consentimiento. Va DESPUÉS del aviso a propósito: necesita
+              leer la decisión que ese componente guarda. */}
+          <AnalyticsGate />
         </LocaleProvider>
       </body>
     </html>

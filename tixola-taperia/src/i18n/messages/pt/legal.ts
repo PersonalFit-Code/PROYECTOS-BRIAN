@@ -37,7 +37,7 @@ const legal: LegalMessages = {
     necessary: "Necessárias",
     necessaryDesc: "Imprescindíveis para que o site funcione (idioma, consentimento).",
     analytics: "Mapa e análise",
-    analyticsDesc: "Permitem carregar o mapa do Google na secção de localização e, se algum dia instalarmos uma ferramenta de medição, também essa. Só com o seu consentimento.",
+    analyticsDesc: "Permitem carregar o mapa do Google na secção de localização e medir de forma anónima que páginas são visitadas. Só com o seu consentimento.",
     more: "Mais informação",
     aria: "Aviso de cookies",
     panelTitle: "Preferências de cookies",
@@ -47,7 +47,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidade",
     cookiesLink: "Política de cookies",
     saved: "Preferências guardadas.",
-    noAnalyticsYet: "Hoje esta opção afeta apenas o mapa do Google: não há nenhuma ferramenta de análise instalada. Se vier a ser instalada, seguirá esta mesma escolha.",
+    noAnalyticsYet: "Com esta opção aceita duas coisas: o mapa do Google e a medição de visitas (Vercel Web Analytics), que não instala cookies nem guarda nada no seu navegador. Se a deixar desmarcada, não se carrega nenhuma das duas.",
   },
 
   /* ── Páginas legais: cabeçalho, índice e rodapé ── */
@@ -156,7 +156,7 @@ const legal: LegalMessages = {
                 ],
                 [
                   "Medir a utilização do site (análise)",
-                  "O seu consentimento no banner de cookies (art. 6.º, n.º 1, al. a) do RGPD). Atualmente não está instalada nenhuma ferramenta",
+                  "O seu consentimento no banner de cookies (art. 6.º, n.º 1, al. a) do RGPD)",
                   "Consoante a ferramenta, nunca mais de 24 meses",
                 ],
                 [
@@ -206,7 +206,7 @@ const legal: LegalMessages = {
               items: [
                 {
                   term: "Vercel Inc. (EUA)",
-                  desc: "Alojamento e entrega do site. Processa os dados técnicos de cada visita (IP, cabeçalhos) e os registos de segurança. Aderente ao Quadro de Privacidade de Dados UE-EUA e com cláusulas contratuais-tipo. [Política de privacidade da Vercel](https://vercel.com/legal/privacy-policy).",
+                  desc: "Alojamento e entrega do site e, se aceitar, a medição de visitas (Vercel Web Analytics). Processa os dados técnicos de cada visita (IP, cabeçalhos) e os registos de segurança. Aderente ao Quadro de Privacidade de Dados UE-EUA e com cláusulas contratuais-tipo. [Política de privacidade da Vercel](https://vercel.com/legal/privacy-policy).",
                 },
                 {
                   term: "Anthropic PBC (EUA)",
@@ -482,11 +482,11 @@ const legal: LegalMessages = {
                   "Segundo a Google (até 6 meses ou mais)",
                 ],
                 [
-                  "Análise",
+                  "Vercel Web Analytics",
                   "Opcional (análise)",
-                  "Própria ou de terceiros",
-                  "Medir de forma agregada como o site é utilizado. **Atualmente não está instalada nenhuma ferramenta**; se vier a ser ativada, só será carregada com o seu consentimento e esta tabela será atualizada.",
-                  "Nunca mais de 24 meses",
+                  "Vercel Inc. (EUA)",
+                  "Medir de forma agregada que páginas são visitadas, de onde se chega, com que navegador e de que cidade aproximada. **Não instala qualquer cookie nem guarda nada no seu navegador**: a Vercel identifica a sessão com um código que calcula no seu servidor e descarta-o ao fim de 24 horas. Só é carregado se aceitar.",
+                  "Não usa cookies",
                 ],
               ],
             },

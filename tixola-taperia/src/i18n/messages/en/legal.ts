@@ -35,7 +35,7 @@ const legal: LegalMessages = {
     necessary: "Necessary",
     necessaryDesc: "Essential for the website to work (language, consent).",
     analytics: "Map and analytics",
-    analyticsDesc: "Allow the Google map to load in the location section and, if we ever install a measurement tool, that too. Only with your consent.",
+    analyticsDesc: "Allow the Google map to load in the location section and let us measure anonymously which pages are visited. Only with your consent.",
     more: "More information",
     aria: "Cookie notice",
     panelTitle: "Cookie preferences",
@@ -45,7 +45,7 @@ const legal: LegalMessages = {
     privacyLink: "Privacy policy",
     cookiesLink: "Cookie policy",
     saved: "Preferences saved.",
-    noAnalyticsYet: "Today this switch only affects the Google map: no analytics tool is installed. If one is added later, it will follow this same choice.",
+    noAnalyticsYet: "This switch covers two things: the Google map and visit measurement (Vercel Web Analytics), which sets no cookies and stores nothing in your browser. Leave it off and neither one loads.",
   },
 
   /* ── Legal pages: header, contents and footer ── */
@@ -154,7 +154,7 @@ const legal: LegalMessages = {
                 ],
                 [
                   "Measuring how the website is used (analytics)",
-                  "Your consent in the cookie banner (Art. 6(1)(a) GDPR). No tool is currently installed",
+                  "Your consent in the cookie banner (Art. 6(1)(a) GDPR)",
                   "Depending on the tool, never more than 24 months",
                 ],
                 [
@@ -204,7 +204,7 @@ const legal: LegalMessages = {
               items: [
                 {
                   term: "Vercel Inc. (USA)",
-                  desc: "Hosting and delivery of the website. Processes the technical data of each visit (IP address, headers) and the security logs. Certified under the EU-US Data Privacy Framework and bound by standard contractual clauses. [Vercel privacy policy](https://vercel.com/legal/privacy-policy).",
+                  desc: "Hosting and delivery of the website and, if you accept, visit measurement (Vercel Web Analytics). Processes the technical data of each visit (IP address, headers) and the security logs. Certified under the EU-US Data Privacy Framework and bound by standard contractual clauses. [Vercel privacy policy](https://vercel.com/legal/privacy-policy).",
                 },
                 {
                   term: "Anthropic PBC (USA)",
@@ -480,11 +480,11 @@ const legal: LegalMessages = {
                   "Set by Google (up to 6 months or longer)",
                 ],
                 [
-                  "Analytics",
+                  "Vercel Web Analytics",
                   "Optional (analytics)",
-                  "First-party or third-party",
-                  "To measure, in aggregate, how the website is used. **No tool is currently installed**; if one is enabled in the future, it will only load with your consent and this table will be updated.",
-                  "Never more than 24 months",
+                  "Vercel Inc. (USA)",
+                  "To measure, in aggregate, which pages are visited, where visitors come from, which browser they use and roughly which city. **It sets no cookies and stores nothing in your browser**: Vercel identifies the session with a code computed on its own server and discards it after 24 hours. It loads only if you accept.",
+                  "No cookies used",
                 ],
               ],
             },

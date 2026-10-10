@@ -36,7 +36,7 @@ const legal: LegalMessages = {
     necessary: "Necesarias",
     necessaryDesc: "Imprescindibles para que a web funcione (idioma, consentimento).",
     analytics: "Mapa e analítica",
-    analyticsDesc: "Permiten cargar o mapa de Google na sección de localización e, se algún día instalamos unha ferramenta de medición, tamén esa. Só co teu consentimento.",
+    analyticsDesc: "Permiten cargar o mapa de Google na sección de localización e medir de forma anónima que páxinas se visitan. Só co teu consentimento.",
     more: "Máis información",
     aria: "Aviso de cookies",
     panelTitle: "Preferencias de cookies",
@@ -46,7 +46,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidade",
     cookiesLink: "Política de cookies",
     saved: "Preferencias gardadas.",
-    noAnalyticsYet: "Hoxe esta caixa só afecta ao mapa de Google: non hai ningunha ferramenta de analítica instalada. Se se instala no futuro, rexerase por esta mesma elección.",
+    noAnalyticsYet: "Con esta caixa aceptas dúas cousas: o mapa de Google e a medición de visitas (Vercel Web Analytics), que non instala cookies nin garda nada no teu navegador. Se a deixas sen marcar, non se carga ningunha das dúas.",
   },
 
   /* ── Páxinas legais: cabeceira, índice e pé ── */
@@ -155,7 +155,7 @@ const legal: LegalMessages = {
                 ],
                 [
                   "Medir o uso da web (analítica)",
-                  "O teu consentimento no banner de cookies (art. 6.1.a RXPD). Actualmente non hai ningunha ferramenta instalada",
+                  "O teu consentimento no banner de cookies (art. 6.1.a RXPD)",
                   "Segundo a ferramenta, nunca máis de 24 meses",
                 ],
                 [
@@ -205,7 +205,7 @@ const legal: LegalMessages = {
               items: [
                 {
                   term: "Vercel Inc. (EUA)",
-                  desc: "Aloxamento e entrega da web. Procesa os datos técnicos de cada visita (IP, cabeceiras) e os rexistros de seguridade. Adherida ao Marco de Privacidade de Datos UE-EUA e con cláusulas contractuais tipo. [Política de privacidade de Vercel](https://vercel.com/legal/privacy-policy).",
+                  desc: "Aloxamento e entrega da web e, se o aceptas, a medición de visitas (Vercel Web Analytics). Procesa os datos técnicos de cada visita (IP, cabeceiras) e os rexistros de seguridade. Adherida ao Marco de Privacidade de Datos UE-EUA e con cláusulas contractuais tipo. [Política de privacidade de Vercel](https://vercel.com/legal/privacy-policy).",
                 },
                 {
                   term: "Anthropic PBC (EUA)",
@@ -481,11 +481,11 @@ const legal: LegalMessages = {
                   "Segundo Google (ata 6 meses ou máis)",
                 ],
                 [
-                  "Analítica",
+                  "Vercel Web Analytics",
                   "Opcional (análise)",
-                  "Propia ou de terceiros",
-                  "Medir de forma agregada como se usa a web. **Actualmente non hai ningunha ferramenta instalada**; se se activa no futuro, só se cargará co teu consentimento e esta táboa actualizarase.",
-                  "Nunca máis de 24 meses",
+                  "Vercel Inc. (EE. UU.)",
+                  "Medir de forma agregada que páxinas se visitan, desde onde se chega, con que navegador e desde que cidade aproximada. **Non instala ningunha cookie nin garda nada no teu navegador**: Vercel identifica a sesión cun código que calcula no seu servidor e descártao ás 24 horas. Só se carga se aceptas.",
+                  "Non usa cookies",
                 ],
               ],
             },
