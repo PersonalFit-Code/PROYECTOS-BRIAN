@@ -208,3 +208,22 @@ pollo empanadas y fritas" y en la foto hay dos cosas más que no se nombran:
 
 Mientras no se confirme, la web no dice nada de esto en la descripción del plato: solo el texto
 alternativo de la foto describe lo que se ve, que es lo que hay en la imagen.
+
+---
+
+## Tosta de salmón y queso (10-10-2026)
+
+**Qué se ha hecho.** Se publica la cenital. La otra, en diagonal, lleva en el borde derecho el plato
+de croquetas de la mesa. **La cenital traía un pie en el borde de abajo** —se tiró de pie sobre la
+mesa—, así que los dos recortes van subidos para dejarlo fuera: no se retoca nada, se encuadra.
+Recortes: 1800×1350 para la carta y la galería y 1200×1800 para la ficha. Sin retoque de color.
+
+**Lo que hay que mirar: el hilo de salsa oscura.** La descripción dice "Salmón ahumado y queso
+cremoso sobre pan tostado" y en la foto hay, además, un hilo de salsa oscura sobre las tostas y
+dibujado en el plato. **Si es una reducción de vinagre balsámico o de Pedro Ximénez, lleva sulfitos
+y habría que declararlos**: hoy la tosta está marcada con gluten, pescado y lácteos. La tosta de
+cebolla, foie y rulo de cabra sí declara sulfitos, así que en la cocina se lleva la cuenta; es
+cuestión de confirmar esta.
+
+La ensalada que acompaña tampoco se nombra en la descripción. Eso no es un problema de alérgenos,
+pero si va siempre, decirlo ayuda a vender la tosta.

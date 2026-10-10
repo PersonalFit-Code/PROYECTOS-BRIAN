@@ -440,6 +440,10 @@ const gl: DataTranslations = {
       alt: "Fingers de polo empanados e fritos sobre follas de leituga, cada un coroado cun gallo de pexego marcado á prancha, e unha cunca de salsa branca con perexil, nunha fonte ovalada de cerámica verde sobre a mesa de madeira de Tixola Tapería",
       caption: "Fingers de polo",
     },
+    "tosta-salmon-queso": {
+      alt: "Tosta de salmón e queixo de Tixola Tapería: dúas rebandas de pan rústico tostado con queixo cremoso untado e follas de salmón afumado por riba, regadas cun fío de salsa escura, con follas de ensalada ao lado, nunha fonte ovalada de cerámica verde sobre a mesa de madeira",
+      caption: "Tosta de salmón e queixo",
+    },
     "rotulo-noche": {
       alt: "Rótulo de Tixola vinoteca-tapería iluminado de noite no casco histórico de Ourense",
       caption: "O rótulo, de noite no casco histórico",

@@ -1,10 +1,10 @@
 # Guía para las fotos de plato — Tixola
 
 > **Actualizada el 10-10-2026.** Tatiana tenía razón: faltan bastantes. De los 47 platos de la carta,
-> **23 ya tienen foto de verdad y 24 siguen con el dibujo**. Esta es la lista exacta — comprobada
+> **24 ya tienen foto de verdad y 23 siguen con el dibujo**. Esta es la lista exacta — comprobada
 > contra `src/data/menu.ts` y `src/data/photos.ts`, no a ojo — y el orden en el que conviene tirarlas.
 >
-> **Hechas desde entonces:** timbal vegetal y fingers de pollo (10-10-2026). La numeración de abajo NO se renumera a
+> **Hechas desde entonces:** timbal vegetal, fingers de pollo y tosta de salmón y queso (10-10-2026). La numeración de abajo NO se renumera a
 > propósito: así se sigue sabiendo de qué foto hablábamos en cada conversación.
 
 ---
@@ -18,7 +18,9 @@ estaban en la ronda anterior y siguen sin foto llevan una ⚠️.
 
 1. **Tosta de crema de cebolla, foie y rulo de cabra** (7,50 €)
 2. **Tosta de trigueros, jamón y huevo de codorniz** (7,20 €)
-3. **Tosta de salmón y queso** (6,80 €)
+3. ~~**Tosta de salmón y queso** (6,80 €)~~ — ✅ **hecha** (10-10-2026). Ojo: lleva un hilo de salsa
+   oscura que la carta no nombra y que, si es reducción, llevaría sulfitos; ver
+   `docs/fotos-para-revisar.md`.
 
 ### Embutidos y quesos — 0 de 4
 

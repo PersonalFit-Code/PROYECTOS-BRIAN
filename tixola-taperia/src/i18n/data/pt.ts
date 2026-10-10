@@ -441,6 +441,10 @@ const pt: DataTranslations = {
       alt: "Fingers de frango panados e fritos sobre folhas de alface, cada um coroado com um gomo de pêssego grelhado, e uma taça de molho branco com salsa, numa travessa oval de cerâmica verde sobre a mesa de madeira da Tixola Tapería",
       caption: "Fingers de frango",
     },
+    "tosta-salmon-queso": {
+      alt: "Tosta de salmão e queijo da Tixola Tapería: duas fatias de pão rústico torrado com queijo cremoso barrado e lâminas de salmão fumado por cima, regadas com um fio de molho escuro, com folhas de salada ao lado, numa travessa oval de cerâmica verde sobre a mesa de madeira",
+      caption: "Tosta de salmão e queijo",
+    },
     "rotulo-noche": {
       alt: "Tabuleta da Tixola vinoteca-tapería iluminada à noite no centro histórico de Ourense",
       caption: "A tabuleta, à noite no centro histórico",

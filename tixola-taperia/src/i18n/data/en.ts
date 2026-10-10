@@ -440,6 +440,10 @@ const en: DataTranslations = {
       alt: "Breaded, fried chicken fingers on lettuce leaves, each topped with a griddled peach wedge, and a bowl of white parsley sauce, on a green ceramic oval platter on the wooden table at Tixola Tapería",
       caption: "Chicken fingers",
     },
+    "tosta-salmon-queso": {
+      alt: "Tixola Tapería's salmon and cheese toast: two slices of toasted rustic bread spread with cream cheese and topped with smoked salmon, drizzled with a dark sauce, with salad leaves alongside, on a green ceramic oval platter on the wooden table",
+      caption: "Salmon and cheese toast",
+    },
     "rotulo-noche": {
       alt: "The Tixola vinoteca-tapería sign lit up at night in the old town of Ourense",
       caption: "The sign, at night in the old town",

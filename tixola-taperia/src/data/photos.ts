@@ -427,6 +427,21 @@ export const PHOTOS: Photo[] = [
     dishIds: ["coc-fingers-pollo" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* La original traía un pie al borde de abajo —se tiró de pie sobre la mesa— y los dos recortes
+     están subidos para dejarlo fuera: no se retoca nada, se encuadra. Como en los fingers, el marco
+     apaisado va corto (el plato es ovalado y no cabe de lado a lado) y el completo se ve en `srcTall`. */
+  {
+    id: "tosta-salmon-queso",
+    src: "/images/tosta-salmon-queso.webp",
+    srcTall: "/images/tosta-salmon-queso-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Tosta de salmón y queso de Tixola Tapería: dos rebanadas de pan rústico tostado con queso cremoso untado y lonchas de salmón ahumado por encima, regadas con un hilo de salsa oscura, con hojas de ensalada al lado, en una fuente ovalada de cerámica verde sobre la mesa de madera",
+    caption: "Tosta de salmón y queso",
+    tags: ["plato"],
+    dishIds: ["tos-salmon-queso" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
 
   /* El local y la vinoteca */
   {
