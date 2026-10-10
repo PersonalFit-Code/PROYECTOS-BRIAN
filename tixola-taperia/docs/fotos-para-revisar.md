@@ -161,3 +161,25 @@ quedan enteros.
    hay de la fachada, pero la sustitución del punto 1 cierra también esto.
 3. **El camarero que sale en ella.** Se le reconoce, aunque lleve mascarilla. Si es de la casa,
    basta con que esté de acuerdo; si no, la foto nueva lo resuelve igual.
+
+---
+
+## Timbal vegetal (10-10-2026)
+
+**Qué se ha hecho.** De las dos fotos que mandó Brian se publica la primera, la tomada de lado:
+en ella se ven las capas, que es de lo que va un timbal. La segunda es cenital y con el plato ya
+empezado (falta una seta y la ensalada está removida), así que se queda fuera. Recortes: 1800×1350
+para la carta y la galería, y 1200×1800 para la columna de la ficha, los dos de la foto original
+sin retoque de color.
+
+**Qué hace falta de Tatiana: confirmar los ingredientes.** La carta solo dice "verduras montadas
+en capas", así que el texto alternativo de la foto (el que leen los buscadores y quien usa lector
+de pantalla) describe lo que SE VE: berenjena, calabacín, pimiento asado, base de patata, salsa
+blanca y dos láminas de seta de cardo a la plancha. Si alguna no es lo que parece —sobre todo las
+setas y la base— se corrige en una línea por idioma.
+
+**Dos cosas más que convendría mirar.**
+1. **El alérgeno.** El plato está marcado solo con lácteos, y encaja con la salsa blanca que se ve.
+   Si esa base dorada lleva rebozado o si la salsa lleva huevo, faltarían alérgenos.
+2. **La foto para la ficha.** Al recortarla en vertical entra la vinoteca del fondo, que queda bien,
+   pero si algún día hay una toma de lado con fondo más limpio, mejora.

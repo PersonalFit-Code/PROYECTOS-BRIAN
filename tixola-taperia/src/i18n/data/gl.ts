@@ -432,6 +432,10 @@ const gl: DataTranslations = {
       alt: "Ración de croquetas caseiras aliñadas en prato alongado branco sobre a mesa de madeira da tapería",
       caption: "Ración de croquetas",
     },
+    "timbal-vegetal": {
+      alt: "Timbal vexetal de Tixola Tapería: berenxena, cabaciña e pemento asado montados en capas sobre unha base de pataca, coroado con setas á prancha, con ensalada e pingas de salsa vermella arredor do prato",
+      caption: "Timbal vexetal, coa vinoteca ao fondo",
+    },
     "rotulo-noche": {
       alt: "Rótulo de Tixola vinoteca-tapería iluminado de noite no casco histórico de Ourense",
       caption: "O rótulo, de noite no casco histórico",

@@ -395,6 +395,22 @@ export const PHOTOS: Photo[] = [
     tags: ["plato"],
     focus: "50% 50%",
   },
+  /* La única foto de la carta tomada de LADO y no desde arriba, y es a propósito: un timbal son
+     verduras montadas en capas, y desde arriba se ve un círculo de calabacín que podría ser
+     cualquier cosa. De lado se cuenta el plato solo. El fondo de cajas y botellas de la vinoteca
+     sale por el mismo motivo por el que sale en la de zamburiñas: es el local de verdad. */
+  {
+    id: "timbal-vegetal",
+    src: "/images/timbal-vegetal.webp",
+    srcTall: "/images/timbal-vegetal-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Timbal vegetal de Tixola Tapería: berenjena, calabacín y pimiento asado montados en capas sobre una base de patata, coronado con setas a la plancha, con ensalada y gotas de salsa roja alrededor del plato",
+    caption: "Timbal vegetal, con la vinoteca al fondo",
+    tags: ["plato", "vinos"],
+    dishIds: ["esp-timbal-vegetal" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
 
   /* El local y la vinoteca */
   {

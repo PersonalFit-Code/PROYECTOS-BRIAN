@@ -1,8 +1,11 @@
 # Guía para las fotos de plato — Tixola
 
-> **Actualizada el 4-10-2026.** Tatiana tenía razón: faltan bastantes. De los 47 platos de la carta,
-> **21 ya tienen foto de verdad y 26 siguen con el dibujo**. Esta es la lista exacta — comprobada
+> **Actualizada el 10-10-2026.** Tatiana tenía razón: faltan bastantes. De los 47 platos de la carta,
+> **22 ya tienen foto de verdad y 25 siguen con el dibujo**. Esta es la lista exacta — comprobada
 > contra `src/data/menu.ts` y `src/data/photos.ts`, no a ojo — y el orden en el que conviene tirarlas.
+>
+> **Hechas desde entonces:** timbal vegetal (10-10-2026). La numeración de abajo NO se renumera a
+> propósito: así se sigue sabiendo de qué foto hablábamos en cada conversación.
 
 ---
 
@@ -37,7 +40,8 @@ corte, va rápido.
 9. **Zamburiñas rellenas** (19,00 €) — ya estaba en la lista anterior. Tenemos la de plancha, no la
    de rellenas, y son platos distintos.
 10. **Brocheta XXL** (13,90 €)
-11. **Timbal vegetal** (9,50 €) ⚠️
+11. ~~**Timbal vegetal** (9,50 €)~~ — ✅ **hecha** (10-10-2026). De lado, no cenital: es un plato
+    de capas y desde arriba no se entiende.
 12. **Oreja a la plancha** (8,20 €) ⚠️
 
 ### Ensaladas — 3 de 5

@@ -432,6 +432,10 @@ const en: DataTranslations = {
       alt: "A portion of homemade croquettes lined up on a long white plate on the bar's wooden table",
       caption: "A portion of croquettes",
     },
+    "timbal-vegetal": {
+      alt: "Tixola Tapería's vegetable timbale: aubergine, courgette and roasted pepper layered on a potato base, topped with grilled king oyster mushrooms, with salad and dots of red sauce around the plate",
+      caption: "Vegetable timbale, with the wine room behind",
+    },
     "rotulo-noche": {
       alt: "The Tixola vinoteca-tapería sign lit up at night in the old town of Ourense",
       caption: "The sign, at night in the old town",
