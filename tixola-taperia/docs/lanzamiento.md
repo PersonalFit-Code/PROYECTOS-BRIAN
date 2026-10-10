@@ -97,3 +97,26 @@ la lista no aplica: no hay nada que filtrar por usuario ni contraseñas que prot
 | 18 | Cabeceras de seguridad | Añadido en `next.config.ts`: CSP, HSTS, nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy, COOP; quitado `X-Powered-By`. |
 | 19 | Forzar HTTPS | OK. Vercel redirige a HTTPS y HSTS obliga al navegador a no usar http. |
 | 20 | Escanear dependencias | Hecho. Next 16.4.0 y sharp 0.35.5 parcheados. Queda un aviso en `braces` (solo herramienta de lint, no llega a la web; el "arreglo" propuesto es bajar a una versión vieja). Repetir `npm audit` antes de cada cambio grande. |
+
+## G · "20 cosas antes de lanzar tu web" (10-10-2026)
+
+| # | Punto | Estado |
+|---|---|---|
+| 1–3 | Aviso legal, privacidad, cookies | Páginas y banner hechos en 4 idiomas. **Faltan los datos fiscales y el email** (ver A). |
+| 4 | HTTPS | OK (Vercel + HSTS). |
+| 5 | Títulos y descripciones | OK en las 24 páginas: títulos ≤ 60 caracteres, descripciones 127–171, únicas por idioma. |
+| 6 | Datos estructurados | OK: Restaurant, Menu, FAQPage, BreadcrumbList. |
+| 7 | Sitemap y robots.txt | **Arreglado**: apuntaban a `tixola.restaurantesourense.com`. Ahora usan el dominio de producción de Vercel, que cambia solo al dominio propio cuando se marque como principal. |
+| 8 | Ficha de Google | **Tarea de la casa**: en Google Business Profile, poner como sitio web el dominio nuevo, revisar horario y fotos, y responder reseñas. |
+| 9 | Favicon | **Añadido**: `favicon.ico`, icono de iPhone (180 px), manifiesto e iconos de Android (192/512). |
+| 10 | Texto alternativo | OK: todas las imágenes tienen `alt` en los 4 idiomas. |
+| 11 | Imágenes comprimidas | OK: todas pasan por `next/image`, que las sirve en AVIF/WebP al tamaño de cada pantalla. |
+| 12 | Velocidad | OK: páginas estáticas, sin librerías pesadas fuera de la portada, medido en rondas anteriores. |
+| 13 | Contraste | OK: revisado en la ronda Liquid Glass (≥ 4,5:1). |
+| 14 | Móvil | OK: revisado a 4 anchos en todas las páginas. |
+| 15 | 404 personalizada | OK, en los 4 idiomas. |
+| 16 | Enlaces rotos | OK: 0 rotos. Limpiados además los enlaces de Google Maps (llevaban un `place_id` vacío). |
+| 17 | Formularios contra spam | No hay formularios. El chat tiene filtro de origen, cuota por IP y tope de tamaño. |
+| 18 | WhatsApp visible | OK: botón flotante en escritorio y en el dock del móvil. |
+| 19 | Analítica | **Pendiente de decisión**: Vercel Web Analytics (sin cookies, no necesita banner). Se activa en el panel de Vercel y hay que mencionarla en la política de privacidad. |
+| 20 | Una sola llamada a la acción | OK: en la portada, "Ver la carta" es la única acción principal; "Cómo llegar" va como secundaria. |

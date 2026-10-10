@@ -32,7 +32,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
        fija en español viajaba también en /en, /gl, /pt, /carta y las páginas legales. */
     keywords: [...m.common.seoKeywords],
     robots: { index: true, follow: true },
-    icons: { icon: "/favicon.svg" },
+    /* SVG para navegadores modernos, .ico para los que piden /favicon.ico por su cuenta (y para Google,
+       que enseña el icono junto al resultado), PNG de 180 px para "Añadir a pantalla de inicio" en iPhone
+       (Safari no usa el SVG) y el manifiesto para Android. Todos salen de `favicon.svg`. */
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "32x32" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+      ],
+      apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
+    },
+    manifest: "/manifest.webmanifest",
     ...pageMetadata(locale, "/", { title, description }),
     /* Después del spread: `pageMetadata` devuelve `title` como cadena y borraría la plantilla que
        da el sufijo de marca a /carta y a las páginas legales. */

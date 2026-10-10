@@ -6,6 +6,7 @@
  * Horario tomado de la ficha de Google Business (coincide con Wanderlog y prensa local); TripAdvisor muestra
  * otro horario desactualizado. `hours` es lo único que alimenta el indicador "Abierto ahora" y el JSON-LD.
  */
+import { SITE_URL } from "@/lib/siteUrl";
 
 export type DayKey = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
 
@@ -43,14 +44,14 @@ export const BUSINESS = {
        cosa (horario, grupos, alérgenos). */
     whatsapp: "https://wa.me/34646457274?text=Hola%2C%20tengo%20una%20consulta%20sobre%20Tixola%20Taper%C3%ADa",
   },
-  website: "https://tixola.restaurantesourense.com",
+  website: SITE_URL,
   priceRange: "10 € – 20 €",
   priceRangeSchema: "€€",
   timezone: "Europe/Madrid",
   social: {
-    googleMaps: "https://www.google.com/maps/search/?api=1&query=Tixola+taper%C3%ADa+Ourense&query_place_id=",
+    googleMaps: "https://www.google.com/maps/search/?api=1&query=Tixola+taper%C3%ADa+Ourense",
     directions:
-      "https://www.google.com/maps/dir/?api=1&destination=42.33668,-7.863365&destination_place_id=&travelmode=walking",
+      "https://www.google.com/maps/dir/?api=1&destination=42.33668,-7.863365&travelmode=walking",
     tripadvisor:
       "https://www.tripadvisor.es/Restaurant_Review-g644337-d8358055-Reviews-Tixola_taperia_vinoteca-Ourense_Province_of_Ourense_Galicia.html",
     googleReviews: "https://www.google.com/maps/search/?api=1&query=Tixola+taper%C3%ADa+R%C3%BAa+Juan+de+Austria+7+Ourense",

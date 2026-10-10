@@ -3,7 +3,9 @@ import { BUSINESS } from "@/data/business";
 import type { DietTag, MenuCategory, MenuItem } from "@/data/menu";
 import { LOCALES, LOCALE_META, localePath, type Locale } from "@/i18n/config";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://tixola.restaurantesourense.com").replace(/\/$/, "");
+import { SITE_URL } from "@/lib/siteUrl";
+
+export { SITE_URL };
 
 /** URL absoluta de una ruta sin prefijo ("/carta") en un idioma. */
 export function absoluteUrl(locale: Locale, path = "/"): string {
