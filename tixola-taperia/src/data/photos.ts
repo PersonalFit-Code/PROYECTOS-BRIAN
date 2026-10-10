@@ -411,6 +411,22 @@ export const PHOTOS: Photo[] = [
     dishIds: ["esp-timbal-vegetal" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* Recorte CORTO a propósito: el plato es ovalado y grande, y en una foto cenital de móvil no cabe
+     entero en un marco apaisado sin alejarse tanto que los fingers se vean del tamaño de una moneda.
+     Aquí se enseñan tres de cerca —rebozado, melocotón y lechuga— y el plato completo, con su salsa,
+     se ve en `srcTall`, que sí entra de una pieza porque la foto original es vertical. */
+  {
+    id: "fingers-pollo",
+    src: "/images/fingers-pollo.webp",
+    srcTall: "/images/fingers-pollo-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Fingers de pollo empanados y fritos sobre hojas de lechuga, cada uno coronado con un gajo de melocotón marcado a la plancha, y un cuenco de salsa blanca con perejil, en una fuente ovalada de cerámica verde sobre la mesa de madera de Tixola Tapería",
+    caption: "Fingers de pollo",
+    tags: ["plato"],
+    dishIds: ["coc-fingers-pollo" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
 
   /* El local y la vinoteca */
   {

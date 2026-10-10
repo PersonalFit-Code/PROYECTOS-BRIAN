@@ -183,3 +183,28 @@ setas y la base— se corrige en una línea por idioma.
    Si esa base dorada lleva rebozado o si la salsa lleva huevo, faltarían alérgenos.
 2. **La foto para la ficha.** Al recortarla en vertical entra la vinoteca del fondo, que queda bien,
    pero si algún día hay una toma de lado con fondo más limpio, mejora.
+
+---
+
+## Fingers de pollo (10-10-2026)
+
+**Qué se ha hecho.** De las dos fotos de Brian se publica la cenital. La otra, en diagonal con la
+vinoteca al fondo, tiene en los bordes una taza y otro plato de la mesa de al lado. Recortes:
+1800×1350 para la carta y la galería (recorte corto: el plato ovalado no cabe entero en apaisado
+sin que los fingers queden diminutos) y 1200×1800 para la ficha, donde sí se ve el plato completo
+con su salsa. Sin retoque de color.
+
+**Lo que hay que decidir, y no es cosa mía: la carta se queda corta.** La descripción dice "Tiras de
+pollo empanadas y fritas" y en la foto hay dos cosas más que no se nombran:
+
+1. **Un gajo de melocotón marcado a la plancha sobre cada pieza.** Es lo primero que ve el ojo en la
+   foto. Si va siempre así, la descripción debería decirlo —vende el plato— y si fue un montaje de
+   ese día, igual conviene otra foto. (Que sea melocotón y no mango es lectura mía de la foto:
+   confírmalo, porque va en el texto que leen los buscadores.)
+2. **Un cuenco de salsa blanca con perejil.** Tampoco se nombra. Y aquí hay algo más serio que el
+   texto: **saber qué salsa es, por los alérgenos**. Hoy el plato está marcado con gluten, huevos y
+   lácteos; si la salsa lleva mostaza, frutos secos o pescado (una alioli, una tártara…), faltaría
+   declararlo.
+
+Mientras no se confirme, la web no dice nada de esto en la descripción del plato: solo el texto
+alternativo de la foto describe lo que se ve, que es lo que hay en la imagen.

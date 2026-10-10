@@ -1,10 +1,10 @@
 # Guía para las fotos de plato — Tixola
 
 > **Actualizada el 10-10-2026.** Tatiana tenía razón: faltan bastantes. De los 47 platos de la carta,
-> **22 ya tienen foto de verdad y 25 siguen con el dibujo**. Esta es la lista exacta — comprobada
+> **23 ya tienen foto de verdad y 24 siguen con el dibujo**. Esta es la lista exacta — comprobada
 > contra `src/data/menu.ts` y `src/data/photos.ts`, no a ojo — y el orden en el que conviene tirarlas.
 >
-> **Hechas desde entonces:** timbal vegetal (10-10-2026). La numeración de abajo NO se renumera a
+> **Hechas desde entonces:** timbal vegetal y fingers de pollo (10-10-2026). La numeración de abajo NO se renumera a
 > propósito: así se sigue sabiendo de qué foto hablábamos en cada conversación.
 
 ---
@@ -61,7 +61,8 @@ corte, va rápido.
 18. **Tortilla guisada con champiñones** (11,90 €)
 19. **Salteado de verdura, arroz y setas** (11,50 €)
 20. **Pastel de cabracho** (10,00 €) ⚠️
-21. **Fingers de pollo** (7,90 €)
+21. ~~**Fingers de pollo** (7,90 €)~~ — ✅ **hecha** (10-10-2026). Ojo: en la foto llevan melocotón
+    a la plancha y una salsa que la carta no nombra; ver `docs/fotos-para-revisar.md`.
 
 ### Tixolas — 3 de 5
 

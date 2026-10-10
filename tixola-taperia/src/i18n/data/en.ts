@@ -436,6 +436,10 @@ const en: DataTranslations = {
       alt: "Tixola Tapería's vegetable timbale: aubergine, courgette and roasted pepper layered on a potato base, topped with grilled king oyster mushrooms, with salad and dots of red sauce around the plate",
       caption: "Vegetable timbale, with the wine room behind",
     },
+    "fingers-pollo": {
+      alt: "Breaded, fried chicken fingers on lettuce leaves, each topped with a griddled peach wedge, and a bowl of white parsley sauce, on a green ceramic oval platter on the wooden table at Tixola Tapería",
+      caption: "Chicken fingers",
+    },
     "rotulo-noche": {
       alt: "The Tixola vinoteca-tapería sign lit up at night in the old town of Ourense",
       caption: "The sign, at night in the old town",
