@@ -439,6 +439,9 @@ export const FIVE_STAR_REVIEWS = REVIEWS.filter((r) => r.rating === 5);
 export const SOCIAL_STATS = [
   { id: "reviews", value: 850, suffix: "+", label: "Reseñas de clientes", sub: "en Google" },
   { id: "rating", value: 4.4, suffix: " / 5", label: "Valoración media", sub: "Google · 858 opiniones", decimals: 1 },
-  { id: "rank", value: 1, prefix: "Nº ", suffix: "", label: "En zamburiñas de la zona", sub: "según nuestros clientes" },
+  /* Aquí ponía «Nº 1 en zamburiñas de la zona · según nuestros clientes». Fuera el 10-10-2026: nadie
+     ha hecho ese ranking. En su sitio, un número de la casa que sí se puede comprobar abriendo /vinos,
+     y que además cuenta lo que la tapería es —vinoteca— sin prometer que sean los mejores. */
+  { id: "wines", value: 53, suffix: "", label: "Vinos en carta", sub: "gallegos y de fuera" },
   { id: "years", value: 19, suffix: "º", label: "Restaurante de Ourense", sub: "TripAdvisor · Travellers' Choice" },
 ] as const;

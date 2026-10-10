@@ -21,7 +21,7 @@ export const BUSINESS = {
   legalName: "Tixola Tapería Vinoteca",
   tagline: "El Arte del Tapeo en el Corazón de Ourense",
   subtitle:
-    "Zamburiñas a la plancha, pulpo tradicional y los mejores vinos junto a la Catedral.",
+    "Zamburiñas a la plancha, pulpo tradicional y vinos de la zona junto a la Catedral.",
   description:
     "Tapas típicas gallegas de alta calidad, cerveza artesanal y vinos de la zona en un bar vistoso con terraza, a escasos metros de la Catedral de Ourense.",
   address: {

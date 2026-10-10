@@ -275,7 +275,7 @@ const pt: DataTranslations = {
         "Zamburiñas galegas (vieiras pequenas) abertas na concha e marcadas na chapa com azeite virgem extra, alho laminado e salsa fresca. Suculentas, com aquele ponto de brasa que só o ferro dá.",
       ingredients: ["Zamburiñas da ria", "Azeite virgem extra", "Alho laminado", "Salsa fresca", "Sal", "Limão"],
       unit: "dose",
-      badge: "N.º 1 em zamburiñas",
+      badge: "O prato pelo qual nos conhecem",
       pairingWhy: "A sua salinidade e a sua acidez limpam a gordura do azeite e realçam a doçura do molusco.",
     },
     raxo: {

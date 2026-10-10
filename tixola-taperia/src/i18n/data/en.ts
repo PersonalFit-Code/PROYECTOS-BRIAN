@@ -274,7 +274,7 @@ const en: DataTranslations = {
         "Galician zamburiñas (small scallops) opened in their shell and seared on the griddle with extra virgin olive oil, sliced garlic and fresh parsley. Juicy, with that touch of char only hot iron can give.",
       ingredients: ["Zamburiñas from the ría", "Extra virgin olive oil", "Sliced garlic", "Fresh parsley", "Salt", "Lemon"],
       unit: "portion",
-      badge: "No. 1 for zamburiñas",
+      badge: "The dish we are known for",
       pairingWhy: "Its salinity and acidity cut through the oil and bring out the natural sweetness of the scallop.",
     },
     raxo: {

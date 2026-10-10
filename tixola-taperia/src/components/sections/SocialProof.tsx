@@ -48,7 +48,8 @@ const PhotoGallery = dynamic(() => import("@/components/ui/PhotoGallery"), { ssr
 interface StatItem {
   id: string;
   value: number;
-  prefix: string;
+  /* Ya no hay ningún indicador con prefijo: lo tenía el "Nº 1 en zamburiñas", que se retiró el
+     10-10-2026. `Counter` sigue admitiendo `prefix` por si vuelve a hacer falta. */
   suffix: string;
   decimals: number;
   /** Etiqueta y subtítulo localizados (con las etiquetas del fichero de datos como respaldo). */
@@ -63,8 +64,8 @@ function statLabels(id: string, s: Messages["social"]["stats"]): { label: string
       return { label: s.reviews, sub: s.reviewsSub };
     case "rating":
       return { label: s.rating, sub: s.ratingSub };
-    case "rank":
-      return { label: s.rank, sub: s.rankSub };
+    case "wines":
+      return { label: s.wines, sub: s.winesSub };
     case "years":
       return { label: s.position, sub: s.positionSub };
     default:
@@ -180,7 +181,6 @@ function StatFigure({ stat, index }: { stat: StatItem; index: number }) {
         <Counter
           value={stat.value}
           decimals={stat.decimals}
-          prefix={stat.prefix}
           suffix={stat.suffix}
           delay={index * 0.12}
           /* Tamaños medidos para que "4,4 / 5" quepa en media pantalla de 390 px y en un cuarto de 1024 */
@@ -237,7 +237,6 @@ export default function SocialProof() {
         return {
           id: stat.id,
           value: stat.value,
-          prefix: "prefix" in stat ? stat.prefix : "",
           suffix: stat.suffix,
           decimals: "decimals" in stat ? stat.decimals : 0,
           label: labels?.label ?? stat.label,

@@ -72,7 +72,10 @@ export const STAR_DISHES: StarDish[] = [
     accent: "#F0A868",
     emoji: "🐚",
     image: "/images/zamburinas-plancha.webp",
-    badge: "Nº 1 en zamburiñas",
+    /* Decía "Nº 1 en zamburiñas". Fuera el 10-10-2026: una afirmación de superioridad hay que poder
+       demostrarla (Ley de Competencia Desleal), y esta no salía de ningún sitio. Lo que sí es cierto y
+       además vende igual es que son el plato por el que se conoce la casa. */
+    badge: "El plato por el que nos conocen",
   },
   {
     id: "raxo",

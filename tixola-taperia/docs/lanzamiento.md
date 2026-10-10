@@ -28,19 +28,20 @@ gestoría de Tatiana.
    oficiales y cada reseña tiene derechos de su autor. Opciones: (a) usar los widgets oficiales,
    (b) pedir permiso, (c) dejar solo la nota media y el enlace a cada plataforma, o (d) dejar solo
    frases muy cortas con enlace a la reseña original.
-6. **"Nº 1 en zamburiñas de la zona".** Es una afirmación de superioridad: hay que poder demostrarla
-   (de dónde sale). Si no, cambiarla por algo comprobable o quitarla. Publicidad comparativa/engañosa
-   (Ley de Competencia Desleal).
+6. ~~**"Nº 1 en zamburiñas de la zona".**~~ ✅ **Resuelto el 10-10-2026** por decisión de Brian: el
+   distintivo del plato estrella pasa a "El plato por el que nos conocen" y el contador de la banda de
+   cifras, a "53 vinos en carta" (número que sale de `wines.ts`, así que no se queda viejo).
 7. **Cifras de TripAdvisor/Google** (4,2 · 233 reseñas · nº 19 de 496 · 4,4 · 858) escritas a mano en
    `business.ts`. Si se quedan antiguas, son datos engañosos. Actualizarlas de vez en cuando o poner la fecha.
 8. **Foto de la fachada.** `public/images/fachada.jpg` era una captura de un visor de fotos (ya recortada),
    de procedencia desconocida, con un camarero reconocible. Sustituir por una foto propia.
-9. **"Los mejores vinos junto a la Catedral"** (`business.ts`, `subtitle`). Es un superlativo; mejor
-   "buenos vinos" o "vinos de la zona" si no se puede probar.
+9. ~~**"Los mejores vinos junto a la Catedral"**~~ ✅ **Resuelto el 10-10-2026**: ahora dice "vinos de
+   la zona junto a la Catedral".
 
 ## C · Ya está bien (comprobado)
 
-- Sin analíticas ni rastreadores: no hay Google Analytics, Vercel Analytics ni píxeles. Las tipografías
+- Medición de visitas: Vercel Web Analytics, sin cookies y **solo si se acepta en el aviso**; no hay
+  Google Analytics ni píxeles de nadie. Falta activarlo en el panel de Vercel. Las tipografías
   van alojadas en el propio servidor (no llaman a Google Fonts). Google Maps solo carga tras aceptar.
 - Banner de cookies con rechazar/configurar al mismo nivel; consentimiento caduca a los 12 meses.
 - Política de privacidad: encargados (Vercel, Anthropic), transferencias a EE. UU., plazos, derechos, AEPD.

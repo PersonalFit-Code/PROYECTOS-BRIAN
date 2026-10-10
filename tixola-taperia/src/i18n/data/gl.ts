@@ -274,7 +274,7 @@ const gl: DataTranslations = {
         "Zamburiñas galegas abertas na súa cuncha e marcadas á prancha con aceite de oliva virxe extra, allo laminado e perexil fresco. Zumentas, con ese punto de brasa que só dá o ferro.",
       ingredients: ["Zamburiñas da ría", "AOVE", "Allo laminado", "Perexil fresco", "Sal", "Limón"],
       unit: "ración",
-      badge: "N.º 1 en zamburiñas",
+      badge: "O prato polo que nos coñecen",
       pairingWhy: "A súa salinidade e a súa acidez limpan a graxa do aceite e realzan a dozura do molusco.",
     },
     raxo: {
