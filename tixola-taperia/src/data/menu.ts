@@ -339,7 +339,11 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Láminas de cecina y una quenelle de helado de queso de oveja que se va deshaciendo encima. La más vistosa de la carta.",
     price: 17.8,
     unit: "ración",
-    allergens: ["lacteos"],
+    /* `frutos-cascara` lo añadí yo el 10-10-2026 al ver la foto que mandó Brian: la ensalada lleva
+       NUECES, repartidas por todo el plato, y aquí solo se declaraban lácteos. Declarar de más se
+       corrige borrando una palabra; declarar de menos se lo come alguien con alergia. Pendiente de
+       que Tatiana lo confirme (y de si el aliño lleva mostaza o sulfitos). */
+    allergens: ["lacteos", "frutos-cascara"],
     tags: [],
     emoji: "🥗",
   },

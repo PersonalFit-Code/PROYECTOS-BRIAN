@@ -444,6 +444,10 @@ const en: DataTranslations = {
       alt: "Tixola Tapería's salmon and cheese toast: two slices of toasted rustic bread spread with cream cheese and topped with smoked salmon, drizzled with a dark sauce, with salad leaves alongside, on a green ceramic oval platter on the wooden table",
       caption: "Salmon and cheese toast",
     },
+    "ensalada-cecina": {
+      alt: "Tixola Tapería's cecina salad: slices of cured beef arranged in a ring over lettuce and endive, with tomato wedges, sliced apple and walnuts, and a quenelle of sheep's cheese ice cream in the middle, in a deep ceramic bowl on the wooden table",
+      caption: "Cecina salad with sheep's cheese ice cream",
+    },
     "rotulo-noche": {
       alt: "The Tixola vinoteca-tapería sign lit up at night in the old town of Ourense",
       caption: "The sign, at night in the old town",

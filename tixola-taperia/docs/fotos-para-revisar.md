@@ -227,3 +227,27 @@ cuestión de confirmar esta.
 
 La ensalada que acompaña tampoco se nombra en la descripción. Eso no es un problema de alérgenos,
 pero si va siempre, decirlo ayuda a vender la tosta.
+
+---
+
+## Ensalada de cecina (10-10-2026) — ⚠️ un alérgeno que no estaba declarado
+
+**Lo primero, porque es lo serio: la ensalada lleva NUECES.** Se ven repartidas por todo el plato en
+la foto que mandó Brian, y en la carta este plato solo declaraba **lácteos**. He añadido
+`frutos-cascara` a la carta en los cuatro idiomas: declarar de más se corrige borrando una palabra;
+declarar de menos se lo come alguien con alergia. **Que Tatiana lo confirme**, y de paso:
+
+- ¿El **aliño** lleva mostaza, o un vinagre/reducción con sulfitos? Serían dos alérgenos más.
+- ¿Las nueces van **siempre** o eran del día? Si van siempre, conviene nombrarlas en la descripción:
+  venden, y además avisan.
+
+Y ya que sale el tema: esta es la cuarta foto seguida en la que el plato trae algo que la carta no
+nombra (el melocotón de los fingers, la salsa de los fingers, la salsa oscura de la tosta y ahora
+las nueces). **No es casualidad: las descripciones de la carta se escribieron sin tener las fotos
+delante.** Cuando Tatiana revise los alérgenos, merece la pena que mire los 47 platos con esta
+pregunta: ¿lo que llega a la mesa tiene algo que la descripción no diga?
+
+**Qué se ha hecho con la foto.** Se publica la primera de las dos, la más cercana: en la otra el
+cuenco queda pequeño y entran la barra, las botellas y el brazo de un camarero. Recortes: 1800×1350
+para la carta y la galería y 1200×1716 para la ficha, los dos encuadrados sobre el cuenco. Sin
+retoque de color.

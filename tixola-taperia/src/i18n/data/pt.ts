@@ -445,6 +445,10 @@ const pt: DataTranslations = {
       alt: "Tosta de salmão e queijo da Tixola Tapería: duas fatias de pão rústico torrado com queijo cremoso barrado e lâminas de salmão fumado por cima, regadas com um fio de molho escuro, com folhas de salada ao lado, numa travessa oval de cerâmica verde sobre a mesa de madeira",
       caption: "Tosta de salmão e queijo",
     },
+    "ensalada-cecina": {
+      alt: "Salada de cecina da Tixola Tapería: lâminas de cecina dispostas em coroa sobre folhas de alface e endívia, com gomos de tomate, lâminas de maçã e nozes, e uma quenelle de gelado de queijo de ovelha ao centro, numa taça funda de cerâmica sobre a mesa de madeira",
+      caption: "Salada de cecina com gelado de queijo de ovelha",
+    },
     "rotulo-noche": {
       alt: "Tabuleta da Tixola vinoteca-tapería iluminada à noite no centro histórico de Ourense",
       caption: "A tabuleta, à noite no centro histórico",

@@ -393,10 +393,10 @@ export default function Footer({ year: buildYear }: FooterProps) {
               </span>{" "}
               · {m.footer.rights}
             </p>
-            <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-end">
-              <p>
-                {m.footer.credit} <span className="text-cream-muted">{m.footer.creditBy}</span>
-              </p>
+            {/* Aquí iba el crédito de diseño ("Diseño web · Tu estudio"), fuera por decisión del cliente
+                el 10-10-2026. Con el botón solo, `justify-between` lo mandaría a la izquierda en móvil
+                (sin segundo hijo contra el que repartir): `justify-end` lo deja donde estaba. */}
+            <div className="flex w-full items-center justify-end gap-4 md:w-auto">
               <button
                 type="button"
                 onClick={scrollToTop}

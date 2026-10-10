@@ -444,6 +444,10 @@ const gl: DataTranslations = {
       alt: "Tosta de salmón e queixo de Tixola Tapería: dúas rebandas de pan rústico tostado con queixo cremoso untado e follas de salmón afumado por riba, regadas cun fío de salsa escura, con follas de ensalada ao lado, nunha fonte ovalada de cerámica verde sobre a mesa de madeira",
       caption: "Tosta de salmón e queixo",
     },
+    "ensalada-cecina": {
+      alt: "Ensalada de cecina de Tixola Tapería: follas de cecina repartidas en coroa sobre follas de leituga e endivia, con gallos de tomate, follas de mazá e noces, e unha quenelle de xeado de queixo de ovella no centro, nunha cunca fonda de cerámica sobre a mesa de madeira",
+      caption: "Ensalada de cecina con xeado de queixo de ovella",
+    },
     "rotulo-noche": {
       alt: "Rótulo de Tixola vinoteca-tapería iluminado de noite no casco histórico de Ourense",
       caption: "O rótulo, de noite no casco histórico",

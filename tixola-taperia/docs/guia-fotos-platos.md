@@ -1,10 +1,11 @@
 # Guía para las fotos de plato — Tixola
 
-> **Actualizada el 10-10-2026.** De los 47 platos de la carta: **24 ya tienen foto**, **7 no la
-> necesitan** y **quedan 16 por tirar**. Comprobado contra `src/data/menu.ts` y `src/data/photos.ts`,
+> **Actualizada el 10-10-2026.** De los 47 platos de la carta: **25 ya tienen foto**, **7 no la
+> necesitan** y **quedan 15 por tirar**. Comprobado contra `src/data/menu.ts` y `src/data/photos.ts`,
 > no a ojo.
 >
-> **Hechas el 10-10-2026:** timbal vegetal, fingers de pollo y tosta de salmón y queso.
+> **Hechas el 10-10-2026:** timbal vegetal, fingers de pollo, tosta de salmón y queso y
+> ensalada de cecina.
 >
 > **Los 7 que ya no cuentan**, por decisión de la casa: las cuatro tablas de embutidos y quesos
 > (jamón serrano, queso del país, queso de oveja, queso de cabra) y, de varios, el postre sin gluten,
@@ -50,10 +51,11 @@ entera sale de la lista: un jamón serrano y tres quesos no necesitan que se los
     de capas y desde arriba no se entiende.
 12. **Oreja a la plancha** (8,20 €) ⚠️
 
-### Ensaladas — 3 de 5
+### Ensaladas — 4 de 5
 
-13. **Ensalada de cecina con helado de queso de oveja** (17,80 €) — la más fotogénica de las que
-    faltan.
+13. ~~**Ensalada de cecina con helado de queso de oveja** (17,80 €)~~ — ✅ **hecha** (10-10-2026).
+    La foto destapó que la ensalada lleva **nueces** y la carta no las declaraba; ver
+    `docs/fotos-para-revisar.md`.
 14. **Ensalada de ventresca** (13,90 €)
 
 ### Revueltos — 1 de 3
@@ -143,6 +145,6 @@ elijo la buena.
 
 Cada foto que llegue es una línea en el manifiesto de fotos y otra en la carta. El carrusel de platos
 estrella de la portada ya tiene tres fotos de verdad (zamburiñas, raxo con Arzúa y croquetas de
-grelos); con un par más de estos 16 puede crecer a cuatro o cinco sin que se note el hueco. La
+grelos); con un par más de estos 15 puede crecer a cuatro o cinco sin que se note el hueco. La
 galería del final de la portada ya enseña las 30 que hay hoy, con filtro por tema — cuantas más
 lleguen, más grande se ve.

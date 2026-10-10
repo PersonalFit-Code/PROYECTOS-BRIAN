@@ -13,8 +13,6 @@ const footer = {
   cookieSettings: "Configurar cookies",
   backToTop: "Volver arriba",
   rights: "Todos los derechos reservados.",
-  credit: "Diseño web",
-  creditBy: "Tu estudio",
   menuWithAllergens: "Carta con alérgenos",
   ratingsAria: "Valoraciones",
   hoursCaption: "Horario semanal de {name}",

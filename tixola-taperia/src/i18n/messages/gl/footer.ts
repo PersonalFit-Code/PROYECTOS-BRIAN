@@ -15,8 +15,6 @@ const footer: Section<"footer"> = {
   cookieSettings: "Configurar as cookies",
   backToTop: "Volver arriba",
   rights: "Todos os dereitos reservados.",
-  credit: "Deseño web",
-  creditBy: "O teu estudio",
   menuWithAllergens: "Carta con alérxenos",
   ratingsAria: "Valoracións",
   hoursCaption: "Horario semanal de {name}",

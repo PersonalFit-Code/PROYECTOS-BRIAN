@@ -442,6 +442,22 @@ export const PHOTOS: Photo[] = [
     dishIds: ["tos-salmon-queso" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* De las dos que mandó Brian, la más cercana: en la otra el cuenco queda pequeño y entran la barra,
+     las botellas y el brazo de un camarero. Recortada para que el cuenco llene el marco; lo que se ve
+     fuera de él es la mesa. ESTA FOTO DESTAPÓ UN ALÉRGENO: las nueces, que la carta no declaraba.
+     Ver `docs/fotos-para-revisar.md`. */
+  {
+    id: "ensalada-cecina",
+    src: "/images/ensalada-cecina.webp",
+    srcTall: "/images/ensalada-cecina-alto.webp",
+    width: 1800,
+    height: 1350,
+    alt: "Ensalada de cecina de Tixola Tapería: láminas de cecina repartidas en corona sobre hojas de lechuga y endivia, con gajos de tomate, láminas de manzana y nueces, y una quenelle de helado de queso de oveja en el centro, en un cuenco hondo de cerámica sobre la mesa de madera",
+    caption: "Ensalada de cecina con helado de queso de oveja",
+    tags: ["plato"],
+    dishIds: ["ens-cecina-helado-oveja" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
 
   /* El local y la vinoteca */
   {
