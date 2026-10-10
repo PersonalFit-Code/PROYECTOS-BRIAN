@@ -156,6 +156,24 @@ export interface MenuItem {
   emoji: string;
   /** foto real opcional (public/images/...) */
   image?: string;
+  /**
+   * "ESTE PLATO NO NECESITA FOTO", que no es lo mismo que "este plato todavía no tiene foto".
+   *
+   * La carta pinta un disco con el icono del plato donde no hay foto: es el hueco reservado, y
+   * mientras la foto esté pendiente ese hueco está bien, porque avisa de que falta. Pero hay platos
+   * que no van a tener foto nunca porque el nombre ya lo dice todo —un jamón serrano, un queso del
+   * país, una ración de pan— y ahí el disco deja de ser un hueco reservado y pasa a ser un adorno
+   * que ocupa sitio y hace la columna irregular sin contar nada.
+   *
+   * Marcarlos aquí hace dos cosas: la tarjeta se queda solo con nombre, descripción y precio (sin
+   * disco ni miniatura), y dejan de contar en la lista de fotos pendientes de
+   * `docs/guia-fotos-platos.md`. En los postres se deja el primero con foto como muestra de a qué
+   * se parecen los del día, y los demás sin ella.
+   *
+   * `assertMenuIntegrity()` rompe el build si un plato marcado así acaba teniendo foto: entonces lo
+   * que sobra es la marca, no la foto.
+   */
+  noPhotoNeeded?: true;
 }
 
 export const MENU_CATEGORIES: MenuCategory[] = [
@@ -632,6 +650,7 @@ export const MENU_ITEMS: MenuItem[] = [
     allergens: [],
     tags: [],
     emoji: "🥩",
+    noPhotoNeeded: true,
   },
   {
     id: "emb-queso-pais",
@@ -643,6 +662,7 @@ export const MENU_ITEMS: MenuItem[] = [
     allergens: ["lacteos"],
     tags: ["vegetariano"],
     emoji: "🧀",
+    noPhotoNeeded: true,
   },
   {
     id: "emb-queso-oveja",
@@ -654,6 +674,7 @@ export const MENU_ITEMS: MenuItem[] = [
     allergens: ["lacteos"],
     tags: ["vegetariano"],
     emoji: "🧀",
+    noPhotoNeeded: true,
   },
   {
     id: "emb-queso-cabra",
@@ -665,6 +686,7 @@ export const MENU_ITEMS: MenuItem[] = [
     allergens: ["lacteos"],
     tags: ["vegetariano"],
     emoji: "🧀",
+    noPhotoNeeded: true,
   },
 
   // ─── REVUELTOS ──────────────────────────────────────────────────
@@ -725,6 +747,7 @@ export const MENU_ITEMS: MenuItem[] = [
     allergens: ["lacteos", "huevos"],
     tags: ["sin-gluten"],
     emoji: "🍰",
+    noPhotoNeeded: true,
   },
   {
     id: "var-pan",
@@ -736,6 +759,7 @@ export const MENU_ITEMS: MenuItem[] = [
     allergens: ["gluten"],
     tags: ["vegetariano"],
     emoji: "🥖",
+    noPhotoNeeded: true,
   },
   {
     id: "var-pan-tomate",
@@ -747,6 +771,7 @@ export const MENU_ITEMS: MenuItem[] = [
     allergens: ["gluten"],
     tags: ["vegetariano"],
     emoji: "🍅",
+    noPhotoNeeded: true,
   },
 ];
 

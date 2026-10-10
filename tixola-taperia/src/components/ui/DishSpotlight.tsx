@@ -176,7 +176,7 @@ interface SheetProps {
 }
 
 function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
-  const { dish, photo } = slide;
+  const { dish, photo, noVisual } = slide;
   const m = useMessages();
   const reducedMotion = useReducedMotion();
   const dragControls = useDragControls();
@@ -288,8 +288,11 @@ function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
           <X size={18} aria-hidden />
         </button>
 
-        {/* ── Foto / tixola compuesta ── */}
-        <div className="relative shrink-0 md:w-[42%] md:self-stretch">
+        {/* ── Foto / tixola compuesta ──
+            Con `noVisual` esta columna se queda SOLO con el asa de arrastre (y desaparece del todo en
+            escritorio, donde no hay asa): la ficha de una ración de pan empieza por su nombre. */}
+        <div className={cn("relative shrink-0", noVisual ? "h-12 md:hidden" : "md:w-[42%] md:self-stretch")}>
+          {!noVisual && (
           <motion.div
             layoutId={dishVisualLayoutId(dish.id)}
             transition={DISH_LAYOUT_TRANSITION}
@@ -302,6 +305,7 @@ function Sheet({ slide, mobile, steam, onClose, showMenuLink }: SheetProps) {
             {/* Funde el borde inferior de la foto con el panel (móvil) / el lateral (escritorio) */}
             <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-granate-900/85 to-transparent md:inset-y-0 md:left-auto md:right-0 md:h-auto md:w-16 md:bg-gradient-to-l" />
           </motion.div>
+          )}
 
           {/* Asa de arrastre (móvil) */}
           <div

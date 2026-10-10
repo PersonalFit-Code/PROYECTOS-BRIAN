@@ -1,11 +1,20 @@
 # Guía para las fotos de plato — Tixola
 
-> **Actualizada el 10-10-2026.** Tatiana tenía razón: faltan bastantes. De los 47 platos de la carta,
-> **24 ya tienen foto de verdad y 23 siguen con el dibujo**. Esta es la lista exacta — comprobada
-> contra `src/data/menu.ts` y `src/data/photos.ts`, no a ojo — y el orden en el que conviene tirarlas.
+> **Actualizada el 10-10-2026.** De los 47 platos de la carta: **24 ya tienen foto**, **7 no la
+> necesitan** y **quedan 16 por tirar**. Comprobado contra `src/data/menu.ts` y `src/data/photos.ts`,
+> no a ojo.
 >
-> **Hechas desde entonces:** timbal vegetal, fingers de pollo y tosta de salmón y queso (10-10-2026). La numeración de abajo NO se renumera a
-> propósito: así se sigue sabiendo de qué foto hablábamos en cada conversación.
+> **Hechas el 10-10-2026:** timbal vegetal, fingers de pollo y tosta de salmón y queso.
+>
+> **Los 7 que ya no cuentan**, por decisión de la casa: las cuatro tablas de embutidos y quesos
+> (jamón serrano, queso del país, queso de oveja, queso de cabra) y, de varios, el postre sin gluten,
+> la ración de pan y la de pan con tomate. El nombre ya dice lo que llega a la mesa, así que en la
+> web esos platos se quedan solo con nombre, descripción y precio, sin el disco del icono: ya no es
+> un hueco esperando foto. Del resto de varios se deja el postre del día con foto, de muestra. En el
+> código es el campo `noPhotoNeeded` de `menu.ts`.
+>
+> La numeración de abajo NO se renumera a propósito: así se sigue sabiendo de qué foto hablábamos en
+> cada conversación.
 
 ---
 
@@ -14,7 +23,7 @@
 Por categoría, con el precio al lado (lo que más vende primero dentro de cada una). Los que ya
 estaban en la ronda anterior y siguen sin foto llevan una ⚠️.
 
-### Tostas — 0 de 3
+### Tostas — 1 de 3
 
 1. **Tosta de crema de cebolla, foie y rulo de cabra** (7,50 €)
 2. **Tosta de trigueros, jamón y huevo de codorniz** (7,20 €)
@@ -22,15 +31,10 @@ estaban en la ronda anterior y siguen sin foto llevan una ⚠️.
    oscura que la carta no nombra y que, si es reducción, llevaría sulfitos; ver
    `docs/fotos-para-revisar.md`.
 
-### Embutidos y quesos — 0 de 4
+### Embutidos y quesos — ~~0 de 4~~ · ya no hacen falta (10-10-2026)
 
-Toda la categoría sin una sola foto. Se tiran las cuatro en la misma sesión: es una tabla con el
-corte, va rápido.
-
-4. **Jamón serrano** (12,90 €)
-5. **Queso de cabra** (9,90 €)
-6. **Queso de oveja** (9,80 €)
-7. **Queso del país** (9,50 €)
+~~4. Jamón serrano · 5. Queso de cabra · 6. Queso de oveja · 7. Queso del país~~ — la categoría
+entera sale de la lista: un jamón serrano y tres quesos no necesitan que se los enseñemos.
 
 ### Pulpo — 1 de 4
 
@@ -71,12 +75,11 @@ corte, va rápido.
 22. **Tixola de piquillos caramelizados y panceta** (12,50 €)
 23. **Tixola de pisto de verduras** (11,50 €)
 
-### Varios — 1 de 4
+### Varios — 1 de 4 · los tres que faltaban ya no hacen falta (10-10-2026)
 
-24. **Postre sin gluten** (6,00 €) — si no se parece al postre normal; si es el mismo plato con otra
-    base, no hace falta, ya tenemos foto del postre.
-25. **Ración de pan con tomate** (3,50 €)
-26. **Ración de pan** (1,60 €) — la última de la lista a propósito: es pan, no vende por la foto.
+Queda el **postre del día**, que ya tiene foto y sirve de muestra de por dónde van los del día.
+
+~~24. Postre sin gluten · 25. Ración de pan con tomate · 26. Ración de pan~~ — fuera de la lista.
 
 ### Y una que no es de plato, pero sigue siendo la más importante
 
@@ -140,6 +143,6 @@ elijo la buena.
 
 Cada foto que llegue es una línea en el manifiesto de fotos y otra en la carta. El carrusel de platos
 estrella de la portada ya tiene tres fotos de verdad (zamburiñas, raxo con Arzúa y croquetas de
-grelos); con un par más de estos 26 puede crecer a cuatro o cinco sin que se note el hueco. La
+grelos); con un par más de estos 16 puede crecer a cuatro o cinco sin que se note el hueco. La
 galería del final de la portada ya enseña las 30 que hay hoy, con filtro por tema — cuantas más
 lleguen, más grande se ve.

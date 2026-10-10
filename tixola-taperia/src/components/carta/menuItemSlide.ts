@@ -66,6 +66,7 @@ export function useMenuItemSlide(): (item: MenuItem, kicker: string) => DishSlid
           image: item.image,
         },
         photo,
+        noVisual: !photo && item.noPhotoNeeded === true,
       };
     },
     [locale, m.carta.photoOf, t],

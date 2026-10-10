@@ -115,6 +115,9 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
   const photo = item.image ? PHOTO_BY_SRC.get(item.image) : delManifiesto;
   /* La ruta que se pinta: la escrita en el plato manda, y si no la hay, la del manifiesto. */
   const fotoSrc = item.image ?? delManifiesto?.src;
+  /* Sin foto Y sin hueco que reservar (ver `noPhotoNeeded` en menu.ts): la tarjeta se queda solo con
+     el texto. Un jamón serrano o una ración de pan no necesitan que les dibujemos un disco. */
+  const sinHueco = !fotoSrc && item.noPhotoNeeded === true;
   /* La variante más barata, para la fila de móvil. Las variantes van de menor a mayor y la mayor
      es, por contrato, el precio base que la fila ya enseña: repetirla sería decir dos veces lo
      mismo. (Lo vigila `assertMenuIntegrity`, que rompe el build si dejan de cuadrar.) */
@@ -180,7 +183,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
             aria-label={t(m.carta.openDish, { name: item.name })}
             className="flex w-full items-center gap-3 p-2.5 text-left"
           >
-            {fotoSrc ? (
+            {sinHueco ? null : fotoSrc ? (
               <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-granate-800">
                 <Image
                   src={fotoSrc}
@@ -236,7 +239,7 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
         {/* ── Cabecera: foto 4:3 o disco con el icono del plato ──
             La foto es el BOTÓN que abre la ficha en escritorio (en móvil la abre la fila de arriba).
             Toda esta cabecera va oculta por debajo de `md`, donde manda la fila compacta. */}
-        {fotoSrc ? (
+        {sinHueco ? null : fotoSrc ? (
           <button
             type="button"
             onClick={() => onOpen(item)}

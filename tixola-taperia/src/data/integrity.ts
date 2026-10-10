@@ -1,6 +1,7 @@
 import { DISH_ICON_BY_KEY } from "@/components/icons/DishIcons";
 import { STAR_DISHES } from "./dishes";
 import { MENU_CATEGORIES, MENU_ITEM_IDS, MENU_ITEMS } from "./menu";
+import { PHOTOS } from "./photos";
 
 /**
  * COMPROBACIONES DE LA CARTA, en el arranque.
@@ -55,6 +56,18 @@ export function assertMenuIntegrity(): void {
   }
   for (const id of MENU_ITEM_IDS) {
     if (!byId.has(id)) errors.push(`MENU_ITEM_IDS declara "${id}", pero no hay ningún plato con ese id`);
+  }
+
+  /* `noPhotoNeeded` dice "este plato no lleva foto a propósito". Si algún día llega la foto, lo que
+     sobra es la marca: sin esto la foto existiría pero la tarjeta seguiría sin enseñarla, que es un
+     fallo mudo y de los caros (alguien tiró la foto, la subió, y no sale). */
+  const conFoto = new Set<string>();
+  for (const foto of PHOTOS) for (const id of foto.dishIds ?? []) conFoto.add(id);
+  for (const item of MENU_ITEMS) {
+    if (!item.noPhotoNeeded) continue;
+    if (item.image || conFoto.has(item.id)) {
+      errors.push(`"${item.id}" está marcado noPhotoNeeded pero tiene foto: quita la marca para que se vea`);
+    }
   }
 
   const categorias = new Set(MENU_CATEGORIES.map((c) => c.id));

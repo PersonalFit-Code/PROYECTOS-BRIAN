@@ -32,6 +32,13 @@ export type DishPhoto = Pick<Photo, "src" | "alt" | "focus" | "srcTall">;
 export interface DishSlide {
   dish: StarDish;
   photo: DishPhoto | null;
+  /**
+   * "Este plato no lleva visual". Sin foto, la ficha dibuja una tixola con el icono del plato: es el
+   * hueco reservado mientras la foto esté pendiente. En los platos marcados `noPhotoNeeded` en la
+   * carta (un jamón serrano, una ración de pan) no hay foto pendiente ninguna, así que ese dibujo
+   * ocupando media pantalla no reserva nada — y la ficha se abre directamente por el nombre.
+   */
+  noVisual?: boolean;
 }
 
 /** `layoutId` (framer-motion) del elemento compartido entre la tarjeta del carrusel y el detalle. */
