@@ -1,10 +1,20 @@
 import { Router, type Request, type Response } from "express";
 
 import { buildAssistant } from "../assistant";
+import { buildAssistantCitas } from "../assistantCitas";
+import {
+  TOOL_BUSCAR_HUECOS,
+  TOOL_RESERVAR_CITA,
+  buscarHuecos,
+  reservarCita,
+} from "../citas/herramientas";
 import { config } from "../config";
-import { getBusiness } from "../db/businesses";
+import { getNegocio, type Negocio } from "../db/businesses";
+import { pideCitas } from "../db/validarClinica";
+import { calendarioDeGoogle } from "../google/cliente";
 import { guardarResumenLlamada } from "../db/calls";
 import { PedidoNoGuardadoError, guardarPedido } from "../db/orders";
+import type { Clinica } from "../db/clinica";
 import type { Business } from "../db/types";
 import { formatearEuros } from "../util/format";
 import {
@@ -43,6 +53,43 @@ function isAuthorized(req: Request): boolean {
  * tambien cuando hay error: el agente debe poder leerla en voz alta.
  */
 async function ejecutarHerramienta(
+  negocio: Negocio,
+  nombre: string,
+  argumentos: Record<string, unknown>,
+  callId: string,
+): Promise<string> {
+  if (pideCitas(negocio)) {
+    return ejecutarHerramientaCita(negocio, nombre, argumentos, callId);
+  }
+  return ejecutarHerramientaPedido(negocio, nombre, argumentos, callId);
+}
+
+/** Las dos herramientas de una clinica. */
+async function ejecutarHerramientaCita(
+  clinica: Clinica,
+  nombre: string,
+  argumentos: Record<string, unknown>,
+  callId: string,
+): Promise<string> {
+  const contexto = {
+    clinica,
+    calendario: calendarioDeGoogle(),
+    callId,
+    ahora: new Date(),
+  };
+
+  switch (nombre) {
+    case TOOL_BUSCAR_HUECOS:
+      return buscarHuecos(contexto, argumentos);
+    case TOOL_RESERVAR_CITA:
+      return reservarCita(contexto, argumentos);
+    default:
+      console.warn(`[voice-webhook] herramienta sin implementar: ${nombre}`, argumentos);
+      return `La herramienta "${nombre}" no esta disponible.`;
+  }
+}
+
+async function ejecutarHerramientaPedido(
   business: Business,
   nombre: string,
   argumentos: Record<string, unknown>,
@@ -111,6 +158,12 @@ async function ejecutarHerramienta(
 const MAX_HERRAMIENTA_MS = 8_000;
 
 function mensajeDeTardanza(nombre: string): string {
+  if (nombre === TOOL_BUSCAR_HUECOS) {
+    return "No he podido mirar la agenda a tiempo. Pidele el nombre y un telefono, dile que le llaman en seguida, y no le des ninguna hora.";
+  }
+  if (nombre === TOOL_RESERVAR_CITA) {
+    return "NO se ha podido poner la cita: el sistema ha tardado demasiado. Pide disculpas y dile que le llaman en seguida para confirmarsela. NO se la des por hecha.";
+  }
   if (nombre === TOOL_REGISTRAR_PEDIDO) {
     return "NO se ha podido registrar el pedido: el sistema ha tardado demasiado. Pide disculpas y dile al cliente que llame al restaurante para confirmarlo.";
   }
@@ -125,7 +178,7 @@ function mensajeDeTardanza(nombre: string): string {
  * tardado y que se ha contestado. Nunca lanza: siempre sale una frase.
  */
 async function ejecutarConLimite(
-  business: Business,
+  negocio: Negocio,
   llamada: { nombre: string; argumentos: Record<string, unknown> },
   callId: string,
 ): Promise<string> {
@@ -134,7 +187,7 @@ async function ejecutarConLimite(
 
   try {
     const resultado = await conLimite(
-      ejecutarHerramienta(business, llamada.nombre, llamada.argumentos, callId),
+      ejecutarHerramienta(negocio, llamada.nombre, llamada.argumentos, callId),
       MAX_HERRAMIENTA_MS,
     );
     texto = resultado ?? mensajeDeTardanza(llamada.nombre);
@@ -151,7 +204,7 @@ async function ejecutarConLimite(
 
 async function handleToolCalls(
   message: VapiMessage,
-  business: Business,
+  negocio: Negocio,
 ): Promise<VapiToolCallsResponse> {
   const callId = message.call?.id ?? "";
   const llamadas = normalizarLlamadas(message);
@@ -174,7 +227,7 @@ async function handleToolCalls(
     llamadas.map(async (llamada) => ({
       toolCallId: llamada.id,
       name: llamada.nombre,
-      result: await ejecutarConLimite(business, llamada, callId),
+      result: await ejecutarConLimite(negocio, llamada, callId),
     })),
   );
 
@@ -227,7 +280,7 @@ async function atender(req: Request, res: Response): Promise<void> {
   }
 
   const businessId = leerBusinessId(req);
-  const business = await getBusiness(businessId);
+  const negocio = await getNegocio(businessId);
 
   console.log(
     `[voice-webhook] ${message.type} (` +
@@ -240,14 +293,16 @@ async function atender(req: Request, res: Response): Promise<void> {
       // Vapi corta esta peticion a los 7,5 segundos, asi que la respuesta se
       // construye en memoria: sin consultas a disco, red ni base de datos.
       const respuesta: VapiAssistantResponse = {
-        assistant: buildAssistant(business, businessId),
+        assistant: pideCitas(negocio)
+          ? buildAssistantCitas(negocio, businessId)
+          : buildAssistant(negocio, businessId),
       };
       res.json(respuesta);
       return;
     }
 
     case "tool-calls": {
-      const respuesta = await handleToolCalls(message, business);
+      const respuesta = await handleToolCalls(message, negocio);
       res.json(respuesta);
       console.log(
         `[voice-webhook] tool-calls respondido en ${Date.now() - inicio} ms`,
@@ -264,7 +319,7 @@ async function atender(req: Request, res: Response): Promise<void> {
       }
       res.json({
         result: await ejecutarHerramienta(
-          business,
+          negocio,
           call.name,
           parseArgs(call.parameters),
           message.call?.id ?? "",
@@ -276,7 +331,7 @@ async function atender(req: Request, res: Response): Promise<void> {
     case "end-of-call-report":
       // Se archiva la llamada, pero la respuesta no espera a Firestore: Vapi
       // solo necesita el 200 y el archivo no debe retrasarlo.
-      void guardarResumenLlamada(business, message as Record<string, unknown>);
+      void guardarResumenLlamada(negocio, message as Record<string, unknown>);
       res.json({ received: true, type: message.type });
       return;
 

@@ -22,14 +22,14 @@ import { formatearEuros, momentoActual } from "./util/format";
  * cortar la linea se encarga la herramienta endCall, asi que aqui caben
  * tildes y puntuacion sin que nada deje de funcionar.
  */
-const FRASE_DE_DESPEDIDA = "Gracias por llamar. ¡Hasta luego!";
+export const FRASE_DE_DESPEDIDA = "Gracias por llamar. ¡Hasta luego!";
 
 /**
  * Con que nombre se presenta la asistente. Manda el del negocio, si lo tiene;
  * si no, el de marca. Asi un local puede tener la suya sin romper el resto.
  */
-export function nombreDelAgente(business: Business): string {
-  const propio = business.nombreAgente?.trim();
+export function nombreDelAgente(negocio: { nombreAgente?: string }): string {
+  const propio = negocio.nombreAgente?.trim();
   return propio && propio !== "" ? propio : config.nombreAgente;
 }
 
@@ -378,7 +378,7 @@ function buildTools(business: Business) {
  * cuando la llamada venia identificada; sin identificador se deja la URL
  * limpia y el servidor resolvera el negocio por defecto.
  */
-function urlDelWebhook(businessId?: string): string {
+export function urlDelWebhook(businessId?: string): string {
   const base = `${config.publicServerUrl}/voice-webhook`;
   const id = businessId?.trim() ?? "";
   return id ? `${base}?business=${encodeURIComponent(id)}` : base;

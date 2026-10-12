@@ -12,7 +12,6 @@
  */
 
 import { firestore } from "./firebase";
-import type { Business } from "./types";
 
 const SUBCOLECCION = "llamadas";
 
@@ -80,7 +79,9 @@ function segundosEntre(inicio: string, fin: string): number {
 
 /** Construye el resumen a partir del mensaje de Vapi, sin tocar la base. */
 export function construirResumen(
-  business: Business,
+  // Igual que al archivar: de aqui solo sale el id, asi que no hace falta
+  // distinguir entre un negocio de pedidos y una clinica.
+  business: { id: string },
   message: Record<string, unknown>,
 ): ResumenLlamada {
   const artifact = objeto(message.artifact);
@@ -110,7 +111,9 @@ export function construirResumen(
  * terminado no debe ensuciar la respuesta a Vapi.
  */
 export async function guardarResumenLlamada(
-  business: Business,
+  // Solo se usa el id: asi sirve igual para un negocio de pedidos y para una
+  // clinica, sin arrastrar aqui los dos tipos.
+  business: { id: string },
   message: Record<string, unknown>,
 ): Promise<boolean> {
   const resumen = construirResumen(business, message);

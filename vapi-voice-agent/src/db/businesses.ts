@@ -8,9 +8,17 @@
  */
 
 import { conLimite } from "../util/espera";
+import type { Clinica } from "./clinica";
 import { fallbackBusiness } from "./fallbackBusiness";
 import { firestore } from "./firebase";
 import type { Accion, Business } from "./types";
+import { camposQueFaltanClinica, esClinica, pideCitas } from "./validarClinica";
+
+/**
+ * Los dos tipos de negocio que atiende el mismo servidor. Se distinguen por el
+ * campo "modo" del documento: sin el, es un negocio de pedidos.
+ */
+export type Negocio = Business | Clinica;
 
 const COLECCION = "businesses";
 
@@ -30,7 +38,7 @@ const TTL_MS = 60_000;
  */
 const MAX_ESPERA_FIRESTORE_MS = 2_500;
 
-const cache = new Map<string, { business: Business; expira: number }>();
+const cache = new Map<string, { negocio: Negocio; expira: number }>();
 
 /** Para los tests y para forzar una relectura despues de cambiar un negocio. */
 export function invalidateBusinessCache(id?: string): void {
@@ -163,10 +171,11 @@ function esBusiness(valor: unknown): valor is Business {
 }
 
 /**
- * Devuelve el negocio pedido. Si no se puede, devuelve el de ejemplo: el
- * agente sigue atendiendo la llamada aunque sea con la carta de muestra.
+ * Devuelve el negocio pedido, sea de pedidos o de citas. Si no se puede,
+ * devuelve el de ejemplo: el agente sigue atendiendo la llamada aunque sea
+ * con la carta de muestra.
  */
-export async function getBusiness(id: string): Promise<Business> {
+export async function getNegocio(id: string): Promise<Negocio> {
   if (!firestore) {
     if (!avisadoSinFirebase) {
       console.warn("Firebase no configurado, usando negocio de ejemplo.");
@@ -188,7 +197,7 @@ export async function getBusiness(id: string): Promise<Business> {
 
   const enCache = cache.get(buscado);
   if (enCache && enCache.expira > Date.now()) {
-    return enCache.business;
+    return enCache.negocio;
   }
 
   try {
@@ -214,7 +223,7 @@ export async function getBusiness(id: string): Promise<Business> {
         );
         avisadosInexistentes.add(buscado);
       }
-      cache.set(buscado, { business: fallbackBusiness, expira: Date.now() + TTL_MS });
+      cache.set(buscado, { negocio: fallbackBusiness, expira: Date.now() + TTL_MS });
       return fallbackBusiness;
     }
 
@@ -223,6 +232,20 @@ export async function getBusiness(id: string): Promise<Business> {
     // El id del documento manda sobre el campo id, si viniera distinto.
     const datos: unknown = { ...documento.data(), id: documento.id };
 
+    // El modo decide con que reglas se comprueba. Una clinica no tiene carta
+    // ni gastos de envio, asi que pasarla por el validador de pedidos la
+    // daria por rota siempre.
+    if (pideCitas(datos)) {
+      if (!esClinica(datos)) {
+        console.error(
+          `La clinica "${buscado}" tiene datos incompletos, usando negocio de ejemplo. Campos con problemas: ${camposQueFaltanClinica(datos).join(", ")}`,
+        );
+        return fallbackBusiness;
+      }
+      cache.set(buscado, { negocio: datos, expira: Date.now() + TTL_MS });
+      return datos;
+    }
+
     if (!esBusiness(datos)) {
       console.error(
         `El negocio "${buscado}" tiene datos incompletos, usando negocio de ejemplo. Campos con problemas: ${camposQueFaltan(datos).join(", ")}`,
@@ -230,7 +253,7 @@ export async function getBusiness(id: string): Promise<Business> {
       return fallbackBusiness;
     }
 
-    cache.set(buscado, { business: datos, expira: Date.now() + TTL_MS });
+    cache.set(buscado, { negocio: datos, expira: Date.now() + TTL_MS });
     return datos;
   } catch (error) {
     const motivo = error instanceof Error ? error.message : String(error);
@@ -239,4 +262,21 @@ export async function getBusiness(id: string): Promise<Business> {
     );
     return fallbackBusiness;
   }
+}
+
+/**
+ * El negocio, pero solo si es de pedidos.
+ *
+ * Lo usan el panel de cocina y el calculo de totales, que no saben nada de
+ * citas. Si el id resulta ser una clinica se devuelve el de ejemplo, porque
+ * una carta vacia romperia el panel y una clinica no tiene pedidos que
+ * enseñar.
+ */
+export async function getBusiness(id: string): Promise<Business> {
+  const negocio = await getNegocio(id);
+  if (pideCitas(negocio)) {
+    console.warn(`"${id}" es una clinica y se ha pedido como negocio de pedidos.`);
+    return fallbackBusiness;
+  }
+  return negocio;
 }
