@@ -93,6 +93,12 @@ export const config = {
   vapiModel: process.env.VAPI_MODEL?.trim() || MODELO_POR_DEFECTO,
   /** Cuenta de servicio de Firebase, en JSON o en base64. Vacio = sin Firestore. */
   firebaseServiceAccount: process.env.FIREBASE_SERVICE_ACCOUNT ?? "",
+  /**
+   * Nombre con el que se presenta la asistente cuando el negocio no trae el
+   * suyo. Es el nombre de marca del producto: el mismo en todos los locales
+   * salvo que uno pida el suyo propio.
+   */
+  nombreAgente: process.env.NOMBRE_AGENTE?.trim() || "Elena",
   /** Negocio que se usa cuando la peticion no trae ?business=. */
   defaultBusinessId: process.env.DEFAULT_BUSINESS_ID ?? "",
   /**

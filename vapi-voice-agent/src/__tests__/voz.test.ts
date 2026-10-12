@@ -6,7 +6,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { buildAssistant, construirVoz } from "../assistant";
+import { buildAssistant, construirVoz, nombreDelAgente } from "../assistant";
+import { config } from "../config";
 import { fallbackBusiness } from "../db/fallbackBusiness";
 
 describe("construirVoz", () => {
@@ -115,5 +116,47 @@ describe("frases que cuelgan la llamada", () => {
         `el prompt no menciona "${frase}", asi que el agente no sabe como colgar`,
       );
     }
+  });
+});
+
+/**
+ * La identidad de la asistente. Tiene nombre propio para que se pueda
+ * brandear, pero sin dejar de avisar de que no es una persona: eso ultimo es
+ * obligacion legal (Reglamento de IA, articulo 50).
+ */
+describe("nombre de la asistente", () => {
+  const conNombre = { ...fallbackBusiness, nombreAgente: "Carmina" };
+
+  it("usa el nombre del negocio cuando lo tiene", () => {
+    assert.equal(nombreDelAgente(conNombre), "Carmina");
+  });
+
+  it("cae al nombre de marca cuando el negocio no trae ninguno", () => {
+    assert.equal(nombreDelAgente(fallbackBusiness), config.nombreAgente);
+    assert.equal(nombreDelAgente({ ...fallbackBusiness, nombreAgente: "  " }), config.nombreAgente);
+  });
+
+  it("se presenta con su nombre al descolgar", () => {
+    const a = buildAssistant(conNombre) as unknown as { firstMessage: string };
+    assert.match(a.firstMessage, /Soy Carmina/);
+    assert.ok(a.firstMessage.includes(fallbackBusiness.nombre));
+  });
+
+  it("avisa de que es virtual en el mismo saludo, no solo si preguntan", () => {
+    const a = buildAssistant(conNombre) as unknown as { firstMessage: string };
+    assert.match(
+      a.firstMessage,
+      /virtual|automatic/i,
+      "el saludo tiene que decir que no es una persona",
+    );
+  });
+
+  it("el prompt le prohibe hacerse pasar por humana", () => {
+    const a = buildAssistant(conNombre) as unknown as {
+      model: { messages: Array<{ content: string }> };
+    };
+    const prompt = a.model.messages[0]?.content ?? "";
+    assert.ok(prompt.includes("Carmina"), "el prompt no le dice como se llama");
+    assert.match(prompt, /nunca digas ni des a entender que eres humana/i);
   });
 });

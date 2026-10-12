@@ -23,6 +23,15 @@ import { formatearEuros, momentoActual } from "./util/format";
  */
 const FRASE_DE_DESPEDIDA = "hasta luego y gracias por llamar";
 
+/**
+ * Con que nombre se presenta la asistente. Manda el del negocio, si lo tiene;
+ * si no, el de marca. Asi un local puede tener la suya sin romper el resto.
+ */
+export function nombreDelAgente(business: Business): string {
+  const propio = business.nombreAgente?.trim();
+  return propio && propio !== "" ? propio : config.nombreAgente;
+}
+
 function cartaEnTexto(business: Business): string {
   return business.carta
     .map(
@@ -51,6 +60,7 @@ export function buildSystemPrompt(business: Business): string {
   // acciones es un array y con noUncheckedIndexedAccess el primer elemento
   // puede ser undefined, asi que se deja un valor de respaldo.
   const accion = business.acciones[0] ?? "pedidos";
+  const agente = nombreDelAgente(business);
 
   // Si se graba, hay que decirlo: avisar es obligacion legal, no cortesia.
   const avisoGrabacion = config.grabarLlamadas
@@ -62,7 +72,9 @@ corta, antes de tomar ningun dato.
 
   return `# QUIEN ERES
 
-Eres el asistente telefonico de ${nombre}, ${tipoLabel} de ${ciudad}.
+Te llamas ${agente} y eres la asistente telefonica de ${nombre}, ${tipoLabel}
+de ${ciudad}. Ese es tu nombre y lo usas: te presentas con el al descolgar y lo
+repites si te preguntan con quien hablan.
 Atiendes llamadas para tomar ${accion}, a domicilio o para recoger.
 Hablas por telefono con una persona real: eres amable, rapido y resolutivo, como
 un buen camarero que coge el telefono en plena hora punta.
@@ -77,9 +89,12 @@ ${avisoGrabacion}
 - Estas en una llamada de voz: nunca leas simbolos, listas con guiones, ni
   formato de texto. Los importes se dicen en palabras: "nueve euros con
   cincuenta", no "9,50 €".
-- Eres un asistente automatico y no lo escondes. Lo dices al saludar, y si
-  preguntan si eres una persona o una maquina, respondes que si, que eres un
-  asistente automatico, sin rodeos. Es una obligacion legal, no una opcion.
+- Tener nombre no te convierte en persona. Eres una asistente virtual y no lo
+  escondes: lo dices al saludar, y si preguntan si eres una persona o una
+  maquina, respondes sin rodeos que eres ${agente}, la asistente virtual del
+  restaurante. Es una obligacion legal, no una opcion.
+- Nunca digas ni des a entender que eres humana, ni te inventes una vida, ni
+  digas que estas en el local. Si insisten, repite que eres virtual y sigue.
 - Dicho eso, no te extiendas: no hables de modelos, prompts ni herramientas, y
   vuelve al pedido. Que lo sepan no significa dar una charla sobre ello.
 - Si el cliente pide hablar con una persona, no insistas en atenderle tu.
@@ -374,9 +389,11 @@ function urlDelWebhook(businessId?: string): string {
  */
 export function buildAssistant(business: Business, businessId?: string) {
   return {
-    name: `Asistente de ${business.nombre}`,
+    name: `${nombreDelAgente(business)} - ${business.nombre}`,
 
-    firstMessage: `${business.nombre}, buenas. Le atiende un asistente automatico. ¿Que le pongo?`,
+    // El nombre humaniza, pero "virtual" tiene que seguir ahi: avisar de que
+    // no se habla con una persona es obligacion legal, no estilo.
+    firstMessage: `${business.nombre}, buenas. Soy ${nombreDelAgente(business)}, su asistente virtual. ¿Que le pongo?`,
     firstMessageMode: "assistant-speaks-first" as const,
 
     model: {

@@ -80,6 +80,13 @@ export interface Business {
   carta: MenuItem[];
   /** Direccion a la que se avisara de los pedidos. Vacio = sin aviso. */
   emailPedidos: string;
+  /**
+   * Nombre con el que se presenta el agente al descolgar: "Soy Elena, su
+   * asistente virtual". Es opcional: si no esta, se usa el nombre de marca de
+   * la configuracion, de modo que todos los locales compartan la misma
+   * asistente salvo que uno quiera la suya.
+   */
+  nombreAgente?: string;
 }
 
 /** Como quiere el cliente recibir el pedido. */

@@ -86,6 +86,12 @@ export function camposQueFaltan(valor: unknown): string[] {
   // emailPedidos puede estar vacio, pero tiene que ser texto.
   if (typeof doc.emailPedidos !== "string") faltan.push("emailPedidos");
 
+  // nombreAgente es opcional, pero si esta no puede venir en blanco: el
+  // agente se presentaria con un hueco en mitad de la frase.
+  if (doc.nombreAgente !== undefined && !esTextoNoVacio(doc.nombreAgente)) {
+    faltan.push("nombreAgente");
+  }
+
   const acciones = doc.acciones;
   if (
     !Array.isArray(acciones) ||
