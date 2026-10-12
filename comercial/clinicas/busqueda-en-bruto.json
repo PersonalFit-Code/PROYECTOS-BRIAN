@@ -1,0 +1,3335 @@
+{
+  "summary": "Reune clinicas dentales de Ourense con telefono verificado para llamar manana",
+  "agentCount": 15,
+  "logs": [
+    "467 fichas en bruto -> 181 clinicas distintas",
+    "55 con telefono de una sola fuente: a contrastar",
+    "181 clinicas vivas, 147 con telefono"
+  ],
+  "result": {
+    "clinicas": [
+      {
+        "nombre": "Clínica Dental Marta Ferrando",
+        "direccion": "Rúa do Progreso, 33D, 32350",
+        "localidad": "A Rúa",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Marta Ferrando",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/o-barco-de-valdeorras/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/o-barco-de-valdeorras/"
+        ]
+      },
+      {
+        "nombre": "Policlínica Dental Valdeorras",
+        "direccion": "Rúa do Progreso, 98 bajo, 32350",
+        "localidad": "A Rúa",
+        "telefono": "988 311 139",
+        "tipo": "independiente",
+        "fuente": "https://www.qdq.com/policlinica-dental-valdeorras-1056544",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.qdq.com/policlinica-dental-valdeorras-1056544"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado. Formato valido (988 = Ourense). Fuente unica QDQ, directorio que arrastra fichas sin actualizar. Añado una duda de identidad que conviene resolver al llamar: el nombre dice 'Valdeorras' y la localidad es A Rua, y en la lista hay otra ficha tambien 'Valdeorras' en O Barco (Meda Dental); comprueba que no sean la misma empresa con dos sedes o una ficha duplicada."
+      },
+      {
+        "nombre": "Arranz Dental Allariz",
+        "direccion": "Estrada de Xunqueira, 34, 32660",
+        "localidad": "Allariz",
+        "telefono": "988 440 843",
+        "tipo": "independiente",
+        "fuente": "https://mvdental.es/arranz-dental-allariz/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://mvdental.es/arranz-dental-allariz/",
+          "https://www.topdentista.com/info/arranzdental-allariz-allariz",
+          "https://www.paxinasgalegas.es/arranz-dental-197328em.html"
+        ],
+        "web": "https://arranz.dental"
+      },
+      {
+        "nombre": "Clínica Dental Allariz",
+        "direccion": "Rúa Emilia Pardo Bazán, 47, 1ºH, 32660",
+        "localidad": "Allariz",
+        "telefono": "988 440 353",
+        "web": "clinicadentalallariz.com",
+        "titular": "Roberto Meijide del Río",
+        "tipo": "independiente",
+        "fuente": "https://clinicadentalallariz.com/contacto/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicadentalallariz.com/contacto/",
+          "https://www.paxinasgalegas.es/meijide-del-rio-roberto-94604em.html"
+        ],
+        "email": "contacto@clinicadentalallariz.com"
+      },
+      {
+        "nombre": "Dent 2000 S.L.",
+        "direccion": "Estrada de Xunqueira, 27, 32660",
+        "localidad": "Allariz",
+        "telefono": "988 442 321",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/allariz/",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/allariz/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web en esta ejecucion (egress bloqueado + Firecrawl sin credito + presupuesto de busqueda agotado). Lo unico comprobable sin fuente: el formato es valido (9 digitos, prefijo 988 = provincia de Ourense), asi que es marcable. Pero sigue siendo fuente unica (Paginas Amarillas, directorio con fichas antiguas). Antes de marcar, reverificar."
+      },
+      {
+        "nombre": "Kalma Policlínico",
+        "direccion": "Oliveira 2-4, loc. 26 (Galerías), 32660",
+        "localidad": "Allariz",
+        "telefono": "988 441 098",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/kalma-policlinico-546242em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/kalma-policlinico-546242em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "Sin segunda fuente: sin red (ver nota general). El 988 441 098 es coherente con el 988 44x de Allariz, pero eso no confirma nada. Aviso extra: es un policlínico, así que ese número puede ser la centralita general y no el directo de dental; al llamar hay que pedir el servicio de odontología."
+      },
+      {
+        "nombre": "Clínica Dental Bande",
+        "direccion": "Rúa Faustino Santalices, 17, 32840",
+        "localidad": "Bande",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.qdq.com/a/clinicas-dentales/ourense/celanova",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.qdq.com/a/clinicas-dentales/ourense/celanova"
+        ]
+      },
+      {
+        "nombre": "Castro & Aguilera Clínica Dental",
+        "direccion": "Avda. de Celanova, 51 bajo, A Valenzá, 32002",
+        "localidad": "Barbadás",
+        "telefono": "988 040 243",
+        "web": "castroaguilera.com",
+        "tipo": "independiente",
+        "fuente": "https://www.castroaguilera.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.castroaguilera.com/",
+          "https://www.castroaguilera.com/contacto-clinica-dental-ourense.aspx",
+          "https://www.paxinasgalegas.es/castro-aguilera-632004em.html"
+        ],
+        "telefono2": "611 276 820"
+      },
+      {
+        "nombre": "Clínica Dental Ana Suárez Novelle",
+        "direccion": "Avda. de Celanova, 128",
+        "localidad": "Barbadás",
+        "telefono": "988 249 764",
+        "telefono2": "",
+        "web": "https://www.clinicadentalanasuarez.com",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Ana Suárez Novelle",
+        "fuente": "https://www.clinicadentalanasuarez.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentalanasuarez.com/",
+          "https://www.paxinasgalegas.es/suarez-novelle-ana-91289em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Juan Carlos Álvarez (Policlínico Aimara)",
+        "direccion": "Avda. de Celanova 90 (A Valenzá)",
+        "localidad": "Barbadás",
+        "telefono": "988 094 088",
+        "tipo": "independiente",
+        "titular": "Juan Carlos Álvarez",
+        "fuente": "https://www.paxinasgalegas.es/juan-carlos-alvarez-684295em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/juan-carlos-alvarez-684295em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO contrastado: sin salida a internet. El 988 094 088 sigue siendo solo el dato de paxinasgalegas. Formato plausible (988 09x es rango de Ourense de asignacion mas reciente). Al llamar, ojo: el numero puede ser la centralita del Policlinico Aimara y no la clinica dental directamente, asi que habria que pedir el servicio dental."
+      },
+      {
+        "nombre": "Clínica Dental Parracía",
+        "direccion": "Avda. de Celanova, 21 (algunos directorios indican 15), A Valenzá, 32002",
+        "localidad": "Barbadás",
+        "telefono": "988 60 14 13",
+        "web": "parracia.es",
+        "tipo": "independiente",
+        "fuente": "https://www.parracia.es/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.parracia.es/",
+          "https://www.parracia.es/contactanos/",
+          "https://clinicasespinoza.es/ourense/barbadas/clinica-dental-parracia/",
+          "https://www.paxinasgalegas.es/parracia-170954em.html"
+        ],
+        "email": "info@parracia.es",
+        "titular": "Karina Caeiro Parracía"
+      },
+      {
+        "nombre": "Clínica Dental Valenzá",
+        "direccion": "Rúa Os Diestros, 4 bajo, A Valenzá, 32002",
+        "localidad": "Barbadás",
+        "telefono": "988 255 440",
+        "telefono2": "665 664 469",
+        "web": "dentalvalenza.es",
+        "tipo": "independiente",
+        "fuente": "https://www.dentalvalenza.es/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.dentalvalenza.es/",
+          "https://www.paxinasgalegas.es/clinica-dental-valenza-98278em.html",
+          "https://chsalud.es/site/page/clinica/1652/clinica-dental-valenza"
+        ],
+        "email": "dentalvalenza@hotmail.es"
+      },
+      {
+        "nombre": "Policlínico Aimara",
+        "direccion": "Avda. de Celanova, 90",
+        "localidad": "Barbadás",
+        "telefono": "623 459 757",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "desconocido",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/barbadas/",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/barbadas/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO VERIFICADO: en esta sesión no hubo acceso a ninguna segunda fuente (WebSearch agotado, Firecrawl sin crédito, y la política de red bloquea toda la web abierta con 403). El 623 459 757 es un móvil español bien formado (prefijo 6xx), pero eso es solo chequeo de formato, NO una confirmación. Dos cautelas para la llamada: (a) la ficha solo trae móvil, que suele envejecer peor que un fijo; (b) 'Policlínico' apunta a centro multiespecialidad, así que puede que dental sea solo un servicio dentro: pregunta por el servicio de odontología. Pendiente: buscar web propia o ficha en Doctoralia/Páxinas Galegas cuando haya acceso."
+      },
+      {
+        "nombre": "Clínica Dental Ángel Galende Domínguez",
+        "direccion": "Rúa Francisco González Rey, 6, 32800",
+        "localidad": "Celanova",
+        "telefono": "988 451 082",
+        "titular": "Ángel Galende Domínguez",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/a/odontologos/ourense/celanova/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/odontologos/ourense/celanova/",
+          "https://www.cylex.es/celanova/dentistas-y-cl%C3%ADnicas-dentales/",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/celanova/",
+          "https://www.paxinasgalegas.es/clinica-dr-galende-161696em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Garrido Lage, Alba",
+        "direccion": "Parque As Triguerizas 3, 32800",
+        "localidad": "Celanova",
+        "telefono": "988 431 914",
+        "tipo": "independiente",
+        "titular": "Alba Garrido Lage",
+        "fuente": "https://www.paxinasgalegas.es/garrido-lage-alba-711692em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/garrido-lage-alba-711692em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "No he podido abrir ninguna segunda fuente: sin red (ver nota general). El 988 431 914 es coherente con el prefijo de Celanova (988 43x), pero eso es solo plausibilidad de formato, no una confirmación. Sigue apoyado en una sola fuente."
+      },
+      {
+        "nombre": "Clínica Dental Iliana Novoa Pérez",
+        "direccion": "Rúa Francisco González Rey, 27, 32800",
+        "localidad": "Celanova",
+        "telefono": "988 451 701",
+        "titular": "Iliana Novoa Pérez",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/celanova/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/celanova/",
+          "https://dentistainfo7.com/c/celanova-32/",
+          "https://www.paxinasgalegas.es/novoa-perez-iliana-164581em.html"
+        ]
+      },
+      {
+        "nombre": "Dental Doniz",
+        "direccion": "Avenida San Rosendo, 32800",
+        "localidad": "Celanova",
+        "telefono": "988 45 14 41",
+        "tipo": "independiente",
+        "fuente": "https://amarclinic.es/dental-doniz-celanova/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://amarclinic.es/dental-doniz-celanova/",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/celanova/",
+          "https://www.paxinasgalegas.es/dental-doniz-549498em.html"
+        ]
+      },
+      {
+        "nombre": "Dentalia Galicia S.L.",
+        "direccion": "Avenida Francisco González Rey, 18, 32800",
+        "localidad": "Celanova",
+        "telefono": "988 432 008",
+        "tipo": "independiente",
+        "fuente": "https://www.eldentista.com/dentista/dentalia-galica-sl-celanova-3624133/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.eldentista.com/dentista/dentalia-galica-sl-celanova-3624133/",
+          "https://www.qdq.com/dentalia-galica-348037",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/celanova/",
+          "https://www.paxinasgalegas.es/dentalia-161467em.html"
+        ]
+      },
+      {
+        "nombre": "Donvar Celanova S.L.",
+        "direccion": "Rúa San Rosendo, 2 Bajo - 32800",
+        "localidad": "Celanova",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/celanova/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/celanova/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Ourendent",
+        "direccion": "Lugar de Vilarchao, s/n",
+        "localidad": "Coles (limítrofe con Ourense)",
+        "telefono": "988 216 270",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "desconocido",
+        "titular": "",
+        "fuente": "https://mejoresclinicas.com/listing/clinica-dental-ourendent/",
+        "confianza": "media",
+        "fuentes": [
+          "https://mejoresclinicas.com/listing/clinica-dental-ourendent/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso a web. Fuente unica mejoresclinicas.com (directorio de pago, suele estar desactualizado). Descuadre a mirar: la ficha dice Coles pero el numero es 988 216 270, y en esta lista los 988 21x son de Ourense capital. Puede ser correcto, pero es justo el tipo de mezcla que sale de un directorio que cruza fichas, asi que verificar localidad y numero juntos."
+      },
+      {
+        "nombre": "Clínica Dental José Manuel Lage Parente",
+        "direccion": "Calle Reconco, 37, 32700",
+        "localidad": "Maceda",
+        "telefono": "988 463 181",
+        "titular": "José Manuel Lage Parente",
+        "tipo": "independiente",
+        "fuente": "https://www.cylex.es/maceda/dentistas-y-cl%C3%ADnicas-dentales/",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.cylex.es/maceda/dentistas-y-cl%C3%ADnicas-dentales/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado. Formato valido (988 = Ourense). Es la ficha de la que menos me fiaria: Cylex es de los directorios mas sucios y la URL de fuente es la pagina-indice del municipio, no la ficha concreta. El titular se puede usar para preguntar por el ('¿esta don Jose Manuel Lage?') pero tampoco esta confirmado: viene del mismo listado."
+      },
+      {
+        "nombre": "Clínica Dental Rivera",
+        "direccion": "Calle Aureliano Ferreiro, 19 bajo, 32700",
+        "localidad": "Maceda",
+        "telefono": "988 463 070",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/f/maceda/clinica-dental-rivera_203837893_000000002.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/maceda/clinica-dental-rivera_203837893_000000002.html",
+          "https://www.cylex.es/maceda/cl%C3%ADnica-dental-rivera-11834551.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Sáenz-Díez Belín (Maceda)",
+        "direccion": "Rúa Aureliano Ferreiro, 2, entlo., 32700",
+        "localidad": "Maceda",
+        "telefono": "988 463 251",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Francisco Sáenz-Díez Belín",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/maceda/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/maceda/",
+          "https://www.paxinasgalegas.es/saenz-diez-belin-francisco-164062em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Sáenz-Díez Maceda",
+        "direccion": "Rúa Aureliano Ferreiro, 2, 32700",
+        "localidad": "Maceda",
+        "telefono": "988 46 32 21",
+        "telefono2": "988 463 251",
+        "web": "clinicadentalsaenz-diez.com",
+        "titular": "Francisco Sáenz-Díez Belín",
+        "tipo": "independiente",
+        "fuente": "https://clinicasaenz-diez.com/contacto",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicasaenz-diez.com/contacto",
+          "https://clinicasaenz-diez.com/"
+        ]
+      },
+      {
+        "nombre": "Centro Dental Valdeorras S.L.",
+        "direccion": "Praza José Otero, 6, 1º-1, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "988 321 818",
+        "telefono2": "988 682 889",
+        "tipo": "independiente",
+        "fuente": "https://mejoresclinicas.com/listing/centro-dental-valdeorras/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://mejoresclinicas.com/listing/centro-dental-valdeorras/",
+          "https://www.paxinasgalegas.es/valdeorras-161694em.html",
+          "https://www.paginasamarillas.es/f/o-barco/centro-dental-valdeorras-s-l-_007888654_000000001.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web, cero segundas fuentes. Formato correcto y coherente (988 682 889; O Barco de Valdeorras es provincia de Ourense, prefijo 988 correcto). Igual que en el primer registro, \"S.L.\" indica razon social: mirad el nombre comercial antes de llamar."
+      },
+      {
+        "nombre": "Centro Dental Valdeorras S.L.",
+        "direccion": "Rúa José Otero, 6, 1-1, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "988 682 889",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/f/o-barco/centro-dental-valdeorras-s-l-_007888654_000000001.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/o-barco/centro-dental-valdeorras-s-l-_007888654_000000001.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web, cero segundas fuentes. Formato correcto y coherente (988 682 889; O Barco de Valdeorras es provincia de Ourense, prefijo 988 correcto). Igual que en el primer registro, \"S.L.\" indica razon social: mirad el nombre comercial antes de llamar."
+      },
+      {
+        "nombre": "Clínica Dental Art",
+        "direccion": "Rúa Marcelino Suárez, 22 - Piso 1º Dcha. - 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "988 326 602",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://masquemedicos.com/dentistas_o-barco/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://masquemedicos.com/dentistas_o-barco/",
+          "https://www.cylex.es/o-barco-de-valdeorras/odont%C3%B3logos.html",
+          "https://www.paxinasgalegas.es/art-161688em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Dr. Gabriel Castellano",
+        "direccion": "C/ Eulogio Fernández, 16 bajo, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "988 32 51 70",
+        "web": "clinicadentalcastellano.com",
+        "titular": "Gabriel Castellano",
+        "tipo": "independiente",
+        "fuente": "https://www.clinicadentalcastellano.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentalcastellano.com/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Touris",
+        "direccion": "Avda. Conde de Fenosa 24, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "988 322 284",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/touris-161693em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/touris-161693em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "Sin segunda fuente: sin red (ver nota general). El 988 322 284 es coherente con el 988 32x de O Barco de Valdeorras, pero es solo plausibilidad de formato, no una confirmación."
+      },
+      {
+        "nombre": "Clínica Meda Dental Valdeorras",
+        "direccion": "Rúa Profesor Eloi Mira, 3, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "600 538 308",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/f/o-barco/clinica-meda-dental-valdeorras_234960565_000000001.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/o-barco/clinica-meda-dental-valdeorras_234960565_000000001.html"
+        ],
+        "web": "https://dentalmeda.com",
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado. Intente abrir su propia web dentalmeda.com y fallo, pero OJO: fallo por bloqueo de la politica de red de esta sesion, NO porque el dominio este caido. No lo interpretes como clinica cerrada. El 600 538 308 es un movil valido (rango 6xx); al ser movil, probablemente linea personal/WhatsApp del titular mas que centralita. Reverificar en dentalmeda.com/contacto."
+      },
+      {
+        "nombre": "Clínica Meda Dental Valdeorras",
+        "direccion": "Rúa Profesor Eloi Mira, 3, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "988 682 251",
+        "telefono2": "600 538 308",
+        "web": "https://dentalmeda.com/",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://dentalmeda.com/clinica_valdeorras-dentista-valdeorras-obarco-orense-ponferrada-leon.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://dentalmeda.com/clinica_valdeorras-dentista-valdeorras-obarco-orense-ponferrada-leon.html",
+          "https://dentalmeda.com/contacto_dentistas-en-ponferrada-leon-valdeorras.html",
+          "https://www.paxinasgalegas.es/meda-dental-629024em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado. Intente abrir su propia web dentalmeda.com y fallo, pero OJO: fallo por bloqueo de la politica de red de esta sesion, NO porque el dominio este caido. No lo interpretes como clinica cerrada. El 600 538 308 es un movil valido (rango 6xx); al ser movil, probablemente linea personal/WhatsApp del titular mas que centralita. Reverificar en dentalmeda.com/contacto."
+      },
+      {
+        "nombre": "Dental Iglesias",
+        "direccion": "Rúa Conde de Fenosa, 75 bajo, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "988 327 349",
+        "telefono2": "628 868 547",
+        "web": "https://www.dentaliglesias.es/",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Zaida Iglesias Fernández",
+        "fuente": "https://www.dentaliglesias.es/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.dentaliglesias.es/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "Sin segunda fuente: sin red (ver nota general). De las seis es la más floja: la fuente única es masquemedicos.com (un agregador, no la clínica) y además es un móvil (628 868 547), imposible de cruzar con la localidad. Si mañana solo se pueden arriesgar unas pocas, esta la dejaría para el final."
+      },
+      {
+        "nombre": "Dental Iglesias",
+        "direccion": "Avda. Conde de Fenosa 75, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "628 868 547",
+        "tipo": "independiente",
+        "titular": "Zaida Iglesias Fernández",
+        "fuente": "https://masquemedicos.com/dentistas_o-barco/",
+        "confianza": "media",
+        "fuentes": [
+          "https://masquemedicos.com/dentistas_o-barco/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "Sin segunda fuente: sin red (ver nota general). De las seis es la más floja: la fuente única es masquemedicos.com (un agregador, no la clínica) y además es un móvil (628 868 547), imposible de cruzar con la localidad. Si mañana solo se pueden arriesgar unas pocas, esta la dejaría para el final."
+      },
+      {
+        "nombre": "Méndez Odontología",
+        "direccion": "Av. Marcelino Suárez, 2, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "988 32 74 75",
+        "web": "mendezodontologia.es",
+        "tipo": "independiente",
+        "fuente": "https://www.mendezodontologia.es/contacto/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.mendezodontologia.es/contacto/",
+          "https://www.paxinasgalegas.es/mendez-165598em.html"
+        ],
+        "titular": "Francisco Méndez Díaz"
+      },
+      {
+        "nombre": "Ramiro Cobo Arias",
+        "direccion": "Plaza de José Otero 6, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "",
+        "tipo": "independiente",
+        "titular": "Ramiro Cobo Arias",
+        "fuente": "https://masquemedicos.com/dentista_o-barco/ramiro-cobo-arias/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_o-barco/ramiro-cobo-arias/"
+        ]
+      },
+      {
+        "nombre": "VD Centro Odontolóxico",
+        "direccion": "Parque Malecón 22, 32300",
+        "localidad": "O Barco de Valdeorras",
+        "telefono": "673 389 402",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/vd-centro-odontoloxico-622841em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/vd-centro-odontoloxico-622841em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "Sin segunda fuente: sin red (ver nota general). Es un móvil (673 389 402), así que no se puede cruzar ni con la localidad: si estuviera mal, se estaría llamando a un particular. Riesgo alto, tratar con cuidado."
+      },
+      {
+        "nombre": "Centros Dentales Europeos",
+        "direccion": "Rúa Martínez de Avellanosa, 2, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 27 07 83",
+        "tipo": "cadena",
+        "fuente": "https://clinicadentalsonrisa.es/centros-dentales-europeos/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicadentalsonrisa.es/centros-dentales-europeos/",
+          "https://www.paxinasgalegas.es/centros-dentales-europeos-266694em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Breogán",
+        "direccion": "Rúa San Cibrán, 2 A bajo, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 271 900",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.infogal.es/empresa/clinica-dental-breogan-6476",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.infogal.es/empresa/clinica-dental-breogan-6476",
+          "https://www.paxinasgalegas.es/breogan-95886em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Carballiño",
+        "direccion": "Calle Chamoso Lamas, 6, 1º, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 27 25 04",
+        "email": "info@clinicadentalcarballino.es",
+        "web": "clinicadentalcarballino.es",
+        "tipo": "independiente",
+        "fuente": "https://www.clinicadentalcarballino.es/contacto/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentalcarballino.es/contacto/",
+          "https://www.clinicadentalcarballino.es/",
+          "https://www.paxinasgalegas.es/carballi%C3%B1o-96448em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Paseo",
+        "direccion": "Rúa Rosalía de Castro, 20 / Praza Maior, 29, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 27 41 09",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/f/o-carballino/clinica-dental-paseo_015344310_000000001.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/o-carballino/clinica-dental-paseo_015344310_000000001.html",
+          "https://www.cylex.es/o-carballino/dentistas-y-cl%C3%ADnicas-dentales/",
+          "https://giodental.es/clinica-dental-paseo/",
+          "https://www.paxinasgalegas.es/paseo-99277em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Quevedo",
+        "direccion": "Venezuela 3, 1º, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 271 159",
+        "tipo": "independiente",
+        "titular": "Miguel Ricardo Quevedo Bisonni",
+        "fuente": "https://masquemedicos.com/dentista_caselas/miguel-ricardo-quevedo-bisonni/",
+        "confianza": "media",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_caselas/miguel-ricardo-quevedo-bisonni/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO contrastado: sin salida a internet. ADEMAS hay una incoherencia en la propia ficha que conviene resolver antes de marcar: la URL de la fuente es masquemedicos.com/dentista_caselas/ (Caselas esta en Pontevedra, no en Ourense), la ficha dice O Carballiño, y el telefono 988 271 159 esta en un rango que apunta a Ourense capital, no a O Carballiño (que seria 988 53x, como la de Santo Domingo). Tres datos que no cuadran entre si: o la localidad esta mal o el telefono es de otra sede. No puedo deshacerlo sin fuente."
+      },
+      {
+        "nombre": "Clínica Dental Quevedo Bisonni",
+        "direccion": "Rúa Venezuela, 3, 1º, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paxinasgalegas.es/quevedo-bisonni-94710em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/quevedo-bisonni-94710em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Santo Domingo (O Carballiño)",
+        "direccion": "Conde Vallellano 20, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 531 933",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/santo-domingo-235682em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/santo-domingo-235682em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO contrastado: sin salida a internet. El 988 531 933 sigue siendo solo el dato de paxinasgalegas. Es el que mejor pinta tiene de los siete por coherencia interna: el rango 988 53x encaja con O Carballiño, que es la localidad de la ficha."
+      },
+      {
+        "nombre": "Clínica Dental Trigás",
+        "direccion": "Rúa Curros Enríquez, 17, 1ºB, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 27 51 39",
+        "titular": "Alberto Trigás",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/carballino/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://saludental.es/ourense/carballino/",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/o-carballi%C3%B1o/",
+          "https://www.paxinasgalegas.es/trigas-100776em.html"
+        ]
+      },
+      {
+        "nombre": "DentiClinic",
+        "direccion": "Rúa Curros Enríquez, 29, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 27 14 27",
+        "email": "denticlinic@live.com",
+        "web": "denticlinic.es",
+        "tipo": "independiente",
+        "fuente": "https://denticlinic.es/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://denticlinic.es/",
+          "https://www.directoriocom.com/empresas/denticlinic-o-carballino",
+          "https://clinicadentalsonrisa.es/denticlinic/",
+          "https://www.paxinasgalegas.es/denticlinic-91477em.html"
+        ]
+      },
+      {
+        "nombre": "IDEOdental Carballiño",
+        "direccion": "Rúa Tomás María Mosquera, 4, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 27 34 34",
+        "tipo": "independiente",
+        "fuente": "https://www.cylex.es/o-carballino/dentistas-y-cl%C3%ADnicas-dentales/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.cylex.es/o-carballino/dentistas-y-cl%C3%ADnicas-dentales/",
+          "https://ideodental.com/carballino/",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/o-carballi%C3%B1o/",
+          "https://clinicadentalsonrisa.es/code-o-carballino/",
+          "https://mvdental.es/code-o-carballino/",
+          "https://o-carballino.infoisinfo.es/busqueda/dentistas"
+        ],
+        "web": "https://ideodental.com/carballino/",
+        "telefono2": "988 270 783"
+      },
+      {
+        "nombre": "Penín & Vidal Odontología Avanzada",
+        "direccion": "Rosalía de Castro 10-12, 32500",
+        "localidad": "O Carballiño",
+        "telefono": "988 002 322",
+        "telefono2": "722 864 840",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/o-carballi%C3%B1o/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/o-carballi%C3%B1o/",
+          "https://www.paxinasgalegas.es/penin-vidal-655827em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental O Pereiro, S.L.",
+        "direccion": "Praza da Capela, 2 bajo, 32710",
+        "localidad": "O Pereiro de Aguiar",
+        "telefono": "988 259 942",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/clinica-dental-o-pereiro-sl-225991em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/clinica-dental-o-pereiro-sl-225991em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web. Formato valido (988 = Ourense). Fuente unica Paxinas Galegas. Reverificar."
+      },
+      {
+        "nombre": "Ar-T Dental",
+        "direccion": "Guizamonde",
+        "localidad": "Ourense",
+        "telefono": "",
+        "tipo": "desconocido",
+        "fuente": "https://www.paxinasgalegas.es/ar-t-dental-236582em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/ar-t-dental-236582em.html"
+        ]
+      },
+      {
+        "nombre": "AR-TDental",
+        "direccion": "Rúa Guizamonde, s/n, 32001",
+        "localidad": "Ourense",
+        "telefono": "988 61 34 32",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://saludental.es/ourense/ourense/",
+          "https://www.ar-tdental.es/",
+          "https://www.paxinasgalegas.es/ar-t-dental-236582em.html"
+        ],
+        "web": "https://www.ar-tdental.es",
+        "email": "ar.tdental16@gmail.com"
+      },
+      {
+        "nombre": "B & G de Servicios Sanitarios S.L.P.",
+        "direccion": "Rúa Arturo Pérez Serantes, 3, 32005",
+        "localidad": "Ourense",
+        "telefono": "988 222 800",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://masquemedicos.com/dentistas_ourense/",
+        "confianza": "media",
+        "fuentes": [
+          "https://masquemedicos.com/dentistas_ourense/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web en esta sesion, no he podido abrir ninguna segunda fuente. Aviso aparte, de la propia ficha: \"B & G de Servicios Sanitarios S.L.P.\" es una razon social, no el nombre comercial de la clinica. Quien llame no puede preguntar \"es B & G?\" porque al otro lado probablemente no se reconozcan con ese nombre. Conviene abrir el numero en Google Maps antes de marcar para saber como se llama de verdad el sitio. Formato del telefono correcto (fijo de 9 digitos, prefijo 988 = Ourense)."
+      },
+      {
+        "nombre": "C3D Clínica Dental",
+        "direccion": "Rúa Alejandro Outeiriño, 9, 1º A, 32003",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paxinasgalegas.es/c3d-277416em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/c3d-277416em.html"
+        ]
+      },
+      {
+        "nombre": "Caldas Dental",
+        "direccion": "barrio de A Ponte",
+        "localidad": "Ourense",
+        "telefono": "",
+        "tipo": "desconocido",
+        "fuente": "https://www.paxinasgalegas.es/caldas-dental-91218em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/caldas-dental-91218em.html"
+        ]
+      },
+      {
+        "nombre": "Caredent Ourense",
+        "direccion": "Rúa Papa Juan XXIII, 7, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 374 650",
+        "telefono2": "679 493 667",
+        "web": "caredent.es",
+        "tipo": "cadena",
+        "fuente": "https://www.caredent.es/clinicas-dentales/ourense/clinica-dental-ourense",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.caredent.es/clinicas-dentales/ourense/clinica-dental-ourense",
+          "https://www.paxinasgalegas.es/care-dent-208357em.html"
+        ]
+      },
+      {
+        "nombre": "Caterina Otero Fernández",
+        "direccion": "Rúa Esgos 24, 32004",
+        "localidad": "Ourense",
+        "telefono": "",
+        "tipo": "independiente",
+        "titular": "Caterina Otero Fernández",
+        "fuente": "https://masquemedicos.com/dentista_ourense/caterina-otero-fernandez/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_ourense/caterina-otero-fernandez/"
+        ]
+      },
+      {
+        "nombre": "Centro Carrera (servicio dental)",
+        "direccion": "Rúa Faustino Míguez, 12 (esquina c/ Dalí), 32002 (O Couto)",
+        "localidad": "Ourense",
+        "telefono": "",
+        "tipo": "desconocido",
+        "fuente": "https://www.paxinasgalegas.es/clinicas-dentales-dentistas-ourense-131ep_212ay.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/clinicas-dentales-dentistas-ourense-131ep_212ay.html"
+        ]
+      },
+      {
+        "nombre": "Centro de Especialidades Odontológicas Cardenal Quiroga",
+        "direccion": "Rúa Cardenal Quiroga, 18, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 10 32 32",
+        "email": "info@cardenalquiroga.com",
+        "web": "cardenalquiroga.com",
+        "tipo": "independiente",
+        "fuente": "https://cardenalquiroga.com/contacto-clinica-dental-ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://cardenalquiroga.com/contacto-clinica-dental-ourense/",
+          "https://cardenalquiroga.com/",
+          "https://www.cylex.es/ourense/dentistas-y-cl%C3%ADnicas-dentales/"
+        ]
+      },
+      {
+        "nombre": "Centro Dental AV",
+        "direccion": "Progreso 161, entreplanta",
+        "localidad": "Ourense",
+        "telefono": "988 063 661",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/centro-dental-av-628548em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/centro-dental-av-628548em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 988 063 661 es fijo de Ourense en el rango relativamente nuevo 988 06x: válido, pero igual que el caso anterior puede desembocar en centralita o servicio de citas y no en la clínica. Solo chequeo de formato, NO confirmación. Sin nombre de titular: 'AV' probablemente sean iniciales, no lo des por hecho en la llamada."
+      },
+      {
+        "nombre": "Centro Dental Lucía Diéguez",
+        "direccion": "Rúa do Concello (Calle Concejo), 8, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 102 555",
+        "email": "info@luciadieguez.com",
+        "web": "clinicadentalourense.com",
+        "titular": "Lucía Diéguez Villar",
+        "tipo": "independiente",
+        "fuente": "https://clinicadentalourense.com/citas/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicadentalourense.com/citas/",
+          "https://clinicadentalourense.com/",
+          "https://masquemedicos.com/dentista_ourense/centro-dental-lucia-dieguez/"
+        ]
+      },
+      {
+        "nombre": "Centro Dental Ponte-Ourense S.L.",
+        "direccion": "Rúa do Paseo, 19 bajo",
+        "localidad": "Ourense",
+        "telefono": "988 212 344",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/f/ourense/centro-dental-ponte-ourense-s-l-_197638513_000000003.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/ourense/centro-dental-ponte-ourense-s-l-_197638513_000000003.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso a web. Fuente unica paginasamarillas (de las mejores de la lista, pero sin cruzar). El numero es coherente: 988 212 344 tiene la forma de fijo de Ourense capital. Es de las que marcaria primero por fiabilidad del numero, aun sin confirmar."
+      },
+      {
+        "nombre": "Centro Dental Travieso (Beatriz Travieso Álvarez)",
+        "direccion": "Rúa Parada Justel, 2 - Esc. oficinas, Local B - 32003",
+        "localidad": "Ourense",
+        "telefono": "988 226 466",
+        "telefono2": "",
+        "web": "https://www.centrodentaltravieso.es",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Beatriz Travieso Álvarez",
+        "fuente": "https://www.paginasamarillas.es/f/ourense/centro-dental-beatriz-travieso-alvarez_105888036_000000001.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/ourense/centro-dental-beatriz-travieso-alvarez_105888036_000000001.html",
+          "https://masquemedicos.com/dentista_ourense/doctora-beatriz-travieso-alvarez/"
+        ]
+      },
+      {
+        "nombre": "Centro Médico Progreso (servicio dental)",
+        "direccion": "Rúa do Progreso, 143",
+        "localidad": "Ourense",
+        "telefono": "988 616 758",
+        "telefono2": "",
+        "web": "https://cmprogreso.es/",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://cmprogreso.es/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://cmprogreso.es/"
+        ]
+      },
+      {
+        "nombre": "Clínica de Ortodoncia Dra. Carmen Iglesias Conde",
+        "direccion": "Rúa Bedoya, 3",
+        "localidad": "Ourense",
+        "telefono": "988 243 469",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Carmen Iglesias Conde",
+        "fuente": "https://aaoinfo.org/locator/dr-carmen-iglesias-conde/",
+        "confianza": "media",
+        "fuentes": [
+          "https://aaoinfo.org/locator/dr-carmen-iglesias-conde/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web, cero segundas fuentes. Misma pega de origen que el registro anterior: viene de aaoinfo.org (asociacion estadounidense), fuente debil y a menudo vieja para datos españoles. Formato correcto (988 = Ourense). Lo bueno: aqui el titular si viene con nombre y apellidos, asi que se puede preguntar por la Dra. Iglesias Conde directamente."
+      },
+      {
+        "nombre": "Clínica Dental Adeslas Ourense",
+        "direccion": "Rúa da Concordia, 3, 32003",
+        "localidad": "Ourense",
+        "telefono": "900 22 99 22",
+        "web": "adeslasdental.es",
+        "tipo": "cadena",
+        "fuente": "https://www.adeslasdental.es/clinicas/ourense",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.adeslasdental.es/clinicas/ourense"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, y ademas es el numero que yo NO marcaria mañana. El 902 530 954 es un numero de tarificacion especial de ambito nacional, es decir el call center central de Adeslas Dental, no la recepcion de la clinica de Ourense: quien llame va a acabar en un IVR corporativo sin poder hablar con nadie de la clinica. Dos avisos mas: los 902 estan en retirada en España (muchas empresas migraron a 900/9xx), asi que puede estar muerto; y una clinica de franquicia de aseguradora decide poco por si misma, el filtro es corporativo. Sugerencia: sacarla de la lista de mañana o conseguir el fijo local 988 de la clinica antes de llamar."
+      },
+      {
+        "nombre": "Clínica Dental Adeslas Ourense",
+        "direccion": "Rúa da Concordia, 3, 32003",
+        "localidad": "Ourense",
+        "telefono": "902 530 954",
+        "telefono2": "900 229 922",
+        "web": "https://www.adeslasdental.es/clinicas/ourense",
+        "email": "",
+        "tipo": "cadena",
+        "titular": "",
+        "fuente": "https://masquemedicos.com/dentista_ourense/clinica-dental-adeslas-ourense/",
+        "confianza": "media",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_ourense/clinica-dental-adeslas-ourense/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, y ademas es el numero que yo NO marcaria mañana. El 902 530 954 es un numero de tarificacion especial de ambito nacional, es decir el call center central de Adeslas Dental, no la recepcion de la clinica de Ourense: quien llame va a acabar en un IVR corporativo sin poder hablar con nadie de la clinica. Dos avisos mas: los 902 estan en retirada en España (muchas empresas migraron a 900/9xx), asi que puede estar muerto; y una clinica de franquicia de aseguradora decide poco por si misma, el filtro es corporativo. Sugerencia: sacarla de la lista de mañana o conseguir el fijo local 988 de la clinica antes de llamar."
+      },
+      {
+        "nombre": "Clínica Dental Alfredo Arias Menor",
+        "direccion": "Avenida de Zamora, 3, entresuelo local 4, 32005",
+        "localidad": "Ourense",
+        "telefono": "988 22 88 81",
+        "telefono2": "988 22 84 70",
+        "titular": "Alfredo Arias Menor",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/f/ourense/alfredo-arias-menor_010401933_000000001.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/ourense/alfredo-arias-menor_010401933_000000001.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "No se ha podido buscar segunda fuente (sin acceso a web en esta sesión). El 988 es el prefijo correcto de Ourense, pero eso NO confirma el número: solo dice que tiene la forma esperada. Sigue apoyado en una sola fuente (Páginas Amarillas), que es un directorio y puede estar desactualizado."
+      },
+      {
+        "nombre": "Clínica Dental Alfredo Arias Menor",
+        "direccion": "Avenida de Zamora, 3 - Entresuelo 4",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Alfredo Arias Menor",
+        "fuente": "https://www.doctoralia.es/dentista/ourense",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.doctoralia.es/dentista/ourense"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "No se ha podido buscar segunda fuente (sin acceso a web en esta sesión). El 988 es el prefijo correcto de Ourense, pero eso NO confirma el número: solo dice que tiene la forma esperada. Sigue apoyado en una sola fuente (Páginas Amarillas), que es un directorio y puede estar desactualizado."
+      },
+      {
+        "nombre": "Clínica Dental Andrés Villalón",
+        "direccion": "Rúa Valle Inclán, 15, 32004",
+        "localidad": "Ourense",
+        "telefono": "988 24 82 56",
+        "titular": "Andrés Villalón",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://saludental.es/ourense/ourense/",
+          "https://www.andresvillalon.es/contacto-dentista-ourense.aspx",
+          "https://masquemedicos.com/dentista_ourense/doctor-andres-villalon-del-rio/",
+          "https://www.cylex.es/ourense/cl%C3%ADnica-dental-andr%C3%A9s-villal%C3%B3n-12287098.html"
+        ],
+        "telefono2": "669 609 686",
+        "web": "https://www.andresvillalon.es/",
+        "email": "clinicadentalandresvillalon@gmail.com"
+      },
+      {
+        "nombre": "Clínica Dental Barba Cermeño, Félix",
+        "direccion": "Rúa Juan Manuel Bedoya 4, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 249 805",
+        "tipo": "independiente",
+        "titular": "Dr. Félix Barba Cermeño",
+        "fuente": "https://masquemedicos.com/dentista_ourense/doctor-felix-barba-cermeno/",
+        "confianza": "media",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_ourense/doctor-felix-barba-cermeno/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO contrastado: sin salida a internet. El 988 249 805 sigue siendo solo el dato de masquemedicos. Formato coherente con Ourense (988)."
+      },
+      {
+        "nombre": "Clínica Dental Blanco Arce",
+        "direccion": "Calle do Paseo, 21, 2º Izqda., 32003",
+        "localidad": "Ourense",
+        "telefono": "988 213 269",
+        "telefono2": "655 715 234",
+        "email": "info@clinicadentalblancoarce.es",
+        "web": "clinicadentalblancoarce.es",
+        "titular": "Adela Lucía Blanco Arce",
+        "tipo": "independiente",
+        "fuente": "https://www.clinicadentalblancoarce.es/contacto/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentalblancoarce.es/contacto/",
+          "https://www.clinicadentalblancoarce.es/",
+          "https://www.paxinasgalegas.es/blanco-arce-adela-lucia-548708em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Cardenal Quiroga",
+        "direccion": "zona casco histórico (dirección exacta no confirmada)",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://docdental.es/clinicas-dentales/ourense/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://docdental.es/clinicas-dentales/ourense/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Carmen Fernández Aguiar",
+        "direccion": "Avenida de Portugal, 23, 32002",
+        "localidad": "Ourense",
+        "telefono": "988 24 81 49",
+        "titular": "Carmen Fernández Aguiar",
+        "tipo": "independiente",
+        "fuente": "https://dentalista.net/dentistas/galicia/province-of-ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://dentalista.net/dentistas/galicia/province-of-ourense/",
+          "https://www.paxinasgalegas.es/fernandez-aguiar-m%C2%AA-carmen-89762em.html"
+        ],
+        "web": "clinicadentalcarmenaguiar.com"
+      },
+      {
+        "nombre": "Clínica Dental Carmen Fernández Aguiar",
+        "direccion": "Avda. de Portugal, 23",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Carmen Fernández Aguiar",
+        "fuente": "https://topdentistas.com/dentistas/ourense/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://topdentistas.com/dentistas/ourense/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Carmen Salgado",
+        "direccion": "",
+        "localidad": "Ourense",
+        "telefono": "988 21 05 96",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Carmen Salgado",
+        "fuente": "https://ourense-ga.spain-web.com/dentist/",
+        "confianza": "media",
+        "fuentes": [
+          "https://ourense-ga.spain-web.com/dentist/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso a web. La fuente (ourense-ga.spain-web.com) es un directorio autogenerado y es la de menor calidad de toda la lista, asi que esta ficha es la que mas pide cruzarse. El titular probable sale del propio nombre: se puede preguntar por 'la doctora Salgado' en vez de por el encargado, pero sin confirmar que siga ejerciendo ahi."
+      },
+      {
+        "nombre": "Clínica Dental Casares Dorribo, Sonia",
+        "direccion": "Rúa Ramón Puga Noguerol, 42 bajo, 32005",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Sonia Casares Dorribo",
+        "fuente": "https://www.paxinasgalegas.es/casares-dorribo-sonia-96614em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/casares-dorribo-sonia-96614em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Ceiga",
+        "direccion": "Rúa do Paseo, 19, 3º Izq., 32003",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://doctoralia.es/clinicas/clinica-dental-ceiga-2",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://doctoralia.es/clinicas/clinica-dental-ceiga-2"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Code San Antonio (Code Dental S.L.)",
+        "direccion": "Avda. Buenos Aires 34, bajo, 32004",
+        "localidad": "Ourense",
+        "telefono": "988 511 319",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/code-san-antonio-99304em.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/code-san-antonio-99304em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Deliatorco",
+        "direccion": "",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "desconocido",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Dentalnova Ourense",
+        "direccion": "Concordia 28, bajo, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 042 134",
+        "web": "dentalnova.com",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/dentalnova-717348em.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/dentalnova-717348em.html",
+          "https://www.dentalnova.com/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Dr. José Emilio Coello Carretero",
+        "direccion": "Rúa Sáenz Díez 39, 32001",
+        "localidad": "Ourense",
+        "telefono": "988 372 234",
+        "tipo": "independiente",
+        "titular": "Dr. José Emilio Coello Carretero",
+        "fuente": "https://masquemedicos.com/dentista_ourense/doctor-jose-emilio-coello-carretero/",
+        "confianza": "media",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_ourense/doctor-jose-emilio-coello-carretero/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO he podido contrastar nada: en esta sesion no hay salida a internet (ver nota general). El 988 372 234 sigue siendo el dato de masquemedicos sin segunda fuente. Formato coherente con Ourense (prefijo 988)."
+      },
+      {
+        "nombre": "Clínica Dental Dr. Ramón Prada Rodríguez",
+        "direccion": "Avda. de la Habana 17, bajo, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 253 365",
+        "tipo": "independiente",
+        "titular": "Dr. Ramón Prada Rodríguez",
+        "fuente": "https://masquemedicos.com/dentista_ourense/doctor-ramon-prada-rodriguez/",
+        "confianza": "media",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_ourense/doctor-ramon-prada-rodriguez/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 988 253 365 está en el rango clásico de fijo de la ciudad de Ourense (988 25x), consistente con la localidad; solo formato, NO confirmación. La fuente de origen (masquemedicos.com) es un directorio médico que no siempre se actualiza, así que el fijo convendría cotejarlo con web propia o con el Colegio de Dentistas cuando se pueda."
+      },
+      {
+        "nombre": "Clínica Dental Dr. Vidal",
+        "direccion": "Avda. de la Habana 71",
+        "localidad": "Ourense",
+        "telefono": "988 254 335",
+        "tipo": "independiente",
+        "titular": "Dr. Vidal",
+        "fuente": "https://cylex.es/ourense/clinica-dental-dr--vidal-12329470.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://cylex.es/ourense/clinica-dental-dr--vidal-12329470.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO contrastado: sin salida a internet. El 988 254 335 viene solo de cylex, que es un agregador y suele ir desactualizado: conviene contrastarlo antes de darlo por bueno. No tengo el nombre de pila del Dr. Vidal y no me lo invento."
+      },
+      {
+        "nombre": "Clínica Dental Dra. Gloria Rodríguez",
+        "direccion": "Rúa do Paseo, 28",
+        "localidad": "Ourense",
+        "telefono": "988 213 831",
+        "telefono2": "",
+        "web": "https://www.dragloriarodriguez.es",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Gloria Rodríguez",
+        "fuente": "https://www.dragloriarodriguez.es/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.dragloriarodriguez.es/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Dra. Mª Teresa Leyes Vence (Vadillo y Leyes)",
+        "direccion": "Avda. da Habana, 36, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 366 325",
+        "telefono2": "",
+        "web": "https://www.clinicadentalourense.es/",
+        "email": "vadilloyleyes@hotmail.com",
+        "tipo": "independiente",
+        "titular": "Mª Teresa Leyes Vence",
+        "fuente": "https://www.clinicadentalourense.es/contacto-clinica-dental-ourense.aspx",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentalourense.es/contacto-clinica-dental-ourense.aspx"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental El Puente",
+        "direccion": "Rúa Rosalía de Castro, 5 bajo, 32001",
+        "localidad": "Ourense",
+        "telefono": "988 212 144",
+        "telefono2": "664 804 789",
+        "web": "dentalelpuente.es",
+        "tipo": "independiente",
+        "fuente": "https://dentalelpuente.es/contacto-dentista-ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://dentalelpuente.es/contacto-dentista-ourense/",
+          "https://www.paxinasgalegas.es/el-puente-656327em.html",
+          "https://dentalelpuente.es/"
+        ]
+      },
+      {
+        "nombre": "Clínica dental en Rúa San Rosendo, 16 (barrio A Ponte)",
+        "direccion": "Rúa San Rosendo, 16 bajo, 32001",
+        "localidad": "Ourense",
+        "telefono": "",
+        "tipo": "desconocido",
+        "fuente": "https://www.paxinasgalegas.es/clinicas-dentales-dentistas-ourense-131ep_212ay.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/clinicas-dentales-dentistas-ourense-131ep_212ay.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Eva Cruz",
+        "direccion": "Parque de San Lázaro 9, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 000 097",
+        "telefono2": "667 903 700",
+        "tipo": "independiente",
+        "titular": "Eva Cruz",
+        "fuente": "https://www.paxinasgalegas.es/eva-cruz-631053em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/eva-cruz-631053em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO VERIFICADO: sin acceso a segunda fuente en esta sesión. ATENCIÓN AL MARCAR: el 988 000 097 está en el bloque atípico 988 000 0xx. Es numeración válida y existente en Ourense, pero es el tipo de asignación (VoIP reciente) que a veces va a un servicio de citas externo en vez de a la recepción de la clínica. Repasa dígito a dígito antes de marcar y verifica con quién hablas. Solo formato, NO confirmación."
+      },
+      {
+        "nombre": "Clínica Dental Jorge Mato Ourense",
+        "direccion": "Avda. de la Habana, 41, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 003 928",
+        "telefono2": "663 730 140",
+        "web": "clinicadentaljorgemato.com",
+        "titular": "Jorge Mato",
+        "tipo": "independiente",
+        "fuente": "https://clinicadentaljorgemato.com/contacto/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicadentaljorgemato.com/contacto/",
+          "https://clinicadentaljorgemato.com/",
+          "https://www.cylex.es/ourense/dentistas-y-cl%C3%ADnicas-dentales/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental José Rivera Cid",
+        "direccion": "Rúa do Paseo, 3, 1º, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 220 489",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "José Rivera Cid",
+        "fuente": "https://masquemedicos.com/dentistas_ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://masquemedicos.com/dentistas_ourense/",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Juan XXIII",
+        "direccion": "Rúa Juan XXIII, 17, entresuelo izqda., 32003",
+        "localidad": "Ourense",
+        "telefono": "988 218 591",
+        "telefono2": "679 155 693",
+        "email": "clinicadentaljuan23@gmail.com",
+        "tipo": "independiente",
+        "fuente": "https://www.qdq.com/clinica-dental-juan-xxiii-44042",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.qdq.com/clinica-dental-juan-xxiii-44042",
+          "https://guiamedica.fiatc.es/centro-dental/clinica-dental-juan-xxiii-032860000000000000/"
+        ],
+        "web": "https://clinicadentaljuanxxiii.com/",
+        "titular": "Dr. Óscar Garrido",
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO contrastado: sin salida a internet. ESTA ES LA MAS DEBIL DE LAS SIETE, por dos motivos: (1) el 679 155 693 es un movil, no un fijo 988 como el resto; (2) la fuente no es una ficha propia de la clinica sino la pagina indice de categoria de cylex (/dentistas-y-clinicas-dentales/), donde es facil que un telefono quede asociado a la entrada equivocada. Yo la pondria al final de la lista de llamadas o la contrastaria primero."
+      },
+      {
+        "nombre": "Clínica Dental Juan XXIII",
+        "direccion": "C/ Juan XXIII 17",
+        "localidad": "Ourense",
+        "telefono": "679 155 693",
+        "tipo": "independiente",
+        "fuente": "https://www.cylex.es/ourense/dentistas-y-cl%C3%ADnicas-dentales/",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.cylex.es/ourense/dentistas-y-cl%C3%ADnicas-dentales/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO contrastado: sin salida a internet. ESTA ES LA MAS DEBIL DE LAS SIETE, por dos motivos: (1) el 679 155 693 es un movil, no un fijo 988 como el resto; (2) la fuente no es una ficha propia de la clinica sino la pagina indice de categoria de cylex (/dentistas-y-clinicas-dentales/), donde es facil que un telefono quede asociado a la entrada equivocada. Yo la pondria al final de la lista de llamadas o la contrastaria primero."
+      },
+      {
+        "nombre": "Clínica Dental Julio Vázquez Quintela",
+        "direccion": "Rúa do Progreso, 85, 1º, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 243 426",
+        "web": "clinicadentalvazquezquintela.es",
+        "titular": "Julio Vázquez Quintela",
+        "tipo": "independiente",
+        "fuente": "https://www.clinicadentalvazquezquintela.es/contacto-clinica-dental-ourense.aspx",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentalvazquezquintela.es/contacto-clinica-dental-ourense.aspx",
+          "https://masquemedicos.com/dentista_ourense/doctor-julio-vazquez-quintela/"
+        ],
+        "email": "info@clinicadentalvazquezquintela.es"
+      },
+      {
+        "nombre": "Clínica Dental Marfil",
+        "direccion": "Rúa Esgos, 24 Bajo - 32004",
+        "localidad": "Ourense",
+        "telefono": "988 230 384",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/f/ourense/clinica-dental-marfil_020815643_000000001.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/ourense/clinica-dental-marfil_020815643_000000001.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Margal",
+        "direccion": "Rúa Marcelo Macías, 5 bajo, 32002",
+        "localidad": "Ourense",
+        "telefono": "988 24 93 63",
+        "email": "clinicadentalmargal@gmail.com",
+        "web": "clinicadentalmargal.com",
+        "tipo": "independiente",
+        "fuente": "https://www.clinicadentalmargal.com/clinica-dental-margal-contacto/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentalmargal.com/clinica-dental-margal-contacto/",
+          "https://masquemedicos.com/dentista_ourense/clinica-dental-margal/"
+        ],
+        "titular": "Jacobo López Maceiras"
+      },
+      {
+        "nombre": "Clínica Dental Mariano Arranz Rodríguez (Clínica Casiano)",
+        "direccion": "Rúa do Progreso, 161, entreplanta, 32003",
+        "localidad": "Ourense",
+        "telefono": "",
+        "titular": "Mariano Arranz Rodríguez",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/arranz-rodriguez-mariano-624792em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/arranz-rodriguez-mariano-624792em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Marisol Suárez",
+        "direccion": "Calle do Paseo, 7, 3º A, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 371 666",
+        "web": "clinicadentalmarisolsuarez.com",
+        "titular": "Marisol Suárez",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/clinica-dental-marisol-suarez-97513em.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/clinica-dental-marisol-suarez-97513em.html",
+          "https://masquemedicos.com/dentista_ourense/doctora-marisol-suarez-gonzalez/",
+          "https://saludental.es/ourense/ourense-ciudad/",
+          "https://www.cylex.es/ourense/cl%C3%ADnica-dental-marisol-su%C3%A1rez-12675576.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Morales",
+        "direccion": "Rúa Ramón Cabanillas, 4, entresuelo B, 32004",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Dra. Pilar Morales López (col. nº 732)",
+        "fuente": "https://www.paxinasgalegas.es/clinica-dental-morales-98362em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/clinica-dental-morales-98362em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Morales",
+        "direccion": "Rúa Ramón Cabanillas, 4, entreplanta B",
+        "localidad": "Ourense",
+        "telefono": "988 269 614",
+        "telefono2": "604 032 768",
+        "web": "https://www.clinicadentalmorales.net",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Dra. Pilar Morales López",
+        "fuente": "https://www.clinicadentalmorales.net/contacto-clinica-dental-ourense.aspx",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentalmorales.net/contacto-clinica-dental-ourense.aspx",
+          "https://www.paxinasgalegas.es/clinica-dental-morales-98362em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Oro Claro",
+        "direccion": "",
+        "localidad": "Ourense",
+        "telefono": "988 372 058",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "desconocido",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/a/clinicas-dentales/ourense/ourense/",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/clinicas-dentales/ourense/ourense/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso a web. Fuente unica paginasamarillas (pagina de categoria, no ficha propia, que es algo mas flojo que una ficha individual). 988 372 058 no lo he podido cruzar; conviene comprobarlo porque la ficha la situa en Ourense ciudad y en esta misma lista los numeros de Ourense capital salen como 988 21x / 988 25x."
+      },
+      {
+        "nombre": "Clínica Dental Otero Fernández",
+        "direccion": "Calle San Paio, 12",
+        "localidad": "Ourense",
+        "telefono": "988 603 488",
+        "web": "https://www.clinicaoterofernandez.es/",
+        "tipo": "independiente",
+        "titular": "Otero Fernández",
+        "fuente": "https://www.clinicaoterofernandez.es/",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.clinicaoterofernandez.es/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "Sin segunda fuente independiente: su fuente única YA es la web de la propia clínica (clinicaoterofernandez.es), que es la mejor fuente posible, pero hoy no he podido abrirla para leer el pie de página ni /contacto, así que no la he verificado yo. El 988 603 488 es coherente con Ourense capital. De las seis es la que mejor pinta tiene de partida, aunque formalmente queda sin confirmar."
+      },
+      {
+        "nombre": "Clínica Dental Oudent",
+        "direccion": "Avda. da Universidade, 1 Bis, 32005",
+        "localidad": "Ourense",
+        "telefono": "988 241 374",
+        "telefono2": "607 496 161",
+        "email": "oudent.clinicadental@gmail.com",
+        "web": "clinicadentaloudent.com",
+        "tipo": "independiente",
+        "fuente": "https://www.clinicadentaloudent.com/contactar-clinica-dental-ourense.aspx",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentaloudent.com/contactar-clinica-dental-ourense.aspx",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/",
+          "https://www.paxinasgalegas.es/clinica-dental-oudent-99272em.html",
+          "https://www.clinicadentaloudent.com/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Pérez Alonso, Ana Mª",
+        "direccion": "Avda. Buenos Aires 103, bajo, 32004",
+        "localidad": "Ourense",
+        "telefono": "988 233 786",
+        "web": "clinicadentalampa.com",
+        "tipo": "independiente",
+        "titular": "Ana Mª Pérez Alonso",
+        "fuente": "https://www.paxinasgalegas.es/perez-alonso-ana-m%C2%AA-94880em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/perez-alonso-ana-m%C2%AA-94880em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 988 233 786 está en el rango clásico de fijo de la ciudad de Ourense (988 23x), consistente con la localidad; solo formato, NO confirmación. IMPORTANTE: intenté abrir clinicadentalampa.com (la web que ya trae la ficha) y falló, pero por el bloqueo de red de esta sesión, NO porque el dominio esté caído: no la tomes como clínica cerrada. Esta es la mejor candidata de todas para cerrar la verificación en cuanto haya acceso: mirar /contacto y /aviso-legal de clinicadentalampa.com (el aviso legal suele dar también NIF y correo)."
+      },
+      {
+        "nombre": "Clínica Dental PERIOU",
+        "direccion": "Rúa Curros Enríquez, 9, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 252 078",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/ourense-ciudad/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://saludental.es/ourense/ourense-ciudad/",
+          "https://masquemedicos.com/s/dentistas_ourense/ortodoncia/",
+          "https://agafan.net/clinica-dental-periourense-ourense/",
+          "https://www.caser.es/cuadro-medico-salud/centros/centro/fdfbdzb-clinica-dental-periourense-ourense"
+        ],
+        "web": "https://periourense.com/",
+        "email": "info@periourense.com"
+      },
+      {
+        "nombre": "Clínica Dental Quintas & Prada",
+        "direccion": "Rúa do Ribeiriño, 4",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.doctoralia.es/dentista/ourense",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.doctoralia.es/dentista/ourense"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Ramos Dacal",
+        "direccion": "Rúa do Paseo, 1, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 31 84 48",
+        "email": "ourense@ramosdacal.com",
+        "web": "ramosdacal.com",
+        "tipo": "independiente",
+        "fuente": "https://ramosdacal.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://ramosdacal.com/",
+          "https://www.clinicaramosdacal.com/contacto/",
+          "https://odontologiaourense.com/"
+        ],
+        "telefono2": "696 432 000",
+        "titular": "Juan Dacal"
+      },
+      {
+        "nombre": "Clínica Dental Rivera (Ourense)",
+        "direccion": "Rúa do Paseo, 3 - 1º",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.doctoralia.es/dentista/ourense",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.doctoralia.es/dentista/ourense"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Rodríguez Guitián, Ramón Mª",
+        "direccion": "",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Ramón Mª Rodríguez Guitián",
+        "fuente": "https://www.paxinasgalegas.es/rodriguez-guitian-ramon-m%C2%AA-96864em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/rodriguez-guitian-ramon-m%C2%AA-96864em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Romero Arriola",
+        "direccion": "Rúa Valle Inclán, 16-A, 1º E, 32004",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paxinasgalegas.es/romero-arriola-96912em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/romero-arriola-96912em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Sáenz-Díez",
+        "direccion": "Parque de San Lázaro, 10, 3º D, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 25 14 19",
+        "web": "clinicadentalsaenz-diez.com",
+        "titular": "Francisco Sáenz-Díez Belín",
+        "tipo": "independiente",
+        "fuente": "https://clinicasaenz-diez.com/contacto",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicasaenz-diez.com/contacto",
+          "https://masquemedicos.com/dentistas_ourense/",
+          "https://clinicasaenz-diez.com/",
+          "https://www.clinicadentalsaenz-diez.es/index.php/donde-estamos",
+          "https://www.paxinasgalegas.es/saenz-diez-belin-francisco-97007em.html"
+        ],
+        "telefono2": "682 728 883"
+      },
+      {
+        "nombre": "Clínica Dental Saindent",
+        "direccion": "Rúa Nosa Sra. da Saínza, 17 bajo 3, 32005",
+        "localidad": "Ourense",
+        "telefono": "988 253 041",
+        "email": "saindent@hotmail.com",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/saindent-95100em.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/saindent-95100em.html",
+          "https://dentistacercademi.es/saindent/"
+        ],
+        "telefono2": "610 121 200"
+      },
+      {
+        "nombre": "Clínica Dental Santana",
+        "direccion": "Progreso 149, 2º of. 5, 32003",
+        "localidad": "Ourense",
+        "telefono": "698 122 154",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/santana-466797em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/santana-466797em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 698 122 154 es un móvil español bien formado (prefijo 69x); solo formato, NO confirmación. Ficha únicamente con móvil: conviene confirmar de viva voz el nombre de la clínica al descolgar antes de lanzar el discurso."
+      },
+      {
+        "nombre": "Clínica Dental Santo Domingo",
+        "direccion": "Rúa do Progreso, 127 bajo",
+        "localidad": "Ourense",
+        "telefono": "988 22 38 02",
+        "telefono2": "673 97 91 61",
+        "web": "https://clinicasantodomingo.com",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://clinicasantodomingo.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicasantodomingo.com/",
+          "https://www.paxinasgalegas.es/santo-domingo-97175em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Travieso Álvarez, Beatriz",
+        "direccion": "Rúa Parada Justel, 2-A, 32003",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Beatriz Travieso Álvarez",
+        "fuente": "https://www.paxinasgalegas.es/travieso-alvarez-beatriz-96779em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/travieso-alvarez-beatriz-96779em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Urbano Alejandro Santana Mora",
+        "direccion": "Rúa do Progreso, 149, 2º, oficina 5",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Urbano Alejandro Santana Mora",
+        "fuente": "https://masquemedicos.com/dentista_ourense/urbano-alejandro-santana-mora/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_ourense/urbano-alejandro-santana-mora/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Vila Real",
+        "direccion": "Rúa Vila Real, 2 bajo, 32002 (barrio de O Couto)",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paxinasgalegas.es/clinica-dental-vila-real-99283em.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/clinica-dental-vila-real-99283em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Vila Real (Rodríguez Guitián)",
+        "direccion": "Rúa Vila Real, 2 bajo, 32002 (barrio de O Couto)",
+        "localidad": "Ourense",
+        "telefono": "988 246 072",
+        "telefono2": "604 054 328",
+        "email": "info@clinicadentalvilareal.com",
+        "web": "clinicadentalvilareal.com",
+        "tipo": "independiente",
+        "fuente": "https://www.clinicadentalvilareal.com/contactar-clinica-dental-ourense.aspx",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicadentalvilareal.com/contactar-clinica-dental-ourense.aspx",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/",
+          "https://www.paxinasgalegas.es/clinica-dental-vila-real-99283em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Doctor Romero Sánchez",
+        "direccion": "Rúa Valle Inclán, 16, 32004",
+        "localidad": "Ourense",
+        "telefono": "988 232 787",
+        "telefono2": "",
+        "web": "https://www.clinicadentalalbertoromero.com",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Dr. Romero Sánchez",
+        "fuente": "https://masquemedicos.com/dentista_ourense/clinica-doctor-romero-sanchez/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_ourense/clinica-doctor-romero-sanchez/",
+          "https://masquemedicos.com/dentistas_adeslas_ourense/",
+          "https://www.clinicadentalalbertoromero.com/contactar/contacto/"
+        ]
+      },
+      {
+        "nombre": "Clínica Doctor Romero Sánchez",
+        "direccion": "Valle Inclán, 16",
+        "localidad": "Ourense",
+        "telefono": "",
+        "tipo": "independiente",
+        "titular": "Romero Sánchez",
+        "fuente": "https://masquemedicos.com/dentista_ourense/clinica-doctor-romero-sanchez/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_ourense/clinica-doctor-romero-sanchez/"
+        ]
+      },
+      {
+        "nombre": "Clínica Fernández de Gatta",
+        "direccion": "Rúa Juan XXIII, 23, 1º D, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 210 819",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Dr. Fernández de Gatta",
+        "fuente": "https://masquemedicos.com/dentista_ourense/clinica-fernandez-de-gatta/",
+        "confianza": "media",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_ourense/clinica-fernandez-de-gatta/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado. Formato valido (988 = Ourense capital). Para preguntar por el titular, 'el doctor Fernandez de Gatta' es razonable, pero no tengo nombre de pila ni confirmacion de que el titular siga siendo esa persona. Fuente unica masquemedicos, que copia de otros directorios."
+      },
+      {
+        "nombre": "Clínica Martínez Silva",
+        "direccion": "Rúa Barreidos, 12",
+        "localidad": "Ourense",
+        "telefono": "988 370 897",
+        "telefono2": "630 952 354",
+        "web": "https://clinicamartinezsilva.com/",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Juan José Martínez Silva",
+        "fuente": "https://clinicamartinezsilva.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicamartinezsilva.com/",
+          "https://masquemedicos.com/dentistas_asisa_ourense/"
+        ]
+      },
+      {
+        "nombre": "Clínica Matuca",
+        "direccion": "Rúa Curros Enríquez, 30, 32003",
+        "localidad": "Ourense",
+        "telefono": "679 52 81 17",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/ourense-ciudad/",
+        "confianza": "media",
+        "fuentes": [
+          "https://saludental.es/ourense/ourense-ciudad/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "Sin segunda fuente (sin acceso a web). Ojo: 679 es un móvil, no fijo. En clínicas pequeñas suele ser el móvil/WhatsApp del titular, así que puede no responder en horario de consulta o ser una línea personal. Fuente única: saludental.es, un agregador. Es la ficha que menos me fiaría de marcar a ciegas."
+      },
+      {
+        "nombre": "Clínica Mis Primeros Dientes",
+        "direccion": "Rúa do Progreso, 105 - 32003",
+        "localidad": "Ourense",
+        "telefono": "988 063 554",
+        "telefono2": "679 592 274",
+        "web": "https://www.clinicamisprimerosdientes.com",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.clinicamisprimerosdientes.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.clinicamisprimerosdientes.com/"
+        ]
+      },
+      {
+        "nombre": "Clínica Mis Primeros Dientes",
+        "direccion": "",
+        "localidad": "Ourense",
+        "telefono": "",
+        "tipo": "desconocido",
+        "fuente": "https://www.cylex.es/ourense/clinica-mis-primeros-dientes-12976921.html",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.cylex.es/ourense/clinica-mis-primeros-dientes-12976921.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Mis Primeros Dientes (odontopediatría)",
+        "direccion": "Rúa do Progreso, 105",
+        "localidad": "Ourense",
+        "telefono": "679 592 274",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.topdentista.com/info/clinica-mis-primeros-dientes-ourense",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.topdentista.com/info/clinica-mis-primeros-dientes-ourense"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web, cero segundas fuentes. Observacion sobre el dato en si: 679 592 274 es un MOVIL, no un fijo. En una consulta pequeña de odontopediatria es normal, pero un movil en un directorio tambien es la señal tipica de una ficha antigua o de un numero personal. Trato distinto al llamar: si contesta una persona sin identificar la clinica, confirmad primero que es \"Mis Primeros Dientes\" antes de soltar el discurso."
+      },
+      {
+        "nombre": "Clínica Val (Dra. María Teresa Val Fernández)",
+        "direccion": "Rúa do Progreso, 137 bajo, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 21 28 97",
+        "web": "clinicaval.es",
+        "titular": "María Teresa Val Fernández",
+        "tipo": "independiente",
+        "fuente": "https://dentalista.net/dentistas/galicia/province-of-ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://dentalista.net/dentistas/galicia/province-of-ourense/",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/",
+          "https://www.paginasamarillas.es/f/ourense/clinica-dental-val_007892672_000000001.html",
+          "https://www.paxinasgalegas.es/clinica-val-725374em.html"
+        ],
+        "telefono2": "634 818 825",
+        "email": "infodental@clinicateresaval.es"
+      },
+      {
+        "nombre": "Consulta privada Dr. Alfonso Cortés Villar",
+        "direccion": "Rúa Curros Enríquez, 31, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 37 37 47",
+        "titular": "Alfonso Cortés Villar",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://saludental.es/ourense/ourense/",
+          "https://masquemedicos.com/s/dentistas_ourense/ortodoncia/",
+          "https://masquemedicos.com/mejores/dentistas_ourense/page/2/"
+        ]
+      },
+      {
+        "nombre": "Dacoba Dental Odontología",
+        "direccion": "Rúa de Santo Domingo, 38, 2º, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 24 48 05",
+        "email": "info@dacobadental.com",
+        "web": "dacobadental.com",
+        "tipo": "independiente",
+        "fuente": "https://dacobadental.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://dacobadental.com/"
+        ],
+        "titular": "Héctor Manuel González Dacoba"
+      },
+      {
+        "nombre": "Dentix Ourense (ATENCION: Dentix entro en liquidacion en 2020; en Rua do Paseo 1 figura ahora Ramos Dacal - verificar antes de llamar)",
+        "direccion": "Rúa do Paseo, 1 - 32003",
+        "localidad": "Ourense",
+        "telefono": "988 366 542",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "cadena",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/",
+          "https://www.paginasamarillas.es/f/ourense/dentix-ourense_196998272_000000069.html"
+        ]
+      },
+      {
+        "nombre": "Doctor Santiago Sousa Rodríguez",
+        "direccion": "Rúa Santo Domingo, 62",
+        "localidad": "Ourense",
+        "telefono": "988 242 028",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Santiago Sousa Rodríguez",
+        "fuente": "https://masquemedicos.com/dentistas_sanitas_ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://masquemedicos.com/dentistas_sanitas_ourense/",
+          "https://masquemedicos.com/dentista_ourense/doctor-santiago-sousa-rodriguez/"
+        ]
+      },
+      {
+        "nombre": "Dr. Juan Carlos Pérez Varela (ortodoncia)",
+        "direccion": "Rúa Ramón Cabanillas, 14, entreplanta local 5, 32004",
+        "localidad": "Ourense",
+        "telefono": "988 240 367",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Juan Carlos Pérez Varela",
+        "fuente": "https://aaoinfo.org/locator/dr-juan-carlos-perez-varela",
+        "confianza": "media",
+        "fuentes": [
+          "https://aaoinfo.org/locator/dr-juan-carlos-perez-varela"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web, cero segundas fuentes. ESTA ES LA QUE YO MIRARIA PRIMERO. Dos motivos: (1) la fuente es aaoinfo.org, el buscador de la asociacion de ortodoncistas de EEUU, que no es una fuente fuerte para direcciones y telefonos en España y suele ir desactualizada; (2) SOSPECHA MIA SIN VERIFICAR, no es un dato comprobado: me suena que este ortodoncista esta vinculado sobre todo a Santiago de Compostela, no a Ourense. Si eso fuera asi, la localidad \"Ourense\" podria estar mal y el telefono ser de otra consulta. No lo doy por cierto, solo digo que es el registro con mas papeletas de estar equivocado. Comprobadlo antes de marcar."
+      },
+      {
+        "nombre": "Dr. Smile Ourense",
+        "direccion": "Rúa do Progreso, 85 - 32003",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "cadena",
+        "titular": "",
+        "fuente": "https://clinicadental-ourense.sanitas.es/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://clinicadental-ourense.sanitas.es/"
+        ]
+      },
+      {
+        "nombre": "Dra. Laura Laso (ortodoncia)",
+        "direccion": "Rúa Xoán de Nóvoa, 3",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Laura Laso",
+        "fuente": "https://www.doctoralia.es/dentista/ourense",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.doctoralia.es/dentista/ourense"
+        ]
+      },
+      {
+        "nombre": "Dra. Paloma Álvarez Colunga",
+        "direccion": "Rúa da Habana, 71, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 223 400",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Paloma Álvarez Colunga",
+        "fuente": "https://masquemedicos.com/dentistas_ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://masquemedicos.com/dentistas_ourense/",
+          "https://masquemedicos.com/dentistas_asisa_ourense/"
+        ]
+      },
+      {
+        "nombre": "Instituto Dental y Facial",
+        "direccion": "Rúa Samuel Eijan, 9, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 04 22 41",
+        "web": "institutodentalfacial.com",
+        "tipo": "independiente",
+        "fuente": "https://www.institutodentalfacial.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.institutodentalfacial.com/",
+          "https://www.paxinasgalegas.es/instituto-dental-y-facial-637494em.html"
+        ],
+        "email": "info@institutodentalfacial.com"
+      },
+      {
+        "nombre": "Mora & García Clínica Odontológica",
+        "direccion": "Rúa Sáenz Díez, 35, 32003",
+        "localidad": "Ourense",
+        "telefono": "988 58 58 58",
+        "web": "moragarcia.es",
+        "tipo": "independiente",
+        "fuente": "https://www.moragarcia.es/nuestra-clinica-dental",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.moragarcia.es/nuestra-clinica-dental",
+          "https://www.cylex.es/ourense/dentistas-y-cl%C3%ADnicas-dentales/"
+        ],
+        "titular": "Mora y García"
+      },
+      {
+        "nombre": "Moraima Clínica Dental",
+        "direccion": "",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "https://moraimaclinicadental.com/",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://moraimaclinicadental.com/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://moraimaclinicadental.com/"
+        ]
+      },
+      {
+        "nombre": "Moraima Clínica Dental",
+        "direccion": "Rúa Celso Emilio Ferreiro, 19",
+        "localidad": "Ourense",
+        "telefono": "988 60 65 45",
+        "telefono2": "",
+        "web": "https://moraimaclinicadental.com",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://moraimaclinicadental.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://moraimaclinicadental.com/"
+        ]
+      },
+      {
+        "nombre": "Nenos Odontología Infantil",
+        "direccion": "Rúa do Paseo, 2",
+        "localidad": "Ourense",
+        "telefono": "988 255 242",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/f/ourense/nenos-odontologia-infantil_205659550_000000001.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/ourense/nenos-odontologia-infantil_205659550_000000001.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso a web. Fuente unica paginasamarillas. 988 255 242 tiene forma de fijo de Ourense capital, coherente. No he podido averiguar el titular. Nota comercial: es odontopediatria, agenda con padres que llaman en horario de trabajo, asi que el argumento de la llamada que se queda sin coger le encaja especialmente bien."
+      },
+      {
+        "nombre": "Ortodoncia Ourense",
+        "direccion": "Rúa Xoán de Novoa, 3",
+        "localidad": "Ourense",
+        "telefono": "988 00 99 00",
+        "web": "ortodonciaourense.com",
+        "tipo": "independiente",
+        "fuente": "https://ortodonciaourense.com/",
+        "confianza": "media",
+        "fuentes": [
+          "https://ortodonciaourense.com/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "No he podido abrir ortodonciaourense.com (bloqueo de red), que era justo la mejor fuente. El 988 00 99 00 tiene un patrón muy redondo y repetitivo; eso NO prueba que esté mal, pero merece una comprobación extra antes de marcar. La fuente actual es la propia web, así que si se vuelve a intentar la verificación, basta con abrir /contacto o el pie de página."
+      },
+      {
+        "nombre": "Sanitas Dental Milenium Ourense",
+        "direccion": "Rúa do Progreso, 83",
+        "localidad": "Ourense",
+        "telefono": "988 31 67 00",
+        "web": "clinicadental-ourense.sanitas.es",
+        "tipo": "cadena",
+        "fuente": "https://clinicadental-ourense.sanitas.es/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicadental-ourense.sanitas.es/",
+          "https://www.paxinasgalegas.es/millenium-sanitas-551906em.html"
+        ]
+      },
+      {
+        "nombre": "Soara Clínica Dental",
+        "direccion": "Calle Pena Trevinca, 44 - 32005",
+        "localidad": "Ourense",
+        "telefono": "988 246 770",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/ourense/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web, cero segundas fuentes. Punto flojo propio: la fuente que traia es la pagina de listado general de paginasamarillas para dentistas de Ourense, no una ficha individual de la clinica, asi que ni la fuente original esta anclada a esta clinica en concreto. Formato correcto (988 = Ourense). Nombre comercial claro (\"Soara\"), eso al menos facilita la llamada."
+      },
+      {
+        "nombre": "Sonia Casares Dorribo Centro Dental",
+        "direccion": "Rúa Ramón Puga, 31 (otras fuentes: Ramón Puga Noguerol, 42)",
+        "localidad": "Ourense",
+        "telefono": "988 255 380",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Sonia Casares Dorribo",
+        "fuente": "https://11870.com/pro/clinica-dental-sonia-casares-dorribo",
+        "confianza": "alta",
+        "fuentes": [
+          "https://11870.com/pro/clinica-dental-sonia-casares-dorribo",
+          "https://www.paxinasgalegas.es/casares-dorribo-sonia-96614em.html"
+        ]
+      },
+      {
+        "nombre": "Varela Dental",
+        "direccion": "Rúa Río Mao, 14 (otras fuentes: 15 o 18)",
+        "localidad": "Ourense",
+        "telefono": "988 044 439",
+        "telefono2": "",
+        "web": "https://vareladental.com",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://vareladental.com/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://vareladental.com/",
+          "https://www.paxinasgalegas.es/centro-clinica-varela-dental-257850em.html"
+        ]
+      },
+      {
+        "nombre": "Viñas Clínica Dental",
+        "direccion": "Rúa Ricardo Martín Esperanza, 9",
+        "localidad": "Ourense",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://topdentistas.com.es/es-es/z/dentistas/1433-ourense/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://topdentistas.com.es/es-es/z/dentistas/1433-ourense/"
+        ]
+      },
+      {
+        "nombre": "Vitaldent Ourense (Progreso)",
+        "direccion": "Calle do Progreso, 95",
+        "localidad": "Ourense",
+        "telefono": "988 511 600",
+        "web": "clinicas.vitaldent.com",
+        "tipo": "cadena",
+        "fuente": "https://clinicas.vitaldent.com/ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicas.vitaldent.com/ourense/",
+          "https://clinica.vitaldent.com/ourense/calle-progreso-95",
+          "https://clinicas.vitaldent.com/ourense/clinica-dental-vitaldent-ourense-progreso-138/",
+          "https://www.paxinasgalegas.es/vitaldent-98589em.html"
+        ],
+        "email": "orense1@vitaldent.com"
+      },
+      {
+        "nombre": "Vitaldent Ourense (Vicente Risco)",
+        "direccion": "Calle Vicente Risco, 1",
+        "localidad": "Ourense",
+        "telefono": "988 033 000",
+        "web": "clinicas.vitaldent.com",
+        "tipo": "cadena",
+        "fuente": "https://clinicas.vitaldent.com/ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicas.vitaldent.com/ourense/"
+        ]
+      },
+      {
+        "nombre": "Centro Dental A Ponte",
+        "direccion": "Rúa San Rosendo, 16 (directorios dan nº 12 bajo) - 32001",
+        "localidad": "Ourense (barrio A Ponte)",
+        "telefono": "988 511 241",
+        "telefono2": "",
+        "web": "https://www.centrodentalaponte.es",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.centrodentalaponte.es/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.centrodentalaponte.es/",
+          "https://www.centrodentalaponte.es/contacto/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Escudero Mariño",
+        "direccion": "Rúa do Progreso, 22, 32400",
+        "localidad": "Ribadavia",
+        "telefono": "988 470 064",
+        "titular": "Dra. Escudero Mariño",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/escudero-mari%C3%B1o-347541em.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/escudero-mari%C3%B1o-347541em.html",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/ribadavia/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Ribadavia (Dra. Ana María Chaar Milano)",
+        "direccion": "Rúa/Travesía do Ribeiro, 1, 32400",
+        "localidad": "Ribadavia",
+        "telefono": "988 470 456",
+        "titular": "Ana María Chaar Milano",
+        "tipo": "independiente",
+        "fuente": "https://citacentrodesalud.com/galicia/ourense/ribadavia-clinica-dental-ribadavia-1232000452/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://citacentrodesalud.com/galicia/ourense/ribadavia-clinica-dental-ribadavia-1232000452/",
+          "https://www.paginasamarillas.es/a/dentistas/ourense/ribadavia/",
+          "https://www.qdq.com/clinica-dental-ribadavia-396105",
+          "https://www.paxinasgalegas.es/ribadavia-95622em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Ribadent",
+        "direccion": "Rúa do Corral, 8, 32400",
+        "localidad": "Ribadavia",
+        "telefono": "988 472 304",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/ribadent-95627em.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/ribadent-95627em.html",
+          "https://www.eldentista.com/dentista/clinica-dental-ribadent-ribadavia-3631271/"
+        ],
+        "telefono2": "600 687 107"
+      },
+      {
+        "nombre": "María Dolores López Fernández",
+        "direccion": "C/ do Ribeiro 34, 32400",
+        "localidad": "Ribadavia",
+        "telefono": "",
+        "tipo": "independiente",
+        "titular": "María Dolores López Fernández",
+        "fuente": "https://ribadavia.infoisinfo.es/busqueda/clinica_dental",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://ribadavia.infoisinfo.es/busqueda/clinica_dental"
+        ]
+      },
+      {
+        "nombre": "Benident Clínica Dental",
+        "direccion": "Av. Luis Espada, 51, 32600",
+        "localidad": "Verín",
+        "telefono": "988 41 26 01",
+        "tipo": "independiente",
+        "fuente": "https://eugnathos.eu/benident-clinica-dental/",
+        "confianza": "media",
+        "fuentes": [
+          "https://eugnathos.eu/benident-clinica-dental/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "Sin segunda fuente (sin acceso a web). El 988 41 xx xx encaja con Verín. La fuente única (eugnathos.eu) es una web de terceros, no la clínica, así que conviene confirmarla cuando se pueda."
+      },
+      {
+        "nombre": "Centro Odontolóxico Dentario",
+        "direccion": "Rúa Canella Cega, 9 bajo, 32600",
+        "localidad": "Verín",
+        "telefono": "988 410 795",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "J. Delfín Pérez Delgado",
+        "fuente": "https://masquemedicos.com/dentistas_ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://masquemedicos.com/dentistas_ourense/",
+          "https://clinicadentalsonrisa.es/centro-odontoloxico-dr-jdelfin-perez-delgado/",
+          "https://www.paxinasgalegas.es/centro-odontoloxico-e-dentario-161478em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Arias",
+        "direccion": "Av. Luis Espada, 51 bajo, 32600",
+        "localidad": "Verín",
+        "telefono": "988 41 00 65",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/verin/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/verin/",
+          "https://masquemedicos.com/dentistas_ourense/",
+          "https://masquemedicos.com/dentistas_verin/",
+          "https://saludental.es/ourense/verin/",
+          "https://www.paxinasgalegas.es/clinica-arias-161684em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Dentalnova",
+        "direccion": "Rúa Laureano Peláez, 2, 32600",
+        "localidad": "Verín",
+        "telefono": "988 411 651",
+        "tipo": "independiente",
+        "fuente": "https://www.topdentista.com/info/dentalnova-verin",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.topdentista.com/info/dentalnova-verin",
+          "https://masquemedicos.com/dentistas_ourense/",
+          "https://citacentrodesalud.com/galicia/ourense/verin-clinica-dental-dentalnova-1232000388/",
+          "https://www.paxinasgalegas.es/dentalnova-164965em.html",
+          "https://www.dentalnova.com/"
+        ],
+        "titular": "Antonio Justo García",
+        "web": "https://dentalnova.com"
+      },
+      {
+        "nombre": "Clínica Dental Dra. Angelina Castro Redondo",
+        "direccion": "Avda. Luis Espada, 21, 32600",
+        "localidad": "Verín",
+        "telefono": "988 413 008",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Angelina Castro Redondo",
+        "fuente": "https://masquemedicos.com/dentistas_ourense/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://masquemedicos.com/dentistas_ourense/",
+          "https://masquemedicos.com/dentistas_verin/",
+          "https://www.paxinasgalegas.es/castro-redondo-angelina-161146em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Dra. Lorena Laso",
+        "direccion": "Estrada de Cabreiroá, 15, 1ºA, 32600",
+        "localidad": "Verín",
+        "telefono": "988 41 31 94",
+        "titular": "Lorena Laso",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/verin/",
+        "confianza": "media",
+        "fuentes": [
+          "https://saludental.es/ourense/verin/"
+        ],
+        "web": "https://clinicalorenalaso.es",
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "Sin segunda fuente (no he podido abrir clinicalorenalaso.es por el bloqueo de red). El 988 41 xx xx encaja con la zona de Verín. Sobre el titular: el propio nombre comercial apunta a la Dra. Lorena Laso, así que se puede preguntar por ella por su nombre, pero que quede claro que eso lo deduzco del nombre de la clínica, no de una fuente verificada."
+      },
+      {
+        "nombre": "Clínica Dental GFS",
+        "direccion": "Laureano Peláez s/n, 32600",
+        "localidad": "Verín",
+        "telefono": "988 413 451",
+        "telefono2": "620 753 005",
+        "email": "gfsclinicadental@hotmail.es",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/gfs-423484em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/gfs-423484em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado. No he podido abrir ninguna segunda fuente: sin búsqueda web (cuota agotada), Firecrawl sin crédito y el proxy de salida devuelve 403 a todos los hosts externos (incluida la propia paxinasgalegas.es). Sigue siendo un dato de una sola fuente: paxinasgalegas, directorio agregado que suele arrastrar datos viejos. Tampoco he encontrado titular ni correo."
+      },
+      {
+        "nombre": "Clínica Dental Jorge Mato Verín",
+        "direccion": "Av. Luis Espada, 17 bajo, 32600",
+        "localidad": "Verín",
+        "telefono": "988 54 07 74",
+        "web": "clinicadentaljorgemato.com",
+        "titular": "Jorge Mato",
+        "tipo": "independiente",
+        "fuente": "https://clinicadentaljorgemato.com/contacto/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://clinicadentaljorgemato.com/contacto/",
+          "https://clinicadentaljorgemato.com/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Mariño",
+        "direccion": "Avda. Luis Espada, 21 - 1º B - 32600",
+        "localidad": "Verín",
+        "telefono": "604 481 037",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://saludental.es/ourense/verin/",
+        "confianza": "media",
+        "fuentes": [
+          "https://saludental.es/ourense/verin/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, mismo bloqueo de red (403 del proxy en todos los hosts). Aviso subjetivo, NO es evidencia: el prefijo 655 no se parece al otro número de Verín de la lista (413 451). Puede ser perfectamente correcto, pero si hay que comprobar alguno a mano antes de marcar, yo empezaría por este. Sin titular ni correo."
+      },
+      {
+        "nombre": "Clínica Dental Mariño",
+        "direccion": "Avda. Luis Espada 21, 1º B, 32600",
+        "localidad": "Verín",
+        "telefono": "988 655 162",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/mari%C3%B1o-697556em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/mari%C3%B1o-697556em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, mismo bloqueo de red (403 del proxy en todos los hosts). Aviso subjetivo, NO es evidencia: el prefijo 655 no se parece al otro número de Verín de la lista (413 451). Puede ser perfectamente correcto, pero si hay que comprobar alguno a mano antes de marcar, yo empezaría por este. Sin titular ni correo."
+      },
+      {
+        "nombre": "Clínica Dental Val de Monterrei",
+        "direccion": "",
+        "localidad": "Verín",
+        "telefono": "",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://www.paginasamarillas.es/a/centros-de-asistencia/ourense/verin/",
+        "confianza": "sin-telefono",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/centros-de-asistencia/ourense/verin/"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Val de Monterrei",
+        "direccion": "Avenida Cabreiroá, s/n - 32600",
+        "localidad": "Verín",
+        "telefono": "988 590 466",
+        "telefono2": "640 162 204",
+        "web": "https://valmonterrei.com",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "",
+        "fuente": "https://saludental.es/ourense/verin/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://saludental.es/ourense/verin/",
+          "https://valmonterrei.com/contacto/",
+          "https://www.paxinasgalegas.es/policlinica-dental-val-de-monterrei-167816em.html"
+        ]
+      },
+      {
+        "nombre": "Dra. María José Yáñez Fernández",
+        "direccion": "Calle Elle, 34 (Policlínico) - 32600",
+        "localidad": "Verín",
+        "telefono": "988 413 013",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "María José Yáñez Fernández",
+        "fuente": "https://saludental.es/ourense/verin/",
+        "confianza": "media",
+        "fuentes": [
+          "https://saludental.es/ourense/verin/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso web, cero segundas fuentes. Formato correcto y coherente (988 413 013; Verin es provincia de Ourense, prefijo 988 correcto). Titular con nombre y apellidos, se puede preguntar por la Dra. Yañez Fernandez directamente."
+      },
+      {
+        "nombre": "María Sira Fernández Galiño",
+        "direccion": "Avenida de Portugal, 4 - 32600",
+        "localidad": "Verín",
+        "telefono": "988 413 231",
+        "telefono2": "692 154 708",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "María Sira Fernández Galiño",
+        "fuente": "https://masquemedicos.com/dentista_verin/maria-sira-fernandez-galino/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://masquemedicos.com/dentista_verin/maria-sira-fernandez-galino/",
+          "https://www.paxinasgalegas.es/fernandez-gali%C3%B1o-sira-163896em.html"
+        ]
+      },
+      {
+        "nombre": "Verín Dent S.L.",
+        "direccion": "Rúa Juan Guerra Valdés, 12, 32600",
+        "localidad": "Verín",
+        "telefono": "988 41 05 98",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/f/verin/verin-dent-s-l-_195690128_000000001.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/verin/verin-dent-s-l-_195690128_000000001.html",
+          "https://www.paxinasgalegas.es/verin-dent-161685em.html"
+        ]
+      },
+      {
+        "nombre": "Centro de Especialidades DentalMedica",
+        "direccion": "Marcelo Macías 2, bajo, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 680 963",
+        "telefono2": "698 192 193",
+        "tipo": "independiente",
+        "titular": "José Enrique González Domínguez",
+        "fuente": "https://www.paxinasgalegas.es/dentalmedica-424202em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/dentalmedica-424202em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, mismo bloqueo de red. Fuente única: paxinasgalegas. Al ser 'centro de especialidades' es el tipo de ficha que más cambia de teléfono o de titularidad, así que no lo daría por bueno sin comprobar. Sin titular ni correo."
+      },
+      {
+        "nombre": "CEOX Clínica Dental",
+        "direccion": "Avenida de Ourense, 32, bajo 11, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 550 656",
+        "email": "info@ceoxclinicadental.com",
+        "tipo": "independiente",
+        "fuente": "https://www.facebook.com/clinicadentalceoxxinzodelimia/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.facebook.com/clinicadentalceoxxinzodelimia/",
+          "https://www.caser.es/cuadro-medico-salud/centros/centro/fccbjzb-clinica-dental-centro-de-especialidades-xinzo-de-limia",
+          "https://guiamedica.fiatc.es/centro-dental/ceox-clinica-dental-033050000000000000/",
+          "https://www.paxinasgalegas.es/ceox-279714em.html"
+        ],
+        "web": "https://www.facebook.com/clinicadentalceoxxinzodelimia/"
+      },
+      {
+        "nombre": "Clínica Dent 2000",
+        "direccion": "Avenida de Madrid 46, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 462 133",
+        "tipo": "independiente",
+        "fuente": "https://www.cylex.es/xinzo-de-limia/dentistas-y-cl%C3%ADnicas-dentales/",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.cylex.es/xinzo-de-limia/dentistas-y-cl%C3%ADnicas-dentales/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, mismo bloqueo de red. Ojo con esta: la fuente es una página de listado general de cylex (dentistas de Xinzo de Limia), no una ficha concreta de la clínica, así que la asociación nombre-teléfono es la más floja de las siete. Sin titular ni correo."
+      },
+      {
+        "nombre": "Clínica Dental A Limia",
+        "direccion": "Avenida de Ourense, 11 bajo, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 462 782",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/xinzo-de-limia/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://saludental.es/ourense/xinzo-de-limia/",
+          "https://www.qdq.com/clinica-dental-a-limia-304960",
+          "https://www.paxinasgalegas.es/a-limia-174375em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental A.R.R. (ArranzDental)",
+        "direccion": "Avenida de Madrid, 46, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 461 718",
+        "tipo": "independiente",
+        "fuente": "https://www.paxinasgalegas.es/arr-616532em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/arr-616532em.html"
+        ],
+        "web": "https://arranz.dental",
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "No he podido abrir arranz.dental (bloqueo de red). El 988 461 718 encaja con la zona de Xinzo de Limia. Fuente única: Páxinas Galegas, un directorio. Nota: la ficha mezcla dos nombres (A.R.R. y ArranzDental), así que al llamar conviene confirmar primero con qué clínica se está hablando."
+      },
+      {
+        "nombre": "Clínica Dental Aurelio Rodríguez Cid",
+        "direccion": "Rúa Santa Mariña, 95, 1ºA, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 460 704",
+        "titular": "Aurelio Rodríguez Cid",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/f/xinzo-de-limia/clinica-dental-aurelio-cid_007890718_000000001.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/xinzo-de-limia/clinica-dental-aurelio-cid_007890718_000000001.html",
+          "https://saludental.es/ourense/xinzo-de-limia/",
+          "https://www.paxinasgalegas.es/rodriguez-cid-161697em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Dosdentis",
+        "direccion": "Rúa Rosalía de Castro, 11, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 68 09 32",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/xinzo-de-limia/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://saludental.es/ourense/xinzo-de-limia/",
+          "https://www.paxinasgalegas.es/dosdentis-636109em.html"
+        ]
+      },
+      {
+        "nombre": "Clínica Dental Francisco Romero",
+        "direccion": "Ladeira 47, 1º, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 460 918",
+        "tipo": "independiente",
+        "titular": "Francisco Romero",
+        "fuente": "https://www.paxinasgalegas.es/francisco-romero-164061em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/francisco-romero-164061em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, mismo bloqueo de red. Fuente única: paxinasgalegas. Titular probable por el nombre de la ficha: Francisco Romero, pero no confirmado por segunda fuente. Sin correo."
+      },
+      {
+        "nombre": "Clínica Dental González Fernández, Beatriz",
+        "direccion": "Ladeira 5, 1º dcha., 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 461 188",
+        "tipo": "independiente",
+        "titular": "Beatriz González Fernández",
+        "fuente": "https://www.paxinasgalegas.es/gonzalez-fernandez-beatriz-259929em.html",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paxinasgalegas.es/gonzalez-fernandez-beatriz-259929em.html"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, mismo bloqueo de red. Fuente única: paxinasgalegas. El nombre de la ficha sugiere que la titular es Beatriz González Fernández, pero eso sale del propio título del directorio, no de una segunda fuente: úsalo con cautela al preguntar por ella. Sin correo."
+      },
+      {
+        "nombre": "Clínica Dental José Manuel Di Girolamo Carnero",
+        "direccion": "Rúa do Peto, 1, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 462 881",
+        "titular": "José Manuel Di Girolamo Carnero",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/xinzo-de-limia/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/xinzo-de-limia/",
+          "https://saludental.es/ourense/xinzo-de-limia/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, mismo bloqueo de red. Fuente única: infoisinfo, que es agregador y de los menos fiables en cuanto a actualización. Titular probable por el nombre de la ficha: José Manuel Di Girolamo Carnero, no confirmado. Sin correo."
+      },
+      {
+        "nombre": "Clínica Dental José Manuel Di Girolamo Carnero",
+        "direccion": "R/ Peto 1, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 462 888",
+        "tipo": "independiente",
+        "titular": "José Manuel Di Girolamo Carnero",
+        "fuente": "https://xinzo-de-limia.infoisinfo.es/ficha/clinica_dental_jose_manuel_di_girolamo_carnero/3415514",
+        "confianza": "media",
+        "fuentes": [
+          "https://xinzo-de-limia.infoisinfo.es/ficha/clinica_dental_jose_manuel_di_girolamo_carnero/3415514"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado, mismo bloqueo de red. Fuente única: infoisinfo, que es agregador y de los menos fiables en cuanto a actualización. Titular probable por el nombre de la ficha: José Manuel Di Girolamo Carnero, no confirmado. Sin correo."
+      },
+      {
+        "nombre": "Clínica Dental Santo Domingo",
+        "direccion": "Rúa Dous de Maio, 18, 1-C, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 462 077",
+        "tipo": "independiente",
+        "fuente": "https://www.paginasamarillas.es/f/xinzo-de-limia/clinica-dental-santo-domingo_122292717_000000002.html",
+        "confianza": "alta",
+        "fuentes": [
+          "https://www.paginasamarillas.es/f/xinzo-de-limia/clinica-dental-santo-domingo_122292717_000000002.html",
+          "https://www.cylex.es/xinzo-de-limia/dentistas-y-cl%C3%ADnicas-dentales/"
+        ]
+      },
+      {
+        "nombre": "García Mouriño C.B.",
+        "direccion": "Avda. de Ourense, 11",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 462 278",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "independiente",
+        "titular": "Posible apellido del titular: García Mouriño (deducido del nombre comercial de la propia ficha, NO de una segunda fuente)",
+        "fuente": "https://www.paginasamarillas.es/a/dentistas/ourense/xinzo-de-limia/",
+        "confianza": "media",
+        "fuentes": [
+          "https://www.paginasamarillas.es/a/dentistas/ourense/xinzo-de-limia/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 988 462 278 es un fijo coherente con Xinzo de Limia (el rango 988 46x corresponde a esa zona), lo cual encaja con la localidad indicada, pero es chequeo de formato y NO una confirmación. Al ser una C.B., preguntar por 'el doctor García Mouriño' es razonable, aunque el nombre no está verificado."
+      },
+      {
+        "nombre": "Salgado y Delgado Clínica Dental",
+        "direccion": "Rúa Castelao, 4, locales 8-9, 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 68 01 44",
+        "tipo": "independiente",
+        "fuente": "https://saludental.es/ourense/xinzo-de-limia/",
+        "confianza": "alta",
+        "fuentes": [
+          "https://saludental.es/ourense/xinzo-de-limia/",
+          "https://www.facebook.com/clinicadentalsalgadoydelgado/",
+          "https://www.cylex.es/xinzo-de-limia/dentistas-y-cl%C3%ADnicas-dentales/"
+        ],
+        "web": "https://www.facebook.com/clinicadentalsalgadoydelgado/"
+      },
+      {
+        "nombre": "Zdental Lab Dent (posible laboratorio dental, verificar)",
+        "direccion": "Rúa Otero Pedrayo, 11 - 32630",
+        "localidad": "Xinzo de Limia",
+        "telefono": "988 045 899",
+        "telefono2": "",
+        "web": "",
+        "email": "",
+        "tipo": "desconocido",
+        "titular": "",
+        "fuente": "https://dentistainfo7.com/c/xinzo-de-limia-32/",
+        "confianza": "media",
+        "fuentes": [
+          "https://dentistainfo7.com/c/xinzo-de-limia-32/"
+        ],
+        "estadoVerificacion": "sin-confirmar",
+        "nota": "NO verificado: sin acceso a web. Aparte del telefono, la duda de fondo sigue abierta: 'Lab Dent' apunta a LABORATORIO dental, no a clinica con pacientes. Un laboratorio no da citas, asi que no encaja con el argumento de llamadas perdidas y no sirve para la manana. Yo la dejaria fuera de la tanda de llamadas hasta saber que es, para no quemar tiempo."
+      }
+    ],
+    "recuento": {
+      "distintas": 181,
+      "conTelefono": 147,
+      "altaConfianza": 92,
+      "independientes": 135,
+      "cadenas": 8,
+      "cerradas": 0
+    },
+    "legal": {
+      "sePuedeLlamar": "si-con-matices",
+      "resumen": "Sí puede llamar, pero el artículo 66.1.b NO le protege solo al particular: \"usuario final\" en la Ley 11/2022 incluye a las personas jurídicas, así que llamar al número publicado de una clínica entra dentro del derecho a no recibir llamadas comerciales no deseadas. Eso no prohíbe la llamada: puede ampararse en interés legítimo (art. 6.1.f RGPD), pero entonces está obligado a consultar antes la Lista Robinson y la Lista Stop Publicidad, y a tener escrita la ponderación de intereses. Ojo con el argumento \"el número estaba en su web\": la AEPD ya lo tumbó y multó con 5.000 € a Adverbis Spain por exactamente eso en un contexto B2B. Y hay un asunto urgente que no estaba en la pregunta: el 17 de octubre de 2026, dentro de cinco días, entra en vigor el prefijo 400 obligatorio para llamadas comerciales, y conviene confirmar que no le afecta antes de montar una campaña de marcación.",
+      "antesDeLlamar": [
+        "URGENTE, antes que nada: el 17 de octubre de 2026 (en 5 días) el prefijo 400 pasa a ser obligatorio para las llamadas comerciales de las empresas incluidas en la Ley 10/2025, y las operadoras podrán bloquear las llamadas comerciales que salgan de móviles o fijos. La lectura mayoritaria es que un autónomo que vende a clínicas NO está obligado (solo servicios básicos de interés general y grandes empresas: 250+ trabajadores, >50M facturación o >43M balance), pero una fuente discrepa y el Ministerio lo presentó como aplicable a 'todas las llamadas comerciales'. Llamar a su operadora esta semana y preguntar expresamente si su número puede quedar bloqueado a partir del día 17.",
+        "Consultar la Lista Robinson y la Lista Stop Publicidad y depurar la lista de clínicas ANTES de marcar. Para empresas la consulta es de pago (la gestiona ADIGITAL). Esto no es opcional si se apoya en interés legítimo en vez de consentimiento: es la pieza que la AEPD mira primero.",
+        "Guardar la prueba del origen de cada número: URL de la web de la clínica donde está publicado y fecha de captura (captura de pantalla). El dato tiene que estar obtenido lícitamente y hay que poder demostrarlo.",
+        "Tener escrita una ponderación de interés legítimo de una página: qué ofrece, por qué el dentista razonablemente espera ese contacto profesional, por qué el impacto en su privacidad es mínimo. La carga de la prueba es suya, no de quien reclama.",
+        "Llamar solo al número de empresa publicado y hablar solo de servicios para la clínica. No usar móviles personales del dentista ni ofrecerle nada a título particular: eso rompe la cobertura del artículo 19.2 LOPDGDD.",
+        "Abrir el guion identificándose: nombre, empresa, que la llamada es comercial, y que puede pedir no ser llamado más. Es lo que la AEPD espera y además baja mucho el riesgo de reclamación.",
+        "Tener un registro de actividades de tratamiento y un texto de información de privacidad listo para enviar si alguien lo pide.",
+        "Preparar la hoja o columna de 'no llamar más' ANTES de la primera llamada, no después. La va a necesitar el primer día."
+      ],
+      "siDiceQueNo": [
+        "Parar en esa misma llamada. No rebatir, no intentar una segunda vuelta, no 'le llamo el mes que viene'. La oposición al marketing directo del artículo 21.2 y 21.3 del RGPD es absoluta: no hay ponderación posible, hay que cesar.",
+        "Plazo: inmediato, sin dilación. No hay margen de cortesía ni un plazo de un mes como en otros derechos. La siguiente llamada a ese número ya es la infracción.",
+        "Anotarlo el mismo día en una lista interna de exclusión permanente, con número, fecha, hora y qué dijo. No fiarse de la memoria.",
+        "Conservar ese número en la lista de exclusión para siempre. Suena contradictorio, pero borrarlo es el error clásico: si lo borra, el número vuelve a entrar en la siguiente campaña. Mantenerlo es precisamente la finalidad legítima de conservarlo.",
+        "Si pide algo más (acceso, supresión de sus datos, saber de dónde salió su número), responder en un mes como máximo y poder decir de qué web se sacó el número.",
+        "No pasarle ese número a nadie ni usarlo para otra campaña distinta.",
+        "Nada de email ni WhatsApp 'de despedida' para insistir. Si ha dicho no por teléfono, un correo detrás agrava el asunto en vez de arreglarlo."
+      ],
+      "correoYWhatsapp": "Sí, cambia, y cambia a peor: el canal electrónico es MÁS restrictivo que la llamada. El artículo 21.1 de la LSSI-CE prohíbe enviar comunicaciones publicitarias por correo electrónico \"u otro medio de comunicación electrónica equivalente\" que no hayan sido previamente solicitadas o expresamente autorizadas por el destinatario. Aquí no sirve el interés legítimo que sí puede sostener la llamada de voz: hace falta consentimiento o solicitud previa, y poner un enlace de baja en el correo NO lo arregla. La única excepción es la del 21.2, y exige relación contractual previa, datos obtenidos en ese contexto y productos similares a los ya contratados: una clínica a la que nunca ha vendido nada no encaja, así que el correo o WhatsApp en frío queda descartado. WhatsApp: las fuentes hablan de correo y \"medio equivalente\" sin nombrarlo, así que es una inferencia mía, pero la lógica de mensajería instantánea encaja de lleno y conviene tratarlo igual de restrictivo. LA SALIDA PRÁCTICA, y es muy fácil: que lo pida él en la llamada. Si el dentista dice \"mándame la información por email\" o \"pásame un WhatsApp\", eso es solicitud previa del destinatario y el envío pasa a ser lícito. Así que el guion debe pedirlo expresamente (\"¿le mando un resumen por correo?\") y hay que apuntar en el CRM la fecha, la hora, quién lo pidió y con qué palabras. Sin esa anotación no tiene con qué defenderse. Y en cada envío, un medio sencillo y gratuito para oponerse. Avisos de sanción para calibrar: 12.000 € por envíos no solicitados en un caso citado por despachos, y la AEPD ya sanciona envíos comerciales en la franja de los 5.000 €.",
+      "detalle": "AVISO DE ACCESO: el proxy me bloqueó boe.es, aepd.es, eur-lex, y además iberley.es, noticias.juridicas.com, supercontable.com y lamoncloa.gob.es (unos con 403 en CONNECT, otros con fallo de DNS). No he podido leer ni un solo texto primario con mis propios ojos. Todo lo que sigue viene de WebSearch, que lee esas páginas del lado del servidor, más fuentes secundarias de despachos. Lo marco donde importa.\n\n1) ARTÍCULO 66.1.b LEY 11/2022: SÍ ALCANZA A LA CLÍNICA. ESTE ES EL PUNTO.\nRedacción: \"Respecto a la protección de datos personales y la privacidad en relación con las comunicaciones no solicitadas, los usuarios finales de los servicios de comunicaciones interpersonales disponibles al público basados en la numeración tendrán los siguientes derechos: [...] b) a no recibir llamadas no deseadas con fines de comunicación comercial, salvo que exista consentimiento previo del propio usuario\". En vigor desde el 29 de junio de 2023.\nLa clave está en la cadena de definiciones del Anexo II (disposición adicional primera: los términos del Anexo II tienen el significado que allí se les asigna):\n- \"Usuario final\": \"el usuario que no suministra redes públicas de comunicaciones electrónicas o servicios de comunicaciones electrónicas disponibles para el público, ni tampoco los comercializa\". Es decir, se define por exclusión (no ser operador), NO por ser persona física.\n- \"Usuario\": persona física o jurídica que utiliza o solicita un servicio de comunicaciones electrónicas disponible para el público.\n- Contraste decisivo: \"Abonado\" es expresamente \"cualquier persona física o jurídica\"; \"Operador\" también; y \"Consumidor\" está expresamente limitado a \"cualquier persona física que utilice o solicite un servicio [...] para fines no profesionales, económicos o comerciales\". Donde la LGT quiere restringir a persona física, lo dice. En \"usuario final\" no lo dice.\nCONCLUSIÓN: el derecho del 66.1.b cubre a la clínica en su número de empresa publicado, también si es una SL. No es un derecho reservado al particular. Salvedad honesta: la redacción literal de \"usuario final\" y \"usuario\" me llega por reproducción secundaria (SuperContable) y la propia búsqueda avisó de que podría no ser la versión vigente. Hay que verificarlo en BOE-A-2022-10757, Anexo II.\nMATIZ QUE IMPORTA MUCHO: que el artículo alcance a la clínica no prohíbe la llamada. El derecho es a no recibir llamadas NO DESEADAS, y la propia AEPD admite consentimiento previo O cualquier otra base del artículo 6.1 del RGPD, incluido el interés legítimo del 6.1.f. La primera llamada en frío no es ilegal per se.\nDOS VÍAS DE SANCIÓN, y conviene no confundirlas:\n- AEPD: la Circular 1/2023 (BOE-A-2023-15071) dice que su objeto es fijar los criterios de actuación de la AEPD \"en la aplicación de la normativa sobre protección de datos de carácter personal\". Su competencia llega hasta donde hay dato personal. Una clínica que sea pura persona jurídica, sin persona física identificable detrás, queda fuera del RGPD. Pero en cuanto hay \"Dr. X\" o es un autónomo, ya hay dato personal.\n- Vía telecomunicaciones (LGT / SETELECO): el 66.1.b es un derecho de telecomunicaciones y esta vía sí podría alcanzar a personas jurídicas. NO HE PODIDO CONFIRMAR el reparto de competencias sancionadoras; ninguna fuente me lo aclaró. Es el hueco más grande de este informe.\nCRITERIO PUBLICADO QUE SÍ EXISTE: la AEPD dice que la Circular se aplica a todos los responsables que hagan llamadas comerciales, con independencia del sector. Y solo a llamadas no automáticas, que es el caso.\nEL CASO QUE RETRATA EL ESCENARIO EXACTO: AEPD contra ADVERBIS SPAIN, 5.000 €. La empresa alegó que la llamada era profesional, B2B, y que el número estaba en páginas amarillas y redes sociales. La AEPD lo rechazó: la aparición de un número en directorios o redes sociales no autoriza a contactar con fines publicitarios si el titular se ha opuesto inscribiéndose en la Lista Robinson. Reclamación de 25/07/2023, difundida en 2025. Para comparar: 30.000 € a Casmar Telecom y 10.000 € a Tecnocube Marketing, ambos por Robinson. No he leído la resolución original, solo prensa y blogs jurídicos: habría que sacar el número de expediente en la web de la AEPD.\n\n2) LISTA ROBINSON: SÍ HAY QUE CONSULTARLA.\nEs un sistema de exclusión publicitaria del artículo 23 LOPDGDD. Si se apoya en interés legítimo y no en consentimiento, la consulta previa de los sistemas de exclusión es parte de la presunción que maneja la AEPD: sin ella, se queda sin la cobertura. Es de pago para empresas (la gestiona ADIGITAL).\n¿Cubre números de empresa? El servicio se presenta a particulares y la inscripción es personal, así que formalmente no es un registro de empresas. Pero esa distinción no le salva, y aquí está el riesgo real: un dentista autónomo puede tener inscrito su número, y ese número puede ser justo el que publica como teléfono de la clínica. Eso es literalmente el caso Adverbis. No encontré confirmación directa de que la lista cubra teléfonos profesionales, pero el criterio de la AEPD deja claro que \"es un número de empresa\" y \"estaba publicado\" no son defensa.\nDos avisos operativos: desde el 31 de enero de 2025 hay que mirar también la Lista Stop Publicidad, no solo Robinson; y la inscripción surte efecto a partir del segundo mes desde que el titular se registra, así que una lista depurada hace meses ya está caducada.\n\n3) RGPD Y ARTÍCULO 19 LOPDGDD: AMPARA TENER LA LISTA, PERO NO AMPARA POR SÍ SOLO LA LLAMADA.\nEl artículo 19 (\"Tratamiento de datos de contacto, de empresarios individuales y de profesionales liberales\") establece una presunción iuris tantum de interés legítimo del 6.1.f. El 19.1 cubre datos de contacto y puesto de personas físicas que prestan servicios en una persona jurídica, con dos condiciones acumulativas: que se limite a los datos necesarios para su localización profesional, y que la finalidad sea únicamente mantener relaciones con la persona jurídica. El 19.2 extiende la misma presunción a empresarios individuales y profesionales liberales, pero solo cuando los datos se refieran a ellos \"en esa condición\" y \"no se traten para entablar una relación con los mismos como personas físicas\". El informe del Gabinete Jurídico 0040/2023 confirma la presunción iuris tantum.\nAQUÍ ESTÁ EL LÍMITE QUE CASI NADIE CUENTA, y es importante que lo sepa: según el análisis de Fieldfisher sobre resoluciones recientes, el artículo 19 legitima el TRATAMIENTO de los datos de contacto, pero NO autoriza el envío de comunicaciones comerciales ni ampara tratamientos con fines de marketing. La AEPD reiteró en un criterio de 2025 que la mera condición de profesional o empresario no excluye la aplicación plena del RGPD y la LOPDGDD. El caso CAMERDATA (260.000 €, datos de más de 1,6 millones de autónomos) rechazó expresamente el interés legítimo y la presunción del 19.2 como base suficiente. Prodat añade que una lectura extensiva del 19.2 que abarque todos los datos personales del empresario es contraria al RGPD.\nTraducido: el artículo 19 le deja tener la lista de clínicas. Para la llamada necesita además cumplir el 66.1.b, haber hecho la ponderación y haber consultado las listas de exclusión.\nQUÉ TIENE QUE PODER ENSEÑAR: origen lícito de cada número (URL de la web de la clínica y fecha de captura); la ponderación de intereses por escrito; prueba de la consulta a Robinson y Stop Publicidad con su fecha; el registro de actividades de tratamiento; la información de privacidad que entrega; y la lista interna de exclusión. La carga de la prueba es siempre suya.\n\n4) SI DICE QUE NO: PARAR, Y PARAR YA.\nArtículo 21.2 y 21.3 del RGPD: la oposición al marketing directo es absoluta, sin ponderación. Hay que cesar sin dilación, no hay plazo de gracia. La AEPD trata como infracción llamar después de que el usuario se haya opuesto o haya pedido expresamente no recibir más comunicaciones. Lo operativo está en el campo siDiceQueNo; lo esencial es que la lista de exclusión exista antes de la primera llamada y que el número se quede en ella para siempre.\n\n5) CORREO Y WHATSAPP: en el campo correoYWhatsapp. Resumen: artículo 21 LSSI-CE, consentimiento o solicitud previa, el interés legítimo no vale en este canal, y la vía limpia es que lo pida el propio dentista durante la llamada y quede anotado.\n\nEXTRA NO PREGUNTADO PERO URGENTE: PREFIJO 400, 17 DE OCTUBRE DE 2026.\nResolución de 14 de abril de 2026 de la Secretaría de Estado de Telecomunicaciones e Infraestructuras Digitales (BOE-A-2026-8409, publicada el 16/04/2026), que desarrolla el artículo 16.3 de la Ley 10/2025 de servicios de atención a la clientela. Atribuye el rango NXY=400 para llamadas comerciales: solo origen de llamadas salientes, no admite entrantes, no sirve para atención al cliente. Periodo de adaptación de seis meses que vence el 17 de octubre de 2026, y a partir de ahí las operadoras pueden bloquear las llamadas comerciales que no salgan del rango 400.\n¿Le afecta? Lo más probable es que NO: la mayoría de fuentes coincide en que la obligación está vinculada al ámbito de la Ley 10/2025, es decir servicios básicos de interés general (agua, gas, electricidad, transporte, postal, comunicaciones electrónicas, financieros) y grandes empresas de otros sectores (250+ trabajadores, >50M facturación o >43M balance), y varias mencionan expresamente que una pyme o autónomo de otro sector, citando clínicas, asesorías o academias, no queda obligada solo por hacer llamadas de venta. PERO: una fuente (Novachatia) sostiene lo contrario, el Ministerio presentó la medida como \"aplicable a todas las llamadas comerciales\", y hay titulares de prensa que hablan de bloqueo de llamadas comerciales desde móviles sin distinguir tamaño. Casi todas son fuentes secundarias de operadores y proveedores de telefonía.\nACCIÓN: antes del día 17, llamar a su operadora y preguntar en claro si su numeración puede quedar bloqueada para llamadas comerciales. Si monta una campaña de marcación el día 13 sin comprobarlo, el riesgo no es una multa, es que las llamadas simplemente no entren.\n\nFUENTES\n- https://www.boe.es/buscar/doc.php?id=BOE-A-2022-10757 (Ley 11/2022, art. 66 y Anexo II) - bloqueado, leído vía WebSearch\n- https://www.boe.es/buscar/doc.php?id=BOE-A-2023-15071 (Circular 1/2023) - bloqueado, leído vía WebSearch\n- https://www.aepd.es/documento/circular-1-2023-llamadas-comerciales-informacion-publica.pdf - bloqueado\n- https://www.aepd.es/documento/2023-0040.pdf (Gabinete Jurídico 0040/2023) - bloqueado\n- https://www.boe.es/buscar/pdf/2018/BOE-A-2018-16673-consolidado.pdf (LOPDGDD, art. 19) - bloqueado\n- https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-8409 (prefijo 400) - bloqueado\n- https://www.fieldfisher.com/es-es/locations/spain/insights/bases-datos-empresariales (límite del art. 19, criterio AEPD 2025, CAMERDATA)\n- https://www.ecija.com/actualidad-insights/criterio-de-la-aepd-en-la-circular-1-2023-sobre-el-envio-de-llamadas-comerciales-en-la-reforma-de-la-ley-general-de-telecomunicaciones/\n- https://www.tendencias.kpmg.es/2023/07/derecho-no-recibir-llamadas-no-deseadas/ (B2B y art. 19)\n- https://www.ramonycajalabogados.com/es/comentario-de-la-circular-12023-de-la-agencia-espanola-de-proteccion-de-datos\n- https://www.autonomosyemprendedor.es/articulo/pymes/agencia-espanola-proteccion-datos-multa-pequenos-negocios-que-realizan-llamadas-comerciales/20250717165659044210.html (Adverbis)\n- https://www.infobae.com/espana/2025/09/05/espana-multa-con-5000-euros-a-una-empresa-por-llamar-a-un-usuario-inscrito-en-la-lista-robinson/\n- https://www.prodat.es/blog/comunicacion-ilicita-de-datos-personales-de-empresarios-autonomos/\n- https://reddatalegal.com/es/resources/article-21-lssi-unsolicited-commercial-email (art. 21 LSSI)\n- https://www.iberley.es/noticias/el-boe-fija-prefijo-400-todas-las-llamadas-comerciales-36339\n- https://conexiatec.com/recursos/noticias/numeracion-400/ y https://azulteleco.com/blog/prefijo-400-llamadas-comerciales-empresas/ (ámbito del 400)",
+      "confianza": "MEDIA-ALTA, no alta, y le digo por qué para que no se lleve una sorpresa. El proxy me bloqueó boe.es, aepd.es, eur-lex y además iberley, noticias.juridicas, supercontable y lamoncloa: no he leído ni un texto oficial directamente, todo viene de WebSearch leyendo esas páginas del lado del servidor más fuentes secundarias de despachos (Fieldfisher, Ecija, KPMG, Ramón y Cajal, Prodat). El marco general lo doy por sólido: el 66.1.b y su fecha, el art. 19 LOPDGDD y sus dos condiciones, el art. 21 LSSI y su excepción, y la oposición absoluta al marketing directo son consistentes en todas las fuentes. REVERIFICAR ANTES DE DAR NADA POR CERRADO, por orden de importancia: (1) la redacción literal de \"usuario final\" y \"usuario\" en el Anexo II de la Ley 11/2022, que es el eje de la respuesta y me llega por reproducción secundaria que la propia búsqueda avisó que podía no ser la vigente; (2) quién sanciona el 66.1.b, AEPD o SETELECO, que no he podido confirmar y es el hueco más serio; (3) el ámbito exacto del prefijo 400 en BOE-A-2026-8409, donde hay discrepancia entre fuentes y el plazo vence en cinco días; (4) el número de expediente y el fundamento jurídico del caso Adverbis en la web de la AEPD; (5) si WhatsApp es \"medio equivalente\" del art. 21 LSSI, que es inferencia mía y no está en ninguna fuente que haya visto. Y lo de siempre: esto es investigación, no asesoramiento legal. Antes de una campaña con volumen, media hora de un abogado de protección de datos cuesta menos que la multa más barata de las que he citado."
+    },
+    "noAlcanzado": [
+      "BLOQUEO GENERAL DE RED: el proxy de la sesión devuelve 403 en el CONNECT a todos los dominios externos. WebFetch falla con 'getaddrinfo ENOTFOUND' y curl con 'CONNECT tunnel failed, response 403' en ramosdacal.com, clinicadentalmargal.com, institutodentalfacial.com, castroaguilera.com, doctoralia.es, paxinasgalegas.es. Firecrawl devuelve 'Insufficient credits'. TODA la recogida se ha hecho con WebSearch (VIA 1), sin poder abrir ni una sola web de clínica directamente.",
+      "Bande: dos búsquedas específicas (castellano y con el nombre entre comillas) no devuelven ninguna clínica dental ni dentista en el municipio. Probablemente no haya consulta dental en Bande, pero no puedo confirmarlo sin acceso a directorios.",
+      "Barrios de Ourense sin resultado propio: Marinamansa, As Lagoas, Vistafermosa, O Vinteún y Seixalbo. Los buscadores no indexan clínicas por esos barrios; las fichas que salen son del centro. Conviene repasarlos en Google Maps.",
+      "Barrio A Ponte: solo aparece una clínica en Rúa San Rosendo, 16 bajo (registro sanitario C-32-000335) sin teléfono visible. Incluida como ficha sin-telefono.",
+      "Clínica Dental Ceiga (Ourense): aparece en doctoralia.es pero sin dirección ni teléfono accesibles.",
+      "Clínica Dental Quiroga (Rúa Avilés de Taramancos, 16, Ourense): aparece en un listado sin teléfono. No encontrado en búsqueda específica.",
+      "Dentistas de Ourense citados en fichas de paxinasgalegas sin teléfono accesible: Travieso Álvarez Beatriz, Casares Dorribo Sonia, C3D.",
+      "Dental 7 S.L. (Rúa Manuel Murguía, 35, Ourense; tel. publicado 988 241 965): EXCLUIDA de la lista porque varias fuentes la describen como depósito dental / laboratorio, no como clínica con pacientes. Verificar antes de llamarla como clínica.",
+      "Impress Ourense: no se encuentra ninguna clínica de esta cadena en Ourense. Probablemente no tiene sede en la provincia.",
+      "Vitaldent Calle da Concordia, 16 (Ourense): citada en un directorio como tercera sede, sin teléfono y sin confirmar en la web de Vitaldent. No incluida.",
+      "AVISO para la llamada: el número 968 32 01 24 aparece en resultados de Verín pero es un servicio nacional de urgencias dentales 24h, NO una clínica local. Tampoco es teléfono de clínica el 988 259 318 (centro de salud de O Pereiro de Aguiar) ni el 988 371 682 (Policlínico Sáenz Díez, centro médico distinto de la clínica dental Sáenz-Díez).",
+      "Clínica Dental Adeslas Ourense (Rúa da Concordia, 3): el 900 22 99 22 es la centralita nacional de Adeslas, no el teléfono directo de la clínica. Por eso va con confianza 'media'.",
+      "Discrepancias de dirección sin resolver (teléfono sí verificado): Clínica Dental Margal (Marcelo Macías 5 vs 38), Clínica Dental Parracía (Avda. Celanova 21 en su web vs 15 en directorios), Centro Dental Lucía Diéguez (Concello 8 actual vs Santo Domingo 64 en fichas antiguas), Alfredo Arias Menor (dos teléfonos distintos: 988 228 881 y 988 228 470, ambos con fuente).",
+      "BLOQUEO GENERAL DE LA SESION: WebFetch ha fallado con 'getaddrinfo ENOTFOUND' en TODOS los hosts probados (paginasamarillas.es, cylex.es, sanitas.es, es.wikipedia.org). curl tambien falla con 'CONNECT tunnel failed, response 403' en todos los dominios probados, incluido google.com. Es decir: NO se ha podido abrir ni una sola pagina directamente. Todo lo recogido viene de los resumenes de WebSearch, que si funciona. Esto limita la verificacion: no he podido abrir la ficha para contrastar dato a dato.",
+      "Paginas Amarillas (paginasamarillas.es): no accesible directamente (ENOTFOUND / 403 proxy). Solo via snippets de buscador. Ademas la web esconde los telefonos detras del boton 'Ver telefono', asi que muchos no salen ni en el snippet.",
+      "Paxinas Galegas (paxinasgalegas.es): no accesible directamente. Es el directorio gallego mas completo para Ourense (122 fichas en 'Odontologia'), pero oculta el telefono en el texto indexado: de ahi la mayoria de las fichas 'sin-telefono' de esta lista.",
+      "QDQ (qdq.com): no accesible. Solo un par de datos via snippet (Clinica Dental Bande).",
+      "Cylex (cylex.es): no accesible directamente. Un dato recogido via snippet (Clinica Dental Paseo, O Carballino).",
+      "Doctoralia (doctoralia.es): no accesible. Tiene listados de Ourense pero no muestra telefonos en los snippets.",
+      "Infoempresa (infoempresa.com), Axesor (axesor.es), einforma (einforma.com), Empresia (empresia.es), Infobel (infobel.com), Yelp (yelp.es): ninguno accesible ni productivo via buscador para este epigrafe. La VIA 2 de directorios de empresas ha quedado en gran parte sin explotar por este motivo.",
+      "Firecrawl (mcp__Firecrawl__firecrawl_search / firecrawl_scrape): devuelve HTTP 402, la cuenta no tiene credito. Era la alternativa natural al proxy bloqueado. Conviene recargar credito: con Firecrawl se podrian raspar las fichas de Paxinas Galegas y Paginas Amarillas y sacar los ~40 telefonos que faltan.",
+      "Barrios de la ciudad pedidos por separado (Centro, O Couto, A Ponte, Marinamansa, As Lagoas, Vistafermosa, O Vinteun, Seixalbo): buscados uno por uno y NO devuelven listados propios. El buscador reescribe la consulta y cae siempre en el listado general de Ourense capital. Unica excepcion: Clinica Dental Vila Real consta en O Couto. No se ha podido confirmar ninguna clinica en Seixalbo, Marinamansa, Vistafermosa ni O Vinteun.",
+      "Municipios sin telefono conseguido: Bande (Clinica Dental Bande localizada, sin numero) y A Rua (Clinica Dental Marta Ferrando localizada, sin numero). En Celanova solo se ha confirmado una clinica (Dental Doniz); es probable que haya mas.",
+      "Cadenas buscadas y NO encontradas con clinica propia en Ourense: Impress, Dentix, Donte Group/Dentoestetic, Clideba y Caser Dental (Caser solo aparece como aseguradora en el cuadro medico de clinicas de terceros, no como clinica propia). Si estan presentes, no lo he podido confirmar.",
+      "Telefonos con conflicto entre fuentes, marcados 'media' a proposito y conviene verificar antes de llamar: (1) Clinica Meda Dental Valdeorras: 988 682 251 en su propia web vs 600 538 308 en Paginas Amarillas. (2) Clinica Dental Valdeorras 988 321 818 vs Centro Dental Valdeorras S.L. 988 682 889, misma direccion (Jose Otero 6) y posiblemente la misma empresa. (3) Dr. Juan Carlos Perez Varela: 988 240 367 (aaoinfo) vs 981 588 731 que figura en masquemedicos y es prefijo de A Coruna, no de Ourense; he puesto el 988. (4) CODE Dental y IDEOdental comparten el 988 273 434: pueden ser la misma clinica con dos marcas. (5) Centro Dental Lucia Dieguez: su web dice Calle Concejo 8 y masquemedicos dice Santo Domingo 64; el telefono coincide en ambas.",
+      "Fichas 'alta' pero sin direccion completa: Clinica Dental Oudent y Clinica Martinez Silva (telefono y web de su propia pagina, direccion no capturada en el snippet).",
+      "Advertencia de frescura: varias fuentes son directorios cuya ficha puede tener anos (masquemedicos avisa de fichas de mas de 3 anos, y una de mas de 1500 dias). Los numeros de 'confianza media' que vienen de un solo directorio son los mas expuestos a estar obsoletos.",
+      "BLOQUEO GENERALIZADO DE RED: en esta sesion WebFetch falla con DNS ENOTFOUND para TODOS los dominios (incluso es.wikipedia.org), y el proxy de egreso responde 403 a CONNECT para todo host externo probado por curl. Firecrawl (fetch alternativo) esta sin credito. Por eso NO se ha podido abrir ni una sola pagina: todos los datos provienen de los fragmentos (snippets) que devuelve WebSearch, que es la unica herramienta web operativa.",
+      "www.doctoralia.es - 403 del proxy. Ademas, sus fichas no publican el telefono en el snippet: Doctoralia da nombre+direccion pero oculta el numero tras 'contacta por telefono'. VIA 3 queda por tanto incompleta en su fuente principal.",
+      "www.topdoctors.es - no alcanzado (403 proxy); no se obtuvo ninguna ficha.",
+      "Saluspot, Mediquo, Dentaly, Guia Dental, Dentistas.org - no alcanzados; no aparecieron en resultados utiles de busqueda.",
+      "www.paxinasgalegas.es - 403 del proxy (es la fuente mas rica para Ourense; sus snippets dan direccion y horario pero casi nunca el telefono, que queda dentro de la ficha).",
+      "www.paginasamarillas.es - 403 del proxy; solo snippets.",
+      "masquemedicos.com - 403 del proxy; solo snippets. Ojo: varias de sus fichas tienen antiguedad de anios (algunas de 2015), por lo que sus telefonos son los de menor fiabilidad del lote.",
+      "www.qdq.com, www.yelp.es, www.infobel.com, www.empresia.es, www.einforma.com - 403 del proxy.",
+      "Cuadros medicos oficiales de Adeslas / Sanitas / DKV / Asisa: no se pudo abrir ninguno. El unico PDF localizado fue https://www.asisa.es/empresas/cem/pdf/Cuadro%20Dental%202014.pdf, de 2014 y no descargable. Los concertados que figuran aqui salen del reflejo que hace masquemedicos de esos cuadros, no del cuadro oficial, asi que NO se puede afirmar que sigan concertados.",
+      "MUNICIPIO SIN RESULTADOS - A Rua (32350): no se localizo ninguna clinica dental. Lo unico en ese CP es un laboratorio protesico (Irene Barrera Prada, San Antonio 25, tel 988 310 704), que NO atiende pacientes. Las clinicas de la zona estan en O Barco de Valdeorras, a ~10 km.",
+      "MUNICIPIO CASI SIN RESULTADOS - Bande: solo Clinica Dental Bande (Faustino Santalices 17), y sin telefono. Queda pendiente.",
+      "MUNICIPIO INCOMPLETO - Maceda: Paginas Amarillas declara '2 clinicas dentales' en Maceda pero solo se identificaron Rivera y la consulta de Saenz-Diez.",
+      "BARRIOS DE OURENSE SIN RESULTADOS PROPIOS - O Couto, Marinamansa, As Lagoas, Vistafermosa, O Vinteun y Seixalbo: ninguna busqueda devolvio clinica dental asignada a esos barrios. Solo A Ponte dio una (Centro Dental A Ponte). Los directorios indexan por calle, no por barrio, asi que probablemente varias de las fichas de 'Ourense' ya listadas caen en esos barrios sin decirlo.",
+      "FICHAS SIN TELEFONO POR FALTA DE FUENTE (campo vacio a proposito, NO inventado): Clinica Dental Morales, Casares Dorribo, Romero Arriola, Ceiga, Alfredo Arias Menor, Quintas & Prada, Clinica Dental Rivera (Ourense), Dra. Laura Laso, Dr. Smile Ourense, Donvar Celanova, Clinica Dental Bande.",
+      "AVISOS DE CALIDAD PARA LA LLAMADA: (1) Dentix Ourense (Rua do Paseo 1) - Dentix entro en liquidacion en 2020 y en esa direccion figura ahora Ramos Dacal; muy probable que el 988 366 542 este muerto. (2) Adeslas Ourense: 902 530 954 y 900 229 922 son centralitas de la aseguradora, no la clinica. (3) Zdental Lab Dent (Xinzo) puede ser laboratorio, no clinica. (4) Discrepancias de direccion sin resolver: Lucia Dieguez (Concejo 8 vs Santo Domingo 64), Centro Dental A Ponte (San Rosendo 16 vs 12), Arias Verin (Luis Espada 51 vs 34), Parracia (Celanova 21 vs 15), Marfil (Esgos 24 vs Avda Celanova 128). (5) Saenz-Diez Maceda: su web da 988 463 221, otros listados 988 463 251 - se puso el de la web.",
+      "BLOQUEO GENERALIZADO DEL PROXY: en esta sesión el proxy de salida deniega con 403 practicamente todo el web fuera de una lista blanca minima. WebFetch y curl fallan para todos los dominios de abajo; la unica via que ha funcionado ha sido WebSearch (busqueda del lado del servidor). Por eso NINGUNA ficha esta verificada abriendo yo la pagina: todos los datos vienen de lo que la busqueda extrajo de esas paginas.",
+      "VIA 4 NO CONSEGUIDA - Colexio Oficial de Odontologos e Estomatologos: colegiopontevedraourense.com bloqueado (403). Ourense no tiene colegio propio, pertenece al Colegio de Pontevedra-Ourense. No he podido abrir su buscador de colegiados ni su listado de clinicas.",
+      "VIA 4 NO CONSEGUIDA - Consejo General de Dentistas: consejodentistas.es y dentistas.es bloqueados (403). No he podido usar su buscador/ventanilla del paciente.",
+      "VIA 4 NO CONSEGUIDA - Registro de centros sanitarios de la Xunta/SERGAS (RCESS): sergas.es y sergas.gal bloqueados (403). Existe buscador oficial publico de centros sanitarios y es la fuente mas fiable para confirmar que una clinica esta registrada, pero no he podido consultarlo. Unico dato colateral obtenido: Saindent figura con Nº de Registro Sanitario C-32-000422.",
+      "VIA 4 NO CONSEGUIDA - Concello de Ourense (ourense.gal) y Camara de Comercio de Ourense (camaraourense.com): ambos bloqueados (403). No he podido sacar el directorio de empresas.",
+      "Directorios bloqueados (403), aunque la busqueda si pudo leer su contenido: paxinasgalegas.es, paginasamarillas.es, doctoralia.es, 11870.com, cylex.es, qdq.com, einforma.com, infoempresa.com, axesor.es, yelp.es.",
+      "Google Maps, OpenStreetMap/Overpass y DuckDuckGo bloqueados (403): no he podido hacer la busqueda geografica por barrios ni verificar telefonos en fichas de Google.",
+      "Firecrawl (scraper alternativo) sin credito: 'Insufficient credits'. Era la via de respaldo para leer las paginas bloqueadas.",
+      "BANDE: no he encontrado ninguna clinica dental ni dentista en Bande. Es un municipio de ~1.500 habitantes; es posible que realmente no haya consulta dental privada, pero no lo doy por seguro porque los directorios estaban bloqueados.",
+      "BARRIOS SIN RESULTADO PROPIO: Seixalbo, Vistafermosa, O Vinteun, Marinamansa y As Lagoas no devolvieron ninguna clinica especifica. O Couto y A Ponte si (Clinica Dental Vila Real, Centro Dental A Ponte, Vitaldent Vicente Risco, Clinica Dental El Puente). Para los otros barrios haria falta la busqueda geografica en mapas, que esta bloqueada.",
+      "SIN TELEFONO: Clinica Dental Deliatorco (Ourense) aparece citada en el listado de dentistas de Paginas Amarillas pero no he conseguido el numero. Ficha incluida con confianza 'sin-telefono' y campo vacio.",
+      "Clinica Dental Oro Claro (Ourense): tengo telefono de un solo directorio pero NO tengo direccion. Campo direccion vacio.",
+      "AVISO Dentix Ourense (Rua do Paseo 1): Dentix entro en liquidacion en Espana y muchas de sus clinicas cerraron o cambiaron de manos. La ficha del directorio puede estar obsoleta y la clinica puede no existir. No llamar esperando que siga abierta.",
+      "AVISO Adeslas Ourense: el 900 22 99 22 es la centralita nacional de Adeslas Dental, NO el telefono directo de la clinica de Rua da Concordia 3. No he encontrado el numero directo del centro.",
+      "POSIBLES DUPLICADOS (no llamar dos veces): (1) Dra. Gloria Rodriguez y 'Benigno Coello' comparten el 988 213 831 y la direccion Paseo 28, casi seguro la misma consulta. (2) 'CEOX Clinica Dental' y 'Clinica Dental Centro de Especialidades' en Xinzo comparten el 988 550 656. (3) 'Clinica Dental Valdeorras' y 'Centro Dental Valdeorras S.L.' comparten el 988 321 818 y la Praza Jose Otero 6. (4) 'Centro Dental A Ponte' (San Rosendo, 988 511 241) y 'Centro Dental Ponte-Ourense S.L.' (Paseo 19, 988 212 344) podrian ser el mismo negocio en dos sedes o fichas antiguas.",
+      "DISCREPANCIAS DE DIRECCION detectadas entre fuentes, telefono si coincide: Casares Dorribo (Ramon Puga 31 vs 42), Blanco Arce (Paseo 21 vs 11), Varela Dental (Rio Mao 14 vs 15 vs 18), Clinica Dental Arias en Verin (Luis Espada 51 vs 34), Oudent (Avda. Universidade 1 Bis en su web vs Lepanto 10 en Paginas Amarillas), Centro Dental A Ponte (San Rosendo 12 vs 16).",
+      "Clinica Meda Dental Valdeorras: conflicto de telefono. Su propia web da 988 682 251 y Paginas Amarillas da 600 538 308. He puesto el de la web como principal y el otro como telefono2.",
+      "Clinica Dental Arias y Benident Clinica Dental figuran las dos en Avda. Luis Espada 51 de Verin con numeros distintos (988 410 065 y 988 412 601). Puede ser un error de directorio o un cambio de titular en el mismo local.",
+      "VIA 5 (mapas y fichas de negocio) NO SE PUDO USAR: el sandbox no tiene salida de red. curl a cualquier host devuelve 000 (sin conexion) y el proxy registra 'connect_rejected 403' por politica de egreso. WebFetch falla con 'getaddrinfo ENOTFOUND' en todos los dominios (no hay DNS). Firecrawl MCP responde 'Insufficient credits'. El unico canal que funciono fue WebSearch.",
+      "OpenStreetMap / API de Overpass: NO ALCANZADO. Probados overpass-api.de, lz4.overpass-api.de, z.overpass-api.de, overpass.kumi.systems, overpass.openstreetmap.ru, overpass.private.coffee, api.openstreetmap.org, nominatim.openstreetmap.org y taginfo.openstreetmap.org. Todos bloqueados (403 del proxy / sin conexion). No se pudo lanzar amenity=dentist ni healthcare=dentist.",
+      "Google Maps / Google Business: NO ALCANZADO (sin salida de red; no indexable via WebSearch).",
+      "Bing Places, Apple Maps, Foursquare, TripAdvisor: NO ALCANZADOS (sin salida de red).",
+      "Hosts bloqueados con 403 por el proxy al intentar curl directo: www.paxinasgalegas.es, www.doctoralia.es, www.paginasamarillas.es, www.dentistas.es, www.consejodentistas.es, www.sergas.es, www.colegiopontevedraourense.com, www.ourense.gal, www.camaraourense.com, www.11870.com, www.infoempresa.com, duckduckgo.com. De paxinasgalegas, cylex, infoisinfo y masquemedicos SI se extrajeron datos, pero solo a traves del indice de WebSearch, nunca abriendo la ficha.",
+      "A Rua: SIN RESULTADOS. Buscado en paxinasgalegas, cylex e infoisinfo; ninguna clinica dental devuelta. No significa que no haya: no se pudo confirmar por otra via.",
+      "Bande: SIN RESULTADOS, igual que A Rua.",
+      "O Pereiro de Aguiar: SIN RESULTADOS, igual que A Rua.",
+      "Barrios de Ourense buscados sin ficha propia diferenciada: Marinamansa, As Lagoas, Vistafermosa, O Vinteun y Seixalbo. Centro, O Couto (Clinica Dental Vila Real) y A Ponte (El Puente, Caldas Dental) si dieron resultados. Los demas barrios quedan cubiertos solo indirectamente por direccion de calle.",
+      "Clinicas localizadas pero SIN telefono confirmado (van en la lista con confianza 'sin-telefono'): Romero Arriola, Caterina Otero Fernandez, Caldas Dental, Mis Primeros Dientes y Clinica Dental Ceiga en Ourense; Ramiro Cobo Arias en O Barco; Maria Dolores Lopez Fernandez en Ribadavia.",
+      "Telefonos NO obtenidos para: Clinica Dental Vitaldent fuera de Ourense ciudad, Impress (no consta ninguna clinica en la provincia) y Dentix/Donte Group (sin fichas en la zona).",
+      "EXCLUIDOS a proposito por no ser clinicas dentales: Protesico Dental Ourense (laboratorio, Barbadas), ZDental (laboratorio, Xinzo), Q.B.Q. (laboratorio, Allariz), Clinica Alameda (centro medico, O Carballino), Clinica Santamarina y Centro Medico de Especialidades Xinzo (centros medicos), Policlinico Verin, Policlinico Saenz Diez y todos los Centros de Salud del Sergas.",
+      "El presupuesto de WebSearch de este turno se agoto (limite 200 llamadas por turno). Quedaban por confirmar con segunda fuente: Margal, Centro Dental Lucia Dieguez, Clinica Val y Mora & Bastida en Ourense. Si quieres mas fichas o subir confianzas de 'media' a 'alta', manda otro mensaje y sigo.",
+      "AVISO SOBRE ANTIGUEDAD: las fichas de masquemedicos.com son viejas (algunas con 'actualizado hace 3394 dias') y varias de cylex.es rondan los 2-3 anos. Las de paxinasgalegas.es parecen las mas frescas. Los telefonos marcados 'media' salen de un solo directorio: pueden estar desactualizados, pero NINGUNO esta inventado.",
+      "AVISO IMPORTANTE SOBRE LA CONFIANZA: ninguna ficha llega a 'alta'. Pude ejecutar solo 2 busquedas antes de agotarse el presupuesto de WebSearch del turno (limite 200 llamadas compartido con los demas agentes del workflow). No consegui abrir NI UNA web de clinica, que es justo el objetivo de la VIA 6, asi que ningun telefono esta confirmado sobre la pagina de la propia clinica ni contra un segundo directorio. Los telefonos son datos realmente recuperados del buscador (no inventados, no deducidos, no de memoria), pero sin verificar a doble fuente: por eso todos van como 'media'. Para llamar manana valen; conviene asumir que algun numero puede estar desactualizado.",
+      "WebFetch inutilizable en toda la sesion: fallo de DNS (getaddrinfo ENOTFOUND) en todos los dominios probados, incluidos dentalelpuente.es, institutodentalfacial.com, clinicadentalourense.com, clinicadentaloudent.com, doctoralia.es y es.wikipedia.org.",
+      "curl por el proxy: 403 CONNECT tunnel failed en TODOS los hosts probados, sin excepcion. Bloqueados los 9 dominios de clinicas (dentalelpuente.es, institutodentalfacial.com, clinicadentalourense.com, clinicadentaloudent.com, clinicaoterofernandez.es, dragloriarodriguez.es, moragarcia.es, clinicasantodomingo.com, dentalnova.com) y tambien google.com, bing.com, duckduckgo.com, facebook.com, instagram.com, linkedin.com, doctoralia.es, paxinasgalegas.es, paginasamarillas.es, sanitas.es y wikipedia.",
+      "Firecrawl (scrape) agotado: 'Insufficient credits'. Haria falta recargar credito en firecrawl.dev para reactivar esta via.",
+      "Paginas de 'aviso legal' y 'contacto': NO revisadas en ninguna clinica. Era la parte de la VIA 6 que da el nombre del titular y el telefono directo, y ha quedado sin tocar por el bloqueo de fetch. Los titulares que aparecen en las fichas salen del propio nombre comercial de la clinica, no de un aviso legal.",
+      "Redes sociales: Facebook, Instagram y LinkedIn de clinicas de Ourense sin cubrir (403 en los tres dominios y sin presupuesto de busqueda para rodearlo).",
+      "Municipios de la provincia sin buscar: Barbadas, O Carballino, Xinzo de Limia, Allariz, Ribadavia, O Barco de Valdeorras, O Pereiro de Aguiar, Celanova, Maceda, Bande y A Rua. De Verin solo ha salido una sede (Dentalnova) y de rebote, por la web del grupo; Verin merece una pasada propia.",
+      "Barrios de la ciudad sin buscar por separado: Centro, O Couto, A Ponte, Marinamansa, As Lagoas, Vistafermosa, O Vinteun y Seixalbo. Solo hay cobertura parcial e indirecta del centro.",
+      "Busquedas en gallego ('clinica dentista', 'odontologo') y por nombre de calle: sin hacer.",
+      "Dominios .gal: sin explorar.",
+      "Cadenas: solo ha aparecido Sanitas Milenium. Vitaldent, Dentix, Impress, Adeslas Dental, Donte/Dentoestetic, Caser Dental y Clideba no se han comprobado en Ourense, asi que puede haber mas cadenas que convenga descartar antes de llamar.",
+      "PARA CONTINUAR: basta con un mensaje de seguimiento (el presupuesto de busqueda se renueva por turno), o subir CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION. Con un turno limpio se pueden verificar los 11 telefonos a doble fuente y barrer los 11 municipios y los 8 barrios que faltan."
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Buscar"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Verificar"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "legal:llamar-a-empresas",
+      "phaseIndex": 1,
+      "phaseTitle": "Buscar",
+      "agentId": "ade437e89577d13be",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791829853610,
+      "queuedAt": 1791829853546,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "si-con-matices",
+      "promptPreview": "Pregunta concreta y practica, para Espana, hoy (octubre de 2026). Un autonomo\nva a coger el telefono y llamar, una por una, a clinicas dentales de Ourense al\nnumero que esas clinicas publican en su web, para ofrecerles un servicio.\nLlamadas de voz hechas por una persona, no robollamadas, no SMS, no email, no\nWhatsApp.\n\nResuelve, con fuente y citando el articulo:\n\n1. El articulo 66.1.b de la Ley Ge…",
+      "promptFramed": true,
+      "lastProgressAt": 1791830216495,
+      "tokens": 121518,
+      "toolCalls": 27,
+      "durationMs": 362883,
+      "resultPreview": "{\"sePuedeLlamar\":\"si-con-matices\",\"resumen\":\"Sí puede llamar, pero el artículo 66.1.b NO le protege solo al particular: \\\"usuario final\\\" en la Ley 11/2022 incluye a las personas jurídicas, así que llamar al número publicado de una clínica entra dentro del derecho a no recibir llamadas comerciales no deseadas. Eso no prohíbe la llamada: puede ampararse en interés legítimo (art. 6.1.f RGPD), pero e…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "buscar:buscador",
+      "phaseIndex": 1,
+      "phaseTitle": "Buscar",
+      "agentId": "a92872f854e8c190b",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791829853833,
+      "queuedAt": 1791829853795,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Ourense (Galicia). Interesa la ciudad de Ourense y ademas estos municipios de\nla provincia, que estan a tiro de coche: Barbadas, O Carballino, Verin, Xinzo\nde Limia, Allariz, Ribadavia, O Barco de Valdeorras, O Pereiro de Aguiar,\nCelanova, Maceda, Bande, A Rua.\nBarrios de la ciudad que conviene buscar por separado porque no siempre salen\nen la primera pagina: Centro, O Couto, A Ponte, Marinamansa,…",
+      "promptFramed": true,
+      "lastProgressAt": 1791830328580,
+      "tokens": 135236,
+      "toolCalls": 46,
+      "durationMs": 474746,
+      "resultPreview": "{\"clinicas\":[{\"nombre\":\"Clínica Dental Margal\",\"direccion\":\"Rúa Marcelo Macías, 5 bajo, 32002\",\"localidad\":\"Ourense\",\"telefono\":\"988 24 93 63\",\"email\":\"clinicadentalmargal@gmail.com\",\"web\":\"clinicadentalmargal.com\",\"tipo\":\"independiente\",\"fuente\":\"https://www.clinicadentalmargal.com/clinica-dental-margal-contacto/\",\"confianza\":\"alta\"},{\"nombre\":\"Instituto Dental y Facial\",\"direccion\":\"Rúa Samuel E…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "buscar:directorios",
+      "phaseIndex": 1,
+      "phaseTitle": "Buscar",
+      "agentId": "a5132198fcd81b2f2",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791830219623,
+      "queuedAt": 1791829853795,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Ourense (Galicia). Interesa la ciudad de Ourense y ademas estos municipios de\nla provincia, que estan a tiro de coche: Barbadas, O Carballino, Verin, Xinzo\nde Limia, Allariz, Ribadavia, O Barco de Valdeorras, O Pereiro de Aguiar,\nCelanova, Maceda, Bande, A Rua.\nBarrios de la ciudad que conviene buscar por separado porque no siempre salen\nen la primera pagina: Centro, O Couto, A Ponte, Marinamansa,…",
+      "promptFramed": true,
+      "lastProgressAt": 1791830746550,
+      "tokens": 150278,
+      "toolCalls": 53,
+      "durationMs": 526925,
+      "resultPreview": "{\"clinicas\":[{\"nombre\":\"Sanitas Milenium Ourense\",\"direccion\":\"Rúa do Progreso, 83\",\"localidad\":\"Ourense\",\"telefono\":\"988 316 700\",\"telefono2\":\"\",\"web\":\"https://clinicadental-ourense.sanitas.es/\",\"email\":\"\",\"tipo\":\"cadena\",\"titular\":\"\",\"fuente\":\"https://clinicadental-ourense.sanitas.es/\",\"confianza\":\"alta\"},{\"nombre\":\"Clínica Dental Adeslas Ourense\",\"direccion\":\"Rúa da Concordia, 3, 32003\",\"locali…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "buscar:salud",
+      "phaseIndex": 1,
+      "phaseTitle": "Buscar",
+      "agentId": "a7ad2e09a09385197",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791830331393,
+      "queuedAt": 1791829853795,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Ourense (Galicia). Interesa la ciudad de Ourense y ademas estos municipios de\nla provincia, que estan a tiro de coche: Barbadas, O Carballino, Verin, Xinzo\nde Limia, Allariz, Ribadavia, O Barco de Valdeorras, O Pereiro de Aguiar,\nCelanova, Maceda, Bande, A Rua.\nBarrios de la ciudad que conviene buscar por separado porque no siempre salen\nen la primera pagina: Centro, O Couto, A Ponte, Marinamansa,…",
+      "promptFramed": true,
+      "lastProgressAt": 1791830895753,
+      "tokens": 149901,
+      "toolCalls": 49,
+      "durationMs": 564358,
+      "resultPreview": "{\"clinicas\":[{\"nombre\":\"Clínica Dental Ramos Dacal\",\"direccion\":\"Rúa do Paseo, 1 - 32003\",\"localidad\":\"Ourense\",\"telefono\":\"988 318 448\",\"telefono2\":\"696 432 000\",\"web\":\"https://www.clinicaramosdacal.com\",\"email\":\"\",\"tipo\":\"independiente\",\"titular\":\"\",\"fuente\":\"https://www.clinicaramosdacal.com/contacto/\",\"confianza\":\"alta\"},{\"nombre\":\"Clínica Mis Primeros Dientes\",\"direccion\":\"Rúa do Progreso, 10…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "buscar:colegio",
+      "phaseIndex": 1,
+      "phaseTitle": "Buscar",
+      "agentId": "a99a3c8b1d78e894e",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791830748786,
+      "queuedAt": 1791829853796,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Ourense (Galicia). Interesa la ciudad de Ourense y ademas estos municipios de\nla provincia, que estan a tiro de coche: Barbadas, O Carballino, Verin, Xinzo\nde Limia, Allariz, Ribadavia, O Barco de Valdeorras, O Pereiro de Aguiar,\nCelanova, Maceda, Bande, A Rua.\nBarrios de la ciudad que conviene buscar por separado porque no siempre salen\nen la primera pagina: Centro, O Couto, A Ponte, Marinamansa,…",
+      "promptFramed": true,
+      "lastProgressAt": 1791831310306,
+      "tokens": 145678,
+      "toolCalls": 45,
+      "durationMs": 561519,
+      "resultPreview": "{\"clinicas\":[{\"nombre\":\"Clínica Dental El Puente\",\"direccion\":\"Rúa Rosalía de Castro, 5 (barrio A Ponte)\",\"localidad\":\"Ourense\",\"telefono\":\"988 212 144\",\"telefono2\":\"664 804 789\",\"web\":\"https://dentalelpuente.es\",\"email\":\"\",\"tipo\":\"independiente\",\"titular\":\"\",\"fuente\":\"https://dentalelpuente.es/contacto-dentista-ourense/\",\"confianza\":\"alta\"},{\"nombre\":\"Mora & García Clínica Odontológica\",\"direccio…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "buscar:mapas",
+      "phaseIndex": 1,
+      "phaseTitle": "Buscar",
+      "agentId": "ad5239459ad9c3c69",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791830897768,
+      "queuedAt": 1791829853796,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Ourense (Galicia). Interesa la ciudad de Ourense y ademas estos municipios de\nla provincia, que estan a tiro de coche: Barbadas, O Carballino, Verin, Xinzo\nde Limia, Allariz, Ribadavia, O Barco de Valdeorras, O Pereiro de Aguiar,\nCelanova, Maceda, Bande, A Rua.\nBarrios de la ciudad que conviene buscar por separado porque no siempre salen\nen la primera pagina: Centro, O Couto, A Ponte, Marinamansa,…",
+      "promptFramed": true,
+      "lastProgressAt": 1791831606911,
+      "tokens": 154937,
+      "toolCalls": 45,
+      "durationMs": 709141,
+      "resultPreview": "{\"clinicas\":[{\"nombre\":\"Clínica Dental Andrés Villalón\",\"direccion\":\"Rúa Valle Inclán 15, 1º A, 32004\",\"localidad\":\"Ourense\",\"telefono\":\"988 248 256\",\"tipo\":\"independiente\",\"titular\":\"Andrés Villalón del Río\",\"fuente\":\"https://www.cylex.es/ourense/cl%C3%ADnica-dental-andr%C3%A9s-villal%C3%B3n-12287098.html\",\"confianza\":\"alta\"},{\"nombre\":\"Clínica Dental Marisol Suárez\",\"direccion\":\"Rúa do Paseo 7, …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "buscar:social",
+      "phaseIndex": 1,
+      "phaseTitle": "Buscar",
+      "agentId": "a614c2d6ef6f13e2e",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791831312423,
+      "queuedAt": 1791829853796,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Ourense (Galicia). Interesa la ciudad de Ourense y ademas estos municipios de\nla provincia, que estan a tiro de coche: Barbadas, O Carballino, Verin, Xinzo\nde Limia, Allariz, Ribadavia, O Barco de Valdeorras, O Pereiro de Aguiar,\nCelanova, Maceda, Bande, A Rua.\nBarrios de la ciudad que conviene buscar por separado porque no siempre salen\nen la primera pagina: Centro, O Couto, A Ponte, Marinamansa,…",
+      "promptFramed": true,
+      "lastProgressAt": 1791831466994,
+      "tokens": 90557,
+      "toolCalls": 17,
+      "durationMs": 154570,
+      "resultPreview": "{\"clinicas\":[{\"nombre\":\"Clínica Dental El Puente\",\"direccion\":\"Rúa Rosalía de Castro, 5\",\"localidad\":\"Ourense\",\"telefono\":\"988 212 144\",\"web\":\"https://dentalelpuente.es/\",\"tipo\":\"independiente\",\"fuente\":\"https://dentalelpuente.es/\",\"confianza\":\"media\"},{\"nombre\":\"Instituto Dental y Facial\",\"direccion\":\"Rúa Samuel Eijan, 9\",\"localidad\":\"Ourense\",\"telefono\":\"988 04 22 41\",\"email\":\"info@institutodent…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "verificar:lote-1",
+      "phaseIndex": 2,
+      "phaseTitle": "Verificar",
+      "agentId": "aab05dc88e519502a",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791831609285,
+      "queuedAt": 1791831609171,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Contrasta estos telefonos de clinicas dentales de Ourense. Alguien va a\nmarcarlos manana, asi que lo que importa es no colarle un numero equivocado.\n\n[\n {\n  \"nombre\": \"Clínica Dental Alfredo Arias Menor\",\n  \"localidad\": \"Ourense\",\n  \"telefono\": \"988 22 88 81\",\n  \"fuente\": \"https://www.paginasamarillas.es/f/ourense/alfredo-arias-menor_010401933_000000001.html\"\n },\n {\n  \"nombre\": \"Clínica Matuca\",\n …",
+      "promptFramed": true,
+      "lastProgressAt": 1791831716788,
+      "tokens": 90105,
+      "toolCalls": 14,
+      "durationMs": 107498,
+      "resultPreview": "{\"resultados\":[{\"nombre\":\"Clínica Dental Alfredo Arias Menor\",\"estado\":\"sin-confirmar\",\"nota\":\"No se ha podido buscar segunda fuente (sin acceso a web en esta sesión). El 988 es el prefijo correcto de Ourense, pero eso NO confirma el número: solo dice que tiene la forma esperada. Sigue apoyado en una sola fuente (Páginas Amarillas), que es un directorio y puede estar desactualizado.\"},{\"nombre\":\"C…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "verificar:lote-2",
+      "phaseIndex": 2,
+      "phaseTitle": "Verificar",
+      "agentId": "a5277a52c11ecb5de",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791831609287,
+      "queuedAt": 1791831609172,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Contrasta estos telefonos de clinicas dentales de Ourense. Alguien va a\nmarcarlos manana, asi que lo que importa es no colarle un numero equivocado.\n\n[\n {\n  \"nombre\": \"Dent 2000 S.L.\",\n  \"localidad\": \"Allariz\",\n  \"telefono\": \"988 442 321\",\n  \"fuente\": \"https://www.paginasamarillas.es/a/dentistas/ourense/allariz/\"\n },\n {\n  \"nombre\": \"Clínica Meda Dental Valdeorras\",\n  \"localidad\": \"O Barco de Valde…",
+      "promptFramed": true,
+      "lastProgressAt": 1791831724518,
+      "tokens": 89924,
+      "toolCalls": 12,
+      "durationMs": 113500,
+      "resultPreview": "{\"resultados\":[{\"nombre\":\"Dent 2000 S.L.\",\"estado\":\"sin-confirmar\",\"nota\":\"NO verificado: sin acceso web en esta ejecucion (egress bloqueado + Firecrawl sin credito + presupuesto de busqueda agotado). Lo unico comprobable sin fuente: el formato es valido (9 digitos, prefijo 988 = provincia de Ourense), asi que es marcable. Pero sigue siendo fuente unica (Paginas Amarillas, directorio con fichas an…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "verificar:lote-3",
+      "phaseIndex": 2,
+      "phaseTitle": "Verificar",
+      "agentId": "adab77cdce078ad3a",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791831718743,
+      "queuedAt": 1791831609172,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Contrasta estos telefonos de clinicas dentales de Ourense. Alguien va a\nmarcarlos manana, asi que lo que importa es no colarle un numero equivocado.\n\n[\n {\n  \"nombre\": \"B & G de Servicios Sanitarios S.L.P.\",\n  \"localidad\": \"Ourense\",\n  \"telefono\": \"988 222 800\",\n  \"web\": \"\",\n  \"fuente\": \"https://masquemedicos.com/dentistas_ourense/\"\n },\n {\n  \"nombre\": \"Dr. Juan Carlos Pérez Varela (ortodoncia)\",\n  …",
+      "promptFramed": true,
+      "lastProgressAt": 1791831835906,
+      "tokens": 91452,
+      "toolCalls": 17,
+      "durationMs": 117161,
+      "resultPreview": "{\"resultados\":[{\"nombre\":\"B & G de Servicios Sanitarios S.L.P.\",\"estado\":\"sin-confirmar\",\"nota\":\"NO verificado: sin acceso web en esta sesion, no he podido abrir ninguna segunda fuente. Aviso aparte, de la propia ficha: \\\"B & G de Servicios Sanitarios S.L.P.\\\" es una razon social, no el nombre comercial de la clinica. Quien llame no puede preguntar \\\"es B & G?\\\" porque al otro lado probablemente n…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 11,
+      "label": "verificar:lote-4",
+      "phaseIndex": 2,
+      "phaseTitle": "Verificar",
+      "agentId": "ae13288e882bbdd84",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791831726627,
+      "queuedAt": 1791831609173,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Contrasta estos telefonos de clinicas dentales de Ourense. Alguien va a\nmarcarlos manana, asi que lo que importa es no colarle un numero equivocado.\n\n[\n {\n  \"nombre\": \"Clínica Dental Mariño\",\n  \"localidad\": \"Verín\",\n  \"telefono\": \"604 481 037\",\n  \"web\": \"\",\n  \"fuente\": \"https://saludental.es/ourense/verin/\"\n },\n {\n  \"nombre\": \"Zdental Lab Dent (posible laboratorio dental, verificar)\",\n  \"localidad…",
+      "promptFramed": true,
+      "lastProgressAt": 1791831858287,
+      "tokens": 92330,
+      "toolCalls": 15,
+      "durationMs": 131659,
+      "resultPreview": "{\"resultados\":[{\"nombre\":\"Clínica Dental Mariño\",\"estado\":\"sin-confirmar\",\"nota\":\"NO verificado: sin acceso a web en esta sesion. Sigue con fuente unica (saludental.es, agregador). Sospecha a comprobar antes de marcar: 604 es prefijo de MOVIL, no el fijo 988 de Ourense. En una clinica pequeña puede ser su movil real, pero los rangos 60x tambien son los que usan los numeros de captacion/VoIP que lo…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 12,
+      "label": "verificar:lote-5",
+      "phaseIndex": 2,
+      "phaseTitle": "Verificar",
+      "agentId": "ade4d7fa7bf14b26e",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791831837890,
+      "queuedAt": 1791831609173,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Contrasta estos telefonos de clinicas dentales de Ourense. Alguien va a\nmarcarlos manana, asi que lo que importa es no colarle un numero equivocado.\n\n[\n {\n  \"nombre\": \"Policlínico Aimara\",\n  \"localidad\": \"Barbadás\",\n  \"telefono\": \"623 459 757\",\n  \"web\": \"\",\n  \"fuente\": \"https://www.paginasamarillas.es/a/dentistas/ourense/barbadas/\"\n },\n {\n  \"nombre\": \"García Mouriño C.B.\",\n  \"localidad\": \"Xinzo de…",
+      "promptFramed": true,
+      "lastProgressAt": 1791831996956,
+      "tokens": 90688,
+      "toolCalls": 14,
+      "durationMs": 159065,
+      "resultPreview": "{\"resultados\":[{\"nombre\":\"Policlínico Aimara\",\"estado\":\"sin-confirmar\",\"nota\":\"NO VERIFICADO: en esta sesión no hubo acceso a ninguna segunda fuente (WebSearch agotado, Firecrawl sin crédito, y la política de red bloquea toda la web abierta con 403). El 623 459 757 es un móvil español bien formado (prefijo 6xx), pero eso es solo chequeo de formato, NO una confirmación. Dos cautelas para la llamada…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 13,
+      "label": "verificar:lote-6",
+      "phaseIndex": 2,
+      "phaseTitle": "Verificar",
+      "agentId": "afeb70f40e356298a",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791831860394,
+      "queuedAt": 1791831609174,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Contrasta estos telefonos de clinicas dentales de Ourense. Alguien va a\nmarcarlos manana, asi que lo que importa es no colarle un numero equivocado.\n\n[\n {\n  \"nombre\": \"Clínica Dental Dr. José Emilio Coello Carretero\",\n  \"localidad\": \"Ourense\",\n  \"telefono\": \"988 372 234\",\n  \"fuente\": \"https://masquemedicos.com/dentista_ourense/doctor-jose-emilio-coello-carretero/\"\n },\n {\n  \"nombre\": \"Clínica Denta…",
+      "promptFramed": true,
+      "lastProgressAt": 1791831969593,
+      "tokens": 91218,
+      "toolCalls": 15,
+      "durationMs": 109198,
+      "resultPreview": "{\"resultados\":[{\"nombre\":\"Clínica Dental Dr. José Emilio Coello Carretero\",\"estado\":\"sin-confirmar\",\"titular\":\"José Emilio Coello Carretero (sale en el propio nombre de la ficha, no verificado aparte)\",\"nota\":\"NO he podido contrastar nada: en esta sesion no hay salida a internet (ver nota general). El 988 372 234 sigue siendo el dato de masquemedicos sin segunda fuente. Formato coherente con Ouren…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 14,
+      "label": "verificar:lote-7",
+      "phaseIndex": 2,
+      "phaseTitle": "Verificar",
+      "agentId": "a354d5e78c185246d",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791831971579,
+      "queuedAt": 1791831609174,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Contrasta estos telefonos de clinicas dentales de Ourense. Alguien va a\nmarcarlos manana, asi que lo que importa es no colarle un numero equivocado.\n\n[\n {\n  \"nombre\": \"Clínica Dental GFS\",\n  \"localidad\": \"Verín\",\n  \"telefono\": \"988 413 451\",\n  \"fuente\": \"https://www.paxinasgalegas.es/gfs-423484em.html\"\n },\n {\n  \"nombre\": \"Clínica Dental Mariño\",\n  \"localidad\": \"Verín\",\n  \"telefono\": \"988 655 162\",…",
+      "promptFramed": true,
+      "lastProgressAt": 1791832059980,
+      "tokens": 87474,
+      "toolCalls": 13,
+      "durationMs": 88400,
+      "resultPreview": "{\"resultados\":[{\"nombre\":\"Clínica Dental GFS\",\"estado\":\"sin-confirmar\",\"nota\":\"NO verificado. No he podido abrir ninguna segunda fuente: sin búsqueda web (cuota agotada), Firecrawl sin crédito y el proxy de salida devuelve 403 a todos los hosts externos (incluida la propia paxinasgalegas.es). Sigue siendo un dato de una sola fuente: paxinasgalegas, directorio agregado que suele arrastrar datos vie…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 15,
+      "label": "verificar:lote-8",
+      "phaseIndex": 2,
+      "phaseTitle": "Verificar",
+      "agentId": "acc4a02cd039ac272",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1791831998856,
+      "queuedAt": 1791831609175,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Contrasta estos telefonos de clinicas dentales de Ourense. Alguien va a\nmarcarlos manana, asi que lo que importa es no colarle un numero equivocado.\n\n[\n {\n  \"nombre\": \"Clínica Dental Garrido Lage, Alba\",\n  \"localidad\": \"Celanova\",\n  \"telefono\": \"988 431 914\",\n  \"fuente\": \"https://www.paxinasgalegas.es/garrido-lage-alba-711692em.html\"\n },\n {\n  \"nombre\": \"Kalma Policlínico\",\n  \"localidad\": \"Allariz\"…",
+      "promptFramed": true,
+      "lastProgressAt": 1791832096122,
+      "tokens": 88338,
+      "toolCalls": 13,
+      "durationMs": 97265,
+      "resultPreview": "{\"resultados\":[{\"nombre\":\"Clínica Dental Garrido Lage, Alba\",\"estado\":\"sin-confirmar\",\"titular\":\"Probablemente Alba Garrido Lage — deducido del propio nombre de la ficha (paxinasgalegas lista 'apellidos, nombre'), NO de una fuente verificada. Confirmar de viva voz al llamar.\",\"nota\":\"No he podido abrir ninguna segunda fuente: sin red (ver nota general). El 988 431 914 es coherente con el prefijo d…"
+    }
+  ],
+  "totalTokens": 1669634,
+  "totalToolCalls": 395
+}

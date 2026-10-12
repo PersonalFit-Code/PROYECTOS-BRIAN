@@ -1,0 +1,449 @@
+<title>Clínicas de Ourense</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Hoja de llamadas: cabecera fija con el avance y los filtros, y debajo una
+     ficha por clínica, pensada para el móvil con una mano. */
+  :root {
+    --fondo:      #F4F6F7;
+    --papel:      #FFFFFF;
+    --tinta:      #14201F;
+    --tenue:      #5C6B6A;
+    --raya:       #DCE3E3;
+    --acento:     #0D6E63;
+    --acento-flojo:#E3F0EE;
+    --aviso:      #A86A12;
+    --aviso-flojo:#FBF0DC;
+    --no:         #9B3024;
+    --no-flojo:   #FAE7E4;
+    --hecho:      #2E6B2A;
+    --hecho-flojo:#E6F1E4;
+    --ui: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --fondo: #0E1514; --papel: #17201F; --tinta: #E8EDEC; --tenue: #93A3A1;
+      --raya: #2A3634; --acento: #4FBFAF; --acento-flojo: #15302C;
+      --aviso: #E0A84A; --aviso-flojo: #322714;
+      --no: #E58372; --no-flojo: #351D19;
+      --hecho: #7FC178; --hecho-flojo: #192A18;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --fondo: #0E1514; --papel: #17201F; --tinta: #E8EDEC; --tenue: #93A3A1;
+    --raya: #2A3634; --acento: #4FBFAF; --acento-flojo: #15302C;
+    --aviso: #E0A84A; --aviso-flojo: #322714;
+    --no: #E58372; --no-flojo: #351D19;
+    --hecho: #7FC178; --hecho-flojo: #192A18;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--fondo); color: var(--tinta);
+    font-family: var(--ui); font-size: 15px; line-height: 1.45;
+    padding: 0 16px 48px;
+  }
+  h1 { font-size: 19px; font-weight: 700; margin: 0; letter-spacing: -.2px; }
+
+  /* ---------- cabecera ---------- */
+  .cabecera {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    background: var(--fondo); border-bottom: 1px solid var(--raya);
+    margin: 0 -16px; padding: 12px 16px 10px;
+  }
+  .fila-titulo { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .avance { font-family: var(--num); font-size: 13px; color: var(--tenue); font-variant-numeric: tabular-nums; }
+  .avance b { color: var(--acento); }
+  .barra { height: 4px; background: var(--raya); border-radius: 2px; margin: 8px 0 10px; overflow: hidden; }
+  .barra i { display: block; height: 100%; width: 0; background: var(--acento); transition: width .25s; }
+
+  .filtros { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  select, input[type="search"] {
+    font: inherit; font-size: 13px; color: var(--tinta); background: var(--papel);
+    border: 1px solid var(--raya); border-radius: 7px; padding: 6px 8px; min-width: 0;
+  }
+  input[type="search"] { flex: 1 1 140px; }
+  .limpiar {
+    font: inherit; font-size: 13px; background: none; border: 1px solid var(--raya);
+    color: var(--tenue); border-radius: 7px; padding: 6px 10px; cursor: pointer;
+  }
+  .limpiar:hover { color: var(--tinta); }
+
+  /* ---------- fichas ---------- */
+  .lista { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+  .ficha {
+    background: var(--papel); border: 1px solid var(--raya); border-radius: 10px;
+    padding: 12px 14px; display: flex; flex-direction: column; gap: 9px;
+  }
+  .ficha[data-estado="visita"] { border-color: var(--hecho); box-shadow: inset 3px 0 0 var(--hecho); }
+  .ficha[data-estado="volver"] { box-shadow: inset 3px 0 0 var(--aviso); }
+  .ficha[data-estado="no"]     { opacity: .55; }
+  .ficha[data-estado="llamada"]{ opacity: .78; }
+
+  .arriba { display: flex; gap: 10px; align-items: flex-start; }
+  .orden {
+    font-family: var(--num); font-size: 12px; color: var(--tenue);
+    font-variant-numeric: tabular-nums; padding-top: 2px; min-width: 26px;
+  }
+  .nombre { font-weight: 600; line-height: 1.25; }
+  .donde { font-size: 13px; color: var(--tenue); margin-top: 1px; }
+  .quien { font-size: 13px; margin-top: 3px; }
+  .quien b { font-weight: 600; }
+
+  .etqs { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+  .etq {
+    font-size: 11px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 20px; border: 1px solid transparent;
+  }
+  .etq.cadena { background: var(--no-flojo); color: var(--no); }
+  .etq.dudoso { background: var(--aviso-flojo); color: var(--aviso); }
+  .etq.sintel { background: var(--raya); color: var(--tenue); }
+
+  .telefono { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .telefono a, .telefono span.num {
+    font-family: var(--num); font-size: 21px; font-weight: 600; letter-spacing: .5px;
+    color: var(--tinta); text-decoration: none; font-variant-numeric: tabular-nums;
+    user-select: all;
+  }
+  .telefono a:hover { color: var(--acento); }
+  .copiar {
+    font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
+    background: var(--acento-flojo); color: var(--acento);
+    border: none; border-radius: 6px; padding: 5px 10px;
+  }
+  .segundo { font-family: var(--num); font-size: 13px; color: var(--tenue); }
+
+  .aviso-ficha {
+    font-size: 12.5px; color: var(--aviso); background: var(--aviso-flojo);
+    border-radius: 7px; padding: 7px 9px; line-height: 1.4;
+  }
+
+  .acciones { display: flex; gap: 6px; flex-wrap: wrap; }
+  .acciones button {
+    font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    background: var(--papel); color: var(--tenue);
+    border: 1px solid var(--raya); border-radius: 7px; padding: 6px 10px;
+  }
+  .acciones button:hover { border-color: var(--tenue); color: var(--tinta); }
+  .acciones button[aria-pressed="true"] { border-color: currentColor; }
+  .acciones button.b-llamada[aria-pressed="true"] { background: var(--acento-flojo); color: var(--acento); }
+  .acciones button.b-volver[aria-pressed="true"]  { background: var(--aviso-flojo); color: var(--aviso); }
+  .acciones button.b-no[aria-pressed="true"]      { background: var(--no-flojo); color: var(--no); }
+  .acciones button.b-visita[aria-pressed="true"]  { background: var(--hecho-flojo); color: var(--hecho); }
+
+  .nota { display: flex; gap: 6px; align-items: flex-start; }
+  textarea {
+    font: inherit; font-size: 13px; color: var(--tinta); background: var(--fondo);
+    border: 1px solid var(--raya); border-radius: 7px; padding: 6px 8px;
+    width: 100%; min-height: 34px; resize: vertical; line-height: 1.4;
+  }
+  .enlaces { font-size: 12.5px; }
+  .enlaces a { color: var(--acento); }
+
+  .vacio { text-align: center; color: var(--tenue); padding: 40px 0; }
+  .pie { color: var(--tenue); font-size: 12.5px; margin-top: 22px; line-height: 1.5; }
+  .pie b { color: var(--tinta); }
+  .guardando { font-size: 12px; color: var(--tenue); }
+  @media (max-width: 420px) {
+    .orden { display: none; }
+  }
+</style>
+<script>
+const CLINICAS = [{"i":1,"n":"AR-TDental","l":"Ourense","d":"Rúa Guizamonde, s/n, 32001","t":"988 61 34 32","k":"988613432","t2":"","w":"https://www.ar-tdental.es","e":"ar.tdental16@gmail.com","h":"","c":0,"v":1,"a":""},{"i":2,"n":"Centro de Especialidades Odontológicas Cardenal Quiroga","l":"Ourense","d":"Rúa Cardenal Quiroga, 18, 32003","t":"988 10 32 32","k":"988103232","t2":"","w":"cardenalquiroga.com","e":"info@cardenalquiroga.com","h":"","c":0,"v":1,"a":""},{"i":3,"n":"Centro Dental A Ponte","l":"Ourense","d":"Rúa San Rosendo, 16 (directorios dan nº 12 bajo) - 32001","t":"988 51 12 41","k":"988511241","t2":"","w":"https://www.centrodentalaponte.es","e":"","h":"","c":0,"v":1,"a":""},{"i":4,"n":"Centro Dental Lucía Diéguez","l":"Ourense","d":"Rúa do Concello (Calle Concejo), 8, 32003","t":"988 10 25 55","k":"988102555","t2":"","w":"clinicadentalourense.com","e":"info@luciadieguez.com","h":"Lucía Diéguez Villar","c":0,"v":1,"a":""},{"i":5,"n":"Centro Dental Travieso (Beatriz Travieso Álvarez)","l":"Ourense","d":"Rúa Parada Justel, 2 - Esc. oficinas, Local B - 32003","t":"988 22 64 66","k":"988226466","t2":"","w":"https://www.centrodentaltravieso.es","e":"","h":"Beatriz Travieso Álvarez","c":0,"v":1,"a":""},{"i":6,"n":"Centro Médico Progreso (servicio dental)","l":"Ourense","d":"Rúa do Progreso, 143","t":"988 61 67 58","k":"988616758","t2":"","w":"https://cmprogreso.es/","e":"","h":"","c":0,"v":1,"a":""},{"i":7,"n":"Clínica Dental Andrés Villalón","l":"Ourense","d":"Rúa Valle Inclán, 15, 32004","t":"988 24 82 56","k":"988248256","t2":"669 60 96 86","w":"https://www.andresvillalon.es/","e":"clinicadentalandresvillalon@gmail.com","h":"Andrés Villalón","c":0,"v":1,"a":""},{"i":8,"n":"Clínica Dental Blanco Arce","l":"Ourense","d":"Calle do Paseo, 21, 2º Izqda., 32003","t":"988 21 32 69","k":"988213269","t2":"655 71 52 34","w":"clinicadentalblancoarce.es","e":"info@clinicadentalblancoarce.es","h":"Adela Lucía Blanco Arce","c":0,"v":1,"a":""},{"i":9,"n":"Clínica Dental Carmen Fernández Aguiar","l":"Ourense","d":"Avenida de Portugal, 23, 32002","t":"988 24 81 49","k":"988248149","t2":"","w":"clinicadentalcarmenaguiar.com","e":"","h":"Carmen Fernández Aguiar","c":0,"v":1,"a":""},{"i":10,"n":"Clínica Dental Code San Antonio (Code Dental S.L.)","l":"Ourense","d":"Avda. Buenos Aires 34, bajo, 32004","t":"988 51 13 19","k":"988511319","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":11,"n":"Clínica Dental Dentalnova Ourense","l":"Ourense","d":"Concordia 28, bajo, 32003","t":"988 04 21 34","k":"988042134","t2":"","w":"dentalnova.com","e":"","h":"","c":0,"v":1,"a":""},{"i":12,"n":"Clínica Dental Dra. Gloria Rodríguez","l":"Ourense","d":"Rúa do Paseo, 28","t":"988 21 38 31","k":"988213831","t2":"","w":"https://www.dragloriarodriguez.es","e":"","h":"Gloria Rodríguez","c":0,"v":1,"a":""},{"i":13,"n":"Clínica Dental Dra. Mª Teresa Leyes Vence (Vadillo y Leyes)","l":"Ourense","d":"Avda. da Habana, 36, 32003","t":"988 36 63 25","k":"988366325","t2":"","w":"https://www.clinicadentalourense.es/","e":"vadilloyleyes@hotmail.com","h":"Mª Teresa Leyes Vence","c":0,"v":1,"a":""},{"i":14,"n":"Clínica Dental El Puente","l":"Ourense","d":"Rúa Rosalía de Castro, 5 bajo, 32001","t":"988 21 21 44","k":"988212144","t2":"664 80 47 89","w":"dentalelpuente.es","e":"","h":"","c":0,"v":1,"a":""},{"i":15,"n":"Clínica Dental Jorge Mato Ourense","l":"Ourense","d":"Avda. de la Habana, 41, 32003","t":"988 00 39 28","k":"988003928","t2":"663 73 01 40","w":"clinicadentaljorgemato.com","e":"","h":"Jorge Mato","c":0,"v":1,"a":""},{"i":16,"n":"Clínica Dental José Rivera Cid","l":"Ourense","d":"Rúa do Paseo, 3, 1º, 32003","t":"988 22 04 89","k":"988220489","t2":"","w":"","e":"","h":"José Rivera Cid","c":0,"v":1,"a":""},{"i":17,"n":"Clínica Dental Juan XXIII","l":"Ourense","d":"Rúa Juan XXIII, 17, entresuelo izqda., 32003","t":"988 21 85 91","k":"988218591","t2":"679 15 56 93","w":"https://clinicadentaljuanxxiii.com/","e":"clinicadentaljuan23@gmail.com","h":"Dr. Óscar Garrido","c":0,"v":1,"a":""},{"i":18,"n":"Clínica Dental Julio Vázquez Quintela","l":"Ourense","d":"Rúa do Progreso, 85, 1º, 32003","t":"988 24 34 26","k":"988243426","t2":"","w":"clinicadentalvazquezquintela.es","e":"info@clinicadentalvazquezquintela.es","h":"Julio Vázquez Quintela","c":0,"v":1,"a":""},{"i":19,"n":"Clínica Dental Marfil","l":"Ourense","d":"Rúa Esgos, 24 Bajo - 32004","t":"988 23 03 84","k":"988230384","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":20,"n":"Clínica Dental Margal","l":"Ourense","d":"Rúa Marcelo Macías, 5 bajo, 32002","t":"988 24 93 63","k":"988249363","t2":"","w":"clinicadentalmargal.com","e":"clinicadentalmargal@gmail.com","h":"Jacobo López Maceiras","c":0,"v":1,"a":""},{"i":21,"n":"Clínica Dental Marisol Suárez","l":"Ourense","d":"Calle do Paseo, 7, 3º A, 32003","t":"988 37 16 66","k":"988371666","t2":"","w":"clinicadentalmarisolsuarez.com","e":"","h":"Marisol Suárez","c":0,"v":1,"a":""},{"i":22,"n":"Clínica Dental Morales","l":"Ourense","d":"Rúa Ramón Cabanillas, 4, entreplanta B","t":"988 26 96 14","k":"988269614","t2":"604 03 27 68","w":"https://www.clinicadentalmorales.net","e":"","h":"Dra. Pilar Morales López","c":0,"v":1,"a":""},{"i":23,"n":"Clínica Dental Oudent","l":"Ourense","d":"Avda. da Universidade, 1 Bis, 32005","t":"988 24 13 74","k":"988241374","t2":"607 49 61 61","w":"clinicadentaloudent.com","e":"oudent.clinicadental@gmail.com","h":"","c":0,"v":1,"a":""},{"i":24,"n":"Clínica Dental PERIOU","l":"Ourense","d":"Rúa Curros Enríquez, 9, 32003","t":"988 25 20 78","k":"988252078","t2":"","w":"https://periourense.com/","e":"info@periourense.com","h":"","c":0,"v":1,"a":""},{"i":25,"n":"Clínica Dental Ramos Dacal","l":"Ourense","d":"Rúa do Paseo, 1, 32003","t":"988 31 84 48","k":"988318448","t2":"696 43 20 00","w":"ramosdacal.com","e":"ourense@ramosdacal.com","h":"Juan Dacal","c":0,"v":1,"a":""},{"i":26,"n":"Clínica Dental Saindent","l":"Ourense","d":"Rúa Nosa Sra. da Saínza, 17 bajo 3, 32005","t":"988 25 30 41","k":"988253041","t2":"610 12 12 00","w":"","e":"saindent@hotmail.com","h":"","c":0,"v":1,"a":""},{"i":27,"n":"Clínica Dental Santo Domingo","l":"Ourense","d":"Rúa do Progreso, 127 bajo","t":"988 22 38 02","k":"988223802","t2":"673 97 91 61","w":"https://clinicasantodomingo.com","e":"","h":"","c":0,"v":1,"a":""},{"i":28,"n":"Clínica Dental Sáenz-Díez","l":"Ourense","d":"Parque de San Lázaro, 10, 3º D, 32003","t":"988 25 14 19","k":"988251419","t2":"682 72 88 83","w":"clinicadentalsaenz-diez.com","e":"","h":"Francisco Sáenz-Díez Belín","c":0,"v":1,"a":""},{"i":29,"n":"Clínica Dental Vila Real (Rodríguez Guitián)","l":"Ourense","d":"Rúa Vila Real, 2 bajo, 32002 (barrio de O Couto)","t":"988 24 60 72","k":"988246072","t2":"604 05 43 28","w":"clinicadentalvilareal.com","e":"info@clinicadentalvilareal.com","h":"","c":0,"v":1,"a":""},{"i":30,"n":"Clínica Doctor Romero Sánchez","l":"Ourense","d":"Rúa Valle Inclán, 16, 32004","t":"988 23 27 87","k":"988232787","t2":"","w":"https://www.clinicadentalalbertoromero.com","e":"","h":"Dr. Romero Sánchez","c":0,"v":1,"a":""},{"i":31,"n":"Clínica Martínez Silva","l":"Ourense","d":"Rúa Barreidos, 12","t":"988 37 08 97","k":"988370897","t2":"630 95 23 54","w":"https://clinicamartinezsilva.com/","e":"","h":"Juan José Martínez Silva","c":0,"v":1,"a":""},{"i":32,"n":"Clínica Mis Primeros Dientes","l":"Ourense","d":"Rúa do Progreso, 105 - 32003","t":"988 06 35 54","k":"988063554","t2":"679 59 22 74","w":"https://www.clinicamisprimerosdientes.com","e":"","h":"","c":0,"v":1,"a":""},{"i":33,"n":"Clínica Val (Dra. María Teresa Val Fernández)","l":"Ourense","d":"Rúa do Progreso, 137 bajo, 32003","t":"988 21 28 97","k":"988212897","t2":"634 81 88 25","w":"clinicaval.es","e":"infodental@clinicateresaval.es","h":"María Teresa Val Fernández","c":0,"v":1,"a":""},{"i":34,"n":"Consulta privada Dr. Alfonso Cortés Villar","l":"Ourense","d":"Rúa Curros Enríquez, 31, 32003","t":"988 37 37 47","k":"988373747","t2":"","w":"","e":"","h":"Alfonso Cortés Villar","c":0,"v":1,"a":""},{"i":35,"n":"Dacoba Dental Odontología","l":"Ourense","d":"Rúa de Santo Domingo, 38, 2º, 32003","t":"988 24 48 05","k":"988244805","t2":"","w":"dacobadental.com","e":"info@dacobadental.com","h":"Héctor Manuel González Dacoba","c":0,"v":1,"a":""},{"i":36,"n":"Doctor Santiago Sousa Rodríguez","l":"Ourense","d":"Rúa Santo Domingo, 62","t":"988 24 20 28","k":"988242028","t2":"","w":"","e":"","h":"Santiago Sousa Rodríguez","c":0,"v":1,"a":""},{"i":37,"n":"Dra. Paloma Álvarez Colunga","l":"Ourense","d":"Rúa da Habana, 71, 32003","t":"988 22 34 00","k":"988223400","t2":"","w":"","e":"","h":"Paloma Álvarez Colunga","c":0,"v":1,"a":""},{"i":38,"n":"Instituto Dental y Facial","l":"Ourense","d":"Rúa Samuel Eijan, 9, 32003","t":"988 04 22 41","k":"988042241","t2":"","w":"institutodentalfacial.com","e":"info@institutodentalfacial.com","h":"","c":0,"v":1,"a":""},{"i":39,"n":"Mora & García Clínica Odontológica","l":"Ourense","d":"Rúa Sáenz Díez, 35, 32003","t":"988 58 58 58","k":"988585858","t2":"","w":"moragarcia.es","e":"","h":"Mora y García","c":0,"v":1,"a":""},{"i":40,"n":"Moraima Clínica Dental","l":"Ourense","d":"Rúa Celso Emilio Ferreiro, 19","t":"988 60 65 45","k":"988606545","t2":"","w":"https://moraimaclinicadental.com","e":"","h":"","c":0,"v":1,"a":""},{"i":41,"n":"Sonia Casares Dorribo Centro Dental","l":"Ourense","d":"Rúa Ramón Puga, 31 (otras fuentes: Ramón Puga Noguerol, 42)","t":"988 25 53 80","k":"988255380","t2":"","w":"","e":"","h":"Sonia Casares Dorribo","c":0,"v":1,"a":""},{"i":42,"n":"Varela Dental","l":"Ourense","d":"Rúa Río Mao, 14 (otras fuentes: 15 o 18)","t":"988 04 44 39","k":"988044439","t2":"","w":"https://vareladental.com","e":"","h":"","c":0,"v":1,"a":""},{"i":43,"n":"B & G de Servicios Sanitarios S.L.P.","l":"Ourense","d":"Rúa Arturo Pérez Serantes, 3, 32005","t":"988 22 28 00","k":"988222800","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso web en esta sesion, no he podido abrir ninguna segunda fuente. Aviso aparte, de la propia ficha: \"B & G de Servicios Sanitarios S.L.P.\" es una razon social, no el nombre comercial de la clinica."},{"i":44,"n":"Centro Dental AV","l":"Ourense","d":"Progreso 161, entreplanta","t":"988 06 36 61","k":"988063661","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 988 063 661 es fijo de Ourense en el rango relativamente nuevo 988 06x: válido, pero igual que el caso anterior puede desembocar en centralita o servicio de c"},{"i":45,"n":"Centro Dental Ponte-Ourense S.L.","l":"Ourense","d":"Rúa do Paseo, 19 bajo","t":"988 21 23 44","k":"988212344","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso a web. Fuente unica paginasamarillas (de las mejores de la lista, pero sin cruzar). El numero es coherente: 988 212 344 tiene la forma de fijo de Ourense capital. Es de las que marcaria primero "},{"i":46,"n":"Clínica de Ortodoncia Dra. Carmen Iglesias Conde","l":"Ourense","d":"Rúa Bedoya, 3","t":"988 24 34 69","k":"988243469","t2":"","w":"","e":"","h":"Carmen Iglesias Conde","c":0,"v":0,"a":"NO verificado: sin acceso web, cero segundas fuentes. Misma pega de origen que el registro anterior: viene de aaoinfo.org (asociacion estadounidense), fuente debil y a menudo vieja para datos españoles. Formato correcto "},{"i":47,"n":"Clínica Dental Alfredo Arias Menor","l":"Ourense","d":"Avenida de Zamora, 3, entresuelo local 4, 32005","t":"988 22 88 81","k":"988228881","t2":"988 22 84 70","w":"","e":"","h":"Alfredo Arias Menor","c":0,"v":0,"a":"No se ha podido buscar segunda fuente (sin acceso a web en esta sesión). El 988 es el prefijo correcto de Ourense, pero eso NO confirma el número: solo dice que tiene la forma esperada. Sigue apoyado en una sola fuente ("},{"i":48,"n":"Clínica Dental Barba Cermeño, Félix","l":"Ourense","d":"Rúa Juan Manuel Bedoya 4, 32003","t":"988 24 98 05","k":"988249805","t2":"","w":"","e":"","h":"Dr. Félix Barba Cermeño","c":0,"v":0,"a":"NO contrastado: sin salida a internet. El 988 249 805 sigue siendo solo el dato de masquemedicos. Formato coherente con Ourense (988)."},{"i":49,"n":"Clínica Dental Carmen Salgado","l":"Ourense","d":"","t":"988 21 05 96","k":"988210596","t2":"","w":"","e":"","h":"Carmen Salgado","c":0,"v":0,"a":"NO verificado: sin acceso a web. La fuente (ourense-ga.spain-web.com) es un directorio autogenerado y es la de menor calidad de toda la lista, asi que esta ficha es la que mas pide cruzarse. El titular probable sale del "},{"i":50,"n":"Clínica Dental Dr. José Emilio Coello Carretero","l":"Ourense","d":"Rúa Sáenz Díez 39, 32001","t":"988 37 22 34","k":"988372234","t2":"","w":"","e":"","h":"Dr. José Emilio Coello Carretero","c":0,"v":0,"a":"NO he podido contrastar nada: en esta sesion no hay salida a internet (ver nota general). El 988 372 234 sigue siendo el dato de masquemedicos sin segunda fuente. Formato coherente con Ourense (prefijo 988)."},{"i":51,"n":"Clínica Dental Dr. Ramón Prada Rodríguez","l":"Ourense","d":"Avda. de la Habana 17, bajo, 32003","t":"988 25 33 65","k":"988253365","t2":"","w":"","e":"","h":"Dr. Ramón Prada Rodríguez","c":0,"v":0,"a":"NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 988 253 365 está en el rango clásico de fijo de la ciudad de Ourense (988 25x), consistente con la localidad; solo formato, NO confirmación. La fuente de orig"},{"i":52,"n":"Clínica Dental Dr. Vidal","l":"Ourense","d":"Avda. de la Habana 71","t":"988 25 43 35","k":"988254335","t2":"","w":"","e":"","h":"Dr. Vidal","c":0,"v":0,"a":"NO contrastado: sin salida a internet. El 988 254 335 viene solo de cylex, que es un agregador y suele ir desactualizado: conviene contrastarlo antes de darlo por bueno. No tengo el nombre de pila del Dr. Vidal y no me l"},{"i":53,"n":"Clínica Dental Eva Cruz","l":"Ourense","d":"Parque de San Lázaro 9, 32003","t":"988 00 00 97","k":"988000097","t2":"667 90 37 00","w":"","e":"","h":"Eva Cruz","c":0,"v":0,"a":"NO VERIFICADO: sin acceso a segunda fuente en esta sesión. ATENCIÓN AL MARCAR: el 988 000 097 está en el bloque atípico 988 000 0xx. Es numeración válida y existente en Ourense, pero es el tipo de asignación (VoIP recien"},{"i":54,"n":"Clínica Dental Juan XXIII","l":"Ourense","d":"C/ Juan XXIII 17","t":"679 15 56 93","k":"679155693","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO contrastado: sin salida a internet. ESTA ES LA MAS DEBIL DE LAS SIETE, por dos motivos: (1) el 679 155 693 es un movil, no un fijo 988 como el resto; (2) la fuente no es una ficha propia de la clinica sino la pagina i"},{"i":55,"n":"Clínica Dental Otero Fernández","l":"Ourense","d":"Calle San Paio, 12","t":"988 60 34 88","k":"988603488","t2":"","w":"https://www.clinicaoterofernandez.es/","e":"","h":"Otero Fernández","c":0,"v":0,"a":"Sin segunda fuente independiente: su fuente única YA es la web de la propia clínica (clinicaoterofernandez.es), que es la mejor fuente posible, pero hoy no he podido abrirla para leer el pie de página ni /contacto, así q"},{"i":56,"n":"Clínica Dental Pérez Alonso, Ana Mª","l":"Ourense","d":"Avda. Buenos Aires 103, bajo, 32004","t":"988 23 37 86","k":"988233786","t2":"","w":"clinicadentalampa.com","e":"","h":"Ana Mª Pérez Alonso","c":0,"v":0,"a":"NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 988 233 786 está en el rango clásico de fijo de la ciudad de Ourense (988 23x), consistente con la localidad; solo formato, NO confirmación. IMPORTANTE: inten"},{"i":57,"n":"Clínica Dental Santana","l":"Ourense","d":"Progreso 149, 2º of. 5, 32003","t":"698 12 21 54","k":"698122154","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 698 122 154 es un móvil español bien formado (prefijo 69x); solo formato, NO confirmación. Ficha únicamente con móvil: conviene confirmar de viva voz el nombr"},{"i":58,"n":"Clínica Fernández de Gatta","l":"Ourense","d":"Rúa Juan XXIII, 23, 1º D, 32003","t":"988 21 08 19","k":"988210819","t2":"","w":"","e":"","h":"Dr. Fernández de Gatta","c":0,"v":0,"a":"NO verificado. Formato valido (988 = Ourense capital). Para preguntar por el titular, 'el doctor Fernandez de Gatta' es razonable, pero no tengo nombre de pila ni confirmacion de que el titular siga siendo esa persona. F"},{"i":59,"n":"Clínica Matuca","l":"Ourense","d":"Rúa Curros Enríquez, 30, 32003","t":"679 52 81 17","k":"679528117","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"Sin segunda fuente (sin acceso a web). Ojo: 679 es un móvil, no fijo. En clínicas pequeñas suele ser el móvil/WhatsApp del titular, así que puede no responder en horario de consulta o ser una línea personal. Fuente única"},{"i":60,"n":"Clínica Mis Primeros Dientes (odontopediatría)","l":"Ourense","d":"Rúa do Progreso, 105","t":"679 59 22 74","k":"679592274","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso web, cero segundas fuentes. Observacion sobre el dato en si: 679 592 274 es un MOVIL, no un fijo. En una consulta pequeña de odontopediatria es normal, pero un movil en un directorio tambien es "},{"i":61,"n":"Dr. Juan Carlos Pérez Varela (ortodoncia)","l":"Ourense","d":"Rúa Ramón Cabanillas, 14, entreplanta local 5, 32004","t":"988 24 03 67","k":"988240367","t2":"","w":"","e":"","h":"Juan Carlos Pérez Varela","c":0,"v":0,"a":"NO verificado: sin acceso web, cero segundas fuentes. ESTA ES LA QUE YO MIRARIA PRIMERO. Dos motivos: (1) la fuente es aaoinfo.org, el buscador de la asociacion de ortodoncistas de EEUU, que no es una fuente fuerte para "},{"i":62,"n":"Nenos Odontología Infantil","l":"Ourense","d":"Rúa do Paseo, 2","t":"988 25 52 42","k":"988255242","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso a web. Fuente unica paginasamarillas. 988 255 242 tiene forma de fijo de Ourense capital, coherente. No he podido averiguar el titular. Nota comercial: es odontopediatria, agenda con padres que "},{"i":63,"n":"Ortodoncia Ourense","l":"Ourense","d":"Rúa Xoán de Novoa, 3","t":"988 00 99 00","k":"988009900","t2":"","w":"ortodonciaourense.com","e":"","h":"","c":0,"v":0,"a":"No he podido abrir ortodonciaourense.com (bloqueo de red), que era justo la mejor fuente. El 988 00 99 00 tiene un patrón muy redondo y repetitivo; eso NO prueba que esté mal, pero merece una comprobación extra antes de "},{"i":64,"n":"Soara Clínica Dental","l":"Ourense","d":"Calle Pena Trevinca, 44 - 32005","t":"988 24 67 70","k":"988246770","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso web, cero segundas fuentes. Punto flojo propio: la fuente que traia es la pagina de listado general de paginasamarillas para dentistas de Ourense, no una ficha individual de la clinica, asi que "},{"i":65,"n":"Caredent Ourense","l":"Ourense","d":"Rúa Papa Juan XXIII, 7, 32003","t":"988 37 46 50","k":"988374650","t2":"679 49 36 67","w":"caredent.es","e":"","h":"","c":1,"v":1,"a":""},{"i":66,"n":"Dentix Ourense (ATENCION: Dentix entro en liquidacion en 2020; en Rua do Paseo 1 figura ahora Ramos Dacal - verificar antes de llamar)","l":"Ourense","d":"Rúa do Paseo, 1 - 32003","t":"988 36 65 42","k":"988366542","t2":"","w":"","e":"","h":"","c":1,"v":1,"a":""},{"i":67,"n":"Sanitas Dental Milenium Ourense","l":"Ourense","d":"Rúa do Progreso, 83","t":"988 31 67 00","k":"988316700","t2":"","w":"clinicadental-ourense.sanitas.es","e":"","h":"","c":1,"v":1,"a":""},{"i":68,"n":"Vitaldent Ourense (Progreso)","l":"Ourense","d":"Calle do Progreso, 95","t":"988 51 16 00","k":"988511600","t2":"","w":"clinicas.vitaldent.com","e":"orense1@vitaldent.com","h":"","c":1,"v":1,"a":""},{"i":69,"n":"Vitaldent Ourense (Vicente Risco)","l":"Ourense","d":"Calle Vicente Risco, 1","t":"988 03 30 00","k":"988033000","t2":"","w":"clinicas.vitaldent.com","e":"","h":"","c":1,"v":1,"a":""},{"i":70,"n":"Clínica Dental Adeslas Ourense","l":"Ourense","d":"Rúa da Concordia, 3, 32003","t":"900 22 99 22","k":"900229922","t2":"","w":"adeslasdental.es","e":"","h":"","c":1,"v":0,"a":"NO verificado, y ademas es el numero que yo NO marcaria mañana. El 902 530 954 es un numero de tarificacion especial de ambito nacional, es decir el call center central de Adeslas Dental, no la recepcion de la clinica de"},{"i":71,"n":"Clínica Dental Adeslas Ourense","l":"Ourense","d":"Rúa da Concordia, 3, 32003","t":"902 53 09 54","k":"902530954","t2":"900 22 99 22","w":"https://www.adeslasdental.es/clinicas/ourense","e":"","h":"","c":1,"v":0,"a":"NO verificado, y ademas es el numero que yo NO marcaria mañana. El 902 530 954 es un numero de tarificacion especial de ambito nacional, es decir el call center central de Adeslas Dental, no la recepcion de la clinica de"},{"i":72,"n":"Clínica Dental Oro Claro","l":"Ourense","d":"","t":"988 37 20 58","k":"988372058","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso a web. Fuente unica paginasamarillas (pagina de categoria, no ficha propia, que es algo mas flojo que una ficha individual). 988 372 058 no lo he podido cruzar; conviene comprobarlo porque la fi"},{"i":73,"n":"C3D Clínica Dental","l":"Ourense","d":"Rúa Alejandro Outeiriño, 9, 1º A, 32003","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":74,"n":"Caterina Otero Fernández","l":"Ourense","d":"Rúa Esgos 24, 32004","t":"","k":"","t2":"","w":"","e":"","h":"Caterina Otero Fernández","c":0,"v":0,"a":""},{"i":75,"n":"Clínica Dental Alfredo Arias Menor","l":"Ourense","d":"Avenida de Zamora, 3 - Entresuelo 4","t":"","k":"","t2":"","w":"","e":"","h":"Alfredo Arias Menor","c":0,"v":0,"a":"No se ha podido buscar segunda fuente (sin acceso a web en esta sesión). El 988 es el prefijo correcto de Ourense, pero eso NO confirma el número: solo dice que tiene la forma esperada. Sigue apoyado en una sola fuente ("},{"i":76,"n":"Clínica Dental Cardenal Quiroga","l":"Ourense","d":"zona casco histórico (dirección exacta no confirmada)","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":77,"n":"Clínica Dental Carmen Fernández Aguiar","l":"Ourense","d":"Avda. de Portugal, 23","t":"","k":"","t2":"","w":"","e":"","h":"Carmen Fernández Aguiar","c":0,"v":0,"a":""},{"i":78,"n":"Clínica Dental Casares Dorribo, Sonia","l":"Ourense","d":"Rúa Ramón Puga Noguerol, 42 bajo, 32005","t":"","k":"","t2":"","w":"","e":"","h":"Sonia Casares Dorribo","c":0,"v":0,"a":""},{"i":79,"n":"Clínica Dental Ceiga","l":"Ourense","d":"Rúa do Paseo, 19, 3º Izq., 32003","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":80,"n":"Clínica Dental Mariano Arranz Rodríguez (Clínica Casiano)","l":"Ourense","d":"Rúa do Progreso, 161, entreplanta, 32003","t":"","k":"","t2":"","w":"","e":"","h":"Mariano Arranz Rodríguez","c":0,"v":0,"a":""},{"i":81,"n":"Clínica Dental Morales","l":"Ourense","d":"Rúa Ramón Cabanillas, 4, entresuelo B, 32004","t":"","k":"","t2":"","w":"","e":"","h":"Dra. Pilar Morales López (col. nº 732)","c":0,"v":0,"a":""},{"i":82,"n":"Clínica Dental Quintas & Prada","l":"Ourense","d":"Rúa do Ribeiriño, 4","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":83,"n":"Clínica Dental Rivera (Ourense)","l":"Ourense","d":"Rúa do Paseo, 3 - 1º","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":84,"n":"Clínica Dental Rodríguez Guitián, Ramón Mª","l":"Ourense","d":"","t":"","k":"","t2":"","w":"","e":"","h":"Ramón Mª Rodríguez Guitián","c":0,"v":0,"a":""},{"i":85,"n":"Clínica Dental Romero Arriola","l":"Ourense","d":"Rúa Valle Inclán, 16-A, 1º E, 32004","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":86,"n":"Clínica Dental Travieso Álvarez, Beatriz","l":"Ourense","d":"Rúa Parada Justel, 2-A, 32003","t":"","k":"","t2":"","w":"","e":"","h":"Beatriz Travieso Álvarez","c":0,"v":0,"a":""},{"i":87,"n":"Clínica Dental Urbano Alejandro Santana Mora","l":"Ourense","d":"Rúa do Progreso, 149, 2º, oficina 5","t":"","k":"","t2":"","w":"","e":"","h":"Urbano Alejandro Santana Mora","c":0,"v":0,"a":""},{"i":88,"n":"Clínica Dental Vila Real","l":"Ourense","d":"Rúa Vila Real, 2 bajo, 32002 (barrio de O Couto)","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":89,"n":"Clínica Doctor Romero Sánchez","l":"Ourense","d":"Valle Inclán, 16","t":"","k":"","t2":"","w":"","e":"","h":"Romero Sánchez","c":0,"v":0,"a":""},{"i":90,"n":"Dra. Laura Laso (ortodoncia)","l":"Ourense","d":"Rúa Xoán de Nóvoa, 3","t":"","k":"","t2":"","w":"","e":"","h":"Laura Laso","c":0,"v":0,"a":""},{"i":91,"n":"Moraima Clínica Dental","l":"Ourense","d":"","t":"","k":"","t2":"","w":"https://moraimaclinicadental.com/","e":"","h":"","c":0,"v":0,"a":""},{"i":92,"n":"Viñas Clínica Dental","l":"Ourense","d":"Rúa Ricardo Martín Esperanza, 9","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":93,"n":"Ar-T Dental","l":"Ourense","d":"Guizamonde","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":94,"n":"Caldas Dental","l":"Ourense","d":"barrio de A Ponte","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":95,"n":"Centro Carrera (servicio dental)","l":"Ourense","d":"Rúa Faustino Míguez, 12 (esquina c/ Dalí), 32002 (O Couto)","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":96,"n":"Clínica Dental Deliatorco","l":"Ourense","d":"","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":97,"n":"Clínica dental en Rúa San Rosendo, 16 (barrio A Ponte)","l":"Ourense","d":"Rúa San Rosendo, 16 bajo, 32001","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":98,"n":"Clínica Mis Primeros Dientes","l":"Ourense","d":"","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":99,"n":"Dr. Smile Ourense","l":"Ourense","d":"Rúa do Progreso, 85 - 32003","t":"","k":"","t2":"","w":"","e":"","h":"","c":1,"v":0,"a":""},{"i":100,"n":"Arranz Dental Allariz","l":"Allariz","d":"Estrada de Xunqueira, 34, 32660","t":"988 44 08 43","k":"988440843","t2":"","w":"https://arranz.dental","e":"","h":"","c":0,"v":1,"a":""},{"i":101,"n":"Castro & Aguilera Clínica Dental","l":"Barbadás","d":"Avda. de Celanova, 51 bajo, A Valenzá, 32002","t":"988 04 02 43","k":"988040243","t2":"611 27 68 20","w":"castroaguilera.com","e":"","h":"","c":0,"v":1,"a":""},{"i":102,"n":"Centro Dental Valdeorras S.L.","l":"O Barco de Valdeorras","d":"Praza José Otero, 6, 1º-1, 32300","t":"988 32 18 18","k":"988321818","t2":"988 68 28 89","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":103,"n":"Centro Odontolóxico Dentario","l":"Verín","d":"Rúa Canella Cega, 9 bajo, 32600","t":"988 41 07 95","k":"988410795","t2":"","w":"","e":"","h":"J. Delfín Pérez Delgado","c":0,"v":1,"a":""},{"i":104,"n":"CEOX Clínica Dental","l":"Xinzo de Limia","d":"Avenida de Ourense, 32, bajo 11, 32630","t":"988 55 06 56","k":"988550656","t2":"","w":"https://www.facebook.com/clinicadentalceoxxinzodelimia/","e":"info@ceoxclinicadental.com","h":"","c":0,"v":1,"a":""},{"i":105,"n":"Clínica Dental A Limia","l":"Xinzo de Limia","d":"Avenida de Ourense, 11 bajo, 32630","t":"988 46 27 82","k":"988462782","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":106,"n":"Clínica Dental Allariz","l":"Allariz","d":"Rúa Emilia Pardo Bazán, 47, 1ºH, 32660","t":"988 44 03 53","k":"988440353","t2":"","w":"clinicadentalallariz.com","e":"contacto@clinicadentalallariz.com","h":"Roberto Meijide del Río","c":0,"v":1,"a":""},{"i":107,"n":"Clínica Dental Ana Suárez Novelle","l":"Barbadás","d":"Avda. de Celanova, 128","t":"988 24 97 64","k":"988249764","t2":"","w":"https://www.clinicadentalanasuarez.com","e":"","h":"Ana Suárez Novelle","c":0,"v":1,"a":""},{"i":108,"n":"Clínica Dental Arias","l":"Verín","d":"Av. Luis Espada, 51 bajo, 32600","t":"988 41 00 65","k":"988410065","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":109,"n":"Clínica Dental Art","l":"O Barco de Valdeorras","d":"Rúa Marcelino Suárez, 22 - Piso 1º Dcha. - 32300","t":"988 32 66 02","k":"988326602","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":110,"n":"Clínica Dental Aurelio Rodríguez Cid","l":"Xinzo de Limia","d":"Rúa Santa Mariña, 95, 1ºA, 32630","t":"988 46 07 04","k":"988460704","t2":"","w":"","e":"","h":"Aurelio Rodríguez Cid","c":0,"v":1,"a":""},{"i":111,"n":"Clínica Dental Breogán","l":"O Carballiño","d":"Rúa San Cibrán, 2 A bajo, 32500","t":"988 27 19 00","k":"988271900","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":112,"n":"Clínica Dental Carballiño","l":"O Carballiño","d":"Calle Chamoso Lamas, 6, 1º, 32500","t":"988 27 25 04","k":"988272504","t2":"","w":"clinicadentalcarballino.es","e":"info@clinicadentalcarballino.es","h":"","c":0,"v":1,"a":""},{"i":113,"n":"Clínica Dental Dentalnova","l":"Verín","d":"Rúa Laureano Peláez, 2, 32600","t":"988 41 16 51","k":"988411651","t2":"","w":"https://dentalnova.com","e":"","h":"Antonio Justo García","c":0,"v":1,"a":""},{"i":114,"n":"Clínica Dental Dosdentis","l":"Xinzo de Limia","d":"Rúa Rosalía de Castro, 11, 32630","t":"988 68 09 32","k":"988680932","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":115,"n":"Clínica Dental Dr. Gabriel Castellano","l":"O Barco de Valdeorras","d":"C/ Eulogio Fernández, 16 bajo, 32300","t":"988 32 51 70","k":"988325170","t2":"","w":"clinicadentalcastellano.com","e":"","h":"Gabriel Castellano","c":0,"v":1,"a":""},{"i":116,"n":"Clínica Dental Dra. Angelina Castro Redondo","l":"Verín","d":"Avda. Luis Espada, 21, 32600","t":"988 41 30 08","k":"988413008","t2":"","w":"","e":"","h":"Angelina Castro Redondo","c":0,"v":1,"a":""},{"i":117,"n":"Clínica Dental Escudero Mariño","l":"Ribadavia","d":"Rúa do Progreso, 22, 32400","t":"988 47 00 64","k":"988470064","t2":"","w":"","e":"","h":"Dra. Escudero Mariño","c":0,"v":1,"a":""},{"i":118,"n":"Clínica Dental Iliana Novoa Pérez","l":"Celanova","d":"Rúa Francisco González Rey, 27, 32800","t":"988 45 17 01","k":"988451701","t2":"","w":"","e":"","h":"Iliana Novoa Pérez","c":0,"v":1,"a":""},{"i":119,"n":"Clínica Dental Jorge Mato Verín","l":"Verín","d":"Av. Luis Espada, 17 bajo, 32600","t":"988 54 07 74","k":"988540774","t2":"","w":"clinicadentaljorgemato.com","e":"","h":"Jorge Mato","c":0,"v":1,"a":""},{"i":120,"n":"Clínica Dental José Manuel Di Girolamo Carnero","l":"Xinzo de Limia","d":"Rúa do Peto, 1, 32630","t":"988 46 28 81","k":"988462881","t2":"","w":"","e":"","h":"José Manuel Di Girolamo Carnero","c":0,"v":1,"a":""},{"i":121,"n":"Clínica Dental Parracía","l":"Barbadás","d":"Avda. de Celanova, 21 (algunos directorios indican 15), A Valenzá, 32002","t":"988 60 14 13","k":"988601413","t2":"","w":"parracia.es","e":"info@parracia.es","h":"Karina Caeiro Parracía","c":0,"v":1,"a":""},{"i":122,"n":"Clínica Dental Paseo","l":"O Carballiño","d":"Rúa Rosalía de Castro, 20 / Praza Maior, 29, 32500","t":"988 27 41 09","k":"988274109","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":123,"n":"Clínica Dental Ribadavia (Dra. Ana María Chaar Milano)","l":"Ribadavia","d":"Rúa/Travesía do Ribeiro, 1, 32400","t":"988 47 04 56","k":"988470456","t2":"","w":"","e":"","h":"Ana María Chaar Milano","c":0,"v":1,"a":""},{"i":124,"n":"Clínica Dental Ribadent","l":"Ribadavia","d":"Rúa do Corral, 8, 32400","t":"988 47 23 04","k":"988472304","t2":"600 68 71 07","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":125,"n":"Clínica Dental Rivera","l":"Maceda","d":"Calle Aureliano Ferreiro, 19 bajo, 32700","t":"988 46 30 70","k":"988463070","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":126,"n":"Clínica Dental Santo Domingo","l":"Xinzo de Limia","d":"Rúa Dous de Maio, 18, 1-C, 32630","t":"988 46 20 77","k":"988462077","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":127,"n":"Clínica Dental Sáenz-Díez Belín (Maceda)","l":"Maceda","d":"Rúa Aureliano Ferreiro, 2, entlo., 32700","t":"988 46 32 51","k":"988463251","t2":"","w":"","e":"","h":"Francisco Sáenz-Díez Belín","c":0,"v":1,"a":""},{"i":128,"n":"Clínica Dental Sáenz-Díez Maceda","l":"Maceda","d":"Rúa Aureliano Ferreiro, 2, 32700","t":"988 46 32 21","k":"988463221","t2":"988 46 32 51","w":"clinicadentalsaenz-diez.com","e":"","h":"Francisco Sáenz-Díez Belín","c":0,"v":1,"a":""},{"i":129,"n":"Clínica Dental Trigás","l":"O Carballiño","d":"Rúa Curros Enríquez, 17, 1ºB, 32500","t":"988 27 51 39","k":"988275139","t2":"","w":"","e":"","h":"Alberto Trigás","c":0,"v":1,"a":""},{"i":130,"n":"Clínica Dental Val de Monterrei","l":"Verín","d":"Avenida Cabreiroá, s/n - 32600","t":"988 59 04 66","k":"988590466","t2":"640 16 22 04","w":"https://valmonterrei.com","e":"","h":"","c":0,"v":1,"a":""},{"i":131,"n":"Clínica Dental Valenzá","l":"Barbadás","d":"Rúa Os Diestros, 4 bajo, A Valenzá, 32002","t":"988 25 54 40","k":"988255440","t2":"665 66 44 69","w":"dentalvalenza.es","e":"dentalvalenza@hotmail.es","h":"","c":0,"v":1,"a":""},{"i":132,"n":"Clínica Dental Ángel Galende Domínguez","l":"Celanova","d":"Rúa Francisco González Rey, 6, 32800","t":"988 45 10 82","k":"988451082","t2":"","w":"","e":"","h":"Ángel Galende Domínguez","c":0,"v":1,"a":""},{"i":133,"n":"Clínica Meda Dental Valdeorras","l":"O Barco de Valdeorras","d":"Rúa Profesor Eloi Mira, 3, 32300","t":"988 68 22 51","k":"988682251","t2":"600 53 83 08","w":"https://dentalmeda.com/","e":"","h":"","c":0,"v":1,"a":""},{"i":134,"n":"Dental Doniz","l":"Celanova","d":"Avenida San Rosendo, 32800","t":"988 45 14 41","k":"988451441","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":135,"n":"Dental Iglesias","l":"O Barco de Valdeorras","d":"Rúa Conde de Fenosa, 75 bajo, 32300","t":"988 32 73 49","k":"988327349","t2":"628 86 85 47","w":"https://www.dentaliglesias.es/","e":"","h":"Zaida Iglesias Fernández","c":0,"v":1,"a":""},{"i":136,"n":"DentiClinic","l":"O Carballiño","d":"Rúa Curros Enríquez, 29, 32500","t":"988 27 14 27","k":"988271427","t2":"","w":"denticlinic.es","e":"denticlinic@live.com","h":"","c":0,"v":1,"a":""},{"i":137,"n":"IDEOdental Carballiño","l":"O Carballiño","d":"Rúa Tomás María Mosquera, 4, 32500","t":"988 27 34 34","k":"988273434","t2":"988 27 07 83","w":"https://ideodental.com/carballino/","e":"","h":"","c":0,"v":1,"a":""},{"i":138,"n":"María Sira Fernández Galiño","l":"Verín","d":"Avenida de Portugal, 4 - 32600","t":"988 41 32 31","k":"988413231","t2":"692 15 47 08","w":"","e":"","h":"María Sira Fernández Galiño","c":0,"v":1,"a":""},{"i":139,"n":"Méndez Odontología","l":"O Barco de Valdeorras","d":"Av. Marcelino Suárez, 2, 32300","t":"988 32 74 75","k":"988327475","t2":"","w":"mendezodontologia.es","e":"","h":"Francisco Méndez Díaz","c":0,"v":1,"a":""},{"i":140,"n":"Penín & Vidal Odontología Avanzada","l":"O Carballiño","d":"Rosalía de Castro 10-12, 32500","t":"988 00 23 22","k":"988002322","t2":"722 86 48 40","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":141,"n":"Salgado y Delgado Clínica Dental","l":"Xinzo de Limia","d":"Rúa Castelao, 4, locales 8-9, 32630","t":"988 68 01 44","k":"988680144","t2":"","w":"https://www.facebook.com/clinicadentalsalgadoydelgado/","e":"","h":"","c":0,"v":1,"a":""},{"i":142,"n":"Verín Dent S.L.","l":"Verín","d":"Rúa Juan Guerra Valdés, 12, 32600","t":"988 41 05 98","k":"988410598","t2":"","w":"","e":"","h":"","c":0,"v":1,"a":""},{"i":143,"n":"Benident Clínica Dental","l":"Verín","d":"Av. Luis Espada, 51, 32600","t":"988 41 26 01","k":"988412601","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"Sin segunda fuente (sin acceso a web). El 988 41 xx xx encaja con Verín. La fuente única (eugnathos.eu) es una web de terceros, no la clínica, así que conviene confirmarla cuando se pueda."},{"i":144,"n":"Centro de Especialidades DentalMedica","l":"Xinzo de Limia","d":"Marcelo Macías 2, bajo, 32630","t":"988 68 09 63","k":"988680963","t2":"698 19 21 93","w":"","e":"","h":"José Enrique González Domínguez","c":0,"v":0,"a":"NO verificado, mismo bloqueo de red. Fuente única: paxinasgalegas. Al ser 'centro de especialidades' es el tipo de ficha que más cambia de teléfono o de titularidad, así que no lo daría por bueno sin comprobar. Sin titul"},{"i":145,"n":"Centro Dental Valdeorras S.L.","l":"O Barco de Valdeorras","d":"Rúa José Otero, 6, 1-1, 32300","t":"988 68 28 89","k":"988682889","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso web, cero segundas fuentes. Formato correcto y coherente (988 682 889; O Barco de Valdeorras es provincia de Ourense, prefijo 988 correcto). Igual que en el primer registro, \"S.L.\" indica razon "},{"i":146,"n":"Clínica Dent 2000","l":"Xinzo de Limia","d":"Avenida de Madrid 46, 32630","t":"988 46 21 33","k":"988462133","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado, mismo bloqueo de red. Ojo con esta: la fuente es una página de listado general de cylex (dentistas de Xinzo de Limia), no una ficha concreta de la clínica, así que la asociación nombre-teléfono es la más f"},{"i":147,"n":"Clínica Dental A.R.R. (ArranzDental)","l":"Xinzo de Limia","d":"Avenida de Madrid, 46, 32630","t":"988 46 17 18","k":"988461718","t2":"","w":"https://arranz.dental","e":"","h":"","c":0,"v":0,"a":"No he podido abrir arranz.dental (bloqueo de red). El 988 461 718 encaja con la zona de Xinzo de Limia. Fuente única: Páxinas Galegas, un directorio. Nota: la ficha mezcla dos nombres (A.R.R. y ArranzDental), así que al "},{"i":148,"n":"Clínica Dental Dra. Lorena Laso","l":"Verín","d":"Estrada de Cabreiroá, 15, 1ºA, 32600","t":"988 41 31 94","k":"988413194","t2":"","w":"https://clinicalorenalaso.es","e":"","h":"Lorena Laso","c":0,"v":0,"a":"Sin segunda fuente (no he podido abrir clinicalorenalaso.es por el bloqueo de red). El 988 41 xx xx encaja con la zona de Verín. Sobre el titular: el propio nombre comercial apunta a la Dra. Lorena Laso, así que se puede"},{"i":149,"n":"Clínica Dental Francisco Romero","l":"Xinzo de Limia","d":"Ladeira 47, 1º, 32630","t":"988 46 09 18","k":"988460918","t2":"","w":"","e":"","h":"Francisco Romero","c":0,"v":0,"a":"NO verificado, mismo bloqueo de red. Fuente única: paxinasgalegas. Titular probable por el nombre de la ficha: Francisco Romero, pero no confirmado por segunda fuente. Sin correo."},{"i":150,"n":"Clínica Dental Garrido Lage, Alba","l":"Celanova","d":"Parque As Triguerizas 3, 32800","t":"988 43 19 14","k":"988431914","t2":"","w":"","e":"","h":"Alba Garrido Lage","c":0,"v":0,"a":"No he podido abrir ninguna segunda fuente: sin red (ver nota general). El 988 431 914 es coherente con el prefijo de Celanova (988 43x), pero eso es solo plausibilidad de formato, no una confirmación. Sigue apoyado en un"},{"i":151,"n":"Clínica Dental GFS","l":"Verín","d":"Laureano Peláez s/n, 32600","t":"988 41 34 51","k":"988413451","t2":"620 75 30 05","w":"","e":"gfsclinicadental@hotmail.es","h":"","c":0,"v":0,"a":"NO verificado. No he podido abrir ninguna segunda fuente: sin búsqueda web (cuota agotada), Firecrawl sin crédito y el proxy de salida devuelve 403 a todos los hosts externos (incluida la propia paxinasgalegas.es). Sigue"},{"i":152,"n":"Clínica Dental González Fernández, Beatriz","l":"Xinzo de Limia","d":"Ladeira 5, 1º dcha., 32630","t":"988 46 11 88","k":"988461188","t2":"","w":"","e":"","h":"Beatriz González Fernández","c":0,"v":0,"a":"NO verificado, mismo bloqueo de red. Fuente única: paxinasgalegas. El nombre de la ficha sugiere que la titular es Beatriz González Fernández, pero eso sale del propio título del directorio, no de una segunda fuente: úsa"},{"i":153,"n":"Clínica Dental José Manuel Di Girolamo Carnero","l":"Xinzo de Limia","d":"R/ Peto 1, 32630","t":"988 46 28 88","k":"988462888","t2":"","w":"","e":"","h":"José Manuel Di Girolamo Carnero","c":0,"v":0,"a":"NO verificado, mismo bloqueo de red. Fuente única: infoisinfo, que es agregador y de los menos fiables en cuanto a actualización. Titular probable por el nombre de la ficha: José Manuel Di Girolamo Carnero, no confirmado"},{"i":154,"n":"Clínica Dental José Manuel Lage Parente","l":"Maceda","d":"Calle Reconco, 37, 32700","t":"988 46 31 81","k":"988463181","t2":"","w":"","e":"","h":"José Manuel Lage Parente","c":0,"v":0,"a":"NO verificado. Formato valido (988 = Ourense). Es la ficha de la que menos me fiaria: Cylex es de los directorios mas sucios y la URL de fuente es la pagina-indice del municipio, no la ficha concreta. El titular se puede"},{"i":155,"n":"Clínica Dental Juan Carlos Álvarez (Policlínico Aimara)","l":"Barbadás","d":"Avda. de Celanova 90 (A Valenzá)","t":"988 09 40 88","k":"988094088","t2":"","w":"","e":"","h":"Juan Carlos Álvarez","c":0,"v":0,"a":"NO contrastado: sin salida a internet. El 988 094 088 sigue siendo solo el dato de paxinasgalegas. Formato plausible (988 09x es rango de Ourense de asignacion mas reciente). Al llamar, ojo: el numero puede ser la centra"},{"i":156,"n":"Clínica Dental Mariño","l":"Verín","d":"Avda. Luis Espada, 21 - 1º B - 32600","t":"604 48 10 37","k":"604481037","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado, mismo bloqueo de red (403 del proxy en todos los hosts). Aviso subjetivo, NO es evidencia: el prefijo 655 no se parece al otro número de Verín de la lista (413 451). Puede ser perfectamente correcto, pero "},{"i":157,"n":"Clínica Dental Mariño","l":"Verín","d":"Avda. Luis Espada 21, 1º B, 32600","t":"988 65 51 62","k":"988655162","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado, mismo bloqueo de red (403 del proxy en todos los hosts). Aviso subjetivo, NO es evidencia: el prefijo 655 no se parece al otro número de Verín de la lista (413 451). Puede ser perfectamente correcto, pero "},{"i":158,"n":"Clínica Dental O Pereiro, S.L.","l":"O Pereiro de Aguiar","d":"Praza da Capela, 2 bajo, 32710","t":"988 25 99 42","k":"988259942","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso web. Formato valido (988 = Ourense). Fuente unica Paxinas Galegas. Reverificar."},{"i":159,"n":"Clínica Dental Quevedo","l":"O Carballiño","d":"Venezuela 3, 1º, 32500","t":"988 27 11 59","k":"988271159","t2":"","w":"","e":"","h":"Miguel Ricardo Quevedo Bisonni","c":0,"v":0,"a":"NO contrastado: sin salida a internet. ADEMAS hay una incoherencia en la propia ficha que conviene resolver antes de marcar: la URL de la fuente es masquemedicos.com/dentista_caselas/ (Caselas esta en Pontevedra, no en O"},{"i":160,"n":"Clínica Dental Santo Domingo (O Carballiño)","l":"O Carballiño","d":"Conde Vallellano 20, 32500","t":"988 53 19 33","k":"988531933","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO contrastado: sin salida a internet. El 988 531 933 sigue siendo solo el dato de paxinasgalegas. Es el que mejor pinta tiene de los siete por coherencia interna: el rango 988 53x encaja con O Carballiño, que es la loca"},{"i":161,"n":"Clínica Dental Touris","l":"O Barco de Valdeorras","d":"Avda. Conde de Fenosa 24, 32300","t":"988 32 22 84","k":"988322284","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"Sin segunda fuente: sin red (ver nota general). El 988 322 284 es coherente con el 988 32x de O Barco de Valdeorras, pero es solo plausibilidad de formato, no una confirmación."},{"i":162,"n":"Clínica Meda Dental Valdeorras","l":"O Barco de Valdeorras","d":"Rúa Profesor Eloi Mira, 3, 32300","t":"600 53 83 08","k":"600538308","t2":"","w":"https://dentalmeda.com","e":"","h":"","c":0,"v":0,"a":"NO verificado. Intente abrir su propia web dentalmeda.com y fallo, pero OJO: fallo por bloqueo de la politica de red de esta sesion, NO porque el dominio este caido. No lo interpretes como clinica cerrada. El 600 538 308"},{"i":163,"n":"Dent 2000 S.L.","l":"Allariz","d":"Estrada de Xunqueira, 27, 32660","t":"988 44 23 21","k":"988442321","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso web en esta ejecucion (egress bloqueado + Firecrawl sin credito + presupuesto de busqueda agotado). Lo unico comprobable sin fuente: el formato es valido (9 digitos, prefijo 988 = provincia de O"},{"i":164,"n":"Dental Iglesias","l":"O Barco de Valdeorras","d":"Avda. Conde de Fenosa 75, 32300","t":"628 86 85 47","k":"628868547","t2":"","w":"","e":"","h":"Zaida Iglesias Fernández","c":0,"v":0,"a":"Sin segunda fuente: sin red (ver nota general). De las seis es la más floja: la fuente única es masquemedicos.com (un agregador, no la clínica) y además es un móvil (628 868 547), imposible de cruzar con la localidad. Si"},{"i":165,"n":"Dra. María José Yáñez Fernández","l":"Verín","d":"Calle Elle, 34 (Policlínico) - 32600","t":"988 41 30 13","k":"988413013","t2":"","w":"","e":"","h":"María José Yáñez Fernández","c":0,"v":0,"a":"NO verificado: sin acceso web, cero segundas fuentes. Formato correcto y coherente (988 413 013; Verin es provincia de Ourense, prefijo 988 correcto). Titular con nombre y apellidos, se puede preguntar por la Dra. Yañez "},{"i":166,"n":"García Mouriño C.B.","l":"Xinzo de Limia","d":"Avda. de Ourense, 11","t":"988 46 22 78","k":"988462278","t2":"","w":"","e":"","h":"Posible apellido del titular: García Mouriño (deducido del nombre comercial de la propia ficha, NO de una segunda fuente)","c":0,"v":0,"a":"NO VERIFICADO: sin acceso a segunda fuente en esta sesión. El 988 462 278 es un fijo coherente con Xinzo de Limia (el rango 988 46x corresponde a esa zona), lo cual encaja con la localidad indicada, pero es chequeo de fo"},{"i":167,"n":"Kalma Policlínico","l":"Allariz","d":"Oliveira 2-4, loc. 26 (Galerías), 32660","t":"988 44 10 98","k":"988441098","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"Sin segunda fuente: sin red (ver nota general). El 988 441 098 es coherente con el 988 44x de Allariz, pero eso no confirma nada. Aviso extra: es un policlínico, así que ese número puede ser la centralita general y no el"},{"i":168,"n":"Policlínica Dental Valdeorras","l":"A Rúa","d":"Rúa do Progreso, 98 bajo, 32350","t":"988 31 11 39","k":"988311139","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado. Formato valido (988 = Ourense). Fuente unica QDQ, directorio que arrastra fichas sin actualizar. Añado una duda de identidad que conviene resolver al llamar: el nombre dice 'Valdeorras' y la localidad es A"},{"i":169,"n":"VD Centro Odontolóxico","l":"O Barco de Valdeorras","d":"Parque Malecón 22, 32300","t":"673 38 94 02","k":"673389402","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"Sin segunda fuente: sin red (ver nota general). Es un móvil (673 389 402), así que no se puede cruzar ni con la localidad: si estuviera mal, se estaría llamando a un particular. Riesgo alto, tratar con cuidado."},{"i":170,"n":"Centros Dentales Europeos","l":"O Carballiño","d":"Rúa Martínez de Avellanosa, 2, 32500","t":"988 27 07 83","k":"988270783","t2":"","w":"","e":"","h":"","c":1,"v":1,"a":""},{"i":171,"n":"Dentalia Galicia S.L.","l":"Celanova","d":"Avenida Francisco González Rey, 18, 32800","t":"988 43 20 08","k":"988432008","t2":"","w":"","e":"","h":"","c":1,"v":1,"a":""},{"i":172,"n":"Clínica Dental Ourendent","l":"Coles","d":"Lugar de Vilarchao, s/n","t":"988 21 62 70","k":"988216270","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso a web. Fuente unica mejoresclinicas.com (directorio de pago, suele estar desactualizado). Descuadre a mirar: la ficha dice Coles pero el numero es 988 216 270, y en esta lista los 988 21x son de"},{"i":173,"n":"Policlínico Aimara","l":"Barbadás","d":"Avda. de Celanova, 90","t":"623 45 97 57","k":"623459757","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO VERIFICADO: en esta sesión no hubo acceso a ninguna segunda fuente (WebSearch agotado, Firecrawl sin crédito, y la política de red bloquea toda la web abierta con 403). El 623 459 757 es un móvil español bien formado "},{"i":174,"n":"Zdental Lab Dent (posible laboratorio dental, verificar)","l":"Xinzo de Limia","d":"Rúa Otero Pedrayo, 11 - 32630","t":"988 04 58 99","k":"988045899","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":"NO verificado: sin acceso a web. Aparte del telefono, la duda de fondo sigue abierta: 'Lab Dent' apunta a LABORATORIO dental, no a clinica con pacientes. Un laboratorio no da citas, asi que no encaja con el argumento de "},{"i":175,"n":"Clínica Dental Bande","l":"Bande","d":"Rúa Faustino Santalices, 17, 32840","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":176,"n":"Clínica Dental Marta Ferrando","l":"A Rúa","d":"Rúa do Progreso, 33D, 32350","t":"","k":"","t2":"","w":"","e":"","h":"Marta Ferrando","c":0,"v":0,"a":""},{"i":177,"n":"Clínica Dental Quevedo Bisonni","l":"O Carballiño","d":"Rúa Venezuela, 3, 1º, 32500","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":178,"n":"Clínica Dental Val de Monterrei","l":"Verín","d":"","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":179,"n":"Donvar Celanova S.L.","l":"Celanova","d":"Rúa San Rosendo, 2 Bajo - 32800","t":"","k":"","t2":"","w":"","e":"","h":"","c":0,"v":0,"a":""},{"i":180,"n":"María Dolores López Fernández","l":"Ribadavia","d":"C/ do Ribeiro 34, 32400","t":"","k":"","t2":"","w":"","e":"","h":"María Dolores López Fernández","c":0,"v":0,"a":""},{"i":181,"n":"Ramiro Cobo Arias","l":"O Barco de Valdeorras","d":"Plaza de José Otero 6, 32300","t":"","k":"","t2":"","w":"","e":"","h":"Ramiro Cobo Arias","c":0,"v":0,"a":""}];</script>
+<header class="cabecera">
+  <div class="fila-titulo">
+    <h1>Clínicas de Ourense</h1>
+    <span class="avance" id="avance">147 con teléfono</span>
+  </div>
+  <div class="barra"><i id="barra"></i></div>
+  <div class="filtros">
+    <select id="f-localidad" aria-label="Localidad"></select>
+    <select id="f-estado" aria-label="Estado">
+      <option value="">Todas</option>
+      <option value="pendiente">Sin llamar</option>
+      <option value="volver">Volver a llamar</option>
+      <option value="visita">Visita cerrada</option>
+      <option value="hechas">Ya llamadas</option>
+    </select>
+    <select id="f-tipo" aria-label="Tipo">
+      <option value="indep">Solo independientes</option>
+      <option value="">Todas, cadenas incluidas</option>
+      <option value="cadena">Solo cadenas</option>
+    </select>
+    <select id="f-tel" aria-label="Teléfono">
+      <option value="con">Con teléfono</option>
+      <option value="alta">Solo contrastados</option>
+      <option value="todas">Incluir las que no tienen</option>
+    </select>
+    <input type="search" id="f-buscar" placeholder="Buscar por nombre o calle">
+    <button class="limpiar" id="limpiar">Quitar filtros</button>
+  </div>
+</header>
+
+<div class="lista" id="lista"></div>
+
+<p class="pie">
+  <b>Antes de marcar:</b> preséntate con tu nombre, di que la llamada es comercial y
+  que puede pedir no ser llamado más. Si alguien dice que no quiere más llamadas,
+  márcalo como <b>No quiere</b> en esa misma llamada: ese número no se vuelve a marcar nunca.
+  <br><br>
+  Las fichas en ámbar llevan un teléfono de una sola fuente, sin contrastar.
+  Confirma con quien coja que has llamado a la clínica que creías.
+</p>
+
+<script>
+(function () {
+  const ESTADOS = ["llamada", "volver", "no", "visita"];
+  const lista = document.getElementById("lista");
+  const avance = document.getElementById("avance");
+  const barra = document.getElementById("barra");
+
+  // Lo que se ha hecho en cada clínica. Arranca vacío y se rellena cuando
+  // contesta el almacén: la página es útil desde el primer momento.
+  let marcas = {};
+  let db = null;
+
+  const clave = (c) => "c" + (c.k || String(c.i));
+
+  // ---------- filtros ----------
+  const f = {
+    localidad: document.getElementById("f-localidad"),
+    estado: document.getElementById("f-estado"),
+    tipo: document.getElementById("f-tipo"),
+    tel: document.getElementById("f-tel"),
+    buscar: document.getElementById("f-buscar"),
+  };
+
+  const localidades = [...new Set(CLINICAS.map((c) => c.l))].sort((a, b) =>
+    a === "Ourense" ? -1 : b === "Ourense" ? 1 : a.localeCompare(b, "es"),
+  );
+  f.localidad.innerHTML =
+    '<option value="">Toda la provincia</option>' +
+    localidades
+      .map((l) => {
+        const n = CLINICAS.filter((c) => c.l === l && c.t).length;
+        return `<option value="${l}">${l} (${n})</option>`;
+      })
+      .join("");
+
+  const sinAcentos = (s) =>
+    s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+  function visibles() {
+    const buscado = sinAcentos(f.buscar.value.trim());
+    return CLINICAS.filter((c) => {
+      if (f.localidad.value && c.l !== f.localidad.value) return false;
+      if (f.tipo.value === "indep" && c.c) return false;
+      if (f.tipo.value === "cadena" && !c.c) return false;
+      if (f.tel.value === "con" && !c.t) return false;
+      if (f.tel.value === "alta" && (!c.t || !c.v)) return false;
+
+      const estado = (marcas[clave(c)] || {}).estado || "pendiente";
+      if (f.estado.value === "pendiente" && estado !== "pendiente") return false;
+      if (f.estado.value === "volver" && estado !== "volver") return false;
+      if (f.estado.value === "visita" && estado !== "visita") return false;
+      if (f.estado.value === "hechas" && estado === "pendiente") return false;
+
+      if (buscado) {
+        const heno = sinAcentos(`${c.n} ${c.d} ${c.h} ${c.l}`);
+        if (!heno.includes(buscado)) return false;
+      }
+      return true;
+    });
+  }
+
+  // ---------- pintar ----------
+  function escapar(s) {
+    return String(s || "").replace(/[&<>"]/g, (ch) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]),
+    );
+  }
+
+  function ficha(c) {
+    const marca = marcas[clave(c)] || {};
+    const estado = marca.estado || "pendiente";
+    const el = document.createElement("article");
+    el.className = "ficha";
+    el.dataset.estado = estado;
+    el.dataset.clave = clave(c);
+
+    const etiquetas = [];
+    if (c.c) etiquetas.push('<span class="etq cadena">Cadena · no deciden aquí</span>');
+    if (c.t && !c.v) etiquetas.push('<span class="etq dudoso">Sin contrastar</span>');
+    if (!c.t) etiquetas.push('<span class="etq sintel">Sin teléfono</span>');
+
+    const enlaces = [];
+    if (c.w) {
+      const url = c.w.startsWith("http") ? c.w : "https://" + c.w;
+      enlaces.push(`<a href="${escapar(url)}" target="_blank" rel="noopener">web</a>`);
+    }
+    if (c.e) enlaces.push(escapar(c.e));
+
+    el.innerHTML = `
+      <div class="arriba">
+        <div class="orden">${c.i}</div>
+        <div style="min-width:0;flex:1">
+          <div class="nombre">${escapar(c.n)}</div>
+          <div class="donde">${escapar(c.l)}${c.d ? " · " + escapar(c.d) : ""}</div>
+          ${c.h ? `<div class="quien">Pregunta por <b>${escapar(c.h)}</b></div>` : ""}
+          ${etiquetas.length ? `<div class="etqs">${etiquetas.join("")}</div>` : ""}
+        </div>
+      </div>
+      ${
+        c.t
+          ? `<div class="telefono">
+               <a href="tel:+34${escapar(c.k)}">${escapar(c.t)}</a>
+               <button class="copiar" type="button" data-copiar="${escapar(c.t)}">Copiar</button>
+               ${c.t2 ? `<span class="segundo">y ${escapar(c.t2)}</span>` : ""}
+             </div>`
+          : ""
+      }
+      ${c.a ? `<div class="aviso-ficha">${escapar(c.a)}</div>` : ""}
+      ${enlaces.length ? `<div class="enlaces">${enlaces.join(" · ")}</div>` : ""}
+      <div class="acciones">
+        <button type="button" class="b-llamada" data-estado="llamada" aria-pressed="${estado === "llamada"}">Llamé</button>
+        <button type="button" class="b-volver"  data-estado="volver"  aria-pressed="${estado === "volver"}">No está, volver</button>
+        <button type="button" class="b-visita"  data-estado="visita"  aria-pressed="${estado === "visita"}">Visita cerrada</button>
+        <button type="button" class="b-no"      data-estado="no"      aria-pressed="${estado === "no"}">No quiere</button>
+      </div>
+      <div class="nota">
+        <textarea placeholder="Qué dijo, a qué hora volver, con quién hablaste">${escapar(marca.nota || "")}</textarea>
+      </div>
+    `;
+    return el;
+  }
+
+  function pintar() {
+    const items = visibles();
+    lista.replaceChildren();
+    if (items.length === 0) {
+      const vacio = document.createElement("p");
+      vacio.className = "vacio";
+      vacio.textContent = "Ninguna clínica con esos filtros.";
+      lista.append(vacio);
+    } else {
+      const trozo = document.createDocumentFragment();
+      for (const c of items) trozo.append(ficha(c));
+      lista.append(trozo);
+    }
+    contar(items.length);
+  }
+
+  function contar(mostradas) {
+    const conTel = CLINICAS.filter((c) => c.t).length;
+    const hechas = CLINICAS.filter(
+      (c) => c.t && (marcas[clave(c)] || {}).estado && marcas[clave(c)].estado !== "pendiente",
+    ).length;
+    const visitas = CLINICAS.filter((c) => (marcas[clave(c)] || {}).estado === "visita").length;
+    avance.innerHTML =
+      `<b>${hechas}</b> de ${conTel} llamadas` +
+      (visitas ? ` · <b>${visitas}</b> ${visitas === 1 ? "visita" : "visitas"}` : "") +
+      ` · ${mostradas} en pantalla`;
+    barra.style.width = conTel ? (hechas / conTel) * 100 + "%" : "0";
+  }
+
+  // ---------- guardar ----------
+  // Una escritura cada vez por ficha: dos toques seguidos en el mismo sitio
+  // se encadenan en lugar de pisarse.
+  const enCola = new Map();
+
+  function guardar(k, cambios) {
+    marcas[k] = { ...(marcas[k] || {}), ...cambios };
+    contar(lista.children.length);
+    if (!db) return;
+
+    const antes = enCola.get(k) || Promise.resolve();
+    const ahora = antes
+      .catch(() => {})
+      .then(() =>
+        db.doc("llamadas/" + k).set({ ...marcas[k], cuando: new Date().toISOString() }),
+      )
+      .catch((e) => {
+        console.warn("no se pudo guardar", e);
+      });
+    enCola.set(k, ahora);
+    return ahora;
+  }
+
+  lista.addEventListener("click", async (ev) => {
+    const copiar = ev.target.closest("[data-copiar]");
+    if (copiar) {
+      try {
+        await navigator.clipboard.writeText(copiar.dataset.copiar);
+        const antes = copiar.textContent;
+        copiar.textContent = "Copiado";
+        setTimeout(() => (copiar.textContent = antes), 1200);
+      } catch {
+        const num = copiar.closest(".telefono").querySelector("a");
+        const sel = window.getSelection();
+        const rango = document.createRange();
+        rango.selectNodeContents(num);
+        sel.removeAllRanges();
+        sel.addRange(rango);
+      }
+      return;
+    }
+
+    const boton = ev.target.closest("[data-estado]");
+    if (!boton) return;
+    const tarjeta = boton.closest(".ficha");
+    const k = tarjeta.dataset.clave;
+    const pedido = boton.dataset.estado;
+    const actual = (marcas[k] || {}).estado || "pendiente";
+    const nuevo = actual === pedido ? "pendiente" : pedido;
+
+    tarjeta.dataset.estado = nuevo;
+    for (const b of tarjeta.querySelectorAll("[data-estado]")) {
+      b.setAttribute("aria-pressed", String(b.dataset.estado === nuevo));
+    }
+    guardar(k, { estado: nuevo });
+  });
+
+  lista.addEventListener("change", (ev) => {
+    if (ev.target.tagName !== "TEXTAREA") return;
+    const k = ev.target.closest(".ficha").dataset.clave;
+    guardar(k, { nota: ev.target.value.trim() });
+  });
+
+  for (const campo of Object.values(f)) {
+    campo.addEventListener("input", pintar);
+  }
+  document.getElementById("limpiar").addEventListener("click", () => {
+    f.localidad.value = "";
+    f.estado.value = "";
+    f.tipo.value = "indep";
+    f.tel.value = "con";
+    f.buscar.value = "";
+    pintar();
+  });
+
+  pintar();
+
+  // ---------- lo guardado, cuando conteste ----------
+  (async () => {
+    db = await window.claude?.use?.("db");
+    if (!db) return;
+
+    db.collection("llamadas").onSnapshot(
+      (snap) => {
+        const nuevas = {};
+        for (const doc of snap.docs) nuevas[doc.id] = doc.data() || {};
+        marcas = nuevas;
+
+        // Si esta escribiendo una nota, no se repinta: le borraria lo que
+        // lleva tecleado. Se actualiza solo el contador y ya se vera al
+        // siguiente filtro.
+        const escribiendo =
+          document.activeElement && document.activeElement.tagName === "TEXTAREA";
+        if (escribiendo) contar(lista.children.length);
+        else pintar();
+      },
+      (e) => {
+        console.warn("se corto la conexion con lo guardado:", e.code);
+      },
+    );
+  })();
+})();
+</script>
