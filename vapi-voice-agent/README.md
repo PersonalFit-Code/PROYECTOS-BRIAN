@@ -166,7 +166,7 @@ basta para cortarlo, y contesta en cuanto el cliente termina la frase.
 | `VAPI_SERVER_SECRET` | *(vacio)* | Secreto compartido con Vapi. Si esta vacio, el webhook **no** valida la cabecera `x-vapi-secret`; conviene definirlo antes de exponer el servidor a internet. Cuando esta definido, se incluye en `assistant.server.secret` para que Vapi lo mande en los tool-calls. |
 | `PUBLIC_SERVER_URL` | *(vacio)* | URL publica del servidor, sin barra final. Si se define, el asistente le dice a Vapi que envie los tool-calls a `<url>/voice-webhook`. |
 | `VAPI_MODEL` | `claude-haiku-4-5-20251001` | Modelo del asistente, entre los que acepta el proveedor `anthropic` de Vapi. |
-| `NOMBRE_AGENTE` | `Elena` | Nombre con el que se presenta la asistente. Un negocio puede llevar el suyo con el campo `nombreAgente` en Firestore. |
+| `NOMBRE_AGENTE` | `Noah` | Nombre con el que se presenta la asistente. Un negocio puede llevar el suyo con el campo `nombreAgente` en Firestore. |
 | `VOZ_PROVEEDOR` | `azure` | Proveedor de la voz (`azure`, `11labs`, `cartesia`...), tal como aparece en la Voice Library de Vapi. |
 | `VOZ_ID` | `es-ES-ElviraNeural` | Identificador de la voz dentro de ese proveedor. |
 | `VOZ_MODELO` | `eleven_flash_v2_5` | Solo ElevenLabs. El flash es el rapido y el unico al que se le fuerza el espanol. |

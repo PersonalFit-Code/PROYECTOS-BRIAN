@@ -98,7 +98,7 @@ export const config = {
    * suyo. Es el nombre de marca del producto: el mismo en todos los locales
    * salvo que uno pida el suyo propio.
    */
-  nombreAgente: process.env.NOMBRE_AGENTE?.trim() || "Elena",
+  nombreAgente: process.env.NOMBRE_AGENTE?.trim() || "Noah",
   /** Negocio que se usa cuando la peticion no trae ?business=. */
   defaultBusinessId: process.env.DEFAULT_BUSINESS_ID ?? "",
   /**
