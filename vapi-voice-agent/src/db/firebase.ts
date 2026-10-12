@@ -16,29 +16,11 @@ import {
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 
 import { config } from "../config";
+import { parsearCuentaDeServicio } from "../google/credencial";
 
-/**
- * FIREBASE_SERVICE_ACCOUNT puede venir de dos formas, segun donde se despliegue:
- * el JSON tal cual, o ese mismo JSON en base64 (que es lo comodo cuando la
- * plataforma no admite saltos de linea en las variables de entorno).
- */
-function parsearCuentaDeServicio(bruto: string): ServiceAccount {
-  const texto = bruto.trim();
-
-  // Un JSON empieza por "{"; cualquier otra cosa se intenta como base64.
-  const json = texto.startsWith("{")
-    ? texto
-    : Buffer.from(texto, "base64").toString("utf8");
-
-  const datos: unknown = JSON.parse(json);
-  if (!datos || typeof datos !== "object" || Array.isArray(datos)) {
-    throw new Error("la cuenta de servicio no es un objeto JSON");
-  }
-
-  // cert() acepta tanto projectId/clientEmail/privateKey como el JSON de
-  // Google en snake_case, asi que no hace falta convertir nada.
-  return datos as ServiceAccount;
-}
+// FIREBASE_SERVICE_ACCOUNT la comparten Firestore y Google Calendar: el mismo
+// JSON sirve para los dos, asi que leerlo vive en ../google/credencial.
+// cert() acepta el JSON de Google en snake_case tal cual, sin convertir nada.
 
 function inicializar(): Firestore | null {
   if (!config.firebaseServiceAccount) {
@@ -49,7 +31,7 @@ function inicializar(): Firestore | null {
   }
 
   try {
-    const credencial = parsearCuentaDeServicio(config.firebaseServiceAccount);
+    const credencial = parsearCuentaDeServicio(config.firebaseServiceAccount) as ServiceAccount;
     // Si el modulo se recarga (tsx watch), no se vuelve a inicializar la app.
     const app =
       getApps()[0] ?? initializeApp({ credential: cert(credencial) });
