@@ -15,7 +15,8 @@
     "typecheck": "tsc --noEmit",
     "prueba:pedido": "node scripts/pedido-de-prueba.mjs",
     "crear:negocio": "tsx scripts/crear-negocio.ts",
-    "test": "tsx --test src/__tests__/*.test.ts"
+    "test": "tsx --test src/__tests__/*.test.ts",
+    "crear:clinica": "tsx scripts/crear-clinica.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
