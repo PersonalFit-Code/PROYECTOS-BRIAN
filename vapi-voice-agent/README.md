@@ -158,6 +158,17 @@ Los turnos de palabra (`stopSpeakingPlan` y `startSpeakingPlan` en
 calla en cuanto el cliente habla (como una persona), pero un ruido corto no
 basta para cortarlo, y contesta en cuanto el cliente termina la frase.
 
+## Antes de una visita a un cliente
+
+```
+bash scripts/antes-de-salir.sh
+```
+
+Recorre la cadena entera igual que la recorre una llamada real: servidor,
+tunel, el webhook con el secreto (y que lo rechace sin el) y el panel con la
+contrasena. Dice SAL o NO SALGAS y, si falla algo, que hacer. Pensado para
+mientras el servidor viva en el portatil con ngrok.
+
 ## Desplegar en Google Cloud Run
 
 ```
