@@ -69,6 +69,12 @@ export interface Agenda {
    * telefono, mas de tres no se retienen.
    */
   huecosPorTanda: number;
+  /**
+   * Cada cuantos minutos puede empezar una cita. Vacio = 15, que es como
+   * trabaja casi todo el mundo. Subirlo a 30 da agendas mas limpias; bajarlo
+   * a 10 aprovecha mas el hueco pero deja horas raras.
+   */
+  pasoMinutos?: number;
 }
 
 /**
