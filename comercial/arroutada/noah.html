@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Noah para Arroutada</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm; }
+
+  :root {
+    --negro: #111111;
+    --gris: #6E6E6E;
+    --linea: #D8D8D8;
+    --fino: #EDEDED;
+    --oro: #A07D2C;
+    --oro-flojo: #FAF4E7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9.6pt; line-height: 1.45; color: var(--negro);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .hoja { page-break-after: always; zoom: 1.18; }
+  .hoja:last-child { page-break-after: auto; }
+  section, .tarjetas, .rueda, .llamada, .pantalla, table, .cierre { page-break-inside: avoid; }
+  h2 { page-break-after: avoid; }
+  svg { display: block; }
+
+  /* ---------------- Portada ---------------- */
+  .portada {
+    background: var(--negro); color: #fff;
+    margin: -13mm -14mm 10mm; padding: 24mm 14mm 17mm;
+    position: relative;
+  }
+  .portada::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+    height: 2.5mm; background: var(--oro);
+  }
+  .portada .marca {
+    font-size: 7.2pt; letter-spacing: 3pt; text-transform: uppercase;
+    color: #9A9A9A; margin: 0 0 6mm;
+  }
+  .portada h1 { font-size: 38pt; margin: 0; letter-spacing: -1.4pt; font-weight: 800; line-height: .98; }
+  .portada h1 em { font-style: normal; color: var(--oro); }
+  .portada .bajada { font-size: 12.5pt; margin: 5mm 0 0; color: #D6D6D6; max-width: 115mm; }
+  .portada .pie { margin: 13mm 0 0; font-size: 8.2pt; color: #9A9A9A; }
+
+  header.interior {
+    border-bottom: 2.5pt solid var(--negro); padding-bottom: 2.5mm;
+    margin-bottom: 5mm; display: flex; justify-content: space-between; align-items: baseline;
+  }
+  header.interior h1 { font-size: 17pt; margin: 0; letter-spacing: -.5pt; font-weight: 800; }
+  header.interior .lado { font-size: 8pt; color: var(--gris); }
+
+  h2 {
+    font-size: 8pt; letter-spacing: 2pt; text-transform: uppercase;
+    color: var(--oro); margin: 0 0 3mm; font-weight: 700;
+  }
+  p { margin: 0 0 2.5mm; }
+  .grande { font-size: 12.5pt; line-height: 1.35; margin-bottom: 4mm; }
+  .grande b { color: var(--oro); }
+
+  /* ---------------- Tarjetas con icono ---------------- */
+  .tarjetas { display: flex; gap: 4mm; margin: 7mm 0 0; }
+  .tarjeta {
+    flex: 1; min-width: 0; border: .8pt solid var(--linea);
+    border-radius: 2mm; padding: 6mm 3.5mm; text-align: center;
+  }
+  .tarjeta .ico { margin: 0 auto 2.5mm; }
+  .tarjeta b { display: block; font-size: 9.6pt; margin-bottom: 1.2mm; }
+  .tarjeta p { font-size: 8.4pt; color: var(--gris); margin: 0; }
+
+  /* ---------------- Fila de iconos ---------------- */
+  .fila-ico { display: flex; gap: 5mm; margin: 3mm 0; }
+  .item-ico { flex: 1; min-width: 0; display: flex; gap: 2.5mm; align-items: flex-start; }
+  .item-ico .ico { flex: none; margin-top: .4mm; }
+  .item-ico b { display: block; font-size: 9.2pt; }
+  .item-ico p { font-size: 8.4pt; color: var(--gris); margin: 0; }
+
+  /* ---------------- Llamada ---------------- */
+  .llamada { border: .8pt solid var(--linea); border-radius: 2.5mm; padding: 4mm; margin: 3mm 0; }
+  .turno { margin-bottom: 2.2mm; }
+  .turno:last-child { margin-bottom: 0; }
+  .turno .quien {
+    font-size: 6.8pt; letter-spacing: 1.2pt; text-transform: uppercase;
+    font-weight: 700; margin-bottom: .4mm;
+  }
+  .turno.noah .quien { color: var(--oro); }
+  .turno.cli .quien { color: var(--gris); }
+  .turno p { margin: 0; font-size: 9.4pt; padding-left: 3mm; }
+  .turno.noah p { border-left: 2pt solid var(--oro); }
+  .turno.cli p { border-left: 2pt solid var(--linea); color: var(--gris); }
+  .nota-sistema {
+    font-size: 8.2pt; color: var(--oro); font-style: italic;
+    padding: 1.6mm 0 1.6mm 3mm; border-left: 2pt dotted var(--oro); margin: 2.2mm 0;
+  }
+
+  /* ---------------- Pantalla de cocina ---------------- */
+  .pantalla { border: 1.4pt solid var(--negro); border-radius: 2.5mm; overflow: hidden; margin: 3mm 0 1.5mm; }
+  .pantalla .barra {
+    background: var(--negro); color: #fff; padding: 2.2mm 4mm;
+    font-size: 8.4pt; display: flex; justify-content: space-between;
+  }
+  .pantalla .cuerpo { padding: 4mm; }
+  .pantalla .cod { font-size: 17pt; font-weight: 800; letter-spacing: 1.5pt; }
+  .pantalla .etq {
+    display: inline-block; background: var(--oro); color: #fff;
+    font-size: 7.2pt; font-weight: 700; padding: .7mm 2.2mm;
+    border-radius: 1.2mm; letter-spacing: .6pt; vertical-align: 2.5px; margin-left: 2.5mm;
+  }
+  .pantalla table { width: 100%; border-collapse: collapse; font-size: 9.2pt; margin-top: 3mm; }
+  .pantalla td { padding: 1.2mm 0; border-bottom: .5pt solid var(--fino); }
+  .pantalla td.n { text-align: right; white-space: nowrap; }
+  .pantalla tr.tot td { border-bottom: none; border-top: 1.2pt solid var(--negro); font-weight: 800; font-size: 11.5pt; padding-top: 2mm; }
+  .pantalla tr.tot td.n { color: var(--oro); }
+  .pantalla .dato { font-size: 9pt; margin-top: 2.5mm; color: var(--gris); }
+  .pantalla .dato b { color: var(--negro); }
+  .pantalla .boton {
+    margin-top: 3.5mm; border: 1.2pt solid var(--negro); text-align: center;
+    padding: 2.4mm; border-radius: 1.2mm; font-weight: 700; font-size: 9.4pt;
+  }
+  .leyenda { font-size: 7.8pt; color: var(--gris); margin: 0 0 4mm; }
+
+  /* ---------------- Banda de tres tiempos ---------------- */
+  .banda {
+    display: flex; align-items: center; justify-content: center; gap: 5mm;
+    background: var(--oro-flojo); border-radius: 2mm; padding: 4.5mm 5mm;
+    margin: 7mm 0 0; font-size: 10.5pt; font-weight: 600;
+  }
+  .banda i { display: block; width: 2.2mm; height: 2.2mm; border-radius: 50%; background: var(--oro); flex: none; }
+
+  /* ---------------- Lista de la noche ---------------- */
+  .lista { border: 1.4pt solid var(--negro); border-radius: 2.5mm; overflow: hidden; margin: 3mm 0 1.5mm; }
+  .lista .barra {
+    background: var(--negro); color: #fff; padding: 2.2mm 4mm;
+    font-size: 8.4pt; display: flex; justify-content: space-between;
+  }
+  .lista .fila { display: flex; align-items: center; padding: 2.8mm 4mm; border-bottom: .5pt solid var(--fino); }
+  .lista .fila:last-child { border-bottom: none; }
+  .lista .fila.hecho { color: var(--gris); }
+  .lista .cod2 { font-weight: 800; font-size: 11.5pt; letter-spacing: 1pt; width: 22mm; }
+  .lista .fila.hecho .cod2 { font-weight: 700; }
+  .lista .via { font-size: 8.6pt; color: var(--gris); width: 30mm; }
+  .lista .hora { font-size: 8.6pt; color: var(--gris); width: 16mm; }
+  .lista .imp { font-weight: 700; font-size: 9.6pt; width: 22mm; text-align: right; }
+  .lista .est {
+    font-size: 7pt; font-weight: 700; letter-spacing: .6pt; text-transform: uppercase;
+    padding: .8mm 0; border-radius: 1.2mm; width: 24mm; text-align: center; margin-left: 5mm;
+  }
+  .lista .est.pend { background: var(--oro); color: #fff; }
+  .lista .est.ok { background: var(--fino); color: var(--gris); }
+
+  /* ---------------- Tres pasos ---------------- */
+  .pasos { display: flex; align-items: stretch; gap: 2.5mm; margin: 4mm 0 0; }
+  .paso {
+    flex: 1; min-width: 0; border: .8pt solid var(--linea);
+    border-radius: 2mm; padding: 4mm 3.5mm; text-align: center;
+  }
+  .paso .n { display: block; font-size: 7pt; letter-spacing: 1.4pt; color: var(--oro); font-weight: 700; margin-bottom: 2mm; }
+  .paso .ico { margin: 0 auto 2.5mm; }
+  .paso b { display: block; font-size: 9.8pt; margin-bottom: 1.2mm; }
+  .paso p { font-size: 8.4pt; color: var(--gris); margin: 0; }
+  .flecha { flex: none; align-self: center; }
+
+  /* ---------------- Tablas ---------------- */
+  table.dos { width: 100%; border-collapse: collapse; font-size: 9.2pt; }
+  table.dos th {
+    text-align: left; font-size: 7.2pt; letter-spacing: 1.4pt; text-transform: uppercase;
+    padding: 0 2mm 1.5mm; border-bottom: 1.2pt solid var(--negro); font-weight: 700;
+  }
+  table.dos th.b { color: var(--oro); }
+  table.dos td { padding: 2mm; border-bottom: .5pt solid var(--linea); vertical-align: top; }
+  table.dos td.a { width: 47%; color: var(--gris); }
+  table.dos td.b { font-weight: 600; }
+  table.dos tr:last-child td { border-bottom: none; }
+
+  table.simple { width: 100%; border-collapse: collapse; font-size: 9.2pt; }
+  table.simple td { padding: 1.8mm 2mm; border-bottom: .5pt solid var(--linea); vertical-align: top; }
+  table.simple td.q { width: 32%; font-weight: 700; }
+  table.simple tr:last-child td { border-bottom: none; }
+
+  .cierre {
+    border: 1.4pt solid var(--negro); border-radius: 2.5mm;
+    padding: 3.5mm 4mm; margin-top: 4mm; display: flex; gap: 4mm; align-items: center;
+  }
+  .cierre .ico { flex: none; }
+  .cierre b { display: block; font-size: 11pt; margin-bottom: 1.2mm; }
+  .cierre p { margin: 0; font-size: 9.4pt; }
+  .cierre em { font-style: normal; color: var(--oro); font-weight: 700; }
+
+  footer {
+    margin-top: 5mm; padding-top: 2mm; font-size: 7.2pt; color: var(--gris);
+    border-top: .5pt solid var(--linea); display: flex; justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+
+<!-- Iconos, definidos una vez y reutilizados -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <g id="i-persona"><circle cx="12" cy="8" r="4.2"/><path d="M4.5 21c0-4.4 3.4-7.5 7.5-7.5s7.5 3.1 7.5 7.5"/></g>
+  <g id="i-movil"><rect x="6.5" y="2.5" width="11" height="19" rx="2"/><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"/></g>
+  <g id="i-ondas"><path d="M8 9a6 6 0 0 1 0 6"/><path d="M12 6a11 11 0 0 1 0 12"/><path d="M16 3.5a16 16 0 0 1 0 17"/></g>
+  <g id="i-noah"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2.5" y="13.5" width="4.5" height="7" rx="2"/><rect x="17" y="13.5" width="4.5" height="7" rx="2"/></g>
+  <g id="i-comanda"><rect x="4.5" y="2.5" width="15" height="19" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></g>
+  <g id="i-euro"><circle cx="12" cy="12" r="9.3"/><path d="M15.5 8.2a4.6 4.6 0 0 0-6.8 2.1M15.5 15.8a4.6 4.6 0 0 1-6.8-2.1"/><line x1="7" y1="10.8" x2="13" y2="10.8"/><line x1="7" y1="13.4" x2="13" y2="13.4"/></g>
+  <g id="i-campana"><path d="M18 9a6 6 0 1 0-12 0c0 5.5-2 7-2 7h16s-2-1.5-2-7"/><path d="M10.2 20a2.2 2.2 0 0 0 3.6 0"/></g>
+  <g id="i-pantalla"><rect x="2.5" y="4" width="19" height="13.5" rx="1.8"/><line x1="9" y1="21" x2="15" y2="21"/><line x1="12" y1="17.5" x2="12" y2="21"/></g>
+  <g id="i-check"><circle cx="12" cy="12" r="9.3"/><path d="M7.8 12.3l2.9 2.9 5.5-6"/></g>
+  <g id="i-reloj"><circle cx="12" cy="12" r="9.3"/><path d="M12 6.8V12l3.6 2.2"/></g>
+  <g id="i-candado"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2"/><path d="M8.2 10.5V7.4a3.8 3.8 0 0 1 7.6 0v3.1"/></g>
+  <g id="i-casa"><path d="M3.5 10.5L12 3.5l8.5 7"/><path d="M5.8 9.2V20.5h12.4V9.2"/><path d="M9.8 20.5v-6h4.4v6"/></g>
+  <g id="i-moto"><circle cx="5.5" cy="17.5" r="3.3"/><circle cx="18.5" cy="17.5" r="3.3"/><path d="M8.8 17.5h6.4l-3-8h-3"/><path d="M13.5 9.5h4l1.5 7"/></g>
+  <g id="i-mas"><circle cx="12" cy="12" r="9.3"/><line x1="12" y1="7.6" x2="12" y2="16.4"/><line x1="7.6" y1="12" x2="16.4" y2="12"/></g>
+  <marker id="punta" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+    <path d="M0 1 L9 5 L0 9 z" fill="#111111" stroke="none"/>
+  </marker>
+</defs></svg>
+
+<!-- ======================= 1. PORTADA ======================= -->
+<div class="hoja">
+  <div class="portada">
+    <p class="marca">Asistente telefónica</p>
+    <h1>Noah para<br><em>Arroutada</em></h1>
+    <p class="bajada">Coge el teléfono cuando vosotros no podéis.</p>
+    <p class="pie">Para David · Arroutada · Rúa Zurbarán 8, Ourense</p>
+  </div>
+
+  <section>
+    <h2>El problema</h2>
+    <svg viewBox="0 0 520 116" style="width:100%;height:auto;margin:5mm 0 7mm"
+         fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <!-- cliente -->
+      <g transform="translate(26,34) scale(1.5)"><use href="#i-persona"/></g>
+      <text x="44" y="104" font-size="11" fill="#6E6E6E" stroke="none" text-anchor="middle" font-family="Helvetica">Sábado, 21:30</text>
+      <!-- ondas -->
+      <g transform="translate(92,40) scale(1.3)" stroke="#A07D2C"><use href="#i-ondas"/></g>
+      <!-- linea cortada -->
+      <line x1="150" y1="56" x2="236" y2="56" stroke="#D8D8D8" stroke-dasharray="5 5"/>
+      <g stroke="#111" stroke-width="2.2"><line x1="185" y1="44" x2="201" y2="68"/><line x1="201" y1="44" x2="185" y2="68"/></g>
+      <!-- restaurante -->
+      <g transform="translate(252,34) scale(1.5)"><use href="#i-casa"/></g>
+      <text x="270" y="104" font-size="11" fill="#6E6E6E" stroke="none" text-anchor="middle" font-family="Helvetica">Sala llena</text>
+      <!-- se va -->
+      <path d="M330 56 h60" stroke="#A07D2C" marker-end="url(#punta)"/>
+      <g transform="translate(406,34) scale(1.5)" stroke="#A07D2C"><use href="#i-moto"/></g>
+      <text x="424" y="104" font-size="11" fill="#A07D2C" stroke="none" text-anchor="middle" font-family="Helvetica">Pide en otro sitio</text>
+    </svg>
+    <p class="grande">Quien llama y no encuentra respuesta <b>no vuelve a llamar</b>. No se queja, no deja reseña y no aparece en ninguna cuenta.</p>
+    <p>Es el único dinero que se pierde sin que nadie se entere. Noah existe para eso: no sustituye a nadie, entra justo cuando la llamada se caería.</p>
+  </section>
+
+  <section>
+    <h2>Tres cosas, antes de nada</h2>
+    <div class="tarjetas">
+      <div class="tarjeta">
+        <svg class="ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-movil"/></svg>
+        <b>Vuestro número no cambia</b>
+        <p>Se hace un desvío. Noah entra solo cuando comunica o nadie coge.</p>
+      </div>
+      <div class="tarjeta">
+        <svg class="ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-euro"/></svg>
+        <b>El total no lo calcula la IA</b>
+        <p>Lo calcula el sistema con vuestra carta. Lo que oye el cliente es lo que se cobra.</p>
+      </div>
+      <div class="tarjeta">
+        <svg class="ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-comanda"/></svg>
+        <b>Solo vuestra carta</b>
+        <p>No se inventa platos, tamaños, ofertas ni descuentos.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 1 de 5</span></footer>
+</div>
+
+<!-- ======================= 2. LA RUEDA ======================= -->
+<div class="hoja">
+  <header class="interior" style="margin-bottom:8mm">
+    <h1>El ciclo</h1>
+    <div class="lado">Se repite solo, llamada tras llamada</div>
+  </header>
+
+  <svg class="rueda" viewBox="31 20 558 530" style="width:100%;margin:8mm 0 0;height:auto"
+       fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+       font-family="Helvetica">
+
+    <!-- flechas del ciclo -->
+    <g stroke="#A07D2C" stroke-width="2.2" marker-end="url(#punta)">
+      <path d="M388.1 125.9 A200 200 0 0 1 460.9 178.8"/>
+      <path d="M509.2 327.4 A200 200 0 0 1 481.4 413.0"/>
+      <path d="M355.0 504.9 A200 200 0 0 1 265.0 504.9"/>
+      <path d="M138.6 413.0 A200 200 0 0 1 110.8 327.4"/>
+      <path d="M159.1 178.8 A200 200 0 0 1 231.9 125.9"/>
+    </g>
+
+    <!-- centro -->
+    <circle cx="310" cy="310" r="66" fill="#111" stroke="none"/>
+    <text x="310" y="302" font-size="22" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">NOAH</text>
+    <text x="310" y="322" font-size="10.5" fill="#B9B9B9" stroke="none" text-anchor="middle">sin que hagáis</text>
+    <text x="310" y="336" font-size="10.5" fill="#B9B9B9" stroke="none" text-anchor="middle">nada</text>
+
+    <!-- 1 arriba -->
+    <circle cx="310" cy="110" r="72" fill="#fff" stroke="#111" stroke-width="1.4"/>
+    <g transform="translate(297,66) scale(1.1)"><use href="#i-persona"/></g>
+    <text x="310" y="116" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">Llama al</text>
+    <text x="310" y="131" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">número</text>
+    <text x="310" y="148" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">de siempre</text>
+    <circle cx="310" cy="38" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="310" y="42.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">1</text>
+
+    <!-- 2 derecha arriba -->
+    <circle cx="500" cy="248" r="72" fill="#fff" stroke="#111" stroke-width="1.4"/>
+    <g transform="translate(487,204) scale(1.1)"><use href="#i-noah"/></g>
+    <text x="500" y="254" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">Noah</text>
+    <text x="500" y="269" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">descuelga</text>
+    <text x="500" y="286" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">y se presenta</text>
+    <circle cx="571" cy="193" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="571" y="197.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">2</text>
+
+    <!-- 3 derecha abajo -->
+    <circle cx="428" cy="472" r="72" fill="#fff" stroke="#111" stroke-width="1.4"/>
+    <g transform="translate(415,428) scale(1.1)"><use href="#i-comanda"/></g>
+    <text x="428" y="478" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">Toma la</text>
+    <text x="428" y="493" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">comanda</text>
+    <text x="428" y="510" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">y la dirección</text>
+    <circle cx="499" cy="527" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="499" y="531.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">3</text>
+
+    <!-- 4 izquierda abajo -->
+    <circle cx="192" cy="472" r="72" fill="#fff" stroke="#111" stroke-width="1.4"/>
+    <g transform="translate(179,428) scale(1.1)" stroke="#A07D2C"><use href="#i-euro"/></g>
+    <text x="192" y="478" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">El sistema</text>
+    <text x="192" y="493" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">calcula</text>
+    <text x="192" y="510" font-size="10" fill="#A07D2C" stroke="none" text-anchor="middle">no la IA</text>
+    <circle cx="121" cy="527" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="121" y="531.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">4</text>
+
+    <!-- 5 izquierda arriba -->
+    <circle cx="120" cy="248" r="72" fill="#fff" stroke="#111" stroke-width="1.4"/>
+    <g transform="translate(107,204) scale(1.1)"><use href="#i-campana"/></g>
+    <text x="120" y="254" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">Suena en</text>
+    <text x="120" y="269" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">cocina</text>
+    <text x="120" y="286" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">comanda escrita</text>
+    <circle cx="49" cy="193" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="49" y="197.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">5</text>
+  </svg>
+
+  <p class="grande" style="text-align:center;margin-top:9mm">Todo esto dura lo que dura la llamada.<br><b>Vosotros no tocáis nada.</b></p>
+
+  <div class="banda" style="margin-top:10mm;padding:6mm 5mm">
+    <span>Suena una vez</span><i></i><span>Noah contesta</span><i></i><span>La comanda ya está en cocina</span>
+  </div>
+
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 2 de 5</span></footer>
+</div>
+
+<!-- ======================= 3. UNA LLAMADA ======================= -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Una llamada de verdad</h1>
+    <div class="lado">Con vuestra carta</div>
+  </header>
+
+  <div class="llamada">
+    <div class="turno noah"><div class="quien">Noah</div><p>Arroutada, buenas. Soy Noah, su asistente virtual. ¿Qué le pongo?</p></div>
+    <div class="turno cli"><div class="quien">Cliente</div><p>Hola, quería dos Arroutada Clásica y unas croquetas.</p></div>
+    <div class="turno noah"><div class="quien">Noah</div><p>Perfecto. Dos Arroutada Clásica y una ración de croquetas de jamón. ¿Algo más?</p></div>
+    <div class="turno cli"><div class="quien">Cliente</div><p>Sí, ponme también unas patatas. ¿Tenéis alguna con queso de cabra?</p></div>
+    <div class="turno noah"><div class="quien">Noah</div><p>De queso de cabra no tenemos, no. Le pongo las patatas y, si le apetece algo distinto, también está la Oklahoma Loves Jalapeños.</p></div>
+    <div class="turno cli"><div class="quien">Cliente</div><p>No, déjalo así. ¿Cuánto es?</p></div>
+    <div class="turno noah"><div class="quien">Noah</div><p>Antes de nada, ¿es para recoger o se lo llevamos?</p></div>
+    <div class="turno cli"><div class="quien">Cliente</div><p>A casa. Rúa do Progreso 45, cuarto B.</p></div>
+    <div class="turno noah"><div class="quien">Noah</div><p>Rúa do Progreso cuarenta y cinco, cuarto B. ¿Me da un teléfono de contacto?</p></div>
+    <div class="turno cli"><div class="quien">Cliente</div><p>688 20 11 44.</p></div>
+    <div class="nota-sistema">Aquí el sistema calcula el total con vuestra carta. Noah no suma nada por su cuenta.</div>
+    <div class="turno noah"><div class="quien">Noah</div><p>Son dos Arroutada Clásica, una de croquetas y unas patatas. Con el envío queda en treinta y nueve euros con cincuenta. Su código es be, cu, efe, siete. Lo tiene en unos treinta y cinco minutos y se paga al recibirlo. Hasta luego y gracias por llamar.</p></div>
+  </div>
+
+  <section style="margin-top:5mm">
+    <h2>Y si se complica</h2>
+    <table class="simple">
+      <tr><td class="q">Pregunta por alergias</td><td>No afirma nunca que un plato sea seguro. Dice que se lo confirmáis vosotros al entregarlo.</td></tr>
+      <tr><td class="q">Quiere hablar con alguien</td><td>No insiste. Lo dice con claridad y recoge el recado.</td></tr>
+      <tr><td class="q">Llama un lunes</td><td>No coge el pedido. Dice el horario y pide que vuelvan a llamar.</td></tr>
+      <tr><td class="q">Pide un descuento</td><td>No se lo inventa. Solo existe lo que está en la carta.</td></tr>
+      <tr><td class="q">Le interrumpe o se lía</td><td>Se calla y le escucha, como una persona. Luego repite el pedido entero.</td></tr>
+    </table>
+  </section>
+
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 3 de 5</span></footer>
+</div>
+
+<!-- ======================= 4. LA COCINA ======================= -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Lo que veis vosotros</h1>
+    <div class="lado">En el móvil, la tablet o un ordenador</div>
+  </header>
+
+  <p class="grande">En cuanto Noah cuelga, <b>suena un aviso</b> y la comanda aparece sola.</p>
+
+  <div class="pantalla">
+    <div class="barra"><span>Arroutada · Pedidos</span><span>1 pendiente de 7 hoy</span></div>
+    <div class="cuerpo">
+      <div><span class="cod">BCF7</span><span class="etq">A DOMICILIO</span></div>
+      <table>
+        <tr><td>2 × Arroutada Clásica</td><td class="n">29,00 €</td></tr>
+        <tr><td>1 × Croquetas de jamón</td><td class="n">6,50 €</td></tr>
+        <tr><td>1 × Patatas</td><td class="n">4,00 €</td></tr>
+        <tr><td>Envío</td><td class="n">0,00 €</td></tr>
+        <tr class="tot"><td>Total</td><td class="n">39,50 €</td></tr>
+      </table>
+      <p class="dato"><b>Dirección:</b> Rúa do Progreso 45, cuarto B &nbsp;·&nbsp; <b>Teléfono:</b> 688 20 11 44 &nbsp;·&nbsp; <b>Entró:</b> 21:34</p>
+      <div class="boton">Marcar atendido</div>
+    </div>
+  </div>
+  <p class="leyenda">Precios de ejemplo. Los reales son los que nos deis vosotros.</p>
+
+  <section style="margin-top:5mm">
+    <h2>Y la noche entera, de un vistazo</h2>
+    <div class="lista">
+      <div class="barra"><span>Hoy · 7 pedidos</span><span>1 pendiente</span></div>
+      <div class="fila">
+        <span class="cod2">BCF7</span><span class="via">A domicilio</span>
+        <span class="hora">21:34</span><span class="imp">39,50 €</span>
+        <span class="est pend">Pendiente</span>
+      </div>
+      <div class="fila hecho">
+        <span class="cod2">A2K9</span><span class="via">Para recoger</span>
+        <span class="hora">21:18</span><span class="imp">22,00 €</span>
+        <span class="est ok">Atendido</span>
+      </div>
+      <div class="fila hecho">
+        <span class="cod2">M4T1</span><span class="via">A domicilio</span>
+        <span class="hora">20:57</span><span class="imp">46,80 €</span>
+        <span class="est ok">Atendido</span>
+      </div>
+    </div>
+    <p class="leyenda">Los atendidos se quedan en gris. Lo pendiente siempre arriba.</p>
+  </section>
+
+  <section>
+    <h2>De cada llamada queda</h2>
+    <div class="fila-ico">
+      <div class="item-ico">
+        <svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-reloj"/></svg>
+        <div><b>Cuánto duró</b><p>Y cómo terminó la llamada.</p></div>
+      </div>
+      <div class="item-ico">
+        <svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-comanda"/></svg>
+        <div><b>La conversación escrita</b><p>Por si hay una duda con un pedido.</p></div>
+      </div>
+      <div class="item-ico">
+        <svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-pantalla"/></svg>
+        <div><b>El histórico</b><p>A qué horas entra de verdad el teléfono.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top:5mm">
+    <h2>Privacidad</h2>
+    <div class="fila-ico">
+      <div class="item-ico">
+        <svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-candado"/></svg>
+        <div><b>No se graba</b><p>Viene desactivado. Si lo queréis, se activa y Noah avisa al descolgar, como obliga la ley.</p></div>
+      </div>
+      <div class="item-ico">
+        <svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>
+        <div><b>Dice que es virtual</b><p>Nada más descolgar, y lo repite si se lo preguntan. Tampoco pide datos de tarjeta.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 4 de 5</span></footer>
+</div>
+
+<!-- ======================= 5. LO PRÁCTICO ======================= -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Lo práctico</h1>
+    <div class="lado">Qué hace falta y hasta dónde puede llegar</div>
+  </header>
+
+  <section>
+    <h2>Qué necesito de vosotros</h2>
+    <table class="simple">
+      <tr><td class="q">La carta</td><td>Una foto vale. Platos, qué lleva cada uno y precios.</td></tr>
+      <tr><td class="q">Horarios y zona</td><td>Hasta qué hora se cogen pedidos a domicilio y hasta dónde repartís.</td></tr>
+      <tr><td class="q">Gastos de envío</td><td>Cuánto cobráis y desde qué importe sale gratis, si es el caso.</td></tr>
+      <tr><td class="q">Veinte minutos</td><td>Para que la escuchéis antes de ponerla y digáis qué cambiar.</td></tr>
+      <tr><td class="q">El desvío</td><td>Lo activa vuestra compañía. Dos minutos, y se quita cuando queráis.</td></tr>
+    </table>
+    <p style="margin-top:3mm"><b>No hay que instalar nada, ni cambiar de programa, ni formar a nadie.</b></p>
+  </section>
+
+  <section style="margin-top:5mm">
+    <h2>Hasta dónde puede llegar</h2>
+    <table class="dos">
+      <tr><th>Hoy</th><th class="b">Se puede añadir</th></tr>
+      <tr>
+        <td class="a">La comanda se pasa al TPV a mano.</td>
+        <td class="b">Que entre sola en vuestro TPV, si permite conectarse.</td>
+      </tr>
+      <tr>
+        <td class="a">El aviso suena en la pantalla del panel.</td>
+        <td class="b">Aviso al móvil por WhatsApp, o ticket impreso en cocina.</td>
+      </tr>
+      <tr>
+        <td class="a">Se paga en la entrega, como ahora.</td>
+        <td class="b">Cobro con tarjeta por un enlace al confirmar el pedido.</td>
+      </tr>
+      <tr>
+        <td class="a">Solo pedidos.</td>
+        <td class="b">Reserva de mesa, con las mismas reglas.</td>
+      </tr>
+      <tr>
+        <td class="a">Atiende en castellano.</td>
+        <td class="b">Gallego e inglés, para quien llame de fuera.</td>
+      </tr>
+    </table>
+    <p style="margin-top:3mm;color:var(--gris)">Nada de la derecha está hecho todavía. Se hace si lo necesitáis y lo hablamos antes.</p>
+  </section>
+
+  <section style="margin-top:5mm">
+    <h2>Cómo empezamos</h2>
+    <div class="pasos">
+    <div class="paso">
+      <span class="n">Paso 1</span>
+      <svg class="ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-comanda"/></svg>
+      <b>Me pasáis la carta</b><p>Una foto del menú vale.</p>
+    </div>
+      <svg class="flecha" width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="7" x2="19" y2="7"/><path d="M15 3l5 4-5 4"/></svg>
+    <div class="paso">
+      <span class="n">Paso 2</span>
+      <svg class="ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-noah"/></svg>
+      <b>La dejo cargada</b><p>Con vuestros platos y vuestros precios.</p>
+    </div>
+      <svg class="flecha" width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="7" x2="19" y2="7"/><path d="M15 3l5 4-5 4"/></svg>
+    <div class="paso">
+      <span class="n">Paso 3</span>
+      <svg class="ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-movil"/></svg>
+      <b>La llamáis vosotros</b><p>Como si fuerais un cliente.</p>
+    </div>
+    </div>
+  </section>
+
+  <div class="cierre">
+    <svg class="ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>
+    <div>
+      <b>Sin coste y sin compromiso</b>
+      <p>La oís antes de decidir nada. Y si no os convence, <em>no hay nada que desmontar</em>: se quita el desvío y vuestro teléfono sigue igual que hoy.</p>
+    </div>
+  </div>
+
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 5 de 5</span></footer>
+</div>
+
+</body>
+</html>
