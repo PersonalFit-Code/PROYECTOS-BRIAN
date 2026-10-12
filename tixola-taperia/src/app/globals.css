@@ -508,6 +508,86 @@ body::before {
     0 0 40px rgba(158,22,24, 0.25);
 }
 
+/* Ventana de un rodillo del contador (Counter.tsx). El degradado de máscara difumina los dos filos
+   para que los dígitos entren y salgan fundidos en vez de cortados a cuchillo: sin esto, a mitad de
+   giro cada cifra enseña media rodaja de dos números y se lee como un error de maquetación, no como
+   un contador girando. Los topes van al 12 % y al 88 % porque el glifo de Bebas Neue ocupa de ese
+   13 % a ese 86 % de su celda: el número en reposo queda entero y solo se difumina lo que sobra. */
+.rodillo {
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Entrada de página (template.tsx)
+   ──────────────────────────────────────────────────────────────
+   Dos animaciones que solo corren al NAVEGAR entre páginas, nunca al abrir la web: el contenido se
+   funde desde cero y un filo de luz cruza la parte de arriba de la ventana. Ambas van dentro de
+   `prefers-reduced-motion: no-preference`; fuera de ahí no existen y la página aparece y punto, que
+   es exactamente lo que se pide con esa preferencia. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes entrada-pagina {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* `both` para que el fotograma inicial (opacidad 0) se aplique ya antes de arrancar: sin él se ve
+     la página entera un instante y después el fundido, que es peor que no animar nada. */
+  .entrada-pagina {
+    animation: entrada-pagina 420ms var(--ease-out-expo) both;
+  }
+
+  @keyframes filo-de-carga {
+    from {
+      transform: translate3d(-100%, 0, 0);
+    }
+    to {
+      transform: translate3d(100%, 0, 0);
+    }
+  }
+
+  /* `fixed` y SIN hijos a propósito: así puede usar `transform` sin arrastrar a la barra de
+     navegación (ver el comentario de template.tsx). Se retira solo al acabar con `forwards` +
+     opacidad final 0, de modo que no queda nada encima del contenido ni intercepta un clic. */
+  .filo-de-carga {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 100;
+    height: 2px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--color-pimenton-light, #e8565a), transparent);
+    animation: filo-de-carga 700ms var(--ease-out-expo) forwards;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Banda "En cifras": el rescoldo detrás de cada número
+   ──────────────────────────────────────────────────────────────
+   Un halo rojo que se enciende y se abre detrás de la cifra cuando su columna entra en pantalla, para
+   que el número no aparezca sobre el hierro pelado. Va atado a la clase `.is-revealed` que ya pone el
+   observador de revelados, así que no cuesta ni un hook ni un `whileInView` más en una sección donde
+   hay cuatro contadores girando a la vez.
+
+   Fuera de `prefers-reduced-motion: no-preference` no se declara nada: quien pide menos movimiento ve
+   el rescoldo puesto y quieto desde el primer pintado, sin transición que seguir. */
+@media (prefers-reduced-motion: no-preference) {
+  .rescoldo {
+    opacity: 0;
+    transform: scale(0.55);
+    transition:
+      opacity 1.1s var(--ease-out-expo) var(--rescoldo-delay, 0ms),
+      transform 1.4s var(--ease-out-expo) var(--rescoldo-delay, 0ms);
+  }
+  [data-reveal].is-revealed .rescoldo {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* Grano fino sobre fondos oscuros */
 @utility noise {
   position: relative;

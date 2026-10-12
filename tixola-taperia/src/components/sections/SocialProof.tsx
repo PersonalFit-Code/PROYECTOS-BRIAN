@@ -177,7 +177,14 @@ function StatFigure({ stat, index }: { stat: StatItem; index: number }) {
     >
       {/* Kicker: la fuente del dato (Google, TripAdvisor…) en versalitas pequeñas */}
       <span className="font-caps text-[10px] uppercase tracking-[0.24em] text-cream-faint">{stat.sub}</span>
-      <div className="mt-4">
+      <div className="relative mt-4">
+        {/* Rescoldo: se abre detrás del número al revelarse la columna (CSS en globals, clase
+            `.rescoldo`). Va DEBAJO del contador —`-z-10`— y sin eventos: es puro ambiente. */}
+        <span
+          aria-hidden
+          className="rescoldo pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[150%] w-[150%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(232,86,90,0.28),rgba(232,86,90,0.08)_45%,transparent_70%)] blur-[6px]"
+          style={{ "--rescoldo-delay": `${220 + index * 110}ms` } as CSSProperties}
+        />
         <Counter
           value={stat.value}
           decimals={stat.decimals}
@@ -315,7 +322,9 @@ export default function SocialProof() {
         {/* 2 · Banda editorial "en cifras": regla fina arriba (con la palabra centrada) y abajo, y las
             cuatro cifras entre medias, directamente sobre el hierro. Sin cajas ni cristal. */}
         <div className="mt-12 md:mt-16">
-          <div data-reveal="fade" className="flex items-center gap-4">
+          {/* `wipe` y no `fade`: los filos se trazan de izquierda a derecha, como si alguien subrayara
+              la palabra antes de que caigan las cifras. */}
+          <div data-reveal="wipe" className="flex items-center gap-4">
             <span aria-hidden className="h-px flex-1 bg-cream/15" />
             {/* La palabra es puro adorno de maqueta: la lista ya se anuncia con `statsAria` */}
             <span aria-hidden className="font-caps text-[11px] uppercase tracking-[0.3em] text-pimenton-a11y">
@@ -328,7 +337,7 @@ export default function SocialProof() {
               <StatFigure key={stat.id} stat={stat} index={i} />
             ))}
           </ul>
-          <div data-reveal="fade" aria-hidden className="h-px bg-cream/15" />
+          <div data-reveal="wipe" aria-hidden className="h-px bg-cream/15" />
         </div>
 
         {/* 3 · Columnas de reseñas */}
