@@ -138,12 +138,20 @@ tras cambiarla, se vacian las dos variables.
 `SONIDO_FONDO` pone ambiente detras de la voz: `office` (el de Vapi por
 defecto), `off`, o la URL de un audio propio.
 
-**`endCallPhrases` cuelga la llamada en cuanto el agente dice una de esas
-frases, buscandolas como texto suelto.** Una llamada real se corto en mitad de
-un pedido porque la lista llevaba `"adios"` y `"hasta luego"`. Por eso ahora
-hay una sola frase larga (`FRASE_DE_DESPEDIDA` en `src/assistant.ts`), el
-prompt le pide al agente que la diga tal cual para despedirse, y hay tests que
-rechazan cualquier frase corta o corriente.
+**Como se cuelga la llamada.** Lo hace el modelo, con la herramienta `endCall`
+de Vapi, que va en `model.tools` junto a las dos propias. Cuando colgar se le
+dice en el System Prompt, porque esa herramienta no admite descripcion propia:
+sus unicos campos son `type`, `messages` y `rejectionPlan`, y mandarle
+cualquier otro (`function`, `server`, `name`) arriesga que Vapi rechace el
+asistente entero y la llamada no conecte.
+
+**No volver a usar `endCallPhrases`.** Dio los dos fallos opuestos en llamadas
+reales. Con `"adios"` y `"hasta luego"` en la lista, cortaba la llamada en
+mitad de un pedido, porque Vapi busca esas frases como subcadena de lo que
+transcribe del asistente. Con una frase larga paso lo contrario: al modelo le
+basto con meter una coma para que no casara, y la linea se quedo abierta hasta
+el corte por silencio. `endCallMessage` si se queda: es lo que se dice al
+colgar, y sin el cuelga en silencio.
 
 Los turnos de palabra (`stopSpeakingPlan` y `startSpeakingPlan` en
 `src/assistant.ts`) estan ajustados para una conversacion fluida: el agente se

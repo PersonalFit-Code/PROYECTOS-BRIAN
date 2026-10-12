@@ -18,10 +18,11 @@ import {
 import { formatearEuros, momentoActual } from "./util/format";
 
 /**
- * La frase con la que el agente cuelga. Larga a proposito: tiene que ser algo
- * que no pueda decir por accidente en mitad de la conversacion.
+ * Lo que se dice al colgar. Ya no es un disparador, solo una despedida: de
+ * cortar la linea se encarga la herramienta endCall, asi que aqui caben
+ * tildes y puntuacion sin que nada deje de funcionar.
  */
-const FRASE_DE_DESPEDIDA = "hasta luego y gracias por llamar";
+const FRASE_DE_DESPEDIDA = "Gracias por llamar. ¡Hasta luego!";
 
 /**
  * Con que nombre se presenta la asistente. Manda el del negocio, si lo tiene;
@@ -169,12 +170,13 @@ Sigue estos pasos en orden. No te salgas del orden ni te adelantes.
 9. Dile el codigo de pedido que te devuelva la herramienta, letra a letra, y
    pidele que lo tenga a mano por si tiene que llamar.
 10. Di el tiempo estimado de entrega y recuerda como se paga.
-11. Para colgar, y solo cuando ya no quede nada por hablar, termina diciendo
-    exactamente esta frase, sin cambiar ni una palabra:
-    "${FRASE_DE_DESPEDIDA}".
-    No la digas antes de tiempo ni en mitad de la conversacion: en cuanto la
-    dices, la llamada se corta. Si todavia estas tomando el pedido, no te
-    despidas de ninguna forma, ni digas "adios" ni "hasta luego" sueltos.
+11. Cuando ya le hayas dado el codigo, el tiempo estimado y como se paga,
+    preguntale si necesita algo mas. Si te dice que no, o si se despide,
+    cuelga tu la llamada con la herramienta de colgar.
+    No te despidas tu: de la despedida se encarga el sistema, tu solo cuelgas.
+    No cuelgues nunca antes de haber dado el codigo de pedido, ni mientras
+    quede algo por confirmar. Si el cliente se queda callado, esperale y
+    preguntale una vez si sigue ahi antes de colgar.
 
 # EL TOTAL LO CALCULA LA HERRAMIENTA
 
@@ -325,6 +327,13 @@ function buildTools(business: Business) {
       },
     },
 
+    // Colgar la llamada. Es una herramienta de Vapi, no nuestra: no lleva
+    // "function", ni servidor, ni descripcion, y mandarle cualquier otro
+    // campo es arriesgarse a que rechace el asistente entero. El objeto
+    // desnudo es todo lo que admite; cuando colgar se le dice en el prompt,
+    // que es el unico sitio donde se puede.
+    { type: "endCall" as const },
+
     {
       type: "function" as const,
       messages: [
@@ -463,13 +472,15 @@ export function buildAssistant(business: Business, businessId?: string) {
     // que la grabacion dependa de un valor que no hayamos escrito nosotros.
     artifactPlan: { recordingEnabled: config.grabarLlamadas },
 
-    // CUIDADO: Vapi cuelga en cuanto el agente dice una de estas frases, y
-    // las busca como texto suelto dentro de lo que diga. Un "adios" o un
-    // "hasta luego" a secas cuelgan la llamada en mitad de un pedido, asi
-    // que aqui va una sola frase larga que solo tiene sentido al final, y el
-    // prompt le pide que la diga tal cual para despedirse.
+    // Lo que se dice al colgar. Sin esto, cuelga en silencio.
+    //
+    // NO volver a poner endCallPhrases: Vapi lo compara como subcadena contra
+    // lo que transcribe del asistente, asi que basta con que el modelo meta
+    // una coma para que no case y la llamada se quede abierta (era justo el
+    // fallo: se oia la despedida y la linea seguia viva). Y al reves, una
+    // frase corta casa por accidente y corta a mitad de pedido. De colgar se
+    // encarga la herramienta endCall, que decide el modelo y no el texto.
     endCallMessage: FRASE_DE_DESPEDIDA,
-    endCallPhrases: [FRASE_DE_DESPEDIDA.toLowerCase()],
     maxDurationSeconds: 600,
 
     // Si el servidor es accesible desde internet, se le dice a Vapi donde

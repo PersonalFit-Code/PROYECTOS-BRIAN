@@ -79,43 +79,65 @@ describe("construirVoz", () => {
 });
 
 /**
- * Vapi cuelga en cuanto el agente dice una de las endCallPhrases, buscandolas
- * como texto suelto. Una llamada real se corto por esto: la lista llevaba
- * "adios" y "hasta luego".
+ * Como cuelga la llamada.
+ *
+ * Hubo dos fallos reales aqui. Primero endCallPhrases llevaba "adios" y
+ * "hasta luego" y cortaba la llamada en mitad de un pedido. Despues, con una
+ * frase larga, paso lo contrario: Vapi la compara como subcadena contra lo
+ * que transcribe del asistente, al modelo le basto con meter una coma y la
+ * linea se quedo abierta. La solucion no es afinar la frase: es no usar ese
+ * mecanismo y dejar que cuelgue la herramienta endCall.
  */
-describe("frases que cuelgan la llamada", () => {
+describe("colgar la llamada", () => {
   const asistente = buildAssistant(fallbackBusiness) as unknown as {
-    endCallPhrases: string[];
-    model: { messages: Array<{ content: string }> };
+    endCallMessage?: string;
+    endCallPhrases?: string[];
+    model: { tools: Array<Record<string, unknown>>; messages: Array<{ content: string }> };
   };
 
-  it("ninguna es una despedida corriente que se pueda soltar sin querer", () => {
-    const peligrosas = ["adios", "hasta luego", "gracias", "vale", "nada mas"];
-    for (const frase of asistente.endCallPhrases) {
-      assert.ok(
-        !peligrosas.includes(frase.trim().toLowerCase()),
-        `"${frase}" se dice en cualquier conversacion y colgaria la llamada`,
-      );
-    }
+  it("lleva la herramienta de colgar de Vapi", () => {
+    const colgar = asistente.model.tools.filter((t) => t.type === "endCall");
+    assert.equal(colgar.length, 1, "falta la herramienta endCall, o esta duplicada");
   });
 
-  it("son frases largas, no una palabra suelta", () => {
-    for (const frase of asistente.endCallPhrases) {
-      assert.ok(
-        frase.trim().split(/\s+/).length >= 4,
-        `"${frase}" es demasiado corta para no decirla por accidente`,
-      );
-    }
+  it("la herramienta va desnuda: Vapi no admite mas campos ahi", () => {
+    const colgar = asistente.model.tools.find((t) => t.type === "endCall");
+    assert.deepEqual(
+      Object.keys(colgar ?? {}),
+      ["type"],
+      'endCall solo admite type, messages y rejectionPlan; cualquier otro campo (function, server, name) puede hacer que Vapi rechace el asistente entero',
+    );
   });
 
-  it("el prompt le dice al agente la frase exacta con la que despedirse", () => {
+  it("convive con las dos herramientas propias, que siguen intactas", () => {
+    const nombres = asistente.model.tools
+      .filter((t) => t.type === "function")
+      .map((t) => (t.function as { name: string }).name);
+    assert.deepEqual(nombres.sort(), ["calcular_total", "registrar_pedido"]);
+  });
+
+  it("NO usa endCallPhrases: es el mecanismo que fallaba en los dos sentidos", () => {
+    assert.equal(
+      asistente.endCallPhrases,
+      undefined,
+      "endCallPhrases compara subcadenas: o no casa y no cuelga, o casa de mas y corta a mitad de pedido",
+    );
+  });
+
+  it("dice algo al colgar, en vez de cortar en seco", () => {
+    const mensaje = asistente.endCallMessage ?? "";
+    assert.ok(mensaje.trim().length > 0, "sin endCallMessage, Vapi cuelga en silencio");
+    assert.ok(mensaje.length <= 1000, "Vapi corta endCallMessage en 1000 caracteres");
+  });
+
+  it("el prompt le dice cuando colgar, que es el unico sitio donde se puede", () => {
     const prompt = asistente.model.messages[0]?.content ?? "";
-    for (const frase of asistente.endCallPhrases) {
-      assert.ok(
-        prompt.toLowerCase().includes(frase.trim().toLowerCase()),
-        `el prompt no menciona "${frase}", asi que el agente no sabe como colgar`,
-      );
-    }
+    assert.match(prompt, /cuelga tu la llamada con la herramienta de colgar/i);
+    assert.match(
+      prompt,
+      /no cuelgues nunca antes de haber dado el codigo de pedido/i,
+      "sin esto puede colgar a media comanda",
+    );
   });
 });
 
