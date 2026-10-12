@@ -229,7 +229,7 @@ de desarrollo y publica solo lo necesario, sin correr como root) y un
    | `VAPI_SERVER_SECRET` | el mismo secreto que en Vapi |
    | `FIREBASE_SERVICE_ACCOUNT` | la cuenta de servicio en base64 (la misma del `.env`) |
    | `PUBLIC_SERVER_URL` | la URL de Render, **sin barra final** |
-   | `PANEL_PASSWORD` | una contrasena para el panel |
+   | `PANEL_PASSWORD` | una contrasena para el panel  **Obligatoria para abrir el panel desde el movil o desde fuera**: sin ella solo responde al propio ordenador, y una peticion reenviada por un tunel nunca cuenta como local. |
 
 4. Render reinicia solo. Comprueba `https://<tu-url>/health`.
 5. En Vapi, pon como **Server URL** `https://<tu-url>/voice-webhook` y el

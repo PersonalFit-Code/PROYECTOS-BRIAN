@@ -25,7 +25,28 @@ export const panelRouter = Router();
 const USUARIO = "cocina";
 
 /** Las peticiones de la propia maquina, para el modo de desarrollo sin clave. */
+/** Cabeceras que solo pone algo que ha reenviado la peticion. */
+const SENALES_DE_REENVIO = [
+  "x-forwarded-for",
+  "x-forwarded-host",
+  "x-real-ip",
+  "forwarded",
+] as const;
+
+/**
+ * Si la peticion viene del propio ordenador.
+ *
+ * CUIDADO con la trampa: un tunel como ngrok reenvia a localhost, asi que la
+ * peticion llega al socket como 127.0.0.1 aunque venga de la otra punta del
+ * mundo. Mirando solo la IP, el panel quedaba abierto a cualquiera que
+ * supiera la direccion del tunel, con las direcciones y los telefonos de los
+ * clientes dentro. Por eso cualquier rastro de reenvio descarta que sea
+ * local: para entrar desde fuera hace falta PANEL_PASSWORD.
+ */
 function esLocal(req: Request): boolean {
+  for (const cabecera of SENALES_DE_REENVIO) {
+    if (req.headers[cabecera] !== undefined) return false;
+  }
   const ip = req.ip ?? "";
   return (
     ip === "127.0.0.1" ||
