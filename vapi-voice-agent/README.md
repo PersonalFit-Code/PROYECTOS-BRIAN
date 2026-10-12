@@ -158,6 +158,24 @@ Los turnos de palabra (`stopSpeakingPlan` y `startSpeakingPlan` en
 calla en cuanto el cliente habla (como una persona), pero un ruido corto no
 basta para cortarlo, y contesta en cuanto el cliente termina la frase.
 
+## Desplegar en Google Cloud Run
+
+```
+bash scripts/desplegar.sh
+```
+
+Lee las claves del `.env`, las sube como variables del servicio y devuelve la
+direccion fija. Se puede repetir para publicar cambios. La region es
+`europe-west1` porque Google la cuenta dentro del nivel gratuito y esta en
+Europa, como la base de datos.
+
+El fichero con las claves que se genera para pasarselas a `gcloud` se borra al
+terminar, pase lo que pase.
+
+Render tambien vale (`render.yaml` en la raiz), pero **su plan gratuito no
+sirve**: duerme el servicio a los 15 minutos y tarda cerca de un minuto en
+despertar, y una llamada entrante no espera tanto.
+
 ## Variables de entorno
 
 | Variable | Por defecto | Para que sirve |
