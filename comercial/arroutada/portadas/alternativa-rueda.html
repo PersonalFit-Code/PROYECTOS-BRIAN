@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Oferta de automatización telefónica para Arroutada</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm; }
+
+  :root {
+    --negro: #111111;
+    --gris:  #6E6E6E;
+    --linea: #D8D8D8;
+    --fino:  #EDEDED;
+    --oro:   #A07D2C;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; background: #fff; }
+
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--negro);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  /* caja util: 182mm x 271mm. Coordenadas internas = papel - (14mm, 13mm) */
+  .hoja { position: relative; width: 182mm; height: 270mm; overflow: hidden; }
+
+  svg { display: block; }
+
+  /* --------- el aro: eco de la rueda de la hoja 3 --------- */
+  .aro { position: absolute; left: 0; top: 0; width: 182mm; height: 270mm; }
+
+  /* --------- cabecera --------- */
+  .cabecera {
+    position: absolute; left: 0; top: 0.4mm; width: 182mm;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .marca { display: flex; align-items: center; gap: 2.4mm; }
+  .marca .nombre {
+    font-size: 9.5pt; font-weight: 800; letter-spacing: 2.4pt;
+    text-transform: uppercase; line-height: 1;
+  }
+  .fecha {
+    font-size: 7.4pt; letter-spacing: 1.9pt; text-transform: uppercase;
+    color: var(--gris); line-height: 1;
+  }
+  .regla-cab {
+    position: absolute; left: 0; top: 8.5mm; width: 182mm;
+    border-top: 0.8pt solid var(--negro);
+  }
+
+  /* --------- titular --------- */
+  .titular { position: absolute; left: 0; top: 76mm; width: 182mm; text-align: center; }
+  .t1 {
+    font-size: 19pt; font-weight: 400; letter-spacing: -0.25pt;
+    line-height: 1.15; margin: 0;
+  }
+  .t2 {
+    font-size: 7.4pt; font-weight: 700; letter-spacing: 3.2pt;
+    text-transform: uppercase; color: var(--gris);
+    margin: 6mm 0 3.8mm; line-height: 1;
+  }
+  .t3 {
+    font-size: 58pt; font-weight: 800; letter-spacing: -2.1pt;
+    line-height: 0.95; margin: 0;
+  }
+  .filete { width: 20mm; height: 1.2pt; background: var(--oro); margin: 8.5mm auto 0; }
+  .bajada {
+    font-size: 11pt; line-height: 1.5; color: var(--gris);
+    max-width: 182mm; margin: 8mm auto 0;
+  }
+
+  /* --------- pie de aro --------- */
+  .leyenda {
+    position: absolute; left: 0; top: 184.9mm; width: 182mm; text-align: center;
+    font-size: 7.2pt; letter-spacing: 2.4pt; text-transform: uppercase;
+    color: var(--gris); line-height: 1;
+  }
+
+  /* --------- ficha al pie --------- */
+  .regla-a { position: absolute; left: 0; top: 223mm; width: 182mm; border-top: 0.8pt solid var(--negro); }
+  .destino {
+    position: absolute; left: 0; top: 229mm; width: 182mm;
+    font-size: 11pt; letter-spacing: -0.1pt; line-height: 1.2;
+  }
+  .regla-b { position: absolute; left: 0; top: 239.5mm; width: 182mm; border-top: 0.5pt solid var(--fino); }
+  .firma {
+    position: absolute; left: 0; top: 246.5mm; width: 182mm;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 9pt; color: var(--gris); line-height: 1.2;
+  }
+  .regla-c { position: absolute; left: 0; top: 258.4mm; width: 182mm; height: 1.6pt; background: var(--negro); }
+  .regla-c-oro { position: absolute; left: 0; top: 258.4mm; width: 30mm; height: 1.6pt; background: var(--oro); }
+</style>
+</head>
+<body>
+
+<div class="hoja">
+
+  <!-- ===== eco de la rueda: dos aros finisimos + los cinco pasos ===== -->
+  <svg class="aro" viewBox="0 0 182 270" fill="none">
+    <circle cx="91" cy="113" r="90.4" stroke="#D8D8D8" stroke-width="0.28"/>
+    <g fill="#A07D2C" stroke="none">
+      <circle cx="91"     cy="22.60"  r="1.2"/>
+      <circle cx="176.97" cy="85.06"  r="1.2"/>
+      <circle cx="144.14" cy="186.14" r="1.2"/>
+      <circle cx="37.86"  cy="186.14" r="1.2"/>
+      <circle cx="5.03"   cy="85.06"  r="1.2"/>
+    </g>
+  </svg>
+
+  <!-- ===== cabecera ===== -->
+  <div class="cabecera">
+    <div class="marca">
+      <svg width="4.8mm" height="4.8mm" viewBox="0 0 24 24" fill="none"
+           stroke="#111111" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="6.6" cy="12" r="2.6"/>
+        <path d="M12.2 7.6a6.2 6.2 0 0 1 0 8.8"/>
+        <path d="M16 4.6a10.3 10.3 0 0 1 0 14.8" stroke="#A07D2C"/>
+      </svg>
+      <span class="nombre">Noah</span>
+    </div>
+    <div class="fecha">Octubre de 2026</div>
+  </div>
+  <div class="regla-cab"></div>
+
+  <!-- ===== titular, encajado en el hueco del aro ===== -->
+  <div class="titular">
+    <p class="t1">Oferta de automatización telefónica</p>
+    <p class="t2">para</p>
+    <p class="t3">Arroutada</p>
+    <div class="filete"></div>
+    <p class="bajada">Un agente de voz que coge el teléfono cuando<br>vosotros no podéis: atiende, toma la comanda,<br>confirma la dirección y calcula el total.</p>
+  </div>
+
+  <div class="leyenda">Cinco pasos, una sola llamada</div>
+
+  <!-- ===== ficha ===== -->
+  <div class="regla-a"></div>
+  <div class="destino">Para David · Arroutada · Rúa Zurbarán 8, Ourense</div>
+  <div class="regla-b"></div>
+  <div class="firma">
+    <span>Noah · asistente telefónica</span>
+    <svg width="18mm" height="3mm" viewBox="0 0 51 8.5" fill="#A07D2C" stroke="none">
+      <circle cx="4.25" cy="4.25" r="1.5"/>
+      <circle cx="15"   cy="4.25" r="1.5"/>
+      <circle cx="25.75" cy="4.25" r="1.5"/>
+      <circle cx="36.5" cy="4.25" r="1.5"/>
+      <circle cx="47.25" cy="4.25" r="1.5"/>
+    </svg>
+  </div>
+  <div class="regla-c"></div>
+  <div class="regla-c-oro"></div>
+
+</div>
+
+</body>
+</html>

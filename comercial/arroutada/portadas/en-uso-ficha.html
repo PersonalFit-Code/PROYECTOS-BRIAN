@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Oferta para Arroutada</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm; }
+
+  :root {
+    --negro: #111111;
+    --gris:  #6E6E6E;
+    --linea: #D8D8D8;
+    --fino:  #EDEDED;
+    --oro:   #A07D2C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #FFFFFF; }
+
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--negro);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  svg { display: block; }
+
+  /* caja util 182 x 271mm. 262mm cierra la tinta en ~275mm desde el borde */
+  .caja { width: 182mm; height: 262mm; display: flex; flex-direction: column; }
+
+  /* ---- filetes ---- */
+  .f-negro { height: 0.4mm;  background: var(--negro); }
+  .f-linea { height: 0.25mm; background: var(--linea); }
+  .f-oro   { height: 0.7mm;  background: var(--oro);   }
+  .f-corto { height: 0.7mm;  background: var(--oro); width: 21mm; }
+
+  /* ---- rotulos en versalitas ---- */
+  .rotulo {
+    font-size: 6.8pt; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 2.4pt; color: var(--gris);
+  }
+  .rotulo.negra { color: var(--negro); }
+
+  /* ---- cabecera ---- */
+  .cab { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 2.8mm; }
+
+  /* ---- titular ---- */
+  h1 {
+    font-size: 41pt; font-weight: 300; line-height: 1.03;
+    letter-spacing: -1.3pt; color: var(--negro);
+  }
+  h1 em { font-style: normal; font-weight: 700; letter-spacing: -1.7pt; }
+
+  .bajada {
+    max-width: 120mm; font-size: 12pt; font-weight: 400;
+    line-height: 1.5; letter-spacing: -0.05pt;
+  }
+
+  /* ---- muelles verticales ---- */
+  .aire-alto { flex: 1.5 0 0; }
+  .aire-bajo { flex: 0.7 0 0; }
+
+  /* ---- ficha de datos ---- */
+  .ficha-cab {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 3.2mm;
+  }
+  .ficha-cab svg { width: 6.6mm; height: 6.6mm; }
+
+  .fila { display: flex; }
+  .celda { padding: 8.6mm 0 8.8mm; }
+  .celda.a { width: 53%; padding-right: 10mm; }
+  .celda.b { width: 47%; padding-left: 12mm; }
+
+  .eti {
+    font-size: 6.2pt; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.9pt; color: var(--gris);
+  }
+  .val {
+    margin-top: 3.4mm; font-size: 10.6pt; font-weight: 500;
+    line-height: 1.38; letter-spacing: -0.15pt;
+  }
+  .val .suave { font-weight: 400; color: var(--gris); }
+
+  .pt { color: var(--oro); }
+  .cierre { margin-top: 5.8mm; }
+</style>
+</head>
+<body>
+<div class="caja">
+
+  <!-- cabecera -->
+  <header class="cab">
+    <span class="rotulo negra">Propuesta de servicio</span>
+    <span class="rotulo">Arroutada <span class="pt">&middot;</span> Ourense</span>
+  </header>
+  <div class="f-negro"></div>
+
+  <div class="aire-alto"></div>
+
+  <!-- titular -->
+  <div class="f-corto"></div>
+  <h1 style="margin-top:6.4mm">Oferta de<br>automatización telefónica<br>para <em>Arroutada</em></h1>
+
+  <p class="bajada" style="margin-top:9mm">Un agente de voz que coge el teléfono cuando vosotros no podéis: atiende, toma la comanda, confirma la dirección y calcula el total.</p>
+
+  <div class="aire-bajo"></div>
+
+  <!-- ficha -->
+  <section>
+    <div class="ficha-cab">
+      <span class="rotulo">Ficha de la propuesta</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6.2 3.4h3.1l1.5 4-2 1.4a11 11 0 0 0 5.9 5.9l1.4-2 4 1.5v3.1a2 2 0 0 1-2 2A16.4 16.4 0 0 1 4.2 5.4a2 2 0 0 1 2-2Z"/>
+      </svg>
+    </div>
+    <div class="f-negro"></div>
+
+    <div class="fila">
+      <div class="celda a">
+        <div class="eti">Para</div>
+        <div class="val">David <span class="pt">&middot;</span> Arroutada</div>
+      </div>
+      <div class="celda b">
+        <div class="eti">D&oacute;nde</div>
+        <div class="val">R&uacute;a Zurbar&aacute;n 8, Ourense</div>
+      </div>
+    </div>
+
+    <div class="f-linea"></div>
+
+    <div class="fila">
+      <div class="celda a">
+        <div class="eti">Qu&eacute;</div>
+        <div class="val">Atenci&oacute;n telef&oacute;nica y toma de pedidos</div>
+      </div>
+      <div class="celda b">
+        <div class="eti">Qui&eacute;n</div>
+        <div class="val">Noah <span class="pt">&middot;</span> <span class="suave">asistente telef&oacute;nica</span></div>
+      </div>
+    </div>
+
+    <div class="f-linea"></div>
+
+    <div class="fila">
+      <div class="celda a">
+        <div class="eti">Fecha</div>
+        <div class="val">Octubre de 2026</div>
+      </div>
+      <div class="celda b">
+        <div class="eti">C&oacute;mo</div>
+        <div class="val">Desv&iacute;o desde vuestro n&uacute;mero actual</div>
+      </div>
+    </div>
+
+    <div class="f-oro cierre"></div>
+  </section>
+
+</div>
+</body>
+</html>

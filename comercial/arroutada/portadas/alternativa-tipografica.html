@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Oferta para Arroutada</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm; }
+
+  :root {
+    --negro: #111111;
+    --gris:  #6E6E6E;
+    --linea: #D8D8D8;
+    --fino:  #EDEDED;
+    --oro:   #A07D2C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { background: #FFFFFF; }
+
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--negro);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  svg { display: block; }
+
+  /* caja util 182 x 271mm; usamos 262mm para cerrar la tinta en ~275mm */
+  .hoja { width: 182mm; height: 262mm; display: flex; flex-direction: column; }
+
+  /* filetes */
+  .filete       { height: 0.35mm; background: var(--negro); width: 100%; }
+  .filete-claro { height: 0.25mm; background: var(--linea);  width: 100%; }
+  .filete-gordo { height: 0.8mm;  background: var(--negro);  width: 100%; }
+  .filete-oro   { height: 2.8mm;  background: var(--oro);    width: 104mm; }
+
+  /* cabecera */
+  .cab { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 2.6mm; }
+  .rotulo {
+    font-size: 7pt; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 2.3pt; color: var(--gris);
+  }
+  .rotulo.negra { color: var(--negro); }
+
+  /* titular */
+  .bloque-titular { margin-top: 41mm; }
+  h1 {
+    font-size: 62pt; font-weight: 800; line-height: 0.96;
+    letter-spacing: -1.75pt; max-width: 180mm;
+  }
+
+  /* eje de oro + marca */
+  .eje { margin-top: 41mm; height: 2.8mm; display: flex; align-items: center; justify-content: space-between; }
+  .eje svg { width: 12mm; height: 12mm; flex: none; }
+  .eje .prolonga { flex: 1; height: 0.25mm; background: var(--linea); margin: 0 7mm; }
+
+  /* bajada */
+  .bloque-bajada { margin-top: 7mm; }
+  .bajada { max-width: 104mm; font-size: 11.6pt; line-height: 1.42; }
+
+  /* pie de ficha, anclado abajo */
+  .pie { margin-top: auto; }
+  .pie .dest { margin-top: 4.4mm; font-size: 10.4pt; letter-spacing: -0.1pt; }
+  .pie .dest b { font-weight: 700; }
+  .pie .filete-gordo { margin-top: 5.4mm; }
+  .ficha {
+    margin-top: 4.2mm; display: flex; align-items: center;
+    font-size: 8.4pt; color: var(--gris); letter-spacing: 0.1pt;
+  }
+  .ficha .vfilete { width: 0.25mm; height: 3.6mm; background: var(--linea); margin-right: 5mm; }
+  .ficha .celda-fecha { margin-left: auto; display: flex; align-items: center; width: 40mm; }
+  .pt { color: var(--oro); }
+</style>
+</head>
+<body>
+<div class="hoja">
+
+  <header class="cab">
+    <span class="rotulo negra">Propuesta</span>
+    <span class="rotulo">Arroutada <span class="pt">&middot;</span> Ourense</span>
+  </header>
+  <div class="filete"></div>
+
+  <div class="bloque-titular">
+    <h1>Oferta de<br>automatización<br>telefónica<br>para Arroutada</h1>
+  </div>
+
+  <div class="eje">
+    <div class="filete-oro"></div>
+    <div class="prolonga"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6E6E6E" stroke-width="1.6"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.5 5.5a2 2 0 0 1 2-2Z"/>
+    </svg>
+  </div>
+
+  <div class="bloque-bajada">
+    <p class="bajada">Un agente de voz que coge el teléfono cuando vosotros no podéis: atiende, toma la comanda, confirma la dirección y calcula el total.</p>
+  </div>
+
+  <div class="pie">
+    <div class="filete-claro"></div>
+    <p class="dest">Para <b>David</b> <span class="pt">&middot;</span> Arroutada <span class="pt">&middot;</span> Rúa Zurbarán 8, Ourense</p>
+    <div class="filete-gordo"></div>
+    <div class="ficha">
+      <span>Noah <span class="pt">&middot;</span> asistente telefónica</span>
+      <span class="celda-fecha"><span class="vfilete"></span>Octubre de 2026</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

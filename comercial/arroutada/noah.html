@@ -20,7 +20,7 @@
     font-size: 9.6pt; line-height: 1.45; color: var(--negro);
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
-  .hoja { page-break-after: always; zoom: 1.18; }
+  .hoja { page-break-after: always; zoom: 1.08; }
   .hoja:last-child { page-break-after: auto; }
   section, .tarjetas, .rueda, .llamada, .pantalla, table, .cierre { page-break-inside: avoid; }
   h2 { page-break-after: avoid; }
@@ -64,7 +64,7 @@
   .tarjetas { display: flex; gap: 4mm; margin: 7mm 0 0; }
   .tarjeta {
     flex: 1; min-width: 0; border: .8pt solid var(--linea);
-    border-radius: 2mm; padding: 6mm 3.5mm; text-align: center;
+    border-radius: 2mm; padding: 7mm 3.5mm; text-align: center;
   }
   .tarjeta .ico { margin: 0 auto 2.5mm; }
   .tarjeta b { display: block; font-size: 9.6pt; margin-bottom: 1.2mm; }
@@ -78,8 +78,8 @@
   .item-ico p { font-size: 8.4pt; color: var(--gris); margin: 0; }
 
   /* ---------------- Llamada ---------------- */
-  .llamada { border: .8pt solid var(--linea); border-radius: 2.5mm; padding: 4mm; margin: 3mm 0; }
-  .turno { margin-bottom: 2.2mm; }
+  .llamada { border: .8pt solid var(--linea); border-radius: 2.5mm; padding: 5mm; margin: 3mm 0; }
+  .turno { margin-bottom: 2.8mm; }
   .turno:last-child { margin-bottom: 0; }
   .turno .quien {
     font-size: 6.8pt; letter-spacing: 1.2pt; text-transform: uppercase;
@@ -175,7 +175,7 @@
   table.dos tr:last-child td { border-bottom: none; }
 
   table.simple { width: 100%; border-collapse: collapse; font-size: 9.2pt; }
-  table.simple td { padding: 1.8mm 2mm; border-bottom: .5pt solid var(--linea); vertical-align: top; }
+  table.simple td { padding: 2.2mm 2mm; border-bottom: .5pt solid var(--linea); vertical-align: top; }
   table.simple td.q { width: 32%; font-weight: 700; }
   table.simple tr:last-child td { border-bottom: none; }
 
@@ -189,7 +189,7 @@
   .cierre em { font-style: normal; color: var(--oro); font-weight: 700; }
 
   footer {
-    margin-top: 5mm; padding-top: 2mm; font-size: 7.2pt; color: var(--gris);
+    margin-top: 3.5mm; padding-top: 2mm; font-size: 7.2pt; color: var(--gris);
     border-top: .5pt solid var(--linea); display: flex; justify-content: space-between;
   }
 </style>
@@ -211,6 +211,9 @@
   <g id="i-candado"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2"/><path d="M8.2 10.5V7.4a3.8 3.8 0 0 1 7.6 0v3.1"/></g>
   <g id="i-casa"><path d="M3.5 10.5L12 3.5l8.5 7"/><path d="M5.8 9.2V20.5h12.4V9.2"/><path d="M9.8 20.5v-6h4.4v6"/></g>
   <g id="i-moto"><circle cx="5.5" cy="17.5" r="3.3"/><circle cx="18.5" cy="17.5" r="3.3"/><path d="M8.8 17.5h6.4l-3-8h-3"/><path d="M13.5 9.5h4l1.5 7"/></g>
+  <g id="i-luna"><path d="M20.5 14.2A8.8 8.8 0 0 1 9.8 3.5a8.8 8.8 0 1 0 10.7 10.7z"/></g>
+  <g id="i-ocupado"><circle cx="12" cy="12" r="9.3"/><line x1="5.4" y1="5.4" x2="18.6" y2="18.6"/></g>
+  <g id="i-sala"><circle cx="8.5" cy="7.5" r="3"/><circle cx="16.5" cy="9" r="2.4"/><path d="M2.8 20c0-3.3 2.6-5.6 5.7-5.6s5.7 2.3 5.7 5.6"/><path d="M15.4 14.6c2.8.1 4.9 2.3 4.9 5.4"/></g>
   <g id="i-mas"><circle cx="12" cy="12" r="9.3"/><line x1="12" y1="7.6" x2="12" y2="16.4"/><line x1="7.6" y1="12" x2="16.4" y2="12"/></g>
   <marker id="punta" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
     <path d="M0 1 L9 5 L0 9 z" fill="#111111" stroke="none"/>
@@ -218,39 +221,207 @@
 </defs></svg>
 
 <!-- ======================= 1. PORTADA ======================= -->
+<!-- PORTADA-INICIO -->
+<style>
+  /* --- portada, importada de portada-final.html --- */
+  .hoja-portada { zoom: 1; }
+.hoja-portada {
+    --negro: #111111;
+    --gris:  #6E6E6E;
+    --linea: #D8D8D8;
+    --fino:  #EDEDED;
+    --oro:   #A07D2C;
+  }
+.hoja-portada * { box-sizing: border-box; margin: 0; padding: 0; }
+.hoja-portada, .hoja-portada { background: #FFFFFF; }
+.hoja-portada {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--negro);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+.hoja-portada svg { display: block; }
+.hoja-portada /* caja util 182 x 271mm. 262mm cierra la tinta en ~275mm desde el borde */
+  .pf-caja { width: 182mm; height: 262mm; display: flex; flex-direction: column; }
+.hoja-portada /* ---- filetes ---- */
+  .pf-f-negro { height: 0.4mm;  background: var(--negro); }
+.hoja-portada .pf-f-linea { height: 0.25mm; background: var(--linea); }
+.hoja-portada .pf-f-oro { height: 0.7mm;  background: var(--oro);   }
+.hoja-portada .pf-f-corto { height: 0.7mm;  background: var(--oro); width: 21mm; }
+.hoja-portada /* ---- rotulos en versalitas ---- */
+  .pf-rotulo {
+    font-size: 6.8pt; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 2.4pt; color: var(--gris);
+  }
+.hoja-portada .pf-rotulo.pf-negra { color: var(--negro); }
+.hoja-portada /* ---- cabecera ---- */
+  .pf-cab { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 2.8mm; }
+.hoja-portada /* ---- titular ---- */
+  h1 {
+    font-size: 41pt; font-weight: 300; line-height: 1.03;
+    letter-spacing: -1.3pt; color: var(--negro);
+  }
+.hoja-portada h1 em { font-style: normal; font-weight: 700; letter-spacing: -1.7pt; }
+.hoja-portada .pf-bajada {
+    max-width: 120mm; font-size: 12pt; font-weight: 400;
+    line-height: 1.5; letter-spacing: -0.05pt;
+  }
+.hoja-portada /* ---- muelles verticales ---- */
+  .pf-aire-alto { flex: 1.5 0 0; }
+.hoja-portada .pf-aire-bajo { flex: 0.7 0 0; }
+.hoja-portada /* ---- ficha de datos ---- */
+  .pf-ficha-cab {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 3.2mm;
+  }
+.hoja-portada .pf-ficha-cab svg { width: 6.6mm; height: 6.6mm; }
+.hoja-portada .pf-fila { display: flex; }
+.hoja-portada .pf-celda { padding: 8.6mm 0 8.8mm; }
+.hoja-portada .pf-celda.pf-a { width: 53%; padding-right: 10mm; }
+.hoja-portada .pf-celda.pf-b { width: 47%; padding-left: 12mm; }
+.hoja-portada .pf-eti {
+    font-size: 6.2pt; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.9pt; color: var(--gris);
+  }
+.hoja-portada .pf-val {
+    margin-top: 3.4mm; font-size: 10.6pt; font-weight: 500;
+    line-height: 1.38; letter-spacing: -0.15pt;
+  }
+.hoja-portada .pf-val .pf-suave { font-weight: 400; color: var(--gris); }
+.hoja-portada .pf-pt { color: var(--oro); }
+.hoja-portada .pf-cierre { margin-top: 5.8mm; }
+</style>
+<div class="hoja hoja-portada">
+<div class="pf-caja">
+
+  <!-- cabecera -->
+  <header class="pf-cab">
+    <span class="pf-rotulo pf-negra">Propuesta de servicio</span>
+    <span class="pf-rotulo">Arroutada <span class="pf-pt">&middot;</span> Ourense</span>
+  </header>
+  <div class="pf-f-negro"></div>
+
+  <div class="pf-aire-alto"></div>
+
+  <!-- titular -->
+  <div class="pf-f-corto"></div>
+  <h1 style="margin-top:6.4mm">Oferta de<br>automatización telefónica<br>para <em>Arroutada</em></h1>
+
+  <p class="pf-bajada" style="margin-top:9mm">Un agente de voz que coge el teléfono cuando vosotros no podéis: atiende, toma la comanda, confirma la dirección y calcula el total.</p>
+
+  <div class="pf-aire-bajo"></div>
+
+  <!-- ficha -->
+  <section>
+    <div class="pf-ficha-cab">
+      <span class="pf-rotulo">Ficha de la propuesta</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6.2 3.4h3.1l1.5 4-2 1.4a11 11 0 0 0 5.9 5.9l1.4-2 4 1.5v3.1a2 2 0 0 1-2 2A16.4 16.4 0 0 1 4.2 5.4a2 2 0 0 1 2-2Z"/>
+      </svg>
+    </div>
+    <div class="pf-f-negro"></div>
+
+    <div class="pf-fila">
+      <div class="pf-celda pf-a">
+        <div class="pf-eti">Para</div>
+        <div class="pf-val">David <span class="pf-pt">&middot;</span> Arroutada</div>
+      </div>
+      <div class="pf-celda pf-b">
+        <div class="pf-eti">D&oacute;nde</div>
+        <div class="pf-val">R&uacute;a Zurbar&aacute;n 8, Ourense</div>
+      </div>
+    </div>
+
+    <div class="pf-f-linea"></div>
+
+    <div class="pf-fila">
+      <div class="pf-celda pf-a">
+        <div class="pf-eti">Qu&eacute;</div>
+        <div class="pf-val">Atenci&oacute;n telef&oacute;nica y toma de pedidos</div>
+      </div>
+      <div class="pf-celda pf-b">
+        <div class="pf-eti">Qui&eacute;n</div>
+        <div class="pf-val">Noah <span class="pf-pt">&middot;</span> <span class="pf-suave">asistente telef&oacute;nica</span></div>
+      </div>
+    </div>
+
+    <div class="pf-f-linea"></div>
+
+    <div class="pf-fila">
+      <div class="pf-celda pf-a">
+        <div class="pf-eti">Fecha</div>
+        <div class="pf-val">Octubre de 2026</div>
+      </div>
+      <div class="pf-celda pf-b">
+        <div class="pf-eti">C&oacute;mo</div>
+        <div class="pf-val">Desv&iacute;o desde vuestro n&uacute;mero actual</div>
+      </div>
+    </div>
+
+    <div class="pf-f-oro pf-cierre"></div>
+  </section>
+
+</div>
+</div>
+<!-- PORTADA-FIN -->
+
+<!-- ======================= 2. EL PROBLEMA ======================= -->
 <div class="hoja">
-  <div class="portada">
-    <p class="marca">Asistente telefónica</p>
-    <h1>Noah para<br><em>Arroutada</em></h1>
-    <p class="bajada">Coge el teléfono cuando vosotros no podéis.</p>
-    <p class="pie">Para David · Arroutada · Rúa Zurbarán 8, Ourense</p>
-  </div>
+  <header class="interior">
+    <h1>El problema</h1>
+    <div class="lado">El teléfono que nadie puede coger</div>
+  </header>
 
   <section>
-    <h2>El problema</h2>
-    <svg viewBox="0 0 520 116" style="width:100%;height:auto;margin:5mm 0 7mm"
+    <svg viewBox="0 0 520 162" style="width:100%;height:auto;margin:12mm 0 13mm"
          fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-      <!-- cliente -->
-      <g transform="translate(26,34) scale(1.5)"><use href="#i-persona"/></g>
-      <text x="44" y="104" font-size="11" fill="#6E6E6E" stroke="none" text-anchor="middle" font-family="Helvetica">Sábado, 21:30</text>
-      <!-- ondas -->
-      <g transform="translate(92,40) scale(1.3)" stroke="#A07D2C"><use href="#i-ondas"/></g>
-      <!-- linea cortada -->
-      <line x1="150" y1="56" x2="236" y2="56" stroke="#D8D8D8" stroke-dasharray="5 5"/>
-      <g stroke="#111" stroke-width="2.2"><line x1="185" y1="44" x2="201" y2="68"/><line x1="201" y1="44" x2="185" y2="68"/></g>
-      <!-- restaurante -->
-      <g transform="translate(252,34) scale(1.5)"><use href="#i-casa"/></g>
-      <text x="270" y="104" font-size="11" fill="#6E6E6E" stroke="none" text-anchor="middle" font-family="Helvetica">Sala llena</text>
-      <!-- se va -->
-      <path d="M330 56 h60" stroke="#A07D2C" marker-end="url(#punta)"/>
-      <g transform="translate(406,34) scale(1.5)" stroke="#A07D2C"><use href="#i-moto"/></g>
-      <text x="424" y="104" font-size="11" fill="#A07D2C" stroke="none" text-anchor="middle" font-family="Helvetica">Pide en otro sitio</text>
+      <!-- quien llama -->
+      <g transform="translate(40,30) scale(2.4)"><use href="#i-persona"/></g>
+      <g transform="translate(110,34) scale(2.2)" stroke="#A07D2C"><use href="#i-ondas"/></g>
+      <text x="96" y="122" font-size="13" font-weight="bold" fill="#111" stroke="none" text-anchor="middle" font-family="Helvetica">Alguien llama</text>
+      <text x="96" y="141" font-size="11" fill="#6E6E6E" stroke="none" text-anchor="middle" font-family="Helvetica">justo en hora punta</text>
+      <!-- la llamada se cae -->
+      <line x1="176" y1="58" x2="256" y2="58" stroke="#D8D8D8" stroke-dasharray="6 6"/>
+      <g stroke="#111" stroke-width="2.6"><line x1="204" y1="44" x2="228" y2="72"/><line x1="228" y1="44" x2="204" y2="72"/></g>
+      <!-- el local -->
+      <g transform="translate(272,30) scale(2.4)"><use href="#i-casa"/></g>
+      <text x="301" y="122" font-size="13" font-weight="bold" fill="#111" stroke="none" text-anchor="middle" font-family="Helvetica">Nadie puede cogerlo</text>
+      <text x="301" y="141" font-size="11" fill="#6E6E6E" stroke="none" text-anchor="middle" font-family="Helvetica">estáis sirviendo mesas</text>
+      <!-- se va a otro sitio -->
+      <path d="M356 58 h50" stroke="#A07D2C" marker-end="url(#punta)"/>
+      <g transform="translate(424,30) scale(2.4)" stroke="#A07D2C"><use href="#i-moto"/></g>
+      <text x="452" y="122" font-size="13" font-weight="bold" fill="#A07D2C" stroke="none" text-anchor="middle" font-family="Helvetica">Pide en otro sitio</text>
+      <text x="452" y="141" font-size="11" fill="#6E6E6E" stroke="none" text-anchor="middle" font-family="Helvetica">y no vuelve a llamar</text>
     </svg>
     <p class="grande">Quien llama y no encuentra respuesta <b>no vuelve a llamar</b>. No se queja, no deja reseña y no aparece en ninguna cuenta.</p>
     <p>Es el único dinero que se pierde sin que nadie se entere. Noah existe para eso: no sustituye a nadie, entra justo cuando la llamada se caería.</p>
   </section>
 
-  <section>
+  <section style="margin-top:12mm">
+    <h2>Cuándo se escapa una llamada</h2>
+    <div class="fila-ico">
+      <div class="item-ico">
+        <svg class="ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-reloj"/></svg>
+        <div><b>La hora punta</b><p>Cuando más entra el teléfono es cuando menos manos hay libres.</p></div>
+      </div>
+      <div class="item-ico">
+        <svg class="ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-sala"/></svg>
+        <div><b>Estáis en la sala</b><p>Suena, y no hay nadie que pueda pararse a cogerlo.</p></div>
+      </div>
+    </div>
+    <div class="fila-ico" style="margin-top:6mm">
+      <div class="item-ico">
+        <svg class="ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-ocupado"/></svg>
+        <div><b>Comunica</b><p>Mientras tomáis un pedido, el siguiente oye el tono de ocupado.</p></div>
+      </div>
+      <div class="item-ico">
+        <svg class="ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-luna"/></svg>
+        <div><b>Ya habéis cerrado</b><p>Nadie deja un recado. Llaman al siguiente de la lista.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top:12mm">
     <h2>Tres cosas, antes de nada</h2>
     <div class="tarjetas">
       <div class="tarjeta">
@@ -271,17 +442,17 @@
     </div>
   </section>
 
-  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 1 de 5</span></footer>
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 2 de 6</span></footer>
 </div>
 
 <!-- ======================= 2. LA RUEDA ======================= -->
 <div class="hoja">
-  <header class="interior" style="margin-bottom:8mm">
+  <header class="interior" style="margin-bottom:10mm">
     <h1>El ciclo</h1>
     <div class="lado">Se repite solo, llamada tras llamada</div>
   </header>
 
-  <svg class="rueda" viewBox="31 20 558 530" style="width:100%;margin:8mm 0 0;height:auto"
+  <svg class="rueda" viewBox="31 20 558 530" style="width:100%;margin:11mm 0 0;height:auto"
        fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
        font-family="Helvetica">
 
@@ -348,11 +519,11 @@
 
   <p class="grande" style="text-align:center;margin-top:9mm">Todo esto dura lo que dura la llamada.<br><b>Vosotros no tocáis nada.</b></p>
 
-  <div class="banda" style="margin-top:10mm;padding:6mm 5mm">
+  <div class="banda" style="margin-top:12mm;padding:6mm 5mm">
     <span>Suena una vez</span><i></i><span>Noah contesta</span><i></i><span>La comanda ya está en cocina</span>
   </div>
 
-  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 2 de 5</span></footer>
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 3 de 6</span></footer>
 </div>
 
 <!-- ======================= 3. UNA LLAMADA ======================= -->
@@ -388,7 +559,7 @@
     </table>
   </section>
 
-  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 3 de 5</span></footer>
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 4 de 6</span></footer>
 </div>
 
 <!-- ======================= 4. LA COCINA ======================= -->
@@ -472,7 +643,7 @@
     </div>
   </section>
 
-  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 4 de 5</span></footer>
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 5 de 6</span></footer>
 </div>
 
 <!-- ======================= 5. LO PRÁCTICO ======================= -->
@@ -553,7 +724,7 @@
     </div>
   </div>
 
-  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 5 de 5</span></footer>
+  <footer><span>Noah · asistente telefónica</span><span>Arroutada · 6 de 6</span></footer>
 </div>
 
 </body>
