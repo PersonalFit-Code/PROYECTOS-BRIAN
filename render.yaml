@@ -1,5 +1,8 @@
-# Despliegue en Render. Con este fichero en el repositorio, Render monta el
-# servicio solo al conectar el repo: Blueprints -> New Blueprint Instance.
+# Despliegue en Render. Este fichero tiene que estar en la RAIZ del
+# repositorio: es donde Render lo busca al crear un Blueprint, y las rutas
+# de abajo son relativas a esa raiz.
+#
+# Blueprints -> New Blueprint Instance -> este repositorio y la rama.
 #
 # Las claves NO van aqui: se ponen a mano en el panel de Render
 # (Environment), porque este fichero esta en GitHub.
@@ -20,6 +23,13 @@ services:
       #   FIREBASE_SERVICE_ACCOUNT la cuenta de servicio en base64
       #   PUBLIC_SERVER_URL        la URL que Render asigne, sin barra final
       #   PANEL_PASSWORD           contrasena del panel de pedidos
+#
+# Opcionales; sin ellas van los valores por defecto del codigo:
+#   NOMBRE_AGENTE  nombre de la asistente (por defecto Noah)
+#   VOZ_PROVEEDOR  11labs o azure
+#   VOZ_ID         identificador de la voz en ese proveedor
+#   VOZ_MODELO     eleven_flash_v2_5 para ElevenLabs
+#   VOZ_VELOCIDAD  de 0.7 a 1.2
       - key: VAPI_SERVER_SECRET
         sync: false
       - key: FIREBASE_SERVICE_ACCOUNT
