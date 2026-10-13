@@ -50,3 +50,9 @@ export const PIEZAS = {
   'topes': `<svg viewBox="0 0 120 90"><rect x="20" y="36" width="80" height="14" rx="3" fill="#CBD5E1"/><rect x="32" y="22" width="16" height="22" rx="4" fill="${AZ}"/><rect x="72" y="22" width="16" height="22" rx="4" fill="${AZ}"/><rect x="20" y="56" width="80" height="14" rx="3" fill="#CBD5E1" opacity=".6"/></svg>`,
   'guias': `<svg viewBox="0 0 120 90"><path d="M30 6v78M90 6v78" stroke="${GR}" stroke-width="14"/><path d="M30 6v78M90 6v78" stroke="#E2E8F0" stroke-width="4"/><path d="M37 30h46M37 44h46M37 58h46" stroke="${AZC}" stroke-width="10"/></svg>`
 };
+
+// Banderas para el selector de idioma (con sus colores, no heredan currentColor)
+export const BANDERAS = {
+  es: '<svg class="bandera" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#AA151B"/><rect y=".5" width="3" height="1" fill="#F1BF00"/></svg>',
+  gl: '<svg class="bandera" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><path d="M0 0h.5L3 1.62V2h-.5L0 .38z" fill="#0090D0"/></svg>'
+};

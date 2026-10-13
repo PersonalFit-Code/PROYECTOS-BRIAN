@@ -147,8 +147,8 @@ export function paginaInicio(t, rutaAlt) {
   const h = t.home, u = t.ui;
   const cinta = [...h.cinta, ...h.cinta].map((c) => `<span>${c}</span><span class="text-accent">✦</span>`).join('');
   const cuerpo = `
-    <section id="inicio" class="relative h-[260vh]" aria-labelledby="hero-titulo">
-      <div id="escena" class="sticky top-0 h-svh min-h-[560px] overflow-hidden bg-brand-950">
+    <section id="inicio" class="relative" aria-labelledby="hero-titulo">
+      <div id="escena" class="relative h-svh min-h-[560px] overflow-hidden bg-brand-950">
         <div class="absolute inset-0 bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 text-white">
           <div class="pointer-events-none absolute -left-32 top-10 h-[28rem] w-[28rem] rounded-full bg-brand-500/60 blur-3xl" aria-hidden="true"></div>
           <div class="pointer-events-none absolute -right-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-accent/25 blur-3xl" aria-hidden="true"></div>
@@ -189,15 +189,6 @@ export function paginaInicio(t, rutaAlt) {
         <div id="cajon" class="cajon absolute inset-x-0 top-0 z-30" style="height: var(--cajon, 88px);" aria-hidden="true">
           <div id="rodillo" class="rodillo absolute inset-x-0 bottom-3 h-4"></div>
           <div class="absolute inset-x-0 bottom-0 h-3 bg-gradient-to-b from-slate-300 to-slate-500"></div>
-        </div>
-        <div id="indicador" class="glass glass-dark absolute right-3 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center gap-3 rounded-full px-2 py-4 text-white sm:right-6 sm:flex" aria-hidden="true">
-          <span class="font-display text-sm font-bold tabular-nums" id="indicador-num">0%</span>
-          <span class="relative h-40 w-1.5 overflow-hidden rounded-full bg-white/20"><span id="indicador-barra" class="absolute inset-x-0 bottom-0 h-0 rounded-full bg-accent"></span></span>
-          ${ico('arriba', 'h-4 w-4 text-accent')}
-        </div>
-        <div id="aviso" class="chip-scroll glass glass-dark absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap rounded-full py-2.5 pl-3 pr-5 text-sm font-semibold text-white" aria-hidden="true">
-          <span class="relative flex h-8 w-5 justify-center rounded-full border-2 border-white/80"><span class="raton mt-1.5 h-1.5 w-1 rounded-full bg-accent"></span></span>
-          ${h.aviso}
         </div>
       </div>
     </section>

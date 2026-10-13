@@ -1,57 +1,52 @@
-// Persiana de la portada: las lamas se separan, entra luz y se enrollan en el cajón al hacer scroll.
+// Persiana de la portada: al cargar se abren las rendijas y sube sola en tres tirones hasta enrollarse en el cajón.
 (function () {
   'use strict';
   var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function clamp(v) { return Math.min(1, Math.max(0, v)); }
-  function suave(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  // Cada tirón sube deprisa, se pasa un poco y se asienta, como al tirar de la cinta
+  function tiron(t) { var c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); }
 
-  var tramo = document.getElementById('inicio');
-  var escena = document.getElementById('escena');
-  var persiana = document.getElementById('persiana');
-  var contLamas = document.getElementById('lamas');
-  var barra = document.getElementById('barra');
-  var rodillo = document.getElementById('rodillo');
-  var luz = document.getElementById('luz');
-  var aviso = document.getElementById('aviso');
-  var indNum = document.getElementById('indicador-num');
-  var indBarra = document.getElementById('indicador-barra');
-  var indicador = document.getElementById('indicador');
-  var heroItems = document.querySelectorAll('.hero-item');
-  var heroContenido = document.getElementById('hero-contenido');
-  var lamas = [];
-  var alto = 0, paso = 34, cajonAlto = 88, pendiente = false;
+  // [inicio en ms, duración en ms, altura que alcanza de 0 a 1]
+  var TIRONES = [[650, 520, 0.34], [1600, 520, 0.67], [2550, 760, 1]];
+  var FIN = 3400;
+
+  var e = {}, lamas = [], alto = 0, paso = 34, cajonAlto = 88, terminado = false;
 
   function construir() {
     paso = window.innerWidth < 640 ? 28 : 36;
     cajonAlto = window.innerWidth < 640 ? 84 : 92;
-    escena.style.setProperty('--cajon', cajonAlto + 'px');
-    persiana.style.setProperty('--lama', paso + 'px');
-    alto = escena.clientHeight - cajonAlto;
+    e.escena.style.setProperty('--cajon', cajonAlto + 'px');
+    e.persiana.style.setProperty('--lama', paso + 'px');
+    alto = e.escena.clientHeight - cajonAlto;
     var n = Math.ceil(alto / paso) + 2;
-    contLamas.innerHTML = '';
+    e.lamas.innerHTML = '';
     lamas = [];
     for (var i = 0; i < n; i++) {
       var l = document.createElement('div');
       l.className = 'lama';
-      contLamas.appendChild(l);
+      e.lamas.appendChild(l);
       lamas.push(l);
     }
   }
 
-  function pintar() {
-    pendiente = false;
-    var recorrido = tramo.offsetHeight - window.innerHeight;
-    var p = reducido ? 1 : clamp(window.scrollY / (recorrido * 0.9));
+  function subida(t) {
+    var h = 0;
+    for (var i = 0; i < TIRONES.length; i++) {
+      var x = TIRONES[i], desde = i ? TIRONES[i - 1][2] : 0;
+      if (t >= x[0]) h = desde + (x[2] - desde) * tiron(clamp((t - x[0]) / x[1]));
+    }
+    return h;
+  }
 
-    // Fase 1 (0–12 %): las lamas se separan y entra luz por las rendijas
-    // Fase 2 (8–92 %): la persiana se enrolla en el cajón
-    var rendija = suave(clamp(p / 0.12)) * (1 - clamp((p - 0.6) / 0.3)) * paso * 0.3;
-    var sube = suave(clamp((p - 0.08) / 0.84)) * (alto + paso * 2);
+  function pintar(t) {
+    var h = t >= FIN ? 1 : subida(t);
+    // Las rendijas se abren antes del primer tirón y se cierran al enrollarse
+    var rendija = clamp((t - 150) / 400) * (1 - clamp((h - 0.75) / 0.25)) * paso * 0.3;
+    var sube = h * (alto + paso * 2);
     var fondo = alto - 16 - sube;
 
-    barra.style.transform = 'translateY(' + fondo + 'px)';
-    barra.style.visibility = fondo < -20 ? 'hidden' : 'visible';
-
+    e.barra.style.transform = 'translateY(' + fondo + 'px)';
+    e.barra.style.visibility = fondo < -20 ? 'hidden' : 'visible';
     for (var i = 0; i < lamas.length; i++) {
       var abajo = fondo - i * (paso + rendija);
       var arriba = abajo - paso;
@@ -64,34 +59,56 @@
       l.style.transform = 'translateY(' + Math.max(arriba, 0) + 'px) rotateX(' + giro + 'deg)';
       l.style.filter = giro ? 'brightness(' + (1 - giro / 160) + ')' : '';
     }
+    e.rodillo.style.backgroundPosition = '0 ' + (-sube * 0.6) + 'px';
+    e.luz.style.opacity = String(clamp((t - 150) / 500) * (1 - clamp((t - 2800) / 600)) * 0.9);
 
-    rodillo.style.backgroundPosition = '0 ' + (-sube * 0.6) + 'px';
-    luz.style.opacity = String(clamp(p / 0.1) * (1 - clamp((p - 0.18) / 0.3)) * 0.9);
-    aviso.style.opacity = String(1 - clamp(p / 0.05));
-
-    var pct = Math.round(clamp((p - 0.08) / 0.84) * 100);
-    indNum.textContent = pct + '%';
-    indBarra.style.height = pct + '%';
-    indicador.style.opacity = String(1 - clamp((p - 0.9) / 0.1));
-
-    // El contenido se enfoca mientras sube; el desenfoque solo en escritorio porque es caro de repintar
-    var vista = clamp((p - 0.2) / 0.6);
-    heroContenido.style.transform = 'scale(' + (0.92 + vista * 0.08) + ')';
-    heroContenido.style.filter = vista < 1 && window.innerWidth >= 1024 ? 'blur(' + ((1 - vista) * 8) + 'px)' : '';
-    heroItems.forEach(function (el, i) {
-      var t = clamp((p - 0.25 - i * 0.06) / 0.35);
-      el.style.opacity = String(t);
-      el.style.transform = 'translateY(' + ((1 - t) * 50) + 'px)';
+    // El contenido se enfoca durante el último tirón; el desenfoque solo en escritorio porque es caro de repintar
+    var vista = clamp((t - 2450) / 800);
+    e.contenido.style.transform = vista < 1 ? 'scale(' + (0.94 + vista * 0.06) + ')' : '';
+    e.contenido.style.filter = vista < 1 && window.innerWidth >= 1024 ? 'blur(' + ((1 - vista) * 8) + 'px)' : '';
+    e.items.forEach(function (el, i) {
+      var v = clamp((t - 2650 - i * 110) / 550);
+      el.style.opacity = String(v);
+      el.style.transform = v < 1 ? 'translateY(' + ((1 - v) * 40) + 'px)' : '';
     });
+
+    if (t >= FIN) {
+      terminado = true;
+      e.persiana.style.visibility = 'hidden';
+      document.documentElement.classList.add('persiana-abierta');
+    }
   }
 
-  window.addEventListener('scroll', function () { if (!pendiente) { pendiente = true; requestAnimationFrame(pintar); } }, { passive: true });
+  function iniciar(animar) {
+    e.escena = document.getElementById('escena');
+    if (!e.escena) return;
+    e.persiana = document.getElementById('persiana');
+    e.lamas = document.getElementById('lamas');
+    e.barra = document.getElementById('barra');
+    e.rodillo = document.getElementById('rodillo');
+    e.luz = document.getElementById('luz');
+    e.contenido = document.getElementById('hero-contenido');
+    e.items = [].slice.call(document.querySelectorAll('.hero-item'));
+    terminado = false;
+    construir();
+    // Sin animación si el usuario la ha desactivado o si la página se abre ya bajada
+    if (!animar || reducido || window.scrollY > window.innerHeight * 0.5) { pintar(FIN); return; }
+    var inicio = null;
+    (function frame(ahora) {
+      if (inicio === null) inicio = ahora;
+      pintar(ahora - inicio);
+      if (!terminado) requestAnimationFrame(frame);
+    })(performance.now());
+  }
+
   var anchoPrevio = window.innerWidth;
   window.addEventListener('resize', function () {
-    // En móvil la barra del navegador cambia el alto al hacer scroll: solo se reconstruye si cambia el ancho
-    if (window.innerWidth !== anchoPrevio) { anchoPrevio = window.innerWidth; construir(); }
-    pintar();
+    // En móvil la barra del navegador cambia el alto: solo se reconstruye si cambia el ancho y la persiana sigue a la vista
+    if (window.innerWidth === anchoPrevio || terminado || !e.escena) return;
+    anchoPrevio = window.innerWidth;
+    construir();
   });
-  construir();
-  pintar();
+
+  window.portada = { iniciar: iniciar };
+  iniciar(true);
 })();

@@ -105,10 +105,9 @@ body { background: #EAF2FF; }
 .cajon { background: linear-gradient(180deg, #0B2546 0%, #0E3060 60%, #123A73 100%); box-shadow: inset 0 -2px 0 rgba(255,255,255,.18), 0 10px 30px rgba(0,0,0,.45); }
 .rodillo { background-image: repeating-linear-gradient(180deg, #1A7FE6 0 6px, #0052A3 6px 10px, #003D7A 10px 12px); opacity: .85; }
 .luz { background: radial-gradient(60% 50% at 50% 55%, rgba(255,246,214,.95), rgba(255,230,150,.55) 45%, rgba(255,210,63,0) 75%), linear-gradient(180deg, rgba(255,250,235,.7), rgba(255,236,180,.4)); }
-.chip-scroll { animation: flotar 2.2s ease-in-out infinite; }
-@keyframes flotar { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -8px); } }
-.raton { animation: rueda 1.6s ease-in-out infinite; }
-@keyframes rueda { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(8px); opacity: 0; } 100% { opacity: 0; } }
+/* Hasta que el script monta las lamas, persiana cerrada y portada oculta: así no se ve un destello del contenido */
+.js #lamas:empty { background: repeating-linear-gradient(180deg, #0A6CD0 0 calc(var(--lama, 34px) - 2px), #003F80 calc(var(--lama, 34px) - 2px) var(--lama, 34px)); }
+.js .hero-item { opacity: 0; }
 .persiana-fondo { background-image: repeating-linear-gradient(180deg, rgba(255,255,255,.25) 0 22px, rgba(255,255,255,0) 22px 30px); animation: bajar-fondo 1.4s cubic-bezier(.2,.7,.2,1) both; transform-origin: top; }
 @keyframes bajar-fondo { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 
@@ -151,6 +150,15 @@ body { background: #EAF2FF; }
 .menu-enlace.is-active { background: rgba(255,255,255,.1); }
 .menu-enlace .flecha { transition: transform .3s ease; }
 .menu-enlace:hover .flecha { transform: translateX(6px) rotate(-45deg); }
+
+/* ---------- Selector de idioma ---------- */
+.bandera { width: 1.5rem; height: 1rem; flex-shrink: 0; overflow: hidden; border-radius: 3px; box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
+.idioma-lista { visibility: hidden; opacity: 0; transform: translateY(-6px) scale(.96); transform-origin: top right; transition: opacity .2s ease, transform .3s cubic-bezier(.34,1.4,.64,1), visibility 0s linear .3s; }
+.idioma-abierto .idioma-lista { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+.idioma-flecha { transition: transform .3s ease; }
+.idioma-abierto .idioma-flecha { transform: rotate(180deg); }
+.idioma-lista a[aria-current] { background: rgba(0,102,204,.1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; }
 
 /* ---------- FAQ ---------- */
 details summary::-webkit-details-marker { display: none; }

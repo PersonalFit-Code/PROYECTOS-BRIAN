@@ -1,5 +1,5 @@
 import { SITIO, ANALITICA, PRECIOS, wa } from '../config.mjs';
-import { SPRITE, ico } from '../icons.mjs';
+import { SPRITE, ico, BANDERAS } from '../icons.mjs';
 import { logo } from '../logo.mjs';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -13,6 +13,7 @@ export function layout({ t, title, description, ruta, rutaAlt, cuerpo, esInicio 
   const rutaEs = t.lang === 'es' ? ruta : rutaAlt;
   const rutaGl = t.lang === 'gl' ? ruta : rutaAlt;
   const u = t.ui;
+  const idiomas = [['es', 'Español', rutaEs], ['gl', 'Galego', rutaGl]];
 
   const navDesktop = t.nav.map((n) => `<li><a href="${ancla(t, n.ancla, esInicio)}" data-spy="${n.id}" class="nav-link block rounded-full px-4 py-2 transition hover:bg-white/80">${n.etiqueta}</a></li>`).join('');
   const navMenu = t.nav.map((n, i) => `
@@ -81,9 +82,14 @@ ${SPRITE}
         ${navDesktop}
       </ul>
       <div class="flex items-center gap-2">
-        <a href="${rutaAlt}" hreflang="${altLang}" lang="${altLang}" class="hidden h-11 items-center gap-1.5 rounded-full bg-white/60 px-3 text-sm font-bold text-brand-800 ring-1 ring-white transition hover:bg-white md:inline-flex" title="${t.otroIdioma.etiqueta}">
-          ${ico('globo', 'h-4 w-4')} ${t.otroIdioma.corto}
-        </a>
+        <div id="idioma" class="idioma relative">
+          <button type="button" id="idioma-btn" class="inline-flex h-11 items-center gap-2 rounded-full bg-white/60 pl-2.5 pr-2 text-sm font-bold text-brand-800 ring-1 ring-white transition hover:bg-white" aria-haspopup="true" aria-expanded="false" aria-controls="idioma-lista" aria-label="Idioma: ${idiomas.find((i) => i[0] === t.lang)[1]}">
+            ${BANDERAS[t.lang]}<span class="hidden md:inline">${t.lang.toUpperCase()}</span>${ico('chevron', 'idioma-flecha h-4 w-4')}
+          </button>
+          <ul id="idioma-lista" class="idioma-lista glass glass-light absolute right-0 top-full mt-2 w-48 rounded-2xl p-1.5">
+            ${idiomas.map(([c, n, r]) => `<li><a href="${r}" hreflang="${c}" lang="${c}" data-idioma="${c}"${c === t.lang ? ' aria-current="true"' : ''} class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-white/90">${BANDERAS[c]}<span class="flex-1">${n}</span>${c === t.lang ? ico('check', 'h-4 w-4 text-brand-600') : ''}</a></li>`).join('')}
+          </ul>
+        </div>
         <a href="tel:${SITIO.telefono}" data-medir="llamada" class="btn btn-azul shine hidden px-5 py-2.5 text-sm sm:inline-flex" aria-label="${u.llamarAria}">
           ${ico('telefono')} ${SITIO.telefonoVisible}
         </a>
@@ -116,7 +122,7 @@ ${SPRITE}
           <div class="mt-6 space-y-3 border-t border-white/15 pt-6 text-sm text-brand-100">
             <p class="flex items-center gap-3">${ico('ubicacion', 'text-accent')} ${SITIO.direccion} · ${SITIO.cp} ${SITIO.ciudad}</p>
             <p class="flex items-center gap-3">${ico('reloj', 'text-accent')} ${u.horarioTexto}</p>
-            <a href="${rutaAlt}" hreflang="${altLang}" lang="${altLang}" class="flex items-center gap-3 font-semibold text-white hover:underline">${ico('globo', 'text-accent')} ${t.otroIdioma.etiqueta}</a>
+            <a href="${rutaAlt}" hreflang="${altLang}" data-idioma="${altLang}" lang="${altLang}" data-idioma="${altLang}" class="flex items-center gap-3 font-semibold text-white hover:underline">${ico('globo', 'text-accent')} ${t.otroIdioma.etiqueta}</a>
           </div>
         </aside>
       </div>
@@ -155,7 +161,7 @@ ${cuerpo}
           <li><a href="${t.rutas.aviso}" class="hover:text-white hover:underline">${u.avisoLegal}</a></li>
           <li><a href="${t.rutas.privacidad}" class="hover:text-white hover:underline">${u.privacidad}</a></li>
           <li><a href="${t.rutas.cookies}" class="hover:text-white hover:underline">${u.cookies}</a></li>
-          <li class="pt-2"><a href="${rutaAlt}" hreflang="${altLang}" lang="${altLang}" class="inline-flex items-center gap-2 font-semibold text-white hover:underline">${ico('globo', 'h-4 w-4')} ${t.otroIdioma.etiqueta}</a></li>
+          <li class="pt-2"><a href="${rutaAlt}" hreflang="${altLang}" data-idioma="${altLang}" lang="${altLang}" data-idioma="${altLang}" class="inline-flex items-center gap-2 font-semibold text-white hover:underline">${ico('globo', 'h-4 w-4')} ${t.otroIdioma.etiqueta}</a></li>
         </ul>
       </nav>
     </div>
