@@ -355,12 +355,11 @@
           arrancar();
           if (window.portada) window.portada.iniciar(false);
           window.scrollTo({ top: y, behavior: 'instant' });
+          document.getElementById('idioma-btn').focus({ preventScroll: true });
+          medir('idioma-' + raiz.lang);
+          try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: location.pathname }); } catch (e) { /* nada */ }
         }
         if (document.startViewTransition && !reducido) document.startViewTransition(aplicar); else aplicar();
-        var b = document.getElementById('idioma-btn');
-        if (b) b.focus({ preventScroll: true });
-        medir('idioma-' + doc.documentElement.lang);
-        try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: location.pathname }); } catch (e) { /* nada */ }
       })
       .catch(function () { location.href = url; });
   }
