@@ -171,7 +171,11 @@ export function buildKnowledge(locale: Locale = "es"): WaiterKnowledge {
       directions: BUSINESS.social.directions,
       website: BUSINESS.website,
       priceRange: BUSINESS.priceRange,
-      ratings: `Google ${fmtRating(g.value)}/5 (${g.count} reseñas) · TripAdvisor ${fmtRating(ta.value)}/5 (${ta.count} opiniones, nº ${ta.rank} de ${ta.total} restaurantes de Ourense, ${ta.award})`,
+      /* SIN LA NOTA DE TRIPADVISOR, y a propósito: lo que el camarero dice se publica igual que si
+         estuviera escrito en la página, y las condiciones de TripAdvisor no permiten mostrar sus
+         valoraciones ni sus clasificaciones fuera de sus widgets. Su premio sí se puede nombrar, y la
+         nota de Google se queda diciendo de dónde sale. */
+      ratings: `Google ${fmtRating(g.value)}/5 (${g.count} reseñas) · TripAdvisor: ${ta.award}`,
       features: localizeFeatures(locale),
       hours: DAY_ORDER.map((day) => `${DAY_LABELS[day]}: ${formatRanges(BUSINESS.hours[day], "cerrado")}`),
       timezone: BUSINESS.timezone,
