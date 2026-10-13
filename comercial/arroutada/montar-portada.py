@@ -2,6 +2,9 @@
 """Mete una de las portadas sueltas dentro de noah.html.
 
     python3 montar-portada.py portada-3.html
+    python3 montar-portada.py ../otro/portada.html ../otro/dossier.html
+
+El segundo argumento es el dossier de destino; si no se pone, noah.html.
 
 La portada se diseño como un A4 independiente. Aqui pasa a ser la hoja 1 del
 dossier, asi que hay dos cosas que hay que neutralizar para que no se pisen:
@@ -21,7 +24,6 @@ import sys
 from pathlib import Path
 
 AQUI = Path(__file__).parent
-DESTINO = AQUI / "noah.html"
 INI, FIN = "<!-- PORTADA-INICIO -->", "<!-- PORTADA-FIN -->"
 
 
@@ -96,16 +98,26 @@ def renombrar_marcado(marcado: str, nombres: set) -> str:
 
 
 def main() -> int:
-    if len(sys.argv) != 2:
+    if len(sys.argv) not in (2, 3):
         print(__doc__)
         return 2
-    origen = AQUI / sys.argv[1]
-    if not origen.exists():
-        print(f"No encuentro {origen}")
-        return 1
+    # Una ruta relativa se busca primero desde donde estas y luego desde la
+    # carpeta del script, para que valga igual llamarlo desde cualquier sitio.
+    def encontrar(texto: str) -> Path:
+        suelta = Path(texto)
+        if suelta.is_absolute() or suelta.exists():
+            return suelta
+        return AQUI / suelta
+
+    origen = encontrar(sys.argv[1])
+    destino = encontrar(sys.argv[2]) if len(sys.argv) == 3 else AQUI / "noah.html"
+    for fichero in (origen, destino):
+        if not fichero.exists():
+            print(f"No encuentro {fichero}")
+            return 1
 
     portada = origen.read_text(encoding="utf-8")
-    dossier = DESTINO.read_text(encoding="utf-8")
+    dossier = destino.read_text(encoding="utf-8")
 
     estilos = "\n".join(
         m.group(1) for m in re.finditer(r"<style[^>]*>(.*?)</style>", portada, re.S)
@@ -131,9 +143,13 @@ def main() -> int:
         + f"\n</div>\n{FIN}"
     )
 
+    if INI not in dossier or FIN not in dossier:
+        print(f"{destino.name} no tiene las marcas {INI} y {FIN}")
+        return 1
+
     a, b = dossier.index(INI), dossier.index(FIN) + len(FIN)
-    DESTINO.write_text(dossier[:a] + bloque + dossier[b:], encoding="utf-8")
-    print(f"Montada {origen.name} como hoja 1 de noah.html")
+    destino.write_text(dossier[:a] + bloque + dossier[b:], encoding="utf-8")
+    print(f"Montada {origen.name} como hoja 1 de {destino.name}")
     print(f"   clases renombradas con {PREFIJO}: {', '.join(sorted(nombres))}")
     return 0
 

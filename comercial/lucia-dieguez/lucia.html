@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Noah para Centro Dental Lucia Dieguez</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm; }
+
+  :root {
+    --negro: #111111;
+    --gris: #6E6E6E;
+    --linea: #D8D8D8;
+    --fino: #EDEDED;
+    --oro: #A07D2C;
+    --oro-flojo: #FAF4E7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9.6pt; line-height: 1.45; color: var(--negro);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .hoja { page-break-after: always; zoom: 1.08; }
+  .hoja:last-child { page-break-after: auto; }
+  section, .tarjetas, .rueda, .llamada, .pantalla, table, .cierre { page-break-inside: avoid; }
+  h2 { page-break-after: avoid; }
+  svg { display: block; }
+
+  /* ---------------- Portada ---------------- */
+  .portada {
+    background: var(--negro); color: #fff;
+    margin: -13mm -14mm 10mm; padding: 24mm 14mm 17mm;
+    position: relative;
+  }
+  .portada::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+    height: 2.5mm; background: var(--oro);
+  }
+  .portada .marca {
+    font-size: 7.2pt; letter-spacing: 3pt; text-transform: uppercase;
+    color: #9A9A9A; margin: 0 0 6mm;
+  }
+  .portada h1 { font-size: 38pt; margin: 0; letter-spacing: -1.4pt; font-weight: 800; line-height: .98; }
+  .portada h1 em { font-style: normal; color: var(--oro); }
+  .portada .bajada { font-size: 12.5pt; margin: 5mm 0 0; color: #D6D6D6; max-width: 115mm; }
+  .portada .pie { margin: 13mm 0 0; font-size: 8.2pt; color: #9A9A9A; }
+
+  header.interior {
+    border-bottom: 2.5pt solid var(--negro); padding-bottom: 2.5mm;
+    margin-bottom: 5mm; display: flex; justify-content: space-between; align-items: baseline;
+  }
+  header.interior h1 { font-size: 17pt; margin: 0; letter-spacing: -.5pt; font-weight: 800; }
+  header.interior .lado { font-size: 8pt; color: var(--gris); }
+
+  h2 {
+    font-size: 8pt; letter-spacing: 2pt; text-transform: uppercase;
+    color: var(--oro); margin: 0 0 3mm; font-weight: 700;
+  }
+  p { margin: 0 0 2.5mm; }
+  .grande { font-size: 12.5pt; line-height: 1.35; margin-bottom: 4mm; }
+  .grande b { color: var(--oro); }
+
+  /* ---------------- Tarjetas con icono ---------------- */
+  .tarjetas { display: flex; gap: 4mm; margin: 7mm 0 0; }
+  .tarjeta {
+    flex: 1; min-width: 0; border: .8pt solid var(--linea);
+    border-radius: 2mm; padding: 7mm 3.5mm; text-align: center;
+  }
+  .tarjeta .ico { margin: 0 auto 2.5mm; }
+  .tarjeta b { display: block; font-size: 9.6pt; margin-bottom: 1.2mm; }
+  .tarjeta p { font-size: 8.4pt; color: var(--gris); margin: 0; }
+
+  /* ---------------- Fila de iconos ---------------- */
+  .fila-ico { display: flex; gap: 5mm; margin: 3mm 0; }
+  .item-ico { flex: 1; min-width: 0; display: flex; gap: 2.5mm; align-items: flex-start; }
+  .item-ico .ico { flex: none; margin-top: .4mm; }
+  .item-ico b { display: block; font-size: 9.2pt; }
+  .item-ico p { font-size: 8.4pt; color: var(--gris); margin: 0; }
+
+  /* ---------------- Llamada ---------------- */
+  .llamada { border: .8pt solid var(--linea); border-radius: 2.5mm; padding: 4mm; margin: 2mm 0; }
+  .turno { margin-bottom: 2.1mm; }
+  .turno:last-child { margin-bottom: 0; }
+  .turno .quien {
+    font-size: 6.8pt; letter-spacing: 1.2pt; text-transform: uppercase;
+    font-weight: 700; margin-bottom: .4mm;
+  }
+  .turno.noah .quien { color: var(--oro); }
+  .turno.cli .quien { color: var(--gris); }
+  .turno p { margin: 0; font-size: 9.4pt; padding-left: 3mm; }
+  .turno.noah p { border-left: 2pt solid var(--oro); }
+  .turno.cli p { border-left: 2pt solid var(--linea); color: var(--gris); }
+  .nota-sistema {
+    font-size: 8.2pt; color: var(--oro); font-style: italic;
+    padding: 1.6mm 0 1.6mm 3mm; border-left: 2pt dotted var(--oro); margin: 2.2mm 0;
+  }
+
+  /* ---------------- Pantalla de cocina ---------------- */
+  .pantalla { border: 1.4pt solid var(--negro); border-radius: 2.5mm; overflow: hidden; margin: 3mm 0 1.5mm; }
+  .pantalla .barra {
+    background: var(--negro); color: #fff; padding: 2.2mm 4mm;
+    font-size: 8.4pt; display: flex; justify-content: space-between;
+  }
+  .pantalla .cuerpo { padding: 4mm; }
+  .pantalla .cod { font-size: 17pt; font-weight: 800; letter-spacing: 1.5pt; }
+  .pantalla .etq {
+    display: inline-block; background: var(--oro); color: #fff;
+    font-size: 7.2pt; font-weight: 700; padding: .7mm 2.2mm;
+    border-radius: 1.2mm; letter-spacing: .6pt; vertical-align: 2.5px; margin-left: 2.5mm;
+  }
+  .pantalla table { width: 100%; border-collapse: collapse; font-size: 9.2pt; margin-top: 3mm; }
+  .pantalla td { padding: 1.2mm 0; border-bottom: .5pt solid var(--fino); }
+  .pantalla td.n { text-align: right; white-space: nowrap; }
+  .pantalla tr.tot td { border-bottom: none; border-top: 1.2pt solid var(--negro); font-weight: 800; font-size: 11.5pt; padding-top: 2mm; }
+  .pantalla tr.tot td.n { color: var(--oro); }
+  .pantalla .dato { font-size: 9pt; margin-top: 2.5mm; color: var(--gris); }
+  .pantalla .dato b { color: var(--negro); }
+  .pantalla .boton {
+    margin-top: 3.5mm; border: 1.2pt solid var(--negro); text-align: center;
+    padding: 2.4mm; border-radius: 1.2mm; font-weight: 700; font-size: 9.4pt;
+  }
+  .leyenda { font-size: 7.8pt; color: var(--gris); margin: 0 0 4mm; }
+
+  /* ---------------- Banda de tres tiempos ---------------- */
+  .banda {
+    display: flex; align-items: center; justify-content: center; gap: 5mm;
+    background: var(--oro-flojo); border-radius: 2mm; padding: 4.5mm 5mm;
+    margin: 7mm 0 0; font-size: 10.5pt; font-weight: 600;
+  }
+  .banda i { display: block; width: 2.2mm; height: 2.2mm; border-radius: 50%; background: var(--oro); flex: none; }
+
+  /* ---------------- Lista de la noche ---------------- */
+  .lista { border: 1.4pt solid var(--negro); border-radius: 2.5mm; overflow: hidden; margin: 3mm 0 1.5mm; }
+  .lista .barra {
+    background: var(--negro); color: #fff; padding: 2.2mm 4mm;
+    font-size: 8.4pt; display: flex; justify-content: space-between;
+  }
+  .lista .fila { display: flex; align-items: center; padding: 3.6mm 4mm; border-bottom: .5pt solid var(--fino); }
+  .lista .fila:last-child { border-bottom: none; }
+  .lista .fila.hecho { color: var(--gris); }
+  .lista .cod2 { font-weight: 800; font-size: 11.5pt; letter-spacing: 1pt; width: 22mm; }
+  .lista .fila.hecho .cod2 { font-weight: 700; }
+  .lista .via { font-size: 8.6pt; color: var(--gris); width: 30mm; }
+  .lista .hora { font-size: 8.6pt; color: var(--gris); width: 16mm; }
+  .lista .imp { font-weight: 700; font-size: 9.6pt; width: 22mm; text-align: right; }
+  .lista .est {
+    font-size: 7pt; font-weight: 700; letter-spacing: .6pt; text-transform: uppercase;
+    padding: .8mm 0; border-radius: 1.2mm; width: 24mm; text-align: center; margin-left: 5mm;
+  }
+  .lista .est.pend { background: var(--oro); color: #fff; }
+  .lista .est.ok { background: var(--fino); color: var(--gris); }
+
+  /* ---------------- Tres pasos ---------------- */
+  .pasos { display: flex; align-items: stretch; gap: 2.5mm; margin: 4mm 0 0; }
+  .paso {
+    flex: 1; min-width: 0; border: .8pt solid var(--linea);
+    border-radius: 2mm; padding: 3mm 3.5mm; text-align: center;
+  }
+  .paso .n { display: block; font-size: 7pt; letter-spacing: 1.4pt; color: var(--oro); font-weight: 700; margin-bottom: 2mm; }
+  .paso .ico { margin: 0 auto 2.5mm; }
+  .paso b { display: block; font-size: 9.8pt; margin-bottom: 1.2mm; }
+  .paso p { font-size: 8.4pt; color: var(--gris); margin: 0; }
+  .flecha { flex: none; align-self: center; }
+
+  /* ---------------- Tablas ---------------- */
+  table.dos { width: 100%; border-collapse: collapse; font-size: 9.2pt; }
+  table.dos th {
+    text-align: left; font-size: 7.2pt; letter-spacing: 1.4pt; text-transform: uppercase;
+    padding: 0 2mm 1.5mm; border-bottom: 1.2pt solid var(--negro); font-weight: 700;
+  }
+  table.dos th.b { color: var(--oro); }
+  table.dos td { padding: 1.6mm 2mm; border-bottom: .5pt solid var(--linea); vertical-align: top; }
+  table.dos td.a { width: 47%; color: var(--gris); }
+  table.dos td.b { font-weight: 600; }
+  table.dos tr:last-child td { border-bottom: none; }
+
+  table.simple { width: 100%; border-collapse: collapse; font-size: 9.2pt; }
+  table.simple td { padding: 1.9mm 2mm; border-bottom: .5pt solid var(--linea); vertical-align: top; }
+  table.simple td.q { width: 32%; font-weight: 700; }
+  table.simple tr:last-child td { border-bottom: none; }
+
+  .cierre {
+    border: 1.4pt solid var(--negro); border-radius: 2.5mm;
+    padding: 3.2mm 4mm; margin-top: 3mm; display: flex; gap: 4mm; align-items: center;
+  }
+  .cierre .ico { flex: none; }
+  .cierre b { display: block; font-size: 11pt; margin-bottom: 1.2mm; }
+  .cierre p { margin: 0; font-size: 9.4pt; }
+  .cierre em { font-style: normal; color: var(--oro); font-weight: 700; }
+
+  footer {
+    margin-top: 3.5mm; padding-top: 2mm; font-size: 7.2pt; color: var(--gris);
+    border-top: .5pt solid var(--linea); display: flex; justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+<!-- Iconos, definidos una vez y reutilizados -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <g id="i-persona"><circle cx="12" cy="8" r="4.2"/><path d="M4.5 21c0-4.4 3.4-7.5 7.5-7.5s7.5 3.1 7.5 7.5"/></g>
+  <g id="i-movil"><rect x="6.5" y="2.5" width="11" height="19" rx="2"/><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"/></g>
+  <g id="i-ondas"><path d="M8 9a6 6 0 0 1 0 6"/><path d="M12 6a11 11 0 0 1 0 12"/><path d="M16 3.5a16 16 0 0 1 0 17"/></g>
+  <g id="i-noah"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2.5" y="13.5" width="4.5" height="7" rx="2"/><rect x="17" y="13.5" width="4.5" height="7" rx="2"/></g>
+  <g id="i-comanda"><rect x="4.5" y="2.5" width="15" height="19" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></g>
+  <g id="i-euro"><circle cx="12" cy="12" r="9.3"/><path d="M15.5 8.2a4.6 4.6 0 0 0-6.8 2.1M15.5 15.8a4.6 4.6 0 0 1-6.8-2.1"/><line x1="7" y1="10.8" x2="13" y2="10.8"/><line x1="7" y1="13.4" x2="13" y2="13.4"/></g>
+  <g id="i-campana"><path d="M18 9a6 6 0 1 0-12 0c0 5.5-2 7-2 7h16s-2-1.5-2-7"/><path d="M10.2 20a2.2 2.2 0 0 0 3.6 0"/></g>
+  <g id="i-pantalla"><rect x="2.5" y="4" width="19" height="13.5" rx="1.8"/><line x1="9" y1="21" x2="15" y2="21"/><line x1="12" y1="17.5" x2="12" y2="21"/></g>
+  <g id="i-check"><circle cx="12" cy="12" r="9.3"/><path d="M7.8 12.3l2.9 2.9 5.5-6"/></g>
+  <g id="i-reloj"><circle cx="12" cy="12" r="9.3"/><path d="M12 6.8V12l3.6 2.2"/></g>
+  <g id="i-candado"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2"/><path d="M8.2 10.5V7.4a3.8 3.8 0 0 1 7.6 0v3.1"/></g>
+  <g id="i-casa"><path d="M3.5 10.5L12 3.5l8.5 7"/><path d="M5.8 9.2V20.5h12.4V9.2"/><path d="M9.8 20.5v-6h4.4v6"/></g>
+  <g id="i-moto"><circle cx="5.5" cy="17.5" r="3.3"/><circle cx="18.5" cy="17.5" r="3.3"/><path d="M8.8 17.5h6.4l-3-8h-3"/><path d="M13.5 9.5h4l1.5 7"/></g>
+  <g id="i-luna"><path d="M20.5 14.2A8.8 8.8 0 0 1 9.8 3.5a8.8 8.8 0 1 0 10.7 10.7z"/></g>
+  <g id="i-ocupado"><circle cx="12" cy="12" r="9.3"/><line x1="5.4" y1="5.4" x2="18.6" y2="18.6"/></g>
+  <g id="i-sala"><circle cx="8.5" cy="7.5" r="3"/><circle cx="16.5" cy="9" r="2.4"/><path d="M2.8 20c0-3.3 2.6-5.6 5.7-5.6s5.7 2.3 5.7 5.6"/><path d="M15.4 14.6c2.8.1 4.9 2.3 4.9 5.4"/></g>
+  <g id="i-mas"><circle cx="12" cy="12" r="9.3"/><line x1="12" y1="7.6" x2="12" y2="16.4"/><line x1="7.6" y1="12" x2="16.4" y2="12"/></g>
+  <marker id="punta" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+    <path d="M0 1 L9 5 L0 9 z" fill="#111111" stroke="none"/>
+  </marker>
+</defs></svg>
+<!-- ======================= 1. PORTADA ======================= -->
+<!-- PORTADA-INICIO -->
+<style>
+  /* --- portada, importada de portada-lucia.html --- */
+  .hoja-portada { zoom: 1; }
+.hoja-portada {
+    --negro: #111111;
+    --gris:  #6E6E6E;
+    --linea: #D8D8D8;
+    --fino:  #EDEDED;
+    --oro:   #A07D2C;
+  }
+.hoja-portada * { box-sizing: border-box; margin: 0; padding: 0; }
+.hoja-portada, .hoja-portada { background: #FFFFFF; }
+.hoja-portada {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--negro);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+.hoja-portada svg { display: block; }
+.hoja-portada /* caja util 182 x 271mm. 262mm cierra la tinta en ~275mm desde el borde */
+  .pf-caja { width: 182mm; height: 262mm; display: flex; flex-direction: column; }
+.hoja-portada /* ---- filetes ---- */
+  .pf-f-negro { height: 0.4mm;  background: var(--negro); }
+.hoja-portada .pf-f-linea { height: 0.25mm; background: var(--linea); }
+.hoja-portada .pf-f-oro { height: 0.7mm;  background: var(--oro);   }
+.hoja-portada .pf-f-corto { height: 0.7mm;  background: var(--oro); width: 21mm; }
+.hoja-portada /* ---- rotulos en versalitas ---- */
+  .pf-rotulo {
+    font-size: 6.8pt; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 2.4pt; color: var(--gris);
+  }
+.hoja-portada .pf-rotulo.pf-negra { color: var(--negro); }
+.hoja-portada /* ---- cabecera ---- */
+  .pf-cab { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 2.8mm; }
+.hoja-portada /* ---- titular ---- */
+  h1 {
+    font-size: 41pt; font-weight: 300; line-height: 1.03;
+    letter-spacing: -1.3pt; color: var(--negro);
+  }
+.hoja-portada h1 em { font-style: normal; font-weight: 700; letter-spacing: -1.7pt; }
+.hoja-portada .pf-bajada {
+    max-width: 120mm; font-size: 12pt; font-weight: 400;
+    line-height: 1.5; letter-spacing: -0.05pt;
+  }
+.hoja-portada /* ---- muelles verticales ---- */
+  .pf-aire-alto { flex: 1.5 0 0; }
+.hoja-portada .pf-aire-bajo { flex: 0.7 0 0; }
+.hoja-portada /* ---- ficha de datos ---- */
+  .pf-ficha-cab {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 3.2mm;
+  }
+.hoja-portada .pf-ficha-cab svg { width: 6.6mm; height: 6.6mm; }
+.hoja-portada .pf-fila { display: flex; }
+.hoja-portada .pf-celda { padding: 8.6mm 0 8.8mm; }
+.hoja-portada .pf-celda.pf-a { width: 53%; padding-right: 10mm; }
+.hoja-portada .pf-celda.pf-b { width: 47%; padding-left: 12mm; }
+.hoja-portada .pf-eti {
+    font-size: 6.2pt; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.9pt; color: var(--gris);
+  }
+.hoja-portada .pf-val {
+    margin-top: 3.4mm; font-size: 10.6pt; font-weight: 500;
+    line-height: 1.38; letter-spacing: -0.15pt;
+  }
+.hoja-portada .pf-val .suave { font-weight: 400; color: var(--gris); }
+.hoja-portada .pf-pt { color: var(--oro); }
+.hoja-portada .pf-cierre { margin-top: 5.8mm; }
+</style>
+<div class="hoja hoja-portada">
+<div class="pf-caja">
+
+  <!-- cabecera -->
+  <header class="pf-cab">
+    <span class="pf-rotulo pf-negra">Propuesta informativa</span>
+    <span class="pf-rotulo">Centro Dental Luc&iacute;a Di&eacute;guez <span class="pf-pt">&middot;</span> Ourense</span>
+  </header>
+  <div class="pf-f-negro"></div>
+
+  <div class="pf-aire-alto"></div>
+
+  <!-- titular -->
+  <div class="pf-f-corto"></div>
+  <h1 style="margin-top:6.4mm">Qui&eacute;n coge el tel&eacute;fono<br>cuando <em>no pod&eacute;is cogerlo</em></h1>
+
+  <p class="pf-bajada" style="margin-top:9mm">Una asistente de voz que atiende las llamadas que hoy se os caen, escucha lo que necesita el paciente y os deja el recado escrito. <em>No da citas, no dice precios y no decide nada.</em></p>
+
+  <div class="pf-aire-bajo"></div>
+
+  <!-- ficha -->
+  <section>
+    <div class="pf-ficha-cab">
+      <span class="pf-rotulo">Ficha de la propuesta</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6.2 3.4h3.1l1.5 4-2 1.4a11 11 0 0 0 5.9 5.9l1.4-2 4 1.5v3.1a2 2 0 0 1-2 2A16.4 16.4 0 0 1 4.2 5.4a2 2 0 0 1 2-2Z"/>
+      </svg>
+    </div>
+    <div class="pf-f-negro"></div>
+
+    <div class="pf-fila">
+      <div class="pf-celda pf-a">
+        <div class="pf-eti">Para</div>
+        <div class="pf-val">Luc&iacute;a Di&eacute;guez</div>
+      </div>
+      <div class="pf-celda pf-b">
+        <div class="pf-eti">D&oacute;nde</div>
+        <div class="pf-val">R&uacute;a do Concello 8, Ourense</div>
+      </div>
+    </div>
+
+    <div class="pf-f-linea"></div>
+
+    <div class="pf-fila">
+      <div class="pf-celda pf-a">
+        <div class="pf-eti">Qu&eacute; hace</div>
+        <div class="pf-val">Coge la llamada y recoge el recado</div>
+      </div>
+      <div class="pf-celda pf-b">
+        <div class="pf-eti">Qu&eacute; NO hace</div>
+        <div class="pf-val">Citas, precios ni consejo</div>
+      </div>
+    </div>
+
+    <div class="pf-f-linea"></div>
+
+    <div class="pf-fila">
+      <div class="pf-celda pf-a">
+        <div class="pf-eti">Fecha</div>
+        <div class="pf-val">Octubre de 2026</div>
+      </div>
+      <div class="pf-celda pf-b">
+        <div class="pf-eti">C&oacute;mo</div>
+        <div class="pf-val">Desv&iacute;o desde vuestro n&uacute;mero actual</div>
+      </div>
+    </div>
+
+    <div class="pf-f-oro pf-cierre"></div>
+  </section>
+
+</div>
+</div>
+<!-- PORTADA-FIN -->
+
+<!-- ======================= 2. UN MARTES CUALQUIERA ======================= -->
+<div class="hoja">
+  <header class="interior" style="margin-bottom:7mm">
+    <h1>Un martes cualquiera</h1>
+    <div class="lado">Dónde se van las llamadas</div>
+  </header>
+
+  <svg viewBox="0 0 520 196" style="width:100%;height:auto;margin:5mm 0 9mm"
+       fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+       font-family="Helvetica">
+    <!-- linea del dia -->
+    <line x1="24" y1="118" x2="496" y2="118" stroke="#D8D8D8" stroke-width="2"/>
+
+    <!-- 10:15 cogida -->
+    <circle cx="70" cy="118" r="5.5" fill="#111" stroke="none"/>
+    <text x="70" y="140" font-size="11" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">10:15</text>
+    <text x="70" y="156" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">Mostrador libre</text>
+    <text x="70" y="170" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">La cogéis</text>
+    <g transform="translate(58,78) scale(1)"><use href="#i-persona"/></g>
+
+    <!-- 11:40 perdida -->
+    <g transform="translate(174,62) scale(1.15)" stroke="#A07D2C"><use href="#i-ondas"/></g>
+    <circle cx="186" cy="118" r="7" fill="none" stroke="#A07D2C" stroke-width="2.2"/>
+    <line x1="181" y1="113" x2="191" y2="123" stroke="#A07D2C" stroke-width="2.2"/>
+    <line x1="191" y1="113" x2="181" y2="123" stroke="#A07D2C" stroke-width="2.2"/>
+    <text x="186" y="140" font-size="11" font-weight="bold" fill="#A07D2C" stroke="none" text-anchor="middle">11:40</text>
+    <text x="186" y="156" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">Las dos en box</text>
+    <text x="186" y="170" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">Suena y se corta</text>
+
+    <!-- 13:50 perdida -->
+    <circle cx="302" cy="118" r="7" fill="none" stroke="#A07D2C" stroke-width="2.2"/>
+    <line x1="297" y1="113" x2="307" y2="123" stroke="#A07D2C" stroke-width="2.2"/>
+    <line x1="307" y1="113" x2="297" y2="123" stroke="#A07D2C" stroke-width="2.2"/>
+    <text x="302" y="140" font-size="11" font-weight="bold" fill="#A07D2C" stroke="none" text-anchor="middle">13:50</text>
+    <text x="302" y="156" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">Cobrando y</text>
+    <text x="302" y="170" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">despidiendo</text>
+
+    <!-- 15:20 cerrado -->
+    <g transform="translate(406,78) scale(1)" stroke="#A07D2C"><use href="#i-luna"/></g>
+    <circle cx="418" cy="118" r="7" fill="none" stroke="#A07D2C" stroke-width="2.2"/>
+    <line x1="413" y1="113" x2="423" y2="123" stroke="#A07D2C" stroke-width="2.2"/>
+    <line x1="423" y1="113" x2="413" y2="123" stroke="#A07D2C" stroke-width="2.2"/>
+    <text x="418" y="140" font-size="11" font-weight="bold" fill="#A07D2C" stroke="none" text-anchor="middle">15:20</text>
+    <text x="418" y="156" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">Cerrado</text>
+    <text x="418" y="170" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">a mediodía</text>
+
+    <!-- rotulo -->
+    <text x="24" y="28" font-size="9" letter-spacing="2" fill="#A07D2C" stroke="none" font-weight="bold">EL TELÉFONO, A LO LARGO DEL DÍA</text>
+  </svg>
+
+  <p class="leyenda" style="margin-top:-3mm">Las horas son un ejemplo. Las vuestras las sabéis vosotras mejor que nadie.</p>
+
+  <p class="grande" style="margin-top:6mm">De esas cuatro llamadas, <b>una entró</b>. Las otras tres no dejaron rastro: ni un aviso, ni un número, ni una queja.</p>
+
+  <p>El que llama a una clínica y no le cogen rara vez insiste. Llama a la siguiente de la lista, le dan hora, y ahí se queda. Y en una clínica eso no es una venta de veinte euros: es un paciente que podía haber estado yendo diez años, con toda su familia detrás.</p>
+
+  <section style="margin-top:10mm">
+    <h2>Tres cosas, antes de nada</h2>
+    <div class="tarjetas">
+      <div class="tarjeta">
+        <svg class="ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-movil"/></svg>
+        <b>Vuestro número no cambia</b>
+        <p>Se hace un desvío. Entra solo cuando comunica, cuando no lo coge nadie o cuando está cerrado.</p>
+      </div>
+      <div class="tarjeta">
+        <svg class="ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-ocupado"/></svg>
+        <b>No decide nada</b>
+        <p>Ni una hora, ni un precio, ni una opinión. Recoge el recado y para.</p>
+      </div>
+      <div class="tarjeta">
+        <svg class="ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-reloj"/></svg>
+        <b>Se quita en dos minutos</b>
+        <p>El mismo desvío que se pone se quita. Vuestro teléfono vuelve a estar como hoy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top:10mm">
+    <h2>Y esto no sustituye a nada de lo que ya tenéis</h2>
+    <div class="fila-ico">
+      <div class="item-ico">
+        <svg class="ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-pantalla"/></svg>
+        <div><b>Vuestro programa sigue igual</b><p>No se conecta a vuestra agenda ni a vuestra ficha de paciente. No toca nada.</p></div>
+      </div>
+      <div class="item-ico">
+        <svg class="ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-movil"/></svg>
+        <div><b>Y el chat de la web, también</b><p>Ese atiende a quien ya está en vuestra web. Esto atiende el teléfono, que es por donde se os cae la gente.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>Noah · asistente telefónica</span><span>Centro Dental Lucía Diéguez · 2 de 6</span></footer>
+</div>
+
+<!-- ======================= 3. EL CICLO ======================= -->
+<div class="hoja">
+  <header class="interior" style="margin-bottom:10mm">
+    <h1>El ciclo</h1>
+    <div class="lado">Lo mismo, llamada tras llamada</div>
+  </header>
+
+  <svg class="rueda" viewBox="31 20 558 530" style="width:100%;margin:11mm 0 0;height:auto"
+       fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+       font-family="Helvetica">
+
+    <!-- flechas del ciclo -->
+    <g stroke="#A07D2C" stroke-width="2.2" marker-end="url(#punta)">
+      <path d="M388.1 125.9 A200 200 0 0 1 460.9 178.8"/>
+      <path d="M509.2 327.4 A200 200 0 0 1 481.4 413.0"/>
+      <path d="M355.0 504.9 A200 200 0 0 1 265.0 504.9"/>
+      <path d="M138.6 413.0 A200 200 0 0 1 110.8 327.4"/>
+      <path d="M159.1 178.8 A200 200 0 0 1 231.9 125.9"/>
+    </g>
+
+    <!-- centro -->
+    <circle cx="310" cy="310" r="66" fill="#111" stroke="none"/>
+    <text x="310" y="300" font-size="22" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">NOAH</text>
+    <text x="310" y="320" font-size="10.5" fill="#B9B9B9" stroke="none" text-anchor="middle">no decide</text>
+    <text x="310" y="334" font-size="10.5" fill="#B9B9B9" stroke="none" text-anchor="middle">nada</text>
+
+    <!-- 1 arriba -->
+    <circle cx="310" cy="110" r="72" fill="#fff" stroke="#111" stroke-width="1.4"/>
+    <g transform="translate(297,66) scale(1.1)"><use href="#i-persona"/></g>
+    <text x="310" y="116" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">Llama al</text>
+    <text x="310" y="131" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">número</text>
+    <text x="310" y="148" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">de siempre</text>
+    <circle cx="310" cy="38" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="310" y="42.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">1</text>
+
+    <!-- 2 derecha arriba -->
+    <circle cx="500" cy="248" r="72" fill="#fff" stroke="#111" stroke-width="1.4"/>
+    <g transform="translate(487,204) scale(1.1)"><use href="#i-noah"/></g>
+    <text x="500" y="254" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">Noah</text>
+    <text x="500" y="269" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">descuelga</text>
+    <text x="500" y="286" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">y dice que es virtual</text>
+    <circle cx="571" cy="193" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="571" y="197.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">2</text>
+
+    <!-- 3 derecha abajo -->
+    <circle cx="428" cy="472" r="72" fill="#fff" stroke="#111" stroke-width="1.4"/>
+    <g transform="translate(415,428) scale(1.1)"><use href="#i-comanda"/></g>
+    <text x="428" y="478" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">Escucha</text>
+    <text x="428" y="493" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">y apunta</text>
+    <text x="428" y="510" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">nombre y teléfono</text>
+    <circle cx="499" cy="527" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="499" y="531.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">3</text>
+
+    <!-- 4 izquierda abajo: el paso que importa -->
+    <circle cx="192" cy="472" r="72" fill="#fff" stroke="#A07D2C" stroke-width="2.2"/>
+    <g transform="translate(179,428) scale(1.1)" stroke="#A07D2C"><use href="#i-ocupado"/></g>
+    <text x="192" y="478" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">Ahí se para</text>
+    <text x="192" y="495" font-size="10" fill="#A07D2C" stroke="none" text-anchor="middle">ni cita, ni precio,</text>
+    <text x="192" y="508" font-size="10" fill="#A07D2C" stroke="none" text-anchor="middle">ni consejo</text>
+    <circle cx="121" cy="527" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="121" y="531.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">4</text>
+
+    <!-- 5 izquierda arriba -->
+    <circle cx="120" cy="248" r="72" fill="#fff" stroke="#111" stroke-width="1.4"/>
+    <g transform="translate(107,204) scale(1.1)"><use href="#i-campana"/></g>
+    <text x="120" y="254" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">Os llega</text>
+    <text x="120" y="269" font-size="12.5" font-weight="bold" fill="#111" stroke="none" text-anchor="middle">el recado</text>
+    <text x="120" y="286" font-size="10" fill="#6E6E6E" stroke="none" text-anchor="middle">escrito, con la hora</text>
+    <circle cx="49" cy="193" r="12" fill="#A07D2C" stroke="none"/>
+    <text x="49" y="197.5" font-size="12" font-weight="bold" fill="#fff" stroke="none" text-anchor="middle">5</text>
+  </svg>
+
+  <p class="grande" style="text-align:center;margin-top:9mm">La llamada no se pierde.<br><b>Y la decisión sigue siendo vuestra.</b></p>
+
+  <div class="banda" style="margin-top:12mm;padding:6mm 5mm">
+    <span>Suena una vez</span><i></i><span>Noah escucha</span><i></i><span>Vosotras llamáis cuando podáis</span>
+  </div>
+
+  <footer><span>Noah · asistente telefónica</span><span>Centro Dental Lucía Diéguez · 3 de 6</span></footer>
+</div>
+
+<!-- ======================= 4. UNA LLAMADA DE VERDAD ======================= -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Una llamada de verdad</h1>
+    <div class="lado">Con vuestras reglas</div>
+  </header>
+
+  <div class="llamada">
+    <div class="turno noah"><div class="quien">Noah</div><p>Centro Dental Lucía Diéguez, buenas tardes. Soy Noah, la asistente virtual. Ahora mismo no hay nadie libre en el mostrador, pero le recojo el recado y le llaman en cuanto puedan. ¿En qué le ayudo?</p></div>
+    <div class="turno cli"><div class="quien">Paciente</div><p>Hola, quería pedir hora para una limpieza.</p></div>
+    <div class="turno noah"><div class="quien">Noah</div><p>Perfecto. Yo no doy horas, se las dan ellas directamente. ¿Me dice su nombre y un teléfono?</p></div>
+    <div class="turno cli"><div class="quien">Paciente</div><p>Marta Ferreiro. El 6 8 8, 20 11 44.</p></div>
+    <div class="turno noah"><div class="quien">Noah</div><p>Marta Ferreiro, seis ocho ocho, veinte, once, cuarenta y cuatro. ¿Le viene mejor que la llamen por la mañana o por la tarde?</p></div>
+    <div class="turno cli"><div class="quien">Paciente</div><p>Por la tarde mejor. Oye, y ya que te tengo, ¿cuánto sale un implante?</p></div>
+    <div class="turno noah"><div class="quien">Noah</div><p>Eso no se lo puedo decir yo, y prefiero no darle un número que luego no sea el suyo. Se lo apunto y se lo explican ellas, que es quien lo ve. ¿Algo más?</p></div>
+    <div class="turno cli"><div class="quien">Paciente</div><p>No, nada más. Gracias.</p></div>
+    <div class="nota-sistema">Aquí queda el recado guardado. Noah no ha dado hora, ni precio, ni opinión.</div>
+    <div class="turno noah"><div class="quien">Noah</div><p>A usted. Queda apuntado: Marta Ferreiro, una limpieza, mejor por la tarde, y la duda del implante. La llaman hoy mismo. Hasta luego.</p></div>
+  </div>
+
+  <section style="margin-top:4mm">
+    <h2>Y si se complica</h2>
+    <table class="simple">
+      <tr><td class="q">Le duele una muela</td><td>No valora si es grave ni dice qué tomar. Dice la frase que escribáis vosotras y da el teléfono de urgencias.</td></tr>
+      <tr><td class="q">Pregunta si le conviene</td><td>No opina sobre tratamientos. Recoge la pregunta para que se la contestéis.</td></tr>
+      <tr><td class="q">Quiere cambiar su cita</td><td>Apunta que quiere cambiarla y para cuándo le vendría bien. No la mueve.</td></tr>
+      <tr><td class="q">Pide hablar con alguien</td><td>No insiste en atenderle. Recoge nombre y teléfono y lo dice con claridad.</td></tr>
+      <tr><td class="q">Le interrumpe o se lía</td><td>Se calla y escucha, como una persona. Luego repite el recado entero.</td></tr>
+      <tr><td class="q">Pregunta si es una máquina</td><td>Dice que sí, que es virtual. Ya lo había dicho al descolgar.</td></tr>
+    </table>
+  </section>
+
+  <footer><span>Noah · asistente telefónica</span><span>Centro Dental Lucía Diéguez · 4 de 6</span></footer>
+</div>
+
+<!-- ======================= 5. LO QUE VEIS VOSOTRAS ======================= -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Lo que veis vosotras</h1>
+    <div class="lado">En el móvil, la tablet o el ordenador del mostrador</div>
+  </header>
+
+  <p class="grande">En cuanto Noah cuelga, <b>suena un aviso</b> y el recado aparece escrito.</p>
+
+  <div class="pantalla">
+    <div class="barra"><span>Lucía Diéguez · Recados</span><span>2 sin devolver de 6 hoy</span></div>
+    <div class="cuerpo">
+      <div><span class="cod">17:42</span><span class="etq">SIN DEVOLVER</span></div>
+      <table>
+        <tr><td><b>Marta Ferreiro</b></td><td class="n">688 20 11 44</td></tr>
+        <tr><td>Quiere hora para una limpieza</td><td class="n">&nbsp;</td></tr>
+        <tr><td>Prefiere que la llamen por la tarde</td><td class="n">&nbsp;</td></tr>
+        <tr class="tot"><td>Además pregunta</td><td class="n">precio de implante</td></tr>
+      </table>
+      <p class="dato"><b>Duró:</b> 1 min 12 s &nbsp;·&nbsp; <b>Entró:</b> 17:42 &nbsp;·&nbsp; <b>Terminó:</b> se despidió ella</p>
+      <div class="boton">Marcar como devuelta</div>
+    </div>
+  </div>
+  <p class="leyenda">Ejemplo. Los recados reales los escribe lo que diga cada paciente.</p>
+
+  <section style="margin-top:8mm">
+    <h2>Y el día entero, de un vistazo</h2>
+    <div class="lista">
+      <div class="barra"><span>Hoy · 6 llamadas</span><span>2 sin devolver</span></div>
+      <div class="fila">
+        <span class="cod2">17:42</span><span class="via">Marta Ferreiro</span>
+        <span class="hora">limpieza</span><span class="imp">&nbsp;</span>
+        <span class="est pend">Sin devolver</span>
+      </div>
+      <div class="fila hecho">
+        <span class="cod2">15:20</span><span class="via">Antonio Vila</span>
+        <span class="hora">cambiar cita</span><span class="imp">&nbsp;</span>
+        <span class="est ok">Devuelta</span>
+      </div>
+      <div class="fila hecho">
+        <span class="cod2">13:51</span><span class="via">Sin nombre</span>
+        <span class="hora">horarios</span><span class="imp">&nbsp;</span>
+        <span class="est ok">Devuelta</span>
+      </div>
+    </div>
+    <p class="leyenda">Las devueltas se quedan en gris. Lo pendiente, siempre arriba.</p>
+  </section>
+
+  <section style="margin-top:9mm">
+    <h2>Privacidad</h2>
+    <div class="fila-ico">
+      <div class="item-ico">
+        <svg class="ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-candado"/></svg>
+        <div><b>No se graba</b><p>Viene desactivado. Si alguna vez lo queréis, se activa y Noah avisa al descolgar, como obliga la ley.</p></div>
+      </div>
+      <div class="item-ico">
+        <svg class="ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>
+        <div><b>No pregunta por su salud</b><p>Nombre, teléfono y qué necesita. No pide antecedentes, ni medicación, ni qué le duele.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>Noah · asistente telefónica</span><span>Centro Dental Lucía Diéguez · 5 de 6</span></footer>
+</div>
+
+<!-- ======================= 6. LO PRÁCTICO ======================= -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Lo práctico</h1>
+    <div class="lado">Qué hace falta y hasta dónde puede llegar</div>
+  </header>
+
+  <section>
+    <h2>Qué necesito de vosotras</h2>
+    <table class="simple">
+      <tr><td class="q">Los tratamientos</td><td>Solo los nombres, para que sepa reconocer lo que le piden. Ni precios ni duraciones.</td></tr>
+      <tr><td class="q">Horarios</td><td>Cuándo estáis y cuándo cerráis, para decirlo bien.</td></tr>
+      <tr><td class="q">La frase de urgencias</td><td>Qué queréis que diga exactamente a quien llame con dolor. La escribís vosotras, palabra por palabra.</td></tr>
+      <tr><td class="q">A dónde va el recado</td><td>Una pantalla, un correo, lo que os venga mejor.</td></tr>
+      <tr><td class="q">Veinte minutos</td><td>Para oírla antes de ponerla y decirme qué cambiar.</td></tr>
+      <tr><td class="q">El desvío</td><td>Lo activa vuestra compañía. Dos minutos, y se quita cuando queráis.</td></tr>
+    </table>
+    <p style="margin-top:2mm"><b>No hay que instalar nada, ni cambiar de programa, ni formar a nadie.</b></p>
+  </section>
+
+  <section style="margin-top:4mm">
+    <h2>Hasta dónde puede llegar</h2>
+    <table class="dos">
+      <tr><th>Como lo quereis vosotras</th><th class="b">Solo si algún día lo pedís</th></tr>
+      <tr>
+        <td class="a">Recoge el recado. No da hora.</td>
+        <td class="b">Dar hora real mirando vuestra agenda.</td>
+      </tr>
+      <tr>
+        <td class="a">No dice ningún precio.</td>
+        <td class="b">Decir precios cerrados que fijéis vosotras.</td>
+      </tr>
+      <tr>
+        <td class="a">El aviso suena en la pantalla.</td>
+        <td class="b">Aviso al móvil por WhatsApp o por correo.</td>
+      </tr>
+      <tr>
+        <td class="a">Atiende en castellano.</td>
+        <td class="b">Gallego e inglés, para quien llame de fuera.</td>
+      </tr>
+      <tr>
+        <td class="a">No llama a nadie.</td>
+        <td class="b">Recordar la cita el día antes.</td>
+      </tr>
+    </table>
+    <p style="margin-top:2mm;color:var(--gris)">Lo de la derecha está desactivado. No se activa nada sin que lo pidáis vosotras.</p>
+  </section>
+
+  <section style="margin-top:4mm">
+    <h2>Cómo empezamos</h2>
+    <div class="pasos">
+      <div class="paso">
+        <span class="n">Paso 1</span>
+        <svg class="ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-comanda"/></svg>
+        <b>Me pasáis cuatro datos</b><p>Tratamientos, horario y la frase de urgencias.</p>
+      </div>
+      <svg class="flecha" width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="7" x2="19" y2="7"/><path d="M15 3l5 4-5 4"/></svg>
+      <div class="paso">
+        <span class="n">Paso 2</span>
+        <svg class="ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-noah"/></svg>
+        <b>La dejo preparada</b><p>Con vuestras reglas y vuestras palabras.</p>
+      </div>
+      <svg class="flecha" width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="7" x2="19" y2="7"/><path d="M15 3l5 4-5 4"/></svg>
+      <div class="paso">
+        <span class="n">Paso 3</span>
+        <svg class="ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-movil"/></svg>
+        <b>La llamáis vosotras</b><p>Como si fuerais una paciente.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cierre">
+    <svg class="ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>
+    <div>
+      <b>Oírla no cuesta nada</b>
+      <p>La escucháis antes de decidir. Y si no os convence, <em>no hay nada que desmontar</em>: se quita el desvío y vuestro teléfono sigue igual que hoy.</p>
+    </div>
+  </div>
+
+  <footer><span>Noah · asistente telefónica</span><span>Centro Dental Lucía Diéguez · 6 de 6</span></footer>
+</div>
+</body>
+</html>
