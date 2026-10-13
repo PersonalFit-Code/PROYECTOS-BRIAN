@@ -128,7 +128,7 @@ ${SPRITE}
           <div class="mt-6 space-y-3 border-t border-white/15 pt-6 text-sm text-brand-100">
             <p class="flex items-center gap-3">${ico('ubicacion', 'text-accent')} ${SITIO.direccion} · ${SITIO.cp} ${SITIO.ciudad}</p>
             <p class="flex items-center gap-3">${ico('reloj', 'text-accent')} ${u.horarioTexto}</p>
-            <a href="${rutaAlt}" hreflang="${altLang}" data-idioma="${altLang}" lang="${altLang}" data-idioma="${altLang}" class="flex items-center gap-3 font-semibold text-white hover:underline">${ico('globo', 'text-accent')} ${t.otroIdioma.etiqueta}</a>
+            <a href="${rutaAlt}" hreflang="${altLang}" lang="${altLang}" data-idioma="${altLang}" class="flex items-center gap-3 font-semibold text-white hover:underline">${ico('globo', 'text-accent')} ${t.otroIdioma.etiqueta}</a>
           </div>
         </aside>
       </div>
@@ -167,7 +167,7 @@ ${cuerpo}
           <li><a href="${t.rutas.aviso}" class="hover:text-white hover:underline">${u.avisoLegal}</a></li>
           <li><a href="${t.rutas.privacidad}" class="hover:text-white hover:underline">${u.privacidad}</a></li>
           <li><a href="${t.rutas.cookies}" class="hover:text-white hover:underline">${u.cookies}</a></li>
-          <li class="pt-2"><a href="${rutaAlt}" hreflang="${altLang}" data-idioma="${altLang}" lang="${altLang}" data-idioma="${altLang}" class="inline-flex items-center gap-2 font-semibold text-white hover:underline">${ico('globo', 'h-4 w-4')} ${t.otroIdioma.etiqueta}</a></li>
+          <li class="pt-2"><a href="${rutaAlt}" hreflang="${altLang}" lang="${altLang}" data-idioma="${altLang}" class="inline-flex items-center gap-2 font-semibold text-white hover:underline">${ico('globo', 'h-4 w-4')} ${t.otroIdioma.etiqueta}</a></li>
         </ul>
       </nav>
     </div>
