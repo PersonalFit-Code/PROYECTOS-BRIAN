@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO básico -->
+  <title>Persianas en Ourense | Instalación y Reparación | Persianas López</title>
+  <meta name="description" content="Reparación, venta y colocación de persianas de aluminio y PVC en Ourense. Mosquiteras, estores, venecianas, mamparas de baño y repuestos. Rúa Bonhome, 10. Llama al 657 97 13 13.">
+  <meta name="keywords" content="persianas Ourense, reparación persianas Ourense, mosquiteras Ourense, estores Ourense, repuestos persianas, persianas aluminio PVC, mamparas de baño Ourense">
+  <meta name="author" content="Persianas López">
+  <meta name="robots" content="index, follow">
+  <meta name="geo.region" content="ES-GA">
+  <meta name="geo.placename" content="Ourense">
+  <meta name="theme-color" content="#0066CC">
+  <!-- Cambiar por el dominio propio cuando lo haya -->
+  <link rel="canonical" href="https://persianas-lopez.vercel.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Persianas López">
+  <meta property="og:title" content="Persianas López | Instalación y Reparación de Persianas en Ourense">
+  <meta property="og:description" content="Persianas, mosquiteras, estores y cerramientos en Ourense. Reparación rápida y repuestos directos en Rúa Bonhome, 10. Tel. 657 97 13 13.">
+  <meta property="og:url" content="https://persianas-lopez.vercel.app/">
+  <!-- PENDIENTE: añadir og:image (1200x630) con una foto real de la fachada o de un trabajo -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Persianas López | Persianas en Ourense">
+  <meta name="twitter:description" content="Reparación, venta y colocación de persianas, mosquiteras y estores en Ourense. Llama al 657 97 13 13.">
+
+  <!-- Favicon (SVG en línea) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230066CC'/%3E%3Cg fill='%23fff'%3E%3Crect x='14' y='14' width='36' height='6' rx='2'/%3E%3Crect x='14' y='24' width='36' height='6' rx='2'/%3E%3Crect x='14' y='34' width='36' height='6' rx='2'/%3E%3Crect x='14' y='44' width='36' height='6' rx='2'/%3E%3C/g%3E%3C/svg%3E">
+
+  <!-- Tipografía -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com/3.4.5"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EBF4FF',
+              100: '#D6E8FF',
+              200: '#A8CDFF',
+              500: '#1A7FE6',
+              600: '#0066CC',
+              700: '#0052A3',
+              800: '#003D7A',
+              900: '#002952'
+            },
+            accent: '#FFD23F'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Patrón de lamas de persiana para el fondo del hero */
+    .slats {
+      background-image: repeating-linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.07) 0px,
+        rgba(255, 255, 255, 0.07) 14px,
+        rgba(255, 255, 255, 0) 14px,
+        rgba(255, 255, 255, 0) 22px
+      );
+    }
+    :focus-visible { outline: 3px solid #FFD23F; outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      .animate-pulse { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+
+  <!-- Datos estructurados: LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "@id": "https://persianas-lopez.vercel.app/#negocio",
+    "name": "Persianas López",
+    "description": "Reparación, venta y colocación de persianas de aluminio y PVC, mosquiteras, estores, venecianas, mamparas de baño, puertas plegables, accesorios y repuestos en Ourense.",
+    "url": "https://persianas-lopez.vercel.app/",
+    "telephone": "+34657971313",
+    "priceRange": "€€",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Rúa Bonhome, 10",
+      "addressLocality": "Ourense",
+      "postalCode": "32005",
+      "addressRegion": "Galicia",
+      "addressCountry": "ES"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 42.3405,
+      "longitude": -7.8645
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Ourense" },
+      { "@type": "AdministrativeArea", "name": "Provincia de Ourense" }
+    ],
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=Persianas+L%C3%B3pez+R%C3%BAa+Bonhome+10+32005+Ourense",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.4",
+      "bestRating": "5",
+      "reviewCount": "63"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Servicios de Persianas López",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reparación, venta y colocación de persianas de aluminio y PVC" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Mosquiteras enrollables, plisadas y fijas" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Estores, venecianas y cortinas" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Mamparas de baño y puertas plegables" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Accesorios y repuestos para persianas" } }
+      ]
+    }
+  }
+  </script>
+</head>
+
+<body class="bg-white font-sans text-slate-800 antialiased">
+
+  <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:font-semibold focus:text-brand-900">Saltar al contenido</a>
+
+  <!-- ============ HEADER ============ -->
+  <header id="inicio" class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8" aria-label="Navegación principal">
+      <a href="#inicio" class="flex items-center gap-3" aria-label="Persianas López, volver al inicio">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 text-white shadow-md" aria-hidden="true">
+          <i class="fa-solid fa-bars-staggered text-lg"></i>
+        </span>
+        <span class="leading-tight">
+          <span class="block text-lg font-extrabold tracking-tight text-brand-800">Persianas López</span>
+          <span class="block text-xs font-medium text-slate-500">Ourense</span>
+        </span>
+      </a>
+
+      <ul class="hidden items-center gap-8 text-sm font-semibold text-slate-700 lg:flex">
+        <li><a href="#inicio" class="transition hover:text-brand-600">Inicio</a></li>
+        <li><a href="#servicios" class="transition hover:text-brand-600">Servicios</a></li>
+        <li><a href="#repuestos" class="transition hover:text-brand-600">Repuestos</a></li>
+        <li><a href="#ubicacion" class="transition hover:text-brand-600">Ubicación</a></li>
+        <li><a href="#contacto" class="transition hover:text-brand-600">Contacto</a></li>
+      </ul>
+
+      <div class="flex items-center gap-2">
+        <a href="tel:+34657971313"
+           class="hidden items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-brand-700 sm:inline-flex"
+           aria-label="Llamar a Persianas López al 657 97 13 13">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i> Llamar 657 97 13 13
+        </a>
+        <a href="tel:+34657971313"
+           class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brand-600 text-white shadow-md sm:hidden"
+           aria-label="Llamar a Persianas López al 657 97 13 13">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        </a>
+        <button id="menu-btn" type="button"
+                class="inline-flex h-11 w-11 items-center justify-center rounded-lg text-brand-800 hover:bg-brand-50 lg:hidden"
+                aria-controls="menu-movil" aria-expanded="false" aria-label="Abrir menú">
+          <i class="fa-solid fa-bars text-xl" aria-hidden="true" id="menu-icon"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Menú móvil -->
+    <div id="menu-movil" class="hidden border-t border-slate-200 bg-white lg:hidden">
+      <ul class="space-y-1 px-4 py-4 text-base font-semibold text-slate-700">
+        <li><a href="#inicio" class="block rounded-lg px-3 py-3 hover:bg-brand-50 hover:text-brand-700">Inicio</a></li>
+        <li><a href="#servicios" class="block rounded-lg px-3 py-3 hover:bg-brand-50 hover:text-brand-700">Servicios</a></li>
+        <li><a href="#repuestos" class="block rounded-lg px-3 py-3 hover:bg-brand-50 hover:text-brand-700">Repuestos</a></li>
+        <li><a href="#ubicacion" class="block rounded-lg px-3 py-3 hover:bg-brand-50 hover:text-brand-700">Ubicación</a></li>
+        <li><a href="#contacto" class="block rounded-lg px-3 py-3 hover:bg-brand-50 hover:text-brand-700">Contacto</a></li>
+        <li class="pt-2">
+          <a href="tel:+34657971313" class="flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-3 font-bold text-white"
+             aria-label="Llamar a Persianas López al 657 97 13 13">
+            <i class="fa-solid fa-phone" aria-hidden="true"></i> Llamar 657 97 13 13
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ============ HERO ============ -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-800 text-white" aria-labelledby="hero-titulo">
+      <div class="slats pointer-events-none absolute inset-0" aria-hidden="true"></div>
+      <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-2 lg:px-8">
+        <div>
+          <p class="mb-5 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold ring-1 ring-white/25">
+            <i class="fa-solid fa-location-dot text-accent" aria-hidden="true"></i> Tienda y taller en Rúa Bonhome, Ourense
+          </p>
+          <h1 id="hero-titulo" class="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+            Instalación y Reparación de Persianas en Ourense
+            <span class="mt-2 block text-2xl font-bold text-accent sm:text-3xl">Persianas López</span>
+          </h1>
+          <p class="mt-6 max-w-xl text-lg text-brand-50 sm:text-xl">
+            Especialistas en persianas, mosquiteras, estores y cerramientos. Rapidez, calidad y repuestos directos en Rúa Bonhome.
+          </p>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="https://wa.me/34657971313?text=Hola%2C%20quiero%20pedir%20presupuesto%20para%20mis%20persianas."
+               target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-4 text-base font-bold text-brand-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-yellow-300"
+               aria-label="Pedir presupuesto sin compromiso por WhatsApp a Persianas López (se abre en una pestaña nueva)">
+              <i class="fa-brands fa-whatsapp text-xl" aria-hidden="true"></i> Pedir Presupuesto Sin Compromiso
+            </a>
+            <a href="#servicios"
+               class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/70 px-7 py-4 text-base font-bold text-white transition hover:bg-white hover:text-brand-700">
+              Ver Servicios <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+            </a>
+          </div>
+
+          <ul class="mt-10 grid grid-cols-1 gap-3 text-sm font-medium text-brand-50 sm:grid-cols-3">
+            <li class="flex items-center gap-2"><i class="fa-solid fa-star text-accent" aria-hidden="true"></i> 4,4 / 5 en Google</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-bolt text-accent" aria-hidden="true"></i> Reparaciones rápidas</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-box-open text-accent" aria-hidden="true"></i> Repuestos en tienda</li>
+          </ul>
+        </div>
+
+        <!-- Ilustración: persiana -->
+        <div class="hidden lg:block" aria-hidden="true">
+          <div class="relative mx-auto w-full max-w-md">
+            <div class="absolute -inset-4 rounded-3xl bg-white/10 blur-2xl"></div>
+            <div class="relative rounded-3xl bg-white p-6 shadow-2xl">
+              <div class="rounded-xl border-8 border-slate-200 bg-sky-100">
+                <div class="h-4 rounded-t bg-slate-300"></div>
+                <div class="space-y-1.5 p-2">
+                  <div class="h-5 rounded-sm bg-brand-600"></div>
+                  <div class="h-5 rounded-sm bg-brand-600"></div>
+                  <div class="h-5 rounded-sm bg-brand-600"></div>
+                  <div class="h-5 rounded-sm bg-brand-600"></div>
+                  <div class="h-5 rounded-sm bg-brand-600"></div>
+                  <div class="h-5 rounded-sm bg-brand-500"></div>
+                  <div class="h-5 rounded-sm bg-brand-500"></div>
+                  <div class="h-2 rounded-sm bg-slate-400"></div>
+                </div>
+                <div class="h-24 bg-gradient-to-b from-sky-200 to-sky-50"></div>
+              </div>
+              <div class="mt-5 flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-semibold text-slate-500">Persiana atascada o cinta rota</p>
+                  <p class="text-lg font-extrabold text-brand-800">La dejamos como nueva</p>
+                </div>
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-brand-900">
+                  <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICIOS ============ -->
+    <section id="servicios" class="scroll-mt-20 bg-slate-50 py-20" aria-labelledby="servicios-titulo">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="text-sm font-bold uppercase tracking-widest text-brand-600">Nuestros servicios</p>
+          <h2 id="servicios-titulo" class="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Todo para tus ventanas, en un solo sitio</h2>
+          <p class="mt-4 text-lg text-slate-600">Medimos, fabricamos, instalamos y reparamos. Si tu persiana no sube, se ha soltado la cinta o quieres cambiarla por una nueva, en Persianas López te lo solucionamos.</p>
+        </div>
+
+        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- 1 -->
+          <article class="group rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl">
+            <span class="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white" aria-hidden="true">
+              <i class="fa-solid fa-screwdriver-wrench text-2xl"></i>
+            </span>
+            <h3 class="mt-5 text-xl font-bold text-slate-900">Persianas de aluminio y PVC</h3>
+            <p class="mt-3 text-slate-600">Reparación, venta y colocación de todo tipo de persianas: cambio de cinta, lamas rotas, ejes, recogedores y motorización. Persianas nuevas a medida para tu vivienda o local.</p>
+          </article>
+          <!-- 2 -->
+          <article class="group rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl">
+            <span class="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white" aria-hidden="true">
+              <i class="fa-solid fa-bug-slash text-2xl"></i>
+            </span>
+            <h3 class="mt-5 text-xl font-bold text-slate-900">Mosquiteras</h3>
+            <p class="mt-3 text-slate-600">Mosquiteras enrollables, plisadas y fijas, fabricadas a medida para ventanas y puertas. Disfruta del aire fresco sin insectos en casa.</p>
+          </article>
+          <!-- 3 -->
+          <article class="group rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl">
+            <span class="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white" aria-hidden="true">
+              <i class="fa-solid fa-sun text-2xl"></i>
+            </span>
+            <h3 class="mt-5 text-xl font-bold text-slate-900">Estores, venecianas y cortinas</h3>
+            <p class="mt-3 text-slate-600">Controla la luz y gana intimidad con estores enrollables, venecianas y cortinas. Te asesoramos sobre tejidos, colores y sistemas de accionamiento.</p>
+          </article>
+          <!-- 4 -->
+          <article class="group rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl">
+            <span class="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white" aria-hidden="true">
+              <i class="fa-solid fa-shower text-2xl"></i>
+            </span>
+            <h3 class="mt-5 text-xl font-bold text-slate-900">Mamparas y puertas plegables</h3>
+            <p class="mt-3 text-slate-600">Mamparas de baño para ducha y bañera, y puertas plegables que ahorran espacio. Instalación limpia y acabado profesional.</p>
+          </article>
+          <!-- 5 -->
+          <article class="group rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl">
+            <span class="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white" aria-hidden="true">
+              <i class="fa-solid fa-gears text-2xl"></i>
+            </span>
+            <h3 class="mt-5 text-xl font-bold text-slate-900">Accesorios y repuestos</h3>
+            <p class="mt-3 text-slate-600">Cintas, lamas, recogedores, poleas, topes, ejes y más. Si te animas a arreglarla tú, aquí encuentras la pieza y el consejo.</p>
+          </article>
+          <!-- CTA -->
+          <article class="flex flex-col justify-between rounded-2xl bg-brand-700 p-7 text-white shadow-lg">
+            <div>
+              <h3 class="text-xl font-bold">¿No sabes qué necesitas?</h3>
+              <p class="mt-3 text-brand-100">Mándanos una foto de tu persiana o ventana por WhatsApp y te decimos cómo arreglarla y cuánto cuesta.</p>
+            </div>
+            <a href="https://wa.me/34657971313?text=Hola%2C%20os%20env%C3%ADo%20una%20foto%20de%20mi%20persiana."
+               target="_blank" rel="noopener"
+               class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 font-bold text-brand-900 transition hover:bg-yellow-300"
+               aria-label="Enviar foto por WhatsApp a Persianas López (se abre en una pestaña nueva)">
+              <i class="fa-brands fa-whatsapp text-lg" aria-hidden="true"></i> Enviar foto por WhatsApp
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REPUESTOS ============ -->
+    <section id="repuestos" class="scroll-mt-20 py-20" aria-labelledby="repuestos-titulo">
+      <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div>
+          <p class="text-sm font-bold uppercase tracking-widest text-brand-600">Repuestos directos</p>
+          <h2 id="repuestos-titulo" class="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">La pieza que buscas, sin esperas</h2>
+          <p class="mt-4 text-lg text-slate-600">Tenemos en tienda los repuestos más habituales para persianas de aluminio y PVC. Trae la pieza vieja o una foto y te damos la correcta en el momento.</p>
+          <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+            <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-600" aria-hidden="true"></i><span><strong class="text-slate-900">Cintas y recogedores</strong><br><span class="text-slate-600">De varios anchos y modelos</span></span></li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-600" aria-hidden="true"></i><span><strong class="text-slate-900">Lamas sueltas</strong><br><span class="text-slate-600">Aluminio y PVC, varios colores</span></span></li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-600" aria-hidden="true"></i><span><strong class="text-slate-900">Ejes, poleas y rodamientos</strong><br><span class="text-slate-600">Para cajones de persiana</span></span></li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check mt-1 text-brand-600" aria-hidden="true"></i><span><strong class="text-slate-900">Topes, guías y tapas</strong><br><span class="text-slate-600">Y pequeños accesorios</span></span></li>
+          </ul>
+        </div>
+        <div class="rounded-3xl bg-gradient-to-br from-brand-50 to-white p-8 ring-1 ring-brand-100">
+          <h3 class="text-2xl font-extrabold text-brand-800">¿Cómo trabajamos?</h3>
+          <ol class="mt-6 space-y-6">
+            <li class="flex gap-4">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 font-bold text-white" aria-hidden="true">1</span>
+              <div><p class="font-bold text-slate-900">Nos cuentas el problema</p><p class="text-slate-600">Por teléfono, WhatsApp o pasándote por la tienda.</p></div>
+            </li>
+            <li class="flex gap-4">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 font-bold text-white" aria-hidden="true">2</span>
+              <div><p class="font-bold text-slate-900">Presupuesto sin compromiso</p><p class="text-slate-600">Te explicamos la solución y el precio antes de empezar.</p></div>
+            </li>
+            <li class="flex gap-4">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 font-bold text-white" aria-hidden="true">3</span>
+              <div><p class="font-bold text-slate-900">Reparación o instalación</p><p class="text-slate-600">Trabajo limpio, rápido y con material de calidad.</p></div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONFIANZA ============ -->
+    <section class="bg-brand-800 py-20 text-white" aria-labelledby="confianza-titulo">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto flex max-w-3xl flex-col items-center gap-4 rounded-3xl bg-white/10 px-6 py-8 text-center ring-1 ring-white/20 sm:flex-row sm:justify-center sm:gap-6 sm:text-left">
+          <div class="flex gap-1 text-2xl text-accent" role="img" aria-label="Valoración de 4,4 sobre 5 estrellas">
+            <i class="fa-solid fa-star" aria-hidden="true"></i>
+            <i class="fa-solid fa-star" aria-hidden="true"></i>
+            <i class="fa-solid fa-star" aria-hidden="true"></i>
+            <i class="fa-solid fa-star" aria-hidden="true"></i>
+            <i class="fa-solid fa-star-half-stroke" aria-hidden="true"></i>
+          </div>
+          <div>
+            <h2 id="confianza-titulo" class="text-2xl font-extrabold sm:text-3xl">4,4 / 5 en Google Maps</h2>
+            <p class="text-brand-100">Basado en 63 reseñas de clientes</p>
+          </div>
+        </div>
+
+        <!--
+          Estas tarjetas resumen lo que se valora del negocio sin inventar reseñas.
+          Cuando el cliente dé permiso, se pueden sustituir por citas reales de su ficha de Google
+          (texto literal, nombre tal como aparece en Google y enlace a la reseña).
+        -->
+        <h3 class="mt-16 text-center text-2xl font-bold">Por qué nos eligen en Ourense</h3>
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          <article class="rounded-2xl bg-white p-7 text-slate-800 shadow-lg">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-brand-900" aria-hidden="true"><i class="fa-solid fa-bolt"></i></span>
+            <h4 class="mt-4 text-lg font-bold text-slate-900">Rapidez en las reparaciones</h4>
+            <p class="mt-2 text-slate-600">Una persiana que no sube no puede esperar semanas. Damos prioridad a las averías para que recuperes la normalidad en casa cuanto antes.</p>
+          </article>
+          <article class="rounded-2xl bg-white p-7 text-slate-800 shadow-lg">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-brand-900" aria-hidden="true"><i class="fa-solid fa-handshake"></i></span>
+            <h4 class="mt-4 text-lg font-bold text-slate-900">Trato cercano y honesto</h4>
+            <p class="mt-2 text-slate-600">Negocio de barrio: te atendemos en persona, te explicamos qué tiene tu persiana y no te vendemos lo que no necesitas.</p>
+          </article>
+          <article class="rounded-2xl bg-white p-7 text-slate-800 shadow-lg">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-brand-900" aria-hidden="true"><i class="fa-solid fa-store"></i></span>
+            <h4 class="mt-4 text-lg font-bold text-slate-900">Tienda física con repuestos</h4>
+            <p class="mt-2 text-slate-600">Estamos en Rúa Bonhome, 10. Puedes venir con la pieza en la mano y llevarte el repuesto adecuado ese mismo día.</p>
+          </article>
+        </div>
+
+        <div class="mt-10 text-center">
+          <a href="https://www.google.com/maps/search/?api=1&query=Persianas+L%C3%B3pez+R%C3%BAa+Bonhome+10+32005+Ourense"
+             target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 rounded-full border-2 border-white/70 px-6 py-3 font-bold transition hover:bg-white hover:text-brand-800"
+             aria-label="Ver las reseñas de Persianas López en Google Maps (se abre en una pestaña nueva)">
+            <i class="fa-brands fa-google" aria-hidden="true"></i> Leer las reseñas en Google
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACTO Y UBICACIÓN ============ -->
+    <section id="contacto" class="scroll-mt-20 bg-slate-50 py-20" aria-labelledby="contacto-titulo">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="text-sm font-bold uppercase tracking-widest text-brand-600">Contacto</p>
+          <h2 id="contacto-titulo" class="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Ven a vernos o llámanos</h2>
+          <p class="mt-4 text-lg text-slate-600">Atendemos en tienda, por teléfono y por WhatsApp. Pide tu presupuesto sin compromiso.</p>
+        </div>
+
+        <div class="mt-14 grid gap-8 lg:grid-cols-5">
+          <!-- Columna 1: datos -->
+          <address class="not-italic lg:col-span-2">
+            <ul class="space-y-5">
+              <li class="flex gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600" aria-hidden="true"><i class="fa-solid fa-location-dot text-xl"></i></span>
+                <div>
+                  <p class="font-bold text-slate-900">Dirección</p>
+                  <p class="text-slate-600">Rúa Bonhome, 10<br>32005 Ourense</p>
+                  <a href="https://www.google.com/maps/dir/?api=1&destination=R%C3%BAa+Bonhome+10%2C+32005+Ourense"
+                     target="_blank" rel="noopener" class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:underline"
+                     aria-label="Cómo llegar a Persianas López con Google Maps (se abre en una pestaña nueva)">
+                    Cómo llegar <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </li>
+              <li class="flex gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600" aria-hidden="true"><i class="fa-solid fa-phone text-xl"></i></span>
+                <div>
+                  <p class="font-bold text-slate-900">Teléfono y WhatsApp</p>
+                  <a href="tel:+34657971313" class="text-lg font-bold text-brand-700 hover:underline" aria-label="Llamar a Persianas López al 657 97 13 13">657 97 13 13</a>
+                  <p>
+                    <a href="https://wa.me/34657971313?text=Hola%2C%20quiero%20pedir%20presupuesto%20para%20mis%20persianas."
+                       target="_blank" rel="noopener" class="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-green-700 hover:underline"
+                       aria-label="Escribir por WhatsApp a Persianas López (se abre en una pestaña nueva)">
+                      <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Escribir por WhatsApp
+                    </a>
+                  </p>
+                </div>
+              </li>
+              <li class="flex gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600" aria-hidden="true"><i class="fa-solid fa-clock text-xl"></i></span>
+                <div>
+                  <p class="font-bold text-slate-900">Horario</p>
+                  <!-- PENDIENTE: confirmar horario exacto con el negocio -->
+                  <p class="text-slate-600">Lunes a viernes, hasta las 20:00</p>
+                  <p class="text-sm text-slate-500">Llámanos para confirmar el horario de tienda.</p>
+                </div>
+              </li>
+            </ul>
+          </address>
+
+          <!-- Columna 2: mapa -->
+          <div id="ubicacion" class="scroll-mt-24 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 lg:col-span-3">
+            <iframe
+              title="Mapa de ubicación de Persianas López en Rúa Bonhome, 10, Ourense"
+              src="https://www.google.com/maps?q=R%C3%BAa+Bonhome+10,+32005+Ourense&z=17&output=embed"
+              class="h-[380px] w-full lg:h-full lg:min-h-[460px]"
+              style="border:0"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <!-- CTA final -->
+        <div class="mt-16 flex flex-col items-center gap-6 rounded-3xl bg-gradient-to-r from-brand-600 to-brand-700 px-6 py-10 text-center text-white shadow-xl sm:px-12 lg:flex-row lg:justify-between lg:text-left">
+          <div>
+            <h3 class="text-2xl font-extrabold sm:text-3xl">¿Tu persiana se ha atascado?</h3>
+            <p class="mt-2 text-brand-100">Llámanos ahora y te decimos cómo lo solucionamos.</p>
+          </div>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <a href="tel:+34657971313" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-4 font-bold text-brand-900 transition hover:bg-yellow-300"
+               aria-label="Llamar a Persianas López al 657 97 13 13">
+              <i class="fa-solid fa-phone" aria-hidden="true"></i> 657 97 13 13
+            </a>
+            <a href="https://wa.me/34657971313?text=Hola%2C%20quiero%20pedir%20presupuesto%20para%20mis%20persianas."
+               target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white px-7 py-4 font-bold transition hover:bg-white hover:text-brand-700"
+               aria-label="Pedir presupuesto por WhatsApp a Persianas López (se abre en una pestaña nueva)">
+              <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bg-brand-900 text-brand-100">
+    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-3 lg:px-8">
+      <div>
+        <p class="flex items-center gap-2 text-lg font-extrabold text-white">
+          <i class="fa-solid fa-bars-staggered" aria-hidden="true"></i> Persianas López
+        </p>
+        <p class="mt-3 text-sm">Reparación, venta y colocación de persianas, mosquiteras, estores, mamparas y repuestos en Ourense.</p>
+      </div>
+      <div>
+        <p class="font-bold text-white">Dónde estamos</p>
+        <p class="mt-3 text-sm">Rúa Bonhome, 10<br>32005 Ourense, Galicia</p>
+        <a href="tel:+34657971313" class="mt-2 inline-block text-sm font-semibold text-white hover:underline" aria-label="Llamar a Persianas López al 657 97 13 13">Tel. 657 97 13 13</a>
+      </div>
+      <nav aria-label="Enlaces legales">
+        <p class="font-bold text-white">Información legal</p>
+        <!-- PENDIENTE: crear estas páginas con los datos fiscales del titular -->
+        <ul class="mt-3 space-y-2 text-sm">
+          <li><a href="aviso-legal.html" class="hover:text-white hover:underline">Aviso legal</a></li>
+          <li><a href="privacidad.html" class="hover:text-white hover:underline">Política de privacidad</a></li>
+          <li><a href="cookies.html" class="hover:text-white hover:underline">Política de cookies</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="border-t border-white/10">
+      <p class="mx-auto max-w-7xl px-4 py-6 text-center text-xs text-brand-200 sm:px-6 lg:px-8">
+        &copy; <span id="anio">2026</span> Persianas López · Persianas en Ourense · Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ============ BOTÓN FLOTANTE WHATSAPP ============ -->
+  <a href="https://wa.me/34657971313?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20persianas."
+     target="_blank" rel="noopener"
+     class="fixed bottom-5 right-5 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl transition hover:scale-110 animate-pulse hover:animate-none"
+     aria-label="Contactar con Persianas López por WhatsApp (se abre en una pestaña nueva)">
+    <i class="fa-brands fa-whatsapp text-4xl" aria-hidden="true"></i>
+  </a>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('menu-btn');
+      var menu = document.getElementById('menu-movil');
+      var icon = document.getElementById('menu-icon');
+
+      function setOpen(open) {
+        menu.classList.toggle('hidden', !open);
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+        icon.classList.toggle('fa-bars', !open);
+        icon.classList.toggle('fa-xmark', open);
+      }
+
+      btn.addEventListener('click', function () {
+        setOpen(menu.classList.contains('hidden'));
+      });
+
+      // Cerrar al pulsar un enlace del menú
+      menu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () { setOpen(false); });
+      });
+
+      // Cerrar con Escape
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+          setOpen(false);
+          btn.focus();
+        }
+      });
+
+      // Cerrar al pasar a escritorio
+      window.addEventListener('resize', function () {
+        if (window.innerWidth >= 1024) setOpen(false);
+      });
+
+      document.getElementById('anio').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
