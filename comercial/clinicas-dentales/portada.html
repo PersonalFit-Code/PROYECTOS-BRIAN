@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Noah para clinicas dentales</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm; }
+  :root { --negro:#111111; --gris:#6E6E6E; --linea:#D8D8D8; --fino:#EDEDED; --oro:#A07D2C; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #FFFFFF; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--negro);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  svg { display: block; }
+  .caja { width: 182mm; height: 262mm; display: flex; flex-direction: column; }
+
+  .f-negro { height: 0.4mm;  background: var(--negro); }
+  .f-linea { height: 0.25mm; background: var(--linea); }
+  .f-oro   { height: 0.7mm;  background: var(--oro);   }
+  .f-corto { height: 0.7mm;  background: var(--oro); width: 21mm; }
+
+  .rotulo { font-size: 6.8pt; font-weight: 600; text-transform: uppercase; letter-spacing: 2.4pt; color: var(--gris); }
+  .rotulo.negra { color: var(--negro); }
+  .cab { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 2.8mm; }
+
+  h1 { font-size: 36pt; font-weight: 300; line-height: 1.04; letter-spacing: -1.2pt; }
+  h1 em { font-style: normal; font-weight: 700; letter-spacing: -1.5pt; }
+  .bajada { max-width: 124mm; font-size: 11.6pt; line-height: 1.5; }
+
+  .aire-alto { flex: 1 0 0; }
+  .aire-bajo { flex: 0.9 0 0; }
+
+  .ficha-cab { display: flex; align-items: center; justify-content: space-between; padding-bottom: 3.2mm; }
+  .ficha-cab svg { width: 6.6mm; height: 6.6mm; }
+  .fila { display: flex; }
+  .celda { padding: 6.6mm 0 6.8mm; }
+  .celda.a { width: 53%; padding-right: 10mm; }
+  .celda.b { width: 47%; padding-left: 12mm; }
+  .eti { font-size: 6.2pt; font-weight: 600; text-transform: uppercase; letter-spacing: 1.9pt; color: var(--gris); }
+  .val { margin-top: 3.4mm; font-size: 10.6pt; font-weight: 500; line-height: 1.38; letter-spacing: -0.15pt; }
+  .val .suave { font-weight: 400; color: var(--gris); }
+  .pt { color: var(--oro); }
+  .cierre { margin-top: 5mm; }
+</style>
+</head>
+<body>
+<div class="caja">
+
+  <header class="cab">
+    <span class="rotulo negra">Para cl&iacute;nicas dentales</span>
+    <span class="rotulo">Noah <span class="pt">&middot;</span> asistente telef&oacute;nica</span>
+  </header>
+  <div class="f-negro"></div>
+
+  <div class="aire-alto"></div>
+
+  <div class="f-corto"></div>
+  <h1 style="margin-top:6.4mm">Qui&eacute;n coge el tel&eacute;fono<br>de la cl&iacute;nica cuando<br><em>no pod&eacute;is cogerlo</em></h1>
+
+  <p class="bajada" style="margin-top:8mm">Una asistente de voz que atiende las llamadas que hoy se os caen, entiende lo que le cuenta el paciente aunque no sepa c&oacute;mo se llama, y os lo deja apuntado. <em>Llega hasta donde vosotras dig&aacute;is.</em></p>
+
+<svg viewBox="0 0 520 260" style="width:100%;height:auto;margin-top:7mm">
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- ===== MOLAR ===== -->
+    <path d="M 64 124
+             C 56 100 58 76 74 68
+             C 84 62 92 70 98 80
+             C 104 70 112 62 122 68
+             C 138 76 140 100 132 124
+             C 137 148 139 172 136 190
+             C 134 197 128 196 126 188
+             C 120 164 110 146 98 142
+             C 86 146 76 164 70 188
+             C 68 196 62 197 60 190
+             C 57 172 59 148 64 124 Z"
+          stroke="#111111" stroke-width="2"/>
+    <path d="M 74 99 C 88 103 108 103 122 99" stroke="#D8D8D8" stroke-width="1.6"/>
+
+    <!-- ===== CEREBRO ===== -->
+    <path d="M 388 140
+             C 378 122 380 104 394 94
+             C 396 72 422 64 428 88
+             C 436 68 460 64 462 88
+             C 476 86 482 104 474 118
+             C 482 134 476 154 460 158
+             C 450 172 430 176 418 166
+             C 406 178 388 172 384 156
+             C 380 148 382 142 388 140 Z"
+          stroke="#111111" stroke-width="2"/>
+    <path d="M 408 84 C 402 100 418 108 412 124 C 406 140 418 146 414 158" stroke="#111111" stroke-width="1.6"/>
+    <path d="M 440 88 C 434 102 448 110 442 124 C 437 136 446 142 444 152" stroke="#111111" stroke-width="1.6"/>
+    <path d="M 392 112 C 400 118 398 128 404 134" stroke="#111111" stroke-width="1.6"/>
+
+    <!-- ===== RED: ramas (apoyo) ===== -->
+    <g stroke="#D8D8D8" stroke-width="1.6">
+      <path d="M 204 98 L 228 56 L 248 86"/>
+      <path d="M 296 84 L 312 130 L 336 96"/>
+    </g>
+
+    <!-- ===== RED: espina principal diente -> cerebro ===== -->
+    <path d="M 143 118 L 166 114 L 204 98 L 248 86 L 296 84 L 336 96 L 366 112 L 379 118"
+          stroke="#111111" stroke-width="1.6"/>
+
+    <!-- nodos secundarios -->
+    <g stroke="#111111" stroke-width="1.4" fill="#FFFFFF">
+      <circle cx="228" cy="56" r="3.2"/>
+      <circle cx="312" cy="130" r="3.2"/>
+    </g>
+
+    <!-- nodos principales -->
+    <g fill="#111111" stroke="none">
+      <circle cx="166" cy="114" r="3.4"/>
+      <circle cx="248" cy="86" r="3.4"/>
+      <circle cx="296" cy="84" r="3.4"/>
+      <circle cx="366" cy="112" r="3.4"/>
+    </g>
+
+    <!-- nodos dorados -->
+    <g fill="#A07D2C" stroke="none">
+      <circle cx="204" cy="98" r="4.4"/>
+      <circle cx="336" cy="96" r="4.4"/>
+    </g>
+
+    <!-- ===== ONDA DE VOZ ===== -->
+    <path d="M 144 174 L 232 176" stroke="#D8D8D8" stroke-width="1.6"/>
+    <path d="M 249.0 165.3 A 14 14 0 0 1 249.0 186.7" stroke="#111111" stroke-width="1.8"/>
+    <path d="M 258.0 154.6 A 28 28 0 0 1 258.0 197.4" stroke="#111111" stroke-width="1.6"/>
+    <path d="M 267.0 143.8 A 42 42 0 0 1 267.0 208.2" stroke="#111111" stroke-width="1.4"/>
+    <circle cx="240" cy="176" r="3.6" fill="#A07D2C" stroke="none"/>
+
+  </g>
+</svg>
+
+
+  <div class="aire-bajo"></div>
+
+  <section>
+    <div class="ficha-cab">
+      <span class="rotulo">De un vistazo</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6.2 3.4h3.1l1.5 4-2 1.4a11 11 0 0 0 5.9 5.9l1.4-2 4 1.5v3.1a2 2 0 0 1-2 2A16.4 16.4 0 0 1 4.2 5.4a2 2 0 0 1 2-2Z"/>
+      </svg>
+    </div>
+    <div class="f-negro"></div>
+
+    <div class="fila">
+      <div class="celda a">
+        <div class="eti">Qu&eacute; hace</div>
+        <div class="val">Coge la llamada y recoge el recado</div>
+      </div>
+      <div class="celda b">
+        <div class="eti">Vuestro n&uacute;mero</div>
+        <div class="val">No cambia</div>
+      </div>
+    </div>
+
+    <div class="f-linea"></div>
+
+    <div class="fila">
+      <div class="celda a">
+        <div class="eti">Qu&eacute; hace falta</div>
+        <div class="val">Un desv&iacute;o y veinte minutos</div>
+      </div>
+      <div class="celda b">
+        <div class="eti">Se quita en</div>
+        <div class="val">Dos minutos, cuando quer&aacute;is</div>
+      </div>
+    </div>
+
+    <div class="f-oro cierre"></div>
+  </section>
+</div>
+</body>
+</html>
