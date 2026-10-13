@@ -23,11 +23,14 @@ gestoría de Tatiana.
 
 ## B · Hay que decidir (riesgo real, pero depende de cómo lo quiera la casa)
 
-5. **Reseñas reproducidas.** `src/data/reviews.ts` copia 40 reseñas de TripAdvisor y Google, literales y
-   con el nombre de usuario. Las plataformas prohíben reutilizar su contenido fuera de sus herramientas
-   oficiales y cada reseña tiene derechos de su autor. Opciones: (a) usar los widgets oficiales,
-   (b) pedir permiso, (c) dejar solo la nota media y el enlace a cada plataforma, o (d) dejar solo
-   frases muy cortas con enlace a la reseña original.
+5. ~~**Reseñas reproducidas.**~~ ✅ **Resuelto el 13-10-2026** por decisión de Brian. Se han borrado
+   las 40 reseñas copiadas (texto, nombre y ciudad), las columnas que las pintaban y la tarjeta que las
+   maquetaba. Queda el titular con un enlace a cada ficha. De paso salen **todas las cifras de
+   TripAdvisor** —la nota 4,2 de la tarjeta y del pie, y el puesto 19 de la banda— porque sus
+   condiciones no permiten enseñar sus valoraciones ni sus clasificaciones fuera de sus widgets; su
+   premio Travellers' Choice sí se puede nombrar. La nota de Google se queda, atribuida a su lado.
+   Si algún día se quiere volver a enseñar texto de reseñas: widget oficial de cada plataforma, o
+   testimonios propios con permiso escrito de quien los firma.
 6. ~~**"Nº 1 en zamburiñas de la zona".**~~ ✅ **Resuelto el 10-10-2026** por decisión de Brian: el
    distintivo del plato estrella pasa a "El plato por el que nos conocen" y el contador de la banda de
    cifras, a "53 vinos en carta" (número que sale de `wines.ts`, así que no se queda viejo).

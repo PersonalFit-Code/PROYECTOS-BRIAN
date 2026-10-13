@@ -11,7 +11,7 @@ import Logo from "@/components/ui/Logo";
 import { useNavItems } from "@/components/ui/Navbar";
 import { useLocalizedOpenStatus } from "@/hooks/useLocalizedOpenStatus";
 import { useReveal } from "@/hooks/useReveal";
-import { PlatformGlyph, Stars } from "@/components/ui/ReviewCard";
+import { PlatformGlyph, Stars } from "@/components/ui/PlatformBadge";
 import { LOCALES, LOCALE_META, localePath, stripLocale } from "@/i18n/config";
 import { useFormat, useLocale, useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { openCookieSettings } from "@/lib/consent";
@@ -177,12 +177,14 @@ export default function Footer({ year: buildYear }: FooterProps) {
                   href={BUSINESS.social.tripadvisor}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`${trip.label} ${fmtRating(trip.value)} · ${trip.award} · ${m.common.misc.newTab}`}
+                  aria-label={`${trip.label} · ${trip.award} · ${m.common.misc.newTab}`}
                   className="inline-flex min-h-9 items-center gap-2 rounded-full border border-cream/12 bg-cream/[0.06] py-1.5 pl-2.5 pr-3 text-xs text-cream-200 shadow-glass transition-colors hover:border-cream/30 hover:text-cream"
                 >
+                  {/* Aquí iba el 4,2 de TripAdvisor. Fuera el 13-10-2026: sus condiciones no permiten
+                      mostrar sus valoraciones fuera de sus widgets, ni siquiera escritas a mano. El
+                      premio sí se puede nombrar. */}
                   <PlatformGlyph source="TripAdvisor" />
-                  <span className="font-semibold">{fmtRating(trip.value)}</span>
-                  <span className="text-cream-faint">{trip.award}</span>
+                  <span className="font-semibold">{trip.award}</span>
                 </a>
               </li>
             </ul>

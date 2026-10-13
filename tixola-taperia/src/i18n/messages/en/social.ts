@@ -21,8 +21,8 @@ const social = {
     ratingSub: "Google · {count} reviews",
     wines: "Wines on the list",
     winesSub: "Galician and beyond",
-    position: "Restaurant in Ourense",
-    positionSub: "TripAdvisor · Travellers' Choice",
+    platos: "Dishes on the menu",
+    platosSub: "Galician cooking, as always",
   },
   /** Word centred over the top rule of the figures band (SocialProof). */
   statsTitle: "In numbers",
@@ -30,32 +30,18 @@ const social = {
   reviewsTitle: "Word from",
   reviewsAccent: "those who've already been",
   reviewsNote:
-    "Reviews published on TripAdvisor and Google, exactly as their authors wrote them. Five-star reviews only.",
-  realReviews: "Real reviews",
-  fiveStars: "Five stars",
+    "What people say is where they wrote it: on Google and TripAdvisor. That is where you can read it in full and up to date.",
   seeGoogle: "Read reviews on Google",
   seeTripadvisor: "See on TripAdvisor",
-  pauseHint: "Hover to pause",
-  /** Review columns (ReviewMarquee) */
-  marquee: {
-    label: "Customer reviews",
-    summary: "{count} five-star customer reviews, published on TripAdvisor and Google.",
-    pause: "Pause the reviews",
-    play: "Resume the reviews",
-  },
   /** Review card (ReviewCard) */
   card: {
     stars: "{rating} out of 5 stars",
-    on: "Review published on {source}",
-    by: "Review by {author}",
-    verified: "Verified review",
   },
   /** Platform links */
   platforms: {
     aria: "See more reviews",
     see: "See",
     reviews: "{count} reviews",
-    rank: "No. {rank} of {total}",
   },
   /** Photo gallery (PhotoGallery) */
   gallery: {

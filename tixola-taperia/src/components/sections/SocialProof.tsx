@@ -1,12 +1,11 @@
 "use client";
 
-import { ArrowUpRight, BadgeCheck, Star } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useMemo, useRef, type CSSProperties } from "react";
 import Counter from "@/components/ui/Counter";
 import Faq from "@/components/sections/Faq";
-import { PlatformGlyph, Stars, type ReviewSource } from "@/components/ui/ReviewCard";
-import ReviewMarquee from "@/components/ui/ReviewMarquee";
+import { PlatformGlyph, Stars, type ReviewSource } from "@/components/ui/PlatformBadge";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { BUSINESS } from "@/data/business";
 import { formatNumber } from "@/lib/format";
@@ -24,7 +23,8 @@ import { cn } from "@/lib/utils";
  *  1. Cabecera (m.social.*) con el resumen de valoración de Google.
  *  2. Banda editorial "en cifras": cuatro contadores a pelo sobre el hierro, separados por filos
  *     (SOCIAL_STATS; etiquetas de m.social.stats). Sin tarjetas: el cliente no quería "cuadrados".
- *  3. Columnas de reseñas reales de 5★ en marquee vertical (ReviewMarquee).
+ *  3. Titular y nota que llevan a las fichas de Google y TripAdvisor (el texto de las reseñas no
+ *     se reproduce: ver el comentario del bloque 3).
  *  4. Enlaces a Google / TripAdvisor con su nota.
  *  5. Galería de fotos del local (PhotoGallery) con visor.
  *  6. Preguntas frecuentes (Faq): la cara visible del FAQPage que emite HomeJsonLd.
@@ -66,8 +66,8 @@ function statLabels(id: string, s: Messages["social"]["stats"]): { label: string
       return { label: s.rating, sub: s.ratingSub };
     case "wines":
       return { label: s.wines, sub: s.winesSub };
-    case "years":
-      return { label: s.position, sub: s.positionSub };
+    case "platos":
+      return { label: s.platos, sub: s.platosSub };
     default:
       return null;
   }
@@ -210,7 +210,8 @@ interface Platform {
   source: ReviewSource;
   href: string;
   cta: string;
-  rating: number;
+  /** Nota media. Opcional: TripAdvisor no deja enseñar la suya fuera de sus widgets. */
+  rating?: number;
   meta: string;
 }
 
@@ -268,8 +269,10 @@ export default function SocialProof() {
       source: "TripAdvisor",
       href: BUSINESS.social.tripadvisor,
       cta: s.seeTripadvisor,
-      rating: trip.value,
-      meta: `${trip.award} · ${t(s.platforms.rank, { rank: trip.rank, total: trip.total })}`,
+      /* SIN NOTA, Y NO ES UN OLVIDO: las condiciones de los widgets de TripAdvisor prohíben mostrar
+         sus valoraciones fuera de ellos, y eso incluye teclear el 4,2 a mano. El distintivo
+         Travellers' Choice sí es una mención del premio, no una nota. */
+      meta: trip.award,
     },
   ];
 
@@ -340,33 +343,29 @@ export default function SocialProof() {
           <div data-reveal="wipe" aria-hidden className="h-px bg-cream/15" />
         </div>
 
-        {/* 3 · Columnas de reseñas */}
+        {/* 3 · Dónde están las opiniones
+            AQUÍ HABÍA CUARENTA RESEÑAS COPIADAS de TripAdvisor y de Google, con su texto literal, el
+            nombre de usuario y la ciudad, en dos columnas que se movían solas. Fuera el 13-10-2026, y
+            no por diseño:
+             · Google prohíbe por escrito "copiar y guardar nombres de negocios, direcciones o reseñas
+               de usuarios" fuera de sus servicios;
+             · TripAdvisor prohíbe mostrar sus reseñas Y SUS NOTAS fuera de sus propios widgets;
+             · el texto de una reseña es una obra de su autor, y el derecho de cita español solo cubre
+               docencia e investigación, no una web que vende;
+             · usar el nombre de una persona con fin publicitario sin su permiso expreso es una
+               intromisión ilegítima (art. 7.6 de la LO 1/1982), con el perjuicio presumido por ley.
+            Lo que queda es lo que sí se puede: decir dónde están y llevar allí. Si algún día se quiere
+            enseñar el texto, la vía es el widget oficial de cada plataforma o testimonios propios con
+            el permiso escrito de quien los firma. */}
         <div className="mt-16 md:mt-24">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-xl">
-              <h3 data-reveal className="font-display text-3xl leading-none text-cream md:text-4xl">
-                {s.reviewsTitle} <em className="text-gradient-ember italic">{s.reviewsAccent}</em>
-              </h3>
-              <p data-reveal="fade" className="mt-3 text-sm leading-relaxed text-cream-muted text-pretty">
-                {s.reviewsNote}
-              </p>
-            </div>
-            <div data-reveal="fade" className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex h-9 items-center gap-1.5 rounded-full border border-cream/15 bg-granate-900/60 px-3 font-caps text-[10px] uppercase tracking-[0.22em] text-cream-200">
-                <BadgeCheck className="h-3.5 w-3.5 text-gold" aria-hidden />
-                {s.realReviews}
-              </span>
-              <span className="inline-flex h-9 items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 font-caps text-[10px] uppercase tracking-[0.22em] text-gold">
-                <Star className="h-3.5 w-3.5 fill-gold" aria-hidden />
-                {s.fiveStars}
-              </span>
-              {/* Solo tiene sentido con ratón: md+ y puntero fino */}
-              <span className="hidden font-caps text-[10px] uppercase tracking-[0.22em] text-cream-faint md:pointer-fine:inline">
-                {s.pauseHint}
-              </span>
-            </div>
+          <div className="max-w-2xl">
+            <h3 data-reveal className="font-display text-3xl leading-none text-cream md:text-4xl">
+              {s.reviewsTitle} <em className="text-gradient-ember italic">{s.reviewsAccent}</em>
+            </h3>
+            <p data-reveal="fade" className="mt-3 text-sm leading-relaxed text-cream-muted text-pretty">
+              {s.reviewsNote}
+            </p>
           </div>
-          <ReviewMarquee className="mt-8 md:mt-10" />
         </div>
 
         {/* 4 · Enlaces a plataformas */}
@@ -377,19 +376,25 @@ export default function SocialProof() {
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${p.cta} · ${p.source} ${fmtRating(p.rating)} · ${p.meta} · ${m.common.misc.newTab}`}
+                aria-label={`${p.cta} · ${p.source}${p.rating ? ` ${fmtRating(p.rating)}` : ""} · ${p.meta} · ${m.common.misc.newTab}`}
                 className="glass-smoke group flex min-h-[72px] items-center gap-4 rounded-2xl p-4 transition-all duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:border-cream/25 hover:shadow-card md:p-5"
               >
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-granate/70 ring-1 ring-cream/10">
                   <PlatformGlyph source={p.source} className="h-6 w-6" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="flex items-center gap-2">
-                    <span className="font-condensed text-2xl leading-none text-cream">{fmtRating(p.rating)}</span>
-                    <Stars rating={p.rating} size="sm" />
-                  </span>
+                  {p.rating ? (
+                    <span className="flex items-center gap-2">
+                      <span className="font-condensed text-2xl leading-none text-cream">{fmtRating(p.rating)}</span>
+                      <Stars rating={p.rating} size="sm" />
+                    </span>
+                  ) : (
+                    /* Sin nota, el nombre de la plataforma ocupa su sitio para que las dos tarjetas
+                       midan y pesen igual. */
+                    <span className="block font-condensed text-2xl leading-none text-cream">{p.source}</span>
+                  )}
                   <span className="mt-1 block truncate text-xs text-cream-faint">
-                    {p.source} · {p.meta}
+                    {p.rating ? `${p.source} · ${p.meta}` : p.meta}
                   </span>
                 </span>
                 <span className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-cream-200 transition-colors group-hover:text-pimenton-a11y">

@@ -21,8 +21,8 @@ const social = {
     ratingSub: "Google · {count} opiniões",
     wines: "Vinhos na carta",
     winesSub: "galegos e de fora",
-    position: "Restaurante de Ourense",
-    positionSub: "TripAdvisor · Travellers' Choice",
+    platos: "Pratos na ementa",
+    platosSub: "cozinha galega de sempre",
   },
   /** Palavra centrada sobre a régua superior da faixa de números (SocialProof). */
   statsTitle: "Em números",
@@ -30,32 +30,18 @@ const social = {
   reviewsTitle: "Palavra de",
   reviewsAccent: "quem já cá veio",
   reviewsNote:
-    "Avaliações publicadas no TripAdvisor e no Google, tal como os seus autores as escreveram. Só as de cinco estrelas.",
-  realReviews: "Avaliações reais",
-  fiveStars: "Cinco estrelas",
+    "As opiniões de quem cá esteve estão onde foram escritas: no Google e no TripAdvisor. Aí leem-se na íntegra e atualizadas.",
   seeGoogle: "Ver avaliações no Google",
   seeTripadvisor: "Ver no TripAdvisor",
-  pauseHint: "Passe o rato para pausar",
-  /** Colunas de avaliações (ReviewMarquee) */
-  marquee: {
-    label: "Opiniões de clientes",
-    summary: "{count} avaliações de clientes com cinco estrelas, publicadas no TripAdvisor e no Google.",
-    pause: "Pausar as avaliações",
-    play: "Retomar as avaliações",
-  },
   /** Cartão de avaliação (ReviewCard) */
   card: {
     stars: "{rating} em 5 estrelas",
-    on: "Avaliação publicada no {source}",
-    by: "Avaliação de {author}",
-    verified: "Avaliação verificada",
   },
   /** Ligações para plataformas */
   platforms: {
     aria: "Ver mais opiniões",
     see: "Ver",
     reviews: "{count} avaliações",
-    rank: "n.º {rank} de {total}",
   },
   /** Galeria de fotografias (PhotoGallery) */
   gallery: {
