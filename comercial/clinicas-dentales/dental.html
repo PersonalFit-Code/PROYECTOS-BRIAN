@@ -121,6 +121,16 @@
   }
   .leyenda { font-size: 7.8pt; color: var(--gris); margin: 0 0 4mm; }
 
+  /* ---------------- Fila de datos ---------------- */
+  .datos { display: flex; gap: 3mm; margin: 3mm 0 0; }
+  .dato-ico {
+    flex: 1; min-width: 0; border: .8pt solid var(--linea); border-radius: 2mm;
+    padding: 2.6mm 2.5mm; text-align: center;
+  }
+  .dato-ico .ico { margin: 0 auto 1.8mm; }
+  .dato-ico b { display: block; font-size: 9.2pt; margin-bottom: .8mm; }
+  .dato-ico p { font-size: 7.8pt; color: var(--gris); margin: 0; line-height: 1.3; }
+
   /* ---------------- Banda de tres tiempos ---------------- */
   .banda {
     display: flex; align-items: center; justify-content: center; gap: 5mm;
@@ -679,30 +689,72 @@
 <!-- ======================= 5. UNA LLAMADA DE VERDAD ======================= -->
 <div class="hoja">
   <header class="interior">
-    <h1>Una llamada de verdad</h1>
-    <div class="lado">Nadie llama diciendo el nombre del tratamiento</div>
+    <h1>Una llamada, en tres pasos</h1>
+    <div class="lado">Pedir cita, tomar los datos, apuntarlo</div>
   </header>
 
-  <div class="llamada">
-    <div class="turno noah"><div class="quien">Noah</div><p>Clínica dental, buenas tardes. Soy la asistente virtual. Ahora mismo no hay nadie libre en el mostrador, pero le recojo lo que necesite y le llaman en seguida. ¿Qué le pasa?</p></div>
-    <div class="turno cli"><div class="quien">Paciente</div><p>Hola. Es que comiendo se me ha saltado un trozo de una muela de abajo.</p></div>
-    <div class="turno noah"><div class="quien">Noah</div><p>Vaya. ¿Le duele ahora mismo o de momento solo la nota rota?</p></div>
-    <div class="turno cli"><div class="quien">Paciente</div><p>Doler no me duele, pero me roza la lengua.</p></div>
-    <div class="turno noah"><div class="quien">Noah</div><p>Entendido. Se lo paso como muela rota sin dolor, que es distinto de una urgencia. ¿Me dice su nombre y un teléfono?</p></div>
-    <div class="turno cli"><div class="quien">Paciente</div><p>Marta Ferreiro, 6 8 8 20 11 44. ¿Y eso qué suele costar, una reconstrucción?</p></div>
-    <div class="turno noah"><div class="quien">Noah</div><p>El precio se lo dicen ellas, que son quienes lo van a ver. Yo prefiero no darle un número que luego no sea el suyo. Se lo apunto para que se lo expliquen.</p></div>
-    <div class="turno cli"><div class="quien">Paciente</div><p>Vale. ¿Y puedo tomar algo mientras tanto?</p></div>
-    <div class="turno noah"><div class="quien">Noah</div><p>Eso no se lo puedo decir yo, lo siento. Se lo dejo apuntado también y se lo contestan ellas cuando la llamen.</p></div>
-    <div class="nota-sistema">Aquí queda el recado. Ni precio, ni consejo, ni una hora inventada.</div>
-    <div class="turno noah"><div class="quien">Noah</div><p>Queda apuntado: Marta Ferreiro, muela rota sin dolor, pregunta precio y si puede tomar algo. La llaman hoy mismo. Que se mejore.</p></div>
+  <p class="grande">Un paciente llama para pedir cita. <b>Noah no le da hora: le toma los datos</b> y os deja el recado para que le llaméis vosotras.</p>
+
+  <div class="pasos" style="margin-top:4mm">
+      <div class="paso">
+        <span class="n">Paso 1</span>
+        <svg class="ico" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-persona"/></svg>
+        <b>Pide cita</b><p>Una limpieza, una revisión, una muela que molesta.</p>
+      </div>
+      <svg class="flecha" width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="7" x2="19" y2="7"/><path d="M15 3l5 4-5 4"/></svg>
+      <div class="paso">
+        <span class="n">Paso 2</span>
+        <svg class="ico" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#A07D2C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-noah"/></svg>
+        <b>Noah toma los datos</b><p>Pregunta lo que falta y lo repite para confirmarlo.</p>
+      </div>
+      <svg class="flecha" width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="#A07D2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="7" x2="19" y2="7"/><path d="M15 3l5 4-5 4"/></svg>
+      <div class="paso">
+        <span class="n">Paso 3</span>
+        <svg class="ico" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-comanda"/></svg>
+        <b>Os queda apuntado</b><p>Escrito, con la hora de la llamada y listo para devolver.</p>
+      </div>
   </div>
 
+  <section style="margin-top:6mm">
+    <h2>Los cuatro datos que apunta siempre</h2>
+    <div class="datos">
+      <div class="dato-ico">
+        <svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-persona"/></svg>
+        <b>Nombre</b><p>Quién llama.</p>
+      </div>
+      <div class="dato-ico">
+        <svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-movil"/></svg>
+        <b>Teléfono</b><p>Para devolver la llamada.</p>
+      </div>
+      <div class="dato-ico">
+        <svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-diente"/></svg>
+        <b>Para qué</b><p>Con sus palabras.</p>
+      </div>
+      <div class="dato-ico">
+        <svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-reloj"/></svg>
+        <b>Cuándo le viene bien</b><p>Mañana o tarde.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top:6mm">
+    <h2>Así suena</h2>
+    <div class="llamada">
+      <div class="turno noah"><div class="quien">Noah</div><p>Clínica dental, buenas tardes. Soy la asistente virtual. ¿En qué le ayudo?</p></div>
+      <div class="turno cli"><div class="quien">Paciente</div><p>Quería pedir cita para una limpieza.</p></div>
+      <div class="turno noah"><div class="quien">Noah</div><p>Perfecto. ¿Me dice su nombre y un teléfono?</p></div>
+      <div class="turno cli"><div class="quien">Paciente</div><p>Marta Ferreiro, 6 8 8, 20 11 44.</p></div>
+      <div class="nota-sistema">Aquí queda apuntado. La hora no la da Noah: la dais vosotras al devolver la llamada.</div>
+      <div class="turno noah"><div class="quien">Noah</div><p>Apuntado: Marta Ferreiro, una limpieza. La llaman hoy para darle hora. Gracias por llamar.</p></div>
+    </div>
+  </section>
+
   <section style="margin-top:4mm">
-    <h2>Lo que de verdad hace falta entender</h2>
+    <h2>Y si pregunta otra cosa</h2>
     <table class="simple">
-      <tr><td class="q">"Se me saltó un empaste"</td><td>Lo reconoce aunque el paciente no diga nunca la palabra que ponéis vosotras en la ficha.</td></tr>
-      <tr><td class="q">"Me sangra la encía"</td><td>No diagnostica. Lo apunta con las palabras del paciente y lo marca para que lo veáis.</td></tr>
-      <tr><td class="q">Llama con dolor fuerte</td><td>No valora si es grave ni dice qué tomar. Dice la frase que escribáis vosotras y da el teléfono de urgencias.</td></tr>
+      <tr><td class="q">Cuánto cuesta</td><td>No dice ningún precio. Lo apunta para que se lo digáis vosotras.</td></tr>
+      <tr><td class="q">Le duele mucho</td><td>No valora nada. Dice vuestra frase de urgencias y da vuestro teléfono.</td></tr>
+      <tr><td class="q">Quiere hablar con alguien</td><td>No insiste en atenderle. Recoge nombre y teléfono y lo dice claro.</td></tr>
     </table>
   </section>
 
