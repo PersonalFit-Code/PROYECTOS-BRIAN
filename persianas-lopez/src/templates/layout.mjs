@@ -1,6 +1,12 @@
 import { SITIO, ANALITICA, PRECIOS, wa } from '../config.mjs';
-import { SPRITE, ico, BANDERAS } from '../icons.mjs';
+import { SPRITE, ico } from '../icons.mjs';
 import { logo } from '../logo.mjs';
+
+// Banderas para el selector de idioma (con sus colores, no heredan currentColor)
+const BANDERAS = {
+  es: '<svg class="bandera" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#AA151B"/><rect y=".5" width="3" height="1" fill="#F1BF00"/></svg>',
+  gl: '<svg class="bandera" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><path d="M0 0h.5L3 1.62V2h-.5L0 .38z" fill="#0090D0"/></svg>'
+};
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
