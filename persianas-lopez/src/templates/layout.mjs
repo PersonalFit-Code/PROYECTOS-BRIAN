@@ -81,8 +81,8 @@ ${SPRITE}
 
   <header id="cabecera" class="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
     <nav class="glass glass-light mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 rounded-2xl pl-2 pr-2 sm:pl-3" aria-label="${t.lang === 'gl' ? 'Navegación principal' : 'Navegación principal'}">
-      <a href="${esInicio ? '#inicio' : t.rutas.inicio}" class="marca flex items-center rounded-xl bg-white/70 px-2 py-1 ring-1 ring-white" aria-label="${u.inicioAria}">
-        ${logo({ clase: 'h-11 w-auto' })}
+      <a href="${esInicio ? '#inicio' : t.rutas.inicio}" class="marca flex items-center rounded-xl bg-white/80 px-2 py-0.5 ring-1 ring-white" aria-label="${u.inicioAria}">
+        ${logo({ clase: 'h-[3.25rem] w-auto' })}
       </a>
       <ul class="hidden items-center gap-1 rounded-full bg-white/40 p-1 text-sm font-semibold text-slate-700 ring-1 ring-white/70 xl:flex">
         ${navDesktop}
@@ -141,7 +141,7 @@ ${cuerpo}
 
   <footer class="relative overflow-hidden bg-brand-950 pb-28 text-brand-100 sm:pb-0">
     <div class="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full bg-brand-600/40 blur-3xl" aria-hidden="true"></div>
-    <div class="relative mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-8 md:grid-cols-2 lg:grid-cols-4">
+    <div class="relative mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-8 md:grid-cols-3">
       <div>
         <a href="${t.rutas.inicio}" class="inline-flex rounded-xl bg-white px-3 py-2" aria-label="${u.inicioAria}">${logo({ clase: 'h-12 w-auto' })}</a>
         <p class="mt-4 text-sm leading-relaxed">${u.pie}</p>
@@ -153,12 +153,6 @@ ${cuerpo}
         <ul class="mt-3 space-y-2 text-sm">
           ${t.servicios.map((s) => `<li><a href="${t.rutas.servicio(s.slug)}" class="hover:text-white hover:underline">${s.h1.replace(/ en Ourense$/, '')}</a></li>`).join('')}
           <li><a href="${t.rutas.catalogo}" class="hover:text-white hover:underline">${t.catalogo.h1}</a></li>
-        </ul>
-      </nav>
-      <nav aria-label="${u.zonas}">
-        <p class="font-display font-bold text-white">${u.zonas}</p>
-        <ul class="mt-3 space-y-2 text-sm">
-          ${t.zonas.map((z) => `<li><a href="${t.rutas.zona(z.slug)}" class="hover:text-white hover:underline">${t.zonaTextos.h1(z.nombre).replace(/, Ourense$/, '')}</a></li>`).join('')}
         </ul>
       </nav>
       <nav aria-label="${u.legal}">
@@ -179,9 +173,9 @@ ${cuerpo}
   <!-- Móvil: barra inferior con las acciones -->
   <div id="barra-movil" class="fixed inset-x-3 bottom-3 z-40 ${esInicio ? 'translate-y-[150%]' : ''} transition-transform duration-500 sm:hidden" style="padding-bottom: env(safe-area-inset-bottom);">
     <div class="glass glass-light grid grid-cols-3 gap-2 rounded-[1.4rem] p-2">
-      <a href="tel:${SITIO.telefono}" data-medir="llamada" class="btn btn-azul py-3.5 text-sm" aria-label="${u.llamarAria}">${ico('telefono')} ${u.llamar}</a>
-      <button type="button" data-abrir-chat class="btn btn-sol py-3.5 text-sm">${ico('calculadora')} ${u.presupuesto}</button>
-      <a href="${wa(t.servicios[0].wa)}" target="_blank" rel="noopener" data-medir="whatsapp" class="btn btn-verde py-3.5 text-sm" aria-label="${u.whatsappAria}">${ico('whatsapp')} ${u.whatsapp}</a>
+      <a href="tel:${SITIO.telefono}" data-medir="llamada" class="btn btn-azul flex-col gap-0.5 py-2 text-xs" aria-label="${u.llamarAria}">${ico('telefono')} ${u.llamar}</a>
+      <button type="button" data-abrir-chat class="btn btn-sol flex-col gap-0.5 py-2 text-xs">${ico('calculadora')} ${u.presupuesto}</button>
+      <a href="${wa(t.servicios[0].wa)}" target="_blank" rel="noopener" data-medir="whatsapp" class="btn btn-verde flex-col gap-0.5 py-2 text-xs" aria-label="${u.whatsappAria}">${ico('whatsapp')} ${u.whatsapp}</a>
     </div>
   </div>
   <!-- Escritorio: volver arriba, asistente y WhatsApp -->

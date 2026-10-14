@@ -10,7 +10,7 @@ import { SITIO } from './src/config.mjs';
 import { FAVICON, logo } from './src/logo.mjs';
 import es from './src/content/es.mjs';
 import gl from './src/content/gl.mjs';
-import { paginaInicio, paginaServicio, paginaCatalogo, paginaZona, paginaLegal, pagina404 } from './src/templates/pages.mjs';
+import { paginaInicio, paginaServicio, paginaCatalogo, paginaLegal, pagina404 } from './src/templates/pages.mjs';
 
 const raiz = dirname(fileURLToPath(import.meta.url));
 const dist = join(raiz, 'dist');
@@ -48,9 +48,6 @@ for (const clave of ['aviso', 'privacidad', 'cookies']) {
 }
 es.servicios.forEach((_, i) => {
   pagina((t) => t.rutas.servicio(t.servicios[i].slug), (t, alt) => paginaServicio(t, t.servicios[i], alt));
-});
-es.zonas.forEach((_, i) => {
-  pagina((t) => t.rutas.zona(t.zonas[i].slug), (t, alt) => paginaZona(t, t.zonas[i], alt));
 });
 escribir('404.html', pagina404(es, gl.rutas.inicio));
 

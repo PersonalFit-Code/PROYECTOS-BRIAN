@@ -108,6 +108,21 @@ body { background: #EAF2FF; }
 /* Hasta que el script monta las lamas, persiana cerrada y portada oculta: así no se ve un destello del contenido */
 .js #lamas:empty { background: repeating-linear-gradient(180deg, #0A6CD0 0 calc(var(--lama, 34px) - 2px), #003F80 calc(var(--lama, 34px) - 2px) var(--lama, 34px)); }
 .js .hero-item { opacity: 0; }
+/* Portada clara con el arco azul de la tarjeta de visita */
+.portada-fondo { background: linear-gradient(180deg, #FFFFFF 0%, #F3F8FD 60%, #E6F1FB 100%); overflow: hidden; }
+.portada-fondo::before, .portada-fondo::after { content: ""; position: absolute; border-radius: 9999px; }
+.portada-fondo::before { width: max(70vh, 70vw); aspect-ratio: 1; right: calc(max(70vh, 70vw) * -.62); top: 50%; transform: translateY(-50%); background: radial-gradient(circle at 30% 50%, #E3F1FC, #CFE6F8); box-shadow: inset 0 0 0 6px #6EB3E4; }
+.portada-fondo::after { width: max(60vh, 60vw); aspect-ratio: 1; left: calc(max(60vh, 60vw) * -.7); bottom: -30%; background: repeating-linear-gradient(180deg, rgba(110,179,228,.16) 0 22px, transparent 22px 30px); }
+@media (max-width: 639px) {
+  /* En el móvil el arco baja a la esquina para no cruzar el texto */
+  .portada-fondo::before { width: 125vw; right: -62vw; top: auto; bottom: -78vw; transform: none; }
+  .portada-fondo::after { width: 90vw; left: -55vw; bottom: auto; top: 12%; }
+}
+.logo-portada { filter: drop-shadow(0 18px 30px rgba(20,27,83,.12)); }
+.bajar svg { animation: rebote 1.8s ease-in-out infinite; }
+@keyframes rebote { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+.galeria { scrollbar-width: none; }
+.galeria::-webkit-scrollbar { display: none; }
 .persiana-fondo { background-image: repeating-linear-gradient(180deg, rgba(255,255,255,.25) 0 22px, rgba(255,255,255,0) 22px 30px); animation: bajar-fondo 1.4s cubic-bezier(.2,.7,.2,1) both; transform-origin: top; }
 @keyframes bajar-fondo { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 

@@ -76,6 +76,8 @@
       terminado = true;
       e.persiana.style.visibility = 'hidden';
       document.documentElement.classList.add('persiana-abierta');
+      // Avisa a app.js para que muestre la barra de acciones del móvil
+      window.dispatchEvent(new Event('scroll'));
     }
   }
 

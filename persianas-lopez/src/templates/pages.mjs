@@ -1,9 +1,10 @@
 import { SITIO, wa } from '../config.mjs';
 import { ico, PIEZAS } from '../icons.mjs';
 import { layout, ancla } from './layout.mjs';
+import { logo } from '../logo.mjs';
 
 const chipClase = 'glass glass-light inline-flex rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-[.25em] text-brand-600';
-const h2Clase = 'mt-5 font-display text-4xl font-extrabold tracking-tight text-brand-950 sm:text-5xl';
+const h2Clase = 'mt-5 font-display text-[2rem] font-extrabold leading-tight tracking-tight text-brand-950 sm:text-5xl';
 const mapsBusqueda = 'https://www.google.com/maps/search/?api=1&query=Persianas+L%C3%B3pez+R%C3%BAa+Bonhome+10+32005+Ourense';
 const mapsRuta = 'https://www.google.com/maps/dir/?api=1&destination=R%C3%BAa+Bonhome+10%2C+32005+Ourense';
 
@@ -23,7 +24,7 @@ export function negocioSchema(t) {
     address: { '@type': 'PostalAddress', streetAddress: SITIO.direccion, addressLocality: SITIO.ciudad, postalCode: SITIO.cp, addressRegion: SITIO.region, addressCountry: 'ES' },
     geo: { '@type': 'GeoCoordinates', latitude: SITIO.geo.lat, longitude: SITIO.geo.lng },
     hasMap: mapsBusqueda,
-    areaServed: [{ '@type': 'City', name: 'Ourense' }, ...t.zonas.map((z) => ({ '@type': 'Place', name: `${z.nombre}, Ourense` }))],
+    areaServed: { '@type': 'City', name: 'Ourense' },
     aggregateRating: { '@type': 'AggregateRating', ratingValue: String(SITIO.valoracion.nota), bestRating: '5', reviewCount: String(SITIO.valoracion.resenas) },
     knowsLanguage: ['es', 'gl']
   };
@@ -66,14 +67,14 @@ const mapa = (t) => `
 const contactoBloque = (t, { conTitulo = true } = {}) => {
   const u = t.ui, c = t.home.contacto;
   return `
-    <section id="contacto" class="scroll-mt-20 pb-24 ${conTitulo ? '' : 'pt-4'}" aria-labelledby="contacto-titulo">
+    <section id="contacto" class="scroll-mt-20 pb-16 sm:pb-24 ${conTitulo ? '' : 'pt-4'}" aria-labelledby="contacto-titulo">
       <div class="mx-auto max-w-7xl px-5 sm:px-8">
         <div class="reveal mx-auto max-w-2xl text-center">
           <p class="${chipClase}">${c.chip}</p>
           <h2 id="contacto-titulo" class="${h2Clase}">${c.titulo}</h2>
           <p class="mt-5 text-lg leading-relaxed text-slate-600">${c.texto}</p>
         </div>
-        <div class="mt-14 grid gap-6 lg:grid-cols-5">
+        <div class="mt-10 grid gap-6 sm:mt-14 lg:grid-cols-5">
           <address class="not-italic lg:col-span-2">
             <ul class="space-y-4">
               <li class="reveal desde-izq group glass glass-light flex gap-4 rounded-3xl p-6">
@@ -148,38 +149,19 @@ export function paginaInicio(t, rutaAlt) {
   const cinta = [...h.cinta, ...h.cinta].map((c) => `<span>${c}</span><span class="text-accent">✦</span>`).join('');
   const cuerpo = `
     <section id="inicio" class="relative" aria-labelledby="hero-titulo">
-      <div id="escena" class="relative h-svh min-h-[560px] overflow-hidden bg-brand-950">
-        <div class="absolute inset-0 bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 text-white">
-          <div class="pointer-events-none absolute -left-32 top-10 h-[28rem] w-[28rem] rounded-full bg-brand-500/60 blur-3xl" aria-hidden="true"></div>
-          <div class="pointer-events-none absolute -right-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-accent/25 blur-3xl" aria-hidden="true"></div>
-          <div class="pointer-events-none absolute right-1/3 top-1/4 h-64 w-64 rounded-full bg-sky-300/30 blur-3xl" aria-hidden="true"></div>
-          <div id="hero-contenido" class="relative mx-auto grid h-full max-w-7xl items-center gap-10 px-5 pb-8 pt-24 sm:px-8 sm:pt-28 lg:grid-cols-[1.25fr_1fr]">
-            <div>
-              <p class="hero-item glass glass-dark mb-5 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold [@media(max-height:700px)_and_(max-width:639px)]:hidden">${ico('ubicacion', 'text-accent')} ${h.chip}</p>
-              <h1 id="hero-titulo" class="hero-item font-display text-[2rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl [@media(min-width:640px)_and_(max-height:780px)]:text-5xl">
-                ${h.h1}
-                <span class="mt-3 block bg-gradient-to-r from-accent via-yellow-200 to-white bg-clip-text text-2xl text-transparent sm:text-4xl">Persianas López</span>
-              </h1>
-              <p class="hero-item mt-5 max-w-xl text-base leading-relaxed text-brand-100 sm:text-xl">${h.subtitulo}</p>
-              <div class="hero-item mt-7 flex flex-col gap-3 sm:flex-row">
-                <button type="button" data-abrir-chat class="btn btn-sol shine px-7 py-4 text-base">${ico('calculadora')} ${u.pedirPresupuesto}</button>
-                <a href="#servicios" class="btn btn-cristal px-7 py-4 text-base">${u.verServicios} ${ico('abajo')}</a>
-              </div>
-            </div>
-            <div class="hidden gap-4 lg:grid" aria-hidden="true">
-              <div class="hero-item glass glass-dark ml-auto w-full max-w-sm rounded-[1.75rem] p-6">
-                <div class="flex items-center gap-1 text-accent">${ico('estrella')}${ico('estrella')}${ico('estrella')}${ico('estrella')}${ico('estrella-media')}</div>
-                <p class="mt-3 font-display text-5xl font-extrabold">4,4<span class="text-2xl text-brand-200"> / 5</span></p>
-                <p class="mt-1 text-sm text-brand-100">${SITIO.valoracion.resenas} ${u.resenasGoogle}</p>
-              </div>
-              <div class="hero-item glass glass-dark w-full max-w-sm rounded-[1.75rem] p-6">
-                <div class="flex items-center gap-4"><span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-brand-900">${ico('caja')}</span><div><p class="font-display text-xl font-bold">${h.tarjetas[0][0]}</p><p class="text-sm text-brand-100">${h.tarjetas[0][1]}</p></div></div>
-              </div>
-              <div class="hero-item glass glass-dark ml-12 w-full max-w-sm rounded-[1.75rem] p-6">
-                <div class="flex items-center gap-4"><span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-500 text-white">${ico('rayo')}</span><div><p class="font-display text-xl font-bold">${h.tarjetas[1][0]}</p><p class="text-sm text-brand-100">${h.tarjetas[1][1]}</p></div></div>
-              </div>
-            </div>
-          </div>
+      <div id="escena" class="relative h-svh min-h-[520px] overflow-hidden bg-white">
+        <div class="portada-fondo absolute inset-0" aria-hidden="true"></div>
+        <div id="hero-contenido" class="relative mx-auto flex h-full max-w-5xl flex-col items-center justify-center px-5 pb-20 pt-24 text-center">
+          <h1 id="hero-titulo" class="sr-only">${h.h1}</h1>
+          <div class="hero-item w-[min(84vw,600px)] [@media(max-height:680px)]:w-[min(70vw,400px)]">${logo({ clase: 'logo-portada h-auto w-full' })}</div>
+          <p class="hero-item mt-6 max-w-md font-display text-lg font-bold leading-snug text-[#141B53] sm:mt-8 sm:max-w-2xl sm:text-2xl">${h.lema}</p>
+          <a href="${mapsBusqueda}" target="_blank" rel="noopener" class="hero-item glass glass-light mt-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-slate-700 sm:text-sm" aria-label="${u.leerResenasAria}">
+            <span class="flex text-amber-400">${ico('estrella', 'h-4 w-4')}${ico('estrella', 'h-4 w-4')}${ico('estrella', 'h-4 w-4')}${ico('estrella', 'h-4 w-4')}${ico('estrella-media', 'h-4 w-4')}</span>
+            4,4 · ${SITIO.valoracion.resenas} ${u.resenasGoogle}
+          </a>
+        </div>
+        <div class="absolute inset-x-0 bottom-28 z-[5] flex justify-center sm:bottom-8">
+          <a href="#servicios" class="hero-item bajar inline-flex flex-col items-center gap-1 text-sm font-semibold text-brand-800">${h.bajar}${ico('abajo', 'h-5 w-5')}</a>
         </div>
         <div id="luz" class="luz pointer-events-none absolute inset-0 z-10 opacity-0" aria-hidden="true"></div>
         <div id="persiana" class="pointer-events-none absolute inset-x-0 bottom-0 z-20" aria-hidden="true" style="top: var(--cajon, 88px); perspective: 900px;">
@@ -197,14 +179,14 @@ export function paginaInicio(t, rutaAlt) {
       <div class="cinta flex w-max gap-10 whitespace-nowrap font-display text-lg font-bold text-brand-800">${cinta}</div>
     </div>
 
-    <section id="servicios" class="scroll-mt-20 py-24" aria-labelledby="servicios-titulo">
+    <section id="servicios" class="scroll-mt-20 py-16 sm:py-24" aria-labelledby="servicios-titulo">
       <div class="mx-auto max-w-7xl px-5 sm:px-8">
         <div class="reveal mx-auto max-w-2xl text-center">
           <p class="${chipClase}">${h.servicios.chip}</p>
           <h2 id="servicios-titulo" class="${h2Clase}">${h.servicios.titulo}</h2>
           <p class="mt-5 text-lg leading-relaxed text-slate-600">${h.servicios.texto}</p>
         </div>
-        <div class="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
+        <div class="mt-10 grid gap-5 sm:mt-16 sm:grid-cols-2 lg:grid-cols-6">
           ${tarjetaServicio(t, t.servicios[0], 0, true)}
           ${t.servicios.slice(1).map((s, i) => tarjetaServicio(t, s, i + 1)).join('')}
           <article class="reveal group glass glass-light relative rounded-[2rem] p-7 transition duration-500 hover:-translate-y-2 lg:col-span-2" style="--d:100ms">
@@ -224,7 +206,29 @@ export function paginaInicio(t, rutaAlt) {
       </div>
     </section>
 
-    <section id="repuestos" class="scroll-mt-20 py-24" aria-labelledby="repuestos-titulo">
+    <section id="galeria" class="scroll-mt-20 pb-16 sm:pb-24" aria-labelledby="galeria-titulo">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <div class="reveal mx-auto max-w-2xl text-center">
+          <p class="${chipClase}">${h.galeria.chip}</p>
+          <h2 id="galeria-titulo" class="${h2Clase}">${h.galeria.titulo}</h2>
+          <p class="mt-5 text-lg leading-relaxed text-slate-600">${h.galeria.texto}</p>
+        </div>
+        <ul class="galeria -mx-5 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:mx-0 sm:mt-14 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible sm:px-0">
+          ${h.galeria.items.map(([id, titulo, texto, msg], i) => `<li class="reveal w-[84%] shrink-0 snap-center sm:w-auto" style="--d:${i * 120}ms">
+            <figure class="group glass glass-light flex h-full flex-col overflow-hidden rounded-[2rem] p-2">
+              <div class="overflow-hidden rounded-[1.6rem]"><img src="/fotos/${id}-800.webp" width="800" height="600" loading="lazy" decoding="async" alt="${titulo}" class="aspect-[4/3] w-full object-cover transition duration-700 group-hover:scale-105"></div>
+              <figcaption class="flex flex-1 flex-col px-4 pb-4 pt-5">
+                <h3 class="font-display text-xl font-bold text-brand-950">${titulo}</h3>
+                <p class="mt-1.5 flex-1 text-sm leading-relaxed text-slate-600">${texto}</p>
+                <a href="${wa(msg)}" target="_blank" rel="noopener" data-medir="whatsapp" class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-green-700 hover:underline">${ico('whatsapp', 'h-4 w-4')} ${h.galeria.boton}</a>
+              </figcaption>
+            </figure>
+          </li>`).join('')}
+        </ul>
+      </div>
+    </section>
+
+    <section id="repuestos" class="scroll-mt-20 py-16 sm:py-24" aria-labelledby="repuestos-titulo">
       <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-2">
         <div class="reveal desde-izq">
           <p class="${chipClase}">${h.repuestos.chip}</p>
@@ -239,7 +243,7 @@ ${pasosBloque(t)}
       </div>
     </section>
 
-    <section class="relative overflow-hidden bg-gradient-to-br from-brand-800 via-brand-900 to-brand-950 py-24 text-white" aria-labelledby="confianza-titulo">
+    <section class="relative overflow-hidden bg-gradient-to-br from-brand-800 via-brand-900 to-brand-950 py-16 text-white sm:py-24" aria-labelledby="confianza-titulo">
       <div class="pointer-events-none absolute -left-24 top-0 h-96 w-96 rounded-full bg-brand-500/50 blur-3xl" aria-hidden="true"></div>
       <div class="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-accent/20 blur-3xl" aria-hidden="true"></div>
       <div class="relative mx-auto max-w-7xl px-5 sm:px-8">
@@ -265,7 +269,7 @@ ${pasosBloque(t)}
       </div>
     </section>
 
-    <section id="presupuesto" class="scroll-mt-20 py-24" aria-labelledby="presupuesto-titulo">
+    <section id="presupuesto" class="scroll-mt-20 py-16 sm:py-24" aria-labelledby="presupuesto-titulo">
       <div class="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[1fr_1fr] lg:items-center">
         <div class="reveal desde-izq">
           <p class="${chipClase}">${h.asistente.chip}</p>
@@ -288,20 +292,7 @@ ${pasosBloque(t)}
       </div>
     </section>
 
-    <section class="pb-24" aria-labelledby="zonas-titulo">
-      <div class="mx-auto max-w-7xl px-5 sm:px-8">
-        <div class="reveal mx-auto max-w-2xl text-center">
-          <p class="${chipClase}">${h.zonas.chip}</p>
-          <h2 id="zonas-titulo" class="${h2Clase}">${h.zonas.titulo}</h2>
-          <p class="mt-5 text-lg leading-relaxed text-slate-600">${h.zonas.texto}</p>
-        </div>
-        <ul class="mt-10 flex flex-wrap justify-center gap-3">
-          ${t.zonas.map((z, i) => `<li class="reveal" style="--d:${i * 70}ms"><a href="${t.rutas.zona(z.slug)}" class="glass glass-light inline-flex items-center gap-2 rounded-full px-5 py-3 font-display font-bold text-brand-900 transition hover:-translate-y-1">${ico('ubicacion', 'text-brand-600')} ${z.nombre}</a></li>`).join('')}
-        </ul>
-      </div>
-    </section>
-
-    <section id="faq" class="scroll-mt-20 pb-24" aria-labelledby="faq-titulo">
+    <section id="faq" class="scroll-mt-20 pb-16 sm:pb-24" aria-labelledby="faq-titulo">
       <div class="mx-auto max-w-3xl px-5 sm:px-8">
         <div class="reveal text-center">
           <p class="${chipClase}">${h.faqChip}</p>
@@ -321,7 +312,7 @@ ${contactoBloque(t)}`;
 
 /* ---------- Cabecera de páginas interiores ---------- */
 const cabeceraInterior = (t, { migasItems, h1, intro, icono, botones = true, servicioChat = '' }) => `
-    <section class="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 pb-20 pt-32 text-white">
+    <section class="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 pb-14 pt-28 text-white sm:pb-20 sm:pt-32">
       <div class="persiana-fondo pointer-events-none absolute inset-0 opacity-20" aria-hidden="true"></div>
       <div class="pointer-events-none absolute -left-24 top-10 h-96 w-96 rounded-full bg-brand-500/60 blur-3xl" aria-hidden="true"></div>
       <div class="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-accent/25 blur-3xl" aria-hidden="true"></div>
@@ -330,7 +321,7 @@ const cabeceraInterior = (t, { migasItems, h1, intro, icono, botones = true, ser
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-3xl">
             ${icono ? `<span class="entrar mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/30 backdrop-blur" aria-hidden="true">${ico(icono, 'h-8 w-8 text-accent')}</span>` : ''}
-            <h1 class="entrar font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl" style="--d:80ms">${h1}</h1>
+            <h1 class="entrar font-display text-[2.1rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl" style="--d:80ms">${h1}</h1>
             ${intro ? `<p class="entrar mt-5 text-lg leading-relaxed text-brand-100 sm:text-xl" style="--d:160ms">${intro}</p>` : ''}
           </div>
           ${botones ? `<div class="entrar flex flex-col gap-3 sm:flex-row lg:flex-col" style="--d:240ms">
@@ -453,41 +444,6 @@ ${contactoBloque(t)}`;
     }],
     extraScripts: '<script src="/assets/catalogo.js" defer></script>'
   });
-}
-
-/* ---------- Página de barrio ---------- */
-export function paginaZona(t, z, rutaAlt) {
-  const zt = t.zonaTextos;
-  const ruta = t.rutas.zona(z.slug);
-  const migasItems = [[t.ui.inicio, t.rutas.inicio], [zt.h1(z.nombre), ruta]];
-  const cuerpo = `
-${cabeceraInterior(t, { migasItems, h1: zt.h1(z.nombre), intro: z.intro, icono: 'ubicacion' })}
-    <section class="py-20">
-      <div class="mx-auto max-w-7xl px-5 sm:px-8">
-        <h2 class="reveal font-display text-3xl font-extrabold text-brand-950 sm:text-4xl">${zt.queHacemos(z.nombre)}</h2>
-        <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          ${t.servicios.map((s, i) => `<article class="reveal group glass glass-light relative rounded-[2rem] p-6 transition duration-500 hover:-translate-y-2" style="--d:${i * 80}ms">
-            <span class="icono-burbuja flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100" aria-hidden="true">${ico(s.icono, 'h-6 w-6')}</span>
-            <h3 class="mt-4 font-display text-xl font-bold text-brand-950"><a href="${t.rutas.servicio(s.slug)}" class="after:absolute after:inset-0 after:rounded-[2rem]">${s.titulo}</a></h3>
-            <p class="mt-2 text-sm leading-relaxed text-slate-600">${s.corto}</p>
-          </article>`).join('')}
-        </div>
-        <div class="mt-10 grid gap-10 lg:grid-cols-2">
-          <div class="reveal desde-izq glass glass-light rounded-[2rem] p-8">
-            <h2 class="font-display text-2xl font-extrabold text-brand-950">${t.home.repuestos.titulo}</h2>
-            <p class="mt-3 leading-relaxed text-slate-600">${t.home.repuestos.texto}</p>
-            <a href="${t.rutas.catalogo}" class="btn btn-azul mt-6 px-6 py-3">${t.home.repuestos.boton} ${ico('derecha')}</a>
-          </div>
-${pasosBloque(t)}
-        </div>
-        <div class="mt-12">
-          <h2 class="reveal font-display text-2xl font-extrabold text-brand-950">${t.ui.otrasZonas}</h2>
-          <ul class="mt-5 flex flex-wrap gap-3">${t.zonas.filter((x) => x.id !== z.id).map((x) => `<li><a href="${t.rutas.zona(x.slug)}" class="glass glass-light inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-display font-bold text-brand-900 transition hover:-translate-y-1">${ico('ubicacion', 'text-brand-600')} ${x.nombre}</a></li>`).join('')}</ul>
-        </div>
-      </div>
-    </section>
-${contactoBloque(t)}`;
-  return layout({ t, title: zt.title(z.nombre), description: zt.description(z.nombre), ruta, rutaAlt, cuerpo, schema: [negocioSchema(t), migasSchema(migasItems)] });
 }
 
 /* ---------- Páginas legales ---------- */

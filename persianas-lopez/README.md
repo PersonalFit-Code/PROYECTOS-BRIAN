@@ -6,7 +6,7 @@ Web estática en castellano y gallego. Se genera con `npm run build` en `dist/`.
 
 - `src/config.mjs`: datos del negocio, analítica y precios orientativos del asistente. **Aquí van los datos pendientes** (NIF, correo, horario…).
 - `src/content/es.mjs` y `src/content/gl.mjs`: todos los textos de la web.
-- `src/templates/`: plantillas HTML (portada, servicios, catálogo, barrios, páginas legales).
+- `src/templates/`: plantillas HTML (portada, servicios, catálogo, páginas legales).
 - `src/assets/`: JavaScript (menú, persiana, asistente de presupuesto, catálogo de colores).
 - `src/styles.css`: estilos (Tailwind compilado, sin CDN).
 - `src/fotos/`: deja aquí fotos JPG o PNG y al compilar se publican en WebP en `/fotos/`.
@@ -20,3 +20,9 @@ Web estática en castellano y gallego. Se genera con `npm run build` en `dist/`.
 - Fotos reales de trabajos y de repuestos.
 - Precios orientativos para el asistente (`PRECIOS` en `src/config.mjs`), si quieren que dé cifras.
 - Analítica: crear la cuenta de GoatCounter y poner el código en `ANALITICA.goatcounter`.
+
+## Despliegue en Vercel
+
+`vercel.json` instala con `traer.sh`. Si a Vercel solo se le suben `vercel.json`, `traer.sh` y un
+`version.txt` con el hash de un commit, el script descarga el código de ese commit desde GitHub
+(el repositorio es público) y compila. Con el repositorio conectado a Vercel no hace falta `version.txt`.

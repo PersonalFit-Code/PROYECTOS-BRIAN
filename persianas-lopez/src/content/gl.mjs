@@ -12,8 +12,7 @@ export default {
     aviso: '/gl/aviso-legal/',
     privacidad: '/gl/privacidade/',
     cookies: '/gl/cookies/',
-    servicio: (slug) => `/gl/servizos/${slug}/`,
-    zona: (slug) => `/gl/zonas/${slug}/`
+    servicio: (slug) => `/gl/servizos/${slug}/`
   },
 
   ui: {
@@ -58,14 +57,12 @@ export default {
     cookies: 'Política de cookies',
     dondeEstamos: 'Onde estamos',
     servicios: 'Servizos',
-    zonas: 'Zonas de Ourense',
     derechos: 'Todos os dereitos reservados.',
-    pie: 'Reparación, venda e colocación de persianas, mosquiteiras, estores, mamparas e recambios en Ourense.',
+    pie: 'Reparacións a domicilio, venda e colocación de persianas, mosquiteiras, estores, mamparas e recambios en Ourense.',
     migas: 'Estás en',
     inicio: 'Inicio',
     preguntasFrecuentes: 'Preguntas frecuentes',
     otrosServicios: 'Outros servizos',
-    otrasZonas: 'Tamén traballamos en',
     comoTrabajamos: 'Como traballamos?',
     pasos: [
       ['Cóntasnos o problema', 'Por teléfono, WhatsApp ou pasando pola tenda.'],
@@ -82,6 +79,7 @@ export default {
   nav: [
     { id: 'inicio', ancla: '#inicio', etiqueta: 'Inicio', desc: 'Volve á portada' },
     { id: 'servicios', ancla: '#servicios', etiqueta: 'Servizos', desc: 'Persianas, mosquiteiras, estores e mamparas' },
+    { id: 'galeria', ancla: '#galeria', etiqueta: 'Galería', desc: 'Persianas e estores que colocamos' },
     { id: 'repuestos', ancla: '#repuestos', etiqueta: 'Recambios', desc: 'Cintas, lamas, eixes e accesorios na tenda' },
     { id: 'ubicacion', ancla: '#ubicacion', etiqueta: 'Localización', desc: 'Rúa Bonhome, 10 · Ourense' },
     { id: 'contacto', ancla: '#contacto', etiqueta: 'Contacto', desc: 'Chámanos ou escríbenos por WhatsApp' }
@@ -90,15 +88,10 @@ export default {
   home: {
     title: 'Persianas en Ourense | Instalación e Reparación | Persianas López',
     description: 'Reparación, venda e colocación de persianas de aluminio e PVC en Ourense. Mosquiteiras, estores, venecianas, mamparas de baño e recambios. Rúa Bonhome, 10. Chama ao 657 97 13 13.',
-    chip: 'Tenda e taller na Rúa Bonhome, Ourense',
     h1: 'Instalación e Reparación de Persianas en Ourense',
-    subtitulo: 'Especialistas en persianas, mosquiteiras, estores e peches. Rapidez, calidade e recambios directos na Rúa Bonhome.',
-    aviso: 'Desliza para subir a persiana',
-    tarjetas: [
-      ['Recambios na tenda', 'Lévaa peza no momento'],
-      ['Reparacións rápidas', 'Aluminio e PVC']
-    ],
-    cinta: ['Persianas de aluminio', 'Persianas de PVC', 'Mosquiteiras', 'Estores', 'Venecianas', 'Mamparas de baño', 'Portas pregables', 'Recambios'],
+    lema: 'Reparacións a domicilio · Venda e colocación de todo tipo de persianas',
+    bajar: 'Descubre o que facemos',
+    cinta: ['Reparacións a domicilio', 'Aluminio', 'PVC', 'Compactos', 'Accesorios e motores', 'Venecianas', 'Verticais', 'Estores', 'Fantasías', 'Velux', 'Rústicas', 'Mosquiteiras', 'Mamparas de baño', 'Portas pregables'],
     servicios: {
       chip: 'Os nosos servizos',
       titulo: 'Todo para as túas fiestras, nun só sitio',
@@ -108,6 +101,17 @@ export default {
       fotoTexto: 'Mándanos unha foto da túa persiana ou fiestra por WhatsApp e dicímosche como arranxala e canto custa.',
       fotoBoton: 'Enviar foto',
       fotoWa: 'Ola, envíovos unha foto da miña persiana.'
+    },
+    galeria: {
+      chip: 'Galería',
+      titulo: 'Persianas e estores que colocamos',
+      texto: 'Algúns dos modelos que vendemos e instalamos. Pregúntanos por calquera deles.',
+      boton: 'Pedir orzamento',
+      items: [
+        ['estor-noche-dia', 'Estores noite e día', 'Bandas opacas e translúcidas que regulan a luz sen ter que subir o estor.', 'Ola, quero información sobre estores noite e día.'],
+        ['venecianas', 'Venecianas de aluminio', 'Lamas orientables en moitas cores. Ideais para cociñas, baños e oficinas.', 'Ola, quero información sobre venecianas.'],
+        ['estores-enrollables', 'Estores enrolables', 'Tecidos que filtran o sol e deixan ver o exterior. Á medida para cada fiestra.', 'Ola, quero información sobre estores enrolables.']
+      ]
     },
     repuestos: {
       chip: 'Recambios directos',
@@ -143,12 +147,9 @@ export default {
       ],
       boton: 'Comezar orzamento'
     },
-    zonas: {
-      chip: 'Por toda a cidade',
-      titulo: 'Persianas no teu barrio de Ourense',
-      texto: 'Dende a tenda da Rúa Bonhome atendemos veciños de toda a cidade.'
-    },
     faq: [
+      ['Facedes reparacións a domicilio?', 'Si. Imos á túa casa reparar a persiana. Chámanos ou escríbenos por WhatsApp ao 657 97 13 13 e quedamos.'],
+      ['Poñedes motores ás persianas?', 'Si, vendemos e colocamos motores e accesorios para persianas. Pregúntanos polo teu modelo.'],
       ['O orzamento ten algún compromiso?', 'Non. Explicámosche que lle pasa á túa persiana e canto custa arranxala antes de comezar, sen compromiso.'],
       ['Podo mercar só o recambio e arranxala eu?', 'Si. Na tenda da Rúa Bonhome, 10 vendemos cintas, lamas, recolledores, eixes e demais accesorios. Trae a peza vella ou unha foto e dámosche a correcta.'],
       ['Traballades persianas de aluminio e de PVC?', 'Si, reparamos, vendemos e colocamos persianas de aluminio e de PVC.'],
@@ -174,8 +175,8 @@ export default {
       metaTitle: 'Reparación de Persianas en Ourense | Aluminio e PVC | Persianas López',
       metaDesc: 'Reparamos persianas de aluminio e PVC en Ourense: cinta rota, lamas soltas, persiana atascada ou caída. Orzamento sen compromiso. Tel. 657 97 13 13.',
       h1: 'Reparación de persianas en Ourense',
-      intro: 'Se a túa persiana non sobe, baixa torta, rompeu a cinta ou caeu dentro do caixón, arranxámola. Traballamos persianas de aluminio e de PVC e, se non paga a pena reparala, facémosche unha nova á medida.',
-      puntos: ['Cambio de cinta e recolledor', 'Lamas rotas, soltas ou dobradas', 'Eixes, poleas e rolamentos', 'Guías, topes e lama final', 'Persianas novas á medida', 'Aluminio e PVC'],
+      intro: 'Se a túa persiana non sobe, baixa torta, rompeu a cinta ou caeu dentro do caixón, imos á túa casa e arranxámola. Traballamos persianas de aluminio e de PVC e, se non paga a pena reparala, facémosche unha nova á medida.',
+      puntos: ['Reparacións a domicilio', 'Cambio de cinta e recolledor', 'Lamas rotas, soltas ou dobradas', 'Eixes, poleas e rolamentos', 'Motores e accesorios', 'Aluminio, PVC, compactos e rústicas'],
       problemasTitulo: 'Avarías máis habituais',
       problemas: [
         ['A cinta rompeu ou está esfiañada', 'É a avaría máis común. Cambiamos a cinta e, se fai falla, o recolledor.'],
@@ -218,7 +219,7 @@ export default {
       metaDesc: 'Estores enrolables, venecianas e cortinas en Ourense. Asesorámoste sobre tecidos, cores e accionamentos. Orzamento sen compromiso. Tel. 657 97 13 13.',
       h1: 'Estores, venecianas e cortinas en Ourense',
       intro: 'Para regular a luz e gañar intimidade sen renunciar á decoración. Ensinámosche opcións de estores, venecianas e cortinas e aconsellámoste segundo a estancia.',
-      puntos: ['Estores enrolables', 'Venecianas', 'Cortinas', 'Asesoramento de tecidos e cores', 'Sistemas de accionamento', 'Instalación'],
+      puntos: ['Estores enrolables', 'Estores noite e día', 'Venecianas', 'Verticais', 'Fantasías', 'Estores para Velux', 'Cortinas', 'Instalación'],
       problemasTitulo: 'Para cada estancia',
       problemas: [
         ['Salón', 'Estores ou cortinas que filtran a luz sen deixarte ás escuras.'],
@@ -286,19 +287,6 @@ export default {
     ]
   },
 
-  zonas: [
-    { id: 'o-couto', slug: 'o-couto', nombre: 'O Couto', intro: 'Se vives no Couto e a túa persiana atascouse ou queres cambiala, estamos moi preto: tenda e taller na Rúa Bonhome, 10.' },
-    { id: 'a-ponte', slug: 'a-ponte', nombre: 'A Ponte', intro: 'Veciños da Ponte: reparamos persianas, poñemos mosquiteiras e temos recambios para que non teñas que agardar.' },
-    { id: 'o-vinteun', slug: 'o-vinteun', nombre: 'O Vinteún', intro: 'No Vinteún hai moitos pisos con persianas de aluminio e PVC de hai anos. Arranxámolas ou cambiámolas por outras novas á medida.' },
-    { id: 'marinamansa', slug: 'marinamansa', nombre: 'Mariñamansa', intro: 'Se estás en Mariñamansa, chámanos ou mándanos unha foto por WhatsApp e dicímosche como solucionar o da túa persiana.' },
-    { id: 'o-polvorin', slug: 'o-polvorin', nombre: 'O Polvorín', intro: 'No Polvorín axudámoste con persianas, mosquiteiras, estores e mamparas, e cos recambios para que o arranxes ti se o prefires.' }
-  ],
-  zonaTextos: {
-    title: (n) => `Persianas en ${n} (Ourense) | Reparación e Instalación | Persianas López`,
-    description: (n) => `Reparación e instalación de persianas, mosquiteiras e estores en ${n}, Ourense. Recambios na Rúa Bonhome, 10. Orzamento sen compromiso: 657 97 13 13.`,
-    h1: (n) => `Persianas en ${n}, Ourense`,
-    queHacemos: (n) => `Que facemos en ${n}`
-  },
 
   legal: {
     aviso: {
