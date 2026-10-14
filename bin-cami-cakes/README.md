@@ -236,13 +236,18 @@ vale — lleva la interfaz de Instagram dentro y va recomprimida dos veces. El
 original lo tiene quien lo grabó, o se baja desde la propia cuenta de
 Instagram (⋯ → «Guardar en el carrete» en su propio Reel).
 
-## La dirección de Vercel ha cambiado tres veces
+## La dirección de Vercel: por qué cambió tanto, y por qué ya no
 
-`bincamicakes` → `bincamicakess` → **`binycamicakes`** (con «y», como el correo).
-Cada vez que cambia, las **tres etiquetas de compartir** del `<head>`
-(`og:url`, `og:image`, `twitter:image`) se quedan apuntando a un proyecto que ya
-no existe y WhatsApp enseña el enlace sin foto. No da error en ningún sitio:
-simplemente deja de salir la imagen. Si vuelve a cambiar, hay que tocarlas.
+`bincamicakes` → `bincamicakess` → `binycamicakes` → **`bin-cami-cakes`** (fija
+desde el 14/10). Cambiaba porque cada zip arrastrado creaba un proyecto nuevo.
+Y cada vez que cambiaba, las **tres etiquetas de compartir** del `<head>`
+(`og:url`, `og:image`, `twitter:image`) se quedaban apuntando a un proyecto que
+ya no existía y WhatsApp enseñaba el enlace sin foto. No da error en ningún
+sitio: simplemente deja de salir la imagen.
+
+Ahora se publica siempre en el mismo proyecto desde la API (ver **Despliegue**),
+así que esto deja de pasar. Lo único que lo volvería a romper es un dominio
+propio: entonces hay que tocar las tres.
 
 Un despiste que costó un rato: Brian dijo que la web no reflejaba los cambios.
 Comparando el SHA-1 del `index.html` publicado con el del repositorio,
@@ -1045,11 +1050,11 @@ Lo que salió y lo que se hizo:
   la pastelera a la derecha, el logo, «Tartas personalizadas en Ourense» y el
   lema. Es lo que enseña WhatsApp al pegar el enlace. Se genera desde
   `og/og.html` en el cuaderno de la sesión. Las tres direcciones (`og:url`,
-  `og:image`, `twitter:image`) apuntan a `bincamicakess.vercel.app` (con dos
-  «s»), que es donde está subida esta versión: si apuntasen a otro proyecto o
-  al dominio de `bincamicakes.es` que aún no responde, WhatsApp no enseñaría
-  foto. Al cambiar de dirección (o tener dominio propio), cambiar las tres (hay
-  un comentario al lado).
+  `og:image`, `twitter:image`) apuntan desde el 14/10 a
+  `bin-cami-cakes.vercel.app`, que es la fija. Antes apuntaban a
+  `binycamicakes.vercel.app`, un proyecto que ya no existe, así que **WhatsApp
+  estaba enseñando el enlace sin foto**. Al tener dominio propio hay que
+  cambiar las tres (hay un comentario al lado).
 
 Lo que se miró y se dejó como estaba: el peso. El documento son 437 KB que
 viajan en 120 comprimidos; minificar el CSS y el JS o quitar los comentarios
@@ -1548,30 +1553,80 @@ No todo era arreglar. Lo que la revisión confirmó:
 ## Despliegue
 
 Equipo de Vercel **BRIAN** (`centropersonalfit`, `team_NO14SkEOGredEikP1xjacWZu`).
-Las webs se publican **arrastrando la carpeta** a Vercel (despliegues de tipo
-*drop*), no desde git: `git push` sube el código pero **no** publica nada. Por
-eso la web en vivo se puede quedar por detrás del repositorio sin que se note.
 
-Estado a 29/9, comprobado por la API de Vercel comparando el `index.html`
-publicado (su SHA-1) con el de cada commit:
+**Desde el 14/10 la web se publica desde aquí, por la API de Vercel. Ya no se
+arrastra ningún zip.**
 
-| Dirección | Proyecto | Subida | Es exactamente el commit | Para qué sirve |
-|---|---|---|---|---|
-| **https://bincamicakess.vercel.app** (dos «s») | `bincamicakess` (`prj_lcXMu786r0f8zlwey4dtl3lXoYHQ`) | 29/9 20:39 UTC | `8082a3a` (`index.html` con SHA-1 `441d04af…`; las etiquetas de compartir se ajustaron después, ver abajo) | **La que se enseña.** La de hoy: portada de 5 tarjetas, carrusel de 5, adelanto del vídeo, iconos y imagen de compartir |
-| https://bincamicakes.vercel.app | `bincamicakes` (`prj_RbIyZwyhqWXDA96W9eVAztDEDtiz`) | 28/9 22:46 UTC | `b937d63` | Desfasada: la de anoche, sin el remate de hoy ni la imagen de compartir |
-| https://bincami.vercel.app | `bincami` (`prj_zM8H0KwGKorjA9SB3UZgrh7MMJEd`) | 28/9 09:41 UTC | `364da56` | **Desfasada.** Es la de la mañana: con el «tas» en la cinta y con los fallos que luego salieron en la revisión (entre ellos, tocar «volver arriba» en el móvil abría WhatsApp) |
-| bin-cami-cakes(-web).vercel.app | `bin-cami-cakes`, `bin-cami-cakes-web` | 23/9 | — | Intentos del principio; obsoletos |
+| | |
+|---|---|
+| Dirección | **https://bin-cami-cakes.vercel.app** |
+| Proyecto | `bin-cami-cakes` (`prj_fFInbA3gSKU0S1sxFcjVfGtjZDVi`) |
+| Origen | GitHub `PersonalFit-Code/PROYECTOS-BRIAN`, rama `claude/cool-wozniak-54gzyv` |
+| Carpeta que se publica | `bin-cami-cakes/dist` |
+| Protección | Ninguna: el enlace es público |
 
-**Riesgo real: enseñar la dirección equivocada.** Hay tres que se parecen
-(`bincami`, `bincamicakes` y `bincamicakess`) y sólo una está al día. Conviene
-borrar en Vercel los proyectos que no valen (`bincami`, `bincamicakes`,
-`bin-cami-cakes`, `bin-cami-cakes-web`) para que el enlace de la reunión sólo
-pueda ser uno. Es decisión de Brian: nada se borra desde aquí.
+### Por qué nunca era el mismo enlace
 
-Ojo con las etiquetas de compartir: `og:url`, `og:image` y `twitter:image`
-llevan una dirección fija (`bincamicakess.vercel.app`). Si un día la web se
-publica en otro proyecto o dominio, hay que cambiarlas o WhatsApp enseñará el
-enlace sin imagen.
+Cada vez que se arrastraba el zip, Vercel creaba un **proyecto nuevo**. De ahí
+salieron cinco (`bin-cami-cakes`, `-web`, `-vercel`, `-vercel-1`, `-vercel-22`),
+cada uno con su dirección, y encima **los cinco con la protección de Vercel
+puesta**, así que sus enlaces pedían iniciar sesión: Luisa no habría podido
+abrirlos. Los proyectos que figuraban en la tabla vieja de este README
+(`bincamicakess`, `bincamicakes`, `bincami`) ya no existen en la cuenta.
+
+El proyecto viejo `bin-cami-cakes` se renombró a `bin-cami-cakes-zip-antiguo`
+para liberar el nombre. **No se ha borrado nada**: los cinco siguen ahí por si
+hiciera falta mirar algo.
+
+### Cómo se publica ahora
+
+El despliegue se crea contra la API con el código que ya está en GitHub, así que
+**primero hay que hacer `git push`**: Vercel construye desde el commit, no desde
+los archivos de esta máquina.
+
+1. `sh todas.sh` — que la batería esté en verde.
+2. `python3 construye_dist.py` y commit, porque es `dist/` lo que se publica.
+3. `git push`.
+4. Crear el despliegue con `create_deployment`: `gitSource` con la rama, y
+   `target: "production"`.
+5. Reasignar el alias con `assign_alias` (ver el punto siguiente).
+6. Comprobarlo con `web_fetch_vercel_url`, que sí entra donde el proxy no llega.
+
+**El alias hay que reasignarlo en cada despliegue.** `bin-cami-cakes.vercel.app`
+sigue registrado como dominio del proyecto viejo y esta API no tiene con qué
+quitárselo, así que Vercel le pone al proyecto nuevo un alias con sufijo
+(`bin-cami-cakes-kappa.vercel.app`) y el limpio hay que moverlo a mano al
+despliegue nuevo. Se arregla del todo borrando `bin-cami-cakes-zip-antiguo` en
+el panel, y entonces el alias se asignaría solo. **Es decisión de Brian: desde
+aquí no se borra nada.**
+
+### Lo que falta para que se publique sola al subir
+
+Que se despliegue **automáticamente en cada `git push`** necesita que el
+proyecto esté *enlazado* al repositorio, y eso hoy falla:
+
+```
+400 repo_no_access — You need admin or write access to the
+repository "PROYECTOS-BRIAN" to link it.
+```
+
+La integración de GitHub de la cuenta de Vercel no ve ahora mismo ningún
+repositorio (`search_repo` devuelve la lista vacía), aunque `dos-puertas` sí
+quedó enlazado el 8/10. Lo arregla Brian en dos sitios:
+
+1. **Vercel** → Settings → Connections → reconectar GitHub.
+2. **GitHub** → `github.com/apps/vercel` → Configure → organización
+   **PersonalFit-Code** → dar acceso al repositorio **PROYECTOS-BRIAN**.
+
+Mientras tanto se publica igual, pero lanzándolo yo: *desplegar* desde un commit
+de GitHub sí funciona, lo que no funciona es *enlazar* el repositorio.
+
+### Lo que no se puede hacer desde esta máquina
+
+El proxy de salida **bloquea `vercel.com`, `api.vercel.com` y `*.vercel.app`**
+(403 en el CONNECT). Así que no hay CLI de Vercel ni `curl` que valga: el único
+canal es el servidor MCP de Vercel. Para mirar la web ya publicada está
+`web_fetch_vercel_url`, que la descarga desde la infraestructura de Vercel.
 
 ### Cómo saber si lo que hay en vivo es lo último
 
