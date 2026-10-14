@@ -168,6 +168,10 @@ const vinos = {
   countries: { espana: "Spain", portugal: "Portugal", francia: "France", ninguno: "" },
   offMenuNote: "And do ask: we usually have other bottles that aren't on the list.",
 
+  /* Responsible-drinking notice: see the comment in the component that renders it. */
+  responsibleNote:
+    "The sale and consumption of alcoholic drinks is for over-18s only. Please drink responsibly.",
+
   seoTitle: "Galician wine list in Ourense",
   seoDescription:
     "Wine bar next to Ourense Cathedral: wines from Galicia's five denominations — Ribeiro, Valdeorras, Monterrei, Ribeira Sacra and Rías Baixas — to go with the tapas.",

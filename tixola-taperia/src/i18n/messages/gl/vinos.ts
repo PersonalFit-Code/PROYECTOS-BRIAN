@@ -167,6 +167,10 @@ const vinos: Section<"vinos"> = {
   countries: { espana: "España", portugal: "Portugal", francia: "Francia", ninguno: "" },
   offMenuNote: "E pregúntanos: adoitamos ter outras referencias fóra de carta.",
 
+  /* Aviso de consumo responsable: ver o comentario do compoñente que o pinta. */
+  responsibleNote:
+    "Venda e consumo de bebidas alcohólicas só para maiores de 18 anos. Bebe con moderación.",
+
   seoTitle: "Carta de viños galegos en Ourense",
   seoDescription:
     "Vinoteca xunto á Catedral de Ourense: viños das cinco denominacións galegas —Ribeiro, Valdeorras, Monterrei, Ribeira Sacra e Rías Baixas— para acompañar as tapas.",

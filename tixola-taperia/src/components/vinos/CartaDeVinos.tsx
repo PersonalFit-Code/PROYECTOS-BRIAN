@@ -425,6 +425,20 @@ export default function CartaDeVinos() {
       {/* La carta de papel lo dice al pie de las dos caras, y es verdad: la lista no es cerrada. */}
       <p className="mt-2 text-xs leading-relaxed text-cream-faint">{m.vinos.offMenuNote}</p>
 
+      {/* AVISO DE CONSUMO RESPONSABLE.
+          Esta página es, legalmente, publicidad de bebidas alcohólicas: cincuenta y tres fichas con
+          foto de botella, nota de cata y maridaje. En Galicia eso lo mira la Ley 6/2025, de 23 de
+          diciembre, de protección de la salud de las personas menores y prevención de las conductas
+          adictivas (DOG del 7-1-2026, en vigor desde el 7-3-2026), que prohíbe la publicidad de
+          alcohol dirigida a menores y las promociones que inciten al consumo excesivo.
+          La página no hace ni una cosa ni la otra —no hay "barra libre" ni 2x1 ni nada parecido, y
+          el tono es de vinoteca, no de fiesta—, pero el aviso de mayoría de edad y moderación es lo
+          que hace explícito que no se dirige a menores, lo lleva cualquier web de bodega y cuesta
+          una línea. Va al pie de la carta, que es donde se espera, y no como ventana de entrada:
+          una barrera de edad en una web informativa de un restaurante sería desproporcionada y
+          además no la pide ninguna norma. */}
+      <p className="mt-2 text-xs leading-relaxed text-cream-faint">{m.vinos.responsibleNote}</p>
+
       <VinoSpotlight vino={abierto} onClose={cerrar} nombreDePlato={nombreDePlato} />
     </section>
   );

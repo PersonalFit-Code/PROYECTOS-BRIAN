@@ -219,6 +219,10 @@ const vinos = {
   /* Lo dice la carta de papel al pie de las dos caras, y es verdad: la lista no es cerrada. */
   offMenuNote: "Y pregúntanos: solemos tener otras referencias fuera de carta.",
 
+  /* Aviso de consumo responsable: ver el comentario del componente que lo pinta. */
+  responsibleNote:
+    "Venta y consumo de bebidas alcohólicas solo para mayores de 18 años. Bebe con moderación.",
+
   /* ── SEO (metadatos de /vinos; no se pintan en pantalla) ── */
   seoTitle: "Carta de vinos gallegos en Ourense",
   seoDescription:
