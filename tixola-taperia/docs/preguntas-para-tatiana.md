@@ -1,0 +1,134 @@
+# Preguntas para Tatiana
+
+Para la reunión del jueves. Está ordenado por lo que importa: **lo primero bloquea la publicación**,
+lo demás son datos y decisiones que cierran textos que hoy están a medias.
+
+Al lado de cada bloque va, en una línea, **por qué se pregunta**. No hace falta leerlo en voz alta,
+pero si ella pregunta «¿y esto para qué?», ahí está la respuesta.
+
+---
+
+## 1 · Lo que bloquea la publicación
+
+### 1.1 · Alérgenos — lo más importante de toda la lista
+
+*Por qué: lo que hay publicado hoy sale de la receta estándar, no de su cocina. Publicar un alérgeno
+de menos no es una multa, es alguien en urgencias.*
+
+- [ ] **¿Puede repasar la lista de alérgenos plato a plato?** Está en `docs/alergenos-para-revisar.md`;
+      llévasela impresa o en el móvil.
+- [ ] **¿Nos hace una foto de cerca y enfocada de la columna de alérgenos** de las dos caras de la
+      carta de papel? La que tenemos es un sello de 336 px y no se lee. Con esa foto ella revisa
+      contra su propia carta en vez de contra lo que dedujimos nosotros.
+- [ ] **Cuatro platos concretos donde la foto enseña algo que la carta no nombra.** Preguntar uno a uno:
+  - **Ensalada de cecina con helado de queso de oveja** → en la foto hay **nueces** repartidas por
+    todo el plato. ¿Lleva nueces siempre? (si sí, es alérgeno de frutos de cáscara, y ya lo hemos
+    declarado por si acaso).
+  - **Fingers de pollo** → en la foto hay **melocotón** y una salsa. ¿Qué salsa es y qué lleva?
+  - **Tosta de salmón y queso** → lleva una **salsa oscura** por encima. ¿Es reducción de Pedro
+    Ximénez o similar? (si lleva vino, hay **sulfitos**).
+  - **Croquetas**: la carta de papel declara unas **sin gluten**. ¿Se fríen en aceite aparte o en el
+    mismo que el resto? (si es el mismo, hay que decirlo).
+- [ ] **¿Nos firma la lista cuando esté revisada?** Vale una foto del papel firmado o un WhatsApp
+      diciendo «revisado y conforme». Es lo que convierte el dato en suyo y no en nuestro.
+
+### 1.2 · El correo de contacto
+
+*Por qué: la ley de comercio electrónico (art. 10 LSSI) exige un correo en el aviso legal, y es el
+canal por el que alguien puede ejercer sus derechos de protección de datos. Hay **un mes de plazo**
+para responder a eso.*
+
+- [ ] Brian está creando el correo. **¿Quién lo va a mirar, y cada cuánto?** Un buzón publicado que
+      nadie lee es peor que no tenerlo.
+- [ ] Que **la contraseña y el teléfono de recuperación sean suyos**. Brian puede tener acceso; lo que
+      no conviene es que ella dependa de él para entrar en su propio canal legal.
+
+---
+
+## 2 · Para que se lo lleve a su gestoría
+
+*Por qué: son cosas que no se deciden mirando la web, y las tres son de una línea de respuesta.*
+
+- [ ] **¿Está Tixola inscrita en el REAT** (Registro de Empresas y Actividades Turísticas de Galicia)?
+      Los arts. 50 y 51 de la Lei 7/2011 lo exigen a los establecimientos de restauración. Y si lo
+      está: **¿el número de registro debe figurar en la publicidad?** Si hay número, lo ponemos en el
+      aviso legal y son dos minutos.
+- [ ] **¿Está puesto en el local el cartel de las hojas de reclamaciones?** El art. 32 de la Ley
+      2/2012 gallega obliga a tener las hojas **y** el cartel que las anuncia. La web afirma en cuatro
+      idiomas que las tiene: conviene que sea verdad.
+- [ ] **¿Existe el registro de actividades de tratamiento** (art. 30 RGPD)? Con tratamientos tan
+      simples como los de esta web es un folio, pero tiene que existir.
+- [ ] **El contrato de encargo del tratamiento (art. 28 RGPD) entre ella y Brian.** Mientras Brian
+      tenga las claves del alojamiento y del correo, legalmente trata datos por cuenta de ella y eso
+      va por escrito. También es un folio.
+
+---
+
+## 3 · Datos que faltan para cerrar textos que hoy están a medias
+
+*Por qué: cada uno de estos es una frase que la web dice o deja de decir. Hoy están resueltos «a lo
+seguro», que funciona, pero con el dato quedan bien.*
+
+- [ ] **¿Hay algún plato vegano de verdad?** La web anunciaba «opciones veganas y vegetarianas» y en
+      los 47 platos no hay ninguno marcado como vegano (sí doce vegetarianos). Lo hemos dejado en
+      «opciones vegetarianas». Si hay alguno vegano, lo etiquetamos y lo volvemos a anunciar.
+- [ ] **¿Se sirve vino por copas?** La portada lo ofrece («Godello, Ribeiro o Mencía por copas») y
+      ninguno de los 53 vinos tiene precio por copa. Si se sirve —lo normal en una vinoteca—,
+      **¿cuáles y a qué precio?** Si no, quitamos la frase.
+- [ ] **El horario en festivos, Navidad y verano: ¿cambia?** Hoy la web dice «Festivos: consúltanos»,
+      que es honesto pero flojo. Si hay un criterio fijo, lo ponemos.
+- [ ] **¿Los 47 precios de la carta son los vigentes?** Un repaso rápido. Desde ayer la web dice que
+      son los que se pagan, con IVA incluido —que es lo correcto—, así que conviene que estén al día.
+
+---
+
+## 4 · Decisiones suyas sobre cómo se ve el negocio
+
+*Por qué: son elecciones de la casa, no cosas que podamos decidir nosotros.*
+
+- [ ] **Los seis platos de la portada.** Hoy son: zamburiñas a la plancha, tixola de raxo y Arzúa,
+      pulpo a la gallega, croquetas de grelos y chipirón, tixola de gulas con setas y langostinos, y
+      la ensalada de cecina con helado de queso de oveja. **¿Son los que ella pondría?**
+- [ ] **Las zamburiñas llevan el cartel «El plato por el que nos conocen».** ¿Está de acuerdo? (antes
+      decía «Nº 1 en zamburiñas de la zona» y lo quitamos: una afirmación así hay que poder probarla).
+- [ ] **Los maridajes de esos seis platos** son recomendaciones de vino. Están elegidos entre
+      denominaciones que sí tiene en carta (Ribeiro, Monterrei, Ribeira Sacra, Rías Baixas,
+      Valdeorras), pero **conviene que los valide**: son los únicos consejos de vino que da la web.
+- [ ] **¿Quiere publicar alguna promoción?** Hay una banda preparada en la portada para cosas del tipo
+      «cata de vinos en octubre». Hoy está vacía. Dos condiciones: nada que incite a beber de más
+      (ni «barra libre» ni «2x1 en chupitos» — lo prohíbe la ley gallega del alcohol desde marzo) y
+      con fecha de caducidad, para que desaparezca sola.
+- [ ] **La carta de vinos definitiva.** Dijo que hay vinos que va a dejar de comprar. Cuando tenga la
+      lista cerrada, la actualizamos.
+
+---
+
+## 5 · Cosas que tiene que hacer ella fuera de la web
+
+*Por qué: la web no puede arreglarlas desde dentro, y una de ellas nos está contradiciendo ahora mismo.*
+
+- [ ] **Corregir el horario en su ficha de Google.** Google dice que la cocina de mediodía abre a las
+      **12:00** y abre a las **13:00**. Hay dos horarios públicos distintos del mismo bar, y el que
+      la gente ve primero es el de Google.
+- [ ] **Poner la web nueva como sitio web de la ficha**, en cuanto haya dominio.
+- [ ] Ya que entra: **revisar las fotos de la ficha y responder a las reseñas**. Suma para que
+      aparezca mejor colocada en Google.
+
+---
+
+## 6 · Material que falta (esto es más de Brian, pero sale de su cocina)
+
+- [ ] **Faltan 15 fotos de plato.** La guía de cómo hacerlas está en `docs/guia-fotos-platos.md`
+      (cenital, luz natural, el plato centrado). 25 hechas, 7 que no necesitan foto.
+- [ ] **Una foto nueva de la fachada.** La que había se ha retirado: salía un camarero identificable
+      y, además, era una captura de pantalla de procedencia desconocida. Hace falta una foto propia,
+      **sin gente** o con permiso firmado de quien salga. Mientras tanto, la tarjeta de ubicación usa
+      la foto del rótulo de noche.
+
+---
+
+## Lo que NO hay que preguntarle
+
+Para no hacerle perder el tiempo: el plan de alojamiento, el dominio, la analítica y las cuentas los
+lleva Brian. De la lista de arriba, lo único que de verdad **bloquea** es el punto 1: los alérgenos
+y el correo. Todo lo demás se puede ir cerrando después de publicar.
