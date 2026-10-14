@@ -14,9 +14,16 @@ gestoría de Tatiana.
 2. **Correo de contacto** en `src/data/legal.ts` (`email`). Obligatorio por el art. 10 LSSI y es el
    canal para ejercer derechos RGPD. Mientras sea `[EMAIL DE CONTACTO]`, las tres páginas legales van
    `noindex`. Al ponerlo, solas pasan a indexarse.
-3. **Dirección de la web** (`NEXT_PUBLIC_SITE_URL` en Vercel). Hoy, sin definir, cae en
-   `https://tixola.restaurantesourense.com`, que no es suya. Afecta a canonical, hreflang, sitemap y
-   previsualizaciones. Definirla con el dominio comprado y redesplegar.
+3. **Dirección de la web** (`NEXT_PUBLIC_SITE_URL` en Vercel). Sin definir, la web usa el
+   subdominio que regala Vercel (`tixola-taperia.vercel.app`). Afecta a canonical, hreflang, sitemap
+   y previsualizaciones. Definirla con el dominio comprado y redesplegar.
+   **Mientras tanto la web NO se indexa** (14-10-2026): con una dirección prestada, el `<head>` va
+   con `noindex, follow` y el `robots.txt` con `Disallow: /`. El motivo es que lo que Google
+   guardaría estos días es una web a medio terminar y en una dirección que va a cambiar; quien
+   tenga el enlace la ve igual. **Se abre sola**: en cuanto `NEXT_PUBLIC_SITE_URL` tenga el dominio
+   propio —o el dominio se marque como principal en Vercel— el siguiente despliegue vuelve a
+   `index, follow` y al `robots.txt` normal, sin tocar código (`SITE_URL_IS_PROVISIONAL` en
+   `src/lib/siteUrl.ts`). Comprobado en los dos sentidos con un build de prueba.
 4. **Alérgenos revisados por Tatiana.** Son una deducción a partir de la receta, no un dato de la casa.
    La web avisa de que se consulten con el personal, pero publicar alérgenos sin verificar es el
    riesgo más serio (sanitario y de responsabilidad). Que los revise o firme `docs/alergenos-para-revisar.md`.

@@ -9,6 +9,7 @@ import AnalyticsGate from "@/components/legal/AnalyticsGate";
 import CookieConsent from "@/components/legal/CookieConsent";
 import HomeJsonLd from "@/components/legal/HomeJsonLd";
 import { SITE_URL, pageMetadata, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL_IS_PROVISIONAL } from "@/lib/siteUrl";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -32,7 +33,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     /* Por idioma: Next hereda los campos que un segmento hijo no sobrescribe, así que una lista
        fija en español viajaba también en /en, /gl, /pt, /carta y las páginas legales. */
     keywords: [...m.common.seoKeywords],
-    robots: { index: true, follow: true },
+    /* Mientras la web viva en el subdominio de Vercel, los buscadores no la listan (ver
+       `SITE_URL_IS_PROVISIONAL`). `follow: true` igualmente: que sigan los enlaces no cuesta nada y
+       mantiene el sitio "vivo" para cuando se abra. Se abre solo al poner el dominio propio. */
+    robots: SITE_URL_IS_PROVISIONAL ? { index: false, follow: true } : { index: true, follow: true },
     /* SVG para navegadores modernos, .ico para los que piden /favicon.ico por su cuenta (y para Google,
        que enseña el icono junto al resultado), PNG de 180 px para "Añadir a pantalla de inicio" en iPhone
        (Safari no usa el SVG) y el manifiesto para Android. Todos salen de `favicon.svg`. */
