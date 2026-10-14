@@ -143,13 +143,6 @@ function parseBody(raw: unknown): ParsedRequest | { error: string } {
   };
 }
 
-/** Añade el bloque de contexto volátil al final del último mensaje del usuario (nunca al bloque de sistema). */
-function withContextSuffix(messages: Anthropic.MessageParam[], suffix: string): Anthropic.MessageParam[] {
-  const last = messages[messages.length - 1];
-  const content = typeof last.content === "string" ? `${last.content}\n\n${suffix}` : [...last.content, { type: "text" as const, text: suffix }];
-  return [...messages.slice(0, -1), { role: last.role, content }];
-}
-
 /* ────────────────────────────────────────────────────────────
    Respuestas
    ──────────────────────────────────────────────────────────── */
@@ -234,8 +227,24 @@ export async function POST(req: Request): Promise<Response> {
       /* `effort` solo donde el modelo lo admite: ver `supportsEffort`. Con Haiku, mandarlo es un 400
          silencioso que degrada el chat al motor sin conexión para siempre. */
       ...(supportsEffort(model) ? { output_config: { effort: "low" as const } } : {}),
-      system: [{ type: "text", text: getSystemPrompt(), cache_control: { type: "ephemeral" } }],
-      messages: withContextSuffix(messages, buildContextSuffix({ locale, page, now })),
+      /* EL CONTEXTO VOLÁTIL VA EN EL SISTEMA, NO DENTRO DEL MENSAJE DE LA PERSONA.
+         Hasta el 14-10-2026 el bloque "[Contexto — ...]" (idioma, página, día, hora y si el local
+         está abierto) se pegaba al final del último mensaje del usuario. El problema no era de
+         estilo: el prompt del sistema ORDENA fiarse de ese bloque para el idioma y para el horario,
+         así que lo convertía en el único texto del turno del cliente en el que el modelo debía
+         creer — y cualquiera podía escribir su propio "[Contexto ...]" detrás de su pregunta y
+         dictarle al camarero que el local está abierto, o que hoy cierra. Lo que el asistente
+         afirma sobre el horario es información que el cliente puede dar por buena (art. 61.2
+         TRLGDCU), y alguien plantado en la puerta un lunes a mediodía no tiene la culpa.
+         Como segundo bloque de `system` el contenido es idéntico pero el origen ya no: viene del
+         servidor y no del mensaje. El bloque cacheado se queda PRIMERO para que la caché de prompts
+         —que funciona por prefijo— siga acertando; este va detrás y sin `cache_control`, porque
+         cambia con la hora y cachearlo no tendría sentido. */
+      system: [
+        { type: "text", text: getSystemPrompt(), cache_control: { type: "ephemeral" } },
+        { type: "text", text: buildContextSuffix({ locale, page, now }) },
+      ],
+      messages,
     },
     { signal: req.signal },
   );

@@ -22,8 +22,13 @@ yarn-debug.log*
 yarn-error.log*
 
 # env
-.env
-.env*.local
+# `.env*` y no `.env` + `.env*.local`: con el patrón anterior, un fichero llamado
+# `.env.production` o `.env.development` —nombres perfectamente habituales— quedaba FUERA y se
+# habría subido al repositorio sin aviso. La única credencial del proyecto es la clave de
+# Anthropic, que es la que paga el camarero virtual: filtrarla es gasto ajeno con la cuenta de la
+# casa. La excepción es la plantilla, que no lleva valores y sí tiene que viajar.
+.env*
+!.env.example
 
 # vercel
 .vercel

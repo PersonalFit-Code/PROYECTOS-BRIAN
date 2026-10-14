@@ -177,8 +177,24 @@ El art. 50 (transparencia) **es aplicable desde el 2 de agosto de 2026**, es dec
 | No guardar la conversación | ✅ vive solo en el navegador (`sessionStorage`), con botón para borrarla; el servidor no registra el contenido |
 
 **Sanciones del art. 99 para incumplir el art. 50:** hasta 15 M€ o el 3 % del volumen de negocio
-mundial, la mayor de las dos (para pymes, la menor). La web cumple, pero conviene saber el orden de
-magnitud: es la norma más cara de la lista.
+mundial, la mayor de las dos (para pymes, la menor). La web cumple el 50.1, pero conviene saber el
+orden de magnitud: es la norma más cara de la lista.
+
+**Dos puntos que la primera revisión no miró, añadidos el 14-10-2026:**
+
+- ⚠️ **Art. 50.2 — marcado legible por máquina del texto generado.** Obliga a los **proveedores** de
+  sistemas de IA generativa a marcar la salida para que una máquina pueda detectar que es sintética.
+  Aquí el proveedor del modelo es **Anthropic**, y Tixola es responsable del despliegue (*deployer*),
+  cuyas obligaciones son las del 50.1 —que se cumplen—. **Pregunta para la gestoría:** si poner el
+  asistente en servicio con nombre y prompt propios convierte también a la titular en proveedora a
+  efectos del art. 3.3. Mientras no se aclare, no se añade ningún marcado: para un chat de barra sería
+  desproporcionado y nadie lo exige a un *deployer*. El plazo del paquete Ómnibus para los sistemas ya
+  en servicio vence el **2-12-2026**, así que hay tiempo de resolver la duda.
+- ✅ **Art. 4 — alfabetización en IA.** Este sí aplica a Tixola como responsable del despliegue, y es
+  aplicable desde el **2-2-2025**: quien pone en servicio un sistema de IA debe procurar que su
+  personal tenga un nivel suficiente de alfabetización sobre él. **Resuelto el 14-10-2026** con
+  `docs/camarero-virtual-para-el-personal.md`: media cara para la barra con qué contesta el asistente,
+  qué no contesta y qué hacer cuando un cliente llegue diciendo «me lo dijo el chat».
 
 ---
 
@@ -226,7 +242,7 @@ esta web.
 | Content-Security-Policy, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, COOP | ✅ comprobado en producción |
 | Clave de IA solo en el servidor | ✅ marcada como sensible en Vercel; no viaja al navegador |
 | Secretos en el historial de Git | ✅ revisado: ninguno |
-| Límite de peticiones y de tamaño en la ruta de IA | ✅ 30 por IP cada 10 min, 403 si no viene de la propia web, 413 si el cuerpo pasa de 96 KB, 415 si no es JSON |
+| Límite de peticiones y de tamaño en la ruta de IA | ✅ 30 por IP cada 10 min, 403 si no viene de la propia web, 413 si el cuerpo pasa de 96 KB, 415 si no es JSON. ⚠️ **Matiz operativo, no legal:** el contador vive en la memoria de cada instancia de la función, y en Vercel puede haber varias a la vez, así que el tope efectivo es mayor que 30. Para la política de privacidad da igual —lo que promete es que se cuenta por IP durante diez minutos, y eso es exacto—, pero para proteger la factura de Anthropic conviene poner también un límite de tasa en el Firewall de Vercel, que se configura en el panel y no toca el código. |
 | Dependencias | ✅ `npm audit` sin vulnerabilidades que lleguen al navegador |
 
 ---
