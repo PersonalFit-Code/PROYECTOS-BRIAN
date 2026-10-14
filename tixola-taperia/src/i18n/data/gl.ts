@@ -373,10 +373,6 @@ const gl: DataTranslations = {
       alt: "Tixola de raxo con queixo de Arzúa en tixola de ferro, croquetas caseiras e viño branco galego na terraza de Tixola Tapería, Ourense",
       caption: "Tixola de raxo con queixo de Arzúa e croquetas",
     },
-    fachada: {
-      alt: "Fachada de Tixola Tapería na Rúa Juan de Austria 7, casco histórico de Ourense, cos seus toldos vermellos e a lousa do día",
-      caption: "Rúa Juan de Austria, 7",
-    },
 
     /* Fotos da casa do 2 de outubro de 2026 */
     "tixola-raxo": {

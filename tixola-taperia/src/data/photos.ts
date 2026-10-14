@@ -81,24 +81,21 @@ export const PHOTOS: Photo[] = [
        vale por sí sola. */
     focus: "50% 50%",
   },
-  {
-    id: "fachada",
-    /* RECORTADA EL 3-10-2026, y no por encuadre: el archivo original era una CAPTURA DE PANTALLA de
-       un visor de fotos. Traía las barras blancas del visor arriba y abajo y, sobre el muro de la
-       casa de al lado, su botón de cerrar —un círculo blanco con una × — perfectamente visible. En el
-       carrusel anterior pasaba medio desapercibido; en el mural de la galería, a 290 px de ancho y
-       quieto, se ve a la primera, y además sale en la tarjeta de ubicación (`MapCard`). El recorte
-       quita las barras y el botón sin inventar un solo píxel: solo se pierden ~90 px del borde
-       derecho (parte del portal rojo del vecino) y el rótulo entero se queda dentro.
-       Sigue pendiente SUSTITUIRLA por una foto propia de la fachada: ver docs/fotos-para-revisar.md. */
-    src: "/images/fachada.jpg",
-    width: 712,
-    height: 454,
-    alt: "Fachada de Tixola Tapería en Rúa Juan de Austria 7, casco histórico de Ourense, con sus toldos rojos y la pizarra del día",
-    caption: "Rúa Juan de Austria, 7",
-    tags: ["local"],
-    focus: "50% 40%",
-  },
+  /* AQUÍ ESTABA LA FOTO DE LA FACHADA, y se retiró el 14-10-2026 por dos motivos independientes,
+     cada uno suficiente por su cuenta:
+      · SALÍA UN CAMARERO identificable en la puerta, con su bandeja. El art. 7.5 de la LO 1/1982
+        considera intromisión ilegítima publicar la imagen de una persona, el 7.6 usarla con fines
+        publicitarios sin su consentimiento, y el art. 9.3 PRESUME el perjuicio: no hace falta que
+        nadie demuestre daño para reclamar. El consentimiento de un trabajador tiene que ser expreso
+        y por escrito; no se presume por trabajar allí. Que llevara mascarilla no lo arregla: a una
+        persona se la reconoce por el cuerpo, la ropa y el sitio, no solo por la cara.
+      · EL ARCHIVO ERA UNA CAPTURA DE PANTALLA de un visor de fotos, de procedencia desconocida. Se
+        recortó el 3-10-2026 para quitarle las barras del visor, pero recortar no da derechos sobre
+        una foto que hizo otro.
+     La tarjeta de ubicación usa ahora `rotulo-noche`, que es de la casa y no sale nadie. Cuando
+     Brian haga una foto propia de la fachada —sin gente, o con permiso firmado de quien salga—,
+     vuelve aquí como una entrada más y `MapCard` la recupera cambiando un id. */
+
 
   /* ─────────────────────────────────────────────────────────────
      Fotos de la casa, hechas por Brian el 2 de octubre de 2026.

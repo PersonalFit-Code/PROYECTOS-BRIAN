@@ -45,8 +45,13 @@ import { cn } from "@/lib/utils";
 
 const EMBED_URL = `https://www.google.com/maps?q=${BUSINESS.geo.lat},${BUSINESS.geo.lng}&z=17&output=embed`;
 
-/** Id de la foto de la fachada en `src/data/photos.ts` (su `alt` está traducido a los cuatro idiomas). */
-const FACHADA_ID = "fachada";
+/**
+ * Id de la foto del local en `src/data/photos.ts` (su `alt` está traducido a los cuatro idiomas).
+ * ERA "fachada" hasta el 14-10-2026: aquella foto salía un camarero identificable y además era una
+ * captura de procedencia desconocida, así que se retiró (el porqué, largo, está en `photos.ts`). El
+ * rótulo cumple la misma función —reconocer el sitio desde la calle— y es de la casa.
+ */
+const FACHADA_ID = "rotulo-noche";
 
 /* ════════════════════════════════════════════════════════════
    EL PLANO
@@ -442,9 +447,10 @@ function HistoricPlan({ ariaLabel }: { ariaLabel: string }) {
    Foto real de la fachada
    ──────────────────────────────────────────────────────────── */
 /**
- * La fachada de Tixola en Rúa Juan de Austria: toldos rojos y pizarra del día. Es la misma imagen que
- * servía de plan B cuando el visor era un lienzo WebGL, con su `alt` traducido (`photos.ts` está en
- * español y `localizePhotoById` aplica la traducción del idioma activo).
+ * El rótulo de Tixola iluminado de noche en el casco histórico, con su `alt` traducido (`photos.ts`
+ * está en español y `localizePhotoById` aplica la traducción del idioma activo). El rótulo es lo que
+ * de verdad se busca al llegar a una calle estrecha del casco viejo, así que como referencia para
+ * encontrar el sitio funciona igual que la fachada entera.
  *
  * Fondo opaco en el pie y nada de `backdrop-filter`: este rótulo se apoya sobre una foto que ocupa el
  * visor entero, así que desenfocarla obligaría al compositor a rehacer ese recorte en cada repintado
@@ -456,12 +462,12 @@ function FacadePhoto({ caption }: { caption: string }) {
   return (
     <>
       <Image
-        src={photo?.src ?? "/images/fachada.jpg"}
+        src={photo?.src ?? "/images/rotulo-noche.webp"}
         alt={photo?.alt ?? BUSINESS.name}
         fill
         sizes="(min-width: 1024px) 52vw, 100vw"
         className="object-cover"
-        style={{ objectPosition: photo?.focus ?? "50% 40%" }}
+        style={{ objectPosition: photo?.focus ?? "60% 40%" }}
       />
       <div
         aria-hidden
