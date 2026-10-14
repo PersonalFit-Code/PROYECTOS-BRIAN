@@ -355,7 +355,7 @@ const pt: DataTranslations = {
 
   features: [
     "Esplanada com vista para a Catedral",
-    "Opções veganas e vegetarianas",
+    "Opções vegetarianas",
     "Croquetes sem glúten",
     "Garrafeira com D.O. galegas",
     "Cerveja artesanal",

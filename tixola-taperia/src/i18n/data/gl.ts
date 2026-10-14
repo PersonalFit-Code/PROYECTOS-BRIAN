@@ -354,7 +354,7 @@ const gl: DataTranslations = {
 
   features: [
     "Terraza con vistas á Catedral",
-    "Opcións veganas e vexetarianas",
+    "Opcións vexetarianas",
     "Croquetas sen glute",
     "Vinoteca con D.O. galegas",
     "Cervexa artesá",

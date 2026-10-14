@@ -354,7 +354,7 @@ const en: DataTranslations = {
 
   features: [
     "Terrace with Cathedral views",
-    "Vegan and vegetarian options",
+    "Vegetarian options",
     "Gluten-free croquetas",
     "Wine list of Galician D.O.s",
     "Craft beer",

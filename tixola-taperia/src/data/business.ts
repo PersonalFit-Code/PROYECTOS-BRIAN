@@ -62,7 +62,12 @@ export const BUSINESS = {
   },
   features: [
     "Terraza con vistas a la Catedral",
-    "Opciones veganas y vegetarianas",
+    /* DECÍA "Opciones veganas y vegetarianas" y era falso: de los 47 platos, doce están etiquetados
+       "vegetariano" y NINGUNO "vegano". Anunciar una opción que no existe es presentación que induce
+       a error (art. 18.2 TRLGDCU) y, además, quien es vegano se entera al sentarse. La propia web ya
+       lo decía bien en las preguntas frecuentes. Si algún día hay un plato vegano de verdad, se
+       etiqueta en `menu.ts` y esta línea vuelve a nombrarlo. */
+    "Opciones vegetarianas",
     "Croquetas sin gluten",
     "Vinoteca con D.O. gallegas",
     "Cerveza artesanal",

@@ -495,6 +495,9 @@ function DishFace({ slide, index, total, active, steam, hintId, angle, radius, o
           <p className="mt-1.5 flex items-baseline gap-1.5">
             <span className="font-condensed text-[1.75rem] leading-none tracking-wide text-cream">{formatPrice(dish.price, locale)}</span>
             <span className="text-[11px] text-cream-muted">{t(m.dishes.spotlight.perUnit, { unit: dish.unit })}</span>
+            {/* Ver el comentario gemelo en DishCarousel: el precio final con impuestos va junto al
+                número (art. 20.1.c TRLGDCU). */}
+            <span className="text-[10px] uppercase tracking-wide text-cream-faint">{m.carta.vatIncluded}</span>
           </p>
           {/* La pista de "toca para ver detalles" solo tiene sentido en la cara que se puede abrir */}
           <span

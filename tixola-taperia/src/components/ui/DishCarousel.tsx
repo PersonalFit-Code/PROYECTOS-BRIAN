@@ -379,6 +379,11 @@ function DishSlideCard({ slide, index, total, active, steam, hintId, onOpen, but
             <p className="mt-2 flex items-baseline gap-2">
               <span className="font-condensed text-[2.25rem] leading-none tracking-wide text-cream">{formatPrice(dish.price, locale)}</span>
               <span className="text-xs text-cream-muted">{t(m.dishes.spotlight.perUnit, { unit: dish.unit })}</span>
+              {/* "IVA incluido" PEGADO AL NÚMERO, y no al pie de la sección: el art. 20.1.c del
+                  TRLGDCU pide el precio final con impuestos allí donde se informa del precio, y este
+                  es el primero que ve quien entra. La carta ya lo decía; el carrusel de la portada,
+                  no. */}
+              <span className="text-[10px] uppercase tracking-wide text-cream-faint">{m.carta.vatIncluded}</span>
             </p>
             {/* Pista de afordancia: llega en 180 ms, antes de que el usuario decida. */}
             <span className="mt-3 inline-flex items-center gap-1.5 text-[11px] text-cream-faint transition-colors duration-180 group-hover:text-cream-muted">
