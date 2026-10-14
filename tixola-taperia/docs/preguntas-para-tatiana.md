@@ -1,5 +1,7 @@
 # Preguntas para Tatiana
 
+> **Actualizado el 14-10-2026 con sus primeras respuestas.** Lo tachado ya está contestado.
+
 Para la reunión del jueves. Está ordenado por lo que importa: **lo primero bloquea la publicación**,
 lo demás son datos y decisiones que cierran textos que hoy están a medias.
 
@@ -49,15 +51,10 @@ para responder a eso.*
 
 *Por qué: son cosas que no se deciden mirando la web, y las tres son de una línea de respuesta.*
 
-- [ ] **¿Está Tixola inscrita en el REAT** (Registro de Empresas y Actividades Turísticas de Galicia)?
-      Los arts. 50 y 51 de la Lei 7/2011 lo exigen a los establecimientos de restauración. Y si lo
-      está: **¿el número de registro debe figurar en la publicidad?** Si hay número, lo ponemos en el
-      aviso legal y son dos minutos.
-- [ ] **¿Está puesto en el local el cartel de las hojas de reclamaciones?** El art. 32 de la Ley
-      2/2012 gallega obliga a tener las hojas **y** el cartel que las anuncia. La web afirma en cuatro
-      idiomas que las tiene: conviene que sea verdad.
-- [ ] **¿Existe el registro de actividades de tratamiento** (art. 30 RGPD)? Con tratamientos tan
-      simples como los de esta web es un folio, pero tiene que existir.
+- [x] ~~¿Está inscrita en el REAT?~~ → **NO, según ella.** Ver abajo: es trámite del negocio, no de la web.
+- [ ] **Confirmar con la gestoría si la declaración responsable de inicio de actividad (TU984B) se presentó al abrir**
+- [x] ~~¿Está puesto el cartel de las hojas de reclamaciones?~~ → **SÍ.** La web dice la verdad.
+- [x] ~~¿Existe el registro de actividades de tratamiento?~~ → **SÍ.**
 - [ ] **El contrato de encargo del tratamiento (art. 28 RGPD) entre ella y Brian.** Mientras Brian
       tenga las claves del alojamiento y del correo, legalmente trata datos por cuenta de ella y eso
       va por escrito. También es un folio.
@@ -72,13 +69,10 @@ seguro», que funciona, pero con el dato quedan bien.*
 - [ ] **¿Hay algún plato vegano de verdad?** La web anunciaba «opciones veganas y vegetarianas» y en
       los 47 platos no hay ninguno marcado como vegano (sí doce vegetarianos). Lo hemos dejado en
       «opciones vegetarianas». Si hay alguno vegano, lo etiquetamos y lo volvemos a anunciar.
-- [ ] **¿Se sirve vino por copas?** La portada lo ofrece («Godello, Ribeiro o Mencía por copas») y
-      ninguno de los 53 vinos tiene precio por copa. Si se sirve —lo normal en una vinoteca—,
-      **¿cuáles y a qué precio?** Si no, quitamos la frase.
+- [x] ~~¿Se sirve vino por copas?~~ → **SÍ, y el precio se consulta con el personal**, igual que los alérgenos. La web ya lo dice así.
 - [ ] **El horario en festivos, Navidad y verano: ¿cambia?** Hoy la web dice «Festivos: consúltanos»,
       que es honesto pero flojo. Si hay un criterio fijo, lo ponemos.
-- [ ] **¿Los 47 precios de la carta son los vigentes?** Un repaso rápido. Desde ayer la web dice que
-      son los que se pagan, con IVA incluido —que es lo correcto—, así que conviene que estén al día.
+- [x] ~~¿Los 47 precios son los vigentes?~~ → **SÍ.**
 
 ---
 

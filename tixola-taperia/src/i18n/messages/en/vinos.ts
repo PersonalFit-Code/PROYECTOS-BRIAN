@@ -7,7 +7,7 @@ const vinos = {
   title: "The Wine",
   accent: "List",
   description:
-    "Tixola is a tapas bar and a wine bar: Galician wine isn't a side here, it's half the house. Tap a bottle to see its winery, grape and ageing; we'll tell you the price at the bar.",
+    "Tixola is a tapas bar and a wine bar: Galician wine isn't a side here, it's half the house. Tap a bottle to see its winery, grape and ageing. We also serve by the glass; we'll tell you the price, by bottle or by glass, at the bar.",
 
   pendingKicker: "In the works",
   pendingTitle: "We're still finalising the wine list",

@@ -268,10 +268,10 @@ export function renderKnowledge(k: WaiterKnowledge): string {
        sabemos de estas botellas es solo lo que imprime la carta de papel de la casa. */
     out.push(
       SHOW_WINE_PRICES
-        ? "AVISO IMPORTANTE: de cada vino sabemos SOLO lo que figura abajo. NUNCA inventes ni deduzcas la bodega, la uva, la añada, la crianza, la graduación ni una nota de cata, aunque creas conocer el vino: si te preguntan por eso, dilo con naturalidad y ofrece preguntarlo en la barra. Tampoco hay precio por copa: solo botella."
+        ? "AVISO IMPORTANTE: de cada vino sabemos SOLO lo que figura abajo. NUNCA inventes ni deduzcas la bodega, la uva, la añada, la crianza, la graduación ni una nota de cata, aunque creas conocer el vino: si te preguntan por eso, dilo con naturalidad y ofrece preguntarlo en la barra. Sí se sirve vino POR COPAS, pero ese precio no está publicado: si preguntan cuánto vale una copa, di que se consulta en la barra."
         : /* Sin precios en la lista, el camarero tampoco los da: si los diera, estaría diciendo en el
              chat justo lo que la casa ha decidido no publicar en la página. */
-          "AVISO IMPORTANTE: de cada vino sabemos SOLO lo que figura abajo. NUNCA inventes ni deduzcas la bodega, la uva, la añada, la crianza, la graduación ni una nota de cata, aunque creas conocer el vino: si te preguntan por eso, dilo con naturalidad y ofrece preguntarlo en la barra. Y NO HAY PRECIOS DE VINO: no los sabes, no los estimes y no los deduzcas de otros vinos parecidos; si preguntan cuánto cuesta una botella, di que los precios de la bodega se consultan en el local y ofrece el teléfono.",
+          "AVISO IMPORTANTE: de cada vino sabemos SOLO lo que figura abajo. NUNCA inventes ni deduzcas la bodega, la uva, la añada, la crianza, la graduación ni una nota de cata, aunque creas conocer el vino: si te preguntan por eso, dilo con naturalidad y ofrece preguntarlo en la barra. Y NO HAY PRECIOS DE VINO, ni por botella ni por copa: no los sabes, no los estimes y no los deduzcas de otros vinos parecidos. Sí se SIRVE por copas —puedes decirlo—, pero el precio se consulta en la barra, igual que los alérgenos; si preguntan cuánto cuesta, dilo así y ofrece el teléfono.",
     );
     out.push("Hay más referencias fuera de carta; para esas, que pregunten en el local.");
     for (const origin of ORIGIN_ORDER) {

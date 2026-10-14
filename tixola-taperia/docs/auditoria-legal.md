@@ -197,15 +197,24 @@ respetado y etiquetas accesibles en todos los controles. **Es una ventaja, no un
 
 ## L · Turismo — Lei 7/2011 do turismo de Galicia
 
-⚠️ **Para la gestoría.** Los arts. 50 y 51 exigen que las empresas de restauración estén inscritas
-en el **Registro de Empresas y Actividades Turísticas de Galicia (REAT)**, y el art. 12 reconoce al
-cliente el derecho a ver en lugar visible los distintivos, la capacidad y los precios. La ley también
-considera intrusismo la publicidad de servicios turísticos sin cumplir los requisitos para ejercer,
-y menciona expresamente la vigilancia del intrusismo «derivado de las nuevas tecnologías».
+⚠️ **Trámite del negocio, no de la web.** La Lei 7/2011 encuadra las empresas de restauración
+(restaurantes, cafeterías y bares) en su art. 77, y para iniciar la actividad Galicia pide una
+**declaración responsable ante la Agencia de Turismo de Galicia** —procedimiento **TU984B**, «Inicio
+de actividade de restaurantes ou cafetarías»—, con la que la oficina provincial **inscribe de oficio**
+el establecimiento en el **REAT**. El art. 12 reconoce además al cliente el derecho a ver en lugar
+visible los distintivos, la capacidad y los precios.
 
-**Lo que hay que confirmar:** si Tixola está inscrita en el REAT y si su número de registro debe
-figurar en la publicidad. No he podido verificar el literal del reglamento de desarrollo. Si hay
-número, ponerlo en el aviso legal es una línea.
+**Respuesta de la casa (14-10-2026): dice que NO está inscrita.** Hay que matizarlo antes de dar nada
+por hecho: esa declaración responsable suele presentarla la gestoría junto con la licencia de
+apertura, así que es muy posible que esté hecha y ella no lo recuerde. **Lo que procede es que la
+gestoría confirme si el TU984B se presentó**, y si no, presentarlo: habilita desde el mismo día de
+la presentación.
+
+**Qué significa esto para la web: nada que arreglar.** La web no se presenta como establecimiento
+inscrito, no exhibe distintivos turísticos ni número de registro, y no afirma nada que dependa de esa
+inscripción — así que no hay texto que corregir ni que retirar. Si el número existe, ponerlo en el
+aviso legal es una línea. El riesgo, si lo hubiera, sería administrativo y del establecimiento, no de
+esta web.
 
 ---
 
@@ -229,9 +238,9 @@ número, ponerlo en el aviso legal es una línea.
 | 1 | **Alérgenos firmados** | Tatiana | Riesgo sanitario, no de multa |
 | 2 | **Correo de contacto** | Brian/Tatiana | Art. 10 LSSI y canal de derechos RGPD |
 | 3 | **Sustituir la foto de la fachada** | Brian | Imagen de un trabajador + procedencia de la foto |
-| 4 | Confirmar inscripción en el REAT y si el número va en la publicidad | gestoría | Lei 7/2011 |
-| 5 | Comprobar el cartel de hojas de reclamaciones en el local | Tatiana | Art. 32 Ley 2/2012 |
-| 6 | Registro de actividades de tratamiento | gestoría | Art. 30 RGPD |
+| 4 | Confirmar con la gestoría si se presentó el TU984B (declaración responsable de inicio de actividad, que inscribe en el REAT) | gestoría | Lei 7/2011, art. 77 · **no afecta a la web** |
+| ~~5~~ | ~~Cartel de hojas de reclamaciones~~ · **confirmado el 14-10-2026: está puesto** | — | — |
+| ~~6~~ | ~~Registro de actividades de tratamiento~~ · **confirmado el 14-10-2026: existe** | — | — |
 | 7 | Repasar las cifras de Google cada pocos meses | quien mantenga la web | Que no envejezcan |
 
 ---
