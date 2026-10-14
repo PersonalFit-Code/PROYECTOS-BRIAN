@@ -297,6 +297,33 @@ const gl: DataTranslations = {
       badge: "As máis pedidas",
       pairingWhy: "Ten corpo para a bechamel e o amargor xusto para acompañar o grelo.",
     },
+    pulpo: {
+      kicker: "Dúas escolas, un polbo",
+      headline: "Á feira sobre cachelos ou marcado á prancha",
+      description:
+        "Polbo cocido no punto e servido como se pida: á feira, no prato de madeira de sempre, con cachelos, pemento e un fío de aceite; ou marcado á prancha. O mesmo polbo, dúas maneiras de entendelo.",
+      ingredients: ["Polbo", "Cachelos", "Pemento", "AOVE", "Sal groso"],
+      unit: "ración",
+      pairingWhy: "O branco de taberna de toda a vida: fresco e sen madeira, aguanta o pemento sen pelexarse con el.",
+    },
+    "tixola-gulas": {
+      kicker: "Da tixola á mesa",
+      headline: "A tixola máis completa da casa",
+      description:
+        "Gulas, cogomelos salteados e langostinos sobre ovos e patacas, feitos na mesma tixola de ferro na que chegan á mesa. A máis completa das tixolas.",
+      ingredients: ["Gulas", "Cogomelos salteados", "Langostinos", "Ovos", "Patacas", "AOVE"],
+      unit: "tixola",
+      pairingWhy: "Ten graxa de ovo e dozura de langostino: pide un branco con corpo e acidez, non un lixeiro.",
+    },
+    cecina: {
+      kicker: "Curado e frío",
+      headline: "O xeado desfaise enriba da cecina",
+      description:
+        "Láminas de cecina repartidas en coroa sobre leituga e endivia, con gallos de tomate, mazá e noces, e unha quenelle de xeado de queixo de ovella no centro que se vai desfacendo por riba. A máis vistosa da carta.",
+      ingredients: ["Cecina", "Xeado de queixo de ovella", "Leituga e endivia", "Tomate", "Mazá", "Noces"],
+      unit: "ración",
+      pairingWhy: "Un tinto lixeiro e fresco, dos que se serven algo frescos: acompaña a cecina sen tapar o xeado de queixo.",
+    },
   },
 
   allergens: {

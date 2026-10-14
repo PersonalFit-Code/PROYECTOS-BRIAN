@@ -298,6 +298,33 @@ const pt: DataTranslations = {
       badge: "Os mais pedidos",
       pairingWhy: "Tem corpo para a béchamel e o amargo certo para acompanhar o grelo.",
     },
+    pulpo: {
+      kicker: "Duas escolas, um polvo",
+      headline: "À feira sobre cachelos ou marcado na chapa",
+      description:
+        "Polvo cozido no ponto e servido como se pedir: à feira, no prato de madeira de sempre, com cachelos, pimentão e um fio de azeite; ou marcado na chapa. O mesmo polvo, duas maneiras de o entender.",
+      ingredients: ["Polvo", "Cachelos", "Pimentão", "Azeite virgem extra", "Sal grosso"],
+      unit: "dose",
+      pairingWhy: "O branco de taberna de sempre: fresco e sem madeira, aguenta o pimentão sem lhe fazer frente.",
+    },
+    "tixola-gulas": {
+      kicker: "Da frigideira para a mesa",
+      headline: "A tixola mais completa da casa",
+      description:
+        "Gulas, cogumelos salteados e camarões sobre ovos e batatas, feitos na mesma frigideira de ferro em que chegam à mesa. A mais completa das tixolas.",
+      ingredients: ["Gulas", "Cogumelos salteados", "Camarões", "Ovos", "Batatas", "Azeite virgem extra"],
+      unit: "frigideira",
+      pairingWhy: "Tem gordura de ovo e doçura de camarão: pede um branco com corpo e acidez, não um leve.",
+    },
+    cecina: {
+      kicker: "Curado e frio",
+      headline: "O gelado desfaz-se por cima da cecina",
+      description:
+        "Lâminas de cecina dispostas em coroa sobre alface e endívia, com gomos de tomate, maçã e nozes, e uma quenelle de gelado de queijo de ovelha no centro que se vai desfazendo por cima. A mais vistosa da carta.",
+      ingredients: ["Cecina", "Gelado de queijo de ovelha", "Alface e endívia", "Tomate", "Maçã", "Nozes"],
+      unit: "dose",
+      pairingWhy: "Um tinto leve e fresco, dos que se servem ligeiramente frescos: acompanha a cecina sem tapar o gelado de queijo.",
+    },
   },
 
   allergens: {

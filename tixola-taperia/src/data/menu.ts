@@ -268,7 +268,7 @@ export const MENU_ITEMS: MenuItem[] = [
     unit: "sartén",
     image: "/images/tixola-gulas-langostinos.webp",
     allergens: ["huevos", "crustaceos", "pescado", "gluten", "soja"],
-    tags: [],
+    tags: ["estrella"],
     emoji: "🍳",
   },
   {
@@ -344,7 +344,7 @@ export const MENU_ITEMS: MenuItem[] = [
        corrige borrando una palabra; declarar de menos se lo come alguien con alergia. Pendiente de
        que Tatiana lo confirme (y de si el aliño lleva mostaza o sulfitos). */
     allergens: ["lacteos", "frutos-cascara"],
-    tags: [],
+    tags: ["estrella"],
     emoji: "🥗",
   },
   {
@@ -605,7 +605,7 @@ export const MENU_ITEMS: MenuItem[] = [
     price: 18.5,
     unit: "ración",
     allergens: ["moluscos"],
-    tags: [],
+    tags: ["estrella"],
     emoji: "🐙",
   },
   {

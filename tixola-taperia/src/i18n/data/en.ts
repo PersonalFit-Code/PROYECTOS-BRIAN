@@ -297,6 +297,33 @@ const en: DataTranslations = {
       badge: "The most ordered",
       pairingWhy: "It has the body for the béchamel and just the right bitterness to go with the grelos.",
     },
+    pulpo: {
+      kicker: "Two schools, one octopus",
+      headline: "Á feira over cachelos, or seared on the griddle",
+      description:
+        "Octopus boiled to the right point and served however you like it: á feira, on the usual wooden plate, with cachelos (boiled potatoes), paprika and a drizzle of olive oil; or seared on the griddle. The same octopus, two ways of understanding it.",
+      ingredients: ["Octopus", "Cachelos (boiled potatoes)", "Paprika", "Extra virgin olive oil", "Coarse salt"],
+      unit: "portion",
+      pairingWhy: "The classic tavern white: fresh and unoaked, it stands up to the paprika instead of fighting it.",
+    },
+    "tixola-gulas": {
+      kicker: "Straight from the pan",
+      headline: "The most loaded skillet in the house",
+      description:
+        "Baby eels, sautéed mushrooms and prawns over eggs and potatoes, cooked in the same iron skillet they are served in. The most complete of the tixolas.",
+      ingredients: ["Baby eels (gulas)", "Sautéed mushrooms", "Prawns", "Eggs", "Potatoes", "Extra virgin olive oil"],
+      unit: "skillet",
+      pairingWhy: "Rich egg and sweet prawn: it calls for a white with body and acidity, not a light one.",
+    },
+    cecina: {
+      kicker: "Cured and cold",
+      headline: "The ice cream melts over the cured beef",
+      description:
+        "Slices of cecina (air-dried beef) arranged in a crown over lettuce and endive, with tomato wedges, apple and walnuts, and a quenelle of sheep's cheese ice cream in the middle that slowly melts over it. The most striking plate on the menu.",
+      ingredients: ["Cecina (air-dried beef)", "Sheep's cheese ice cream", "Lettuce and endive", "Tomato", "Apple", "Walnuts"],
+      unit: "portion",
+      pairingWhy: "A light, fresh red served slightly chilled: it goes with the cured beef without burying the cheese ice cream.",
+    },
   },
 
   allergens: {
