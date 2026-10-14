@@ -1,4 +1,4 @@
-# Lista de lanzamiento — Tixola (revisión del 6-10-2026)
+# Lista de lanzamiento — Tixola (revisión del 6-10-2026, al día el 14-10-2026)
 
 Revisión hecha leyendo el código y las condiciones actuales de Vercel (docs, actualizadas el
 14-9-2026). No es asesoramiento jurídico: para lo que dependa de criterio legal, consultar con la
@@ -31,6 +31,10 @@ gestoría de Tatiana.
    premio Travellers' Choice sí se puede nombrar. La nota de Google se queda, atribuida a su lado.
    Si algún día se quiere volver a enseñar texto de reseñas: widget oficial de cada plataforma, o
    testimonios propios con permiso escrito de quien los firma.
+   **Rematado el 14-10-2026**: el bloque que abría las reseñas se había quedado con un titular de
+   sección para dos enlaces y media pantalla vacía debajo, y la nota de Google salía cuatro veces en
+   el mismo golpe de vista. Ahora la nota y los dos enlaces van al lado del titular, y la valoración
+   aparece dos veces y con dos papeles: cifra en la banda y enlace a la ficha para comprobarla.
 6. ~~**"Nº 1 en zamburiñas de la zona".**~~ ✅ **Resuelto el 10-10-2026** por decisión de Brian: el
    distintivo del plato estrella pasa a "El plato por el que nos conocen" y el contador de la banda de
    cifras, a "53 vinos en carta" (número que sale de `wines.ts`, así que no se queda viejo).
@@ -100,7 +104,7 @@ la lista no aplica: no hay nada que filtrar por usuario ni contraseñas que prot
 | 17 | Devolver solo lo necesario | OK. La API devuelve solo el texto de la respuesta; los errores no enseñan detalles internos. |
 | 18 | Cabeceras de seguridad | Añadido en `next.config.ts`: CSP, HSTS, nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy, COOP; quitado `X-Powered-By`. |
 | 19 | Forzar HTTPS | OK. Vercel redirige a HTTPS y HSTS obliga al navegador a no usar http. |
-| 20 | Escanear dependencias | Hecho. Next 16.4.0 y sharp 0.35.5 parcheados. Queda un aviso en `braces` (solo herramienta de lint, no llega a la web; el "arreglo" propuesto es bajar a una versión vieja). Repetir `npm audit` antes de cada cambio grande. |
+| 20 | Escanear dependencias | Hecho. sharp 0.35.5 parcheado. Next va **fijado en 16.3.8 exacto** (sin `^`): el 16.4.0 trae los mismos parches de seguridad pero rompe el build en Vercel al resolver `next/font/google`. Antes de subir de versión, probar el build en Vercel. Queda un aviso en `braces` (solo herramienta de lint, no llega a la web; el "arreglo" propuesto es bajar a una versión vieja). Repetir `npm audit` antes de cada cambio grande. |
 
 ## G · "20 cosas antes de lanzar tu web" (10-10-2026)
 
@@ -122,5 +126,5 @@ la lista no aplica: no hay nada que filtrar por usuario ni contraseñas que prot
 | 16 | Enlaces rotos | OK: 0 rotos. Limpiados además los enlaces de Google Maps (llevaban un `place_id` vacío). |
 | 17 | Formularios contra spam | No hay formularios. El chat tiene filtro de origen, cuota por IP y tope de tamaño. |
 | 18 | WhatsApp visible | OK: botón flotante en escritorio y en el dock del móvil. |
-| 19 | Analítica | **Pendiente de decisión**: Vercel Web Analytics (sin cookies, no necesita banner). Se activa en el panel de Vercel y hay que mencionarla en la política de privacidad. |
+| 19 | Analítica | **Instalada** (13-10-2026): Vercel Web Analytics, sin cookies, ya mencionada en la política de privacidad y en la tabla de cookies. Solo se carga en producción Y con el consentimiento de "Mapa y analítica" aceptado, porque el aviso de cookies ya prometía esa elección. **Queda activarla en el panel de Vercel** (Analytics → Enable): hasta entonces no llega ningún dato. |
 | 20 | Una sola llamada a la acción | OK: en la portada, "Ver la carta" es la única acción principal; "Cómo llegar" va como secundaria. |
