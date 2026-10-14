@@ -136,3 +136,57 @@ Esto es para ti, no para decirlo.
 
 Prometer cualquiera de estas cinco cosas te cuesta el cliente en la segunda
 reunion. Decirlas tu antes de que pregunten te lo gana.
+
+---
+
+## 8. La explicacion rapida, para cuando coge el jefe
+
+Tres tamanos. Usa el que te deje el tiempo que tenga, y para en cuanto
+pregunte algo: si pregunta, ya esta escuchando.
+
+**Diez segundos** (si tiene prisa):
+
+> Es una asistente de voz que coge el teléfono de la clínica cuando están
+> ocupados y les deja apuntado quién llamó y por qué. No cambia su número
+> ni toca su programa.
+
+**Treinta segundos** (la normal):
+
+> Soy Brian, estudiante de desarrollo de IA aquí en Ourense. He hecho una
+> asistente de voz, Noah, que coge el teléfono de la clínica cuando ustedes
+> no pueden: en box, a mediodía o ya cerrados. Escucha al paciente, apunta
+> su nombre, su teléfono y para qué llama, y les deja el recado escrito
+> para que lo devuelvan ustedes. No da citas ni precios, y su número no
+> cambia: se hace con un desvío que se quita en dos minutos. Solo le pido
+> quince minutos para que la oiga funcionar.
+
+**Lo que NO dices**, aunque tengas ganas: que ya la usa una clinica (no
+es verdad todavia), que da hora en su agenda (esta construido pero no
+probado con un calendario real), ni un precio que no tengas decidido.
+
+### Si pregunta
+
+| Pregunta | Respuesta |
+|---|---|
+| **¿Cuánto cuesta?** | Oírla no cuesta nada ni compromete a nada. El precio se lo explico en la visita, cuando sepamos cuántas llamadas se les escapan. |
+| **¿Ya la usa alguna clínica?** | Todavía no. La estoy adaptando a clínicas y busco la primera para ajustarla con ustedes. *(Dicho así juega a tu favor: el primero marca cómo se hace.)* |
+| **¿Y si el paciente no quiere hablar con una máquina?** | Lo dice nada más descolgar, y recoge nombre y teléfono para que ustedes le llamen. Nadie se queda sin respuesta. |
+| **¿Y la protección de datos?** | **No improvises esta.** Mira abajo. |
+
+### La respuesta de protección de datos
+
+El "para qué llama" que apunta Noah (una limpieza, una muela rota) es, según
+el RGPD, un **dato de salud** (art. 9), aunque sea poco. Así que **no
+digas nunca "no tratamos datos de salud"**: es lo primero que un dentista
+te va a desmontar, porque ellos viven de eso.
+
+Lo que sí es cierto y puedes decir:
+
+- Los recados solo los ve la clínica.
+- La llamada **no se graba** (viene desactivado).
+- Noah no pregunta por síntomas ni antecedentes.
+
+Lo que **todavía no tienes**: el contrato de encargado del tratamiento
+(art. 28 RGPD) que la clínica tendría que firmar contigo antes de empezar.
+No lo prometas como hecho hasta que exista: di "lo prepararíamos antes de
+empezar".
