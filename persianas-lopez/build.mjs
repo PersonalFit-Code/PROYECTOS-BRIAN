@@ -43,7 +43,7 @@ function pagina(rutaDe, generar) {
 
 pagina((t) => t.rutas.inicio, (t, alt) => paginaInicio(t, alt));
 pagina((t) => t.rutas.catalogo, (t, alt) => paginaCatalogo(t, alt));
-for (const clave of ['aviso', 'privacidad', 'cookies']) {
+for (const clave of ['aviso', 'privacidad', 'cookies', 'condiciones']) {
   pagina((t) => t.rutas[clave], (t, alt) => paginaLegal(t, clave, alt));
 }
 es.servicios.forEach((_, i) => {

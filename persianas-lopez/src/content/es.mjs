@@ -12,6 +12,7 @@ export default {
     aviso: '/aviso-legal/',
     privacidad: '/privacidad/',
     cookies: '/cookies/',
+    condiciones: '/condiciones/',
     servicio: (slug) => `/servicios/${slug}/`
   },
 
@@ -47,10 +48,21 @@ export default {
     valoracionAria: 'Valoración de 4,4 sobre 5 estrellas',
     mapaTitulo: 'Mapa de ubicación de Persianas López en Rúa Bonhome, 10, Ourense',
     mapaBoton: 'Ver el mapa',
-    mapaAviso: 'El mapa lo sirve Google y puede usar sus propias cookies. Solo se carga si pulsas el botón.',
-    cookiesAviso: 'Esta web no usa cookies de seguimiento. El mapa de Google solo se carga si lo pides.',
-    cookiesEntendido: 'Entendido',
-    cookiesMas: 'Más información',
+    mapaAviso: 'El mapa lo sirve Google, que puede instalar sus propias cookies. Al pulsar el botón aceptas que se cargue.',
+    cookiesAviso: 'Solo usamos almacenamiento técnico necesario. Con tu permiso cargamos contenido de terceros (el mapa de Google), que puede instalar cookies.',
+    cookiesMas: 'Política de cookies',
+    cookiesTitulo: 'Tu privacidad',
+    cookiesAceptar: 'Aceptar',
+    cookiesRechazar: 'Rechazar',
+    cookiesConfigurar: 'Configurar',
+    cookiesGuardar: 'Guardar selección',
+    cookiesTecnicas: 'Técnicas (necesarias, siempre activas)',
+    cookiesMapas: 'Mapa de Google (cookies de terceros)',
+    cookiesAnalitica: 'Estadísticas de visitas',
+    configurarCookies: 'Configurar cookies',
+    condiciones: 'Condiciones de contratación',
+    proteccionDatos: 'Protección de datos: información básica',
+    masInfoDatos: 'Más información en la política de privacidad',
     legal: 'Información legal',
     avisoLegal: 'Aviso legal',
     privacidad: 'Política de privacidad',
@@ -289,39 +301,68 @@ export default {
 
 
   legal: {
+    // Primera capa de información sobre protección de datos (asistente y contacto)
+    basica: (s) => [
+      ['Responsable', `${s.titular.nombre} (Persianas López)`],
+      ['Finalidad', 'Atender tu consulta o solicitud de presupuesto y, si lo aceptas, hacer el trabajo.'],
+      ['Legitimación', 'Tu consentimiento y la aplicación de medidas precontractuales a petición tuya.'],
+      ['Destinatarios', 'No cedemos datos a terceros salvo obligación legal. Los mensajes de WhatsApp pasan por Meta Platforms.'],
+      ['Derechos', `Acceso, rectificación, supresión, oposición, limitación y portabilidad, escribiendo a ${s.titular.email}.`]
+    ],
     aviso: {
       title: 'Aviso legal | Persianas López',
       h1: 'Aviso legal',
       secciones: (s) => [
-        ['Titular de la web', `<p>En cumplimiento de la Ley 34/2002, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE), se informa de los datos del titular de este sitio web:</p><ul><li>Titular: ${s.titular.nombre}</li><li>NIF: ${s.titular.nif}</li><li>Domicilio: ${s.direccion}, ${s.cp} ${s.ciudad}</li><li>Teléfono: ${s.telefonoVisible}</li><li>Correo electrónico: ${s.titular.email}</li></ul>`],
-        ['Objeto', '<p>Esta web informa sobre los servicios de reparación, venta y colocación de persianas, mosquiteras, estores, mamparas y repuestos de Persianas López, y facilita el contacto por teléfono y WhatsApp.</p>'],
-        ['Propiedad intelectual', '<p>Los textos, el diseño y los elementos gráficos de esta web pertenecen a su titular o se usan con licencia. No se permite su reproducción sin autorización.</p>'],
-        ['Responsabilidad', '<p>La información de la web es orientativa. Los precios y la disponibilidad se confirman siempre de forma personal antes de cualquier trabajo. El titular no se hace responsable del contenido de webs de terceros enlazadas, como Google Maps o WhatsApp.</p>'],
-        ['Legislación aplicable', '<p>Esta web se rige por la legislación española.</p>']
+        ['Titular de la web', `<p>En cumplimiento de la Ley 34/2002, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE), estos son los datos del titular de este sitio web:</p><ul><li>Titular: ${s.titular.nombre}</li><li>Nombre comercial: Persianas López</li><li>NIF: ${s.titular.nif}</li><li>Domicilio: ${s.direccion}, ${s.cp} ${s.ciudad} (${s.provincia})</li><li>Teléfono: ${s.telefonoVisible}</li><li>Correo electrónico: ${s.titular.email}</li><li>Actividad: reparación, venta y colocación de persianas, mosquiteras, estores, mamparas y repuestos.</li></ul>`],
+        ['Uso de la web', '<p>El acceso a esta web es gratuito y no exige registro. Quien la usa se compromete a hacerlo de forma lícita y a no dañar su funcionamiento.</p>'],
+        ['Propiedad intelectual e industrial', '<p>El nombre comercial Persianas López, su logotipo, los textos y el diseño de esta web pertenecen a su titular. Las fotografías de producto pueden pertenecer a sus fabricantes y se muestran con fines ilustrativos. No se permite reproducir, distribuir ni transformar estos contenidos sin autorización.</p>'],
+        ['Responsabilidad', '<p>La información de la web es orientativa. Los precios, plazos y disponibilidad se confirman siempre antes de cualquier trabajo. El titular no responde del contenido de webs de terceros enlazadas, como Google Maps o WhatsApp.</p>'],
+        ['Contratación y reclamaciones', `<p>Las condiciones de los presupuestos, visitas a domicilio y trabajos están en las <a href="${s.rutas.condiciones}">condiciones de contratación</a>, donde también se explica cómo presentar una reclamación.</p>`],
+        ['Protección de datos y cookies', `<p>Consulta la <a href="${s.rutas.privacidad}">política de privacidad</a> y la <a href="${s.rutas.cookies}">política de cookies</a>.</p>`],
+        ['Legislación aplicable', '<p>Esta web se rige por la legislación española. En los conflictos con consumidores serán competentes los juzgados y tribunales que correspondan según la normativa de consumo.</p>']
       ]
     },
     privacidad: {
       title: 'Política de privacidad | Persianas López',
       h1: 'Política de privacidad',
       secciones: (s) => [
-        ['Responsable del tratamiento', `<p>${s.titular.nombre} (NIF ${s.titular.nif}), ${s.direccion}, ${s.cp} ${s.ciudad}. Correo: ${s.titular.email}.</p>`],
-        ['Qué datos tratamos', '<p>Esta web no tiene formularios que guarden datos ni áreas de usuario. Cuando usas el asistente de presupuesto, el mensaje se compone en tu propio navegador y se abre WhatsApp: los datos solo nos llegan si tú decides enviar ese mensaje. Si nos llamas o nos escribes, tratamos tu nombre, tu teléfono y lo que nos cuentes para atender tu consulta y darte presupuesto.</p>'],
-        ['Para qué y con qué base', '<p>Usamos esos datos para responderte, preparar el presupuesto y, si lo aceptas, realizar el trabajo. La base es la aplicación de medidas precontractuales a petición tuya y, en su caso, la ejecución del contrato.</p>'],
-        ['Cuánto tiempo', '<p>Conservamos los datos mientras dure la relación y, después, durante los plazos que exija la ley (por ejemplo, obligaciones fiscales).</p>'],
-        ['Con quién se comparten', '<p>No cedemos tus datos a terceros salvo obligación legal. Si nos escribes por WhatsApp, ese servicio lo presta Meta Platforms con sus propias condiciones. La web se aloja en Vercel, que registra datos técnicos de acceso (como la dirección IP) por motivos de seguridad.</p>'],
-        ['Estadísticas', '<p>Para saber cuántas visitas, llamadas y mensajes llegan desde la web usamos, si está activada, una herramienta de estadísticas sin cookies que no identifica a las personas.</p>'],
-        ['Tus derechos', '<p>Puedes pedir el acceso, la rectificación, la supresión, la oposición, la limitación o la portabilidad de tus datos escribiendo al correo indicado arriba. Si crees que no hemos atendido bien tu solicitud, puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>']
+        ['Responsable del tratamiento', `<ul><li>Responsable: ${s.titular.nombre} (Persianas López)</li><li>NIF: ${s.titular.nif}</li><li>Dirección: ${s.direccion}, ${s.cp} ${s.ciudad}</li><li>Teléfono: ${s.telefonoVisible}</li><li>Correo para protección de datos: ${s.titular.email}</li></ul>`],
+        ['Qué datos tratamos', '<p>Solo los que tú nos das: tu nombre, tu teléfono, la dirección si vamos a tu domicilio, las fotos o vídeos que nos envíes y los detalles de lo que necesitas.</p><p>Esta web no tiene formularios que guarden datos ni áreas de usuario. El asistente de presupuesto prepara el mensaje en tu propio navegador y solo nos llega si tú decides enviarlo por WhatsApp, después de aceptar esta política.</p>'],
+        ['Para qué los usamos', '<ul><li>Responder a tus consultas y preparar presupuestos.</li><li>Hacer los trabajos que nos encargues (visitas, reparaciones, instalaciones) y atender la garantía.</li><li>Cumplir obligaciones legales, como la facturación.</li></ul><p>No usamos tus datos para enviarte publicidad ni tomamos decisiones automatizadas sobre ti.</p>'],
+        ['Base legal', '<ul><li>Tu consentimiento, cuando nos escribes o envías la solicitud del asistente (artículo 6.1.a del RGPD). Puedes retirarlo cuando quieras, sin que afecte a lo hecho antes.</li><li>La aplicación de medidas precontractuales a petición tuya y la ejecución del contrato (artículo 6.1.b del RGPD).</li><li>El cumplimiento de obligaciones legales, como las fiscales (artículo 6.1.c del RGPD).</li></ul>'],
+        ['Cuánto tiempo los guardamos', '<p>Las consultas y presupuestos que no terminen en un encargo, como máximo un año desde el último contacto. Los datos de clientes, mientras dure la relación y, después, durante los plazos que exige la ley (por ejemplo, seis años para la documentación contable). Pasados esos plazos, se borran.</p>'],
+        ['Con quién se comparten', '<p>No cedemos tus datos a terceros salvo obligación legal (por ejemplo, a la Agencia Tributaria). Usamos estos proveedores:</p><ul><li>WhatsApp (Meta Platforms Ireland), si nos escribes por ese canal.</li><li>Vercel Inc., que aloja la web y registra datos técnicos de conexión, como la dirección IP, por seguridad.</li><li>Google, solo si aceptas cargar el mapa.</li></ul><p>Algunos de estos proveedores pueden tratar datos fuera del Espacio Económico Europeo con las garantías que exige el RGPD, como el Marco de Privacidad de Datos UE-EE. UU. o cláusulas contractuales tipo.</p>'],
+        ['Tus derechos', `<p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad, y retirar tu consentimiento, escribiendo a ${s.titular.email} o en la tienda de ${s.direccion}. Indica qué derecho quieres ejercer y acredita tu identidad. Te responderemos en el plazo de un mes.</p><p>Si crees que no hemos atendido bien tu solicitud, puedes reclamar ante la Agencia Española de Protección de Datos (www.aepd.es).</p>`],
+        ['Menores', '<p>No tratamos datos de menores de 14 años sin el consentimiento de sus padres o tutores.</p>'],
+        ['Seguridad', '<p>Aplicamos medidas técnicas y organizativas adecuadas para proteger tus datos frente a accesos no autorizados, pérdidas o alteraciones.</p>'],
+        ['Cambios', '<p>Si cambiamos esta política, publicaremos aquí la nueva versión con su fecha.</p>']
       ]
     },
     cookies: {
       title: 'Política de cookies | Persianas López',
       h1: 'Política de cookies',
-      secciones: () => [
-        ['¿Usa cookies esta web?', '<p>No. Esta web no instala cookies propias ni de seguimiento, y no usa publicidad.</p>'],
-        ['Almacenamiento en tu navegador', '<p>Guardamos en tu navegador (almacenamiento local) solo dos preferencias técnicas: que ya has visto el aviso de cookies y, si lo pides, que quieres ver el mapa. No sirven para identificarte y puedes borrarlas desde tu navegador.</p>'],
-        ['Mapa de Google', '<p>El mapa de la sección de contacto lo sirve Google y puede instalar sus propias cookies. Por eso no se carga hasta que pulsas «Ver el mapa». Más información en la política de privacidad de Google.</p>'],
-        ['Estadísticas sin cookies', '<p>Si están activadas, las estadísticas de visitas se miden sin cookies y sin identificar a nadie.</p>'],
-        ['Cambios', '<p>Si en el futuro añadimos cookies que necesiten tu permiso, te lo pediremos antes de usarlas.</p>']
+      secciones: (s) => [
+        ['Qué son las cookies', '<p>Son pequeños archivos o datos que una web guarda en tu navegador para recordar información sobre tu visita.</p>'],
+        ['Qué usamos en esta web', '<ul><li><strong>Almacenamiento técnico propio</strong> (consentimiento): guarda tu elección sobre las cookies para no volver a preguntarte. Es necesario y no requiere consentimiento. Se guarda 12 meses.</li><li>No usamos cookies propias de análisis ni de publicidad.</li></ul>'],
+        ['Cookies de terceros: mapa de Google', '<p>El mapa de la sección de contacto lo sirve Google. Si lo cargas, Google puede instalar sus propias cookies para que el mapa funcione, por seguridad y, según su política, para otros fines. Por eso solo se carga si lo aceptas en el panel de cookies o si pulsas «Ver el mapa». Más información en policies.google.com/technologies/cookies.</p>'],
+        ['Estadísticas', '<p>Si en algún momento activamos una herramienta de estadísticas de visitas, solo se cargará si la aceptas en el panel de cookies.</p>'],
+        ['Cómo aceptar, rechazar o cambiar tu elección', '<p>Al entrar por primera vez te mostramos un panel con las opciones «Aceptar», «Rechazar» y «Configurar». Puedes cambiar tu elección cuando quieras con el enlace «Configurar cookies» del pie de la página. También puedes borrar las cookies y el almacenamiento desde la configuración de tu navegador.</p>'],
+        ['Actualización', '<p>Revisamos esta política cuando cambian las herramientas que usa la web.</p>']
+      ]
+    },
+    condiciones: {
+      title: 'Condiciones de contratación | Persianas López',
+      h1: 'Condiciones de contratación',
+      secciones: (s) => [
+        ['A qué se aplican', `<p>A los servicios de reparación, venta y colocación de persianas, mosquiteras, estores, mamparas, puertas plegables y repuestos que prestamos ${s.titular.nombre} (Persianas López), ya los pidas en la tienda, por teléfono, por WhatsApp o desde esta web.</p>`],
+        ['Cómo se contrata', '<ol><li><strong>Solicitud.</strong> Nos cuentas lo que necesitas por teléfono, WhatsApp, en la tienda o con el asistente de la web. Pedir información o presupuesto es gratis y no te compromete a nada.</li><li><strong>Presupuesto.</strong> Te damos un presupuesto con el trabajo, el precio con IVA incluido y el plazo aproximado. El asistente de la web no da precios cerrados ni sirve para contratar: solo prepara tu solicitud.</li><li><strong>Aceptación.</strong> El trabajo solo se encarga cuando aceptas expresamente el presupuesto.</li><li><strong>Trabajo y factura.</strong> Hacemos el trabajo y te entregamos la factura.</li></ol>'],
+        ['Precios y validez del presupuesto', `<p>Los precios incluyen IVA. El presupuesto es válido durante ${s.condiciones.validez}. Si al hacer el trabajo aparece algo que cambie el precio, te lo explicamos y necesitamos tu conformidad antes de seguir.</p>`],
+        ['Visitas y desplazamientos a domicilio', `<p>${s.condiciones.desplazamiento} Siempre te lo diremos antes de ir.</p>`],
+        ['Cancelaciones', `<p>Si no puedes atender una visita, avísanos cuanto antes por teléfono o WhatsApp al ${s.telefonoVisible}. ${s.condiciones.cancelacion}</p>`],
+        ['Derecho de desistimiento', '<p>Si contratas fuera de la tienda (por ejemplo, en tu domicilio), tienes 14 días naturales para desistir sin dar explicaciones, salvo en los casos que excluye el artículo 103 de la Ley General para la Defensa de los Consumidores y Usuarios: entre otros, los productos fabricados a medida según tus indicaciones y las reparaciones urgentes que nos pidas expresamente en tu domicilio. En los contratos fuera de la tienda te entregaremos el formulario de desistimiento.</p>'],
+        ['Garantías', `<p>Los productos que vendemos tienen la garantía legal de tres años que establece la Ley General para la Defensa de los Consumidores y Usuarios. Las reparaciones tienen una garantía de ${s.condiciones.garantiaReparacion}, que figurará en la factura.</p>`],
+        ['Hojas de reclamación', `<p>Tenemos a tu disposición hojas de reclamación oficiales de la Xunta de Galicia en la tienda de ${s.direccion}, ${s.cp} ${s.ciudad}. También puedes presentar una reclamación ante el Instituto Galego de Consumo e da Competencia en consumo.xunta.gal, o escribirnos antes a ${s.titular.email} para intentar resolverlo.</p>`],
+        ['Datos personales', `<p>Tratamos tus datos según la <a href="${s.rutas.privacidad}">política de privacidad</a>.</p>`]
       ]
     }
   },
@@ -391,6 +432,12 @@ export default {
     ],
     etiquetas: { servicio: 'Servicio', averia: 'Avería', material: 'Material', accionamiento: 'Accionamiento', cantidad: 'Cantidad', medidas: 'Medidas', tipo: 'Tipo', donde: 'Dónde', pieza: 'Pieza', cuando: 'Para cuándo', zona: 'Zona', nombre: 'Nombre' },
     resumen: 'Perfecto, este es el resumen de tu solicitud:',
+    casillaAntes: 'He leído y acepto la',
+    casillaEnlace: 'política de privacidad',
+    basicaTitulo: 'Información básica sobre protección de datos',
+    marcaCasilla: 'Marca la casilla para poder enviar tu solicitud.',
+    noVinculante: 'Es una solicitud, no un presupuesto cerrado: te confirmamos el precio antes de empezar.',
+    verCondiciones: 'Condiciones de contratación',
     precio: 'Precio orientativo',
     sinPrecio: 'El precio exacto te lo damos por WhatsApp. Si nos mandas una foto o un vídeo, mejor todavía.',
     enviar: 'Enviar por WhatsApp',

@@ -1,6 +1,6 @@
 import { SITIO, wa } from '../config.mjs';
 import { ico, PIEZAS } from '../icons.mjs';
-import { layout, ancla } from './layout.mjs';
+import { layout, ancla, capaBasica } from './layout.mjs';
 import { logo } from '../logo.mjs';
 
 const chipClase = 'glass glass-light inline-flex rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-[.25em] text-brand-600';
@@ -75,7 +75,8 @@ const contactoBloque = (t, { conTitulo = true } = {}) => {
           <p class="mt-5 text-lg leading-relaxed text-slate-600">${c.texto}</p>
         </div>
         <div class="mt-10 grid gap-6 sm:mt-14 lg:grid-cols-5">
-          <address class="not-italic lg:col-span-2">
+          <div class="space-y-4 lg:col-span-2">
+          <address class="not-italic">
             <ul class="space-y-4">
               <li class="reveal desde-izq group glass glass-light flex gap-4 rounded-3xl p-6">
                 <span class="icono-burbuja flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100" aria-hidden="true">${ico('ubicacion', 'h-6 w-6')}</span>
@@ -104,6 +105,11 @@ const contactoBloque = (t, { conTitulo = true } = {}) => {
               </li>
             </ul>
           </address>
+          <details class="reveal glass glass-light group rounded-3xl px-6 py-5 text-sm">
+            <summary class="flex cursor-pointer list-none items-center gap-3 font-display font-bold text-brand-950">${ico('escudo', 'h-5 w-5 text-brand-600')}<span class="flex-1">${u.proteccionDatos}</span>${ico('chevron', 'chevron text-brand-600 transition-transform duration-300')}</summary>
+            <div class="respuesta mt-3">${capaBasica(t)}</div>
+          </details>
+          </div>
 ${mapa(t)}
         </div>
 ${ctaFinal(t)}
@@ -456,7 +462,7 @@ ${cabeceraInterior(t, { migasItems, h1: l.h1, botones: false })}
     <section class="py-16">
       <div class="mx-auto max-w-3xl px-5 sm:px-8">
         <div class="glass glass-light legal rounded-[2rem] p-7 sm:p-10">
-          ${l.secciones(SITIO).map(([h, html]) => `<h2>${h}</h2>${html}`).join('')}
+          ${l.secciones({ ...SITIO, rutas: t.rutas }).map(([h, html]) => `<h2>${h}</h2>${html}`).join('')}
           <p class="mt-8 text-sm text-slate-500">${t.lang === 'gl' ? 'Última actualización' : 'Última actualización'}: ${new Date().toISOString().slice(0, 10)}</p>
         </div>
       </div>

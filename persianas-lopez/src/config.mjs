@@ -17,6 +17,13 @@ export const SITIO = {
     nombre: '[PENDIENTE: nombre o razón social del titular]',
     nif: '[PENDIENTE: NIF/CIF]',
     email: '[PENDIENTE: correo de contacto]'
+  },
+  // PENDIENTE: condiciones de contratación que debe fijar el negocio
+  condiciones: {
+    validez: '[PENDIENTE: plazo de validez del presupuesto, por ejemplo 30 días]',
+    desplazamiento: '[PENDIENTE: indicar si la visita o el desplazamiento a domicilio tiene coste y cuánto.]',
+    cancelacion: '[PENDIENTE: indicar si cancelar una visita con poco aviso tiene algún coste.]',
+    garantiaReparacion: '[PENDIENTE: plazo de garantía de las reparaciones]'
   }
 };
 

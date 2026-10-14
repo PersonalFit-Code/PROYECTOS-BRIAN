@@ -8,6 +8,9 @@ const BANDERAS = {
   gl: '<svg class="bandera" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><path d="M0 0h.5L3 1.62V2h-.5L0 .38z" fill="#0090D0"/></svg>'
 };
 
+// Primera capa de información de protección de datos (contacto y asistente)
+export const capaBasica = (t) => `<dl class="capa-basica">${t.legal.basica(SITIO).map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl><p class="mt-3"><a href="${t.rutas.privacidad}" class="font-semibold text-brand-700 underline">${t.ui.masInfoDatos}</a></p>`;
+
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 // Ruta a un ancla de la portada: en la portada basta con '#id'
@@ -31,12 +34,14 @@ export function layout({ t, title, description, ruta, rutaAlt, cuerpo, esInicio 
               </a>
             </li>`).join('');
 
-  const analitica = [
-    ANALITICA.goatcounter ? `<script data-goatcounter="https://${ANALITICA.goatcounter}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>` : '',
-    ANALITICA.vercel ? `<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script><script defer src="/_vercel/insights/script.js"></script>` : ''
-  ].join('');
+  // La analítica no se carga aquí: app.js la añade solo si se acepta en el panel de cookies
+  const hayAnalitica = !!(ANALITICA.goatcounter || ANALITICA.vercel);
+  const analitica = hayAnalitica ? `<script type="application/json" id="config-analitica">${JSON.stringify(ANALITICA)}</script>` : '';
 
-  const datosChat = JSON.stringify({ ...t.chat, wa: SITIO.whatsapp, tel: SITIO.telefono, precios: PRECIOS });
+  const datosChat = JSON.stringify({
+    ...t.chat, wa: SITIO.whatsapp, tel: SITIO.telefono, precios: PRECIOS,
+    basica: t.legal.basica(SITIO), privacidadUrl: t.rutas.privacidad, condicionesUrl: t.rutas.condiciones
+  });
 
   return `<!DOCTYPE html>
 <html lang="${t.lang}" class="scroll-smooth">
@@ -163,6 +168,8 @@ ${cuerpo}
           <li><a href="${t.rutas.aviso}" class="hover:text-white hover:underline">${u.avisoLegal}</a></li>
           <li><a href="${t.rutas.privacidad}" class="hover:text-white hover:underline">${u.privacidad}</a></li>
           <li><a href="${t.rutas.cookies}" class="hover:text-white hover:underline">${u.cookies}</a></li>
+          <li><a href="${t.rutas.condiciones}" class="hover:text-white hover:underline">${u.condiciones}</a></li>
+          <li><button type="button" data-configurar-cookies class="hover:text-white hover:underline">${u.configurarCookies}</button></li>
           <li class="pt-2"><a href="${rutaAlt}" hreflang="${altLang}" lang="${altLang}" data-idioma="${altLang}" class="inline-flex items-center gap-2 font-semibold text-white hover:underline">${ico('globo', 'h-4 w-4')} ${t.otroIdioma.etiqueta}</a></li>
         </ul>
       </nav>
@@ -211,11 +218,21 @@ ${cuerpo}
   </section>
   <script type="application/json" id="chat-datos">${datosChat.replace(/</g, '\\u003c')}</script>
 
-  <!-- Aviso de cookies -->
-  <div id="aviso-cookies" class="fixed inset-x-3 bottom-20 z-[65] mx-auto hidden max-w-md sm:bottom-6 sm:left-6 sm:right-auto sm:mx-0" role="region" aria-label="${u.cookies}">
-    <div class="glass glass-light flex items-center gap-3 rounded-2xl py-2.5 pl-4 pr-2.5 text-xs leading-snug text-slate-700">
-      <p class="flex-1">${u.cookiesAviso} <a href="${t.rutas.cookies}" class="font-semibold text-brand-700 underline">${u.cookiesMas}</a></p>
-      <button type="button" id="aviso-cookies-ok" class="btn btn-azul shrink-0 px-4 py-2 text-xs">${u.cookiesEntendido}</button>
+  <!-- Panel de cookies: Aceptar y Rechazar con el mismo peso (Guía de cookies de la AEPD) -->
+  <div id="aviso-cookies" class="fixed inset-x-3 bottom-20 z-[65] mx-auto hidden max-w-md sm:bottom-6 sm:left-6 sm:right-auto sm:mx-0" role="dialog" aria-modal="false" aria-labelledby="cookies-titulo" aria-describedby="cookies-texto">
+    <div class="glass glass-light rounded-2xl p-4 text-slate-700">
+      <p id="cookies-titulo" class="font-display text-base font-bold text-brand-950">${u.cookiesTitulo}</p>
+      <p id="cookies-texto" class="mt-1 text-xs leading-relaxed">${u.cookiesAviso} <a href="${t.rutas.cookies}" class="font-semibold text-brand-700 underline">${u.cookiesMas}</a></p>
+      <div id="cookies-opciones" class="mt-3 hidden space-y-2 rounded-xl bg-white/70 p-3 text-xs">
+        <label class="flex items-center gap-2 text-slate-500"><input type="checkbox" checked disabled class="h-4 w-4 accent-brand-600"> ${u.cookiesTecnicas}</label>
+        <label class="flex items-center gap-2"><input type="checkbox" id="ck-mapas" class="h-4 w-4 accent-brand-600"> ${u.cookiesMapas}</label>
+        ${hayAnalitica ? `<label class="flex items-center gap-2"><input type="checkbox" id="ck-analitica" class="h-4 w-4 accent-brand-600"> ${u.cookiesAnalitica}</label>` : ''}
+      </div>
+      <div class="mt-3 grid grid-cols-2 gap-2">
+        <button type="button" id="ck-rechazar" class="btn btn-azul px-3 py-2.5 text-xs">${u.cookiesRechazar}</button>
+        <button type="button" id="ck-aceptar" class="btn btn-azul px-3 py-2.5 text-xs">${u.cookiesAceptar}</button>
+      </div>
+      <button type="button" id="ck-configurar" class="mt-2 w-full rounded-full py-1.5 text-xs font-semibold text-brand-700 underline" data-texto-guardar="${u.cookiesGuardar}">${u.cookiesConfigurar}</button>
     </div>
   </div>
 

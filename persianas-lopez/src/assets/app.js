@@ -13,6 +13,65 @@
     } catch (e) { /* la analítica nunca debe romper la página */ }
   }
   window.medir = medir;
+
+  /* ---------- Consentimiento de cookies (mapa de Google y estadísticas) ---------- */
+  var CLAVE_CONSENTIMIENTO = 'consentimiento';
+  var VIGENCIA = 365 * 24 * 3600 * 1000; // se vuelve a preguntar al año
+  try { localStorage.removeItem('aviso-cookies'); localStorage.removeItem('mapa-ok'); } catch (e) { /* versiones anteriores */ }
+  function leerConsentimiento() {
+    try {
+      var c = JSON.parse(leer(CLAVE_CONSENTIMIENTO));
+      if (c && Date.now() - c.fecha < VIGENCIA) return c;
+    } catch (e) { /* sin consentimiento guardado */ }
+    return null;
+  }
+  function guardarConsentimiento(mapas, analitica) {
+    var antes = leerConsentimiento();
+    var c = { mapas: !!mapas, analitica: !!analitica, fecha: Date.now(), v: 1 };
+    guardar(CLAVE_CONSENTIMIENTO, JSON.stringify(c));
+    // Si se retira un permiso, se recarga para quitar lo que ya estuviera cargado
+    if (antes && ((antes.mapas && !c.mapas) || (antes.analitica && !c.analitica))) { location.reload(); return c; }
+    aplicarConsentimiento(c);
+    return c;
+  }
+  var analiticaCargada = false;
+  function cargarAnalitica() {
+    var el = document.getElementById('config-analitica');
+    if (analiticaCargada || !el) return;
+    analiticaCargada = true;
+    var cfg = JSON.parse(el.textContent);
+    if (cfg.goatcounter) {
+      var g = document.createElement('script');
+      g.async = true;
+      g.src = 'https://gc.zgo.at/count.js';
+      g.dataset.goatcounter = 'https://' + cfg.goatcounter + '.goatcounter.com/count';
+      document.head.appendChild(g);
+    }
+    if (cfg.vercel) {
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      var v = document.createElement('script');
+      v.defer = true;
+      v.src = '/_vercel/insights/script.js';
+      document.head.appendChild(v);
+    }
+  }
+  function cargarMapa(caja) {
+    if (caja.querySelector('iframe')) return;
+    var f = document.createElement('iframe');
+    f.src = caja.dataset.mapaSrc;
+    f.title = caja.dataset.mapaTitulo;
+    f.loading = 'lazy';
+    f.referrerPolicy = 'no-referrer-when-downgrade';
+    f.allowFullscreen = true;
+    f.className = 'absolute inset-0 h-full w-full';
+    f.style.border = '0';
+    caja.innerHTML = '';
+    caja.appendChild(f);
+  }
+  function aplicarConsentimiento(c) {
+    if (c.analitica) cargarAnalitica();
+    if (c.mapas) document.querySelectorAll('.mapa').forEach(cargarMapa);
+  }
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('[data-medir]');
     if (a) medir(a.getAttribute('data-medir'));
@@ -78,8 +137,6 @@
     var secciones = ['inicio', 'servicios', 'repuestos', 'presupuesto', 'faq', 'contacto', 'ubicacion']
       .map(function (id) { return document.getElementById(id); }).filter(Boolean);
     var pendiente = false;
-    var aviso = document.getElementById('aviso-cookies');
-    var avisoPendiente = !leer('aviso-cookies') && !!document.getElementById('escena');
 
     function pintar() {
       pendiente = false;
@@ -92,7 +149,6 @@
       subir.style.transform = fuera ? 'none' : '';
       // Barra de acciones del móvil: aparece en cuanto se empieza a bajar
       barraMovil.classList.toggle('visible', y > 120);
-      if (fuera && avisoPendiente) mostrarAviso();
       if (esInicio) {
         var linea = window.innerHeight * 0.35, actual = 'inicio';
         secciones.forEach(function (s) { if (s.getBoundingClientRect().top <= linea) actual = s.id; });
@@ -138,35 +194,50 @@
       document.querySelectorAll('.reveal, .stars').forEach(function (el) { el.classList.add('is-visible'); });
     }
 
-    /* ---------- Aviso de cookies (solo informativo: la web no usa cookies) ---------- */
-    // En la portada sale al bajar un poco para no tapar sus botones; en el resto, a los 1,5 s
-    function mostrarAviso() { avisoPendiente = false; aviso.classList.remove('hidden'); }
-    if (!leer('aviso-cookies') && !esInicio) {
-      var espera = setTimeout(mostrarAviso, 1500);
+    /* ---------- Panel de cookies ---------- */
+    var aviso = document.getElementById('aviso-cookies');
+    var opcionesCookies = document.getElementById('cookies-opciones');
+    var ckMapas = document.getElementById('ck-mapas');
+    var ckAnalitica = document.getElementById('ck-analitica');
+    var configurar = document.getElementById('ck-configurar');
+    var textoConfigurar = configurar.textContent;
+    function abrirPanel(conOpciones) {
+      var c = leerConsentimiento();
+      ckMapas.checked = !!(c && c.mapas);
+      if (ckAnalitica) ckAnalitica.checked = !!(c && c.analitica);
+      opcionesCookies.classList.toggle('hidden', !conOpciones);
+      configurar.textContent = conOpciones ? configurar.dataset.textoGuardar : textoConfigurar;
+      aviso.classList.remove('hidden');
+    }
+    function cerrarPanel() { aviso.classList.add('hidden'); }
+    document.getElementById('ck-aceptar').addEventListener('click', function () { guardarConsentimiento(true, true); cerrarPanel(); }, S);
+    document.getElementById('ck-rechazar').addEventListener('click', function () { guardarConsentimiento(false, false); cerrarPanel(); }, S);
+    configurar.addEventListener('click', function () {
+      if (opcionesCookies.classList.contains('hidden')) { abrirPanel(true); return; }
+      guardarConsentimiento(ckMapas.checked, ckAnalitica && ckAnalitica.checked);
+      cerrarPanel();
+    }, S);
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-configurar-cookies]');
+      if (b) { e.preventDefault(); abrirPanel(true); }
+    }, S);
+    var consentimiento = leerConsentimiento();
+    if (consentimiento) aplicarConsentimiento(consentimiento);
+    else {
+      var espera = setTimeout(function () { abrirPanel(false); }, 700);
       control.signal.addEventListener('abort', function () { clearTimeout(espera); });
     }
-    document.getElementById('aviso-cookies-ok').addEventListener('click', function () {
-      guardar('aviso-cookies', '1');
-      aviso.classList.add('hidden');
-    }, S);
 
-    /* ---------- Mapa de Google solo bajo demanda ---------- */
-    function cargarMapa(caja) {
-      var f = document.createElement('iframe');
-      f.src = caja.dataset.mapaSrc;
-      f.title = caja.dataset.mapaTitulo;
-      f.loading = 'lazy';
-      f.referrerPolicy = 'no-referrer-when-downgrade';
-      f.allowFullscreen = true;
-      f.className = 'absolute inset-0 h-full w-full';
-      f.style.border = '0';
-      caja.innerHTML = '';
-      caja.appendChild(f);
-    }
+    /* ---------- Mapa de Google: solo con permiso ---------- */
+    // Pulsar «Ver el mapa» es una aceptación expresa de las cookies del mapa
     document.querySelectorAll('.mapa').forEach(function (caja) {
-      if (leer('mapa-ok')) { cargarMapa(caja); return; }
       var b = caja.querySelector('.mapa-cargar');
-      if (b) b.addEventListener('click', function () { guardar('mapa-ok', '1'); medir('mapa'); cargarMapa(caja); }, S);
+      if (b) b.addEventListener('click', function () {
+        var c = leerConsentimiento();
+        guardarConsentimiento(true, c ? c.analitica : false);
+        medir('mapa');
+        cerrarPanel();
+      }, S);
     });
 
     /* ---------- Asistente de presupuesto ---------- */
@@ -264,11 +335,28 @@
           enviar.className = 'btn btn-verde w-full px-5 py-3 text-sm';
           enviar.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg> ' + datos.enviar;
           enviar.addEventListener('click', function () {
+            if (!casilla.checked) return;
             var lineas = [datos.mensaje].concat(estado.resp.map(function (r) { return '• ' + datos.etiquetas[r[0]] + ': ' + r[1]; }));
             window.open('https://wa.me/' + datos.wa + '?text=' + encodeURIComponent(lineas.join('\n')), '_blank', 'noopener');
             medir('asistente-enviado');
             burbuja(datos.gracias);
           });
+          // Antes de enviar: información básica de protección de datos y casilla sin marcar
+          var capa = document.createElement('div');
+          capa.className = 'chat-consentimiento w-full';
+          capa.innerHTML = '<p>' + datos.noVinculante + ' <a href="' + datos.condicionesUrl + '" target="_blank" rel="noopener">' + datos.verCondiciones + '</a></p>' +
+            '<details class="mt-2"><summary>' + datos.basicaTitulo + '</summary><dl class="capa-basica mt-2">' +
+            datos.basica.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') + '</dl></details>' +
+            '<label class="mt-2 flex items-start gap-2"><input type="checkbox" class="mt-0.5 h-4 w-4 shrink-0 accent-brand-600"> <span>' + datos.casillaAntes +
+            ' <a href="' + datos.privacidadUrl + '" target="_blank" rel="noopener">' + datos.casillaEnlace + '</a>.</span></label>';
+          var casilla = capa.querySelector('input');
+          function permitirEnvio() {
+            enviar.disabled = !casilla.checked;
+            enviar.classList.toggle('opacity-50', !casilla.checked);
+            enviar.title = casilla.checked ? '' : datos.marcaCasilla;
+          }
+          casilla.addEventListener('change', permitirEnvio);
+          permitirEnvio();
           var llamar = document.createElement('a');
           llamar.href = 'tel:' + datos.tel;
           llamar.className = 'opcion-chat';
@@ -279,10 +367,11 @@
           otra.className = 'opcion-chat';
           otra.textContent = datos.reiniciar;
           otra.addEventListener('click', function () { iniciar(); });
+          opciones.appendChild(capa);
           opciones.appendChild(enviar);
           opciones.appendChild(llamar);
           opciones.appendChild(otra);
-          enviar.focus({ preventScroll: true });
+          casilla.focus({ preventScroll: true });
         });
       });
     }
