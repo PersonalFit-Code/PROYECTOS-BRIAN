@@ -594,7 +594,10 @@ export default function MapCard({ className }: MapCardProps) {
    * solo para esta visita y no se guarda en ningún sitio.
    */
   const consent = useConsent();
-  const consented = consent?.analytics === true;
+  /* `maps` y no `analytics`: desde el 14-10-2026 son dos casillas distintas. Cargar el mapa manda
+     la IP de quien visita a Google y le deja poner sus cookies; medir visitas no toca el navegador.
+     Dos finalidades, dos permisos (art. 7.2 RGPD). */
+  const consented = consent?.maps === true;
   const [loadedByHand, setLoadedByHand] = useState(false);
   const mapReady = consented || loadedByHand;
 

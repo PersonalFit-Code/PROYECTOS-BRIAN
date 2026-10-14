@@ -14,7 +14,7 @@ const vinos = {
   title: "La Carta",
   accent: "de Vinos",
   description:
-    "Tixola es tapería y vinoteca: el vino gallego no es aquí un acompañamiento, es la mitad de la casa. Pincha en una botella y verás su bodega, su uva, su crianza y su precio.",
+    "Tixola es tapería y vinoteca: el vino gallego no es aquí un acompañamiento, es la mitad de la casa. Pincha en una botella y verás su bodega, su uva y su crianza; el precio te lo decimos en la barra.",
 
   /* ── Aviso mientras no hay vinos ── */
   pendingKicker: "En preparación",

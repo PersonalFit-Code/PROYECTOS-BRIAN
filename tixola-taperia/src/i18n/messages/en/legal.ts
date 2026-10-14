@@ -27,15 +27,17 @@ const legal: LegalMessages = {
   /* ── Cookie banner ── */
   banner: {
     title: "We use cookies",
-    text: "We use our own necessary cookies to make the site work. Only if you accept do we load the Google map, which sets its own cookies.",
+    text: "We use our own cookies that the site needs to work. With your permission we load the Google map, which sets its own cookies, and we measure which pages are visited in aggregate (no cookies).",
     accept: "Accept all",
     reject: "Necessary only",
     settings: "Customise",
     save: "Save preferences",
     necessary: "Necessary",
     necessaryDesc: "Essential for the website to work (language, consent).",
-    analytics: "Map and analytics",
-    analyticsDesc: "Allow the Google map to load in the location section and let us measure anonymously which pages are visited. Only with your consent.",
+    maps: "Google map",
+    mapsDesc: "Loads the Google Maps map in the location section. It is a Google service, which receives your IP address and sets its own cookies.",
+    analytics: "Visit measurement",
+    analyticsDesc: "Counts which pages are viewed, in aggregate, using Vercel Web Analytics. It sets no cookies and stores nothing in your browser.",
     more: "More information",
     aria: "Cookie notice",
     panelTitle: "Cookie preferences",
@@ -45,7 +47,7 @@ const legal: LegalMessages = {
     privacyLink: "Privacy policy",
     cookiesLink: "Cookie policy",
     saved: "Preferences saved.",
-    noAnalyticsYet: "This switch covers two things: the Google map and visit measurement (Vercel Web Analytics), which sets no cookies and stores nothing in your browser. Leave it off and neither one loads.",
+    noAnalyticsYet: "These are two separate things and you can accept one without the other: the map is served by Google with its cookies; the measurement is aggregate, done by Vercel, and never touches your browser.",
   },
 
   /* ── Legal pages: header, contents and footer ── */
@@ -117,7 +119,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Allergies and intolerances",
-                  desc: "If you tell us about them by phone, on WhatsApp or here on the premises, we use them solely to prepare your dish safely. This is special-category data (Art. 9 GDPR) that we process with your explicit consent, given when you provide it, and that we neither write down nor keep beyond the service.",
+                  desc: "If you tell us about them by phone, on WhatsApp or here on the premises, we use them solely to prepare your dish safely. This is special-category data (Art. 9 GDPR) that we process with your explicit consent, given when you provide it, and that we neither write down nor keep beyond the service. If you type them into the virtual waiter, that text travels with the rest of your message to Anthropic (USA), under the safeguards in section 6; we do not store it on our servers and it disappears from your browser when you tap “New conversation” or close the tab. That is why the chat itself asks you not to type health data: it is not needed to help you with the menu.",
                 },
               ],
             },
@@ -197,7 +199,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "We do not sell or share your data. It is accessed only by the providers we need in order to deliver the service, acting as data processors under a contract compliant with Art. 28 GDPR:",
+              text: "We do not sell or share your data. The first two on this list are **data processors**: they handle data **on our behalf**, following our instructions and under a contract compliant with art. 28 GDPR. The last three **are not**: they are third parties that receive data because their content loads on the site or because you click their link, and each one acts on its own account and under its own privacy policy.",
             },
             {
               type: "dl",
@@ -223,6 +225,10 @@ const legal: LegalMessages = {
                   desc: "Links to our listing and reviews. They open a third-party website with its own privacy policy; we do not share data with TripAdvisor.",
                 },
               ],
+            },
+            {
+              type: "p",
+              text: "Put plainly: Vercel and Anthropic are our responsibility, and you can ask us for a copy of the safeguards in section 6 for either of them. Google, Meta and TripAdvisor are not: we simply tell you when they come into play so that you can avoid it — the map does not load unless you accept it, and the links only open if you click them.",
             },
             {
               type: "p",
@@ -344,7 +350,7 @@ const legal: LegalMessages = {
             {
               type: "ul",
               items: [
-                "The menu, prices and wine pairings published here are **for guidance** and may vary with the season and product availability. The menu in force is the one offered on the premises.",
+                "The prices published here are the ones you pay, VAT included; they may be updated, and in that case the menu in the bar prevails. What is for guidance is the availability of each dish and the wine pairings: both depend on the season and on what comes in that day.",
                 "Opening hours may change on public holidays, during holiday periods or due to force majeure.",
                 "The restaurant **does not take bookings**: tables are available on a first-come, first-served basis.",
               ],
@@ -465,6 +471,7 @@ const legal: LegalMessages = {
                   "Stores your cookie decision (accept, reject or customise) so we don't ask you again on every visit.",
                   "{consentMonths} months",
                 ],
+                ["tixola_promo_cerrada", "Technical (localStorage)", "First-party", "Remembers that you closed the monthly promotion notice so it is not shown to you again.", "Until another promotion is published or you clear your browser data"],
                 [
                   "tixola:waiter:*",
                   "Technical (sessionStorage)",

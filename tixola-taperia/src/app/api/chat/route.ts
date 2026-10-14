@@ -27,6 +27,9 @@ interface Bucket {
 }
 const buckets = new Map<string, Bucket>();
 const MAX_TRACKED_IPS = 5000;
+/* Cada cuánto se barren las IP caducadas, como mucho. Ver `takeToken`. */
+const BARRIDO_MS = 60_000;
+let ultimoBarrido = 0;
 
 function clientIp(req: Request): string {
   const forwarded = req.headers.get("x-forwarded-for");
@@ -34,13 +37,27 @@ function clientIp(req: Request): string {
   return req.headers.get("x-real-ip") ?? req.headers.get("cf-connecting-ip") ?? "unknown";
 }
 
-/** Consume una petición de la cuota; devuelve los segundos de espera si se ha superado. */
+/**
+ * Consume una petición de la cuota; devuelve los segundos de espera si se ha superado.
+ *
+ * EL BARRIDO ES LO QUE HACE VERDAD LO QUE DICE LA POLÍTICA. La dirección IP es un dato personal
+ * (considerando 30 del RGPD y la sentencia Breyer del TJUE, C-582/14), y la política de privacidad
+ * promete que solo se cuenta "durante diez minutos". Antes, la limpieza estaba condicionada a que
+ * el mapa pasara de 5.000 entradas: por debajo de esa cifra —es decir, siempre, en una web de un
+ * bar— una IP que entraba una vez se quedaba ahí mientras viviera el proceso. Ahora se barre cada
+ * minuto como mucho, y la entrada caducada se borra antes de crear la nueva, así que el plazo
+ * declarado y el real coinciden (art. 5.1.c y 5.1.e RGPD).
+ */
 function takeToken(ip: string, now = Date.now()): { ok: true } | { ok: false; retryAfter: number } {
-  if (buckets.size > MAX_TRACKED_IPS) {
+  if (now - ultimoBarrido > BARRIDO_MS || buckets.size > MAX_TRACKED_IPS) {
+    ultimoBarrido = now;
     for (const [key, bucket] of buckets) if (bucket.resetAt <= now) buckets.delete(key);
   }
   const bucket = buckets.get(ip);
   if (!bucket || bucket.resetAt <= now) {
+    /* Si había una entrada caducada, fuera del mapa antes de poner la nueva: así la IP no "revive"
+       arrastrando el registro anterior. */
+    buckets.delete(ip);
     buckets.set(ip, { count: 1, resetAt: now + CHAT_LIMITS.rateWindowMs });
     return { ok: true };
   }
@@ -174,16 +191,20 @@ function getClient(): Anthropic {
 }
 
 export async function POST(req: Request): Promise<Response> {
+  /* EL ORDEN IMPORTA, Y NO POR RENDIMIENTO. Lo barato va primero —cabeceras— y la cuota por IP
+     después: apuntar la dirección de alguien cuya petición vamos a rechazar de todos modos es
+     guardar un dato personal que no hace falta (art. 5.1.c RGPD, minimización). Así, de un bot que
+     ni se molesta en poner el `Origin` correcto no se registra nada. */
+  if (!isSameOrigin(req)) return jsonError(403, "Origen no permitido.");
+  if (!req.headers.get("content-type")?.includes("application/json")) return jsonError(415, "Se esperaba JSON.");
+  if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) return jsonError(413, "Petición demasiado grande.");
+
   const quota = takeToken(clientIp(req));
   if (!quota.ok) {
     return jsonError(429, "Has hecho demasiadas peticiones seguidas. Inténtalo en unos minutos.", {
       "retry-after": String(quota.retryAfter),
     });
   }
-
-  if (!isSameOrigin(req)) return jsonError(403, "Origen no permitido.");
-  if (!req.headers.get("content-type")?.includes("application/json")) return jsonError(415, "Se esperaba JSON.");
-  if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) return jsonError(413, "Petición demasiado grande.");
 
   let raw: unknown;
   try {

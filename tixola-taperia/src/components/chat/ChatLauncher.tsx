@@ -31,25 +31,22 @@ export const CHAT_LAUNCHER_ID = "tixola-chat-launcher";
 const LLAMADA_RETARDO_MS = 1300;
 const LLAMADA_DURACION_MS = 6000;
 
-/** Una vez por visita. `sessionStorage` y no `localStorage`: si vuelve otro día, vuelve a saludar. */
-const LLAMADA_CLAVE = "tixola:waiter:llamada:v1";
-
-/* En navegación privada o con las cookies bloqueadas, `sessionStorage` LANZA al tocarlo. Un aviso
-   decorativo no puede tumbar la página: si no se puede recordar, el globo sale otra vez y ya está. */
-function llamadaYaVista(): boolean {
-  try {
-    return window.sessionStorage.getItem(LLAMADA_CLAVE) === "1";
-  } catch {
-    return false;
-  }
-}
-function marcarLlamadaVista(): void {
-  try {
-    window.sessionStorage.setItem(LLAMADA_CLAVE, "1");
-  } catch {
-    /* Sin almacenamiento no hay memoria, y no pasa nada. */
-  }
-}
+/**
+ * "Ya le he sacado el globo a esta persona", EN UNA VARIABLE DEL MÓDULO y no en `sessionStorage`.
+ *
+ * Esto era `sessionStorage.setItem("tixola:waiter:llamada:v1", "1")` y se escribía a los 1,3 s de
+ * cargar la página, también para quien acababa de pulsar "Solo necesarias". El art. 22.2 de la LSSI
+ * exige consentimiento para guardar o leer datos en el equipo de quien visita, y solo exime lo que
+ * sea estrictamente necesario para prestar un servicio QUE LA PERSONA HAYA PEDIDO. Un globo de
+ * saludo que saca la web por su cuenta no lo es: es un reclamo, y controlar cada cuánto se enseña es
+ * precisamente la clase de medición que la exención no cubre.
+ *
+ * Una variable de módulo hace el mismo trabajo sin tocar el terminal: sobrevive a la navegación
+ * interna del App Router —el módulo no se vuelve a evaluar al cambiar de página—, así que el globo
+ * sigue saliendo UNA sola vez por visita. Con una recarga completa vuelve a salir, que es
+ * exactamente lo que hacía antes quien navegaba en privado o con el almacenamiento bloqueado.
+ */
+let llamadaHecha = false;
 
 /**
  * Saca el globo una sola vez por visita, y solo mientras `activa` sea cierto —es decir, mientras el
@@ -65,13 +62,13 @@ function useLlamada(activa: boolean): boolean {
 
   useEffect(() => {
     if (!activa || yaSalio.current) return;
-    if (llamadaYaVista()) {
+    if (llamadaHecha) {
       yaSalio.current = true;
       return;
     }
     const temporizador = window.setTimeout(() => {
       yaSalio.current = true;
-      marcarLlamadaVista();
+      llamadaHecha = true;
       setVisible(true);
     }, LLAMADA_RETARDO_MS);
     return () => window.clearTimeout(temporizador);

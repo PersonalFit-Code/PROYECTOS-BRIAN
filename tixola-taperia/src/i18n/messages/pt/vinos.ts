@@ -7,7 +7,7 @@ const vinos = {
   title: "A Carta",
   accent: "de Vinhos",
   description:
-    "A Tixola é tapería e vinoteca: o vinho galego não é aqui um acompanhamento, é metade da casa. Carrega numa garrafa para veres a sua adega, a sua casta, o seu estágio e o seu preço.",
+    "A Tixola é tapería e vinoteca: o vinho galego não é aqui um acompanhamento, é metade da casa. Carrega numa garrafa para veres a sua adega, a sua casta e o seu estágio; o preço dizemos-to ao balcão.",
 
   pendingKicker: "Em preparação",
   pendingTitle: "Estamos a fechar a carta de vinhos",

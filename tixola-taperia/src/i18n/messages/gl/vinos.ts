@@ -6,7 +6,7 @@ const vinos: Section<"vinos"> = {
   title: "A Carta",
   accent: "de Viños",
   description:
-    "Tixola é tapería e vinoteca: o viño galego non é aquí un acompañamento, é a metade da casa. Pincha nunha botella e verás a súa adega, a súa uva, a súa crianza e o seu prezo.",
+    "Tixola é tapería e vinoteca: o viño galego non é aquí un acompañamento, é a metade da casa. Pincha nunha botella e verás a súa adega, a súa uva e a súa crianza; o prezo dicímoscho na barra.",
 
   pendingKicker: "En preparación",
   pendingTitle: "Estamos a pechar a carta de viños",

@@ -271,6 +271,12 @@ let hud: HTMLElement | null = null;
 let hudChecked = false;
 
 function diagnosticsEnabled(): boolean {
+  /* SOLO EN DESARROLLO. Esto escribía "tixola:perf-hud" en el sessionStorage de cualquiera que
+     abriera la web publicada con `?perf=1` —y lo LEÍA en cada visita—, sin consentimiento y sin
+     figurar en la tabla de cookies. Es almacenamiento en el equipo del visitante (art. 22.2 LSSI)
+     para una herramienta de diagnóstico que nadie ha pedido, así que en producción no existe: ni se
+     lee ni se escribe. Para depurar en un móvil real, `npm run dev` y `?perf=1`. */
+  if (process.env.NODE_ENV === "production") return false;
   try {
     const raw = new URLSearchParams(window.location.search).get(DIAGNOSTICS_PARAM);
     if (raw !== null) {

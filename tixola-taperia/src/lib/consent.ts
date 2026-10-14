@@ -20,11 +20,28 @@ export const CONSENT_EVENT = "tixola:consent";
 export const COOKIE_SETTINGS_EVENT = "tixola:cookie-settings";
 
 /** Súbelo si cambia la forma del objeto o las categorías: las decisiones antiguas se descartan. */
-export const CONSENT_VERSION = 1;
+export const CONSENT_VERSION = 2;
 
+/**
+ * DOS CASILLAS Y NO UNA, y la diferencia no es cosmética.
+ *
+ * Hasta el 14-10-2026 un solo `analytics` gobernaba dos tratamientos que no tienen nada que ver:
+ * cargar el MAPA DE GOOGLE (un tercero que recibe la IP de quien visita y pone sus propias cookies,
+ * con sus propios fines) y MEDIR LAS VISITAS con Vercel (agregado, sin cookies, por cuenta de la
+ * casa). El art. 4.11 del RGPD define el consentimiento como una manifestación "específica", el 7.2
+ * exige que cada finalidad se pueda aceptar por separado y las Directrices 05/2020 del CEPD lo dicen
+ * con todas las letras: una casilla por finalidad. Quien quiera ver el mapa sin que se le mida, o al
+ * revés, ahora puede.
+ *
+ * Al subir `CONSENT_VERSION` a 2, las decisiones guardadas con el esquema viejo se descartan y el
+ * aviso vuelve a salir una vez. Es lo correcto: nadie consintió nunca estas dos cosas por separado.
+ */
 export interface ConsentState {
   /** Las cookies técnicas no se pueden rechazar (art. 22.2 LSSI-CE). */
   necessary: true;
+  /** Cargar el mapa de Google Maps (tercero, con cookies suyas). */
+  maps: boolean;
+  /** Medir visitas de forma agregada (Vercel Web Analytics, sin cookies). */
   analytics: boolean;
   /** Fecha de la decisión (ms desde epoch). */
   ts: number;
@@ -33,7 +50,7 @@ export interface ConsentState {
 }
 
 /** Categorías que el usuario puede activar o desactivar. */
-export type ConsentChoices = Pick<ConsentState, "analytics">;
+export type ConsentChoices = Pick<ConsentState, "maps" | "analytics">;
 
 /* Eventos tipados: `window.addEventListener("tixola:consent", (e) => e.detail?.analytics)` compila sin casts. */
 declare global {
@@ -56,7 +73,13 @@ let cachedState: ConsentState | null = null;
 function isConsentState(value: unknown): value is ConsentState {
   if (typeof value !== "object" || value === null) return false;
   const c = value as Record<string, unknown>;
-  return c.necessary === true && typeof c.analytics === "boolean" && typeof c.ts === "number" && typeof c.v === "number";
+  return (
+    c.necessary === true &&
+    typeof c.maps === "boolean" &&
+    typeof c.analytics === "boolean" &&
+    typeof c.ts === "number" &&
+    typeof c.v === "number"
+  );
 }
 
 function storage(): Storage | null {
@@ -79,14 +102,38 @@ function readRaw(): string | null {
 }
 
 /** Valida y descarta decisiones caducadas o de otra versión del esquema. */
+/**
+ * Borra del terminal una decisión que ya no vale. Antes solo se IGNORABA: el aviso volvía a salir
+ * —bien— pero la entrada se quedaba en el navegador indefinidamente, mientras la tabla de cookies
+ * promete que `tixola_consent` dura doce meses. Un plazo declarado que no se cumple es información
+ * incorrecta sobre el almacenamiento (art. 22.2 LSSI) y un plazo de conservación que no se respeta
+ * (art. 5.1.e RGPD). Dos líneas, y lo declarado pasa a ser lo que de verdad ocurre.
+ */
+function olvidaDecision(): void {
+  memoryRaw = null;
+  try {
+    storage()?.removeItem(CONSENT_STORAGE_KEY);
+  } catch {
+    /* Sin almacenamiento no hay nada que borrar. */
+  }
+}
+
 function parseConsent(raw: string | null, now: number): ConsentState | null {
   if (!raw) return null;
   try {
     const parsed: unknown = JSON.parse(raw);
-    if (!isConsentState(parsed) || parsed.v !== CONSENT_VERSION) return null;
-    if (now - parsed.ts > MAX_AGE_MS) return null;
+    if (!isConsentState(parsed) || parsed.v !== CONSENT_VERSION) {
+      olvidaDecision();
+      return null;
+    }
+    if (now - parsed.ts > MAX_AGE_MS) {
+      olvidaDecision();
+      return null;
+    }
     return parsed;
   } catch {
+    /* Lo guardado no es ni JSON válido: tampoco sirve de nada ahí. */
+    olvidaDecision();
     return null;
   }
 }
@@ -116,7 +163,7 @@ export function getServerConsentSnapshot(): undefined {
 
 /** Guarda la decisión y avisa a quien escuche (`tixola:consent`). Devuelve el estado guardado. */
 export function setConsent(choices: ConsentChoices, now = Date.now()): ConsentState {
-  const state: ConsentState = { necessary: true, analytics: choices.analytics, ts: now, v: CONSENT_VERSION };
+  const state: ConsentState = { necessary: true, maps: choices.maps, analytics: choices.analytics, ts: now, v: CONSENT_VERSION };
   const raw = JSON.stringify(state);
   memoryRaw = raw;
   const store = storage();

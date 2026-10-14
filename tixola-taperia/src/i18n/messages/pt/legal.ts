@@ -29,15 +29,17 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Usamos cookies próprias necessárias para que o site funcione. Só se aceitar carregamos o mapa do Google, que instala cookies próprias.",
+    text: "Usamos cookies próprios necessários para que o site funcione. Com a tua permissão carregamos o mapa do Google, que instala cookies próprios, e medimos de forma agregada que páginas são visitadas (sem cookies).",
     accept: "Aceitar todas",
     reject: "Só as necessárias",
     settings: "Configurar",
     save: "Guardar preferências",
     necessary: "Necessárias",
     necessaryDesc: "Imprescindíveis para que o site funcione (idioma, consentimento).",
-    analytics: "Mapa e análise",
-    analyticsDesc: "Permitem carregar o mapa do Google na secção de localização e medir de forma anónima que páginas são visitadas. Só com o seu consentimento.",
+    maps: "Mapa do Google",
+    mapsDesc: "Carrega o mapa do Google Maps na secção de localização. É um serviço do Google, que recebe o teu endereço IP e instala os seus próprios cookies.",
+    analytics: "Medição de visitas",
+    analyticsDesc: "Conta de forma agregada que páginas são vistas, com o Vercel Web Analytics. Não instala cookies nem guarda nada no teu navegador.",
     more: "Mais informação",
     aria: "Aviso de cookies",
     panelTitle: "Preferências de cookies",
@@ -47,7 +49,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidade",
     cookiesLink: "Política de cookies",
     saved: "Preferências guardadas.",
-    noAnalyticsYet: "Com esta opção aceita duas coisas: o mapa do Google e a medição de visitas (Vercel Web Analytics), que não instala cookies nem guarda nada no seu navegador. Se a deixar desmarcada, não se carrega nenhuma das duas.",
+    noAnalyticsYet: "São duas coisas distintas e podes aceitar uma sem a outra: o mapa é servido pelo Google com os seus cookies; a medição é agregada, feita pela Vercel, e não toca no teu navegador.",
   },
 
   /* ── Páginas legais: cabeçalho, índice e rodapé ── */
@@ -119,7 +121,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Alergias e intolerâncias",
-                  desc: "Se nos as contar por telefone, por WhatsApp ou no próprio estabelecimento, usamo-las unicamente para lhe preparar o prato com segurança. São dados de categoria especial (art. 9.º do RGPD) que tratamos com o seu consentimento explícito, manifestado ao fornecê-los, e que não anotamos nem conservamos para além do serviço.",
+                  desc: "Se nos as contar por telefone, por WhatsApp ou no próprio estabelecimento, usamo-las unicamente para lhe preparar o prato com segurança. São dados de categoria especial (art. 9.º do RGPD) que tratamos com o seu consentimento explícito, manifestado ao fornecê-los, e que não anotamos nem conservamos para além do serviço. Se as escreveres no empregado virtual, esse texto viaja com o resto da mensagem para a Anthropic (EUA), com as garantias do ponto 6; não o guardamos nos nossos servidores e desaparece do teu navegador ao premir «Nova conversa» ou ao fechar o separador. É por isso que o próprio chat te pede que não escrevas dados de saúde: para te ajudar com a carta não são precisos.",
                 },
               ],
             },
@@ -199,7 +201,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Não vendemos nem cedemos os seus dados. Só lhes acedem, como subcontratantes e com um contrato conforme ao art. 28.º do RGPD, os fornecedores de que precisamos para prestar o serviço:",
+              text: "Não vendemos nem cedemos os teus dados. Os dois primeiros desta lista são **subcontratantes**: tratam dados **por nossa conta**, seguindo as nossas instruções e com um contrato conforme ao art. 28 do RGPD. Os três últimos **não o são**: são terceiros que recebem dados porque o seu conteúdo é carregado no site ou porque premes a sua ligação, e cada um atua por sua conta e sob a sua própria política de privacidade.",
             },
             {
               type: "dl",
@@ -225,6 +227,10 @@ const legal: LegalMessages = {
                   desc: "Ligações para a nossa ficha e avaliações. Abrem um site de terceiros com a sua própria política de privacidade; não partilhamos dados com o TripAdvisor.",
                 },
               ],
+            },
+            {
+              type: "p",
+              text: "Por outras palavras: pela Vercel e pela Anthropic respondemos nós, e podes pedir-nos cópia das garantias do ponto 6. Pela Google, Meta e TripAdvisor não respondemos: apenas te dizemos quando entram em jogo para que possas evitá-lo — o mapa não carrega se não o aceitares, e as ligações só abrem se as premires.",
             },
             {
               type: "p",
@@ -331,7 +337,7 @@ const legal: LegalMessages = {
             },
             {
               type: "p",
-              text: "A {tradeName} é um estabelecimento de restauração (casa de tapas e vinoteca) situado no centro histórico de {city}, junto à Catedral de San Martiño. Dispõe de livro de reclamações à disposição da clientela no próprio estabelecimento.",
+              text: "A {tradeName} é um estabelecimento de restauração (casa de tapas e vinoteca) situado no centro histórico de {city}, junto à Catedral de San Martiño. Dispõe das folhas de reclamação oficiais da Xunta de Galicia (o modelo espanhol de reclamação) à disposição da clientela no próprio estabelecimento.",
             },
           ],
         },
@@ -346,7 +352,7 @@ const legal: LegalMessages = {
             {
               type: "ul",
               items: [
-                "A ementa, os preços e as harmonizações publicados são **indicativos** e podem variar consoante a época e a disponibilidade de produto. A ementa em vigor é a oferecida no estabelecimento.",
+                "Os preços publicados são os que se pagam, com IVA incluído; podem ser atualizados e, nesse caso, vigora o da carta do estabelecimento. O que é indicativo é a disponibilidade dos pratos e as harmonizações: dependem da época e do produto que houver nesse dia.",
                 "O horário pode ser alterado em feriados, férias ou por motivos de força maior.",
                 "O estabelecimento **não aceita reservas**: as mesas são ocupadas por ordem de chegada.",
               ],
@@ -422,7 +428,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Este Aviso legal rege-se pela legislação espanhola. Para qualquer litígio decorrente do acesso ou utilização do site, as partes submetem-se aos tribunais do domicílio da pessoa utilizadora quando esta tenha a condição de consumidora; nos restantes casos, aos tribunais de {city}. Como consumidor ou consumidora, dispõe ainda do livro de reclamações oficial da Xunta de Galicia no próprio estabelecimento.",
+              text: "Este Aviso legal rege-se pela legislação espanhola. Para qualquer litígio decorrente do acesso ou utilização do site, as partes submetem-se aos tribunais do domicílio da pessoa utilizadora quando esta tenha a condição de consumidora; nos restantes casos, aos tribunais de {city}. Como consumidor ou consumidora, dispõe ainda das folhas de reclamação oficiais da Xunta de Galicia no próprio estabelecimento.",
             },
             {
               type: "p",
@@ -467,6 +473,7 @@ const legal: LegalMessages = {
                   "Guarda a sua decisão sobre as cookies (aceitar, recusar ou configurar) para não voltar a perguntar em cada visita.",
                   "{consentMonths} meses",
                 ],
+                ["tixola_promo_cerrada", "Técnica (localStorage)", "Própria", "Lembra que fechaste o aviso da promoção do mês para não voltar a mostrá-lo.", "Até que seja publicada outra promoção ou apagues os dados do navegador"],
                 [
                   "tixola:waiter:*",
                   "Técnica (sessionStorage)",

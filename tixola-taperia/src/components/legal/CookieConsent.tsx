@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import { ArrowLeft, ChartNoAxesColumn, Cookie, ShieldCheck, SlidersHorizontal, X } from "lucide-react";
+import { ArrowLeft, ChartNoAxesColumn, Cookie, MapPin, ShieldCheck, SlidersHorizontal, X } from "lucide-react";
 import NeonButton from "@/components/ui/NeonButton";
 import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import {
@@ -17,6 +17,7 @@ import {
   setCookieBannerOpen,
   subscribeConsent,
   subscribeCookieBanner,
+  type ConsentChoices,
   type ConsentState,
 } from "@/lib/consent";
 import { cn } from "@/lib/utils";
@@ -155,6 +156,7 @@ export default function CookieConsent() {
   /* Reabierto desde «Configurar cookies» (pie / política de cookies) aunque ya haya decisión. */
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [panel, setPanel] = useState(false);
+  const [maps, setMaps] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [announcement, setAnnouncement] = useState("");
 
@@ -215,14 +217,19 @@ export default function CookieConsent() {
 
   /* Guarda la decisión: `setConsent` emite `tixola:consent` y el almacén externo cierra el aviso. */
   const decide = useCallback(
-    (allowAnalytics: boolean) => {
-      const state = setConsent({ analytics: allowAnalytics });
+    (choices: ConsentChoices) => {
+      const state = setConsent(choices);
+      setMaps(state.maps);
       setAnalytics(state.analytics);
       setAnnouncement(b.saved);
       close();
     },
     [b.saved, close],
   );
+  /* Atajos de los botones grandes: los dos de la primera capa deciden las dos categorías de una vez,
+     que es justo lo que dicen que hacen ("todas" / "solo las necesarias"). */
+  const aceptarTodo = useCallback(() => decide({ maps: true, analytics: true }), [decide]);
+  const soloNecesarias = useCallback(() => decide({ maps: false, analytics: false }), [decide]);
 
   /* Escape cierra el panel solo si ya existe una decisión (si no, hay que elegir). */
   useEffect(() => {
@@ -329,6 +336,18 @@ export default function CookieConsent() {
                           badge={b.alwaysOn}
                           icon={<ShieldCheck aria-hidden />}
                         />
+                        {/* Dos casillas, una por finalidad: el mapa lo carga un tercero con sus
+                            propias cookies y la medición es agregada y sin cookies. Nada que ver
+                            entre sí, así que el art. 7.2 del RGPD pide poder aceptarlas por
+                            separado. */}
+                        <ConsentToggle
+                          id={`${uid}-maps`}
+                          checked={maps}
+                          onChange={setMaps}
+                          label={b.maps}
+                          description={b.mapsDesc}
+                          icon={<MapPin aria-hidden />}
+                        />
                         <ConsentToggle
                           id={`${uid}-analytics`}
                           checked={analytics}
@@ -341,10 +360,10 @@ export default function CookieConsent() {
                       <p className="mt-3 text-xs leading-relaxed text-cream-faint">{b.noAnalyticsYet}</p>
 
                       <div className="mt-5 flex flex-col gap-2.5 sm:flex-row sm:items-center">
-                        <NeonButton size="md" onClick={() => decide(analytics)} className="w-full sm:w-auto">
+                        <NeonButton size="md" onClick={() => decide({ maps, analytics })} className="w-full sm:w-auto">
                           {b.save}
                         </NeonButton>
-                        <NeonButton size="md" variant="outline" onClick={() => decide(true)} className="w-full sm:w-auto">
+                        <NeonButton size="md" variant="outline" onClick={aceptarTodo} className="w-full sm:w-auto">
                           {b.accept}
                         </NeonButton>
                         <button
@@ -375,10 +394,10 @@ export default function CookieConsent() {
                         es el patrón que la Agencia viene señalando. Empatarlos cuesta una palabra y
                         quita de encima la única pega seria que tenía este aviso.
                       */}
-                      <NeonButton size="md" variant="outline" onClick={() => decide(true)} className="w-full sm:w-auto">
+                      <NeonButton size="md" variant="outline" onClick={aceptarTodo} className="w-full sm:w-auto">
                         {b.accept}
                       </NeonButton>
-                      <NeonButton size="md" variant="outline" onClick={() => decide(false)} className="w-full sm:w-auto">
+                      <NeonButton size="md" variant="outline" onClick={soloNecesarias} className="w-full sm:w-auto">
                         {b.reject}
                       </NeonButton>
                       <button

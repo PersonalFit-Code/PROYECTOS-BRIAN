@@ -57,7 +57,13 @@ const PAGE_CONTEXT: Record<WaiterPage, string> = {
      están en su base de conocimiento y ninguna más. Lo que sigue prohibido —y es lo que haría un
      modelo al que le preguntan por un Ribeiro que cree conocer— es rellenar los huecos: de la mayoría
      solo sabemos nombre, denominación, color y precio. */
-  vinos: "la página de la vinoteca, donde está la carta de vinos completa con su precio. Puedes nombrar y recomendar los vinos de tu base de conocimiento, agrupados por denominación. De casi todos solo sabes nombre, denominación, color y precio: si te preguntan por la uva, la añada, la bodega o a qué sabe, dilo con naturalidad y ofrece preguntarlo en la barra en vez de deducirlo",
+  /* SIN PRECIOS, y tiene que decirlo aquí porque el camarero lee este texto en cada pregunta hecha
+     desde /vinos. Antes decía "la carta de vinos completa con su precio" y que él sabía el precio de
+     cada uno: las dos cosas son falsas mientras `SHOW_WINE_PRICES` esté apagado —la página no pinta
+     ni un precio— y lo que el asistente afirma es información que el cliente puede dar por buena
+     (art. 61.2 TRLGDCU). Si algún día se encienden los precios, este texto hay que revisarlo junto
+     con `knowledge.ts`, que ya mira esa constante. */
+  vinos: "la página de la vinoteca, donde está la carta de vinos completa, ordenada por denominación y SIN precios. Puedes nombrar y recomendar los vinos de tu base de conocimiento. De casi todos solo sabes nombre, denominación y color: si te preguntan por el precio, la uva, la añada, la bodega o a qué sabe, dilo con naturalidad y ofrece preguntarlo en la barra en vez de deducirlo",
   legal: "una página legal de la web (aviso legal, privacidad o cookies)",
 };
 

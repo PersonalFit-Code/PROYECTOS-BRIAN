@@ -32,6 +32,8 @@ export interface LegalMessages {
     save: string;
     necessary: string;
     necessaryDesc: string;
+    maps: string;
+    mapsDesc: string;
     analytics: string;
     analyticsDesc: string;
     more: string;
@@ -79,15 +81,17 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Usamos cookies propias necesarias para que la web funcione. Solo si lo aceptas cargamos el mapa de Google, que instala cookies suyas.",
+    text: "Usamos cookies propias necesarias para que la web funcione. Con tu permiso cargamos el mapa de Google, que instala cookies suyas, y medimos de forma agregada qué páginas se visitan (sin cookies).",
     accept: "Aceptar todas",
     reject: "Solo necesarias",
     settings: "Configurar",
     save: "Guardar preferencias",
     necessary: "Necesarias",
     necessaryDesc: "Imprescindibles para que la web funcione (idioma, consentimiento).",
-    analytics: "Mapa y analítica",
-    analyticsDesc: "Permiten cargar el mapa de Google en la sección de ubicación y medir de forma anónima qué páginas se visitan. Solo con tu consentimiento.",
+    maps: "Mapa de Google",
+    mapsDesc: "Carga el mapa de Google Maps en la sección de ubicación. Es un servicio de Google, que recibe tu dirección IP e instala sus propias cookies.",
+    analytics: "Medición de visitas",
+    analyticsDesc: "Cuenta de forma agregada qué páginas se ven, con Vercel Web Analytics. No instala cookies ni guarda nada en tu navegador.",
     more: "Más información",
     aria: "Aviso de cookies",
     panelTitle: "Preferencias de cookies",
@@ -97,7 +101,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidad",
     cookiesLink: "Política de cookies",
     saved: "Preferencias guardadas.",
-    noAnalyticsYet: "Con esta casilla aceptas dos cosas: el mapa de Google y la medición de visitas (Vercel Web Analytics), que no instala cookies ni guarda nada en tu navegador. Si la dejas sin marcar, no se carga ninguna de las dos.",
+    noAnalyticsYet: "Son dos cosas distintas y puedes aceptar una sin la otra: el mapa lo sirve Google con sus cookies; la medición es agregada, la hace Vercel y no toca tu navegador.",
   },
 
   /* ── Páginas legales: cabecera, índice y pie ── */
@@ -169,7 +173,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Alergias e intolerancias",
-                  desc: "Si nos las cuentas por teléfono, por WhatsApp o en el propio local, las usamos únicamente para prepararte el plato con seguridad. Son datos de categoría especial (art. 9 RGPD) que tratamos con tu consentimiento explícito, manifestado al facilitárnoslos, y que no anotamos ni conservamos más allá del servicio.",
+                  desc: "Si nos las cuentas por teléfono, por WhatsApp o en el propio local, las usamos únicamente para prepararte el plato con seguridad. Son datos de categoría especial (art. 9 RGPD) que tratamos con tu consentimiento explícito, manifestado al facilitárnoslos, y que no anotamos ni conservamos más allá del servicio. Si las escribes en el camarero virtual, ese texto viaja con el resto del mensaje a Anthropic (EE. UU.), con las garantías del apartado 6; no lo guardamos en nuestros servidores y desaparece de tu navegador al pulsar «Nueva conversación» o al cerrar la pestaña. Por eso el propio chat te pide que no escribas datos de salud: para ayudarte con la carta no hacen falta.",
                 },
               ],
             },
@@ -249,7 +253,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "No vendemos ni cedemos tus datos. Solo acceden a ellos, como encargados del tratamiento y con un contrato conforme al art. 28 RGPD, los proveedores que necesitamos para prestar el servicio:",
+              text: "No vendemos ni cedemos tus datos. Los dos primeros de esta lista son **encargados del tratamiento**: tratan datos **por cuenta nuestra**, siguiendo nuestras instrucciones y con un contrato conforme al art. 28 del RGPD. Los tres últimos **no lo son**: son terceros que reciben datos porque su contenido se carga en la web o porque tú pulsas su enlace, y cada uno actúa por su cuenta y bajo su propia política de privacidad.",
             },
             {
               type: "dl",
@@ -275,6 +279,10 @@ const legal: LegalMessages = {
                   desc: "Enlaces a nuestra ficha y reseñas. Abren un sitio de terceros con su propia política de privacidad; no compartimos datos con TripAdvisor.",
                 },
               ],
+            },
+            {
+              type: "p",
+              text: "Dicho de otro modo: de Vercel y de Anthropic respondemos nosotros, y de ellos puedes pedirnos copia de las garantías del apartado 6. De Google, Meta y TripAdvisor no respondemos: solo te decimos cuándo entran en juego para que puedas evitarlo —el mapa no se carga si no lo aceptas, y los enlaces solo se abren si los pulsas—.",
             },
             {
               type: "p",
@@ -396,7 +404,7 @@ const legal: LegalMessages = {
             {
               type: "ul",
               items: [
-                "La carta, los precios y los maridajes publicados son **orientativos** y pueden variar según la temporada y la disponibilidad de producto. La carta vigente es la que se ofrece en el local.",
+                "Los precios publicados son los que se pagan, con el IVA incluido; pueden actualizarse, y en ese caso rige el de la carta del local. La disponibilidad de los platos y los maridajes sí son orientativos: dependen de la temporada y del producto que haya ese día.",
                 "El horario puede modificarse en festivos, vacaciones o por causas de fuerza mayor.",
                 "El local **no acepta reservas**: las mesas se ocupan por orden de llegada.",
               ],
@@ -514,9 +522,10 @@ const legal: LegalMessages = {
                   "tixola_consent",
                   "Técnica (localStorage)",
                   "Propia",
-                  "Guarda tu decisión sobre las cookies (aceptar, rechazar o configurar) para no volver a preguntarte en cada visita.",
+                  "Guarda tus dos decisiones —mapa de Google y medición de visitas— para no volver a preguntarte en cada visita.",
                   "{consentMonths} meses",
                 ],
+                ["tixola_promo_cerrada", "Técnica (localStorage)", "Propia", "Recuerda que has cerrado el aviso de la promoción del mes para no volver a enseñártelo.", "Hasta que se publique otra promoción o borres los datos del navegador"],
                 [
                   "tixola:waiter:*",
                   "Técnica (sessionStorage)",

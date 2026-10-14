@@ -78,7 +78,7 @@ const chat = {
     /* La carta de vinos no está en la web todavía (Tatiana está decidiendo qué vinos sigue
        comprando). Hasta entonces el camarero enseña los tres maridajes de la casa y dice la
        verdad sobre el resto, en vez de callarse o inventar una bodega. */
-    wineList: "Y tenemos {count} vinos en carta, por denominación y con su precio: [la carta de vinos]({url}).",
+    wineList: "Y tenemos {count} vinos en carta, ordenados por denominación: [la carta de vinos]({url}).",
     hoursIntro: "Nuestro horario (hora de Ourense):",
     hoursNow: "Ahora mismo: {status}.",
     location: "Estamos en **{address}**, {landmark}. [Cómo llegar]({url})",
@@ -88,7 +88,7 @@ const chat = {
       "No cogemos reservas: las mesas se ocupan por orden de llegada, así que basta con venir. Si sois grupo grande, llámanos y te decimos la mejor hora: [Llamar al {phone}]({tel}).",
     bookingExtra: "Los mejores momentos para encontrar sitio son al abrir, a las 13:00 y a las 20:00.",
     prices: "Nuestra franja de precios es de **{range} por persona**, con raciones pensadas para compartir. Algunos ejemplos:",
-    pricesExtra: "Los precios son orientativos, con IVA incluido. Aceptamos tarjeta.",
+    pricesExtra: "Los precios llevan el IVA incluido y son los de la carta del local. Aceptamos tarjeta.",
     dishInfo: "**{name}** — {price}. {description}",
     dishAllergens: "Alérgenos: {allergens}.",
     dishNoAllergens: "Consulta los alérgenos con el personal.",

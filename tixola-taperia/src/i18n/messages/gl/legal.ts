@@ -28,15 +28,17 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Usamos cookies propias necesarias para que a web funcione. Só se o aceptas cargamos o mapa de Google, que instala cookies súas.",
+    text: "Usamos cookies propias necesarias para que a web funcione. Co teu permiso cargamos o mapa de Google, que instala cookies súas, e medimos de forma agregada que páxinas se visitan (sen cookies).",
     accept: "Aceptar todas",
     reject: "Só as necesarias",
     settings: "Configurar",
     save: "Gardar as preferencias",
     necessary: "Necesarias",
     necessaryDesc: "Imprescindibles para que a web funcione (idioma, consentimento).",
-    analytics: "Mapa e analítica",
-    analyticsDesc: "Permiten cargar o mapa de Google na sección de localización e medir de forma anónima que páxinas se visitan. Só co teu consentimento.",
+    maps: "Mapa de Google",
+    mapsDesc: "Carga o mapa de Google Maps na sección de localización. É un servizo de Google, que recibe o teu enderezo IP e instala as súas propias cookies.",
+    analytics: "Medición de visitas",
+    analyticsDesc: "Conta de forma agregada que páxinas se ven, con Vercel Web Analytics. Non instala cookies nin garda nada no teu navegador.",
     more: "Máis información",
     aria: "Aviso de cookies",
     panelTitle: "Preferencias de cookies",
@@ -46,7 +48,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidade",
     cookiesLink: "Política de cookies",
     saved: "Preferencias gardadas.",
-    noAnalyticsYet: "Con esta caixa aceptas dúas cousas: o mapa de Google e a medición de visitas (Vercel Web Analytics), que non instala cookies nin garda nada no teu navegador. Se a deixas sen marcar, non se carga ningunha das dúas.",
+    noAnalyticsYet: "Son dúas cousas distintas e podes aceptar unha sen a outra: o mapa sérveo Google coas súas cookies; a medición é agregada, faina Vercel e non toca o teu navegador.",
   },
 
   /* ── Páxinas legais: cabeceira, índice e pé ── */
@@ -118,7 +120,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Alerxias e intolerancias",
-                  desc: "Se nolas contas por teléfono, por WhatsApp ou no propio local, usámolas unicamente para prepararche o prato con seguridade. Son datos de categoría especial (art. 9 RXPD) que tratamos co teu consentimento explícito, manifestado ao facilitárnolos, e que non anotamos nin conservamos máis alá do servizo.",
+                  desc: "Se nolas contas por teléfono, por WhatsApp ou no propio local, usámolas unicamente para prepararche o prato con seguridade. Son datos de categoría especial (art. 9 RXPD) que tratamos co teu consentimento explícito, manifestado ao facilitárnolos, e que non anotamos nin conservamos máis alá do servizo. Se as escribes no camareiro virtual, ese texto viaxa co resto da mensaxe a Anthropic (EE. UU.), coas garantías do apartado 6; non o gardamos nos nosos servidores e desaparece do teu navegador ao premer «Nova conversa» ou ao pechar a pestana. Por iso o propio chat pídeche que non escribas datos de saúde: para axudarte coa carta non fan falta.",
                 },
               ],
             },
@@ -198,7 +200,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Non vendemos nin cedemos os teus datos. Só acceden a eles, como encargados do tratamento e cun contrato conforme ao art. 28 RXPD, os provedores que necesitamos para prestar o servizo:",
+              text: "Non vendemos nin cedemos os teus datos. Os dous primeiros desta lista son **encargados do tratamento**: tratan datos **por conta nosa**, seguindo as nosas instrucións e cun contrato conforme ao art. 28 do RGPD. Os tres últimos **non o son**: son terceiros que reciben datos porque o seu contido se carga na web ou porque ti premes a súa ligazón, e cada un actúa pola súa conta e baixo a súa propia política de privacidade.",
             },
             {
               type: "dl",
@@ -224,6 +226,10 @@ const legal: LegalMessages = {
                   desc: "Ligazóns á nosa ficha e ás recensións. Abren un sitio de terceiros coa súa propia política de privacidade; non compartimos datos con TripAdvisor.",
                 },
               ],
+            },
+            {
+              type: "p",
+              text: "Dito doutro xeito: de Vercel e de Anthropic respondemos nós, e deles podes pedirnos copia das garantías do apartado 6. De Google, Meta e TripAdvisor non respondemos: só che dicimos cando entran en xogo para que poidas evitalo —o mapa non se carga se non o aceptas, e as ligazóns só se abren se as premes—.",
             },
             {
               type: "p",
@@ -345,7 +351,7 @@ const legal: LegalMessages = {
             {
               type: "ul",
               items: [
-                "A carta, os prezos e as maridaxes publicados son **orientativos** e poden variar segundo a tempada e a dispoñibilidade de produto. A carta vixente é a que se ofrece no local.",
+                "Os prezos publicados son os que se pagan, co IVE incluído; poden actualizarse, e nese caso rexe o da carta do local. A dispoñibilidade dos pratos e as maridaxes si son orientativas: dependen da tempada e do produto que haxa ese día.",
                 "O horario pode modificarse en festivos, vacacións ou por causas de forza maior.",
                 "O local **non acepta reservas**: as mesas ocúpanse por orde de chegada.",
               ],
@@ -466,6 +472,7 @@ const legal: LegalMessages = {
                   "Garda a túa decisión sobre as cookies (aceptar, rexeitar ou configurar) para non volver preguntarche en cada visita.",
                   "{consentMonths} meses",
                 ],
+                ["tixola_promo_cerrada", "Técnica (localStorage)", "Propia", "Lembra que pechaches o aviso da promoción do mes para non volver amosarcho.", "Ata que se publique outra promoción ou borres os datos do navegador"],
                 [
                   "tixola:waiter:*",
                   "Técnica (sessionStorage)",
