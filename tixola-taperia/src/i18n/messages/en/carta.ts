@@ -47,7 +47,7 @@ const carta = {
   preferences: "Preferences",
   preferencesAria: "Dietary tags",
   excludeAllergens: "Exclude allergens",
-  excludeAllergensHint: "Tick an allergen and every dish containing it disappears from the menu.",
+  excludeAllergensHint: "Tick an allergen and every dish that declares it disappears from the menu. Hiding them does not make the rest safe: our kitchen handles all 14, so check with our staff.",
   excludeAllergensAria: "Allergens to exclude",
   excludeOne: "Hide dishes containing {name}",
   includeOne: "Show dishes containing {name} again",

@@ -13,7 +13,7 @@ const dishes = {
   allergens: "Alérgenos",
   /* Sin alérgenos declarados ≠ sin alérgenos. Ver la nota en `es/carta.ts`. */
   allergensAsk: "Consulta los alérgenos con el personal",
-  allergensNote: "Ante cualquier alergia o intolerancia, dínoslo al pedir: lo preparamos con cuidado.",
+  allergensNote: "En cocina se manipulan los 14 alérgenos y no podemos descartar trazas. Si tienes alergia o intolerancia, dínoslo al pedir y lo confirmamos contigo plato a plato.",
   pairing: "Maridaje recomendado",
   pairingWhy: "Por qué funciona",
   seeInMenu: "Ver en la carta",

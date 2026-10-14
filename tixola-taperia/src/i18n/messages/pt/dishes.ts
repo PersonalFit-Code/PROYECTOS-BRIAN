@@ -15,7 +15,7 @@ const dishes = {
   ingredients: "Ingredientes",
   allergens: "Alergénios",
   allergensAsk: "Consulte os alergénios com o pessoal",
-  allergensNote: "Em caso de alergia ou intolerância, diga-nos ao pedir: preparamos tudo com cuidado.",
+  allergensNote: "Na cozinha manipulam-se os 14 alergénios e não podemos excluir vestígios. Se tiver alergia ou intolerância, diga-nos ao pedir e confirmamos consigo prato a prato.",
   pairing: "Harmonização recomendada",
   pairingWhy: "Porque resulta",
   seeInMenu: "Ver na ementa",

@@ -15,7 +15,7 @@ const dishes = {
   ingredients: "Ingredients",
   allergens: "Allergens",
   allergensAsk: "Ask our staff about allergens",
-  allergensNote: "If you have any allergy or intolerance, let us know when ordering: we'll prepare it with care.",
+  allergensNote: "Our kitchen handles all 14 allergens and we cannot rule out traces. If you have an allergy or intolerance, tell us when you order and we'll go through it with you, dish by dish.",
   pairing: "Recommended pairing",
   pairingWhy: "Why it works",
   seeInMenu: "See on the menu",

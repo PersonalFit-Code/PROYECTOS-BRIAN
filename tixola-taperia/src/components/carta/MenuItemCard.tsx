@@ -359,8 +359,16 @@ function MenuItemCard({ item, dietTags, variant = "glass", highlighted = false, 
 
           {/* Pie: alérgenos + maridaje + camarero */}
           <div className="mt-auto flex flex-col gap-3 pt-5">
+            {/* EL AVISO VA EN LOS DOS CASOS, y antes solo salía cuando la lista estaba vacía. Una
+                fila de iconos a secas se lee como una lista cerrada y comprobada, y no lo es: la
+                carta declara qué alérgenos LLEVA un plato, la cocina manipula los catorce y de las
+                trazas no sabemos nada. Repetirlo en las 47 tarjetas no es ruido: es el único sitio
+                donde mira quien está eligiendo plato. */}
             {item.allergens.length > 0 ? (
-              <AllergenRow ids={item.allergens} size="xs" />
+              <div className="flex flex-col gap-1.5">
+                <AllergenRow ids={item.allergens} size="xs" />
+                <span className="text-[11px] leading-snug text-cream-faint">{m.carta.allergensAsk}</span>
+              </div>
             ) : (
               <span className="text-xs text-cream-faint">{m.carta.allergensAsk}</span>
             )}

@@ -47,7 +47,7 @@ const carta = {
   preferences: "Preferências",
   preferencesAria: "Etiquetas alimentares",
   excludeAllergens: "Excluir alergénios",
-  excludeAllergensHint: "Marque um alergénio e os pratos que o contêm desaparecem da ementa.",
+  excludeAllergensHint: "Marque um alergénio e os pratos que o declaram desaparecem da ementa. Escondê-los não garante que o resto seja seguro: a cozinha manipula os 14 e há que confirmar com o pessoal.",
   excludeAllergensAria: "Alergénios a excluir",
   excludeOne: "Excluir pratos com {name}",
   includeOne: "Voltar a mostrar pratos com {name}",
