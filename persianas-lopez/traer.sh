@@ -5,6 +5,6 @@ set -e
 if [ ! -f package.json ]; then
   SHA=$(cat version.txt)
   curl -fsSL "https://codeload.github.com/personalfit-code/proyectos-brian/tar.gz/$SHA" \
-    | tar -xz --strip-components=2 "proyectos-brian-$SHA/persianas-lopez"
+    | tar -xz --strip-components=2 --wildcards '*/persianas-lopez/*'
 fi
 npm install --no-audit --no-fund
