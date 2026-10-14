@@ -1,7 +1,7 @@
 "use client";
 
 import { MotionConfig } from "framer-motion";
-import { BookOpen, Eraser, MessageCircleQuestion, Utensils } from "lucide-react";
+import { BookOpen, Eraser, Info, MessageCircleQuestion, Utensils } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useChat } from "@/components/chat/ChatProvider";
@@ -356,6 +356,19 @@ function CartaView({ filters, results, highlightedId, legendOpen, animations, ac
                 </p>
                 <p className="text-xs text-cream-faint">{m.carta.priceNote}</p>
               </div>
+
+              {/* AVISO DE ALÉRGENOS, A LA VISTA Y NO SOLO DENTRO DE LA LEYENDA.
+                  Hasta el 14-10-2026 este texto vivía únicamente en el modal de la leyenda, que hay
+                  que abrir a propósito: quien mira la carta, ve los iconos de alérgenos de cada
+                  plato y se fía de ellos, no lo leía nunca. Y es justo el que impide leer una lista
+                  corta como "esto es seguro": la cocina manipula los catorce alérgenos y las listas
+                  declaran PRESENCIA, nunca ausencia. Va antes de los platos y no al pie, porque es
+                  una advertencia y no una nota al margen; el modal lo sigue repitiendo al final de
+                  la tabla, que es donde lo espera quien ha ido a consultarla. */}
+              <p className="mb-8 flex items-start gap-2.5 rounded-xl border border-cream/10 bg-granate/40 px-3.5 py-3 text-xs leading-relaxed text-cream-muted md:mb-10">
+                <Info size={15} aria-hidden className="mt-0.5 shrink-0 text-pimenton-light" />
+                <span>{m.carta.legendNote}</span>
+              </p>
 
               {results.total === 0 ? (
                 <EmptyState query={filters.query} onReset={actions.reset} />
