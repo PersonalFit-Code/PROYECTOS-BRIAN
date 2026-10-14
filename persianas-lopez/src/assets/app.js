@@ -90,8 +90,8 @@
       var fuera = y > umbral;
       subir.style.opacity = fuera ? '1' : '0';
       subir.style.transform = fuera ? 'none' : '';
-      // En la portada la barra del móvil sale en cuanto se abre la persiana (la portada solo lleva el logo)
-      if (esInicio) barraMovil.style.transform = fuera || document.documentElement.classList.contains('persiana-abierta') ? 'translateY(0)' : '';
+      // Barra de acciones del móvil: aparece en cuanto se empieza a bajar
+      barraMovil.classList.toggle('visible', y > 120);
       if (fuera && avisoPendiente) mostrarAviso();
       if (esInicio) {
         var linea = window.innerHeight * 0.35, actual = 'inicio';

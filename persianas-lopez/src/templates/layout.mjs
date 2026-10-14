@@ -108,9 +108,11 @@ ${SPRITE}
   </header>
 
   <div id="menu" class="pointer-events-none fixed inset-0 z-40">
-    <div id="menu-panel" class="menu-panel absolute inset-0 overflow-y-auto bg-brand-950/80 text-white" role="dialog" aria-modal="true" aria-label="${u.menu}">
-      <div class="pointer-events-none absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-brand-500/40 blur-3xl" aria-hidden="true"></div>
-      <div class="pointer-events-none absolute -bottom-40 -left-40 h-[30rem] w-[30rem] rounded-full bg-accent/20 blur-3xl" aria-hidden="true"></div>
+    <div id="menu-panel" class="menu-panel absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain bg-brand-950/80 text-white" role="dialog" aria-modal="true" aria-label="${u.menu}">
+      <div class="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-brand-500/40 blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 h-[30rem] w-[30rem] rounded-full bg-accent/20 blur-3xl"></div>
+      </div>
       <div class="relative mx-auto grid min-h-full max-w-7xl gap-10 px-5 pb-12 pt-28 sm:px-8 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-16 lg:pt-32">
         <nav aria-label="${u.navegacion}">
           <p class="menu-item mb-6 text-xs font-bold uppercase tracking-[.3em] text-brand-200" style="--i:0">${u.navegacion}</p>
@@ -139,7 +141,7 @@ ${SPRITE}
 ${cuerpo}
   </main>
 
-  <footer class="relative overflow-hidden bg-brand-950 pb-28 text-brand-100 sm:pb-0">
+  <footer class="relative overflow-hidden bg-brand-950 pb-20 text-brand-100 sm:pb-0">
     <div class="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full bg-brand-600/40 blur-3xl" aria-hidden="true"></div>
     <div class="relative mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-8 md:grid-cols-3">
       <div>
@@ -171,11 +173,11 @@ ${cuerpo}
   </footer>
 
   <!-- Móvil: barra inferior con las acciones -->
-  <div id="barra-movil" class="fixed inset-x-3 bottom-3 z-40 ${esInicio ? 'translate-y-[150%]' : ''} transition-transform duration-500 sm:hidden" style="padding-bottom: env(safe-area-inset-bottom);">
-    <div class="glass glass-light grid grid-cols-3 gap-2 rounded-[1.4rem] p-2">
-      <a href="tel:${SITIO.telefono}" data-medir="llamada" class="btn btn-azul flex-col gap-0.5 py-2 text-xs" aria-label="${u.llamarAria}">${ico('telefono')} ${u.llamar}</a>
-      <button type="button" data-abrir-chat class="btn btn-sol flex-col gap-0.5 py-2 text-xs">${ico('calculadora')} ${u.presupuesto}</button>
-      <a href="${wa(t.servicios[0].wa)}" target="_blank" rel="noopener" data-medir="whatsapp" class="btn btn-verde flex-col gap-0.5 py-2 text-xs" aria-label="${u.whatsappAria}">${ico('whatsapp')} ${u.whatsapp}</a>
+  <div id="barra-movil" class="barra-movil pointer-events-none fixed inset-x-0 bottom-3 z-40 flex justify-center px-3 sm:hidden" style="padding-bottom: env(safe-area-inset-bottom);">
+    <div class="glass glass-light pointer-events-auto flex items-center gap-1.5 rounded-full p-1.5">
+      <a href="tel:${SITIO.telefono}" data-medir="llamada" class="btn btn-azul h-9 gap-1.5 px-3.5 text-xs" aria-label="${u.llamarAria}">${ico('telefono', 'h-4 w-4')} ${u.llamar}</a>
+      <button type="button" data-abrir-chat class="btn btn-sol h-9 gap-1.5 px-3.5 text-xs">${ico('calculadora', 'h-4 w-4')} ${u.presupuesto}</button>
+      <a href="${wa(t.servicios[0].wa)}" target="_blank" rel="noopener" data-medir="whatsapp" class="btn btn-verde h-9 gap-1.5 px-3.5 text-xs" aria-label="${u.whatsappAria}">${ico('whatsapp', 'h-4 w-4')} ${u.whatsapp}</a>
     </div>
   </div>
   <!-- Escritorio: volver arriba, asistente y WhatsApp -->
@@ -210,7 +212,7 @@ ${cuerpo}
   <script type="application/json" id="chat-datos">${datosChat.replace(/</g, '\\u003c')}</script>
 
   <!-- Aviso de cookies -->
-  <div id="aviso-cookies" class="fixed inset-x-3 bottom-24 z-[65] mx-auto hidden max-w-md sm:bottom-6 sm:left-6 sm:right-auto sm:mx-0" role="region" aria-label="${u.cookies}">
+  <div id="aviso-cookies" class="fixed inset-x-3 bottom-20 z-[65] mx-auto hidden max-w-md sm:bottom-6 sm:left-6 sm:right-auto sm:mx-0" role="region" aria-label="${u.cookies}">
     <div class="glass glass-light flex items-center gap-3 rounded-2xl py-2.5 pl-4 pr-2.5 text-xs leading-snug text-slate-700">
       <p class="flex-1">${u.cookiesAviso} <a href="${t.rutas.cookies}" class="font-semibold text-brand-700 underline">${u.cookiesMas}</a></p>
       <button type="button" id="aviso-cookies-ok" class="btn btn-azul shrink-0 px-4 py-2 text-xs">${u.cookiesEntendido}</button>

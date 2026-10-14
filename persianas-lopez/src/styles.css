@@ -121,6 +121,15 @@ body { background: #EAF2FF; }
 .logo-portada { filter: drop-shadow(0 18px 30px rgba(20,27,83,.12)); }
 .bajar svg { animation: rebote 1.8s ease-in-out infinite; }
 @keyframes rebote { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+/* Barra de acciones del móvil: pequeña y con los botones entrando uno a uno */
+.barra-movil { transform: translateY(140%); transition: transform .5s cubic-bezier(.34,1.4,.64,1); }
+.barra-movil.visible { transform: none; }
+.barra-movil .btn { opacity: 0; transform: translateY(10px) scale(.85); transition: opacity .35s ease, transform .45s cubic-bezier(.34,1.56,.64,1); }
+.barra-movil.visible .btn { opacity: 1; transform: none; }
+.barra-movil.visible .btn:nth-child(2) { transition-delay: .07s; }
+.barra-movil.visible .btn:nth-child(3) { transition-delay: .14s; }
+/* El menú solo se desplaza en vertical */
+.menu-panel { touch-action: pan-y; }
 .galeria { scrollbar-width: none; }
 .galeria::-webkit-scrollbar { display: none; }
 .persiana-fondo { background-image: repeating-linear-gradient(180deg, rgba(255,255,255,.25) 0 22px, rgba(255,255,255,0) 22px 30px); animation: bajar-fondo 1.4s cubic-bezier(.2,.7,.2,1) both; transform-origin: top; }
@@ -223,7 +232,7 @@ details .respuesta { animation: abrir .45s ease; }
 .resumen-chat dt { font-weight: 700; color: #003D7A; }
 .resumen-chat dd { margin: 0 0 .35rem; }
 
-html, body { overflow-x: clip; }
+html, body { overflow-x: hidden; overflow-x: clip; }
 :focus-visible { outline: 3px solid #FFD23F; outline-offset: 3px; border-radius: 10px; }
 
 @media (prefers-reduced-motion: reduce) {
