@@ -2,8 +2,8 @@ import type esSocial from "@/i18n/messages/es/social";
 import type { Translation } from "./shape";
 
 /**
- * "Social proof" section (#opiniones): heading, counters, marquee columns of real reviews,
- * Google / TripAdvisor links and photo gallery of the bar.
+ * "Social proof" section (#opiniones): heading, links to the Google / TripAdvisor listings,
+ * counters and photo gallery of the bar.
  * Placeholders like {rating} are filled with useFormat(): t(m.social.description, { rating, count }).
  */
 const social = {
@@ -11,9 +11,7 @@ const social = {
   title: "Take it from over {count}",
   accent: "customers",
   description:
-    "{rating} out of 5 on Google from {count} reviews, plus Travellers' Choice on TripAdvisor. The same things come up again and again: produce from the rías, iron skillets that arrive sizzling and a terrace with the Cathedral as a backdrop.",
-  /** Rating summary next to the heading: "Google · 858 reviews" */
-  ratingSummary: "Google · {count} reviews",
+    "The same things come up in review after review: produce from the rías, iron skillets that arrive sizzling and a terrace with the Cathedral as a backdrop.",
   stats: {
     reviews: "Customer reviews",
     reviewsSub: "on Google",
@@ -27,13 +25,11 @@ const social = {
   /** Word centred over the top rule of the figures band (SocialProof). */
   statsTitle: "In numbers",
   statsAria: "Tixola in numbers",
-  reviewsTitle: "Word from",
-  reviewsAccent: "those who've already been",
   reviewsNote:
     "What people say is where they wrote it: on Google and TripAdvisor. That is where you can read it in full and up to date.",
   seeGoogle: "Read reviews on Google",
   seeTripadvisor: "See on TripAdvisor",
-  /** Review card (ReviewCard) */
+  /** Accessible label for the stars (PlatformBadge) */
   card: {
     stars: "{rating} out of 5 stars",
   },
@@ -73,6 +69,5 @@ const social = {
       hint: "Escape to close · arrow keys to change photo",
     },
   },
-  verified: "Verified review",
 } satisfies Translation<typeof esSocial>;
 export default social;

@@ -1,16 +1,14 @@
 /**
- * Sección "Prueba social" (#opiniones): cabecera, contadores, columnas de reseñas reales en
- * marquee, enlaces a Google / TripAdvisor y galería de fotos del local.
- * Los marcadores {así} se rellenan con useFormat(): t(m.social.description, { rating, count }).
+ * Sección "Prueba social" (#opiniones): cabecera, enlaces a las fichas de Google / TripAdvisor,
+ * contadores y galería de fotos del local.
+ * Los marcadores {así} se rellenan con useFormat(): t(m.social.title, { count }).
  */
 const social = {
   kicker: "Prueba social",
   title: "Lo dicen más de {count}",
   accent: "clientes",
   description:
-    "{rating} sobre 5 en Google con {count} reseñas y Travellers' Choice en TripAdvisor. Lo que se repite en todas: producto de la ría, tixolas de hierro que llegan chisporroteando y una terraza con la Catedral de fondo.",
-  /** Resumen de valoración junto a la cabecera: "Google · 858 opiniones" */
-  ratingSummary: "Google · {count} opiniones",
+    "Lo que se repite en las reseñas: producto de la ría, tixolas de hierro que llegan chisporroteando y una terraza con la Catedral de fondo.",
   stats: {
     reviews: "Reseñas de clientes",
     reviewsSub: "en Google",
@@ -24,13 +22,11 @@ const social = {
   /** Palabra centrada sobre la regla superior de la banda de cifras (SocialProof). */
   statsTitle: "En cifras",
   statsAria: "Cifras de Tixola",
-  reviewsTitle: "Palabra de",
-  reviewsAccent: "quien ya ha venido",
   reviewsNote:
     "Las opiniones de quienes han venido están donde las escribieron: en Google y en TripAdvisor. Ahí se leen enteras y al día.",
   seeGoogle: "Ver reseñas en Google",
   seeTripadvisor: "Ver en TripAdvisor",
-  /** Tarjeta de reseña (ReviewCard) */
+  /** Etiqueta accesible de las estrellas (PlatformBadge) */
   card: {
     stars: "{rating} de 5 estrellas",
   },
@@ -72,6 +68,5 @@ const social = {
       hint: "Escape para cerrar · flechas para cambiar de foto",
     },
   },
-  verified: "Reseña verificada",
 } as const;
 export default social;

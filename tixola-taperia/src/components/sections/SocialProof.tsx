@@ -20,14 +20,12 @@ import { cn } from "@/lib/utils";
 
 /**
  * SocialProof (#opiniones) — prueba social de Tixola.
- *  1. Cabecera (m.social.*) con el resumen de valoración de Google.
- *  2. Banda editorial "en cifras": cuatro contadores a pelo sobre el hierro, separados por filos
+ *  1. Cabecera (m.social.*) y, a su lado, la nota y los dos enlaces a las fichas de Google y
+ *     TripAdvisor (el texto de las reseñas no se reproduce: ver el comentario del bloque 2).
+ *  3. Banda editorial "en cifras": cuatro contadores a pelo sobre el hierro, separados por filos
  *     (SOCIAL_STATS; etiquetas de m.social.stats). Sin tarjetas: el cliente no quería "cuadrados".
- *  3. Titular y nota que llevan a las fichas de Google y TripAdvisor (el texto de las reseñas no
- *     se reproduce: ver el comentario del bloque 3).
- *  4. Enlaces a Google / TripAdvisor con su nota.
- *  5. Galería de fotos del local (PhotoGallery) con visor.
- *  6. Preguntas frecuentes (Faq): la cara visible del FAQPage que emite HomeJsonLd.
+ *  4. Galería de fotos del local (PhotoGallery) con visor.
+ *  5. Preguntas frecuentes (Faq): la cara visible del FAQPage que emite HomeJsonLd.
  * Fondo: textura de brasas anclada abajo + brasas CSS con posiciones deterministas (sin Canvas).
  * Reveals con `data-reveal` (CSS + observador; sin Framer Motion en esta sección). Todo el texto sale de
  * m.social / m.common.
@@ -297,34 +295,86 @@ export default function SocialProof() {
       <div aria-hidden className="divider-granate absolute inset-x-0 top-0" />
 
       <div className="container-page relative py-20 md:py-28 lg:py-32">
-        {/* 1 · Cabecera */}
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        {/* 1 · Cabecera, con los enlaces a las fichas al lado
+            AQUÍ HABÍA UN RESUMEN "4,4 ★★★★★ · Google · 858 opiniones" a la derecha del titular. Fuera
+            el 14-10-2026: con las reseñas ya retiradas, la misma nota de Google aparecía CUATRO veces
+            en una pantalla —en este resumen, en la descripción, en la cifra grande de la banda y en el
+            enlace a la ficha—. Se queda donde dice algo distinto: en la banda, como cifra, y en el
+            enlace, donde además se puede comprobar. En su hueco entran los enlaces, que antes abrían
+            un bloque propio media pantalla más abajo. */}
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,27rem)] lg:items-end lg:gap-14">
           <SectionHeading
             kicker={s.kicker}
             /* "Lo dicen más de 850": el umbral se deriva del recuento real, redondeado a la baja. */
             title={t(s.title, { count: fmtInt(Math.floor(google.count / 50) * 50) })}
             accent={s.accent}
-            description={t(s.description, { rating: fmtRating(google.value), count: fmtInt(google.count) })}
+            description={s.description}
           />
-          {/* Resumen de valoración: la cifra grande, las estrellas y la fuente, sueltos sobre el hierro.
-              Aquí hubo una caja `glass-red` redondeada, y el cliente fue literal: "un cuadrado con la
-              información dentro no me convence". Las cuatro cifras de la banda de abajo ya perdieron sus
-              tarjetas por lo mismo; este resumen era el último cuadrado de la sección. Mismo lenguaje que
-              esa banda: cifra en condensada con relieve, texto pequeño en mayúsculas, ninguna superficie. */}
-          <div data-reveal="fade" className="flex shrink-0 items-center gap-4 self-start lg:self-end">
-            <div className="font-condensed text-6xl leading-none text-cream text-3d">{fmtRating(google.value)}</div>
-            <div className="flex flex-col gap-1.5">
-              <Stars rating={google.value} size="sm" />
-              <span className="font-caps text-[10px] uppercase tracking-[0.22em] text-cream-muted">
-                {t(s.ratingSummary, { count: fmtInt(google.count) })}
-              </span>
-            </div>
+
+          {/* 2 · Dónde están las opiniones
+              AQUÍ HABÍA CUARENTA RESEÑAS COPIADAS de TripAdvisor y de Google, con su texto literal, el
+              nombre de usuario y la ciudad, en dos columnas que se movían solas. Fuera el 13-10-2026, y
+              no por diseño:
+               · Google prohíbe por escrito "copiar y guardar nombres de negocios, direcciones o reseñas
+                 de usuarios" fuera de sus servicios;
+               · TripAdvisor prohíbe mostrar sus reseñas Y SUS NOTAS fuera de sus propios widgets;
+               · el texto de una reseña es una obra de su autor, y el derecho de cita español solo cubre
+                 docencia e investigación, no una web que vende;
+               · usar el nombre de una persona con fin publicitario sin su permiso expreso es una
+                 intromisión ilegítima (art. 7.6 de la LO 1/1982), con el perjuicio presumido por ley.
+              Lo que queda es lo que sí se puede: decir dónde están y llevar allí. Si algún día se quiere
+              enseñar el texto, la vía es el widget oficial de cada plataforma o testimonios propios con
+              el permiso escrito de quien los firma. */}
+          <div>
+            <p data-reveal="fade" className="text-sm leading-relaxed text-cream-muted text-pretty">
+              {s.reviewsNote}
+            </p>
+            <ul className="mt-5 grid gap-3" aria-label={s.platforms.aria}>
+              {platforms.map((p) => (
+                <li key={p.id} data-reveal>
+                  <a
+                    href={p.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${p.cta} · ${p.source}${p.rating ? ` ${fmtRating(p.rating)}` : ""} · ${p.meta} · ${m.common.misc.newTab}`}
+                    className="glass-smoke group flex min-h-[68px] items-center gap-3 rounded-2xl p-3.5 transition-all duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:border-cream/25 hover:shadow-card sm:gap-4 sm:p-4"
+                  >
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-granate/70 ring-1 ring-cream/10">
+                      <PlatformGlyph source={p.source} className="h-5 w-5" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      {p.rating ? (
+                        <span className="flex items-center gap-2">
+                          <span className="font-condensed text-2xl leading-none text-cream">{fmtRating(p.rating)}</span>
+                          <Stars rating={p.rating} size="sm" />
+                        </span>
+                      ) : (
+                        /* Sin nota, el nombre de la plataforma ocupa su sitio para que los dos enlaces
+                           midan y pesen igual. */
+                        <span className="block font-condensed text-2xl leading-none text-cream">{p.source}</span>
+                      )}
+                      <span className="mt-1 block truncate text-xs text-cream-faint">
+                        {p.rating ? `${p.source} · ${p.meta}` : p.meta}
+                      </span>
+                    </span>
+                    {/* El rótulo largo ("Ver reseñas en Google") solo cuando la columna da de sí; en la
+                        columna estrecha del escritorio y en el móvil, "Ver" y la flecha. El enlace
+                        completo viaja igualmente en `aria-label`. */}
+                    <span className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-cream-200 transition-colors group-hover:text-pimenton-a11y">
+                      <span className="hidden sm:inline lg:hidden xl:inline">{p.cta}</span>
+                      <span className="sm:hidden lg:inline xl:hidden">{s.platforms.see}</span>
+                      <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* 2 · Banda editorial "en cifras": regla fina arriba (con la palabra centrada) y abajo, y las
+        {/* 3 · Banda editorial "en cifras": regla fina arriba (con la palabra centrada) y abajo, y las
             cuatro cifras entre medias, directamente sobre el hierro. Sin cajas ni cristal. */}
-        <div className="mt-12 md:mt-16">
+        <div className="mt-14 md:mt-20">
           {/* `wipe` y no `fade`: los filos se trazan de izquierda a derecha, como si alguien subrayara
               la palabra antes de que caigan las cifras. */}
           <div data-reveal="wipe" className="flex items-center gap-4">
@@ -343,78 +393,14 @@ export default function SocialProof() {
           <div data-reveal="wipe" aria-hidden className="h-px bg-cream/15" />
         </div>
 
-        {/* 3 · Dónde están las opiniones
-            AQUÍ HABÍA CUARENTA RESEÑAS COPIADAS de TripAdvisor y de Google, con su texto literal, el
-            nombre de usuario y la ciudad, en dos columnas que se movían solas. Fuera el 13-10-2026, y
-            no por diseño:
-             · Google prohíbe por escrito "copiar y guardar nombres de negocios, direcciones o reseñas
-               de usuarios" fuera de sus servicios;
-             · TripAdvisor prohíbe mostrar sus reseñas Y SUS NOTAS fuera de sus propios widgets;
-             · el texto de una reseña es una obra de su autor, y el derecho de cita español solo cubre
-               docencia e investigación, no una web que vende;
-             · usar el nombre de una persona con fin publicitario sin su permiso expreso es una
-               intromisión ilegítima (art. 7.6 de la LO 1/1982), con el perjuicio presumido por ley.
-            Lo que queda es lo que sí se puede: decir dónde están y llevar allí. Si algún día se quiere
-            enseñar el texto, la vía es el widget oficial de cada plataforma o testimonios propios con
-            el permiso escrito de quien los firma. */}
-        <div className="mt-16 md:mt-24">
-          <div className="max-w-2xl">
-            <h3 data-reveal className="font-display text-3xl leading-none text-cream md:text-4xl">
-              {s.reviewsTitle} <em className="text-gradient-ember italic">{s.reviewsAccent}</em>
-            </h3>
-            <p data-reveal="fade" className="mt-3 text-sm leading-relaxed text-cream-muted text-pretty">
-              {s.reviewsNote}
-            </p>
-          </div>
-        </div>
-
-        {/* 4 · Enlaces a plataformas */}
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 md:mt-14" aria-label={s.platforms.aria}>
-          {platforms.map((p) => (
-            <li key={p.id} data-reveal>
-              <a
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${p.cta} · ${p.source}${p.rating ? ` ${fmtRating(p.rating)}` : ""} · ${p.meta} · ${m.common.misc.newTab}`}
-                className="glass-smoke group flex min-h-[72px] items-center gap-4 rounded-2xl p-4 transition-all duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:border-cream/25 hover:shadow-card md:p-5"
-              >
-                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-granate/70 ring-1 ring-cream/10">
-                  <PlatformGlyph source={p.source} className="h-6 w-6" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  {p.rating ? (
-                    <span className="flex items-center gap-2">
-                      <span className="font-condensed text-2xl leading-none text-cream">{fmtRating(p.rating)}</span>
-                      <Stars rating={p.rating} size="sm" />
-                    </span>
-                  ) : (
-                    /* Sin nota, el nombre de la plataforma ocupa su sitio para que las dos tarjetas
-                       midan y pesen igual. */
-                    <span className="block font-condensed text-2xl leading-none text-cream">{p.source}</span>
-                  )}
-                  <span className="mt-1 block truncate text-xs text-cream-faint">
-                    {p.rating ? `${p.source} · ${p.meta}` : p.meta}
-                  </span>
-                </span>
-                <span className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-cream-200 transition-colors group-hover:text-pimenton-a11y">
-                  <span className="hidden sm:inline">{p.cta}</span>
-                  <span className="sm:hidden">{s.platforms.see}</span>
-                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        {/* 5 · Galería de fotos. El hueco se reserva por CSS para que el montaje diferido no desplace las
+        {/* 4 · Galería de fotos. El hueco se reserva por CSS para que el montaje diferido no desplace las
             preguntas frecuentes ni invalide los disparadores de scroll de más abajo. */}
         <div aria-hidden className="divider-granate mt-16 md:mt-24" />
         <div ref={galleryRef} className="mt-12 min-h-[400px] md:mt-16 md:min-h-[500px] lg:min-h-[580px]">
           {galleryNear && <PhotoGallery />}
         </div>
 
-        {/* 6 · Preguntas frecuentes (mismo texto que el FAQPage de HomeJsonLd) */}
+        {/* 5 · Preguntas frecuentes (mismo texto que el FAQPage de HomeJsonLd) */}
         <div aria-hidden className="divider-granate mt-16 md:mt-24" />
         <Faq className="mt-12 md:mt-16" />
       </div>

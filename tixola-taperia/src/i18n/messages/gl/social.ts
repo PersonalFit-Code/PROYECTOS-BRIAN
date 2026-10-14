@@ -1,18 +1,16 @@
 import type { Section } from "./shape";
 
 /**
- * Sección "Proba social" (#opiniones): cabeceira, contadores, columnas de recensións reais en
- * marquee, ligazóns a Google / TripAdvisor e galería de fotos do local.
- * Os marcadores {así} énchense con useFormat(): t(m.social.description, { rating, count }).
+ * Sección "Proba social" (#opiniones): cabeceira, ligazóns ás fichas de Google / TripAdvisor,
+ * contadores e galería de fotos do local.
+ * Os marcadores {así} énchense con useFormat(): t(m.social.title, { count }).
  */
 const social: Section<"social"> = {
   kicker: "Proba social",
   title: "Dino máis de {count}",
   accent: "clientes",
   description:
-    "{rating} sobre 5 en Google con {count} recensións e Travellers' Choice en TripAdvisor. O que se repite en todas: produto da ría, tixolas de ferro que chegan chiando e unha terraza coa Catedral de fondo.",
-  /** Resumo de valoración xunto á cabeceira: "Google · 858 opinións" */
-  ratingSummary: "Google · {count} opinións",
+    "O que se repite nas recensións: produto da ría, tixolas de ferro que chegan chiando e unha terraza coa Catedral de fondo.",
   stats: {
     reviews: "Recensións de clientes",
     reviewsSub: "en Google",
@@ -26,13 +24,11 @@ const social: Section<"social"> = {
   /** Palabra centrada sobre a regra superior da banda de cifras (SocialProof). */
   statsTitle: "En cifras",
   statsAria: "Cifras de Tixola",
-  reviewsTitle: "Palabra de",
-  reviewsAccent: "quen xa veu",
   reviewsNote:
     "As opinións de quen veu están onde as escribiron: en Google e en TripAdvisor. Alí lense enteiras e ao día.",
   seeGoogle: "Ver recensións en Google",
   seeTripadvisor: "Ver en TripAdvisor",
-  /** Tarxeta de recensión (ReviewCard) */
+  /** Etiqueta accesible das estrelas (PlatformBadge) */
   card: {
     stars: "{rating} de 5 estrelas",
   },
@@ -72,6 +68,5 @@ const social: Section<"social"> = {
       hint: "Escape para pechar · frechas para cambiar de foto",
     },
   },
-  verified: "Recensión verificada",
 };
 export default social;
