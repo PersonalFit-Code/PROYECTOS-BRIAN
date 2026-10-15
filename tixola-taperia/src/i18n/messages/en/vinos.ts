@@ -20,7 +20,7 @@ const vinos = {
 
   regionsKicker: "Where it comes from",
   regionsTitle: "Galicia's five",
-  regionsAccent: "wine regions",
+  regionsAccent: "appellations",
   regionsLead:
     "Galicia has five wine appellations and four of them have vineyards in the province of Ourense. The city's own municipality sits inside D.O. Ribeiro: the wine here is made, quite literally, next door.",
   regionsNote:
@@ -31,7 +31,7 @@ const vinos = {
   mapCredit: "Outline of Galicia: data from OpenStreetMap, ODbL licence.",
 
   /* ── The world map ── */
-  mapWorldKicker: "Where it comes from",
+  mapWorldKicker: "Every origin",
   mapWorldTitle: "The world, on the shelf",
   mapWorldLead:
     "{count} bottles from {countries} countries. Zoom with the wheel or two fingers, drag to move around, and tap a country — or its pin — to see every wine we have from there.",
@@ -84,7 +84,7 @@ const vinos = {
   filtersActive: "{count} active filters",
   filtersAria: "Filter the wine list",
   filterByOrigin: "Appellation",
-  /* La primera chapa de la fila, la que vuelve a enseñar la carta entera. */
+  /* The first chip in the row, the one that brings the whole list back. */
   allOrigins: "All",
   filterByKind: "Colour",
   filtersClear: "Clear the filters",
@@ -108,7 +108,7 @@ const vinos = {
 
   blockRegion: "The appellation",
   regionProvinces: "Where",
-  regionGrapes: "Preferred grapes",
+  regionGrapes: "Main grapes",
   askAboutWine: "Tell me about {name}. What does it taste like, and which dish on the menu would you have it with?",
   askAboutWineCta: "Ask the waiter",
   askAboutWineAria: "Ask the virtual waiter about {name}",

@@ -46,7 +46,7 @@ const vinos = {
   mapCredit: "Contorno de Galicia: datos de OpenStreetMap, licencia ODbL.",
 
   /* ── El mapa del mundo ── */
-  mapWorldKicker: "De dónde viene",
+  mapWorldKicker: "Todas las procedencias",
   mapWorldTitle: "El mundo, en la estantería",
   mapWorldLead:
     "{count} botellas de {countries} países. Amplía con la rueda o con dos dedos, arrastra para moverte, y pulsa en un país —o en su chincheta— para ver todos los vinos que tenemos de ahí.",
@@ -104,7 +104,7 @@ const vinos = {
   count: "{count} vinos",
 
   /* ── El buscador ── */
-  /* El marcador enseña CÓMO se busca mejor que cualquier explicación: una uva y una zona. Los dos
+  /* El marcador enseña CÓMO se busca mejor que cualquier explicación: una uva, una zona y otra uva. Los tres
      ejemplos están elegidos porque DEVUELVEN ALGO con la carta de hoy — un marcador que propone
      algo que no encuentra nada es peor que no poner marcador. */
   searchLabel: "Buscar un vino",

@@ -27,7 +27,7 @@ const experience = {
   storyTitle: "A day at Tixola",
   storyKicker: "From a midday caña to the last glass of the night",
   story: [
-    { time: "13:00", title: "Midday on the terrace", text: "A caña (small draught beer) with a tapa and the grelo croquetas while the square fills up." },
+    { time: "13:00", title: "Midday on the terrace", text: "A caña (small draught beer) with a tapa and the grelos and chipirón croquetas while the square fills up." },
     { time: "20:00", title: "Time for the viños", text: "Godello, Ribeiro or Mencía by the glass, with griddled zamburiñas on the side." },
     { time: "22:00", title: "Tixolas for dinner", text: "Iron pans that reach the table still sizzling. Made for sharing." },
   ],

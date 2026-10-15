@@ -76,7 +76,7 @@ const chat = {
       "Temos esplanada com vista para a Catedral. O centro histórico é pedonal: o melhor é estacionar perto e vir a pé.",
     booking:
       "Não aceitamos reservas: as mesas ocupam-se por ordem de chegada, basta aparecer. Se vier com um grupo grande, ligue-nos e dizemos-lhe a melhor hora: [Ligar para {phone}]({tel}).",
-    bookingExtra: "As melhores alturas para encontrar lugar são à abertura, às 13:00 e às 20:00.",
+    bookingExtra: "As melhores horas para encontrar lugar são a da abertura, as 13:00 e as 20:00.",
     prices: "A nossa faixa de preços é de **{range} por pessoa**, com doses pensadas para partilhar. Alguns exemplos:",
     pricesExtra: "Os preços incluem IVA e são os da ementa do estabelecimento. Aceitamos cartão.",
     dishInfo: "**{name}** — {price}. {description}",

@@ -53,7 +53,7 @@ const dishes = {
   },
   /** Composite visual (iron skillet + icon) when the dish has no photo yet */
   visual: {
-    label: "Illustration of {name} on an iron skillet",
+    label: "Illustration of {name} on an iron tixola",
   },
 } satisfies Translation<typeof esDishes>;
 export default dishes;

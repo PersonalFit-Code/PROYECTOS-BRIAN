@@ -24,8 +24,8 @@ import type { MenuItemId, MenuVariant } from "./menu";
  * quien edita, pero los vigila `assertMenuIntegrity()` para que no puedan discrepar.
  *
  * ⚠️ Los maridajes de esta sección son los ÚNICOS que quedan en la web: son recomendaciones de
- * vino que el local ya hacía, no una promesa de tenerlo en carta. Cuando llegue la carta de vinos,
- * conviene revisarlos contra ella.
+ * vino que el local ya hacía, no una promesa de tenerlo en carta. La carta de vinos ya está
+ * publicada (`src/data/wines.ts`): conviene repasarlos contra ella.
  */
 export interface StarDish {
   id: string;
@@ -100,7 +100,7 @@ export const STAR_DISHES: StarDish[] = [
     pairing: {
       wine: "Mencía",
       do: "D.O. Ribeira Sacra",
-      why: "Un tinto ligero y fresco que aguanta el queso fundido sin tapar el adobo de la carne.",
+      why: "Ligero y fresco, aguanta el queso fundido sin tapar el adobo de la carne.",
     },
     accent: "#e8565a",
     emoji: "🍳",

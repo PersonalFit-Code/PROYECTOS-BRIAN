@@ -404,7 +404,7 @@ const legal: LegalMessages = {
             {
               type: "ul",
               items: [
-                "Los precios publicados son los que se pagan, con el IVA incluido; pueden actualizarse, y en ese caso rige el precio de la carta del local. La disponibilidad de los platos y los maridajes sí son orientativos: dependen de la temporada y del producto que haya ese día.",
+                "Los precios publicados son los que se pagan, con el IVA incluido; pueden actualizarse, y en ese caso rige el precio de la carta del local. La disponibilidad de los platos y el maridaje recomendado sí son orientativos: dependen de la temporada y del producto que haya ese día.",
                 "El horario puede modificarse en festivos, vacaciones o por causas de fuerza mayor.",
                 "El local **no acepta reservas**: las mesas se ocupan por orden de llegada.",
               ],

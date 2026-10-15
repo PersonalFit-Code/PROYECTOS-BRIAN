@@ -7,9 +7,9 @@ const footer = {
     "Quality Galician tapas, craft beer and local wines in a good-looking bar with a terrace, just metres from Ourense Cathedral.",
   tixolaMeaning: "“Tixola” is Galician for frying pan: the iron one that reaches your table still sizzling.",
   contact: "Contact",
-  /* También es la cuarta chapa de la barra inferior de móvil (MobileStickyBar): "Opening hours"
-     parte en dos líneas a 390 px y deja esa columna más alta que las otras tres. "Hours" es lo que
-     pone media hostelería británica en la cabecera de esa columna, y cabe. */
+  /* It is also the fourth chip in the mobile bottom bar (MobileStickyBar): "Opening hours" wraps
+     onto two lines at 390 px and leaves that column taller than the other three. "Hours" is what
+     half the hospitality trade in Britain puts at the head of that column, and it fits. */
   hours: "Hours",
   links: "Menu & links",
   legal: "Legal",

@@ -7,7 +7,7 @@ import { PHOTOS } from "./photos";
  * COMPROBACIONES DE LA CARTA, en el arranque.
  *
  * La carta vive repartida en varios ficheros que se referencian por id: `menu.ts` tiene los platos,
- * `dishes.ts` repite el precio y los alérgenos de tres de ellos, `photos.ts` enlaza fotos con platos
+ * `dishes.ts` repite el precio y los alérgenos de seis de ellos, `photos.ts` enlaza fotos con platos
  * y el camarero virtual lo lee todo. El tipo `MenuItemId` ya impide que un id no exista, pero hay
  * una familia de fallos que ningún tipo puede atrapar porque son de VALOR, no de forma:
  *
@@ -107,10 +107,10 @@ export function assertMenuIntegrity(): void {
     if (!conEtiquetaEstrella.has(star.menuId)) errors.push(`"${item.id}" sale en el carrusel de la portada pero no lleva la etiqueta "estrella" en la carta`);
   }
   /* La comprobación va en UN SOLO SENTIDO a propósito: todo lo que sale en el carrusel tiene que
-     llevar la etiqueta, pero no al revés. El carrusel está limitado por las FOTOS —solo hay tres
-     platos fotografiados— mientras que la etiqueta marca lo que la casa recomienda, que es más
-     ancho y es de lo que tira el camarero virtual cuando le piden consejo. Exigir que coincidan
-     obligaría a recortar las recomendaciones a tres por una limitación de fotografía. */
+     llevar la etiqueta, pero no al revés. El carrusel son SEIS tarjetas, las que tienen
+     foto cenital propia, mientras que la etiqueta marca lo que la casa recomienda —hoy ocho
+     platos— y es de lo que tira el camarero virtual cuando le piden consejo. Exigir que
+     coincidan obligaría a recortar las recomendaciones de ocho a seis. */
 
   if (errors.length) fail(errors);
 }

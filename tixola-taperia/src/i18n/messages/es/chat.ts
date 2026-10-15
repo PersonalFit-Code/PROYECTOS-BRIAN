@@ -75,7 +75,7 @@ const chat = {
     pairingDishSimple: "Con **{dish}** te recomiendo **{wine}**, un vino gallego de nuestra vinoteca.",
     pairingWine: "El **{wine}** va de maravilla con:",
     pairingIntro: "Nuestros maridajes de la casa, con vinos gallegos de la vinoteca:",
-    /* La carta de vinos ya está publicada en /vinos (53 vinos, por denominación), así que aquí
+    /* La carta de vinos ya está publicada en /vinos (46 vinos, por denominación), así que aquí
        el camarero remata enseñando los maridajes de la casa y manda a la carta entera para el
        resto, en vez de recitar una lista que cambia cada temporada. */
     wineList: "Y tenemos {count} vinos en carta, ordenados por denominación: [la carta de vinos]({url}).",

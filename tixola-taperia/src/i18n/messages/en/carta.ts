@@ -31,9 +31,9 @@ const carta = {
   resultsUnitOne: "dish",
   resultsLive: "{count} dishes found",
   resultsRegion: "Menu dishes",
-  /* Nota corta para junto al precio grande de la ficha de plato: el art. 60.2.c TRLGDCU
-     pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
-     decirlo (en la carta sí estaba, en `priceNote`). */
+  /* Short note for beside the large price on a dish card: art. 60.2.c TRLGDCU requires the final
+     price, taxes included, WHEREVER IT IS SHOWN, and the home page was showing prices without
+     saying so (the menu page already had it, in `priceNote`). */
   vatIncluded: "VAT included",
   priceNote: "Prices include VAT and are the same as on the menu in the bar. The dessert of the day and the specials are announced there.",
 
@@ -78,7 +78,7 @@ const carta = {
   pairing: "Pairs with",
   variants: "Portion sizes",
   photoOf: "{name}, a dish at Tixola Tapería in Ourense",
-  /* Abrir la ficha del plato (DishSpotlight) desde la carta: la fila de móvil y la foto de escritorio. */
+  /* Opening a dish card (DishSpotlight) from the menu: the row on mobile and the photo on desktop. */
   openDish: "View details for {name}",
   openDishCta: "View details",
   askAboutDish: "What can you tell me about {name}? Does it contain any allergens, and which wine should I pair it with?",

@@ -283,7 +283,7 @@ const pt: DataTranslations = {
       headline: "A frigideira que chega a chiar à mesa",
       description:
         "Raxo (lombo de porco marinado à galega) sobre ovos e batatas fritas, com queijo Arzúa-Ulloa derretido por cima, servido na própria frigideira de ferro. Ouve-se antes de se ver.",
-      ingredients: ["Raxo de porco", "Queijo Arzúa-Ulloa D.O.P.", "Ovos do campo", "Batatas", "Pimentão", "Azeite virgem extra"],
+      ingredients: ["Raxo de porco", "Queijo Arzúa-Ulloa D.O.P.", "Ovos do campo", "Batatas", "Colorau", "Azeite virgem extra"],
       unit: "frigideira",
       badge: "A mais pedida",
       pairingWhy: "Um tinto leve e fresco que aguenta o queijo derretido sem tapar o marinado da carne.",
@@ -303,7 +303,7 @@ const pt: DataTranslations = {
       headline: "À feira sobre cachelos ou marcado na chapa",
       description:
         "Polvo cozido no ponto e servido como se pedir: à feira, no prato de madeira de sempre, com cachelos, colorau e um fio de azeite; ou marcado na chapa. O mesmo polvo, duas maneiras de o entender.",
-      ingredients: ["Polvo", "Cachelos", "Pimentão", "Azeite virgem extra", "Sal grosso"],
+      ingredients: ["Polvo", "Cachelos", "Colorau", "Azeite virgem extra", "Sal grosso"],
       unit: "dose",
       pairingWhy: "O branco de taberna de sempre: fresco e sem madeira, aguenta o colorau sem lhe fazer frente.",
     },
@@ -320,7 +320,7 @@ const pt: DataTranslations = {
       kicker: "Curado e frio",
       headline: "O gelado desfaz-se por cima da cecina",
       description:
-        "Lâminas de cecina dispostas em coroa sobre alface e endívia, com gomos de tomate, maçã e nozes, e uma quenelle de gelado de queijo de ovelha no centro que se vai desfazendo por cima. A mais vistosa da carta.",
+        "Lâminas de cecina dispostas em coroa sobre alface e endívia, com gomos de tomate, maçã e nozes, e uma quenelle de gelado de queijo de ovelha no centro que se vai desfazendo por cima. A mais vistosa da ementa.",
       ingredients: ["Cecina", "Gelado de queijo de ovelha", "Alface e endívia", "Tomate", "Maçã", "Nozes"],
       unit: "dose",
       pairingWhy: "Um tinto leve dos que se servem ligeiramente frios: acompanha a cecina sem tapar o gelado de queijo.",
@@ -334,7 +334,7 @@ const pt: DataTranslations = {
     pescado: { label: "Peixe", description: "Peixe e produtos à base de peixe." },
     cacahuetes: { label: "Amendoins", description: "Amendoins e produtos à base de amendoins." },
     soja: { label: "Soja", description: "Soja e produtos à base de soja." },
-    lacteos: { label: "Laticínios", description: "Leite e derivados, incluindo a lactose." },
+    lacteos: { label: "Lacticínios", description: "Leite e derivados, incluindo a lactose." },
     "frutos-cascara": { label: "Frutos de casca rija", description: "Amêndoas, avelãs, nozes, cajus, pistácios…" },
     apio: { label: "Aipo", description: "Aipo e produtos derivados." },
     mostaza: { label: "Mostarda", description: "Mostarda e produtos derivados." },

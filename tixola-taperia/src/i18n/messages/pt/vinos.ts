@@ -31,7 +31,7 @@ const vinos = {
   mapCredit: "Contorno da Galiza: dados do OpenStreetMap, licença ODbL.",
 
   /* ── O mapa do mundo ── */
-  mapWorldKicker: "De onde vem",
+  mapWorldKicker: "Todas as proveniências",
   mapWorldTitle: "O mundo, na prateleira",
   mapWorldLead:
     "{count} garrafas de {countries} países. Amplie com a roda ou com dois dedos, arraste para se mover, e carregue num país — ou no seu marcador — para ver todos os vinhos que temos de lá.",
@@ -52,7 +52,7 @@ const vinos = {
   reds: "Castas tintas",
   since: "D.O. desde {year}",
   regionAria: "Denominação de origem {name}",
-  /** Abreviatura de "denominación de origen", delante del nombre protegido. */
+  /** Abreviatura de "denominação de origem", antes do nome protegido. */
   doPrefix: "D.O.",
   mapAtlantic: "Atlântico",
   mapPortugal: "Portugal",
@@ -84,7 +84,7 @@ const vinos = {
   filtersActive: "{count} filtros ativos",
   filtersAria: "Filtrar a carta de vinhos",
   filterByOrigin: "Denominação",
-  /* La primera chapa de la fila, la que vuelve a enseñar la carta entera. */
+  /* O primeiro chip da fila, o que volta a mostrar a carta inteira. */
   allOrigins: "Todas",
   filterByKind: "Cor",
   filtersClear: "Limpar os filtros",

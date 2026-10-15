@@ -26,7 +26,7 @@ const experience: Section<"experience"> = {
   storyTitle: "Un día en Tixola",
   storyKicker: "Da cana do mediodía á última copa",
   story: [
-    { time: "13:00", title: "Mediodía na terraza", text: "Unha cana con tapa e as croquetas de grelo mentres a praza se enche." },
+    { time: "13:00", title: "Mediodía na terraza", text: "Unha cana con tapa e as croquetas de grelos e chipirón mentres a praza se enche." },
     { time: "20:00", title: "A hora dos viños", text: "Godello, Ribeiro ou Mencía por copas, acompañados de zamburiñas á prancha." },
     { time: "22:00", title: "Cea de tixolas", text: "Tixolas de ferro que chegan á mesa aínda chiando. Para compartir." },
   ],

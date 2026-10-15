@@ -31,9 +31,9 @@ const carta = {
   resultsUnitOne: "prato",
   resultsLive: "{count} pratos encontrados",
   resultsRegion: "Pratos da ementa",
-  /* Nota corta para junto al precio grande de la ficha de plato: el art. 60.2.c TRLGDCU
-     pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
-     decirlo (en la carta sí estaba, en `priceNote`). */
+  /* Nota curta para junto ao preço grande da ficha do prato: o art. 60.2.c TRLGDCU exige preço
+     final com impostos ALI ONDE FOR MOSTRADO, e a capa mostrava preços sem o dizer (na ementa já
+     estava, em `priceNote`). */
   vatIncluded: "IVA incluído",
   priceNote: "Preços com IVA incluído, os mesmos da ementa da casa. A sobremesa do dia e as sugestões são anunciadas lá.",
 
@@ -78,7 +78,7 @@ const carta = {
   pairing: "Harmoniza com",
   variants: "Variantes",
   photoOf: "{name}, prato da Tixola Tapería em Ourense",
-  /* Abrir la ficha del plato (DishSpotlight) desde la carta: la fila de móvil y la foto de escritorio. */
+  /* Abrir a ficha do prato (DishSpotlight) a partir da ementa: a linha no móvel e a fotografia em ecrãs de secretária. */
   openDish: "Ver a ficha de {name}",
   openDishCta: "Ver ficha",
   askAboutDish: "O que me podes dizer sobre o prato {name}? Tem alergénios e com que vinho o harmonizo?",
@@ -88,7 +88,7 @@ const carta = {
   /* ── Empregado virtual ── */
   askWaiter: "Pergunte ao empregado virtual",
   askWaiterKicker: "Empregado virtual",
-  askWaiterSub: "O que leva este prato? Meia dose ou inteira? Algo vegano? Responde-lhe na hora.",
+  askWaiterSub: "O que leva este prato? Meia dose ou inteira? Algo vegano? Responde-lhe de imediato.",
   askWaiterHint: "Experimente perguntar",
   askWaiterCta: "Abrir o chat",
   askWaiterNote: "Responde com a ementa e o horário de hoje. Em caso de alergias graves, confirme sempre com o pessoal.",
@@ -100,6 +100,6 @@ const carta = {
   ctaAccent: "fome?",
   ctaText: "Não é preciso reservar: passe por cá para uns vinhos junto à Catedral e damos-lhe mesa por ordem de chegada.",
   seoTitle: "Ementa de petiscos galegos e polvo em Ourense",
-  seoDescription: "Petiscos, tixolas de ferro, vieiras, polvo e croquetes caseiros junto à Catedral de Ourense. Ementa completa com os alergénios prato a prato e filtro por alergénio.",
+  seoDescription: "Petiscos, tixolas de ferro, zamburiñas, polvo e croquetes caseiros junto à Catedral de Ourense. Ementa completa com os alergénios prato a prato e filtro por alergénio.",
 } satisfies Translation<typeof esCarta>;
 export default carta;

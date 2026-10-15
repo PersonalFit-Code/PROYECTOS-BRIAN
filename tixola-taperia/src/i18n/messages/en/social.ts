@@ -26,7 +26,7 @@ const social = {
   statsTitle: "In numbers",
   statsAria: "Tixola in numbers",
   reviewsNote:
-    "The reviews stay where the people who wrote them put them: on Google and on TripAdvisor. That's where you can read them in full, and always up to date.",
+    "The reviews stay where the people who wrote them put them: on Google and on TripAdvisor. That's where you can read them in full, and where they're always up to date.",
   seeGoogle: "Read reviews on Google",
   seeTripadvisor: "See us on TripAdvisor",
   /** Accessible label for the stars (PlatformBadge) */

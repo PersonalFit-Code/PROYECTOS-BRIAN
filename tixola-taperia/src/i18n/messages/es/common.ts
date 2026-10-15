@@ -56,8 +56,9 @@ const common = {
     quickActions: "Acciones rápidas",
     optional: "opcional",
     newTab: "se abre en una pestaña nueva",
-    /* Tixola no coge reservas: es por orden de llegada. Una sola frase para el pie, la
-       tarjeta de "ahora mismo" y las preguntas frecuentes, para que no se contradigan. */
+    /* Tixola no coge reservas: es por orden de llegada. Esta va en el pie. La tarjeta de «ahora
+       mismo» usa `experience.status.reserveHint` y las preguntas frecuentes lo cuentan largo en
+       `legal.faq`: son tres textos distintos a propósito, pero dicen lo mismo y así tienen que seguir. */
     noBooking: "No cogemos reservas: mesa por orden de llegada.",
   },
   days: {

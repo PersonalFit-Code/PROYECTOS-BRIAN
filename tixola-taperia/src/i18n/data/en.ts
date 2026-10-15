@@ -61,7 +61,7 @@ const en: DataTranslations = {
       unit: "each",
     },
     "tos-trigueros-jamon-codorniz": {
-      description: "Griddled wild asparagus, ham and a quail's egg on top. Two bites, and the yolk does the rest.",
+      description: "Griddled green asparagus, ham and a quail's egg on top. Two bites, and the yolk does the rest.",
       unit: "each",
     },
     "tos-cebolla-foie-cabra": {
@@ -83,11 +83,11 @@ const en: DataTranslations = {
       unit: "skillet",
     },
     "tix-raxo-arzua": {
-      description: "Raxo — Galician marinated pork — under melted Arzúa-Ulloa cheese, over eggs and chips. It is the one in every photo of the place.",
+      description: "Raxo — Galician marinated pork — under melted Arzúa-Ulloa cheese, over eggs and chips. It's the one in every photo of the bar.",
       unit: "skillet",
     },
     "tix-pisto-verduras": {
-      description: "Slow-cooked pisto, a stew of peppers, courgette and tomato, with eggs and chips. The meat-free skillet, and nobody's consolation prize.",
+      description: "Pisto — a slow-cooked vegetable stew — with eggs and chips. The meat-free skillet, and nobody's consolation prize.",
       unit: "skillet",
     },
 
@@ -189,7 +189,7 @@ const en: DataTranslations = {
       unit: "portion",
     },
     "esp-queso-frito": {
-      description: "Cubes of cheese, breaded and fried, warm and molten inside. Served with walnuts and a sauce on the side. It does not last long on the table.",
+      description: "Cubes of cheese, breaded and fried, warm and molten inside. Served with walnuts and a sauce on the side. It doesn't last long on the table.",
       unit: "portion",
     },
     "esp-oreja-plancha": {
@@ -249,11 +249,11 @@ const en: DataTranslations = {
 
     // ─── EXTRAS ────────────────────────────────────────────────────
     "var-postre": {
-      description: "It changes with the day and with whatever came out of the kitchen that morning. Ask the staff: there is always something homemade.",
+      description: "It changes with the day and with whatever came out of the kitchen that morning. Ask our staff: there's always something homemade.",
       unit: "portion",
     },
     "var-postre-sin-gluten": {
-      description: "The sweet option made without gluten, so nobody has to miss out on pudding. Ask what we have today.",
+      description: "The sweet option made without gluten, so nobody has to miss out on dessert. Ask what we have today.",
       unit: "portion",
     },
     "var-pan": {
@@ -308,7 +308,7 @@ const en: DataTranslations = {
     },
     "tixola-gulas": {
       kicker: "Straight from the pan",
-      headline: "The most loaded skillet in the house",
+      headline: "The most loaded tixola in the house",
       description:
         "Gulas (baby-eel look-alikes), sautéed mushrooms and king prawns over eggs and chips, cooked in the same iron skillet they are served in. The most complete of the tixolas.",
       ingredients: ["Gulas (baby-eel look-alikes)", "Sautéed mushrooms", "King prawns", "Eggs", "Potatoes", "Extra virgin olive oil"],
@@ -362,16 +362,16 @@ const en: DataTranslations = {
   ],
   photos: {
     "terraza-catedral": {
-      alt: "Terrace of Tixola Tapería on Rúa Juan de Austria with an iron skillet of raxo pork, croquetas and two glasses of white wine, and the church of Santa Eufemia in Ourense behind",
+      alt: "Terrace of Tixola Tapería on Rúa Juan de Austria with an iron pan of raxo pork, croquetas and two glasses of white wine, and the church of Santa Eufemia in Ourense behind",
       caption: "The terrace, with Santa Eufemia behind",
     },
     "zamburinas-plancha": {
-      alt: "Eight zamburiñas (queen scallops) seared in their shells, topped with an ajada of garlic and parsley, served on a white plate with a drizzle of reduction beside them",
+      alt: "Eight zamburiñas (small scallops) seared in their shells, topped with an ajada of garlic and parsley, served on a white plate with a drizzle of reduction beside them",
       caption: "Zamburiñas seared on the griddle",
     },
     "tixola-raxo-croquetas": {
-      alt: "Cast-iron skillet of raxo pork with Arzúa cheese, homemade croquetas and Galician white wine on the terrace of Tixola Tapería, Ourense",
-      caption: "Raxo and Arzúa cheese skillet with croquetas",
+      alt: "Cast-iron pan of raxo pork with Arzúa cheese, homemade croquetas and Galician white wine on the terrace of Tixola Tapería, Ourense",
+      caption: "Raxo and Arzúa tixola, with croquetas",
     },
 
     /* Photos taken at the bar on 2 October 2026 */
@@ -424,8 +424,8 @@ const en: DataTranslations = {
       caption: "Tixola with gulas, mushrooms and king prawns",
     },
     "patatas-alioli": {
-      alt: "A portion of chips with alioli and parsley in a green ceramic bowl at Tixola Tapería in Ourense",
-      caption: "Chips with alioli",
+      alt: "A portion of chips with aioli and parsley in a green ceramic bowl at Tixola Tapería in Ourense",
+      caption: "Chips with aioli",
     },
     "calamares-fritos": {
       alt: "Fried squid rings over sliced potatoes, with a lemon wedge and a few salad leaves, served in an earthenware bowl on a table at Tixola Tapería",
@@ -436,8 +436,8 @@ const en: DataTranslations = {
       caption: "Tempura cod",
     },
     "revuelto-bacalao-grelos": {
-      alt: "Overhead view of scrambled eggs with cod, turnip greens and prawns on a white plate with a drizzle of reduction",
-      caption: "Scrambled eggs with cod, greens and prawns",
+      alt: "Overhead view of scrambled eggs with cod, turnip greens and king prawns on a white plate with a drizzle of reduction",
+      caption: "Scrambled eggs with cod, greens and king prawns",
     },
     "ensalada-pollo-crujiente": {
       alt: "Crispy chicken salad with walnuts, apple batons, tomato and green leaves in a deep ceramic bowl",
@@ -460,8 +460,8 @@ const en: DataTranslations = {
       caption: "Vegetable timbale, with the wine room behind",
     },
     "fingers-pollo": {
-      alt: "Breaded, fried chicken fingers on lettuce leaves, each topped with a griddled peach wedge, and a bowl of white parsley sauce, on a green ceramic oval platter on the wooden table at Tixola Tapería",
-      caption: "Chicken fingers",
+      alt: "Breaded, fried chicken strips on lettuce leaves, each topped with a griddled peach wedge, and a bowl of white parsley sauce, on a green ceramic oval platter on the wooden table at Tixola Tapería",
+      caption: "Chicken strips",
     },
     "tosta-salmon-queso": {
       alt: "Tixola Tapería's salmon and cheese toast: two slices of toasted rustic bread spread with cream cheese and topped with smoked salmon, drizzled with a dark sauce, with salad leaves alongside, on a green ceramic oval platter on the wooden table",
@@ -492,7 +492,7 @@ const en: DataTranslations = {
       caption: "Bottles on the shelf",
     },
     "pizarra-vinos": {
-      alt: "Tixola's chalkboard with the wines recommended by the glass, handwritten by appellation",
+      alt: "Tixola's chalkboard with the wines recommended by the glass, handwritten and grouped by appellation",
       caption: "Today's recommended wines",
     },
     "cubitera-regina": {

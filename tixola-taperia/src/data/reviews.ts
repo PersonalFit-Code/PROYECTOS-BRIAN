@@ -29,14 +29,20 @@ export interface Review {
  */
 
 import { MENU_ITEMS } from "./menu";
+import { WINES } from "./wines";
 
 export const SOCIAL_STATS = [
   { id: "reviews", value: 850, suffix: "+", label: "Reseñas de clientes", sub: "en Google" },
   { id: "rating", value: 4.4, suffix: " / 5", label: "Valoración media", sub: "Google · 858 opiniones", decimals: 1 },
   /* Aquí ponía «Nº 1 en zamburiñas de la zona · según nuestros clientes». Fuera el 10-10-2026: nadie
      ha hecho ese ranking. En su sitio, un número de la casa que sí se puede comprobar abriendo /vinos,
-     y que además cuenta lo que la tapería es —vinoteca— sin prometer que sean los mejores. */
-  { id: "wines", value: 53, suffix: "", label: "Vinos en carta", sub: "gallegos y de fuera" },
+     y que además cuenta lo que la tapería es —vinoteca— sin prometer que sean los mejores.
+     Y AHORA SE CUENTA SOLO, que es la única manera de que siga siendo verdad. Estuvo escrito a mano
+     («53») desde que se montó la banda, y el 15-10-2026 se descubrió que la carta tenía 46: entre
+     medias se habían quitado ocho vinos y añadido uno, y el número de la portada se quedó donde
+     estaba. La web se contradecía sola, porque el camarero virtual sí lo calculaba
+     (`offlineEngine.ts` pasa `WINES.length`) y /vinos los enseña para quien quiera contarlos. */
+  { id: "wines", value: WINES.length, suffix: "", label: "Vinos en carta", sub: "gallegos y de fuera" },
   /* Aquí iba «19º Restaurante de Ourense · TripAdvisor». Fuera el 13-10-2026 con el resto de cifras de
      TripAdvisor: sus condiciones de uso no dejan sacar sus valoraciones ni sus clasificaciones de sus
      widgets, y una clasificación citada sin mes y año se queda vieja sin que nadie se entere. En su

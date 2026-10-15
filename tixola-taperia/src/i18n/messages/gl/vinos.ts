@@ -30,7 +30,7 @@ const vinos: Section<"vinos"> = {
   mapCredit: "Contorno de Galicia: datos de OpenStreetMap, licenza ODbL.",
 
   /* ── O mapa do mundo ── */
-  mapWorldKicker: "De onde vén",
+  mapWorldKicker: "Todas as procedencias",
   mapWorldTitle: "O mundo, no andel",
   mapWorldLead:
     "{count} botellas de {countries} países. Amplía coa roda ou con dous dedos, arrastra para moverte, e preme nun país —ou na súa chincheta— para ver todos os viños que temos de alí.",

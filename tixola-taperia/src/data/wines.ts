@@ -3,11 +3,11 @@ import type { MenuItemId } from "./menu";
 /**
  * LA VINOTECA — modelo de datos de la carta de vinos.
  *
- * HOY ESTÁ VACÍA A PROPÓSITO (`WINES = []`). La dueña no ha mandado la lista definitiva porque va a
- * dejar de comprar parte de los vinos que están hoy en la carta de papel, así que transcribir ese
- * papel sería publicar botellas que mañana no se pueden servir. Es el mismo error que esta web ya
- * corrigió una vez —platos inventados en las preguntas frecuentes— y no se repite: la estructura se
- * deja montada y probada, y el día que llegue la lista solo hay que rellenar `WINES`.
+ * LA LISTA YA ESTÁ: 46 vinos, transcritos de la carta de papel de la casa y completados ficha a
+ * ficha con lo que publican la bodega o el consejo regulador. El criterio con el que se esperó sigue
+ * valiendo para lo que venga: no se publica una botella que mañana no se pueda descorchar, ni una
+ * nota de cata que no haya escrito nadie. Es el mismo error que esta web ya corrigió una vez
+ * —platos inventados en las preguntas frecuentes— y no se repite.
  *
  * POR QUÉ UN FICHERO APARTE Y NO UNA CATEGORÍA MÁS DE `menu.ts`. Un vino y una ración no comparten
  * casi ningún campo: el vino tiene bodega, denominación, uvas, añada y crianza, y no tiene alérgenos
@@ -204,7 +204,7 @@ export const OURENSE_ON_MAP = { x: 55.9, y: 72.1 } as const;
 /** Las cinco, en el orden de `GALICIAN_DO_IDS` (oeste → este). */
 export const WINE_REGION_LIST: readonly WineRegion[] = GALICIAN_DO_IDS.map((id) => WINE_REGIONS[id]);
 
-/** Cuántas tienen viñedo en la provincia de Ourense. Se calcula, no se escribe: si mañana cambia un dato, el texto no miente. */
+/** Cuántas tienen viñedo en la provincia de Ourense. Se calcula para no tener que escribirlo, pero HOY NO LO USA NADIE: `m.vinos.regionsLead` dice «cuatro» a mano en los cuatro idiomas. Si se toca `inOurense`, hay que repasar esa frase a mano o enchufarla aquí con {count}. */
 export const REGIONS_IN_OURENSE = WINE_REGION_LIST.filter((r) => r.inOurense).length;
 
 /* ──────────────────────────────────────────────────────────────
@@ -256,7 +256,7 @@ export const ORIGIN_COUNTRY: Record<OtherOriginId, "espana" | "portugal" | "fran
  * con cada pedido a la bodega, y un precio viejo publicado es peor que ninguno.
  *
  * Los precios SIGUEN EN LOS DATOS de abajo, transcritos de la carta de papel, porque son
- * información cierta y volver a teclear cincuenta y tres números el día que se quieran enseñar otra
+ * información cierta y volver a teclear cuarenta y cuatro números el día que se quieran enseñar otra
  * vez sería absurdo. Lo único que hace esta constante es apagar todos los sitios donde se pintan
  * —la cuadrícula, la ficha, la tarjeta del mapa, el aviso del IVA al pie— y callárselos también al
  * camarero virtual, para que no diga en el chat un precio que la página no enseña.
@@ -427,12 +427,13 @@ export interface Wine {
 }
 
 /**
- * LA CARTA DE VINOS: los 52 vinos de la carta de papel de la casa, transcritos de las dos caras
- * fotografiadas el 2 de octubre de 2026.
+ * LA CARTA DE VINOS: los 46 vinos de la carta de papel de la casa, transcritos de las dos caras
+ * fotografiadas el 2 de octubre de 2026, más alguna referencia de fuera de carta.
  *
- * AQUÍ SOLO ESTÁ LO QUE EL PAPEL IMPRIME: nombre, denominación, color y precio de botella. Nada más.
- * No hay bodega inventada, ni uva deducida, ni nota de cata escrita de memoria — y por eso casi todos
- * los campos del tipo `Wine` son opcionales. Las fichas completas se irán rellenando vino a vino con
+ * DEL PAPEL SALEN nombre, denominación, color y precio de botella; lo demás —bodega, uvas, crianza,
+ * elaboración, terreno, nota de cata, premios— se ha ido rellenando ficha a ficha con lo que publican
+ * la bodega o el consejo regulador. No hay bodega inventada, ni uva deducida, ni nota de cata escrita
+ * de memoria — y por eso casi todos los campos del tipo `Wine` son opcionales. Las fichas completas se irán rellenando vino a vino con
  * lo que publiquen la bodega o el consejo regulador, y lo confirmará Tatiana.
  *
  * EL COLOR, CUANDO NO CONSTA. La carta marca [BLANCO] / [TINTO] en Monterrei, Valdeorras y Ribeira
@@ -635,8 +636,8 @@ export const WINES: Wine[] = [
   },
   {
     /* Tatiana, 15-10-2026: "val do galir en vez de pagos". Cambia la etiqueta que sirve, no la
-       bodega, que sigue siendo Virgen del Galir. El `id` se renombra con el: no se usa fuera de
-       este fichero —solo genera el ancla `#vino-<id>`— y dejarlo en "pagos" habria dejado el dato
+       bodega, que sigue siendo Virgen del Galir. El `id` se renombra con él: no se usa fuera de
+       este fichero —solo genera el ancla `#vino-<id>`— y dejarlo en «pagos» habría dejado el dato
        contradiciendo a la etiqueta y al nombre del archivo de la foto. */
     id: "val-do-galir",
     name: "Val do Galir",
@@ -741,7 +742,7 @@ export const WINES: Wine[] = [
     abv: 15,
     bottlePrice: 24,
     notes: "Aroma potente, con cereza y arándano bien marcados. En boca fresco y equilibrado, de textura amplia y un final que invita a seguir.",
-    terroir: "Viñedo de 30 a 35 años entre 837 y 862 metros, en suelos de limos y pedregosos",
+    terroir: "Viñedo de 30 a 35 años entre 837 y 862 metros, en suelos limosos y pedregosos",
     winemaker: "Beatriz Rodero",
     image: "/images/vinos/carmelo-rodero-9-meses.webp",
   },
@@ -901,7 +902,7 @@ export const WINES: Wine[] = [
     abv: 14,
     serveC: [13, 13],
     bottlePrice: 40,
-    notes: "Fruta roja madura y regaliz armonizadas con notas de licor de chocolate. En boca equilibrado, carnoso y redondo, de acidez amable y final largo.",
+    notes: "Fruta roja madura y regaliz armonizados con notas de licor de chocolate. En boca equilibrado, carnoso y redondo, de acidez amable y final largo.",
     story: "Resume la personalidad de la Finca Ygay y todo lo que pasa en ella durante un ciclo entero de la viña.",
     subzone: "Rioja Alta",
     terroir: "Finca Ygay: 300 hectáreas propias alrededor de la bodega, suelo arcillo-calcáreo entre 320 y 485 metros",
@@ -1098,11 +1099,6 @@ export const WINES: Wine[] = [
 assertWineIntegrity(WINES);
 
 /**
- * `true` mientras no haya ni un vino. Lo mira la página para enseñar el aviso de "estamos cerrando
- * la carta" en vez de una lista vacía. Se apaga sola al añadir el primer vino — no hay que acordarse
- * de tocar ningún interruptor, que es justo lo que pasa con `LEGAL_IDENTITY_PENDING` en `legal.ts`.
- */
-/**
  * COMPROBACIONES DE LA CARTA DE VINOS, en el arranque. Misma idea que `assertMenuIntegrity()` (en
  * `integrity.ts`): si un dato no se sostiene, **el build no sale**.
  *
@@ -1114,8 +1110,8 @@ assertWineIntegrity(WINES);
  * cuatro idiomas con vinos de prueba en la carta. Estas comprobaciones solo miran objetos `Wine`, así
  * que no tienen por qué salir de este fichero y aquí no pueden volver a crear ese ciclo.
  *
- * HOY NO COMPRUEBA NADA porque `WINES` está vacía, y eso es exactamente para lo que está. La lista va
- * a llegar de golpe, transcrita de un papel y con prisa, y es entonces cuando se cuelan el precio de
+ * YA ESTÁ COMPROBANDO LOS 46 VINOS de la carta, y es justo para lo que está: la lista llegó de golpe,
+ * transcrita de un papel y con prisa, y es entonces cuando se cuelan el precio de
  * copa más caro que el de botella, la añada 2203, el ensamblaje que suma 140 % o la uva del
  * porcentaje que no está en la lista de uvas. Son errores de VALOR: ningún tipo los ve, y en una
  * carta de vinos cualquiera de ellos se publica sin que nadie en la casa lo note.
@@ -1183,6 +1179,12 @@ function assertWineIntegrity(wines: readonly Wine[]): void {
   if (errors.length) throw new Error(`Carta de vinos inconsistente:\n  · ${errors.join("\n  · ")}`);
 }
 
+/**
+ * `true` mientras no haya ni un vino. Lo mira la página para enseñar el aviso de «estamos cerrando
+ * la carta» en vez de una lista vacía. Se apaga sola al añadir el primer vino — no hay que acordarse
+ * de tocar ningún interruptor, que es justo lo que pasa con `LEGAL_IDENTITY_PENDING` en `legal.ts`.
+ * HOY ES `false`, con 46 vinos en la carta; el aviso sigue montado por si algún día se vacía.
+ */
 export const WINES_PENDING = WINES.length === 0;
 
 /** Los vinos de un tipo. Los que no traen color declarado no salen en ninguno. */

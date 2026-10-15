@@ -29,7 +29,7 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Usamos cookies próprias necessárias para que o site funcione. Com a sua permissão carregamos o mapa do Google, que instala cookies próprias, e medimos de forma agregada que páginas são visitadas (sem cookies).",
+    text: "Usamos cookies próprias necessárias para que o site funcione. Com a sua permissão carregamos o mapa do Google, que instala cookies suas, e medimos de forma agregada que páginas são visitadas (sem cookies).",
     accept: "Aceitar todas",
     reject: "Só as necessárias",
     settings: "Configurar",
@@ -37,7 +37,7 @@ const legal: LegalMessages = {
     necessary: "Necessárias",
     necessaryDesc: "Imprescindíveis para que o site funcione (idioma, consentimento).",
     maps: "Mapa do Google",
-    mapsDesc: "Carrega o mapa do Google Maps na secção de localização. É um serviço do Google, que recebe o seu endereço IP e instala as suas próprias cookies.",
+    mapsDesc: "Carrega o mapa do Google Maps na secção de localização. É um serviço da Google, que recebe o seu endereço IP e instala as suas próprias cookies.",
     analytics: "Medição de visitas",
     analyticsDesc: "Conta de forma agregada que páginas são vistas, com o Vercel Web Analytics. Não instala cookies nem guarda nada no seu navegador.",
     more: "Mais informação",
@@ -49,7 +49,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidade",
     cookiesLink: "Política de cookies",
     saved: "Preferências guardadas.",
-    noAnalyticsYet: "São duas coisas distintas e pode aceitar uma sem a outra: o mapa é servido pelo Google com as suas cookies; a medição é agregada, feita pela Vercel, e não toca no seu navegador.",
+    noAnalyticsYet: "São duas coisas distintas e pode aceitar uma sem a outra: o mapa é servido pela Google com as suas cookies; a medição é agregada, feita pela Vercel, e não toca no seu navegador.",
   },
 
   /* ── Páginas legais: cabeçalho, índice e rodapé ── */
@@ -428,7 +428,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Este Aviso legal rege-se pela legislação espanhola. Para qualquer litígio decorrente do acesso ou utilização do site, as partes submetem-se aos tribunais do domicílio da pessoa utilizadora quando esta tenha a condição de consumidora; nos restantes casos, aos tribunais de {city}. Como consumidor ou consumidora, dispõe ainda das folhas de reclamação oficiais da Xunta de Galicia no próprio estabelecimento.",
+              text: "Este Aviso legal rege-se pela legislação espanhola. Para qualquer litígio decorrente do acesso ou utilização do site, as partes submetem-se aos tribunais do domicílio da pessoa utilizadora quando esta tiver a condição de consumidora; nos restantes casos, aos tribunais de {city}. Como consumidor ou consumidora, dispõe ainda das folhas de reclamação oficiais da Xunta de Galicia no próprio estabelecimento.",
             },
             {
               type: "p",
@@ -582,7 +582,7 @@ const legal: LegalMessages = {
       },
       {
         q: "Têm opções para celíacos e informação sobre alergénios?",
-        a: "Sim, com uma ressalva importante. A ementa do site indica os 14 alergénios de declaração obrigatória de cada prato e permite filtrar por aquele que quiser evitar. Dito isto, os únicos pratos que declaramos sem glúten são as **Croquetas sin gluten** (croquetes sem glúten) e o **Postre sin gluten** (sobremesa sem glúten); dos restantes dizemos o que levam, nunca o que não levam. Na cozinha manipulam-se os 14 alergénios, por isso avise sempre o pessoal ao pedir e confirmamos-lhe tudo na hora.",
+        a: "Sim, com uma ressalva importante. A ementa do site indica os 14 alergénios de declaração obrigatória de cada prato e permite filtrar por aquele que quiser evitar. Dito isto, os únicos pratos que declaramos sem glúten são as **Croquetas sin gluten** (croquetes sem glúten) e o **Postre sin gluten** (sobremesa sem glúten); dos restantes dizemos o que levam, nunca o que não levam. Na cozinha manipulam-se os 14 alergénios, por isso avise sempre o pessoal ao pedir e confirmamos-lhe tudo de imediato.",
       },
       {
         q: "Há pratos veganos ou vegetarianos?",

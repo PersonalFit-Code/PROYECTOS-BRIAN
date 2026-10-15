@@ -23,11 +23,11 @@ const experience = {
   title: "Petiscos com vista para a",
   accent: "Catedral",
   description:
-    "A nossa esplanada olha para a Catedral de San Martiño e para a igreja de Santa Eufemia, em pleno centro histórico: a \"zona de viños\" de Ourense, onde petiscar é uma forma de viver a cidade.",
+    "A nossa esplanada olha para a Catedral de San Martiño e para a igreja de Santa Eufemia, em pleno centro histórico: a «zona de viños» de Ourense, onde petiscar é uma forma de viver a cidade.",
   storyTitle: "Um dia na Tixola",
   storyKicker: "Da imperial do meio-dia ao último copo",
   story: [
-    { time: "13:00", title: "Meio-dia na esplanada", text: "Uma imperial com petisco e os croquetes de grelo enquanto a praça se enche." },
+    { time: "13:00", title: "Meio-dia na esplanada", text: "Uma imperial com petisco e os croquetes de grelos e chipirón enquanto a praça se enche." },
     { time: "20:00", title: "A hora dos vinhos", text: "Godello, Ribeiro ou Mencía a copo, acompanhados de zamburiñas grelhadas." },
     { time: "22:00", title: "Jantar de tixolas", text: "Frigideiras de ferro que chegam à mesa a chiar. Para partilhar." },
   ],
@@ -56,7 +56,7 @@ const experience = {
     plan: "Planta",
     viewLabel: "Vista do visor: mapa, planta ou foto real",
     realMap: "Ver mapa real",
-    mapNotice: "Ao carregar o mapa, o seu navegador liga-se à Google, que recebe o seu endereço IP e pode instalar cookies próprias.",
+    mapNotice: "Ao carregar o mapa, o seu navegador liga-se à Google, que recebe o seu endereço IP e pode instalar as suas próprias cookies.",
     legend: "Legenda do mapa",
     legendYou: "Tixola",
     legendCathedral: "Catedral de San Martiño",

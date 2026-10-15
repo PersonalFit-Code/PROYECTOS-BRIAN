@@ -19,8 +19,9 @@ import type { AllergenId } from "./allergens";
  * Por eso tampoco se etiqueta "sin gluten" por nuestra cuenta: las dos únicas apariciones de esa
  * etiqueta son las que la propia carta de papel declara (croquetas sin gluten y postre sin gluten).
  *
- * MARIDAJES: vacíos a propósito. Recomendar un vino concreto es afirmar que el local lo sirve, y la
- * carta de vinos todavía no ha llegado. Se rellenarán cuando llegue.
+ * MARIDAJES: vacíos a propósito. Recomendar un vino concreto es afirmar que el local lo sirve, y los
+ * maridajes plato a plato los tiene que decir Tatiana. La carta de vinos ya está publicada
+ * (`src/data/wines.ts`), y la relación plato ↔ vino vive allí, en `pairsWith`, no aquí.
  */
 
 export type MenuCategoryId =
@@ -131,7 +132,7 @@ export interface MenuItem {
   allergens: AllergenId[];
   tags: DietTag[];
   /**
-   * Maridaje recomendado. Hoy vacío en los 47: los tres platos estrella traen el suyo desde
+   * Maridaje recomendado. Hoy vacío en los 47: los seis platos estrella traen el suyo desde
    * `dishes.ts` y son los únicos que se pintan.
    *
    * CUANDO LLEGUE LA CARTA DE VINOS. La ficha del plato ya tiene el hueco montado —`DishSpotlight`
@@ -182,7 +183,7 @@ export const MENU_CATEGORIES: MenuCategory[] = [
     id: "tixolas",
     label: "Tixolas",
     kicker: "La especialidad de la casa",
-    description: '"Tixola" es sartén en gallego. Hierro fundido que llega a la mesa chisporroteando, y todas con huevos y patatas fritas.',
+    description: "«Tixola» es sartén en gallego. Hierro fundido que llega a la mesa chisporroteando, y todas con huevos y patatas fritas.",
   },
   { id: "ensaladas", label: "Ensaladas", kicker: "Fresco, y de plato único", description: "Grandes, para comer de ellas y no para acompañar. De la huerta y de la lonja a partes iguales." },
   { id: "cocina", label: "A nosa cociña", kicker: "Lo de siempre, bien hecho", description: "Croquetas, frituras y raciones para compartir. Lo que sale de la cocina todo el día." },
