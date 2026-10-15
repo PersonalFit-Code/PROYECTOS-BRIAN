@@ -92,9 +92,44 @@ export const PHOTOS: Photo[] = [
       · EL ARCHIVO ERA UNA CAPTURA DE PANTALLA de un visor de fotos, de procedencia desconocida. Se
         recortó el 3-10-2026 para quitarle las barras del visor, pero recortar no da derechos sobre
         una foto que hizo otro.
-     La tarjeta de ubicación usa ahora `rotulo-noche`, que es de la casa y no sale nadie. Cuando
-     Brian haga una foto propia de la fachada —sin gente, o con permiso firmado de quien salga—,
-     vuelve aquí como una entrada más y `MapCard` la recupera cambiando un id. */
+     YA HAY SUSTITUTA: la de abajo, que Brian hizo el 15-10-2026. Esto se deja escrito porque es la
+     razón por la que esa foto va recortada como va. */
+  /* LA FACHADA, DE DÍA — y lo que se publica es un RECORTE del tercio derecho, no la foto que llegó.
+     El original es un plano general de la Rúa Juan de Austria, con Santa Eufemia al fondo y la
+     fachada de Tixola en el borde derecho. Precioso, y no publicable: en el centro de la calle hay
+     siete personas, entre ellas UNA NIÑA con mochila rosa, y al fondo una terraza llena —que no es la
+     de Tixola— con más de veinte clientes sentados. Están de espaldas y a nadie se le ve la cara, lo
+     que no basta: a una persona se la reconoce por el cuerpo, la ropa y el sitio (es lo mismo que se
+     escribió arriba al retirar la foto anterior), y con una menor el listón está aún más alto.
+     Así que se encuadra la parte que no tiene a nadie: caja (828, 320) de 1188 × 891 sobre el
+     original de 2016 × 1512 —4:3 exacto, el mismo del visor de `MapCard`—. La persona más cercana al
+     corte termina en x≈794, así que quedan 34 px de margen. Se pierde la iglesia, y da igual:
+     `terraza-catedral` ya la enseña, y lo que a la web le faltaba era la fachada de día.
+     LO ÚNICO QUE SE RETOCA es el reflejo del escaparate (caja 220 × 230 en 1580, 760 del original):
+     se veía una figura humana —nuca, hombro y un brazo en jarras, sin un solo rasgo de la cara— y
+     todo apunta a que es el REFLEJO de alguien que estaba en la calle, no gente de la casa: el panel
+     de abajo del mismo ventanal refleja los taburetes de la acera, y detrás de la figura se ve
+     sillería al sol, no el interior. Si es un reflejo, nadie en Tixola puede firmar un permiso por
+     esa persona. Se disuelve con un desenfoque local difuminado en los bordes: en un cristal se lee
+     como lo que de verdad es. No se ha tocado ni un píxel más, ni se ha ampliado la foto: se publica
+     a los 1188 px nativos del recorte y no a los 1200 de las demás, porque ampliar le devolvería
+     legibilidad a cosas que hoy no la tienen.
+     NO SE HA COMPROBADO —y conviene preguntárselo a Brian— si la foto es suya. Lo parece (la mandó
+     él, el JPEG trae EXIF de cámara sin GPS y no hay marcas de captura de pantalla), pero fue
+     justamente la procedencia lo que tumbó a la anterior. */
+  {
+    id: "fachada-calle",
+    src: "/images/fachada-calle.webp",
+    width: 1188,
+    height: 891,
+    alt: "Fachada de Tixola Tapería en la Rúa Juan de Austria de Ourense, con sus dos rótulos granate con una tixola, los toldos y dos mesas altas con taburetes en la calle empedrada",
+    caption: "La fachada, en el casco histórico",
+    tags: ["local", "terraza"],
+    /* El foco va a la derecha y arriba: ahí están los dos rótulos, que es lo que uno busca cuando
+       llega a una calle estrecha del casco viejo. Con el centro por defecto, el recorte de `MapCard`
+       en móvil se comía el rótulo colgante y dejaba medio empedrado. */
+    focus: "72% 38%",
+  },
 
 
   /* ─────────────────────────────────────────────────────────────

@@ -114,10 +114,10 @@ seguro», que funciona, pero con el dato quedan bien.*
 
 - [ ] **Faltan 15 fotos de plato.** La guía de cómo hacerlas está en `docs/guia-fotos-platos.md`
       (cenital, luz natural, el plato centrado). 25 hechas, 7 que no necesitan foto.
-- [ ] **Una foto nueva de la fachada.** La que había se ha retirado: salía un camarero identificable
-      y, además, era una captura de pantalla de procedencia desconocida. Hace falta una foto propia,
-      **sin gente** o con permiso firmado de quien salga. Mientras tanto, la tarjeta de ubicación usa
-      la foto del rótulo de noche.
+- [x] ~~Una foto nueva de la fachada.~~ → **HECHA**, la mandó Brian el 15-10-2026 y ya está publicada.
+      Se publica RECORTADA al tercio derecho: en el original había siete personas en la calle (una de
+      ellas una niña) y una terraza llena al fondo. Falta una sola cosa, y es de Brian: **confirmar
+      que la foto la hizo él** (fue la procedencia lo que tumbó a la anterior).
 
 ---
 

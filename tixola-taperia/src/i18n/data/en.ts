@@ -471,6 +471,10 @@ const en: DataTranslations = {
       alt: "Tixola Tapería's cecina salad: slices of cured beef arranged in a ring over lettuce and endive, with tomato wedges, sliced apple and walnuts, and a quenelle of sheep's cheese ice cream in the middle, in a deep ceramic bowl on the wooden table",
       caption: "Cecina salad with sheep's cheese ice cream",
     },
+    "fachada-calle": {
+      alt: "The front of Tixola Tapería on Rúa Juan de Austria in Ourense, with its two burgundy signs showing a frying pan, the awnings and two high tables with stools on the cobbled street",
+      caption: "The front, in the old town",
+    },
     "rotulo-noche": {
       alt: "The Tixola vinoteca-tapería sign lit up at night in the old town of Ourense",
       caption: "The sign, at night in the old town",

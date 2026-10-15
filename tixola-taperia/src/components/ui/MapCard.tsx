@@ -51,7 +51,7 @@ const EMBED_URL = `https://www.google.com/maps?q=${BUSINESS.geo.lat},${BUSINESS.
  * captura de procedencia desconocida, así que se retiró (el porqué, largo, está en `photos.ts`). El
  * rótulo cumple la misma función —reconocer el sitio desde la calle— y es de la casa.
  */
-const FACHADA_ID = "rotulo-noche";
+const FACHADA_ID = "fachada-calle";
 
 /* ════════════════════════════════════════════════════════════
    EL PLANO
@@ -462,12 +462,12 @@ function FacadePhoto({ caption }: { caption: string }) {
   return (
     <>
       <Image
-        src={photo?.src ?? "/images/rotulo-noche.webp"}
+        src={photo?.src ?? "/images/fachada-calle.webp"}
         alt={photo?.alt ?? BUSINESS.name}
         fill
         sizes="(min-width: 1024px) 52vw, 100vw"
         className="object-cover"
-        style={{ objectPosition: photo?.focus ?? "60% 40%" }}
+        style={{ objectPosition: photo?.focus ?? "72% 38%" }}
       />
       <div
         aria-hidden

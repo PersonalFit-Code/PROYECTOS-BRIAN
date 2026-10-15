@@ -472,6 +472,10 @@ const pt: DataTranslations = {
       alt: "Salada de cecina da Tixola Tapería: lâminas de cecina dispostas em coroa sobre folhas de alface e endívia, com gomos de tomate, lâminas de maçã e nozes, e uma quenelle de gelado de queijo de ovelha ao centro, numa taça funda de cerâmica sobre a mesa de madeira",
       caption: "Salada de cecina com gelado de queijo de ovelha",
     },
+    "fachada-calle": {
+      alt: "Fachada da Tixola Tapería na Rúa Juan de Austria, em Ourense, com as suas duas tabuletas bordô com uma frigideira, os toldos e duas mesas altas com bancos na rua de pedra",
+      caption: "A fachada, no centro histórico",
+    },
     "rotulo-noche": {
       alt: "Tabuleta da Tixola vinoteca-tapería iluminada à noite no centro histórico de Ourense",
       caption: "A tabuleta, à noite no centro histórico",
