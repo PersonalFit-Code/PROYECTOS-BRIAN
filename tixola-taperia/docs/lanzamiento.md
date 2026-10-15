@@ -1,4 +1,4 @@
-# Lista de lanzamiento — Tixola (revisión del 6-10-2026, al día el 14-10-2026)
+# Lista de lanzamiento — Tixola (revisión del 6-10-2026, al día el 15-10-2026)
 
 Revisión hecha leyendo el código y las condiciones actuales de Vercel (docs, actualizadas el
 14-9-2026). No es asesoramiento jurídico: para lo que dependa de criterio legal, consultar con la
@@ -11,9 +11,13 @@ gestoría de Tatiana.
    Una web de un bar lo es. Opciones: Pro (≈ 20 $/mes, a confirmar en su página de precios) o mover la
    web a otro proveedor que permita uso comercial gratis (hay que migrar y probar el camarero, que
    necesita servidor). Decidir quién es el titular de la cuenta que paga.
-2. **Correo de contacto** en `src/data/legal.ts` (`email`). Obligatorio por el art. 10 LSSI y es el
-   canal para ejercer derechos RGPD. Mientras sea `[EMAIL DE CONTACTO]`, las tres páginas legales van
-   `noindex`. Al ponerlo, solas pasan a indexarse.
+2. ~~**Correo de contacto.**~~ ✅ **Resuelto el 15-10-2026.** Tatiana dio
+   `gonzalezferreiratatiana@gmail.com`, una cuenta suya. Con él, los cuatro datos del art. 10.1
+   LSSI están puestos y `LEGAL_IDENTITY_PENDING` ha pasado a `false` solo: las tres páginas legales
+   vuelven a `index` y al sitemap **en cuanto haya dominio propio** (hasta entonces las frena el
+   otro candado, el de la dirección prestada del punto 3). **Queda una pregunta de una línea para
+   ella: quién lee ese buzón y cada cuánto.** Por ahí se ejercen los derechos del RGPD y hay un mes
+   de plazo para contestar; un correo publicado que nadie abre es peor que no tenerlo.
 3. **Dirección de la web** (`NEXT_PUBLIC_SITE_URL` en Vercel). Sin definir, la web usa el
    subdominio que regala Vercel (`tixola-taperia.vercel.app`). Afecta a canonical, hreflang, sitemap
    y previsualizaciones. Definirla con el dominio comprado y redesplegar.
@@ -47,8 +51,11 @@ gestoría de Tatiana.
    cifras, a "53 vinos en carta" (número que sale de `wines.ts`, así que no se queda viejo).
 7. **Cifras de TripAdvisor/Google** (4,2 · 233 reseñas · nº 19 de 496 · 4,4 · 858) escritas a mano en
    `business.ts`. Si se quedan antiguas, son datos engañosos. Actualizarlas de vez en cuando o poner la fecha.
-8. **Foto de la fachada.** `public/images/fachada.jpg` era una captura de un visor de fotos (ya recortada),
-   de procedencia desconocida, con un camarero reconocible. Sustituir por una foto propia.
+8. ~~**Foto de la fachada.**~~ ✅ **Resuelto el 15-10-2026**: Brian mandó una foto suya de la calle y
+   es la que está publicada, **recortada al tercio derecho**. En el original había siete personas en
+   la acera —una de ellas una niña— y una terraza llena al fondo; el recorte deja el rótulo, el
+   toldo y las mesas altas, y ninguna cara. Queda un fleco, y es de Brian: **confirmar que la foto
+   la hizo él** (fue la procedencia, y no el encuadre, lo que tumbó a la anterior).
 9. ~~**"Los mejores vinos junto a la Catedral"**~~ ✅ **Resuelto el 10-10-2026**: ahora dice "vinos de
    la zona junto a la Catedral".
 
@@ -117,7 +124,7 @@ la lista no aplica: no hay nada que filtrar por usuario ni contraseñas que prot
 
 | # | Punto | Estado |
 |---|---|---|
-| 1–3 | Aviso legal, privacidad, cookies | Páginas y banner hechos en 4 idiomas. **Faltan los datos fiscales y el email** (ver A). |
+| 1–3 | Aviso legal, privacidad, cookies | Páginas y banner hechos en 4 idiomas, con los cuatro datos del art. 10.1 LSSI puestos (titular, NIF, domicilio y correo). Los textos de los cuatro idiomas pasaron una revisión lingüística el 15-10-2026. |
 | 4 | HTTPS | OK (Vercel + HSTS). |
 | 5 | Títulos y descripciones | OK en las 24 páginas: títulos ≤ 60 caracteres, descripciones 127–171, únicas por idioma. |
 | 6 | Datos estructurados | OK: Restaurant, Menu, FAQPage, BreadcrumbList. |
@@ -135,3 +142,30 @@ la lista no aplica: no hay nada que filtrar por usuario ni contraseñas que prot
 | 18 | WhatsApp visible | OK: botón flotante en escritorio y en el dock del móvil. |
 | 19 | Analítica | **Instalada** (13-10-2026): Vercel Web Analytics, sin cookies, ya mencionada en la política de privacidad y en la tabla de cookies. Solo se carga en producción Y con el consentimiento de "Mapa y analítica" aceptado, porque el aviso de cookies ya prometía esa elección. **Queda activarla en el panel de Vercel** (Analytics → Enable): hasta entonces no llega ningún dato. |
 | 20 | Una sola llamada a la acción | OK: en la portada, "Ver la carta" es la única acción principal; "Cómo llegar" va como secundaria. |
+
+
+## H · Revisión lingüística de los cuatro idiomas (15-10-2026)
+
+Pedida por Tatiana al revisar el FAQ: *«había algunas cosillas que estaban un poco castrapo»*.
+Se revisaron los cuatro idiomas comparando cada traducción contra el castellano, fichero a fichero,
+y salieron **224 cambios**. Lo que importa de esa cifra es que **cinco no eran de estilo, sino
+datos del plato**:
+
+- La foto de la ensalada decía **angulas** donde hay **gulas** (surimi, no cría de anguila), en
+  gallego, en portugués y en inglés —ahí como *baby eels*, seis veces contando el plato estrella—.
+- La foto de las patatas decía **allada** cuando llevan **alioli**.
+- El portugués llamaba **vieiras** a las zamburiñas, que es otro molusco y bastante mayor, y
+  **lagostins** (cigalas) a los langostinos.
+- El portugués decía **pimentão** por pimentón, que en Portugal es el pimiento de verdura, en cinco
+  platos (pulpo á feira, ajada, chistorra…).
+- El inglés inventaba la variedad de seta (*king oyster mushrooms*) y el tipo de bacalao
+  (*salt cod*) al traducir, datos que nadie había confirmado.
+
+Además salió un fallo que no era de idioma: **el FAQ de la portada enseñaba los asteriscos de la
+negrita en crudo**, en los cuatro idiomas y también en el JSON-LD que lee Google. Justo en la
+respuesta de celíacos.
+
+El resto son castellanismos (*caña*→*cana*, *pestana*→*lapela*, *queso*→*queixo*), falsos amigos
+(*denomination* por denominación de origen, que en inglés es *appellation*), brasileirismos en el
+portugués (*você*, *laticínios*, *na hora*) y el trato al visitante, que bailaba entre tú y usted
+dentro de la misma página. Detalle en los mensajes de los commits del 15-10-2026.
