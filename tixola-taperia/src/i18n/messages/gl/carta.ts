@@ -34,7 +34,7 @@ const carta: Section<"carta"> = {
      pide prezo final con impostos alí ONDE SE AMOSE, e a portada ensinaba prezos sen
      dicilo (na carta si estaba, en `priceNote`). */
   vatIncluded: "IVE incluído",
-  priceNote: "Prezos co IVE incluído, os mesmos que na carta do local. A sobremesa do día e as suxestións anúncianse alí.",
+  priceNote: "Prezos co IVE incluído, os mesmos que na carta do local. O postre do día e as suxestións anúncianse alí.",
 
   /* ── Panel de filtros ── */
   filters: "Filtros",

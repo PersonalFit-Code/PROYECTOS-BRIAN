@@ -352,7 +352,7 @@ const legal: LegalMessages = {
             {
               type: "ul",
               items: [
-                "Os preços publicados são os que se pagam, com IVA incluído; podem ser atualizados e, nesse caso, vigora o da carta do estabelecimento. O que é indicativo é a disponibilidade dos pratos e as harmonizações: dependem da época e do produto que houver nesse dia.",
+                "Os preços publicados são os que se pagam, com IVA incluído; podem ser atualizados e, nesse caso, vigora o preço da ementa da casa. A disponibilidade dos pratos e as harmonizações, essas sim, são indicativas: dependem da época e do produto que houver nesse dia.",
                 "O horário pode ser alterado em feriados, férias ou por motivos de força maior.",
                 "O estabelecimento **não aceita reservas**: as mesas são ocupadas por ordem de chegada.",
               ],

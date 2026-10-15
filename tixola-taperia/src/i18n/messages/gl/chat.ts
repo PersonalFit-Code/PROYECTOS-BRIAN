@@ -85,7 +85,7 @@ const chat: Section<"chat"> = {
     fallback: "Non estou seguro de terte entendido. Podo axudarte con:",
     fallbackItems: [
       "Pratos sen glute, sen lactosa, veganos ou vexetarianos",
-      "Que hai en cada categoría: croquetas, tixolas, do mar, sobremesas…",
+      "Que hai en cada categoría: croquetas, tixolas, do mar, postres…",
       "Que viños recomendamos cos nosos pratos",
       "Horario, como chegar e se fai falta reservar",
     ],

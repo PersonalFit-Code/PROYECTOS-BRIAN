@@ -14,7 +14,7 @@ const dishes: Section<"dishes"> = {
   ingredients: "Ingredientes",
   allergens: "Alérxenos",
   allergensAsk: "Consulta os alérxenos co persoal",
-  allergensNote: "Na cociña manipúlanse os 14 alérxenos e non podemos descartar trazas. Se tes alerxia ou intolerancia, dínolo ao pedir e confirmámolo contigo prato a prato.",
+  allergensNote: "En cociña manipúlanse os 14 alérxenos e non podemos descartar trazas. Se tes alerxia ou intolerancia, dínolo ao pedir e confirmámolo contigo prato a prato.",
   pairing: "Maridaxe recomendada",
   pairingWhy: "Por que funciona",
   seeInMenu: "Ver na carta",

@@ -197,7 +197,7 @@ export const STAR_DISHES: StarDish[] = [
     pairing: {
       wine: "Mencía",
       do: "D.O. Ribeira Sacra",
-      why: "Un tinto ligero y fresco, de los que se sirven algo frescos: acompaña la cecina sin tapar el helado de queso.",
+      why: "Un tinto ligero de los que se sirven algo fríos: acompaña la cecina sin tapar el helado de queso.",
     },
     accent: "#B07A5A",
     emoji: "🥗",

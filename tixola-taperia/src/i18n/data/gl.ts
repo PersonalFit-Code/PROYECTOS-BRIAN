@@ -49,7 +49,7 @@ const gl: DataTranslations = {
     },
     varios: {
       label: "Varios",
-      kicker: "Sobremesa e mesa",
+      kicker: "Postre e mesa",
       description: "O remate doce e o que acompaña todo o demais.",
     },
   },
@@ -124,7 +124,7 @@ const gl: DataTranslations = {
       variants: ["Media ración", "Ración"],
     },
     "coc-croquetas-grelos-chipiron": {
-      description: "Grelos e chipirón dentro da bechamel: verde e mar na mesma croqueta. As máis galegas e as que máis se repiten nas reseñas.",
+      description: "Grelos e chipirón dentro da bechamel: verde e mar na mesma croqueta. As máis galegas e as que máis se repiten nas recensións.",
       unit: "ración",
       variants: ["Media ración", "Ración"],
     },
@@ -322,7 +322,7 @@ const gl: DataTranslations = {
         "Láminas de cecina repartidas en coroa sobre leituga e endivia, con gallos de tomate, mazá e noces, e unha quenelle de xeado de queixo de ovella no centro que se vai desfacendo por riba. A máis vistosa da carta.",
       ingredients: ["Cecina", "Xeado de queixo de ovella", "Leituga e endivia", "Tomate", "Mazá", "Noces"],
       unit: "ración",
-      pairingWhy: "Un tinto lixeiro e fresco, dos que se serven algo frescos: acompaña a cecina sen tapar o xeado de queixo.",
+      pairingWhy: "Un tinto lixeiro dos que se serven algo fríos: acompaña a cecina sen tapar o xeado de queixo.",
     },
   },
 
@@ -400,7 +400,7 @@ const gl: DataTranslations = {
       caption: "Pementos de Padrón",
     },
     "queso-frito": {
-      alt: "Ración de queixo frito: catro tacos de queixo rebozados e dourados sobre follas de leituga, cun cunco de noces peladas e outro de salsa vermella ao lado",
+      alt: "Ración de queixo frito: catro tacos de queixo rebozados e dourados sobre follas de leituga, cunha cunca de noces peladas e outra de salsa vermella ao lado",
       caption: "Queixo frito, con noces e salsa",
     },
     "mejillones-tigre": {
@@ -408,8 +408,8 @@ const gl: DataTranslations = {
       caption: "Mexillóns tigre",
     },
     "postre-chocolate": {
-      alt: "Sobremesa de chocolate con azucre glas e xarope, servida en prato verde cunha bóla de xeado de vainilla e dúas de nata montada, sobre a mesa de Tixola Tapería",
-      caption: "A sobremesa: chocolate, xeado e nata",
+      alt: "Postre de chocolate con azucre glas e xarope, servida en prato verde cunha bóla de xeado de vainilla e dúas de nata montada, sobre a mesa de Tixola Tapería",
+      caption: "O postre: chocolate, xeado e nata",
     },
     "tixola-raxo-mesa": {
       alt: "Tixola de raxo con patacas e ovo callado servida na mesa de Tixola Tapería, coa vinoteca e as caixas de madeira das adegas ao fondo",

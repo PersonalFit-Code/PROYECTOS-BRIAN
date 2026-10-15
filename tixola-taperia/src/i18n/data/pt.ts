@@ -323,7 +323,7 @@ const pt: DataTranslations = {
         "Lâminas de cecina dispostas em coroa sobre alface e endívia, com gomos de tomate, maçã e nozes, e uma quenelle de gelado de queijo de ovelha no centro que se vai desfazendo por cima. A mais vistosa da carta.",
       ingredients: ["Cecina", "Gelado de queijo de ovelha", "Alface e endívia", "Tomate", "Maçã", "Nozes"],
       unit: "dose",
-      pairingWhy: "Um tinto leve e fresco, dos que se servem ligeiramente frescos: acompanha a cecina sem tapar o gelado de queijo.",
+      pairingWhy: "Um tinto leve dos que se servem ligeiramente frios: acompanha a cecina sem tapar o gelado de queijo.",
     },
   },
 

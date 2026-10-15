@@ -322,7 +322,7 @@ const en: DataTranslations = {
         "Slices of cecina (air-dried beef) arranged in a crown over lettuce and endive, with tomato wedges, apple and walnuts, and a quenelle of sheep's cheese ice cream in the middle that slowly melts over it. The most striking plate on the menu.",
       ingredients: ["Cecina (air-dried beef)", "Sheep's cheese ice cream", "Lettuce and endive", "Tomato", "Apple", "Walnuts"],
       unit: "portion",
-      pairingWhy: "A light, fresh red served slightly chilled: it goes with the cured beef without burying the cheese ice cream.",
+      pairingWhy: "A light red served slightly chilled: it goes with the cured beef without burying the cheese ice cream.",
     },
   },
 

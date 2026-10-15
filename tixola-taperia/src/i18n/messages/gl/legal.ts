@@ -189,7 +189,7 @@ const legal: LegalMessages = {
                 "Anthropic ten a súa sede nos Estados Unidos. A transferencia ampárase en garantías adecuadas: cláusulas contractuais tipo aprobadas pola Comisión Europea e, de ser o caso, a adhesión do provedor ao Marco de Privacidade de Datos UE-EUA, segundo a súa documentación vixente. Conforme ás súas condicións comerciais, Anthropic non utiliza o contido enviado por API para adestrar os seus modelos e segundo a súa documentación vixente elimina as entradas e saídas dos seus sistemas nun máximo de 30 días, salvo que deba conservalas máis tempo por lei ou porque o seu sistema detecte un uso que incumpre as súas políticas (nese caso, ata 2 anos).",
                 "Se non hai conexión co provedor, responde un motor local coa carta e o horario, sen enviar nada fóra.",
                 "As respostas xéranse automaticamente e poden conter erros. **Para alerxias e intolerancias, confirma sempre co noso persoal no local.**",
-                "Non escribas datos persoais teus nin de terceiros (nomes, teléfonos, datos de saúde) no chat: non os necesitamos para axudarche.",
+                "Non escribas datos persoais teus nin de terceiros (nomes, teléfonos, datos de saúde) no chat: non os necesitamos para axudarte.",
               ],
             },
           ],
@@ -351,7 +351,7 @@ const legal: LegalMessages = {
             {
               type: "ul",
               items: [
-                "Os prezos publicados son os que se pagan, co IVE incluído; poden actualizarse, e nese caso rexe o da carta do local. A dispoñibilidade dos pratos e as maridaxes si son orientativas: dependen da tempada e do produto que haxa ese día.",
+                "Os prezos publicados son os que se pagan, co IVE incluído; poden actualizarse, e nese caso rexe o prezo da carta da casa. A dispoñibilidade dos pratos e as maridaxes si son orientativas: dependen da tempada e do produto que haxa ese día.",
                 "O horario pode modificarse en festivos, vacacións ou por causas de forza maior.",
                 "O local **non acepta reservas**: as mesas ocúpanse por orde de chegada.",
               ],

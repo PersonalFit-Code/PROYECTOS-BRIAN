@@ -3,7 +3,7 @@ import type { Section } from "./shape";
 /** Pé de páxina: columnas, horario, ligazóns legais e barra inferior. */
 const footer: Section<"footer"> = {
   about:
-    "Tapas galegas de calidade, cervexa artesanal e viños da zona nun bar vistoso con terraza, a escasos metros da Catedral de Ourense.",
+    "Tapas galegas de calidade, cervexa artesá e viños da zona nun bar vistoso con terraza, a escasos metros da Catedral de Ourense.",
   tixolaMeaning: "Chamámonos «Tixola» pola tixola de ferro de toda a vida: a que chega á mesa aínda chiando.",
   contact: "Contacto",
   hours: "Horario",
