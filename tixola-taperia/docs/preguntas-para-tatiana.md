@@ -121,6 +121,21 @@ seguro», que funciona, pero con el dato quedan bien.*
 
 ---
 
+## 4b · Una decisión de palabra, por si no le gusta (gallego)
+
+*Por qué: la decidí yo al revisar el gallego el 15-10-2026, y es de las que conviene que vea.*
+
+- [ ] **En gallego, el postre se llama ahora «postre» y no «sobremesa».** Estaba de las dos maneras:
+      la categoría ponía «Sobremesa e mesa» y el pie de la foto «A sobremesa», pero el plato de la
+      carta se llama **«Postre del día»** y los nombres de plato no se traducen a ningún idioma. O
+      sea: en la misma pantalla, dos nombres para lo mismo. Lo he dejado todo en «postre», que
+      además es lo que en gallego significa el plato dulce («sobremesa» es el rato que se pasa en la
+      mesa después de comer; en portugués sí es el postre, y de ahí venía la mezcla). **Si ella
+      prefiere «sobremesa», se cambia en cinco sitios y listo** — pero entonces habría que cambiarlo
+      en los cinco, no dejarlo mezclado como estaba.
+
+---
+
 ## 5 · Cosas que tiene que hacer ella fuera de la web
 
 *Por qué: la web no puede arreglarlas desde dentro, y una de ellas nos está contradiciendo ahora mismo.*
