@@ -32,7 +32,7 @@ lo que es tuyo y el precio.
 | 5 | La conversación de WhatsApp y el árbol de qué pasa según responda |
 | 6 | Los bonos: los cuatro pasos de la compra y el QR, con la rueda de consumido |
 | 7 | El panel completo dibujado: KPIs, barras, mapa de calor y ranking del equipo |
-| 8 | Los plazos de respuesta comprometidos, el enlace de Vercel para ir viendo la web y la fecha de entrega (20 de noviembre) |
+| 8 | Los plazos de respuesta comprometidos, el enlace de Vercel para ir viendo la web y la fecha de entrega (15–25 de noviembre) |
 | 9 | Lo que es suyo, el precio y el siguiente paso |
 
 ## Paleta (la pidió Brian)

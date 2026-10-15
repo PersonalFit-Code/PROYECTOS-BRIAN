@@ -86,7 +86,7 @@ el equipo.
 | **Durante el montaje** | Enlace privado de Vercel desde el primer día: entra, mira cómo va y pide cambios sobre la marcha |
 | **Cuota mensual** | **80 €/mes**, desde el lanzamiento |
 | **Permanencia** | Ninguna. Un mes de aviso para irse |
-| **Entrega** | 4 semanas desde que tengamos sus datos y fotos. **Fecha dada a Andrea: 20 de noviembre** |
+| **Entrega** | 4 semanas desde que tengamos sus datos y fotos. **Fecha dada a Andrea: entre el 15 y el 25 de noviembre** |
 
 **La cuota incluye:** alojamiento, base de datos, copias de seguridad diarias, dominio, emails,
 mantenimiento y seguridad, y los cambios pequeños (precios, servicios, textos, fotos, horarios, un
@@ -176,7 +176,7 @@ comprando con ese descuento:
 
 ## 6b. El plazo de 4 semanas (interno, importante)
 
-En la propuesta le has dado **20 de noviembre**. Con el alcance completo (web, reservas, bonos con
+En la propuesta le has dado **entre el 15 y el 25 de noviembre**. Con el alcance completo (web, reservas, bonos con
 pago, panel y analítica) son 115–170 horas: en 4 semanas eso es **30–42 h a la semana, a jornada
 completa y sin imprevistos**. Es posible, pero no hay colchón. Dos cosas que lo protegen:
 
@@ -188,7 +188,7 @@ completa y sin imprevistos**. Es posible, pero no hay colchón. Dos cosas que lo
   todos los que quiera; si pide **funciones nuevas** que no están en el apartado 1, eso es
   presupuesto aparte y hay que decirlo la primera vez que pase, no la tercera.
 
-Si a mitad ves que no llegas, avísale **antes** del 20 y da fecha nueva. Un plazo movido con aviso
+Si a mitad ves que no llegas, avísale **antes** del 15 y da fecha nueva. Un plazo movido con aviso
 no rompe nada; uno incumplido en silencio es exactamente lo que le hacía Elitica.
 
 ## 7. Orden de trabajo (interno)
