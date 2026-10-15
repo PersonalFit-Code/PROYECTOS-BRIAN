@@ -3,7 +3,7 @@
 > **Documento interno.** Los apartados 1–4 van a la propuesta de Andrea. Los apartados 5–7 son para
 > ti y **no se le enseñan**.
 >
-> **Precio cerrado por Brian:** 1.200 € de alta + 60 €/mes. Precio de amigo (es amiga de Alex, de
+> **Precio cerrado por Brian:** 1.200 € de alta (divisible en las cuotas que ella quiera) + 80 €/mes. Precio de amigo (es amiga de Alex, de
 > Personal Fit), decidido a sabiendas de que está por debajo de lo que cuesta el trabajo. El
 > apartado 6 explica qué consecuencias tiene y cómo protegerse.
 
@@ -24,7 +24,12 @@ profesional (o "me da igual"), día dentro de los próximos 45 días y hora, en 
 desde el móvil. Ella misma puede cancelar o cambiar la cita. Imposible que dos clientas cojan la
 misma hora.
 
-### El WhatsApp automático
+### El WhatsApp automático — **no comprometido, a confirmar**
+
+Se presenta como opción muy probable, no como parte cerrada del trato: falta confirmar el alta
+del número con Meta y la aprobación de las plantillas. Lo que SÍ entra desde el primer día es la
+confirmación y el recordatorio **por correo**. Si se activa el WhatsApp, se le dice antes lo que
+supone.
 
 - Confirmación al reservar, con la fecha, la hora, el servicio y la profesional.
 - **Recordatorio el día antes** con botones *Sí, voy* / *No puedo* / *Cambiar hora*.
@@ -77,14 +82,14 @@ el equipo.
 
 | | |
 | --- | --- |
-| **Alta del proyecto** | **1.200 €** — 600 € al empezar, 600 € al lanzar |
-| **Cuota mensual** | **60 €/mes**, desde el lanzamiento |
+| **Alta del proyecto** | **1.200 €**, repartidos en las cuotas que a ella le vengan bien (flexibilidad total) |
+| **Cuota mensual** | **80 €/mes**, desde el lanzamiento |
 | **Permanencia** | Ninguna. Un mes de aviso para irse |
 | **Entrega** | 7–9 semanas desde que tengamos sus datos y fotos |
 
 **La cuota incluye:** alojamiento, base de datos, copias de seguridad diarias, dominio, emails,
-WhatsApp hasta 1.000 mensajes al mes, mantenimiento y seguridad, y los cambios pequeños (precios,
-servicios, textos, fotos, horarios, un bono nuevo).
+mantenimiento y seguridad, y los cambios pequeños (precios, servicios, textos, fotos, horarios, un
+bono nuevo). Si se acaba activando el WhatsApp, los mensajes entran también en la cuota.
 
 **Lo que paga ella por su cuenta:** la comisión de Stripe por cada pago con tarjeta
 (~1,5 % + 0,25 €). El dinero de los bonos va directo a su cuenta; no pasa por nosotros.
@@ -130,23 +135,23 @@ cobra Elitica hoy**: es muy posible que los 60 €/mes sean menos de lo que ya p
 | Concepto | Al mes |
 | --- | --- |
 | Supabase (base de datos, Frankfurt, plan Pro) | 10–25 € |
-| WhatsApp Meta (~400 citas × 2 mensajes) | 10–25 € |
 | Vercel | 0 € adicional (dentro del equipo BRIAN que ya pagas) |
 | Resend (emails) + dominio | ~1 € |
-| **Total** | **20–50 €** |
+| WhatsApp Meta (~400 citas × 2 mensajes) | 10–25 €, **solo si se acaba activando** |
+| **Total** | **11–26 €** (hasta 50 € con WhatsApp) |
 
-**Con 60 €/mes te quedan entre 10 y 40 € limpios, y encima tienes que darle soporte en 24 horas.**
-Los meses de cambios trabajas gratis. Tienes dos formas de arreglarlo sin subirle el precio:
+**Con la cuota en 80 € te quedan entre 54 y 69 € limpios.** Esto ya se sostiene: cubre los gastos y
+paga tu tiempo de soporte. Subirla de 60 a 80 fue la decisión correcta.
 
-1. **Que los gastos vayan a su tarjeta.** Supabase y Meta a su nombre (que es lo correcto de todas
-   formas: el WhatsApp y los datos de sus clientas son suyos), y tus 60 € pasan a ser limpios por tu
-   tiempo. **Es lo que te recomiendo.** Para ella son los mismos ~90 € al mes, pero tú no pones
-   dinero.
-2. Dejar la cuota en 60 € a todo incluido y asumir que el mantenimiento es parte del favor.
+Aun así, lo más limpio sigue siendo **que Supabase vaya a su tarjeta** (y Meta, si se activa el
+WhatsApp): son datos de sus clientas y un número suyo, así que lo correcto es que estén a su nombre,
+y tus 80 € pasan a ser enteros por tu trabajo. Si prefieres no complicarlo al principio, con 80 € a
+todo incluido tampoco pierdes dinero.
 
 ## 6. Lo que te cuesta este precio (interno, léelo una vez)
 
-El alcance completo son **130–190 horas**. A 1.200 € eso sale a **6–9 € la hora**. Es tu decisión y
+El alcance ahora, con el WhatsApp fuera del trato cerrado, son **115–170 horas**. A 1.200 € eso
+sale a **7–10 € la hora**. Es tu decisión y
 es legítimo hacerle un favor a una amiga de Alex, pero conviene que sepas exactamente qué estás
 comprando con ese descuento:
 
@@ -163,6 +168,10 @@ comprando con ese descuento:
   dental o centro de estética. El segundo cliente te cuesta un cuarto del trabajo y ahí sí puedes
   cobrar 3.000–4.000 €. Mira este proyecto como la inversión en construir ese producto, no como un
   trabajo pagado a 8 €/hora.
+- **Y ojo con el pago a plazos.** Le ofreces repartir los 1.200 € como quiera, y está bien como
+  argumento comercial, pero deja por escrito en cuántos plazos y en qué fechas. Un "ya te lo iré
+  pagando" sin fechas acaba siendo medio proyecto cobrado. Lo razonable: algo al empezar, algo al
+  lanzar y el resto repartido en unos pocos meses.
 
 ## 7. Orden de trabajo (interno)
 

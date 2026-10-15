@@ -159,7 +159,7 @@
     <div style="width:28mm;height:1.2pt;background:#E7A6BD;margin:9mm 0"></div>
 
     <p style="font-size:12.5pt;line-height:1.62;color:#7C6B72;max-width:118mm;margin:0">
-      Una web nueva, reservas que entran solas, recordatorios por WhatsApp,
+      Una web nueva, reservas que entran solas, recordatorios automáticos,
       bonos que se venden online y un panel donde ves, de un vistazo,
       todo lo que pasa en tu salón.
     </p>
@@ -185,7 +185,7 @@
     <h2>Tú no tienes un problema<br>de uñas. Tienes un<br>problema de <em>atención</em>.</h2>
     <p class="entradilla">
       El salón funciona. Lo que no funciona es todo lo que hay alrededor: pedir un cambio
-      y esperar mes y medio, apuntar las citas a mano, perseguir confirmaciones por WhatsApp
+      y esperar mes y medio, no poder tocar nada tú sola, perseguir confirmaciones una por una
       y no saber con números cómo ha ido el mes.
     </p>
 
@@ -224,38 +224,84 @@
     </div>
 
     <svg class="svg-ancho" viewBox="0 0 505 300">
-      <defs>
-        <marker id="flechaRosa" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
-          <path d="M0 0 L8 4.5 L0 9 z" fill="#8E0E33"/>
-        </marker>
-      </defs>
+      <rect x="0" y="0" width="505" height="300" rx="14" fill="#8E0E33"/>
+      <text x="26" y="40" font-family="Inter" font-size="9.4" letter-spacing="2.6"
+            fill="#E7A6BD" font-weight="600">LO QUE VAS A TENER</text>
+      <line x1="26" y1="54" x2="479" y2="54" stroke="#B8365A"/>
 
-      <rect x="0" y="0" width="208" height="300" rx="14" fill="#FDF7F9" stroke="#EFDCE4"/>
-      <text x="22" y="34" font-family="Inter" font-size="9" letter-spacing="2.4"
-            fill="#B8365A" font-weight="600">HOY</text>
-      <g font-family="Inter" font-size="11" fill="#7C6B72">
-        <circle cx="27" cy="74" r="4" fill="#E7A6BD"/><text x="44" y="78">La clienta llama o escribe</text>
-        <circle cx="27" cy="117" r="4" fill="#E7A6BD"/><text x="44" y="121">Alguien coge el teléfono</text>
-        <circle cx="27" cy="160" r="4" fill="#E7A6BD"/><text x="44" y="164">Se apunta en la agenda</text>
-        <circle cx="27" cy="203" r="4" fill="#E7A6BD"/><text x="44" y="207">Se confirma a mano</text>
-        <circle cx="27" cy="246" r="4" fill="#E7A6BD"/><text x="44" y="250">Y las cuentas, a ojo</text>
+      <!-- fila 1 -->
+      <g>
+        <circle cx="46" cy="98" r="19" fill="#B8365A"/>
+        <rect x="37" y="89" width="18" height="15" rx="2.5" fill="none" stroke="#FFFFFF" stroke-width="1.8"/>
+        <line x1="37" y1="94" x2="55" y2="94" stroke="#FFFFFF" stroke-width="1.8"/>
+        <text x="74" y="92" font-family="Inter" font-size="11" font-weight="600" fill="#FFFFFF">Una web nueva</text>
+        <text x="74" y="108" font-family="Inter" font-size="9" fill="#E7A6BD">Más bonita, más rápida</text>
+        <text x="74" y="121" font-family="Inter" font-size="9" fill="#E7A6BD">y hecha para tu salón</text>
       </g>
-      <path d="M27 79 L27 241" stroke="#F3D3DE" stroke-width="1.6"/>
-
-      <line x1="221" y1="150" x2="277" y2="150" stroke="#8E0E33" stroke-width="2.2"
-            marker-end="url(#flechaRosa)"/>
-
-      <rect x="297" y="0" width="208" height="300" rx="14" fill="#8E0E33"/>
-      <text x="319" y="34" font-family="Inter" font-size="9" letter-spacing="2.4"
-            fill="#E7A6BD" font-weight="600">CON ESTO</text>
-      <g font-family="Inter" font-size="11" fill="#FFFFFF">
-        <circle cx="324" cy="74" r="4" fill="#E7A6BD"/><text x="341" y="78">La clienta reserva sola</text>
-        <circle cx="324" cy="117" r="4" fill="#E7A6BD"/><text x="341" y="121">Entra directa en la agenda</text>
-        <circle cx="324" cy="160" r="4" fill="#E7A6BD"/><text x="341" y="164">El WhatsApp confirma solo</text>
-        <circle cx="324" cy="203" r="4" fill="#E7A6BD"/><text x="341" y="207">El hueco libre se revende</text>
-        <circle cx="324" cy="246" r="4" fill="#E7A6BD"/><text x="341" y="250">Y los números, al día</text>
+      <g>
+        <circle cx="232" cy="98" r="19" fill="#B8365A"/>
+        <rect x="225" y="87" width="15" height="22" rx="3" fill="none" stroke="#FFFFFF" stroke-width="1.8"/>
+        <line x1="229" y1="95" x2="236" y2="95" stroke="#FFFFFF" stroke-width="1.6"/>
+        <line x1="229" y1="101" x2="234" y2="101" stroke="#FFFFFF" stroke-width="1.6"/>
+        <text x="260" y="92" font-family="Inter" font-size="11" font-weight="600" fill="#FFFFFF">Reservas mejoradas</text>
+        <text x="260" y="108" font-family="Inter" font-size="9" fill="#E7A6BD">Eligen servicio, hora y</text>
+        <text x="260" y="121" font-family="Inter" font-size="9" fill="#E7A6BD">profesional. Sin llamar</text>
       </g>
-      <path d="M324 79 L324 241" stroke="#B8365A" stroke-width="1.6"/>
+
+      <!-- fila 2 -->
+      <g>
+        <circle cx="46" cy="178" r="19" fill="#B8365A"/>
+        <path d="M38 186 L40 178 Q37 170 46 170 Q55 170 55 177 Q55 184 46 184 L38 186 Z"
+              fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"/>
+        <text x="74" y="172" font-family="Inter" font-size="11" font-weight="600" fill="#FFFFFF">Confirmaciones solas</text>
+        <text x="74" y="188" font-family="Inter" font-size="9" fill="#E7A6BD">Al reservar y antes de</text>
+        <text x="74" y="201" font-family="Inter" font-size="9" fill="#E7A6BD">la cita, sin escribir tú</text>
+      </g>
+      <g>
+        <circle cx="232" cy="178" r="19" fill="#B8365A"/>
+        <rect x="223" y="169" width="18" height="18" rx="2.5" fill="none" stroke="#FFFFFF" stroke-width="1.8"/>
+        <g fill="#FFFFFF">
+          <rect x="226.5" y="172.5" width="4" height="4"/><rect x="233.5" y="172.5" width="4" height="4"/>
+          <rect x="226.5" y="179.5" width="4" height="4"/><rect x="233.5" y="179.5" width="4" height="4"/>
+        </g>
+        <text x="260" y="172" font-family="Inter" font-size="11" font-weight="600" fill="#FFFFFF">Bonos y regalos</text>
+        <text x="260" y="188" font-family="Inter" font-size="9" fill="#E7A6BD">Cobrados desde la web,</text>
+        <text x="260" y="201" font-family="Inter" font-size="9" fill="#E7A6BD">con su código QR</text>
+      </g>
+
+      <!-- fila 3 -->
+      <g>
+        <circle cx="46" cy="258" r="19" fill="#B8365A"/>
+        <rect x="38" y="252" width="5" height="12" fill="#FFFFFF"/>
+        <rect x="45" y="246" width="5" height="18" fill="#FFFFFF"/>
+        <rect x="52" y="256" width="5" height="8" fill="#FFFFFF"/>
+        <text x="74" y="252" font-family="Inter" font-size="11" font-weight="600" fill="#FFFFFF">Tu panel de control</text>
+        <text x="74" y="268" font-family="Inter" font-size="9" fill="#E7A6BD">Lo que facturas y cómo</text>
+        <text x="74" y="281" font-family="Inter" font-size="9" fill="#E7A6BD">va cada trabajadora</text>
+      </g>
+      <g>
+        <circle cx="232" cy="258" r="19" fill="#B8365A"/>
+        <circle cx="232" cy="258" r="10.5" fill="none" stroke="#FFFFFF" stroke-width="1.8"/>
+        <line x1="232" y1="258" x2="232" y2="251" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="232" y1="258" x2="237" y2="261" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+        <text x="260" y="252" font-family="Inter" font-size="11" font-weight="600" fill="#FFFFFF">Y a tu ritmo</text>
+        <text x="260" y="268" font-family="Inter" font-size="9" fill="#E7A6BD">Lo que pidas cambiar,</text>
+        <text x="260" y="281" font-family="Inter" font-size="9" fill="#E7A6BD">cambiado en días</text>
+      </g>
+
+      <!-- destacado lateral -->
+      <rect x="392" y="74" width="87" height="208" rx="12" fill="#FFFFFF"/>
+      <text x="435" y="116" font-family="Bitstream Charter, Georgia, serif" font-size="36"
+            fill="#8E0E33" text-anchor="middle" font-weight="700">1</text>
+      <text x="435" y="138" font-family="Inter" font-size="10" font-weight="600"
+            fill="#2E2127" text-anchor="middle">solo sitio</text>
+      <line x1="408" y1="154" x2="463" y2="154" stroke="#F3D3DE"/>
+      <text x="435" y="176" font-family="Inter" font-size="8.8" fill="#7C6B72" text-anchor="middle">Tu web, tus citas</text>
+      <text x="435" y="190" font-family="Inter" font-size="8.8" fill="#7C6B72" text-anchor="middle">y tus números,</text>
+      <text x="435" y="204" font-family="Inter" font-size="8.8" fill="#7C6B72" text-anchor="middle">conectados.</text>
+      <text x="435" y="230" font-family="Inter" font-size="8.8" fill="#7C6B72" text-anchor="middle">Cambias un precio</text>
+      <text x="435" y="244" font-family="Inter" font-size="8.8" fill="#7C6B72" text-anchor="middle">una vez y cambia</text>
+      <text x="435" y="258" font-family="Inter" font-size="8.8" fill="#8E0E33" text-anchor="middle" font-weight="600">en todas partes.</text>
     </svg>
   </div>
   <div class="pie"><span>Propuesta · Andrea Salón</span><span class="num">2</span></div>
@@ -290,12 +336,22 @@
         <path d="M218 250 L118 318"/>
         <path d="M286 250 L386 318"/>
       </g>
-      <g font-family="Inter" font-size="8.6" fill="#B8365A" text-anchor="middle">
-        <text x="281" y="146">escaparate</text>
-        <text x="148" y="165">coge la cita</text>
-        <text x="357" y="165">la confirma</text>
-        <text x="150" y="300">la cobra</text>
-        <text x="357" y="300">lo ve todo</text>
+      <!-- etiquetas: chip blanco sobre la linea, para que se lean -->
+      <g font-family="Inter" font-size="9.6" font-weight="600" text-anchor="middle">
+        <rect x="211" y="134" width="82" height="21" rx="10.5" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.2"/>
+        <text x="252" y="148.5" fill="#8E0E33">te enseña</text>
+
+        <rect x="120" y="169" width="84" height="21" rx="10.5" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.2"/>
+        <text x="162" y="183.5" fill="#8E0E33">coge la cita</text>
+
+        <rect x="300" y="169" width="84" height="21" rx="10.5" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.2"/>
+        <text x="342" y="183.5" fill="#8E0E33">la confirma</text>
+
+        <rect x="128" y="273" width="80" height="21" rx="10.5" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.2"/>
+        <text x="168" y="287.5" fill="#8E0E33">la cobra</text>
+
+        <rect x="294" y="273" width="84" height="21" rx="10.5" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.2"/>
+        <text x="336" y="287.5" fill="#8E0E33">te lo cuenta</text>
       </g>
 
       <circle cx="252" cy="225" r="54" fill="#8E0E33"/>
@@ -329,8 +385,10 @@
         <rect x="357" y="78" width="148" height="80" rx="12" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.6"/>
         <circle cx="384" cy="118" r="17" fill="#FAEAF0" stroke="#E7A6BD"/>
         <path d="M376 126 L379 118 Q376 110 385 110 Q393 110 393 117 Q393 124 385 124 L376 126 Z" fill="#8E0E33"/>
-        <text x="410" y="112" font-family="Inter" font-size="11.5" font-weight="600" fill="#2E2127">WhatsApp</text>
-        <text x="410" y="127" font-family="Inter" font-size="9" fill="#7C6B72">Confirma solo</text>
+        <text x="410" y="108" font-family="Inter" font-size="11.5" font-weight="600" fill="#2E2127">WhatsApp</text>
+        <rect x="410" y="116" width="72" height="16" rx="8" fill="#FAEAF0"/>
+        <text x="446" y="127.5" font-family="Inter" font-size="8.2" fill="#B8365A"
+              text-anchor="middle" font-weight="600">lo estamos viendo</text>
       </g>
 
       <!-- bonos -->
@@ -406,14 +464,14 @@
         <circle cx="40" cy="322" r="16" fill="#8E0E33"/>
         <text x="40" y="327" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">4</text>
         <text x="74" y="317" font-size="12.5" font-weight="600" fill="#2E2127">Recibe la confirmación</text>
-        <text x="74" y="335" font-size="10.4" fill="#7C6B72">Por WhatsApp y por correo, con el día, la hora</text>
-        <text x="74" y="351" font-size="10.4" fill="#7C6B72">y quién la atiende.</text>
+        <text x="74" y="335" font-size="10.4" fill="#7C6B72">Al momento, con el día, la hora y quién la</text>
+        <text x="74" y="351" font-size="10.4" fill="#7C6B72">atiende. Y puede cambiarla ella sola.</text>
 
         <circle cx="40" cy="416" r="16" fill="#8E0E33"/>
         <text x="40" y="421" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">5</text>
         <text x="74" y="411" font-size="12.5" font-weight="600" fill="#2E2127">El día antes, el recordatorio</text>
-        <text x="74" y="429" font-size="10.4" fill="#7C6B72">Con dos botones: «Sí, voy» o «No puedo».</text>
-        <text x="74" y="445" font-size="10.4" fill="#7C6B72">Ella responde en un toque.</text>
+        <text x="74" y="429" font-size="10.4" fill="#7C6B72">Y si activamos el WhatsApp, con dos botones:</text>
+        <text x="74" y="445" font-size="10.4" fill="#7C6B72">«Sí, voy» o «No puedo». Responde en un toque.</text>
 
         <circle cx="40" cy="510" r="16" fill="#8E0E33"/>
         <text x="40" y="515" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">6</text>
@@ -484,11 +542,18 @@
   </svg>
   <div class="cabecera"><span>Andrea Salón</span><span>El recordatorio</span></div>
   <div class="cuerpo">
-    <div class="ojo">La silla vacía, resuelta</div>
-    <h2>El WhatsApp que<br>confirma <em>sin ti</em>.</h2>
+    <div style="display:flex;align-items:center;gap:4mm;margin-bottom:4mm">
+      <div class="ojo" style="margin:0">La silla vacía</div>
+      <div style="background:#F3D3DE;color:#8E0E33;border-radius:10mm;padding:1.4mm 4mm;
+                  font-size:7.4pt;letter-spacing:1.6pt;text-transform:uppercase;font-weight:600">
+        Lo estamos mirando
+      </div>
+    </div>
+    <h2>Y el siguiente paso:<br>el WhatsApp que<br>confirma <em>sin ti</em>.</h2>
     <p class="entradilla">
-      El día antes sale solo. Tú no escribes a nadie. Y lo que la clienta responde
-      cambia tu agenda al momento.
+      El día antes saldría solo, sin que tú escribas a nadie, y lo que la clienta responde
+      cambiaría tu agenda al momento. Es la pieza que más faltas evita, y <b>queremos hacerla</b>:
+      solo tenemos que terminar de confirmar el alta del número. Te lo decimos antes de nada.
     </p>
 
     <div style="display:flex;gap:8mm;align-items:flex-start">
@@ -570,16 +635,17 @@
         </svg>
 
         <ul class="lista" style="margin-top:7mm">
-          <li>Si <b>no contesta</b>, te sale avisada en el panel para que la llames tú.</li>
-          <li>El número de WhatsApp es <b>tuyo</b>, a tu nombre.</li>
-          <li>El panel te enseña cada mes <b>cuántas faltas has evitado</b>.</li>
+          <li>Si <b>no contesta</b>, te saldría avisada en el panel para que la llames tú.</li>
+          <li>El número de WhatsApp sería <b>tuyo</b>, a tu nombre.</li>
+          <li>El panel te enseñaría cada mes <b>cuántas faltas has evitado</b>.</li>
         </ul>
       </div>
     </div>
 
     <div class="franja-cita" style="margin-top:9mm">
-      Cada silla vacía que recuperas son <b>30 o 40 euros</b> que ya estaban perdidos.
-      Y tú no has escrito ni un mensaje.
+      <b>Mientras tanto, no te quedas sin nada.</b> La confirmación y el recordatorio por correo
+      entran desde el primer día. El WhatsApp lo vemos juntas con la web ya en marcha, y si lo
+      activamos sabrás antes exactamente lo que supone.
     </div>
   </div>
   <div class="pie"><span>Propuesta · Andrea Salón</span><span class="num">5</span></div>
@@ -921,8 +987,8 @@
         <circle cx="252" cy="30" r="12" fill="#B8365A"/>
         <text x="252" y="34" font-size="9.6" fill="#fff" text-anchor="middle" font-weight="600">3</text>
         <text x="234" y="68" font-size="10.6" font-weight="600" fill="#2E2127">Semana 6</text>
-        <text x="234" y="86" font-size="9.4" fill="#7C6B72">El WhatsApp</text>
-        <text x="234" y="100" font-size="9.4" fill="#7C6B72">automático</text>
+        <text x="234" y="86" font-size="9.4" fill="#7C6B72">El WhatsApp,</text>
+        <text x="234" y="100" font-size="9.4" fill="#7C6B72">si lo activamos</text>
 
         <circle cx="365" cy="30" r="12" fill="#B8365A"/>
         <text x="365" y="34" font-size="9.6" fill="#fff" text-anchor="middle" font-weight="600">4</text>
@@ -969,21 +1035,16 @@
     <div class="ojo">Sin letra pequeña</div>
     <h2>Todo esto es <em>tuyo</em>,<br>y puedes irte cuando quieras.</h2>
 
-    <div class="rejilla2" style="margin-top:9mm">
-      <div class="tarjeta">
-        <h3 style="color:#8E0E33">A tu nombre</h3>
-        <ul class="lista" style="margin-top:4mm">
-          <li>El <b>dominio</b> de tu web.</li>
-          <li>La cuenta de <b>cobros</b>: el dinero de los bonos entra directo en tu banco.</li>
-          <li>El <b>número de WhatsApp</b> desde el que se escribe a tus clientas.</li>
-        </ul>
-      </div>
-      <div class="tarjeta">
-        <h3 style="color:#8E0E33">Tus datos, tuyos</h3>
-        <ul class="lista" style="margin-top:4mm">
+    <div class="tarjeta" style="margin-top:9mm">
+      <h3 style="color:#8E0E33">Tus datos, tuyos</h3>
+      <div class="rejilla2" style="margin-top:4mm;gap:8mm">
+        <ul class="lista" style="margin:0">
           <li>Tus <b>clientas, citas y cobros</b> los descargas en Excel cuando quieras.</li>
+          <li>El <b>dominio</b> de tu web va a tu nombre.</li>
+        </ul>
+        <ul class="lista" style="margin:0">
           <li><b>Sin permanencia.</b> Si un día no te convence, avisas con un mes.</li>
-          <li>Si te vas, te los <b>entregamos completos</b>. Sin discusiones.</li>
+          <li>Si te vas, te los <b>entregamos completos</b>. Sin problema.</li>
         </ul>
       </div>
     </div>
@@ -997,18 +1058,19 @@
         <div style="flex:1">
           <div style="font-size:9.4pt;color:#7C6B72;margin-bottom:2mm">Puesta en marcha, todo incluido</div>
           <div class="serif" style="font-size:34pt;font-weight:700;color:#8E0E33;line-height:1">1.200 €</div>
-          <div style="font-size:8.8pt;color:#7C6B72;margin-top:2.5mm">La mitad al empezar, la mitad al lanzar</div>
+          <div style="font-size:8.8pt;color:#8E0E33;margin-top:2.5mm;font-weight:600">Lo dividimos en las cuotas que te vengan bien</div>
         </div>
         <div style="width:.6pt;height:30mm;background:#EFDCE4"></div>
         <div style="flex:1">
           <div style="font-size:9.4pt;color:#7C6B72;margin-bottom:2mm">Mantenimiento</div>
-          <div class="serif" style="font-size:34pt;font-weight:700;color:#8E0E33;line-height:1">60 €<span style="font-size:15pt;color:#B8365A">/mes</span></div>
+          <div class="serif" style="font-size:34pt;font-weight:700;color:#8E0E33;line-height:1">80 €<span style="font-size:15pt;color:#B8365A">/mes</span></div>
           <div style="font-size:8.8pt;color:#7C6B72;margin-top:2.5mm">Sin permanencia</div>
         </div>
       </div>
       <div style="padding:0 7mm 7mm;background:#fff;font-size:9pt;color:#7C6B72;line-height:1.55">
-        El mantenimiento incluye el alojamiento, las copias de seguridad, los mensajes de WhatsApp,
-        la seguridad y todos los cambios pequeños que necesites.
+        <b style="color:#2E2127">Flexibilidad total con el pago:</b> no hay que soltarlo de golpe.
+        Lo repartimos como mejor te venga. El mantenimiento incluye el alojamiento, las copias de
+        seguridad, la seguridad y todos los cambios pequeños que necesites.
       </div>
     </div>
 
@@ -1024,7 +1086,7 @@
         <div class="serif" style="font-size:14pt;font-weight:700;color:#2E2127">Brian</div>
         <div style="font-size:9pt;color:#7C6B72;margin-top:1.5mm">
           Diseño y desarrollo web · Ourense<br>
-          info.viaurea@gmail.com
+          briancarvajalgarcia@gmail.com · 611 573 580
         </div>
       </div>
       <img src="logo.png" alt="" style="width:23mm;height:23mm;border-radius:50%;opacity:.95">
