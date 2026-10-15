@@ -1,0 +1,1037 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Andrea Salon — Propuesta</title>
+<style>
+  @page { size: 210mm 297mm; margin: 0; }
+
+  :root {
+    --blanco:      #FFFFFF;
+    --crema:       #FDF7F9;
+    --rosa-niebla: #FAEAF0;
+    --rosa:        #F3D3DE;
+    --rosa-fuerte: #E7A6BD;
+    --carmin:      #8E0E33;
+    --carmin-sua:  #B8365A;
+    --tinta:       #2E2127;
+    --gris:        #7C6B72;
+    --linea:       #EFDCE4;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Inter", "Liberation Sans", Arial, sans-serif;
+    color: var(--tinta);
+    background: var(--blanco);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .hoja {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+    background: var(--blanco);
+    page-break-after: always;
+  }
+  .hoja:last-child { page-break-after: auto; }
+
+  .cuerpo { position: relative; padding: 16mm 16mm 0; height: 100%; }
+
+  h1, h2, h3, .serif { font-family: "Bitstream Charter", "Caladea", Georgia, serif; }
+
+  h2 {
+    font-size: 27pt; line-height: 1.08; margin: 0 0 2.5mm;
+    font-weight: 700; letter-spacing: -.4pt;
+  }
+  h2 em { font-style: normal; color: var(--carmin); }
+  .entradilla {
+    font-size: 11pt; line-height: 1.5; color: var(--gris);
+    max-width: 134mm; margin: 0 0 9mm;
+  }
+  p { margin: 0 0 2.6mm; }
+
+  .ojo {
+    font-size: 7.4pt; letter-spacing: 2.6pt; text-transform: uppercase;
+    color: var(--carmin-sua); font-weight: 600; margin: 0 0 4mm;
+  }
+
+  .cabecera {
+    position: absolute; top: 9mm; left: 16mm; right: 16mm;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 6.8pt; letter-spacing: 1.6pt; text-transform: uppercase;
+    color: var(--rosa-fuerte);
+  }
+  .pie {
+    position: absolute; bottom: 9mm; left: 16mm; right: 16mm;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 7pt; color: var(--rosa-fuerte); letter-spacing: .4pt;
+  }
+  .pie .num {
+    width: 7.5mm; height: 7.5mm; border-radius: 50%;
+    background: var(--carmin); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8pt; font-weight: 600; letter-spacing: 0;
+  }
+
+  .tarjeta {
+    background: var(--crema); border: .6pt solid var(--linea);
+    border-radius: 4mm; padding: 7mm;
+  }
+  .tarjeta h3 { font-size: 13pt; margin: 0 0 2.5mm; }
+  .tarjeta p  { font-size: 9.6pt; line-height: 1.5; color: var(--gris); margin: 0; }
+
+  .rejilla3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5mm; }
+  .rejilla2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+
+  .lista { list-style: none; padding: 0; margin: 0; }
+  .lista li {
+    font-size: 9.8pt; line-height: 1.5; color: var(--tinta);
+    padding: 0 0 0 7.5mm; margin: 0 0 4mm; position: relative;
+  }
+  .lista li::before {
+    content: ""; position: absolute; left: 0; top: 1.6mm;
+    width: 3.6mm; height: 3.6mm; border-radius: 50%;
+    background: var(--rosa); border: 1pt solid var(--carmin-sua);
+  }
+  .lista li b { color: var(--carmin); font-weight: 600; }
+
+  .franja-cita {
+    background: var(--carmin); color: #fff; border-radius: 4mm;
+    padding: 7mm; font-size: 11pt; line-height: 1.5;
+  }
+  .franja-cita b { color: var(--rosa); font-weight: 600; }
+
+  svg { display: block; }
+  .svg-ancho { width: 178mm; height: auto; }
+</style>
+</head>
+<body>
+
+<!-- ============================ 1 · PORTADA ============================ -->
+<div class="hoja">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <defs>
+      <radialGradient id="acuarela1" cx="50%" cy="50%">
+        <stop offset="0%"  stop-color="#F3D3DE" stop-opacity=".95"/>
+        <stop offset="100%" stop-color="#F3D3DE" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="acuarela2" cx="50%" cy="50%">
+        <stop offset="0%"  stop-color="#E7A6BD" stop-opacity=".85"/>
+        <stop offset="100%" stop-color="#E7A6BD" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="acuarela3" cx="50%" cy="50%">
+        <stop offset="0%"  stop-color="#8E0E33" stop-opacity=".34"/>
+        <stop offset="100%" stop-color="#8E0E33" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="595" height="842" fill="#FDF7F9"/>
+    <ellipse cx="110" cy="80"  rx="250" ry="200" fill="url(#acuarela1)"/>
+    <ellipse cx="540" cy="180" rx="225" ry="195" fill="url(#acuarela2)"/>
+    <ellipse cx="500" cy="770" rx="270" ry="210" fill="url(#acuarela1)"/>
+    <ellipse cx="70"  cy="700" rx="205" ry="175" fill="url(#acuarela3)"/>
+    <ellipse cx="30"  cy="330" rx="130" ry="150" fill="url(#acuarela2)"/>
+    <ellipse cx="300" cy="420" rx="295" ry="235" fill="#FFFFFF" opacity=".58"/>
+    <rect x="0" y="826" width="595" height="16" fill="#8E0E33"/>
+  </svg>
+
+  <div style="position:absolute;top:0;left:0;width:210mm;height:297mm;
+              display:flex;flex-direction:column;align-items:center;
+              justify-content:center;padding:0 24mm;text-align:center">
+
+    <img src="logo.png" alt="Andrea Salón" style="width:50mm;height:50mm;border-radius:50%;
+         box-shadow:0 0 0 1.4mm #fff, 0 2mm 8mm rgba(142,14,51,.18)">
+
+    <div style="font-size:7.4pt;letter-spacing:3.6pt;text-transform:uppercase;
+                color:#B8365A;font-weight:600;margin:13mm 0 5mm">
+      Propuesta de trabajo
+    </div>
+
+    <h1 class="serif" style="font-size:44pt;line-height:1.04;margin:0;
+               font-weight:700;letter-spacing:-1.2pt;color:#2E2127">
+      Que el salón<br>trabaje <em style="font-style:normal;color:#8E0E33">por ti</em>
+    </h1>
+
+    <div style="width:28mm;height:1.2pt;background:#E7A6BD;margin:9mm 0"></div>
+
+    <p style="font-size:12.5pt;line-height:1.62;color:#7C6B72;max-width:118mm;margin:0">
+      Una web nueva, reservas que entran solas, recordatorios por WhatsApp,
+      bonos que se venden online y un panel donde ves, de un vistazo,
+      todo lo que pasa en tu salón.
+    </p>
+
+    <div style="position:absolute;bottom:28mm;left:0;right:0;
+                font-size:8.4pt;color:#9D8A91;letter-spacing:.6pt">
+      Preparado para <b style="color:#8E0E33">Andrea Salón</b> · Uñas y Belleza · Ourense
+      &nbsp;·&nbsp; Octubre de 2026
+    </div>
+  </div>
+</div>
+
+<!-- ============================ 2 · PUNTO DE PARTIDA ============================ -->
+<div class="hoja">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <rect width="595" height="842" fill="#FFFFFF"/>
+    <ellipse cx="600" cy="60" rx="190" ry="150" fill="#FAEAF0"/>
+    <ellipse cx="-20" cy="810" rx="175" ry="145" fill="#FAEAF0"/>
+  </svg>
+  <div class="cabecera"><span>Andrea Salón</span><span>Punto de partida</span></div>
+  <div class="cuerpo">
+    <div class="ojo">Lo que nos contaste</div>
+    <h2>Tú no tienes un problema<br>de uñas. Tienes un<br>problema de <em>atención</em>.</h2>
+    <p class="entradilla">
+      El salón funciona. Lo que no funciona es todo lo que hay alrededor: pedir un cambio
+      y esperar mes y medio, apuntar las citas a mano, perseguir confirmaciones por WhatsApp
+      y no saber con números cómo ha ido el mes.
+    </p>
+
+    <div class="rejilla3" style="margin-bottom:9mm">
+      <div class="tarjeta" style="text-align:center;padding:6mm 5mm">
+        <svg width="100%" height="76" viewBox="0 0 120 76">
+          <circle cx="60" cy="36" r="28" fill="#FAEAF0" stroke="#E7A6BD" stroke-width="1.2"/>
+          <circle cx="60" cy="36" r="28" fill="none" stroke="#8E0E33" stroke-width="3"
+                  stroke-dasharray="132 44" stroke-linecap="round" transform="rotate(-90 60 36)"/>
+          <line x1="60" y1="36" x2="60" y2="20" stroke="#8E0E33" stroke-width="2.4" stroke-linecap="round"/>
+          <line x1="60" y1="36" x2="73" y2="43" stroke="#8E0E33" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <h3 style="margin-top:3mm">Mes y medio</h3>
+        <p>Lo que tardaba en cambiarse cualquier cosa pequeña de tu web.</p>
+      </div>
+      <div class="tarjeta" style="text-align:center;padding:6mm 5mm">
+        <svg width="100%" height="76" viewBox="0 0 120 76">
+          <rect x="32" y="12" width="56" height="38" rx="9" fill="#FAEAF0" stroke="#E7A6BD" stroke-width="1.2"/>
+          <path d="M50 50 L50 62 L63 50 Z" fill="#FAEAF0" stroke="#E7A6BD" stroke-width="1.2" stroke-linejoin="round"/>
+          <circle cx="47" cy="31" r="3.4" fill="#8E0E33"/>
+          <circle cx="60" cy="31" r="3.4" fill="#8E0E33"/>
+          <circle cx="73" cy="31" r="3.4" fill="#8E0E33"/>
+        </svg>
+        <h3 style="margin-top:3mm">Confirmar a mano</h3>
+        <p>Escribir una por una a las clientas del día siguiente, cada tarde.</p>
+      </div>
+      <div class="tarjeta" style="text-align:center;padding:6mm 5mm">
+        <svg width="100%" height="76" viewBox="0 0 120 76">
+          <rect x="40" y="36" width="40" height="24" rx="4" fill="#FAEAF0" stroke="#E7A6BD" stroke-width="1.2"/>
+          <path d="M45 36 L45 20 Q60 10 75 20 L75 36" fill="none" stroke="#E7A6BD" stroke-width="1.4"/>
+          <line x1="46" y1="16" x2="74" y2="56" stroke="#8E0E33" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <h3 style="margin-top:3mm">La silla vacía</h3>
+        <p>La clienta que no avisa. Esa hora ya no se vende, y no aparece en ninguna cuenta.</p>
+      </div>
+    </div>
+
+    <svg class="svg-ancho" viewBox="0 0 505 300">
+      <defs>
+        <marker id="flechaRosa" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0 0 L8 4.5 L0 9 z" fill="#8E0E33"/>
+        </marker>
+      </defs>
+
+      <rect x="0" y="0" width="208" height="300" rx="14" fill="#FDF7F9" stroke="#EFDCE4"/>
+      <text x="22" y="34" font-family="Inter" font-size="9" letter-spacing="2.4"
+            fill="#B8365A" font-weight="600">HOY</text>
+      <g font-family="Inter" font-size="11" fill="#7C6B72">
+        <circle cx="27" cy="74" r="4" fill="#E7A6BD"/><text x="44" y="78">La clienta llama o escribe</text>
+        <circle cx="27" cy="117" r="4" fill="#E7A6BD"/><text x="44" y="121">Alguien coge el teléfono</text>
+        <circle cx="27" cy="160" r="4" fill="#E7A6BD"/><text x="44" y="164">Se apunta en la agenda</text>
+        <circle cx="27" cy="203" r="4" fill="#E7A6BD"/><text x="44" y="207">Se confirma a mano</text>
+        <circle cx="27" cy="246" r="4" fill="#E7A6BD"/><text x="44" y="250">Y las cuentas, a ojo</text>
+      </g>
+      <path d="M27 79 L27 241" stroke="#F3D3DE" stroke-width="1.6"/>
+
+      <line x1="221" y1="150" x2="277" y2="150" stroke="#8E0E33" stroke-width="2.2"
+            marker-end="url(#flechaRosa)"/>
+
+      <rect x="297" y="0" width="208" height="300" rx="14" fill="#8E0E33"/>
+      <text x="319" y="34" font-family="Inter" font-size="9" letter-spacing="2.4"
+            fill="#E7A6BD" font-weight="600">CON ESTO</text>
+      <g font-family="Inter" font-size="11" fill="#FFFFFF">
+        <circle cx="324" cy="74" r="4" fill="#E7A6BD"/><text x="341" y="78">La clienta reserva sola</text>
+        <circle cx="324" cy="117" r="4" fill="#E7A6BD"/><text x="341" y="121">Entra directa en la agenda</text>
+        <circle cx="324" cy="160" r="4" fill="#E7A6BD"/><text x="341" y="164">El WhatsApp confirma solo</text>
+        <circle cx="324" cy="203" r="4" fill="#E7A6BD"/><text x="341" y="207">El hueco libre se revende</text>
+        <circle cx="324" cy="246" r="4" fill="#E7A6BD"/><text x="341" y="250">Y los números, al día</text>
+      </g>
+      <path d="M324 79 L324 241" stroke="#B8365A" stroke-width="1.6"/>
+    </svg>
+  </div>
+  <div class="pie"><span>Propuesta · Andrea Salón</span><span class="num">2</span></div>
+</div>
+
+<!-- ============================ 3 · EL MAPA ============================ -->
+<div class="hoja">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <rect width="595" height="842" fill="#FDF7F9"/>
+    <ellipse cx="300" cy="440" rx="295" ry="265" fill="#FFFFFF" opacity=".92"/>
+  </svg>
+  <div class="cabecera"><span>Andrea Salón</span><span>Cómo encaja todo</span></div>
+  <div class="cuerpo">
+    <div class="ojo">Una cosa lleva a la otra</div>
+    <h2>Cinco piezas,<br>un <em>solo sistema</em>.</h2>
+    <p class="entradilla">
+      No son cinco programas sueltos que haya que cuadrar entre sí. Es uno solo: cuando cambias
+      un precio, cambia en la web, en la reserva y en el panel a la vez.
+    </p>
+
+    <svg class="svg-ancho" viewBox="0 0 505 450" style="margin-bottom:7mm">
+      <defs>
+        <marker id="pf" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0 0 L8 4.5 L0 9 z" fill="#E7A6BD"/>
+        </marker>
+      </defs>
+
+      <g stroke="#E7A6BD" stroke-width="1.8" fill="none" marker-end="url(#pf)">
+        <path d="M252 168 L252 122"/>
+        <path d="M212 200 L112 160"/>
+        <path d="M292 200 L392 160"/>
+        <path d="M218 250 L118 318"/>
+        <path d="M286 250 L386 318"/>
+      </g>
+      <g font-family="Inter" font-size="8.6" fill="#B8365A" text-anchor="middle">
+        <text x="281" y="146">escaparate</text>
+        <text x="148" y="165">coge la cita</text>
+        <text x="357" y="165">la confirma</text>
+        <text x="150" y="300">la cobra</text>
+        <text x="357" y="300">lo ve todo</text>
+      </g>
+
+      <circle cx="252" cy="225" r="54" fill="#8E0E33"/>
+      <text x="252" y="220" font-family="Bitstream Charter, Georgia, serif" font-size="17"
+            fill="#FFFFFF" text-anchor="middle" font-weight="700">Andrea</text>
+      <text x="252" y="240" font-family="Bitstream Charter, Georgia, serif" font-size="17"
+            fill="#E7A6BD" text-anchor="middle" font-weight="700">Salón</text>
+
+      <!-- web -->
+      <g>
+        <rect x="178" y="30" width="148" height="80" rx="12" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.6"/>
+        <rect x="196" y="50" width="38" height="30" rx="4" fill="#FAEAF0" stroke="#E7A6BD"/>
+        <line x1="196" y1="59" x2="234" y2="59" stroke="#E7A6BD"/>
+        <text x="246" y="66" font-family="Inter" font-size="11.5" font-weight="600" fill="#2E2127">La web</text>
+        <text x="246" y="81" font-family="Inter" font-size="9" fill="#7C6B72">Tu escaparate</text>
+      </g>
+
+      <!-- reserva -->
+      <g>
+        <rect x="0" y="78" width="148" height="80" rx="12" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.6"/>
+        <rect x="18" y="94" width="28" height="48" rx="5" fill="#FAEAF0" stroke="#E7A6BD"/>
+        <line x1="24" y1="107" x2="40" y2="107" stroke="#8E0E33" stroke-width="2"/>
+        <line x1="24" y1="117" x2="40" y2="117" stroke="#E7A6BD" stroke-width="2"/>
+        <line x1="24" y1="127" x2="34" y2="127" stroke="#E7A6BD" stroke-width="2"/>
+        <text x="58" y="112" font-family="Inter" font-size="11.5" font-weight="600" fill="#2E2127">La reserva</text>
+        <text x="58" y="127" font-family="Inter" font-size="9" fill="#7C6B72">Abierta 24 horas</text>
+      </g>
+
+      <!-- whatsapp -->
+      <g>
+        <rect x="357" y="78" width="148" height="80" rx="12" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.6"/>
+        <circle cx="384" cy="118" r="17" fill="#FAEAF0" stroke="#E7A6BD"/>
+        <path d="M376 126 L379 118 Q376 110 385 110 Q393 110 393 117 Q393 124 385 124 L376 126 Z" fill="#8E0E33"/>
+        <text x="410" y="112" font-family="Inter" font-size="11.5" font-weight="600" fill="#2E2127">WhatsApp</text>
+        <text x="410" y="127" font-family="Inter" font-size="9" fill="#7C6B72">Confirma solo</text>
+      </g>
+
+      <!-- bonos -->
+      <g>
+        <rect x="0" y="330" width="148" height="86" rx="12" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.6"/>
+        <rect x="18" y="352" width="34" height="34" rx="4" fill="#FAEAF0" stroke="#E7A6BD"/>
+        <g fill="#8E0E33">
+          <rect x="23" y="357" width="8" height="8"/><rect x="39" y="357" width="8" height="8"/>
+          <rect x="23" y="373" width="8" height="8"/><rect x="39" y="373" width="8" height="8"/>
+          <rect x="32" y="366" width="6" height="6"/>
+        </g>
+        <text x="62" y="362" font-family="Inter" font-size="11.5" font-weight="600" fill="#2E2127">Los bonos</text>
+        <text x="62" y="377" font-family="Inter" font-size="9" fill="#7C6B72">Cobrados por</text>
+        <text x="62" y="390" font-family="Inter" font-size="9" fill="#7C6B72">adelantado</text>
+      </g>
+
+      <!-- panel -->
+      <g>
+        <rect x="357" y="330" width="148" height="86" rx="12" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.6"/>
+        <rect x="375" y="350" width="38" height="38" rx="4" fill="#FAEAF0" stroke="#E7A6BD"/>
+        <rect x="381" y="372" width="6" height="12" fill="#8E0E33"/>
+        <rect x="391" y="364" width="6" height="20" fill="#8E0E33"/>
+        <rect x="401" y="357" width="6" height="27" fill="#E7A6BD"/>
+        <text x="423" y="362" font-family="Inter" font-size="11.5" font-weight="600" fill="#2E2127">El panel</text>
+        <text x="423" y="377" font-family="Inter" font-size="9" fill="#7C6B72">Tu salón en</text>
+        <text x="423" y="390" font-family="Inter" font-size="9" fill="#7C6B72">números</text>
+      </g>
+    </svg>
+
+    <div class="franja-cita">
+      Tres direcciones, un solo sistema: <b>tu web</b> para quien te descubre,
+      <b>tu enlace de reservas</b> para Instagram y Google, y <b>tu panel</b> para ti y tu equipo.
+    </div>
+  </div>
+  <div class="pie"><span>Propuesta · Andrea Salón</span><span class="num">3</span></div>
+</div>
+
+<!-- ============================ 4 · EL RECORRIDO ============================ -->
+<div class="hoja">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <rect width="595" height="842" fill="#FFFFFF"/>
+    <ellipse cx="580" cy="800" rx="200" ry="165" fill="#FAEAF0"/>
+  </svg>
+  <div class="cabecera"><span>Andrea Salón</span><span>El recorrido</span></div>
+  <div class="cuerpo">
+    <div class="ojo">De Instagram a la silla</div>
+    <h2>Lo que vive <em>tu clienta</em>,<br>paso a paso.</h2>
+    <p class="entradilla">
+      Seis pasos. En ninguno hace falta que tú estés delante del móvil.
+    </p>
+
+    <svg class="svg-ancho" viewBox="0 0 505 545">
+      <path d="M40 40 L40 510" stroke="#F3D3DE" stroke-width="3" stroke-linecap="round"/>
+
+      <g font-family="Inter">
+        <circle cx="40" cy="40" r="16" fill="#8E0E33"/>
+        <text x="40" y="45" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">1</text>
+        <text x="74" y="35" font-size="12.5" font-weight="600" fill="#2E2127">Te ve en Instagram o en Google</text>
+        <text x="74" y="53" font-size="10.4" fill="#7C6B72">Y pulsa el botón de reservar que hay en tu perfil.</text>
+
+        <circle cx="40" cy="134" r="16" fill="#8E0E33"/>
+        <text x="40" y="139" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">2</text>
+        <text x="74" y="129" font-size="12.5" font-weight="600" fill="#2E2127">Elige lo que quiere y con quién</text>
+        <text x="74" y="147" font-size="10.4" fill="#7C6B72">Servicio, profesional (o la que esté libre) y hora.</text>
+        <text x="74" y="163" font-size="10.4" fill="#7C6B72">Menos de un minuto desde el móvil.</text>
+
+        <circle cx="40" cy="228" r="16" fill="#8E0E33"/>
+        <text x="40" y="233" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">3</text>
+        <text x="74" y="223" font-size="12.5" font-weight="600" fill="#2E2127">La cita entra sola en tu agenda</text>
+        <text x="74" y="241" font-size="10.4" fill="#7C6B72">Esa hora deja de estar libre al instante.</text>
+        <text x="74" y="257" font-size="10.4" fill="#7C6B72">Es imposible que dos clientas la cojan.</text>
+
+        <circle cx="40" cy="322" r="16" fill="#8E0E33"/>
+        <text x="40" y="327" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">4</text>
+        <text x="74" y="317" font-size="12.5" font-weight="600" fill="#2E2127">Recibe la confirmación</text>
+        <text x="74" y="335" font-size="10.4" fill="#7C6B72">Por WhatsApp y por correo, con el día, la hora</text>
+        <text x="74" y="351" font-size="10.4" fill="#7C6B72">y quién la atiende.</text>
+
+        <circle cx="40" cy="416" r="16" fill="#8E0E33"/>
+        <text x="40" y="421" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">5</text>
+        <text x="74" y="411" font-size="12.5" font-weight="600" fill="#2E2127">El día antes, el recordatorio</text>
+        <text x="74" y="429" font-size="10.4" fill="#7C6B72">Con dos botones: «Sí, voy» o «No puedo».</text>
+        <text x="74" y="445" font-size="10.4" fill="#7C6B72">Ella responde en un toque.</text>
+
+        <circle cx="40" cy="510" r="16" fill="#8E0E33"/>
+        <text x="40" y="515" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">6</text>
+        <text x="74" y="505" font-size="12.5" font-weight="600" fill="#2E2127">Viene. O libera el hueco a tiempo</text>
+        <text x="74" y="523" font-size="10.4" fill="#7C6B72">Si no puede, esa hora vuelve a la web al momento</text>
+        <text x="74" y="539" font-size="10.4" fill="#7C6B72">y otra clienta la coge.</text>
+      </g>
+
+      <!-- movil -->
+      <g transform="translate(330,36)">
+        <rect x="0" y="0" width="175" height="330" rx="22" fill="#FFFFFF" stroke="#E7A6BD" stroke-width="2"/>
+        <rect x="62" y="12" width="50" height="7" rx="3.5" fill="#F3D3DE"/>
+        <rect x="16" y="34" width="143" height="30" rx="7" fill="#8E0E33"/>
+        <text x="87" y="54" font-family="Inter" font-size="11" fill="#fff" text-anchor="middle" font-weight="600">Reservar cita</text>
+        <text x="16" y="86" font-family="Inter" font-size="9.6" fill="#7C6B72">Octubre</text>
+        <g fill="#FAEAF0">
+          <rect x="16" y="94" width="28" height="25" rx="5"/>
+          <rect x="49" y="94" width="28" height="25" rx="5"/>
+          <rect x="115" y="94" width="28" height="25" rx="5"/>
+          <rect x="16" y="124" width="28" height="25" rx="5"/>
+          <rect x="82" y="124" width="28" height="25" rx="5"/>
+          <rect x="115" y="124" width="28" height="25" rx="5"/>
+        </g>
+        <rect x="82" y="94" width="28" height="25" rx="5" fill="#8E0E33"/>
+        <rect x="49" y="124" width="28" height="25" rx="5" fill="#F3D3DE"/>
+        <g font-family="Inter" font-size="8.6" fill="#7C6B72" text-anchor="middle">
+          <text x="30" y="110">14</text><text x="63" y="110">15</text>
+          <text x="96" y="110" fill="#fff">16</text><text x="129" y="110">17</text>
+          <text x="30" y="140">20</text><text x="63" y="140">21</text>
+          <text x="96" y="140">22</text><text x="129" y="140">23</text>
+        </g>
+        <text x="16" y="172" font-family="Inter" font-size="9.6" fill="#7C6B72">Horas libres</text>
+        <g>
+          <rect x="16" y="180" width="62" height="24" rx="6" fill="#FFFFFF" stroke="#F3D3DE"/>
+          <text x="47" y="196" font-family="Inter" font-size="9.6" fill="#2E2127" text-anchor="middle">10:30</text>
+          <rect x="86" y="180" width="62" height="24" rx="6" fill="#8E0E33"/>
+          <text x="117" y="196" font-family="Inter" font-size="9.6" fill="#fff" text-anchor="middle">11:15</text>
+          <rect x="16" y="210" width="62" height="24" rx="6" fill="#FFFFFF" stroke="#F3D3DE"/>
+          <text x="47" y="226" font-family="Inter" font-size="9.6" fill="#2E2127" text-anchor="middle">17:00</text>
+          <rect x="86" y="210" width="62" height="24" rx="6" fill="#FFFFFF" stroke="#F3D3DE"/>
+          <text x="117" y="226" font-family="Inter" font-size="9.6" fill="#2E2127" text-anchor="middle">18:30</text>
+        </g>
+        <rect x="16" y="254" width="143" height="30" rx="7" fill="#8E0E33"/>
+        <text x="87" y="274" font-family="Inter" font-size="11" fill="#fff" text-anchor="middle" font-weight="600">Confirmar</text>
+        <text x="87" y="304" font-family="Inter" font-size="8.8" fill="#B8365A" text-anchor="middle">Manicura · 45 min</text>
+        <text x="87" y="318" font-family="Inter" font-size="8.8" fill="#B8365A" text-anchor="middle">con Andrea</text>
+      </g>
+
+      <!-- sello -->
+      <g transform="translate(330,400)">
+        <rect x="0" y="0" width="175" height="100" rx="12" fill="#FDF7F9" stroke="#EFDCE4"/>
+        <text x="87" y="34" font-family="Bitstream Charter, Georgia, serif" font-size="30"
+              fill="#8E0E33" text-anchor="middle" font-weight="700">24 h</text>
+        <text x="87" y="58" font-family="Inter" font-size="10" fill="#2E2127" text-anchor="middle" font-weight="600">Tu web nunca cierra</text>
+        <text x="87" y="76" font-family="Inter" font-size="9" fill="#7C6B72" text-anchor="middle">Las clientas reservan de noche,</text>
+        <text x="87" y="89" font-family="Inter" font-size="9" fill="#7C6B72" text-anchor="middle">en domingo y mientras trabajas.</text>
+      </g>
+    </svg>
+  </div>
+  <div class="pie"><span>Propuesta · Andrea Salón</span><span class="num">4</span></div>
+</div>
+
+<!-- ============================ 5 · WHATSAPP ============================ -->
+<div class="hoja">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <rect width="595" height="842" fill="#FDF7F9"/>
+    <ellipse cx="300" cy="400" rx="300" ry="275" fill="#FFFFFF" opacity=".88"/>
+  </svg>
+  <div class="cabecera"><span>Andrea Salón</span><span>El recordatorio</span></div>
+  <div class="cuerpo">
+    <div class="ojo">La silla vacía, resuelta</div>
+    <h2>El WhatsApp que<br>confirma <em>sin ti</em>.</h2>
+    <p class="entradilla">
+      El día antes sale solo. Tú no escribes a nadie. Y lo que la clienta responde
+      cambia tu agenda al momento.
+    </p>
+
+    <div style="display:flex;gap:8mm;align-items:flex-start">
+      <svg style="width:80mm;height:auto;flex:0 0 auto" viewBox="0 0 190 330">
+        <rect x="0" y="0" width="190" height="330" rx="20" fill="#FFFFFF" stroke="#E7A6BD" stroke-width="1.8"/>
+        <rect x="70" y="10" width="50" height="6" rx="3" fill="#F3D3DE"/>
+        <rect x="0" y="26" width="190" height="34" fill="#8E0E33"/>
+        <circle cx="26" cy="43" r="11" fill="#E7A6BD"/>
+        <text x="26" y="47" font-family="Bitstream Charter, Georgia, serif" font-size="10"
+              fill="#8E0E33" text-anchor="middle" font-weight="700">AS</text>
+        <text x="45" y="40" font-family="Inter" font-size="9" fill="#FFFFFF" font-weight="600">Andrea Salón</text>
+        <text x="45" y="52" font-family="Inter" font-size="7" fill="#E7A6BD">en línea</text>
+
+        <rect x="12" y="74" width="140" height="70" rx="10" fill="#FAEAF0"/>
+        <g font-family="Inter" font-size="7.8" fill="#2E2127">
+          <text x="22" y="92">¡Hola, Marta! Te recordamos</text>
+          <text x="22" y="104">tu cita de mañana jueves</text>
+          <text x="22" y="116">a las 11:15 — Manicura</text>
+          <text x="22" y="128">semipermanente con Andrea.</text>
+        </g>
+        <text x="142" y="139" font-family="Inter" font-size="6" fill="#B8365A" text-anchor="end">19:00</text>
+
+        <rect x="12" y="150" width="140" height="22" rx="6" fill="#FFFFFF" stroke="#8E0E33" stroke-width="1.2"/>
+        <text x="82" y="165" font-family="Inter" font-size="8.4" fill="#8E0E33"
+              text-anchor="middle" font-weight="600">Sí, voy</text>
+        <rect x="12" y="176" width="140" height="22" rx="6" fill="#FFFFFF" stroke="#E7A6BD" stroke-width="1.2"/>
+        <text x="82" y="191" font-family="Inter" font-size="8.4" fill="#B8365A"
+              text-anchor="middle">No puedo ir</text>
+        <rect x="12" y="202" width="140" height="22" rx="6" fill="#FFFFFF" stroke="#E7A6BD" stroke-width="1.2"/>
+        <text x="82" y="217" font-family="Inter" font-size="8.4" fill="#B8365A"
+              text-anchor="middle">Cambiar la hora</text>
+
+        <rect x="52" y="236" width="126" height="28" rx="10" fill="#8E0E33"/>
+        <text x="66" y="254" font-family="Inter" font-size="7.8" fill="#FFFFFF">¡Sí, allí estaré!</text>
+        <text x="170" y="273" font-family="Inter" font-size="6" fill="#B8365A" text-anchor="end">19:02</text>
+
+        <rect x="12" y="280" width="140" height="34" rx="10" fill="#FAEAF0"/>
+        <g font-family="Inter" font-size="7.8" fill="#2E2127">
+          <text x="22" y="296">¡Perfecto! Te esperamos</text>
+          <text x="22" y="308">mañana a las 11:15.</text>
+        </g>
+      </svg>
+
+      <div style="flex:1 1 auto">
+        <svg style="width:100%;height:auto" viewBox="0 0 230 250">
+          <defs>
+            <marker id="fw" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+              <path d="M0 0 L7 4 L0 8 z" fill="#E7A6BD"/>
+            </marker>
+          </defs>
+          <rect x="55" y="0" width="120" height="30" rx="9" fill="#8E0E33"/>
+          <text x="115" y="19" font-family="Inter" font-size="9" fill="#fff"
+                text-anchor="middle" font-weight="600">Sale el recordatorio</text>
+
+          <path d="M92 34 L52 64" stroke="#E7A6BD" stroke-width="1.6" fill="none" marker-end="url(#fw)"/>
+          <path d="M138 34 L178 64" stroke="#E7A6BD" stroke-width="1.6" fill="none" marker-end="url(#fw)"/>
+
+          <rect x="0" y="72" width="105" height="30" rx="9" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.5"/>
+          <text x="52" y="91" font-family="Inter" font-size="8.6" fill="#2E2127" text-anchor="middle">Dice que sí</text>
+
+          <rect x="125" y="72" width="105" height="30" rx="9" fill="#FFFFFF" stroke="#F3D3DE" stroke-width="1.5"/>
+          <text x="177" y="91" font-family="Inter" font-size="8.6" fill="#2E2127" text-anchor="middle">Dice que no puede</text>
+
+          <path d="M52 106 L52 134" stroke="#E7A6BD" stroke-width="1.6" marker-end="url(#fw)"/>
+          <path d="M177 106 L177 134" stroke="#E7A6BD" stroke-width="1.6" marker-end="url(#fw)"/>
+
+          <rect x="0" y="142" width="105" height="48" rx="9" fill="#FAEAF0"/>
+          <text x="52" y="162" font-family="Inter" font-size="8.4" fill="#2E2127" text-anchor="middle">Se marca en verde</text>
+          <text x="52" y="176" font-family="Inter" font-size="8.4" fill="#2E2127" text-anchor="middle">en tu agenda</text>
+
+          <rect x="125" y="142" width="105" height="48" rx="9" fill="#FAEAF0"/>
+          <text x="177" y="162" font-family="Inter" font-size="8.4" fill="#2E2127" text-anchor="middle">La hora se libera</text>
+          <text x="177" y="176" font-family="Inter" font-size="8.4" fill="#2E2127" text-anchor="middle">y vuelve a la web</text>
+
+          <path d="M177 194 L177 214" stroke="#E7A6BD" stroke-width="1.6" marker-end="url(#fw)"/>
+          <rect x="112" y="220" width="118" height="28" rx="9" fill="#8E0E33"/>
+          <text x="171" y="238" font-family="Inter" font-size="8.6" fill="#fff"
+                text-anchor="middle" font-weight="600">Otra clienta la coge</text>
+        </svg>
+
+        <ul class="lista" style="margin-top:7mm">
+          <li>Si <b>no contesta</b>, te sale avisada en el panel para que la llames tú.</li>
+          <li>El número de WhatsApp es <b>tuyo</b>, a tu nombre.</li>
+          <li>El panel te enseña cada mes <b>cuántas faltas has evitado</b>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="franja-cita" style="margin-top:9mm">
+      Cada silla vacía que recuperas son <b>30 o 40 euros</b> que ya estaban perdidos.
+      Y tú no has escrito ni un mensaje.
+    </div>
+  </div>
+  <div class="pie"><span>Propuesta · Andrea Salón</span><span class="num">5</span></div>
+</div>
+
+<!-- ============================ 6 · BONOS ============================ -->
+<div class="hoja">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <rect width="595" height="842" fill="#FFFFFF"/>
+    <ellipse cx="30" cy="60" rx="185" ry="155" fill="#FAEAF0"/>
+    <ellipse cx="590" cy="790" rx="175" ry="150" fill="#FAEAF0"/>
+  </svg>
+  <div class="cabecera"><span>Andrea Salón</span><span>Los bonos</span></div>
+  <div class="cuerpo">
+    <div class="ojo">Cobrado por adelantado</div>
+    <h2>Bonos y tarjetas regalo,<br>que se venden <em>solos</em>.</h2>
+    <p class="entradilla">
+      Un bono de cinco sesiones, una tarjeta regalo para una amiga. Se compra desde la web,
+      se paga con tarjeta y llega al móvil con su código QR.
+    </p>
+
+    <svg class="svg-ancho" viewBox="0 0 505 190" style="margin-bottom:8mm">
+      <defs>
+        <marker id="fb" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+          <path d="M0 0 L7 4 L0 8 z" fill="#8E0E33"/>
+        </marker>
+      </defs>
+      <g stroke="#8E0E33" stroke-width="1.8" marker-end="url(#fb)">
+        <line x1="106" y1="88" x2="126" y2="88"/>
+        <line x1="230" y1="88" x2="250" y2="88"/>
+        <line x1="354" y1="88" x2="374" y2="88"/>
+      </g>
+
+      <rect x="0" y="16" width="102" height="144" rx="12" fill="#FDF7F9" stroke="#EFDCE4"/>
+      <rect x="33" y="40" width="38" height="30" rx="5" fill="#FFFFFF" stroke="#E7A6BD"/>
+      <line x1="33" y1="49" x2="71" y2="49" stroke="#E7A6BD"/>
+      <rect x="40" y="56" width="24" height="8" rx="2.5" fill="#8E0E33"/>
+      <text x="51" y="100" font-family="Inter" font-size="11" font-weight="600" fill="#2E2127" text-anchor="middle">Lo elige</text>
+      <text x="51" y="118" font-family="Inter" font-size="9.4" fill="#7C6B72" text-anchor="middle">en tu web</text>
+
+      <rect x="126" y="16" width="102" height="144" rx="12" fill="#FDF7F9" stroke="#EFDCE4"/>
+      <rect x="158" y="42" width="38" height="26" rx="4" fill="#FFFFFF" stroke="#E7A6BD"/>
+      <rect x="158" y="49" width="38" height="6" fill="#E7A6BD"/>
+      <circle cx="166" cy="62" r="2.4" fill="#8E0E33"/>
+      <text x="177" y="100" font-family="Inter" font-size="11" font-weight="600" fill="#2E2127" text-anchor="middle">Lo paga</text>
+      <text x="177" y="118" font-family="Inter" font-size="9.4" fill="#7C6B72" text-anchor="middle">con tarjeta</text>
+
+      <rect x="250" y="16" width="102" height="144" rx="12" fill="#FDF7F9" stroke="#EFDCE4"/>
+      <rect x="285" y="38" width="34" height="36" rx="4" fill="#FFFFFF" stroke="#E7A6BD"/>
+      <g fill="#8E0E33">
+        <rect x="290" y="43" width="9" height="9"/><rect x="305" y="43" width="9" height="9"/>
+        <rect x="290" y="60" width="9" height="9"/><rect x="305" y="60" width="9" height="9"/>
+        <rect x="299" y="52" width="6" height="6"/>
+      </g>
+      <text x="301" y="100" font-family="Inter" font-size="11" font-weight="600" fill="#2E2127" text-anchor="middle">Le llega el QR</text>
+      <text x="301" y="118" font-family="Inter" font-size="9.4" fill="#7C6B72" text-anchor="middle">al móvil</text>
+
+      <rect x="374" y="16" width="131" height="144" rx="12" fill="#8E0E33"/>
+      <rect x="425" y="38" width="29" height="38" rx="5" fill="#B8365A" stroke="#E7A6BD"/>
+      <path d="M429 57 L450 57" stroke="#E7A6BD" stroke-width="2"/>
+      <text x="439" y="100" font-family="Inter" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">Lo escaneas</text>
+      <text x="439" y="118" font-family="Inter" font-size="9.4" fill="#E7A6BD" text-anchor="middle">en el salón y se</text>
+      <text x="439" y="132" font-family="Inter" font-size="9.4" fill="#E7A6BD" text-anchor="middle">descuenta la sesión</text>
+    </svg>
+
+    <div class="rejilla2">
+      <div class="tarjeta">
+        <h3>Lo que ganas</h3>
+        <ul class="lista" style="margin-top:4mm">
+          <li>Cobras <b>hoy</b> un servicio que darás más adelante.</li>
+          <li>Vendes en <b>Navidad y San Valentín</b> sin estar en el mostrador.</li>
+          <li>La clienta que tiene bono <b>vuelve</b>: ya ha pagado.</li>
+          <li>Y la tarjeta regalo te trae <b>clientas nuevas</b>, regaladas por las de siempre.</li>
+        </ul>
+      </div>
+      <div class="tarjeta" style="background:#fff">
+        <h3>Y lo tienes controlado</h3>
+        <svg style="width:100%;height:auto;margin:4mm 0" viewBox="0 0 250 110">
+          <circle cx="50" cy="55" r="38" fill="none" stroke="#F3D3DE" stroke-width="16"/>
+          <circle cx="50" cy="55" r="38" fill="none" stroke="#8E0E33" stroke-width="16"
+                  stroke-dasharray="141 98" transform="rotate(-90 50 55)"/>
+          <text x="50" y="53" font-family="Inter" font-size="15" font-weight="700"
+                fill="#2E2127" text-anchor="middle">59%</text>
+          <text x="50" y="68" font-family="Inter" font-size="7.6" fill="#7C6B72" text-anchor="middle">consumido</text>
+          <rect x="104" y="36" width="11" height="11" rx="2.5" fill="#8E0E33"/>
+          <text x="122" y="45" font-family="Inter" font-size="9.4" fill="#2E2127">Sesiones ya dadas</text>
+          <rect x="104" y="62" width="11" height="11" rx="2.5" fill="#F3D3DE"/>
+          <text x="122" y="71" font-family="Inter" font-size="9.4" fill="#2E2127">Pendientes de dar</text>
+        </svg>
+        <p>El panel separa lo que has <b style="color:#8E0E33">cobrado</b> de lo que aún
+        <b style="color:#8E0E33">debes en sesiones</b>, y te avisa de los bonos que van a caducar.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pie"><span>Propuesta · Andrea Salón</span><span class="num">6</span></div>
+</div>
+
+<!-- ============================ 7 · EL PANEL ============================ -->
+<div class="hoja">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <rect width="595" height="842" fill="#FDF7F9"/>
+    <ellipse cx="300" cy="440" rx="300" ry="280" fill="#FFFFFF" opacity=".92"/>
+  </svg>
+  <div class="cabecera"><span>Andrea Salón</span><span>Tu panel</span></div>
+  <div class="cuerpo">
+    <div class="ojo">Solo para ti</div>
+    <h2>Tu salón, <em>en números</em>,<br>desde el móvil.</h2>
+    <p class="entradilla">
+      Lo que hoy no se ve en ningún sitio: cuánto has facturado, quién trae más clientas,
+      a qué horas llenas y cuáles tienes muertas.
+    </p>
+
+    <svg class="svg-ancho" viewBox="0 0 505 400">
+      <rect x="0" y="0" width="505" height="400" rx="14" fill="#FFFFFF" stroke="#EFDCE4" stroke-width="1.6"/>
+      <rect x="0" y="0" width="505" height="40" rx="14" fill="#8E0E33"/>
+      <rect x="0" y="26" width="505" height="14" fill="#8E0E33"/>
+      <text x="18" y="26" font-family="Bitstream Charter, Georgia, serif" font-size="13"
+            fill="#FFFFFF" font-weight="700">Hoy · jueves 16 de octubre</text>
+      <g font-family="Inter" font-size="9" fill="#E7A6BD">
+        <text x="296" y="26">Agenda</text><text x="352" y="26">Clientas</text>
+        <text x="412" y="26">Equipo</text><text x="462" y="26">Bonos</text>
+      </g>
+
+      <!-- KPIs -->
+      <g>
+        <rect x="16" y="56" width="111" height="66" rx="9" fill="#FDF7F9" stroke="#EFDCE4"/>
+        <text x="28" y="76" font-family="Inter" font-size="7.6" fill="#7C6B72" letter-spacing="1.2">FACTURADO HOY</text>
+        <text x="28" y="102" font-family="Inter" font-size="22" font-weight="700" fill="#8E0E33">642 €</text>
+        <text x="94" y="102" font-family="Inter" font-size="8.4" fill="#7C6B72">▲ 18%</text>
+
+        <rect x="135" y="56" width="111" height="66" rx="9" fill="#FDF7F9" stroke="#EFDCE4"/>
+        <text x="147" y="76" font-family="Inter" font-size="7.6" fill="#7C6B72" letter-spacing="1.2">CITAS DE HOY</text>
+        <text x="147" y="102" font-family="Inter" font-size="22" font-weight="700" fill="#2E2127">14</text>
+        <text x="176" y="102" font-family="Inter" font-size="8.4" fill="#7C6B72">11 confirmadas</text>
+
+        <rect x="254" y="56" width="111" height="66" rx="9" fill="#FDF7F9" stroke="#EFDCE4"/>
+        <text x="266" y="76" font-family="Inter" font-size="7.6" fill="#7C6B72" letter-spacing="1.2">OCUPACIÓN</text>
+        <text x="266" y="102" font-family="Inter" font-size="22" font-weight="700" fill="#2E2127">87%</text>
+
+        <rect x="373" y="56" width="116" height="66" rx="9" fill="#8E0E33"/>
+        <text x="385" y="76" font-family="Inter" font-size="7.6" fill="#E7A6BD" letter-spacing="1.2">FALTAS EVITADAS</text>
+        <text x="385" y="102" font-family="Inter" font-size="22" font-weight="700" fill="#FFFFFF">6</text>
+        <text x="404" y="102" font-family="Inter" font-size="8.4" fill="#E7A6BD">este mes · 210 €</text>
+      </g>
+
+      <!-- barras -->
+      <text x="16" y="152" font-family="Inter" font-size="9.6" font-weight="600" fill="#2E2127">Facturación de la semana</text>
+      <g>
+        <rect x="18"  y="222" width="22" height="42" rx="4" fill="#F3D3DE"/>
+        <rect x="52"  y="200" width="22" height="64" rx="4" fill="#F3D3DE"/>
+        <rect x="86"  y="188" width="22" height="76" rx="4" fill="#F3D3DE"/>
+        <rect x="120" y="170" width="22" height="94" rx="4" fill="#8E0E33"/>
+        <rect x="154" y="206" width="22" height="58" rx="4" fill="#F3D3DE"/>
+        <line x1="16" y1="266" x2="186" y2="266" stroke="#EFDCE4"/>
+        <g font-family="Inter" font-size="8" fill="#7C6B72" text-anchor="middle">
+          <text x="29" y="280">L</text><text x="63" y="280">M</text><text x="97" y="280">X</text>
+          <text x="131" y="280">J</text><text x="165" y="280">V</text>
+        </g>
+        <text x="131" y="162" font-family="Inter" font-size="8" fill="#8E0E33" text-anchor="middle">642 €</text>
+      </g>
+
+      <!-- heatmap -->
+      <text x="212" y="152" font-family="Inter" font-size="9.6" font-weight="600" fill="#2E2127">Tus horas punta</text>
+      <g>
+        <g font-family="Inter" font-size="7.6" fill="#7C6B72">
+          <text x="212" y="180">10h</text><text x="212" y="202">12h</text>
+          <text x="212" y="224">17h</text><text x="212" y="246">19h</text>
+        </g>
+        <g>
+          <rect x="238" y="170" width="20" height="15" rx="3" fill="#FAEAF0"/>
+          <rect x="262" y="170" width="20" height="15" rx="3" fill="#F3D3DE"/>
+          <rect x="286" y="170" width="20" height="15" rx="3" fill="#F3D3DE"/>
+          <rect x="310" y="170" width="20" height="15" rx="3" fill="#E7A6BD"/>
+          <rect x="334" y="170" width="20" height="15" rx="3" fill="#FAEAF0"/>
+
+          <rect x="238" y="192" width="20" height="15" rx="3" fill="#F3D3DE"/>
+          <rect x="262" y="192" width="20" height="15" rx="3" fill="#E7A6BD"/>
+          <rect x="286" y="192" width="20" height="15" rx="3" fill="#B8365A"/>
+          <rect x="310" y="192" width="20" height="15" rx="3" fill="#8E0E33"/>
+          <rect x="334" y="192" width="20" height="15" rx="3" fill="#E7A6BD"/>
+
+          <rect x="238" y="214" width="20" height="15" rx="3" fill="#E7A6BD"/>
+          <rect x="262" y="214" width="20" height="15" rx="3" fill="#B8365A"/>
+          <rect x="286" y="214" width="20" height="15" rx="3" fill="#8E0E33"/>
+          <rect x="310" y="214" width="20" height="15" rx="3" fill="#8E0E33"/>
+          <rect x="334" y="214" width="20" height="15" rx="3" fill="#B8365A"/>
+
+          <rect x="238" y="236" width="20" height="15" rx="3" fill="#F3D3DE"/>
+          <rect x="262" y="236" width="20" height="15" rx="3" fill="#E7A6BD"/>
+          <rect x="286" y="236" width="20" height="15" rx="3" fill="#B8365A"/>
+          <rect x="310" y="236" width="20" height="15" rx="3" fill="#B8365A"/>
+          <rect x="334" y="236" width="20" height="15" rx="3" fill="#F3D3DE"/>
+        </g>
+        <g font-family="Inter" font-size="7.6" fill="#7C6B72" text-anchor="middle">
+          <text x="248" y="266">L</text><text x="272" y="266">M</text><text x="296" y="266">X</text>
+          <text x="320" y="266">J</text><text x="344" y="266">V</text>
+        </g>
+        <text x="296" y="282" font-family="Inter" font-size="7.6" fill="#B8365A" text-anchor="middle">cuanto más oscuro, más lleno</text>
+      </g>
+
+      <!-- equipo -->
+      <text x="378" y="152" font-family="Inter" font-size="9.6" font-weight="600" fill="#2E2127">Tu equipo este mes</text>
+      <g font-family="Inter" font-size="9">
+        <text x="378" y="180" fill="#2E2127">Andrea</text>
+        <rect x="378" y="186" width="111" height="9" rx="4.5" fill="#F3D3DE"/>
+        <rect x="378" y="186" width="111" height="9" rx="4.5" fill="#8E0E33"/>
+        <text x="378" y="208" font-size="8.4" fill="#7C6B72">2.410 €</text>
+
+        <text x="378" y="232" fill="#2E2127">Lucía</text>
+        <rect x="378" y="238" width="111" height="9" rx="4.5" fill="#F3D3DE"/>
+        <rect x="378" y="238" width="82" height="9" rx="4.5" fill="#B8365A"/>
+        <text x="378" y="260" font-size="8.4" fill="#7C6B72">1.780 €</text>
+
+        <text x="378" y="284" fill="#2E2127">Sara</text>
+        <rect x="378" y="290" width="111" height="9" rx="4.5" fill="#F3D3DE"/>
+        <rect x="378" y="290" width="57" height="9" rx="4.5" fill="#E7A6BD"/>
+        <text x="378" y="312" font-size="8.4" fill="#7C6B72">1.240 €</text>
+      </g>
+
+      <!-- citas -->
+      <line x1="16" y1="312" x2="357" y2="312" stroke="#EFDCE4"/>
+      <text x="16" y="334" font-family="Inter" font-size="9.6" font-weight="600" fill="#2E2127">Las citas de hoy</text>
+      <g>
+        <rect x="16" y="344" width="165" height="38" rx="7" fill="#FDF7F9" stroke="#EFDCE4"/>
+        <rect x="16" y="344" width="4.5" height="38" rx="2.5" fill="#4F9D6B"/>
+        <text x="30" y="360" font-family="Inter" font-size="9" fill="#2E2127">11:15 · Marta R.</text>
+        <text x="30" y="374" font-family="Inter" font-size="8.2" fill="#7C6B72">Semipermanente · Andrea</text>
+
+        <rect x="192" y="344" width="165" height="38" rx="7" fill="#FDF7F9" stroke="#EFDCE4"/>
+        <rect x="192" y="344" width="4.5" height="38" rx="2.5" fill="#E0A23C"/>
+        <text x="206" y="360" font-family="Inter" font-size="9" fill="#2E2127">12:30 · Noelia P.</text>
+        <text x="206" y="374" font-family="Inter" font-size="8.2" fill="#7C6B72">Sin confirmar · Lucía</text>
+
+        <rect x="368" y="344" width="121" height="38" rx="7" fill="#FDF7F9" stroke="#EFDCE4"/>
+        <rect x="368" y="344" width="4.5" height="38" rx="2.5" fill="#4F9D6B"/>
+        <text x="382" y="360" font-family="Inter" font-size="9" fill="#2E2127">17:00 · Carmen V.</text>
+        <text x="382" y="374" font-family="Inter" font-size="8.2" fill="#7C6B72">Bono · quedan 3</text>
+      </g>
+    </svg>
+
+    <p style="font-size:9.4pt;color:#7C6B72;margin:5mm 0 7mm;line-height:1.5">
+      Las pantallas son un ejemplo con datos inventados. Cada empleada entra con su clave y ve
+      solo su agenda; <b style="color:#8E0E33">tú lo ves todo</b>.
+    </p>
+
+    <div class="rejilla3">
+      <div class="tarjeta" style="padding:5.5mm">
+        <h3 style="font-size:11.5pt;color:#8E0E33">Tus clientas</h3>
+        <p style="font-size:9pt">Cada una con su historial, lo que se gastó, su color y
+        cuándo le toca volver.</p>
+      </div>
+      <div class="tarjeta" style="padding:5.5mm">
+        <h3 style="font-size:11.5pt;color:#8E0E33">Tu equipo</h3>
+        <p style="font-size:9pt">Quién factura más, quién llena su agenda y a quién le repiten
+        las clientas.</p>
+      </div>
+      <div class="tarjeta" style="padding:5.5mm">
+        <h3 style="font-size:11.5pt;color:#8E0E33">Tu mes</h3>
+        <p style="font-size:9pt">Comparado con el anterior y con el mismo mes del año pasado.
+        Y en Excel para tu gestoría.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pie"><span>Propuesta · Andrea Salón</span><span class="num">7</span></div>
+</div>
+
+<!-- ============================ 8 · COMO TRABAJAMOS ============================ -->
+<div class="hoja">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <rect width="595" height="842" fill="#FFFFFF"/>
+    <ellipse cx="590" cy="90" rx="200" ry="170" fill="#FAEAF0"/>
+    <ellipse cx="0" cy="810" rx="160" ry="140" fill="#FAEAF0"/>
+  </svg>
+  <div class="cabecera"><span>Andrea Salón</span><span>Cómo trabajamos</span></div>
+  <div class="cuerpo">
+    <div class="ojo">Lo importante</div>
+    <h2>Un cambio pedido el lunes,<br>hecho <em>esta semana</em>.</h2>
+    <p class="entradilla">
+      Esto es lo que nos contaste que te faltaba. Así que lo ponemos por escrito,
+      como parte del trato.
+    </p>
+
+    <svg class="svg-ancho" viewBox="0 0 505 200" style="margin-bottom:11mm">
+      <rect x="0" y="0" width="505" height="200" rx="12" fill="#FDF7F9" stroke="#EFDCE4"/>
+      <g font-family="Inter">
+        <circle cx="42" cy="48" r="15" fill="#8E0E33"/>
+        <text x="42" y="52" font-size="10" fill="#fff" text-anchor="middle" font-weight="600">24h</text>
+        <text x="70" y="44" font-size="12" font-weight="600" fill="#2E2127">Te contestamos el mismo día</text>
+        <text x="70" y="61" font-size="9.8" fill="#7C6B72">Cualquier mensaje, cualquier duda.</text>
+
+        <circle cx="42" cy="104" r="15" fill="#8E0E33"/>
+        <text x="42" y="108" font-size="10" fill="#fff" text-anchor="middle" font-weight="600">2d</text>
+        <text x="70" y="100" font-size="12" font-weight="600" fill="#2E2127">Los cambios pequeños, en dos días</text>
+        <text x="70" y="117" font-size="9.8" fill="#7C6B72">Precios, textos, fotos, un servicio nuevo, horarios.</text>
+        <text x="70" y="132" font-size="9.8" fill="#7C6B72">Sin coste.</text>
+
+        <circle cx="42" cy="162" r="15" fill="#8E0E33"/>
+        <text x="42" y="166" font-size="10" fill="#fff" text-anchor="middle" font-weight="600">4h</text>
+        <text x="70" y="158" font-size="12" font-weight="600" fill="#2E2127">Si algo se rompe, en cuatro horas</text>
+        <text x="70" y="175" font-size="9.8" fill="#7C6B72">También fines de semana. Tu negocio no cierra,</text>
+        <text x="70" y="190" font-size="9.8" fill="#7C6B72">nosotros tampoco.</text>
+      </g>
+      <line x1="326" y1="24" x2="326" y2="176" stroke="#EFDCE4"/>
+      <g font-family="Inter">
+        <text x="350" y="46" font-size="12" font-weight="600" fill="#2E2127">Y lo cambias tú sola</text>
+        <circle cx="356" cy="68" r="3" fill="#E7A6BD"/><text x="368" y="72" font-size="9.8" fill="#7C6B72">Precios y servicios</text>
+        <circle cx="356" cy="90" r="3" fill="#E7A6BD"/><text x="368" y="94" font-size="9.8" fill="#7C6B72">Horarios y vacaciones</text>
+        <circle cx="356" cy="112" r="3" fill="#E7A6BD"/><text x="368" y="116" font-size="9.8" fill="#7C6B72">Bonos y promociones</text>
+        <circle cx="356" cy="134" r="3" fill="#E7A6BD"/><text x="368" y="138" font-size="9.8" fill="#7C6B72">Avisos de la web</text>
+        <text x="350" y="168" font-size="9.6" fill="#8E0E33" font-weight="600">Sin pedírselo a nadie.</text>
+      </g>
+    </svg>
+
+    <h3 class="serif" style="font-size:17pt;margin:0 0 4mm">Cómo lo montamos</h3>
+    <p style="font-size:10pt;color:#7C6B72;margin-bottom:9mm;line-height:1.55;max-width:160mm">
+      Por fases, para que no estés dos meses esperando.
+      <b style="color:#8E0E33">A las cinco semanas ya puedes dejar de usar lo que tienes ahora</b>,
+      y el resto entra con el salón funcionando.
+    </p>
+
+    <svg class="svg-ancho" viewBox="0 0 505 215">
+      <line x1="26" y1="30" x2="479" y2="30" stroke="#F3D3DE" stroke-width="3"/>
+
+      <g font-family="Inter">
+        <circle cx="26" cy="30" r="12" fill="#8E0E33"/>
+        <text x="26" y="34" font-size="9.6" fill="#fff" text-anchor="middle" font-weight="600">1</text>
+        <text x="8" y="68" font-size="10.6" font-weight="600" fill="#2E2127">Semanas 1–2</text>
+        <text x="8" y="86" font-size="9.4" fill="#7C6B72">Diseño y tu</text>
+        <text x="8" y="100" font-size="9.4" fill="#7C6B72">web nueva</text>
+
+        <circle cx="139" cy="30" r="12" fill="#8E0E33"/>
+        <text x="139" y="34" font-size="9.6" fill="#fff" text-anchor="middle" font-weight="600">2</text>
+        <text x="121" y="68" font-size="10.6" font-weight="600" fill="#2E2127">Semanas 3–5</text>
+        <text x="121" y="86" font-size="9.4" fill="#7C6B72">Reservas, panel y</text>
+        <text x="121" y="100" font-size="9.4" fill="#7C6B72">tus clientas dentro</text>
+        <rect x="121" y="116" width="92" height="22" rx="11" fill="#8E0E33"/>
+        <text x="167" y="131" font-size="8.6" fill="#fff" text-anchor="middle" font-weight="600">YA EN MARCHA</text>
+
+        <circle cx="252" cy="30" r="12" fill="#B8365A"/>
+        <text x="252" y="34" font-size="9.6" fill="#fff" text-anchor="middle" font-weight="600">3</text>
+        <text x="234" y="68" font-size="10.6" font-weight="600" fill="#2E2127">Semana 6</text>
+        <text x="234" y="86" font-size="9.4" fill="#7C6B72">El WhatsApp</text>
+        <text x="234" y="100" font-size="9.4" fill="#7C6B72">automático</text>
+
+        <circle cx="365" cy="30" r="12" fill="#B8365A"/>
+        <text x="365" y="34" font-size="9.6" fill="#fff" text-anchor="middle" font-weight="600">4</text>
+        <text x="347" y="68" font-size="10.6" font-weight="600" fill="#2E2127">Semanas 7–8</text>
+        <text x="347" y="86" font-size="9.4" fill="#7C6B72">Los bonos y</text>
+        <text x="347" y="100" font-size="9.4" fill="#7C6B72">el pago online</text>
+
+        <circle cx="479" cy="30" r="12" fill="#E7A6BD"/>
+        <text x="479" y="34" font-size="9.6" fill="#fff" text-anchor="middle" font-weight="600">5</text>
+        <text x="434" y="68" font-size="10.6" font-weight="600" fill="#2E2127">Semana 9</text>
+        <text x="434" y="86" font-size="9.4" fill="#7C6B72">La analítica</text>
+        <text x="434" y="100" font-size="9.4" fill="#7C6B72">completa</text>
+      </g>
+
+      <rect x="0" y="160" width="505" height="55" rx="12" fill="#FAEAF0"/>
+      <text x="26" y="186" font-family="Inter" font-size="10.4" font-weight="600" fill="#2E2127">Lo único que necesitamos de ti</text>
+      <text x="26" y="204" font-family="Inter" font-size="9.6" fill="#7C6B72">Tu lista de servicios con precios, los horarios del equipo y unas fotos. El resto lo hacemos nosotros.</text>
+    </svg>
+  </div>
+  <div class="pie"><span>Propuesta · Andrea Salón</span><span class="num">8</span></div>
+</div>
+
+<!-- ============================ 9 · TUYO + CIERRE ============================ -->
+<div class="hoja">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <defs>
+      <radialGradient id="cierre1" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#F3D3DE" stop-opacity=".9"/>
+        <stop offset="100%" stop-color="#F3D3DE" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="cierre2" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#E7A6BD" stop-opacity=".7"/>
+        <stop offset="100%" stop-color="#E7A6BD" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="595" height="842" fill="#FDF7F9"/>
+    <ellipse cx="70" cy="110" rx="230" ry="190" fill="url(#cierre1)"/>
+    <ellipse cx="560" cy="700" rx="200" ry="180" fill="url(#cierre2)"/>
+    <ellipse cx="300" cy="400" rx="300" ry="250" fill="#FFFFFF" opacity=".78"/>
+    <rect x="0" y="826" width="595" height="16" fill="#8E0E33"/>
+  </svg>
+  <div class="cabecera"><span>Andrea Salón</span><span>Lo que es tuyo</span></div>
+  <div class="cuerpo">
+    <div class="ojo">Sin letra pequeña</div>
+    <h2>Todo esto es <em>tuyo</em>,<br>y puedes irte cuando quieras.</h2>
+
+    <div class="rejilla2" style="margin-top:9mm">
+      <div class="tarjeta">
+        <h3 style="color:#8E0E33">A tu nombre</h3>
+        <ul class="lista" style="margin-top:4mm">
+          <li>El <b>dominio</b> de tu web.</li>
+          <li>La cuenta de <b>cobros</b>: el dinero de los bonos entra directo en tu banco.</li>
+          <li>El <b>número de WhatsApp</b> desde el que se escribe a tus clientas.</li>
+        </ul>
+      </div>
+      <div class="tarjeta">
+        <h3 style="color:#8E0E33">Tus datos, tuyos</h3>
+        <ul class="lista" style="margin-top:4mm">
+          <li>Tus <b>clientas, citas y cobros</b> los descargas en Excel cuando quieras.</li>
+          <li><b>Sin permanencia.</b> Si un día no te convence, avisas con un mes.</li>
+          <li>Si te vas, te los <b>entregamos completos</b>. Sin discusiones.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:11mm;border:1.4pt solid #8E0E33;border-radius:4mm;overflow:hidden">
+      <div style="background:#8E0E33;color:#fff;padding:4.5mm 7mm;
+                  font-size:7.6pt;letter-spacing:2.4pt;text-transform:uppercase;font-weight:600">
+        La propuesta
+      </div>
+      <div style="padding:8mm 7mm;display:flex;gap:7mm;align-items:center;background:#fff">
+        <div style="flex:1">
+          <div style="font-size:9.4pt;color:#7C6B72;margin-bottom:2mm">Puesta en marcha, todo incluido</div>
+          <div class="serif" style="font-size:34pt;font-weight:700;color:#8E0E33;line-height:1">1.200 €</div>
+          <div style="font-size:8.8pt;color:#7C6B72;margin-top:2.5mm">La mitad al empezar, la mitad al lanzar</div>
+        </div>
+        <div style="width:.6pt;height:30mm;background:#EFDCE4"></div>
+        <div style="flex:1">
+          <div style="font-size:9.4pt;color:#7C6B72;margin-bottom:2mm">Mantenimiento</div>
+          <div class="serif" style="font-size:34pt;font-weight:700;color:#8E0E33;line-height:1">60 €<span style="font-size:15pt;color:#B8365A">/mes</span></div>
+          <div style="font-size:8.8pt;color:#7C6B72;margin-top:2.5mm">Sin permanencia</div>
+        </div>
+      </div>
+      <div style="padding:0 7mm 7mm;background:#fff;font-size:9pt;color:#7C6B72;line-height:1.55">
+        El mantenimiento incluye el alojamiento, las copias de seguridad, los mensajes de WhatsApp,
+        la seguridad y todos los cambios pequeños que necesites.
+      </div>
+    </div>
+
+    <div class="franja-cita" style="margin-top:10mm">
+      <b>El siguiente paso</b><br>
+      Te enseñamos tu web y tu panel funcionando, con tus servicios y tu equipo de verdad,
+      antes de que decidas nada.
+    </div>
+
+    <div style="position:absolute;bottom:29mm;left:16mm;right:16mm;
+                display:flex;justify-content:space-between;align-items:flex-end">
+      <div>
+        <div class="serif" style="font-size:14pt;font-weight:700;color:#2E2127">Brian</div>
+        <div style="font-size:9pt;color:#7C6B72;margin-top:1.5mm">
+          Diseño y desarrollo web · Ourense<br>
+          info.viaurea@gmail.com
+        </div>
+      </div>
+      <img src="logo.png" alt="" style="width:23mm;height:23mm;border-radius:50%;opacity:.95">
+    </div>
+  </div>
+  <div class="pie" style="bottom:12mm"><span>&nbsp;</span><span class="num">9</span></div>
+</div>
+
+</body>
+</html>
