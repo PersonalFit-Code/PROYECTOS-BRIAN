@@ -57,8 +57,8 @@ const carta = {
   /* ── Estado vazio ── */
   empty: "Sem resultados com estes filtros",
   emptyHint: "Experimente retirar algum filtro ou pergunte ao empregado virtual.",
-  emptyAsk: "Não encontro o que procuro na ementa. O que me recomendam?",
-  emptyAskQuery: "Procuro «{query}» na ementa e não o encontro. O que me recomendam?",
+  emptyAsk: "Não encontro o que procuro na ementa. O que me recomendas?",
+  emptyAskQuery: "Procuro «{query}» na ementa e não o encontro. O que me recomendas?",
 
   /* ── Legenda de alergénios (modal) ── */
   legend: "Legenda de alergénios",
@@ -81,7 +81,7 @@ const carta = {
   /* Abrir la ficha del plato (DishSpotlight) desde la carta: la fila de móvil y la foto de escritorio. */
   openDish: "Ver a ficha de {name}",
   openDishCta: "Ver ficha",
-  askAboutDish: "O que me podem dizer sobre o prato {name}? Tem alergénios e com que vinho o harmonizo?",
+  askAboutDish: "O que me podes dizer sobre o prato {name}? Tem alergénios e com que vinho o harmonizo?",
   askAboutDishCta: "Perguntar ao empregado",
   askAboutDishAria: "Perguntar ao empregado virtual sobre {name}",
 

@@ -2,7 +2,7 @@
  * Type helper local to the English messages.
  *
  * The Spanish sections are declared `as const`, so their leaves are string *literals*
- * ("Reservar Mesa") and `DeepPartial<Messages>` would reject any translated string.
+ * ("Ir a la Carta") and `DeepPartial<Messages>` would reject any translated string.
  * `Translation<T>` keeps the exact shape of a Spanish section — every key required, no extra
  * keys, tuples keep their length — but widens every literal to `string`, so each English
  * section can `satisfies Translation<typeof esSection>` and `index.ts` hands the merged object

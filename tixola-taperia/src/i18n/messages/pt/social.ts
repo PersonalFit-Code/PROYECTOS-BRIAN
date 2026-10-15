@@ -8,7 +8,7 @@ import type { Translation } from "./shape";
  */
 const social = {
   kicker: "Prova social",
-  title: "Dizem-no mais de {count}",
+  title: "É o que dizem mais de {count}",
   accent: "clientes",
   description:
     "O que se repete nas avaliações: produto da ria, tixolas de ferro que chegam a chiar e uma esplanada com a Catedral como pano de fundo.",
@@ -26,7 +26,7 @@ const social = {
   statsTitle: "Em números",
   statsAria: "Números da Tixola",
   reviewsNote:
-    "As opiniões de quem cá esteve estão onde foram escritas: no Google e no TripAdvisor. Aí leem-se na íntegra e atualizadas.",
+    "As opiniões de quem cá esteve estão onde foram escritas: no Google e no TripAdvisor. Aí leem-se na íntegra e sempre atualizadas.",
   seeGoogle: "Ver avaliações no Google",
   seeTripadvisor: "Ver no TripAdvisor",
   /** Etiqueta acessível das estrelas (PlatformBadge) */

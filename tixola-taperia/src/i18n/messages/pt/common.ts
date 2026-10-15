@@ -9,8 +9,8 @@ const common = {
   brand: "Tixola Tapería",
   brandShort: "Tixola",
   tagline: "A Arte do Petisco no Coração de Ourense",
-  /* Meta description de la portada (layout.tsx la completa con la nota de Google): lleva la
-     pareja de intención local del brief —tapas + Ourense— y se queda en ≤ 160 caracteres. */
+  /* Meta description da capa (layout.tsx completa-a com a nota do Google): leva o par de
+     intenção local do brief —petiscos + Ourense— e fica em ≤ 160 caracteres. */
   subtitle:
     "Petiscos e tixolas de ferro, croquetes caseiros, polvo e zamburiñas junto à Catedral de Ourense.",
   /* `keywords` da portada (layout.tsx), uma lista por idioma. */
@@ -32,7 +32,7 @@ const common = {
     callNumber: "Ligar para o {phone}",
     directions: "Como chegar",
     directionsAria: "Como chegar (abre o Google Maps)",
-    /* Etiqueta corta para la barra inferior de móvil: "Como chegar" parte en dos líneas y se corta en una rejilla de cuatro columnas a 390 px. */
+    /* Etiqueta curta para a barra inferior do móvel: "Como chegar" parte em duas linhas e corta-se numa grelha de quatro colunas a 390 px. */
     directionsShort: "Chegar",
     whatsapp: "WhatsApp",
     whatsappAria: "Escreva-nos pelo WhatsApp",

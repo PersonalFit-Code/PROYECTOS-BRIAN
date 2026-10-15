@@ -13,7 +13,7 @@ const hero = {
   title: "A Arte do Petisco no Coração de Ourense",
   /** Título partido em linhas de capa (máx. 3). */
   titleLines: TITLE_LINES,
-  /** Palavra do título realçada em itálico com o degradê de brasa. */
+  /** Palavra do título realçada em itálico com o gradiente de brasa. */
   accent: "Coração",
   subtitle:
     "Tixolas de ferro que chegam à mesa a chiar, croquetes caseiros, polvo da ria e doses para partilhar com um bom vinho galego, a um minuto da Catedral.",

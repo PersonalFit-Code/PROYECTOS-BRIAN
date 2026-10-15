@@ -2,7 +2,7 @@
  * Ajudante de tipos local às mensagens em português.
  *
  * As secções em espanhol são declaradas `as const`, pelo que as suas folhas são *literais*
- * ("Reservar Mesa") e `DeepPartial<Messages>` rejeitaria qualquer texto traduzido.
+ * ("Ir a la Carta") e `DeepPartial<Messages>` rejeitaria qualquer texto traduzido.
  * `Translation<T>` mantém a forma exata de uma secção espanhola — todas as chaves obrigatórias,
  * sem chaves a mais, tuplos com o mesmo comprimento — mas alarga cada literal a `string`, para
  * que cada secção portuguesa possa `satisfies Translation<typeof esSection>` e `index.ts`

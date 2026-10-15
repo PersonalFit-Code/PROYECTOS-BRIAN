@@ -10,7 +10,7 @@ const nav = {
     location: "Localização",
     reviews: "Opiniões",
   },
-  /** Etiquetas curtas para a barra de secretária (Cinzel com tracking amplo ocupa muito). */
+  /** Etiquetas curtas para a barra em ecrãs de secretária (Cinzel com tracking amplo ocupa muito). */
   shortLinks: {
     dishes: "Pratos",
     menu: "Ementa",
