@@ -393,8 +393,12 @@ export default function SocialProof() {
           <div data-reveal="wipe" aria-hidden className="h-px bg-cream/15" />
         </div>
 
-        {/* 4 · Galería de fotos. El hueco se reserva por CSS para que el montaje diferido no desplace las
-            preguntas frecuentes ni invalide los disparadores de scroll de más abajo. */}
+        {/* 4 · Galería de fotos. El `min-h` es un SUELO, no la altura real: el mural es `columns` y su alto
+            depende de las fotos y del ancho (en un teléfono de 393 px mide ~1.270 px frente a los 400
+            reservados), así que ninguna cifra en CSS puede acertar y el montaje diferido SÍ empuja hacia
+            abajo lo que viene detrás. Quien se encarga de que eso no estropee un salto a "#experiencia" es
+            `goToElement` en `SmoothScrollProvider`: comprueba que ha llegado y repite el viaje si la
+            sección se ha movido. El suelo se queda porque evita que el hueco sea una raya mientras carga. */}
         <div aria-hidden className="divider-granate mt-16 md:mt-24" />
         <div ref={galleryRef} className="mt-12 min-h-[400px] md:mt-16 md:min-h-[500px] lg:min-h-[580px]">
           {galleryNear && <PhotoGallery />}

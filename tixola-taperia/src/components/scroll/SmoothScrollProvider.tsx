@@ -43,6 +43,26 @@ export interface SmoothScrollContextValue {
 
 const DEFAULT_HEADER_H = 72;
 
+/* ── Anclas que no se están quietas ──
+   La portada monta bloques pesados cuando se acercan (la galería de fotos de `SocialProof`, 600 px
+   antes de asomar), así que el DESTINO SE MUEVE mientras vamos hacia él. Medido en un teléfono de
+   393 px: pulsar "Ubicación" desde lo alto apuntaba a 4.106 px, la galería se montaba a mitad de
+   viaje y la sección acababa 868 px más abajo, en 4.974. Se llegaba al sitio donde la sección
+   ESTABA y el cliente se quedaba plantado en medio del mural de fotos — "no me deja entrar a las
+   secciones". Lo mismo haría una tipografía que cambia, una foto perezosa sin medidas o un
+   desplegable que se abre arriba.
+   La cura no es adivinar la altura de cada bloque diferido (el mural es `columns`, su alto depende
+   de las fotos y del ancho), sino COMPROBAR que hemos llegado y repetir el viaje si no. */
+
+/** Desfase (px) por debajo del cual el ancla se considera colocada. */
+const ANCHOR_TOLERANCE = 8;
+/** Recolocaciones máximas de un mismo salto (tope por si algo crece sin parar). */
+const ANCHOR_MAX_FIXES = 4;
+/** Tras llegar se vigila el ancla este tiempo: el montaje puede caer justo DESPUÉS. */
+const ANCHOR_WATCH_MS = 1600;
+/** Gestos que entregan el scroll al usuario: si se mueve por su cuenta, se abandona la persecución. */
+const USER_GESTURES = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
+
 /** Lee `--header-h` del :root (72 px por defecto). */
 export function readHeaderHeight(): number {
   if (typeof window === "undefined") return DEFAULT_HEADER_H;
@@ -200,6 +220,8 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
    */
   const enabled = smoothAllowed && tier === "high";
   const lenisRef = useRef<Lenis | null>(null);
+  /** Cancela la persecución de ancla en curso (un salto nuevo abandona el anterior). */
+  const chaseRef = useRef<(() => void) | null>(null);
 
   const getLenis = useCallback(() => lenisRef.current, []);
 
@@ -353,6 +375,85 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
     };
   }, [enabled]);
 
+  /**
+   * Lleva el scroll a `el` dejando hueco a la cabecera — Y SE QUEDA COMPROBÁNDOLO (ver el bloque de
+   * constantes: el destino se mueve cuando un bloque diferido de más arriba se monta a mitad de viaje).
+   *
+   * Al terminar el desplazamiento se vuelve a medir: si el ancla se ha movido más de
+   * `ANCHOR_TOLERANCE`, se repite el viaje —suave, para que se lea como que la página sigue bajando y
+   * no como un tirón—. Y se sigue vigilando `ANCHOR_WATCH_MS` con un ResizeObserver, porque el montaje
+   * puede llegar justo DESPUÉS de haber llegado. Cualquier gesto del usuario la cancela: si ha
+   * empezado a moverse por su cuenta, el scroll ya es suyo y nadie se lo quita.
+   */
+  const goToElement = useCallback(
+    (el: HTMLElement, immediate: boolean) => {
+      chaseRef.current?.();
+
+      let fixes = 0;
+      let watchTimer = 0;
+      let observer: ResizeObserver | null = null;
+      let cancelled = false;
+
+      const stop = () => {
+        if (cancelled) return;
+        cancelled = true;
+        window.clearTimeout(watchTimer);
+        observer?.disconnect();
+        observer = null;
+        for (const type of USER_GESTURES) window.removeEventListener(type, stop);
+        if (chaseRef.current === stop) chaseRef.current = null;
+      };
+      chaseRef.current = stop;
+      /* `passive`: se escucha para RENDIRSE, nunca para estorbar el gesto. */
+      for (const type of USER_GESTURES) window.addEventListener(type, stop, { passive: true });
+
+      /** Píxeles que faltan para que el ancla quede justo bajo la cabecera (0 = en su sitio). */
+      const missing = () => {
+        const wanted = el.getBoundingClientRect().top + window.scrollY - readHeaderHeight();
+        /* Acotado al recorrido REAL del documento: la última sección nunca llega a quedar bajo la
+           cabecera, y sin este tope la persecución no se daría nunca por satisfecha. */
+        const limit = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        return Math.min(Math.max(0, wanted), limit) - window.scrollY;
+      };
+
+      const aim = (jump: boolean) => {
+        scrollTo(el, {
+          offset: -readHeaderHeight(),
+          immediate: jump,
+          onComplete: () => {
+            if (cancelled) return;
+            if (Math.abs(missing()) > ANCHOR_TOLERANCE && fixes < ANCHOR_MAX_FIXES) {
+              fixes += 1;
+              aim(false);
+              return;
+            }
+            focusScrollTarget(el);
+            if (fixes >= ANCHOR_MAX_FIXES) {
+              stop();
+              return;
+            }
+            /* Ya estamos en el sitio; se vigila un rato por si el bloque que empuja la sección se
+               monta ahora mismo. El aviso inicial del observer llega con el ancla colocada, así que
+               no dispara nada. */
+            observer = new ResizeObserver(() => {
+              if (cancelled || Math.abs(missing()) <= ANCHOR_TOLERANCE) return;
+              fixes += 1;
+              observer?.disconnect();
+              observer = null;
+              window.clearTimeout(watchTimer);
+              aim(false);
+            });
+            observer.observe(document.body);
+            watchTimer = window.setTimeout(stop, ANCHOR_WATCH_MS);
+          },
+        });
+      };
+
+      aim(immediate);
+    },
+    [scrollTo],
+  );
+
   /* 2 · Anclas de la misma página y hash inicial (con o sin Lenis, para respetar la cabecera fija). */
   useEffect(() => {
     const goToHash = (hash: string, immediate: boolean) => {
@@ -360,7 +461,7 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
       if (!id) return;
       const el = document.getElementById(id);
       if (!el) return;
-      scrollTo(el, { offset: -readHeaderHeight(), immediate, onComplete: () => focusScrollTarget(el) });
+      goToElement(el, immediate);
     };
 
     const onClick = (event: MouseEvent) => {
@@ -388,7 +489,7 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
       if (id && !el) return;
 
       event.preventDefault();
-      if (el) scrollTo(el, { offset: -readHeaderHeight(), onComplete: () => focusScrollTarget(el) });
+      if (el) goToElement(el, false);
       else scrollTo(0);
 
       const nextHash = id ? `#${id}` : "";
@@ -411,8 +512,10 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
       document.removeEventListener("click", onClick, true);
       window.removeEventListener("hashchange", onHashChange);
       window.cancelAnimationFrame(raf);
+      /* Al salir de la portada no queda nadie a quien perseguir. */
+      chaseRef.current?.();
     };
-  }, [scrollTo]);
+  }, [goToElement, scrollTo]);
 
   const value = useMemo<SmoothScrollContextValue>(
     () => ({ enabled, getLenis, scrollTo, headerOffset: readHeaderHeight }),
