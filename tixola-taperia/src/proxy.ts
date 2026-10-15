@@ -18,18 +18,24 @@ function cookieOptions(request: NextRequest) {
   };
 }
 
+/**
+ * Idioma con el que entra quien llega sin prefijo.
+ *
+ * MANDA LA CASA, NO EL TELÉFONO. Antes esto negociaba con la cabecera `Accept-Language`, y el
+ * resultado en la calle era que la misma persona entraba un día en inglés y otro en portugués según
+ * lo que llevara configurado el móvil —un iPhone manda su lista entera de idiomas preferidos, no uno
+ * solo—. Para una tapería de Ourense eso no es "detectar bien el idioma", es que el cliente de al
+ * lado abre su web y la ve en un idioma que no habla. Así que se entra SIEMPRE en castellano.
+ *
+ * Lo que sí se respeta es la decisión explícita: si alguien pulsa GL, EN o PT, el selector deja la
+ * cookie puesta y a partir de ahí entra en el idioma que eligió. Y los cuatro idiomas siguen
+ * publicados e indexados por separado con sus `hreflang`, así que un buscador le sirve a un
+ * portugués la versión portuguesa directamente; lo que cambia es solo la puerta de entrada sin
+ * prefijo.
+ */
 function detectLocale(request: NextRequest): Locale {
   const cookie = request.cookies.get(COOKIE)?.value;
   if (isLocale(cookie)) return cookie;
-  const header = request.headers.get("accept-language") ?? "";
-  const candidates = header
-    .split(",")
-    .map((part) => part.split(";")[0].trim().toLowerCase())
-    .filter(Boolean);
-  for (const c of candidates) {
-    const base = c.split("-")[0];
-    if (isLocale(base)) return base;
-  }
   return DEFAULT_LOCALE;
 }
 
