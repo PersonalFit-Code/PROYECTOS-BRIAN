@@ -130,12 +130,21 @@ export default function Navbar() {
   const headerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  /* El panel se ancla con callback ref y además avisa por estado. `useInertBackground` lee los refs
+     UNA vez, cuando se activa: si en ese instante `panelRef.current` fuera null, el panel no estaría
+     entre los exentos y se apagaría a sí mismo. Con esto el apagado del fondo no puede ocurrir antes
+     de que el panel esté en el documento. */
+  const [panelMontado, setPanelMontado] = useState(false);
+  const anclarPanel = useCallback((node: HTMLDivElement | null) => {
+    panelRef.current = node;
+    setPanelMontado(node !== null);
+  }, []);
 
   const solid = scrolled || !isHome || menuOpen;
 
   /* El resto de la página queda inert mientras el menú móvil está abierto; la cabecera se
      excluye porque aloja su propio botón de abrir/cerrar (se ve por encima del panel). */
-  useInertBackground(menuOpen, [headerRef, panelRef]);
+  useInertBackground(menuOpen && panelMontado, [headerRef, panelRef]);
 
   /* Sección activa (solo en la home): la que cruza la franja central del viewport. */
   useEffect(() => {
@@ -355,7 +364,6 @@ export default function Navbar() {
           <motion.div
             key="menu"
             id="menu-movil"
-            ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-label={m.nav.mobileMenuAria}
@@ -365,12 +373,36 @@ export default function Navbar() {
             exit="hidden"
             onKeyDown={trapFocus}
             /* Liquid Glass: el menú es una HOJA de cristal fuerte sobre la página, no un telón opaco.
-               El desenfoque a pantalla completa es asumible aquí porque mientras está abierto lo de
-               debajo está QUIETO: el scroll está bloqueado y `HeroCanvas` pausa sus animaciones, así
-               que el fondo se desenfoca una vez y no en cada fotograma. Con `liquid-glass-strong` el
-               texto pasa AA aunque debajo quede la foto más clara de la portada. */
-            className="liquid-glass liquid-glass-strong fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden rounded-none border-0 lg:hidden"
+               Con `liquid-glass-strong` el texto pasa AA aunque debajo quede la foto más clara de la
+               portada, que es lo que de verdad sostiene la legibilidad: el tinte, no el desenfoque.
+               Y por eso aquí el material va SIN desenfoque y con el tinte OPACO (`sin-desenfoque` +
+               `--glass-solid`, en la capa de abajo). Dos razones, y las dos mandan sobre el gusto:
+               esta es la superficie de cristal más ancha de la web —la ventana entera—, justo el caso
+               que el propio material declara caro; y era el único sitio donde el desenfoque caía sobre
+               un contenedor desplazable que recibe toques, que es lo que lo rompía en el iPhone.
+               Opaco y no translúcido porque sin desenfoque el tinte al 0,82 deja LEER la página de
+               detrás: el menú se convertía en dos textos superpuestos. Y como el panel es `lg:hidden`,
+               esto solo se ve por debajo de 1024 px, donde el desenfoque no estaba encendido de todas
+               formas salvo en una ventana de escritorio estrecha. */
+            ref={anclarPanel}
+            className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overflow-x-hidden lg:hidden"
           >
+            {/* EL CRISTAL, EN SU PROPIA CAPA — Y ESTO NO ES COSMÉTICA.
+                `liquid-glass` aplica `backdrop-filter: blur(20px) saturate(180%)`, y antes iba sobre
+                ESTE MISMO div: el contenedor a pantalla completa que, además de desenfocar, es el que
+                recibe los toques y el que hace scroll. En WebKit (iPhone) un `backdrop-filter` así, en
+                un contenedor desplazable a pantalla completa, rompe el hit-testing de lo que lleva
+                dentro: el menú se ve perfecto y ni los enlaces ni los botones responden al dedo. En
+                Chromium no pasa, y por eso en escritorio iba bien y en el móvil del cliente no.
+                La cabecera ya lo hacía bien —su cápsula de cristal es un hermano `aria-hidden`
+                (`data-navbar-surface`), no el contenedor de los controles—, y por eso su botón sí
+                respondía mientras el resto del panel estaba muerto. Aquí se hace igual: el material en
+                una capa suya, sin tocar nada, y los enlaces fuera de su subárbol. Se ve exactamente
+                igual. */}
+            <span
+              aria-hidden
+              className="liquid-glass liquid-glass-strong sin-desenfoque pointer-events-none fixed inset-0 rounded-none border-0 [--glass-bg-strong:var(--glass-solid)]"
+            />
             {/* Brasa decorativa */}
             {/* Radial prehorneado en lugar de `bg-pimenton/30 blur-3xl`: desenfocar 64 px una superficie de
                 120vw × 288 px obligaba a rasterizarla aparte, ampliarla por el radio del desenfoque y
@@ -382,14 +414,16 @@ export default function Navbar() {
                 tenía. Alfa de vuelta al original (0,30): con la caída correcta ya no hay que compensar. */}
             <span
               aria-hidden
-              className="ember-wash absolute -bottom-32 left-1/2 h-72 w-[120vw] -translate-x-1/2 rounded-full [--ember-a1:0.3]"
+              className="ember-wash pointer-events-none absolute -bottom-32 left-1/2 h-72 w-[120vw] -translate-x-1/2 rounded-full [--ember-a1:0.3]"
             />
             {/* La firma manuscrita del logo, igual que la marca de agua del pie. */}
             <span aria-hidden className="font-script pointer-events-none absolute right-[-18%] top-[6%] select-none whitespace-nowrap text-[52vw] font-normal leading-[0.8] text-cream/[0.05]">
               Tixola
             </span>
 
-            <div className="container-page relative flex min-h-full flex-col pt-[calc(var(--header-h)+1.5rem)] pb-[calc(var(--mobile-bar-h)+env(safe-area-inset-bottom)+1.5rem)]">
+            {/* `z-10`: los tres adornos de arriba quedan debajo por z-index declarado y no por el orden
+                en que estén escritos, que es lo único que los separaba hasta ahora. */}
+            <div className="container-page relative z-10 flex min-h-full flex-col pt-[calc(var(--header-h)+1.5rem)] pb-[calc(var(--mobile-bar-h)+env(safe-area-inset-bottom)+1.5rem)]">
               <motion.p variants={itemVariants} className="font-caps text-[10px] uppercase tracking-[0.35em] text-pimenton-a11y">
                 {m.nav.kicker}
               </motion.p>
