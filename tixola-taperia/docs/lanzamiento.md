@@ -169,3 +169,29 @@ El resto son castellanismos (*caña*→*cana*, *pestana*→*lapela*, *queso*→*
 (*denomination* por denominación de origen, que en inglés es *appellation*), brasileirismos en el
 portugués (*você*, *laticínios*, *na hora*) y el trato al visitante, que bailaba entre tú y usted
 dentro de la misma página. Detalle en los mensajes de los commits del 15-10-2026.
+
+### La segunda vuelta: cuatro revisores adversarios
+
+Después se pasó un verificador por idioma —gallego, portugués, inglés— con el encargo de
+**desconfiar** de los cambios ya aplicados, y un corrector del **castellano**, que es la fuente y
+que nadie había auditado. Confirmaron lo importante (la estructura de claves es idéntica en los
+cuatro idiomas, el gallego no se pasó de frenada, *appellation* es la palabra correcta) y
+encontraron tres cosas que importan:
+
+1. **La portada anunciaba 53 vinos en carta y hay 46.** El número estaba escrito a mano desde que
+   se montó la banda «En cifras»; entre medias se quitaron ocho vinos y se añadió uno. La web se
+   contradecía sola, porque el camarero virtual sí lo calculaba y /vinos los enseñaba para quien
+   quisiera contarlos. **Ahora se calcula de los datos**, como el contador de platos. El mismo 53
+   estaba en otros dos sitios, y `wines.ts` llegaba a dar cuatro números distintos para la misma
+   carta.
+2. **Dos arreglos de la primera vuelta habían dejado el texto peor**: en portugués, «cookies
+   próprias» significa cookies de primera parte, así que el aviso pasó a decir que el mapa de Google
+   instala cookies nuestras; y en inglés, glosar las zamburiñas como *queen scallops* nombra una
+   especie concreta que el castellano no nombra. Los dos, corregidos.
+3. **Dos datos inventados más en inglés** que nadie había mirado: el pisto descrito con tres
+   verduras que la carta no enumera, y los espárragos trigueros como *wild asparagus*, que para un
+   británico significa recolectado.
+
+Y una docena de comentarios de código que decían lo contrario de lo que hace el código: que la
+carta de vinos «todavía no ha llegado», que `WINES` «está vacía a propósito», que hay «tres» platos
+estrella cuando son seis.
