@@ -249,10 +249,8 @@ El trámite con Meta (fase 2) se arranca en la fase 1, en paralelo, para que no 
 - **Resend:** gratis al volumen de un salón.
 - **Dominio:** ~10–15 €/año.
 
-Comprobar las tarifas exactas el día de la propuesta. Precio de nuestro trabajo: lo fijas tú
-(sugerencia de estructura: alta del proyecto + cuota mensual que incluya mantenimiento, cambios con
-**plazo comprometido** —p. ej. respuesta en 24 h y cambios pequeños en la semana— y los costes de
-arriba). Ese plazo es justo lo que Elitica no le da.
+Comprobar las tarifas exactas el día de la propuesta. Paquetes, precios y compromiso de servicio:
+**`OFERTA.md`**.
 
 ## 11. Preguntas para Andrea (antes de empezar la fase 1)
 
