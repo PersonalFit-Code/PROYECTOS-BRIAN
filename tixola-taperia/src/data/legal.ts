@@ -30,11 +30,14 @@ export const LEGAL_UPDATED_AT = "2026-10-10";
  * de una empresaria individual, Tatiana González Ferreira, con NIF 44450501B y domicilio en el
  * propio local de Rúa Juan de Austria 7.
  *
- * FALTA UNO, el correo, y por eso sigue entre corchetes: el art. 10.1.a de la LSSI exige una
- * dirección de correo electrónico, y además es el canal escrito por el que alguien ejerce sus
- * derechos del RGPD. Un correo no se puede deducir del nombre ni del dominio: o lo da la casa, o no
- * se publica. Mientras tanto se resalta en la web y las tres páginas legales siguen sin indexar
- * (ver `LEGAL_IDENTITY_PENDING`), que es justo lo que tiene que pasar.
+ * YA NO FALTA NINGUNO. El correo lo dio la propia Tatiana el 15-10-2026 y con él
+ * `LEGAL_IDENTITY_PENDING` pasa a false solo: el aviso legal ya tiene los cuatro datos del art.
+ * 10.1 de la LSSI y las tres páginas legales vuelven a indexarse y al sitemap.
+ * Es una cuenta de Gmail a su nombre, no un buzón del dominio, y mientras no haya dominio propio es
+ * lo correcto: lo que la ley pide es una dirección que funcione y que lea alguien, no que sea
+ * corporativa. Cuando se compre el dominio conviene migrarlo, pero no bloquea nada.
+ * EL PLAZO ES DE UN MES: por aquí se ejercen los derechos del RGPD, así que el buzón tiene que
+ * mirarse. Un correo publicado que nadie lee es peor que no tenerlo.
  */
 export const LEGAL_PLACEHOLDERS = {
   /** Titular del negocio. Es una persona física, así que el titular es ella y no una sociedad. */
@@ -44,7 +47,7 @@ export const LEGAL_PLACEHOLDERS = {
   /** Domicilio a efectos legales: el propio local */
   registeredOffice: "Rúa Juan de Austria 7, 32005 Ourense",
   /** Correo para contacto y ejercicio de derechos */
-  email: "[EMAIL DE CONTACTO]",
+  email: "gonzalezferreiratatiana@gmail.com",
   /**
    * Inscripción registral. Vacío A PROPÓSITO y no por falta de dato: el art. 10.1.b de la LSSI pide
    * los datos de inscripción SOLO a quien esté inscrito en un registro mercantil o equivalente, y

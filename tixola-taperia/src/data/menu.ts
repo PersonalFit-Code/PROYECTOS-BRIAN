@@ -489,10 +489,16 @@ export const MENU_ITEMS: MenuItem[] = [
     id: "coc-fingers-pollo",
     name: "Fingers de pollo",
     category: "cocina",
-    description: "Tiras de pollo empanadas y fritas. El plato al que se agarran los niños y del que acaban picando los mayores.",
+    description: "Tiras de pollo rebozadas en maíz y fritas, con salsa de miel y mostaza. El plato al que se agarran los niños y del que acaban picando los mayores.",
     price: 7.9,
     unit: "ración",
-    allergens: ["gluten", "huevos", "lacteos"],
+    /* MOSTAZA la añade Tatiana el 15-10-2026: la salsa es de miel y mostaza. La miel no es alérgeno
+       de los catorce; la mostaza sí.
+       EL GLUTEN SE QUEDA aunque dijera "rebozadas en maíz". Quitarlo sería AFIRMAR una ausencia, y
+       eso solo se hace con una confirmación por plato: el rebozado es una cosa y la harina de la
+       mezcla, la salsa o la freidora compartida son otra. Sobredeclarar no hace daño a nadie;
+       quedarse corto, sí. Pendiente de preguntárselo derecho. */
+    allergens: ["gluten", "huevos", "lacteos", "mostaza"],
     tags: [],
     emoji: "🍗",
   },

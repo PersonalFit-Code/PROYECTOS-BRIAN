@@ -78,30 +78,35 @@ export const BUSINESS = {
    * Vacío = cerrado.
    */
   hours: {
-    /* Fuente: la propia Tatiana (sept. 2026), que corrige a la ficha de Google: la cocina de
-       mediodía arranca a las 13:00, no a las 12:00. Lunes solo cenas; domingo cerrado. */
-    mon: [{ open: "19:30", close: "00:00" }],
+    /* Fuente: Tatiana, 15-10-2026, en persona. Da la vuelta a lo que había: el día de cierre YA NO
+       es el domingo sino el LUNES, el domingo se abre solo a mediodía, y las cenas rematan a las
+       23:45 y no a medianoche. Sigue corrigiendo a la ficha de Google, que da las 12:00 de apertura.
+       SÁBADO: ella dijo "entre semana cierran a las 11:45" y el sábado no entra en "entre semana",
+       pero se le aplica igual. Equivocarse hacia el cierre temprano manda a alguien quince minutos
+       antes; al revés lo manda a una puerta cerrada. A confirmar con ella. */
+    mon: [],
     tue: [
       { open: "13:00", close: "16:00" },
-      { open: "20:00", close: "00:00" },
+      { open: "20:00", close: "23:45" },
     ],
     wed: [
       { open: "13:00", close: "16:00" },
-      { open: "20:00", close: "00:00" },
+      { open: "20:00", close: "23:45" },
     ],
     thu: [
       { open: "13:00", close: "16:00" },
-      { open: "20:00", close: "00:00" },
+      { open: "20:00", close: "23:45" },
     ],
     fri: [
       { open: "13:00", close: "16:00" },
-      { open: "20:00", close: "00:00" },
+      { open: "20:00", close: "23:45" },
     ],
     sat: [
       { open: "13:00", close: "16:00" },
-      { open: "20:00", close: "00:00" },
+      { open: "20:00", close: "23:45" },
     ],
-    sun: [],
+    /* Solo mediodía, y remata a las 15:45. */
+    sun: [{ open: "13:00", close: "15:45" }],
   } satisfies Record<DayKey, TimeRange[]>,
 } as const;
 

@@ -158,7 +158,7 @@ const en: DataTranslations = {
       unit: "portion",
     },
     "coc-fingers-pollo": {
-      description: "Breaded chicken strips, fried. The plate the children lay claim to and the one the adults end up picking at.",
+      description: "Chicken strips in a corn coating, fried, with a honey and mustard sauce. The plate the children lay claim to and the one the adults end up picking at.",
       unit: "portion",
     },
     "coc-pastel-cabracho": {

@@ -100,9 +100,17 @@ parece, es cosa de una línea:
 | `ensalada-pollo-crujiente` | Ensalada de pollo crujiente, nueces y manzana |
 | `ensalada-aguacate-bacalao` | Ensalada de aguacate y bacalao ahumado |
 
-Las dos que más conviene mirar son **`pulpo-tempura`** (se ven tentáculos rebozados sobre patatas,
-pero podría ser otra fritura) y **`revuelto-bacalao-grelos`** (se ve huevo, verde y langostino; el
+Las dos que más convenía mirar eran **`pulpo-tempura`** (se ven tentáculos rebozados sobre patatas,
+pero podía ser otra fritura) y **`revuelto-bacalao-grelos`** (se ve huevo, verde y langostino; el
 bacalao se intuye pero no se ve entero).
+
+> **RESUELTA LA PRIMERA.** Tatiana, 15-10-2026: *«pulpo en tempura, no bacalao en tempura»*. La foto
+> está bien enlazada y se queda donde está. Falta todavía la de `revuelto-bacalao-grelos`.
+>
+> **Y UN CAMBIO DE CRITERIO PARA LAS QUE FALTAN:** dijo *«de lado en vez desde arriba»*. Hasta ahora
+> la guía pedía cenital para todas (`docs/guia-fotos-platos.md`). No está claro si lo dice de las
+> frituras —que es de lo que se estaba hablando— o de todos los platos, así que **antes de hacer las
+> 15 que faltan conviene preguntárselo**: rehacer las 25 que ya están costaría una tarde entera.
 
 ---
 

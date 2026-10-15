@@ -476,7 +476,6 @@ export const WINES: Wine[] = [
     image: "/images/vinos/pazo-baion.webp",
   },
   { id: "bot-ribeiro", name: "Bot. Ribeiro", origin: "ribeiro", kind: "blanco", bottlePrice: 16 },
-  { id: "a-flor-e-a-abella", name: "A Flor e a Abella", origin: "ribeiro", kind: "blanco", bottlePrice: 17 },
   {
     id: "el-canto-del-cuco",
     name: "El Canto del Cuco",
@@ -555,18 +554,6 @@ export const WINES: Wine[] = [
     image: "/images/vinos/cunas-davia.webp",
   },
   {
-    id: "regoa",
-    name: "Régoa",
-    winery: "Adega Régoa",
-    origin: "ribeira-sacra",
-    kind: "tinto",
-    winemaking: "Solo levaduras y bacterias lácticas naturales; sin filtrar ni clarificar, con sulfuroso en dosis bajas",
-    bottlePrice: 16,
-    story: "Adega de Pinol (Sober), en el corazón de Amandi: cepas de más de 24 años, un máximo de dos kilos por planta, y un viñedo que no se abona ni se riega.",
-    subzone: "Amandi",
-    terroir: "Once hectáreas de bancales al sur con un 80 % de pendiente sobre el Sil, en pizarra y arenisca",
-  },
-  {
     id: "algueira",
     name: "Algueira",
     winery: "Adega Algueira",
@@ -628,7 +615,6 @@ export const WINES: Wine[] = [
     winemaking: "Fermentación con levaduras autóctonas en barrica de 600 litros, foudre y huevo de hormigón, sin fermentación maloláctica",
     bottlePrice: 34,
   },
-  { id: "manueleira-blanco", name: "Manueleira", origin: "valdeorras", kind: "blanco", bottlePrice: 16 },
   {
     id: "guitian",
     name: "Guitián",
@@ -666,14 +652,15 @@ export const WINES: Wine[] = [
     awards: [{ source: "Concours Mondial de Bruxelles", score: "Medalla de oro", year: 2004 }, { source: "Concurso Internacional Bacchus", score: "Medalla de oro", year: 2015 }, { source: "Challenge International du Vin", score: "Medalla de plata", year: 2017 }],
   },
   {
+    /* Tatiana, 15-10-2026: "val do galir en vez de pagos". Cambia la etiqueta que sirve, no la
+       bodega, que sigue siendo Virgen del Galir. El `id` se queda: es interno y no se ve. */
     id: "pagos-de-galir",
-    name: "Pagos de Galir",
+    name: "Val do Galir",
     winery: "Virgen del Galir",
     origin: "valdeorras",
     kind: "tinto",
     bottlePrice: 16,
   },
-  { id: "manueleira-tinto", name: "Manueleira ou similar", origin: "valdeorras", kind: "tinto", bottlePrice: 16 },
   {
     id: "pajaro-loco",
     name: "Pájaro Loco",
@@ -767,23 +754,6 @@ export const WINES: Wine[] = [
     kind: "tinto",
     bottlePrice: 16,
     image: "/images/vinos/a-capela.webp",
-  },
-  {
-    id: "hito",
-    name: "Hito",
-    winery: "Bodegas Cepa 21",
-    origin: "ribera-del-duero",
-    kind: "tinto",
-    grapes: ["Tempranillo"],
-    ageing: "Barrica de roble francés",
-    winemaking: "Fermentación alcohólica en acero inoxidable a temperatura controlada y maloláctica de 30 días en depósito",
-    serveC: [14, 16],
-    bottlePrice: 19,
-    notes: "Rojo cereza con ribete violáceo, limpio y brillante, con los aromas primarios del tempranillo y mucha fruta roja. En boca equilibrado, de paso suave y final agradable.",
-    story: "Un hito es el poste de piedra que señala los caminos y delimita las parcelas. Nace como vino joven con los viñedos más jóvenes de la bodega, injertados con clon de tinto fino.",
-    subzone: "Castrillo de Duero",
-    terroir: "Uva de las partes bajas del viñedo, entre 750 y 850 metros, sobre suelo calizo-arcilloso y pedregoso",
-    awards: [{ source: "Wine Enthusiast", score: "93" }, { source: "Wine Spectator", score: "90" }, { source: "Guía Peñín", score: "90" }, { source: "James Suckling", score: "90" }],
   },
   {
     id: "carmelo-rodero-9-meses",

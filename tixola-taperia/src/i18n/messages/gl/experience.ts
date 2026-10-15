@@ -41,7 +41,7 @@ const experience: Section<"experience"> = {
     hoursTitle: "Horario semanal",
     hoursCaption: "Horario semanal de {brand}",
     closed: "Pechado",
-    note: "Horario facilitado polo local · Domingos pechado · Festivos: consúltanos",
+    note: "Horario facilitado polo local · Luns pechado · Domingos só mediodía · Festivos: consúltanos",
     reserveHint: "Sen reservas: chega e senta.",
   },
   map: {

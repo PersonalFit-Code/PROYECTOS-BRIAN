@@ -158,7 +158,7 @@ const gl: DataTranslations = {
       unit: "ración",
     },
     "coc-fingers-pollo": {
-      description: "Tiras de polo empanadas e fritas. O prato ao que se agarran os nenos e do que acaban picando os maiores.",
+      description: "Tiras de polo rebozadas en millo e fritas, con salsa de mel e mostaza. O prato ao que se agarran os nenos e do que acaban picando os maiores.",
       unit: "ración",
     },
     "coc-pastel-cabracho": {

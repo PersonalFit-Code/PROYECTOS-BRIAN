@@ -159,7 +159,7 @@ const pt: DataTranslations = {
       unit: "dose",
     },
     "coc-fingers-pollo": {
-      description: "Tiras de frango panadas e fritas. O prato a que os miúdos se agarram e de que os crescidos acabam por petiscar.",
+      description: "Tiras de frango panadas em milho e fritas, com molho de mel e mostarda. O prato a que os miúdos se agarram e de que os crescidos acabam por petiscar.",
       unit: "dose",
     },
     "coc-pastel-cabracho": {

@@ -40,10 +40,12 @@ de menos no es una multa, es alguien en urgencias.*
 canal por el que alguien puede ejercer sus derechos de protección de datos. Hay **un mes de plazo**
 para responder a eso.*
 
-- [ ] Brian está creando el correo. **¿Quién lo va a mirar, y cada cuánto?** Un buzón publicado que
-      nadie lee es peor que no tenerlo.
-- [ ] Que **la contraseña y el teléfono de recuperación sean suyos**. Brian puede tener acceso; lo que
-      no conviene es que ella dependa de él para entrar en su propio canal legal.
+- [x] ~~El correo de contacto.~~ → **DADO el 15-10-2026: `gonzalezferreiratatiana@gmail.com`**, una
+      cuenta suya. Ya está publicado en el aviso legal y en la política de privacidad, y con él las
+      tres páginas legales dejan de estar incompletas.
+- [ ] **Queda una cosa, y es de las que no se ven hasta que pasa: ¿quién mira ese buzón y cada cuánto?**
+      Por ahí se ejercen los derechos del RGPD y hay **un mes de plazo** para contestar.
+      Un correo publicado que nadie lee es peor que no tenerlo.
 
 ---
 
@@ -70,6 +72,12 @@ seguro», que funciona, pero con el dato quedan bien.*
       los 47 platos no hay ninguno marcado como vegano (sí doce vegetarianos). Lo hemos dejado en
       «opciones vegetarianas». Si hay alguno vegano, lo etiquetamos y lo volvemos a anunciar.
 - [x] ~~¿Se sirve vino por copas?~~ → **SÍ, y el precio se consulta con el personal**, igual que los alérgenos. La web ya lo dice así.
+- [x] ~~El horario normal.~~ → **CORREGIDO el 15-10-2026, y venía del revés:** el día de cierre es el
+      **lunes** (no el domingo), el **domingo** se abre solo a mediodía (13:00–15:45) y las cenas
+      rematan a las **23:45**, no a medianoche. Ya está en la web y en el JSON-LD.
+- [ ] **Dos flecos del horario**: ¿el **sábado** también cierra a las 23:45? (dijo «entre semana», y el
+      sábado no lo es; se ha puesto 23:45 por ser el error menos malo). Y ¿el **mediodía** de los demás
+      días remata a las 16:00 o también a las 15:45?
 - [ ] **El horario en festivos, Navidad y verano: ¿cambia?** Hoy la web dice «Festivos: consúltanos»,
       que es honesto pero flojo. Si hay un criterio fijo, lo ponemos.
 - [x] ~~¿Los 47 precios son los vigentes?~~ → **SÍ.**
@@ -92,8 +100,12 @@ seguro», que funciona, pero con el dato quedan bien.*
       «cata de vinos en octubre». Hoy está vacía. Dos condiciones: nada que incite a beber de más
       (ni «barra libre» ni «2x1 en chupitos» — lo prohíbe la ley gallega del alcohol desde marzo) y
       con fecha de caducidad, para que desaparezca sola.
-- [ ] **La carta de vinos definitiva.** Dijo que hay vinos que va a dejar de comprar. Cuando tenga la
-      lista cerrada, la actualizamos.
+- [x] ~~La carta de vinos.~~ → **PRIMERA PASADA HECHA el 15-10-2026.** Fuera: A Flor e a Abella, Régoa,
+      las dos Manueleira y Hito. Y «Pagos de Galir» pasa a llamarse **Val do Galir**. Quedan 58.
+- [ ] **Tres vinos que apuntó sin decir qué hacer con ellos**: *Ramón do Casar*, *Castro de Lobarzán* y
+      *«Condes de Albarei o similares»*. ¿Se quedan como están, o había que cambiarles algo? (lo de
+      «o similares» suena a que el nombre debería decir «Condes de Albarei o similar», como ya hacía
+      Manueleira).
 
 ---
 

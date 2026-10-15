@@ -114,7 +114,7 @@ Leyenda: **G** gluten · **L** lácteos · **H** huevos · **P** pescado · **C*
 | Salteado de verdura, arroz y setas | 11,50 | S · G | |
 | **Croquetas sin gluten** | 12,90 | L · H | |
 | Tortilla guisada con champiñones | 11,90 | H | |
-| Fingers de pollo | 7,90 | G · H · L | |
+| Fingers de pollo | 7,90 | G · H · L · **MO** | **Contestado 15-10-2026:** salsa de miel y mostaza (→ mostaza), rebozadas en maíz. El gluten se mantiene: «rebozado de maíz» no es lo mismo que «sin gluten» — ¿se puede quitar? |
 | Pastel de cabracho | 10,00 | P · H · L · G | |
 
 > **El alioli**: si es casero con huevo, ya está puesto. Si es de bote, mira la etiqueta — suele

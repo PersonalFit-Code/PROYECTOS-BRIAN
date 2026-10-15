@@ -11,6 +11,7 @@ import { getMessages } from "@/i18n/getMessages";
 import legalEs from "@/i18n/messages/es/legal";
 import type { Messages } from "@/i18n/types";
 import { absoluteUrl, breadcrumbJsonLd, pageMetadata, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL_IS_PROVISIONAL } from "@/lib/siteUrl";
 
 /**
  * /[locale]/legal/[slug] — privacidad · aviso-legal · cookies.
@@ -52,9 +53,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (!key) return {};
   return {
     ...pageMetadata(locale, `/legal/${slug}`, { title: m.legal[key].title, description: m.legal.docs[key].description }),
-    /* Mientras el responsable del tratamiento siga en marcadores («[RAZÓN SOCIAL]», «[NIF]»…) no
-       publicamos un aviso legal incompleto: `noindex, follow`. Ver LEGAL_IDENTITY_PENDING. */
-    robots: { index: !LEGAL_IDENTITY_PENDING, follow: true },
+    /* DOS CANDADOS, y hacen falta los dos.
+       · Mientras el responsable del tratamiento siga en marcadores («[RAZÓN SOCIAL]», «[NIF]»…) no
+         publicamos un aviso legal incompleto (`LEGAL_IDENTITY_PENDING`).
+       · Y mientras la web viva en el subdominio del proveedor, estas páginas siguen fuera de los
+         buscadores como el resto del sitio (`SITE_URL_IS_PROVISIONAL`, que el layout ya aplica a
+         todas las demás rutas). Sin esta segunda condición, rellenar el correo —que es lo que pasó
+         el 15-10-2026— habría hecho que las tres páginas legales fueran las ÚNICAS indexables de
+         toda la web, y encima colgando de un dominio que no es el del negocio. */
+    robots: { index: !LEGAL_IDENTITY_PENDING && !SITE_URL_IS_PROVISIONAL, follow: true },
   };
 }
 

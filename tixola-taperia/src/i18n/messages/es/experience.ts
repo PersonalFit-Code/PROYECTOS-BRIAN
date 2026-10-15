@@ -39,7 +39,7 @@ const experience = {
     hoursTitle: "Horario semanal",
     hoursCaption: "Horario semanal de {brand}",
     closed: "Cerrado",
-    note: "Horario facilitado por el local · Domingos cerrado · Festivos: consúltanos",
+    note: "Horario facilitado por el local · Lunes cerrado · Domingos solo mediodía · Festivos: consúltanos",
     reserveHint: "Sin reservas: llega y siéntate.",
   },
   map: {
