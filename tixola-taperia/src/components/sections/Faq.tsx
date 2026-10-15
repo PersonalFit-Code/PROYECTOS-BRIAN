@@ -1,9 +1,9 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useCallback, useId, useMemo, useState } from "react";
+import { Fragment, useCallback, useId, useMemo, useState, type ReactNode } from "react";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
-import { faqVars } from "@/lib/faq";
+import { faqVars, FAQ_BOLD_PATTERN } from "@/lib/faq";
 import { cn } from "@/lib/utils";
 
 /**
@@ -84,6 +84,23 @@ interface PreguntaProps {
   onAlternar: () => void;
 }
 
+/**
+ * Pinta las `**negritas**` de la respuesta. El mismo marcado que usan los documentos legales, que
+ * hasta ahora se veía en crudo aquí: «as **croquetas sen glute**», con los asteriscos a la vista.
+ * `split` con un grupo de captura devuelve los tramos alternos texto / contenido-de-la-negrita.
+ */
+function conNegritas(texto: string): ReactNode[] {
+  return texto.split(FAQ_BOLD_PATTERN).map((tramo, i) =>
+    i % 2 === 1 ? (
+      <strong key={i} className="font-semibold text-cream">
+        {tramo}
+      </strong>
+    ) : (
+      <Fragment key={i}>{tramo}</Fragment>
+    ),
+  );
+}
+
 /** Curva de la casa (`--ease-out-expo`), escrita también aquí porque framer no lee variables CSS. */
 const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -157,7 +174,7 @@ function Pregunta({ question, answer, abierta, onAlternar }: PreguntaProps) {
             className="px-5 pb-4"
           >
             <span aria-hidden className="mb-3 block h-px bg-gradient-to-r from-cream/20 via-cream/5 to-transparent" />
-            <p className="text-sm leading-relaxed text-cream-muted text-pretty">{answer}</p>
+            <p className="text-sm leading-relaxed text-cream-muted text-pretty">{conNegritas(answer)}</p>
           </motion.div>
         </motion.div>
       </div>

@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { BUSINESS } from "@/data/business";
 import { LOCALE_META, stripLocale, type Locale } from "@/i18n/config";
 import { useFormat, useMessages } from "@/i18n/LocaleProvider";
-import { faqVars } from "@/lib/faq";
+import { faqVars, stripFaqMarks } from "@/lib/faq";
 import { absoluteUrl, faqJsonLd, serializeJsonLd, SITE_URL, type JsonLdObject } from "@/lib/seo";
 
 /**
@@ -20,12 +20,15 @@ export default function HomeJsonLd({ locale }: { locale: Locale }) {
   if (stripLocale(pathname ?? "/").path !== "/") return null;
 
   /* Las mismas variables que interpola el FAQ VISIBLE (`<Faq />` al final de SocialProof): el texto
-     marcado y el que lee el visitante tienen que coincidir carácter a carácter. */
+     marcado y el que lee el visitante tienen que coincidir carácter a carácter. Por eso aquí se les
+     quitan las marcas de `**negrita**` con `stripFaqMarks`: el bloque visible las pinta en
+     `<strong>`, así que el texto que ve el visitante es el de aquí, sin asteriscos. Antes iban en
+     crudo a los dos sitios, y Google llegaba a enseñar «**croquetas sin gluten**» en el resultado. */
   const vars = faqVars(m);
   const homeUrl = absoluteUrl(locale, "/");
 
   const faq = faqJsonLd(
-    m.legal.faq.items.map(({ q, a }) => ({ q: t(q, vars), a: t(a, vars) })),
+    m.legal.faq.items.map(({ q, a }) => ({ q: stripFaqMarks(t(q, vars)), a: stripFaqMarks(t(a, vars)) })),
     { locale, url: homeUrl },
   );
 
