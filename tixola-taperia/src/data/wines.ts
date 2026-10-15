@@ -512,6 +512,7 @@ export const WINES: Wine[] = [
     notes: "Amarillo pálido con reflejos dorados. Nariz compleja de limón, azahar, piña y melocotón con fondo balsámico; en boca graso, untuoso, sabroso y muy largo.",
     story: "La bodega está medio enterrada en la ladera del viñedo, lo que mantiene el interior a 14-15 ºC sin medios mecánicos.",
     terroir: "Más de 10 hectáreas en Castrelo de Miño, a 250 metros, en pendiente suave hacia el embalse, sobre suelo arenoso de pizarra y piedra",
+    image: "/images/vinos/eduardo-pena.webp",
   },
   {
     id: "lagar-do-merens",
@@ -530,6 +531,7 @@ export const WINES: Wine[] = [
     terroir: "Suelos graníticos francoarenosos en laderas salvadas con socalcos, en A Arnoia",
     winemaker: "José Meréns",
     awards: [{ source: "Concurso Mundial de Bruselas", score: "Medalla de plata", year: 2009 }, { source: "Decanter World Wine Awards", score: "Medalla de plata", year: 2010 }],
+    image: "/images/vinos/lagar-do-merens.webp",
   },
   {
     id: "ramon-do-casar",
@@ -632,6 +634,7 @@ export const WINES: Wine[] = [
     subzone: "Rubiá",
     terroir: "Viñedo de la finca A Tapada a unos 500 metros, en ladera al sur sobre pizarras ordovícicas de textura arcillo-limosa",
     awards: [{ source: "Premios Baco · Unión Española de Catadores", score: "Medalla de oro", year: 2017 }, { source: "Premios Baco · Unión Española de Catadores", score: "Gran Baco de oro", year: 2015 }],
+    image: "/images/vinos/guitian.webp",
   },
   {
     id: "guitian-sobre-lias",
@@ -650,16 +653,20 @@ export const WINES: Wine[] = [
     subzone: "Rubiá",
     terroir: "Viñedo de la finca A Tapada a unos 500 metros, en ladera al sur sobre pizarras ordovícicas de textura arcillo-limosa",
     awards: [{ source: "Concours Mondial de Bruxelles", score: "Medalla de oro", year: 2004 }, { source: "Concurso Internacional Bacchus", score: "Medalla de oro", year: 2015 }, { source: "Challenge International du Vin", score: "Medalla de plata", year: 2017 }],
+    image: "/images/vinos/guitian-sobre-lias.webp",
   },
   {
     /* Tatiana, 15-10-2026: "val do galir en vez de pagos". Cambia la etiqueta que sirve, no la
-       bodega, que sigue siendo Virgen del Galir. El `id` se queda: es interno y no se ve. */
-    id: "pagos-de-galir",
+       bodega, que sigue siendo Virgen del Galir. El `id` se renombra con el: no se usa fuera de
+       este fichero —solo genera el ancla `#vino-<id>`— y dejarlo en "pagos" habria dejado el dato
+       contradiciendo a la etiqueta y al nombre del archivo de la foto. */
+    id: "val-do-galir",
     name: "Val do Galir",
     winery: "Virgen del Galir",
     origin: "valdeorras",
     kind: "tinto",
     bottlePrice: 16,
+    image: "/images/vinos/val-do-galir.webp",
   },
   {
     id: "pajaro-loco",
@@ -769,6 +776,7 @@ export const WINES: Wine[] = [
     notes: "Aroma potente, con cereza y arándano bien marcados. En boca fresco y equilibrado, de textura amplia y un final que invita a seguir.",
     terroir: "Viñedo de 30 a 35 años entre 837 y 862 metros, en suelos de limos y pedregosos",
     winemaker: "Beatriz Rodero",
+    image: "/images/vinos/carmelo-rodero-9-meses.webp",
   },
   {
     id: "arzuaga-crianza",
