@@ -83,9 +83,10 @@ el equipo.
 | | |
 | --- | --- |
 | **Alta del proyecto** | **1.200 €**, repartidos en las cuotas que a ella le vengan bien (flexibilidad total) |
+| **Durante el montaje** | Enlace privado de Vercel desde el primer día: entra, mira cómo va y pide cambios sobre la marcha |
 | **Cuota mensual** | **80 €/mes**, desde el lanzamiento |
 | **Permanencia** | Ninguna. Un mes de aviso para irse |
-| **Entrega** | 7–9 semanas desde que tengamos sus datos y fotos |
+| **Entrega** | 4 semanas desde que tengamos sus datos y fotos. **Fecha dada a Andrea: 20 de noviembre** |
 
 **La cuota incluye:** alojamiento, base de datos, copias de seguridad diarias, dominio, emails,
 mantenimiento y seguridad, y los cambios pequeños (precios, servicios, textos, fotos, horarios, un
@@ -172,6 +173,23 @@ comprando con ese descuento:
   argumento comercial, pero deja por escrito en cuántos plazos y en qué fechas. Un "ya te lo iré
   pagando" sin fechas acaba siendo medio proyecto cobrado. Lo razonable: algo al empezar, algo al
   lanzar y el resto repartido en unos pocos meses.
+
+## 6b. El plazo de 4 semanas (interno, importante)
+
+En la propuesta le has dado **20 de noviembre**. Con el alcance completo (web, reservas, bonos con
+pago, panel y analítica) son 115–170 horas: en 4 semanas eso es **30–42 h a la semana, a jornada
+completa y sin imprevistos**. Es posible, pero no hay colchón. Dos cosas que lo protegen:
+
+- **El reloj empieza cuando ella entregue**, no cuando firme: servicios con precios, horarios del
+  equipo y fotos. Está dicho así en la hoja 8 ("desde que tengamos tus datos y tus fotos") —
+  recuérdaselo también de viva voz, porque es lo que más se retrasa siempre.
+- **El enlace de Vercel juega a tu favor y en tu contra.** A favor porque ve avance y no se pone
+  nerviosa; en contra porque invita a pedir cambios sin parar. Los cambios de diseño y textos,
+  todos los que quiera; si pide **funciones nuevas** que no están en el apartado 1, eso es
+  presupuesto aparte y hay que decirlo la primera vez que pase, no la tercera.
+
+Si a mitad ves que no llegas, avísale **antes** del 20 y da fecha nueva. Un plazo movido con aviso
+no rompe nada; uno incumplido en silencio es exactamente lo que le hacía Elitica.
 
 ## 7. Orden de trabajo (interno)
 
