@@ -11,7 +11,7 @@ const social = {
   title: "Take it from over {count}",
   accent: "customers",
   description:
-    "The same things come up in review after review: produce from the rías, iron skillets that arrive sizzling and a terrace with the Cathedral as a backdrop.",
+    "The same things come up in review after review: produce from the rías, iron tixolas that arrive sizzling and a terrace with the Cathedral as a backdrop.",
   stats: {
     reviews: "Customer reviews",
     reviewsSub: "on Google",
@@ -20,15 +20,15 @@ const social = {
     wines: "Wines on the list",
     winesSub: "Galician and beyond",
     platos: "Dishes on the menu",
-    platosSub: "Galician cooking, as always",
+    platosSub: "Traditional Galician cooking",
   },
   /** Word centred over the top rule of the figures band (SocialProof). */
   statsTitle: "In numbers",
   statsAria: "Tixola in numbers",
   reviewsNote:
-    "What people say is where they wrote it: on Google and TripAdvisor. That is where you can read it in full and up to date.",
+    "The reviews stay where the people who wrote them put them: on Google and on TripAdvisor. That's where you can read them in full, and always up to date.",
   seeGoogle: "Read reviews on Google",
-  seeTripadvisor: "See on TripAdvisor",
+  seeTripadvisor: "See us on TripAdvisor",
   /** Accessible label for the stars (PlatformBadge) */
   card: {
     stars: "{rating} out of 5 stars",
@@ -56,9 +56,9 @@ const social = {
       terraza: "Terrace",
     },
     showAll: "See all {count} photos",
-    showLess: "Show fewer",
+    showLess: "See fewer",
     open: "Enlarge photo: {caption}",
-    hint: "Tap a photo to enlarge it",
+    hint: "Tap or click a photo to enlarge it",
     /** Full-screen viewer */
     lightbox: {
       label: "Enlarged photo: {caption}",

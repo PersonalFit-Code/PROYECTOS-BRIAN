@@ -18,7 +18,7 @@ const scroll = {
     /** aria-label of the side <nav> with the dots */
     label: "Page chapters",
     /** aria-label of each dot */
-    goTo: "Go to the {chapter} chapter",
+    goTo: "Go to {chapter}",
     /** Screen-reader-only suffix on the active chapter */
     current: "current chapter",
   },

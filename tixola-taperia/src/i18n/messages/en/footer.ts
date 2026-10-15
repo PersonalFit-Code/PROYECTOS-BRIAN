@@ -4,10 +4,13 @@ import type { Translation } from "./shape";
 /** Footer: columns, opening hours, legal links and bottom bar. */
 const footer = {
   about:
-    "Quality Galician tapas, craft beer and local wines in a lively bar with a terrace, just metres from Ourense Cathedral.",
+    "Quality Galician tapas, craft beer and local wines in a good-looking bar with a terrace, just metres from Ourense Cathedral.",
   tixolaMeaning: "“Tixola” is Galician for frying pan: the iron one that reaches your table still sizzling.",
   contact: "Contact",
-  hours: "Opening hours",
+  /* También es la cuarta chapa de la barra inferior de móvil (MobileStickyBar): "Opening hours"
+     parte en dos líneas a 390 px y deja esa columna más alta que las otras tres. "Hours" es lo que
+     pone media hostelería británica en la cabecera de esa columna, y cabe. */
+  hours: "Hours",
   links: "Menu & links",
   legal: "Legal",
   privacy: "Privacy policy",
@@ -18,7 +21,7 @@ const footer = {
   rights: "All rights reserved.",
   menuWithAllergens: "Menu with allergens",
   ratingsAria: "Ratings",
-  hoursCaption: "Weekly opening hours of {name}",
+  hoursCaption: "Weekly opening hours for {name}",
   todaySr: "(today)",
   closedDay: "Closed",
   kitchenNote: "Kitchen open throughout each service.",

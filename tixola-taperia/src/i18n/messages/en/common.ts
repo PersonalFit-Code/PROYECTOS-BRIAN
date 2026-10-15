@@ -2,15 +2,15 @@ import type esCommon from "@/i18n/messages/es/common";
 import type { Translation } from "./shape";
 
 /**
- * Copy shared across the whole site: brand, CTAs, days, opening status, reservation modal.
+ * Copy shared across the whole site: brand, CTAs, days and opening status.
  * Placeholders like {phone} are filled with useFormat(): t(m.common.cta.callNumber, { phone }).
  */
 const common = {
   brand: "Tixola Tapería",
   brandShort: "Tixola",
   tagline: "The Art of Tapas in the Heart of Ourense",
-  /* Meta description de la portada (layout.tsx la completa con la nota de Google): lleva la
-     pareja de intención local del brief —tapas + Ourense— y se queda en ≤ 160 caracteres. */
+  /* Home meta description (layout.tsx appends the Google rating note): carries the brief's local
+     intent pair — tapas + Ourense — and stays within 160 characters. */
   subtitle:
     "Tapas and sizzling iron tixolas, homemade croquetas, octopus and zamburiñas by Ourense Cathedral.",
   /* Home `keywords` (layout.tsx), one list per locale. */
@@ -32,8 +32,8 @@ const common = {
     callNumber: "Call {phone}",
     directions: "Get directions",
     directionsAria: "Get directions (opens Google Maps)",
-    /* Etiqueta corta para la barra inferior de móvil: "Get directions" parte en dos líneas y se corta en una rejilla de cuatro columnas a 390 px. */
-    directionsShort: "Route",
+    /* Short label for the mobile bottom bar: "Get directions" wraps onto two lines and gets clipped in a four-column grid at 390 px. */
+    directionsShort: "Directions",
     whatsapp: "WhatsApp",
     whatsappAria: "Message us on WhatsApp",
     chat: "Virtual waiter",
@@ -88,9 +88,9 @@ const common = {
   },
   notFound: {
     kicker: "404",
-    title: "This table does not exist",
-    text: "The page you are looking for is not on the menu. Head back home or take a look at our dishes.",
-    back: "Back to the home page",
+    title: "This table doesn't exist",
+    text: "The page you're looking for isn't on the menu. Head back home or take a look at our dishes.",
+    back: "Back to the homepage",
   },
 } satisfies Translation<typeof esCommon>;
 export default common;

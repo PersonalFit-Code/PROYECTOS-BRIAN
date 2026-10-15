@@ -8,13 +8,13 @@ import type { Translation } from "./shape";
  */
 const experience = {
   marquee: [
-    "Grilled zamburiñas",
+    "Griddled zamburiñas",
     "Octopus with grelos",
     "Wines from Ribeiro, Valdeorras and Rías Baixas",
     "Craft beer",
     "Terrace beside the Cathedral",
     "Homemade croquetas",
-    "Iron skillets",
+    "Iron tixolas",
   ],
   marqueeAria: "House specialities",
   marqueePause: "Pause the specialities",
@@ -23,13 +23,13 @@ const experience = {
   title: "Tapas with a view of the",
   accent: "Cathedral",
   description:
-    "Our terrace looks out onto San Martiño Cathedral and the church of Santa Eufemia, right in the old town: Ourense's “zona de viños”, the wine quarter where going from bar to bar for tapas is simply how the city lives.",
+    "Our terrace looks out onto San Martiño Cathedral and the church of Santa Eufemia, right in the old town: Ourense's “zona de viños”, the wine quarter, where going from bar to bar for tapas is simply a way of life.",
   storyTitle: "A day at Tixola",
   storyKicker: "From a midday caña to the last glass of the night",
   story: [
     { time: "13:00", title: "Midday on the terrace", text: "A caña (small draught beer) with a tapa and the grelo croquetas while the square fills up." },
-    { time: "20:00", title: "Wine o'clock", text: "Godello, Ribeiro or Mencía by the glass, with grilled zamburiñas on the side." },
-    { time: "22:00", title: "Skillet dinner", text: "Iron pans that reach the table still sizzling. Made for sharing." },
+    { time: "20:00", title: "Time for the viños", text: "Godello, Ribeiro or Mencía by the glass, with griddled zamburiñas on the side." },
+    { time: "22:00", title: "Tixolas for dinner", text: "Iron pans that reach the table still sizzling. Made for sharing." },
   ],
   photoCaption: "Our terrace on Rúa Juan de Austria, with the church of Santa Eufemia in the background",
   photoBadge: "Real photo",
@@ -40,9 +40,9 @@ const experience = {
     today: "Today",
     restDay: "Today's our day off",
     hoursTitle: "Weekly opening hours",
-    hoursCaption: "Weekly opening hours of {brand}",
+    hoursCaption: "Weekly opening hours for {brand}",
     closed: "Closed",
-    note: "Opening hours given by the bar · Closed on Mondays · Sundays lunchtime only · Bank holidays: ask us",
+    note: "Opening hours provided by the bar · Closed on Mondays · Sundays lunchtime only · Public holidays: ask us",
     reserveHint: "No bookings — just walk in.",
   },
   map: {

@@ -16,10 +16,10 @@ const hero = {
   /** Word of the headline highlighted in italics with the ember gradient. */
   accent: "Heart",
   subtitle:
-    "Iron skillets that reach the table still sizzling, homemade croquetas, octopus from the Galician rías and sharing plates to enjoy with a good local wine, one minute from the Cathedral.",
+    "Iron tixolas — Galician skillets — that reach the table still sizzling, homemade croquetas, octopus from the rías and sharing plates to enjoy with a good Galician wine, one minute from the Cathedral.",
   ctaPrimary: "See the menu",
   ctaSecondary: "Get directions",
-  scrollCue: "Discover the house",
+  scrollCue: "Take a look around",
   scrollCueAria: "Scroll down to the signature dishes",
   since: "Ourense old town",
   /** Discreet link under the CTAs: "4.4 · 858 reviews on Google". */
