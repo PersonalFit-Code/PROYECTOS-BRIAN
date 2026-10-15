@@ -7,13 +7,13 @@ const vinos = {
   title: "The Wine",
   accent: "List",
   description:
-    "Tixola is a tapas bar and a wine bar: Galician wine isn't a side here, it's half the house. Tap a bottle to see its winery, grape and ageing. We also serve by the glass; we'll tell you the price, by bottle or by glass, at the bar.",
+    "Tixola is a tapas bar and a wine bar: Galician wine isn't an afterthought here, it's half of what we are. Tap a bottle to see its winery, grape and ageing. We also serve by the glass; we'll tell you the price, by bottle or by glass, at the bar.",
 
   pendingKicker: "In the works",
   pendingTitle: "We're still finalising the wine list",
   pendingText:
-    "It isn't published yet, and we'd rather keep it that way a few more days: we want every bottle on this list to be one we can actually open for you, not one that was on last year's menu.",
-  pendingAction: "In the meantime, just ask: we'll tell you what's open today and what goes well with whatever you're eating.",
+    "It isn't published yet, and we'd rather keep it that way a few more days: we want every bottle on this list to be one we can actually open for you, not one that was on last year's list.",
+  pendingAction: "In the meantime, just ask: we'll tell you which bottles we have open today and what goes well with whatever you're eating.",
   pendingAsk: "What wines do you have today, and which one would you recommend?",
   pendingCta: "Ask the virtual waiter",
   pendingWhatsapp: "Ask on WhatsApp",
@@ -22,11 +22,11 @@ const vinos = {
   regionsTitle: "Galicia's five",
   regionsAccent: "wine regions",
   regionsLead:
-    "Galicia has five denominations of origin and four of them have vineyards in the province of Ourense. The city's own municipality sits inside D.O. Ribeiro: the wine here is made, quite literally, next door.",
+    "Galicia has five wine appellations and four of them have vineyards in the province of Ourense. The city's own municipality sits inside D.O. Ribeiro: the wine here is made, quite literally, next door.",
   regionsNote:
-    "Our list has bottles from all five. Tap a denomination to see the ones we pour from that area.",
+    "Our list has bottles from all five. Tap an appellation to see the ones we have from that area.",
   inList: "{count} on the list",
-  mapAria: "Map of Galicia with its five wine denominations of origin",
+  mapAria: "Map of Galicia with its five wine appellations",
   mapFlow: "A trail runs from each one to Ourense, where Tixola is.",
   mapCredit: "Outline of Galicia: data from OpenStreetMap, ODbL licence.",
 
@@ -39,19 +39,19 @@ const vinos = {
   mapWorldPin: "{country}, {count} wines",
   mapWorldWines: "{count} wines",
   mapWorldOneWine: "1 wine",
-  mapWorldOrigins: "{count} denominations",
-  mapWorldOneOrigin: "1 denomination",
+  mapWorldOrigins: "{count} appellations",
+  mapWorldOneOrigin: "1 appellation",
   mapWorldPinOne: "{country}, 1 wine",
   mapWorldCredit: "Outline: Natural Earth (public domain)",
   mapZoomIn: "Zoom in",
   mapZoomOut: "Zoom out",
-  mapReset: "Back to the initial view",
+  mapReset: "Reset the view",
   nations: { espana: "Spain", portugal: "Portugal", francia: "France", argentina: "Argentina", sudafrica: "South Africa" },
   inOurense: "Province of Ourense",
   whites: "White grapes",
   reds: "Red grapes",
   since: "D.O. since {year}",
-  regionAria: "{name} denomination of origin",
+  regionAria: "{name} appellation",
   /** Abreviatura de "denominación de origen", delante del nombre protegido. */
   doPrefix: "D.O.",
   mapAtlantic: "Atlantic",
@@ -62,13 +62,13 @@ const vinos = {
     "rias-baixas":
       "An Atlantic climate with the sea right there, and vineyards below 300 metres. The whites that come out are about sharp acidity and aroma rather than alcohol — exactly what shellfish asks for.",
     ribeiro:
-      "A transition zone, its Atlantic air softened by the mountains that close it off to the north and west. Day and night differ widely in temperature, so the grape ripens slowly and keeps its aroma and freshness.",
+      "A transition zone, its Atlantic air softened by the mountains that close it off to the north and west. The swing between day and night temperatures is wide, so the grapes ripen slowly and keep their aroma and freshness.",
     "ribeira-sacra":
       "Vines on terraces above the Miño and Sil canyons, on slopes so steep the work is known as heroic viticulture. More continental than Atlantic: long hot summers, mild autumns.",
     valdeorras:
       "Mediterranean with an Atlantic influence, in the Sil valley and above 450 metres. On slate soils, the wines come out with a pronounced mineral character.",
     monterrei:
-      "The only one of the five that drains into the Douro, via the Támega, hard against the Portuguese border. Hot dry summers, cold winters, and up to 20 degrees between day and night as the grape ripens.",
+      "The only one of the five that drains into the Douro, via the Támega, hard against the Portuguese border. Hot dry summers, cold winters, and as much as 20 degrees between day and night while the grapes ripen.",
   },
 
   kinds: { blanco: "Whites", tinto: "Reds", rosado: "Rosés", espumoso: "Sparkling", dulce: "Sweet" },
@@ -83,7 +83,7 @@ const vinos = {
   filters: "Filters",
   filtersActive: "{count} active filters",
   filtersAria: "Filter the wine list",
-  filterByOrigin: "Denomination",
+  filterByOrigin: "Appellation",
   /* La primera chapa de la fila, la que vuelve a enseñar la carta entera. */
   allOrigins: "All",
   filterByKind: "Colour",
@@ -91,7 +91,7 @@ const vinos = {
   searchCount: "{count} of {total} wines",
   noResults: "No wine matches “{query}”",
   noResultsHint:
-    "You can search by name, winery, grape (godello, mencía, albariño), denomination and province (Monterrei, Ourense). And if it isn't there, ask us at the bar: we usually have bottles that aren't on the list.",
+    "You can search by name, winery, grape (godello, mencía, albariño), appellation and province (Monterrei, Ourense). And if it isn't there, ask us at the bar: we usually have bottles that aren't on the list.",
 
   /* ── The sheet (animated panel) ── */
   openSheet: "See the details for {name}",
@@ -109,10 +109,10 @@ const vinos = {
   blockRegion: "The appellation",
   regionProvinces: "Where",
   regionGrapes: "Preferred grapes",
-  askAboutWine: "Tell me about {name}. What does it taste like and which dish would you have it with?",
+  askAboutWine: "Tell me about {name}. What does it taste like, and which dish on the menu would you have it with?",
   askAboutWineCta: "Ask the waiter",
   askAboutWineAria: "Ask the virtual waiter about {name}",
-  pendingSheet: "We don't have a full sheet for this bottle yet. Ask us at the bar, or ask the virtual waiter.",
+  pendingSheet: "We haven't got the full details for this bottle yet. Ask us at the bar, or ask the virtual waiter.",
 
   blockGrape: "Grapes and winemaking",
   grapes: "Grape",
@@ -174,6 +174,6 @@ const vinos = {
 
   seoTitle: "Galician wine list in Ourense",
   seoDescription:
-    "Wine bar next to Ourense Cathedral: wines from Galicia's five denominations — Ribeiro, Valdeorras, Monterrei, Ribeira Sacra and Rías Baixas — to go with the tapas.",
+    "Wine bar next to Ourense Cathedral: wines from Galicia's five appellations — Ribeiro, Valdeorras, Monterrei, Ribeira Sacra and Rías Baixas — to go with the tapas.",
 } satisfies Translation<typeof esVinos>;
 export default vinos;

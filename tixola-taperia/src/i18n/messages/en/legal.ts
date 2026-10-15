@@ -584,7 +584,7 @@ const legal: LegalMessages = {
       },
       {
         q: "Are there vegan or vegetarian dishes?",
-        a: "Vegetarian, yes: the Tixola de pisto de verduras (iron-skillet pan of slow-cooked vegetables with egg and chips), the Patatas bravas, alioli o mixtas (chips with spicy brava sauce, with alioli or with both), the Salteado de verdura, arroz y setas (stir-fried vegetables, rice and mushrooms), the Tortilla guisada con champiñones (omelette braised with mushrooms), the Timbal vegetal (layered vegetables), the Queso frito (fried cheese) and the local, sheep's and goat's cheeses. Several contain egg or dairy, so you can filter them by allergen on the menu page. Nothing on the menu is vegan: if you're coming, say so when you order and the kitchen will tell you what can be adapted.",
+        a: "Vegetarian, yes: the **Tixola de pisto de verduras** (iron-skillet pan of slow-cooked vegetables with egg and chips), the **Patatas bravas, alioli o mixtas** (chips with spicy brava sauce, with alioli or with both), the **Salteado de verdura, arroz y setas** (stir-fried vegetables, rice and mushrooms), the **Tortilla guisada con champiñones** (omelette braised with mushrooms), the **Timbal vegetal** (layered vegetables), the **Queso frito** (fried cheese) and the local, sheep's and goat's cheeses. Several contain egg or dairy, so you can filter them by allergen on the menu page. Nothing on the menu is vegan: if you're coming, say so when you order and the kitchen will tell you what can be adapted.",
       },
       {
         q: "How do I get there, and where can I park?",

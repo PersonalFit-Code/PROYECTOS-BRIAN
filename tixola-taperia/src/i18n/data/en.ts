@@ -45,11 +45,11 @@ const en: DataTranslations = {
     revueltos: {
       label: "Revueltos",
       kicker: "Eggs and a hot pan",
-      description: "Softly scrambled and set just right, neither dry nor runny. The nearest thing to a stew for anyone who will not have one.",
+      description: "Softly scrambled and set just right, neither dry nor runny. As comforting as a stew, for anyone who would never order one.",
     },
     varios: {
       label: "Extras",
-      kicker: "Pudding and bread",
+      kicker: "Dessert and bread",
       description: "The sweet finish, and what goes alongside everything else.",
     },
   },
@@ -57,7 +57,7 @@ const en: DataTranslations = {
   menuItems: {
     // ─── TOSTAS ────────────────────────────────────────────────────
     "tos-salmon-queso": {
-      description: "Smoked salmon and soft cheese on toasted bread. Cold, mild and straight to the point: the one you order without thinking while the rest arrives.",
+      description: "Smoked salmon and cream cheese on toasted bread. Cold, mild and straight to the point: the one you order without thinking while the rest arrives.",
       unit: "each",
     },
     "tos-trigueros-jamon-codorniz": {
@@ -71,7 +71,7 @@ const en: DataTranslations = {
 
     // ─── TIXOLAS ───────────────────────────────────────────────────
     "tix-piquillos-panceta": {
-      description: "Caramelised piquillo peppers and crisp pork belly on the cast-iron pan, over its eggs and its chips. Sweet and salty in the same mouthful.",
+      description: "Caramelised piquillo peppers and crisp pork belly in the cast-iron pan, with eggs and chips. Sweet and salty in the same mouthful.",
       unit: "skillet",
     },
     "tix-chistorra": {
@@ -119,7 +119,7 @@ const en: DataTranslations = {
       unit: "portion",
     },
     "coc-croquetas-jamon": {
-      description: "Béchamel left to rest until it sets, finely chopped ham and frying at the last minute. Crisp outside, almost liquid inside.",
+      description: "A béchamel left to rest until it sets, with finely chopped ham, fried to order. Crisp outside, almost liquid inside.",
       unit: "portion",
       variants: ["Half portion", "Full portion"],
     },
@@ -134,7 +134,7 @@ const en: DataTranslations = {
       variants: ["Half portion", "Full portion"],
     },
     "coc-mejillones-tigre": {
-      description: "Mussel chopped and bound with béchamel, returned to its shell and breadcrumbed. The old bar-counter mouthful, made the way it should be.",
+      description: "Mussels chopped and bound with béchamel, spooned back into their shells and breadcrumbed. The old bar-counter mouthful, made the way it should be.",
       unit: "portion",
     },
     "coc-calamares": {
@@ -142,7 +142,7 @@ const en: DataTranslations = {
       unit: "portion",
     },
     "coc-bacalao-tempura": {
-      description: "Chunks of cod in a fine tempura, with peppers alongside. It cracks when you bite and stays juicy inside.",
+      description: "Chunks of cod in a fine tempura, with peppers alongside. They crack when you bite and stay juicy inside.",
       unit: "portion",
     },
     "coc-salteado-verdura-arroz": {
@@ -154,7 +154,7 @@ const en: DataTranslations = {
       unit: "portion",
     },
     "coc-tortilla-champinones": {
-      description: "A soft tortilla finished in a short mushroom stew. Eaten with bread, and nothing is left over.",
+      description: "A soft Spanish omelette finished in a short mushroom stew. Eaten with bread, and nothing is left over.",
       unit: "portion",
     },
     "coc-fingers-pollo": {
@@ -221,7 +221,7 @@ const en: DataTranslations = {
       unit: "portion",
     },
     "emb-queso-pais": {
-      description: "A young, mild Galician cheese from nearby. The one that sits best beside a glass without covering it.",
+      description: "A young, mild Galician cheese from nearby. The one that sits best beside a glass of wine without overpowering it.",
       unit: "portion",
     },
     "emb-queso-oveja": {
@@ -253,7 +253,7 @@ const en: DataTranslations = {
       unit: "portion",
     },
     "var-postre-sin-gluten": {
-      description: "The sweet option made without gluten, so nobody is left without an ending. Ask what there is today.",
+      description: "The sweet option made without gluten, so nobody has to miss out on pudding. Ask what we have today.",
       unit: "portion",
     },
     "var-pan": {
@@ -261,7 +261,7 @@ const en: DataTranslations = {
       unit: "basket",
     },
     "var-pan-tomate": {
-      description: "Toasted bread rubbed with tomato and olive oil. It goes down on its own while the rest arrives.",
+      description: "Toasted bread rubbed with tomato and olive oil. It disappears on its own while the rest arrives.",
       unit: "portion",
     },
   },
@@ -285,7 +285,7 @@ const en: DataTranslations = {
       ingredients: ["Raxo (marinated pork)", "Arzúa-Ulloa PDO cheese", "Free-range eggs", "Potatoes", "Paprika", "Extra virgin olive oil"],
       unit: "skillet",
       badge: "The most ordered",
-      pairingWhy: "A light, fresh red that stands up to the melted cheese without covering the marinade on the pork.",
+      pairingWhy: "A light, fresh red that stands up to the melted cheese without masking the marinade on the pork.",
     },
     croquetas: {
       kicker: "Béchamel left to rest",
@@ -310,8 +310,8 @@ const en: DataTranslations = {
       kicker: "Straight from the pan",
       headline: "The most loaded skillet in the house",
       description:
-        "Baby eels, sautéed mushrooms and prawns over eggs and potatoes, cooked in the same iron skillet they are served in. The most complete of the tixolas.",
-      ingredients: ["Baby eels (gulas)", "Sautéed mushrooms", "Prawns", "Eggs", "Potatoes", "Extra virgin olive oil"],
+        "Gulas (baby-eel look-alikes), sautéed mushrooms and king prawns over eggs and chips, cooked in the same iron skillet they are served in. The most complete of the tixolas.",
+      ingredients: ["Gulas (baby-eel look-alikes)", "Sautéed mushrooms", "King prawns", "Eggs", "Potatoes", "Extra virgin olive oil"],
       unit: "skillet",
       pairingWhy: "Rich egg and sweet prawn: it calls for a white with body and acidity, not a light one.",
     },
@@ -356,7 +356,7 @@ const en: DataTranslations = {
     "Terrace with Cathedral views",
     "Vegetarian options",
     "Gluten-free croquetas",
-    "Wine list of Galician D.O.s",
+    "Galician D.O. wines",
     "Craft beer",
     "Cards accepted",
   ],
@@ -366,8 +366,8 @@ const en: DataTranslations = {
       caption: "The terrace, with Santa Eufemia behind",
     },
     "zamburinas-plancha": {
-      alt: "Eight queen scallops grilled in their shells, topped with a garlic and parsley dressing, served on a white plate with a drizzle of reduction beside them",
-      caption: "Grilled Galician scallops",
+      alt: "Eight zamburiñas (queen scallops) seared in their shells, topped with an ajada of garlic and parsley, served on a white plate with a drizzle of reduction beside them",
+      caption: "Zamburiñas seared on the griddle",
     },
     "tixola-raxo-croquetas": {
       alt: "Cast-iron skillet of raxo pork with Arzúa cheese, homemade croquetas and Galician white wine on the terrace of Tixola Tapería, Ourense",
@@ -377,35 +377,35 @@ const en: DataTranslations = {
     /* Photos taken at the bar on 2 October 2026 */
     "tixola-raxo": {
       alt: "Overhead view of the raxo and Arzúa pan: potatoes, marinated pork and set egg, on the table at Tixola Tapería",
-      caption: "Raxo and Arzúa pan",
+      caption: "Raxo and Arzúa tixola",
     },
     "tixola-chistorra": {
       alt: "Overhead view of the chistorra pan: potatoes, set egg and sliced chistorra sausage",
-      caption: "Chistorra pan",
+      caption: "Chistorra tixola",
     },
     "ensalada-gulas-langostinos": {
-      alt: "Salad with baby eels, mushrooms and prawns: lettuce leaves and tomato slices topped with baby eels, sautéed mushrooms and prawns, in an earthenware bowl",
-      caption: "Baby eel, mushroom and prawn salad",
+      alt: "Salad with gulas, mushrooms and king prawns: lettuce leaves and tomato slices topped with gulas (baby-eel look-alikes), sautéed mushrooms and king prawns, in an earthenware bowl",
+      caption: "Gulas, mushroom and king prawn salad",
     },
     "ajada-bacalao": {
-      alt: "Cod in ajada: flaked salt cod dressed with olive oil, garlic and paprika, with a boiled potato beside it, in a green ceramic bowl",
+      alt: "Cod in ajada: flaked cod dressed with olive oil, garlic and paprika, with a boiled potato beside it, in a green ceramic bowl",
       caption: "Cod in Galician ajada",
     },
     "pulpo-feira": {
       alt: "Pulpo á feira on a wooden plate: slices of boiled octopus over potatoes, dusted with paprika and dressed with olive oil",
-      caption: "Galician-style octopus",
+      caption: "Pulpo á feira",
     },
     "pimientos-padron": {
       alt: "A dish of fried Padrón peppers sprinkled with coarse salt, on a green ceramic plate on a wooden table at Tixola Tapería",
       caption: "Padrón peppers",
     },
     "queso-frito": {
-      alt: "A plate of fried cheese: four breaded, golden cheese sticks on lettuce leaves, with a small bowl of shelled walnuts and another of red sauce beside them",
+      alt: "A plate of fried cheese: four breaded, golden cheese cubes on lettuce leaves, with a small bowl of shelled walnuts and another of red sauce beside them",
       caption: "Fried cheese, with walnuts and sauce",
     },
     "mejillones-tigre": {
-      alt: "A plate of tiger mussels: eight stuffed, breaded and fried mussel shells, golden, on a bed of salad leaves on a green plate",
-      caption: "Tiger mussels",
+      alt: "A plate of mejillones tigre: eight stuffed, breaded and fried mussel shells, golden, on a bed of salad leaves on a green plate",
+      caption: "Mejillones tigre (stuffed mussels)",
     },
     "postre-chocolate": {
       alt: "Chocolate dessert dusted with icing sugar and drizzled with syrup, served on a green plate with a scoop of vanilla ice cream and two of whipped cream, on a table at Tixola Tapería",
@@ -420,12 +420,12 @@ const en: DataTranslations = {
       caption: "Chistorra tixola, served at the table",
     },
     "tixola-gulas-langostinos": {
-      alt: "Overhead view of the pan with baby eels, mushrooms and prawns: potatoes and egg in a wooden-handled pan",
-      caption: "Pan with baby eels, mushrooms and prawns",
+      alt: "Overhead view of the tixola with gulas, mushrooms and king prawns: potatoes and egg in a wooden-handled pan",
+      caption: "Tixola with gulas, mushrooms and king prawns",
     },
     "patatas-alioli": {
-      alt: "Potatoes with alioli and parsley in a green ceramic bowl at Tixola Tapería in Ourense",
-      caption: "Potatoes with alioli",
+      alt: "A portion of chips with alioli and parsley in a green ceramic bowl at Tixola Tapería in Ourense",
+      caption: "Chips with alioli",
     },
     "calamares-fritos": {
       alt: "Fried squid rings over sliced potatoes, with a lemon wedge and a few salad leaves, served in an earthenware bowl on a table at Tixola Tapería",
@@ -448,15 +448,15 @@ const en: DataTranslations = {
       caption: "Avocado and smoked cod salad",
     },
     "croquetas-tabla": {
-      alt: "Overhead view of freshly fried homemade croquettes on a long wooden board",
-      caption: "House croquettes",
+      alt: "Overhead view of freshly fried homemade croquetas on a long wooden board",
+      caption: "House croquetas",
     },
     "croquetas-racion": {
-      alt: "A portion of homemade croquettes lined up on a long white plate on the bar's wooden table",
-      caption: "A portion of croquettes",
+      alt: "A portion of homemade croquetas lined up on a long white plate on the bar's wooden table",
+      caption: "A portion of croquetas",
     },
     "timbal-vegetal": {
-      alt: "Tixola Tapería's vegetable timbale: aubergine, courgette and roasted pepper layered on a potato base, topped with grilled king oyster mushrooms, with salad and dots of red sauce around the plate",
+      alt: "Tixola Tapería's vegetable timbale: aubergine, courgette and roasted pepper layered on a potato base, topped with griddled mushrooms, with salad and dots of red sauce around the plate",
       caption: "Vegetable timbale, with the wine room behind",
     },
     "fingers-pollo": {

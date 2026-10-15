@@ -35,7 +35,7 @@ const carta = {
      pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
      decirlo (en la carta sí estaba, en `priceNote`). */
   vatIncluded: "VAT included",
-  priceNote: "Prices include VAT and are the same as on the menu in the restaurant. The dessert of the day and the specials are announced there.",
+  priceNote: "Prices include VAT and are the same as on the menu in the bar. The dessert of the day and the specials are announced there.",
 
   /* ── Filter panel ── */
   filters: "Filters",
@@ -66,7 +66,7 @@ const carta = {
   legendKicker: "Allergens",
   legendLink: "See allergen key",
   legendFooter: "Unsure about an allergen?",
-  legendClose: "Close key",
+  legendClose: "Close the allergen key",
   legendCode: "Code {code}",
   legendNote:
     "Allergen information in accordance with Regulation (EU) No 1169/2011. If in any doubt, ask our staff: our kitchen handles all the allergens.",
@@ -76,8 +76,8 @@ const carta = {
   /* ── Dish card ── */
   tagsAria: "Features",
   pairing: "Pairs with",
-  variants: "Options",
-  photoOf: "{name}, a dish from Tixola Tapería in Ourense",
+  variants: "Portion sizes",
+  photoOf: "{name}, a dish at Tixola Tapería in Ourense",
   /* Abrir la ficha del plato (DishSpotlight) desde la carta: la fila de móvil y la foto de escritorio. */
   openDish: "View details for {name}",
   openDishCta: "View details",
@@ -88,7 +88,7 @@ const carta = {
   /* ── Virtual waiter ── */
   askWaiter: "Ask the virtual waiter",
   askWaiterKicker: "Virtual waiter",
-  askWaiterSub: "What is in this dish? Half portion or full? Anything vegan? Get an answer on the spot.",
+  askWaiterSub: "What's in this dish? Half portion or full? Anything vegan? Get an answer on the spot.",
   askWaiterHint: "Try asking",
   askWaiterCta: "Open the chat",
   askWaiterNote: "Answers are based on the menu and today's opening hours. For serious allergies, always check with our staff.",
@@ -98,8 +98,8 @@ const carta = {
   ctaTitle: "Feeling hungry?",
   ctaLead: "Feeling",
   ctaAccent: "hungry?",
-  ctaText: "No booking needed: drop by for a few glasses of wine beside the Cathedral and we'll seat you in turn.",
-  seoTitle: "Tapas menu in Ourense: scallops and octopus",
+  ctaText: "No booking needed: drop by for a few glasses of wine beside the Cathedral and we'll seat you in the order you arrive.",
+  seoTitle: "Tapas menu in Ourense: zamburiñas and octopus",
   seoDescription: "Tapas, cast-iron tixolas, Galician scallops, octopus and homemade croquetas by Ourense Cathedral. Full menu with allergens dish by dish and an allergen filter.",
 } satisfies Translation<typeof esCarta>;
 export default carta;

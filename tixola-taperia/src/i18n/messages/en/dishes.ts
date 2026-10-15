@@ -10,7 +10,7 @@ const dishes = {
   title: "What nobody leaves without trying",
   accent: "at Tixola",
   description:
-    "Galician produce from the rías and the countryside, seared in our iron skillets to that ember-kissed point only hot iron can give.",
+    "Galician produce from the rías and the countryside, seared in our cast-iron tixolas until it takes on that touch of char only hot iron can give.",
   hint: "Tap for details",
   ingredients: "Ingredients",
   allergens: "Allergens",
