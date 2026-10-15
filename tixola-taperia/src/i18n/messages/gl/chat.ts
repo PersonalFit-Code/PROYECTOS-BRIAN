@@ -6,7 +6,7 @@ import type { Section } from "./shape";
  */
 const chat: Section<"chat"> = {
   launcher: "Camareiro virtual",
-  cue: "Axúdoche a elixir?",
+  cue: "Axúdote a elixir?",
   launcherAria: "Abrir o camareiro virtual de Tixola",
   closeAria: "Pechar o camareiro virtual",
   title: "Camareiro virtual",
@@ -36,7 +36,7 @@ const chat: Section<"chat"> = {
   rateLimited: "Fixeches moitas preguntas seguidas. Agarda un minuto ou chámanos e atendémoste de contado.",
   retry: "Tentar de novo",
   disclaimer: "As respostas son orientativas. Ante alerxias graves, consulta sempre co persoal.",
-  privacyNote: "O que escribas envíase ao noso provedor de IA (Anthropic, nos EE. UU.) para redactar a resposta. Nós non o gardamos; queda no teu navegador mentres dure a visita e o provedor elimínao dos seus sistemas, por norma, en 30 días como máximo. Non escribas datos persoais nin de saúde: pregunta por pratos ou ingredientes.",
+  privacyNote: "O que escribas envíase ao noso provedor de IA (Anthropic, nos EUA) para redactar a resposta. Nós non o gardamos; queda no teu navegador mentres dure a visita e o provedor elimínao dos seus sistemas, por norma, en 30 días como máximo. Non escribas datos persoais nin de saúde: pregunta por pratos ou ingredientes.",
   privacyLink: "Como tratamos os teus datos",
   callCta: "Chamar",
   clear: "Nova conversa",
@@ -73,7 +73,7 @@ const chat: Section<"chat"> = {
     locationExtra:
       "Temos terraza con vistas á Catedral. O casco histórico é peonil: o mellor é aparcar preto e vir dando un paseo.",
     booking:
-      "Non collemos reservas: as mesas ocúpanse por orde de chegada, así que abonda con vir. Se sodes grupo grande, chámanos e dicímosche a mellor hora: [Chamar ao {phone}]({tel}).",
+      "Non collemos reservas: as mesas ocúpanse por orde de chegada, así que abonda con vir. Se vés cun grupo grande, chámanos e dicímosche a mellor hora: [Chamar ao {phone}]({tel}).",
     bookingExtra: "Os mellores momentos para atopar sitio son ao abrir, ás 13:00 e ás 20:00.",
     prices: "A nosa franxa de prezos é de **{range} por persoa**, con racións pensadas para compartir. Algúns exemplos:",
     pricesExtra: "Os prezos levan o IVE incluído e son os da carta do local. Aceptamos tarxeta.",
@@ -82,7 +82,7 @@ const chat: Section<"chat"> = {
     dishNoAllergens: "Consulta os alérxenos co persoal.",
     dishPairing: "Marida con **{wine}**.",
     safety: "Ante alerxias ou intolerancias, confírmao sempre co persoal: a nosa cociña manipula todos os alérxenos.",
-    fallback: "Non estou seguro de entenderte. Podo axudarte con:",
+    fallback: "Non estou seguro de terte entendido. Podo axudarte con:",
     fallbackItems: [
       "Pratos sen glute, sen lactosa, veganos ou vexetarianos",
       "Que hai en cada categoría: croquetas, tixolas, do mar, sobremesas…",

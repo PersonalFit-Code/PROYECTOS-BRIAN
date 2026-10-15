@@ -86,7 +86,6 @@ const common = {
     moodWine: "Ideal para uns vinhos",
     hours: "Horário",
   },
-  /** Modal "Reserve a sua mesa" (chamada, WhatsApp e formulário → mensagem de WhatsApp). */
   notFound: {
     kicker: "404",
     title: "Esta mesa não existe",

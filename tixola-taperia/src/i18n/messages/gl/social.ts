@@ -7,7 +7,7 @@ import type { Section } from "./shape";
  */
 const social: Section<"social"> = {
   kicker: "Proba social",
-  title: "Dino máis de {count}",
+  title: "Así o din máis de {count}",
   accent: "clientes",
   description:
     "O que se repite nas recensións: produto da ría, tixolas de ferro que chegan chiando e unha terraza coa Catedral de fondo.",
@@ -25,7 +25,7 @@ const social: Section<"social"> = {
   statsTitle: "En cifras",
   statsAria: "Cifras de Tixola",
   reviewsNote:
-    "As opinións de quen veu están onde as escribiron: en Google e en TripAdvisor. Alí lense enteiras e ao día.",
+    "As opinións dos que viñeron están onde as escribiron: en Google e en TripAdvisor. Alí lense enteiras e ao día.",
   seeGoogle: "Ver recensións en Google",
   seeTripadvisor: "Ver en TripAdvisor",
   /** Etiqueta accesible das estrelas (PlatformBadge) */

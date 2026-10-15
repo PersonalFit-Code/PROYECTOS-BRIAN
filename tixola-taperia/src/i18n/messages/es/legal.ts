@@ -630,7 +630,7 @@ const legal: LegalMessages = {
       },
       {
         q: "¿Hace falta reservar mesa?",
-        a: "No. En Tixola no cogemos reservas: las mesas se ocupan por orden de llegada, tanto dentro como en la terraza. Los mejores momentos para encontrar sitio son al abrir, a las 13:00 y a las 20:00. Si sois un grupo grande, llámanos al {phone} y te decimos qué hora te conviene más.",
+        a: "No. En Tixola no cogemos reservas: las mesas se ocupan por orden de llegada, tanto dentro como en la terraza. Los mejores momentos para encontrar sitio son al abrir, a las 13:00 y a las 20:00. Si vienes con un grupo grande, llámanos al {phone} y te decimos qué hora te conviene más.",
       },
       {
         q: "¿Tenéis opciones para celíacos e información de alérgenos?",

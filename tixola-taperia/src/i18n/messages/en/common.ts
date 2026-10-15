@@ -86,7 +86,6 @@ const common = {
     moodWine: "Perfect for a glass of wine",
     hours: "Opening hours",
   },
-  /** "Book your table" modal (call, WhatsApp and form → WhatsApp message). */
   notFound: {
     kicker: "404",
     title: "This table does not exist",

@@ -75,9 +75,9 @@ const chat = {
     pairingDishSimple: "Con **{dish}** te recomiendo **{wine}**, un vino gallego de nuestra vinoteca.",
     pairingWine: "El **{wine}** va de maravilla con:",
     pairingIntro: "Nuestros maridajes de la casa, con vinos gallegos de la vinoteca:",
-    /* La carta de vinos no está en la web todavía (Tatiana está decidiendo qué vinos sigue
-       comprando). Hasta entonces el camarero enseña los tres maridajes de la casa y dice la
-       verdad sobre el resto, en vez de callarse o inventar una bodega. */
+    /* La carta de vinos ya está publicada en /vinos (53 vinos, por denominación), así que aquí
+       el camarero remata enseñando los maridajes de la casa y manda a la carta entera para el
+       resto, en vez de recitar una lista que cambia cada temporada. */
     wineList: "Y tenemos {count} vinos en carta, ordenados por denominación: [la carta de vinos]({url}).",
     hoursIntro: "Nuestro horario (hora de Ourense):",
     hoursNow: "Ahora mismo: {status}.",
@@ -85,7 +85,7 @@ const chat = {
     locationExtra:
       "Tenemos terraza con vistas a la Catedral. El casco histórico es peatonal: lo mejor es aparcar cerca y venir dando un paseo.",
     booking:
-      "No cogemos reservas: las mesas se ocupan por orden de llegada, así que basta con venir. Si sois grupo grande, llámanos y te decimos la mejor hora: [Llamar al {phone}]({tel}).",
+      "No cogemos reservas: las mesas se ocupan por orden de llegada, así que basta con venir. Si vienes con un grupo grande, llámanos y te decimos la mejor hora: [Llamar al {phone}]({tel}).",
     bookingExtra: "Los mejores momentos para encontrar sitio son al abrir, a las 13:00 y a las 20:00.",
     prices: "Nuestra franja de precios es de **{range} por persona**, con raciones pensadas para compartir. Algunos ejemplos:",
     pricesExtra: "Los precios llevan el IVA incluido y son los de la carta del local. Aceptamos tarjeta.",

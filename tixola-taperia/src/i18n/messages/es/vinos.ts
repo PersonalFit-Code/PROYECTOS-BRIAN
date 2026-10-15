@@ -1,12 +1,12 @@
 /**
  * Textos de la página /vinos (vinoteca). Los marcadores {así} se rellenan con useFormat().
  *
- * ESTA PÁGINA SE PUBLICA SIN VINOS, y es una decisión del cliente, no un descuido. La lista
- * definitiva todavía no ha llegado —la dueña va a dejar de comprar algunos de los que hay hoy en la
- * carta de papel—, y publicar una lista que mañana no se pueda servir es exactamente el error que
- * esta web ya corrigió una vez con los platos inventados del FAQ. Así que mientras `WINES_PENDING`
- * siga en pie se enseña un aviso honesto y el contexto de las denominaciones gallegas, que es
- * información verdadera y útil, y no una carta de mentira.
+ * LA CARTA YA ESTÁ PUBLICADA: la lista que mantiene la casa, verificada vino a vino, con el mapa
+ * del mundo y el buscador. Las claves `pending*` siguen aquí a propósito: `WINES_PENDING`
+ * (`src/data/wines.ts`) se enciende solo si la lista se queda vacía, y entonces la página vuelve
+ * a enseñar el aviso honesto en vez de una cuadrícula vacía. Lo que NO se hace, ni entonces ni
+ * ahora, es rellenar la carta con botellas que mañana no se puedan descorchar: ese fue el error
+ * que esta web ya corrigió una vez con los platos inventados del FAQ.
  */
 const vinos = {
   /* ── Cabecera ── */
@@ -14,7 +14,7 @@ const vinos = {
   title: "La Carta",
   accent: "de Vinos",
   description:
-    "Tixola es tapería y vinoteca: el vino gallego no es aquí un acompañamiento, es la mitad de la casa. Pincha en una botella y verás su bodega, su uva y su crianza. Servimos también por copas; el precio, por botella o por copa, te lo decimos en la barra.",
+    "Tixola es tapería y vinoteca: el vino gallego no es aquí un acompañamiento, es la mitad de la casa. Pulsa en una botella y verás su bodega, su uva y su crianza. Servimos también por copas; el precio, por botella o por copa, te lo decimos en la barra.",
 
   /* ── Aviso mientras no hay vinos ── */
   pendingKicker: "En preparación",
@@ -37,7 +37,7 @@ const vinos = {
     "Galicia tiene cinco denominaciones de origen y cuatro tienen viñedo en la provincia de Ourense. El propio ayuntamiento de la ciudad está dentro de la D.O. Ribeiro: el vino de aquí se hace, literalmente, al lado.",
   /* La aclaración que impide leer el mapa como si fuera la carta. Va visible, no en letra pequeña. */
   regionsNote:
-    "En nuestra carta hay botellas de las cinco. Pincha en una denominación para ver las que tenemos de esa zona.",
+    "En nuestra carta hay botellas de las cinco. Pulsa en una denominación para ver las que tenemos de esa zona.",
   inList: "{count} en carta",
   mapAria: "Mapa de Galicia con las cinco denominaciones de origen de vino",
   /** Los cinco caminos animados del mapa, contados para quien no los ve. */
@@ -49,7 +49,7 @@ const vinos = {
   mapWorldKicker: "De dónde viene",
   mapWorldTitle: "El mundo, en la estantería",
   mapWorldLead:
-    "{count} botellas de {countries} países. Amplía con la rueda o con dos dedos, arrastra para moverte, y pincha un país —o su chincheta— para ver todos los vinos que tenemos de ahí.",
+    "{count} botellas de {countries} países. Amplía con la rueda o con dos dedos, arrastra para moverte, y pulsa en un país —o en su chincheta— para ver todos los vinos que tenemos de ahí.",
   mapWorldAria: "Mapa del mundo con los {countries} países de los que vienen los {count} vinos de la carta",
   mapWorldPin: "{country}, {count} vinos",
   /* Singular y plural aparte porque el interpolador solo sustituye marcadores, no sabe de números:
@@ -213,7 +213,7 @@ const vinos = {
     bairrada: "D.O.C. Bairrada",
     rhone: "D.O. Vallée du Rhône",
     argentina: "Argentina",
-    sudafrica: "South Africa",
+    sudafrica: "Sudáfrica",
   },
   countries: { espana: "España", portugal: "Portugal", francia: "Francia", ninguno: "" },
   /* Lo dice la carta de papel al pie de las dos caras, y es verdad: la lista no es cerrada. */

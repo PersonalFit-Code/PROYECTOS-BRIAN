@@ -1,17 +1,17 @@
 import type { Section } from "./shape";
 
-/** Textos da páxina /vinos (vinoteca). Ver o comentario de es/vinos.ts sobre por que se publica sen viños. */
+/** Textos da páxina /vinos (vinoteca). Ver o comentario de es/vinos.ts sobre as claves `pending*`. */
 const vinos: Section<"vinos"> = {
   kicker: "Vinoteca",
   title: "A Carta",
   accent: "de Viños",
   description:
-    "Tixola é tapería e vinoteca: o viño galego non é aquí un acompañamento, é a metade da casa. Pincha nunha botella e verás a súa adega, a súa uva e a súa crianza. Servimos tamén por copas; o prezo, por botella ou por copa, dicímoscho na barra.",
+    "Tixola é tapería e vinoteca: o viño galego non é aquí un acompañamento, é a metade da casa. Preme nunha botella e verás a súa adega, a súa uva e a súa crianza. Servimos tamén por copas; o prezo, por botella ou por copa, dicímoscho na barra.",
 
   pendingKicker: "En preparación",
   pendingTitle: "Estamos a pechar a carta de viños",
   pendingText:
-    "Aínda non está publicada, e preferimos que siga así uns días máis: queremos que cada botella desta lista sexa unha que de verdade poidamos descorchar, non unha que estivese na carta o ano pasado.",
+    "Aínda non está publicada, e preferimos que siga así uns días máis: queremos que cada botella desta lista sexa unha que de verdade che poidamos descorchar, non unha que estivese na carta o ano pasado.",
   pendingAction: "Mentres tanto, pregúntanos: contámosche que hai aberto hoxe e que lle vai ben ao que vaias comer.",
   pendingAsk: "Que viños tedes hoxe e cal me recomendades?",
   pendingCta: "Preguntar ao camareiro virtual",
@@ -33,7 +33,7 @@ const vinos: Section<"vinos"> = {
   mapWorldKicker: "De onde vén",
   mapWorldTitle: "O mundo, no andel",
   mapWorldLead:
-    "{count} botellas de {countries} países. Amplía coa roda ou con dous dedos, arrastra para moverte, e pincha un país —ou a súa chincheta— para ver todos os viños que temos de alí.",
+    "{count} botellas de {countries} países. Amplía coa roda ou con dous dedos, arrastra para moverte, e preme nun país —ou na súa chincheta— para ver todos os viños que temos de alí.",
   mapWorldAria: "Mapa do mundo cos {countries} países dos que veñen os {count} viños da carta",
   mapWorldPin: "{country}, {count} viños",
   mapWorldWines: "{count} viños",
@@ -51,7 +51,7 @@ const vinos: Section<"vinos"> = {
   reds: "Uvas tintas",
   since: "D.O. desde {year}",
   regionAria: "Denominación de orixe {name}",
-  /** Abreviatura de "denominación de origen", delante del nombre protegido. */
+  /** Abreviatura de "denominación de orixe", diante do nome protexido. */
   doPrefix: "D.O.",
   mapAtlantic: "Atlántico",
   mapPortugal: "Portugal",
@@ -63,7 +63,7 @@ const vinos: Section<"vinos"> = {
     ribeiro:
       "Zona de transición, co aire atlántico suavizado polas montañas que a pechan ao norte e ao oeste. Entre o día e a noite hai moita diferenza de temperatura, así que a uva madura amodo e conserva o aroma e o frescor.",
     "ribeira-sacra":
-      "Viñedo en socalcos sobre os canóns do Miño e do Sil, en ladeiras tan bruscas que a isto chámanlle viticultura heroica. Máis continental ca atlántica: veráns longos e calorosos, outonos temperados.",
+      "Viñedo en socalcos sobre os canóns do Miño e do Sil, en ladeiras tan bruscas que a isto lle chaman viticultura heroica. Máis continental ca atlántica: veráns longos e calorosos, outonos temperados.",
     valdeorras:
       "Mediterráneo con influencia atlántica, no val do Sil e por riba dos 450 metros. Sobre chan de lousa, os viños saen cun carácter mineral moi marcado.",
     monterrei:
@@ -83,7 +83,7 @@ const vinos: Section<"vinos"> = {
   filtersActive: "{count} filtros activos",
   filtersAria: "Filtrar a carta de viños",
   filterByOrigin: "Denominación",
-  /* La primera chapa de la fila, la que vuelve a enseñar la carta entera. */
+  /* A primeira chapa da fila, a que volve ensinar a carta enteira. */
   allOrigins: "Todas",
   filterByKind: "Cor",
   filtersClear: "Quitar os filtros",
@@ -149,7 +149,7 @@ const vinos: Section<"vinos"> = {
   winemaker: "Enólogo",
   awards: "Puntuacións e premios",
   story: "A historia",
-  priceNote: "Prezos con IVE incluído, os mesmos que na carta do local.",
+  priceNote: "Prezos co IVE incluído, os mesmos que na carta do local.",
 
   origins: {
     "fuera-do-ribeiro": "Fóra de D.O. · Ribeiro",
@@ -162,7 +162,7 @@ const vinos: Section<"vinos"> = {
     bairrada: "D.O.C. Bairrada",
     rhone: "D.O. Vallée du Rhône",
     argentina: "Arxentina",
-    sudafrica: "South Africa",
+    sudafrica: "Sudáfrica",
   },
   countries: { espana: "España", portugal: "Portugal", francia: "Francia", ninguno: "" },
   offMenuNote: "E pregúntanos: adoitamos ter outras referencias fóra de carta.",

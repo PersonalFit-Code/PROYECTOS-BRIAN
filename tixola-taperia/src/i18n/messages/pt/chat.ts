@@ -7,7 +7,7 @@ import type { Translation } from "./shape";
  */
 const chat = {
   launcher: "Empregado virtual",
-  cue: "Ajudo-te a escolher?",
+  cue: "Ajudo a escolher?",
   launcherAria: "Abrir o empregado virtual da Tixola",
   closeAria: "Fechar o empregado virtual",
   title: "Empregado virtual",
@@ -75,7 +75,7 @@ const chat = {
     locationExtra:
       "Temos esplanada com vista para a Catedral. O centro histórico é pedonal: o melhor é estacionar perto e vir a pé.",
     booking:
-      "Não aceitamos reservas: as mesas ocupam-se por ordem de chegada, basta aparecer. Se forem um grupo grande, ligue-nos e dizemos-lhe a melhor hora: [Ligar para {phone}]({tel}).",
+      "Não aceitamos reservas: as mesas ocupam-se por ordem de chegada, basta aparecer. Se vier com um grupo grande, ligue-nos e dizemos-lhe a melhor hora: [Ligar para {phone}]({tel}).",
     bookingExtra: "As melhores alturas para encontrar lugar são à abertura, às 13:00 e às 20:00.",
     prices: "A nossa faixa de preços é de **{range} por pessoa**, com doses pensadas para partilhar. Alguns exemplos:",
     pricesExtra: "Os preços incluem IVA e são os da carta do estabelecimento. Aceitamos cartão.",

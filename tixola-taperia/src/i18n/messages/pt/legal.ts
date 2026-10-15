@@ -29,7 +29,7 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Usamos cookies próprios necessários para que o site funcione. Com a tua permissão carregamos o mapa do Google, que instala cookies próprios, e medimos de forma agregada que páginas são visitadas (sem cookies).",
+    text: "Usamos cookies próprias necessárias para que o site funcione. Com a sua permissão carregamos o mapa do Google, que instala cookies próprias, e medimos de forma agregada que páginas são visitadas (sem cookies).",
     accept: "Aceitar todas",
     reject: "Só as necessárias",
     settings: "Configurar",
@@ -37,9 +37,9 @@ const legal: LegalMessages = {
     necessary: "Necessárias",
     necessaryDesc: "Imprescindíveis para que o site funcione (idioma, consentimento).",
     maps: "Mapa do Google",
-    mapsDesc: "Carrega o mapa do Google Maps na secção de localização. É um serviço do Google, que recebe o teu endereço IP e instala os seus próprios cookies.",
+    mapsDesc: "Carrega o mapa do Google Maps na secção de localização. É um serviço do Google, que recebe o seu endereço IP e instala as suas próprias cookies.",
     analytics: "Medição de visitas",
-    analyticsDesc: "Conta de forma agregada que páginas são vistas, com o Vercel Web Analytics. Não instala cookies nem guarda nada no teu navegador.",
+    analyticsDesc: "Conta de forma agregada que páginas são vistas, com o Vercel Web Analytics. Não instala cookies nem guarda nada no seu navegador.",
     more: "Mais informação",
     aria: "Aviso de cookies",
     panelTitle: "Preferências de cookies",
@@ -49,7 +49,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidade",
     cookiesLink: "Política de cookies",
     saved: "Preferências guardadas.",
-    noAnalyticsYet: "São duas coisas distintas e podes aceitar uma sem a outra: o mapa é servido pelo Google com os seus cookies; a medição é agregada, feita pela Vercel, e não toca no teu navegador.",
+    noAnalyticsYet: "São duas coisas distintas e pode aceitar uma sem a outra: o mapa é servido pelo Google com as suas cookies; a medição é agregada, feita pela Vercel, e não toca no seu navegador.",
   },
 
   /* ── Páginas legais: cabeçalho, índice e rodapé ── */
@@ -74,9 +74,9 @@ const legal: LegalMessages = {
     /* ── Política de privacidade (RGPD + LOPDGDD) ── */
     privacy: {
       description:
-        "Como a Tixola Tapería (Ourense) trata os seus dados quando nos escreve, usa o empregado virtual ou navega no site. Direitos e prazos.",
+        "Como a Tixola Tapería (Ourense) trata os seus dados quando nos escreve, usa o empregado virtual ou navega no site. Direitos, prazos e subcontratantes.",
       intro:
-        "Na {tradeName} tratamos muito poucos dados e apenas os imprescindíveis: os que nos dá se nos ligar ou nos escrever, as perguntas que faz ao empregado virtual e a informação técnica mínima para que o site funcione. O site não tem formulários nem recolhe dados por si só. Aqui contamos-lhe, sem letras pequenas, o que fazemos com eles.",
+        "Na {tradeName} tratamos muito poucos dados e apenas os imprescindíveis: os que nos dá se nos ligar ou nos escrever, as perguntas que faz ao empregado virtual e a informação técnica mínima para que o site funcione. O site não tem formulários nem recolhe dados por si só. Aqui contamos-lhe, sem letras miudinhas, o que fazemos com eles.",
       sections: [
         {
           id: "responsable",
@@ -121,7 +121,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Alergias e intolerâncias",
-                  desc: "Se nos as contar por telefone, por WhatsApp ou no próprio estabelecimento, usamo-las unicamente para lhe preparar o prato com segurança. São dados de categoria especial (art. 9.º do RGPD) que tratamos com o seu consentimento explícito, manifestado ao fornecê-los, e que não anotamos nem conservamos para além do serviço. Se as escreveres no empregado virtual, esse texto viaja com o resto da mensagem para a Anthropic (EUA), com as garantias do ponto 6; não o guardamos nos nossos servidores e desaparece do teu navegador ao premir «Nova conversa» ou ao fechar o separador. É por isso que o próprio chat te pede que não escrevas dados de saúde: para te ajudar com a carta não são precisos.",
+                  desc: "Se no-las contar por telefone, por WhatsApp ou no próprio estabelecimento, usamo-las unicamente para lhe preparar o prato com segurança. São dados de categoria especial (art. 9.º do RGPD) que tratamos com o seu consentimento explícito, manifestado ao fornecê-los, e que não anotamos nem conservamos para além do serviço. Se as escrever no empregado virtual, esse texto viaja com o resto da mensagem para a Anthropic (EUA), com as garantias do ponto 6; não o guardamos nos nossos servidores e desaparece do seu navegador ao premir «Nova conversa» ou ao fechar o separador. É por isso que o próprio chat lhe pede que não escreva dados de saúde: para o ajudar com a ementa não são precisos.",
                 },
               ],
             },
@@ -144,7 +144,7 @@ const legal: LegalMessages = {
                 [
                   "Responder às suas perguntas através do empregado virtual",
                   "O seu consentimento ao iniciar a conversa (art. 6.º, n.º 1, al. a) do RGPD)",
-                  "Só durante a sessão de navegação; não se guarda nos nossos servidores. O fornecedor do modelo elimina-o dos seus sistemas no máximo em 30 dias",
+                  "Só durante a sessão de navegação; não se guarda nos nossos servidores. O fornecedor do modelo elimina a conversa dos seus sistemas no máximo em 30 dias",
                 ],
                 [
                   "Garantir a segurança e o funcionamento técnico do site",
@@ -187,7 +187,7 @@ const legal: LegalMessages = {
               items: [
                 "**Não armazenamos a conversa nos nossos servidores**: é processada no momento para responder e não existe nenhuma base de dados de chats. Apenas contamos os pedidos por endereço IP durante dez minutos, em memória, para evitar abusos.",
                 "No seu navegador, a conversa é guardada no armazenamento de sessão (sessionStorage) para que não se perca ao mudar de página; desaparece ao fechar o separador e pode apagá-la a qualquer momento com o botão do próprio chat.",
-                "A Anthropic tem sede nos Estados Unidos. A transferência assenta em garantias adequadas: cláusulas contratuais-tipo aprovadas pela Comissão Europeia e, quando aplicável, a adesão do fornecedor ao Quadro de Privacidade de Dados UE-EUA, de acordo com a sua documentação em vigor. Segundo as suas condições comerciais, a Anthropic não utiliza o conteúdo enviado por API para treinar os seus modelos e de acordo com a sua documentação em vigor, elimina as entradas e saídas dos seus sistemas no máximo em 30 dias, salvo se tiver de as conservar mais tempo por lei ou porque o seu sistema detete uma utilização que viola as suas políticas (nesse caso, até 2 anos).",
+                "A Anthropic tem sede nos Estados Unidos. A transferência assenta em garantias adequadas: cláusulas contratuais-tipo aprovadas pela Comissão Europeia e, quando aplicável, a adesão do fornecedor ao Quadro de Privacidade de Dados UE-EUA, de acordo com a sua documentação em vigor. Segundo as suas condições comerciais, a Anthropic não utiliza o conteúdo enviado por API para treinar os seus modelos e, de acordo com a sua documentação em vigor, elimina as entradas e saídas dos seus sistemas no máximo em 30 dias, salvo se tiver de as conservar mais tempo por lei ou se o seu sistema detetar uma utilização que viole as suas políticas (nesse caso, até 2 anos).",
                 "Se não houver ligação ao fornecedor, responde um motor local com a ementa e o horário, sem enviar nada para o exterior.",
                 "As respostas são geradas automaticamente e podem conter erros. **Para alergias e intolerâncias, confirme sempre com o nosso pessoal no estabelecimento.**",
                 "Não escreva dados pessoais seus nem de terceiros (nomes, telefones, dados de saúde) no chat: não precisamos deles para o ajudar.",
@@ -201,7 +201,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Não vendemos nem cedemos os teus dados. Os dois primeiros desta lista são **subcontratantes**: tratam dados **por nossa conta**, seguindo as nossas instruções e com um contrato conforme ao art. 28 do RGPD. Os três últimos **não o são**: são terceiros que recebem dados porque o seu conteúdo é carregado no site ou porque premes a sua ligação, e cada um atua por sua conta e sob a sua própria política de privacidade.",
+              text: "Não vendemos nem cedemos os seus dados. Os dois primeiros desta lista são **subcontratantes**: tratam dados **por nossa conta**, seguindo as nossas instruções e com um contrato em conformidade com o art. 28.º do RGPD. Os três últimos **não o são**: são terceiros que recebem dados porque o respetivo conteúdo é carregado no site ou porque clica na respetiva ligação, e cada um atua por sua conta e sob a sua própria política de privacidade.",
             },
             {
               type: "dl",
@@ -212,7 +212,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Anthropic PBC (EUA)",
-                  desc: "Geração das respostas do empregado virtual (ver secção 4). [Política de privacidade da Anthropic](https://www.anthropic.com/legal/privacy).",
+                  desc: "Geração das respostas do empregado virtual (ver ponto 4). [Política de privacidade da Anthropic](https://www.anthropic.com/legal/privacy).",
                 },
                 {
                   term: "Google LLC / Google Ireland Ltd.",
@@ -220,7 +220,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Meta Platforms Ireland Ltd. (WhatsApp)",
-                  desc: "Se optar por nos escrever pelo WhatsApp, a comunicação decorre nessa aplicação e rege-se pelas suas condições e pela sua política de privacidade. Nós recebemos apenas a mensagem que você decide enviar.",
+                  desc: "Se optar por nos escrever pelo WhatsApp, a comunicação decorre nessa aplicação e rege-se pelas suas condições e pela sua política de privacidade. Nós recebemos apenas a mensagem que decidir enviar.",
                 },
                 {
                   term: "TripAdvisor LLC",
@@ -230,11 +230,11 @@ const legal: LegalMessages = {
             },
             {
               type: "p",
-              text: "Por outras palavras: pela Vercel e pela Anthropic respondemos nós, e podes pedir-nos cópia das garantias do ponto 6. Pela Google, Meta e TripAdvisor não respondemos: apenas te dizemos quando entram em jogo para que possas evitá-lo — o mapa não carrega se não o aceitares, e as ligações só abrem se as premires.",
+              text: "Por outras palavras: pela Vercel e pela Anthropic respondemos nós, e pode pedir-nos cópia das garantias do ponto 6. Pela Google, Meta e TripAdvisor não respondemos: apenas lhe dizemos quando intervêm para que possa evitá-lo — o mapa não carrega se não o aceitar, e as ligações só abrem se clicar nelas.",
             },
             {
               type: "p",
-              text: "Poderemos também comunicar dados às autoridades competentes quando uma norma nos obrigue a isso.",
+              text: "Poderemos também comunicar dados às autoridades competentes quando uma norma nos obrigar a isso.",
             },
           ],
         },
@@ -261,7 +261,7 @@ const legal: LegalMessages = {
               items: [
                 "**Acesso**: saber que dados seus tratamos.",
                 "**Retificação**: corrigir dados inexatos ou incompletos.",
-                "**Apagamento**: pedir que apaguemos os seus dados quando já não sejam necessários.",
+                "**Apagamento**: pedir que apaguemos os seus dados quando já não forem necessários.",
                 "**Oposição** e **limitação do tratamento**.",
                 "**Portabilidade**: receber os seus dados num formato estruturado, de uso corrente.",
                 "**Retirar o consentimento** a qualquer momento, sem que isso afete a licitude do tratamento anterior (por exemplo, mudando a sua decisão sobre cookies).",
@@ -283,7 +283,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "O site não se dirige a menores de 14 anos e não recolhemos conscientemente dados de menores. Se detetarmos dados de um menor sem a autorização dos pais ou tutores, eliminá-los-emos.",
+              text: "O site não se dirige a menores de 14 anos e não recolhemos conscientemente dados de menores. Se detetarmos dados de um menor sem a autorização dos pais ou tutores, iremos eliminá-los.",
             },
           ],
         },
@@ -337,7 +337,7 @@ const legal: LegalMessages = {
             },
             {
               type: "p",
-              text: "A {tradeName} é um estabelecimento de restauração (casa de tapas e vinoteca) situado no centro histórico de {city}, junto à Catedral de San Martiño. Dispõe das folhas de reclamação oficiais da Xunta de Galicia (o modelo espanhol de reclamação) à disposição da clientela no próprio estabelecimento.",
+              text: "A {tradeName} é um estabelecimento de restauração (casa de tapas e vinoteca) situado no centro histórico de {city}, junto à Catedral de San Martiño. Tem à disposição da clientela, no próprio estabelecimento, as folhas de reclamação oficiais da Xunta de Galicia (o equivalente espanhol do livro de reclamações).",
             },
           ],
         },
@@ -347,7 +347,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Este site tem uma finalidade exclusivamente informativa: dar a conhecer o estabelecimento, a sua ementa, o seu horário e as suas vias de contacto. Não se vende nem se contrata nada através do site, nem se reservam mesas. O acesso e a navegação atribuem a condição de pessoa utilizadora e implicam a aceitação deste Aviso legal, da [Política de privacidade](privacy) e da [Política de cookies](cookies).",
+              text: "Este site tem uma finalidade exclusivamente informativa: dar a conhecer o estabelecimento, a sua ementa, o seu horário e as suas formas de contacto. Não se vende nem se contrata nada através do site, nem se reservam mesas. O acesso e a navegação atribuem a condição de pessoa utilizadora e implicam a aceitação deste Aviso legal, da [Política de privacidade](privacy) e da [Política de cookies](cookies).",
             },
             {
               type: "ul",
@@ -365,12 +365,12 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Compromete-se a utilizar o site e os seus serviços (incluindo o empregado virtual) de forma lícita e conforme à boa-fé. Em particular, não é permitido:",
+              text: "Compromete-se a utilizar o site e os seus serviços (incluindo o empregado virtual) de forma lícita e de boa-fé. Em particular, não é permitido:",
             },
             {
               type: "ul",
               items: [
-                "Fazer extrações massivas ou automatizadas de conteúdos (scraping) ou sobrecarregar deliberadamente o serviço.",
+                "Fazer extrações em massa ou automatizadas de conteúdos (scraping) nem sobrecarregar deliberadamente o serviço.",
                 "Introduzir vírus, código malicioso ou qualquer elemento que possa danificar os sistemas próprios ou de terceiros.",
                 "Usurpar a identidade de outras pessoas ou do próprio estabelecimento.",
                 "Utilizar o empregado virtual para fins alheios à informação sobre o estabelecimento, para tentar obter as suas instruções internas ou para gerar conteúdos ilícitos ou ofensivos.",
@@ -392,7 +392,7 @@ const legal: LegalMessages = {
             },
             {
               type: "p",
-              text: "Os ícones de interface provêm da biblioteca Lucide (licença ISC). As marcas e logótipos de terceiros que aparecem no site (Google, Google Maps, WhatsApp, TripAdvisor) pertencem aos respetivos titulares e são utilizados unicamente para identificar os serviços ligados.",
+              text: "Os ícones de interface provêm da biblioteca Lucide (licença ISC). As marcas e logótipos de terceiros que aparecem no site (Google, Google Maps, WhatsApp, TripAdvisor) pertencem aos respetivos titulares e são utilizados unicamente para identificar os serviços para os quais remetemos.",
             },
           ],
         },
@@ -444,7 +444,7 @@ const legal: LegalMessages = {
       description:
         "Que cookies e armazenamento local utiliza o site da Tixola Tapería, para que servem, quanto duram e como pode aceitá-las, recusá-las ou mudar a sua decisão.",
       intro:
-        "Este site usa muito poucas cookies, e todas as que se instalam por defeito são técnicas: servem para recordar o seu idioma e a sua decisão sobre as próprias cookies. Aqui tem o detalhe e como as gerir.",
+        "Este site usa muito poucas cookies, e todas as que se instalam por defeito são técnicas: servem para recordar o seu idioma e a sua decisão sobre as próprias cookies. Aqui ficam os detalhes e a forma de as gerir.",
       sections: [
         {
           id: "que-son",
@@ -470,10 +470,10 @@ const legal: LegalMessages = {
                   "tixola_consent",
                   "Técnica (localStorage)",
                   "Própria",
-                  "Guarda a sua decisão sobre as cookies (aceitar, recusar ou configurar) para não voltar a perguntar em cada visita.",
+                  "Guarda as suas duas decisões — mapa do Google e medição de visitas — para não voltar a perguntar em cada visita.",
                   "{consentMonths} meses",
                 ],
-                ["tixola_promo_cerrada", "Técnica (localStorage)", "Própria", "Lembra que fechaste o aviso da promoção do mês para não voltar a mostrá-lo.", "Até que seja publicada outra promoção ou apagues os dados do navegador"],
+                ["tixola_promo_cerrada", "Técnica (localStorage)", "Própria", "Lembra que fechou o aviso da promoção do mês para não voltar a mostrá-lo.", "Até que seja publicada outra promoção ou apague os dados do navegador"],
                 [
                   "tixola:waiter:*",
                   "Técnica (sessionStorage)",
@@ -547,7 +547,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "A secção «Como chegar» mostra um mapa ilustrado próprio que não instala nada. O mapa real do Google Maps é carregado se tiver aceitado as cookies; caso contrário, esse separador pede autorização e nada é carregado até clicar em «Ver mapa real». Quando carrega, o seu navegador liga-se à Google, que recebe o seu endereço IP e pode instalar cookies de acordo com a sua [política de privacidade](https://policies.google.com/privacy) e a sua [informação sobre cookies](https://policies.google.com/technologies/cookies). Se preferir não o carregar, use a ligação «Abrir no Google Maps» ou venha a pé: estamos a um minuto da Catedral.",
+              text: "A secção «Como chegar» mostra um mapa ilustrado próprio que não instala nada. O mapa real do Google Maps é carregado se tiver aceitado as cookies; caso contrário, esse separador pede autorização e nada é carregado até clicar em «Ver mapa real». Quando é carregado, o seu navegador liga-se à Google, que recebe o seu endereço IP e pode instalar cookies de acordo com a sua [política de privacidade](https://policies.google.com/privacy) e a sua [informação sobre cookies](https://policies.google.com/technologies/cookies). Se preferir não o carregar, recuse as cookies, use a ligação «Abrir no Google Maps» ou venha a pé: estamos a um minuto da Catedral.",
             },
           ],
         },
@@ -557,7 +557,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Reveremos esta política sempre que mudem as cookies que utilizamos ou a regulamentação aplicável. Data da última atualização: {updated}. Mais informação sobre o tratamento dos seus dados na [Política de privacidade](privacy) e sobre o titular no [Aviso legal](legalNotice).",
+              text: "Reveremos esta política sempre que mudarem as cookies que utilizamos ou a regulamentação aplicável. Data da última atualização: {updated}. Mais informação sobre o tratamento dos seus dados na [Política de privacidade](privacy) e sobre o titular no [Aviso legal](legalNotice).",
             },
           ],
         },
@@ -578,19 +578,19 @@ const legal: LegalMessages = {
       },
       {
         q: "É preciso reservar mesa?",
-        a: "Não. Na Tixola não aceitamos reservas: as mesas são ocupadas por ordem de chegada, tanto no interior como na esplanada. Os melhores momentos para encontrar lugar são à hora de abrir, às 13:00 e às 20:00. Se forem um grupo grande, ligue-nos para o {phone} e dizemos-lhe qual a hora que mais lhe convém.",
+        a: "Não. Na Tixola não aceitamos reservas: as mesas são ocupadas por ordem de chegada, tanto no interior como na esplanada. As melhores horas para encontrar lugar são a da abertura, as 13:00 e as 20:00. Se vier com um grupo grande, ligue-nos para o {phone} e dizemos-lhe qual a hora que mais lhe convém.",
       },
       {
         q: "Têm opções para celíacos e informação sobre alergénios?",
-        a: "Sim, com uma ressalva importante. A ementa do site indica os 14 alergénios de declaração obrigatória de cada prato e permite filtrar aquele que quiser evitar. Dito isto, os únicos pratos que declaramos sem glúten são as **croquetas sin gluten** e o **postre sin gluten**; dos restantes dizemos o que levam, nunca o que não levam. Na cozinha manipulam-se os 14 alergénios, por isso avise sempre o pessoal ao pedir e confirmamos-lhe na hora.",
+        a: "Sim, com uma ressalva importante. A ementa do site indica os 14 alergénios de declaração obrigatória de cada prato e permite filtrar por aquele que quiser evitar. Dito isto, os únicos pratos que declaramos sem glúten são as **croquetas sin gluten** e o **postre sin gluten**; dos restantes dizemos o que levam, nunca o que não levam. Na cozinha manipulam-se os 14 alergénios, por isso avise sempre o pessoal ao pedir e confirmamos-lhe tudo na hora.",
       },
       {
         q: "Há pratos veganos ou vegetarianos?",
-        a: "Vegetarianos, sim: a tixola de pisto de verduras, as patatas bravas, alioli ou mistas, o salteado de verdura, arroz y setas, a tortilla guisada con champiñones, o timbal vegetal, o queso frito e os queijos do país, de ovelha e de cabra. Vários levam ovo ou lacticínios, por isso na ementa do site pode filtrá-los por alergénio. Veganos não temos nenhum na ementa: se vier, diga-o ao pedir e na cozinha dizem-lhe o que se pode adaptar.",
+        a: "Vegetarianos, sim: a tixola de pisto de verduras, as patatas bravas, alioli ou mixtas, o salteado de verdura, arroz y setas, a tortilla guisada con champiñones, o timbal vegetal, o queso frito e os queijos do país, de ovelha e de cabra. Vários levam ovo ou lacticínios, por isso na ementa do site pode filtrá-los por alergénio. Veganos não temos nenhum na ementa: se vier, diga-o ao pedir e na cozinha dizem-lhe o que se pode adaptar.",
       },
       {
         q: "Como chegar e onde estacionar?",
-        a: "Estamos na {address}, a um minuto a pé da Catedral de San Martiño, em pleno centro histórico de Ourense. A zona é pedonal: recomendamos estacionar nos parques públicos do centro e vir a pé; no site tem o botão «Como chegar», que abre o percurso no Google Maps.",
+        a: "Estamos na {address}, a um minuto a pé da Catedral de San Martiño, em pleno centro histórico de Ourense. A zona é pedonal: recomendamos deixar o carro num dos parques de estacionamento do centro e vir a pé; no site encontra o botão «Como chegar», que abre o percurso no Google Maps.",
       },
       {
         q: "Têm esplanada?",

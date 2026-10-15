@@ -86,7 +86,6 @@ const common = {
     moodWine: "Ideal para unos vinos",
     hours: "Horario",
   },
-  /** Modal "Reserva tu mesa" (llamada, WhatsApp y formulario → mensaje de WhatsApp). */
   /** Página 404 dentro de un idioma válido (slug legal desconocido, enlace roto). */
   notFound: {
     kicker: "404",

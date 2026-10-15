@@ -1,18 +1,18 @@
 import type esVinos from "@/i18n/messages/es/vinos";
 import type { Translation } from "./shape";
 
-/** Textos da página /vinos (vinoteca). Ver o comentário de es/vinos.ts sobre por que se publica sem vinhos. */
+/** Textos da página /vinos (vinoteca). Ver o comentário de es/vinos.ts sobre as chaves `pending*`. */
 const vinos = {
   kicker: "Vinoteca",
   title: "A Carta",
   accent: "de Vinhos",
   description:
-    "A Tixola é tapería e vinoteca: o vinho galego não é aqui um acompanhamento, é metade da casa. Carrega numa garrafa para veres a sua adega, a sua casta e o seu estágio. Servimos também a copo; o preço, por garrafa ou a copo, dizemos-to ao balcão.",
+    "A Tixola é tapería e vinoteca: o vinho galego não é aqui um acompanhamento, é metade da casa. Carregue numa garrafa para ver a sua adega, a sua casta e o seu estágio. Servimos também a copo; o preço, por garrafa ou a copo, dizemos-lho ao balcão.",
 
   pendingKicker: "Em preparação",
   pendingTitle: "Estamos a fechar a carta de vinhos",
   pendingText:
-    "Ainda não está publicada, e preferimos que assim continue mais uns dias: queremos que cada garrafa desta lista seja uma que possamos mesmo abrir, não uma que estava na carta do ano passado.",
+    "Ainda não está publicada, e preferimos que assim continue mais uns dias: queremos que cada garrafa desta lista seja uma que possamos mesmo abrir, não uma que estivesse na carta o ano passado.",
   pendingAction: "Entretanto, pergunte-nos: dizemos-lhe o que está aberto hoje e o que combina com o que vai comer.",
   pendingAsk: "Que vinhos têm hoje e qual me recomendam?",
   pendingCta: "Perguntar ao empregado virtual",
@@ -27,14 +27,14 @@ const vinos = {
     "Na nossa carta há garrafas das cinco. Toque numa denominação para ver as que temos dessa zona.",
   inList: "{count} na carta",
   mapAria: "Mapa da Galiza com as cinco denominações de origem de vinho",
-  mapFlow: "De cada uma delas sai um caminho até Ourense, onde fica o Tixola.",
+  mapFlow: "De cada uma delas sai um caminho até Ourense, onde fica a Tixola.",
   mapCredit: "Contorno da Galiza: dados do OpenStreetMap, licença ODbL.",
 
   /* ── O mapa do mundo ── */
   mapWorldKicker: "De onde vem",
   mapWorldTitle: "O mundo, na prateleira",
   mapWorldLead:
-    "{count} garrafas de {countries} países. Amplia com a roda ou com dois dedos, arrasta para te moveres, e carrega num país — ou no seu pino — para veres todos os vinhos que temos de lá.",
+    "{count} garrafas de {countries} países. Amplie com a roda ou com dois dedos, arraste para se mover, e carregue num país — ou no seu marcador — para ver todos os vinhos que temos de lá.",
   mapWorldAria: "Mapa do mundo com os {countries} países de onde vêm os {count} vinhos da carta",
   mapWorldPin: "{country}, {count} vinhos",
   mapWorldWines: "{count} vinhos",
@@ -76,7 +76,7 @@ const vinos = {
 
   /* ── O buscador ── */
   searchLabel: "Procurar um vinho",
-  search: "Procura: godello, Monterrei, mencía…",
+  search: "Procure: godello, Monterrei, mencía…",
   searchClear: "Limpar a procura",
 
   /* ── O painel de filtros ── */
@@ -91,13 +91,13 @@ const vinos = {
   searchCount: "{count} de {total} vinhos",
   noResults: "Nenhum vinho corresponde a «{query}»",
   noResultsHint:
-    "Procura-se por nome, adega, casta (godello, mencía, alvarinho), denominação e província (Monterrei, Ourense). E se não aparecer, pergunta-nos ao balcão: costumamos ter referências fora da carta.",
+    "A procura funciona por nome, adega, casta (godello, mencía, albariño), denominação e província (Monterrei, Ourense). E se não aparecer, pergunte-nos ao balcão: costumamos ter referências fora da carta.",
 
   /* ── A ficha (folha animada) ── */
   openSheet: "Ver a ficha de {name}",
   closeOverlay: "Fechar a ficha",
   close: "Fechar",
-  dragHandle: "Arrasta para baixo para fechar",
+  dragHandle: "Arraste para baixo para fechar",
 
   glass: "Copo",
   bottle: "Garrafa",
@@ -108,7 +108,7 @@ const vinos = {
 
   blockRegion: "A denominação",
   regionProvinces: "Onde",
-  regionGrapes: "Castas preferentes",
+  regionGrapes: "Castas preferenciais",
   askAboutWine: "Fala-me do vinho {name}. A que sabe e com que prato da carta o beberias?",
   askAboutWineCta: "Perguntar ao empregado",
   askAboutWineAria: "Perguntar ao empregado virtual sobre {name}",
@@ -117,7 +117,7 @@ const vinos = {
   blockGrape: "Casta e elaboração",
   grapes: "Casta",
   monovarietal: "Monovarietal",
-  blend: "Mistura",
+  blend: "Lote",
   percent: "{value} %",
   ageing: "Estágio",
   winemaking: "Elaboração",
@@ -135,8 +135,8 @@ const vinos = {
   format: "Formato",
   formatValue: "{cl} cl",
 
-  blockTasting: "Degustação e serviço",
-  notes: "Nota de degustação",
+  blockTasting: "Prova e serviço",
+  notes: "Nota de prova",
   axes: { body: "Corpo", acidity: "Acidez", tannin: "Taninos", sweetness: "Doçura" },
   axisAria: "{axis}: {value} de 5",
   serve: "Temperatura de serviço",
@@ -150,7 +150,7 @@ const vinos = {
   winemaker: "Enólogo",
   awards: "Pontuações e prémios",
   story: "A história",
-  priceNote: "Preços com IVA incluído, os mesmos que na carta do local.",
+  priceNote: "Preços com IVA incluído, os mesmos que na carta da casa.",
 
   origins: {
     "fuera-do-ribeiro": "Fora da D.O. · Ribeiro",
@@ -163,7 +163,7 @@ const vinos = {
     bairrada: "D.O.C. Bairrada",
     rhone: "D.O. Vallée du Rhône",
     argentina: "Argentina",
-    sudafrica: "South Africa",
+    sudafrica: "África do Sul",
   },
   countries: { espana: "Espanha", portugal: "Portugal", francia: "França", ninguno: "" },
   offMenuNote: "E pergunte-nos: costumamos ter outras referências fora da carta.",

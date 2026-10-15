@@ -1,7 +1,7 @@
 import type esVinos from "@/i18n/messages/es/vinos";
 import type { Translation } from "./shape";
 
-/** Texts for the /vinos page (wine bar). See the comment in es/vinos.ts on why it ships with no wines. */
+/** Texts for the /vinos page (wine bar). See the comment in es/vinos.ts on the `pending*` keys. */
 const vinos = {
   kicker: "Wine bar",
   title: "The Wine",

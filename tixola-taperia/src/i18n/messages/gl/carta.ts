@@ -30,9 +30,9 @@ const carta: Section<"carta"> = {
   resultsUnitOne: "prato",
   resultsLive: "{count} pratos atopados",
   resultsRegion: "Pratos da carta",
-  /* Nota corta para junto al precio grande de la ficha de plato: el art. 60.2.c TRLGDCU
-     pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
-     decirlo (en la carta sí estaba, en `priceNote`). */
+  /* Nota curta para xunto ao prezo grande da ficha de prato: o art. 60.2.c TRLXDCU
+     pide prezo final con impostos alí ONDE SE AMOSE, e a portada ensinaba prezos sen
+     dicilo (na carta si estaba, en `priceNote`). */
   vatIncluded: "IVE incluído",
   priceNote: "Prezos co IVE incluído, os mesmos que na carta do local. A sobremesa do día e as suxestións anúncianse alí.",
 
@@ -77,7 +77,7 @@ const carta: Section<"carta"> = {
   pairing: "Marida con",
   variants: "Variantes",
   photoOf: "{name}, prato de Tixola Tapería en Ourense",
-  /* Abrir la ficha del plato (DishSpotlight) desde la carta: la fila de móvil y la foto de escritorio. */
+  /* Abrir a ficha do prato (DishSpotlight) desde a carta: a fila do móbil e a foto de escritorio. */
   openDish: "Ver a ficha de {name}",
   openDishCta: "Ver ficha",
   askAboutDish: "Que me contas do prato {name}? Leva alérxenos e con que viño o marido?",

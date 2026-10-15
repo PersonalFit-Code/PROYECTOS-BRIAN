@@ -40,7 +40,7 @@ const gl: DataTranslations = {
     embutidos: {
       label: "Embutidos e queixos",
       kicker: "Táboa e coitelo",
-      description: "Para abrir boca ou para alongar a sobremesa co que quede na copa.",
+      description: "Para abrir boca ou para alongar a parola co que quede na copa.",
     },
     revueltos: {
       label: "Revoltos",
@@ -93,7 +93,7 @@ const gl: DataTranslations = {
 
     // ─── ENSALADAS ─────────────────────────────────────────────────
     "ens-gulas-setas-langostinos": {
-      description: "Base de brotes con gulas, cogomelos salteados e lagostinos. Morna por riba e fresca por abaixo: cómese como prato único.",
+      description: "Base de gromos con gulas, cogomelos salteados e lagostinos. Morna por riba e fresca por abaixo: cómese como prato único.",
       unit: "ración",
     },
     "ens-pollo-crujiente": {
@@ -109,7 +109,7 @@ const gl: DataTranslations = {
       unit: "ración",
     },
     "ens-aguacate-bacalao": {
-      description: "Aguacate e bacallau afumado, suave e manteigoso. A máis lixeira das cinco.",
+      description: "Abacate e bacallau afumado, suave e manteigoso. A máis lixeira das cinco.",
       unit: "ración",
     },
 
@@ -310,10 +310,10 @@ const gl: DataTranslations = {
       kicker: "Da tixola á mesa",
       headline: "A tixola máis completa da casa",
       description:
-        "Gulas, cogomelos salteados e langostinos sobre ovos e patacas, feitos na mesma tixola de ferro na que chegan á mesa. A máis completa das tixolas.",
-      ingredients: ["Gulas", "Cogomelos salteados", "Langostinos", "Ovos", "Patacas", "AOVE"],
+        "Gulas, cogomelos salteados e lagostinos sobre ovos e patacas, feitos na mesma tixola de ferro na que chegan á mesa. A máis completa das tixolas.",
+      ingredients: ["Gulas", "Cogomelos salteados", "Lagostinos", "Ovos", "Patacas", "AOVE"],
       unit: "tixola",
-      pairingWhy: "Ten graxa de ovo e dozura de langostino: pide un branco con corpo e acidez, non un lixeiro.",
+      pairingWhy: "Ten graxa de ovo e dozura de lagostino: pide un branco con corpo e acidez, non un lixeiro.",
     },
     cecina: {
       kicker: "Curado e frío",
@@ -384,8 +384,8 @@ const gl: DataTranslations = {
       caption: "Tixola con chistorra",
     },
     "ensalada-gulas-langostinos": {
-      alt: "Ensalada de angulas, fungos e lagostinos: brotes de leituga e rodas de tomate con angulas, fungos salteados e lagostinos por riba, en cunca de barro",
-      caption: "Ensalada de angulas, fungos e lagostinos",
+      alt: "Ensalada de gulas, cogomelos e lagostinos: gromos de leituga e rodas de tomate con gulas, cogomelos salteados e lagostinos por riba, en cunca de barro",
+      caption: "Ensalada de gulas, cogomelos e lagostinos",
     },
     "ajada-bacalao": {
       alt: "Allada de bacallau: bacallau esmigallado con aceite, allo e pemento por riba, cunha pataca cocida ao lado, en cunca de cerámica verde",
@@ -396,7 +396,7 @@ const gl: DataTranslations = {
       caption: "Polbo á feira",
     },
     "pimientos-padron": {
-      alt: "Fonte de pementos de Padrón fritos e espolvoreados con sal grosa, en prato de cerámica verde sobre a mesa de madeira de Tixola Tapería",
+      alt: "Fonte de pementos de Padrón fritos e espolvoreados con sal groso, en prato de cerámica verde sobre a mesa de madeira de Tixola Tapería",
       caption: "Pementos de Padrón",
     },
     "queso-frito": {
@@ -404,7 +404,7 @@ const gl: DataTranslations = {
       caption: "Queixo frito, con noces e salsa",
     },
     "mejillones-tigre": {
-      alt: "Ración de mexillóns tigre: oito cunchas recheas e rebozadas, douradas, sobre un leito de brotes de ensalada en prato verde",
+      alt: "Ración de mexillóns tigre: oito cunchas recheas e rebozadas, douradas, sobre un leito de gromos de ensalada en prato verde",
       caption: "Mexillóns tigre",
     },
     "postre-chocolate": {
@@ -420,11 +420,11 @@ const gl: DataTranslations = {
       caption: "Tixola con chistorra, servida na mesa",
     },
     "tixola-gulas-langostinos": {
-      alt: "Tixola con gulas, fungos e lagostinos vista desde arriba: tixola de mango de madeira con patacas e ovo",
-      caption: "Tixola con gulas, fungos e lagostinos",
+      alt: "Tixola con gulas, cogomelos e lagostinos vista desde arriba: tixola de mango de madeira con patacas, ovo e gulas",
+      caption: "Tixola con gulas, cogomelos e lagostinos",
     },
     "patatas-alioli": {
-      alt: "Ración de patacas con allada e perexil en cunca de cerámica verde, en Tixola Tapería de Ourense",
+      alt: "Ración de patacas con alioli e perexil en cunca de cerámica verde, en Tixola Tapería de Ourense",
       caption: "Patacas con alioli",
     },
     "calamares-fritos": {
@@ -432,7 +432,7 @@ const gl: DataTranslations = {
       caption: "Calamares fritos",
     },
     "bacalao-tempura": {
-      alt: "Bacallau en tempura, dourado e crocante, sobre unha cama de patacas en rodajas, cunha salseira de salsa vermella ao lado, en fonte de cerámica verde",
+      alt: "Bacallau en tempura, dourado e crocante, sobre unha cama de patacas en rodas, cunha salseira de salsa vermella ao lado, en fonte de cerámica verde",
       caption: "Bacallau en tempura",
     },
     "revuelto-bacalao-grelos": {
@@ -448,7 +448,7 @@ const gl: DataTranslations = {
       caption: "Ensalada de abacate e bacallau afumado",
     },
     "croquetas-tabla": {
-      alt: "Croquetas caseiras recén fritas, vistas desde arriba sobre un taboleiro de madeira alongado",
+      alt: "Croquetas caseiras recén fritas, vistas desde arriba sobre unha táboa de madeira alongada",
       caption: "Croquetas da casa",
     },
     "croquetas-racion": {
@@ -456,7 +456,7 @@ const gl: DataTranslations = {
       caption: "Ración de croquetas",
     },
     "timbal-vegetal": {
-      alt: "Timbal vexetal de Tixola Tapería: berenxena, cabaciña e pemento asado montados en capas sobre unha base de pataca, coroado con setas á prancha, con ensalada e pingas de salsa vermella arredor do prato",
+      alt: "Timbal vexetal de Tixola Tapería: berenxena, cabaciña e pemento asado montados en capas sobre unha base de pataca, coroado con cogomelos á prancha, con ensalada e pingas de salsa vermella arredor do prato",
       caption: "Timbal vexetal, coa vinoteca ao fondo",
     },
     "fingers-pollo": {
@@ -464,11 +464,11 @@ const gl: DataTranslations = {
       caption: "Fingers de polo",
     },
     "tosta-salmon-queso": {
-      alt: "Tosta de salmón e queixo de Tixola Tapería: dúas rebandas de pan rústico tostado con queixo cremoso untado e follas de salmón afumado por riba, regadas cun fío de salsa escura, con follas de ensalada ao lado, nunha fonte ovalada de cerámica verde sobre a mesa de madeira",
+      alt: "Tosta de salmón e queixo de Tixola Tapería: dúas rebandas de pan rústico tostado con queixo cremoso untado e lascas de salmón afumado por riba, regadas cun fío de salsa escura, con follas de ensalada ao lado, nunha fonte ovalada de cerámica verde sobre a mesa de madeira",
       caption: "Tosta de salmón e queixo",
     },
     "ensalada-cecina": {
-      alt: "Ensalada de cecina de Tixola Tapería: follas de cecina repartidas en coroa sobre follas de leituga e endivia, con gallos de tomate, follas de mazá e noces, e unha quenelle de xeado de queixo de ovella no centro, nunha cunca fonda de cerámica sobre a mesa de madeira",
+      alt: "Ensalada de cecina de Tixola Tapería: láminas de cecina repartidas en coroa sobre follas de leituga e endivia, con gallos de tomate, láminas de mazá e noces, e unha quenelle de xeado de queixo de ovella no centro, nunha cunca fonda de cerámica sobre a mesa de madeira",
       caption: "Ensalada de cecina con xeado de queixo de ovella",
     },
     "fachada-calle": {
@@ -496,7 +496,7 @@ const gl: DataTranslations = {
       caption: "Os viños recomendados do día",
     },
     "cubitera-regina": {
-      alt: "Cubiteira de metal con botellas arrefriando na vinoteca de Tixola Tapería",
+      alt: "Cubiteira de metal con botellas a arrefriar na vinoteca de Tixola Tapería",
       caption: "Arrefriando para a seguinte rolda",
     },
   },

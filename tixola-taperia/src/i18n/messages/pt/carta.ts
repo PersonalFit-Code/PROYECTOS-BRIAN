@@ -35,7 +35,7 @@ const carta = {
      pide precio final con impuestos allí DONDE SE MUESTRE, y la portada enseñaba precios sin
      decirlo (en la carta sí estaba, en `priceNote`). */
   vatIncluded: "IVA incluído",
-  priceNote: "Preços com IVA incluído, os mesmos da ementa do restaurante. A sobremesa do dia e as sugestões são anunciadas lá.",
+  priceNote: "Preços com IVA incluído, os mesmos da ementa da casa. A sobremesa do dia e as sugestões são anunciadas lá.",
 
   /* ── Painel de filtros ── */
   filters: "Filtros",
@@ -47,7 +47,7 @@ const carta = {
   preferences: "Preferências",
   preferencesAria: "Etiquetas alimentares",
   excludeAllergens: "Excluir alergénios",
-  excludeAllergensHint: "Marque um alergénio e os pratos que o declaram desaparecem da ementa. Escondê-los não garante que o resto seja seguro: a cozinha manipula os 14 e há que confirmar com o pessoal.",
+  excludeAllergensHint: "Marque um alergénio e os pratos que o declaram desaparecem da ementa. Escondê-los não garante que o resto seja seguro: a cozinha manipula os 14 e é preciso confirmar com o pessoal.",
   excludeAllergensAria: "Alergénios a excluir",
   excludeOne: "Excluir pratos com {name}",
   includeOne: "Voltar a mostrar pratos com {name}",
@@ -57,8 +57,8 @@ const carta = {
   /* ── Estado vazio ── */
   empty: "Sem resultados com estes filtros",
   emptyHint: "Experimente retirar algum filtro ou pergunte ao empregado virtual.",
-  emptyAsk: "Não encontro o que procuro na ementa. O que me recomendas?",
-  emptyAskQuery: "Procuro «{query}» na ementa e não o encontro. O que me recomendas?",
+  emptyAsk: "Não encontro o que procuro na ementa. O que me recomendam?",
+  emptyAskQuery: "Procuro «{query}» na ementa e não o encontro. O que me recomendam?",
 
   /* ── Legenda de alergénios (modal) ── */
   legend: "Legenda de alergénios",
@@ -81,7 +81,7 @@ const carta = {
   /* Abrir la ficha del plato (DishSpotlight) desde la carta: la fila de móvil y la foto de escritorio. */
   openDish: "Ver a ficha de {name}",
   openDishCta: "Ver ficha",
-  askAboutDish: "O que me podes dizer sobre o prato {name}? Tem alergénios e com que vinho o harmonizo?",
+  askAboutDish: "O que me podem dizer sobre o prato {name}? Tem alergénios e com que vinho o harmonizo?",
   askAboutDishCta: "Perguntar ao empregado",
   askAboutDishAria: "Perguntar ao empregado virtual sobre {name}",
 
@@ -98,8 +98,8 @@ const carta = {
   ctaTitle: "Ficou com fome?",
   ctaLead: "Ficou com",
   ctaAccent: "fome?",
-  ctaText: "Não é preciso reservar: passe por cá para uns vinhos junto à Catedral e sentamo-lo por ordem de chegada.",
-  seoTitle: "Ementa de petiscos e tixolas em Ourense",
+  ctaText: "Não é preciso reservar: passe por cá para uns vinhos junto à Catedral e damos-lhe mesa por ordem de chegada.",
+  seoTitle: "Ementa de petiscos galegos e polvo em Ourense",
   seoDescription: "Petiscos, tixolas de ferro, vieiras, polvo e croquetes caseiros junto à Catedral de Ourense. Ementa completa com os alergénios prato a prato e filtro por alergénio.",
 } satisfies Translation<typeof esCarta>;
 export default carta;

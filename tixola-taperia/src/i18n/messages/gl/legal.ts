@@ -42,7 +42,7 @@ const legal: LegalMessages = {
     more: "Máis información",
     aria: "Aviso de cookies",
     panelTitle: "Preferencias de cookies",
-    panelText: "Escolle que categorías permites. Poderás cambiar a túa decisión cando queiras desde «Configurar cookies», no pé de páxina.",
+    panelText: "Escolle que categorías permites. Poderás cambiar a túa decisión cando queiras desde «Configurar as cookies», no pé de páxina.",
     alwaysOn: "Sempre activas",
     back: "Volver",
     privacyLink: "Política de privacidade",
@@ -54,7 +54,7 @@ const legal: LegalMessages = {
   /* ── Páxinas legais: cabeceira, índice e pé ── */
   page: {
     kicker: "Información legal",
-    breadcrumbAria: "Migas de pan",
+    breadcrumbAria: "Navegación estrutural",
     home: "Inicio",
     updatedOn: "Última actualización: {date}",
     tocTitle: "Nesta páxina",
@@ -73,7 +73,7 @@ const legal: LegalMessages = {
     /* ── Política de privacidade (RXPD + LOPDGDD) ── */
     privacy: {
       description:
-        "Como trata Tixola Tapería (Ourense) os teus datos cando nos escribes, usas o camareiro virtual ou navegas pola web. Dereitos e prazos.",
+        "Como trata Tixola Tapería (Ourense) os teus datos cando nos escribes, usas o camareiro virtual ou navegas pola web. Dereitos, prazos e encargados.",
       intro:
         "En {tradeName} tratamos moi poucos datos e só os imprescindibles: os que nos dás se nos chamas ou nos escribes, as preguntas que lle fas ao camareiro virtual e a información técnica mínima para que a web funcione. A web non ten formularios nin recolle datos por si soa. Aquí contámosche, sen letra pequena, que facemos con eles.",
       sections: [
@@ -102,7 +102,7 @@ const legal: LegalMessages = {
           id: "datos",
           title: "2. Que datos tratamos e de onde proceden",
           blocks: [
-            { type: "p", text: "Todos os datos facilítasnolos ti directamente. Non compramos datos nin os obtemos de terceiros." },
+            { type: "p", text: "Todos os datos nolos facilitas ti directamente. Non compramos datos nin os obtemos de terceiros." },
             {
               type: "dl",
               items: [
@@ -120,7 +120,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Alerxias e intolerancias",
-                  desc: "Se nolas contas por teléfono, por WhatsApp ou no propio local, usámolas unicamente para prepararche o prato con seguridade. Son datos de categoría especial (art. 9 RXPD) que tratamos co teu consentimento explícito, manifestado ao facilitárnolos, e que non anotamos nin conservamos máis alá do servizo. Se as escribes no camareiro virtual, ese texto viaxa co resto da mensaxe a Anthropic (EE. UU.), coas garantías do apartado 6; non o gardamos nos nosos servidores e desaparece do teu navegador ao premer «Nova conversa» ou ao pechar a pestana. Por iso o propio chat pídeche que non escribas datos de saúde: para axudarte coa carta non fan falta.",
+                  desc: "Se nolas contas por teléfono, por WhatsApp ou no propio local, usámolas unicamente para prepararche o prato con seguridade. Son datos de categoría especial (art. 9 RXPD) que tratamos co teu consentimento explícito, manifestado ao facilitárnolos, e que non anotamos nin conservamos máis alá do servizo. Se as escribes no camareiro virtual, ese texto viaxa co resto da mensaxe a Anthropic (EUA), coas garantías do apartado 6; non o gardamos nos nosos servidores e desaparece do teu navegador ao premer «Nova conversa» ou ao pechar a lapela. Por iso o propio chat pídeche que non escribas datos de saúde: para axudarte coa carta non fan falta.",
                 },
               ],
             },
@@ -200,7 +200,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Non vendemos nin cedemos os teus datos. Os dous primeiros desta lista son **encargados do tratamento**: tratan datos **por conta nosa**, seguindo as nosas instrucións e cun contrato conforme ao art. 28 do RGPD. Os tres últimos **non o son**: son terceiros que reciben datos porque o seu contido se carga na web ou porque ti premes a súa ligazón, e cada un actúa pola súa conta e baixo a súa propia política de privacidade.",
+              text: "Non vendemos nin cedemos os teus datos. Os dous primeiros desta lista son **encargados do tratamento**: tratan datos **por conta nosa**, seguindo as nosas instrucións e cun contrato conforme ao art. 28 do RXPD. Os tres últimos **non o son**: son terceiros que reciben datos porque o seu contido se carga na web ou porque ti premes a súa ligazón, e cada un actúa pola súa conta e baixo a súa propia política de privacidade.",
             },
             {
               type: "dl",
@@ -215,7 +215,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Google LLC / Google Ireland Ltd.",
-                  desc: "Mapa de Google Maps incrustado na sección «Como chegar». **Só se carga se aceptas as cookies** (ou se o pides a man na pestana «Mapa» desa sección); nese momento Google recibe o teu enderezo IP e pode instalar as súas propias cookies. As ligazóns a Google Maps e ás recensións de Google abren sitios de Google. [Política de privacidade de Google](https://policies.google.com/privacy).",
+                  desc: "Mapa de Google Maps incrustado na sección «Como chegar». **Só se carga se aceptas as cookies** (ou se o pides a man na lapela «Mapa» desa sección); nese momento Google recibe o teu enderezo IP e pode instalar as súas propias cookies. As ligazóns a Google Maps e ás recensións de Google abren sitios de Google. [Política de privacidade de Google](https://policies.google.com/privacy).",
                 },
                 {
                   term: "Meta Platforms Ireland Ltd. (WhatsApp)",
@@ -469,7 +469,7 @@ const legal: LegalMessages = {
                   "tixola_consent",
                   "Técnica (localStorage)",
                   "Propia",
-                  "Garda a túa decisión sobre as cookies (aceptar, rexeitar ou configurar) para non volver preguntarche en cada visita.",
+                  "Garda as túas dúas decisións —mapa de Google e medición de visitas— para non volver preguntarche en cada visita.",
                   "{consentMonths} meses",
                 ],
                 ["tixola_promo_cerrada", "Técnica (localStorage)", "Propia", "Lembra que pechaches o aviso da promoción do mes para non volver amosarcho.", "Ata que se publique outra promoción ou borres os datos do navegador"],
@@ -490,7 +490,7 @@ const legal: LegalMessages = {
                 [
                   "Vercel Web Analytics",
                   "Opcional (análise)",
-                  "Vercel Inc. (EE. UU.)",
+                  "Vercel Inc. (EUA)",
                   "Medir de forma agregada que páxinas se visitan, desde onde se chega, con que navegador e desde que cidade aproximada. **Non instala ningunha cookie nin garda nada no teu navegador**: Vercel identifica a sesión cun código que calcula no seu servidor e descártao ás 24 horas. Só se carga se aceptas.",
                   "Non usa cookies",
                 ],
@@ -546,7 +546,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "A sección «Como chegar» mostra un mapa ilustrado propio que non instala nada. O mapa real de Google Maps cárgase se aceptaches as cookies; se non, esa pestana pídeche permiso e non se carga ata que premes «Ver o mapa real». Cando se carga, o teu navegador conéctase a Google, que recibe o teu enderezo IP e pode instalar cookies conforme á súa [política de privacidade](https://policies.google.com/privacy) e á súa [información sobre cookies](https://policies.google.com/technologies/cookies). Se prefires non cargalo, rexeita as cookies, usa a ligazón «Abrir en Google Maps» ou ven andando: estamos a un minuto da Catedral.",
+              text: "A sección «Como chegar» mostra un mapa ilustrado propio que non instala nada. O mapa real de Google Maps cárgase se aceptaches as cookies; se non, esa lapela pídeche permiso e non se carga ata que premes «Ver o mapa real». Cando se carga, o teu navegador conéctase a Google, que recibe o teu enderezo IP e pode instalar cookies conforme á súa [política de privacidade](https://policies.google.com/privacy) e á súa [información sobre cookies](https://policies.google.com/technologies/cookies). Se prefires non cargalo, rexeita as cookies, usa a ligazón «Abrir en Google Maps» ou ven andando: estamos a un minuto da Catedral.",
             },
           ],
         },
@@ -577,15 +577,15 @@ const legal: LegalMessages = {
       },
       {
         q: "Fai falta reservar mesa?",
-        a: "Non. En Tixola non collemos reservas: as mesas ocúpanse por orde de chegada, tanto dentro como na terraza. Os mellores momentos para atopar sitio son ao abrir, ás 13:00 e ás 20:00. Se sodes un grupo grande, chámanos ao {phone} e dicímosche que hora che convén máis.",
+        a: "Non. En Tixola non collemos reservas: as mesas ocúpanse por orde de chegada, tanto dentro como na terraza. Os mellores momentos para atopar sitio son ao abrir, ás 13:00 e ás 20:00. Se vés cun grupo grande, chámanos ao {phone} e dicímosche que hora che convén máis.",
       },
       {
         q: "Tedes opcións para celíacos e información de alérxenos?",
-        a: "Si, cun matiz importante. A carta da web sinala os 14 alérxenos de declaración obrigatoria de cada prato e deixa filtrar polo que queiras evitar. Agora ben, os únicos pratos que declaramos sen glute son as **croquetas sin gluten** e o **postre sin gluten**; do resto dicimos o que levan, nunca o que non levan. En cociña manipúlanse os 14 alérxenos, así que avisa sempre o persoal ao pedir e confirmámoscho no momento.",
+        a: "Si, cun matiz importante. A carta da web sinala os 14 alérxenos de declaración obrigatoria de cada prato e deixa filtrar polo que queiras evitar. Agora ben, os únicos pratos que declaramos sen glute son as **croquetas sen glute** e o **postre sen glute**; do resto dicimos o que levan, nunca o que non levan. En cociña manipúlanse os 14 alérxenos, así que avisa sempre o persoal ao pedir e confirmámoscho no momento.",
       },
       {
         q: "Hai pratos veganos ou vexetarianos?",
-        a: "Vexetarianos, si: a tixola de pisto de verduras, as patatas bravas, alioli ou mixtas, o salteado de verdura, arroz e setas, a tortilla guisada con champiñones, o timbal vegetal, o queso frito e os quesos do país, de ovella e de cabra. Varios levan ovo ou lácteos, así que na carta da web podes filtralos por alérxeno. Veganos non temos ningún en carta: se vés, dío ao pedir e en cociña cóntanche que se pode adaptar.",
+        a: "Vexetarianos, si: a tixola de pisto de verduras, as patacas bravas, alioli ou mixtas, o salteado de verdura, arroz e cogomelos, a tortilla guisada con champiñóns, o timbal vegetal, o queixo frito e os queixos do país, de ovella e de cabra. Varios levan ovo ou lácteos, así que na carta da web podes filtralos por alérxeno. Veganos non temos ningún en carta: se vés, dío ao pedir e en cociña cóntanche que se pode adaptar.",
       },
       {
         q: "Como chegar e onde aparcar?",

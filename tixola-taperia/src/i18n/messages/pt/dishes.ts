@@ -33,7 +33,7 @@ const dishes = {
     hint: "Toque num prato para ver ingredientes, alergénios e harmonização",
     swipe: "Explore os pratos",
     /** Mecanismo de paragem declarado (WCAG 2.2.2). Mostra-se enquanto o carrossel anda sozinho. */
-    autoStop: "Avança sozinho até assumires o comando: deslizar, as setas ou os pontos param-no de vez.",
+    autoStop: "Avança sozinho até assumir o comando: deslizar, as setas ou os pontos param-no de vez.",
     /** Anúncio para leitores de ecrã ao mudar de prato (só quando já não avança sozinho). */
     status: "{name}, prato {index} de {total}",
   },

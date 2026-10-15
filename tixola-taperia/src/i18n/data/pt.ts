@@ -76,7 +76,7 @@ const pt: DataTranslations = {
       unit: "frigideira",
     },
     "tix-chistorra": {
-      description: "Chistorra (enchido de porco com pimentão) feita na própria frigideira, com ovos e batatas fritas. A mais simples e a que mais se repete.",
+      description: "Chistorra (enchido de porco com colorau) feita na própria frigideira, com ovos e batatas fritas. A mais simples e a que mais se repete.",
       unit: "frigideira",
     },
     "tix-gulas-setas-langostinos": {
@@ -159,7 +159,7 @@ const pt: DataTranslations = {
       unit: "dose",
     },
     "coc-fingers-pollo": {
-      description: "Tiras de frango panadas em milho e fritas, com molho de mel e mostarda. O prato a que os miúdos se agarram e de que os crescidos acabam por petiscar.",
+      description: "Tiras de frango panadas em milho e fritas, com molho de mel e mostarda. O prato a que os miúdos se agarram e de que os graúdos acabam por petiscar.",
       unit: "dose",
     },
     "coc-pastel-cabracho": {
@@ -177,7 +177,7 @@ const pt: DataTranslations = {
       unit: "unidade",
     },
     "esp-ajada-bacalao": {
-      description: "Bacalhau com ajada galega: azeite, alho e pimentão por cima. Receita de sempre, das que se limpam com pão.",
+      description: "Bacalhau com ajada galega: azeite, alho e colorau por cima. Receita de sempre, das que se limpam com pão.",
       unit: "dose",
       variants: ["Meia dose", "Dose"],
     },
@@ -200,7 +200,7 @@ const pt: DataTranslations = {
 
     // ─── POLVO ─────────────────────────────────────────────────────
     "pul-gallega-plancha": {
-      description: "Como preferir: á feira, com cachelos (batatas cozidas), pimentão e azeite, ou marcado na chapa. O mesmo polvo, duas escolas.",
+      description: "Como preferir: à feira, com cachelos (batatas cozidas), colorau e azeite, ou marcado na chapa. O mesmo polvo, duas escolas.",
       unit: "dose",
     },
     "pul-plancha-grelos": {
@@ -222,7 +222,7 @@ const pt: DataTranslations = {
       unit: "dose",
     },
     "emb-queso-pais": {
-      description: "Queijo galego da zona, tenro e suave. O que melhor acompanha um copo sem o tapar.",
+      description: "Queijo galego da zona, pouco curado e suave. O que melhor acompanha um copo sem o tapar.",
       unit: "dose",
     },
     "emb-queso-oveja": {
@@ -302,19 +302,19 @@ const pt: DataTranslations = {
       kicker: "Duas escolas, um polvo",
       headline: "À feira sobre cachelos ou marcado na chapa",
       description:
-        "Polvo cozido no ponto e servido como se pedir: à feira, no prato de madeira de sempre, com cachelos, pimentão e um fio de azeite; ou marcado na chapa. O mesmo polvo, duas maneiras de o entender.",
+        "Polvo cozido no ponto e servido como se pedir: à feira, no prato de madeira de sempre, com cachelos, colorau e um fio de azeite; ou marcado na chapa. O mesmo polvo, duas maneiras de o entender.",
       ingredients: ["Polvo", "Cachelos", "Pimentão", "Azeite virgem extra", "Sal grosso"],
       unit: "dose",
-      pairingWhy: "O branco de taberna de sempre: fresco e sem madeira, aguenta o pimentão sem lhe fazer frente.",
+      pairingWhy: "O branco de taberna de sempre: fresco e sem madeira, aguenta o colorau sem lhe fazer frente.",
     },
     "tixola-gulas": {
       kicker: "Da frigideira para a mesa",
       headline: "A tixola mais completa da casa",
       description:
-        "Gulas, cogumelos salteados e camarões sobre ovos e batatas, feitos na mesma frigideira de ferro em que chegam à mesa. A mais completa das tixolas.",
-      ingredients: ["Gulas", "Cogumelos salteados", "Camarões", "Ovos", "Batatas", "Azeite virgem extra"],
+        "Gulas, cogumelos salteados e gambas sobre ovos e batatas, feitos na mesma frigideira de ferro em que chegam à mesa. A mais completa das tixolas.",
+      ingredients: ["Gulas", "Cogumelos salteados", "Gambas", "Ovos", "Batatas", "Azeite virgem extra"],
       unit: "frigideira",
-      pairingWhy: "Tem gordura de ovo e doçura de camarão: pede um branco com corpo e acidez, não um leve.",
+      pairingWhy: "Tem gordura de ovo e doçura de gamba: pede um branco com corpo e acidez, não um leve.",
     },
     cecina: {
       kicker: "Curado e frio",
@@ -367,8 +367,8 @@ const pt: DataTranslations = {
       caption: "A esplanada, com Santa Eufemia ao fundo",
     },
     "zamburinas-plancha": {
-      alt: "Oito vieiras grelhadas na concha, com um molho de alho e salsa por cima, servidas em prato branco com um fio de redução ao lado",
-      caption: "Vieiras galegas grelhadas",
+      alt: "Oito zamburiñas (vieiras pequenas) grelhadas na concha, com um molho de alho e salsa por cima, servidas em prato branco com um fio de redução ao lado",
+      caption: "Zamburiñas grelhadas",
     },
     "tixola-raxo-croquetas": {
       alt: "Tixola de raxo com queijo de Arzúa em frigideira de ferro, croquetes caseiros e vinho branco galego na esplanada da Tixola Tapería, Ourense",
@@ -377,7 +377,7 @@ const pt: DataTranslations = {
 
     /* Fotos tiradas na casa a 2 de outubro de 2026 */
     "tixola-raxo": {
-      alt: "Tixola de raxo com queijo de Arzúa vista de cima: frigideira com batatas, tacos de porco adobado e ovo coalhado, na mesa da Tixola Tapería",
+      alt: "Tixola de raxo com queijo de Arzúa vista de cima: frigideira com batatas, cubos de porco marinado e ovo coalhado, na mesa da Tixola Tapería",
       caption: "Tixola de raxo e Arzúa",
     },
     "tixola-chistorra": {
@@ -385,8 +385,8 @@ const pt: DataTranslations = {
       caption: "Tixola com chistorra",
     },
     "ensalada-gulas-langostinos": {
-      alt: "Salada de gulas, cogumelos e lagostins: folhas de alface e rodelas de tomate com gulas, cogumelos salteados e lagostins por cima, em taça de barro",
-      caption: "Salada de gulas, cogumelos e lagostins",
+      alt: "Salada de gulas, cogumelos e gambas: folhas de alface e rodelas de tomate com gulas, cogumelos salteados e gambas por cima, em taça de barro",
+      caption: "Salada de gulas, cogumelos e gambas",
     },
     "ajada-bacalao": {
       alt: "Bacalhau com ajada: bacalhau desfiado com azeite, alho e colorau por cima, com uma batata cozida ao lado, em taça de cerâmica verde",
@@ -421,15 +421,15 @@ const pt: DataTranslations = {
       caption: "Tixola com chistorra, servida à mesa",
     },
     "tixola-gulas-langostinos": {
-      alt: "Tixola com gulas, cogumelos e lagostins vista de cima: frigideira de cabo de madeira com batatas e ovo",
-      caption: "Tixola com gulas, cogumelos e lagostins",
+      alt: "Tixola com gulas, cogumelos e gambas vista de cima: frigideira de cabo de madeira com batatas e ovo",
+      caption: "Tixola com gulas, cogumelos e gambas",
     },
     "patatas-alioli": {
       alt: "Batatas com alioli e salsa em taça de cerâmica verde, na Tixola Tapería de Ourense",
       caption: "Batatas com alioli",
     },
     "calamares-fritos": {
-      alt: "Lulas fritas em argolas sobre batatas às rodelas, com um gomo de limão e algumas folhas de salada, servidas em taça de barro na mesa da Tixola Tapería",
+      alt: "Lulas fritas em anéis sobre batatas às rodelas, com um gomo de limão e algumas folhas de salada, servidas em taça de barro na mesa da Tixola Tapería",
       caption: "Lulas fritas",
     },
     "bacalao-tempura": {
@@ -437,15 +437,15 @@ const pt: DataTranslations = {
       caption: "Bacalhau em tempura",
     },
     "revuelto-bacalao-grelos": {
-      alt: "Ovos mexidos com bacalhau, grelos e lagostins vistos de cima, em prato branco com um fio de redução",
-      caption: "Ovos mexidos com bacalhau, grelos e lagostins",
+      alt: "Ovos mexidos com bacalhau, grelos e gambas vistos de cima, em prato branco com um fio de redução",
+      caption: "Ovos mexidos com bacalhau, grelos e gambas",
     },
     "ensalada-pollo-crujiente": {
       alt: "Salada de frango crocante com nozes, maçã em palitos, tomate e rebentos verdes, em prato fundo de cerâmica",
       caption: "Salada de frango crocante, nozes e maçã",
     },
     "ensalada-aguacate-bacalao": {
-      alt: "Salada de abacate e bacalhau fumado com alface de cordeiro, tomate, pimento vermelho e azeitonas pretas, em prato branco",
+      alt: "Salada de abacate e bacalhau fumado com alface-de-cordeiro, tomate, pimento vermelho e azeitonas pretas, em prato branco",
       caption: "Salada de abacate e bacalhau fumado",
     },
     "croquetas-tabla": {
@@ -473,7 +473,7 @@ const pt: DataTranslations = {
       caption: "Salada de cecina com gelado de queijo de ovelha",
     },
     "fachada-calle": {
-      alt: "Fachada da Tixola Tapería na Rúa Juan de Austria, em Ourense, com as suas duas tabuletas bordô com uma frigideira, os toldos e duas mesas altas com bancos na rua de pedra",
+      alt: "Fachada da Tixola Tapería na Rúa Juan de Austria, em Ourense, com as suas duas tabuletas grená com uma frigideira, os toldos e duas mesas altas com bancos na rua de pedra",
       caption: "A fachada, no centro histórico",
     },
     "rotulo-noche": {

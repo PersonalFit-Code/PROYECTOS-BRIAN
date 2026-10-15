@@ -8,8 +8,8 @@ const common: Section<"common"> = {
   brand: "Tixola Tapería",
   brandShort: "Tixola",
   tagline: "A Arte do Tapeo no Corazón de Ourense",
-  /* Meta description de la portada (layout.tsx la completa con la nota de Google): lleva la
-     pareja de intención local del brief —tapas + Ourense— y se queda en ≤ 160 caracteres. */
+  /* Meta description da portada (layout.tsx complétaa coa nota de Google): leva a
+     parella de intención local do brief —tapas + Ourense— e non pasa de 160 caracteres. */
   subtitle:
     "Tapas e tixolas de ferro, croquetas caseiras, polbo e zamburiñas xunto á Catedral de Ourense.",
   /* `keywords` da portada (layout.tsx), unha lista por idioma. */
@@ -31,7 +31,7 @@ const common: Section<"common"> = {
     callNumber: "Chamar ao {phone}",
     directions: "Como chegar",
     directionsAria: "Como chegar (abre Google Maps)",
-    /* Etiqueta corta para la barra inferior de móvil: "Como chegar" parte en dos líneas y se corta en una rejilla de cuatro columnas a 390 px. */
+    /* Etiqueta curta para a barra inferior do móbil: "Como chegar" parte en dúas liñas e córtase nunha grella de catro columnas a 390 px. */
     directionsShort: "Chegar",
     whatsapp: "WhatsApp",
     whatsappAria: "Escríbenos por WhatsApp",
@@ -85,7 +85,6 @@ const common: Section<"common"> = {
     moodWine: "Ideal para uns viños",
     hours: "Horario",
   },
-  /** Modal "Reserva a túa mesa" (chamada, WhatsApp e formulario → mensaxe de WhatsApp). */
   notFound: {
     kicker: "404",
     title: "Esta mesa non existe",

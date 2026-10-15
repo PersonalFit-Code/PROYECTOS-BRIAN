@@ -32,7 +32,7 @@ const dishes: Section<"dishes"> = {
     hint: "Toca un prato para ver ingredientes, alérxenos e maridaxe",
     swipe: "Explora os pratos",
     /** Mecanismo de parada declarado (WCAG 2.2.2). Amósase mentres o carrusel se move só. */
-    autoStop: "Avanza só ata que o manexas ti: desprazar, as frechas ou os puntos páranno de todo.",
+    autoStop: "Avanza só ata que o manexas ti: desprazar, as frechas ou os puntos párano de todo.",
     /** Anuncio para lectores de pantalla ao cambiar de prato (só cando xa non avanza só). */
     status: "{name}, prato {index} de {total}",
   },
@@ -41,7 +41,7 @@ const dishes: Section<"dishes"> = {
     dialogLabel: "Detalles de {name}",
     close: "Pechar os detalles do prato",
     closeOverlay: "Pechar",
-    dragHandle: "Arrastra para abaixo para pechar",
+    dragHandle: "Arrastra cara abaixo para pechar",
     perUnit: "/ {unit}",
     askWaiter: "Dúbidas? Pregúntalle ao camareiro virtual",
     askWaiterPrefill: "Cóntame máis sobre {name}: como o preparades e con que viño mo recomendades.",

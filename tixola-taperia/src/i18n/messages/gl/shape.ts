@@ -5,7 +5,7 @@ import type { Messages } from "@/i18n/types";
  *
  * As seccións de es/ declaranse `as const`, polo que `Messages` fixa cada texto ao seu literal en
  * castelán e ningunha tradución sería asignable. `Widen<T>` conserva exactamente as mesmas claves,
- * a mesma anidación e a mesma LONXITUDE das listas, pero substitúe cada literal por `string`.
+ * o mesmo aniñamento e a mesma LONXITUDE das listas, pero substitúe cada literal por `string`.
  * Todas as claves son OBRIGATORIAS: se falta unha ou está mal escrita, `tsc` avisa.
  *
  * Antes había aquí unha rama `T extends readonly (infer U)[] ? readonly Widen<U>[]` que convertía

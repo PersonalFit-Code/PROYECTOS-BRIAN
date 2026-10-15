@@ -9,7 +9,7 @@ const experience: Section<"experience"> = {
   marquee: [
     "Zamburiñas á prancha",
     "Polbo con grelos",
-    "Viños do Ribeiro, Valdeorras e Rías Baixas",
+    "Viños do Ribeiro, de Valdeorras e das Rías Baixas",
     "Cervexa artesá",
     "Terraza á beira da Catedral",
     "Croquetas caseiras",
@@ -24,9 +24,9 @@ const experience: Section<"experience"> = {
   description:
     "A nosa terraza mira á Catedral de San Martiño e á igrexa de Santa Eufemia, en pleno casco histórico: a «zona dos viños» de Ourense, onde o tapeo é unha forma de vivir a cidade.",
   storyTitle: "Un día en Tixola",
-  storyKicker: "Da caña do mediodía á última copa",
+  storyKicker: "Da cana do mediodía á última copa",
   story: [
-    { time: "13:00", title: "Mediodía na terraza", text: "Unha caña con tapa e as croquetas de grelo mentres a praza se enche." },
+    { time: "13:00", title: "Mediodía na terraza", text: "Unha cana con tapa e as croquetas de grelo mentres a praza se enche." },
     { time: "20:00", title: "A hora dos viños", text: "Godello, Ribeiro ou Mencía por copas, acompañados de zamburiñas á prancha." },
     { time: "22:00", title: "Cea de tixolas", text: "Tixolas de ferro que chegan á mesa aínda chiando. Para compartir." },
   ],
