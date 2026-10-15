@@ -1,156 +1,191 @@
 # Andrea · Salón — Qué se lleva y cuánto cuesta
 
-> **Documento interno.** Los apartados 1–4 son los que acaban en la propuesta para Andrea; los
-> apartados 5–6 (nuestros costes y margen) **no se le enseñan nunca**.
-> Precios sin IVA (+21 %). Son una propuesta de partida para que la revises: cámbialos a tu gusto.
+> **Documento interno.** Los apartados 1–4 van a la propuesta de Andrea. Los apartados 5–7 son para
+> ti y **no se le enseñan**.
+>
+> **Precio cerrado por Brian:** 1.200 € de alta + 60 €/mes. Precio de amigo (es amiga de Alex, de
+> Personal Fit), decidido a sabiendas de que está por debajo de lo que cuesta el trabajo. El
+> apartado 6 explica qué consecuencias tiene y cómo protegerse.
 
 ---
 
-## 1. Lo que se lleva (por paquetes)
+## 1. Lo que se lleva
 
-### Paquete **Esencial** — "dejar Elitica ya"
+### La web
 
-| | Qué incluye |
+Portada, servicios y precios, equipo, galería de trabajos, reseñas de Google, contacto con mapa y
+horario en vivo, textos legales y SEO local para Ourense. Mismo nivel de diseño que Tixola y Dos
+Puertas, con la marca del salón.
+
+### La reserva online
+
+Enlace propio para la bio de Instagram, Google Maps y WhatsApp. La clienta elige servicio,
+profesional (o "me da igual"), día dentro de los próximos 45 días y hora, en menos de un minuto
+desde el móvil. Ella misma puede cancelar o cambiar la cita. Imposible que dos clientas cojan la
+misma hora.
+
+### El WhatsApp automático
+
+- Confirmación al reservar, con la fecha, la hora, el servicio y la profesional.
+- **Recordatorio el día antes** con botones *Sí, voy* / *No puedo* / *Cambiar hora*.
+- La respuesta actualiza la agenda sola: si dice que no puede, la hora se libera y vuelve a estar
+  disponible en la web al instante.
+- Las citas sin respuesta le salen marcadas en el panel para que las llame.
+
+### Los bonos
+
+Tienda de bonos y tarjetas regalo en la web, pago con tarjeta, Apple Pay y Google Pay. Al pagar, el
+bono llega por email y WhatsApp con un **código QR**; en el salón la empleada lo escanea desde el
+móvil y descuenta la sesión. El panel avisa de los que están a punto de caducar y separa lo cobrado
+de lo consumido.
+
+### El panel de administración
+
+- **Hoy:** las citas del día por empleada, quién ha confirmado y quién no, huecos libres, lo
+  facturado hoy.
+- **Agenda:** vista de día y semana con una columna por empleada, arrastrar para mover citas, meter
+  las citas que entran por teléfono o en mostrador, bloqueos y vacaciones.
+- **Cobrar la cita:** al terminar, la empleada la marca como hecha, ajusta lo realizado, elige
+  método de pago (tarjeta, efectivo, bono, Bizum) y propina.
+- **Clientas:** historial de visitas, gasto total, servicios favoritos, profesional habitual, notas
+  (fórmula de color, alergias), faltas. Etiquetas automáticas: *VIP*, *nueva*, *en riesgo*.
+- **Equipo:** facturación, servicios, ticket medio, ocupación y % de clientas que repiten, por
+  empleada. Ranking del mes.
+- **Analítica:** facturación por día, semana y mes con comparativas, ticket medio, ocupación, horas
+  punta en mapa de calor, clientas nuevas frente a las que repiten, top de clientas por gasto,
+  servicios más vendidos, bonos vendidos y consumidos, y **faltas evitadas** gracias a los
+  recordatorios.
+- **Configuración:** ella cambia sola precios, servicios, horarios, festivos, bonos y los avisos de
+  la web, sin pedírnoslo.
+- **Exportar:** Excel mensual para la gestoría.
+- **Accesos:** Andrea lo ve todo; cada empleada ve solo su agenda y sus clientas.
+
+### El arranque
+
+Carga de sus servicios, precios, horarios y equipo. **Importación de sus clientas y de las citas ya
+reservadas** desde el sistema de Elitica, para que nadie pierda su hora. Una hora de formación con
+el equipo.
+
+### Lo que no entra
+
+- Noah (la asistente que coge el teléfono): más adelante, si esto va bien.
+- Segundo idioma (gallego), fotos profesionales y facturación legal con Verifactu: se habla aparte.
+
+---
+
+## 2. Precio
+
+| | |
 | --- | --- |
-| **Web nueva** | Portada, servicios y precios, equipo, galería, reseñas de Google, contacto con mapa y horario en vivo, textos legales, SEO local para Ourense |
-| **Reserva online** | Enlace propio para Instagram, Google y WhatsApp. Clienta elige servicio, profesional, día (45 días vista) y hora. Ella misma cancela o cambia |
-| **Confirmaciones por email** | Al reservar, al cambiar y al cancelar, con botón "añadir al calendario" |
-| **Panel** | Pantalla "Hoy", agenda por empleada, citas de teléfono/mostrador, cobro de cita (tarjeta, efectivo, Bizum), fichas de clientas con historial y notas, resumen de facturación del mes |
-| **Accesos** | Andrea ve todo; cada empleada ve solo su agenda |
-| **Arranque** | Carga de servicios, horarios y equipo; formación de 1 h al equipo |
+| **Alta del proyecto** | **1.200 €** — 600 € al empezar, 600 € al lanzar |
+| **Cuota mensual** | **60 €/mes**, desde el lanzamiento |
+| **Permanencia** | Ninguna. Un mes de aviso para irse |
+| **Entrega** | 7–9 semanas desde que tengamos sus datos y fotos |
 
-### Paquete **Completo** — lo que pidió en la reunión ⭐ recomendado
+**La cuota incluye:** alojamiento, base de datos, copias de seguridad diarias, dominio, emails,
+WhatsApp hasta 1.000 mensajes al mes, mantenimiento y seguridad, y los cambios pequeños (precios,
+servicios, textos, fotos, horarios, un bono nuevo).
 
-Todo lo del Esencial, más:
+**Lo que paga ella por su cuenta:** la comisión de Stripe por cada pago con tarjeta
+(~1,5 % + 0,25 €). El dinero de los bonos va directo a su cuenta; no pasa por nosotros.
 
-| | Qué incluye |
-| --- | --- |
-| **WhatsApp automático** | Confirmación al reservar y recordatorio el día antes con botones *Sí, voy / No puedo / Cambiar*. La respuesta actualiza la agenda sola; la hora que se libera vuelve a estar disponible en la web |
-| **Bonos online** | Tienda de bonos y tarjetas regalo en la web, pago con tarjeta / Apple Pay / Google Pay, código QR por email y WhatsApp, canje escaneando el QR desde el móvil, aviso de caducidad |
-| **Señal opcional** | Cobro de una señal para servicios largos o clientas que han fallado antes |
-| **Analítica pro** | Facturación por día/semana/mes con comparativas, ticket medio, ocupación, horas punta (mapa de calor), clientas nuevas vs. que repiten, top clientas, ranking y rendimiento de cada empleada, servicios más vendidos, bonos vendidos vs. consumidos, faltas evitadas |
-| **Exportación** | Excel mensual para la gestoría |
-| **Mudanza** | Importación de clientas y citas futuras desde el sistema de Elitica |
-
-### Extras (se añaden a cualquiera de los dos)
-
-| Extra | Qué es | Precio orientativo |
-| --- | --- | --- |
-| **Noah en el teléfono** | La asistente de voz coge las llamadas que hoy se pierden (comunica, están con clientas, cerrado) y deja la cita apuntada o el recado | Tarifa habitual de Noah |
-| **Reactivar clientas** | WhatsApp automático a clientas que llevan tiempo sin venir, felicitación de cumpleaños, petición de reseña en Google tras la cita | +49 €/mes |
-| **Segundo idioma** (gallego) | Toda la web y la reserva en gallego | 250 € (una vez) |
-| **Fotos profesionales** | Sesión del salón, equipo y trabajos | A presupuestar con fotógrafo |
+> Esto es menos de un tercio de lo que cobraría una agencia por el mismo alcance (6.000–12.000 € de
+> alta). Conviene decírselo con esas palabras: es un precio de amigo, no el precio de tarifa. Si no,
+> el favor no se percibe como favor.
 
 ---
 
-## 2. Precios
-
-| | **Esencial** | **Completo** ⭐ |
-| --- | --- | --- |
-| Alta del proyecto (una vez) | **1.900 €** | **3.900 €** |
-| Cuota mensual | **89 €/mes** | **179 €/mes** |
-| Plazo de entrega | 3–4 semanas | 6–8 semanas |
-
-**La cuota incluye:** alojamiento y base de datos, copias de seguridad diarias, dominio, emails,
-WhatsApp hasta 1.000 mensajes/mes (de sobra para un salón), mantenimiento y seguridad, y **cambios
-pequeños sin coste** (precios, servicios nuevos, textos, fotos, horarios, un bono nuevo…).
-
-**No incluye** (los paga ella directamente, con su propia cuenta):
-- La comisión de Stripe por cada pago con tarjeta (~1,5 % + 0,25 €). El dinero de los bonos va
-  **directo a su cuenta**, no pasa por nosotros.
-
-### Dos formas de pagarlo (Completo)
-
-| | Opción A — sin permanencia | Opción B — menos de entrada |
-| --- | --- | --- |
-| Alta | 3.900 € (50 % al firmar, 50 % al lanzar) | 1.900 € (50 % al firmar, 50 % al lanzar) |
-| Cuota | 179 €/mes | 259 €/mes los primeros 24 meses; luego 179 €/mes |
-| Permanencia | **Ninguna**: se va cuando quiera, con un mes de aviso | 24 meses |
-
-Las dos salen prácticamente igual a dos años (~8.200 €). La A es nuestro mensaje fuerte: *"no te
-atamos; te quedas porque funciona"*, justo lo contrario de lo que tiene ahora.
-
-Si empieza con Esencial y pasa a Completo después: se paga la diferencia de alta (2.000 €) y la
-cuota sube a 179 €/mes.
-
----
-
-## 3. Nuestro compromiso de servicio (esto es lo que la ha traído)
+## 3. Qué nos compromete (esto es lo que la ha traído aquí)
 
 | | Plazo |
 | --- | --- |
-| **Respuesta** a cualquier mensaje | Mismo día laborable (máx. 24 h) |
-| **Cambio pequeño** (precio, texto, foto, servicio, horario) | En 2 días laborables |
-| **Cambio mediano** (sección nueva, bono nuevo con reglas propias) | En la semana, con presupuesto previo si no entra en la cuota |
-| **Urgencia** (no se puede reservar, el panel no carga) | Atendida en 4 h, también fines de semana |
-| **Revisión** | Llamada de 30 min al mes para ver números y qué mejorar |
+| Respuesta a cualquier mensaje | Mismo día laborable |
+| Cambio pequeño (precio, texto, foto, servicio, horario) | 2 días laborables |
+| Cambio mediano (sección nueva, bono con reglas propias) | En la semana, con presupuesto si no entra en la cuota |
+| Urgencia (no se puede reservar, el panel no carga) | 4 horas, también fin de semana |
+| Revisión de números | Llamada de 30 min al mes |
 
-Además, ella puede cambiar sola desde el panel: precios, servicios, horarios, vacaciones, bonos y
-avisos de la web. No depende de nadie para lo del día a día.
-
----
+Con Elitica un cambio tardaba **mes y medio**. Ese contraste es el argumento central de la
+propuesta: no hace falta adornarlo.
 
 ## 4. Lo que es suyo
 
-- **Dominio** registrado a su nombre.
-- **Stripe** y **Meta/WhatsApp Business** a su nombre: el dinero y el número son suyos.
+- **Dominio** a su nombre.
+- **Stripe** y **WhatsApp Business** a su nombre: el dinero y el número son suyos.
 - **Sus datos** (clientas, citas, cobros): los exporta a Excel cuando quiera, y si se va se los
   entregamos completos.
-- **El código** sigue siendo nuestro y se usa mientras dure la cuota. Si algún día quiere llevárselo
-  a otro proveedor, compra del código por 2.500 € (opcional; ponerlo por escrito da confianza).
+- El **código** es nuestro y se usa mientras dure la cuota. Si algún día quiere llevárselo a otro
+  proveedor, compra del código por 2.500 €.
 
-### Por qué le sale a cuenta (rellenar con sus números en la reunión)
+### Por qué le sale a cuenta (rellenar con sus números)
 
-- **Faltas:** si hoy tiene, por ejemplo, 8 faltas al mes de 35 € de media, son 280 €/mes perdidos.
-  Con el recordatorio y la hora liberada que vuelve a la web, recuperar la mitad ya paga casi toda
-  la cuota. **Preguntarle cuántas faltas tiene** para hacer la cuenta con su caso.
-- **Bonos online:** cobro por adelantado, ventas en Navidad y San Valentín sin estar en el
-  mostrador.
-- **Tiempo:** menos llamadas y WhatsApps para dar cita o confirmar.
-- **Comparar con lo que paga hoy a Elitica** (preguntar cuota y qué incluye).
+Preguntarle **cuántas citas se le caen al mes**. Con 8 faltas de 35 € son 280 €/mes perdidos; si los
+recordatorios recuperan la mitad, la cuota se paga sola más de dos veces. Y preguntarle **qué le
+cobra Elitica hoy**: es muy posible que los 60 €/mes sean menos de lo que ya paga por mucho menos.
 
 ---
 
-## 5. Nuestros costes (interno, no se enseña)
+## 5. Nuestros costes (interno)
 
-| Concepto | Coste aprox. al mes |
+| Concepto | Al mes |
 | --- | --- |
-| Vercel (equipo BRIAN ya existente, plan Pro) | ~0 € adicional por proyecto (dentro del uso incluido) |
-| Supabase (proyecto Pro en Frankfurt) | 10–25 $ |
-| WhatsApp Meta (~400 citas × 2 mensajes) | ~10–25 € (verificar tarifa de plantillas de utilidad en España) |
-| Resend (emails) | 0 € |
-| Dominio | ~1 € |
-| **Total** | **~25–50 €/mes** |
+| Supabase (base de datos, Frankfurt, plan Pro) | 10–25 € |
+| WhatsApp Meta (~400 citas × 2 mensajes) | 10–25 € |
+| Vercel | 0 € adicional (dentro del equipo BRIAN que ya pagas) |
+| Resend (emails) + dominio | ~1 € |
+| **Total** | **20–50 €** |
 
-Margen de la cuota Completo: ~130–150 €/mes. El grueso de lo que cubre la cuota es **nuestro
-tiempo** de soporte (calcula ~2–3 h/mes de cambios y la llamada mensual).
+**Con 60 €/mes te quedan entre 10 y 40 € limpios, y encima tienes que darle soporte en 24 horas.**
+Los meses de cambios trabajas gratis. Tienes dos formas de arreglarlo sin subirle el precio:
 
-## 6. Horas estimadas (interno)
+1. **Que los gastos vayan a su tarjeta.** Supabase y Meta a su nombre (que es lo correcto de todas
+   formas: el WhatsApp y los datos de sus clientas son suyos), y tus 60 € pasan a ser limpios por tu
+   tiempo. **Es lo que te recomiendo.** Para ella son los mismos ~90 € al mes, pero tú no pones
+   dinero.
+2. Dejar la cuota en 60 € a todo incluido y asumir que el mantenimiento es parte del favor.
 
-| Bloque | Horas |
-| --- | --- |
-| Web pública (diseño + contenido + SEO) | 25–35 |
-| Motor de reservas | 30–40 |
-| Panel básico (Hoy, agenda, cobro, clientas) | 25–35 |
-| WhatsApp (alta Meta, plantillas, webhooks) | 12–18 |
-| Bonos + Stripe + QR | 15–20 |
-| Analítica pro | 15–25 |
-| Importación de Elitica, pruebas, lanzamiento, formación | 10–15 |
-| **Total Completo** | **~130–190 h** |
+## 6. Lo que te cuesta este precio (interno, léelo una vez)
 
-Con 3.900 € de alta sale a ~20–30 €/h, **por debajo de mercado**: lo compensa la cuota (a 24 meses
-el proyecto deja ~8.200 € de ingresos) y lo reutilizable (el motor de reservas y el panel valen
-para el siguiente salón, clínica o centro de estética de Ourense). Si quieres ir más alto, una
-agencia cobraría por esto entre 6.000 y 12.000 € de alta; 4.500 € seguiría siendo competitivo.
+El alcance completo son **130–190 horas**. A 1.200 € eso sale a **6–9 € la hora**. Es tu decisión y
+es legítimo hacerle un favor a una amiga de Alex, pero conviene que sepas exactamente qué estás
+comprando con ese descuento:
 
----
+- **Es tu precio de referencia en Ourense.** Andrea se lo contará a Alex, y Alex a los demás. El
+  siguiente salón o clínica va a pedir "lo mismo que a Andrea". Si quieres que esto sea un favor y
+  no tu tarifa, **dilo en voz alta en la reunión**: "esto vale 4.500 €, a ti te lo hago por 1.200
+  porque eres amiga de Alex". Que quede claro que es una excepción.
+- **El riesgo no es el precio, es el alcance sin límite.** A 1.200 € no puedes permitirte que el
+  proyecto crezca. Cierra por escrito en la propuesta qué entra (el apartado 1) y que todo lo demás
+  es presupuesto aparte. Sin eso, los 1.200 € se convierten en 300 horas.
+- **Entrega por fases para no morir en el intento** (apartado 7). Si lo intentas todo de golpe antes
+  de lanzar, se te va a tres meses y ella va a estar esperando.
+- Lo bueno: el motor de reservas y el panel te valen **tal cual** para el siguiente salón, clínica
+  dental o centro de estética. El segundo cliente te cuesta un cuarto del trabajo y ahí sí puedes
+  cobrar 3.000–4.000 €. Mira este proyecto como la inversión en construir ese producto, no como un
+  trabajo pagado a 8 €/hora.
 
-## 7. Por decidir contigo
+## 7. Orden de trabajo (interno)
 
-- [ ] ¿Ponemos precios en el PDF? En los dossieres de `comercial/` el criterio ha sido **no**
-      ("eso se habla en persona"). Aquí ella ha pedido presupuesto: propongo un PDF de propuesta
-      sin precios + una **hoja aparte** con este apartado 2, que se le da en mano o tras la demo.
-- [ ] ¿Ofrecemos los dos paquetes o solo el Completo? (Recomiendo los dos: el Esencial hace que el
-      Completo parezca la elección lógica.)
-- [ ] Precio de Noah como extra para el salón.
-- [ ] Cómo facturas tú (autónomo/sociedad) para poner bien el IVA y los datos en la propuesta.
+| Fase | Qué | Horas |
+| --- | --- | --- |
+| 1 | Web pública + reserva online + panel básico (Hoy, agenda, cobro, clientas) | 80–100 |
+| 2 | WhatsApp: alta en Meta, plantillas, recordatorio con botones | 12–18 |
+| 3 | Bonos: Stripe, QR, canje | 15–20 |
+| 4 | Analítica: equipo, servicios, mapa de calor, exportación | 15–25 |
+| 5 | Importación de Elitica, pruebas y formación | 10–15 |
+
+**Lanza al acabar la fase 1**, con los recordatorios por email mientras Meta aprueba las plantillas.
+Así ella deja Elitica en 4-5 semanas en vez de en 9, y las fases 2-4 entran con el salón ya
+funcionando. El trámite de Meta se arranca en la fase 1, en paralelo.
+
+## 8. Por decidir contigo
+
+- [ ] **Confirmar el número:** entiendo 1.200 € + 60 €/mes. En la nota de voz sonó "1.260 € al mes".
+- [ ] ¿Los gastos (Supabase y Meta) a su tarjeta o a la tuya? (Recomiendo: a la suya.)
+- [ ] ¿Precios dentro del PDF o en hoja aparte? En los dossieres de `comercial/` el criterio ha sido
+      dejarlos fuera y hablarlos en persona.
+- [ ] **Cómo lo facturas.** La propuesta la escribo con factura: vas a llevarle el dominio, los datos
+      de sus clientas y el cobro de los bonos durante años, y sin contrato ni factura no tienes nada
+      que te proteja — ni ella puede deducirse el gasto, que te lo va a pedir. Si todavía no estás
+      de alta, lo razonable es cobrar el alta del proyecto ahora y empezar la cuota cuando lo estés
+      (con la tarifa plana de autónomos son ~80 €/mes el primer año).
