@@ -1024,6 +1024,21 @@ export const WINES: Wine[] = [
     awards: [{ source: "James Suckling", score: "90" }, { source: "Guía SEVI", score: "93" }, { source: "Guía Gourmets", score: "91" }],
     image: "/images/vinos/enate.webp",
   },
+  /* EL PRIMER ROSADO DE LA CARTA (15-10-2026). Es un vino DISTINTO del Enate de arriba, que es el
+     tinto: misma bodega y misma denominación, pero cabernet sauvignon en rosado.
+     Solo lleva lo que pone la etiqueta —bodega, denominación, variedad y que es rosado—. Sin precio,
+     porque no lo dieron: `bottlePrice` es opcional y además `SHOW_WINE_PRICES` está en false, así que
+     en la web no se nota; cuando lo digan, se añade. Y sin `vintage` (2025 en la etiqueta) porque
+     ningún otro vino lo lleva: la añada cambia con cada pedido y la carta no la sigue. */
+  {
+    id: "enate-rosado",
+    name: "Enate Rosado",
+    winery: "Enate",
+    origin: "somontano",
+    kind: "rosado",
+    grapes: ["Cabernet Sauvignon"],
+    image: "/images/vinos/enate-rosado.webp",
+  },
   {
     id: "quinta-do-escudial",
     name: "Quinta do Escudial Reserva",
