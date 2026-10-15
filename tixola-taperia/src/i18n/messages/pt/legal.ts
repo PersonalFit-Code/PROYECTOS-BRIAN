@@ -582,11 +582,11 @@ const legal: LegalMessages = {
       },
       {
         q: "Têm opções para celíacos e informação sobre alergénios?",
-        a: "Sim, com uma ressalva importante. A ementa do site indica os 14 alergénios de declaração obrigatória de cada prato e permite filtrar por aquele que quiser evitar. Dito isto, os únicos pratos que declaramos sem glúten são as **croquetas sin gluten** e o **postre sin gluten**; dos restantes dizemos o que levam, nunca o que não levam. Na cozinha manipulam-se os 14 alergénios, por isso avise sempre o pessoal ao pedir e confirmamos-lhe tudo na hora.",
+        a: "Sim, com uma ressalva importante. A ementa do site indica os 14 alergénios de declaração obrigatória de cada prato e permite filtrar por aquele que quiser evitar. Dito isto, os únicos pratos que declaramos sem glúten são as **Croquetas sin gluten** (croquetes sem glúten) e o **Postre sin gluten** (sobremesa sem glúten); dos restantes dizemos o que levam, nunca o que não levam. Na cozinha manipulam-se os 14 alergénios, por isso avise sempre o pessoal ao pedir e confirmamos-lhe tudo na hora.",
       },
       {
         q: "Há pratos veganos ou vegetarianos?",
-        a: "Vegetarianos, sim: a tixola de pisto de verduras, as patatas bravas, alioli ou mixtas, o salteado de verdura, arroz y setas, a tortilla guisada con champiñones, o timbal vegetal, o queso frito e os queijos do país, de ovelha e de cabra. Vários levam ovo ou lacticínios, por isso na ementa do site pode filtrá-los por alergénio. Veganos não temos nenhum na ementa: se vier, diga-o ao pedir e na cozinha dizem-lhe o que se pode adaptar.",
+        a: "Vegetarianos, sim: a **Tixola de pisto de verduras** (frigideira de ferro com legumes estufados, ovo e batatas), as **Patatas bravas, alioli o mixtas** (batatas fritas com molho picante, com alioli ou com os dois), o **Salteado de verdura, arroz y setas** (legumes e cogumelos salteados com arroz), a **Tortilla guisada con champiñones** (omelete acabada num guisado curto de cogumelos), o **Timbal vegetal** (legumes montados em camadas), o **Queso frito** (queijo frito) e os queijos da região, de ovelha e de cabra. Vários levam ovo ou lacticínios, por isso na ementa do site pode filtrá-los por alergénio. Veganos não temos nenhum na ementa: se vier, diga-o ao pedir e na cozinha dizem-lhe o que se pode adaptar.",
       },
       {
         q: "Como chegar e onde estacionar?",

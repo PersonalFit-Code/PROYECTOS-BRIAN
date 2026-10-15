@@ -27,7 +27,7 @@ const legal: LegalMessages = {
   /* ── Cookie banner ── */
   banner: {
     title: "We use cookies",
-    text: "We use our own cookies that the site needs to work. With your permission we load the Google map, which sets its own cookies, and we measure which pages are visited in aggregate (no cookies).",
+    text: "We use first-party cookies that the site needs in order to work. With your permission we also load the Google map, which sets cookies of its own, and we measure in aggregate which pages are visited (no cookies).",
     accept: "Accept all",
     reject: "Necessary only",
     settings: "Customise",
@@ -119,7 +119,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Allergies and intolerances",
-                  desc: "If you tell us about them by phone, on WhatsApp or here on the premises, we use them solely to prepare your dish safely. This is special-category data (Art. 9 GDPR) that we process with your explicit consent, given when you provide it, and that we neither write down nor keep beyond the service. If you type them into the virtual waiter, that text travels with the rest of your message to Anthropic (USA), under the safeguards in section 6; we do not store it on our servers and it disappears from your browser when you tap “New conversation” or close the tab. That is why the chat itself asks you not to type health data: it is not needed to help you with the menu.",
+                  desc: "If you tell us about them by phone, on WhatsApp or in person at the bar, we use them solely to prepare your dish safely. This is special-category data (Art. 9 GDPR) that we process with your explicit consent, given when you provide it, and that we neither write down nor keep once you have been served. If you type them into the virtual waiter, that text travels with the rest of your message to Anthropic (USA), under the safeguards in section 6; we do not store it on our servers and it disappears from your browser when you press “New conversation” or close the tab. That is why the chat itself asks you not to type health data: it is not needed to help you with the menu.",
                 },
               ],
             },
@@ -147,7 +147,7 @@ const legal: LegalMessages = {
                 [
                   "Ensuring the security and technical operation of the website",
                   "Legitimate interest in network and information security (Art. 6(1)(f) GDPR, Recital 49)",
-                  "Hosting provider's technical logs for a limited period",
+                  "Our hosting provider's technical logs, kept for a limited period",
                 ],
                 [
                   "Remembering your language and your cookie decision",
@@ -162,7 +162,7 @@ const legal: LegalMessages = {
                 [
                   "Handling the exercise of your rights and complying with legal obligations",
                   "Legal obligation (Art. 6(1)(c) GDPR)",
-                  "For the limitation periods of the corresponding legal liabilities",
+                  "Until the statutory limitation periods for the relevant legal liabilities expire",
                 ],
               ],
             },
@@ -185,8 +185,8 @@ const legal: LegalMessages = {
               items: [
                 "**We do not store the conversation on our servers**: it is processed on the fly to generate a reply, and there is no chat database. We only count requests per IP address for ten minutes, in memory, to prevent abuse.",
                 "In your browser, the conversation is kept in session storage (sessionStorage) so that it is not lost when you change page; it disappears when you close the tab, and you can delete it at any time using the button in the chat itself.",
-                "Anthropic is headquartered in the United States. The transfer is covered by appropriate safeguards: standard contractual clauses approved by the European Commission and, where applicable, the provider's certification under the EU-US Data Privacy Framework, in accordance with its current documentation. Under its commercial terms, Anthropic does not use content submitted via the API to train its models and according to its current documentation, deletes inputs and outputs from its systems within 30 days, unless it must keep them longer by law or because its systems detect a use that breaches its policies (in which case, up to 2 years).",
-                "If the provider cannot be reached, a local engine replies using the menu and opening hours, without sending anything outside.",
+                "Anthropic is headquartered in the United States. The transfer is covered by appropriate safeguards: standard contractual clauses approved by the European Commission and, where applicable, the provider's certification under the EU-US Data Privacy Framework, in accordance with its current documentation. Under its commercial terms, Anthropic does not use content submitted via the API to train its models and, according to its current documentation, deletes inputs and outputs from its systems within 30 days, unless it must keep them longer by law or because its systems detect a use that breaches its policies (in which case, up to 2 years).",
+                "If the provider cannot be reached, a local engine answers using the menu and opening hours, without anything leaving our own servers.",
                 "Replies are generated automatically and may contain errors. **For allergies and intolerances, always confirm with our staff on the premises.**",
                 "Do not type personal data, yours or anyone else's (names, phone numbers, health data), into the chat: we do not need it to help you.",
               ],
@@ -199,7 +199,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "We do not sell or share your data. The first two on this list are **data processors**: they handle data **on our behalf**, following our instructions and under a contract compliant with art. 28 GDPR. The last three **are not**: they are third parties that receive data because their content loads on the site or because you click their link, and each one acts on its own account and under its own privacy policy.",
+              text: "We do not sell or share your data. The first two on this list are **data processors**: they handle data **on our behalf**, following our instructions and under a contract compliant with Art. 28 GDPR. The last three **are not**: they are third parties that receive data because their content loads on the site or because you click their link, and each of them acts on its own behalf and under its own privacy policy.",
             },
             {
               type: "dl",
@@ -214,7 +214,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Google LLC / Google Ireland Ltd.",
-                  desc: "Google Maps map embedded in the “Find us” section. **It only loads if you accept cookies** (or if you load it by hand from the “Map” tab in that section); at that point Google receives your IP address and may set its own cookies. The links to Google Maps and to Google reviews open Google websites. [Google privacy policy](https://policies.google.com/privacy).",
+                  desc: "Google Maps map embedded in the “Find us” section. **It only loads if you accept cookies** (or if you load it yourself from the “Map” tab in that section); at that point Google receives your IP address and may set its own cookies. The links to Google Maps and to Google reviews open Google websites. [Google privacy policy](https://policies.google.com/privacy).",
                 },
                 {
                   term: "Meta Platforms Ireland Ltd. (WhatsApp)",
@@ -271,7 +271,7 @@ const legal: LegalMessages = {
             },
             {
               type: "p",
-              text: "If you believe we have not handled your rights properly, you may lodge a complaint with the **Spanish Data Protection Agency** (AEPD), C/ Jorge Juan, 6, 28001 Madrid, or through its online office at [www.aepd.es](https://www.aepd.es). If you prefer, you can contact us first so that we can resolve it.",
+              text: "If you believe we have not handled your rights properly, you may lodge a complaint with the **Spanish Data Protection Agency** (AEPD), C/ Jorge Juan, 6, 28001 Madrid, or via its online portal at [www.aepd.es](https://www.aepd.es). If you prefer, you can contact us first so that we can resolve it.",
             },
           ],
         },
@@ -313,11 +313,11 @@ const legal: LegalMessages = {
       description:
         "Legal notice for the Tixola Tapería (Ourense) website: owner, terms of use, intellectual property, disclaimer and applicable law.",
       intro:
-        "In compliance with Spanish Law 34/2002 of 11 July on information society services and electronic commerce (LSSI-CE), this notice tells you who is behind this website and the terms that govern its use.",
+        "In compliance with Spanish Law 34/2002, of 11 July, on information society services and electronic commerce (LSSI-CE), this notice tells you who is behind this website and the terms that govern its use.",
       sections: [
         {
           id: "titular",
-          title: "1. Owner identification",
+          title: "1. Details of the site owner",
           blocks: [
             {
               type: "dl",
@@ -345,12 +345,12 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "This website is for information purposes only: to present the restaurant, its menu, opening hours and contact channels. Nothing is sold or contracted through the site, and no tables are booked through it either. Accessing and browsing the site makes you a user and implies acceptance of this Legal notice, the [Privacy policy](privacy) and the [Cookie policy](cookies).",
+              text: "This website is for information purposes only: to present the restaurant, its menu, its opening hours and how to get in touch. Nothing is sold or contracted through the site, and no tables are booked through it either. Accessing and browsing the site makes you a user and implies acceptance of this Legal notice, the [Privacy policy](privacy) and the [Cookie policy](cookies).",
             },
             {
               type: "ul",
               items: [
-                "The prices published here are the ones you pay, VAT included; they may be updated, and in that case the menu in the bar prevails. What is for guidance is the availability of each dish and the wine pairings: both depend on the season and on what comes in that day.",
+                "The prices published here are the ones you pay, VAT included; they may be updated, and in that case the price on the menu in the bar is the one that applies. The availability of each dish and the wine pairings, on the other hand, are only for guidance: both depend on the season and on what comes in that day.",
                 "Opening hours may change on public holidays, during holiday periods or due to force majeure.",
                 "The restaurant **does not take bookings**: tables are available on a first-come, first-served basis.",
               ],
@@ -468,7 +468,7 @@ const legal: LegalMessages = {
                   "tixola_consent",
                   "Technical (localStorage)",
                   "First-party",
-                  "Stores your cookie decision (accept, reject or customise) so we don't ask you again on every visit.",
+                  "Stores your two decisions — the Google map and visit measurement — so we don't ask you again on every visit.",
                   "{consentMonths} months",
                 ],
                 ["tixola_promo_cerrada", "Technical (localStorage)", "First-party", "Remembers that you closed the monthly promotion notice so it is not shown to you again.", "Until another promotion is published or you clear your browser data"],
@@ -476,21 +476,21 @@ const legal: LegalMessages = {
                   "tixola:waiter:*",
                   "Technical (sessionStorage)",
                   "First-party",
-                  "Keeps your conversation with the virtual waiter while the tab is open, so it isn't lost when you change page.",
+                  "Keeps your conversation with the virtual waiter while the tab is open, so it is not lost when you change page.",
                   "Session (deleted when you close the tab)",
                 ],
                 [
                   "Google Maps cookies",
                   "Third-party",
                   "Google LLC",
-                  "Only if you accept cookies, or if you load the map by hand in the “Find us” section: once loaded, Google may set its own cookies (for example NID or CONSENT) in line with its policy.",
+                  "Only if you accept cookies, or if you load the map yourself in the “Find us” section: once loaded, Google may set its own cookies (for example NID or CONSENT) in line with its policy.",
                   "Set by Google (up to 6 months or longer)",
                 ],
                 [
                   "Vercel Web Analytics",
                   "Optional (analytics)",
                   "Vercel Inc. (USA)",
-                  "To measure, in aggregate, which pages are visited, where visitors come from, which browser they use and roughly which city. **It sets no cookies and stores nothing in your browser**: Vercel identifies the session with a code computed on its own server and discards it after 24 hours. It loads only if you accept.",
+                  "Measures, in aggregate, which pages are visited, where visitors come from, which browser they use and roughly which city they are in. **It sets no cookies and stores nothing in your browser**: Vercel identifies the session with a code computed on its own server and discards it after 24 hours. It loads only if you accept.",
                   "No cookies used",
                 ],
               ],
@@ -545,7 +545,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "The “Find us” section shows our own illustrated map, which sets nothing. The real Google Maps map loads if you have accepted cookies; if you have not, that tab asks first and nothing loads until you press “Show real map”. Once it loads, your browser connects to Google, which receives your IP address and may set cookies in accordance with its [privacy policy](https://policies.google.com/privacy) and its [information on cookies](https://policies.google.com/technologies/cookies). If you'd rather not load it, use the “Open in Google Maps” link or simply walk: we're one minute from the Cathedral.",
+              text: "The “Find us” section shows our own illustrated map, which sets no cookies at all. The real Google Maps map loads if you have accepted cookies; if you have not, that tab asks your permission first and nothing loads until you press “Show real map”. Once it loads, your browser connects to Google, which receives your IP address and may set cookies in accordance with its [privacy policy](https://policies.google.com/privacy) and its [information on cookies](https://policies.google.com/technologies/cookies). If you'd rather not load it, reject cookies, use the “Open in Google Maps” link or simply walk here: we're one minute from the Cathedral.",
             },
           ],
         },
@@ -576,15 +576,15 @@ const legal: LegalMessages = {
       },
       {
         q: "Do I need to book a table?",
-        a: "No. At Tixola we don't take bookings: tables are first come, first served, both inside and on the terrace. The best times to find one are right when we open, at 13:00 and at 20:00. If you're a large group, give us a call on {phone} and we'll tell you which time suits you best.",
+        a: "No. At Tixola we don't take bookings: tables are first come, first served, both inside and on the terrace. The best times to find one are right when we open — 13:00 and 20:00. If you're a large group, give us a call on {phone} and we'll tell you which time suits you best.",
       },
       {
         q: "Do you have coeliac-friendly options and allergen information?",
-        a: "Yes, with one important caveat. The menu on this site flags the 14 allergens subject to mandatory declaration for every dish and lets you filter out whichever one you need to avoid. That said, the only dishes we declare gluten-free are the **croquetas sin gluten** and the **postre sin gluten**; for everything else we state what a dish contains, never what it doesn't. All 14 allergens are handled in our kitchen, so always tell our staff when you order and we'll confirm it there and then.",
+        a: "Yes, with one important caveat. The menu on this site flags the 14 allergens subject to mandatory declaration for every dish and lets you filter out whichever one you need to avoid. That said, the only dishes we declare gluten-free are the **Croquetas sin gluten** (gluten-free croquettes) and the **Postre sin gluten** (gluten-free dessert); for everything else we state what a dish contains, never what it doesn't. All 14 allergens are handled in our kitchen, so always tell our staff when you order and we'll confirm it there and then.",
       },
       {
         q: "Are there vegan or vegetarian dishes?",
-        a: "Vegetarian, yes: the tixola de pisto de verduras, the patatas bravas, alioli or mixed, the salteado de verdura, arroz y setas, the tortilla guisada con champiñones, the timbal vegetal, the queso frito and the país, sheep's and goat's cheeses. Several contain egg or dairy, so you can filter them by allergen on the menu page. We don't have any vegan dish on the menu: if you're coming, say so when you order and the kitchen will tell you what can be adapted.",
+        a: "Vegetarian, yes: the Tixola de pisto de verduras (iron-skillet pan of slow-cooked vegetables with egg and chips), the Patatas bravas, alioli o mixtas (chips with spicy brava sauce, with alioli or with both), the Salteado de verdura, arroz y setas (stir-fried vegetables, rice and mushrooms), the Tortilla guisada con champiñones (omelette braised with mushrooms), the Timbal vegetal (layered vegetables), the Queso frito (fried cheese) and the local, sheep's and goat's cheeses. Several contain egg or dairy, so you can filter them by allergen on the menu page. Nothing on the menu is vegan: if you're coming, say so when you order and the kitchen will tell you what can be adapted.",
       },
       {
         q: "How do I get there, and where can I park?",

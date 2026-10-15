@@ -35,7 +35,24 @@ igual dónde: lo único que cambia es dónde se escriben dos líneas de configur
   libre. El `.com` es más caro y más difícil de encontrar libre.
 - **Que el dominio quede a nombre de Tatiana**, no de Brian. Es de ella, igual que el correo.
 
-Ideas, por si están libres: `tixola.es`, `tixolataperia.es`, `tixolataperia.com`.
+**Y el dato que conviene saber ANTES de ir a GoDaddy: `tixola.es` está cogido.** Consultado el
+15-10-2026: `tixola.es`, `tixola.com` y `tixola.gal` están **los tres registrados** por alguien.
+Ninguno de los tres resuelve a una web, así que probablemente estén aparcados y puede que en venta,
+pero eso ya no cuesta 6 € — un dominio de reventa va de los cientos a los miles. **No merece la pena
+pelearse por el nombre corto**: el que la gente va a teclear es el que esté en la ficha de Google y
+en la servilleta, y ahí da igual que lleve «taperia».
+
+**Lo que SÍ está libre** (comprobado el 15-10-2026, el mismo día):
+
+| Dominio | Comentario |
+|---|---|
+| **`tixolataperia.es`** | **La recomendación.** Dice el nombre completo, `.es` se entiende en Ourense y es el que mejor queda dicho en voz alta. |
+| `tixolataperia.com` | Igual de bueno. En Vercel sale a **11,25 €/año, renovación incluida al mismo precio** (consultado hoy); GoDaddy lo suele dar más barato el primer año y más caro después. |
+| `taperiatixola.es` · `tixola-taperia.es` | Valen, pero el guion se pierde al dictarlo y el orden invertido cuesta más de recordar. |
+| `tixolaourense.es` · `tixolavinoteca.es` | Buenos para buscadores, peores para decirlos. |
+| `tixola.bar` · `tixola.eu` · `tixola.net` | Libres y cortos, pero `.bar` y `.eu` no los teclea nadie por su cuenta y `.net` suena a los 2000. |
+
+Con cualquiera de ellos la web funciona igual: el paso 2 es el mismo.
 
 ---
 
