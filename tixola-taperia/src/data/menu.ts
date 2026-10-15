@@ -448,6 +448,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Tacos de bacalao en tempura fina, con pimientos al lado. Cruje al morder y por dentro sigue jugoso.",
     price: 15.6,
     unit: "ración",
+    image: "/images/bacalao-tempura.webp",
     allergens: ["pescado", "gluten"],
     tags: ["estrella"],
     emoji: "🐟",
@@ -492,13 +493,14 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Tiras de pollo rebozadas en maíz y fritas, con salsa de miel y mostaza. El plato al que se agarran los niños y del que acaban picando los mayores.",
     price: 7.9,
     unit: "ración",
-    /* MOSTAZA la añade Tatiana el 15-10-2026: la salsa es de miel y mostaza. La miel no es alérgeno
-       de los catorce; la mostaza sí.
-       EL GLUTEN SE QUEDA aunque dijera "rebozadas en maíz". Quitarlo sería AFIRMAR una ausencia, y
-       eso solo se hace con una confirmación por plato: el rebozado es una cosa y la harina de la
-       mezcla, la salsa o la freidora compartida son otra. Sobredeclarar no hace daño a nadie;
-       quedarse corto, sí. Pendiente de preguntárselo derecho. */
-    allergens: ["gluten", "huevos", "lacteos", "mostaza"],
+    /* Tatiana, 15-10-2026: la salsa es de miel y mostaza (la miel no es alérgeno de los catorce; la
+       mostaza sí), y el rebozado es de maíz.
+       EL GLUTEN SALE, y sale porque ELLA lo confirmó expresamente al preguntárselo derecho, que es
+       la única forma en que esta web afirma una ausencia. No se deduce de "rebozadas en maíz": el
+       rebozado es una cosa y la harina de la mezcla, la salsa o la freidora compartida son otra.
+       Lo que sigue en pie es el aviso general de la carta —en cocina se manipulan los catorce
+       alérgenos y no se pueden descartar trazas—, que es justo para esto. */
+    allergens: ["huevos", "lacteos", "mostaza"],
     tags: [],
     emoji: "🍗",
   },
@@ -643,7 +645,6 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Trozos de pulpo en tempura ligera, fritos al momento. Cruje por fuera y sigue tierno dentro.",
     price: 18,
     unit: "ración",
-    image: "/images/pulpo-tempura.webp",
     allergens: ["moluscos", "gluten", "huevos"],
     tags: [],
     emoji: "🐙",

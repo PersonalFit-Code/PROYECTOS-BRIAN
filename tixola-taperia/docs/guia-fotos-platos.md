@@ -99,10 +99,17 @@ tres páginas legales dejen de llevar el aviso de "faltan datos" y entren en el 
 aplasta la comida, quema el queso fundido y saca el reflejo del plato. Si es de noche, apaga la luz
 amarilla de encima y usa la de otra mesa lateral.
 
-**Ángulo.** Dos, y solo dos:
-- **Cenital (desde arriba, en vertical)** para lo que se ve «en planta»: tixolas, patatas,
-  ensaladas, croquetas, pulpo á feira.
-- **A 45°** para lo que tiene altura: tostas, brocheta, timbal, pan.
+**Ángulo. CAMBIO DE CRITERIO (15-10-2026): manda el lado.** Tatiana lo dijo mirando la foto del
+bacalao en tempura: «casi mejor de lado que desde arriba». Así que de ahora en adelante:
+- **A 45° o de lado** por defecto, para casi todo: enseña el volumen, el crujiente y el corte, que
+  es lo que da hambre. Obligado en lo que tiene altura (tostas, brocheta, timbal, pan) y en las
+  frituras (tempura, croquetas, calamares).
+- **Cenital (desde arriba, en vertical)** solo para lo que de verdad se lee «en planta» y desde el
+  lado no se entiende: una tixola, una ensalada abierta, el pulpo á feira.
+
+> Las 25 fotos que ya están hechas son cenitales y **se quedan**: rehacerlas es una tarde entera y
+> funcionan. Esto vale para las 15 que faltan. La única que sí conviene repetir es la del **bacalao
+> en tempura**, porque lo pidió ella por su nombre.
 
 **Fondo.** La mesa de piedra del local va perfecta. Aparta lo que no sea del plato: servilletas
 arrugadas, el móvil, el datáfono, un vaso a medias. Una copa o un trozo de pan **puestos a propósito**

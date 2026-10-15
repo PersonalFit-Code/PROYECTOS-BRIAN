@@ -343,16 +343,24 @@ export const PHOTOS: Photo[] = [
     tags: ["plato", "local"],
     focus: "50% 50%",
   },
+  /* ERA LA DEL PULPO Y NO LO ES. Estaba enlazada a `pul-tempura` y en
+     `docs/fotos-para-revisar.md` quedó anotada como la duda principal: "se ven tentáculos rebozados
+     sobre patatas, pero podría ser otra fritura". Tatiana lo zanjó el 15-10-2026: es el BACALAO en
+     tempura. Se reenlaza, se renombran los dos archivos y el `alt` pasa a decir lo que se ve.
+     DOS COSAS QUE QUEDAN ABIERTAS, las dos en `docs/fotos-para-revisar.md`:
+      · la carta describe el plato "con pimientos al lado" y en la foto lo que hay debajo son
+        PATATAS. El `alt` cuenta la foto, no la carta, que es la regla de esta casa;
+      · Tatiana quiere esta foto hecha DE LADO y no cenital. Cuando llegue la nueva, se sustituye. */
   {
-    id: "pulpo-tempura",
-    src: "/images/pulpo-tempura.webp",
-    srcTall: "/images/pulpo-tempura-alto.webp",
+    id: "bacalao-tempura",
+    src: "/images/bacalao-tempura.webp",
+    srcTall: "/images/bacalao-tempura-alto.webp",
     width: 1800,
     height: 1350,
-    alt: "Pulpo en tempura sobre cama de patatas, con limón y salsa de pimentón en salsera aparte, en fuente de cerámica verde",
-    caption: "Pulpo en tempura",
+    alt: "Bacalao en tempura, dorado y crujiente, sobre una cama de patatas en rodajas, con una salsera de salsa roja al lado, en fuente de cerámica verde",
+    caption: "Bacalao en tempura",
     tags: ["plato"],
-    dishIds: ["pul-tempura" satisfies MenuItemId],
+    dishIds: ["coc-bacalao-tempura" satisfies MenuItemId],
     focus: "50% 50%",
   },
   {

@@ -432,9 +432,9 @@ const pt: DataTranslations = {
       alt: "Lulas fritas em argolas sobre batatas às rodelas, com um gomo de limão e algumas folhas de salada, servidas em taça de barro na mesa da Tixola Tapería",
       caption: "Lulas fritas",
     },
-    "pulpo-tempura": {
-      alt: "Polvo em tempura sobre cama de batatas, com limão e molho de colorau à parte, em travessa de cerâmica verde",
-      caption: "Polvo em tempura",
+    "bacalao-tempura": {
+      alt: "Bacalhau em tempura, dourado e estaladiço, sobre uma cama de batatas às rodelas, com uma molheira de molho vermelho ao lado, em travessa de cerâmica verde",
+      caption: "Bacalhau em tempura",
     },
     "revuelto-bacalao-grelos": {
       alt: "Ovos mexidos com bacalhau, grelos e lagostins vistos de cima, em prato branco com um fio de redução",

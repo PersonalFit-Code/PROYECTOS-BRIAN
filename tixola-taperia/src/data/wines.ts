@@ -447,20 +447,6 @@ export interface Wine {
  */
 export const WINES: Wine[] = [
   {
-    id: "condes-de-albarei",
-    name: "Condes de Albarei",
-    winery: "Bodega Condes de Albarei",
-    origin: "rias-baixas",
-    kind: "blanco",
-    grapes: ["Albariño"],
-    winemaking: "Elaborado con los mostos flor, para extraer la pureza varietal del albariño",
-    bottlePrice: 18,
-    notes: "Amarillo dorado con reflejos verdosos. Nariz de intensidad media-alta, floral y con fruta blanca; en boca fresco, amplio, redondo y de aroma persistente.",
-    story: "Nació en 1988 en Cambados de la mano de un grupo de viticultores del Valle del Salnés, y este albariño es su buque insignia desde entonces.",
-    subzone: "Valle del Salnés",
-    terroir: "Cepas viejas en pequeñas parcelas de minifundio, en emparrado, muy cerca de la ría de Arousa",
-  },
-  {
     id: "pazo-baion",
     name: "Pazo Baión",
     winery: "Bodega Pazo Baión",
@@ -532,14 +518,6 @@ export const WINES: Wine[] = [
     winemaker: "José Meréns",
     awards: [{ source: "Concurso Mundial de Bruselas", score: "Medalla de plata", year: 2009 }, { source: "Decanter World Wine Awards", score: "Medalla de plata", year: 2010 }],
     image: "/images/vinos/lagar-do-merens.webp",
-  },
-  {
-    id: "ramon-do-casar",
-    name: "Ramón do Casar",
-    origin: "ribeiro",
-    kind: "blanco",
-    grapes: ["Treixadura"],
-    bottlePrice: 22,
   },
   {
     id: "cunas-davia",
@@ -698,17 +676,6 @@ export const WINES: Wine[] = [
     winemaker: "Pablo Estévez",
     awards: [{ source: "Cata dos Viños de Galicia", score: "Mejor vino blanco", year: 2006 }],
     image: "/images/vinos/crego-e-monaguillo-blanco.webp",
-  },
-  {
-    id: "castro-de-lobarzan",
-    name: "Castro de Lobarzán",
-    winery: "Castro de Lobarzán",
-    origin: "monterrei",
-    kind: "blanco",
-    grapes: ["Godello", "Treixadura"],
-    bottlePrice: 18,
-    story: "Bodega familiar de Villaza que elabora solo uva de cosecha propia y trabaja en recuperar las variedades autóctonas del pueblo.",
-    terroir: "5,2 hectáreas propias en laderas de pendiente suave y suelo arenoso, en Villaza (Monterrei)",
   },
   {
     id: "crego-e-monaguillo-tinto",

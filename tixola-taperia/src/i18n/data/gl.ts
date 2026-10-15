@@ -431,9 +431,9 @@ const gl: DataTranslations = {
       alt: "Calamares fritos en aros sobre patacas panadeira, cunha cuña de limón e unhas follas de ensalada, servidos en cunca de barro sobre a mesa de Tixola Tapería",
       caption: "Calamares fritos",
     },
-    "pulpo-tempura": {
-      alt: "Polbo en tempura sobre cama de patacas, con limón e salsa de pemento en salseira á parte, en fonte de cerámica verde",
-      caption: "Polbo en tempura",
+    "bacalao-tempura": {
+      alt: "Bacallau en tempura, dourado e crocante, sobre unha cama de patacas en rodajas, cunha salseira de salsa vermella ao lado, en fonte de cerámica verde",
+      caption: "Bacallau en tempura",
     },
     "revuelto-bacalao-grelos": {
       alt: "Revolto de bacallau, grelos e lagostinos visto desde arriba, en prato branco cun fío de redución",

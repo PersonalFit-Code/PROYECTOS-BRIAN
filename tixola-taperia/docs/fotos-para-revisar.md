@@ -104,13 +104,20 @@ Las dos que más convenía mirar eran **`pulpo-tempura`** (se ven tentáculos re
 pero podía ser otra fritura) y **`revuelto-bacalao-grelos`** (se ve huevo, verde y langostino; el
 bacalao se intuye pero no se ve entero).
 
-> **RESUELTA LA PRIMERA.** Tatiana, 15-10-2026: *«pulpo en tempura, no bacalao en tempura»*. La foto
-> está bien enlazada y se queda donde está. Falta todavía la de `revuelto-bacalao-grelos`.
+> **RESUELTA LA PRIMERA, Y ERA AL REVÉS DE LO QUE SE ENTENDIÓ.** Tatiana, 15-10-2026: la foto es el
+> **BACALAO en tempura**, no el pulpo. Se ha reenlazado a `coc-bacalao-tempura`, se han renombrado
+> los dos archivos a `bacalao-tempura(-alto).webp` y el `alt` se ha reescrito en los cuatro idiomas.
+> Falta todavía la de `revuelto-bacalao-grelos`.
 >
-> **Y UN CAMBIO DE CRITERIO PARA LAS QUE FALTAN:** dijo *«de lado en vez desde arriba»*. Hasta ahora
-> la guía pedía cenital para todas (`docs/guia-fotos-platos.md`). No está claro si lo dice de las
-> frituras —que es de lo que se estaba hablando— o de todos los platos, así que **antes de hacer las
-> 15 que faltan conviene preguntárselo**: rehacer las 25 que ya están costaría una tarde entera.
+> **Y QUEDA UN FLECO:** la carta describe el plato como «tacos de bacalao en tempura **con
+> pimientos** al lado» y en la foto lo que hay debajo son **patatas en rodajas**. El `alt` cuenta lo
+> que se ve, que es la regla de esta casa, pero conviene preguntarle si el plato lleva las dos cosas
+> o si la descripción de la carta hay que ajustarla.
+>
+> **Y UN CAMBIO DE CRITERIO PARA LAS QUE FALTAN, ya confirmado:** «casi mejor de lado que desde
+> arriba». `docs/guia-fotos-platos.md` ya lo recoge: de lado por defecto, cenital solo para lo que
+> se lee en planta. Las 25 hechas se quedan; la del **bacalao en tempura** sí conviene repetirla de
+> lado, porque la pidió ella por su nombre.
 
 ---
 

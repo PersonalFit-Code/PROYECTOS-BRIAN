@@ -431,9 +431,9 @@ const en: DataTranslations = {
       alt: "Fried squid rings over sliced potatoes, with a lemon wedge and a few salad leaves, served in an earthenware bowl on a table at Tixola Tapería",
       caption: "Fried squid",
     },
-    "pulpo-tempura": {
-      alt: "Tempura octopus on a bed of potatoes, with lemon and paprika sauce served on the side, in a green ceramic dish",
-      caption: "Tempura octopus",
+    "bacalao-tempura": {
+      alt: "Tempura cod, golden and crisp, on a bed of sliced potatoes, with a small jug of red sauce beside it, in a green ceramic dish",
+      caption: "Tempura cod",
     },
     "revuelto-bacalao-grelos": {
       alt: "Overhead view of scrambled eggs with cod, turnip greens and prawns on a white plate with a drizzle of reduction",

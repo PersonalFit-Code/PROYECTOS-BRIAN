@@ -81,9 +81,8 @@ export const BUSINESS = {
     /* Fuente: Tatiana, 15-10-2026, en persona. Da la vuelta a lo que había: el día de cierre YA NO
        es el domingo sino el LUNES, el domingo se abre solo a mediodía, y las cenas rematan a las
        23:45 y no a medianoche. Sigue corrigiendo a la ficha de Google, que da las 12:00 de apertura.
-       SÁBADO: ella dijo "entre semana cierran a las 11:45" y el sábado no entra en "entre semana",
-       pero se le aplica igual. Equivocarse hacia el cierre temprano manda a alguien quince minutos
-       antes; al revés lo manda a una puerta cerrada. A confirmar con ella. */
+       SÁBADO: se puso a 23:45 por prudencia, porque ella había dicho "entre semana" y el sábado no
+       lo es. CONFIRMADO el 15-10-2026: el sábado también cierra a las 23:45. */
     mon: [],
     tue: [
       { open: "13:00", close: "16:00" },
