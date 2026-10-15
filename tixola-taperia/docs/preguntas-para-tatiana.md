@@ -1,6 +1,9 @@
 # Preguntas para Tatiana
 
-> **Actualizado el 14-10-2026 con sus primeras respuestas.** Lo tachado ya está contestado.
+> **Actualizado el 15-10-2026 con la segunda ronda de respuestas.** Lo tachado ya está contestado.
+>
+> **Está casi vacío**: de los 24 puntos que tenía esta lista quedan **nueve**, y ninguno bloquea
+> publicar. Los dos que más valen: la **firma de los alérgenos** y **quién lee el buzón**.
 
 Para la reunión del jueves. Está ordenado por lo que importa: **lo primero bloquea la publicación**,
 lo demás son datos y decisiones que cierran textos que hoy están a medias.
@@ -26,7 +29,13 @@ de menos no es una multa, es alguien en urgencias.*
   - **Ensalada de cecina con helado de queso de oveja** → en la foto hay **nueces** repartidas por
     todo el plato. ¿Lleva nueces siempre? (si sí, es alérgeno de frutos de cáscara, y ya lo hemos
     declarado por si acaso).
-  - **Fingers de pollo** → en la foto hay **melocotón** y una salsa. ¿Qué salsa es y qué lleva?
+  - ~~**Fingers de pollo** → en la foto hay **melocotón** y una salsa. ¿Qué salsa es y qué lleva?~~
+    → **CONTESTADO el 15-10-2026:** salsa de **miel y mostaza** (la mostaza es alérgeno y ya está
+    declarada; la miel no está entre los catorce), y el rebozado es de **maíz**, así que **el gluten
+    se ha quitado**. Queda una sola pregunta, de una frase: **¿se fríen en la misma freidora que los
+    calamares?** Si es la misma, llevan trazas de gluten aunque el rebozado no lo lleve, y como la
+    carta de la web deja filtrar por alérgeno, ahora los fingers le salen a quien marque «excluir
+    gluten».
   - **Tosta de salmón y queso** → lleva una **salsa oscura** por encima. ¿Es reducción de Pedro
     Ximénez o similar? (si lleva vino, hay **sulfitos**).
   - **Croquetas**: la carta de papel declara unas **sin gluten**. ¿Se fríen en aceite aparte o en el
@@ -75,9 +84,10 @@ seguro», que funciona, pero con el dato quedan bien.*
 - [x] ~~El horario normal.~~ → **CORREGIDO el 15-10-2026, y venía del revés:** el día de cierre es el
       **lunes** (no el domingo), el **domingo** se abre solo a mediodía (13:00–15:45) y las cenas
       rematan a las **23:45**, no a medianoche. Ya está en la web y en el JSON-LD.
-- [ ] **Dos flecos del horario**: ¿el **sábado** también cierra a las 23:45? (dijo «entre semana», y el
-      sábado no lo es; se ha puesto 23:45 por ser el error menos malo). Y ¿el **mediodía** de los demás
-      días remata a las 16:00 o también a las 15:45?
+- [x] ~~¿El **sábado** también cierra a las 23:45?~~ → **SÍ, confirmado el 15-10-2026.**
+- [ ] **Queda un fleco del horario**: ¿el **mediodía** remata a las **16:00** o también a las **15:45**?
+      Hoy la web pone 16:00 de martes a sábado y 15:45 el domingo, que es lo que ella dijo. Si el
+      mediodía de la semana también remata a las 15:45, es una línea.
 - [ ] **El horario en festivos, Navidad y verano: ¿cambia?** Hoy la web dice «Festivos: consúltanos»,
       que es honesto pero flojo. Si hay un criterio fijo, lo ponemos.
 - [x] ~~¿Los 47 precios son los vigentes?~~ → **SÍ.**
@@ -100,12 +110,14 @@ seguro», que funciona, pero con el dato quedan bien.*
       «cata de vinos en octubre». Hoy está vacía. Dos condiciones: nada que incite a beber de más
       (ni «barra libre» ni «2x1 en chupitos» — lo prohíbe la ley gallega del alcohol desde marzo) y
       con fecha de caducidad, para que desaparezca sola.
-- [x] ~~La carta de vinos.~~ → **PRIMERA PASADA HECHA el 15-10-2026.** Fuera: A Flor e a Abella, Régoa,
-      las dos Manueleira y Hito. Y «Pagos de Galir» pasa a llamarse **Val do Galir**. Quedan 58.
-- [ ] **Tres vinos que apuntó sin decir qué hacer con ellos**: *Ramón do Casar*, *Castro de Lobarzán* y
-      *«Condes de Albarei o similares»*. ¿Se quedan como están, o había que cambiarles algo? (lo de
-      «o similares» suena a que el nombre debería decir «Condes de Albarei o similar», como ya hacía
-      Manueleira).
+- [x] ~~La carta de vinos.~~ → **CERRADA el 15-10-2026, en dos pasadas.** Fuera ocho: A Flor e a
+      Abella, Régoa, las dos Manueleira, Hito, Ramón do Casar, Castro de Lobarzán y Condes de
+      Albarei. «Pagos de Galir» pasa a llamarse **Val do Galir**. Y entra el primer rosado de la
+      carta, **Enate Rosado** (D.O. Somontano). **Quedan 53**, seis de ellos ya con foto de botella.
+- [x] ~~Los tres vinos que apuntó sin decir qué hacer con ellos.~~ → **FUERA los tres.** Y queda
+      explicado lo de «Condes de Albarei **o similar**»: no era un nombre a medias, era que **ella va
+      rotando los vinos** de esa denominación según lo que encuentre. Por eso sale de la carta de la
+      web: una botella que rota no se puede prometer por escrito, y en la barra se recomienda igual.
 
 ---
 
@@ -124,8 +136,13 @@ seguro», que funciona, pero con el dato quedan bien.*
 
 ## 6 · Material que falta (esto es más de Brian, pero sale de su cocina)
 
-- [ ] **Faltan 15 fotos de plato.** La guía de cómo hacerlas está en `docs/guia-fotos-platos.md`
-      (cenital, luz natural, el plato centrado). 25 hechas, 7 que no necesitan foto.
+- [ ] **Faltan 15 fotos de plato.** La guía está en `docs/guia-fotos-platos.md`. 25 hechas, 7 que no
+      necesitan foto. **Ojo, que el criterio cambió el 15-10-2026 y lo cambió ella**: ahora manda
+      **el lado o los 45°**, no el cenital («casi mejor de lado que desde arriba»). Las 25 que ya
+      están son cenitales y se quedan; el criterio vale para las 15 que faltan.
+- [ ] **Repetir la foto del bacalao en tempura, de lado.** Es la única que pidió rehacer por su
+      nombre. La que hay es cenital y, además, estaba mal atribuida: la teníamos como pulpo y es
+      bacalao —corregido el 15-10-2026 en los cuatro idiomas.
 - [x] ~~Una foto nueva de la fachada.~~ → **HECHA**, la mandó Brian el 15-10-2026 y ya está publicada.
       Se publica RECORTADA al tercio derecho: en el original había siete personas en la calle (una de
       ellas una niña) y una terraza llena al fondo. Falta una sola cosa, y es de Brian: **confirmar

@@ -54,10 +54,24 @@ con alergia puede leerlo como «este puedo comerlo».
 | **Oreja a la plancha** (8,20 €) | ¿Lleva algún aliño o salsa por encima? ¿El pimentón que usáis es puro o mezcla? |
 | **Jamón serrano** (12,90 €) | ¿Qué marca? Muchos jamones curados llevan **sulfitos** declarados en la etiqueta. Basta con mirar el paquete. |
 
-**Y una pregunta que afecta a media carta:** ¿la freidora es la misma para las croquetas normales, los
-calamares, los fingers y **las croquetas sin gluten**? Si es compartida, las croquetas sin gluten
-llevan aviso de trazas y hay que decirlo. Si tenéis freidora aparte, también hay que decirlo, porque
-es un argumento de venta.
+**Y una pregunta que afecta a media carta, y que ahora importa más:** ¿la freidora es la misma para
+las croquetas normales, los calamares, los fingers y **las croquetas sin gluten**? Si es compartida,
+las croquetas sin gluten llevan aviso de trazas y hay que decirlo. Si tenéis freidora aparte,
+también hay que decirlo, porque es un argumento de venta.
+
+> **Por qué importa más desde el 15-10.** Al quitarle el gluten a los fingers, pasaron a ser el
+> tercer plato de la carta que **no declara gluten**. Y como la carta de la web deja filtrar por
+> alérgeno, quien marque «excluir gluten» verá ahora los fingers en la lista. El filtro esconde los
+> platos que SÍ declaran el alérgeno; no promete que el resto sea seguro —lo dice ahí mismo, en el
+> propio panel— pero si los fingers comparten freidora con los calamares, lo honesto es que la web
+> lo diga. **Es una pregunta de una frase: ¿los fingers se fríen en la misma freidora que los
+> calamares?** Con el sí o el no se cierra, y es el último fleco de los alérgenos.
+
+> **Y un aviso de redacción, no de cocina.** La pregunta frecuente de celíacos dice que «los únicos
+> platos que declaramos sin gluten son las croquetas sin gluten y el postre sin gluten». Eso sigue
+> siendo verdad —los fingers no se anuncian como «sin gluten», simplemente ya no declaran gluten—,
+> pero si algún día queréis anunciarlos como opción sin gluten, hay que tocar esa respuesta en los
+> cuatro idiomas y hace falta que lo confirméis por escrito.
 
 ---
 
@@ -114,7 +128,7 @@ Leyenda: **G** gluten · **L** lácteos · **H** huevos · **P** pescado · **C*
 | Salteado de verdura, arroz y setas | 11,50 | S · G | |
 | **Croquetas sin gluten** | 12,90 | L · H | |
 | Tortilla guisada con champiñones | 11,90 | H | |
-| Fingers de pollo | 7,90 | G · H · L · **MO** | **Contestado 15-10-2026:** salsa de miel y mostaza (→ mostaza), rebozadas en maíz. El gluten se mantiene: «rebozado de maíz» no es lo mismo que «sin gluten» — ¿se puede quitar? |
+| Fingers de pollo | 7,90 | H · L · **MO** | **Cerrado 15-10-2026:** salsa de miel y mostaza (→ mostaza), rebozadas en maíz, y Tatiana confirma que **el gluten se puede quitar**. Ya está quitado en la web. Queda el aviso de la freidora de abajo: si se fríen en la misma que los calamares, llevan trazas de gluten aunque el rebozado no lo lleve. |
 | Pastel de cabracho | 10,00 | P · H · L · G | |
 
 > **El alioli**: si es casero con huevo, ya está puesto. Si es de bote, mira la etiqueta — suele
