@@ -1,11 +1,11 @@
 # Guía para las fotos de plato — Tixola
 
-> **Actualizada el 10-10-2026.** De los 47 platos de la carta: **25 ya tienen foto**, **7 no la
-> necesitan** y **quedan 15 por tirar**. Comprobado contra `src/data/menu.ts` y `src/data/photos.ts`,
+> **Actualizada el 16-10-2026.** De los 47 platos de la carta: **26 ya tienen foto**, **7 no la
+> necesitan** y **quedan 14 por tirar**. Comprobado contra `src/data/menu.ts` y `src/data/photos.ts`,
 > no a ojo.
 >
 > **Hechas el 10-10-2026:** timbal vegetal, fingers de pollo, tosta de salmón y queso y
-> ensalada de cecina.
+> ensalada de cecina. **El 16-10-2026:** oreja a la plancha, la primera de lado.
 >
 > **Los 7 que ya no cuentan**, por decisión de la casa: las cuatro tablas de embutidos y quesos
 > (jamón serrano, queso del país, queso de oveja, queso de cabra) y, de varios, el postre sin gluten,
@@ -42,14 +42,16 @@ entera sale de la lista: un jamón serrano y tres quesos no necesitan que se los
 8. **Salteado de pulpo, salmón y langostinos** (20,50 €) — el plato más caro de toda la carta sin
    foto. Si solo da tiempo a una de esta lista, esta.
 
-### Especiales — 3 de 7 ⚠️
+### Especiales — 4 de 7
 
 9. **Zamburiñas rellenas** (19,00 €) — ya estaba en la lista anterior. Tenemos la de plancha, no la
    de rellenas, y son platos distintos.
 10. **Brocheta XXL** (13,90 €)
 11. ~~**Timbal vegetal** (9,50 €)~~ — ✅ **hecha** (10-10-2026). De lado, no cenital: es un plato
     de capas y desde arriba no se entiende.
-12. **Oreja a la plancha** (8,20 €) ⚠️
+12. ~~**Oreja a la plancha** (8,20 €)~~ — ✅ **hecha** (16-10-2026), y **de lado**, que es ya el
+    criterio nuevo. Ojo: llega con una bola de puré que la carta no nombra; ver
+    `docs/fotos-para-revisar.md`.
 
 ### Ensaladas — 4 de 5
 

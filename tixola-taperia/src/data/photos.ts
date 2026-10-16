@@ -467,6 +467,32 @@ export const PHOTOS: Photo[] = [
     dishIds: ["coc-fingers-pollo" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* LA PRIMERA DE LA RONDA DE LADO. Tatiana cambió el criterio el 15-10-2026 —«casi mejor de lado
+     que desde arriba»— y esta llegó ya así: se ve el crujiente del borde, que desde arriba no se ve.
+
+     EL RECORTE VA ANCLADO A LA DERECHA, y no es pereza de encuadre: el original es 16:9 y aquí todo
+     es 4:3, así que había que quitar 512 px de ancho. Centrándolo se comía un tercio de la bola de
+     puré, que es media composición; anclado a la derecha la bola entra entera y la oreja se sale por
+     la izquierda, que es encuadre de foto de comida de toda la vida.
+     El vertical sí es solo la oreja: de un 16:9 un 2:3 se queda en el 37 % del ancho y la bola no
+     cabe. En la columna de la ficha se ve el plato, y el acompañamiento, en la apaisada.
+
+     OJO, QUE ESTO NO ES ESTILO: la carta NO nombra ese puré y este plato es uno de los tres que hoy
+     salen SIN NINGÚN ALÉRGENO APUNTADO. Si el puré lleva leche o mantequilla, el plato lleva
+     lácteos. Preguntado en docs/fotos-para-revisar.md y en docs/alergenos-para-revisar.md; hasta que
+     conteste, el alt dice «una bola de puré» y no de qué es, porque no lo sabemos. */
+  {
+    id: "oreja-plancha",
+    src: "/images/oreja-plancha.webp",
+    srcTall: "/images/oreja-plancha-alto.webp",
+    width: 1536,
+    height: 1152,
+    alt: "Tiras de oreja a la plancha, doradas y crujientes por los bordes, en una fuente ovalada de cerámica verde, con una bola de puré al lado, sobre la mesa de madera de Tixola Tapería",
+    caption: "Oreja a la plancha",
+    tags: ["plato"],
+    dishIds: ["esp-oreja-plancha" satisfies MenuItemId],
+    focus: "50% 50%",
+  },
   /* La original traía un pie al borde de abajo —se tiró de pie sobre la mesa— y los dos recortes
      están subidos para dejarlo fuera: no se retoca nada, se encuadra. Como en los fingers, el marco
      apaisado va corto (el plato es ovalado y no cabe de lado a lado) y el completo se ve en `srcTall`. */

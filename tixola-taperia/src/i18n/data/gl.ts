@@ -459,6 +459,10 @@ const gl: DataTranslations = {
       alt: "Timbal vexetal de Tixola Tapería: berenxena, cabaciña e pemento asado montados en capas sobre unha base de pataca, coroado con cogomelos á prancha, con ensalada e pingas de salsa vermella arredor do prato",
       caption: "Timbal vexetal, coa vinoteca ao fondo",
     },
+    "oreja-plancha": {
+      alt: "Tiras de orella marcada na prancha, douradas e crocantes polos bordos, nunha fonte ovalada de cerámica verde, cunha bola de puré ao lado, sobre a mesa de madeira de Tixola Tapería",
+      caption: "Orella na prancha",
+    },
     "fingers-pollo": {
       alt: "Fingers de polo empanados e fritos sobre follas de leituga, cada un coroado cun gallo de pexego marcado á prancha, e unha cunca de salsa branca con perexil, nunha fonte ovalada de cerámica verde sobre a mesa de madeira de Tixola Tapería",
       caption: "Fingers de polo",

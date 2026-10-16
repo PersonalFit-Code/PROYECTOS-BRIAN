@@ -460,6 +460,10 @@ const pt: DataTranslations = {
       alt: "Timbal vegetal da Tixola Tapería: beringela, courgette e pimento assado montados em camadas sobre uma base de batata, coroado com cogumelos grelhados, com salada e pingos de molho vermelho à volta do prato",
       caption: "Timbal vegetal, com a garrafeira ao fundo",
     },
+    "oreja-plancha": {
+      alt: "Tiras de orelha marcada na chapa, douradas e estaladiças nos bordos, numa travessa oval de cerâmica verde, com uma bola de puré ao lado, na mesa de madeira da Tixola Tapería",
+      caption: "Orelha na chapa",
+    },
     "fingers-pollo": {
       alt: "Fingers de frango panados e fritos sobre folhas de alface, cada um coroado com um gomo de pêssego grelhado, e uma taça de molho branco com salsa, numa travessa oval de cerâmica verde sobre a mesa de madeira da Tixola Tapería",
       caption: "Fingers de frango",

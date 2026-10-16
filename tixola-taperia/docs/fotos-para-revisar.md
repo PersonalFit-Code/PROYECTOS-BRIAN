@@ -1,7 +1,9 @@
 # Fotos — lo que hace falta confirmar
 
 De las **104 fotos** que subió Brian al Drive el 2 de octubre de 2026 están publicadas **50**:
-11 platos, 6 del local y la vinoteca, y 33 botellas en las fichas de la carta de vinos.
+11 platos, 6 del local y la vinoteca, y 33 botellas en las fichas de la carta de vinos. Después han
+ido llegando sueltas; la última, la **oreja a la plancha** (16-10-2026), que es la primera de la
+ronda «de lado» y trae su propia pregunta de alérgenos al final de este documento.
 
 Este documento es la lista de lo que **no se ha podido decidir desde la foto**. Nada de lo de aquí
 abajo bloquea la web: todo está publicado de una forma que no afirma lo que no se sabe. Pero
@@ -266,3 +268,38 @@ pregunta: ¿lo que llega a la mesa tiene algo que la descripción no diga?
 cuenco queda pequeño y entran la barra, las botellas y el brazo de un camarero. Recortes: 1800×1350
 para la carta y la galería y 1200×1716 para la ficha, los dos encuadrados sobre el cuenco. Sin
 retoque de color.
+
+---
+
+## Oreja a la plancha (16-10-2026) — ⚠️ un acompañamiento que la carta no nombra, en el plato que no declara ningún alérgeno
+
+**Es la quinta vez seguida, y esta es la que más importa.** La foto trae una **bola de puré** al
+lado de la oreja. La carta no lo nombra: dice *«Oreja cocida y después marcada en la plancha hasta
+que cruje por fuera»* y nada más.
+
+Y aquí no es un detalle de redacción, porque **la oreja a la plancha es uno de los tres platos de
+toda la carta que hoy salen sin ningún alérgeno apuntado**. Alguien que filtre por lácteos la va a
+ver en la lista.
+
+**Las dos preguntas, que se contestan en una línea cada una:**
+
+- **¿De qué es el puré?** Si es de patata hecho con **leche o mantequilla**, el plato lleva
+  **lácteos** y hay que declararlos. Si es de manzana o de verdura con aceite, no lleva nada.
+- **¿Va siempre?** Si el puré acompaña siempre, conviene nombrarlo en la descripción: ayuda a
+  vender y, de paso, avisa. Si fue del día, se queda como está y la foto se entiende igual.
+
+Mientras tanto, la web **no afirma de qué es**: el texto alternativo dice «una bola de puré» en los
+cuatro idiomas, y el plato sigue con el aviso de consultar los alérgenos con el personal. Era eso o
+escribir «puré de patata» a ojo, que es justo lo que esta web no hace.
+
+**Qué se ha hecho con la foto.** Es la primera de la ronda **de lado**, el criterio que puso Tatiana
+el 15-10, y se nota: se ve el crujiente del borde, que desde arriba no se ve. Dos recortes:
+1536×1152 para la carta y la galería, y 768×1152 para la columna de la ficha.
+
+El apaisado va **anclado a la derecha**, y conviene saber por qué: la foto original es 16:9 y en
+esta web todo el formato de plato es 4:3, así que había que quitar 512 px de ancho. Centrándolo se
+comía un tercio de la bola de puré; anclado a la derecha la bola entra entera y la oreja se sale por
+la izquierda, que es encuadre normal en foto de comida. El vertical es solo la oreja: de un 16:9, un
+2:3 se queda en el 37 % del ancho y la bola no cabe de ninguna manera.
+
+Sin retoque de color. No sale ninguna persona.

@@ -51,7 +51,7 @@ con alergia puede leerlo como «este puedo comerlo».
 | Plato | Lo que pregunto |
 |---|---|
 | **Brocheta XXL** (13,90 €) | **RESPONDIDO A MEDIAS.** De qué es: cerdo, 100 % magro, adobado (ficha de Requeno Cárnicas «Moruno», rev. 3, 01/02/2026). Plancha: **no se hace en la misma que el pescado** (confirmado por el cliente). **Sigue pendiente lo de los alérgenos:** la ficha no declara ninguno, y el adobo comercial CEYLAMIX 028-S/N lleva «especias» y «aroma (preparación aromatizante)», que es donde suelen esconderse **mostaza**, **apio** o **soja**. Hace falta la etiqueta de la bandeja o la ficha de alérgenos del preparado. |
-| **Oreja a la plancha** (8,20 €) | ¿Lleva algún aliño o salsa por encima? ¿El pimentón que usáis es puro o mezcla? |
+| **Oreja a la plancha** (8,20 €) | ¿Lleva algún aliño o salsa por encima? ¿El pimentón que usáis es puro o mezcla? **Y una nueva, del 16-10-2026, porque ya hay foto:** llega con una **bola de puré** al lado que la carta no nombra. **¿De qué es?** Si es de patata con leche o mantequilla, este plato lleva **lácteos** — y hoy es uno de los tres que no declara ninguno, así que quien filtre por lácteos lo ve en la lista. |
 | **Jamón serrano** (12,90 €) | ¿Qué marca? Muchos jamones curados llevan **sulfitos** declarados en la etiqueta. Basta con mirar el paquete. |
 
 **Y una pregunta que afecta a media carta, y que ahora importa más:** ¿la freidora es la misma para

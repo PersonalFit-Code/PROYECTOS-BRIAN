@@ -459,6 +459,10 @@ const en: DataTranslations = {
       alt: "Tixola Tapería's vegetable timbale: aubergine, courgette and roasted pepper layered on a potato base, topped with griddled mushrooms, with salad and dots of red sauce around the plate",
       caption: "Vegetable timbale, with the wine room behind",
     },
+    "oreja-plancha": {
+      alt: "Strips of pig's ear seared on the griddle, golden and crisp at the edges, on a green ceramic oval platter, with a ball of pale purée alongside, on the wooden table at Tixola Tapería",
+      caption: "Griddled pig's ear",
+    },
     "fingers-pollo": {
       alt: "Breaded, fried chicken strips on lettuce leaves, each topped with a griddled peach wedge, and a bowl of white parsley sauce, on a green ceramic oval platter on the wooden table at Tixola Tapería",
       caption: "Chicken strips",
