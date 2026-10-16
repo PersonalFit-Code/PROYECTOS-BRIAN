@@ -22,7 +22,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: l } = await params;
   const m = (await getMessages(isLocale(l) ? l : DEFAULT_LOCALE)).reservar;
-  return { title: m.cita.seoTitle, robots: { index: false, follow: false } };
+  return { title: { absolute: m.cita.seoTitle }, robots: { index: false, follow: false } };
 }
 
 const uno = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? null;

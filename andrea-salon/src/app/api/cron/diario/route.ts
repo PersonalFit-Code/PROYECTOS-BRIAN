@@ -4,6 +4,7 @@ import { desplazarFechaLocal, fechaLocal, instanteEnZona } from "@/lib/booking";
 import { getAjustes } from "@/lib/reservas/ajustes";
 import { enviarRecordatorio, reenviarNotificacion } from "@/lib/reservas/correos";
 import { getAdminClient } from "@/lib/supabase/admin";
+import { enviarAvisoCaducidad, enviarBono } from "@/lib/vouchers/emitir";
 
 /**
  * GET /api/cron/diario — lo lanza Vercel Cron (ver vercel.json: 5 9 * * * UTC ≈ 10:05/11:05 hora de
@@ -16,8 +17,8 @@ import { getAdminClient } from "@/lib/supabase/admin";
  *  1. Borrar holds caducados (book_slot ya lo hace al reservar; esto limpia los días sin reservas).
  *  2. Recordatorio de las citas confirmadas de MAÑANA (día civil del salón).
  *  3. Reintentar las notificaciones que quedaron en `failed` (menos de 3 intentos, última semana).
- *  4. Marcar como caducados los bonos vencidos. (Los avisos de "caduca en 30 días" llegan en la
- *     fase 2 con la plantilla BonoCaduca.)
+ *  4. Aviso de bonos que caducan en N días (settings.voucher_expiry_warning_days), uno por bono.
+ *  5. Marcar como caducados los bonos vencidos.
  */
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -99,10 +100,36 @@ export async function GET(req: Request) {
     .limit(50);
   if (eFallidas) console.error("[cron] fallidas:", eFallidas.message);
   for (const n of fallidas ?? []) {
+    if (n.voucher_id) {
+      // Correos de bonos: se reintenta con el bono tal como está ahora.
+      const { data: bono } = await db.from("vouchers").select("*").eq("id", n.voucher_id).maybeSingle();
+      if (!bono) continue;
+      const opciones = { notificacionId: n.id };
+      anotar(reintentos, n.kind === "voucher_expiring" ? await enviarAvisoCaducidad(bono, opciones) : await enviarBono(bono, opciones));
+      continue;
+    }
     anotar(reintentos, await reenviarNotificacion(n));
   }
 
-  // 4. Bonos vencidos.
+  // 4. Aviso de bonos que caducan pronto (con algo pendiente y correo). Uno por bono, siempre:
+  //    `queue_notification` no deja apuntar el mismo aviso dos veces.
+  const avisos: Recuento = { enviados: 0, duplicados: 0, fallidos: 0, errores: [] };
+  const limiteAviso = new Date(ahora.getTime() + ajustes.voucherExpiryWarningDays * 86_400_000).toISOString();
+  const { data: porCaducar, error: eCaducan } = await db
+    .from("vouchers")
+    .select("*")
+    .eq("status", "active")
+    .not("buyer_email", "is", null)
+    .gt("expires_at", ahora.toISOString())
+    .lt("expires_at", limiteAviso)
+    .limit(100);
+  if (eCaducan) console.error("[cron] bonos por caducar:", eCaducan.message);
+  for (const bono of porCaducar ?? []) {
+    const pendiente = bono.kind === "sessions" ? (bono.sessions_left ?? 0) > 0 : (bono.balance_cents ?? 0) > 0;
+    if (pendiente) anotar(avisos, await enviarAvisoCaducidad(bono));
+  }
+
+  // 5. Bonos vencidos.
   const { data: vencidos, error: eBonos } = await db
     .from("vouchers")
     .update({ status: "expired" })
@@ -117,6 +144,7 @@ export async function GET(req: Request) {
     holdsBorrados: holds?.length ?? 0,
     recordatorios,
     reintentos,
+    avisosCaducidad: avisos,
     bonosVencidos: vencidos?.length ?? 0,
   });
 }

@@ -30,7 +30,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = isLocale(l) ? l : DEFAULT_LOCALE;
   const m = (await getMessages(locale)).reservar;
   return {
-    title: m.seo.title,
+    // `absolute`: el título ya lleva la marca; la plantilla del layout la añadiría otra vez.
+    title: { absolute: m.seo.title },
     description: m.seo.description,
     alternates: { canonical: urlFor("reservar", "/", locale) },
   };
@@ -69,7 +70,9 @@ export default async function ReservarPage({ params, searchParams }: Props) {
     return (
       <div className="mx-auto max-w-xl px-4 py-16 text-center">
         <h1 className="font-display text-3xl font-semibold text-tinta">{m.reservar.title}</h1>
-        <p className="mt-4 text-gris">{m.reservar.errores.ERROR_INTERNO}</p>
+        <p className="mt-4 text-gris">
+          {process.env.NEXT_PUBLIC_SUPABASE_URL ? m.reservar.errores.ERROR_INTERNO : m.reservar.proximamente}
+        </p>
         <a href={BUSINESS.phone.tel} className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-carmin px-6 font-semibold text-white">
           <Phone aria-hidden className="size-4" />
           {BUSINESS.phone.display}

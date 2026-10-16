@@ -1,7 +1,9 @@
 import "server-only";
 
 import { BUSINESS } from "@/data/business";
+import BonoCaduca from "@/emails/BonoCaduca";
 import BonoEntregado from "@/emails/BonoEntregado";
+import { urlFor } from "@/lib/hosts";
 import { codigoDeRaise } from "@/lib/api";
 import { fechaLarga } from "@/lib/fechas";
 import { enviarCorreo, type ResultadoCorreo } from "@/lib/mail";
@@ -81,6 +83,33 @@ export function queIncluye(b: Pick<VoucherRow, "kind" | "sessions_total" | "valu
 
 export function textoCaducidad(expiresAt: string | null): string {
   return expiresAt ? `Válido hasta el ${fechaLarga(expiresAt).replace(/^[^,]+, /, "")}` : "No caduca";
+}
+
+/** Aviso de caducidad (uno por bono: `queue_notification` lo deduplica). */
+export async function enviarAvisoCaducidad(bono: VoucherRow, opciones: { notificacionId?: string } = {}): Promise<ResultadoCorreo> {
+  if (!bono.buyer_email || !bono.expires_at) return { ok: false, error: "Sin correo o sin caducidad" };
+  const queda =
+    bono.kind === "sessions"
+      ? `Te ${bono.sessions_left === 1 ? "queda 1 sesión" : `quedan ${bono.sessions_left} sesiones`}`
+      : `Te quedan ${formatearEuros(bono.balance_cents ?? 0)} de saldo`;
+  return enviarCorreo({
+    to: bono.buyer_email,
+    subject: `Tu ${bono.name} caduca pronto`,
+    react: (
+      <BonoCaduca
+        nombre={nombreCorto(bono.buyer_name) || "hola"}
+        bono={bono.name}
+        codigo={bono.code}
+        queda={queda}
+        fecha={fechaLarga(bono.expires_at).replace(/^[^,]+, /, "")}
+        urlReservar={urlFor("reservar", "/")}
+        urlBono={urlBono(bono.code)}
+        pie={{ nombre: BUSINESS.name, direccion: BUSINESS.address.full, telefono: BUSINESS.phone.display, web: SITE_URL }}
+      />
+    ),
+    registro: { kind: "voucher_expiring", voucherId: bono.id },
+    notificacionId: opciones.notificacionId,
+  });
 }
 
 /** Correo con el bono y su QR incrustado. Se apunta en `notifications` (uno por bono). */

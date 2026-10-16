@@ -56,3 +56,7 @@ Resend + react-email · Stripe Checkout alojado (fase 2) · Vercel Cron · zod �
 | `npm run seed` | Carga el catálogo de PRUEBA (servicios y equipo de `src/data/fixtures.ts`) en la base de desarrollo |
 | `npx tsx scripts/crear-usuario.ts --email … --nombre … --rol owner\|staff [--staff <slug>]` | Crea un usuario del panel (no hay registro público) |
 | `scripts/qa-exclusion.sql` | Comprueba en el SQL editor que dos citas solapadas no pueden existir |
+| `npx tsx scripts/importar-clientas.ts <csv> [--aplicar]` | Importa clientas (Elitek u hoja del salón). Sin `--aplicar` solo ensaya e informa |
+| `npx tsx scripts/importar-citas.ts <csv> [--aplicar]` | Importa citas futuras; informa de servicios o profesionales desconocidos y de choques |
+
+El día del cambio se sigue `docs/lanzamiento.md` (incluye la formación de una hora).

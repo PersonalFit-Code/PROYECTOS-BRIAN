@@ -518,7 +518,8 @@ export type Database = {
           p_items: Json;
           p_source: BookingSource;
           p_notes: string | null;
-          p_actor: string;
+          /** null en importaciones y scripts (sin usuario del panel) */
+          p_actor: string | null;
         };
         Returns: BookingRow;
       };

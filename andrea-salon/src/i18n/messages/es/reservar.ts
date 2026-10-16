@@ -13,6 +13,8 @@ const reservar = {
   header: { back: "Volver a la web", call: "¿Prefieres llamar?" },
   title: "Reserva tu cita",
   subtitle: "En un minuto. Te llega la confirmación al correo.",
+  /** Mientras la agenda online no está conectada (antes del lanzamiento). */
+  proximamente: "La reserva online abre muy pronto. Mientras tanto, llámanos y te damos cita.",
   pasos: {
     servicios: "Servicio",
     profesional: "Profesional",

@@ -5,6 +5,9 @@ import { WhatsAppGlyph } from "@/components/ui/FloatingWhatsApp";
 import { BUSINESS } from "@/data/business";
 import { absoluteUrl, breadcrumbJsonLd, pageMetadata, serializeJsonLd } from "@/lib/seo";
 import { pageContext } from "@/lib/page";
+import TiendaBonos from "@/components/bonos/TiendaBonos";
+import { stripeConfigurado } from "@/lib/stripe";
+import { productosBono } from "@/lib/vouchers/catalogo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale, m } = await pageContext(params);
@@ -12,13 +15,30 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 /**
- * Bonos: «muy pronto», sin compra. La tienda (Stripe Checkout) llega en la fase 2; aquí se cuenta
- * cómo funcionará y se manda a WhatsApp para comprarlos en el salón mientras tanto.
+ * Bonos. Con bonos en el catálogo (panel → Catálogo de bonos) y Stripe conectado, es la tienda;
+ * si falta cualquiera de las dos cosas, la versión «muy pronto»: cómo funciona y WhatsApp para
+ * comprarlos en el salón. Se revalida cada 5 minutos: un bono nuevo del panel aparece solo.
  */
+export const revalidate = 300;
+
 export default async function BonosPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale, m } = await pageContext(params);
   const b = m.bonos;
   const migas = breadcrumbJsonLd([{ name: m.nav.items.home, url: absoluteUrl(locale, "/") }, { name: m.nav.items.bonos, url: absoluteUrl(locale, "/bonos") }]);
+  const productos = stripeConfigurado() ? await productosBono() : [];
+
+  if (productos.length > 0) {
+    return (
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(migas) }} />
+        <PageHeader kicker={b.kicker} title={b.tienda.title} accent={b.tienda.accent} description={b.tienda.description} />
+        <div className="container-page pb-20 sm:pb-28">
+          <TiendaBonos productos={productos} />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(migas) }} />
