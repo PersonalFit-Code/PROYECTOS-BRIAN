@@ -84,10 +84,27 @@ curl -H "Authorization: Bearer $CRON_SECRET" https://<dominio>/api/cron/diario
 - La cita aparece en `/panel/agenda` tras entrar.
 - Cancelar desde el enlace del correo libera la hora (vuelve a salir en la reserva).
 
-## 7. Antes de abrir la reserva al público: CAPTCHA (recomendado)
+## 7. CAPTCHA de la reserva (Cloudflare Turnstile)
 
-La reserva ya limita repetidos, citas de más de 5 horas, tres citas futuras por teléfono y una cuota
-por IP. Lo que no frena es a alguien con muchas IP que llene la agenda de reservas temporales. La
-defensa es un CAPTCHA invisible: **Cloudflare Turnstile** (gratis). Crear el sitio en Cloudflare y
-pasarme las dos claves; se añade en el paso de la hora y en el de confirmar.
+Andrea tenía en la web antigua reservas de broma («jajaja@gmail.com», «00000000»). Hay tres capas:
 
+1. **Filtro de datos de broma** (ya activo, sin hacer nada): teléfonos con todos los dígitos iguales,
+   seis o más ceros seguidos o en escalera (612 345 678), y correos desechables o de risa
+   («jajaja@», «test@», «asdf@», @mailinator…). La clienta ve qué campo falla. `src/lib/antiabuso.ts`.
+2. **CAPTCHA invisible** (se activa con las claves): para a los bots. Casi nunca se ve; solo si
+   Cloudflare duda sale una casilla «Verifica que eres humano». Gratis y sin cookies.
+3. **Tope de tres citas futuras por teléfono** y cuota por IP (ya activos).
+
+Para activar el CAPTCHA (5 minutos):
+
+1. Entrar en <https://dash.cloudflare.com> (cuenta gratis) → **Turnstile** → **Add widget**.
+2. Nombre «Andrea Salón». Hostnames: `andreasalonnails.vercel.app` y, cuando esté, `andreasalon.es`
+   y `reservar.andreasalon.es`. Modo: **Managed**. Sin pre-clearance.
+3. Copiar las dos claves en Vercel → Settings → Environment Variables (Production y Preview):
+   `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (la «site key», pública) y `TURNSTILE_SECRET_KEY` (la
+   «secret key», marcada como **Sensitive**). Redesplegar.
+4. Probar una reserva desde el móvil: no debe pedir nada. En Cloudflare → Turnstile se ven las
+   comprobaciones y cuántas ha parado.
+
+Con las claves puestas, Cloudflare sale solo en la lista de encargados de la política de privacidad.
+Si algún día molestara, se quitan las dos variables y la reserva vuelve a funcionar sin CAPTCHA.

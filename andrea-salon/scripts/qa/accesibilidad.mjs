@@ -157,7 +157,7 @@ try {
     await revisar(p, "reserva · 5 datos con errores");
     await p.getByLabel("Nombre").fill("Prueba Accesible");
     await p.getByLabel("Móvil").fill("123");
-    await p.getByLabel("Correo").fill("prueba@ejemplo.es");
+    await p.getByLabel("Correo").fill("jajaja@gmail.com");
     await p.locator("input[name=condiciones]").check();
     await p.locator("input[name=privacidad]").check();
     await p.getByRole("button", { name: "Confirmar cita" }).click();
@@ -168,7 +168,15 @@ try {
     if (foco !== "telefono") informe.at(-1).errores = [`el foco no fue al teléfono (está en ${foco})`];
     // El 400 de ese envío es el que se buscaba: no cuenta como error de la página.
     p.errores = p.errores.filter((e) => !e.includes("status of 400"));
-    await p.getByLabel("Móvil").fill("612345678");
+    await p.getByLabel("Móvil").fill("646112233");
+    await p.getByRole("button", { name: "Confirmar cita" }).click();
+    // Correo de broma: mismo trato que el teléfono.
+    await p.locator("input[name=email][aria-invalid=true]").waitFor({ timeout: 15_000 });
+    const focoCorreo = await p.evaluate(() => document.activeElement?.getAttribute("name"));
+    await revisar(p, "reserva · 5 datos con correo de broma");
+    if (focoCorreo !== "email") informe.at(-1).errores = [`el foco no fue al correo (está en ${focoCorreo})`];
+    p.errores = p.errores.filter((e) => !e.includes("status of 400"));
+    await p.getByLabel("Correo").fill("maria.lopez@ejemplo.es");
     await p.getByRole("button", { name: "Confirmar cita" }).click();
     await p.getByRole("heading", { name: "¡Cita confirmada!" }).waitFor({ timeout: 30_000 });
     await revisar(p, "reserva · 6 confirmada");

@@ -25,6 +25,8 @@ function origenesSupabase(): string {
  * proyecto necesita de más:
  *  · `connect-src` Supabase: el panel inicia sesión y refresca el token desde el navegador; la web
  *    pública no lo usa (todo pasa por el servidor), pero la cabecera es la misma para todas las rutas.
+ *  · `challenges.cloudflare.com` en `script-src` y `frame-src`: el CAPTCHA de la reserva (Turnstile)
+ *    carga un script y pinta su casilla en un iframe.
  *  · `form-action` checkout.stripe.com: los bonos se pagan en el Checkout alojado de Stripe
  *    (redirección), así que NO hace falta `js.stripe.com` en `script-src` ni `api.stripe.com` en
  *    `connect-src`. Si algún día se embebe el Payment Element, añadir `https://js.stripe.com` a
@@ -37,13 +39,13 @@ function origenesSupabase(): string {
  */
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
   "media-src 'self'",
   `connect-src 'self'${origenesSupabase()}${isDev ? " ws:" : ""}`,
-  "frame-src https://www.google.com https://maps.google.com",
+  "frame-src https://www.google.com https://maps.google.com https://challenges.cloudflare.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self' https://checkout.stripe.com",

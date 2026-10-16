@@ -13,6 +13,7 @@ import { urlFor } from "@/lib/hosts";
 import { cn } from "@/lib/utils";
 import { duracionTexto, horaSalon, llamar } from "./api";
 import Calendario from "./Calendario";
+import Turnstile, { type TurnstileHandle } from "./Turnstile";
 import type { CatalogoReserva, CitaACambiar, DiaDisponible, ErrorApi, Hueco } from "./tipos";
 
 /**
@@ -660,7 +661,12 @@ function PasoDatos({
   /** Minutos que dio la última prórroga (null = aún no se ha pedido). */
   const [prorrogada, setProrrogada] = useState<number | null>(null);
   const [telefonoMal, setTelefonoMal] = useState(false);
+  const [correoMal, setCorreoMal] = useState(false);
   const telefonoRef = useRef<HTMLInputElement>(null);
+  const correoRef = useRef<HTMLInputElement>(null);
+  /** Token del CAPTCHA (null si no está configurado o aún no ha contestado). */
+  const [turnstile, setTurnstile] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileHandle>(null);
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -696,6 +702,7 @@ function PasoDatos({
     if (!el.name) return;
     onBorrador(el.name, el instanceof HTMLInputElement && el.type === "checkbox" ? el.checked : el.value);
     if (el.name === "telefono") setTelefonoMal(false);
+    if (el.name === "email") setCorreoMal(false);
   };
   const texto = (campo: string) => (typeof borrador[campo] === "string" ? (borrador[campo] as string) : undefined);
   const marcada = (campo: string) => borrador[campo] === true;
@@ -716,6 +723,7 @@ function PasoDatos({
         privacidad: f.get("privacidad") === "on",
         marketing: f.get("marketing") === "on",
         locale,
+        turnstile: turnstile ?? undefined,
       }),
     });
     setEnviando(false);
@@ -727,9 +735,14 @@ function PasoDatos({
         email: String(f.get("email") ?? ""),
       });
     } else {
+      // El token del CAPTCHA ya se gastó (vale una vez): uno nuevo para el siguiente intento.
+      turnstileRef.current?.reiniciar();
       if (res.error.codigo === "TELEFONO_INVALIDO") {
         setTelefonoMal(true);
         telefonoRef.current?.focus();
+      } else if (res.error.codigo === "CORREO_INVALIDO") {
+        setCorreoMal(true);
+        correoRef.current?.focus();
       }
       onError(res.error);
     }
@@ -800,10 +813,22 @@ function PasoDatos({
         <div>
           <label className="block text-sm font-semibold text-tinta">
             {m.email}
-            <input name="email" required type="email" inputMode="email" autoComplete="email" placeholder={m.emailPh} defaultValue={texto("email")} aria-describedby="reserva-email-ayuda" className={campo} />
+            <input
+              ref={correoRef}
+              name="email"
+              required
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              placeholder={m.emailPh}
+              defaultValue={texto("email")}
+              aria-invalid={correoMal || undefined}
+              aria-describedby="reserva-email-ayuda"
+              className={cn(campo, correoMal && "border-carmin ring-2 ring-carmin/20")}
+            />
           </label>
-          <p id="reserva-email-ayuda" className="mt-1 text-xs text-gris">
-            {m.emailHint}
+          <p id="reserva-email-ayuda" className={cn("mt-1 text-xs", correoMal ? "font-semibold text-carmin" : "text-gris")}>
+            {correoMal ? r.errores.CORREO_INVALIDO : m.emailHint}
           </p>
         </div>
         <label className="block text-sm font-semibold text-tinta">
@@ -831,6 +856,8 @@ function PasoDatos({
             <span>{m.marketing}</span>
           </label>
         </div>
+
+        <Turnstile ref={turnstileRef} onToken={setTurnstile} idioma={locale} />
 
         <Boton type="submit" size="lg" className="w-full" disabled={enviando}>
           {enviando ? m.confirmando : m.confirmar}

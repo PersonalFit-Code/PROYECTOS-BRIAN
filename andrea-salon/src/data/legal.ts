@@ -134,6 +134,16 @@ export const SUBPROCESSORS: readonly Subprocessor[] = [
     active: true,
   },
   {
+    id: "cloudflare",
+    name: "Cloudflare, Inc.",
+    role: "Comprobación antirrobots al reservar (Turnstile, sin cookies)",
+    location: "Estados Unidos (red global)",
+    safeguard: "Marco de Privacidad de Datos UE-EE. UU. y cláusulas contractuales tipo",
+    privacyUrl: "https://www.cloudflare.com/es-es/privacypolicy/",
+    // Activo en cuanto se configura la clave del CAPTCHA en Vercel.
+    active: Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY),
+  },
+  {
     id: "anthropic",
     name: "Anthropic PBC",
     role: "Respuestas del asistente de preguntas frecuentes",

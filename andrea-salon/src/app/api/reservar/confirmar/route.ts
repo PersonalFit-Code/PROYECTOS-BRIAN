@@ -2,13 +2,15 @@ import { after } from "next/server";
 import { z } from "zod";
 import { LOCALE_META, LOCALES } from "@/i18n/config";
 import { codigoDeRaise, comprobarCuota, error, leerJson, ok } from "@/lib/api";
+import { correoInventado, telefonoInventado } from "@/lib/antiabuso";
 import { normalizarTelefonoES } from "@/lib/phone";
-import { crearLimitador } from "@/lib/rateLimit";
+import { crearLimitador, ipDePeticion } from "@/lib/rateLimit";
 import { getAjustes } from "@/lib/reservas/ajustes";
 import { cargarCita, resumen } from "@/lib/reservas/citas";
 import { enviarConfirmacion } from "@/lib/reservas/correos";
 import { urlCita } from "@/lib/reservas/enlaces";
 import { getAdminClient } from "@/lib/supabase/admin";
+import { verificarTurnstile } from "@/lib/turnstile";
 
 /**
  * POST /api/reservar/confirmar  { holdId, nombre, telefono, email, notas?, condiciones, privacidad, marketing? }
@@ -36,6 +38,8 @@ const Cuerpo = z.object({
   privacidad: z.literal(true),
   marketing: z.boolean().optional().default(false),
   locale: z.enum(LOCALES).optional().default("es"),
+  /** Respuesta del CAPTCHA (Turnstile); solo se mira si está configurado (`lib/turnstile.ts`). */
+  turnstile: z.string().max(4096).optional(),
 });
 
 export async function POST(req: Request) {
@@ -47,7 +51,12 @@ export async function POST(req: Request) {
   const d = lectura.datos;
 
   const telefono = normalizarTelefonoES(d.telefono);
-  if (!telefono) return error(400, "TELEFONO_INVALIDO", "Hace falta un móvil o fijo español");
+  if (!telefono || telefonoInventado(telefono)) return error(400, "TELEFONO_INVALIDO", "Hace falta un móvil o fijo español");
+  if (correoInventado(d.email)) return error(400, "CORREO_INVALIDO", "Ese correo no parece de verdad");
+  // El CAPTCHA va al final: es la única comprobación que sale de casa (llama a Cloudflare).
+  if (!(await verificarTurnstile(d.turnstile, ipDePeticion(req)))) {
+    return error(400, "VERIFICACION_FALLIDA", "No se pudo comprobar que no es un robot");
+  }
 
   try {
     const db = getAdminClient();
