@@ -31,7 +31,9 @@ export function pageMetadata(
 ): Metadata {
   const url = `${SITE_URL}${localePath(locale, path)}`;
   return {
-    title,
+    // Si el título ya lleva la marca, `absolute`: la plantilla del layout («%s · Andrea Salón») la
+    // pondría otra vez y la pestaña diría «… Andrea Salón, Ourense · Andrea Salón».
+    title: title.includes(BUSINESS.name) ? { absolute: title } : title,
     description,
     alternates: buildAlternates(locale, path),
     openGraph: {
