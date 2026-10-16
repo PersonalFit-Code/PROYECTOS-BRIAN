@@ -1,0 +1,178 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useFormat, useMessages } from "@/i18n/LocaleProvider";
+import { getGsap } from "@/lib/gsap";
+import { cn } from "@/lib/utils";
+import { useChapters } from "./Chapter";
+import { focusScrollTarget, useSmoothScroll } from "./SmoothScrollProvider";
+
+/** ids fijos que no pasan por `<Chapter>`: la portada (arriba) y el pie (abajo). */
+const HERO_ID = "hero";
+const FOOTER_ID = "footer";
+
+/** Franja central del viewport que decide el capítulo activo. */
+const ACTIVE_ROOT_MARGIN = "-40% 0px -50% 0px";
+
+interface NavItem {
+  id: string;
+  title: string;
+}
+
+/**
+ * Navegación cinematográfica de la portada:
+ *  - Barra de progreso de 2 px en el borde superior (degradado carmín) movida por ScrollTrigger
+ *    (transform: scaleX, sin layout). Es un `progressbar` accesible.
+ *  - Puntos verticales fijos en el lateral derecho (solo lg+) con numeración y etiqueta que
+ *    aparece al pasar el ratón / enfocar y se queda visible en el capítulo activo
+ *    (IntersectionObserver). Clic → scroll suave con Lenis dejando hueco a la cabecera.
+ *  - Colocada en `right-5 bottom-24` para no chocar con el botón flotante de WhatsApp
+ *    (`right-4 top-1/2` en escritorio).
+ */
+export default function ChapterNav() {
+  const m = useMessages();
+  const t = useFormat();
+  const { scrollTo, headerOffset } = useSmoothScroll();
+  const chapters = useChapters();
+  const s = m.common.scroll;
+
+  const items = useMemo<NavItem[]>(
+    () => [{ id: HERO_ID, title: s.chapters.hero }, ...chapters.map((c) => ({ id: c.id, title: c.title })), { id: FOOTER_ID, title: s.chapters.footer }],
+    [chapters, s.chapters.hero, s.chapters.footer],
+  );
+
+  const [activeId, setActiveId] = useState<string>(HERO_ID);
+  const barRef = useRef<HTMLDivElement>(null);
+
+  /* Capítulo activo: el último (en orden de documento) que cruza la franja central. */
+  useEffect(() => {
+    const order = items.map((i) => i.id);
+    const targets = order.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => el !== null);
+    if (!targets.length) return;
+
+    const visible = new Set<string>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+        let next: string | null = null;
+        for (const id of order) if (visible.has(id)) next = id;
+        if (next) setActiveId(next);
+      },
+      { rootMargin: ACTIVE_ROOT_MARGIN, threshold: 0 },
+    );
+    targets.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [items]);
+
+  /* Barra de progreso: scaleX = progreso del documento (0 → 1). */
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const lastId = items[items.length - 1]?.id ?? FOOTER_ID;
+    const { gsap, ScrollTrigger } = getGsap();
+
+    const ctx = gsap.context(() => {
+      const setScale = gsap.quickSetter(bar, "scaleX");
+      let lastPercent = -1;
+      const paint = (progress: number) => {
+        setScale(progress);
+        const percent = Math.round(progress * 100);
+        if (percent === lastPercent) return;
+        lastPercent = percent;
+        bar.setAttribute("aria-valuenow", String(percent));
+        bar.setAttribute("aria-valuetext", t(s.progressValue, { percent }));
+        if (percent >= 99) setActiveId(lastId);
+      };
+      ScrollTrigger.create({
+        trigger: document.body,
+        start: "top top",
+        end: "bottom bottom",
+        invalidateOnRefresh: true,
+        onUpdate: (self) => paint(self.progress),
+        onRefresh: (self) => paint(self.progress),
+      });
+    });
+
+    return () => ctx.revert();
+  }, [items, s.progressValue, t]);
+
+  const go = (id: string) => {
+    if (id === HERO_ID) {
+      scrollTo(0);
+      return;
+    }
+    const el = document.getElementById(id);
+    if (!el) return;
+    scrollTo(el, { offset: -headerOffset(), onComplete: () => focusScrollTarget(el) });
+  };
+
+  return (
+    <>
+      {/* Barra de progreso superior */}
+      <div
+        ref={barRef}
+        role="progressbar"
+        aria-label={s.progress}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={0}
+        aria-valuetext={t(s.progressValue, { percent: 0 })}
+        /* Estado inicial en `transform` (no en la propiedad `scale` de Tailwind v4): GSAP anima `transform`. */
+        style={{ transform: "scaleX(0)" }}
+        className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-[linear-gradient(90deg,var(--color-carmin),var(--color-carmin-suave)_60%,var(--color-rosa-fuerte))]"
+      />
+
+      {/* Puntos laterales (lg+). En viewports bajos bajan al borde inferior para no chocar con WhatsApp. */}
+      <nav aria-label={s.nav.label} className="fixed right-5 bottom-24 z-40 hidden lg:block [@media(max-height:720px)]:bottom-6">
+        <ol className="flex flex-col items-end gap-0.5">
+          {items.map((item, index) => {
+            const active = item.id === activeId;
+            const number = String(index + 1).padStart(2, "0");
+            return (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  onClick={() => go(item.id)}
+                  aria-label={t(s.nav.goTo, { chapter: item.title })}
+                  aria-current={active ? "true" : undefined}
+                  className="group flex h-9 items-center justify-end gap-2 rounded-full pl-3 pr-0.5 text-gris transition-colors hover:text-tinta focus-visible:text-tinta"
+                >
+                  <span
+                    className={cn(
+                      "flex items-baseline gap-2 font-sans text-[10px] font-semibold uppercase tracking-[0.3em] transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)]",
+                      active
+                        ? "translate-x-0 text-tinta opacity-100"
+                        : "translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100",
+                    )}
+                  >
+                    <span aria-hidden className="tabular-nums text-carmin-suave">
+                      {number}
+                    </span>
+                    <span>{item.title}</span>
+                    {active && <span className="sr-only"> ({s.nav.current})</span>}
+                  </span>
+
+                  {/* Punto. Caja de tamaño FIJO y `scale` para el estado activo: solo toca al compositor. */}
+                  <span aria-hidden className="grid h-8 w-8 place-items-center">
+                    <span
+                      className={cn(
+                        "block h-2.5 w-2.5 rounded-full transition-[transform,background-color,box-shadow] duration-500 ease-[var(--ease-out-expo)]",
+                        active ? "scale-100 bg-carmin shadow-[0_0_0_4px_rgba(142,14,51,0.15)]" : "scale-[0.6] bg-carmin/30 group-hover:bg-carmin/60",
+                      )}
+                    />
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+        {/* Los puntos van sobre un RAÍL de cristal (una cápsula vertical de 34 px), como el índice
+            lateral de iOS. Las etiquetas no llevan cristal propio: serían cinco superficies más. */}
+        <span aria-hidden className="liquid-glass pointer-events-none absolute -top-1 -bottom-1 right-[-1px] -z-10 w-[34px] rounded-full" />
+      </nav>
+    </>
+  );
+}

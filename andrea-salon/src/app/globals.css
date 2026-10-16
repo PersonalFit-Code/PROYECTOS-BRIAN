@@ -1,0 +1,555 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   DESIGN TOKENS · Andrea Salón
+   Blanco · Rosa pastel · Carmín
+
+   La paleta es la de la propuesta que Andrea ya ha visto y aprobado (`comercial/andrea-salon`):
+   el carmín (#8E0E33) como ÚNICO acento fuerte, los rosas como fondo y decoración, y la tinta
+   (#2E2127, un negro cálido) para el texto. Es un TEMA CLARO ÚNICO: no hay modo oscuro, porque la
+   marca es blanca y rosa y una variante oscura sería otra marca.
+
+   CONTRASTE, que en un tema claro se pierde sin darse cuenta:
+   · `carmin` (#8E0E33) sobre blanco: 9,4:1. Vale para todo, también texto pequeño.
+   · `carmin-suave` (#B8365A) sobre blanco: 5,6:1. Vale para texto normal; es el color de los
+     kickers, los enlaces y los iconos.
+   · Los rosas (#F3D3DE, #FAEAF0, #E7A6BD) son SOLO fondo y decoración. Nunca texto: el más fuerte
+     da 1,9:1 sobre blanco.
+   · Texto sobre carmín: siempre blanco (`--on-accent`, 9,4:1).
+   · `gris` (#7C6B72) sobre crema: 4,9:1. Es el color del texto secundario; sobre rosa-niebla se
+     queda en 4,5:1, que es el mínimo —por eso las tarjetas sobre rosa usan `tinta` y no `gris`.
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  --color-carmin: #8e0e33;
+  --color-carmin-suave: #b8365a;
+  /* Un punto más oscuro para el hover del botón principal (sigue dando 11:1 con blanco). */
+  --color-carmin-oscuro: #74082a;
+  --color-rosa: #f3d3de;
+  --color-rosa-niebla: #faeaf0;
+  --color-rosa-fuerte: #e7a6bd;
+  --color-crema: #fdf7f9;
+  --color-tinta: #2e2127;
+  --color-gris: #7c6b72;
+  --color-blanco: #ffffff;
+
+  /* Source Serif 4: titulares. Es lo más cercano a la Charter del PDF de la propuesta, que es la
+     letra que Andrea ya asocia con su web. Pesos 400/600/700, normal e itálica. */
+  --font-display: var(--font-source-serif), "Source Serif 4", Charter, Georgia, serif;
+  /* Inter: texto corrido, botones, formularios. Legible en el móvil, que es desde donde se reserva. */
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Sombra rosada tenue para tarjetas: el equivalente claro de la sombra negra de los hermanos. Un
+     negro al 30 % sobre crema se ve sucio; un carmín al 10 % se ve como luz. */
+  --shadow-card: 0 24px 48px -24px rgba(142, 14, 51, 0.18), 0 6px 16px -8px rgba(142, 14, 51, 0.1);
+  --shadow-soft: 0 10px 30px -18px rgba(142, 14, 51, 0.22);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-marquee: marquee 60s linear infinite;
+  --animate-marquee-rev: marquee 70s linear infinite reverse;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-12px) rotate(1deg);
+    }
+  }
+  /* La cascada de reseñas: dos copias de la lista, la pista sube la mitad de su alto y empieza otra
+     vez sin costura. */
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(0, -50%, 0);
+    }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+  --header-h: 72px;
+  --mobile-bar-h: 64px;
+
+  /*
+   * LIQUID GLASS · el material (adaptación web del lenguaje de iOS 26 / macOS Tahoe)
+   * ──────────────────────────────────────────────────────────────────────────────
+   * La regla que manda: EL CRISTAL ES PARA LOS CONTROLES. Cabecera, barra inferior, botones
+   * flotantes, menús, desplegables, hojas y modales flotan sobre la página con `.liquid-glass`. El
+   * CONTENIDO —tarjetas, filas, celdas, todo lo que se repite— va sobre `--capa-1/2/3`: superficies
+   * translúcidas SIN `backdrop-filter`. Y nunca cristal sobre cristal: un botón dentro de una barra de
+   * cristal no lleva desenfoque propio.
+   *
+   * Estos son los valores del CRISTAL CLARO, que es el de la receta original de Apple: blanco al 58 %
+   * con brillo especular arriba y un canto de luz. Adaptaciones a la marca: el borde no es gris sino
+   * carmín al 12 % (sobre rosa, un borde gris se ve sucio) y la sombra es rosada, no negra.
+   */
+  --glass-bg: rgba(255, 255, 255, 0.58);
+  /* Para texto encima con el peor fondo debajo (una foto oscura de uñas carmín): 0,82 sostiene la
+     tinta por encima de 4,5:1 incluso sobre negro puro. Todo control con texto va en `strong`; el
+     cristal fino queda para los botones de solo icono, que piden 3:1. */
+  --glass-bg-strong: rgba(255, 255, 255, 0.82);
+  /* Lo que queda cuando el usuario pide menos transparencia. */
+  --glass-solid: #ffffff;
+  --glass-blur: blur(20px) saturate(180%);
+  --glass-border: rgba(142, 14, 51, 0.12);
+  /* El canto: un filo de luz interior arriba y un hilo casi invisible alrededor. */
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 0 0 0.5px rgba(255, 255, 255, 0.4);
+  /* La luz que rebota en el canto superior y se apaga hacia el centro. Va como `background-image`
+     encima del color y no en un `::before`: un pseudo-elemento `absolute` exige que el control esté
+     posicionado, y la mitad de estos son `fixed`, `sticky` o `absolute` según el ancho. */
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.25) 24%, rgba(255, 255, 255, 0) 52%);
+  /* Sombra rosada tenue: el cristal flota sobre crema, no sobre negro. */
+  --glass-shadow: 0 20px 44px -22px rgba(142, 14, 51, 0.22), 0 4px 14px -6px rgba(142, 14, 51, 0.1);
+
+  /* Superficies de CONTENIDO: de la más baja a la más elevada. Sin desenfoque, nunca. */
+  --capa-1: rgba(255, 255, 255, 0.55);
+  --capa-2: rgba(255, 255, 255, 0.8);
+  --capa-3: #ffffff;
+  --capa-borde: rgba(142, 14, 51, 0.1);
+
+  /* Texto sobre el color de acento (carmín). Un token, no un `text-white` suelto. */
+  --on-accent: #ffffff;
+
+  /* Movimiento: los estados MORFAN, no saltan. Curva de muelle con un pelín de rebote. */
+  --ease-muelle: cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --dur-morph: 320ms;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Hueco de la barra de desplazamiento reservado SIEMPRE: al abrir el menú lateral (que oculta la
+     barra) los elementos `fixed` —cabecera, barra inferior, WhatsApp— no saltan 15 px. */
+  scrollbar-gutter: stable;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  background-color: var(--color-crema);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+ * Luz ambiental: dos manchas de rosa en una capa FIJA, así su caja de pintado es un solo viewport y
+ * no el documento entero (que en /servicios son varios miles de píxeles). Es decoración, no
+ * composición: viaja con el scroll y nadie lo nota.
+ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -50;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1100px 620px at 85% -10%, rgba(243, 211, 222, 0.75), transparent 60%),
+    radial-gradient(900px 520px at -10% 110%, rgba(231, 166, 189, 0.35), transparent 60%);
+}
+
+::selection {
+  background: var(--color-carmin);
+  color: var(--on-accent);
+}
+
+/* scrollbar discreto */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(142, 14, 51, 0.22) transparent;
+}
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(142, 14, 51, 0.22);
+  border-radius: 999px;
+}
+
+/* En móvil dejamos hueco para la barra flotante inferior */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(var(--mobile-bar-h) + env(safe-area-inset-bottom));
+  }
+}
+
+/* Red de seguridad: ningún halo decorativo puede ensanchar la página en móvil (un solo elemento
+   desbordado agranda el viewport de diseño y descoloca la cabecera). `clip` y no `hidden`: no crea
+   contenedor de scroll, así que `position: sticky` sigue funcionando. */
+#app-shell {
+  overflow-x: clip;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   UTILIDADES DE MARCA
+   ───────────────────────────────────────────────────────────── */
+/*
+ * CAPAS DE CONTENIDO · `glass`, `glass-alta`, `glass-rosa`
+ * ───────────────────────────────────────────────────────────
+ * Superficies de CONTENIDO: tarjetas de servicio, reseñas, avisos, el índice de las páginas legales.
+ * Sin `backdrop-filter` en ningún equipo: el cristal es para los controles que flotan, y un
+ * desenfoque repartido por contenido repetido es justo lo que hace que el scroll vaya a tirones.
+ */
+@utility glass {
+  background-color: var(--capa-2);
+  border: 1px solid var(--capa-borde);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), var(--shadow-soft);
+}
+
+@utility glass-alta {
+  background-color: var(--capa-3);
+  border: 1px solid var(--capa-borde);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), var(--shadow-card);
+}
+
+/* Aviso o acento suave: rosa niebla con borde carmín tenue. */
+@utility glass-rosa {
+  background: linear-gradient(135deg, rgba(243, 211, 222, 0.55), rgba(250, 234, 240, 0.4));
+  border: 1px solid rgba(142, 14, 51, 0.16);
+}
+
+/*
+ * EL CRISTAL DE LOS CONTROLES · `liquid-glass`
+ * ─────────────────────────────────────────────
+ * Color translúcido + brillo especular (degradado arriba) + filo de luz interior + sombra amplia. La
+ * variante `liquid-glass-strong` sube la opacidad para los controles con texto encima.
+ *
+ * Presupuesto: ≤ 4 superficies a la vez en móvil (cabecera, dock, WhatsApp y, en la fase 3, el chat).
+ */
+@utility liquid-glass {
+  background-color: var(--glass-bg);
+  background-image: var(--glass-sheen);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+}
+
+/* Se hace cambiando la VARIABLE y no el `background-color`: dos utilidades que escriben la misma
+   propiedad se resuelven por el orden en que Tailwind las imprima, y eso no se controla desde aquí. */
+@utility liquid-glass-strong {
+  --glass-bg: var(--glass-bg-strong);
+}
+
+/* Cristal TINTADO con el acento (el botón de WhatsApp, la acción principal del dock): el mismo
+   material, teñido de carmín, con su texto en blanco. El canto de luz se atenúa: sobre carmín un
+   filo blanco al 90 % se ve como un borde pintado. */
+@utility liquid-glass-accent {
+  --glass-bg: rgba(142, 14, 51, 0.86);
+  --glass-border: rgba(231, 166, 189, 0.55);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 0 0 0.5px rgba(255, 255, 255, 0.1);
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 24%, rgba(255, 255, 255, 0) 52%);
+  color: var(--on-accent);
+}
+
+/*
+ * El desenfoque, FUERA de `@utility` a propósito: el CSS sin capa gana siempre a las utilidades de
+ * Tailwind, así que ninguna clase `bg-*` o `backdrop-*` que acompañe al control lo apaga por orden.
+ *
+ * El prefijo `-webkit-` NO se escribe a mano al lado del estándar, y es lo contrario de la receta
+ * habitual: el minificador de CSS de Next (Lightning CSS) colapsaba la pareja dejando SOLO la versión
+ * con prefijo, que Chromium y Firefox no reconocen, y el cristal se desenfocaba únicamente en Safari.
+ * El prefijo lo añade el propio minificador; se COMPRUEBA en el CSS construido
+ * (`.next/static/chunks/*.css` debe llevar las dos líneas), no aquí.
+ */
+.liquid-glass {
+  backdrop-filter: var(--glass-blur);
+}
+/* El material sin el desenfoque: para hojas con un velo opaco debajo, donde desenfocar no cambia
+   nada de lo que se ve y solo cuesta fotogramas. */
+.liquid-glass.sin-desenfoque {
+  backdrop-filter: none;
+}
+
+/*
+ * SUPERFICIES ANCHAS · `cristal-ancho` (la cápsula de la cabecera, el dock)
+ * ─────────────────────────────────────────────────────────────────────────
+ * Lo caro no es el cristal, es un cristal ANCHO con la página entera deslizándose por debajo,
+ * recalculado en cada fotograma (medido en tixola: de ~32 a ~67 fotogramas perdidos de 220). Así que
+ * estas llevan el material entero y el desenfoque real solo donde el equipo puede pagarlo: bajo
+ * `:root[data-gpu="high"]`, el único interruptor de gama del proyecto (lo escribe `usePerformanceTier`).
+ */
+.liquid-glass.cristal-ancho {
+  backdrop-filter: none;
+}
+:root[data-gpu="high"] .liquid-glass.cristal-ancho {
+  backdrop-filter: var(--glass-blur);
+}
+
+/* Al pulsar, el control se hunde un poco y vuelve con muelle. `scale` y no `transform`: Tailwind 4
+   escribe `translate` y `scale` como propiedades sueltas, así que esto no pisa ningún `-translate-*`
+   que el control ya lleve para colocarse. Sin capa, por lo mismo que el desenfoque. */
+.pulsable {
+  transition-property: scale, translate, color, background-color, border-color, box-shadow, opacity;
+  transition-duration: var(--dur-morph);
+  transition-timing-function: var(--ease-muelle);
+}
+.pulsable:active {
+  scale: 0.96;
+  transition-duration: 120ms;
+}
+
+/* Pedir menos transparencia: el cristal se vuelve macizo y las capas de contenido, opacas. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --capa-1: #ffffff;
+    --capa-2: #ffffff;
+    --capa-3: #ffffff;
+  }
+  .liquid-glass,
+  :root[data-gpu="high"] .liquid-glass.cristal-ancho {
+    backdrop-filter: none;
+    background-color: var(--glass-solid);
+    background-image: none;
+  }
+  .liquid-glass.liquid-glass-accent {
+    background-color: var(--color-carmin);
+  }
+}
+
+/* Pedir más contraste: fondos más tapados y bordes que se vean. */
+@media (prefers-contrast: more) {
+  :root {
+    --glass-bg: var(--glass-bg-strong);
+    --glass-border: rgba(142, 14, 51, 0.5);
+    --capa-borde: rgba(142, 14, 51, 0.35);
+    --color-gris: #5e4f55;
+  }
+}
+
+/* Movimiento reducido: sin muelle ni hundimiento. (La regla global de más arriba ya deja las
+   transiciones en un instante; esto quita además el escalado.) */
+@media (prefers-reduced-motion: reduce) {
+  .pulsable:active {
+    scale: none;
+  }
+}
+
+/*
+ * HALO ROSA HORNEADO · `halo`
+ * ──────────────────────────
+ * El patrón "radial-gradient + blur-3xl" rasteriza una capa aparte y la recompone en cada scroll.
+ * Cuatro paradas bien repartidas dan la misma caída sin filtro y sin capa propia. Color y fuerza
+ * con dos variables desde la clase: `halo [--halo-rgb:142_14_51] [--halo-a:0.12]`.
+ */
+@utility halo {
+  --halo-rgb: 231 166 189;
+  --halo-a: 0.55;
+  pointer-events: none;
+  background-image: radial-gradient(
+    closest-side,
+    rgb(var(--halo-rgb) / var(--halo-a)),
+    rgb(var(--halo-rgb) / calc(var(--halo-a) * 0.47)) 35%,
+    rgb(var(--halo-rgb) / calc(var(--halo-a) * 0.17)) 62%,
+    transparent 100%
+  );
+}
+
+/* Titular con una palabra en carmín degradado (de carmín a carmín suave). Solo para texto GRANDE:
+   el extremo claro del degradado baja de 4,5:1. */
+@utility text-gradient-carmin {
+  background: linear-gradient(90deg, var(--color-carmin) 0%, var(--color-carmin-suave) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Filete entre secciones: un hilo carmín que se desvanece a los lados. */
+@utility filete {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(142, 14, 51, 0.22), transparent);
+}
+
+/* Contenedor de página */
+@utility container-page {
+  width: 100%;
+  max-width: 78rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (min-width: 640px) {
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Oculta scrollbar en carruseles horizontales */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Anillo de foco accesible: carmín sobre crema (9,4:1), bien visible también sobre rosa. */
+:focus-visible {
+  outline: 2px solid var(--color-carmin);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Entrada de página (template.tsx)
+   ──────────────────────────────────────────────────────────────
+   Dos animaciones que solo corren al NAVEGAR entre páginas, nunca al abrir la web: el contenido se
+   funde desde cero y un filo de luz cruza la parte de arriba de la ventana. Ambas van dentro de
+   `prefers-reduced-motion: no-preference`; fuera de ahí no existen y la página aparece y punto. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes entrada-pagina {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .entrada-pagina {
+    animation: entrada-pagina 420ms var(--ease-out-expo) both;
+  }
+
+  @keyframes filo-de-carga {
+    from {
+      transform: translate3d(-100%, 0, 0);
+    }
+    to {
+      transform: translate3d(100%, 0, 0);
+    }
+  }
+
+  .filo-de-carga {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 100;
+    height: 2px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--color-carmin-suave, #b8365a), transparent);
+    animation: filo-de-carga 700ms var(--ease-out-expo) forwards;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Entrada de la portada: escalonada con `--i`, SIN JS
+   ──────────────────────────────────────────────────────────────
+   Lo primero que se ve y lo que mide la velocidad (LCP) no espera al bundle: el claim, los botones y
+   la píldora de estado entran con CSS al cargar. Sin movimiento, aparecen y punto. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .hero-in {
+    animation: hero-in 0.9s var(--ease-out-expo) both;
+    animation-delay: calc(0.15s + var(--i, 0) * 0.09s);
+  }
+}
+
+/* Anillo que late en la píldora de estado («Abierto ahora»). */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes pulso {
+    0% {
+      transform: scale(1);
+      opacity: 0.65;
+    }
+    80%,
+    100% {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+  .pulso-anillo {
+    animation: pulso 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+}
+
+/*
+ * REVELADOS AL ENTRAR EN PANTALLA · contrato con el sistema de scroll
+ * ───────────────────────────────────────────────────────────────────
+ * El estado inicial, la transición y el estado final viven AQUÍ, en CSS. El JavaScript de scroll solo
+ * observa con un IntersectionObserver y añade `.is-revealed`: ni lee ni escribe estilos por fotograma.
+ *
+ * Todo va dentro de `prefers-reduced-motion: no-preference`, así que quien pide menos movimiento ve el
+ * contenido visible y quieto sin que intervenga nada de JS.
+ *
+ * Y TODO cuelga además de `:root[data-reveal-armed]`. El ocultado es opt-in porque `data-reveal` viaja en
+ * el HTML del servidor: si la regla fuera global, la home por debajo de la portada nacería a opacidad 0
+ * y se quedaría invisible hasta que React hidratara —o para siempre sin JavaScript—. El atributo lo
+ * escribe un script síncrono en `[locale]/layout.tsx` antes del primer pintado y un vigía lo suelta a
+ * los 2,6 s si nadie monta `useReveal`.
+ *
+ * Nombres pactados: `[data-reveal]` (+ modos `fade` / `letterbox` / `wipe`), `--reveal-y`,
+ * `--reveal-delay`, la clase `.is-revealed` y el atributo `data-reveal-armed` del <html>. No cambiarlos
+ * sin avisar al paquete de scroll.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-reveal-armed] [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y, 28px), 0);
+    transition:
+      opacity 0.7s var(--ease-out-expo),
+      transform 0.7s var(--ease-out-expo),
+      clip-path 0.84s var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: transform, opacity;
+  }
+  :root[data-reveal-armed] [data-reveal="fade"] {
+    --reveal-y: 0px;
+  }
+  :root[data-reveal-armed] [data-reveal="letterbox"] {
+    --reveal-y: 0px;
+    clip-path: inset(12% 0 12% 0);
+  }
+  :root[data-reveal-armed] [data-reveal="wipe"] {
+    --reveal-y: 0px;
+    clip-path: inset(0 100% 0 0);
+  }
+  /* `will-change: auto` al revelar es deliberado: libera la capa GPU en cuanto termina la entrada, en
+     vez de dejar promovidas decenas de secciones durante toda la sesión. */
+  :root[data-reveal-armed] [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0);
+    will-change: auto;
+  }
+}
+
+/* Perspectiva para tarjetas 3D (carrusel del equipo) */
+@utility perspective-1200 {
+  perspective: 1200px;
+}
+@utility preserve-3d {
+  transform-style: preserve-3d;
+}
+@utility backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
