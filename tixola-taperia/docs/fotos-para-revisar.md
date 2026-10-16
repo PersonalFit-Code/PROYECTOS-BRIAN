@@ -303,3 +303,35 @@ la izquierda, que es encuadre normal en foto de comida. El vertical es solo la o
 2:3 se queda en el 37 % del ancho y la bola no cabe de ninguna manera.
 
 Sin retoque de color. No sale ninguna persona.
+
+---
+
+## La tortilla (16-10-2026) — ❓ la carta solo tiene UNA tortilla, y esta no lleva champiñones
+
+**La pregunta, de una línea:** ¿esta tortilla es la **«Tortilla guisada con champiñones»** de la
+carta, fotografiada **antes** de terminarla en el guiso? ¿O es otra tortilla —de tapa, de pincho,
+del día— que no está en los 47 platos?
+
+**Por qué lo pregunto en vez de darlo por hecho.** En la carta hay una sola tortilla, y se llama
+«Tortilla guisada con champiñones»; su descripción dice *«Tortilla jugosa terminada en un guiso
+corto con champiñones»*. En la foto hay tortilla y patata y nada más: la amplié y la miré de cerca
+antes de decidir, y no hay ni guiso ni una sola seta. Enlazarla al plato sería enseñar en la carta
+un plato sin el ingrediente que le da nombre, y quien pida mirando la foto se encuentra otra cosa.
+Es el mismo cuidado que con la tempura, que la teníamos como pulpo y era bacalao.
+
+**Dónde está mientras tanto.** Publicada **en la galería y nada más**, sin enlazar a ningún plato.
+Ahí sí aporta: la sartén llena con la pared de botellas detrás cuenta lo que es la casa —tapería y
+vinoteca— sin afirmar nada de la carta.
+
+**Qué pasa con cada respuesta:**
+
+- **«Es la guisada, antes del guiso»** → la enlazo al plato. Es añadir una línea. Aunque entonces
+  conviene decidir otra cosa: si la foto no enseña los champiñones, ¿vale como foto del plato, o
+  mejor repetirla ya servida, con su guiso por encima?
+- **«Es otra tortilla que no está en la carta»** → se queda donde está, de foto de ambiente. Y surge
+  la pregunta buena: **¿debería estar en la carta?** Si es un plato que se sirve, hoy la web no lo
+  cuenta.
+
+**Qué se ha hecho con la foto.** Recortes 1536×1152 y 768×1152 desde un original 16:9, los dos
+centrados en la sartén. WebP, sin metadatos y sin retoque de color. No sale ninguna persona: el
+fondo son las botellas de la vinoteca, desenfocadas.

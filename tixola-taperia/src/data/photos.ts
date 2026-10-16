@@ -493,6 +493,27 @@ export const PHOTOS: Photo[] = [
     dishIds: ["esp-oreja-plancha" satisfies MenuItemId],
     focus: "50% 50%",
   },
+  /* LA TORTILLA, Y VA SIN `dishIds` A PROPÓSITO. En la carta hay UNA tortilla, la «Tortilla guisada
+     con champiñones», y lo que se ve aquí es tortilla y patata: ni guiso ni champiñones, ampliado y
+     mirado de cerca antes de decidir. Enlazarla sería enseñar un plato sin la seta que da nombre al
+     plato, y quien pida por la foto se encuentra otra cosa.
+
+     Así que de momento vive solo en la galería, que es donde sí aporta: la sartén llena con la pared
+     de botellas detrás cuenta lo que es la casa —tapería y vinoteca— sin afirmar nada de la carta.
+     Preguntado en docs/fotos-para-revisar.md. Si Tatiana dice que es la guisada fotografiada antes
+     del guiso, enlazarla es añadir una línea; si es una tortilla de tapa que no está en la carta,
+     se queda justo donde está. */
+  {
+    id: "tortilla-sarten",
+    src: "/images/tortilla-sarten.webp",
+    srcTall: "/images/tortilla-sarten-alto.webp",
+    width: 1536,
+    height: 1152,
+    alt: "Tortilla de patata jugosa servida en la propia sartén, sobre un plato de cerámica en la mesa de madera de Tixola Tapería, con la pared de botellas de la vinoteca desenfocada al fondo",
+    caption: "La tortilla, en su sartén",
+    tags: ["plato", "local"],
+    focus: "50% 55%",
+  },
   /* La original traía un pie al borde de abajo —se tiró de pie sobre la mesa— y los dos recortes
      están subidos para dejarlo fuera: no se retoca nada, se encuadra. Como en los fingers, el marco
      apaisado va corto (el plato es ovalado y no cabe de lado a lado) y el completo se ve en `srcTall`. */
