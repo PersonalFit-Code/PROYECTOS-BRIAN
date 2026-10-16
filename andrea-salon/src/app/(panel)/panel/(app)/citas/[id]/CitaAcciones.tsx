@@ -5,7 +5,8 @@ import { useState, useTransition } from "react";
 import SelectorHueco, { type HuecoPanel } from "@/components/panel/SelectorHueco";
 import { eurosACentimos, formatearEuros } from "@/lib/money";
 import { cn } from "@/lib/utils";
-import { cancelarCita, cobrarCita, deshacerEstado, guardarNotasCita, marcarFalta, moverCita, type Resultado } from "../acciones";
+import CobroConBono from "../../bonos/CobroConBono";
+import { cancelarCita, cobrarCita, cobrarConBono, deshacerEstado, guardarNotasCita, marcarFalta, moverCita, type Resultado } from "../acciones";
 
 type Panel = "cobrar" | "mover" | "cancelar" | null;
 
@@ -28,7 +29,7 @@ export default function CitaAcciones(props: {
   const [abierto, setAbierto] = useState<Panel>(props.estado === "confirmed" && props.pasada ? "cobrar" : null);
   const [mensaje, setMensaje] = useState<{ ok: boolean; texto: string } | null>(null);
   const [pendiente, empezar] = useTransition();
-  const [metodo, setMetodo] = useState<"card" | "cash" | "bizum">("card");
+  const [metodo, setMetodo] = useState<"card" | "cash" | "bizum" | "voucher">("card");
   const [hueco, setHueco] = useState<HuecoPanel | null>(null);
   const [staffMover, setStaffMover] = useState<string>(props.staffId);
 
@@ -71,8 +72,30 @@ export default function CitaAcciones(props: {
           onSubmit={(ev) => {
             ev.preventDefault();
             const f = new FormData(ev.currentTarget);
-            const importe = eurosACentimos(String(f.get("importe") ?? ""));
             const propina = eurosACentimos(String(f.get("propina") ?? "0") || "0");
+            if (metodo === "voucher") {
+              // Los campos los pone `CobroConBono`; `bonoListo` solo existe si el bono se ha comprobado y vale.
+              const code = String(f.get("bonoListo") ?? "");
+              if (!code) return setMensaje({ ok: false, texto: "Escribe o escanea un bono válido antes de cobrar." });
+              const hayImporte = f.get("importeBono") !== null;
+              const importeBono = hayImporte ? eurosACentimos(String(f.get("importeBono"))) : 0;
+              if (importeBono === null || (hayImporte && importeBono <= 0)) return setMensaje({ ok: false, texto: "Escribe el importe a descontar como 25 o 25,50." });
+              const textoResto = String(f.get("resto") ?? "").trim();
+              const resto = textoResto ? eurosACentimos(textoResto) : 0;
+              if (resto === null || resto < 0) return setMensaje({ ok: false, texto: "Escribe lo que paga aparte como 15 o 15,50." });
+              const metodoResto = f.get("metodoResto");
+              correr(() =>
+                cobrarConBono({
+                  id: props.id,
+                  code,
+                  importeCents: importeBono,
+                  propinaCents: propina ?? 0,
+                  resto: resto > 0 && (metodoResto === "card" || metodoResto === "cash" || metodoResto === "bizum") ? { metodo: metodoResto, importeCents: resto } : null,
+                }),
+              );
+              return;
+            }
+            const importe = eurosACentimos(String(f.get("importe") ?? ""));
             if (importe === null || importe < 0) return setMensaje({ ok: false, texto: "Escribe el importe como 25 o 25,50." });
             correr(() => cobrarCita({ id: props.id, metodo, importeCents: importe, propinaCents: propina ?? 0, nota: String(f.get("nota") ?? "") }));
           }}
@@ -80,27 +103,31 @@ export default function CitaAcciones(props: {
           <fieldset>
             <legend className="text-sm font-semibold">Cómo paga</legend>
             <div className="mt-2 flex flex-wrap gap-2">
-              {([["card", "Tarjeta"], ["cash", "Efectivo"], ["bizum", "Bizum"]] as const).map(([v, l]) => (
+              {([["card", "Tarjeta"], ["cash", "Efectivo"], ["bizum", "Bizum"], ["voucher", "Bono"]] as const).map(([v, l]) => (
                 <button key={v} type="button" aria-pressed={metodo === v} onClick={() => setMetodo(v)} className={cn("min-h-11 rounded-full px-5 text-sm font-semibold ring-1", metodo === v ? "bg-carmin text-white ring-carmin" : "bg-white ring-carmin/20")}>
                   {l}
                 </button>
               ))}
             </div>
-            <p className="mt-2 text-xs text-gris">Con bono: llega en la fase 2 (escanear el QR desde aquí).</p>
+            {metodo === "voucher" && <CobroConBono totalCents={props.totalCents} />}
           </fieldset>
           <div className="grid gap-3 sm:grid-cols-3">
-            <label className="block text-sm font-semibold">
-              Importe (€)
-              <input name="importe" inputMode="decimal" defaultValue={aEuros(props.totalCents)} className={campo} required />
-            </label>
+            {metodo !== "voucher" && (
+              <label className="block text-sm font-semibold">
+                Importe (€)
+                <input name="importe" inputMode="decimal" defaultValue={aEuros(props.totalCents)} className={campo} required />
+              </label>
+            )}
             <label className="block text-sm font-semibold">
               Propina (€)
               <input name="propina" inputMode="decimal" placeholder="0" className={campo} />
             </label>
-            <label className="block text-sm font-semibold">
-              Nota
-              <input name="nota" maxLength={200} className={campo} />
-            </label>
+            {metodo !== "voucher" && (
+              <label className="block text-sm font-semibold">
+                Nota
+                <input name="nota" maxLength={200} className={campo} />
+              </label>
+            )}
           </div>
           <p className="text-xs text-gris">Es un registro para la gestión del salón; no es una factura.</p>
           <button type="submit" disabled={pendiente} className="min-h-12 rounded-full bg-carmin px-6 font-semibold text-white disabled:opacity-50">

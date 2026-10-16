@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, CalendarPlus, LogOut, Scissors, Settings, Sun, Users, UserRound, type LucideIcon } from "lucide-react";
+import { BarChart3, CalendarDays, CalendarPlus, Download, Gift, LogOut, Scissors, Settings, Sun, Ticket, Users, UserRound, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
@@ -21,6 +21,8 @@ interface Props {
 interface Item {
   href: string;
   label: string;
+  /** Para la barra de abajo del móvil, donde cada pestaña tiene 72 px: «Catálogo de bonos» no cabe. */
+  corto?: string;
   icon: LucideIcon;
   exacto?: boolean;
 }
@@ -30,11 +32,15 @@ const COMUNES: Item[] = [
   { href: "/panel/agenda", label: "Agenda", icon: CalendarDays },
   { href: "/panel/citas/nueva", label: "Nueva cita", icon: CalendarPlus },
   { href: "/panel/clientas", label: "Clientas", icon: Users },
+  { href: "/panel/bonos", label: "Bonos", icon: Ticket },
 ];
 
 const DUENA: Item[] = [
   { href: "/panel/servicios", label: "Servicios", icon: Scissors },
+  { href: "/panel/bonos-catalogo", label: "Catálogo de bonos", corto: "Catálogo", icon: Gift },
   { href: "/panel/equipo", label: "Equipo", icon: UserRound },
+  { href: "/panel/analitica", label: "Analítica", icon: BarChart3 },
+  { href: "/panel/exportar", label: "Exportar", icon: Download },
   { href: "/panel/configuracion", label: "Configuración", icon: Settings },
 ];
 
@@ -96,6 +102,7 @@ export default function PanelShell({ rol, nombre, salir, children }: Props) {
             <Link
               key={it.href}
               href={it.href}
+              aria-label={it.corto ? it.label : undefined}
               aria-current={activo(it.href, it.exacto) ? "page" : undefined}
               className={cn(
                 "flex min-h-16 min-w-[72px] flex-1 flex-col items-center justify-center gap-1 text-[11px] font-medium",
@@ -103,7 +110,7 @@ export default function PanelShell({ rol, nombre, salir, children }: Props) {
               )}
             >
               <it.icon aria-hidden className="size-5" />
-              {it.label}
+              {it.corto ?? it.label}
             </Link>
           ))}
         </nav>
