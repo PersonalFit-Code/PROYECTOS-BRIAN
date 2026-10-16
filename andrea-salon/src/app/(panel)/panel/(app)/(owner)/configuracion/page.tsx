@@ -1,4 +1,5 @@
 import { Trash2 } from "lucide-react";
+import { requireOwner } from "@/lib/panel/sesion";
 import { desplazarFechaLocal, enZona, fechaLocal } from "@/lib/booking";
 import { getAjustes } from "@/lib/reservas/ajustes";
 import { getAdminClient } from "@/lib/supabase/admin";
@@ -46,6 +47,9 @@ function describirCierre(inicioIso: string, finIso: string): string {
 }
 
 export default async function ConfiguracionPage() {
+  // También aquí y no solo en el layout: la página lee con la clave de servicio, y un layout no
+  // siempre se vuelve a ejecutar en una navegación parcial.
+  await requireOwner();
   const db = getAdminClient();
   const ahora = new Date();
   const [ajustes, cierres, equipo] = await Promise.all([

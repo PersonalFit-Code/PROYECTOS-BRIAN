@@ -1,4 +1,5 @@
 import { Download } from "lucide-react";
+import { requireOwner } from "@/lib/panel/sesion";
 import { desplazarFechaLocal } from "@/lib/booking";
 import { hoyLocal } from "@/lib/panel/columnas";
 
@@ -11,7 +12,10 @@ export const metadata = { title: "Exportar" };
 
 const campo = "mt-1.5 block w-full min-h-12 rounded-2xl border border-carmin/20 bg-white px-4 text-[16px]";
 
-export default function ExportarPage() {
+export default async function ExportarPage() {
+  // También aquí y no solo en el layout: la página lee con la clave de servicio, y un layout no
+  // siempre se vuelve a ejecutar en una navegación parcial.
+  await requireOwner();
   const hoy = hoyLocal();
   const inicioMes = `${hoy.slice(0, 8)}01`;
   const diasMes = Number(hoy.slice(8));

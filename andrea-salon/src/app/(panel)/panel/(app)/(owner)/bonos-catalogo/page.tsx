@@ -1,4 +1,5 @@
 import { Plus } from "lucide-react";
+import { requireOwner } from "@/lib/panel/sesion";
 import type { ReactNode } from "react";
 import { formatearEuros } from "@/lib/money";
 import { getAdminClient } from "@/lib/supabase/admin";
@@ -16,6 +17,9 @@ export const metadata = { title: "Catálogo de bonos" };
  * layout `(owner)` ya ha comprobado que es la dueña, y ella ve también los retirados de la venta.
  */
 export default async function BonosCatalogoPage() {
+  // También aquí y no solo en el layout: la página lee con la clave de servicio, y un layout no
+  // siempre se vuelve a ejecutar en una navegación parcial.
+  await requireOwner();
   const db = getAdminClient();
   const [productos, servicios] = await Promise.all([
     db.from("voucher_products").select("*").order("position").order("name"),

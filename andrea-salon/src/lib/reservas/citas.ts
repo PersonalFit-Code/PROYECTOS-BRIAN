@@ -123,7 +123,13 @@ export function resumen(c: CitaCompleta, ajustes: Ajustes, ahora = new Date(), i
     servicios: c.items.map((i) => ({ id: i.service_id, nombre: i.name, duracionMin: i.duration_min, precioCents: i.price_cents })),
     profesional: c.profesional,
     totalCents: c.cita.total_cents ?? c.items.reduce((t, i) => t + i.price_cents, 0),
-    clienta: c.clienta ? { nombre: c.clienta.name, email: c.clienta.email } : null,
+    // El contacto de la cita manda sobre la ficha: quien reservó con un teléfono que ya existía
+    // ve SUS datos, nunca los que el salón tiene guardados de esa clienta.
+    clienta: c.cita.contact_name
+      ? { nombre: c.cita.contact_name, email: c.cita.contact_email }
+      : c.clienta
+        ? { nombre: c.clienta.name, email: c.clienta.email }
+        : null,
     asistenciaConfirmada: c.cita.client_confirmed_at !== null,
     esFutura: esFutura(c, ahora),
     puedeCambiar: enPlazo(c, ajustes, ahora),
@@ -132,7 +138,15 @@ export function resumen(c: CitaCompleta, ajustes: Ajustes, ahora = new Date(), i
   };
 }
 
-/** "María José Pérez" → "María José" no; → "María": el primer nombre, que es como se la llama en el salón. */
+/** A quién y con qué nombre se escribe sobre una cita: el contacto de la reserva web o, si no hay, la ficha. */
+export function contactoDe(c: CitaCompleta): { nombre: string | null; email: string | null } {
+  if (c.cita.contact_name || c.cita.contact_email) {
+    return { nombre: c.cita.contact_name, email: c.cita.contact_email };
+  }
+  return { nombre: c.clienta?.name ?? null, email: c.clienta?.email ?? null };
+}
+
+/** "María José Pérez" → "María": el primer nombre, que es como se la llama en el salón. */
 export function nombreCorto(nombre: string | null | undefined): string {
   const limpio = (nombre ?? "").trim();
   if (!limpio) return "";

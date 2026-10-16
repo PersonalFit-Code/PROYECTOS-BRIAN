@@ -20,7 +20,7 @@ export const dynamic = "force-dynamic";
 const limitador = crearLimitador({ maximo: 20, ventanaMs: 10 * 60_000 });
 
 const Cuerpo = z.object({
-  servicios: z.array(z.uuid()).min(1).max(6),
+  servicios: z.array(z.uuid()).min(1).max(6).refine((l) => new Set(l).size === l.length, "Servicio repetido"),
   staffId: z.uuid().nullable().default(null),
   inicio: z.iso.datetime({ offset: true }),
 });

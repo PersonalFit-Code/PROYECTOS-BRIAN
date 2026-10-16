@@ -32,10 +32,10 @@ Resend + react-email · Stripe Checkout alojado (fase 2) · Vercel Cron · zod �
 
 - **Motor de huecos** (puro, con tests): `src/lib/booking/` (`slots.ts`, `tz.ts`, `assign.ts`).
   Lo usan la API pública y el panel; nadie más decide qué horas hay.
-- **Base de datos**: `supabase/migrations/0001…0009`. La doble reserva es imposible por la
+- **Base de datos**: `supabase/migrations/0001…0010`. La doble reserva es imposible por la
   restricción de exclusión `bookings_no_overlap` (0003); los holds viven en la misma tabla.
   Funciones en 0006 (`book_slot`, `confirm_hold`, `reschedule_booking`, `redeem_voucher`,
-  `queue_notification`) y 0009 (operaciones del panel). Tipos a mano en `src/lib/supabase/types.ts`
+  `queue_notification`), 0009 (operaciones del panel) y 0010 (bonos). Tipos a mano en `src/lib/supabase/types.ts`
   hasta poder generarlos con `supabase gen types`.
 - **Reserva**: API en `src/app/api/reservar/*`; asistente en `src/components/reservar/Asistente.tsx`;
   correos en `src/emails/*` y `src/lib/reservas/correos.tsx` (todo envío pasa por `src/lib/mail.ts`,
@@ -56,6 +56,7 @@ Resend + react-email · Stripe Checkout alojado (fase 2) · Vercel Cron · zod �
 | `npm run seed` | Carga el catálogo de PRUEBA (servicios y equipo de `src/data/fixtures.ts`) en la base de desarrollo |
 | `npx tsx scripts/crear-usuario.ts --email … --nombre … --rol owner\|staff [--staff <slug>]` | Crea un usuario del panel (no hay registro público) |
 | `scripts/qa-exclusion.sql` | Comprueba en el SQL editor que dos citas solapadas no pueden existir |
+| `scripts/qa-funciones.sql` | Prueba todas las funciones y permisos de la base (reserva, cambio, panel, bonos, RLS por rol). En local: `scripts/qa-prelude-postgres.sql` primero |
 | `npx tsx scripts/importar-clientas.ts <csv> [--aplicar]` | Importa clientas (Elitek u hoja del salón). Sin `--aplicar` solo ensaya e informa |
 | `npx tsx scripts/importar-citas.ts <csv> [--aplicar]` | Importa citas futuras; informa de servicios o profesionales desconocidos y de choques |
 

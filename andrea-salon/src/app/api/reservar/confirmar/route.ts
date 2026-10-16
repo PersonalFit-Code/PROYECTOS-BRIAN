@@ -1,7 +1,7 @@
 import { after } from "next/server";
 import { z } from "zod";
 import { LOCALE_META, LOCALES } from "@/i18n/config";
-import { comprobarCuota, error, leerJson, ok } from "@/lib/api";
+import { codigoDeRaise, comprobarCuota, error, leerJson, ok } from "@/lib/api";
 import { normalizarTelefonoES } from "@/lib/phone";
 import { crearLimitador } from "@/lib/rateLimit";
 import { getAjustes } from "@/lib/reservas/ajustes";
@@ -58,6 +58,7 @@ export async function POST(req: Request) {
       p_marketing: d.marketing,
     });
     if (e) {
+      if (codigoDeRaise(e) === "DEMASIADAS_CITAS") return error(409, "DEMASIADAS_CITAS", "Ya hay 3 citas futuras con ese teléfono");
       console.error("[confirmar] confirm_hold:", e.message);
       return error(500, "ERROR_INTERNO");
     }

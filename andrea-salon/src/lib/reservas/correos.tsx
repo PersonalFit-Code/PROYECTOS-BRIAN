@@ -14,7 +14,7 @@ import { formatearEuros } from "@/lib/money";
 import { SITE_URL } from "@/lib/siteUrl";
 import type { NotificationRow } from "@/lib/supabase/types";
 import { getAjustes, type Ajustes } from "./ajustes";
-import { cargarCita, nombreCorto, salidaDe, type CitaCompleta } from "./citas";
+import { cargarCita, contactoDe, nombreCorto, salidaDe, type CitaCompleta } from "./citas";
 import { urlAccionCita, urlCambiarCita, urlCita } from "./enlaces";
 
 /**
@@ -45,7 +45,7 @@ function pie(): PieCorreo {
 function textos(c: CitaCompleta, ajustes: Ajustes) {
   const inicio = new Date(c.cita.starts_at);
   return {
-    nombre: nombreCorto(c.clienta?.name) || "hola",
+    nombre: nombreCorto(contactoDe(c).nombre) || "hola",
     fecha: fechaLarga(inicio, ajustes.timezone),
     hora: horaDe(inicio, ajustes.timezone),
     servicios: c.items.map((i) => i.name),
@@ -78,7 +78,7 @@ export async function enviarConfirmacion(bookingId: string, opciones: OpcionesEn
   const cargado = await cargar(bookingId);
   if (!cargado) return NO_EXISTE;
   const { c, ajustes } = cargado;
-  const to = c.clienta?.email;
+  const to = contactoDe(c).email;
   if (!to) return SIN_CORREO;
 
   const t = textos(c, ajustes);
@@ -107,7 +107,7 @@ export async function enviarRecordatorio(bookingId: string, opciones: OpcionesEn
   const cargado = await cargar(bookingId);
   if (!cargado) return NO_EXISTE;
   const { c, ajustes } = cargado;
-  const to = c.clienta?.email;
+  const to = contactoDe(c).email;
   if (!to) return SIN_CORREO;
   if (c.cita.status !== "confirmed") return { ok: false, error: `La cita está en estado ${c.cita.status}` };
 
@@ -138,7 +138,7 @@ export async function enviarCancelacion(
   const cargado = await cargar(bookingId);
   if (!cargado) return NO_EXISTE;
   const { c, ajustes } = cargado;
-  const to = c.clienta?.email;
+  const to = contactoDe(c).email;
   if (!to) return SIN_CORREO;
 
   const t = textos(c, ajustes);
@@ -165,7 +165,7 @@ export async function enviarCambio(bookingId: string, opciones: OpcionesEnvio = 
   const cargado = await cargar(bookingId);
   if (!cargado) return NO_EXISTE;
   const { c, ajustes } = cargado;
-  const to = c.clienta?.email;
+  const to = contactoDe(c).email;
   if (!to) return SIN_CORREO;
 
   const anterior = c.cita.rescheduled_from ? await cargarCita(c.cita.rescheduled_from) : null;

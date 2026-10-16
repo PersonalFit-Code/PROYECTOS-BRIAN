@@ -1,4 +1,5 @@
 import { ArrowDown, ArrowUp, Plus } from "lucide-react";
+import { requireOwner } from "@/lib/panel/sesion";
 import type { ReactNode } from "react";
 import { formatearEuros } from "@/lib/money";
 import { getAdminClient } from "@/lib/supabase/admin";
@@ -17,6 +18,9 @@ export const metadata = { title: "Servicios" };
  * el layout `(owner)` ya ha comprobado que es la dueña y ella ve todo, incluidos los inactivos.
  */
 export default async function ServiciosPage() {
+  // También aquí y no solo en el layout: la página lee con la clave de servicio, y un layout no
+  // siempre se vuelve a ejecutar en una navegación parcial.
+  await requireOwner();
   const db = getAdminClient();
   const [categorias, servicios, equipo, relaciones] = await Promise.all([
     db.from("service_categories").select("id, name, position").order("position"),

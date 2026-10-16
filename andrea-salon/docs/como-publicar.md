@@ -7,9 +7,11 @@ un push y un despliegue.
 
 1. Crear el proyecto `andrea-salon` en **Frankfurt (eu-central-1)**. Los datos de clientas se quedan
    en la UE, que es lo que dice la política de privacidad.
-2. **Authentication → Providers → Email**: desactivar *Allow new users to sign up*. Los usuarios del
+2. **Authentication → Providers → Email**: desactivar *Allow new users to sign up* (y no activar
+   *anonymous sign-ins*). Aunque un registro ya no da acceso a nada (los perfiles solo los crea
+   el script del paso 5), cerrar la puerta es la primera defensa. Los usuarios del
    panel solo se crean con el script del paso 5; nadie puede registrarse desde fuera.
-3. **SQL editor**: ejecutar, en orden, todos los ficheros de `supabase/migrations/` (0001 → 0009) y
+3. **SQL editor**: ejecutar, en orden, todos los ficheros de `supabase/migrations/` (0001 → 0010) y
    después `supabase/seed.sql` (ajustes por defecto y categorías).
    Con la CLI: `supabase link --project-ref <ref>` y `supabase db push`.
 4. Comprobar la regla que impide la doble reserva: pegar `scripts/qa-exclusion.sql` en el SQL
@@ -81,3 +83,11 @@ curl -H "Authorization: Bearer $CRON_SECRET" https://<dominio>/api/cron/diario
 - Reserva completa desde el móvil en `/es/reservar`: llega el correo con el .ics.
 - La cita aparece en `/panel/agenda` tras entrar.
 - Cancelar desde el enlace del correo libera la hora (vuelve a salir en la reserva).
+
+## 7. Antes de abrir la reserva al público: CAPTCHA (recomendado)
+
+La reserva ya limita repetidos, citas de más de 5 horas, tres citas futuras por teléfono y una cuota
+por IP. Lo que no frena es a alguien con muchas IP que llene la agenda de reservas temporales. La
+defensa es un CAPTCHA invisible: **Cloudflare Turnstile** (gratis). Crear el sitio en Cloudflare y
+pasarme las dos claves; se añade en el paso de la hora y en el de confirmar.
+

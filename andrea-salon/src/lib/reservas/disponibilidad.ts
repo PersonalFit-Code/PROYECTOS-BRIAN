@@ -30,12 +30,16 @@ export class ReservaInvalidaError extends Error {
       | "SERVICIO_NO_RESERVABLE"
       | "SIN_PROFESIONAL"
       | "PROFESIONAL_NO_VALIDA"
-      | "FECHA_FUERA_DE_RANGO",
+      | "FECHA_FUERA_DE_RANGO"
+      | "DEMASIADO_LARGO",
     mensaje?: string,
   ) {
     super(mensaje ?? codigo);
   }
 }
+
+/** Lo más largo que se reserva desde la web en una sola cita (servicios encadenados). */
+export const MAX_MINUTOS_WEB = 300;
 
 export interface Peticion {
   /** ids de servicio en el orden elegido */
@@ -82,6 +86,13 @@ export async function prepararContexto(peticion: Peticion): Promise<Contexto> {
     if (!s) throw new ReservaInvalidaError("SERVICIO_DESCONOCIDO");
     if (!s.bookable_online && !peticion.panel) throw new ReservaInvalidaError("SERVICIO_NO_RESERVABLE");
     servicios.push(s);
+  }
+
+  // Un servicio repetido o una cadena de seis servicios largos sirve para bloquear el día de una
+  // profesional con una sola reserva temporal. Desde la web: sin repetidos y como mucho 5 horas.
+  if (!peticion.panel) {
+    if (new Set(peticion.servicios).size !== peticion.servicios.length) throw new ReservaInvalidaError("SERVICIO_DESCONOCIDO", "Servicio repetido");
+    if (servicios.reduce((t, s) => t + s.duration_min, 0) > MAX_MINUTOS_WEB) throw new ReservaInvalidaError("DEMASIADO_LARGO");
   }
 
   // Candidatas: hacen TODOS los servicios, están activas y se reservan por internet.

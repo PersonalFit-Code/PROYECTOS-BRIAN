@@ -85,25 +85,37 @@ begin
     return null;
   end if;
 
+  -- La ficha se crea con lo tecleado, pero si el teléfono YA existe NO se toca nada de ella: quien
+  -- reserva por la web no demuestra ser la dueña de ese teléfono, así que no puede cambiar su
+  -- correo ni su consentimiento de publicidad. Lo tecleado se guarda en la cita (contact_*), que es
+  -- adonde van los correos de ESTA cita. (Insertar o leer, sin `do update`: un update vacío dejaría
+  -- una línea falsa en el registro de cambios cada vez que vuelve una clienta.)
   insert into public.clients (name, phone, email, source, marketing_consent, marketing_consent_at)
   values (p_name, p_phone, nullif(p_email, ''), 'web', coalesce(p_marketing, false),
           case when coalesce(p_marketing, false) then now() end)
-  on conflict (phone) do update
-    set email                = coalesce(excluded.email, public.clients.email),
-        marketing_consent    = public.clients.marketing_consent or excluded.marketing_consent,
-        marketing_consent_at = coalesce(public.clients.marketing_consent_at, excluded.marketing_consent_at),
-        anonymized_at        = null
+  on conflict (phone) do nothing
   returning id into v_client;
+  if v_client is null then
+    select id into v_client from public.clients where phone = p_phone;
+  end if;
+
+  -- Freno a quien llena la agenda con citas falsas: como mucho 3 citas web futuras por teléfono.
+  if (select count(*) from public.bookings
+       where client_id = v_client and source = 'web' and status = 'confirmed' and starts_at > now()) >= 3 then
+    raise exception 'DEMASIADAS_CITAS' using errcode = 'P0001';
+  end if;
 
   select coalesce(sum(price_cents), 0) into v_total
   from public.booking_items where booking_id = p_booking;
 
   update public.bookings
-     set status      = 'confirmed',
-         client_id   = v_client,
-         expires_at  = null,
-         total_cents = v_total,
-         notes       = nullif(p_notes, '')
+     set status        = 'confirmed',
+         client_id     = v_client,
+         expires_at    = null,
+         total_cents   = v_total,
+         notes         = nullif(p_notes, ''),
+         contact_name  = p_name,
+         contact_email = nullif(p_email, '')
    where id = p_booking
   returning * into v_row;
 
@@ -138,9 +150,11 @@ begin
    where id = v_old.id;
 
   insert into public.bookings (client_id, staff_id, starts_at, ends_at, status, source, any_staff,
-                               total_cents, notes, rescheduled_from, created_by, manage_token)
+                               total_cents, notes, rescheduled_from, created_by, manage_token,
+                               contact_name, contact_email)
   values (v_old.client_id, p_staff, p_starts, p_ends, 'confirmed', v_old.source, false,
-          v_old.total_cents, v_old.notes, v_old.id, v_old.created_by, v_old.manage_token)
+          v_old.total_cents, v_old.notes, v_old.id, v_old.created_by, v_old.manage_token,
+          v_old.contact_name, v_old.contact_email)
   returning * into v_new;
 
   insert into public.booking_items (booking_id, service_id, name, duration_min, price_cents, position)
@@ -242,8 +256,10 @@ grant execute on function public.queue_notification(text, text, uuid, uuid, time
 revoke execute on function public.book_slot(uuid, timestamptz, timestamptz, jsonb, boolean, text) from public, anon, authenticated;
 revoke execute on function public.confirm_hold(uuid, text, text, text, text, boolean) from public, anon, authenticated;
 revoke execute on function public.reschedule_booking(uuid, uuid, timestamptz, timestamptz, text) from public, anon, authenticated;
-revoke execute on function public.redeem_voucher(text, int, int, uuid, uuid) from public, anon;
+revoke execute on function public.redeem_voucher(text, int, int, uuid, uuid) from public, anon, authenticated;
 grant execute on function public.book_slot(uuid, timestamptz, timestamptz, jsonb, boolean, text) to service_role;
 grant execute on function public.confirm_hold(uuid, text, text, text, text, boolean) to service_role;
 grant execute on function public.reschedule_booking(uuid, uuid, timestamptz, timestamptz, text) to service_role;
-grant execute on function public.redeem_voucher(text, int, int, uuid, uuid) to service_role, authenticated;
+-- Solo el servidor: el panel canjea con la clave de servicio tras comprobar la sesión. Abierto a
+-- `authenticated`, una cuenta cualquiera podría vaciar bonos llamando a la RPC directamente.
+grant execute on function public.redeem_voucher(text, int, int, uuid, uuid) to service_role;

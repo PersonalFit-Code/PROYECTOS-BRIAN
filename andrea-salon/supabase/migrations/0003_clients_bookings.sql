@@ -45,6 +45,11 @@ create table public.bookings (
   rescheduled_from    uuid references public.bookings(id) on delete set null,
   total_cents         int,
   notes               text,
+  -- Contacto tecleado AL RESERVAR por la web. Los correos de esta cita van aquí, no al correo de la
+  -- ficha: quien reserva con el teléfono de otra persona no puede cambiar a dónde le llegan a ella
+  -- sus avisos, ni ver su nombre. Null en las citas del panel (se usa la ficha).
+  contact_name        text,
+  contact_email       citext,
   created_by          uuid references public.profiles(id) on delete set null,
   created_at          timestamptz not null default now(),
   updated_at          timestamptz not null default now(),

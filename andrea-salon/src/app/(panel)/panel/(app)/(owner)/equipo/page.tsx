@@ -1,4 +1,5 @@
 import { Info, Plus } from "lucide-react";
+import { requireOwner } from "@/lib/panel/sesion";
 import { getAdminClient } from "@/lib/supabase/admin";
 import { cn } from "@/lib/utils";
 import EditorFranjas from "../_comun/EditorFranjas";
@@ -23,6 +24,9 @@ function resumenHorario(semana: Record<string, Franja[]>): string {
 }
 
 export default async function EquipoPage() {
+  // También aquí y no solo en el layout: la página lee con la clave de servicio, y un layout no
+  // siempre se vuelve a ejecutar en una navegación parcial.
+  await requireOwner();
   const db = getAdminClient();
   const [equipo, horas] = await Promise.all([
     db.from("staff").select("*").order("position").order("name"),

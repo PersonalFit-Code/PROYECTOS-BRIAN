@@ -21,7 +21,7 @@ const Query = z.object({
   servicios: z
     .string()
     .transform((s) => s.split(",").map((x) => x.trim()).filter(Boolean))
-    .pipe(z.array(z.uuid()).min(1).max(6)),
+    .pipe(z.array(z.uuid()).min(1).max(6).refine((l) => new Set(l).size === l.length, "Servicio repetido")),
   con: z.union([z.uuid(), z.literal("")]).optional(),
   fecha: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
 });

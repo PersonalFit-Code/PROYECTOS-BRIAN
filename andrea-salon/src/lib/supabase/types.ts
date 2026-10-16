@@ -143,6 +143,9 @@ export type BookingRow = {
   rescheduled_from: string | null;
   total_cents: number | null;
   notes: string | null;
+  /** contacto tecleado al reservar por la web (los correos de la cita van aquí) */
+  contact_name: string | null;
+  contact_email: string | null;
   created_by: string | null;
   created_at: string;
   updated_at: string;

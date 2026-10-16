@@ -45,18 +45,11 @@ create table public.profiles (
 create trigger profiles_updated_at before update on public.profiles
   for each row execute function public.set_updated_at();
 
--- Cada usuario nuevo de Auth tiene su perfil al momento, como `staff` por defecto: subir a
--- `owner` es una decisión explícita (scripts/crear-usuario.ts), nunca automática.
-create or replace function public.handle_new_user() returns trigger
-language plpgsql security definer set search_path = public as $$
-begin
-  insert into public.profiles (id, display_name)
-  values (new.id, coalesce(new.raw_user_meta_data ->> 'name', split_part(new.email, '@', 1)))
-  on conflict (id) do nothing;
-  return new;
-end $$;
-create trigger on_auth_user_created after insert on auth.users
-  for each row execute function public.handle_new_user();
+-- SIN perfil automático a propósito. Si cada usuario nuevo de Auth recibiera un perfil (aunque
+-- fuera `staff`), cualquiera que se registrara por la API de Supabase —basta con que alguien deje
+-- activado «Allow new users to sign up»— leería clientas, notas de salud y códigos de bono por RLS.
+-- Los perfiles los crea SOLO `scripts/crear-usuario.ts` con la clave de servicio; un usuario sin
+-- perfil no pasa `getSesion()` ni ninguna política (`auth_role()` devuelve null).
 
 -- ---------------------------------------------------------------------------
 -- Catálogo de servicios
