@@ -493,16 +493,19 @@ export const PHOTOS: Photo[] = [
     dishIds: ["esp-oreja-plancha" satisfies MenuItemId],
     focus: "50% 50%",
   },
-  /* LA TORTILLA, Y VA SIN `dishIds` A PROPÓSITO. En la carta hay UNA tortilla, la «Tortilla guisada
-     con champiñones», y lo que se ve aquí es tortilla y patata: ni guiso ni champiñones, ampliado y
-     mirado de cerca antes de decidir. Enlazarla sería enseñar un plato sin la seta que da nombre al
-     plato, y quien pida por la foto se encuentra otra cosa.
+  /* LA TORTILLA. En la carta hay UNA tortilla, la «Tortilla guisada con champiñones», y lo que se ve
+     aquí es tortilla y patata: ni guiso ni champiñones. Se amplió y se miró de cerca antes de
+     decidir nada, y se preguntó en vez de dar por hecho —que es lo que falló con la tempura, que la
+     teníamos como pulpo y era bacalao—.
 
-     Así que de momento vive solo en la galería, que es donde sí aporta: la sartén llena con la pared
-     de botellas detrás cuenta lo que es la casa —tapería y vinoteca— sin afirmar nada de la carta.
-     Preguntado en docs/fotos-para-revisar.md. Si Tatiana dice que es la guisada fotografiada antes
-     del guiso, enlazarla es añadir una línea; si es una tortilla de tapa que no está en la carta,
-     se queda justo donde está. */
+     CONFIRMADO POR LA CASA el 16-10-2026: es esa misma tortilla, fotografiada ANTES de terminarla
+     en el guiso. Así que se enlaza al plato.
+
+     PERO LA FOTO NO ENSEÑA EL PLATO QUE LLEGA A LA MESA, y eso queda apuntado: el nombre promete
+     champiñones y aquí no se ve ninguno. No es un error —es la tortilla de ese plato— pero conviene
+     repetirla ya servida, con su guiso por encima. Está en docs/fotos-para-revisar.md y en la guía
+     de fotos. Mientras tanto el texto alternativo describe lo que de verdad se ve y no nombra una
+     seta que no está. */
   {
     id: "tortilla-sarten",
     src: "/images/tortilla-sarten.webp",
@@ -511,7 +514,8 @@ export const PHOTOS: Photo[] = [
     height: 1152,
     alt: "Tortilla de patata jugosa servida en la propia sartén, sobre un plato de cerámica en la mesa de madera de Tixola Tapería, con la pared de botellas de la vinoteca desenfocada al fondo",
     caption: "La tortilla, en su sartén",
-    tags: ["plato", "local"],
+    tags: ["plato"],
+    dishIds: ["coc-tortilla-champinones" satisfies MenuItemId],
     focus: "50% 55%",
   },
   /* La original traía un pie al borde de abajo —se tiró de pie sobre la mesa— y los dos recortes

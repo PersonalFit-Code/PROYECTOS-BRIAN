@@ -1,11 +1,11 @@
 # Guía para las fotos de plato — Tixola
 
-> **Actualizada el 16-10-2026.** De los 47 platos de la carta: **26 ya tienen foto**, **7 no la
-> necesitan** y **quedan 14 por tirar**. Comprobado contra `src/data/menu.ts` y `src/data/photos.ts`,
+> **Actualizada el 16-10-2026.** De los 47 platos de la carta: **27 ya tienen foto**, **7 no la
+> necesitan** y **quedan 13 por tirar**. Comprobado contra `src/data/menu.ts` y `src/data/photos.ts`,
 > no a ojo.
 >
 > **Hechas el 10-10-2026:** timbal vegetal, fingers de pollo, tosta de salmón y queso y
-> ensalada de cecina. **El 16-10-2026:** oreja a la plancha, la primera de lado.
+> ensalada de cecina. **El 16-10-2026:** oreja a la plancha y tortilla, las dos de lado.
 >
 > **Los 7 que ya no cuentan**, por decisión de la casa: las cuatro tablas de embutidos y quesos
 > (jamón serrano, queso del país, queso de oveja, queso de cabra) y, de varios, el postre sin gluten,
@@ -65,10 +65,12 @@ entera sale de la lista: un jamón serrano y tres quesos no necesitan que se los
 15. **Revuelto de algas y langostinos** (12,80 €)
 16. **Revuelto de setas y oreja** (12,50 €)
 
-### Cocina — 7 de 12
+### Cocina — 8 de 12
 
 17. **Tacos de bacalao en tempura con pimientos** (15,60 €) — ya estaba en la lista anterior.
-18. **Tortilla guisada con champiñones** (11,90 €)
+18. ~~**Tortilla guisada con champiñones** (11,90 €)~~ — ✅ **hecha** (16-10-2026), de lado.
+    **Conviene repetirla ya servida**: la que hay es la tortilla antes del guiso, así que el nombre
+    promete champiñones y en la foto no se ve ninguno.
 19. **Salteado de verdura, arroz y setas** (11,50 €)
 20. **Pastel de cabracho** (10,00 €) ⚠️
 21. ~~**Fingers de pollo** (7,90 €)~~ — ✅ **hecha** (10-10-2026). Ojo: en la foto llevan melocotón

@@ -306,11 +306,21 @@ Sin retoque de color. No sale ninguna persona.
 
 ---
 
-## La tortilla (16-10-2026) — ❓ la carta solo tiene UNA tortilla, y esta no lleva champiñones
+## La tortilla (16-10-2026) — ✅ RESUELTO, y queda una tarea: repetirla servida
 
-**La pregunta, de una línea:** ¿esta tortilla es la **«Tortilla guisada con champiñones»** de la
-carta, fotografiada **antes** de terminarla en el guiso? ¿O es otra tortilla —de tapa, de pincho,
-del día— que no está en los 47 platos?
+**Contestado por la casa el mismo día: es la «Tortilla guisada con champiñones» de la carta,
+fotografiada ANTES de terminarla en el guiso.** Ya está enlazada al plato.
+
+**Lo que queda, y no es un fallo, es una mejora:** la foto enseña la tortilla, no el plato que llega
+a la mesa. El nombre promete champiñones y en la foto no se ve ninguno, así que **conviene repetirla
+ya servida, con su guiso por encima**. Está apuntado en `docs/guia-fotos-platos.md` junto a las 13
+que faltan. Mientras tanto el texto alternativo describe lo que de verdad se ve y no nombra una seta
+que no está.
+
+*(Lo que se preguntó, para que quede el porqué:)* en la carta hay una sola tortilla y se llama
+«Tortilla guisada con champiñones»; en la foto había tortilla y patata y nada más. Enlazarla a ciegas
+habría sido enseñar un plato sin el ingrediente que le da nombre, así que se preguntó en vez de dar
+por hecho — que es justo lo que falló con la tempura, que la teníamos como pulpo y era bacalao.
 
 **Por qué lo pregunto en vez de darlo por hecho.** En la carta hay una sola tortilla, y se llama
 «Tortilla guisada con champiñones»; su descripción dice *«Tortilla jugosa terminada en un guiso
@@ -319,18 +329,8 @@ antes de decidir, y no hay ni guiso ni una sola seta. Enlazarla al plato sería 
 un plato sin el ingrediente que le da nombre, y quien pida mirando la foto se encuentra otra cosa.
 Es el mismo cuidado que con la tempura, que la teníamos como pulpo y era bacalao.
 
-**Dónde está mientras tanto.** Publicada **en la galería y nada más**, sin enlazar a ningún plato.
-Ahí sí aporta: la sartén llena con la pared de botellas detrás cuenta lo que es la casa —tapería y
-vinoteca— sin afirmar nada de la carta.
-
-**Qué pasa con cada respuesta:**
-
-- **«Es la guisada, antes del guiso»** → la enlazo al plato. Es añadir una línea. Aunque entonces
-  conviene decidir otra cosa: si la foto no enseña los champiñones, ¿vale como foto del plato, o
-  mejor repetirla ya servida, con su guiso por encima?
-- **«Es otra tortilla que no está en la carta»** → se queda donde está, de foto de ambiente. Y surge
-  la pregunta buena: **¿debería estar en la carta?** Si es un plato que se sirve, hoy la web no lo
-  cuenta.
+**Dónde está.** En la carta, en la ficha del plato y en la galería. La sartén llena con la pared de
+botellas detrás, de paso, cuenta lo que es la casa: tapería y vinoteca.
 
 **Qué se ha hecho con la foto.** Recortes 1536×1152 y 768×1152 desde un original 16:9, los dos
 centrados en la sartén. WebP, sin metadatos y sin retoque de color. No sale ninguna persona: el
