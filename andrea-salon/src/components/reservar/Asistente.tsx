@@ -254,7 +254,7 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
   return (
     <div className="mx-auto w-full max-w-2xl px-4 pb-40 pt-6 sm:px-6">
       {cambiar && paso !== "hecho" && (
-        <p className="mb-4 rounded-2xl bg-rosa-niebla px-4 py-3 text-sm text-tinta">
+        <p className="mb-4 rounded-[3px] bg-rosa-niebla px-4 py-3 text-sm text-tinta">
           {t(m.cambiar.banner, { fecha: cambiar.fecha, hora: cambiar.hora })}
         </p>
       )}
@@ -297,7 +297,7 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
           </h1>
 
           {error && (
-            <p className="mt-4 rounded-2xl border border-carmin/20 bg-white px-4 py-3 text-[15px] text-carmin">
+            <p className="mt-4 rounded-[3px] border border-carmin/20 bg-white px-4 py-3 text-[15px] text-carmin">
               {error}
             </p>
           )}
@@ -395,7 +395,7 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
             )}
 
             {paso === "hecho" && hecho && (
-              <div className="rounded-3xl border border-[var(--capa-borde)] bg-white p-6 text-center shadow-[var(--shadow-card)]">
+              <div className="rounded-[3px] border border-[var(--capa-borde)] bg-white p-6 text-center shadow-[var(--shadow-card)]">
                 <span className="mx-auto grid size-16 place-items-center rounded-full bg-carmin text-[var(--on-accent)]">
                   <Check aria-hidden className="size-8" />
                 </span>
@@ -425,7 +425,7 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
         /* `barra-reserva`: mientras se escribe en un campo se esconde (globals.css), para que no tape
            el campo enfocado ni se quede encima del teclado del móvil (WCAG 2.4.11). */
         <div className="barra-reserva fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),12px)]">
-          <div className="liquid-glass liquid-glass-strong mx-auto flex max-w-2xl items-center gap-3 rounded-[28px] px-3 py-3 sm:px-4">
+          <div className="liquid-glass liquid-glass-strong mx-auto flex max-w-2xl items-center gap-3 rounded-[3px] px-3 py-3 sm:px-4">
             {(paso !== "servicios" && !(cambiar && paso === "dia")) ? (
               <button
                 type="button"
@@ -475,7 +475,7 @@ function Opcion({ activa, onClick, children }: { activa: boolean; onClick: () =>
       onClick={onClick}
       aria-pressed={activa}
       className={cn(
-        "flex min-h-16 w-full items-center gap-4 rounded-3xl border bg-white px-4 py-3 text-left transition-[border-color,box-shadow]",
+        "flex min-h-16 w-full items-center gap-4 rounded-[3px] border bg-white px-4 py-3 text-left transition-[border-color,box-shadow]",
         activa ? "border-carmin shadow-[var(--shadow-soft)]" : "border-[var(--capa-borde)] hover:border-carmin/40",
       )}
     >
@@ -495,7 +495,7 @@ function Cargando({ texto }: { texto: string }) {
 
 function SinHuecos({ texto }: { texto: string }) {
   return (
-    <div className="rounded-3xl border border-[var(--capa-borde)] bg-white p-5">
+    <div className="rounded-[3px] border border-[var(--capa-borde)] bg-white p-5">
       <p className="text-tinta">{texto}</p>
       <a href={BUSINESS.phone.tel} className="mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-carmin">
         <Phone aria-hidden className="size-4" />
@@ -552,7 +552,7 @@ function PasoServicios({
                     onClick={() => alternar(s.id)}
                     aria-pressed={activo}
                     className={cn(
-                      "flex w-full items-start gap-3 rounded-3xl border bg-white px-4 py-3.5 text-left transition-[border-color,box-shadow]",
+                      "flex w-full items-start gap-3 rounded-[3px] border bg-white px-4 py-3.5 text-left transition-[border-color,box-shadow]",
                       activo ? "border-carmin shadow-[var(--shadow-soft)]" : "border-[var(--capa-borde)] hover:border-carmin/40",
                     )}
                   >
@@ -607,7 +607,7 @@ function Horas({
                 type="button"
                 disabled={ocupado}
                 onClick={() => onElegir(h)}
-                className="min-h-12 w-full rounded-2xl border border-[var(--capa-borde)] bg-white text-[15px] font-semibold text-tinta transition-colors hover:border-carmin hover:bg-rosa-niebla disabled:opacity-50"
+                className="min-h-12 w-full rounded-[3px] border border-[var(--capa-borde)] bg-white text-[15px] font-semibold text-tinta transition-colors hover:border-carmin hover:bg-rosa-niebla disabled:opacity-50"
               >
                 {horaSalon(h.inicio)}
               </button>
@@ -750,12 +750,12 @@ function PasoDatos({
 
   /* El texto de ejemplo en `gris` entero (5,6:1): con transparencia no se leía. Se distingue de lo
      tecleado porque esto va en `tinta`, casi negro. */
-  const campo = "mt-1.5 block w-full min-h-12 rounded-2xl border border-carmin/20 bg-white px-4 text-[16px] text-tinta placeholder:text-gris focus:border-carmin focus:outline-none focus:ring-2 focus:ring-carmin/20";
+  const campo = "mt-1.5 block w-full min-h-12 rounded-[3px] border border-carmin/20 bg-white px-4 text-[16px] text-tinta placeholder:text-gris focus:border-carmin focus:outline-none focus:ring-2 focus:ring-carmin/20";
   const privacidad = legal.privacy.slug;
 
   return (
     <div className="space-y-5">
-      <div className="rounded-3xl border border-[var(--capa-borde)] bg-white p-5 shadow-[var(--shadow-soft)]">
+      <div className="rounded-[3px] border border-[var(--capa-borde)] bg-white p-5 shadow-[var(--shadow-soft)]">
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-carmin-suave">{r.resumen.title}</p>
         <p className="mt-2 font-display text-xl font-semibold text-tinta">
           {horaSalon(hold.inicio)} – {horaSalon(hold.salida)} · {hold.profesional.nombre}
@@ -838,11 +838,11 @@ function PasoDatos({
 
         <div className="space-y-3 pt-1 text-sm text-tinta">
           <label className="flex items-start gap-3">
-            <input name="condiciones" type="checkbox" required defaultChecked={marcada("condiciones")} className="mt-0.5 size-5 shrink-0 accent-[#8e0e33]" />
+            <input name="condiciones" type="checkbox" required defaultChecked={marcada("condiciones")} className="mt-0.5 size-5 shrink-0 accent-[#2b2a2d]" />
             <span>{t(m.condiciones, { horas: horasCancelacion })}</span>
           </label>
           <label className="flex items-start gap-3">
-            <input name="privacidad" type="checkbox" required defaultChecked={marcada("privacidad")} className="mt-0.5 size-5 shrink-0 accent-[#8e0e33]" />
+            <input name="privacidad" type="checkbox" required defaultChecked={marcada("privacidad")} className="mt-0.5 size-5 shrink-0 accent-[#2b2a2d]" />
             <span>
               {m.privacidad}{" "}
               <Link href={lp(`/legal/${privacidad}`)} target="_blank" className="font-semibold text-carmin underline underline-offset-2">
@@ -852,7 +852,7 @@ function PasoDatos({
             </span>
           </label>
           <label className="flex items-start gap-3 text-gris">
-            <input name="marketing" type="checkbox" defaultChecked={marcada("marketing")} className="mt-0.5 size-5 shrink-0 accent-[#8e0e33]" />
+            <input name="marketing" type="checkbox" defaultChecked={marcada("marketing")} className="mt-0.5 size-5 shrink-0 accent-[#2b2a2d]" />
             <span>{m.marketing}</span>
           </label>
         </div>

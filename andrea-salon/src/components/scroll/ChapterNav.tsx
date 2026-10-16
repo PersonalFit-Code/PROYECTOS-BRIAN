@@ -160,7 +160,7 @@ export default function ChapterNav() {
                     <span
                       className={cn(
                         "block h-2.5 w-2.5 rounded-full transition-[transform,background-color,box-shadow] duration-500 ease-[var(--ease-out-expo)]",
-                        active ? "scale-100 bg-carmin shadow-[0_0_0_4px_rgba(142,14,51,0.15)]" : "scale-[0.6] bg-carmin/30 group-hover:bg-carmin/60",
+                        active ? "scale-100 bg-carmin shadow-[0_0_0_4px_rgba(43,42,45,0.15)]" : "scale-[0.6] bg-carmin/30 group-hover:bg-carmin/60",
                       )}
                     />
                   </span>

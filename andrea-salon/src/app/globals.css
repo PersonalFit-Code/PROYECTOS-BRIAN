@@ -1,48 +1,52 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────
-   DESIGN TOKENS · Andrea Salón
-   Blanco · Rosa pastel · Carmín
+   DESIGN TOKENS · Andrea Salón · línea editorial
+   Blanco · Nude empolvado · Blush · Grafito
 
-   La paleta es la de la propuesta que Andrea ya ha visto y aprobado (`comercial/andrea-salon`):
-   el carmín (#8E0E33) como ÚNICO acento fuerte, los rosas como fondo y decoración, y la tinta
-   (#2E2127, un negro cálido) para el texto. Es un TEMA CLARO ÚNICO: no hay modo oscuro, porque la
-   marca es blanca y rosa y una variante oscura sería otra marca.
+   Dirección «revista de moda» (Vogue, Byredo, Chanel Beauty): fondo blanco pulcro, acentos nude y
+   blush, el grafito como único color fuerte (texto y botón «Cita previa») y la foto como
+   protagonista. Tema claro único.
 
-   CONTRASTE, que en un tema claro se pierde sin darse cuenta:
-   · `carmin` (#8E0E33) sobre blanco: 9,4:1. Vale para todo, también texto pequeño.
-   · `carmin-suave` (#B8365A) sobre blanco: 5,6:1. Vale para texto normal; es el color de los
-     kickers, los enlaces y los iconos.
-   · Los rosas (#F3D3DE, #FAEAF0, #E7A6BD) son SOLO fondo y decoración. Nunca texto: el más fuerte
-     da 1,9:1 sobre blanco.
-   · Texto sobre carmín: siempre blanco (`--on-accent`, 9,4:1).
-   · `gris` (#73646A) sobre blanco: 5,6:1; sobre crema 5,3:1; sobre rosa-niebla 4,8:1 (el pie).
-     Es el color del texto secundario. Antes era #7C6B72, que sobre rosa-niebla se quedaba en
-     4,3:1 y no llegaba al mínimo (4,5). Sobre `rosa` macizo (#F3D3DE) da 4,0: ahí, `tinta`.
+   Los NOMBRES de los tokens vienen de la primera paleta (carmín y rosas) y se conservan para no
+   tocar los cientos de clases que ya los usan en reserva, panel y correos; los VALORES son los de la
+   línea editorial. Para código nuevo, los alias con nombre real: `grafito`, `taupe`, `blush`, `nude`,
+   `nude-claro`.
+
+   CONTRASTE (texto ≥ 4,5:1):
+   · `carmin` = grafito #2B2A2D: 14:1 sobre blanco, 11:1 sobre blush. Texto, botón, iconos.
+   · `carmin-suave` = taupe #7D5F52: 5,8:1 sobre blanco, 5,4 sobre nude claro, 4,6 sobre blush. Las
+     etiquetas pequeñas (kickers) y los enlaces discretos.
+   · `gris` = grafito suave #5C5A5F: 6,8:1 sobre blanco, ≥ 4,8 en todos los fondos de la marca.
+   · Blush, nude y nude claro: SOLO fondo, líneas y decoración. Nunca texto.
    ───────────────────────────────────────────────────────────── */
 @theme {
-  --color-carmin: #8e0e33;
-  --color-carmin-suave: #b8365a;
-  /* Un punto más oscuro para el hover del botón principal (sigue dando 11:1 con blanco). */
-  --color-carmin-oscuro: #74082a;
-  --color-rosa: #f3d3de;
-  --color-rosa-niebla: #faeaf0;
-  --color-rosa-fuerte: #e7a6bd;
-  --color-crema: #fdf7f9;
-  --color-tinta: #2e2127;
-  --color-gris: #73646a;
+  --color-carmin: #2b2a2d;
+  --color-carmin-suave: #7d5f52;
+  --color-carmin-oscuro: #111012;
+  --color-rosa: #f3e1da;
+  --color-rosa-niebla: #faf5f2;
+  --color-rosa-fuerte: #e8d5c9;
+  --color-crema: #ffffff;
+  --color-tinta: #2b2a2d;
+  --color-gris: #5c5a5f;
   --color-blanco: #ffffff;
 
-  /* Source Serif 4: titulares. Es lo más cercano a la Charter del PDF de la propuesta, que es la
-     letra que Andrea ya asocia con su web. Pesos 400/600/700, normal e itálica. */
-  --font-display: var(--font-source-serif), "Source Serif 4", Charter, Georgia, serif;
-  /* Inter: texto corrido, botones, formularios. Legible en el móvil, que es desde donde se reserva. */
+  --color-grafito: #2b2a2d;
+  --color-taupe: #7d5f52;
+  --color-blush: #f3e1da;
+  --color-nude: #e8d5c9;
+  --color-nude-claro: #faf5f2;
+
+  /* Bodoni Moda: titulares en mayúscula espaciada, alto contraste de trazo; la itálica acentúa una
+     palabra. Inter para todo lo demás: botones, formularios, texto largo. */
+  --font-display: var(--font-bodoni), "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
 
-  /* Sombra rosada tenue para tarjetas: el equivalente claro de la sombra negra de los hermanos. Un
-     negro al 30 % sobre crema se ve sucio; un carmín al 10 % se ve como luz. */
-  --shadow-card: 0 24px 48px -24px rgba(142, 14, 51, 0.18), 0 6px 16px -8px rgba(142, 14, 51, 0.1);
-  --shadow-soft: 0 10px 30px -18px rgba(142, 14, 51, 0.22);
+  /* Sombras neutras y muy suaves: en una línea editorial casi todo se separa con filetes, no con
+     sombra. */
+  --shadow-card: 0 24px 48px -28px rgba(43, 42, 45, 0.16), 0 4px 12px -8px rgba(43, 42, 45, 0.08);
+  --shadow-soft: 0 10px 30px -20px rgba(43, 42, 45, 0.18);
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
@@ -93,7 +97,7 @@
    * con brillo especular arriba y un canto de luz. Adaptaciones a la marca: el borde no es gris sino
    * carmín al 12 % (sobre rosa, un borde gris se ve sucio) y la sombra es rosada, no negra.
    */
-  --glass-bg: rgba(255, 255, 255, 0.58);
+  --glass-bg: rgba(255, 255, 255, 0.72);
   /* Para texto encima con el peor fondo debajo (una foto oscura de uñas carmín): 0,82 sostiene la
      tinta por encima de 4,5:1 incluso sobre negro puro. Todo control con texto va en `strong`; el
      cristal fino queda para los botones de solo icono, que piden 3:1. */
@@ -101,7 +105,7 @@
   /* Lo que queda cuando el usuario pide menos transparencia. */
   --glass-solid: #ffffff;
   --glass-blur: blur(20px) saturate(180%);
-  --glass-border: rgba(142, 14, 51, 0.12);
+  --glass-border: rgba(43, 42, 45, 0.08);
   /* El canto: un filo de luz interior arriba y un hilo casi invisible alrededor. */
   --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 0 0 0.5px rgba(255, 255, 255, 0.4);
   /* La luz que rebota en el canto superior y se apaga hacia el centro. Va como `background-image`
@@ -109,13 +113,13 @@
      posicionado, y la mitad de estos son `fixed`, `sticky` o `absolute` según el ancho. */
   --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.25) 24%, rgba(255, 255, 255, 0) 52%);
   /* Sombra rosada tenue: el cristal flota sobre crema, no sobre negro. */
-  --glass-shadow: 0 20px 44px -22px rgba(142, 14, 51, 0.22), 0 4px 14px -6px rgba(142, 14, 51, 0.1);
+  --glass-shadow: 0 18px 40px -24px rgba(43, 42, 45, 0.18), 0 2px 8px -4px rgba(43, 42, 45, 0.06);
 
   /* Superficies de CONTENIDO: de la más baja a la más elevada. Sin desenfoque, nunca. */
   --capa-1: rgba(255, 255, 255, 0.55);
   --capa-2: rgba(255, 255, 255, 0.8);
   --capa-3: #ffffff;
-  --capa-borde: rgba(142, 14, 51, 0.1);
+  --capa-borde: rgba(43, 42, 45, 0.1);
 
   /* Texto sobre el color de acento (carmín). Un token, no un `text-white` suelto. */
   --on-accent: #ffffff;
@@ -155,21 +159,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*
- * Luz ambiental: dos manchas de rosa en una capa FIJA, así su caja de pintado es un solo viewport y
- * no el documento entero (que en /servicios son varios miles de píxeles). Es decoración, no
- * composición: viaja con el scroll y nadie lo nota.
- */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -50;
-  pointer-events: none;
-  background-image:
-    radial-gradient(1100px 620px at 85% -10%, rgba(243, 211, 222, 0.75), transparent 60%),
-    radial-gradient(900px 520px at -10% 110%, rgba(231, 166, 189, 0.35), transparent 60%);
-}
+/* Sin luz ambiental: la línea editorial es blanco limpio (antes había dos manchas rosas fijas). */
 
 ::selection {
   background: var(--color-carmin);
@@ -179,14 +169,14 @@ body::before {
 /* scrollbar discreto */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(142, 14, 51, 0.22) transparent;
+  scrollbar-color: rgba(43, 42, 45, 0.25) transparent;
 }
 *::-webkit-scrollbar {
   height: 8px;
   width: 8px;
 }
 *::-webkit-scrollbar-thumb {
-  background: rgba(142, 14, 51, 0.22);
+  background: rgba(43, 42, 45, 0.25);
   border-radius: 999px;
 }
 
@@ -228,8 +218,8 @@ body::before {
 
 /* Aviso o acento suave: rosa niebla con borde carmín tenue. */
 @utility glass-rosa {
-  background: linear-gradient(135deg, rgba(243, 211, 222, 0.55), rgba(250, 234, 240, 0.4));
-  border: 1px solid rgba(142, 14, 51, 0.16);
+  background: var(--color-nude-claro);
+  border: 1px solid var(--color-nude);
 }
 
 /*
@@ -257,8 +247,8 @@ body::before {
    material, teñido de carmín, con su texto en blanco. El canto de luz se atenúa: sobre carmín un
    filo blanco al 90 % se ve como un borde pintado. */
 @utility liquid-glass-accent {
-  --glass-bg: rgba(142, 14, 51, 0.86);
-  --glass-border: rgba(231, 166, 189, 0.55);
+  --glass-bg: rgba(43, 42, 45, 0.92);
+  --glass-border: rgba(255, 255, 255, 0.16);
   --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 0 0 0.5px rgba(255, 255, 255, 0.1);
   --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 24%, rgba(255, 255, 255, 0) 52%);
   color: var(--on-accent);
@@ -333,9 +323,9 @@ body::before {
 @media (prefers-contrast: more) {
   :root {
     --glass-bg: var(--glass-bg-strong);
-    --glass-border: rgba(142, 14, 51, 0.5);
-    --capa-borde: rgba(142, 14, 51, 0.35);
-    --color-gris: #5e4f55;
+    --glass-border: rgba(43, 42, 45, 0.5);
+    --capa-borde: rgba(43, 42, 45, 0.35);
+    --color-gris: #403e43;
   }
 }
 
@@ -355,7 +345,7 @@ body::before {
  * con dos variables desde la clase: `halo [--halo-rgb:142_14_51] [--halo-a:0.12]`.
  */
 @utility halo {
-  --halo-rgb: 231 166 189;
+  --halo-rgb: 232 213 201;
   --halo-a: 0.55;
   pointer-events: none;
   background-image: radial-gradient(
@@ -379,7 +369,46 @@ body::before {
 /* Filete entre secciones: un hilo carmín que se desvanece a los lados. */
 @utility filete {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(142, 14, 51, 0.22), transparent);
+  background: var(--color-nude);
+}
+
+/*
+ * TIPOGRAFÍA EDITORIAL
+ * ─────────────────────
+ * `titulo-editorial`: Bodoni en mayúscula, peso normal y tracking amplio, como un titular de revista
+ * de moda. `acento-editorial`: la palabra que se lee distinta, en itálica minúscula y sin espaciar.
+ * `etiqueta`: el texto pequeño de sección («SERVICIOS», «01»), Inter mayúscula muy espaciada.
+ */
+@utility titulo-editorial {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.08;
+}
+@utility acento-editorial {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+@utility etiqueta {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+}
+
+/* La foto de portada entra con un acercamiento lento, de 1,06 a 1 (FotoEditorial `zoom`). */
+@keyframes zoom-lento {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 /* Contenedor de página */
@@ -417,11 +446,16 @@ html:has(:is(input:not([type="checkbox"], [type="radio"]), textarea, select):foc
   display: none;
 }
 
-/* Anillo de foco accesible: carmín sobre crema (9,4:1), bien visible también sobre rosa. */
+/* Anillo de foco accesible: grafito (14:1 sobre blanco), bien visible también sobre blush. */
 :focus-visible {
   outline: 2px solid var(--color-carmin);
   outline-offset: 3px;
   border-radius: 4px;
+}
+/* Los títulos que reciben el foco por código (`tabIndex={-1}`, para que el lector de pantalla sepa
+   dónde está al cambiar de paso) no se pueden alcanzar con el tabulador: el anillo ahí solo despista. */
+[tabindex="-1"]:focus-visible {
+  outline: none;
 }
 
 /* ──────────────────────────────────────────────────────────────

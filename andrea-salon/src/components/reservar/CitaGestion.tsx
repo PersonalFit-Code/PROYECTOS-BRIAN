@@ -77,7 +77,7 @@ export default function CitaGestion({
     <div className="mx-auto max-w-xl px-4 pb-16 pt-8">
       <h1 className="font-display text-3xl font-semibold text-tinta sm:text-4xl">{m.cita.title}</h1>
 
-      <div className="mt-6 rounded-3xl border border-[var(--capa-borde)] bg-white p-6 shadow-[var(--shadow-card)]">
+      <div className="mt-6 rounded-[3px] border border-[var(--capa-borde)] bg-white p-6 shadow-[var(--shadow-card)]">
         <span className="inline-flex rounded-full bg-rosa-niebla px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-carmin">
           {m.cita.estado[cita.estado]}
         </span>
@@ -102,12 +102,12 @@ export default function CitaGestion({
         <p className="mt-4 text-sm text-gris">{BUSINESS.address.full}</p>
       </div>
 
-      {aviso && <p role="status" className="mt-5 rounded-2xl bg-rosa-niebla px-4 py-3 text-tinta">{aviso}</p>}
-      {error && <p role="alert" className="mt-5 rounded-2xl border border-carmin/20 bg-white px-4 py-3 text-carmin">{error}</p>}
+      {aviso && <p role="status" className="mt-5 rounded-[3px] bg-rosa-niebla px-4 py-3 text-tinta">{aviso}</p>}
+      {error && <p role="alert" className="mt-5 rounded-[3px] border border-carmin/20 bg-white px-4 py-3 text-carmin">{error}</p>}
       {viva && cita.asistenciaConfirmada && !aviso && <p className="mt-5 text-tinta">{m.cita.asistencia}</p>}
 
       {viva && pregunta && (
-        <div className="mt-5 rounded-3xl border border-carmin/25 bg-white p-5">
+        <div className="mt-5 rounded-[3px] border border-carmin/25 bg-white p-5">
           <p className="text-tinta">{textoPregunta[pregunta]}</p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Boton onClick={() => hacer(pregunta)} disabled={enviando}>

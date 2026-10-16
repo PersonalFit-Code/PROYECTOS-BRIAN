@@ -24,7 +24,7 @@ const common: Traducion<"common"> = {
   ],
   ogAlt: "Andrea Salón, salón de unllas e beleza en Ourense",
   cta: {
-    book: "Reservar cita",
+    book: "Cita previa",
     bookShort: "Reservar",
     bookWith: "Reservar con {name}",
     call: "Chamar",

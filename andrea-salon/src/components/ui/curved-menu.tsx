@@ -160,12 +160,12 @@ export default function CurvedMenu({
         aria-controls={panelId}
         aria-label={openLabel}
         onClick={() => setOpen(true)}
-        className={cn("pulsable inline-flex h-11 items-center gap-2.5 rounded-full border border-carmin/15 bg-white/70 px-3.5 text-sm font-medium text-tinta hover:border-carmin/45", triggerClassName)}
+        className={cn("pulsable inline-flex h-11 items-center gap-3 px-1 text-[11px] font-medium uppercase tracking-[0.28em] text-tinta", triggerClassName)}
       >
         <span aria-hidden className="flex w-5 flex-col gap-[5px]">
-          <span className="h-[1.5px] w-5 rounded-full bg-current" />
-          <span className="h-[1.5px] w-3.5 rounded-full bg-carmin" />
-          <span className="h-[1.5px] w-5 rounded-full bg-current" />
+          <span className="h-px w-6 bg-current" />
+          <span className="h-px w-4 bg-current" />
+          <span className="h-px w-6 bg-current" />
         </span>
         <span className="hidden sm:inline">{label}</span>
       </button>
@@ -185,7 +185,7 @@ export default function CurvedMenu({
                   <motion.nav
                     id={panelId}
                     aria-label={heading}
-                    className="absolute top-0 right-0 h-[100dvh] w-screen max-w-[560px] bg-crema text-tinta shadow-[-40px_0_80px_-40px_rgba(142,14,51,0.35)]"
+                    className="absolute top-0 right-0 h-[100dvh] w-screen max-w-[560px] bg-crema text-tinta shadow-[-40px_0_80px_-40px_rgba(43,42,45,0.35)]"
                     initial={{ x: "calc(100% + 100px)" }}
                     animate={{ x: 0, transition: slide }}
                     exit={{ x: "calc(100% + 100px)", transition: slide }}

@@ -129,7 +129,7 @@ export default function CookieConsent() {
           aria-labelledby={titleId}
           aria-describedby={textId}
           tabIndex={-1}
-          className="liquid-glass liquid-glass-strong fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-50 mx-auto max-h-[calc(100dvh-24px)] max-w-[540px] overflow-y-auto rounded-[28px] p-5 text-tinta outline-none sm:inset-x-6 sm:p-6 lg:right-auto lg:left-6 lg:mx-0"
+          className="liquid-glass liquid-glass-strong fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-50 mx-auto max-h-[calc(100dvh-24px)] max-w-[540px] overflow-y-auto rounded-[3px] p-5 text-tinta outline-none sm:inset-x-6 sm:p-6 lg:right-auto lg:left-6 lg:mx-0"
           initial={reduced ? { opacity: 0 } : { opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           exit={reduced ? { opacity: 0 } : { opacity: 0, y: 32 }}
@@ -164,14 +164,14 @@ export default function CookieConsent() {
 
           {settings ? (
             <ul className="mt-4 space-y-2.5">
-              <li className="rounded-2xl bg-white/70 p-4 ring-1 ring-carmin/10">
+              <li className="rounded-[3px] bg-white/70 p-4 ring-1 ring-carmin/10">
                 <div className="flex items-center justify-between gap-4">
                   <p className="text-[15px] font-semibold">{t.necessary.title}</p>
                   <span className="text-xs font-medium text-carmin-suave">{t.necessary.always}</span>
                 </div>
                 <p className="mt-1 text-[13px] leading-relaxed text-gris">{t.necessary.text}</p>
               </li>
-              <li className="rounded-2xl bg-white/70 p-4 ring-1 ring-carmin/10">
+              <li className="rounded-[3px] bg-white/70 p-4 ring-1 ring-carmin/10">
                 <div className="flex items-center justify-between gap-4">
                   <label htmlFor={mapsId} className="text-[15px] font-semibold">
                     {t.maps.title}

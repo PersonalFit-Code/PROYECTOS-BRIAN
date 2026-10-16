@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 function Calles() {
   return (
     <svg aria-hidden className="absolute inset-0 size-full opacity-[0.22]" preserveAspectRatio="none" viewBox="0 0 400 240">
-      <g fill="none" stroke="#8e0e33" strokeWidth="1.2">
+      <g fill="none" stroke="#2b2a2d" strokeWidth="1.2">
         <path d="M-10 70 C80 60 140 95 220 80 S360 40 410 55" />
         <path d="M-10 170 C70 150 160 185 250 160 S350 140 410 150" />
         <path d="M120 -10 C130 60 110 140 140 250" />
@@ -60,7 +60,7 @@ function MapaVivo({ title }: { title: string }) {
         transition={{ y: { type: "spring", damping: 12, stiffness: 180, delay: 0.7 }, opacity: { duration: 0.6, delay: loaded ? 1.6 : 0.7 } }}
       >
         <span className="pulso-anillo absolute inset-1 rounded-full bg-carmin/50" />
-        <span className="relative inline-flex size-10 items-center justify-center rounded-full bg-carmin text-white shadow-[0_8px_20px_-6px_rgba(142,14,51,0.6)]">
+        <span className="relative inline-flex size-10 items-center justify-center rounded-full bg-carmin text-white shadow-[0_8px_20px_-6px_rgba(43,42,45,0.6)]">
           <MapPin className="size-5" />
         </span>
       </motion.span>
@@ -81,7 +81,7 @@ export default function MapEmbed({ title, className }: { title: string; classNam
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-5 text-center">
           <Calles />
-          <span className="relative inline-flex size-12 items-center justify-center rounded-full bg-carmin text-white shadow-[0_0_0_8px_rgba(142,14,51,0.12)]">
+          <span className="relative inline-flex size-12 items-center justify-center rounded-full bg-carmin text-white shadow-[0_0_0_8px_rgba(43,42,45,0.12)]">
             <MapPin aria-hidden className="size-5" />
           </span>
           <button
@@ -99,7 +99,7 @@ export default function MapEmbed({ title, className }: { title: string; classNam
           </p>
         </div>
       )}
-      <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(142,14,51,0.1)]" />
+      <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(43,42,45,0.1)]" />
     </div>
   );
 }

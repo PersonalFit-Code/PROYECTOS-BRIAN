@@ -16,7 +16,7 @@ import "./globals.css";
  * prefijo, así que casi todo 404 real cae en `app/[locale]/not-found.tsx`. Cuando se active el
  * gallego, el idioma se saca del path como hace tixola.
  */
-const BODY_STYLE = "body{margin:0;background:#fdf7f9;color:#2e2127}";
+const BODY_STYLE = "body{margin:0;background:#ffffff;color:#2e2127}";
 
 export default function NotFound() {
   const nf = notFound;

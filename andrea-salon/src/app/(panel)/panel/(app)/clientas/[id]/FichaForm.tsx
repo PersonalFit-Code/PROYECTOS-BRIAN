@@ -62,11 +62,11 @@ export default function FichaForm(p: {
           <textarea name="notas" defaultValue={p.notas} rows={3} maxLength={1000} className={cn(campo, "py-3")} />
         </label>
         <label className="flex items-start gap-3 text-sm sm:col-span-2">
-          <input name="marketing" type="checkbox" defaultChecked={p.marketing} className="mt-0.5 size-5 accent-[#8e0e33]" />
+          <input name="marketing" type="checkbox" defaultChecked={p.marketing} className="mt-0.5 size-5 accent-[#2b2a2d]" />
           Acepta recibir novedades y ofertas
         </label>
         <label className="flex items-start gap-3 text-sm sm:col-span-2">
-          <input name="whatsapp" type="checkbox" defaultChecked={p.whatsapp} className="mt-0.5 size-5 accent-[#8e0e33]" />
+          <input name="whatsapp" type="checkbox" defaultChecked={p.whatsapp} className="mt-0.5 size-5 accent-[#2b2a2d]" />
           Acepta avisos por WhatsApp (para cuando se active)
         </label>
         <div className="sm:col-span-2">

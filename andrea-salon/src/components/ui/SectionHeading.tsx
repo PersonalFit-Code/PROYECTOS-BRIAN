@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 interface SectionHeadingProps {
   kicker?: string;
   title: string;
-  /** Parte del título resaltada en cursiva carmín. */
+  /** Parte del título resaltada en cursiva (minúscula, sin espaciar: el contrapunto editorial). */
   accent?: string;
   description?: string;
   align?: "left" | "center";
@@ -15,8 +15,9 @@ interface SectionHeadingProps {
 }
 
 /**
- * Cabecera de sección homogénea: kicker en versalitas con filete carmín, título display serif con
- * una palabra acentuada en itálica, entradilla. Añade `data-reveal` a cada elemento para que las
+ * Cabecera de sección de la línea editorial: etiqueta pequeña en mayúscula espaciada con filete,
+ * titular en Bodoni MAYÚSCULA con tracking amplio (tipo portada de revista) y la palabra de acento en
+ * itálica minúscula, entradilla en Inter. Añade `data-reveal` a cada elemento para que las
  * secciones lo animen con `useReveal`; con `entrada`, usa la animación de carga (`.hero-in`,
  * escalonada con `--i`) para no depender del JavaScript en lo primero que se ve (LCP).
  */
@@ -29,18 +30,18 @@ export default function SectionHeading({ kicker, title, accent, description, ali
   return (
     <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
       {kicker && (
-        <p data-reveal={k["data-reveal"]} style={k.style} className={cn(k.className, "mb-4 inline-flex items-center gap-3 font-sans text-[11px] font-semibold uppercase tracking-[0.3em] text-carmin-suave")}>
-          <span aria-hidden className="h-px w-8 bg-carmin-suave/60" />
+        <p data-reveal={k["data-reveal"]} style={k.style} className={cn(k.className, "mb-5 inline-flex items-center gap-3 font-sans text-[11px] font-medium uppercase tracking-[0.32em] text-carmin-suave")}>
+          <span aria-hidden className="h-px w-10 bg-nude" />
           {kicker}
-          {align === "center" && <span aria-hidden className="h-px w-8 bg-carmin-suave/60" />}
+          {align === "center" && <span aria-hidden className="h-px w-10 bg-nude" />}
         </p>
       )}
-      <Tag id={id} data-reveal={h["data-reveal"]} style={h.style} className={cn(h.className, "font-display text-4xl leading-[1.05] font-semibold tracking-[-0.01em] text-tinta text-balance md:text-5xl lg:text-6xl")}>
+      <Tag id={id} data-reveal={h["data-reveal"]} style={h.style} className={cn(h.className, "titulo-editorial text-[2rem] text-tinta text-balance sm:text-5xl lg:text-6xl")}>
         {title}
         {accent && (
           <>
             {" "}
-            <em className="font-display italic font-normal text-carmin">{accent}</em>
+            <em className="acento-editorial">{accent}</em>
           </>
         )}
       </Tag>

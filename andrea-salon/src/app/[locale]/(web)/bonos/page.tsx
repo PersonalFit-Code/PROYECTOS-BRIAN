@@ -47,14 +47,14 @@ export default async function BonosPage({ params }: { params: Promise<{ locale: 
         <h2 className="font-display text-2xl font-semibold text-tinta sm:text-3xl">{b.how.title}</h2>
         <ol className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {b.how.steps.map((step, i) => (
-            <li key={step.title} className="glass-alta rounded-3xl p-5">
+            <li key={step.title} className="glass-alta rounded-[3px] p-5">
               <span aria-hidden className="font-display text-3xl font-semibold text-carmin">{String(i + 1).padStart(2, "0")}</span>
               <h3 className="mt-2 font-display text-xl font-semibold text-tinta">{step.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-gris">{step.text}</p>
             </li>
           ))}
         </ol>
-        <div className="glass-rosa mt-10 rounded-3xl p-6">
+        <div className="glass-rosa mt-10 rounded-[3px] p-6">
           <h2 className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{b.conditionsTitle}</h2>
           <p className="mt-2 text-sm text-tinta">{b.conditionsPending}</p>
         </div>

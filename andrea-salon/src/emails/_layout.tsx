@@ -18,13 +18,13 @@ import type { CSSProperties, ReactNode } from "react";
  * correo respetan de verdad. Las plantillas solo ponen el contenido.
  */
 export const COLORES = {
-  carmin: "#8E0E33",
-  carminSuave: "#B8365A",
-  rosa: "#F3D3DE",
-  rosaNiebla: "#FAEAF0",
-  crema: "#FDF7F9",
-  tinta: "#2E2127",
-  gris: "#73646A",
+  carmin: "#2B2A2D",
+  carminSuave: "#7D5F52",
+  rosa: "#F3E1DA",
+  rosaNiebla: "#FAF5F2",
+  crema: "#FFFFFF",
+  tinta: "#2B2A2D",
+  gris: "#5C5A5F",
   blanco: "#FFFFFF",
 } as const;
 
@@ -33,7 +33,7 @@ export const FUENTE = "Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif";
 export const estilos = {
   texto: { fontFamily: FUENTE, fontSize: "15px", lineHeight: "1.55", color: COLORES.tinta, margin: "0 0 12px" } as CSSProperties,
   suave: { fontFamily: FUENTE, fontSize: "13px", lineHeight: "1.5", color: COLORES.gris, margin: "0 0 8px" } as CSSProperties,
-  titulo: { fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "24px", lineHeight: "1.2", color: COLORES.tinta, margin: "0 0 16px", fontWeight: 700 } as CSSProperties,
+  titulo: { fontFamily: "Didot, 'Bodoni 72', 'Bodoni MT', Georgia, serif", fontSize: "24px", lineHeight: "1.2", color: COLORES.tinta, margin: "0 0 16px", fontWeight: 700 } as CSSProperties,
   botonPrimario: {
     fontFamily: FUENTE, fontSize: "15px", fontWeight: 600, color: COLORES.blanco, backgroundColor: COLORES.carmin,
     borderRadius: "999px", padding: "12px 22px", textDecoration: "none", display: "inline-block",
@@ -62,7 +62,7 @@ export function CorreoBase({ preview, pie, children }: { preview: string; pie: P
       <Body style={{ margin: 0, backgroundColor: COLORES.crema, fontFamily: FUENTE }}>
         <Container style={{ maxWidth: "560px", margin: "0 auto", padding: "24px 16px" }}>
           <Section style={{ backgroundColor: COLORES.carmin, borderRadius: "16px 16px 0 0", padding: "22px 24px" }}>
-            <Heading as="h1" style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "22px", color: COLORES.blanco, margin: 0 }}>
+            <Heading as="h1" style={{ fontFamily: "Didot, 'Bodoni 72', 'Bodoni MT', Georgia, serif", fontSize: "20px", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 400, color: COLORES.blanco, margin: 0 }}>
               {pie.nombre}
             </Heading>
             <Text style={{ fontFamily: FUENTE, fontSize: "12px", color: COLORES.rosa, margin: "4px 0 0", letterSpacing: "1px" }}>

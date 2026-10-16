@@ -13,6 +13,6 @@ const galeria = {
   count: "{count} fotos",
   /* Hasta que lleguen las fotos reales de Andrea. */
   pendingNote: "Fotos provisionales: las reales llegan cuando el salón las entregue.",
-  placeholder: "Foto pendiente",
+  placeholder: "Trabajos de Andrea Salón",
 } as const;
 export default galeria;

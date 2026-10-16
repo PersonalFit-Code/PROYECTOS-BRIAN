@@ -53,7 +53,7 @@ export default function Calendario({
   for (let d = 1; d <= diasMes; d++) celdas.push(`${clave}-${String(d).padStart(2, "0")}`);
 
   return (
-    <div className="rounded-3xl border border-[var(--capa-borde)] bg-[var(--capa-2)] p-4 sm:p-5">
+    <div className="rounded-[3px] border border-[var(--capa-borde)] bg-[var(--capa-2)] p-4 sm:p-5">
       <div className="mb-3 flex items-center justify-between">
         <button
           type="button"
@@ -103,7 +103,7 @@ export default function Calendario({
               aria-pressed={activa}
               aria-label={t(m.fechaFormato, { dia: diaSemana, n: dia, mes: m.meses[mes - 1] ?? "" })}
               className={cn(
-                "aspect-square min-h-11 rounded-2xl text-[15px] font-semibold transition-colors",
+                "aspect-square min-h-11 rounded-[3px] text-[15px] font-semibold transition-colors",
                 activa && "bg-carmin text-[var(--on-accent)] shadow-[var(--shadow-soft)]",
                 !activa && libre && "bg-white text-tinta ring-1 ring-carmin/15 hover:bg-rosa-niebla hover:ring-carmin/40",
                 !libre && enRango && "text-gris/50 line-through decoration-gris/30",

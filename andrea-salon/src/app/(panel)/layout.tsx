@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
-export const viewport: Viewport = { themeColor: "#fdf7f9", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#ffffff", width: "device-width", initialScale: 1 };
 
 export default function PanelRootLayout({ children }: { children: ReactNode }) {
   return (

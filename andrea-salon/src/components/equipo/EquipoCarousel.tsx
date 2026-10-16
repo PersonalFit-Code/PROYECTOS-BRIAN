@@ -60,21 +60,21 @@ export default function EquipoCarousel({ equipo }: { equipo: readonly Profesiona
     <div ref={ref} className="relative">
       <ul ref={railRef} aria-label={e.carouselAria} className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 sm:mx-0 sm:px-0 lg:grid lg:snap-none lg:grid-cols-2 lg:overflow-visible xl:grid-cols-3">
         {equipo.map((p, i) => (
-          <li key={p.id} data-reveal className="glass-alta flex w-[85vw] max-w-[380px] shrink-0 snap-center flex-col overflow-hidden rounded-[2rem] lg:w-auto lg:max-w-none" aria-label={t(e.slideOf, { index: i + 1, total: equipo.length })}>
-            <div className="relative aspect-[4/5] bg-rosa-niebla">
-              <Image src={p.foto.src} alt={p.foto.alt} fill unoptimized={p.foto.src.endsWith(".svg")} sizes="(min-width: 1280px) 400px, (min-width: 1024px) 50vw, 85vw" className="object-cover" />
+          <li key={p.id} data-reveal className="flex w-[82vw] max-w-[380px] shrink-0 snap-center flex-col lg:w-auto lg:max-w-none" aria-label={t(e.slideOf, { index: i + 1, total: equipo.length })}>
+            <div className="relative aspect-[4/5] bg-nude-claro">
+              <Image src={p.foto.src} alt={p.foto.alt} fill unoptimized={p.foto.src.endsWith(".svg")} sizes="(min-width: 1280px) 400px, (min-width: 1024px) 50vw, 85vw" className="object-cover grayscale-[15%]" />
               {p.pendiente ? (
-                <span className="absolute top-4 left-4 rounded-full bg-white/85 px-3 py-1 text-[11px] font-semibold text-carmin ring-1 ring-carmin/15">{m.common.misc.photoPending}</span>
+                <span className="etiqueta absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap text-carmin-suave">{m.common.misc.photoPending}</span>
               ) : null}
             </div>
-            <div className="flex flex-1 flex-col p-5 sm:p-6">
-              <p className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{p.rol}</p>
-              <h3 className="mt-1 font-display text-2xl font-semibold text-tinta">{p.nombre}</h3>
+            <div className="flex flex-1 flex-col pt-6">
+              <p className="etiqueta text-carmin-suave">{p.rol}</p>
+              <h3 className="titulo-editorial mt-3 text-3xl text-tinta">{p.nombre}</h3>
               <p className="mt-3 text-sm leading-relaxed text-gris text-pretty">{p.bio}</p>
               <p className="sr-only">{e.specialties}</p>
               <ul className="mt-4 flex flex-wrap gap-2">
                 {p.especialidades.map((x) => (
-                  <li key={x} className="rounded-full bg-rosa px-3 py-1 text-[12px] font-medium text-tinta">
+                  <li key={x} className="border border-nude px-3 py-1 text-[12px] text-tinta">
                     {x}
                   </li>
                 ))}
@@ -102,10 +102,10 @@ export default function EquipoCarousel({ equipo }: { equipo: readonly Profesiona
           {t(e.slideOf, { index: index + 1, total: equipo.length })}
         </p>
         <div className="flex gap-2">
-          <button type="button" onClick={() => go(-1)} disabled={index === 0} aria-label={e.prev} className={cn("pulsable inline-flex size-11 items-center justify-center rounded-full border border-carmin/20 bg-white/70 text-carmin disabled:opacity-40")}>
+          <button type="button" onClick={() => go(-1)} disabled={index === 0} aria-label={e.prev} className={cn("pulsable inline-flex size-11 items-center justify-center rounded-[2px] border border-carmin/20 bg-white/70 text-carmin disabled:opacity-40")}>
             <ChevronLeft aria-hidden className="size-5" />
           </button>
-          <button type="button" onClick={() => go(1)} disabled={index >= equipo.length - 1} aria-label={e.next} className={cn("pulsable inline-flex size-11 items-center justify-center rounded-full border border-carmin/20 bg-white/70 text-carmin disabled:opacity-40")}>
+          <button type="button" onClick={() => go(1)} disabled={index >= equipo.length - 1} aria-label={e.next} className={cn("pulsable inline-flex size-11 items-center justify-center rounded-[2px] border border-carmin/20 bg-white/70 text-carmin disabled:opacity-40")}>
             <ChevronRight aria-hidden className="size-5" />
           </button>
         </div>

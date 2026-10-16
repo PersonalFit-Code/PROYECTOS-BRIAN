@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { CalendarCheck } from "lucide-react";
 import Boton from "@/components/ui/Boton";
 import { WhatsAppGlyph } from "@/components/ui/FloatingWhatsApp";
 import { useMessages } from "@/i18n/LocaleProvider";
@@ -17,32 +16,26 @@ export default function Cta() {
   const c = m.home.cta;
 
   return (
-    <section ref={ref} aria-labelledby="cta-title" className="scroll-mt-24">
-      <div className="container-page pb-20 sm:pb-28">
-        <div className="relative isolate overflow-hidden rounded-[2rem] bg-carmin px-6 py-14 text-center text-white sm:px-10 sm:py-20">
-          <div aria-hidden data-depth="0.2" className="halo absolute -top-32 left-1/2 -z-10 h-96 w-96 -translate-x-1/2 rounded-full [--halo-rgb:255_255_255] [--halo-a:0.14]" />
-          <h2 id="cta-title" data-reveal="letterbox" className="font-display text-4xl font-semibold leading-[1.05] text-balance sm:text-5xl lg:text-6xl">
-            {c.title} <em className="font-display italic font-normal text-rosa">{c.accent}</em>
-          </h2>
-          <p data-reveal className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/85 text-pretty sm:text-lg">
-            {c.text}
-          </p>
-          <div data-reveal className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            {/* Sobre carmín, el botón principal se invierte: blanco con texto carmín. */}
-            <Boton href={urlFor("reservar", "/")} size="lg" icon={<CalendarCheck aria-hidden />} className="bg-white! text-carmin! border-white! hover:bg-rosa-niebla! focus-visible:ring-white! focus-visible:ring-offset-carmin!">
-              {c.primary}
-            </Boton>
-            <Boton
-              href={BUSINESS.whatsapp.url}
-              target="_blank"
-              variant="secundario"
-              size="lg"
-              icon={<WhatsAppGlyph size="size-5" />}
-              className="bg-transparent! text-white! border-white/50! hover:bg-white/10! hover:border-white! focus-visible:ring-white! focus-visible:ring-offset-carmin!"
-            >
-              {c.secondary}
-            </Boton>
-          </div>
+    <section ref={ref} aria-labelledby="cta-title" className="scroll-mt-24 bg-blush">
+      <div className="container-page py-20 text-center sm:py-28">
+        <p data-reveal="fade" className="etiqueta inline-flex items-center gap-3 text-carmin-suave">
+          <span aria-hidden className="h-px w-10 bg-carmin-suave/40" />
+          {m.common.brand}
+          <span aria-hidden className="h-px w-10 bg-carmin-suave/40" />
+        </p>
+        <h2 id="cta-title" data-reveal="letterbox" className="titulo-editorial mx-auto mt-6 max-w-3xl text-4xl text-tinta text-balance sm:text-6xl">
+          {c.title} <em className="acento-editorial">{c.accent}</em>
+        </h2>
+        <p data-reveal className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-gris text-pretty sm:text-lg">
+          {c.text}
+        </p>
+        <div data-reveal className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+          <Boton href={urlFor("reservar", "/")} size="lg">
+            {c.primary}
+          </Boton>
+          <Boton href={BUSINESS.whatsapp.url} target="_blank" variant="secundario" size="lg" icon={<WhatsAppGlyph size="size-4" />}>
+            {c.secondary}
+          </Boton>
         </div>
       </div>
     </section>

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CalendarCheck, MapPin, Phone } from "lucide-react";
@@ -18,9 +17,9 @@ import { cn } from "@/lib/utils";
 import { NAV_ITEMS, isActive } from "./navItems";
 
 /**
- * Cabecera mínima y centrada (patrón de Dos Puertas): la marca, el estado en vivo, «Reservar cita»
- * y el botón del menú lateral con todas las secciones. Flota como una cápsula de cristal en cuanto
- * se baja un poco; arriba del todo es transparente para no competir con la portada.
+ * Cabecera editorial: menú a la izquierda, logotipo «ANDREA SALÓN» en Bodoni espaciado en el centro
+ * (como la cabecera de una revista) y «Cita previa» en grafito a la derecha. Blanca; al bajar, con un
+ * filete nude debajo.
  */
 export default function Header() {
   const m = useMessages();
@@ -37,7 +36,7 @@ export default function Header() {
   }));
 
   const menuFooter = (
-    <div className="space-y-4 border-t border-carmin/12 pt-6 text-sm">
+    <div className="space-y-4 border-t border-nude pt-6 text-sm">
       <StatusPill badge />
       <a href={BUSINESS.maps} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 text-gris hover:text-tinta">
         <MapPin aria-hidden className="mt-0.5 size-4 shrink-0 text-carmin-suave" />
@@ -71,42 +70,49 @@ export default function Header() {
   );
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 px-2.5 pt-[max(10px,env(safe-area-inset-top))] sm:px-5 sm:pt-4">
-      <div
-        className={cn(
-          "pointer-events-auto mx-auto flex h-[60px] w-fit max-w-full items-center gap-2 rounded-full px-2 transition-[background-color,border-color,box-shadow] duration-500",
-          /* Cristal fuerte (lleva texto) y ancho (desenfoque real solo en gama alta). */
-          scrolled ? "liquid-glass liquid-glass-strong cristal-ancho" : "border border-transparent",
-        )}
-      >
-        <Link href={lp("/")} aria-label={m.nav.homeAria} className="pulsable flex items-center gap-2.5 rounded-full py-1 pr-3 pl-1.5 focus-visible:outline-offset-[-2px]">
-          {/* El logo que mandó Brian (317×318, PNG): a 40 px pesa lo que un icono. `priority`: está
-              en el primer pantallazo de todas las páginas. */}
-          <Image src="/brand/logo.png" alt="" width={40} height={40} priority className="size-10 rounded-full" />
-          <span className="font-display text-lg font-semibold leading-none tracking-[-0.01em] text-tinta">{m.common.brand}</span>
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-40 pt-[env(safe-area-inset-top)] transition-[background-color,border-color] duration-500",
+        /* Arriba del todo, sin fondo (la portada ya es blanca); al bajar, blanco con un filete. */
+        scrolled ? "border-b border-nude bg-white/95 backdrop-blur-sm" : "border-b border-transparent bg-white",
+      )}
+    >
+      <div className="container-page grid h-[var(--header-h)] grid-cols-[1fr_auto_1fr] items-center gap-3">
+        <div className="flex items-center gap-4">
+          <CurvedMenu
+            items={items}
+            label={m.nav.menu.label}
+            openLabel={m.nav.menu.open}
+            closeLabel={m.nav.menu.close}
+            heading={m.nav.menu.heading}
+            top={<LanguageSwitcher id="menu" className="w-fit" />}
+            footer={menuFooter}
+            triggerClassName="shrink-0"
+          />
+          <span className="hidden lg:block">
+            <StatusPill compact />
+          </span>
+        </div>
+
+        {/* Logotipo tipográfico, como la cabecera de una revista. El logo acuarela queda para el
+            icono de la pestaña y el pie. */}
+        {/* Sin `aria-label`: el nombre accesible tiene que contener lo que se ve (WCAG 2.5.3). */}
+        <Link href={lp("/")} className="flex flex-col items-center px-2 py-1 text-center">
+          <span className="titulo-editorial text-[1.15rem] leading-none tracking-[0.24em] text-tinta sm:text-2xl sm:tracking-[0.3em]">{m.common.brand}</span>
+          <span className="etiqueta mt-1.5 hidden text-[9px] tracking-[0.42em] text-carmin-suave sm:block">{m.common.tagline}</span>
+          <span className="sr-only"> · {m.nav.items.home}</span>
         </Link>
 
-        <span className="hidden px-3 md:block">
-          <StatusPill compact />
-        </span>
-        {/* Un <a> y no `next/link`: `urlFor("reservar")` puede ser otro subdominio. */}
-        <a
-          href={urlFor("reservar", "/")}
-          className="pulsable inline-flex size-11 shrink-0 items-center justify-center gap-2 rounded-full bg-carmin text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.22)] hover:bg-carmin-oscuro sm:w-auto sm:px-5"
-        >
-          <CalendarCheck aria-hidden className="size-[18px]" />
-          <span className="sr-only sm:not-sr-only">{m.common.cta.book}</span>
-        </a>
-        <CurvedMenu
-          items={items}
-          label={m.nav.menu.label}
-          openLabel={m.nav.menu.open}
-          closeLabel={m.nav.menu.close}
-          heading={m.nav.menu.heading}
-          top={<LanguageSwitcher id="menu" className="w-fit" />}
-          footer={menuFooter}
-          triggerClassName="shrink-0"
-        />
+        <div className="flex justify-end">
+          {/* Un <a> y no `next/link`: `urlFor("reservar")` puede ser otro subdominio. */}
+          <a
+            href={urlFor("reservar", "/")}
+            className="inline-flex size-11 items-center justify-center gap-2.5 rounded-[2px] bg-grafito text-white transition-colors hover:bg-carmin-oscuro sm:h-11 sm:w-auto sm:px-6"
+          >
+            <CalendarCheck aria-hidden className="size-[17px] sm:hidden" />
+            <span className="sr-only sm:not-sr-only sm:text-[11px] sm:font-medium sm:tracking-[0.2em] sm:uppercase">{m.common.cta.book}</span>
+          </a>
+        </div>
       </div>
     </header>
   );

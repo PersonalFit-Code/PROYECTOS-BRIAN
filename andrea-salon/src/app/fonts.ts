@@ -1,4 +1,4 @@
-import { Inter, Source_Serif_4 } from "next/font/google";
+import { Bodoni_Moda, Inter } from "next/font/google";
 
 /**
  * Fuentes de la web, en un módulo aparte porque las cargan DOS raíces distintas:
@@ -10,18 +10,17 @@ import { Inter, Source_Serif_4 } from "next/font/google";
  * política de cookies, así que tiene que seguir siendo verdad).
  */
 
-/* Source Serif 4: titulares. Es lo más cercano a la Charter de la propuesta en PDF que Andrea ya ha
-   visto. Tres pesos y la itálica, que es la que acentúa una palabra del titular. */
-const sourceSerif = Source_Serif_4({
+/* Bodoni Moda: los titulares de la línea editorial (tipo revista de moda). Es variable: un solo
+   fichero da todos los pesos y el tamaño óptico; con la itálica, que acentúa una palabra. */
+const bodoni = Bodoni_Moda({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
   style: ["normal", "italic"],
-  variable: "--font-source-serif",
+  variable: "--font-bodoni",
   display: "swap",
 });
 
 /* Inter: texto corrido, botones y formularios de la reserva. */
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
-/** Clases de variables CSS para el `<html>`: `${sourceSerif.variable} ${inter.variable}`. */
-export const fontVariables = `${sourceSerif.variable} ${inter.variable}`;
+/** Clases de variables CSS para el `<html>`. */
+export const fontVariables = `${bodoni.variable} ${inter.variable}`;

@@ -238,7 +238,7 @@ export default function NuevaCitaForm({
           </label>
         </div>
         <label className="mt-4 flex items-start gap-3 text-sm">
-          <input name="avisar" type="checkbox" defaultChecked className="mt-0.5 size-5 accent-[#8e0e33]" />
+          <input name="avisar" type="checkbox" defaultChecked className="mt-0.5 size-5 accent-[#2b2a2d]" />
           Enviarle la confirmación por correo (si tiene)
         </label>
       </section>

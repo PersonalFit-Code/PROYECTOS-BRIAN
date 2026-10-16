@@ -14,11 +14,11 @@ const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
    Radio concéntrico: el dock es una cápsula de 56 px (radio 28) con 6 px de relleno, así que cada
    pestaña lleva 28 − 6 = 22 px y sus curvas corren paralelas a las del dock. */
 const itemBase =
-  "pulsable relative flex h-full items-center justify-center gap-2 rounded-[22px] px-3 text-center font-sans text-[13px] font-bold uppercase leading-tight tracking-[0.08em] [&>svg]:h-5 [&>svg]:w-5";
+  "pulsable relative flex h-full items-center justify-center gap-2 rounded-[2px] px-3 text-center font-sans text-[11px] font-medium uppercase leading-tight tracking-[0.2em] [&>svg]:h-4 [&>svg]:w-4";
 const itemGhost = "text-tinta hover:bg-carmin/5";
 /* Dentro del dock: sin desenfoque propio (nunca cristal sobre cristal), solo el tinte de acento. */
 const itemPrimary =
-  "bg-carmin text-[var(--on-accent)] border border-carmin shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_8px_18px_-10px_rgba(142,14,51,0.6)] hover:bg-carmin-oscuro";
+  "bg-grafito text-white border border-grafito hover:bg-carmin-oscuro";
 
 /**
  * Barra de acciones fija en la parte inferior (solo móvil, < md): Reservar (carmín) · Llamar.
@@ -47,8 +47,9 @@ export default function MobileStickyBar() {
         {/* EL DOCK DE CRISTAL: una cápsula que flota a 8 px de los cantos. La huella total es
             `--mobile-bar-h`: la cápsula mide 8 px menos y el margen inferior los pone. Casi todo el
             ancho de la pantalla: `cristal-ancho`, con el desenfoque real solo en gama alta. */}
-        <div className="liquid-glass liquid-glass-strong cristal-ancho mx-2 mb-[calc(0.5rem+env(safe-area-inset-bottom))] rounded-[28px]">
-          <ul className="grid h-[calc(var(--mobile-bar-h)-0.5rem)] grid-cols-2 gap-1 p-1.5">
+        {/* Línea editorial: una franja blanca a todo el ancho con un filete encima, sin cápsula. */}
+        <div className="border-t border-nude bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-sm">
+          <ul className="grid h-[var(--mobile-bar-h)] grid-cols-2 gap-2 p-2">
             <li className="h-full">
               <a href={urlFor("reservar", "/")} className={cn(itemBase, itemPrimary, "w-full")}>
                 <CalendarCheck aria-hidden />

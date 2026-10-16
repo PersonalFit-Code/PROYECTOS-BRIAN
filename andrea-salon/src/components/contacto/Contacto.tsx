@@ -31,8 +31,7 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
   const icono = "mt-0.5 size-4 shrink-0 text-carmin-suave";
 
   return (
-    <section ref={ref} id="contacto" aria-labelledby="contacto-title" className="scroll-mt-24">
-      {compact ? <div aria-hidden className="filete container-page" /> : null}
+    <section ref={ref} id="contacto" aria-labelledby="contacto-title" className={cn("scroll-mt-24", compact && "bg-nude-claro")}>
       <div className={cn("container-page", compact ? "py-20 sm:py-28" : "pt-8 pb-20 sm:pb-28")}>
         <SectionHeading as={titleAs} id="contacto-title" entrada={!compact} kicker={h.kicker} title={h.title} accent={h.accent} description={h.description} />
 
@@ -40,10 +39,10 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
           <div className="space-y-8">
             {/* Una tarjeta, dos listas: un <dl> solo admite grupos <div> con <dt>/<dd> como hijos
                 directos, así que la rejilla ES la lista (y aparcar va en otra, bajo la raya). */}
-            <div data-reveal className="glass rounded-3xl p-6 sm:p-8">
+            <div data-reveal className="border-t border-nude pt-8">
               <dl className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <dt className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{c.address}</dt>
+                  <dt className="etiqueta text-carmin-suave">{c.address}</dt>
                   <dd className="mt-2">
                     <a href={BUSINESS.maps} target="_blank" rel="noopener noreferrer" className={cn(fila, "hover:text-tinta")}>
                       <MapPin aria-hidden className={icono} />
@@ -58,7 +57,7 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{c.phone}</dt>
+                  <dt className="etiqueta text-carmin-suave">{c.phone}</dt>
                   <dd className="mt-2">
                     <a href={BUSINESS.phone.tel} className={cn(fila, "hover:text-tinta")} aria-label={t(m.common.cta.callNumber, { phone: BUSINESS.phone.display })}>
                       <Phone aria-hidden className={icono} />
@@ -67,7 +66,7 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{c.whatsapp}</dt>
+                  <dt className="etiqueta text-carmin-suave">{c.whatsapp}</dt>
                   <dd className="mt-2">
                     <a href={BUSINESS.whatsapp.url} target="_blank" rel="noopener noreferrer" className={cn(fila, "hover:text-tinta")}>
                       <WhatsAppGlyph size="size-4" className="mt-0.5 shrink-0 text-carmin-suave" />
@@ -77,7 +76,7 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{c.social}</dt>
+                  <dt className="etiqueta text-carmin-suave">{c.social}</dt>
                   <dd className="mt-2">
                     <a href={BUSINESS.social.instagram} target="_blank" rel="noopener noreferrer" className={cn(fila, "hover:text-tinta")}>
                       <InstagramGlyph className={icono} />
@@ -88,8 +87,8 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
                 </div>
               </dl>
               {!compact ? (
-                <dl className="mt-6 border-t border-carmin/10 pt-5">
-                  <dt className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{c.parking}</dt>
+                <dl className="mt-6 border-t border-nude pt-5">
+                  <dt className="etiqueta text-carmin-suave">{c.parking}</dt>
                   <dd className={cn(fila, "mt-2")}>
                     <Car aria-hidden className={icono} />
                     {c.parkingText}
@@ -99,7 +98,7 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
             </div>
 
             <div data-reveal>
-              <h3 className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{c.hours}</h3>
+              <h3 className="etiqueta text-carmin-suave">{c.hours}</h3>
               <StatusPill className="mt-3" />
               <HoursList className="mt-3 -mx-3" />
               {!compact ? <p className="mt-4 text-sm text-gris">{c.bookNote}</p> : null}
@@ -107,7 +106,7 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
           </div>
 
           <div data-reveal className="flex flex-col gap-4">
-            <MapEmbed title={c.mapTitle} className="h-72 rounded-3xl sm:h-96 lg:h-full lg:min-h-[420px]" />
+            <MapEmbed title={c.mapTitle} className="h-72 sm:h-96 lg:h-full lg:min-h-[420px]" />
             <div className="flex flex-wrap gap-3">
               <Boton href={BUSINESS.directions} target="_blank" icon={<Navigation aria-hidden />} aria-label={m.common.cta.directionsAria}>
                 {c.howToArrive}

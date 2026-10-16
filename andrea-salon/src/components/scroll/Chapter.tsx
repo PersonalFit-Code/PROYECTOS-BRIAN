@@ -210,7 +210,7 @@ export default function Chapter({ id, title, overlapsHero = false, cinematic = t
       data-chapter-title={title}
       className={cn(
         "relative",
-        overlapsHero && "z-10 overflow-hidden rounded-t-[1.25rem] bg-crema shadow-[0_-16px_32px_-12px_rgba(142,14,51,0.18)] md:rounded-t-[2rem]",
+        overlapsHero && "z-10 overflow-hidden rounded-t-[1.25rem] bg-crema shadow-[0_-16px_32px_-12px_rgba(43,42,45,0.18)] md:rounded-t-[2rem]",
         className,
       )}
     >

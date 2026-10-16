@@ -15,7 +15,7 @@ import type { ProductoBono } from "@/lib/vouchers/catalogo";
  * la casilla de condiciones, ANTES de pagar: es lo que exige Consumo y lo que evita discusiones.
  */
 const campo =
-  "mt-1.5 block w-full min-h-12 rounded-2xl border border-carmin/20 bg-white px-4 text-[16px] text-tinta focus:border-carmin focus:outline-none focus:ring-2 focus:ring-carmin/20";
+  "mt-1.5 block w-full min-h-12 rounded-[3px] border border-carmin/20 bg-white px-4 text-[16px] text-tinta focus:border-carmin focus:outline-none focus:ring-2 focus:ring-carmin/20";
 
 export default function TiendaBonos({ productos }: { productos: ProductoBono[] }) {
   const m = useMessages().bonos.tienda;
@@ -81,22 +81,22 @@ export default function TiendaBonos({ productos }: { productos: ProductoBono[] }
                 onClick={() => setElegido(p.id)}
                 aria-pressed={activo}
                 className={cn(
-                  "flex h-full w-full flex-col rounded-3xl border bg-white p-6 text-left transition-[border-color,box-shadow]",
-                  activo ? "border-carmin shadow-[var(--shadow-card)]" : "border-[var(--capa-borde)] hover:border-carmin/40",
+                  "flex h-full w-full flex-col border bg-white p-7 text-left transition-[border-color,background-color]",
+                  activo ? "border-grafito bg-nude-claro" : "border-nude hover:border-grafito/50",
                 )}
               >
                 <span className="flex items-center justify-between gap-3">
-                  <span className="font-display text-xl font-semibold text-tinta">{p.nombre}</span>
+                  <span className="titulo-editorial text-xl text-tinta">{p.nombre}</span>
                   {p.tipo === "gift" && <Gift aria-hidden className="size-5 shrink-0 text-carmin-suave" />}
                 </span>
                 <span className="mt-1 text-sm text-gris">{contenido(p)}</span>
                 {p.descripcion && <span className="mt-3 text-sm text-tinta">{p.descripcion}</span>}
                 <span className="mt-auto pt-5">
-                  <span className="block font-display text-3xl font-semibold text-carmin">{formatCents(p.precioCents)}</span>
+                  <span className="block font-display text-4xl text-tinta">{formatCents(p.precioCents)}</span>
                   {/* La caducidad, grande y antes de pagar. */}
-                  <span className="mt-2 inline-flex rounded-full bg-rosa-niebla px-3 py-1 text-sm font-semibold text-tinta">{caducidad(p)}</span>
+                  <span className="etiqueta mt-3 inline-flex border-t border-nude pt-3 text-carmin-suave">{caducidad(p)}</span>
                 </span>
-                <span className={cn("mt-4 inline-flex items-center gap-2 text-sm font-semibold", activo ? "text-carmin" : "text-gris")}>
+                <span className={cn("etiqueta mt-5 inline-flex items-center gap-2", activo ? "text-tinta" : "text-gris")}>
                   {activo && <Check aria-hidden className="size-4" />}
                   {activo ? m.elegido : m.elegir}
                 </span>
@@ -107,8 +107,8 @@ export default function TiendaBonos({ productos }: { productos: ProductoBono[] }
       </ul>
 
       {producto && (
-        <form onSubmit={pagar} className="mx-auto max-w-xl space-y-4 rounded-3xl border border-[var(--capa-borde)] bg-white p-6 shadow-[var(--shadow-soft)]">
-          <h2 className="font-display text-2xl font-semibold text-tinta">{m.formTitle}</h2>
+        <form onSubmit={pagar} className="mx-auto max-w-xl space-y-4 border border-nude bg-white p-6 sm:p-8">
+          <h2 className="titulo-editorial text-2xl text-tinta">{m.formTitle}</h2>
           <label className="block text-sm font-semibold text-tinta">
             {m.nombre}
             <input name="nombre" required minLength={2} maxLength={80} autoComplete="name" className={campo} />
@@ -119,7 +119,7 @@ export default function TiendaBonos({ productos }: { productos: ProductoBono[] }
             <span className="mt-1 block text-xs font-normal text-gris">{m.emailHint}</span>
           </label>
           <label className="flex items-center gap-3 text-sm text-tinta">
-            <input type="checkbox" checked={regalo} onChange={(e) => setRegalo(e.target.checked)} className="size-5 accent-[#8e0e33]" />
+            <input type="checkbox" checked={regalo} onChange={(e) => setRegalo(e.target.checked)} className="size-5 accent-[#2b2a2d]" />
             {m.regalo}
           </label>
           {regalo && (
@@ -135,11 +135,11 @@ export default function TiendaBonos({ productos }: { productos: ProductoBono[] }
             </>
           )}
           <label className="flex items-start gap-3 text-sm text-tinta">
-            <input name="condiciones" type="checkbox" required className="mt-0.5 size-5 accent-[#8e0e33]" />
+            <input name="condiciones" type="checkbox" required className="mt-0.5 size-5 accent-[#2b2a2d]" />
             <span>{t(m.condiciones, { caducidad: caducidad(producto).toLowerCase() })}</span>
           </label>
           <label className="flex items-start gap-3 text-sm text-tinta">
-            <input name="privacidad" type="checkbox" required className="mt-0.5 size-5 accent-[#8e0e33]" />
+            <input name="privacidad" type="checkbox" required className="mt-0.5 size-5 accent-[#2b2a2d]" />
             <span>
               {m.privacidad}{" "}
               <Link href={lp(`/legal/${legal.privacy.slug}`)} target="_blank" className="font-semibold text-carmin underline underline-offset-2">
@@ -148,7 +148,7 @@ export default function TiendaBonos({ productos }: { productos: ProductoBono[] }
             </span>
           </label>
           {error && (
-            <p role="alert" className="rounded-2xl bg-rosa-niebla px-4 py-3 text-sm text-carmin">
+            <p role="alert" className="rounded-[3px] bg-rosa-niebla px-4 py-3 text-sm text-carmin">
               {error}
             </p>
           )}

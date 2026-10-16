@@ -58,7 +58,7 @@ export default async function ExportarPage() {
         <h2 className="font-display text-xl font-semibold">Clientas</h2>
         <p className="mt-1 text-sm text-gris">Todas las fichas activas con contacto, visitas, gasto y consentimiento de publicidad.</p>
         <label className="mt-4 flex items-start gap-3 text-sm">
-          <input type="checkbox" name="notas" value="1" className="mt-0.5 size-5 accent-[#8e0e33]" />
+          <input type="checkbox" name="notas" value="1" className="mt-0.5 size-5 accent-[#2b2a2d]" />
           <span>
             Incluir las notas (alergias, salud). <strong>Solo si de verdad hace falta:</strong> es el dato más delicado que guardáis, y un
             fichero se reenvía con facilidad.

@@ -144,7 +144,7 @@ function Tabla({ caption, head, rows, ctx, fmt }: { caption: string; head: reado
       </thead>
       <tbody>
         {rows.map((row, r) => (
-          <tr key={r} className="max-md:mb-3 max-md:block max-md:rounded-2xl max-md:border max-md:border-carmin/10 max-md:bg-white/60 max-md:p-4">
+          <tr key={r} className="max-md:mb-3 max-md:block max-md:rounded-[3px] max-md:border max-md:border-carmin/10 max-md:bg-white/60 max-md:p-4">
             {row.map((cell, c) =>
               c === 0 ? (
                 <th key={c} scope="row" data-label={fmt(head[c])} className={cn(cellClass, "text-left font-semibold text-tinta")}>
@@ -186,7 +186,7 @@ function Block({ block, ctx, fmt }: { block: LegalBlock; ctx: InlineContext; fmt
 
     case "dl":
       return (
-        <dl className="grid gap-x-6 gap-y-3 rounded-2xl border border-carmin/10 bg-white/60 p-5 sm:grid-cols-[minmax(0,13rem)_1fr] sm:gap-y-4">
+        <dl className="grid gap-x-6 gap-y-3 rounded-[3px] border border-carmin/10 bg-white/60 p-5 sm:grid-cols-[minmax(0,13rem)_1fr] sm:gap-y-4">
           {block.items
             .filter((item) => fmt(item.desc).trim() !== "")
             .map((item, i) => (
@@ -216,7 +216,7 @@ function Block({ block, ctx, fmt }: { block: LegalBlock; ctx: InlineContext; fmt
 
     case "note":
       return (
-        <aside className="glass-rosa flex items-start gap-3 rounded-2xl px-5 py-4">
+        <aside className="glass-rosa flex items-start gap-3 rounded-[3px] px-5 py-4">
           <Info className="mt-0.5 h-5 w-5 shrink-0 text-carmin-suave" aria-hidden />
           <p className={cn(bodyText, "text-tinta")}>{inline(block.text)}</p>
         </aside>
@@ -351,7 +351,7 @@ export default function LegalArticle({ docKey }: { docKey: LegalDocKey }) {
       <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14 xl:grid-cols-[17rem_minmax(0,1fr)]">
         {/* Índice: plegable en móvil/tablet, pegajoso en escritorio */}
         <aside className="lg:self-start lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
-          <details className="glass rounded-2xl px-4 py-1 lg:hidden">
+          <details className="glass rounded-[3px] px-4 py-1 lg:hidden">
             <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.25em] text-tinta [&::-webkit-details-marker]:hidden">
               <ListOrdered className="h-4 w-4 text-carmin-suave" aria-hidden />
               {m.legal.page.tocTitle}
@@ -372,7 +372,7 @@ export default function LegalArticle({ docKey }: { docKey: LegalDocKey }) {
         {/* Cuerpo */}
         <div className="mt-10 max-w-3xl font-sans lg:mt-0">
           {HAS_PENDING_PLACEHOLDERS && (
-            <aside className="glass-rosa mb-8 flex items-start gap-3 rounded-2xl px-5 py-4 text-sm text-tinta">
+            <aside className="glass-rosa mb-8 flex items-start gap-3 rounded-[3px] px-5 py-4 text-sm text-tinta">
               <Info className="mt-0.5 h-4 w-4 shrink-0 text-carmin-suave" aria-hidden />
               <p>{m.legal.page.placeholderNote}</p>
             </aside>
@@ -394,7 +394,7 @@ export default function LegalArticle({ docKey }: { docKey: LegalDocKey }) {
           </div>
 
           {/* Contacto para dudas y derechos */}
-          <section aria-labelledby="legal-contact" className="glass-alta relative mt-14 overflow-hidden rounded-3xl p-6 md:p-8">
+          <section aria-labelledby="legal-contact" className="glass-alta relative mt-14 overflow-hidden rounded-[3px] p-6 md:p-8">
             <h2 id="legal-contact" className="font-display text-2xl font-semibold text-tinta md:text-3xl">
               {m.legal.page.contactTitle}
             </h2>

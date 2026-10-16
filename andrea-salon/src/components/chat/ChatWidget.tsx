@@ -473,7 +473,7 @@ export default function ChatWidget() {
 
             {/* Entrada */}
             <form onSubmit={onSubmit} className={cn("relative px-4 pb-2 pt-3", streaming && "border-t border-carmin/10")}>
-              <div className="flex items-end gap-2 rounded-2xl border border-carmin/15 bg-white p-1.5 transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out-expo)] focus-within:border-carmin/50 focus-within:shadow-[0_0_0_3px_rgba(142,14,51,0.12)]">
+              <div className="flex items-end gap-2 rounded-2xl border border-carmin/15 bg-white p-1.5 transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out-expo)] focus-within:border-carmin/50 focus-within:shadow-[0_0_0_3px_rgba(43,42,45,0.12)]">
                 <label htmlFor={INPUT_ID} className="sr-only">
                   {m.chat.inputLabel}
                 </label>

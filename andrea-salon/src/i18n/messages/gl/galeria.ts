@@ -14,6 +14,6 @@ const galeria: Traducion<"galeria"> = {
   gridAria: "Galería de traballos de Andrea Salón",
   count: "{count} fotos",
   pendingNote: "Fotos provisionais: as reais chegan cando o salón as entregue.",
-  placeholder: "Foto pendente",
+  placeholder: "Traballos de Andrea Salón",
 };
 export default galeria;

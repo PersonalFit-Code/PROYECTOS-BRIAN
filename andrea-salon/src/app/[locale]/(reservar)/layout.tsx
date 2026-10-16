@@ -15,15 +15,15 @@ export default async function ReservarLayout({ children, params }: { children: R
   const locale = isLocale(l) ? l : DEFAULT_LOCALE;
   const m = (await getMessages(locale)).reservar;
   return (
-    <div className="min-h-dvh bg-crema">
-      <header className="sticky top-0 z-30 px-3 pt-3">
-        <div className="liquid-glass liquid-glass-strong mx-auto flex max-w-2xl items-center justify-between gap-3 rounded-full px-2 py-1.5">
-          <a href={urlFor("web", "/", locale)} className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm font-semibold text-carmin hover:bg-carmin/5">
+    <div className="min-h-dvh bg-white">
+      <header className="sticky top-0 z-30 border-b border-nude bg-white/95 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-2 py-2 sm:px-4">
+          <a href={urlFor("web", "/", locale)} className="inline-flex min-h-11 items-center gap-3 px-2 text-tinta">
             <ArrowLeft aria-hidden className="size-4" />
-            <span className="font-display text-base text-tinta">{BUSINESS.name}</span>
+            <span className="titulo-editorial text-base tracking-[0.24em]">{BUSINESS.name}</span>
             <span className="sr-only">{m.header.back}</span>
           </a>
-          <a href={BUSINESS.phone.tel} className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm text-gris hover:text-tinta">
+          <a href={BUSINESS.phone.tel} className="inline-flex min-h-11 items-center gap-2 px-3 text-sm text-gris hover:text-tinta">
             <Phone aria-hidden className="size-4 text-carmin-suave" />
             <span className="hidden sm:inline">{BUSINESS.phone.display}</span>
             <span className="sr-only sm:hidden">{m.header.call}</span>

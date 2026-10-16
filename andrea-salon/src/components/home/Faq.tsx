@@ -38,13 +38,14 @@ export default function Faq({ className }: { className?: string }) {
   }, []);
 
   return (
-    <section ref={ref} id="preguntas" aria-labelledby="faq-title" className={cn("scroll-mt-24", className)}>
-      <div aria-hidden className="filete container-page" />
-      <div className="container-page py-20 sm:py-28">
-        <SectionHeading id="faq-title" kicker={f.kicker} title={f.title} accent={f.accent} />
-        {/* `items-start`: sin él, la fila de la rejilla crece con la pregunta abierta y la tarjeta
-            de al lado se estira hasta igualarla. */}
-        <ul className="mt-10 grid gap-3 md:grid-cols-2 md:items-start md:gap-4">
+    <section ref={ref} id="preguntas" aria-labelledby="faq-title" className={cn("scroll-mt-24 bg-white", className)}>
+      {/* Editorial: el titular a la izquierda (fijo al bajar en escritorio) y las preguntas en una
+          sola columna separada por filetes, como el índice de una revista. */}
+      <div className="container-page grid gap-10 py-20 sm:py-28 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <SectionHeading id="faq-title" kicker={f.kicker} title={f.title} accent={f.accent} />
+        </div>
+        <ul className="border-t border-nude">
           {FAQ.map((item) => (
             <Pregunta key={item.id} question={t(item.q, vars)} answer={t(item.a, vars)} abierta={abiertas.has(item.id)} onAlternar={() => alternar(item.id)} />
           ))}
@@ -79,12 +80,8 @@ function Pregunta({ question, answer, abierta, onAlternar }: { question: string;
        y su `transition` abreviada pisaría la de la tarjeta al abrir. */
     <li data-reveal="fade">
       <div
-        className={cn(
-          "group/faq relative overflow-hidden rounded-2xl border transition-[border-color,background-color,box-shadow] duration-500 ease-[var(--ease-out-expo)]",
-          abierta ? "border-carmin/25 bg-white shadow-[var(--shadow-soft)]" : "border-carmin/10 bg-white/60 hover:border-carmin/25",
-        )}
+        className="group/faq relative border-b border-nude"
       >
-        <span aria-hidden className={cn("pointer-events-none absolute inset-y-0 left-0 w-px origin-top bg-gradient-to-b from-transparent via-carmin/70 to-transparent transition-transform duration-[600ms] ease-[var(--ease-out-expo)]", abierta ? "scale-y-100" : "scale-y-0")} />
         <h3 className="m-0">
           <button
             id={idPregunta}
@@ -92,7 +89,7 @@ function Pregunta({ question, answer, abierta, onAlternar }: { question: string;
             onClick={onAlternar}
             aria-expanded={abierta}
             aria-controls={idPanel}
-            className="flex w-full cursor-pointer items-start justify-between gap-4 px-5 py-4 text-left font-sans text-[15px] font-semibold text-tinta"
+            className="flex w-full cursor-pointer items-start justify-between gap-6 py-6 text-left font-display text-lg leading-snug text-tinta sm:text-xl"
           >
             <span className="text-pretty">{question}</span>
             <Aspa abierta={abierta} />
@@ -116,10 +113,9 @@ function Pregunta({ question, answer, abierta, onAlternar }: { question: string;
               abierta: { opacity: 1, y: 0, transition: { duration: 0.36, delay: 0.08, ease: EASE_OUT_EXPO } },
               cerrada: { opacity: 0, y: -10, transition: { duration: 0.16 } },
             }}
-            className="px-5 pb-4"
+            className="pb-7 pr-12"
           >
-            <span aria-hidden className="mb-3 block h-px bg-gradient-to-r from-carmin/20 via-carmin/5 to-transparent" />
-            <p className="text-sm leading-relaxed text-gris text-pretty">{conNegritas(answer)}</p>
+            <p className="text-[15px] leading-relaxed text-gris text-pretty">{conNegritas(answer)}</p>
           </motion.div>
         </motion.div>
       </div>
@@ -129,9 +125,9 @@ function Pregunta({ question, answer, abierta, onAlternar }: { question: string;
 
 /** El signo de abrir: un «+» que se desatornilla en un «−» (no una ×, que es cerrar). */
 function Aspa({ abierta }: { abierta: boolean }) {
-  const palo = "absolute h-[1.5px] w-3 rounded-full bg-carmin transition-transform duration-[520ms] ease-[var(--ease-out-expo)]";
+  const palo = "absolute h-px w-4 bg-carmin transition-transform duration-[520ms] ease-[var(--ease-out-expo)]";
   return (
-    <span aria-hidden className={cn("relative mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-colors duration-500", abierta ? "border-carmin/40 bg-rosa" : "border-carmin/15 bg-white group-hover/faq:border-carmin/30")}>
+    <span aria-hidden className="relative mt-1 flex h-6 w-6 shrink-0 items-center justify-center">
       <span className={palo} />
       <span className={cn(palo, abierta ? "rotate-180 scale-x-0" : "rotate-90")} />
     </span>

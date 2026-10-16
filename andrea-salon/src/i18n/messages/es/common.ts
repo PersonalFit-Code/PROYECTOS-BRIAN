@@ -27,7 +27,7 @@ const common = {
   /** Texto alternativo de la imagen al compartir el enlace. */
   ogAlt: "Andrea Salón, salón de uñas y belleza en Ourense",
   cta: {
-    book: "Reservar cita",
+    book: "Cita previa",
     bookShort: "Reservar",
     /** Enlace de reserva con una profesional concreta (carrusel del equipo). */
     bookWith: "Reservar con {name}",

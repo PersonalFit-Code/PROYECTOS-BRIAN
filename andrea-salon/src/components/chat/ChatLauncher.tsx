@@ -253,7 +253,7 @@ export default function ChatLauncher({ isOpen, hasOpened, onToggle, onPreload }:
             onClick={onToggle}
             className={cn(
               "absolute left-full top-1/2 ml-2 max-w-[calc(100vw-8.5rem)] -translate-y-1/2 truncate rounded-full px-3 py-2 md:ml-3 md:max-w-none md:px-4",
-              "liquid-glass liquid-glass-strong [--glass-border:rgba(184,54,90,0.4)] text-left font-sans text-[12px] font-semibold text-tinta md:text-[13px]",
+              "liquid-glass liquid-glass-strong [--glass-border:rgba(125,95,82,0.4)] text-left font-sans text-[12px] font-semibold text-tinta md:text-[13px]",
               "transition-[translate,opacity] duration-500 ease-[var(--ease-out-expo)]",
               llamada ? "translate-x-0 opacity-100" : "pointer-events-none -translate-x-2 opacity-0",
             )}

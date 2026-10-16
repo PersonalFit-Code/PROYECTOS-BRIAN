@@ -81,7 +81,7 @@ export default async function BonoPage({
           alt={`QR ${bono.code}`}
           width={240}
           height={240}
-          className={cn("mx-auto mt-5 rounded-2xl", !activo && "opacity-30")}
+          className={cn("mx-auto mt-5 rounded-[3px]", !activo && "opacity-30")}
         />
         <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-gris">{b.codigo}</p>
         <p className="font-display text-2xl font-semibold tracking-[0.12em] text-tinta">{bono.code}</p>

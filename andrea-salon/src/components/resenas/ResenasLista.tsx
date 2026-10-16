@@ -15,7 +15,7 @@ export default function ResenasLista() {
   useReveal(ref);
   return (
     <div ref={ref} className="container-page pb-20 sm:pb-28">
-      <ul className="columns-1 gap-4 md:columns-2 lg:columns-3">
+      <ul className="columns-1 gap-x-10 md:columns-2 lg:columns-3">
         {REVIEWS_SHOWN.map((r) => (
           <li key={r.id} data-reveal className="break-inside-avoid">
             <ReviewCard r={r} />

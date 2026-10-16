@@ -1,6 +1,6 @@
 /**
  * Forma de un servicio tal y como lo consumen los componentes públicos (`ServiciosLista`,
- * `ServiciosDestacados`). Es la PROYECCIÓN de la tabla `services` de la base de datos (fase 1b):
+ * la portada). Es la PROYECCIÓN de la tabla `services` de la base de datos (fase 1b):
  * los componentes solo saben de esto, no de Supabase, así que hoy se alimentan del fixture y mañana
  * de la consulta sin cambiar una línea de UI.
  */

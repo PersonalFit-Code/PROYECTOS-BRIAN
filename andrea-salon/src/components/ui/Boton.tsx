@@ -6,11 +6,10 @@ import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /**
- * El botón de la casa. Reescritura del `NeonButton` de tixola en carmín y rosa, sin neón: aquí el
- * acento no brilla, se nota por contraste con el crema. Tres variantes y nada más:
- *  · `primario`: carmín macizo con texto blanco. UNA por pantalla, que es la acción que importa
+ * El botón de la casa. Tres variantes y nada más:
+ *  · `primario`: grafito macizo con texto blanco. UNA por pantalla, que es la acción que importa
  *    (casi siempre «Reservar cita»).
- *  · `secundario`: cápsula clara con borde carmín suave. Para la segunda acción (ver servicios,
+ *  · `secundario`: transparente con borde grafito fino. Para la segunda acción (ver servicios,
  *    WhatsApp).
  *  · `fantasma`: solo texto, para enlaces discretos dentro de tarjetas.
  *
@@ -43,25 +42,24 @@ type ButtonProps = BaseProps &
 type AnchorProps = BaseProps & { href: string; target?: string; rel?: string; onClick?: () => void; "aria-label"?: string; title?: string };
 export type BotonProps = ButtonProps | AnchorProps;
 
-/* La transición se ACOTA a la lista explícita: pulsar responde en 100 ms, el hover en 320 (la curva
-   de muelle de la casa). `active:` queda para quien no tenga JS: framer pone el mismo hundido. */
+/* Línea editorial: rectángulo de esquina casi recta, mayúscula espaciada, sin brillo ni sombra de
+   color. La transición se ACOTA a la lista explícita: pulsar responde en 100 ms, el hover en 320.
+   `active:` queda para quien no tenga JS: framer pone el mismo hundido. */
 const base =
-  "group relative inline-flex items-center justify-center gap-2 rounded-full text-center font-sans font-semibold leading-snug transition-[background-color,border-color,box-shadow,color,opacity] duration-[var(--dur-morph)] ease-[var(--ease-muelle)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-carmin focus-visible:ring-offset-2 focus-visible:ring-offset-crema disabled:opacity-50 disabled:pointer-events-none";
+  "group relative inline-flex items-center justify-center gap-2.5 rounded-[2px] text-center font-sans font-medium uppercase tracking-[0.18em] leading-snug transition-[background-color,border-color,box-shadow,color,opacity] duration-[var(--dur-morph)] ease-[var(--ease-muelle)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-carmin focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:opacity-50 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
-  primario:
-    "bg-carmin text-[var(--on-accent)] border border-carmin shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_10px_24px_-12px_rgba(142,14,51,0.55)] hover:bg-carmin-oscuro hover:border-carmin-oscuro hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_14px_30px_-12px_rgba(142,14,51,0.65)]",
-  secundario:
-    "bg-white/70 text-carmin border border-carmin/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] hover:border-carmin/60 hover:bg-white",
-  fantasma: "bg-transparent text-carmin-suave border border-transparent hover:bg-carmin/5 hover:text-carmin",
+  primario: "bg-grafito text-white border border-grafito hover:bg-carmin-oscuro hover:border-carmin-oscuro",
+  secundario: "bg-transparent text-grafito border border-grafito/70 hover:bg-grafito hover:text-white hover:border-grafito",
+  fantasma: "bg-transparent text-grafito border border-transparent underline decoration-nude decoration-1 underline-offset-[6px] hover:decoration-grafito",
 };
 
 /* `min-h-*` + padding vertical en vez de `h-*` fija: si la etiqueta salta a dos líneas en un móvil
-   de 320 px, la píldora crece en vez de dejar el texto desbordando por fuera del borde. */
+   de 320 px, el botón crece en vez de dejar el texto desbordando por fuera del borde. */
 const sizes: Record<Size, string> = {
-  sm: "min-h-10 px-4 py-1.5 text-sm",
-  md: "min-h-12 px-6 py-2 text-[15px]",
-  lg: "min-h-14 px-8 py-2.5 text-base md:text-lg",
+  sm: "min-h-10 px-4 py-1.5 text-[11px]",
+  md: "min-h-12 px-7 py-2 text-[12px]",
+  lg: "min-h-14 px-9 py-2.5 text-[13px]",
 };
 
 const MotionLink = motion.create(Link);
@@ -74,8 +72,7 @@ const Boton = forwardRef<HTMLButtonElement, BotonProps>(function Boton(props, re
   const gesture = reduced
     ? {}
     : {
-        whileHover: { y: -2 },
-        whileTap: { scale: 0.96, y: 0 },
+        whileTap: { scale: 0.98 },
         transition: { type: "spring" as const, stiffness: 520, damping: 30, mass: 0.6 },
       };
 

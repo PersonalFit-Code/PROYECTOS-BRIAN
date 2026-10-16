@@ -153,7 +153,7 @@ export default function CitaAcciones(props: {
             <p className="text-sm text-gris">Algún servicio de esta cita ya no existe en el catálogo: cancélala y crea otra.</p>
           )}
           <label className="flex items-center gap-3 text-sm">
-            <input id="avisar-mover" type="checkbox" defaultChecked={props.tieneCorreo} disabled={!props.tieneCorreo} className="size-5 accent-[#8e0e33]" />
+            <input id="avisar-mover" type="checkbox" defaultChecked={props.tieneCorreo} disabled={!props.tieneCorreo} className="size-5 accent-[#2b2a2d]" />
             Avisarla por correo del cambio
           </label>
           <button
@@ -194,15 +194,15 @@ export default function CitaAcciones(props: {
         >
           <fieldset className="space-y-2 text-sm">
             <legend className="font-semibold">¿Quién la cancela?</legend>
-            <label className="flex items-center gap-3"><input type="radio" name="quien" value="client" defaultChecked className="size-5 accent-[#8e0e33]" /> La clienta (ha llamado o escrito)</label>
-            <label className="flex items-center gap-3"><input type="radio" name="quien" value="salon" className="size-5 accent-[#8e0e33]" /> El salón</label>
+            <label className="flex items-center gap-3"><input type="radio" name="quien" value="client" defaultChecked className="size-5 accent-[#2b2a2d]" /> La clienta (ha llamado o escrito)</label>
+            <label className="flex items-center gap-3"><input type="radio" name="quien" value="salon" className="size-5 accent-[#2b2a2d]" /> El salón</label>
           </fieldset>
           <label className="block text-sm font-semibold">
             Motivo (interno)
             <input name="motivo" maxLength={200} className={campo} />
           </label>
           <label className="flex items-center gap-3 text-sm">
-            <input name="avisar" type="checkbox" defaultChecked={props.tieneCorreo} disabled={!props.tieneCorreo} className="size-5 accent-[#8e0e33]" />
+            <input name="avisar" type="checkbox" defaultChecked={props.tieneCorreo} disabled={!props.tieneCorreo} className="size-5 accent-[#2b2a2d]" />
             Enviarle el correo de cancelación
           </label>
           <button type="submit" disabled={pendiente} className="min-h-12 rounded-full bg-tinta px-6 font-semibold text-white disabled:opacity-50">

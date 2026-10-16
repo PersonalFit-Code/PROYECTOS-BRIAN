@@ -324,7 +324,7 @@ export default function FloatingWhatsApp() {
                   /* Liquid Glass tintado: un botón flotante es un control, va en cristal, teñido con el
                      acento para que siga siendo LA acción de la casa. */
                   "liquid-glass liquid-glass-accent",
-                  "transition-[translate,scale,background-color] duration-[var(--dur-morph)] group-active:duration-100 ease-[var(--ease-muelle)] group-hover:-translate-y-0.5 group-hover:[--glass-bg:rgba(116,8,42,0.92)] group-active:scale-[0.96]",
+                  "transition-[translate,scale,background-color] duration-[var(--dur-morph)] group-active:duration-100 ease-[var(--ease-muelle)] group-hover:-translate-y-0.5 group-hover:[--glass-bg:rgba(17,16,18,0.96)] group-active:scale-[0.96]",
                   "group-focus-visible:ring-2 group-focus-visible:ring-carmin group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-crema",
                 )}
               >

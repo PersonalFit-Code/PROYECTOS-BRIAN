@@ -32,17 +32,22 @@ export default function Footer() {
   const f = m.nav.footer;
 
   return (
-    <footer ref={ref} id="footer" className="relative isolate mt-10 overflow-hidden border-t border-carmin/10 bg-rosa-niebla">
-      <div aria-hidden className="halo absolute -top-40 left-1/2 -z-10 h-80 w-[700px] -translate-x-1/2 [--halo-a:0.5]" />
+    <footer ref={ref} id="footer" className="relative border-t border-nude bg-white">
+      {/* El logotipo grande, como el pie de una revista. */}
+      <div className="container-page border-b border-nude py-14 text-center sm:py-20">
+        {/* Sin `aria-label`: el nombre accesible tiene que contener lo que se ve (WCAG 2.5.3). */}
+        <Link href={lp("/")} className="inline-flex flex-col items-center">
+          <Image src="/brand/logo.png" alt="" width={56} height={56} className="size-12 rounded-full" />
+          <span className="titulo-editorial mt-6 text-3xl tracking-[0.24em] text-tinta sm:text-6xl sm:tracking-[0.3em]">{m.common.brand}</span>
+          <span className="etiqueta mt-4 text-carmin-suave">{m.common.tagline}</span>
+          <span className="sr-only"> · {m.nav.items.home}</span>
+        </Link>
+      </div>
 
       <div className="container-page grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-[1.1fr_1fr_1.3fr] lg:gap-10">
         {/* La casa */}
         <div data-reveal>
-          <Link href={lp("/")} aria-label={m.nav.homeAria} className="inline-flex items-center gap-3 rounded-full">
-            <Image src="/brand/logo.png" alt="" width={56} height={56} className="size-14 rounded-full" />
-            <span className="font-display text-2xl font-semibold leading-none text-tinta">{m.common.brand}</span>
-          </Link>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-gris">{f.about}</p>
+          <p className="max-w-xs text-sm leading-relaxed text-gris">{f.about}</p>
           <ul className="mt-5 space-y-1">
             <li>
               <a href={BUSINESS.phone.tel} className="flex min-h-11 w-fit items-center gap-3 text-sm text-gris hover:text-tinta">
@@ -74,7 +79,7 @@ export default function Footer() {
           </ul>
           <LanguageSwitcher id="pie" className="mt-6 w-fit" />
           <nav aria-label={f.links} className="mt-6">
-            <h2 className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{f.links}</h2>
+            <h2 className="etiqueta text-carmin-suave">{f.links}</h2>
             <ul className="mt-2 grid grid-cols-2 gap-x-6 text-sm">
               {NAV_ITEMS.map((item) => (
                 <li key={item.key}>
@@ -89,15 +94,15 @@ export default function Footer() {
 
         {/* Horario */}
         <div data-reveal>
-          <h2 className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{f.hours}</h2>
+          <h2 className="etiqueta text-carmin-suave">{f.hours}</h2>
           <StatusPill className="mt-3" />
           <HoursList className="mt-3 -mx-3" />
         </div>
 
         {/* Ubicación */}
         <div data-reveal className="sm:col-span-2 lg:col-span-1">
-          <h2 className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{f.location}</h2>
-          <MapEmbed title={m.contacto.mapTitle} className="mt-4 h-52 rounded-2xl sm:h-60" />
+          <h2 className="etiqueta text-carmin-suave">{f.location}</h2>
+          <MapEmbed title={m.contacto.mapTitle} className="mt-4 h-52 sm:h-60" />
           <a href={BUSINESS.maps} target="_blank" rel="noopener noreferrer" className="mt-4 flex gap-3 text-sm text-gris hover:text-tinta">
             <MapPin aria-hidden className="mt-0.5 size-4 shrink-0 text-carmin-suave" />
             <span>
@@ -114,7 +119,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={m.common.cta.directionsAria}
-              className="pulsable inline-flex min-h-11 items-center gap-2 rounded-full bg-carmin px-5 text-sm font-semibold text-white hover:bg-carmin-oscuro"
+              className="inline-flex min-h-11 items-center gap-2 rounded-[2px] bg-grafito px-5 text-[11px] font-medium tracking-[0.18em] text-white uppercase hover:bg-carmin-oscuro"
             >
               <Navigation aria-hidden className="size-4" />
               {m.common.cta.directions}
@@ -123,7 +128,7 @@ export default function Footer() {
               href={BUSINESS.maps}
               target="_blank"
               rel="noopener noreferrer"
-              className="pulsable inline-flex min-h-11 items-center rounded-full border border-carmin/20 bg-white/70 px-5 text-sm font-medium text-tinta hover:border-carmin/45"
+              className="inline-flex min-h-11 items-center rounded-[2px] border border-grafito/70 px-5 text-[11px] font-medium tracking-[0.18em] text-tinta uppercase hover:bg-grafito hover:text-white"
             >
               {m.common.cta.openMaps}
               <span className="sr-only"> ({m.common.misc.newTab})</span>
@@ -132,7 +137,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="container-page flex flex-col gap-3 border-t border-carmin/10 py-6 text-xs text-gris sm:flex-row sm:items-center sm:justify-between">
+      <div className="container-page flex flex-col gap-3 border-t border-nude py-6 text-xs text-gris sm:flex-row sm:items-center sm:justify-between">
         <p>{format(f.rights, { year: new Date().getFullYear() })}</p>
         {/* Mientras la web viva en el enlace privado: aviso para Andrea, no para las clientas. */}
         {SITE_URL_IS_PROVISIONAL ? <p>{f.preview}</p> : null}
