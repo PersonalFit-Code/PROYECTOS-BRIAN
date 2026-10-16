@@ -11,7 +11,8 @@ import legal from "./legal";
 import consent from "./consent";
 import notFound from "./notFound";
 import reservar from "./reservar";
+import chat from "./chat";
 
 /** El español es la fuente de verdad: `Messages = typeof es` (ver ../../types.ts). */
-const es = { common, nav, home, servicios, equipo, galeria, resenas, contacto, bonos, legal, consent, notFound, reservar };
+const es = { common, nav, home, servicios, equipo, galeria, resenas, contacto, bonos, legal, consent, notFound, reservar, chat };
 export default es;

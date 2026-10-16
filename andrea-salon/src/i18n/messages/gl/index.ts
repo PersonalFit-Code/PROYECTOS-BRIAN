@@ -12,6 +12,7 @@ import legal from "./legal";
 import consent from "./consent";
 import notFound from "./notFound";
 import reservar from "./reservar";
+import chat from "./chat";
 
 /**
  * Mensaxes en galego (normativa RAG/ILG), un ficheiro por espazo de nomes como en `messages/es/`.
@@ -28,6 +29,6 @@ import reservar from "./reservar";
  * marca («Andrea Salón») e teléfonos. Para publicalo: engadir `"gl"` a `LOCALES` en
  * `src/i18n/config.ts`.
  */
-const gl = { common, nav, home, servicios, equipo, galeria, resenas, contacto, bonos, legal, consent, notFound, reservar };
+const gl = { common, nav, home, servicios, equipo, galeria, resenas, contacto, bonos, legal, consent, notFound, reservar, chat };
 
 export default gl as DeepPartial<Messages>;

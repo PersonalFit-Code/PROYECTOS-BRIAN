@@ -48,6 +48,14 @@ analítica, chat y gallego hasta el 25). Se marca cada casilla en orden; si una 
       Andrea lo quiere; los botones de la página de la cita ya salen en gallego.
 - [ ] Los textos legales están traducidos enteros: revisarlos igual que los castellanos.
 
+## Asistente del chat
+
+- Sin `ANTHROPIC_API_KEY` responde con las preguntas frecuentes, en nuestro servidor. Es el modo
+  por defecto y no necesita nada más.
+- [ ] **Antes de poner la clave:** añadir a la política de privacidad un apartado del chat y marcar
+      Anthropic como activo en `SUBPROCESSORS` (`src/data/legal.ts`); redesplegar (el aviso del
+      chat cambia según haya clave o no, y se fija al construir).
+
 ## La primera semana
 
 - Agenda en paralelo: las citas que entren por teléfono se apuntan en el panel, no en papel.
