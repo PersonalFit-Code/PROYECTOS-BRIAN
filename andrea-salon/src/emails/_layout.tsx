@@ -24,7 +24,7 @@ export const COLORES = {
   rosaNiebla: "#FAEAF0",
   crema: "#FDF7F9",
   tinta: "#2E2127",
-  gris: "#7C6B72",
+  gris: "#73646A",
   blanco: "#FFFFFF",
 } as const;
 

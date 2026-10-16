@@ -40,7 +40,7 @@ export default async function HoyPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-carmin-suave">Hola, {s.nombre.split(" ")[0]}</p>
-          <h1 className="font-display text-3xl font-semibold capitalize">{fechaLarga(ahora)}</h1>
+          <h1 className="font-display text-3xl font-semibold first-letter:uppercase">{fechaLarga(ahora)}</h1>
         </div>
         <Link href="/panel/citas/nueva" className="inline-flex min-h-12 items-center gap-2 rounded-full bg-carmin px-5 font-semibold text-white">
           <CalendarPlus aria-hidden className="size-5" /> Nueva cita

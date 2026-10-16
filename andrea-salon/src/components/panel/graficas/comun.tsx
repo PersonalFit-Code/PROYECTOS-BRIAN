@@ -32,7 +32,11 @@ export function Tarjeta({ titulo, subtitulo, children, tabla }: { titulo: string
   );
 }
 
-/** Tooltip de una marca: valor delante y fuerte, etiqueta detrás (el lector ya sabe la serie). */
+/**
+ * Tooltip de una marca: valor delante y fuerte, etiqueta detrás (el lector ya sabe la serie).
+ * La marca que lo contiene es `role="img"` con su `aria-label`: el lector de pantalla lee esa
+ * etiqueta y no el tooltip (los hijos de un `img` no se leen), así que no se dice dos veces.
+ */
 export function Tooltip({ valor, etiqueta, lado = "arriba" }: { valor: string; etiqueta: string; lado?: "arriba" | "derecha" }) {
   return (
     <span

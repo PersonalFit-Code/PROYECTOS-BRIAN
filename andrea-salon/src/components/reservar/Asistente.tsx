@@ -39,6 +39,8 @@ interface Hold {
   totalCents: number;
 }
 
+type Borrador = Record<string, string | boolean>;
+
 interface Hecho {
   fecha: string;
   hora: string;
@@ -73,6 +75,9 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
   const [error, setError] = useState<string | null>(null);
   const [hold, setHold] = useState<Hold | null>(null);
   const [hecho, setHecho] = useState<Hecho | null>(null);
+  /** Lo tecleado en «Tus datos». Vive aquí y no en el paso: si el hold caduca y hay que volver a
+      elegir hora, el formulario vuelve relleno en vez de en blanco. */
+  const [borrador, setBorrador] = useState<Borrador>({});
   const tituloRef = useRef<HTMLHeadingElement>(null);
 
   const porId = useMemo(() => new Map(catalogo.servicios.map((s) => [s.id, s])), [catalogo.servicios]);
@@ -270,6 +275,13 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
         </div>
       )}
 
+      {/* Los errores se ANUNCIAN desde aquí, una región que no se desmonta: la de dentro de cada paso
+          nace a la vez que el paso (p. ej. hold caducado → vuelta a «Hora») y un `role="alert"` que
+          aparece ya relleno no siempre se lee. La de dentro es solo visual. */}
+      <p role="alert" aria-atomic="true" className="sr-only">
+        {error ?? ""}
+      </p>
+
       <AnimatePresence mode="wait" initial={false}>
         <motion.section
           key={paso}
@@ -284,7 +296,7 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
           </h1>
 
           {error && (
-            <p role="alert" className="mt-4 rounded-2xl border border-carmin/20 bg-white px-4 py-3 text-[15px] text-carmin">
+            <p className="mt-4 rounded-2xl border border-carmin/20 bg-white px-4 py-3 text-[15px] text-carmin">
               {error}
             </p>
           )}
@@ -364,6 +376,9 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
               <PasoDatos
                 hold={hold}
                 horasCancelacion={catalogo.horasCancelacion}
+                borrador={borrador}
+                onBorrador={(campo, valor) => setBorrador((b) => ({ ...b, [campo]: valor }))}
+                onProrroga={(expiraEn) => setHold((h) => (h ? { ...h, expiraEn } : h))}
                 onCaducar={alCaducar}
                 onError={(e) => {
                   if (e.codigo === "HOLD_CADUCADO") alCaducar();
@@ -372,6 +387,7 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
                 onHecho={(h) => {
                   setHecho(h);
                   setHold(null);
+                  setBorrador({});
                   irA("hecho");
                 }}
               />
@@ -405,7 +421,9 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
 
       {/* Barra inferior: resumen y siguiente paso, al alcance del pulgar. */}
       {paso !== "hecho" && (
-        <div className="fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),12px)]">
+        /* `barra-reserva`: mientras se escribe en un campo se esconde (globals.css), para que no tape
+           el campo enfocado ni se quede encima del teclado del móvil (WCAG 2.4.11). */
+        <div className="barra-reserva fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),12px)]">
           <div className="liquid-glass liquid-glass-strong mx-auto flex max-w-2xl items-center gap-3 rounded-[28px] px-3 py-3 sm:px-4">
             {(paso !== "servicios" && !(cambiar && paso === "dia")) ? (
               <button
@@ -427,7 +445,7 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
                   </p>
                 </>
               ) : (
-                <a href={BUSINESS.phone.tel} className="flex items-center gap-2 text-sm text-gris">
+                <a href={BUSINESS.phone.tel} className="flex min-h-11 items-center gap-2 text-sm text-gris">
                   <Phone aria-hidden className="size-4 text-carmin-suave" />
                   {m.header.call} {BUSINESS.phone.display}
                 </a>
@@ -605,27 +623,44 @@ function Horas({
   );
 }
 
+/** Con cuánto margen se avisa de que el hold se acaba (WCAG 2.2.1 pide al menos 20 segundos). */
+const AVISO_HOLD_MS = 2 * 60_000;
+
 function PasoDatos({
   hold,
   horasCancelacion,
+  borrador,
+  onBorrador,
+  onProrroga,
   onCaducar,
   onError,
   onHecho,
 }: {
   hold: Hold;
   horasCancelacion: number;
+  borrador: Borrador;
+  onBorrador: (campo: string, valor: string | boolean) => void;
+  onProrroga: (expiraEn: string) => void;
   onCaducar: () => void;
   onError: (e: ErrorApi) => void;
   onHecho: (h: Hecho) => void;
 }) {
-  const r = useMessages().reservar;
+  const todo = useMessages();
+  const r = todo.reservar;
   const m = r.datos;
-  const legal = useMessages().legal;
+  const legal = todo.legal;
   const t = useFormat();
   const lp = useLocalePath();
   const locale = useLocale();
   const [enviando, setEnviando] = useState(false);
   const [restante, setRestante] = useState(() => new Date(hold.expiraEn).getTime() - Date.now());
+  /** Minutos que se guarda la hora (lo que dura un hold recién hecho o recién alargado). */
+  const [minutosHold] = useState(() => Math.max(1, Math.round((new Date(hold.expiraEn).getTime() - Date.now()) / 60_000)));
+  const [prorrogando, setProrrogando] = useState(false);
+  /** Minutos que dio la última prórroga (null = aún no se ha pedido). */
+  const [prorrogada, setProrrogada] = useState<number | null>(null);
+  const [telefonoMal, setTelefonoMal] = useState(false);
+  const telefonoRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -641,6 +676,29 @@ function PasoDatos({
 
   const minutos = Math.max(0, Math.floor(restante / 60_000));
   const segundos = Math.max(0, Math.floor((restante % 60_000) / 1000));
+  const avisar = restante > 0 && restante <= AVISO_HOLD_MS;
+
+  const pedirMasTiempo = async () => {
+    setProrrogando(true);
+    const res = await llamar<{ expiraEn: string }>(`/api/reservar/hold`, { method: "PATCH", body: JSON.stringify({ holdId: hold.holdId }) });
+    setProrrogando(false);
+    if (res.ok) {
+      const ms = new Date(res.datos.expiraEn).getTime() - Date.now();
+      onProrroga(res.datos.expiraEn);
+      setRestante(ms);
+      setProrrogada(Math.max(1, Math.round(ms / 60_000)));
+    } else onError(res.error);
+  };
+
+  /* Cada cambio del formulario se copia al borrador del asistente (ver `borrador` arriba). */
+  const alCambiar = (ev: React.FormEvent<HTMLFormElement>) => {
+    const el = ev.target as HTMLInputElement | HTMLTextAreaElement;
+    if (!el.name) return;
+    onBorrador(el.name, el instanceof HTMLInputElement && el.type === "checkbox" ? el.checked : el.value);
+    if (el.name === "telefono") setTelefonoMal(false);
+  };
+  const texto = (campo: string) => (typeof borrador[campo] === "string" ? (borrador[campo] as string) : undefined);
+  const marcada = (campo: string) => borrador[campo] === true;
 
   const enviar = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -668,10 +726,18 @@ function PasoDatos({
         urlCita: res.datos.urlCita,
         email: String(f.get("email") ?? ""),
       });
-    } else onError(res.error);
+    } else {
+      if (res.error.codigo === "TELEFONO_INVALIDO") {
+        setTelefonoMal(true);
+        telefonoRef.current?.focus();
+      }
+      onError(res.error);
+    }
   };
 
-  const campo = "mt-1.5 block w-full min-h-12 rounded-2xl border border-carmin/20 bg-white px-4 text-[16px] text-tinta placeholder:text-gris/60 focus:border-carmin focus:outline-none focus:ring-2 focus:ring-carmin/20";
+  /* El texto de ejemplo en `gris` entero (5,6:1): con transparencia no se leía. Se distingue de lo
+     tecleado porque esto va en `tinta`, casi negro. */
+  const campo = "mt-1.5 block w-full min-h-12 rounded-2xl border border-carmin/20 bg-white px-4 text-[16px] text-tinta placeholder:text-gris focus:border-carmin focus:outline-none focus:ring-2 focus:ring-carmin/20";
   const privacidad = legal.privacy.slug;
 
   return (
@@ -684,48 +750,84 @@ function PasoDatos({
         <p className="mt-1 text-sm text-gris">
           {duracionTexto(hold.duracionMin)} · {formatCents(hold.totalCents)} · {r.resumen.pagoSalon}
         </p>
-        <p className="mt-3 flex items-center gap-2 text-sm text-carmin" aria-live="off">
+        <p className="mt-3 text-sm text-gris">{t(m.reservada, { minutos: minutosHold })}</p>
+        {/* El reloj NO es una región viva: se leería cada segundo. Lo que se anuncia va abajo. */}
+        <p className="mt-1 flex items-center gap-2 text-sm font-semibold text-carmin">
           <Clock aria-hidden className="size-4" />
           {t(m.caduca, { tiempo: `${minutos}:${String(segundos).padStart(2, "0")}` })}
         </p>
+        {/* Siempre montada (vacía no ocupa): una región viva que aparece a la vez que su texto no
+            siempre se anuncia. */}
+        <div role="status">
+          {avisar && <p className="mt-3 text-sm text-tinta">{t(m.avisoTiempo, { minutos: AVISO_HOLD_MS / 60_000 })}</p>}
+          {!avisar && prorrogada !== null && <p className="mt-3 text-sm text-tinta">{t(m.prorrogada, { minutos: prorrogada })}</p>}
+        </div>
+        {avisar && (
+          <Boton variant="secundario" size="sm" className="mt-2" onClick={pedirMasTiempo} disabled={prorrogando}>
+            {m.masTiempo}
+          </Boton>
+        )}
       </div>
 
-      <form onSubmit={enviar} className="space-y-4" noValidate={false}>
+      <form onSubmit={enviar} onChange={alCambiar} className="space-y-4">
         <label className="block text-sm font-semibold text-tinta">
           {m.nombre}
-          <input name="nombre" required minLength={2} maxLength={80} autoComplete="name" placeholder={m.nombrePh} className={campo} />
+          <input name="nombre" required minLength={2} maxLength={80} autoComplete="name" placeholder={m.nombrePh} defaultValue={texto("nombre")} className={campo} />
         </label>
-        <label className="block text-sm font-semibold text-tinta">
-          {m.telefono}
-          <input name="telefono" required type="tel" inputMode="tel" autoComplete="tel" placeholder={m.telefonoPh} className={campo} />
-          <span className="mt-1 block text-xs font-normal text-gris">{m.telefonoHint}</span>
-        </label>
-        <label className="block text-sm font-semibold text-tinta">
-          {m.email}
-          <input name="email" required type="email" inputMode="email" autoComplete="email" placeholder={m.emailPh} className={campo} />
-          <span className="mt-1 block text-xs font-normal text-gris">{m.emailHint}</span>
-        </label>
+        {/* La ayuda va FUERA de la etiqueta y enlazada con `aria-describedby`: dentro, pasaba a ser
+            parte del nombre del campo y el lector la decía dos veces. */}
+        <div>
+          <label className="block text-sm font-semibold text-tinta">
+            {m.telefono}
+            <input
+              ref={telefonoRef}
+              name="telefono"
+              required
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              placeholder={m.telefonoPh}
+              defaultValue={texto("telefono")}
+              aria-invalid={telefonoMal || undefined}
+              aria-describedby="reserva-telefono-ayuda"
+              className={cn(campo, telefonoMal && "border-carmin ring-2 ring-carmin/20")}
+            />
+          </label>
+          <p id="reserva-telefono-ayuda" className={cn("mt-1 text-xs", telefonoMal ? "font-semibold text-carmin" : "text-gris")}>
+            {telefonoMal ? r.errores.TELEFONO_INVALIDO : m.telefonoHint}
+          </p>
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-tinta">
+            {m.email}
+            <input name="email" required type="email" inputMode="email" autoComplete="email" placeholder={m.emailPh} defaultValue={texto("email")} aria-describedby="reserva-email-ayuda" className={campo} />
+          </label>
+          <p id="reserva-email-ayuda" className="mt-1 text-xs text-gris">
+            {m.emailHint}
+          </p>
+        </div>
         <label className="block text-sm font-semibold text-tinta">
           {m.notas}
-          <textarea name="notas" maxLength={500} rows={3} placeholder={m.notasPh} className={cn(campo, "py-3")} />
+          <textarea name="notas" maxLength={500} rows={3} placeholder={m.notasPh} defaultValue={texto("notas")} className={cn(campo, "py-3")} />
         </label>
 
         <div className="space-y-3 pt-1 text-sm text-tinta">
           <label className="flex items-start gap-3">
-            <input name="condiciones" type="checkbox" required className="mt-0.5 size-5 accent-[#8e0e33]" />
+            <input name="condiciones" type="checkbox" required defaultChecked={marcada("condiciones")} className="mt-0.5 size-5 shrink-0 accent-[#8e0e33]" />
             <span>{t(m.condiciones, { horas: horasCancelacion })}</span>
           </label>
           <label className="flex items-start gap-3">
-            <input name="privacidad" type="checkbox" required className="mt-0.5 size-5 accent-[#8e0e33]" />
+            <input name="privacidad" type="checkbox" required defaultChecked={marcada("privacidad")} className="mt-0.5 size-5 shrink-0 accent-[#8e0e33]" />
             <span>
               {m.privacidad}{" "}
               <Link href={lp(`/legal/${privacidad}`)} target="_blank" className="font-semibold text-carmin underline underline-offset-2">
                 {m.privacidadLink}
+                <span className="sr-only"> ({todo.common.misc.newTab})</span>
               </Link>
             </span>
           </label>
           <label className="flex items-start gap-3 text-gris">
-            <input name="marketing" type="checkbox" className="mt-0.5 size-5 accent-[#8e0e33]" />
+            <input name="marketing" type="checkbox" defaultChecked={marcada("marketing")} className="mt-0.5 size-5 shrink-0 accent-[#8e0e33]" />
             <span>{m.marketing}</span>
           </label>
         </div>

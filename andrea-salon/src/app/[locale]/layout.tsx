@@ -6,7 +6,6 @@ import { fontVariables } from "@/app/fonts";
 import { LOCALES, LOCALE_META, isLocale, type Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
-import CookieConsent from "@/components/consent/CookieConsent";
 import ClientBoot from "@/components/layout/ClientBoot";
 import HomeJsonLd from "@/components/legal/HomeJsonLd";
 import { urlFor } from "@/lib/hosts";
@@ -115,7 +114,10 @@ export default async function LocaleLayout({ children, params }: Readonly<{ chil
   const messages = await getMessages(locale);
 
   return (
-    <html lang={LOCALE_META[locale].hreflang} className={fontVariables}>
+    /* `suppressHydrationWarning`: el script de la red de seguridad de los revelados (abajo) pone
+       `data-reveal-armed` en el <html> antes de que React hidrate, a propósito. Solo silencia ESTE
+       elemento, no a sus hijos. */
+    <html lang={LOCALE_META[locale].hreflang} className={fontVariables} suppressHydrationWarning>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(salonJsonLd(locale, messages.nav.footer.about)) }} />
         {/*
@@ -149,7 +151,6 @@ export default async function LocaleLayout({ children, params }: Readonly<{ chil
           {children}
           {/* FAQPage + WebSite (solo emite en la portada de cada idioma). */}
           <HomeJsonLd locale={locale} />
-          <CookieConsent />
         </LocaleProvider>
       </body>
     </html>

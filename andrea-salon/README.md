@@ -57,6 +57,7 @@ Resend + react-email · Stripe Checkout alojado (fase 2) · Vercel Cron · zod �
 | `npx tsx scripts/crear-usuario.ts --email … --nombre … --rol owner\|staff [--staff <slug>]` | Crea un usuario del panel (no hay registro público) |
 | `scripts/qa-exclusion.sql` | Comprueba en el SQL editor que dos citas solapadas no pueden existir |
 | `scripts/qa-funciones.sql` | Prueba todas las funciones y permisos de la base (reserva, cambio, panel, bonos, RLS por rol). En local: `scripts/qa-prelude-postgres.sql` primero |
+| `node scripts/qa/accesibilidad.mjs` | Recorre la web, la reserva paso a paso, el chat y todo el panel en móvil con axe-core (WCAG 2.1 AA), contra un Supabase falso con datos de ejemplo. Ver `scripts/qa/README.md` |
 | `npx tsx scripts/importar-clientas.ts <csv> [--aplicar]` | Importa clientas (Elitek u hoja del salón). Sin `--aplicar` solo ensaya e informa |
 | `npx tsx scripts/importar-citas.ts <csv> [--aplicar]` | Importa citas futuras; informa de servicios o profesionales desconocidos y de choques |
 

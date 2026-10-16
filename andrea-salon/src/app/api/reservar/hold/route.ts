@@ -2,6 +2,7 @@ import { z } from "zod";
 import { codigoDeRaise, comprobarCuota, error, esChoqueDeHorario, leerJson, ok } from "@/lib/api";
 import { AgendaInvalidaError } from "@/lib/booking";
 import { crearLimitador } from "@/lib/rateLimit";
+import { getAjustes } from "@/lib/reservas/ajustes";
 import { ReservaInvalidaError, resolverHueco } from "@/lib/reservas/disponibilidad";
 import { getAdminClient } from "@/lib/supabase/admin";
 
@@ -14,6 +15,11 @@ import { getAdminClient } from "@/lib/supabase/admin";
  * si justo ahora alguien cogió esa hora, Postgres devuelve 23P01 y aquí 409 HORA_OCUPADA.
  *
  * DELETE /api/reservar/hold  { holdId }  → libera el hold al momento (la clienta vuelve atrás).
+ *
+ * PATCH /api/reservar/hold  { holdId }  → «Necesito más tiempo»: otros `hold_minutes` desde ahora,
+ * solo mientras el hold siga vivo. Es lo que pide WCAG 2.2.1 de un límite de tiempo: avisar antes y
+ * dejar alargarlo con un gesto. Tope: dos horas desde que se creó, para que nadie retenga una hora
+ * toda la tarde (con holds de 10 minutos son once prórrogas; WCAG pide al menos diez).
  */
 export const dynamic = "force-dynamic";
 
@@ -90,4 +96,38 @@ export async function DELETE(req: Request) {
     return error(500, "ERROR_INTERNO");
   }
   return ok({ ok: true });
+}
+
+const limitadorProrroga = crearLimitador({ maximo: 30, ventanaMs: 10 * 60_000 });
+const TOPE_HOLD_MS = 2 * 60 * 60_000;
+
+export async function PATCH(req: Request) {
+  const cuota = comprobarCuota(limitadorProrroga, req);
+  if (cuota) return cuota;
+  const lectura = await leerJson(req, CuerpoBorrar);
+  if (!lectura.ok) return lectura.respuesta;
+
+  try {
+    const { holdMinutes } = await getAjustes();
+    const ahora = Date.now();
+    const { data, error: e } = await getAdminClient()
+      .from("bookings")
+      .update({ expires_at: new Date(ahora + holdMinutes * 60_000).toISOString() })
+      .eq("id", lectura.datos.holdId)
+      .eq("status", "hold")
+      .gt("expires_at", new Date(ahora).toISOString())
+      .gt("created_at", new Date(ahora - TOPE_HOLD_MS).toISOString())
+      .select("expires_at")
+      .maybeSingle();
+    if (e) {
+      console.error("[hold] prórroga:", e.message);
+      return error(500, "ERROR_INTERNO");
+    }
+    // Caducado, ya confirmado o pasado el tope: lo mismo para la clienta, hay que volver a elegir hora.
+    if (!data?.expires_at) return error(410, "HOLD_CADUCADO", "La hora ya no está guardada");
+    return ok({ expiraEn: data.expires_at });
+  } catch (e) {
+    console.error("[hold] prórroga", e);
+    return error(500, "ERROR_INTERNO");
+  }
 }

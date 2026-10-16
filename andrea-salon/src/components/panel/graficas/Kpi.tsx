@@ -26,16 +26,17 @@ export default function Kpi({
   const texto =
     v === null ? "sin datos del periodo anterior" : plano ? "igual que el periodo anterior" : `${v > 0 ? "+" : "−"}${Math.round(Math.abs(v) * 100)} % vs. periodo anterior`;
   return (
+    // Va dentro de un <dl>: cada cifra es un grupo <div> con su <dt> y sus <dd>.
     <div className="rounded-3xl border border-[var(--capa-borde)] bg-white p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-gris">{etiqueta}</p>
-      <p className="mt-1 font-sans text-2xl font-semibold text-tinta sm:text-3xl">{valor}</p>
+      <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-gris">{etiqueta}</dt>
+      <dd className="mt-1 font-sans text-2xl font-semibold text-tinta sm:text-3xl">{valor}</dd>
       {variacion !== undefined && (
-        <p className={"mt-1 flex items-center gap-1 text-xs font-semibold " + (v === null || plano ? "text-gris" : bueno ? "text-emerald-700" : "text-red-700")}>
+        <dd className={"mt-1 flex items-center gap-1 text-xs font-semibold " + (v === null || plano ? "text-gris" : bueno ? "text-emerald-700" : "text-red-700")}>
           <Icono aria-hidden className="size-3.5" />
           {texto}
-        </p>
+        </dd>
       )}
-      {detalle && <p className="mt-1 text-xs text-gris">{detalle}</p>}
+      {detalle && <dd className="mt-1 text-xs text-gris">{detalle}</dd>}
     </div>
   );
 }

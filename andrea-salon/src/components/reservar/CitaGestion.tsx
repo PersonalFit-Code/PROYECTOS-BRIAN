@@ -81,7 +81,7 @@ export default function CitaGestion({
         <span className="inline-flex rounded-full bg-rosa-niebla px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-carmin">
           {m.cita.estado[cita.estado]}
         </span>
-        <p className="mt-4 font-display text-2xl font-semibold capitalize text-tinta">{cita.fecha}</p>
+        <p className="mt-4 font-display text-2xl font-semibold text-tinta first-letter:uppercase">{cita.fecha}</p>
         <p className="mt-1 text-lg text-tinta">
           {cita.hora} – {horaSalon(cita.salida)} · {duracionTexto(cita.duracionMin)}
         </p>

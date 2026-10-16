@@ -11,7 +11,9 @@ import { cn } from "@/lib/utils";
  * pesa nada, se imprime bien y se entiende en el móvil con scroll horizontal por columnas.
  *
  * El color de la izquierda es el de la profesional; el punto, el semáforo de asistencia:
- * verde = ha dicho «Sí, voy»; ámbar = aún no ha contestado; gris = ya hecha.
+ * verde = ha dicho «Sí, voy»; ámbar = aún no ha contestado; gris = ya hecha o no vino (tachada).
+ * El color nunca va solo: cada cita lleva su estado y su profesional en texto para el lector de
+ * pantalla, porque la columna de arriba no se lee al recorrer las citas con el tabulador.
  */
 export interface ColumnaRejilla {
   id: string;
@@ -86,7 +88,7 @@ export default function Rejilla({ columnas, abre, cierra, ahora }: { columnas: C
               return (
                 <div
                   key={a.id}
-                  className="absolute inset-x-1 rounded-xl bg-[repeating-linear-gradient(135deg,rgba(124,107,114,0.12)_0_6px,transparent_6px_12px)] px-2 py-1 text-[11px] text-gris"
+                  className="absolute inset-x-1 rounded-xl bg-[repeating-linear-gradient(135deg,rgba(115,100,106,0.12)_0_6px,transparent_6px_12px)] px-2 py-1 text-[11px] text-tinta"
                   style={{ top: (desde - abre) * PX_MIN, height: (hasta - desde) * PX_MIN }}
                 >
                   {a.motivo ?? (a.staffId ? "Ausencia" : "Salón cerrado")}
@@ -101,10 +103,14 @@ export default function Rejilla({ columnas, abre, cierra, ahora }: { columnas: C
                 <Link
                   key={cita.id}
                   href={`/panel/citas/${cita.id}`}
+                  /* Hecha o falta: fondo apagado y sin sombra, pero el texto a contraste completo (con
+                     opacidad bajaba a 2:1 y no se leía en el mostrador). */
                   className={cn(
-                    "absolute inset-x-1 overflow-hidden rounded-xl border-l-4 bg-white px-2 py-1 text-left shadow-[var(--shadow-soft)] ring-1 ring-carmin/10 transition-shadow hover:ring-carmin/40",
-                    cita.estado === "done" && "opacity-60",
-                    cita.estado === "no_show" && "line-through opacity-50",
+                    "absolute inset-x-1 overflow-hidden rounded-xl border-l-4 px-2 py-1 text-left ring-1 transition-shadow hover:ring-carmin/40",
+                    cita.estado === "done" || cita.estado === "no_show"
+                      ? "bg-crema ring-carmin/5"
+                      : "bg-white shadow-[var(--shadow-soft)] ring-carmin/10",
+                    cita.estado === "no_show" && "line-through decoration-gris/70",
                   )}
                   style={{ top: (ini - abre) * PX_MIN, height: alto, borderLeftColor: c.color }}
                 >
@@ -113,12 +119,19 @@ export default function Rejilla({ columnas, abre, cierra, ahora }: { columnas: C
                       aria-hidden
                       className={cn(
                         "size-2 rounded-full",
-                        cita.estado === "done" ? "bg-gris/50" : cita.asistenciaConfirmada ? "bg-emerald-500" : "bg-amber-400",
+                        cita.estado === "done" || cita.estado === "no_show" ? "bg-gris/50" : cita.asistenciaConfirmada ? "bg-emerald-500" : "bg-amber-400",
                       )}
                     />
                     {hhmm(ini)}
                     <span className="sr-only">
-                      {cita.estado === "done" ? "hecha" : cita.asistenciaConfirmada ? "asistencia confirmada" : "sin confirmar"}
+                      {cita.estado === "done"
+                        ? ", hecha"
+                        : cita.estado === "no_show"
+                          ? ", no vino"
+                          : cita.asistenciaConfirmada
+                            ? ", asistencia confirmada"
+                            : ", sin confirmar"}
+                      {`, ${c.titulo}`}
                     </span>
                   </span>
                   <span className="block truncate text-[13px] font-semibold text-tinta">{cita.clienta?.nombre ?? "Sin clienta"}</span>

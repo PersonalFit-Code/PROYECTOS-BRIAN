@@ -168,6 +168,29 @@ export default function ChatWidget() {
     window.requestAnimationFrame(() => document.getElementById(CHAT_LAUNCHER_ID)?.focus({ preventScroll: true }));
   }, [close]);
 
+  /* A pantalla completa la hoja TAPA la página: es modal de verdad. El tabulador da la vuelta dentro
+     del panel en vez de irse a enlaces que no se ven (y `aria-modal` hace lo mismo con el lector de
+     pantalla). En escritorio es una tarjeta al lado del contenido y el foco puede salir. */
+  const onPanelKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLElement>) => {
+      if (!fullscreen || e.key !== "Tab" || !panel) return;
+      const enfocables = [...panel.querySelectorAll<HTMLElement>("button:not([disabled]), a[href], textarea, input, [tabindex='0']")].filter(
+        (el) => el.offsetParent !== null,
+      );
+      if (enfocables.length === 0) return;
+      const primero = enfocables[0];
+      const ultimo = enfocables[enfocables.length - 1];
+      if (e.shiftKey && (document.activeElement === primero || document.activeElement === panel)) {
+        e.preventDefault();
+        ultimo.focus();
+      } else if (!e.shiftKey && document.activeElement === ultimo) {
+        e.preventDefault();
+        primero.focus();
+      }
+    },
+    [fullscreen, panel],
+  );
+
   // Escape cierra (aunque el foco esté fuera del panel).
   useEffect(() => {
     if (!isOpen) return;
@@ -322,7 +345,8 @@ export default function ChatWidget() {
             key="asistente-panel"
             id={CHAT_WIDGET_ID}
             role="dialog"
-            aria-modal="false"
+            aria-modal={fullscreen}
+            onKeyDown={onPanelKeyDown}
             aria-label={m.chat.title}
             /* Destino del foco tras enviar en móvil (ver `submit`): enfocable a mano pero fuera del
                recorrido del tabulador, donde sería una parada muda. */
@@ -405,6 +429,9 @@ export default function ChatWidget() {
               onWheel={markListGesture}
               onKeyDown={markListGesture}
               role="log"
+              /* Sin anuncio propio: `log` lo trae activado y leería la respuesta a trozos mientras
+                 llega, y luego entera otra vez desde la región de estado de abajo. Se anuncia allí. */
+              aria-live="off"
               aria-label={m.chat.messagesLabel}
               data-lenis-prevent
               className="relative min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-gutter:stable]"

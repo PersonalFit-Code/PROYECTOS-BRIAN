@@ -39,6 +39,7 @@ export default function MapaCalor({ mapa }: { mapa: Mapa }) {
                   return (
                     <td key={h} className="p-0">
                       <span
+                        role="img"
                         tabIndex={0}
                         aria-label={`${etiqueta}: ${texto}`}
                         className="group relative block h-8 w-8 rounded-[4px] outline-none ring-carmin focus-visible:ring-2"

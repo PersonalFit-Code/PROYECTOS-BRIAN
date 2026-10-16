@@ -66,7 +66,7 @@ export default async function BonosCatalogoPage() {
         ) : (
           <ul className="mt-3 space-y-3">
             {lista.map((p) => (
-              <li key={p.id} className={cn("rounded-2xl border border-[var(--capa-borde)] bg-white p-3", !p.active && "opacity-70")}>
+              <li key={p.id} className={cn("rounded-2xl border border-[var(--capa-borde)] p-3", p.active ? "bg-white" : "border-dashed bg-crema")}>
                 <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
                   <span className="font-semibold text-tinta">{p.name}</span>
                   {!p.active && <Etiqueta>Retirado</Etiqueta>}

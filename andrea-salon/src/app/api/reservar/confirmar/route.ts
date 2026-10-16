@@ -26,7 +26,9 @@ const limitador = crearLimitador({ maximo: 10, ventanaMs: 10 * 60_000 });
 const Cuerpo = z.object({
   holdId: z.uuid(),
   nombre: z.string().trim().min(2).max(80),
-  telefono: z.string().trim().min(9).max(24),
+  // Sin mínimo aquí: lo decide `normalizarTelefonoES` y así un número corto da TELEFONO_INVALIDO
+  // (el asistente marca el campo) en vez del genérico DATOS_INVALIDOS, que no dice qué falla.
+  telefono: z.string().trim().min(1).max(24),
   email: z.email().trim().max(120),
   notas: z.string().trim().max(500).optional().default(""),
   // Las dos casillas son obligatorias y no pueden venir marcadas por defecto: literal true.

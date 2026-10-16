@@ -45,7 +45,7 @@ export default function Columnas({ columnas, formatoEje }: { columnas: Columna[]
               const h = Math.max(0, (Math.max(0, c.valor) / tope) * ALTO);
               return (
                 <li key={c.clave} className="flex h-full flex-1 justify-center">
-                  <span tabIndex={0} className="group relative flex h-full w-full max-w-6 flex-col items-center justify-end outline-none" aria-label={`${c.larga}: ${c.texto}`}>
+                  <span role="img" tabIndex={0} className="group relative flex h-full w-full max-w-6 flex-col items-center justify-end outline-none" aria-label={`${c.larga}: ${c.texto}`}>
                     {i === iMax && <span className="mb-1 whitespace-nowrap text-[11px] font-semibold tabular-nums text-tinta">{c.texto}</span>}
                     <span
                       className="w-full rounded-t-[4px] transition-opacity group-hover:opacity-80 group-focus-visible:opacity-80"

@@ -21,6 +21,9 @@ analítica, chat y gallego hasta el 25). Se marca cada casilla en orden; si una 
       firmado con Andrea.
 - [ ] Fotos reales en `public/images/` (salón, trabajos, equipo) y `og.jpg` para compartir.
 - [ ] Horario confirmado (`hoursPending: false`) y coordenadas de la ficha de Google.
+- [ ] Accesibilidad: `node scripts/qa/accesibilidad.mjs` sin avisos (ver `scripts/qa/README.md`) y
+      una reserva completa con **VoiceOver** en un iPhone y con **TalkBack** en Android, sin mirar la
+      pantalla: se oye cada paso, el aviso de «quedan menos de 2 minutos» y la confirmación.
 
 ## El día
 

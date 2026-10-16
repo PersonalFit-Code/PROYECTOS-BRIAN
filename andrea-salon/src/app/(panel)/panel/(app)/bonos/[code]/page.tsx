@@ -208,7 +208,7 @@ export default async function BonoPage({
             </Dato>
             <Dato etiqueta="Para">{b.recipient_name ?? "Para ella misma"}</Dato>
             <Dato etiqueta="Fecha de compra">
-              <span className="capitalize">{fechaLarga(b.purchased_at)}</span>
+              <span className="inline-block first-letter:uppercase">{fechaLarga(b.purchased_at)}</span>
               {b.created_by && nombres.get(b.created_by) && <span className="block text-sm text-gris">Lo vendió {nombres.get(b.created_by)}</span>}
             </Dato>
             {b.gift_message && (

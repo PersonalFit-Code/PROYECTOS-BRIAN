@@ -77,7 +77,7 @@ export default function SelectorHueco({
           <Loader2 aria-hidden className="size-4 animate-spin" /> Mirando la agenda…
         </p>
       )}
-      {error && <p className="text-sm text-carmin">{error}</p>}
+      {error && <p role="alert" className="text-sm text-carmin">{error}</p>}
       {huecos && huecos.length === 0 && !error && !pendiente && <p className="text-sm text-gris">Ese día no quedan huecos. Puedes poner la hora a mano.</p>}
       {huecos && huecos.length > 0 && (
         <ul className="grid grid-cols-4 gap-2 sm:grid-cols-6">

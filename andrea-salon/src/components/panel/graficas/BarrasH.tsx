@@ -24,7 +24,7 @@ export default function BarrasH({ barras }: { barras: Barra[] }) {
           <span className="truncate text-sm text-tinta" title={b.etiqueta}>
             {b.etiqueta}
           </span>
-          <span tabIndex={0} className="group relative flex min-h-6 items-center gap-2 outline-none" aria-label={`${b.etiqueta}: ${b.texto}${b.detalle ? `, ${b.detalle}` : ""}`}>
+          <span role="img" tabIndex={0} className="group relative flex min-h-6 items-center gap-2 outline-none" aria-label={`${b.etiqueta}: ${b.texto}${b.detalle ? `, ${b.detalle}` : ""}`}>
             <span
               className="h-5 rounded-r-[4px] transition-opacity group-hover:opacity-80 group-focus-visible:opacity-80"
               style={{ width: `${Math.max(0.5, (Math.max(0, b.valor) / maximo) * 78)}%`, background: VIZ.acento }}

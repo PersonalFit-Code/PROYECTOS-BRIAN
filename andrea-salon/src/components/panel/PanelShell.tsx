@@ -1,15 +1,19 @@
 "use client";
 
-import { BarChart3, CalendarDays, CalendarPlus, Download, Gift, LogOut, Scissors, Settings, Sun, Ticket, Users, UserRound, type LucideIcon } from "lucide-react";
+import { BarChart3, CalendarDays, CalendarPlus, Download, Ellipsis, Gift, LogOut, Scissors, Settings, Sun, Ticket, Users, UserRound, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
  * Marco del panel: barra lateral en escritorio y pestañas abajo en el móvil (Andrea lo usa desde el
  * teléfono en el mostrador). Las secciones de la dueña solo aparecen si lo es; la página también lo
  * comprueba en el servidor, esto es solo para no enseñar botones que no llevan a nada.
+ *
+ * En el móvil caben cinco pestañas. La empleada tiene justo cinco; la dueña tiene once, así que ve
+ * las cuatro del día a día y «Más», que despliega el resto encima de la barra. (Antes la barra se
+ * desplazaba de lado y las secciones de la dueña quedaban fuera de la pantalla sin ninguna pista.)
  */
 interface Props {
   rol: "owner" | "staff";
@@ -21,8 +25,6 @@ interface Props {
 interface Item {
   href: string;
   label: string;
-  /** Para la barra de abajo del móvil, donde cada pestaña tiene 72 px: «Catálogo de bonos» no cabe. */
-  corto?: string;
   icon: LucideIcon;
   exacto?: boolean;
 }
@@ -37,7 +39,7 @@ const COMUNES: Item[] = [
 
 const DUENA: Item[] = [
   { href: "/panel/servicios", label: "Servicios", icon: Scissors },
-  { href: "/panel/bonos-catalogo", label: "Catálogo de bonos", corto: "Catálogo", icon: Gift },
+  { href: "/panel/bonos-catalogo", label: "Catálogo de bonos", icon: Gift },
   { href: "/panel/equipo", label: "Equipo", icon: UserRound },
   { href: "/panel/analitica", label: "Analítica", icon: BarChart3 },
   { href: "/panel/exportar", label: "Exportar", icon: Download },
@@ -48,9 +50,48 @@ export default function PanelShell({ rol, nombre, salir, children }: Props) {
   const pathname = usePathname() ?? "/panel";
   const items = rol === "owner" ? [...COMUNES, ...DUENA] : COMUNES;
   const activo = (href: string, exacto?: boolean) => (exacto ? pathname === href : pathname === href || pathname.startsWith(`${href}/`));
+  const enBarra = rol === "owner" ? COMUNES.slice(0, 4) : COMUNES;
+  const enMas = rol === "owner" ? [...COMUNES.slice(4), ...DUENA] : [];
+  const masActivo = enMas.some((it) => activo(it.href, it.exacto));
+
+  const [masAbierto, setMasAbierto] = useState(false);
+  /* Cambiar de página (también con una pestaña de la barra, que queda por encima del velo) cierra
+     «Más». Se ajusta en el render, el patrón de React para estado derivado de un cambio de prop. */
+  const [rutaVista, setRutaVista] = useState(pathname);
+  if (rutaVista !== pathname) {
+    setRutaVista(pathname);
+    if (masAbierto) setMasAbierto(false);
+  }
+  const botonMasRef = useRef<HTMLButtonElement>(null);
+  const hojaRef = useRef<HTMLDivElement>(null);
+  const cerrarMas = (devolverFoco: boolean) => {
+    setMasAbierto(false);
+    if (devolverFoco) botonMasRef.current?.focus();
+  };
+
+  /* Abierto: el foco entra en la primera sección y Escape cierra (y lo devuelve a «Más»). */
+  useEffect(() => {
+    if (!masAbierto) return;
+    hojaRef.current?.querySelector<HTMLElement>("a")?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMasAbierto(false);
+        botonMasRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [masAbierto]);
 
   return (
     <div className="min-h-dvh lg:grid lg:grid-cols-[240px_1fr]">
+      {/* Saltar las once secciones del menú (WCAG 2.4.1). Invisible hasta recibir el foco. */}
+      <a
+        href="#main"
+        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100] focus-visible:inline-flex focus-visible:rounded-full focus-visible:bg-carmin focus-visible:px-5 focus-visible:py-3 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-white"
+      >
+        Saltar al contenido
+      </a>
       <aside className="sticky top-0 hidden h-dvh flex-col border-r border-[var(--capa-borde)] bg-white/70 p-4 lg:flex">
         <div className="px-2 pb-6 pt-2">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-carmin-suave">Panel</p>
@@ -94,25 +135,71 @@ export default function PanelShell({ rol, nombre, salir, children }: Props) {
         <main id="main" className="mx-auto max-w-6xl px-4 pb-28 pt-5 sm:px-6 lg:pb-10 lg:pt-8">
           {children}
         </main>
+        {masAbierto && (
+          <>
+            {/* Velo: tocar fuera cierra. Solo ratón/dedo; con teclado se cierra con Escape. */}
+            <div aria-hidden className="fixed inset-0 z-40 bg-tinta/20 lg:hidden" onClick={() => cerrarMas(false)} />
+            <div
+              id="panel-mas"
+              ref={hojaRef}
+              className="fixed inset-x-3 bottom-[calc(4rem+env(safe-area-inset-bottom)+0.5rem)] z-50 rounded-3xl border border-[var(--capa-borde)] bg-white p-2 shadow-[var(--shadow-card)] lg:hidden"
+            >
+              <ul className="grid grid-cols-2 gap-1">
+                {enMas.map((it) => (
+                  <li key={it.href}>
+                    <Link
+                      href={it.href}
+                      onClick={() => cerrarMas(false)}
+                      aria-current={activo(it.href, it.exacto) ? "page" : undefined}
+                      className={cn(
+                        "flex min-h-12 items-center gap-3 rounded-2xl px-3 text-[15px] font-medium",
+                        activo(it.href, it.exacto) ? "bg-carmin text-white" : "text-tinta hover:bg-rosa-niebla",
+                      )}
+                    >
+                      <it.icon aria-hidden className="size-5 shrink-0" />
+                      {it.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
         <nav
-          className="fixed inset-x-0 bottom-0 z-40 flex overflow-x-auto border-t border-[var(--capa-borde)] bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
+          className="fixed inset-x-0 bottom-0 z-50 flex border-t border-[var(--capa-borde)] bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
           aria-label="Secciones del panel"
         >
-          {items.map((it) => (
+          {enBarra.map((it) => (
             <Link
               key={it.href}
               href={it.href}
-              aria-label={it.corto ? it.label : undefined}
               aria-current={activo(it.href, it.exacto) ? "page" : undefined}
               className={cn(
-                "flex min-h-16 min-w-[72px] flex-1 flex-col items-center justify-center gap-1 text-[11px] font-medium",
+                "flex min-h-16 flex-1 flex-col items-center justify-center gap-1 text-[11px] font-medium",
                 activo(it.href, it.exacto) ? "text-carmin" : "text-gris",
               )}
             >
               <it.icon aria-hidden className="size-5" />
-              {it.corto ?? it.label}
+              {it.label}
             </Link>
           ))}
+          {enMas.length > 0 && (
+            <button
+              ref={botonMasRef}
+              type="button"
+              onClick={() => (masAbierto ? cerrarMas(true) : setMasAbierto(true))}
+              aria-expanded={masAbierto}
+              aria-controls="panel-mas"
+              className={cn(
+                "flex min-h-16 flex-1 flex-col items-center justify-center gap-1 text-[11px] font-medium",
+                masActivo || masAbierto ? "text-carmin" : "text-gris",
+              )}
+            >
+              <Ellipsis aria-hidden className="size-5" />
+              Más
+              {masActivo && <span className="sr-only"> (estás en una de estas secciones)</span>}
+            </button>
+          )}
         </nav>
       </div>
     </div>

@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
-import { useMessages } from "@/i18n/LocaleProvider";
+import { useFormat, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 import type { DiaDisponible } from "./tipos";
 
@@ -26,6 +26,7 @@ export default function Calendario({
   onElegir: (fecha: string) => void;
 }) {
   const m = useMessages().reservar.dia;
+  const t = useFormat();
   const porFecha = useMemo(() => new Map(dias.map((d) => [d.fecha, d.hayHuecos])), [dias]);
 
   const meses = useMemo(() => {
@@ -63,7 +64,7 @@ export default function Calendario({
         >
           <ChevronLeft aria-hidden className="size-5" />
         </button>
-        <p className="font-display text-lg font-semibold capitalize text-tinta" aria-live="polite">
+        <p className="font-display text-lg font-semibold text-tinta first-letter:uppercase" aria-live="polite">
           {m.meses[mes - 1]} {a}
         </p>
         <button
@@ -83,13 +84,16 @@ export default function Calendario({
           </span>
         ))}
       </div>
-      <div className="grid grid-cols-7 gap-1" role="grid">
+      {/* Botones sueltos con etiqueta completa («jueves, 16 de octubre»), no `role="grid"`: un grid
+          exige filas y celdas, y a medias confunde más al lector de pantalla que no ponerlo. */}
+      <div className="grid grid-cols-7 gap-1">
         {celdas.map((fecha, i) => {
           if (!fecha) return <span key={`v${i}`} />;
           const enRango = porFecha.has(fecha);
           const libre = porFecha.get(fecha) === true;
           const activa = fecha === seleccionada;
           const dia = Number(fecha.slice(8));
+          const diaSemana = m.diasLargos[new Date(Date.UTC(a, mes - 1, dia)).getUTCDay()] ?? "";
           return (
             <button
               key={fecha}
@@ -97,7 +101,7 @@ export default function Calendario({
               disabled={!libre}
               onClick={() => onElegir(fecha)}
               aria-pressed={activa}
-              aria-label={`${dia} ${m.meses[mes - 1]}`}
+              aria-label={t(m.fechaFormato, { dia: diaSemana, n: dia, mes: m.meses[mes - 1] ?? "" })}
               className={cn(
                 "aspect-square min-h-11 rounded-2xl text-[15px] font-semibold transition-colors",
                 activa && "bg-carmin text-[var(--on-accent)] shadow-[var(--shadow-soft)]",

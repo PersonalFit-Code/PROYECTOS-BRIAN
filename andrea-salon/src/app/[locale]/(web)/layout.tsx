@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ChatProvider } from "@/components/chat/ChatProvider";
+import CookieConsent from "@/components/consent/CookieConsent";
 import FloatingWhatsApp from "@/components/ui/FloatingWhatsApp";
 import MobileStickyBar from "@/components/ui/MobileStickyBar";
 
@@ -15,7 +16,8 @@ import MobileStickyBar from "@/components/ui/MobileStickyBar";
  * las legales.
  *
  * El asistente va SOLO en este grupo: ni en la reserva `(reservar)`, que ya es un asistente que sí
- * reserva, ni en el panel.
+ * reserva, ni en el panel. El aviso de cookies, también: lo único que pide consentimiento es el
+ * mapa, que solo está en la web, y en la reserva el aviso tapaba el botón «Continuar» del móvil.
  */
 export default function WebLayout({ children }: { children: ReactNode }) {
   /* Si el asistente responde con IA. Se mira en el servidor (la clave nunca llega al navegador) y
@@ -32,6 +34,7 @@ export default function WebLayout({ children }: { children: ReactNode }) {
       </div>
       <FloatingWhatsApp />
       <MobileStickyBar />
+      <CookieConsent />
     </ChatProvider>
   );
 }

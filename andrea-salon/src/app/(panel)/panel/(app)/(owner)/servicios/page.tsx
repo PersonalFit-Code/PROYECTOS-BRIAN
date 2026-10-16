@@ -87,7 +87,7 @@ export default async function ServiciosPage() {
                 return (
                   <li
                     key={s.id}
-                    className={cn("rounded-2xl border border-[var(--capa-borde)] bg-white p-3", !s.active && "opacity-70")}
+                    className={cn("rounded-2xl border border-[var(--capa-borde)] p-3", s.active ? "bg-white" : "border-dashed bg-crema")}
                   >
                     <div className="flex items-start gap-2">
                       <div className="min-w-0 flex-1">

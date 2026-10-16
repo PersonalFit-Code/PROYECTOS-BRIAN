@@ -16,8 +16,9 @@
    · Los rosas (#F3D3DE, #FAEAF0, #E7A6BD) son SOLO fondo y decoración. Nunca texto: el más fuerte
      da 1,9:1 sobre blanco.
    · Texto sobre carmín: siempre blanco (`--on-accent`, 9,4:1).
-   · `gris` (#7C6B72) sobre crema: 4,9:1. Es el color del texto secundario; sobre rosa-niebla se
-     queda en 4,5:1, que es el mínimo —por eso las tarjetas sobre rosa usan `tinta` y no `gris`.
+   · `gris` (#73646A) sobre blanco: 5,6:1; sobre crema 5,3:1; sobre rosa-niebla 4,8:1 (el pie).
+     Es el color del texto secundario. Antes era #7C6B72, que sobre rosa-niebla se quedaba en
+     4,3:1 y no llegaba al mínimo (4,5). Sobre `rosa` macizo (#F3D3DE) da 4,0: ahí, `tinta`.
    ───────────────────────────────────────────────────────────── */
 @theme {
   --color-carmin: #8e0e33;
@@ -29,7 +30,7 @@
   --color-rosa-fuerte: #e7a6bd;
   --color-crema: #fdf7f9;
   --color-tinta: #2e2127;
-  --color-gris: #7c6b72;
+  --color-gris: #73646a;
   --color-blanco: #ffffff;
 
   /* Source Serif 4: titulares. Es lo más cercano a la Charter del PDF de la propuesta, que es la
@@ -401,6 +402,19 @@ body::before {
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* Barra inferior de la reserva (resumen + «Continuar»). Lo enfocado no puede quedar debajo de ella
+   (WCAG 2.4.11): el navegador deja ese margen al desplazar hasta un control, y mientras se escribe en
+   un campo la barra se quita (en el móvil se quedaría encima del teclado, tapando lo que se teclea). */
+html:has(.barra-reserva) {
+  /* Arriba, la cabecera pegada de la reserva (≈ 4 rem): sin esto, al llevar el foco al teléfono
+     mal escrito la etiqueta quedaba debajo de ella. */
+  scroll-padding-top: 5.5rem;
+  scroll-padding-bottom: 7.5rem;
+}
+html:has(:is(input:not([type="checkbox"], [type="radio"]), textarea, select):focus) .barra-reserva {
+  display: none;
 }
 
 /* Anillo de foco accesible: carmín sobre crema (9,4:1), bien visible también sobre rosa. */

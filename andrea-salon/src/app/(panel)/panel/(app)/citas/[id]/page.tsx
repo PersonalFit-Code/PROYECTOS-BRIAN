@@ -56,7 +56,7 @@ export default async function CitaPage({ params }: { params: Promise<{ id: strin
             <span className="text-xs text-gris">{c.client_confirmed_at ? "· Ha confirmado que viene" : "· Aún no ha confirmado"}</span>
           )}
         </div>
-        <h1 className="mt-3 font-display text-2xl font-semibold capitalize">
+        <h1 className="mt-3 font-display text-2xl font-semibold first-letter:uppercase">
           {fechaLarga(c.starts_at)} · {hora(c.starts_at)}
         </h1>
         <p className="mt-1 flex items-center gap-2 text-gris">

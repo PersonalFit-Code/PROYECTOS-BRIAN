@@ -40,7 +40,7 @@ export default async function AgendaPage({ searchParams }: Props) {
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold capitalize">{titulo}</h1>
+          <h1 className="font-display text-3xl font-semibold first-letter:uppercase">{titulo}</h1>
           {fecha !== hoy && (
             <Link href={enlace(hoy)} className="text-sm font-semibold text-carmin">
               Ir a hoy

@@ -27,7 +27,7 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
   const c = m.contacto;
   const h = compact ? m.home.contacto : c;
 
-  const fila = "flex items-start gap-3 text-sm text-gris";
+  const fila = "flex min-h-6 items-start gap-3 py-0.5 text-sm text-gris";
   const icono = "mt-0.5 size-4 shrink-0 text-carmin-suave";
 
   return (
@@ -38,8 +38,10 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:gap-12">
           <div className="space-y-8">
-            <dl data-reveal className="glass rounded-3xl p-6 sm:p-8">
-              <div className="grid gap-5 sm:grid-cols-2">
+            {/* Una tarjeta, dos listas: un <dl> solo admite grupos <div> con <dt>/<dd> como hijos
+                directos, así que la rejilla ES la lista (y aparcar va en otra, bajo la raya). */}
+            <div data-reveal className="glass rounded-3xl p-6 sm:p-8">
+              <dl className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <dt className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{c.address}</dt>
                   <dd className="mt-2">
@@ -84,17 +86,17 @@ export default function Contacto({ compact = false, titleAs = "h2" }: { compact?
                     </a>
                   </dd>
                 </div>
-              </div>
+              </dl>
               {!compact ? (
-                <div className="mt-6 border-t border-carmin/10 pt-5">
+                <dl className="mt-6 border-t border-carmin/10 pt-5">
                   <dt className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{c.parking}</dt>
                   <dd className={cn(fila, "mt-2")}>
                     <Car aria-hidden className={icono} />
                     {c.parkingText}
                   </dd>
-                </div>
+                </dl>
               ) : null}
-            </dl>
+            </div>
 
             <div data-reveal>
               <h3 className="font-sans text-[11px] font-semibold tracking-[0.28em] text-carmin-suave uppercase">{c.hours}</h3>
