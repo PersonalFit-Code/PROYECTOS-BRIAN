@@ -3,7 +3,7 @@ import { Phone } from "lucide-react";
 import Asistente from "@/components/reservar/Asistente";
 import type { CitaACambiar } from "@/components/reservar/tipos";
 import { BUSINESS } from "@/data/business";
-import { DEFAULT_LOCALE, isLocale } from "@/i18n/config";
+import { DEFAULT_LOCALE, isLocale, LOCALE_META } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
 import { urlFor } from "@/lib/hosts";
 import { getAjustes } from "@/lib/reservas/ajustes";
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-async function citaACambiar(token: string | null, firma: string | null): Promise<CitaACambiar | null> {
+async function citaACambiar(token: string | null, firma: string | null, intl: string): Promise<CitaACambiar | null> {
   if (!token || !firma || !/^[0-9a-f-]{36}$/i.test(token)) return null;
   try {
     if (!tokenValido(token, firma)) return null;
@@ -48,8 +48,8 @@ async function citaACambiar(token: string | null, firma: string | null): Promise
       firma,
       servicios: c.items.map((i) => i.service_id as string),
       staffId: c.cita.staff_id,
-      fecha: fechaLarga(c.cita.starts_at, ajustes.timezone),
-      hora: hora(c.cita.starts_at, ajustes.timezone),
+      fecha: fechaLarga(c.cita.starts_at, ajustes.timezone, intl),
+      hora: hora(c.cita.starts_at, ajustes.timezone, intl),
     };
   } catch {
     return null;
@@ -63,7 +63,7 @@ export default async function ReservarPage({ params, searchParams }: Props) {
   const [m, catalogo, cambiar] = await Promise.all([
     getMessages(locale),
     catalogoReserva(),
-    citaACambiar(uno(q.cambiar), uno(q.t)),
+    citaACambiar(uno(q.cambiar), uno(q.t), LOCALE_META[locale].intl),
   ]);
 
   if (!catalogo) {

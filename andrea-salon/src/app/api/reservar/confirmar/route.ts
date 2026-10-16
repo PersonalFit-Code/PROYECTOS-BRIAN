@@ -1,6 +1,6 @@
 import { after } from "next/server";
 import { z } from "zod";
-import { LOCALES } from "@/i18n/config";
+import { LOCALE_META, LOCALES } from "@/i18n/config";
 import { comprobarCuota, error, leerJson, ok } from "@/lib/api";
 import { normalizarTelefonoES } from "@/lib/phone";
 import { crearLimitador } from "@/lib/rateLimit";
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
     const [cita, ajustes] = await Promise.all([cargarCita(bookingId), getAjustes()]);
     return ok({
       ok: true,
-      cita: cita ? resumen(cita, ajustes) : null,
+      cita: cita ? resumen(cita, ajustes, new Date(), LOCALE_META[d.locale].intl) : null,
       urlCita: urlCita(data.manage_token, d.locale),
     });
   } catch (e) {

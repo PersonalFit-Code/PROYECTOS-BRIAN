@@ -350,7 +350,7 @@ export default function Asistente({ catalogo, conSlug, cambiar, inicial }: Props
 
             {paso === "hora" && (
               <>
-                {fecha && <p className="mb-4 text-gris">{fechaBonita(fecha, m.dia.meses)}</p>}
+                {fecha && <p className="mb-4 text-gris">{fechaBonita(fecha, m.dia, t)}</p>}
                 {cargando && !huecos && <Cargando texto={m.dia.cargando} />}
                 {huecos && huecos.length === 0 && <SinHuecos texto={m.hora.sinHoras} />}
                 {huecos && huecos.length > 0 && (
@@ -486,11 +486,14 @@ function SinHuecos({ texto }: { texto: string }) {
   );
 }
 
-function fechaBonita(fecha: string, meses: readonly string[]): string {
+function fechaBonita(
+  fecha: string,
+  textos: { meses: readonly string[]; diasLargos: readonly string[]; fechaFormato: string },
+  t: (plantilla: string, vars?: Record<string, string | number>) => string,
+): string {
   const [a, mes, d] = fecha.split("-").map(Number);
-  const dias = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
   const dow = new Date(Date.UTC(a, mes - 1, d)).getUTCDay();
-  return `${dias[dow]}, ${d} de ${meses[mes - 1]}`;
+  return t(textos.fechaFormato, { dia: textos.diasLargos[dow] ?? "", n: d, mes: textos.meses[mes - 1] ?? "" });
 }
 
 function PasoServicios({

@@ -38,6 +38,16 @@ analítica, chat y gallego hasta el 25). Se marca cada casilla en orden; si una 
 7. [ ] Pedir a Elitek por escrito que redirija `andreasalonnails.com` al nuevo dominio o lo apague,
        y la exportación de clientas/citas si no la han dado (portabilidad, RGPD art. 20).
 
+## Gallego (publicado en `/gl`)
+
+- [ ] Que alguien gallegohablante del salón revise la web en `/gl`. Dudas a decidir: «Opinións» o
+      «Recensións» (Google usa la segunda); «en liña» u «online»; «agasallo/mercar» o
+      «regalo/comprar»; los titulares partidos («con agarimo», «Ven vernos»); y las formas
+      «dicímoscho», «cancelámoscha» (correctas; ¿encajan con el tono del salón?).
+- [ ] Los **correos** siguen en castellano para todas (plantillas de `src/emails`). Traducirlos si
+      Andrea lo quiere; los botones de la página de la cita ya salen en gallego.
+- [ ] Los textos legales están traducidos enteros: revisarlos igual que los castellanos.
+
 ## La primera semana
 
 - Agenda en paralelo: las citas que entren por teléfono se apuntan en el panel, no en papel.

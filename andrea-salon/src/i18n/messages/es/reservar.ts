@@ -45,6 +45,10 @@ const reservar = {
     cargando: "Mirando la agenda…",
     sinDias: "No quedan huecos en los próximos {dias} días para esto. Llámanos y lo buscamos juntas.",
     semana: ["L", "M", "X", "J", "V", "S", "D"],
+    /** domingo primero: el índice es el de `getUTCDay()` */
+    diasLargos: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
+    /** "{dia}, {n} de {mes}" */
+    fechaFormato: "{dia}, {n} de {mes}",
     meses: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
     anterior: "Mes anterior",
     siguiente: "Mes siguiente",

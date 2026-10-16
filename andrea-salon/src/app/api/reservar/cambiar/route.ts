@@ -1,6 +1,6 @@
 import { after } from "next/server";
 import { z } from "zod";
-import { LOCALES } from "@/i18n/config";
+import { LOCALE_META, LOCALES } from "@/i18n/config";
 import { codigoDeRaise, comprobarCuota, error, esChoqueDeHorario, leerJson, ok } from "@/lib/api";
 import { AgendaInvalidaError } from "@/lib/booking";
 import { crearLimitador } from "@/lib/rateLimit";
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
     });
 
     const nueva = await cargarCita(nuevaId);
-    return ok({ ok: true, cita: nueva ? resumen(nueva, ajustes) : null, urlCita: urlCita(token, locale) });
+    return ok({ ok: true, cita: nueva ? resumen(nueva, ajustes, new Date(), LOCALE_META[locale].intl) : null, urlCita: urlCita(token, locale) });
   } catch (e) {
     if (e instanceof ReservaInvalidaError) return error(400, e.codigo);
     if (e instanceof AgendaInvalidaError) return error(500, "AGENDA_INVALIDA", e.message);

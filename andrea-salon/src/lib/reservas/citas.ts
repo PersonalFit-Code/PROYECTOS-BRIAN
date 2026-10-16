@@ -108,7 +108,8 @@ export interface ResumenCita {
   horasCancelacion: number;
 }
 
-export function resumen(c: CitaCompleta, ajustes: Ajustes, ahora = new Date()): ResumenCita {
+/** `intl`: idioma de las fechas en texto ("es-ES", "gl-ES"); el de la página que lo pide. */
+export function resumen(c: CitaCompleta, ajustes: Ajustes, ahora = new Date(), intl = "es-ES"): ResumenCita {
   const inicio = new Date(c.cita.starts_at);
   return {
     id: c.cita.id,
@@ -116,8 +117,8 @@ export function resumen(c: CitaCompleta, ajustes: Ajustes, ahora = new Date()): 
     estado: c.cita.status,
     inicio: inicio.toISOString(),
     salida: salidaDe(c).toISOString(),
-    fecha: fechaLarga(inicio, ajustes.timezone),
-    hora: horaDe(inicio, ajustes.timezone),
+    fecha: fechaLarga(inicio, ajustes.timezone, intl),
+    hora: horaDe(inicio, ajustes.timezone, intl),
     duracionMin: duracionCliente(c.items),
     servicios: c.items.map((i) => ({ id: i.service_id, nombre: i.name, duracionMin: i.duration_min, precioCents: i.price_cents })),
     profesional: c.profesional,

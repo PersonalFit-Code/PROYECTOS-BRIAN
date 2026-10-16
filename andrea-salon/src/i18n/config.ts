@@ -12,7 +12,10 @@
 export const KNOWN_LOCALES = ["es", "gl"] as const;
 export type KnownLocale = (typeof KNOWN_LOCALES)[number];
 
-export const LOCALES = ["es"] as const satisfies readonly KnownLocale[];
+/* El gallego se publica en la fase 3 (16/10/2026) con la traducción completa de `messages/gl`.
+   Lo que aún sale en castellano en una página gallega: los correos y el aviso legal de datos
+   pendientes (`[NIF PENDIENTE]`); está en `docs/lanzamiento.md`. */
+export const LOCALES = ["es", "gl"] as const satisfies readonly KnownLocale[];
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "es";
 

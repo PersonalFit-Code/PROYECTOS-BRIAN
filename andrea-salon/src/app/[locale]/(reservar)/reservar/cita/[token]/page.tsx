@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import CitaGestion from "@/components/reservar/CitaGestion";
-import { DEFAULT_LOCALE, isLocale } from "@/i18n/config";
+import { DEFAULT_LOCALE, isLocale, LOCALE_META } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
 import { getAjustes } from "@/lib/reservas/ajustes";
 import { cargarCitaPorToken, resumen, type ResumenCita } from "@/lib/reservas/citas";
@@ -38,7 +38,7 @@ export default async function CitaPage({ params, searchParams }: Props) {
   try {
     if (/^[0-9a-f-]{36}$/i.test(token) && tokenValido(token, firma)) {
       const [c, ajustes] = await Promise.all([cargarCitaPorToken(token), getAjustes()]);
-      if (c) cita = resumen(c, ajustes);
+      if (c) cita = resumen(c, ajustes, new Date(), LOCALE_META[locale].intl);
     }
   } catch (e) {
     console.error("[cita] página:", e);
