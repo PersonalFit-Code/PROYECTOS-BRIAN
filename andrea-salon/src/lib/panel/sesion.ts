@@ -2,6 +2,7 @@ import "server-only";
 
 import { redirect } from "next/navigation";
 import { cache } from "react";
+import { getAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import type { Role } from "@/lib/supabase/types";
 
@@ -21,8 +22,23 @@ export interface Sesion {
   nombre: string;
 }
 
+export { panelSinLogin } from "./sinLogin";
+import { panelSinLogin } from "./sinLogin";
+
 export const getSesion = cache(async (): Promise<Sesion | null> => {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return null;
+  if (panelSinLogin()) {
+    // La primera dueña de verdad (un usuario real: las funciones guardan quién hizo cada cosa).
+    const { data: perfil } = await getAdminClient()
+      .from("profiles")
+      .select("id, role, staff_id, display_name")
+      .eq("role", "owner")
+      .order("created_at")
+      .limit(1)
+      .maybeSingle();
+    if (!perfil) return null;
+    return { userId: perfil.id, email: null, role: "owner", staffId: perfil.staff_id, nombre: perfil.display_name ?? "Andrea" };
+  }
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user) return null;

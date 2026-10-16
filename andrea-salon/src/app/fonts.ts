@@ -1,4 +1,4 @@
-import { Bodoni_Moda, Inter } from "next/font/google";
+import { Bodoni_Moda, Great_Vibes, Jost } from "next/font/google";
 
 /**
  * Fuentes de la web, en un módulo aparte porque las cargan DOS raíces distintas:
@@ -19,8 +19,11 @@ const bodoni = Bodoni_Moda({
   display: "swap",
 });
 
-/* Inter: texto corrido, botones y formularios de la reserva. */
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+/* Jost: la geométrica tipo Futura de las revistas (menú, titulares de sección, botones, texto). */
+const jost = Jost({ subsets: ["latin"], variable: "--font-jost", display: "swap" });
+
+/* Great Vibes: la caligrafía del logotipo de Andrea («Andrea Salón · uñas y belleza»). Solo el logo. */
+const greatVibes = Great_Vibes({ subsets: ["latin"], weight: "400", variable: "--font-great-vibes", display: "swap" });
 
 /** Clases de variables CSS para el `<html>`. */
-export const fontVariables = `${bodoni.variable} ${inter.variable}`;
+export const fontVariables = `${bodoni.variable} ${jost.variable} ${greatVibes.variable}`;

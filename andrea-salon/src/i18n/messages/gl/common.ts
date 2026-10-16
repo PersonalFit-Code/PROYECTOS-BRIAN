@@ -8,6 +8,7 @@ import type { Traducion } from "./traducion";
 const common: Traducion<"common"> = {
   brand: "Andrea Salón",
   brandShort: "Andrea",
+  brandSuffix: "Salón",
   tagline: "Unllas e beleza en Ourense",
   subtitle:
     "Manicura rusa, pedicura, nail art e deseño de mirada na Rúa Río Mao, Ourense. Reserva a túa cita en liña nun minuto.",

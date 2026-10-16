@@ -12,7 +12,7 @@ export default async function ContactoPage({ params }: { params: Promise<{ local
   const { locale, m } = await pageContext(params);
   const migas = breadcrumbJsonLd([{ name: m.nav.items.home, url: absoluteUrl(locale, "/") }, { name: m.nav.items.contacto, url: absoluteUrl(locale, "/contacto") }]);
   return (
-    <div className="pt-24 sm:pt-32">
+    <div className="pt-[var(--header-h)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(migas) }} />
       <Contacto titleAs="h1" />
     </div>

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getSesion } from "@/lib/panel/sesion";
+import { getSesion, panelSinLogin } from "@/lib/panel/sesion";
 import LoginForm from "./LoginForm";
 
 export const dynamic = "force-dynamic";
@@ -7,7 +7,7 @@ export const metadata = { title: "Entrar" };
 
 /** Sin registro: los usuarios los crea Brian con `scripts/crear-usuario.ts`. */
 export default async function LoginPage() {
-  if (await getSesion()) redirect("/panel");
+  if (panelSinLogin() || (await getSesion())) redirect("/panel");
   return (
     <main className="grid min-h-dvh place-items-center px-4">
       <div className="w-full max-w-sm rounded-[32px] border border-[var(--capa-borde)] bg-white/80 p-7 shadow-[var(--shadow-card)]">

@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import LogoAndrea from "@/components/ui/LogoAndrea";
 import { useRef } from "react";
 import { ArrowUp, MapPin, Navigation, Phone } from "lucide-react";
 import { FacebookGlyph, InstagramGlyph } from "@/components/ui/SocialGlyphs";
@@ -37,9 +37,7 @@ export default function Footer() {
       <div className="container-page border-b border-nude py-14 text-center sm:py-20">
         {/* Sin `aria-label`: el nombre accesible tiene que contener lo que se ve (WCAG 2.5.3). */}
         <Link href={lp("/")} className="inline-flex flex-col items-center">
-          <Image src="/brand/logo.png" alt="" width={56} height={56} className="size-12 rounded-full" />
-          <span className="titulo-editorial mt-6 text-3xl tracking-[0.24em] text-tinta sm:text-6xl sm:tracking-[0.3em]">{m.common.brand}</span>
-          <span className="etiqueta mt-4 text-carmin-suave">{m.common.tagline}</span>
+          <LogoAndrea tamano="xl" filigranas />
           <span className="sr-only"> · {m.nav.items.home}</span>
         </Link>
       </div>

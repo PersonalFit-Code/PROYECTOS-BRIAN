@@ -19,6 +19,8 @@ interface Props {
   rol: "owner" | "staff";
   nombre: string;
   salir: () => Promise<void>;
+  /** Panel sin contraseña (desarrollo): franja de aviso y sin «Salir». */
+  sinLogin?: boolean;
   children: ReactNode;
 }
 
@@ -46,7 +48,7 @@ const DUENA: Item[] = [
   { href: "/panel/configuracion", label: "Configuración", icon: Settings },
 ];
 
-export default function PanelShell({ rol, nombre, salir, children }: Props) {
+export default function PanelShell({ rol, nombre, salir, sinLogin = false, children }: Props) {
   const pathname = usePathname() ?? "/panel";
   const items = rol === "owner" ? [...COMUNES, ...DUENA] : COMUNES;
   const activo = (href: string, exacto?: boolean) => (exacto ? pathname === href : pathname === href || pathname.startsWith(`${href}/`));
@@ -85,6 +87,11 @@ export default function PanelShell({ rol, nombre, salir, children }: Props) {
 
   return (
     <div className="min-h-dvh lg:grid lg:grid-cols-[240px_1fr]">
+      {sinLogin && (
+        <p role="note" className="fixed inset-x-0 top-0 z-[60] bg-amber-300 px-4 py-1 text-center text-xs font-semibold text-tinta">
+          Panel sin contraseña · solo para desarrollo, sin datos reales de clientas
+        </p>
+      )}
       {/* Saltar las once secciones del menú (WCAG 2.4.1). Invisible hasta recibir el foco. */}
       <a
         href="#main"
@@ -115,22 +122,24 @@ export default function PanelShell({ rol, nombre, salir, children }: Props) {
         </nav>
         <div className="border-t border-[var(--capa-borde)] pt-4">
           <p className="truncate px-2 text-sm text-gris">{nombre}</p>
-          <form action={salir}>
+          {!sinLogin && <form action={salir}>
             <button type="submit" className="mt-2 flex min-h-11 w-full items-center gap-3 rounded-2xl px-3 text-sm text-gris hover:bg-rosa-niebla hover:text-tinta">
               <LogOut aria-hidden className="size-4" /> Salir
             </button>
-          </form>
+          </form>}
         </div>
       </aside>
 
       <div className="min-w-0">
         <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[var(--capa-borde)] bg-crema/90 px-4 py-3 backdrop-blur lg:hidden">
           <p className="font-display text-lg font-semibold">Andrea Salón</p>
-          <form action={salir}>
-            <button type="submit" className="flex min-h-11 items-center gap-2 rounded-full px-3 text-sm text-gris" aria-label="Salir">
-              <LogOut aria-hidden className="size-4" />
-            </button>
-          </form>
+          {!sinLogin && (
+            <form action={salir}>
+              <button type="submit" className="flex min-h-11 items-center gap-2 rounded-full px-3 text-sm text-gris" aria-label="Salir">
+                <LogOut aria-hidden className="size-4" />
+              </button>
+            </form>
+          )}
         </header>
         <main id="main" className="mx-auto max-w-6xl px-4 pb-28 pt-5 sm:px-6 lg:pb-10 lg:pt-8">
           {children}

@@ -63,7 +63,7 @@ export default function SocialProof({ titleAs = "h2" }: { titleAs?: "h1" | "h2" 
             <span aria-hidden className="pointer-events-none absolute -top-16 left-1/2 -translate-x-1/2 font-display text-[7rem] leading-none text-nude select-none sm:-top-28 sm:text-[10rem]">
               «
             </span>
-            <blockquote className="relative font-display text-[1.65rem] leading-[1.35] text-tinta italic text-balance sm:text-4xl sm:leading-[1.3]">
+            <blockquote className="relative font-display text-[1.35rem] leading-[1.4] tracking-[0.01em] text-tinta uppercase italic text-balance sm:text-[1.9rem] sm:leading-[1.35]">
               {destacada.text}
             </blockquote>
             <figcaption className="etiqueta mt-8 text-carmin-suave">

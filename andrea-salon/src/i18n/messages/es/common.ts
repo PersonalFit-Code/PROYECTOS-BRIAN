@@ -7,6 +7,8 @@
 const common = {
   brand: "Andrea Salón",
   brandShort: "Andrea",
+  /** Segundo piso del logotipo de cabecera, bajo «ANDREA». */
+  brandSuffix: "Salón",
   tagline: "Uñas y belleza en Ourense",
   /* Meta description de la portada: ≤ 160 caracteres, con la pareja de intención local (uñas +
      Ourense) y los tres servicios por los que más se busca. */

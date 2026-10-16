@@ -14,6 +14,8 @@ analítica, chat y gallego hasta el 25). Se marca cada casilla en orden; si una 
 - [ ] **Catálogo real** metido desde el panel: servicios con duración, respiro y precio; quién hace
       qué; equipo con horarios; festivos y vacaciones de noviembre y diciembre.
 - [ ] Ajustes revisados con Andrea: antelación mínima, horizonte (45 días), plazo de cancelación.
+- [ ] **Quitar `PANEL_SIN_LOGIN`** de Vercel (Production y Preview) y redesplegar **antes** de importar
+  clientas reales o de poner el dominio. Comprobar que `/panel` vuelve a pedir contraseña.
 - [ ] Usuarios creados (`scripts/crear-usuario.ts`): Andrea como `owner`, cada empleada como
       `staff` con su `--staff`. Cada una entra una vez y cambia su contraseña.
 - [ ] Datos legales completos en `src/data/business.ts` (NIF, domicilio fiscal, correo) → las

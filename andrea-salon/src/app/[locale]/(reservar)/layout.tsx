@@ -1,5 +1,6 @@
 import { ArrowLeft, Phone } from "lucide-react";
 import type { ReactNode } from "react";
+import LogoAndrea from "@/components/ui/LogoAndrea";
 import { BUSINESS } from "@/data/business";
 import { isLocale, DEFAULT_LOCALE } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
@@ -20,7 +21,7 @@ export default async function ReservarLayout({ children, params }: { children: R
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-2 py-2 sm:px-4">
           <a href={urlFor("web", "/", locale)} className="inline-flex min-h-11 items-center gap-3 px-2 text-tinta">
             <ArrowLeft aria-hidden className="size-4" />
-            <span className="titulo-editorial text-base tracking-[0.24em]">{BUSINESS.name}</span>
+            <LogoAndrea tamano="sm" />
             <span className="sr-only">{m.header.back}</span>
           </a>
           <a href={BUSINESS.phone.tel} className="inline-flex min-h-11 items-center gap-2 px-3 text-sm text-gris hover:text-tinta">

@@ -46,7 +46,7 @@ export default async function GraciasPage({
   const { valida, bono } = await bonoDeSesion(cs);
 
   return (
-    <div className="container-page flex min-h-[70dvh] items-center justify-center pb-20 pt-32">
+    <div className="container-page flex min-h-[70dvh] items-center justify-center pb-20 pt-[calc(var(--header-h)+3rem)]">
       <div className="w-full max-w-lg rounded-[3px] border border-[var(--capa-borde)] bg-white p-8 text-center shadow-[var(--shadow-card)]">
         <CheckCircle2 aria-hidden className="mx-auto size-14 text-carmin" />
         <h1 className="mt-4 font-display text-3xl font-semibold text-tinta">{g.title}</h1>

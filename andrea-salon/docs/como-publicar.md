@@ -108,3 +108,16 @@ Para activar el CAPTCHA (5 minutos):
 
 Con las claves puestas, Cloudflare sale solo en la lista de encargados de la política de privacidad.
 Si algún día molestara, se quitan las dos variables y la reserva vuelve a funcionar sin CAPTCHA.
+
+## 8. Panel sin contraseña (solo mientras se desarrolla)
+
+Para que Brian entre al panel sin login mientras se prueban cosas: en Vercel, `PANEL_SIN_LOGIN=1`
+(Production y Preview) y redesplegar. Hace falta Supabase configurado y una dueña creada con
+`scripts/crear-usuario.ts` (el panel entra como ese perfil `owner`). Arriba sale una franja ámbar
+«Panel sin contraseña» para que no se olvide.
+
+- Solo funciona mientras la web vive en el enlace de Vercel (protegido con su login). Con
+  `NEXT_PUBLIC_SITE_URL` de dominio propio se ignora aunque la variable siga puesta.
+- **Quitarla antes de meter clientas reales** (importación de Elitek o lanzamiento): ver
+  `lanzamiento.md`.
+

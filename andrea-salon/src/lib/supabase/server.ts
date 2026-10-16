@@ -1,6 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { getAdminClient } from "./admin";
 import type { Database } from "./types";
+import { panelSinLogin } from "@/lib/panel/sinLogin";
 
 /**
  * Cliente de Supabase para componentes de servidor, Server Actions y route handlers DEL PANEL:
@@ -11,6 +13,12 @@ import type { Database } from "./types";
  * escribe con el de `admin.ts`, siempre desde el servidor y tras validar la entrada.
  */
 export async function createClient() {
+  /* Panel sin contraseña (ver `panelSinLogin` en lib/panel/sesion.ts): sin cookie de sesión, RLS no
+     devolvería nada; se lee como la dueña, que lo ve todo. Mismo criterio que allí, repetido aquí
+     para no importar la sesión desde el cliente de base de datos. */
+  if (panelSinLogin()) {
+    return getAdminClient() as unknown as ReturnType<typeof createServerClient<Database>>;
+  }
   const cookieStore = await cookies();
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

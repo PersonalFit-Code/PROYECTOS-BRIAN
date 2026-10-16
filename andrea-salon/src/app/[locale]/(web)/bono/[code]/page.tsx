@@ -50,7 +50,7 @@ export default async function BonoPage({
 
   if (!bono) {
     return (
-      <div className="container-page flex min-h-[70dvh] items-center justify-center pb-20 pt-32">
+      <div className="container-page flex min-h-[70dvh] items-center justify-center pb-20 pt-[calc(var(--header-h)+3rem)]">
         <p className="max-w-md text-center text-gris">{b.invalido}</p>
       </div>
     );
@@ -63,7 +63,7 @@ export default async function BonoPage({
       : format(b.saldo, { saldo: formatCents(bono.balance_cents ?? 0), total: formatCents(bono.value_cents ?? 0) });
 
   return (
-    <div className="container-page flex min-h-[70dvh] items-center justify-center pb-20 pt-32">
+    <div className="container-page flex min-h-[70dvh] items-center justify-center pb-20 pt-[calc(var(--header-h)+3rem)]">
       <div className="w-full max-w-md rounded-[32px] border border-[var(--capa-borde)] bg-white p-7 text-center shadow-[var(--shadow-card)]">
         <span
           className={cn(

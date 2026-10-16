@@ -46,12 +46,16 @@ export type BotonProps = ButtonProps | AnchorProps;
    color. La transición se ACOTA a la lista explícita: pulsar responde en 100 ms, el hover en 320.
    `active:` queda para quien no tenga JS: framer pone el mismo hundido. */
 const base =
-  "group relative inline-flex items-center justify-center gap-2.5 rounded-[2px] text-center font-sans font-medium uppercase tracking-[0.18em] leading-snug transition-[background-color,border-color,box-shadow,color,opacity] duration-[var(--dur-morph)] ease-[var(--ease-muelle)] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-carmin focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:opacity-50 disabled:pointer-events-none";
+  "group relative isolate inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-[2px] text-center font-sans font-medium uppercase tracking-[0.18em] leading-snug transition-[color,border-color,opacity] duration-300 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-carmin focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:opacity-50 disabled:pointer-events-none " +
+  /* Al pasar por encima (o enfocar con teclado) un relleno barre el botón de izquierda a derecha y
+     cambia el color: se nota siempre que el cursor está encima. Con movimiento reducido, el cambio de
+     color es instantáneo (la regla global deja las transiciones en nada). */
+  "before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:transition-transform before:duration-500 before:ease-[var(--ease-out-expo)] hover:before:scale-x-100 focus-visible:before:scale-x-100";
 
 const variants: Record<Variant, string> = {
-  primario: "bg-grafito text-white border border-grafito hover:bg-carmin-oscuro hover:border-carmin-oscuro",
-  secundario: "bg-transparent text-grafito border border-grafito/70 hover:bg-grafito hover:text-white hover:border-grafito",
-  fantasma: "bg-transparent text-grafito border border-transparent underline decoration-nude decoration-1 underline-offset-[6px] hover:decoration-grafito",
+  primario: "bg-grafito text-white border border-grafito before:bg-carmin-suave hover:border-carmin-suave",
+  secundario: "bg-transparent text-grafito border border-grafito/70 before:bg-grafito hover:text-white hover:border-grafito",
+  fantasma: "bg-transparent text-grafito border border-transparent underline decoration-nude decoration-1 underline-offset-[6px] before:hidden hover:text-carmin-suave hover:decoration-carmin-suave",
 };
 
 /* `min-h-*` + padding vertical en vez de `h-*` fija: si la etiqueta salta a dos líneas en un móvil
@@ -78,10 +82,10 @@ const Boton = forwardRef<HTMLButtonElement, BotonProps>(function Boton(props, re
 
   const content = (
     <>
-      {icon && <span className="relative -ml-1 shrink-0 [&>svg]:h-5 [&>svg]:w-5">{icon}</span>}
+      {icon && <span className="relative -ml-1 shrink-0 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110 [&>svg]:h-4 [&>svg]:w-4">{icon}</span>}
       <span className="relative">{children}</span>
       {iconRight && (
-        <span className="relative -mr-1 shrink-0 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5 [&>svg]:h-5 [&>svg]:w-5">
+        <span className="relative -mr-1 shrink-0 transition-transform duration-300 ease-[var(--ease-out-expo)] group-hover:translate-x-1 [&>svg]:h-4 [&>svg]:w-4">
           {iconRight}
         </span>
       )}

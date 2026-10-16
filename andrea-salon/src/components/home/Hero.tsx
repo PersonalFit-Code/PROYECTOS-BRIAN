@@ -29,7 +29,7 @@ export default function Hero() {
         </p>
         <h1
           id="hero-title"
-          className="hero-in titulo-editorial mx-auto mt-7 max-w-5xl text-[2.6rem] text-tinta text-balance sm:text-6xl lg:text-[5.5rem]"
+          className="hero-in titulo-didot mx-auto mt-7 max-w-5xl text-[2.6rem] text-tinta text-balance sm:text-6xl lg:text-[5.5rem]"
           style={{ ["--i" as string]: 1 }}
         >
           {h.title} <em className="acento-editorial">{h.accent}</em> {h.titleEnd}
