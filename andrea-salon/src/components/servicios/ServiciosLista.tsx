@@ -12,7 +12,7 @@ import type { CategoriaServicio, Servicio } from "./types";
 
 const ORDEN: readonly CategoriaServicio[] = ["manos", "pies", "mirada"];
 
-/** Una fila de la carta de servicios: nombre en Bodoni y precio a la derecha, como una carta de perfumería. */
+/** Una fila de la carta de servicios: nombre en la didona de titulares y precio a la derecha, como una carta de perfumería. */
 function TarjetaServicio({ s }: { s: Servicio }) {
   const m = useMessages();
   const t = useFormat();

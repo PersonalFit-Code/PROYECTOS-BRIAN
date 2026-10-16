@@ -9,8 +9,8 @@ import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 import { urlFor } from "@/lib/hosts";
 
 /**
- * Portada de la línea editorial: blanco limpio, la frase centrada en Bodoni mayúscula con la palabra
- * de acento en itálica («EL ARTE DE *cuidar* TUS MANOS»), dos botones y, debajo, la foto grande de un
+ * Portada de la línea editorial: blanco limpio, la frase centrada en la didona de titulares mayúscula con la palabra
+ * de acento marcada aparte («EL ARTE DE CUIDAR TUS MANOS»), dos botones y, debajo, la foto grande de un
  * trabajo (en el móvil vertical; en escritorio apaisada). El texto entra con CSS (`.hero-in`,
  * escalonado) y no con JS: es lo primero que se ve y lo que mide la velocidad (LCP).
  */

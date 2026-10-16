@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * El logotipo de Andrea Salón: «Andrea Salón» en caligrafía, «uñas y belleza» debajo en rosa y, si se
- * pide, las filigranas de arriba y abajo de su logo. Es texto de verdad (se lee y se indexa) con la
+ * pide, la filigrana de arriba de su logo (la de abajo se quitó: Brian, 16/10). Es texto de verdad (se lee y se indexa) con la
  * fuente caligráfica; las filigranas son un SVG dibujado aquí, decorativo.
  *
  * Si Andrea entrega el logo original en vectorial, se cambia este componente por la imagen y nada más.
@@ -42,7 +42,6 @@ export default function LogoAndrea({
       {filigranas && <Filigrana className={cn(ancho, "mb-0.5")} />}
       <span className={cn("font-[family-name:var(--font-script)] leading-[1.05] whitespace-nowrap", nombre)}>Andrea Salón</span>
       <span className={cn("-mt-1 font-[family-name:var(--font-script)] leading-none whitespace-nowrap text-[var(--color-rosa-logo)]", lema)}>uñas y belleza</span>
-      {filigranas && <Filigrana invertida className={cn(ancho, "mt-1")} />}
     </span>
   );
 }

@@ -38,10 +38,10 @@
   --color-nude: #e8d5c9;
   --color-nude-claro: #faf5f2;
 
-  /* Como una revista (referencia: cabecera de Vogue): Bodoni Moda, una Didot de alto contraste, para
-     el logotipo y los titulares grandes; Jost, geométrica tipo Futura, para menú, titulares de
+  /* Como una revista (referencia: cabecera de Vogue): Playfair estrecha con tamaño óptico de cartel
+     (una didona de alto contraste, como el logotipo de VOGUE) para los titulares grandes; Jost, geométrica tipo Futura, para menú, titulares de
      sección, botones y texto. Todo lo que es título va en MAYÚSCULAS. */
-  --font-display: var(--font-bodoni), "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-display: var(--font-playfair), "Didot", "Bodoni 72", Georgia, serif;
   --font-script: var(--font-great-vibes), "Great Vibes", cursive;
   /* El rosa del logotipo de Andrea («uñas y belleza»). Solo para el logo: un logotipo no tiene
      mínimo de contraste (WCAG 1.4.3), y fuera del logo no se usa para texto. */
@@ -382,18 +382,21 @@ body {
  * TIPOGRAFÍA EDITORIAL (referencia: Vogue)
  * ─────────────────────
  * TODO lo que es título va en mayúsculas; el tamaño marca la jerarquía.
- * `titulo-didot`: el logotipo y los titulares grandes (portada, carril, cita destacada), en Bodoni.
+ * `titulo-didot`: los titulares grandes (portada, carril, cita destacada), en Playfair estrecha con
+ *   tamaño óptico de cartel y letras juntas: el estilo del logotipo de VOGUE.
  * `titulo-editorial`: titulares de sección y nombres (servicios, equipo, bonos), en Jost fina con
  *   tracking moderado, como «LOS TEMAS DE CONVERSACIÓN DEL DÍA».
- * `acento-editorial`: la palabra que se lee distinta: Bodoni itálica, también en mayúscula.
+ * `acento-editorial`: la palabra de acento: la misma didona, recta (sin cursiva, lo pidió Brian).
  * `etiqueta`: el texto pequeño («SERVICIOS», «01»), Jost mayúscula muy espaciada.
  */
 @utility titulo-didot {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 500;
+  font-stretch: 87.5%;
+  font-variation-settings: "opsz" 1200;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  line-height: 1.02;
+  letter-spacing: -0.01em;
+  line-height: 0.98;
 }
 @utility titulo-editorial {
   font-family: var(--font-sans);
@@ -404,10 +407,12 @@ body {
 }
 @utility acento-editorial {
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 87.5%;
+  font-variation-settings: "opsz" 1200;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
 }
 @utility etiqueta {
   font-family: var(--font-sans);

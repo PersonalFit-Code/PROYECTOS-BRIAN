@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 interface SectionHeadingProps {
   kicker?: string;
   title: string;
-  /** Parte del título resaltada en cursiva (minúscula, sin espaciar: el contrapunto editorial). */
+  /** Parte del título resaltada (la didona de titulares, recta: el contrapunto de la parte en Jost). */
   accent?: string;
   description?: string;
   align?: "left" | "center";
@@ -16,8 +16,8 @@ interface SectionHeadingProps {
 
 /**
  * Cabecera de sección de la línea editorial: etiqueta pequeña en mayúscula espaciada con filete,
- * titular en Bodoni MAYÚSCULA con tracking amplio (tipo portada de revista) y la palabra de acento en
- * itálica minúscula, entradilla en Inter. Añade `data-reveal` a cada elemento para que las
+ * titular en la didona de titulares MAYÚSCULA con tracking amplio (tipo portada de revista) y la palabra de acento en
+ * en didona, entradilla en Jost. Añade `data-reveal` a cada elemento para que las
  * secciones lo animen con `useReveal`; con `entrada`, usa la animación de carga (`.hero-in`,
  * escalonada con `--i`) para no depender del JavaScript en lo primero que se ve (LCP).
  */

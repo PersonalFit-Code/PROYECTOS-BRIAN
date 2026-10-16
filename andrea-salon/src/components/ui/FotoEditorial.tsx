@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Una foto de la línea editorial, o su marco mientras no haya foto real: fondo nude claro, filete
- * interior y el monograma en Bodoni itálica. Así la maqueta se ve terminada sin fotos (nada de
+ * interior y el monograma en la didona de titulares. Así la maqueta se ve terminada sin fotos (nada de
  * «Foto pendiente» en rosa) y, al llegar las fotos, solo cambia `data/fotos.ts`.
  *
  * La forma (aspect-ratio) la pone quien lo usa con `className`; la imagen la llena con `object-cover`.
@@ -45,7 +45,7 @@ export default function FotoEditorial({
       <div aria-hidden className="absolute inset-3 border border-nude sm:inset-5" />
       <div aria-hidden className="absolute inset-0 grid place-items-center">
         <div className="text-center">
-          <p className="font-display text-6xl italic text-nude sm:text-7xl">A</p>
+          <p className="font-display text-6xl text-nude sm:text-7xl">A</p>
           {rotulo && <p className="etiqueta mt-3 text-carmin-suave">{rotulo}</p>}
         </div>
       </div>

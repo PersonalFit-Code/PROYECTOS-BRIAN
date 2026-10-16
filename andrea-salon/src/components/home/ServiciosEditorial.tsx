@@ -58,15 +58,13 @@ export default function ServiciosEditorial() {
           </ol>
 
           <div className="hidden lg:block">
-            <div className="sticky top-28">
+            {/* Las cuatro fotos, una encima de otra (rejilla de una celda) y solo se ve la activa. Con
+                `absolute` en la propia foto ganaba su `relative` y se apilaban hacia abajo. */}
+            <div className="sticky top-[calc(var(--header-h)+2rem)] grid">
               {s.lista.map((it) => (
-                <FotoEditorial
-                  key={it.clave}
-                  foto={FOTOS_SERVICIO[it.clave]!}
-                  sizes="(min-width: 1280px) 520px, 40vw"
-                  rotulo={it.nombre}
-                  className={cn("aspect-[4/5] w-full transition-opacity duration-500", activo === it.clave ? "relative opacity-100" : "absolute inset-0 opacity-0")}
-                />
+                <div key={it.clave} aria-hidden={activo !== it.clave} className={cn("col-start-1 row-start-1 transition-opacity duration-500", activo === it.clave ? "opacity-100" : "pointer-events-none opacity-0")}>
+                  <FotoEditorial foto={FOTOS_SERVICIO[it.clave]!} sizes="(min-width: 1280px) 520px, 40vw" rotulo={it.nombre} className="aspect-[4/5] w-full" />
+                </div>
               ))}
             </div>
           </div>

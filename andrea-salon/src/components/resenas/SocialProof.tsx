@@ -38,7 +38,7 @@ const DESTACADA = "noelia-garcia";
 const ACOMPANAN = ["soraya-rodriguez", "susana-iglesias", "sabela"];
 
 /**
- * Reseñas en formato revista: una cita grande en Bodoni itálica con comillas tipográficas enormes en
+ * Reseñas en formato revista: una cita grande en la didona de titulares, recta, con comillas tipográficas enormes en
  * nude, y debajo tres más a columnas. Solo las `shown`; el enlace lleva a Google, donde están todas.
  * La nota media solo sale cuando esté confirmada (`BUSINESS.ratings.google.value`); nunca va al
  * JSON-LD.
@@ -63,7 +63,7 @@ export default function SocialProof({ titleAs = "h2" }: { titleAs?: "h1" | "h2" 
             <span aria-hidden className="pointer-events-none absolute -top-16 left-1/2 -translate-x-1/2 font-display text-[7rem] leading-none text-nude select-none sm:-top-28 sm:text-[10rem]">
               «
             </span>
-            <blockquote className="relative font-display text-[1.35rem] leading-[1.4] tracking-[0.01em] text-tinta uppercase italic text-balance sm:text-[1.9rem] sm:leading-[1.35]">
+            <blockquote className="relative font-display text-[1.35rem] leading-[1.4] tracking-[0.01em] text-tinta uppercase text-balance sm:text-[1.9rem] sm:leading-[1.35]">
               {destacada.text}
             </blockquote>
             <figcaption className="etiqueta mt-8 text-carmin-suave">

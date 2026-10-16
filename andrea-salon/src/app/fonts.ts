@@ -1,4 +1,4 @@
-import { Bodoni_Moda, Great_Vibes, Jost } from "next/font/google";
+import { Great_Vibes, Jost, Playfair } from "next/font/google";
 
 /**
  * Fuentes de la web, en un módulo aparte porque las cargan DOS raíces distintas:
@@ -10,12 +10,13 @@ import { Bodoni_Moda, Great_Vibes, Jost } from "next/font/google";
  * política de cookies, así que tiene que seguir siendo verdad).
  */
 
-/* Bodoni Moda: los titulares de la línea editorial (tipo revista de moda). Es variable: un solo
-   fichero da todos los pesos y el tamaño óptico; con la itálica, que acentúa una palabra. */
-const bodoni = Bodoni_Moda({
+/* Playfair (la versión 2, variable): los titulares, con el aire del logotipo de VOGUE. Tiene ejes de
+   anchura (`wdth`) y tamaño óptico (`opsz`): estrecha y con tamaño óptico de cartel da la didona
+   alta, de trazos gruesos y remates de pelo. Los ajustes viven en `--font-display-*` (globals.css). */
+const playfair = Playfair({
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-bodoni",
+  axes: ["opsz", "wdth"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -26,4 +27,4 @@ const jost = Jost({ subsets: ["latin"], variable: "--font-jost", display: "swap"
 const greatVibes = Great_Vibes({ subsets: ["latin"], weight: "400", variable: "--font-great-vibes", display: "swap" });
 
 /** Clases de variables CSS para el `<html>`. */
-export const fontVariables = `${bodoni.variable} ${jost.variable} ${greatVibes.variable}`;
+export const fontVariables = `${playfair.variable} ${jost.variable} ${greatVibes.variable}`;
