@@ -169,6 +169,46 @@ encargado del tratamiento con nombre y apellidos.
 
 ---
 
+## 4b · Lo que cuesta tener esto en pie cada mes
+
+Medido el 18-10-2026, para que el mantenimiento se fije con números y no a ojo.
+
+| Qué | Cuánto | De quién |
+|---|---|---|
+| **Vercel Pro** | 20 $/mes + IVA, **repartido entre los 18 proyectos del equipo** | De Brian: es su herramienta, a su NIF |
+| **Dominio `.es`** | ~10 €/año | De Tatiana: va a su nombre |
+| **El camarero virtual** | según uso, ver abajo | De Brian: la clave está en su cuenta de Anthropic |
+
+**El camarero virtual es el único que no es una cuota fija, y conviene entenderlo.** Cada vez que
+alguien le escribe, la web le manda al modelo la carta entera, los vinos, el horario y las
+instrucciones: unos **8.000 tokens por mensaje** (medido: 28.917 caracteres de instrucciones, de los
+cuales 23.600 son la carta y los vinos). Con el modelo que usa hoy (`claude-haiku-4-5`, a 1 $ el
+millón de tokens de entrada y 5 $ el de salida) sale **alrededor de 1 céntimo de dólar por mensaje**,
+o unos **5 céntimos por conversación** de cuatro o cinco idas y venidas.
+
+Traducido a meses: 50 conversaciones ≈ 2,50 $; 200 ≈ 10 $; 1.000 ≈ 50 $.
+
+⚠️ **Por eso hay que ponerle un tope de gasto en la consola de Anthropic**, y no es paranoia: la web
+limita a 30 mensajes por IP cada 10 minutos, pero ese contador vive en memoria y en Vercel hay varias
+instancias, así que el límite real es más flojo de lo que parece. Alguien con ganas de hacer daño
+podría gastar decenas de dólares en un día. El tope es la red de seguridad, y se pone una vez.
+
+**Dos formas de bajar ese coste mucho, las dos pendientes de probar con la clave de verdad** (desde
+aquí no se puede: la clave solo vive en Vercel):
+
+1. **Caché del prompt.** Las instrucciones son siempre las mismas; marcándolas como cacheables, las
+   lecturas repetidas cuestan la décima parte. No cambia ni una palabra de lo que responde.
+2. **Pasar a `claude-haiku-5-5`** (variable `CHAT_MODEL`, no hace falta tocar código): cuesta
+   **0,10 $ el millón de entrada en vez de 1 $** — diez veces menos — y es más nuevo. Con las dos
+   cosas juntas, el coste del chat baja a calderilla.
+
+Lo que frena a hacerlo hoy: cambiar el modelo cambia cómo responde, y el chat gusta como está; y un
+parámetro mal puesto da un error 400 que la web se traga en silencio y deja el chat en modo sin
+conexión para siempre (ya pasó una vez, está anotado en el propio código). Así que esto se toca
+**después de publicar**, con tiempo de probarlo en el dominio real y mirando la consola.
+
+---
+
 ## 5 · El mismo día que se publique
 
 - **Ficha de Google de Tixola** → poner el dominio nuevo como sitio web, y de paso **corregir el
