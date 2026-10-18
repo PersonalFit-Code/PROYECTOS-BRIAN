@@ -39,7 +39,7 @@ import { cn } from "@/lib/utils";
  * era una miniatura de 48 px y había que abrir una por una para ver cuál era cada cosa. En una carta
  * de vinos la etiqueta ES el producto: la cuadrícula la pone delante.
  *
- * LO QUE SE PIERDE Y POR QUÉ SE ASUME. Con `<details>` los 52 vinos llevaban su ficha entera en el
+ * LO QUE SE PIERDE Y POR QUÉ SE ASUME. Con `<details>` los 46 vinos llevaban su ficha entera en el
  * HTML servido. Ahora el HTML lleva nombre, bodega, denominación y precio —que es lo que alguien
  * busca de verdad: "Casal de Armán Ourense"— y la nota de cata, el terruño y los premios viven en la
  * ficha. A cambio, la página pesa bastante menos y se entiende de un vistazo.
@@ -57,8 +57,8 @@ export default function CartaDeVinos() {
 
   /** Lo que se ha tecleado en el buscador. */
   const [consulta, setConsulta] = useState("");
-  /* Con `useDeferredValue` la letra aparece en el campo al instante y el filtrado de los 52 vinos va
-     detrás, en una pasada de baja prioridad. Con 52 no se nota; con la carta llena de un día de
+  /* Con `useDeferredValue` la letra aparece en el campo al instante y el filtrado de los 46 vinos va
+     detrás, en una pasada de baja prioridad. Con 46 no se nota; con la carta llena de un día de
      estos, sí — y escribir en un buscador que se atasca es de las cosas que más molestan. */
   const consultaDiferida = useDeferredValue(consulta);
 
@@ -426,7 +426,7 @@ export default function CartaDeVinos() {
       <p className="mt-2 text-xs leading-relaxed text-cream-faint">{m.vinos.offMenuNote}</p>
 
       {/* AVISO DE CONSUMO RESPONSABLE.
-          Esta página es, legalmente, publicidad de bebidas alcohólicas: cincuenta y tres fichas con
+          Esta página es, legalmente, publicidad de bebidas alcohólicas: cuarenta y seis fichas con
           foto de botella, nota de cata y maridaje. En Galicia eso lo mira la Ley 6/2025, de 23 de
           diciembre, de protección de la salud de las personas menores y prevención de las conductas
           adictivas (DOG del 7-1-2026, en vigor desde el 7-3-2026), que prohíbe la publicidad de

@@ -7,7 +7,7 @@ import CartaExplorer from "@/components/carta/CartaExplorer";
 import { isLocale, type Locale } from "@/i18n/config";
 import { localizeCategories, localizeMenuItems } from "@/i18n/data";
 import { getMessages } from "@/i18n/getMessages";
-import { menuJsonLd, pageMetadata, serializeJsonLd } from "@/lib/seo";
+import { absoluteUrl, breadcrumbJsonLd, menuJsonLd, pageMetadata, serializeJsonLd } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: raw } = await params;
@@ -29,11 +29,20 @@ export default async function CartaPage({ params }: { params: Promise<{ locale: 
   /* schema.org Menu → MenuSection[] → MenuItem[] (precio EUR, dietas aptas) en el idioma de la página */
   const menu = menuJsonLd(locale, localizeCategories(locale), localizeMenuItems(locale), `${m.carta.title} ${m.carta.accent}`);
 
+  /* Migas para Google, igual que en /vinos. No se pinta un rastro en pantalla, pero hace que en los
+     resultados salga "tixolataperia.es › Carta" en vez de la URL pelada. Faltaba justo aquí, que es
+     la página más comercial del sitio: /vinos y las tres legales ya las publicaban. */
+  const migas = breadcrumbJsonLd([
+    { name: m.nav.home, url: absoluteUrl(locale, "/") },
+    { name: m.nav.links.menu },
+  ]);
+
   return (
     <ChatProvider page="carta">
       <Navbar />
       <main id="main" className="relative pt-[var(--header-h)]">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(menu) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(migas) }} />
         <CartaExplorer />
       </main>
       <Footer year={new Date().getFullYear()} />

@@ -22,8 +22,14 @@ export function isLegalDocKey(value: string): value is LegalDocKey {
 /**
  * Fecha ISO (AAAA-MM-DD) de la última revisión de los textos legales.
  * Actualízala cada vez que cambie cualquiera de los tres documentos.
+ *
+ * SE QUEDÓ VIEJA DOS VECES, y por eso este recordatorio es más largo que el dato. El 15-10-2026
+ * entró el correo de contacto (art. 10.1.a LSSI) y nadie tocó esta línea; el 18-10-2026 se publicó
+ * el dominio propio y, como los tres documentos incrustan `{siteUrl}`, su texto cambió otra vez.
+ * No es cosmético: las páginas le dicen al visitante que la versión en vigor es la de ESTA fecha,
+ * así que una fecha vieja afirma que el texto no ha cambiado cuando sí lo ha hecho.
  */
-export const LEGAL_UPDATED_AT = "2026-10-10";
+export const LEGAL_UPDATED_AT = "2026-10-18";
 
 /**
  * Datos del responsable del tratamiento. Los mandó la casa el 3 de octubre de 2026: el negocio es
@@ -44,8 +50,13 @@ export const LEGAL_PLACEHOLDERS = {
   companyName: "Tatiana González Ferreira",
   /** NIF del titular */
   nif: "44450501B",
-  /** Domicilio a efectos legales: el propio local */
-  registeredOffice: "Rúa Juan de Austria 7, 32005 Ourense",
+  /**
+   * Domicilio a efectos legales: el propio local.
+   * ESCRITO IGUAL QUE `BUSINESS.address.full` a propósito. El aviso legal pinta este domicilio y,
+   * dos renglones más abajo, el del establecimiento, que sale de `business.ts`. Con una coma de
+   * diferencia tras el nombre de la calle parecían dos direcciones distintas o una errata.
+   */
+  registeredOffice: "Rúa Juan de Austria, 7, 32005 Ourense",
   /** Correo para contacto y ejercicio de derechos */
   email: "gonzalezferreiratatiana@gmail.com",
   /**

@@ -99,7 +99,11 @@ const carta = {
   ctaLead: "Ficou com",
   ctaAccent: "fome?",
   ctaText: "Não é preciso reservar: passe por cá para uns vinhos junto à Catedral e damos-lhe mesa por ordem de chegada.",
-  seoTitle: "Ementa de petiscos galegos e polvo em Ourense",
+  /* 35 caracteres: con el « · Tixola Tapería» de la plantilla son 52, por debajo del tope de 60.
+     Antes decía «Ementa de petiscos galegos e polvo em Ourense» y sumaba 62, así que Google
+     cortaba por la marca. Cae «Ementa», que es la palabra que menos busca nadie —«petiscos» ya
+     dice que es una carta— y se quedan las cuatro que sí: petiscos, galegos, polvo y Ourense. */
+  seoTitle: "Petiscos galegos e polvo em Ourense",
   seoDescription: "Petiscos, tixolas de ferro, zamburiñas, polvo e croquetes caseiros junto à Catedral de Ourense. Ementa completa com os alergénios prato a prato e filtro por alergénio.",
 } satisfies Translation<typeof esCarta>;
 export default carta;

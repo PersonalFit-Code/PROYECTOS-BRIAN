@@ -46,7 +46,7 @@ export default function VinosExplorer() {
       {/* EL MAPA DE GALICIA VA ANTES QUE LA LISTA, y no al revés como estaba. Es el recorrido que describió el
           cliente: "me gustaría que la persona viera esto [el mapa] ... me apetece uno de Monterrei,
           pues pincho y que me salgan todos los de Monterrei con la foto". Con la lista delante, el
-          mapa quedaba detrás de 52 botellas y no lo veía nadie; delante, es la puerta de entrada y
+          mapa quedaba detrás de 46 botellas y no lo veía nadie; delante, es la puerta de entrada y
           cada denominación lleva a su sitio de la carta. */}
       <Denominaciones />
       {/* O la carta, o el aviso de que todavía no está. Nunca las dos, nunca ninguna. */}

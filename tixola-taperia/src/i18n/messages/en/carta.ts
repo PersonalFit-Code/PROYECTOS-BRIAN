@@ -99,7 +99,11 @@ const carta = {
   ctaLead: "Feeling",
   ctaAccent: "hungry?",
   ctaText: "No booking needed: drop by for a few glasses of wine beside the Cathedral and we'll seat you in the order you arrive.",
-  seoTitle: "Tapas menu in Ourense: zamburiñas and octopus",
+  /* 42 caracteres: con el « · Tixola Tapería» que añade la plantilla del layout son 59, por debajo
+     del tope de 60 que esta misma página se pone. Antes decía «…zamburiñas and octopus» y sumaba
+     62, así que Google cortaba justo por la marca. Se cambió la «and» por una coma: lo más corto
+     que no pierde ninguna de las tres palabras por las que se busca esto. */
+  seoTitle: "Tapas menu in Ourense: zamburiñas, octopus",
   seoDescription: "Tapas, cast-iron tixolas, Galician scallops, octopus and homemade croquetas by Ourense Cathedral. Full menu with allergens dish by dish and an allergen filter.",
 } satisfies Translation<typeof esCarta>;
 export default carta;

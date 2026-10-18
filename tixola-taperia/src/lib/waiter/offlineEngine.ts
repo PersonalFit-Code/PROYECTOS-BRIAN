@@ -418,7 +418,7 @@ function answerPairing(intent: Extract<OfflineIntent, { kind: "pairing" }>, ctx:
   if (!blocks.length) {
     /* Sin plato concreto —o con uno que no tiene maridaje, que ahora son casi todos—: los maridajes
        de los platos estrella y el enlace a la carta de vinos. Sin ese enlace, tres recomendaciones se
-       leerían como "esto es todo lo que tenemos de vino", y son 52 botellas. */
+       leerían como "esto es todo lo que tenemos de vino", y son 46 botellas. */
     blocks.push([
       o.pairingIntro,
       ...ctx.stars.map((star) => `- ${format(o.linePairing, { name: star.name, wine: `${star.pairing.wine} ${star.pairing.do}` })}`),
