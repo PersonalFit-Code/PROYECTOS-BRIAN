@@ -8,9 +8,14 @@ gestoría de Tatiana.
 
 1. **Plan de Vercel.** El plan gratuito es "solo uso personal no comercial", y Vercel cuenta como
    comercial "anunciar la venta de un producto o servicio" (vercel.com/docs/limits/fair-use-guidelines).
-   Una web de un bar lo es. Opciones: Pro (≈ 20 $/mes, a confirmar en su página de precios) o mover la
-   web a otro proveedor que permita uso comercial gratis (hay que migrar y probar el camarero, que
-   necesita servidor). Decidir quién es el titular de la cuenta que paga.
+   Una web de un bar lo es. **Decidido el 18-10-2026 por Brian: se pasa a Pro.** Son **20 $/mes**
+   (confirmado ese día en vercel.com/pricing: dólares, sin IVA, mes a mes) y el asiento cubre
+   **todos los proyectos del equipo**, no solo Tixola. La alternativa gratuita que de verdad permite
+   uso comercial es Netlify, con el límite de que al agotar sus 300 créditos mensuales pausa la web
+   —y cambiar de alojamiento obliga a reescribir los textos legales, que nombran a Vercel como
+   encargado—. Comparativa completa en `docs/como-publicar.md` §4. **Lo tiene que hacer él a mano en
+   el panel** (Settings → Billing): no hay forma de contratarlo desde aquí. Queda decidir quién es
+   el titular de la cuenta que paga.
 2. ~~**Correo de contacto.**~~ ✅ **Resuelto el 15-10-2026.** Tatiana dio
    `gonzalezferreiratatiana@gmail.com`, una cuenta suya. Con él, los cuatro datos del art. 10.1
    LSSI están puestos y `LEGAL_IDENTITY_PENDING` ha pasado a `false` solo: las tres páginas legales
@@ -25,9 +30,11 @@ gestoría de Tatiana.
    con `noindex, follow` y el `robots.txt` con `Disallow: /`. El motivo es que lo que Google
    guardaría estos días es una web a medio terminar y en una dirección que va a cambiar; quien
    tenga el enlace la ve igual. **Se abre sola**: en cuanto `NEXT_PUBLIC_SITE_URL` tenga el dominio
-   propio —o el dominio se marque como principal en Vercel— el siguiente despliegue vuelve a
+   propio —o se añada el dominio al proyecto en Vercel— el siguiente despliegue vuelve a
    `index, follow` y al `robots.txt` normal, sin tocar código (`SITE_URL_IS_PROVISIONAL` en
-   `src/lib/siteUrl.ts`). Comprobado en los dos sentidos con un build de prueba.
+   `src/lib/siteUrl.ts`). Comprobado en los dos sentidos con un build de prueba. **El despliegue
+   tiene que ser sin caché** (o un commit nuevo): si Vercel reutiliza la caché, puede servir las
+   páginas construidas con la dirección vieja y seguirían diciendo `noindex`.
 4. **Alérgenos revisados por Tatiana.** Son una deducción a partir de la receta, no un dato de la casa.
    La web avisa de que se consulten con el personal, pero publicar alérgenos sin verificar es el
    riesgo más serio (sanitario y de responsabilidad). Que los revise o firme `docs/alergenos-para-revisar.md`.
@@ -118,7 +125,7 @@ la lista no aplica: no hay nada que filtrar por usuario ni contraseñas que prot
 | 17 | Devolver solo lo necesario | OK. La API devuelve solo el texto de la respuesta; los errores no enseñan detalles internos. |
 | 18 | Cabeceras de seguridad | Añadido en `next.config.ts`: CSP, HSTS, nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy, COOP; quitado `X-Powered-By`. |
 | 19 | Forzar HTTPS | OK. Vercel redirige a HTTPS y HSTS obliga al navegador a no usar http. |
-| 20 | Escanear dependencias | Hecho. sharp 0.35.5 parcheado. Next va **fijado en 16.3.8 exacto** (sin `^`): el 16.4.0 trae los mismos parches de seguridad pero rompe el build en Vercel al resolver `next/font/google`. Antes de subir de versión, probar el build en Vercel. Queda un aviso en `braces` (solo herramienta de lint, no llega a la web; el "arreglo" propuesto es bajar a una versión vieja). Repetir `npm audit` antes de cada cambio grande. |
+| 20 | Escanear dependencias | Hecho. **Al día el 18-10-2026 con Next 16.4.1** (fijado exacto, sin `^`) y sharp 0.35.5. El 14-10-2026 Next publicó tres avisos: RCE en la optimización de imágenes con SVG —el único que roza a esta web, y ya mitigado por sharp 0.35.5—, RCE en `use cache` (no se usa) y denegación de servicio por Server Actions (no hay ninguna). De paso cae la deuda del 09-10: el 16.4.0 rompía el build **en Vercel** al resolver `next/font/google` y por eso estaba clavado en 16.3.8; el 16.4.1 ya construye allí y sirve las seis woff2 propias, comprobado con un despliegue de prueba. Queda un aviso en `braces` (solo herramienta de lint, no llega a la web; el "arreglo" propuesto es bajar a una versión vieja). Repetir `npm audit` antes de cada cambio grande. |
 
 ## G · "20 cosas antes de lanzar tu web" (10-10-2026)
 
@@ -128,7 +135,7 @@ la lista no aplica: no hay nada que filtrar por usuario ni contraseñas que prot
 | 4 | HTTPS | OK (Vercel + HSTS). |
 | 5 | Títulos y descripciones | OK en las 24 páginas: títulos ≤ 60 caracteres, descripciones 127–171, únicas por idioma. |
 | 6 | Datos estructurados | OK: Restaurant, Menu, FAQPage, BreadcrumbList. |
-| 7 | Sitemap y robots.txt | **Arreglado**: apuntaban a `tixola.restaurantesourense.com`. Ahora usan el dominio de producción de Vercel, que cambia solo al dominio propio cuando se marque como principal. |
+| 7 | Sitemap y robots.txt | **Arreglado**: apuntaban a `tixola.restaurantesourense.com`. Ahora usan el dominio de producción de Vercel, que pasa solo a ser el dominio propio en cuanto se añada al proyecto (Vercel elige el personalizado más corto; no hay botón de "principal"). |
 | 8 | Ficha de Google | **Tarea de la casa**: en Google Business Profile, poner como sitio web el dominio nuevo, revisar horario y fotos, y responder reseñas. |
 | 9 | Favicon | **Añadido**: `favicon.ico`, icono de iPhone (180 px), manifiesto e iconos de Android (192/512). |
 | 10 | Texto alternativo | OK: todas las imágenes tienen `alt` en los 4 idiomas. |

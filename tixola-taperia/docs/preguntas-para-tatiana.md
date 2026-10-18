@@ -151,10 +151,11 @@ seguro», que funciona, pero con el dato quedan bien.*
 
 ## 6 · Material que falta (esto es más de Brian, pero sale de su cocina)
 
-- [ ] **Faltan 15 fotos de plato.** La guía está en `docs/guia-fotos-platos.md`. 25 hechas, 7 que no
+- [ ] **Faltan 13 fotos de plato.** La guía está en `docs/guia-fotos-platos.md`. 27 hechas, 7 que no
       necesitan foto. **Ojo, que el criterio cambió el 15-10-2026 y lo cambió ella**: ahora manda
-      **el lado o los 45°**, no el cenital («casi mejor de lado que desde arriba»). Las 25 que ya
-      están son cenitales y se quedan; el criterio vale para las 15 que faltan.
+      **el lado o los 45°**, no el cenital («casi mejor de lado que desde arriba»). Las 25 primeras
+      son cenitales y se quedan; las dos últimas —oreja y tortilla, del 16-10— ya son de lado, y el
+      criterio vale para las 13 que faltan.
 - [ ] **Repetir la foto del bacalao en tempura, de lado.** Es la única que pidió rehacer por su
       nombre. La que hay es cenital y, además, estaba mal atribuida: la teníamos como pulpo y es
       bacalao —corregido el 15-10-2026 en los cuatro idiomas.
