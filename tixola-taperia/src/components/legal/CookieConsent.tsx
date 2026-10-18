@@ -20,6 +20,7 @@ import {
   type ConsentChoices,
   type ConsentState,
 } from "@/lib/consent";
+import { borrarCookiesDeMedicion, MIDE_CON_TERCEROS } from "@/lib/medicion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -215,14 +216,25 @@ export default function CookieConsent() {
     if (target?.isConnected) target.focus();
   }, []);
 
-  /* Guarda la decisión: `setConsent` emite `tixola:consent` y el almacén externo cierra el aviso. */
+  /* Guarda la decisión: `setConsent` emite `tixola:consent` y el almacén externo cierra el aviso.
+     Y si la analítica pasa de ACEPTADA a RECHAZADA, hay que hacer algo más que guardar: `gtag.js` y
+     `clarity.js` ya estarían cargados en esta página y seguirían enviando hasta la próxima recarga,
+     con sus cookies puestas por dos años. Desmontar `<AnalyticsGate>` no los descarga. Así que se
+     borran sus cookies y se recarga: al volver, sin consentimiento, el cargador ya no monta nada.
+     Solo cuando hay medición de terceros; con Vercel a secas no hay nada que borrar ni que recargar,
+     y una recarga gratis sería una grosería. */
   const decide = useCallback(
     (choices: ConsentChoices) => {
+      const previo = getConsent();
       const state = setConsent(choices);
       setMaps(state.maps);
       setAnalytics(state.analytics);
       setAnnouncement(b.saved);
       close();
+      if (MIDE_CON_TERCEROS && previo?.analytics && !state.analytics) {
+        borrarCookiesDeMedicion();
+        window.location.reload();
+      }
     },
     [b.saved, close],
   );

@@ -474,6 +474,15 @@ export default function ChatWidget() {
               role="log"
               aria-label={m.chat.messagesLabel}
               data-lenis-prevent
+              /* NO ES DECORACIÓN: deja esta conversación fuera de las grabaciones de Microsoft
+                 Clarity. Clarity tapa por su cuenta los campos de formulario, pero NO esto: en
+                 cuanto alguien pulsa enviar, su mensaje deja de ser un campo y pasa a ser una
+                 burbuja de texto corriente, que para una grabación es contenido de la página como
+                 cualquier otro. Y aquí lo que se escribe no es inocuo: el camarero invita a
+                 preguntar por alérgenos, así que llega "soy celíaca" o "tengo alergia al marisco",
+                 que son datos de salud del art. 9 del RGPD. Con esto se siguen viendo los mapas de
+                 calor y por dónde se mueve la gente; lo único que no se graba es lo que se dice. */
+              data-clarity-mask="true"
               className="relative min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-gutter:stable]"
             >
               <ChatMessageBubble message={{ id: "welcome", role: "assistant", content: m.chat.welcome, status: "done", createdAt: 0 }} />
@@ -521,6 +530,10 @@ export default function ChatWidget() {
                 </label>
                 <textarea
                   id="tixola-chat-input"
+                  /* Clarity ya tapa los campos de formulario en su modo normal; se marca igualmente
+                     para no depender de un ajuste que vive en el panel de Microsoft y que cualquiera
+                     puede cambiar sin tocar este repositorio. */
+                  data-clarity-mask="true"
                   ref={inputRef}
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}

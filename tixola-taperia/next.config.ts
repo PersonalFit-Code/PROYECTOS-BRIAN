@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { MIDE_CON_CLARITY, MIDE_CON_GA } from "./src/lib/medicion";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -13,13 +14,31 @@ const isDev = process.env.NODE_ENV === "development";
  *  · `'unsafe-eval'` y `ws:` SOLO en desarrollo (recarga en caliente de Next).
  * Si algún día se añade analítica (Plausible, p. ej.), su dominio va en `script-src` y `connect-src`.
  */
+/* DOMINIOS DE LAS MEDICIONES, Y NI UNO MÁS.
+   Van en la CSP solo si su identificador está puesto en `src/lib/medicion.ts`: si algún día se apaga
+   una herramienta, su dominio deja de estar permitido en el mismo commit, sin que nadie se acuerde.
+   - Google Analytics sirve el script desde googletagmanager.com y recoge en *.google-analytics.com;
+     el píxel de respaldo (cuando el navegador bloquea fetch) va por imagen, de ahí `img-src`.
+   - Clarity sirve desde www.clarity.ms, recoge en *.clarity.ms y además manda a c.bing.com, que es
+     de Microsoft y no es opcional: sin él la grabación llega a medias. */
+const medicionScript = [MIDE_CON_GA ? "https://www.googletagmanager.com" : "", MIDE_CON_CLARITY ? "https://www.clarity.ms" : ""].filter(Boolean);
+const medicionConnect = [
+  ...(MIDE_CON_GA ? ["https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.googletagmanager.com"] : []),
+  ...(MIDE_CON_CLARITY ? ["https://*.clarity.ms", "https://c.bing.com"] : []),
+];
+const medicionImg = [
+  ...(MIDE_CON_GA ? ["https://*.google-analytics.com", "https://*.googletagmanager.com"] : []),
+  ...(MIDE_CON_CLARITY ? ["https://*.clarity.ms", "https://c.bing.com"] : []),
+];
+const unir = (base: string, extra: string[]) => (extra.length ? `${base} ${extra.join(" ")}` : base);
+
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  unir(`script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`, medicionScript),
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  unir("img-src 'self' data: blob:", medicionImg),
   "font-src 'self'",
-  `connect-src 'self'${isDev ? " ws:" : ""}`,
+  unir(`connect-src 'self'${isDev ? " ws:" : ""}`, medicionConnect),
   "frame-src https://www.google.com https://maps.google.com",
   "object-src 'none'",
   "base-uri 'self'",
