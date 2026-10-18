@@ -28,6 +28,10 @@ igual dónde: lo único que cambia es dónde se escriben dos líneas de configur
 - ⚠️ **El precio que anuncian es el del PRIMER año.** Los 6 € son la oferta de entrada; la
   renovación anual es bastante más —en `.es` suele ir de 10 a 20 €/año y en `.com` de 15 a 25 €—.
   No es caro, pero conviene saberlo antes y no al año siguiente.
+- ⚠️ **Si se compra por un año, dejar la renovación automática puesta** (o un recordatorio en el
+  calendario once meses después). Un dominio caducado no es "la web se ve un poco peor": la web
+  deja de abrir, Google la saca del índice en semanas y cualquiera puede registrarlo. Es el único
+  gasto de esta web que, si se olvida, la tira entera.
 - ⚠️ **Rechaza los extras del carrito.** GoDaddy ofrece hosting, correo, certificado SSL y
   "protección de dominio". **No hace falta ninguno**: el alojamiento y el certificado los pone
   Vercel, y el correo ya lo tiene Tatiana.
@@ -130,7 +134,17 @@ Las opciones, honestamente:
 
 | | Qué supone |
 |---|---|
-| **Pasar a Pro** (lo elegido) | **20 $/mes**, que son dólares y sin IVA: en el banco salen unos 19-20 € con el cambio, más el 21 %. Es mes a mes y cubre **todos los proyectos del equipo**, no solo este, así que la cuenta no se multiplica por web. Incluye 20 $ de consumo, que para una web así sobran de largo. Es lo correcto y lo que quita el problema. De paso trae la analítica de visitas, que hoy está apagada. |
+| **Pasar a Pro** (lo elegido) | **20 $/mes**, que son dólares y sin IVA: en el banco salen unos 19-20 € con el cambio, más el 21 %. Es mes a mes y cubre **todos los proyectos del equipo**, no solo este, así que la cuenta no se multiplica por web. Incluye 20 $ de consumo, que para una web así sobran de largo. Es lo correcto y lo que quita el problema. |
+
+⚠️ **Al subir a Pro, mirar QUÉ se sube.** El plan se contrata por equipo, y este proyecto vive en el
+equipo **BRIAN** (`centropersonalfit`), junto con los otros 17. Si se abre un Pro personal o un
+equipo nuevo, Tixola **se queda en Hobby** y el problema sigue ahí sin que nadie lo note. En el panel:
+arriba a la izquierda, comprobar que el equipo seleccionado es ese, y entonces Settings → Billing.
+Cambiar de plan no exige redesplegar nada: la web sigue como está.
+
+**Y una cosa que NO depende del plan:** la analítica de visitas. Hobby también incluye 50.000 eventos
+al mes; está apagada porque hay que activarla en el panel, no porque falte plan. El código ya la
+tiene montada y solo mide **si el visitante acepta** en el aviso de cookies.
 | **Quedarse en Hobby** | Gratis y funciona. Es una decisión consciente de riesgo, no un descuido: si lo detectan, el aviso llega y hay que migrar con prisa, con la web ya en la calle y el dominio ya repartido. |
 | **Mover a otro alojamiento** | Posible, pero **no a uno estático** (GitHub Pages, hosting compartido clásico): el camarero virtual necesita un servidor. Lo que sí vale y lo que no, comprobado el 18-10-2026, está en el cuadro de abajo. |
 
