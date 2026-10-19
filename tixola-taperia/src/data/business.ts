@@ -82,26 +82,34 @@ export const BUSINESS = {
        es el domingo sino el LUNES, el domingo se abre solo a mediodía, y las cenas rematan a las
        23:45 y no a medianoche. Sigue corrigiendo a la ficha de Google, que da las 12:00 de apertura.
        SÁBADO: se puso a 23:45 por prudencia, porque ella había dicho "entre semana" y el sábado no
-       lo es. CONFIRMADO el 15-10-2026: el sábado también cierra a las 23:45. */
+       lo es. CONFIRMADO el 15-10-2026: el sábado también cierra a las 23:45.
+
+       MEDIODÍA, CORREGIDO EL 19-10-2026 por ella misma y sin que nadie se lo preguntara: «o horario
+       de cocina a medio día termina a 15.45 — igual que o domingo». Hasta hoy se publicaba 16:00 de
+       martes a sábado, que era justo el fleco que quedaba abierto en
+       `docs/preguntas-para-tatiana.md`. Son quince minutos, y son los quince por los que alguien
+       llega a las 15:50 y se encuentra la cocina cerrada.
+       Dijo COCINA, no local; se publica como horario de la casa porque es lo que le importa a quien
+       viene a comer, y porque el domingo ya estaba así desde el principio. */
     mon: [],
     tue: [
-      { open: "13:00", close: "16:00" },
+      { open: "13:00", close: "15:45" },
       { open: "20:00", close: "23:45" },
     ],
     wed: [
-      { open: "13:00", close: "16:00" },
+      { open: "13:00", close: "15:45" },
       { open: "20:00", close: "23:45" },
     ],
     thu: [
-      { open: "13:00", close: "16:00" },
+      { open: "13:00", close: "15:45" },
       { open: "20:00", close: "23:45" },
     ],
     fri: [
-      { open: "13:00", close: "16:00" },
+      { open: "13:00", close: "15:45" },
       { open: "20:00", close: "23:45" },
     ],
     sat: [
-      { open: "13:00", close: "16:00" },
+      { open: "13:00", close: "15:45" },
       { open: "20:00", close: "23:45" },
     ],
     /* Solo mediodía, y remata a las 15:45. */

@@ -85,9 +85,12 @@ seguro», que funciona, pero con el dato quedan bien.*
       **lunes** (no el domingo), el **domingo** se abre solo a mediodía (13:00–15:45) y las cenas
       rematan a las **23:45**, no a medianoche. Ya está en la web y en el JSON-LD.
 - [x] ~~¿El **sábado** también cierra a las 23:45?~~ → **SÍ, confirmado el 15-10-2026.**
-- [ ] **Queda un fleco del horario**: ¿el **mediodía** remata a las **16:00** o también a las **15:45**?
-      Hoy la web pone 16:00 de martes a sábado y 15:45 el domingo, que es lo que ella dijo. Si el
-      mediodía de la semana también remata a las 15:45, es una línea.
+- [x] ~~**Queda un fleco del horario**: ¿el mediodía remata a las 16:00 o también a las 15:45?~~
+      → **15:45 TODOS LOS DÍAS. Confirmado el 19-10-2026**, y lo dijo ella sola sin que nadie
+      preguntara, el día después de publicar: «o horario de cocina a medio día termina a 15.45 —
+      igual que o domingo». Ya está en `business.ts`, y con él el indicador de «Abierto ahora», el
+      horario del pie, las preguntas frecuentes, el camarero virtual y el JSON-LD de Google.
+      **Ojo al pasarlo a la ficha de Google**: ahí hay que poner 15:45, no 16:00.
 - [ ] **El horario en festivos, Navidad y verano: ¿cambia?** Hoy la web dice «Festivos: consúltanos»,
       que es honesto pero flojo. Si hay un criterio fijo, lo ponemos.
 - [x] ~~¿Los 47 precios son los vigentes?~~ → **SÍ.**
