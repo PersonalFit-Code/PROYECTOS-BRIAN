@@ -241,9 +241,26 @@ comercial propio, y la decisión de dejarlo o no es de Luisa, no mía.
 
 | Punto | Norma (sin verificar) | Estado | Dónde está |
 |---|---|---|---|
-| Cara reconocible en la web | LO 1/1982 arts. 2 y 7.5 | ⚠️ | `assets/pastelera.webp`, en «Quiénes somos» |
-| **La misma cara en la imagen que se comparte** | LO 1/1982 | ⚠️ | `assets/og-image.jpg`: es lo que sale al pegar el enlace en WhatsApp |
-| Nombres de criaturas en las tartas | RGPD / LO 1/1982 | ⚠️ | `tarta-04` («Rita 4 años»), `tarta-05` («Jonathan»), `tarta-08` («Santiago») |
+| Cara reconocible en la web | LO 1/1982 arts. 2 y 7.5 | ✅ **concedido** | `assets/pastelera.webp`, en «Quiénes somos» |
+| **La misma cara en la imagen que se comparte** | LO 1/1982 | ✅ **concedido** | `assets/og-image.jpg`: es lo que sale al pegar el enlace en WhatsApp |
+| Nombres de criaturas en las tartas | RGPD / LO 1/1982 | ✅ **concedido** | `tarta-04` («Rita 4 años»), `tarta-05` («Jonathan»), `tarta-08` («Santiago») |
+
+> **19/10/2026 — Brian comunica que todos los permisos están concedidos.** Las fotos se
+> quedan como están; no hay cambio de código que hacer.
+>
+> Dos avisos que no son pegas, son para que esto aguante si algún día alguien pregunta:
+>
+> 1. **Lo que protege es el papel, no este apunte.** La LO 1/1982 pide consentimiento
+>    expreso y, si la persona retratada es trabajadora, **por escrito**: no se presume por
+>    la relación laboral. Conviene tener un documento firmado por la persona de las fotos y
+>    uno por cada familia, diciendo qué foto es, dónde se publica (web **y** la imagen que
+>    viaja al compartir el enlace) y que se puede revocar. Guardarlos con el resto de
+>    papeles del negocio.
+> 2. **Esto no alcanza a lo que no es de Luisa.** Quedan fuera, porque no son permisos que
+>    ella pueda conceder: los **nombres y apellidos de 14 personas** en las reseñas
+>    copiadas de Google (el permiso sería de cada una de ellas) y las **marcas de terceros**
+>    de las fotos (Lamborghini, Totoro, ROBLOX, Nutella, Nintendo). Siguen como decisión de
+>    riesgo asumido, no como permiso obtenido.
 
 El art. 9.3 de la LO 1/1982 **presume el perjuicio**: quien reclama no tiene que demostrar daño.
 Por eso esto va el primero de la lista de pendientes, aunque no sea un fallo de código.
@@ -321,8 +338,8 @@ ley ni el número de empleados). Como decía el encargo: si no es obligación, e
 
 | # | Qué | De quién depende | Qué pasa si no se hace |
 |---|---|---|---|
-| 1 | **Permiso por escrito de la persona que sale en `pastelera.jpg` y `og-image.jpg`** | Luisa | La LO 1/1982 presume el perjuicio: no hace falta probar daño para reclamar. Y esa cara viaja en cada enlace que se comparte |
-| 2 | **Permiso de las familias por los nombres de criaturas en tres fotos** | Luisa | Dato personal de un menor publicado. Alternativa inmediata: retirar o retocar las tres |
+| ~~1~~ | ~~Permiso de la persona que sale en `pastelera.jpg` y `og-image.jpg`~~ | Luisa | **Concedido (19/10).** Falta sólo tenerlo firmado y guardado |
+| ~~2~~ | ~~Permiso de las familias por los nombres de criaturas en tres fotos~~ | Luisa | **Concedido (19/10).** Ídem |
 | 3 | **Confirmar la forma jurídica** y que el NIE es el identificador fiscal correcto | Gestoría | Si fuera sociedad, faltarían denominación y datos registrales en el aviso legal |
 | 4 | **Registro sanitario**: ¿está inscrita? ¿el número debe figurar en la web? | Gestoría | Galicia cambió el registro en agosto de 2025 |
 | 5 | **Hojas de reclamaciones**: ¿hay que mencionarlas en la web? | Gestoría | Si la norma gallega lo exige, hoy no están |
