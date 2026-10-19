@@ -1,5 +1,6 @@
 /**
- * Una clinica que da citas por telefono.
+ * Un negocio que da cita por telefono: una clinica dental, un centro de
+ * estetica, una fisioterapia.
  *
  * Es el equivalente de Business para el otro modo del agente. Comparte la
  * identidad del negocio (nombre, ciudad, zona horaria) y cambia lo demas: no
@@ -24,6 +25,15 @@ export interface TipoCita {
   descripcion: string;
   /** Cuanto ocupa en la agenda. De aqui sale el hueco que se reserva. */
   minutos: number;
+  /**
+   * Lo que cuesta, si el negocio quiere que se diga por telefono. Vacio = el
+   * agente no da precio y remite al negocio.
+   *
+   * En una clinica dental casi nunca se rellena: el precio depende de lo que
+   * vea el dentista. En estetica es al reves, es de lo primero que preguntan
+   * y el precio es cerrado. Por eso es opcional y lo decide cada negocio.
+   */
+  precioCentimos?: number;
   /**
    * Si solo lo hace un profesional concreto, su nombre. Vacio = cualquiera.
    * El agente nunca lo usa para aconsejar, solo para encajar la agenda.
@@ -78,7 +88,7 @@ export interface Agenda {
 }
 
 /**
- * Lo que la clinica quiere que se haga cuando alguien llama con dolor.
+ * Lo que el negocio quiere que se haga cuando alguien llama con una urgencia.
  *
  * Esto no es un detalle de producto: el agente tiene terminantemente
  * prohibido valorar si algo es grave o puede esperar. Lo unico que puede
@@ -122,10 +132,62 @@ export interface Clinica {
   /** Los unicos tratamientos para los que el agente puede dar cita. */
   tiposCita: TipoCita[];
   agenda: Agenda;
-  urgencias: Urgencias;
+  /**
+   * Solo donde tenga sentido. Una clinica dental la necesita; un centro de
+   * estetica no, y entonces el agente ni menciona las urgencias.
+   */
+  urgencias?: Urgencias;
 
-  /** Nombre propio de la asistente en esta clinica. Vacio = el de marca. */
+  /**
+   * Como llama el agente a quien tiene al telefono: "paciente", "cliente",
+   * "clienta". Vacio = "cliente", que vale para cualquier negocio.
+   *
+   * Parece un detalle y no lo es: a una esteticista llamarle "paciente" a su
+   * clienta le suena a consulta medica, y es lo primero que nota.
+   */
+  comoLlamarAlCliente?: string;
+
+  /** Nombre propio de la asistente en este negocio. Vacio = el de marca. */
   nombreAgente?: string;
   /** Direccion a la que avisar de cada cita. Vacio = sin aviso. */
   emailCitas: string;
+}
+
+/**
+ * Como se refiere el agente a quien tiene al telefono, con su articulo.
+ *
+ * Trae las formas montadas en vez de solo la palabra porque "clienta" en
+ * masculino sale "el clienta" y "del clienta", y eso va escrito en el prompt y
+ * en lo que leen las herramientas: un jefe lo lee en la primera demo.
+ *
+ * El genero se saca de la terminacion, que para las tres palabras que esto
+ * recibe de verdad ("cliente", "clienta", "paciente") acierta siempre. Si
+ * alguien pone otra cosa, sale en masculino, que es la forma generica.
+ */
+export interface TratoCliente {
+  /** La palabra sola: "cliente", "clienta", "paciente". */
+  nombre: string;
+  /** "el cliente" / "la clienta". */
+  el: string;
+  /** "al cliente" / "a la clienta". */
+  al: string;
+  /** "del cliente" / "de la clienta". */
+  del: string;
+  /** La palabra con mayuscula inicial, para una etiqueta: "Clienta". */
+  etiqueta: string;
+}
+
+export function tratoAlCliente(
+  clinica: Pick<Clinica, "comoLlamarAlCliente">,
+): TratoCliente {
+  const nombre = clinica.comoLlamarAlCliente?.trim() || "cliente";
+  const femenino = nombre.endsWith("a");
+
+  return {
+    nombre,
+    el: `${femenino ? "la" : "el"} ${nombre}`,
+    al: femenino ? `a la ${nombre}` : `al ${nombre}`,
+    del: femenino ? `de la ${nombre}` : `del ${nombre}`,
+    etiqueta: nombre.charAt(0).toUpperCase() + nombre.slice(1),
+  };
 }

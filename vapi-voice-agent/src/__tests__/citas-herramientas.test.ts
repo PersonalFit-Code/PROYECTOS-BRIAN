@@ -33,6 +33,9 @@ const URGENCIA: TipoCita = {
   esUrgencia: true,
 };
 
+/** Lo que la clinica ha escrito para las urgencias. Literal, sin tocar. */
+const FRASE_URGENCIAS = "Venga ahora mismo, le atendemos sin cita.";
+
 const CLINICA: Clinica = {
   modo: "citas",
   id: "prueba",
@@ -55,7 +58,7 @@ const CLINICA: Clinica = {
     huecosPorTanda: 3,
     pasoMinutos: 15,
   },
-  urgencias: { telefono: "988 11 22 33", queDecir: "Venga ahora mismo, le atendemos sin cita." },
+  urgencias: { telefono: "988 11 22 33", queDecir: FRASE_URGENCIAS },
   emailCitas: "",
 };
 
@@ -121,7 +124,20 @@ describe("buscar_huecos", () => {
     const texto = await buscarHuecos(contexto(api), { tipo_cita: "urgencia" });
 
     assert.match(texto, /no busques hueco/);
-    assert.ok(texto.includes(CLINICA.urgencias.queDecir), "tiene que decir la frase de la clinica, literal");
+    assert.ok(texto.includes(FRASE_URGENCIAS), "tiene que decir la frase de la clinica, literal");
+  });
+
+  it("sin bloque de urgencias, no se inventa una frase: manda recoger el recado", async () => {
+    const { api } = calendarioDeMentira();
+    const sinUrgencias: Clinica = { ...CLINICA, urgencias: undefined };
+    const texto = await buscarHuecos(
+      { clinica: sinUrgencias, calendario: api, callId: "llamada-1", ahora: AHORA },
+      { tipo_cita: "urgencia" },
+    );
+
+    assert.match(texto, /no lo valores/);
+    assert.match(texto, /telefono/);
+    assert.ok(!texto.includes(FRASE_URGENCIAS), "no puede salir la frase de otra clinica");
   });
 
   it("si no sabe de que cita hablan, pregunta en vez de elegir por su cuenta", async () => {

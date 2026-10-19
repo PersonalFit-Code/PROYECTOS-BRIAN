@@ -88,6 +88,50 @@ describe("validar la ficha de una clinica", () => {
     assert.ok(camposQueFaltanClinica(rota).includes("tiposCita[0].minutos"));
   });
 
+  it("un negocio sin urgencias es valido: un centro de estetica no tiene ninguna", () => {
+    const estetica = clinica({
+      tipoLabel: "centro de estetica",
+      tiposCita: [
+        { id: "cejas", nombre: "un diseno de cejas", descripcion: "d", minutos: 20, precioCentimos: 1000 },
+      ],
+      urgencias: undefined,
+      comoLlamarAlCliente: "clienta",
+    });
+    assert.deepEqual(camposQueFaltanClinica(estetica), []);
+  });
+
+  it("pero si hay un tipo marcado como urgencia, la frase no puede faltar", () => {
+    const rota = clinica({ urgencias: undefined });
+    assert.ok(
+      camposQueFaltanClinica(rota).some((c) => c.startsWith("urgencias (")),
+      "el agente llegaria al circuito de urgencias sin nada que decir",
+    );
+  });
+
+  it("un precio tiene que venir en centimos enteros", () => {
+    // Un 45 donde iban 4500 lo diria el agente tal cual por telefono.
+    for (const precio of [45.5, -100, "25" as unknown as number]) {
+      const rota = clinica({
+        tiposCita: [
+          { id: "x", nombre: "una limpieza", descripcion: "d", minutos: 30, precioCentimos: precio },
+        ],
+      });
+      assert.ok(
+        camposQueFaltanClinica(rota).includes("tiposCita[0].precioCentimos"),
+        `${precio} no deberia pasar`,
+      );
+    }
+  });
+
+  it("comoLlamarAlCliente puede no estar, pero no puede estar en blanco", () => {
+    assert.deepEqual(camposQueFaltanClinica(clinica({ comoLlamarAlCliente: undefined })), []);
+    assert.ok(
+      camposQueFaltanClinica(clinica({ comoLlamarAlCliente: "  " })).includes(
+        "comoLlamarAlCliente",
+      ),
+    );
+  });
+
   it("distingue una clinica de un negocio de pedidos", () => {
     assert.ok(pideCitas(clinica()));
     assert.ok(!pideCitas(fallbackBusiness));

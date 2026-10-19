@@ -8,7 +8,13 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { decirDia, decirHora, decirMomento, describirHuecos } from "../citas/decir";
+import {
+  decirDia,
+  decirHora,
+  decirMomento,
+  decirPrecio,
+  describirHuecos,
+} from "../citas/decir";
 
 const MADRID = "Europe/Madrid";
 
@@ -114,5 +120,23 @@ describe("describirHuecos", () => {
     const frase = describirHuecos({ huecos: [], ahora, zonaHoraria: MADRID, nombreCita: "una limpieza" });
     assert.match(frase, /No queda ningun hueco/);
     assert.match(frase, /telefono/);
+  });
+});
+
+describe("decirPrecio", () => {
+  it("no dice los centimos cuando son cero", () => {
+    assert.equal(decirPrecio(1800), "18 euros");
+    assert.equal(decirPrecio(0), "0 euros");
+  });
+
+  it("dice los centimos cuando los hay, con el cero delante", () => {
+    assert.equal(decirPrecio(2250), "22 euros con 50");
+    assert.equal(decirPrecio(2205), "22 euros con 05");
+  });
+
+  it("no mete nunca un simbolo: el agente no puede leerlos", () => {
+    for (const centimos of [0, 5, 100, 1899, 123456]) {
+      assert.ok(!/[€,.]/.test(decirPrecio(centimos)), `${centimos} -> ${decirPrecio(centimos)}`);
+    }
   });
 });

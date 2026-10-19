@@ -31,6 +31,8 @@ npm start              # arranca dist/index.js
 | `npm test` | Ejecuta los tests. |
 | `npm run prueba:pedido [negocio]` | Manda un pedido de prueba al servidor local. |
 | `npm run crear:negocio <id>` | Da de alta un negocio de ejemplo en Firestore. |
+| `npm run crear:clinica <id> <calendario>` | Da de alta un negocio de **cita** (dental, estetica) en Firestore. |
+| `npm run probar:citas [negocio]` | Simula una llamada de cita entera y la imprime. Sin red, sin Google. |
 
 ## El modelo: Claude Haiku 4.5, no 3.5
 
@@ -158,6 +160,98 @@ Los turnos de palabra (`stopSpeakingPlan` y `startSpeakingPlan` en
 calla en cuanto el cliente habla (como una persona), pero un ruido corto no
 basta para cortarlo, y contesta en cuanto el cliente termina la frase.
 
+## El otro modo: dar cita en vez de tomar pedido
+
+El mismo servidor atiende dos clases de negocio. Lo decide un campo del
+documento de Firestore: **`modo: "citas"`**. Sin ese campo es un negocio de
+pedidos, con la carta y el total de arriba; con el es un negocio que da hora, y
+entonces el agente tiene otras dos herramientas y otras instrucciones.
+
+Sirve para cualquiera que viva de la agenda: una clinica dental, un centro de
+estetica, una fisioterapia, una peluqueria. Lo que cambia entre ellos no es el
+motor, son tres campos:
+
+| | Clinica dental | Centro de estetica |
+| --- | --- | --- |
+| `precioCentimos` en cada tratamiento | sin poner: el precio depende de lo que vea el dentista | puesto: es cerrado y es lo primero que preguntan |
+| `urgencias` | puesto: alguien con dolor hay que derivarlo | sin poner: no hay nada que derivar |
+| `comoLlamarAlCliente` | `"paciente"` | `"clienta"` |
+
+Si `precioCentimos` esta vacio, el agente tiene prohibido dar precio y remite al
+negocio. Si `urgencias` esta vacio, no se le pone ninguna frase: ante un dolor
+no valora nada, recoge nombre y telefono y dice que le llaman. Las dos cosas por
+el mismo motivo: el agente no puede improvisar nada que el negocio no haya
+escrito.
+
+### Las dos herramientas
+
+**`buscar_huecos`** lee el calendario de Google del negocio, calcula los huecos
+libres con la duracion de ese tratamiento y devuelve hasta tres, ya redactados
+para leerlos en voz alta:
+
+```
+Huecos libres para una manicura: [1] hoy a las diez de la manana, [2] hoy a las
+cuatro de la tarde o [3] manana a las diez de la manana.
+```
+
+El agente **no puede decir ninguna hora que no venga de aqui**. Los huecos los
+calcula el servidor a partir de las franjas, el margen entre citas y la
+antelacion minima que tenga puesto el negocio, igual que el total de un pedido
+lo calcula el servidor y no el modelo.
+
+**`reservar_cita`** escribe la cita. Antes de escribir **vuelve a leer el
+calendario**: entre que se ofrecio el hueco y la persona se decidio han pasado
+minutos, y en ese rato alguien del negocio ha podido dar esa misma hora en mano.
+Si ya no esta libre, no escribe nada y el agente no confirma. Solo se le
+confirma la cita a quien llama cuando esta herramienta dice que esta puesta.
+
+### Probarlo sin tocar nada
+
+```bash
+npm run probar:citas            # centro de estetica
+npm run probar:citas pontenova  # clinica dental
+```
+
+Imprime la llamada entera: lo que oye quien llama, lo que devuelve cada
+herramienta, lo que quedaria escrito en el calendario, y que pasa cuando piden
+algo que el negocio no hace, cuando llaman con dolor, cuando les pisan el hueco
+y cuando Google no contesta. Al final imprime las instrucciones completas que
+recibe el modelo: merece la pena leerlas una vez, porque todo lo que el agente
+diga por telefono sale de ahi.
+
+El calendario es de mentira. Eso quiere decir que esto **no** prueba que Google
+acepte la cita, ni que el modelo elija bien la herramienta, ni como suena la
+voz. Para eso hace falta una llamada de verdad contra un calendario de verdad.
+
+Para probarlo tambien por HTTP, sin base de datos: `CLINICA_DE_EJEMPLO=airea` en
+el `.env`, `npm run dev`, y el webhook sirve ese centro.
+
+### Dar de alta uno de verdad
+
+```bash
+npm run crear:clinica                               # los lista
+npm run crear:clinica airea negocio@gmail.com       # lo guarda en Firestore
+```
+
+Y hay tres pasos que no hace el script:
+
+1. **El negocio comparte su calendario** con el correo de la cuenta de servicio,
+   con permiso *Realizar cambios en los eventos*. El script lo imprime al
+   acabar. Sin esto, Google devuelve 200 y una lista de ocupados vacia, que
+   leido a la ligera parece "toda la semana libre": por eso el cliente de
+   calendario falla a proposito cuando el calendario no aparece en la
+   respuesta, en vez de dar hora a ciegas.
+2. **La Google Calendar API habilitada** en el proyecto de Google Cloud.
+3. **El `calendarId` de verdad**, nunca `"primary"`. Autenticados como la cuenta
+   de servicio, `primary` es el calendario de la propia cuenta: las citas se
+   crearian sin error en una agenda que no mira nadie, y no te enteras hasta que
+   aparece alguien a deshora. El validador lo rechaza.
+
+La cita se crea **sin invitados**. Una cuenta de servicio sin delegacion no
+puede invitar a nadie (Google devuelve 403 `forbiddenForServiceAccounts`), y
+tampoco interesa: el telefono y el nombre van en la descripcion del evento, que
+es donde los mira quien atiende.
+
 ## Antes de una visita a un cliente
 
 ```
@@ -203,6 +297,7 @@ despertar, y una llamada entrante no espera tanto.
 | `SONIDO_FONDO` | `office` | Ambiente detras de la voz: `office`, `off` o la URL de un audio. |
 | `INTERRUPCION_PALABRAS` | `1` | Palabras del cliente para que el agente se calle. `0` es lo mas natural, pero con manos libres el agente se corta a si mismo. |
 | `INTERRUPCION_SEGUNDOS` | `0.4` | Segundos de voz seguidos antes de callarse. Subelo si se entrecorta con ruido. |
+| `CLINICA_DE_EJEMPLO` | *(vacio)* | `pontenova` o `airea`. Solo se mira **si no hay Firestore**: sirve ese negocio de cita de muestra para poder probar el modo citas en local sin base de datos. Con `FIREBASE_SERVICE_ACCOUNT` puesto se ignora. |
 
 ## Probar en local
 
@@ -294,13 +389,31 @@ rompe, cuesta dinero o confianza:
   telefono, direccion obligatoria en reparto, limpieza de los datos.
 - **El resumen de la llamada**: duracion, que se guarde la URL duradera de la
   grabacion y no la que caduca, y que aguante eventos incompletos.
+- **Los huecos de la agenda**: que el dia avance por fecha y no sumando 24
+  horas (el cambio de hora lo moveria), el margen entre citas por los dos
+  lados, la antelacion minima y que las tres opciones no salgan seguidas.
+- **Las horas dichas en voz alta**: "las diez menos cuarto de la manana",
+  hoy / manana / pasado manana / el jueves 29 de octubre, y los precios en
+  palabras sin ningun simbolo.
+- **El cliente de Google Calendar**: que **falle** cuando el calendario no
+  viene en la respuesta (Google devuelve 200 y una lista vacia cuando no esta
+  compartido, y leerlo como "todo libre" duplica citas), que no mande nunca
+  invitados y que un reintento no cree la cita dos veces.
+- **Las dos herramientas de cita**: que no se de hora si el calendario falla,
+  que no se confirme una cita que no se ha escrito, y que una urgencia se
+  derive con la frase literal del negocio y solo con esa.
+- **Una llamada de cita de punta a punta por HTTP** (`citas-webhook.test.ts`):
+  se levanta el servidor y se le mandan los mismos cuerpos que manda Vapi, con
+  su forma de los tool-calls incluida, porque ahi es donde se rompio la primera
+  llamada real del modo pedidos.
 
 Los tests se comprobaron rompiendo el codigo a proposito (el umbral del envio,
 el limite de cantidades y el alfabeto del codigo): los tres fallos los detecta.
 No entran en `dist/`: el build usa `tsconfig.build.json`, que los excluye.
 
-Lo que **no** cubren todavia: el webhook de punta a punta y el panel. Eso se
-comprueba a mano contra un Firestore simulado.
+Lo que **no** cubren: nada que necesite la red de verdad. El calendario de los
+tests es de mentira, asi que **que Google acepte lo que le mandamos solo lo
+prueba una cita real en un calendario real**. El panel se comprueba a mano.
 
 ## Grabacion de llamadas: apagada a proposito
 
@@ -356,11 +469,33 @@ src/
   index.ts              arranque del servidor y cierre ordenado
   app.ts                creacion de la app Express y middlewares
   config.ts             variables de entorno y modelo por defecto
-  restaurant.ts         datos del restaurante: carta, precios, horarios
   pedido.ts             calculo del total y texto que lee el agente
-  assistant.ts          configuracion del asistente de Vapi y System Prompt
+  assistant.ts          asistente de Vapi y System Prompt, modo pedidos
+  assistantCitas.ts     asistente de Vapi y System Prompt, modo citas
+  citas/
+    huecos.ts           de que esta ocupado a que huecos se pueden ofrecer
+    decir.ts            horas, dias y precios dichos en castellano
+    herramientas.ts     buscar_huecos y reservar_cita
+  google/
+    calendario.ts       cliente de Calendar, con las dependencias inyectadas
+    cliente.ts          el mismo, montado con la credencial de verdad
+    credencial.ts       lectura de la cuenta de servicio (JSON o base64)
+  db/
+    businesses.ts       unico sitio desde el que se lee Firestore
+    types.ts            Business: negocio de pedidos
+    clinica.ts          Clinica: negocio de cita
+    validarClinica.ts   comprobacion de la ficha de un negocio de cita
+    orders.ts           pedidos guardados
+    calls.ts            resumen de cada llamada
   routes/
     voiceWebhook.ts     POST /voice-webhook y resolucion de herramientas
+    panel.ts            panel de pedidos
+  util/
+    zona.ts             zonas horarias sin libreria, a prueba de cambio de hora
   types/
     vapi.ts             tipos minimos del payload de Vapi
+scripts/
+  crear-negocio.ts      alta de un negocio de pedidos
+  crear-clinica.ts      alta de un negocio de cita
+  probar-citas.ts       simulacion de una llamada de cita, para leerla
 ```

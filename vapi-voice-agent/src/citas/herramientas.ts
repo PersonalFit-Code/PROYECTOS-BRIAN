@@ -9,7 +9,7 @@
  * que esto se prueba entero sin red y sin esperar a que pase el tiempo.
  */
 
-import type { Clinica, TipoCita } from "../db/clinica";
+import { tratoAlCliente, type Clinica, type TipoCita } from "../db/clinica";
 import type { ClienteCalendario } from "../google/calendario";
 import { CalendarioError } from "../google/calendario";
 import { decirMomento, describirHuecos } from "./decir";
@@ -140,11 +140,16 @@ export async function buscarHuecos(
 
   const tipo = buscarTipoCita(clinica, argumentos["tipo_cita"]);
   if (!tipo) {
-    return `No se de que tipo de cita hablas. Preguntale al paciente que necesita y elige una de estas: ${listaDeTipos(clinica)}.`;
+    return `No se de que tipo de cita hablas. Preguntale ${tratoAlCliente(clinica).al} que necesita y elige una de estas: ${listaDeTipos(clinica)}.`;
   }
 
   if (tipo.esUrgencia) {
-    return `Eso es una urgencia: no busques hueco. Dile exactamente esto y nada mas: "${clinica.urgencias.queDecir}"`;
+    // Puede no haber frase de urgencias: un centro de estetica no tiene
+    // urgencias que derivar. Entonces no se inventa ninguna, se recoge el
+    // recado, que es lo unico que el agente puede hacer sin valorar nada.
+    return clinica.urgencias
+      ? `Eso es una urgencia: no busques hueco. Dile exactamente esto y nada mas: "${clinica.urgencias.queDecir}"`
+      : "Eso no es una cita que puedas dar tu y no lo valores. Dile que se lo tiene que ver alguien del centro, pidele el nombre y un telefono, y di que le llaman.";
   }
 
   if (!calendario) {
@@ -226,10 +231,11 @@ export async function reservarCita(
 ): Promise<string> {
   const { clinica, calendario, ahora, callId } = contexto;
   const oferta = recordado(callId, ahora);
+  const trato = tratoAlCliente(clinica);
 
   const nombre = String(argumentos["nombre"] ?? "").trim();
   const telefono = String(argumentos["telefono"] ?? "").trim();
-  if (!nombre) return "Falta el nombre del paciente. Preguntaselo y vuelve a reservar.";
+  if (!nombre) return `Falta el nombre ${trato.del}. Preguntaselo y vuelve a reservar.`;
   if (!telefono) return "Falta un telefono de contacto. Pideselo y vuelve a reservar.";
 
   const tipo =
@@ -269,7 +275,7 @@ export async function reservarCita(
   }
 
   if (!libre) {
-    return `Esa hora ya no esta libre. Discupate, vuelve a llamar a buscar_huecos para ${tipo.nombre} y ofrecele las nuevas.`;
+    return `Esa hora ya no esta libre. Disculpate, vuelve a llamar a buscar_huecos para ${tipo.nombre} y ofrecele las nuevas.`;
   }
 
   const fin = new Date(inicio.getTime() + tipo.minutos * 60_000);
@@ -283,7 +289,7 @@ export async function reservarCita(
       titulo: `${nombre} - ${tipo.nombre}`,
       detalle: [
         `Cita pedida por telefono con ${clinica.nombreAgente || "Noah"}.`,
-        `Paciente: ${nombre}`,
+        `${trato.etiqueta}: ${nombre}`,
         `Telefono: ${telefono}`,
         `Motivo: ${tipo.nombre}`,
         argumentos["notas"] ? `Notas: ${String(argumentos["notas"]).trim()}` : "",
@@ -295,7 +301,7 @@ export async function reservarCita(
 
     const cuando = decirMomento(inicio, ahora, clinica.zonaHoraria);
     return resultado.nueva
-      ? `Cita puesta: ${tipo.nombre}, ${cuando}, a nombre de ${nombre}. Confirmaselo al paciente diciendo el dia y la hora, y despidete.`
+      ? `Cita puesta: ${tipo.nombre}, ${cuando}, a nombre de ${nombre}. Confirmaselo ${trato.al} diciendo el dia y la hora, y despidete.`
       : `Esta cita ya estaba puesta, no se ha duplicado: ${tipo.nombre}, ${cuando}, a nombre de ${nombre}. Confirmasela igual y no vuelvas a reservar.`;
   } catch (error) {
     if (error instanceof CalendarioError) {

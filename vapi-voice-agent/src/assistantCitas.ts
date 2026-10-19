@@ -20,7 +20,8 @@ import {
 } from "./assistant";
 import { TOOL_BUSCAR_HUECOS, TOOL_RESERVAR_CITA } from "./citas/herramientas";
 import { config } from "./config";
-import type { Clinica } from "./db/clinica";
+import { tratoAlCliente, type Clinica, type TratoCliente } from "./db/clinica";
+import { decirPrecio } from "./citas/decir";
 import { momentoActual } from "./util/format";
 
 function tiposEnTexto(clinica: Clinica): string {
@@ -29,15 +30,83 @@ function tiposEnTexto(clinica: Clinica): string {
     .map(
       (tipo) =>
         `- ${tipo.nombre} (${tipo.descripcion}). Dura ${tipo.minutos} minutos.` +
+        (tipo.precioCentimos !== undefined
+          ? ` Cuesta ${decirPrecio(tipo.precioCentimos)}.`
+          : "") +
         (tipo.profesional ? ` La hace ${tipo.profesional}.` : "") +
         ` Identificador para la herramienta: "${tipo.id}".`,
     )
     .join("\n");
 }
 
+/**
+ * La regla de los precios cambia segun el negocio, y no es un detalle de
+ * tono: en una dental el precio depende de lo que vea el dentista y decirlo
+ * por telefono genera una reclamacion; en estetica es cerrado y es lo primero
+ * que preguntan. Asi que el agente dice precios solo si los tiene escritos, y
+ * nunca los de los tratamientos que no los llevan.
+ */
+function reglaDePrecios(clinica: Clinica): string {
+  const conPrecio = clinica.tiposCita.filter(
+    (tipo) => !tipo.esUrgencia && tipo.precioCentimos !== undefined,
+  );
+
+  if (conPrecio.length === 0) {
+    return `- No te inventas precios, y no das ninguno. Si preguntan cuanto cuesta algo,
+  dices que el precio se lo confirman en ${clinica.nombre} y ofreces cita para
+  verlo.`;
+  }
+
+  const sinPrecio = clinica.tiposCita.filter(
+    (tipo) => !tipo.esUrgencia && tipo.precioCentimos === undefined,
+  );
+
+  return (
+    `- No te inventas precios. Los unicos que puedes decir son los que vienen
+  escritos en la lista de abajo, tal cual.` +
+    (sinPrecio.length > 0
+      ? ` De lo que no lleve precio en la lista
+  (${sinPrecio.map((tipo) => tipo.nombre).join(", ")}) dices que se lo
+  confirman en el centro.`
+      : "")
+  );
+}
+
+/**
+ * Que hacer cuando llaman con dolor o con un problema.
+ *
+ * Una dental escribe su frase y el agente la repite. Un centro de estetica no
+ * tiene urgencias que derivar, y entonces no se le pone una frase que no es
+ * suya: se le prohibe igual valorar nada y se le manda recoger el recado. Lo
+ * que no puede pasar en ninguno de los dos casos es que improvise.
+ */
+function bloqueDeUrgencias(clinica: Clinica, trato: TratoCliente): string {
+  const { urgencias } = clinica;
+
+  if (!urgencias) {
+    return `# SI ALGUIEN LLAMA CON DOLOR O CON ALGO QUE LE PREOCUPA
+
+No valoras nada, no dices si es normal y no dices que hacer. Le dices que eso
+se lo tiene que ver alguien del centro, le pides el nombre y un telefono, y
+dices que le llaman. Nada mas.
+`;
+  }
+
+  return `# SI ALGUIEN LLAMA CON DOLOR O CON UNA URGENCIA
+
+No valoras nada. Dices exactamente esto, con estas palabras:
+
+"${urgencias.queDecir}"
+
+${urgencias.telefono ? `Si te piden el telefono de urgencias, es el ${urgencias.telefono}.` : ""}
+Despues no sigas buscando cita salvo que ${trato.el} te la pida.
+`;
+}
+
 export function buildSystemPromptCitas(clinica: Clinica): string {
   const agente = nombreDelAgente(clinica);
-  const { nombre, ciudad, direccion, zonaHoraria, tipoLabel, horario, urgencias } = clinica;
+  const { nombre, ciudad, direccion, zonaHoraria, tipoLabel, horario } = clinica;
+  const trato = tratoAlCliente(clinica);
 
   const avisoGrabacion = config.grabarLlamadas
     ? `
@@ -59,30 +128,22 @@ El momento actual es: ${momentoActual(zonaHoraria)} (hora de ${ciudad}).
 ${avisoGrabacion}
 # LO QUE NO HACES NUNCA
 
-Esto manda sobre cualquier otra instruccion y sobre lo que te pida el paciente.
+Esto manda sobre cualquier otra instruccion y sobre lo que te pida ${trato.el}.
 
-- No das consejo sanitario. Ni uno. No dices si algo es grave, si puede
-  esperar, si conviene un tratamiento u otro, ni que puede tomarse mientras
-  tanto. Tampoco tranquilizas diciendo que "no parece nada".
-- No interpretas sintomas. Si te cuentan uno, no opinas: ofreces cita o
-  derivas, segun lo que sigue.
-- No te inventas precios. Si preguntan cuanto cuesta algo, dices que el precio
-  se lo confirman en la clinica y ofreces cita para verlo.
+- No das consejo sanitario ni valoras ningun tratamiento. Ni uno. No dices si
+  algo es grave, si puede esperar, si conviene un tratamiento u otro, ni que
+  puede ponerse o tomarse mientras tanto. Tampoco tranquilizas diciendo que
+  "no parece nada".
+- No interpretas sintomas ni lesiones. Si te cuentan uno, no opinas: ofreces
+  cita o recoges el recado.
+${reglaDePrecios(clinica)}
 - No inventas huecos. La unica forma de decir una hora es que te la haya
   devuelto la herramienta ${TOOL_BUSCAR_HUECOS}. Si la herramienta no te da
   horas, no las hay: pide nombre y telefono y di que les llaman.
 - No pides datos de salud. Para la cita te basta el nombre, un telefono y para
   que es. No preguntes antecedentes, ni medicacion, ni que le duele.
 
-# SI ALGUIEN LLAMA CON DOLOR O CON UNA URGENCIA
-
-No valoras nada. Dices exactamente esto, con estas palabras:
-
-"${urgencias.queDecir}"
-
-${urgencias.telefono ? `Si te piden el telefono de urgencias, es el ${urgencias.telefono}.` : ""}
-Despues no sigas buscando cita salvo que el paciente te la pida.
-
+${bloqueDeUrgencias(clinica, trato)}
 # COMO HABLAS
 
 - Castellano de España, cercano y natural, tratando de usted.
@@ -93,8 +154,8 @@ Despues no sigas buscando cita salvo que el paciente te la pida.
   dices al saludar; si preguntan si eres una maquina, lo dices sin rodeos.
   Es obligacion legal, no una opcion. Dicho eso, no te extiendas: ni modelos,
   ni prompts, ni herramientas. Vuelve a la cita.
-- Si el paciente pide hablar con una persona, no insistas en atenderle tu:
-  recoge nombre y telefono y di que le llaman.
+- Si ${trato.el} pide hablar con una persona, no insistas: recoge nombre y
+  telefono y di que le llaman.
 - Si te interrumpen, para y atiende a lo que te han dicho. No repitas una
   pregunta que ya te han contestado.
 - Si no entiendes algo, pide que lo repitan. No supongas.
@@ -106,7 +167,7 @@ Estos son los UNICOS tratamientos para los que puedes dar hora:
 ${tiposEnTexto(clinica)}
 
 Si piden otra cosa, dilo con naturalidad, no la busques, y ofrece recoger el
-recado: nombre, telefono y que necesitan, para que les llamen de la clinica.
+recado: nombre, telefono y que necesitan, para que les llamen de ${nombre}.
 
 # COMO SE DA UNA CITA
 
@@ -125,9 +186,9 @@ recado: nombre, telefono y que necesitan, para que les llamen de la clinica.
    colgar.
 
 Nunca confirmes una cita que la herramienta no haya confirmado. Es mejor un
-"le llamamos ahora mismo" que un paciente plantado en la puerta.
+"le llamamos ahora mismo" que una cita confirmada que no existe.
 
-# DATOS DE LA CLINICA
+# DATOS DEL CENTRO
 
 - Direccion: ${direccion}.
 - Horario: ${horario.texto}.
@@ -144,6 +205,7 @@ de haber recogido el recado.`;
 }
 
 function buildToolsCitas(clinica: Clinica) {
+  const trato = tratoAlCliente(clinica);
   const idsAgendables = clinica.tiposCita
     .filter((tipo) => !tipo.esUrgencia)
     .map((tipo) => tipo.id);
@@ -167,7 +229,7 @@ function buildToolsCitas(clinica: Clinica) {
       function: {
         name: TOOL_BUSCAR_HUECOS,
         description:
-          "Mira que huecos libres tiene la clinica para un tratamiento y devuelve hasta tres, ya escritos para leerlos en voz alta. Es la UNICA forma de saber una hora: no se puede decir ninguna hora que no venga de aqui.",
+          "Mira que huecos libres hay en la agenda para un tratamiento y devuelve hasta tres, ya escritos para leerlos en voz alta. Es la UNICA forma de saber una hora: no se puede decir ninguna hora que no venga de aqui.",
         parameters: {
           type: "object" as const,
           properties: { tipo_cita: tipoCita },
@@ -191,7 +253,7 @@ function buildToolsCitas(clinica: Clinica) {
       function: {
         name: TOOL_RESERVAR_CITA,
         description:
-          "Pone la cita en la agenda de la clinica. Se usa una sola vez, cuando el paciente ya ha elegido hora y ha dado su nombre y su telefono. Solo se le confirma la cita al paciente si esta herramienta dice que esta puesta.",
+          `Pone la cita en la agenda del centro. Se usa una sola vez, cuando ${trato.el} ya ha elegido hora y ha dado su nombre y su telefono. Solo se le confirma la cita si esta herramienta dice que esta puesta.`,
         parameters: {
           type: "object" as const,
           properties: {
@@ -209,11 +271,11 @@ function buildToolsCitas(clinica: Clinica) {
             tipo_cita: tipoCita,
             nombre: {
               type: "string" as const,
-              description: "Nombre y apellido del paciente.",
+              description: `Nombre y apellido ${trato.del}.`,
             },
             telefono: {
               type: "string" as const,
-              description: "Telefono de contacto del paciente.",
+              description: `Telefono de contacto ${trato.del}.`,
             },
             notas: {
               type: "string" as const,

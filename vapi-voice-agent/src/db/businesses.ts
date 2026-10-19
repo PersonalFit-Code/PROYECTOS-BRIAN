@@ -7,8 +7,10 @@
  * campo en la base de datos.
  */
 
+import { config } from "../config";
 import { conLimite } from "../util/espera";
 import type { Clinica } from "./clinica";
+import { CLINICAS_DE_EJEMPLO } from "./clinicasDeEjemplo";
 import { fallbackBusiness } from "./fallbackBusiness";
 import { firestore } from "./firebase";
 import type { Accion, Business } from "./types";
@@ -177,11 +179,25 @@ function esBusiness(valor: unknown): valor is Business {
  */
 export async function getNegocio(id: string): Promise<Negocio> {
   if (!firestore) {
+    // Sin Firestore el negocio de ejemplo es uno de pedidos, asi que el modo
+    // citas no se podia ni arrancar en local. Con CLINICA_DE_EJEMPLO se sirve
+    // uno de los de muestra y se puede probar la llamada entera sin base de
+    // datos. Solo aqui dentro: con Firestore configurado esto no se mira.
+    const deEjemplo = CLINICAS_DE_EJEMPLO[config.clinicaDeEjemplo];
+    if (config.clinicaDeEjemplo && !deEjemplo && !avisadoSinFirebase) {
+      console.warn(
+        `CLINICA_DE_EJEMPLO="${config.clinicaDeEjemplo}" no existe. Las que hay: ${Object.keys(CLINICAS_DE_EJEMPLO).join(", ")}.`,
+      );
+    }
     if (!avisadoSinFirebase) {
-      console.warn("Firebase no configurado, usando negocio de ejemplo.");
+      console.warn(
+        deEjemplo
+          ? `Firebase no configurado, usando la clinica de ejemplo "${config.clinicaDeEjemplo}".`
+          : "Firebase no configurado, usando negocio de ejemplo.",
+      );
       avisadoSinFirebase = true;
     }
-    return fallbackBusiness;
+    return deEjemplo ?? fallbackBusiness;
   }
 
   const buscado = id.trim();

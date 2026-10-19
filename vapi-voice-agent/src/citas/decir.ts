@@ -100,8 +100,23 @@ export function decirMomento(instante: Date, ahora: Date, zonaHoraria: string): 
 }
 
 /**
+ * Un precio dicho en voz alta: "18 euros", "22 euros con 50".
+ *
+ * No vale el formato de pantalla ("18,00 €"): el agente tiene prohibido leer
+ * simbolos, y un modelo al que se le da "€" lo lee como le parece, a veces
+ * "euros" y a veces "e". Los centimos en cero no se dicen, igual que nadie
+ * dice "dieciocho euros con cero centimos" en un mostrador.
+ */
+export function decirPrecio(centimos: number): string {
+  const euros = Math.floor(centimos / 100);
+  const resto = centimos % 100;
+  if (resto === 0) return `${euros} euros`;
+  return `${euros} euros con ${resto < 10 ? `0${resto}` : resto}`;
+}
+
+/**
  * Enumera en castellano: "A, B o C". Con "o" y no con "y" porque son
- * alternativas y el paciente tiene que elegir una.
+ * alternativas y quien llama tiene que elegir una.
  */
 function enumerar(partes: readonly string[]): string {
   if (partes.length === 0) return "";

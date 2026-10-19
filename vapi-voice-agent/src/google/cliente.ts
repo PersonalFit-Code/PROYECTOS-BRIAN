@@ -61,11 +61,25 @@ function construir(): ClienteCalendario | null {
 /**
  * El cliente compartido, o null si no hay forma de hablar con Google.
  *
- * Quien lo use tiene que comprobar el null y decirle al paciente que le
- * llamaran, en vez de dejar la llamada colgada. Una clinica sin calendario
- * accesible es un problema de configuracion, no del paciente que llama.
+ * Quien lo use tiene que comprobar el null y decirle a quien llama que le
+ * llamaran, en vez de dejar la llamada colgada. Un negocio sin calendario
+ * accesible es un problema de configuracion, no de quien llama.
  */
 export function calendarioDeGoogle(): ClienteCalendario | null {
   if (cache === undefined) cache = construir();
   return cache;
+}
+
+/**
+ * Pone otro calendario en su sitio. Para las pruebas y para el simulador de
+ * llamada, que tienen que poder ver el circuito entero sin tocar Google.
+ *
+ * Nunca se llama desde el servidor. Si algun dia se llamara, el agente
+ * confirmaria citas que no se escriben en ninguna parte, que es justo el fallo
+ * que todo lo demas de este modulo esta puesto para evitar. Por eso avisa en
+ * el log cada vez: si esta linea aparece en un servidor de verdad, se ve.
+ */
+export function usarCalendario(cliente: ClienteCalendario | null): void {
+  console.warn("[calendario] se ha sustituido el calendario de Google. Esto solo vale para pruebas.");
+  cache = cliente;
 }

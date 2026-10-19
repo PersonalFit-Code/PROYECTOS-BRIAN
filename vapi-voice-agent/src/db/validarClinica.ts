@@ -64,6 +64,17 @@ export function camposQueFaltanClinica(valor: unknown): string[] {
       // Cinco minutos es el suelo: por debajo, o es un error de tecleo o no
       // es una cita.
       if (!enteroPositivo(t.minutos, 5)) faltan.push(`tiposCita[${i}].minutos`);
+      // El precio es opcional, pero si esta tiene que ser un entero de
+      // centimos: un 45 donde iban 4500 lo dice el agente por telefono tal
+      // cual, y eso ya no se arregla con una disculpa.
+      if (
+        t.precioCentimos !== undefined &&
+        (typeof t.precioCentimos !== "number" ||
+          !Number.isInteger(t.precioCentimos) ||
+          t.precioCentimos < 0)
+      ) {
+        faltan.push(`tiposCita[${i}].precioCentimos`);
+      }
       if (t.profesional !== undefined && !texto(t.profesional)) {
         faltan.push(`tiposCita[${i}].profesional`);
       }
@@ -124,15 +135,34 @@ export function camposQueFaltanClinica(valor: unknown): string[] {
     }
   }
 
+  // Las urgencias son opcionales: una dental las necesita, un centro de
+  // estetica no tiene ninguna que derivar. Lo que no se admite es un bloque a
+  // medio poner, porque entonces el agente tiene un circuito de urgencias sin
+  // la frase que es lo unico que puede decir en el.
   const urgencias = doc.urgencias;
-  if (!urgencias || typeof urgencias !== "object" || Array.isArray(urgencias)) {
-    faltan.push("urgencias");
-  } else {
-    const u = urgencias as Record<string, unknown>;
-    if (typeof u.telefono !== "string") faltan.push("urgencias.telefono");
-    // La frase de urgencias no puede faltar: es lo unico que el agente puede
-    // decirle a alguien con dolor, y la escribe la clinica, no nosotros.
-    if (!texto(u.queDecir)) faltan.push("urgencias.queDecir");
+  if (urgencias !== undefined) {
+    if (!urgencias || typeof urgencias !== "object" || Array.isArray(urgencias)) {
+      faltan.push("urgencias");
+    } else {
+      const u = urgencias as Record<string, unknown>;
+      if (typeof u.telefono !== "string") faltan.push("urgencias.telefono");
+      // La escribe el negocio, no nosotros.
+      if (!texto(u.queDecir)) faltan.push("urgencias.queDecir");
+    }
+  }
+
+  // Si hay un tipo marcado como urgencia tiene que haber frase que decir: sin
+  // ella el agente llega a ese camino sin nada que hacer.
+  if (
+    urgencias === undefined &&
+    Array.isArray(tipos) &&
+    tipos.some((t) => t && typeof t === "object" && (t as Record<string, unknown>).esUrgencia)
+  ) {
+    faltan.push("urgencias (hay un tipoCita marcado como urgencia)");
+  }
+
+  if (doc.comoLlamarAlCliente !== undefined && !texto(doc.comoLlamarAlCliente)) {
+    faltan.push("comoLlamarAlCliente");
   }
 
   return faltan;
