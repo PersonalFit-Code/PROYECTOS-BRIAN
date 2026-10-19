@@ -18,13 +18,18 @@ import { SITE_URL_IS_PROVISIONAL } from "@/lib/siteUrl";
  * Los slugs salen de `m.legal.<doc>.slug`. El español es la fuente de verdad y los demás idiomas
  * heredan sus slugs (así los enlaces del pie, el sitemap y hreflang apuntan a la misma ruta en
  * todos los idiomas); si un idioma definiera un slug propio, también se genera y se resuelve.
- * Cualquier otro slug → 404.
+ * Cualquier otro slug → 404 (en el enrutador, ver `dynamicParams` justo debajo).
  */
 
-/* Sin `dynamicParams = false`: con él, un slug desconocido (`/es/legal/lo-que-sea`) devolvía el 404
-   interno de Next sin llegar al componente. Ahora la ruta se resuelve bajo demanda y es el
-   `notFound()` de abajo quien monta `src/app/[locale]/not-found.tsx` dentro del layout de idioma.
-   Los tres slugs reales se siguen prerenderizando con `generateStaticParams`. */
+/* Lista cerrada: solo existen los slugs que devuelve `generateStaticParams`, y un slug desconocido
+   (`/es/legal/lo-que-sea`) se corta en el ENRUTADOR, sin renderizar nada.
+   Esto estuvo en `true` una temporada, y por un motivo que ya no se sostiene: entonces un 404 del
+   enrutador caía en el 404 interno de Next —blanco, en inglés— y se prefería llegar al `notFound()`
+   de abajo para que montara el 404 de la casa. Resultó que por ese camino Next sirve su esqueleto de
+   error vacío (ver `src/app/global-not-found.tsx`), así que se cambiaba una página en inglés por una
+   página en blanco. Con el 404 global, el corte en el enrutador sirve el 404 de la casa, traducido y
+   con texto en el HTML: es el camino bueno, y encima no renderiza una página para tirarla. */
+export const dynamicParams = false;
 
 /** Documento al que corresponde un slug en este idioma (con respaldo en los slugs en español). */
 function resolveDocKey(m: Messages, slug: string): LegalDocKey | null {
@@ -70,6 +75,8 @@ export default async function LegalPage({ params }: { params: Promise<{ locale: 
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = await getMessages(locale);
   const key = resolveDocKey(m, slug);
+  /* Red de seguridad: con `dynamicParams = false` aquí no llega ningún slug que no esté en
+     `generateStaticParams`. Se queda porque es lo que estrecha el tipo de `key` a `LegalDocKey`. */
   if (!key) notFound();
 
   const breadcrumbs = breadcrumbJsonLd([

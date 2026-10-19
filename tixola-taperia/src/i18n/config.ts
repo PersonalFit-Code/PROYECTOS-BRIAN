@@ -6,6 +6,17 @@ export const LOCALES = ["es", "gl", "en", "pt"] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "es";
 
+/**
+ * Cabecera de petición con el idioma de la URL, que escribe el proxy (`src/proxy.ts`) y lee el 404
+ * global (`src/app/global-not-found.tsx`). Existe porque ese 404 se resuelve FUERA de `[locale]`:
+ * no recibe `params` y no hay otra forma de que sepa en qué idioma hablarle a quien ha llegado ahí.
+ * Vive aquí y no en el proxy para que la página no tenga que importar `next/server`.
+ *
+ * Quien la lea valida con `isLocale()` sin excepción: en las rutas que el proxy no mira (las que
+ * llevan punto, ver su `matcher`) la cabecera llega tal cual la mande el cliente.
+ */
+export const LOCALE_HEADER = "x-tixola-locale";
+
 export const LOCALE_META: Record<
   Locale,
   { label: string; native: string; short: string; hreflang: string; ogLocale: string; intl: string }

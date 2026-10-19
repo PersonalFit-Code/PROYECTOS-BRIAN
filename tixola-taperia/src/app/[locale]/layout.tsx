@@ -16,6 +16,13 @@ export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
 }
 
+/* Los idiomas son cuatro y no hay un quinto: cualquier prefijo que no sea uno de ellos se corta en el
+   ENRUTADOR y lo recoge el 404 global (`src/app/global-not-found.tsx`). El proxy ya redirige
+   `/lo-que-sea` a `/es/lo-que-sea`, pero no mira las rutas con punto (ver su `matcher`), así que
+   `/algo.raro/carta` sí llegaba hasta aquí y disparaba el `notFound()` de abajo — que por ese camino
+   sirve el esqueleto de error vacío de Next en vez de una página. Con esta línea no llega. */
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "es";
@@ -136,6 +143,8 @@ export default async function LocaleLayout({
   params,
 }: Readonly<{ children: React.ReactNode; params: Promise<{ locale: string }> }>) {
   const { locale: raw } = await params;
+  /* Red de seguridad: `dynamicParams = false` ya corta los prefijos que no son idioma. Se queda
+     porque es lo que estrecha el tipo de `raw` a `Locale` en las tres líneas siguientes. */
   if (!isLocale(raw)) notFound();
   const locale: Locale = raw;
   const messages = await getMessages(locale);

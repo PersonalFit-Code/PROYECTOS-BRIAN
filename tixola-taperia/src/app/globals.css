@@ -259,6 +259,13 @@ body::before {
   body {
     padding-bottom: calc(var(--mobile-bar-h) + env(safe-area-inset-bottom));
   }
+  /* …salvo donde no hay barra. El 404 global (`src/app/global-not-found.tsx`) no monta
+     `MobileStickyBar`: con el hueco puesto, su `<main>` de 100dvh no cabía en el `<body>` y la página
+     hacía 64 px de scroll para enseñar vacío. No vale una utilidad de Tailwind para apagarlo: lo de
+     arriba es CSS sin capa y gana a cualquier clase de la capa `utilities`. */
+  body.sin-barra-movil {
+    padding-bottom: 0;
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────

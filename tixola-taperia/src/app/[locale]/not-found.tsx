@@ -4,7 +4,15 @@ import Link from "next/link";
 import { useLocalePath, useMessages } from "@/i18n/LocaleProvider";
 
 /**
- * 404 dentro de un idioma válido (p. ej. un slug legal desconocido).
+ * 404 dentro del layout de idioma — el boundary de los `notFound()` que ocurren RENDERIZANDO.
+ *
+ * El 404 que ve la gente NO es este, es `src/app/global-not-found.tsx`: toda URL que no existe se
+ * corta en el enrutador y acaba allí. Este queda como boundary de los dos `notFound()` que siguen
+ * vivos en el código ([locale]/layout.tsx y legal/[slug]/page.tsx), ambos redes de seguridad que con
+ * `dynamicParams = false` ya no se alcanzan por HTTP. Si alguno llegara a dispararse en una
+ * navegación del enrutador, esto es lo que se monta; si se disparara en el servidor, Next sirve su
+ * esqueleto de error y el 404 se pinta al hidratar (que es el problema que arregló el 404 global).
+ *
  * Next monta este segmento dentro de `[locale]/layout.tsx`, así que el `<LocaleProvider>` está
  * disponible: todo el texto sale de `m.common.notFound` y el enlace de vuelta conserva el prefijo
  * de idioma con `useLocalePath()`.

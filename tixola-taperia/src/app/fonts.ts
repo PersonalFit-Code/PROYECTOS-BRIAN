@@ -2,9 +2,9 @@ import { Cormorant_Garamond, Cinzel, Manrope, Bebas_Neue, Niconne } from "next/f
 
 /**
  * Fuentes de la web, en un módulo aparte porque las cargan DOS raíces distintas:
- * `app/[locale]/layout.tsx` (el layout raíz del sitio) y `app/not-found.tsx` (el 404, que al estar
- * por encima del layout de idioma tiene que pintar su propio `<html>`/`<body>`). Una sola llamada
- * a `next/font` por familia = un solo juego de woff2 y las mismas variables CSS en ambas.
+ * `app/[locale]/layout.tsx` (el layout raíz del sitio) y `app/global-not-found.tsx` (el 404, que se
+ * resuelve fuera del layout de idioma y pinta su propio `<html>`/`<body>`). Una sola llamada a
+ * `next/font` por familia = un solo juego de woff2 y las mismas variables CSS en ambas.
  */
 
 /* Sin el peso 600: no se usa en ninguna clase `font-display` (los `font-semibold` del proyecto son

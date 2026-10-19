@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { DEFAULT_LOCALE, LOCALES, isLocale, type Locale } from "@/i18n/config";
+import { DEFAULT_LOCALE, LOCALES, LOCALE_HEADER, isLocale, type Locale } from "@/i18n/config";
 
 const COOKIE = "NEXT_LOCALE";
 
@@ -48,7 +48,12 @@ export function proxy(request: NextRequest) {
   const first = pathname.split("/")[1];
 
   if (isLocale(first)) {
-    const res = NextResponse.next();
+    /* El idioma de la URL, hacia adentro. Lo lee el 404 global, que se resuelve fuera de `[locale]`
+       y no tiene `params` (ver `LOCALE_HEADER`). Se reescribe SIEMPRE, también si el cliente mandó
+       una suya: manda la URL, no la petición. */
+    const cabeceras = new Headers(request.headers);
+    cabeceras.set(LOCALE_HEADER, first);
+    const res = NextResponse.next({ request: { headers: cabeceras } });
     if (request.cookies.get(COOKIE)?.value !== first) {
       res.cookies.set(COOKIE, first, cookieOptions(request));
     }

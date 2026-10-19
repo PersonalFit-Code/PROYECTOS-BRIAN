@@ -65,6 +65,14 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  /* EL 404 DE LA WEB DEPENDE DE ESTA LÍNEA. El layout raíz es `app/[locale]/layout.tsx`, un segmento
+     dinámico, y con esa forma un `not-found.tsx` normal se sirve dentro del esqueleto de error de
+     Next: sin texto, sin hoja de estilos y sin `lang` (medido; el porqué está en
+     `src/app/global-not-found.tsx`). `globalNotFound` habilita `app/global-not-found.tsx`, que se
+     resuelve en el enrutador y pinta su propio documento completo.
+     Sigue siendo experimental en Next 16.4: si algún día desaparece la bandera, el 404 degrada al
+     interno de Next (blanco, en inglés) — no rompe la web, pero hay que volver a mirarlo. */
+  experimental: { globalNotFound: true },
   images: {
     formats: ["image/avif", "image/webp"],
     /* Calidades que el proyecto pide de verdad. Next 16 ya no acepta cualquier valor: solo sirve los
