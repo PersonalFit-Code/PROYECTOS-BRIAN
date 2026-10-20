@@ -4,7 +4,7 @@ Sistema multi-agente para un creador que trabaja solo: seis agentes sobre Claude
 que comparten un mismo "cerebro" (perfil, voz, nicho y calendario). Nada se
 publica solo: todo lo que sale de un agente pasa por revisión humana.
 
-Estado: **paso 2, schema**. Hay base de datos y perfil de voz; faltan `runAgent` y los agentes.
+Estado: **aparcado** (20-10-2026). Hay schema y perfil de voz; faltan `runAgent` y los agentes. Brian pasó a priorizar el setter (`../setter/PLAN.md`).
 
 ## Arrancar
 

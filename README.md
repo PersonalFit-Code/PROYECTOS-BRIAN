@@ -8,4 +8,5 @@ Repositorio con los proyectos web de Brian. Cada proyecto vive en su propia carp
 - **dos-puertas** — web del Café Bar Dos Puertas (Ourense). Primera versión del frontend; pendientes en `dos-puertas/README.md`.
 - **vapi-voice-agent** — servidor Express + TypeScript que atiende los webhooks del agente de voz de Vapi.
 - **andrea-salon** — web + reservas + WhatsApp + bonos + panel de administración para el salón de Andrea (Ourense). En fase de plan: `andrea-salon/PLAN.md`.
-- **agentes-contenido** — sistema multi-agente de contenido personal (ideas, borradores con mi voz, reutilización, calendario) sobre Claude. Next.js + Prisma/SQLite, local-first.
+- **agentes-contenido** — sistema multi-agente de contenido personal (ideas, borradores con mi voz, reutilización, calendario) sobre Claude. Next.js + Prisma/SQLite, local-first. **Aparcado** con el schema y el perfil de voz hechos.
+- **setter** — asistente que contesta los DMs de Instagram de infoproductores, cualifica y agenda la llamada de venta. En fase de plan: `setter/PLAN.md`. El código irá como tercer modo del servidor de Noah (`vapi-voice-agent`).
