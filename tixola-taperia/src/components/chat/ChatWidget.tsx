@@ -496,8 +496,14 @@ export default function ChatWidget() {
               ))}
             </div>
 
-            {/* Anuncio para lectores de pantalla: "escribiendo…" y la última respuesta completa */}
-            <p role="status" aria-live="polite" className="sr-only">
+            {/* Anuncio para lectores de pantalla: "escribiendo…" y la última respuesta completa.
+                TAPADO PARA CLARITY, y no por simetría: este párrafo está FUERA de la lista de
+                mensajes de arriba, así que su `data-clarity-mask` no lo cubría. Aquí se imprime la
+                RESPUESTA entera del camarero, y una respuesta a "soy celíaca" la repite ("para
+                celíacos tenemos…"). Microsoft solo tapa por su cuenta los campos de formulario y,
+                en su modo por defecto (Balanced), del resto del texto únicamente los números y los
+                correos: esto es texto corriente del DOM y se subía tal cual. */}
+            <p role="status" aria-live="polite" className="sr-only" data-clarity-mask="true">
               {streaming ? m.chat.thinking : lastAssistant?.content ?? ""}
             </p>
 
@@ -506,7 +512,18 @@ export default function ChatWidget() {
                 lectura, y ahí se está escribiendo, no eligiendo pregunta hecha. Vuelven solas al bajar
                 el teclado, que es cuando se leen. */}
             {!streaming && !tightPanel && (
-              <div className="relative border-t border-cream/10 px-4 pt-3" role="group" aria-label={m.chat.quickRepliesLabel}>
+              <div
+                className="relative border-t border-cream/10 px-4 pt-3"
+                role="group"
+                aria-label={m.chat.quickRepliesLabel}
+                /* También tapado: Clarity ofrece un filtro por "texto del elemento pulsado", y una
+                   de estas preguntas es "¿Qué platos no llevan gluten?". El clic en sí no es una
+                   declaración de salud, pero junto a un identificador que persiste entre sesiones
+                   sí es una señal sobre la salud de quien lo pulsa, y las condiciones de Clarity
+                   prohíben expresamente mandarle datos de salud. Los mapas de calor se construyen
+                   con los atributos de los elementos, no con su texto, así que se siguen viendo. */
+                data-clarity-mask="true"
+              >
                 <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
                   {m.chat.quickReplies.map((q) => (
                     <button

@@ -295,7 +295,12 @@ export default function CookieConsent() {
                    texto y botones). Se pinta encima de la portada, que anima en bucle, así que el
                    desenfoque se recalcula mientras está abierto: lo medido está en el informe de la
                    pasada, y es una hoja que se cierra con un toque y no vuelve. */
-                className="liquid-glass liquid-glass-strong relative overflow-hidden rounded-3xl p-5 md:p-6"
+                /* ALTURA TOPADA A LA PANTALLA. Es una hoja `fixed` anclada abajo: sin tope, lo que
+                   no cabe se sale por arriba y, con `overflow-hidden`, se recorta sin poder llegar a
+                   ello. Con el tope y la columna de abajo, lo que crece es la lista de casillas, que
+                   sí se desplaza. El hueco que se descuenta es el de la barra flotante del móvil
+                   (arriba, en el contenedor) más un respiro. */
+                className="liquid-glass liquid-glass-strong relative flex max-h-[calc(100dvh-var(--mobile-bar-h)-env(safe-area-inset-bottom)-1.75rem)] flex-col overflow-hidden rounded-3xl p-5 md:max-h-[calc(100dvh-5rem)] md:p-6"
               >
                 {/* Brasa decorativa */}
                 {/* `ember-wash` y no `ember-glow`: el original era un color PLANO al que el desenfoque solo plumeaba el borde, así que un radial de pico y caída rápida perdía ~3,5 veces de luz. Alfa igual que el original. */}
@@ -336,9 +341,19 @@ export default function CookieConsent() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.3, ease: EASE_OUT_EXPO }}
-                      className="relative mt-5"
+                      className="relative mt-5 flex min-h-0 flex-1 flex-col"
                     >
-                      <div className="flex flex-col gap-3">
+                      {/* LAS CASILLAS SE DESPLAZAN SI NO CABEN, y hace falta: el aviso es una hoja
+                          `fixed` anclada abajo y con `overflow-hidden`, así que lo que no entra se
+                          recorta HACIA ARRIBA y queda inalcanzable. Medido en un teléfono de 390×844
+                          con los textos nuevos de la medición: «Necesarias» caía en y = −354 y no
+                          había forma de llegar a ella ni a «Mapa de Google». Un panel de preferencias
+                          con una categoría que no se puede ni ver no cumple su único cometido.
+                          `data-lenis-prevent` para que el scroll suave de la página no se lo quede. */}
+                      <div
+                        className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overscroll-contain pr-1 [scrollbar-gutter:stable]"
+                        data-lenis-prevent
+                      >
                         <ConsentToggle
                           id={`${uid}-necessary`}
                           checked
@@ -348,10 +363,11 @@ export default function CookieConsent() {
                           badge={b.alwaysOn}
                           icon={<ShieldCheck aria-hidden />}
                         />
-                        {/* Dos casillas, una por finalidad: el mapa lo carga un tercero con sus
-                            propias cookies y la medición es agregada y sin cookies. Nada que ver
-                            entre sí, así que el art. 7.2 del RGPD pide poder aceptarlas por
-                            separado. */}
+                        {/* Dos casillas, una por finalidad: el mapa es un tercero que se incrusta
+                            en la página y la medición es saber qué se visita. Nada que ver entre
+                            sí, así que el art. 7.2 del RGPD pide poder aceptarlas por separado.
+                            (Las tres herramientas de medición van juntas en una casilla porque
+                            comparten finalidad; lo que hace cada una lo dice su descripción.) */}
                         <ConsentToggle
                           id={`${uid}-maps`}
                           checked={maps}
@@ -369,7 +385,7 @@ export default function CookieConsent() {
                           icon={<ChartNoAxesColumn aria-hidden />}
                         />
                       </div>
-                      <p className="mt-3 text-xs leading-relaxed text-cream-faint">{b.noAnalyticsYet}</p>
+                      <p className="mt-3 text-xs leading-relaxed text-cream-faint">{b.bothChoices}</p>
 
                       <div className="mt-5 flex flex-col gap-2.5 sm:flex-row sm:items-center">
                         <NeonButton size="md" onClick={() => decide({ maps, analytics })} className="w-full sm:w-auto">

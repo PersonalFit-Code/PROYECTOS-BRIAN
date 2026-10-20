@@ -2,7 +2,7 @@
  * Consentimiento de cookies — almacenamiento y notificaciones.
  *
  * Estado guardado en `localStorage` bajo la clave `tixola_consent`:
- *   { necessary: true, analytics: boolean, ts: number, v: number }
+ *   { necessary: true, maps: boolean, analytics: boolean, ts: number, v: number }
  *
  * - `getConsent()` devuelve `null` si no hay decisión, si está caducada (> 12 meses) o si el
  *   almacenamiento no está disponible (modo privado, cuota…). En ese caso el banner vuelve a preguntar.
@@ -19,8 +19,23 @@ export const CONSENT_STORAGE_KEY = "tixola_consent";
 export const CONSENT_EVENT = "tixola:consent";
 export const COOKIE_SETTINGS_EVENT = "tixola:cookie-settings";
 
-/** Súbelo si cambia la forma del objeto o las categorías: las decisiones antiguas se descartan. */
-export const CONSENT_VERSION = 2;
+/**
+ * Súbelo si cambia la forma del objeto, las categorías **o lo que de verdad se hace al aceptar**:
+ * las decisiones guardadas con una versión anterior se descartan y el aviso vuelve a preguntar.
+ *
+ * v3 (20-10-2026) — SE SUBIÓ POR LO TERCERO, que es lo que se olvida. La forma del objeto no cambia
+ * y las categorías siguen siendo dos; lo que cambió es el tratamiento que hay detrás de
+ * `analytics`. Hasta ahora era Vercel Web Analytics: agregado, sin cookies y sin tocar el
+ * navegador, y eso es lo que decía el aviso —«(sin cookies)», literalmente—. Desde esta versión,
+ * aceptar significa también Google Analytics 4 y Microsoft Clarity: dos terceros de Estados Unidos,
+ * con cookies propias y, en el caso de Clarity, con grabación del recorrido por la página.
+ *
+ * Quien pulsó «Aceptar todas» el 18 o el 19 de octubre consintió lo primero. Reutilizar ese «sí»
+ * para lo segundo sería consentimiento obtenido para otra finalidad: ni específico ni informado
+ * (art. 4.11 y 7 RGPD). Así que se descartan y se pregunta otra vez. Cuesta una molestia y un par
+ * de decenas de visitas en las estadísticas; lo otro cuesta la licitud de todo lo que se mida.
+ */
+export const CONSENT_VERSION = 3;
 
 /**
  * DOS CASILLAS Y NO UNA, y la diferencia no es cosmética.
@@ -41,7 +56,13 @@ export interface ConsentState {
   necessary: true;
   /** Cargar el mapa de Google Maps (tercero, con cookies suyas). */
   maps: boolean;
-  /** Medir visitas de forma agregada (Vercel Web Analytics, sin cookies). */
+  /**
+   * Medir el uso de la web. Son TRES herramientas bajo una sola casilla, y conviene saberlo al
+   * leer este campo: Vercel Web Analytics (agregado, sin cookies), Google Analytics 4 y Microsoft
+   * Clarity (cookies propias; Clarity además graba el recorrido por la página). Cuáles están
+   * encendidas de verdad lo dice `src/lib/medicion.ts`, y lo que se le cuenta al visitante sobre
+   * ellas, `src/i18n/messages/<idioma>/legal.ts`.
+   */
   analytics: boolean;
   /** Fecha de la decisión (ms desde epoch). */
   ts: number;

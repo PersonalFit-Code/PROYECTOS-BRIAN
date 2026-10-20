@@ -28,8 +28,12 @@ export function isLegalDocKey(value: string): value is LegalDocKey {
  * el dominio propio y, como los tres documentos incrustan `{siteUrl}`, su texto cambió otra vez.
  * No es cosmético: las páginas le dicen al visitante que la versión en vigor es la de ESTA fecha,
  * así que una fecha vieja afirma que el texto no ha cambiado cuando sí lo ha hecho.
+ * El 20-10-2026 entraron Google Analytics 4 y Microsoft Clarity, que es el cambio más grande que han
+ * tenido estos documentos desde que se escribieron: tres apartados nuevos, cuatro filas en la tabla
+ * de cookies y un proveedor que NO es encargado nuestro. Ese mismo día se subió `CONSENT_VERSION`,
+ * porque un texto nuevo que cambia lo que pasa al aceptar obliga a volver a preguntar.
  */
-export const LEGAL_UPDATED_AT = "2026-10-18";
+export const LEGAL_UPDATED_AT = "2026-10-20";
 
 /**
  * Datos del responsable del tratamiento. Los mandó la casa el 3 de octubre de 2026: el negocio es

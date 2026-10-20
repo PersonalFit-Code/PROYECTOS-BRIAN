@@ -45,7 +45,7 @@ export interface LegalMessages {
     privacyLink: string;
     cookiesLink: string;
     saved: string;
-    noAnalyticsYet: string;
+    bothChoices: string;
   };
   page: {
     kicker: string;
@@ -81,7 +81,7 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Usamos cookies propias necesarias para que la web funcione. Con tu permiso cargamos el mapa de Google, que instala cookies suyas, y medimos de forma agregada qué páginas se visitan (sin cookies).",
+    text: "Usamos cookies propias necesarias para que la web funcione. Con tu permiso cargamos el mapa de Google y medimos cómo se usa la web con herramientas de terceros, que instalan sus propias cookies y reconstruyen el recorrido por las páginas.",
     accept: "Aceptar todas",
     reject: "Solo necesarias",
     settings: "Configurar",
@@ -91,7 +91,7 @@ const legal: LegalMessages = {
     maps: "Mapa de Google",
     mapsDesc: "Carga el mapa de Google Maps en la sección de ubicación. Es un servicio de Google, que recibe tu dirección IP e instala sus propias cookies.",
     analytics: "Medición de visitas",
-    analyticsDesc: "Cuenta de forma agregada qué páginas se ven, con Vercel Web Analytics. No instala cookies ni guarda nada en tu navegador.",
+    analyticsDesc: "Saber qué páginas se ven y cómo se usa la web: Vercel Web Analytics (sin cookies), Google Analytics 4 y Microsoft Clarity. Las dos últimas instalan cookies y envían datos a EE. UU. Clarity reconstruye además tu recorrido por la página, y Microsoft usa lo que recoge para sus propios fines, publicidad incluida. Lo que escribes en el chat va tapado.",
     more: "Más información",
     aria: "Aviso de cookies",
     panelTitle: "Preferencias de cookies",
@@ -101,7 +101,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidad",
     cookiesLink: "Política de cookies",
     saved: "Preferencias guardadas.",
-    noAnalyticsYet: "Son dos cosas distintas y puedes aceptar una sin la otra: el mapa lo sirve Google con sus cookies; la medición es agregada, la hace Vercel y no toca tu navegador.",
+    bothChoices: "Son dos cosas distintas y puedes aceptar una sin la otra: el mapa solo se carga en «Cómo llegar»; la medición funciona en toda la web. No usamos cookies de publicidad: a Google y a Microsoft se les pide expresamente que no las activen.",
   },
 
   /* ── Páginas legales: cabecera, índice y pie ── */
@@ -169,7 +169,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Navegación",
-                  desc: "Datos técnicos que genera cualquier visita (dirección IP, tipo de navegador, páginas solicitadas), tratados por nuestro proveedor de alojamiento por motivos de seguridad; el idioma elegido (cookie NEXT_LOCALE) y tu decisión sobre cookies (almacenamiento local tixola_consent).",
+                  desc: "Datos técnicos que genera cualquier visita (dirección IP, tipo de navegador, páginas solicitadas), tratados por nuestro proveedor de alojamiento por motivos de seguridad; el idioma elegido (cookie NEXT_LOCALE) y tu decisión sobre cookies (almacenamiento local tixola_consent). **Solo si aceptas la medición**, además: las páginas que ves, desde dónde llegas, tu navegador y tu dispositivo, tu ciudad aproximada y —únicamente con Microsoft Clarity— el recorrido que haces por la página (clics, desplazamiento y movimientos del ratón), todo ello asociado a un identificador que no lleva tu nombre.",
                 },
                 {
                   term: "Alergias e intolerancias",
@@ -209,9 +209,9 @@ const legal: LegalMessages = {
                   "12 meses",
                 ],
                 [
-                  "Medir el uso de la web (analítica)",
+                  "Medir el uso de la web: páginas vistas, mapas de calor y recorrido por la página",
                   "Tu consentimiento en el banner de cookies (art. 6.1.a RGPD)",
-                  "Según la herramienta, nunca más de 24 meses",
+                  "Google Analytics, 2 meses los datos de usuario (su ajuste por defecto). Microsoft Clarity, 30 días las grabaciones —hasta 9 meses las marcadas y una muestra— y 9 meses los mapas de calor. Las cookies, lo que dice la [Política de cookies](cookies)",
                 ],
                 [
                   "Atender el ejercicio de tus derechos y cumplir obligaciones legales",
@@ -253,7 +253,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "No vendemos ni cedemos tus datos. Los dos primeros de esta lista son **encargados del tratamiento**: tratan datos **por cuenta nuestra**, siguiendo nuestras instrucciones y con un contrato conforme al art. 28 del RGPD. Los tres últimos **no lo son**: son terceros que reciben datos porque su contenido se carga en la web o porque tú pulsas su enlace, y cada uno actúa por su cuenta y bajo su propia política de privacidad.",
+              text: "No vendemos ni cedemos tus datos. Los tres primeros de esta lista son **encargados del tratamiento**: tratan datos **por cuenta nuestra**, siguiendo nuestras instrucciones y con un contrato conforme al art. 28 del RGPD. Los cuatro últimos **no lo son**: reciben datos porque su contenido se carga en la web o porque tú pulsas su enlace, y deciden por su cuenta qué hacen con ellos, bajo su propia política de privacidad. Fíjate en que Google aparece dos veces: es encargado nuestro para la medición y no lo es para el mapa.",
             },
             {
               type: "dl",
@@ -267,8 +267,16 @@ const legal: LegalMessages = {
                   desc: "Generación de las respuestas del camarero virtual (ver apartado 4). [Política de privacidad de Anthropic](https://www.anthropic.com/legal/privacy).",
                 },
                 {
-                  term: "Google LLC / Google Ireland Ltd.",
-                  desc: "Mapa de Google Maps incrustado en la sección «Cómo llegar». **Solo se carga si aceptas las cookies** (o si lo pides a mano en la pestaña «Mapa» de esa sección); en ese momento Google recibe tu dirección IP y puede instalar sus propias cookies. Los enlaces a Google Maps y a las reseñas de Google abren sitios de Google. [Política de privacidad de Google](https://policies.google.com/privacy).",
+                  term: "Google Ireland Ltd. / Google LLC — Google Analytics 4",
+                  desc: "Medición de visitas, **solo si la aceptas**. Aquí Google sí es encargado nuestro: lo dice su propia documentación de Analytics, y el contrato son los Términos de tratamiento de datos de Google Ads, que para una empresa del Espacio Económico Europeo ya forman parte del servicio sin trámite aparte. Recibe las páginas que ves, tu navegador y dispositivo y tu ciudad aproximada, e instala dos cookies en este mismo dominio. Google declara que los datos de visitantes del EEE se recogen en servidores del EEE y que **no registra ni almacena tu dirección IP**: la usa para deducir la ciudad y la descarta en el acto. [Cómo trata Google los datos](https://business.safety.google/privacy/).",
+                },
+                {
+                  term: "Microsoft Corporation / Microsoft Ireland Operations Ltd. — Microsoft Clarity",
+                  desc: "Mapas de calor y reconstrucción del recorrido por la página, **solo si la aceptas**. **Microsoft no es encargado nuestro**, y conviene saberlo: sus condiciones dicen expresamente que Microsoft y nosotros somos responsables independientes, así que decide por su cuenta qué hace con lo que recoge y se reserva usarlo para sus propios fines, incluida la elaboración de perfiles con fines publicitarios. Le pedimos expresamente que **no** active su almacenamiento publicitario, de modo que no instala su cookie de publicidad ni comparte los datos con Microsoft Ads. Lo que escribes en el camarero virtual y lo que te responde van tapados y no llegan a salir de tu navegador. [Declaración de privacidad de Microsoft](https://privacy.microsoft.com/privacystatement).",
+                },
+                {
+                  term: "Google LLC — Google Maps",
+                  desc: "Mapa de Google Maps incrustado en la sección «Cómo llegar». **Solo se carga si aceptas las cookies** (o si lo pides a mano en la pestaña «Mapa» de esa sección); en ese momento Google recibe tu dirección IP y puede instalar sus propias cookies. Aquí Google **no** actúa por cuenta nuestra. Los enlaces a Google Maps y a las reseñas de Google abren sitios de Google. [Política de privacidad de Google](https://policies.google.com/privacy).",
                 },
                 {
                   term: "Meta Platforms Ireland Ltd. (WhatsApp)",
@@ -282,7 +290,7 @@ const legal: LegalMessages = {
             },
             {
               type: "p",
-              text: "Dicho de otro modo: de Vercel y de Anthropic respondemos nosotros, y de ellos puedes pedirnos copia de las garantías del apartado 6. De Google, Meta y TripAdvisor no respondemos: solo te decimos cuándo entran en juego para que puedas evitarlo —el mapa no se carga si no lo aceptas, y los enlaces solo se abren si los pulsas—.",
+              text: "Dicho de otro modo: de Vercel, de Anthropic y de Google Analytics respondemos nosotros, y de los tres puedes pedirnos copia de las garantías del apartado 6. De Microsoft, del mapa de Google, de Meta y de TripAdvisor no respondemos: lo que podemos hacer —y hacemos— es decirte cuándo entran en juego y dejarte evitarlo. Nada de eso se carga si no lo aceptas, y los enlaces solo se abren si los pulsas.",
             },
             {
               type: "p",
@@ -296,7 +304,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Vercel y Anthropic pueden tratar datos en Estados Unidos. En ambos casos existen garantías adecuadas conforme al capítulo V del RGPD: cláusulas contractuales tipo aprobadas por la Comisión Europea y, cuando el proveedor está certificado, el Marco de Privacidad de Datos UE-EE. UU. Puedes pedirnos una copia de las garantías aplicables escribiendo a {email}.",
+              text: "Vercel, Anthropic, Google y Microsoft pueden tratar datos en Estados Unidos. En todos los casos existen garantías adecuadas conforme al capítulo V del RGPD: cláusulas contractuales tipo aprobadas por la Comisión Europea y, cuando el proveedor está certificado, el Marco de Privacidad de Datos UE-EE. UU. Google LLC y Microsoft Corporation figuran con certificación activa en ese marco (comprobado en la lista oficial el 20 de octubre de 2026), y Google declara ampararse en él para las transferencias de sus productos de medición. Puedes pedirnos una copia de las garantías aplicables escribiendo a {email}.",
             },
           ],
         },
@@ -355,7 +363,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Podemos actualizar esta política para adaptarla a cambios legales o del servicio (por ejemplo, si incorporamos una herramienta de analítica). La versión vigente es siempre la publicada en esta página, con su fecha de última actualización ({updated}). Consulta también el [Aviso legal](legalNotice) y la [Política de cookies](cookies).",
+              text: "Podemos actualizar esta política para adaptarla a cambios legales o del servicio; la última vez fue al incorporar Google Analytics y Microsoft Clarity, y por eso el aviso de cookies volvió a preguntarte. La versión vigente es siempre la publicada en esta página, con su fecha de última actualización ({updated}). Consulta también el [Aviso legal](legalNotice) y la [Política de cookies](cookies).",
             },
           ],
         },
@@ -496,7 +504,7 @@ const legal: LegalMessages = {
       description:
         "Qué cookies y almacenamiento local usa la web de Tixola Tapería, para qué sirven, cuánto duran y cómo puedes aceptarlas, rechazarlas o cambiar tu decisión.",
       intro:
-        "Esta web usa muy pocas cookies, y todas las que se instalan por defecto son técnicas: sirven para recordar tu idioma y tu decisión sobre las propias cookies. Aquí tienes el detalle y cómo gestionarlas.",
+        "Esta web usa pocas cookies, y todas las que se instalan por defecto son técnicas: sirven para recordar tu idioma y tu decisión sobre las propias cookies. Las demás —las del mapa de Google y las de la medición— no se instalan hasta que tú dices que sí. Aquí tienes el detalle, con nombres y plazos, y cómo cambiar de idea.",
       sections: [
         {
           id: "que-son",
@@ -547,11 +555,32 @@ const legal: LegalMessages = {
                   "Medir de forma agregada qué páginas se visitan, desde dónde se llega, con qué navegador y desde qué ciudad aproximada. **No instala ninguna cookie ni guarda nada en tu navegador**: Vercel identifica la sesión con un código que calcula en su servidor y lo descarta a las 24 horas. Solo se carga si aceptas.",
                   "No usa cookies",
                 ],
+                [
+                  "_ga y _ga_RPV2JX7ZXW",
+                  "Opcional (análisis)",
+                  "Google (propias, en este dominio)",
+                  "Las instala Google Analytics 4 si aceptas la medición. Guardan un identificador aleatorio que distingue un navegador de otro y mantiene el estado de la sesión, para saber cuánta gente entra y qué páginas mira. No llevan tu nombre. Son las dos únicas que instala mientras la cuenta no esté enlazada con Google Ads, y no lo está.",
+                  "2 años desde tu última visita, según Google. En la práctica suele ser menos: los navegadores acortan por su cuenta las cookies propias (Chrome, 400 días; Safari, 7)",
+                ],
+                [
+                  "_clck y _clsk",
+                  "Opcional (análisis)",
+                  "Microsoft (propias, en este dominio)",
+                  "Las instala Microsoft Clarity si aceptas la medición. Una guarda el identificador con que Clarity te reconoce entre visitas y la otra enlaza las páginas que ves dentro de una misma visita. Si rechazas, Clarity borra las suyas.",
+                  "Microsoft no publica su duración. Lo que sí publica es cuánto guarda los datos: 30 días las grabaciones y 9 meses los mapas de calor",
+                ],
+                [
+                  "CLID, ANONCHK, MR, SM",
+                  "Opcional (análisis)",
+                  "Microsoft Corporation (de terceros)",
+                  "Cookies de dominio de Microsoft que Clarity puede instalar junto a las anteriores. Giran alrededor de MUID, el identificador de navegador de Microsoft. **MUID no se instala**: su propia documentación la describe como cookie usada también para publicidad, y esta web le pide expresamente a Microsoft que no active el almacenamiento publicitario.",
+                  "Microsoft no publica su duración",
+                ],
               ],
             },
             {
               type: "note",
-              text: "No utilizamos cookies publicitarias, de redes sociales ni de seguimiento entre sitios.",
+              text: "No utilizamos cookies publicitarias ni de redes sociales, y no te seguimos de una web a otra con fines comerciales. Google y Microsoft permiten pedirles que no activen su almacenamiento publicitario, y es lo que esta web les pide en cuanto aceptas: por eso Microsoft no instala MUID —la cookie que su documentación describe como publicitaria— ni comparte nada con Microsoft Ads.",
             },
           ],
         },
@@ -561,7 +590,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Las cookies técnicas (NEXT_LOCALE, tixola_consent y el almacenamiento del camarero virtual) son necesarias para prestar el servicio que solicitas y están exentas de consentimiento conforme al art. 22.2 de la LSSI-CE. El resto (analítica y cookies de terceros que se instalan al cargar el mapa) solo se utiliza con tu consentimiento, que puedes retirar en cualquier momento.",
+              text: "Las cookies técnicas (NEXT_LOCALE, tixola_consent y el almacenamiento del camarero virtual) son necesarias para prestar el servicio que solicitas y están exentas de consentimiento conforme al art. 22.2 de la LSSI-CE. Todas las demás —la medición y las que instala el mapa al cargarse— solo se utilizan con tu consentimiento, que puedes retirar cuando quieras. Ninguna de ellas puede acogerse a la exención que la AEPD reconoce a la medición de audiencia: esa exención pide que el proveedor actúe por cuenta exclusiva del editor y produzca solo estadísticas anónimas, y ni Google Analytics ni Clarity encajan ahí. Por eso se preguntan.",
             },
           ],
         },
@@ -594,8 +623,43 @@ const legal: LegalMessages = {
           ],
         },
         {
+          id: "medicion",
+          title: "5. La medición: Google Analytics y Microsoft Clarity",
+          blocks: [
+            {
+              type: "p",
+              text: "Si aceptas la medición se cargan tres herramientas y conviene saber qué hace cada una, porque no son lo mismo ni molestan lo mismo.",
+            },
+            {
+              type: "dl",
+              items: [
+                {
+                  term: "Vercel Web Analytics",
+                  desc: "La más discreta: cuenta páginas vistas y poco más, sin instalar nada en tu navegador. Es de la misma empresa que aloja la web.",
+                },
+                {
+                  term: "Google Analytics 4",
+                  desc: "Cuenta visitas y páginas con las dos cookies de la tabla de arriba. Google actúa aquí **por cuenta nuestra**, como encargado del tratamiento, y declara que no registra ni almacena la dirección IP de los visitantes del Espacio Económico Europeo: la usa para deducir la ciudad y la descarta. Los datos de usuario se conservan 2 meses, que es el ajuste por defecto de la herramienta.",
+                },
+                {
+                  term: "Microsoft Clarity",
+                  desc: "La más intrusiva de las tres, y por eso se explica aparte. No graba la pantalla: **reconstruye la visita** a partir del contenido de la página y de lo que haces en ella —clics, desplazamiento, movimientos del ratón, cambios de tamaño de la ventana—, y con eso dibuja mapas de calor y una reproducción del recorrido. Microsoft **no** es encargado nuestro: sus condiciones dicen que Microsoft y nosotros somos responsables independientes, y se reserva usar lo que recoge para sus propios fines, incluida la elaboración de perfiles con fines publicitarios. Microsoft guarda las grabaciones 30 días (hasta 9 meses las marcadas y una muestra elegida al azar) y los mapas de calor 9 meses.",
+                },
+              ],
+            },
+            {
+              type: "note",
+              text: "**Lo que escribes en el camarero virtual queda fuera.** Las burbujas de la conversación, lo que te responde el camarero y los botones de preguntas rápidas van marcados para que Clarity los tape, y lo tapado no llega a salir de tu navegador: no se envía ni se puede ver en una grabación. No es un detalle de cortesía — ahí la gente escribe sus alergias, que son datos de salud, y las propias condiciones de Clarity prohíben mandárselos a Microsoft.",
+            },
+            {
+              type: "p",
+              text: "Puedes rechazar la medición entera desde el aviso de cookies, cambiar de idea cuando quieras con el botón de arriba y, además, excluirte en los sistemas de los propios proveedores: [complemento de Google para inhabilitar Analytics](https://tools.google.com/dlpage/gaoptout) y [Declaración de privacidad de Microsoft](https://privacy.microsoft.com/privacystatement). Si rechazas, Clarity borra sus propias cookies y esta web borra las de Google que puede alcanzar; lo que no se pueda borrar caduca solo y, sin consentimiento, deja de enviarse nada.",
+            },
+          ],
+        },
+        {
           id: "terceros",
-          title: "5. Cookies de terceros: el mapa de Google",
+          title: "6. El mapa de Google",
           blocks: [
             {
               type: "p",
@@ -605,11 +669,11 @@ const legal: LegalMessages = {
         },
         {
           id: "actualizaciones",
-          title: "6. Actualizaciones de esta política",
+          title: "7. Actualizaciones de esta política",
           blocks: [
             {
               type: "p",
-              text: "Revisaremos esta política cuando cambien las cookies que utilizamos o la normativa aplicable. Fecha de última actualización: {updated}. Más información sobre el tratamiento de tus datos en la [Política de privacidad](privacy) y sobre el titular en el [Aviso legal](legalNotice).",
+              text: "Revisaremos esta política cuando cambien las cookies que utilizamos o la normativa aplicable. La última vez fue al añadir Google Analytics y Microsoft Clarity: como eso cambia lo que de verdad ocurre al aceptar, las decisiones guardadas antes se descartaron y el aviso volvió a preguntar a todo el mundo. Fecha de última actualización: {updated}. Más información sobre el tratamiento de tus datos en la [Política de privacidad](privacy) y sobre el titular en el [Aviso legal](legalNotice).",
             },
           ],
         },

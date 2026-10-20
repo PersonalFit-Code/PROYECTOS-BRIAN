@@ -28,7 +28,7 @@ const legal: LegalMessages = {
   /* ── Banner de cookies ── */
   banner: {
     title: "Usamos cookies",
-    text: "Usamos cookies propias necesarias para que a web funcione. Co teu permiso cargamos o mapa de Google, que instala cookies súas, e medimos de forma agregada que páxinas se visitan (sen cookies).",
+    text: "Usamos cookies propias necesarias para que a web funcione. Co teu permiso cargamos o mapa de Google e medimos como se usa a web con ferramentas de terceiros, que instalan as súas propias cookies e reconstrúen o percorrido polas páxinas.",
     accept: "Aceptar todas",
     reject: "Só as necesarias",
     settings: "Configurar",
@@ -38,7 +38,7 @@ const legal: LegalMessages = {
     maps: "Mapa de Google",
     mapsDesc: "Carga o mapa de Google Maps na sección de localización. É un servizo de Google, que recibe o teu enderezo IP e instala as súas propias cookies.",
     analytics: "Medición de visitas",
-    analyticsDesc: "Conta de forma agregada que páxinas se ven, con Vercel Web Analytics. Non instala cookies nin garda nada no teu navegador.",
+    analyticsDesc: "Saber que páxinas se ven e como se usa a web: Vercel Web Analytics (sen cookies), Google Analytics 4 e Microsoft Clarity. As dúas últimas instalan cookies e envían datos aos EUA. Clarity reconstrúe ademais o teu percorrido pola páxina, e Microsoft usa o que recolle para os seus propios fins, publicidade incluída. O que escribes no chat vai tapado.",
     more: "Máis información",
     aria: "Aviso de cookies",
     panelTitle: "Preferencias de cookies",
@@ -48,7 +48,7 @@ const legal: LegalMessages = {
     privacyLink: "Política de privacidade",
     cookiesLink: "Política de cookies",
     saved: "Preferencias gardadas.",
-    noAnalyticsYet: "Son dúas cousas distintas e podes aceptar unha sen a outra: o mapa sérveo Google coas súas cookies; a medición é agregada, faina Vercel e non toca o teu navegador.",
+    bothChoices: "Son dúas cousas distintas e podes aceptar unha sen a outra: o mapa só se carga en «Como chegar»; a medición funciona en toda a web. Non usamos cookies de publicidade: a Google e a Microsoft pídeselles expresamente que non as activen.",
   },
 
   /* ── Páxinas legais: cabeceira, índice e pé ── */
@@ -116,7 +116,7 @@ const legal: LegalMessages = {
                 },
                 {
                   term: "Navegación",
-                  desc: "Datos técnicos que xera calquera visita (enderezo IP, tipo de navegador, páxinas solicitadas), tratados polo noso provedor de aloxamento por motivos de seguridade; o idioma escollido (cookie NEXT_LOCALE) e a túa decisión sobre as cookies (almacenamento local tixola_consent).",
+                  desc: "Datos técnicos que xera calquera visita (enderezo IP, tipo de navegador, páxinas solicitadas), tratados polo noso provedor de aloxamento por motivos de seguridade; o idioma escollido (cookie NEXT_LOCALE) e a túa decisión sobre as cookies (almacenamento local tixola_consent). **Só se aceptas a medición**, ademais: as páxinas que ves, desde onde chegas, o teu navegador e o teu dispositivo, a túa cidade aproximada e —unicamente con Microsoft Clarity— o percorrido que fas pola páxina (clics, desprazamento e movementos do rato), todo iso asociado a un identificador que non leva o teu nome.",
                 },
                 {
                   term: "Alerxias e intolerancias",
@@ -156,9 +156,9 @@ const legal: LegalMessages = {
                   "12 meses",
                 ],
                 [
-                  "Medir o uso da web (analítica)",
+                  "Medir o uso da web: páxinas vistas, mapas de calor e percorrido pola páxina",
                   "O teu consentimento no banner de cookies (art. 6.1.a RXPD)",
-                  "Segundo a ferramenta, nunca máis de 24 meses",
+                  "Google Analytics, 2 meses os datos de usuario (o seu axuste por defecto). Microsoft Clarity, 30 días as gravacións —ata 9 meses as marcadas e unha mostra— e 9 meses os mapas de calor. As cookies, o que di a [Política de cookies](cookies)",
                 ],
                 [
                   "Atender o exercicio dos teus dereitos e cumprir obrigas legais",
@@ -200,7 +200,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Non vendemos nin cedemos os teus datos. Os dous primeiros desta lista son **encargados do tratamento**: tratan datos **por conta nosa**, seguindo as nosas instrucións e cun contrato conforme ao art. 28 do RXPD. Os tres últimos **non o son**: son terceiros que reciben datos porque o seu contido se carga na web ou porque ti premes a súa ligazón, e cada un actúa pola súa conta e baixo a súa propia política de privacidade.",
+              text: "Non vendemos nin cedemos os teus datos. Os tres primeiros desta lista son **encargados do tratamento**: tratan datos **por conta nosa**, seguindo as nosas instrucións e cun contrato conforme ao art. 28 do RXPD. Os catro últimos **non o son**: reciben datos porque o seu contido se carga na web ou porque ti premes a súa ligazón, e deciden pola súa conta que fan con eles, baixo a súa propia política de privacidade. Fíxate en que Google aparece dúas veces: é encargado noso para a medición e non o é para o mapa.",
             },
             {
               type: "dl",
@@ -214,8 +214,16 @@ const legal: LegalMessages = {
                   desc: "Xeración das respostas do camareiro virtual (ver apartado 4). [Política de privacidade de Anthropic](https://www.anthropic.com/legal/privacy).",
                 },
                 {
-                  term: "Google LLC / Google Ireland Ltd.",
-                  desc: "Mapa de Google Maps incrustado na sección «Como chegar». **Só se carga se aceptas as cookies** (ou se o pides a man na lapela «Mapa» desa sección); nese momento Google recibe o teu enderezo IP e pode instalar as súas propias cookies. As ligazóns a Google Maps e ás recensións de Google abren sitios de Google. [Política de privacidade de Google](https://policies.google.com/privacy).",
+                  term: "Google Ireland Ltd. / Google LLC — Google Analytics 4",
+                  desc: "Medición de visitas, **só se a aceptas**. Aquí Google si é encargado noso: dío a súa propia documentación de Analytics, e o contrato son os Termos de tratamento de datos de Google Ads, que para unha empresa do Espazo Económico Europeo xa forman parte do servizo sen trámite aparte. Recibe as páxinas que ves, o teu navegador e dispositivo e a túa cidade aproximada, e instala dúas cookies neste mesmo dominio. Google declara que os datos de visitantes do EEE se recollen en servidores do EEE e que **non rexistra nin almacena o teu enderezo IP**: úsao para deducir a cidade e descártao no acto. [Como trata Google os datos](https://business.safety.google/privacy/).",
+                },
+                {
+                  term: "Microsoft Corporation / Microsoft Ireland Operations Ltd. — Microsoft Clarity",
+                  desc: "Mapas de calor e reconstrución do percorrido pola páxina, **só se a aceptas**. **Microsoft non é encargado noso**, e convén sabelo: as súas condicións din expresamente que Microsoft e nós somos responsables independentes, así que decide pola súa conta que fai co que recolle e resérvase usalo para os seus propios fins, incluída a elaboración de perfís con fins publicitarios. Pedímoslle expresamente que **non** active o seu almacenamento publicitario, de modo que non instala a súa cookie de publicidade nin comparte os datos con Microsoft Ads. O que escribes no camareiro virtual e o que che responde van tapados e non chegan a saír do teu navegador. [Declaración de privacidade de Microsoft](https://privacy.microsoft.com/privacystatement).",
+                },
+                {
+                  term: "Google LLC — Google Maps",
+                  desc: "Mapa de Google Maps incrustado na sección «Como chegar». **Só se carga se aceptas as cookies** (ou se o pides a man na lapela «Mapa» desa sección); nese momento Google recibe o teu enderezo IP e pode instalar as súas propias cookies. Aquí Google **non** actúa por conta nosa. As ligazóns a Google Maps e ás recensións de Google abren sitios de Google. [Política de privacidade de Google](https://policies.google.com/privacy).",
                 },
                 {
                   term: "Meta Platforms Ireland Ltd. (WhatsApp)",
@@ -229,7 +237,7 @@ const legal: LegalMessages = {
             },
             {
               type: "p",
-              text: "Dito doutro xeito: de Vercel e de Anthropic respondemos nós, e deles podes pedirnos copia das garantías do apartado 6. De Google, Meta e TripAdvisor non respondemos: só che dicimos cando entran en xogo para que poidas evitalo —o mapa non se carga se non o aceptas, e as ligazóns só se abren se as premes—.",
+              text: "Dito doutro xeito: de Vercel, de Anthropic e de Google Analytics respondemos nós, e dos tres podes pedirnos copia das garantías do apartado 6. De Microsoft, do mapa de Google, de Meta e de TripAdvisor non respondemos: o que podemos facer —e facemos— é dicirche cando entran en xogo e deixarte evitalo. Nada diso se carga se non o aceptas, e as ligazóns só se abren se as premes.",
             },
             {
               type: "p",
@@ -243,7 +251,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Vercel e Anthropic poden tratar datos nos Estados Unidos. En ambos os casos existen garantías adecuadas conforme ao capítulo V do RXPD: cláusulas contractuais tipo aprobadas pola Comisión Europea e, cando o provedor está certificado, o Marco de Privacidade de Datos UE-EUA. Podes pedirnos unha copia das garantías aplicables escribindo a {email}.",
+              text: "Vercel, Anthropic, Google e Microsoft poden tratar datos nos Estados Unidos. En todos os casos existen garantías adecuadas conforme ao capítulo V do RXPD: cláusulas contractuais tipo aprobadas pola Comisión Europea e, cando o provedor está certificado, o Marco de Privacidade de Datos UE-EUA. Google LLC e Microsoft Corporation figuran con certificación activa nese marco (comprobado na lista oficial o 20 de outubro de 2026), e Google declara ampararse nel para as transferencias dos seus produtos de medición. Podes pedirnos unha copia das garantías aplicables escribindo a {email}.",
             },
           ],
         },
@@ -302,7 +310,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "Podemos actualizar esta política para adaptala a cambios legais ou do servizo (por exemplo, se incorporamos unha ferramenta de analítica). A versión vixente é sempre a publicada nesta páxina, coa súa data de última actualización ({updated}). Consulta tamén o [Aviso legal](legalNotice) e a [Política de cookies](cookies).",
+              text: "Podemos actualizar esta política para adaptala a cambios legais ou do servizo; a última vez foi ao incorporar Google Analytics e Microsoft Clarity, e por iso o aviso de cookies volveu preguntarte. A versión vixente é sempre a publicada nesta páxina, coa súa data de última actualización ({updated}). Consulta tamén o [Aviso legal](legalNotice) e a [Política de cookies](cookies).",
             },
           ],
         },
@@ -443,7 +451,7 @@ const legal: LegalMessages = {
       description:
         "Que cookies e almacenamento local usa a web de Tixola Tapería, para que serven, canto duran e como podes aceptalas, rexeitalas ou cambiar a túa decisión.",
       intro:
-        "Esta web usa moi poucas cookies, e todas as que se instalan por defecto son técnicas: serven para lembrar o teu idioma e a túa decisión sobre as propias cookies. Aquí tes o detalle e como xestionalas.",
+        "Esta web usa poucas cookies, e todas as que se instalan por defecto son técnicas: serven para lembrar o teu idioma e a túa decisión sobre as propias cookies. As demais —as do mapa de Google e as da medición— non se instalan ata que ti dis que si. Aquí tes o detalle, con nomes e prazos, e como cambiar de idea.",
       sections: [
         {
           id: "que-son",
@@ -494,11 +502,32 @@ const legal: LegalMessages = {
                   "Medir de forma agregada que páxinas se visitan, desde onde se chega, con que navegador e desde que cidade aproximada. **Non instala ningunha cookie nin garda nada no teu navegador**: Vercel identifica a sesión cun código que calcula no seu servidor e descártao ás 24 horas. Só se carga se aceptas.",
                   "Non usa cookies",
                 ],
+                [
+                  "_ga e _ga_RPV2JX7ZXW",
+                  "Opcional (análise)",
+                  "Google (propias, neste dominio)",
+                  "Instálaas Google Analytics 4 se aceptas a medición. Gardan un identificador aleatorio que distingue un navegador doutro e mantén o estado da sesión, para saber canta xente entra e que páxinas mira. Non levan o teu nome. Son as dúas únicas que instala mentres a conta non estea ligada a Google Ads, e non o está.",
+                  "2 anos desde a túa última visita, segundo Google. Na práctica adoita ser menos: os navegadores acurtan pola súa conta as cookies propias (Chrome, 400 días; Safari, 7)",
+                ],
+                [
+                  "_clck e _clsk",
+                  "Opcional (análise)",
+                  "Microsoft (propias, neste dominio)",
+                  "Instálaas Microsoft Clarity se aceptas a medición. Unha garda o identificador co que Clarity te recoñece entre visitas e a outra liga as páxinas que ves dentro dunha mesma visita. Se rexeitas, Clarity borra as súas.",
+                  "Microsoft non publica a súa duración. O que si publica é canto garda os datos: 30 días as gravacións e 9 meses os mapas de calor",
+                ],
+                [
+                  "CLID, ANONCHK, MR, SM",
+                  "Opcional (análise)",
+                  "Microsoft Corporation (de terceiros)",
+                  "Cookies de dominio de Microsoft que Clarity pode instalar xunto ás anteriores. Xiran arredor de MUID, o identificador de navegador de Microsoft. **MUID non se instala**: a súa propia documentación descríbea como cookie usada tamén para publicidade, e esta web pídelle expresamente a Microsoft que non active o almacenamento publicitario.",
+                  "Microsoft non publica a súa duración",
+                ],
               ],
             },
             {
               type: "note",
-              text: "Non utilizamos cookies publicitarias, de redes sociais nin de seguimento entre sitios.",
+              text: "Non utilizamos cookies publicitarias nin de redes sociais, e non te seguimos dunha web a outra con fins comerciais. Google e Microsoft permiten pedirlles que non activen o seu almacenamento publicitario, e é o que esta web lles pide en canto aceptas: por iso Microsoft non instala MUID —a cookie que a súa documentación describe como publicitaria— nin comparte nada con Microsoft Ads.",
             },
           ],
         },
@@ -508,7 +537,7 @@ const legal: LegalMessages = {
           blocks: [
             {
               type: "p",
-              text: "As cookies técnicas (NEXT_LOCALE, tixola_consent e o almacenamento do camareiro virtual) son necesarias para prestar o servizo que solicitas e están exentas de consentimento conforme ao art. 22.2 da LSSI-CE. O resto (analítica e cookies de terceiros que se instalan ao cargar o mapa) só se utiliza co teu consentimento, que podes retirar en calquera momento.",
+              text: "As cookies técnicas (NEXT_LOCALE, tixola_consent e o almacenamento do camareiro virtual) son necesarias para prestar o servizo que solicitas e están exentas de consentimento conforme ao art. 22.2 da LSSI-CE. Todas as demais —a medición e as que instala o mapa ao cargarse— só se utilizan co teu consentimento, que podes retirar cando queiras. Ningunha delas pode acollerse á exención que a AEPD recoñece á medición de audiencia: esa exención pide que o provedor actúe por conta exclusiva do editor e produza só estatísticas anónimas, e nin Google Analytics nin Clarity encaixan aí. Por iso se preguntan.",
             },
           ],
         },
@@ -541,8 +570,43 @@ const legal: LegalMessages = {
           ],
         },
         {
+          id: "medicion",
+          title: "5. A medición: Google Analytics e Microsoft Clarity",
+          blocks: [
+            {
+              type: "p",
+              text: "Se aceptas a medición cárganse tres ferramentas e convén saber que fai cada unha, porque non son o mesmo nin molestan o mesmo.",
+            },
+            {
+              type: "dl",
+              items: [
+                {
+                  term: "Vercel Web Analytics",
+                  desc: "A máis discreta: conta páxinas vistas e pouco máis, sen instalar nada no teu navegador. É da mesma empresa que aloxa a web.",
+                },
+                {
+                  term: "Google Analytics 4",
+                  desc: "Conta visitas e páxinas coas dúas cookies da táboa de arriba. Google actúa aquí **por conta nosa**, como encargado do tratamento, e declara que non rexistra nin almacena o enderezo IP dos visitantes do Espazo Económico Europeo: úsao para deducir a cidade e descártao. Os datos de usuario consérvanse 2 meses, que é o axuste por defecto da ferramenta.",
+                },
+                {
+                  term: "Microsoft Clarity",
+                  desc: "A máis intrusiva das tres, e por iso se explica aparte. Non grava a pantalla: **reconstrúe a visita** a partir do contido da páxina e do que fas nela —clics, desprazamento, movementos do rato, cambios de tamaño da ventá—, e con iso debuxa mapas de calor e unha reprodución do percorrido. Microsoft **non** é encargado noso: as súas condicións din que Microsoft e nós somos responsables independentes, e resérvase usar o que recolle para os seus propios fins, incluída a elaboración de perfís con fins publicitarios. Microsoft garda as gravacións 30 días (ata 9 meses as marcadas e unha mostra elixida ao azar) e os mapas de calor 9 meses.",
+                },
+              ],
+            },
+            {
+              type: "note",
+              text: "**O que escribes no camareiro virtual queda fóra.** As burbullas da conversa, o que che responde o camareiro e os botóns de preguntas rápidas van marcados para que Clarity os tape, e o tapado non chega a saír do teu navegador: non se envía nin se pode ver nunha gravación. Non é un detalle de cortesía — aí a xente escribe as súas alerxias, que son datos de saúde, e as propias condicións de Clarity prohiben mandárllos a Microsoft.",
+            },
+            {
+              type: "p",
+              text: "Podes rexeitar a medición enteira desde o aviso de cookies, cambiar de idea cando queiras co botón de arriba e, ademais, excluírte nos sistemas dos propios provedores: [complemento de Google para inhabilitar Analytics](https://tools.google.com/dlpage/gaoptout) e [Declaración de privacidade de Microsoft](https://privacy.microsoft.com/privacystatement). Se rexeitas, Clarity borra as súas propias cookies e esta web borra as de Google que pode alcanzar; o que non se poida borrar caduca só e, sen consentimento, deixa de enviarse nada.",
+            },
+          ],
+        },
+        {
           id: "terceros",
-          title: "5. Cookies de terceiros: o mapa de Google",
+          title: "6. O mapa de Google",
           blocks: [
             {
               type: "p",
@@ -552,11 +616,11 @@ const legal: LegalMessages = {
         },
         {
           id: "actualizaciones",
-          title: "6. Actualizacións desta política",
+          title: "7. Actualizacións desta política",
           blocks: [
             {
               type: "p",
-              text: "Revisaremos esta política cando cambien as cookies que utilizamos ou a normativa aplicable. Data de última actualización: {updated}. Máis información sobre o tratamento dos teus datos na [Política de privacidade](privacy) e sobre o titular no [Aviso legal](legalNotice).",
+              text: "Revisaremos esta política cando cambien as cookies que utilizamos ou a normativa aplicable. A última vez foi ao engadir Google Analytics e Microsoft Clarity: como iso cambia o que de verdade ocorre ao aceptar, as decisións gardadas antes descartáronse e o aviso volveu preguntar a todo o mundo. Data de última actualización: {updated}. Máis información sobre o tratamento dos teus datos na [Política de privacidade](privacy) e sobre o titular no [Aviso legal](legalNotice).",
             },
           ],
         },

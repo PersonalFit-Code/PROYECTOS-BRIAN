@@ -11,11 +11,20 @@
  * el peor posible: la web mide, los textos legales dicen que mide, pero el identificador no está y
  * no llega ni un dato. Aquí se ven en el repositorio y se cambian en el mismo commit que los textos.
  *
- * VACÍO SIGNIFICA APAGADO, Y APAGA TAMBIÉN LOS TEXTOS. `MIDE_CON_GA` y `MIDE_CON_CLARITY` se
- * calculan de estas dos constantes y los usan tanto el cargador como las páginas legales: con la
- * cadena vacía, ni se descarga el script ni la política de cookies nombra esa herramienta. Es el
- * mismo truco que `LEGAL_IDENTITY_PENDING` en `src/data/legal.ts`, y por el mismo motivo: que no
- * pueda existir una web que mide sin decirlo, ni una que lo dice sin medir.
+ * VACÍO SIGNIFICA APAGADO. `MIDE_CON_GA` y `MIDE_CON_CLARITY` se calculan de estas dos constantes
+ * y gobiernan el cargador y la CSP: con la cadena vacía no se descarga el script ni se permite su
+ * dominio. Es el mismo truco que `LEGAL_IDENTITY_PENDING` en `src/data/legal.ts`.
+ *
+ * APAGAR UNA HERRAMIENTA OBLIGA A TOCAR LOS TEXTOS A MANO, y conviene no descubrirlo tarde. Los
+ * textos legales la nombran siempre, no condicionalmente: una política de cookies con `if` dentro
+ * se vuelve ilegible, y además los cuatro idiomas se escriben a mano y tienen que decir lo mismo.
+ * Así que si algún día se vacía uno de estos identificadores, en el MISMO commit hay que quitar esa
+ * herramienta de:
+ *   · `src/i18n/messages/<idioma>/legal.ts` → `banner.analyticsDesc`, la tabla de cookies, el
+ *     apartado «La medición» y los destinatarios de la política de privacidad (los cuatro idiomas);
+ *   · `src/data/legal.ts` → `LEGAL_UPDATED_AT`;
+ *   · `src/lib/consent.ts` → subir `CONSENT_VERSION`, porque cambia lo que pasa al aceptar.
+ * `npm run check:legal` comprueba que los cuatro idiomas sigan teniendo la misma forma.
  */
 
 /**
@@ -41,16 +50,21 @@ export const GA_ID: string = "G-RPV2JX7ZXW";
 export const CLARITY_ID: string = "yztythcjsa";
 
 /**
- * EL SEGURO. Mientras esté en `false`, no se mide con Google ni con Microsoft por mucho que sus
- * identificadores estén puestos: ni script, ni dominios en la CSP, ni mención en los textos legales.
+ * EL SEGURO, ya levantado. Existía porque el código de medición y los textos que lo declaran se
+ * escribieron en commits distintos, y entre uno y otro había una ventana en la que la web PODRÍA
+ * haber medido sin decirlo — justo la infracción que se quería evitar. Mientras estuvo en `false`,
+ * este fichero se desplegó con los identificadores puestos sin que cambiara nada de la web.
  *
- * Existe porque el código de medición y los textos que lo declaran se escriben en commits
- * distintos, y entre uno y otro hay una ventana en la que la web PODRÍA medir sin decirlo. Eso es
- * justo la infracción que se quiere evitar, así que no se deja a la memoria de nadie: se pasa a
- * `true` en el mismo commit que trae los tres textos legales reescritos en los cuatro idiomas, y
- * hasta entonces este fichero puede desplegarse cien veces sin que cambie nada de la web.
+ * Pasó a `true` el 20-10-2026, en el mismo commit que trae los textos legales reescritos en los
+ * cuatro idiomas: banner, política de privacidad y política de cookies declarando Google Analytics 4
+ * y Microsoft Clarity con lo que hace cada uno, quién es cada quién y cuánto guarda. Ese mismo
+ * commit sube `CONSENT_VERSION` a 3, de modo que quien había aceptado un banner que decía «medimos
+ * de forma agregada (sin cookies)» vuelve a decidir con la información nueva delante.
+ *
+ * Se queda como interruptor general: ponerlo en `false` apaga las dos herramientas de golpe sin
+ * tocar nada más del código (los textos, eso sí, hay que repasarlos — ver arriba).
  */
-const MEDICION_DECLARADA_EN_LOS_TEXTOS = false;
+const MEDICION_DECLARADA_EN_LOS_TEXTOS = true;
 
 /** `true` si Google Analytics está configurado Y declarado. Gobierna el script, la CSP y los textos. */
 export const MIDE_CON_GA = MEDICION_DECLARADA_EN_LOS_TEXTOS && GA_ID !== "";
