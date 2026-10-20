@@ -4,13 +4,14 @@ Sistema multi-agente para un creador que trabaja solo: seis agentes sobre Claude
 que comparten un mismo "cerebro" (perfil, voz, nicho y calendario). Nada se
 publica solo: todo lo que sale de un agente pasa por revisión humana.
 
-Estado: **paso 1, andamiaje**. Todavía no hay schema, prompts ni agentes.
+Estado: **paso 2, schema**. Hay base de datos y perfil de voz; faltan `runAgent` y los agentes.
 
 ## Arrancar
 
 ```bash
 cp .env.example .env.local   # y rellena ANTHROPIC_API_KEY
-npm install
+npm install            # genera también el cliente de Prisma
+npm run db:migrate     # crea data/dev.db con las tablas
 npm run dev
 ```
 

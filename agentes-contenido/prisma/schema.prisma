@@ -1,0 +1,285 @@
+// Datos del sistema de agentes. SQLite local en data/dev.db.
+//
+// El recorrido de una pieza:
+//   Idea ──► Draft (BORRADOR → GRABADO → EDITADO → PUBLICADO)
+//                └─► CalendarSlot: "toca grabar X el martes", "se publica el jueves"
+// Todo lo que escribe un agente queda enganchado al AgentRun que lo produjo.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─── Enumerados ──────────────────────────────────────────────────────────────
+
+enum Platform {
+  INSTAGRAM
+  TIKTOK
+  YOUTUBE
+  OTHER
+}
+
+// Formato de una pieza. MVP: lo que sale del Agente de Borradores y del de
+// Reutilización.
+enum Format {
+  REEL
+  CARRUSEL
+  POST
+  STORIES
+}
+
+// De dónde sale un ejemplo de voz. Ayuda a elegir ejemplos del mismo tipo
+// que lo que se va a escribir.
+enum SampleSource {
+  REEL_TRANSCRIPT
+  CARRUSEL
+  POST
+  STORIES
+  MESSAGE
+  AUDIO_NOTE
+  OTHER
+}
+
+enum IdeaStatus {
+  NUEVA
+  EN_BORRADOR
+  DESCARTADA
+}
+
+enum IdeaOrigin {
+  MANUAL
+  AGENTE
+  TELEGRAM
+}
+
+enum DraftStatus {
+  BORRADOR
+  GRABADO
+  EDITADO
+  PUBLICADO
+}
+
+enum SlotKind {
+  GRABAR
+  EDITAR
+  PUBLICAR
+}
+
+enum InboxCategory {
+  COLABORACION
+  PREGUNTA
+  FEEDBACK
+  SPAM
+  CLIENTE_POTENCIAL
+}
+
+enum InboxStatus {
+  PENDIENTE
+  RESPONDIDO
+  ARCHIVADO
+}
+
+enum AgentName {
+  IDEAS
+  BORRADORES
+  REUTILIZACION
+  CALENDARIO
+  MENSAJES
+  RESUMEN
+}
+
+enum RunStatus {
+  OK
+  ERROR
+}
+
+// ─── Modelos ─────────────────────────────────────────────────────────────────
+
+// Hoy hay un solo usuario (local-first). La tabla existe para no tener que
+// migrar todo el día que haya login.
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?  @unique
+  createdAt DateTime @default(now())
+
+  voiceSamples  VoiceSample[]
+  ideas         Idea[]
+  drafts        Draft[]
+  calendarSlots CalendarSlot[]
+  inboxItems    InboxItem[]
+  weeklyReviews WeeklyReview[]
+  agentRuns     AgentRun[]
+}
+
+// Un texto real mío. El Agente de Borradores mete 3-5 de estos en cada prompt.
+model VoiceSample {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String?
+  content   String
+  source    SampleSource @default(OTHER)
+  platform  Platform     @default(INSTAGRAM)
+  // Temas separados por comas ("vergüenza, primer cliente"): sirven para
+  // elegir ejemplos parecidos al encargo mientras no haya embeddings.
+  tags      String       @default("")
+  // Los fijados entran siempre, pase lo que pase con la búsqueda.
+  pinned    Boolean      @default(false)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([userId, source])
+}
+
+model Idea {
+  id              String     @id @default(cuid())
+  userId          String
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title           String
+  angle           String?
+  hook            String?
+  // La historia real de la que parte (regla: cada pieza parte de algo vivido).
+  story           String?
+  notes           String?
+  suggestedFormat Format?
+  priority        Int        @default(0)
+  status          IdeaStatus @default(NUEVA)
+  origin          IdeaOrigin @default(MANUAL)
+  agentRunId      String?
+  agentRun        AgentRun?  @relation(fields: [agentRunId], references: [id], onDelete: SetNull)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  drafts        Draft[]
+  calendarSlots CalendarSlot[]
+
+  @@index([userId, status])
+}
+
+model Draft {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ideaId          String?
+  idea            Idea?       @relation(fields: [ideaId], references: [id], onDelete: SetNull)
+  title           String
+  format          Format
+  platform        Platform    @default(INSTAGRAM)
+  // Lo que se edita en pantalla.
+  content         String
+  // Lo que escribió el agente, sin tocar. La diferencia con `content` dice
+  // cuánto hubo que corregir para que sonara a mí.
+  originalContent String
+  // La salida estructurada del agente: partes del reel, slides del carrusel...
+  structure       Json?
+  status          DraftStatus @default(BORRADOR)
+  publishedAt     DateTime?
+  publishedUrl    String?
+  // Los borradores que salen de una misma pieza madre comparten AgentRun.
+  agentRunId      String?
+  agentRun        AgentRun?   @relation(fields: [agentRunId], references: [id], onDelete: SetNull)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  calendarSlots CalendarSlot[]
+
+  @@index([userId, status])
+  @@index([agentRunId])
+}
+
+// Una tarea con fecha: grabar, editar o publicar algo.
+model CalendarSlot {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime
+  kind      SlotKind
+  note      String?
+  done      Boolean  @default(false)
+  draftId   String?
+  draft     Draft?   @relation(fields: [draftId], references: [id], onDelete: Cascade)
+  ideaId    String?
+  idea      Idea?    @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, date])
+}
+
+// Un DM o comentario pegado o importado. La respuesta es solo un borrador:
+// nunca se envía sola.
+model InboxItem {
+  id         String         @id @default(cuid())
+  userId     String
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  platform   Platform       @default(INSTAGRAM)
+  author     String?
+  text       String
+  receivedAt DateTime       @default(now())
+  category   InboxCategory?
+  replyDraft String?
+  status     InboxStatus    @default(PENDIENTE)
+  agentRunId String?
+  agentRun   AgentRun?      @relation(fields: [agentRunId], references: [id], onDelete: SetNull)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@index([userId, status])
+}
+
+model WeeklyReview {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Lunes de la semana revisada, a las 00:00.
+  weekStart   DateTime
+  // Métricas tal cual entraron (manual o CSV de Instagram).
+  metrics     Json
+  worked      String?
+  didntWork   String?
+  repeat      String?
+  // Los 3 ajustes para la semana siguiente.
+  adjustments Json?
+  // Lo que el Agente de Ideas tiene que leer la próxima vez.
+  learnings   Json?
+  agentRunId  String?
+  agentRun    AgentRun? @relation(fields: [agentRunId], references: [id], onDelete: SetNull)
+  createdAt   DateTime  @default(now())
+
+  @@unique([userId, weekStart])
+}
+
+// Una llamada a Claude. Se guarda también cuando falla.
+model AgentRun {
+  id               String    @id @default(cuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agent            AgentName
+  model            String
+  status           RunStatus
+  input            Json
+  output           Json?
+  error            String?
+  // Qué ejemplos de voz entraron en el prompt, para poder auditar por qué
+  // un borrador sonó como sonó.
+  voiceSampleIds   Json?
+  inputTokens      Int       @default(0)
+  outputTokens     Int       @default(0)
+  cacheReadTokens  Int       @default(0)
+  cacheWriteTokens Int       @default(0)
+  costUsd          Float     @default(0)
+  latencyMs        Int       @default(0)
+  createdAt        DateTime  @default(now())
+
+  ideas         Idea[]
+  drafts        Draft[]
+  inboxItems    InboxItem[]
+  weeklyReviews WeeklyReview[]
+
+  @@index([userId, agent, createdAt])
+}

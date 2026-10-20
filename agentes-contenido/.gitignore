@@ -44,3 +44,5 @@ next-env.d.ts
 # datos locales: base de datos, audios, subidas
 /data/*
 !/data/.gitkeep
+
+/src/generated/prisma
