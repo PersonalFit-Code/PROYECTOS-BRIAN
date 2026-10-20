@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { BUSINESS } from "@/data/business";
 import { DEFAULT_LOCALE, LOCALE_HEADER, LOCALE_META, isLocale, localePath, type Locale } from "@/i18n/config";
 import esCommon from "@/i18n/messages/es/common";
@@ -27,11 +27,20 @@ import "./globals.css";
  * hace y una página normal no: declara `<html>` y `<body>`, importa `globals.css` y carga las fuentes.
  * Requiere `experimental.globalNotFound` en `next.config.ts`.
  *
- * EL IDIOMA. Este componente no recibe `params` —no cuelga de `[locale]`—, así que el idioma llega en
- * una cabecera de petición que pone el proxy (`x-tixola-locale`, ver `src/proxy.ts`). Si falta o trae
- * basura, castellano: la misma regla que aplica el proxy a quien entra sin prefijo. Leer cabeceras
- * hace que esta página se sirva bajo demanda en vez de prerenderizada, lo cual para un 404 es
- * exactamente lo que se quiere.
+ * EL IDIOMA, EN TRES INTENTOS. Este componente no recibe `params` —no cuelga de `[locale]`—, así que
+ * el idioma llega en una cabecera de petición que pone el proxy (`x-tixola-locale`, ver
+ * `src/proxy.ts`). Si no está, se mira la cookie `NEXT_LOCALE`, y si tampoco, castellano: la misma
+ * regla que aplica el proxy a quien entra sin prefijo. La cookie no sobra: el `matcher` del proxy se
+ * salta las rutas que llevan un punto, así que en `/en/carta.pdf` —un enlace viejo a un PDF que ya no
+ * está— la cabecera no llega aunque el idioma esté a la vista en la URL, y sin la cookie el 404
+ * saldría en castellano.
+ *
+ * LO QUE CUESTA: leer cabeceras hace que esta página se renderice en cada petición en vez de servirse
+ * desde la caché. Antes el 404 se prerenderizaba una vez y el CDN servía el resto; ahora cada URL
+ * inexistente es una invocación, también las de los robots que prueban direcciones al azar. Se acepta
+ * a sabiendas: la alternativa es un 404 que le habla en castellano a quien venía leyendo en inglés, y
+ * el idioma de esa página es justo lo que este fichero vino a arreglar. Si algún día el gasto
+ * molestara, el cambio es quitar las dos lecturas de aquí y servirla estática en un solo idioma.
  */
 
 /** Textos del 404 por idioma. Solo `common`, no el paquete entero: esta página se sirve sola. */
@@ -42,10 +51,16 @@ const COPY = {
   pt: ptCommon.notFound,
 } satisfies Record<Locale, { kicker: string; title: string; text: string; back: string }>;
 
-/** Idioma de la petición, puesto por el proxy. Valida siempre: la cabecera podría venir de fuera. */
+/**
+ * Idioma de la petición: primero la cabecera que pone el proxy, luego la cookie de idioma y, si no
+ * hay ninguna de las dos, castellano. Valida siempre, y no por formalismo: en las rutas que el proxy
+ * no mira, la cabecera llega tal cual la mande quien pida la página.
+ */
 async function localeDeLaPeticion(): Promise<Locale> {
-  const crudo = (await headers()).get(LOCALE_HEADER);
-  return isLocale(crudo) ? crudo : DEFAULT_LOCALE;
+  const deLaCabecera = (await headers()).get(LOCALE_HEADER);
+  if (isLocale(deLaCabecera)) return deLaCabecera;
+  const deLaCookie = (await cookies()).get("NEXT_LOCALE")?.value;
+  return isLocale(deLaCookie) ? deLaCookie : DEFAULT_LOCALE;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

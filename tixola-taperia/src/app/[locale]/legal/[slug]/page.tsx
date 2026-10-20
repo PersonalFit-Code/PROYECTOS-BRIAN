@@ -28,7 +28,14 @@ import { SITE_URL_IS_PROVISIONAL } from "@/lib/siteUrl";
    de abajo para que montara el 404 de la casa. Resultó que por ese camino Next sirve su esqueleto de
    error vacío (ver `src/app/global-not-found.tsx`), así que se cambiaba una página en inglés por una
    página en blanco. Con el 404 global, el corte en el enrutador sirve el 404 de la casa, traducido y
-   con texto en el HTML: es el camino bueno, y encima no renderiza una página para tirarla. */
+   con texto en el HTML: es el camino bueno, y encima no renderiza una página para tirarla.
+   LO QUE ESTO CUESTA, para que no sorprenda en los registros: cuando el corte lo hace el enrutador,
+   Next 16.4.1 responde bien al documento (404 con la página de la casa) pero devuelve 500 a la
+   petición RSC equivalente —la que haría el enrutador al navegar o al precargar un enlace—, con un
+   «Invariant: Expected RSC response, got text/html» en el servidor. Comprobado el 20-10-2026 con
+   `curl -H 'RSC: 1' '...?_rsc=x'`; sin esta línea el RSC daba 404 y el documento, una página en
+   blanco. Se elige esto porque lo que ve una persona es el documento, y porque a esas URLs no
+   apunta ningún enlace de la web: para llegar al 500 hay que pedir el RSC a mano. */
 export const dynamicParams = false;
 
 /** Documento al que corresponde un slug en este idioma (con respaldo en los slugs en español). */

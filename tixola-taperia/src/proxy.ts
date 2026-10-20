@@ -53,11 +53,17 @@ export function proxy(request: NextRequest) {
        una suya: manda la URL, no la petición. */
     const cabeceras = new Headers(request.headers);
     cabeceras.set(LOCALE_HEADER, first);
-    const res = NextResponse.next({ request: { headers: cabeceras } });
-    if (request.cookies.get(COOKIE)?.value !== first) {
-      res.cookies.set(COOKIE, first, cookieOptions(request));
-    }
-    return res;
+    /* AQUÍ NO SE TOCA LA COOKIE, y antes sí. Pasar por una URL con prefijo no es elegir idioma, y
+       tratarlo como si lo fuera tenía consecuencias feas: quien abría un enlace caducado como
+       `/en/reservas` —una página que esta web llegó a tener— se llevaba un 404 Y la web en inglés
+       durante doce meses, sin haber pulsado nada. Valía incluso desde fuera: un `<img src=".../en">`
+       en una página ajena escribía la cookie igual. Y chocaba con lo que dicen los cuatro textos
+       legales, que describen `NEXT_LOCALE` como «el idioma que HAS ELEGIDO» — que es justo lo que la
+       deja exenta de consentimiento (art. 22.2 LSSI-CE).
+       Elegir idioma se hace en dos sitios, y los dos siguen escribiéndola: el selector de idioma
+       (`LanguageSwitcher`, desde el navegador) y la rama de abajo, cuando alguien entra sin prefijo
+       y hay que decidir por él. Pasar por un enlace suelto, no. */
+    return NextResponse.next({ request: { headers: cabeceras } });
   }
 
   const locale = detectLocale(request);

@@ -20,7 +20,14 @@ export function generateStaticParams() {
    ENRUTADOR y lo recoge el 404 global (`src/app/global-not-found.tsx`). El proxy ya redirige
    `/lo-que-sea` a `/es/lo-que-sea`, pero no mira las rutas con punto (ver su `matcher`), así que
    `/algo.raro/carta` sí llegaba hasta aquí y disparaba el `notFound()` de abajo — que por ese camino
-   sirve el esqueleto de error vacío de Next en vez de una página. Con esta línea no llega. */
+   sirve el esqueleto de error vacío de Next en vez de una página. Con esta línea no llega.
+   LO QUE ESTO CUESTA, para que no sorprenda en los registros: cuando el corte lo hace el enrutador,
+   Next 16.4.1 responde bien al documento (404 con la página de la casa) pero devuelve 500 a la
+   petición RSC equivalente —la que haría el enrutador al navegar o al precargar un enlace—, con un
+   «Invariant: Expected RSC response, got text/html» en el servidor. Comprobado el 20-10-2026 con
+   `curl -H 'RSC: 1' '...?_rsc=x'`; sin esta línea el RSC daba 404 y el documento, una página en
+   blanco. Se elige esto porque lo que ve una persona es el documento, y porque a esas URLs no
+   apunta ningún enlace de la web: para llegar al 500 hay que pedir el RSC a mano. */
 export const dynamicParams = false;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
