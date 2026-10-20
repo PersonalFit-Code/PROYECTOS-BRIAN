@@ -51,6 +51,14 @@ const COPY = {
   pt: ptCommon.notFound,
 } satisfies Record<Locale, { kicker: string; title: string; text: string; back: string }>;
 
+/** Etiqueta del enlace a la carta. Sale de `common.cta.menuShort` («Ver Carta»), ya traducida. */
+const COPY_CARTA = {
+  es: esCommon.cta.menuShort,
+  gl: glCommon.cta.menuShort,
+  en: enCommon.cta.menuShort,
+  pt: ptCommon.cta.menuShort,
+} satisfies Record<Locale, string>;
+
 /**
  * Idioma de la petición: primero la cabecera que pone el proxy, luego la cookie de idioma y, si no
  * hay ninguna de las dos, castellano. Valida siempre, y no por formalismo: en las rutas que el proxy
@@ -67,7 +75,18 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await localeDeLaPeticion();
   /* El sufijo de marca a mano: la plantilla `%s · Tixola Tapería` vive en el layout de idioma y esta
      página no pasa por él. El `noindex` lo inyecta Next solo en toda respuesta 404. */
-  return { title: `${COPY[locale].title} · ${BUSINESS.name}` };
+  return {
+    title: `${COPY[locale].title} · ${BUSINESS.name}`,
+    /* Los iconos los declara el layout de idioma, por el que esta página NO pasa: era la única de
+       la web que se servía sin ellos y el navegador caía al `/favicon.ico` implícito. */
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "32x32" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+      ],
+      apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
+    },
+  };
 }
 
 export const viewport: Viewport = {
@@ -104,6 +123,15 @@ export default async function GlobalNotFound() {
             className="mt-8 inline-flex h-12 items-center rounded-full bg-pimenton px-6 font-sans font-semibold text-cream transition-colors duration-300 hover:bg-pimenton-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-granate"
           >
             {nf.back}
+          </a>
+          {/* El texto remata en «…o echa un vistazo a nuestros platos», y hasta ahora esta página
+              tenía un solo enlace, el de volver al inicio: quien venía buscando la carta se quedaba
+              sin forma de seguir la instrucción que acababa de leer. */}
+          <a
+            href={localePath(locale, "/carta")}
+            className="mt-4 inline-flex items-center rounded-full px-4 py-2 font-sans text-sm text-cream-muted underline decoration-pimenton-light/60 underline-offset-4 transition-colors hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pimenton-light focus-visible:ring-offset-2 focus-visible:ring-offset-granate"
+          >
+            {COPY_CARTA[locale]}
           </a>
         </main>
       </body>
