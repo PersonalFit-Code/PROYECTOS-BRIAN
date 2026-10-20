@@ -8,7 +8,7 @@ import VinoSpotlight, { nombreDeOrigen } from "@/components/vinos/VinoSpotlight"
 import { MUNDO_PAISES, MUNDO_VIEWBOX, proyectar } from "@/data/geo/mundo";
 import { formatPrice } from "@/data/menu";
 import { NATION_IDS, NATIONS, ORIGIN_NATION, ORIGIN_ORDER, SHOW_WINE_PRICES, winesByOrigin, type NationId, type Wine, type WineOrigin } from "@/data/wines";
-import { localizeMenuItems } from "@/i18n/data";
+import { localizeMenuItems, localizeWines } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
@@ -132,7 +132,7 @@ export default function MapaDelMundo() {
   const porPais = useMemo(() => {
     const mapa = new Map<NationId, { origin: WineOrigin; vinos: readonly Wine[] }[]>();
     for (const origin of ORIGIN_ORDER) {
-      const vinos = winesByOrigin(origin);
+      const vinos = localizeWines(locale, winesByOrigin(origin));
       if (!vinos.length) continue;
       const pais = ORIGIN_NATION[origin];
       const lista = mapa.get(pais) ?? [];
@@ -140,7 +140,7 @@ export default function MapaDelMundo() {
       mapa.set(pais, lista);
     }
     return mapa;
-  }, []);
+  }, [locale]);
 
   /** Solo los países que de verdad tienen vino en la carta; si mañana no hay ninguno, no hay mapa. */
   const naciones = useMemo(() => NATION_IDS.filter((id) => (porPais.get(id)?.length ?? 0) > 0), [porPais]);

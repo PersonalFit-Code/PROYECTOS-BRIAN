@@ -19,7 +19,7 @@ import {
   type WineKind,
   type WineOrigin,
 } from "@/data/wines";
-import { localizeMenuItems } from "@/i18n/data";
+import { localizeMenuItems, localizeWines } from "@/i18n/data";
 import { useFormat, useLocale, useMessages } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
@@ -137,7 +137,7 @@ export default function CartaDeVinos() {
       const procedencia = gallega
         ? [nombreDeOrigen(origin, m), ...WINE_REGIONS[origin].provinces]
         : [nombreDeOrigen(origin, m), m.vinos.countries[ORIGIN_COUNTRY[origin] ?? "ninguno"]];
-      for (const vino of winesByOrigin(origin)) {
+      for (const vino of localizeWines(locale, winesByOrigin(origin))) {
         mapa.set(
           vino.id,
           normalizeText(
@@ -157,13 +157,19 @@ export default function CartaDeVinos() {
       }
     }
     return mapa;
-  }, [m, nombreDePlato]);
+  }, [locale, m, nombreDePlato]);
 
   /* Todas las palabras tienen que aparecer (Y, no O): "godello monterrei" son los godellos DE
      Monterrei, no todos los godellos más todos los de Monterrei. Es como filtra ya la carta. */
   const palabras = useMemo(() => normalizeText(consultaDiferida).split(" ").filter(Boolean), [consultaDiferida]);
 
-  const todos = useMemo(() => ORIGIN_ORDER.map((origin) => ({ origin, vinos: winesByOrigin(origin) })), []);
+  /* Los vinos, ya con la prosa en el idioma activo: la nota de cata, la historia, el terreno, la
+     elaboración y la crianza salían en castellano bajo encabezados traducidos. Depende de `locale`
+     porque cambiar de idioma cambia el texto de las fichas. */
+  const todos = useMemo(
+    () => ORIGIN_ORDER.map((origin) => ({ origin, vinos: localizeWines(locale, winesByOrigin(origin)) })),
+    [locale],
+  );
 
   /* Los colores que de verdad hay en la carta, con cuántos de cada uno. Si un día no hay ni un
      rosado, su chapa no sale: un filtro que no puede devolver nada es una promesa rota. */

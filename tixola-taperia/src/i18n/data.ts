@@ -7,6 +7,7 @@ import { ALLERGENS, type Allergen, type AllergenId } from "@/data/allergens";
 import { DIET_TAG_LABELS, MENU_CATEGORIES, MENU_ITEMS, type DietTag, type MenuCategory, type MenuCategoryId, type MenuItem, type MenuItemId } from "@/data/menu";
 import { STAR_DISHES, type StarDish } from "@/data/dishes";
 import { PHOTOS, type Photo } from "@/data/photos";
+import { WINES, type Wine } from "@/data/wines";
 import { BUSINESS } from "@/data/business";
 import type { Locale } from "./config";
 
@@ -32,6 +33,23 @@ export interface DataTranslations {
   features?: string[];
   /** `alt` y `caption` de las fotos (src/data/photos.ts) por id. */
   photos?: Partial<Record<string, Partial<Pick<Photo, "alt" | "caption">>>>;
+  /**
+   * La PROSA de las fichas de vino (src/data/wines.ts) por id de vino.
+   *
+   * Solo estos seis campos, y no el resto del vino, porque los demás no se traducen: el nombre de
+   * la botella es el de la etiqueta, la bodega y el enólogo son nombres propios, las uvas son
+   * nombres de variedad y el precio es un número. Lo que sí es prosa —la nota de cata, la historia,
+   * el terreno, la elaboración y la crianza— estaba saliendo EN CASTELLANO bajo encabezados
+   * traducidos en /gl, /en y /pt.
+   *
+   * `subzone` entra en la lista porque casi siempre es un topónimo que no se toca (Amandi, Gomariz,
+   * Sablet) pero alguna vez lleva una palabra común delante: "Valle del Salnés" es "Val do Salnés"
+   * en gallego. Traducir solo esas; las demás no hace falta repetirlas.
+   *
+   * La clave es `string` y no un tipo de ids porque `Wine.id` tampoco lo es; lo que impide traducir
+   * un vino que ya no está en la carta es `assertTranslationIntegrity()`, que rompe el build.
+   */
+  wines?: Partial<Record<string, Partial<Pick<Wine, "notes" | "story" | "terroir" | "winemaking" | "ageing" | "subzone">>>>;
 }
 
 import { assertTranslationIntegrity } from "@/data/integrity";
@@ -112,4 +130,30 @@ export function localizePhotoById(locale: Locale, id: string): Photo | undefined
   const photo = PHOTOS.find((p) => p.id === id);
   if (!photo) return undefined;
   return { ...photo, ...(TRANSLATIONS[locale].photos?.[id] ?? {}) };
+}
+
+/**
+ * Vinos con la PROSA en el idioma activo (fallback al español, campo a campo).
+ *
+ * Toma una lista en vez de devolver la carta entera a propósito: los componentes ya eligen sus
+ * vinos con `winesByOrigin()`, `winesForDish()` o `winesByKind()`, y duplicar aquí esa selección
+ * para cada idioma sería dos sitios donde equivocarse. Así se envuelve lo que ya tienen.
+ *
+ * En español devuelve EL MISMO array, sin copiar: es el caso más frecuente y así los `useMemo` que
+ * dependen de él no se invalidan por una identidad nueva.
+ */
+export function localizeWines(locale: Locale, wines: readonly Wine[]): Wine[] {
+  const t = TRANSLATIONS[locale].wines;
+  if (!t) return wines as Wine[];
+  return wines.map((w) => {
+    const o = t[w.id];
+    return o ? { ...w, ...o } : w;
+  });
+}
+
+/** Un vino suelto, ya localizado (o `undefined` si el id no existe). */
+export function localizeWineById(locale: Locale, id: string): Wine | undefined {
+  const wine = WINES.find((w) => w.id === id);
+  if (!wine) return undefined;
+  return { ...wine, ...(TRANSLATIONS[locale].wines?.[id] ?? {}) };
 }

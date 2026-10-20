@@ -2,6 +2,7 @@ import { DISH_ICON_BY_KEY } from "@/components/icons/DishIcons";
 import { STAR_DISHES } from "./dishes";
 import { MENU_CATEGORIES, MENU_ITEM_IDS, MENU_ITEMS } from "./menu";
 import { PHOTOS } from "./photos";
+import { WINES } from "./wines";
 
 /**
  * COMPROBACIONES DE LA CARTA, en el arranque.
@@ -120,9 +121,12 @@ export function assertMenuIntegrity(): void {
  * quien tiene los overrides a mano, y porque su fallo típico es distinto: no un dato que miente,
  * sino un plato que se queda sin traducir sin que nadie se entere.
  */
-export function assertTranslationIntegrity(traducciones: Record<string, { menuItems?: Record<string, { variants?: readonly string[] }> }>): void {
+export function assertTranslationIntegrity(
+  traducciones: Record<string, { menuItems?: Record<string, { variants?: readonly string[] }>; wines?: Record<string, unknown> }>,
+): void {
   const errors: string[] = [];
   const byId = new Map(MENU_ITEMS.map((i) => [i.id, i]));
+  const vinosPorId = new Set(WINES.map((w) => w.id));
 
   for (const [idioma, datos] of Object.entries(traducciones)) {
     const items = datos.menuItems;
@@ -138,6 +142,15 @@ export function assertTranslationIntegrity(traducciones: Record<string, { menuIt
       if (propias && propias !== reales) {
         errors.push(`[${idioma}] "${id}" declara ${propias} variantes y la carta tiene ${reales} (se traducen por posición: se descuadrarían)`);
       }
+    }
+  }
+
+  /* Los vinos no tienen un tipo de ids como `MenuItemId` (son 46 cadenas en `wines.ts`), así que
+     esta es la única red: una traducción que hable de un vino retirado de la carta se quedaría
+     callada para siempre, y en /gl, /en y /pt la ficha volvería al castellano sin avisar. */
+  for (const [idioma, datos] of Object.entries(traducciones)) {
+    for (const id of Object.keys(datos.wines ?? {})) {
+      if (!vinosPorId.has(id)) errors.push(`[${idioma}] traduce el vino "${id}", que ya no está en la carta`);
     }
   }
 
