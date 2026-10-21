@@ -8,6 +8,11 @@ const TITLE_LINES: readonly string[] = ["A Arte do Tapeo", "no Corazón", "de Ou
 
 const hero: Section<"hero"> = {
   kicker: "Tapería · Vinoteca · Ourense",
+  /* Título e descrición da portada nos buscadores, á parte do titular que se le na pantalla: o
+     título non levaba «vinoteca», que é a palabra pola que se busca a casa. Ver es/hero.ts. */
+  seoTitle: "Tapas e viños en Ourense",
+  seoDescription:
+    "Tapería e vinoteca xunto á Catedral de Ourense: tixolas de ferro, zamburiñas, polbo e viños galegos.",
   /** Titular completo (metadatos, lectores de pantalla). */
   title: "A Arte do Tapeo no Corazón de Ourense",
   /** Titular partido en liñas de portada (máx. 3). */

@@ -9,6 +9,11 @@ const TITLE_LINES: readonly string[] = ["A Arte do Petisco", "no Coração", "de
 
 const hero = {
   kicker: "Tapería · Vinoteca · Ourense",
+  /* Título e descrição da página inicial nos motores de busca, à parte do título que se lê no ecrã:
+     o título não levava «vinoteca», que é a palavra pela qual se procura a casa. Ver es/hero.ts. */
+  seoTitle: "Petiscos e vinhos em Ourense",
+  seoDescription:
+    "Tapería e vinoteca junto à Catedral de Ourense: tixolas de ferro, zamburiñas, polvo e vinhos galegos.",
   /** Título completo (metadados, leitores de ecrã). */
   title: "A Arte do Petisco no Coração de Ourense",
   /** Título partido em linhas de capa (máx. 3). */

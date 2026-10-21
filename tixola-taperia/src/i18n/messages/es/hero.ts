@@ -6,6 +6,15 @@ const TITLE_LINES: readonly string[] = ["El Arte del Tapeo", "en el Corazón", "
 
 const hero = {
   kicker: "Tapería · Vinoteca · Ourense",
+  /* TÍTULO Y DESCRIPCIÓN DE LA PORTADA EN BUSCADORES, aparte del titular que se lee en pantalla.
+     Se separaron el 21-10-2026 por un motivo concreto: el título era «Tixola Tapería · El Arte del
+     Tapeo en el Corazón de Ourense» y NO llevaba la palabra «vinoteca», que es justo la que la
+     gente escribe. En gastroranking, planomato y paxinasgalegas la casa figura como «Tixola Tapería
+     Vinoteca», y ese es el nombre por el que se busca. El nombre completo lo pone el layout desde
+     `BUSINESS.legalName`; aquí va solo la cola, corta, para no pasar de 60 caracteres. */
+  seoTitle: "Tapas y vinos en Ourense",
+  seoDescription:
+    "Tapería y vinoteca junto a la Catedral de Ourense: tixolas de hierro, zamburiñas, pulpo y vinos gallegos.",
   /** Titular completo (metadatos, lectores de pantalla). */
   title: "El Arte del Tapeo en el Corazón de Ourense",
   /** Titular partido en líneas de portada (máx. 3). */

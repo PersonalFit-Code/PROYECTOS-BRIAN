@@ -35,12 +35,20 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const locale: Locale = isLocale(raw) ? raw : "es";
   const m = await getMessages(locale);
   const intl = LOCALE_META[locale].intl;
-  const title = `${BUSINESS.name} · ${m.hero.title}`;
+  /* EL NOMBRE COMPLETO, CON «VINOTECA». La casa figura en todos los directorios como «Tixola
+     Tapería Vinoteca» —gastroranking, planomato, paxinasgalegas— y esa es la cadena que la gente
+     escribe en el buscador. Hasta el 21-10-2026 el título era `BUSINESS.name` («Tixola Tapería»)
+     más el titular de portada, y le faltaba la palabra del medio: quien buscaba «tapería tixola
+     vinoteca» encontraba antes los directorios que la web de la casa. La cola es corta a propósito
+     (`m.hero.seoTitle`): con el nombre completo delante, el titular largo se pasaba de 60. */
+  const title = `${BUSINESS.legalName} · ${m.hero.seoTitle}`;
   const rating = BUSINESS.ratings.google.value.toLocaleString(intl, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const count = BUSINESS.ratings.google.count.toLocaleString(intl);
   /* Sin la dirección al final: así cabe en 160 caracteres en los cuatro idiomas (la dirección ya
      viaja en el JSON-LD de Restaurant y en el pie). La nota se formatea con el locale (4,4 / 4.4). */
-  const description = `${m.common.subtitle} ${rating} ★ · ${count} ${m.common.misc.reviews} ${m.common.misc.onGoogle}.`;
+  /* La descripción tampoco nombraba el vino, y media casa es vinoteca. Clave propia en vez del
+     subtítulo de pantalla para poder decirlo sin tocar lo que se lee en la portada. */
+  const description = `${m.hero.seoDescription} ${rating} ★ · ${count} ${m.common.misc.reviews} ${m.common.misc.onGoogle}.`;
   return {
     metadataBase: new URL(SITE_URL),
     description,
@@ -93,7 +101,7 @@ const DAY_SCHEMA: Record<string, string> = {
   sun: "Sunday",
 };
 
-function restaurantJsonLd(locale: Locale, description: string) {
+function restaurantJsonLd(locale: Locale, description: string, shortName: string) {
   const openingHoursSpecification = Object.entries(BUSINESS.hours).flatMap(([day, ranges]) =>
     ranges.map((r) => ({
       "@type": "OpeningHoursSpecification",
@@ -107,7 +115,9 @@ function restaurantJsonLd(locale: Locale, description: string) {
     "@type": "Restaurant",
     "@id": `${SITE_URL}/#restaurant`,
     name: BUSINESS.name,
-    alternateName: BUSINESS.legalName,
+    /* Los dos nombres por los que se la conoce de verdad, para que Google empareje la entidad:
+       el completo de los directorios y el corto con el que la llama todo el mundo. */
+    alternateName: [BUSINESS.legalName, shortName],
     /* Descripción localizada (m.footer.about) e idioma de la página: el bloque viaja en /en, /gl y /pt. */
     description,
     inLanguage: LOCALE_META[locale].hreflang,
@@ -155,7 +165,7 @@ export default async function LocaleLayout({
   if (!isLocale(raw)) notFound();
   const locale: Locale = raw;
   const messages = await getMessages(locale);
-  const jsonLd = restaurantJsonLd(locale, messages.footer.about);
+  const jsonLd = restaurantJsonLd(locale, messages.footer.about, messages.common.brandShort);
 
   return (
     <html lang={LOCALE_META[locale].hreflang} className={fontVariables}>

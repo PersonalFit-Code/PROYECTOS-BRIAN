@@ -9,6 +9,11 @@ const TITLE_LINES: readonly string[] = ["The Art of Tapas", "in the Heart", "of 
 
 const hero = {
   kicker: "Tapas Bar · Wine Bar · Ourense",
+  /* Search-engine title and description for the home page, kept apart from the on-screen headline:
+     the title did not carry "vinoteca", which is the word people actually search for. See es/hero.ts. */
+  seoTitle: "Tapas and wine in Ourense",
+  seoDescription:
+    "Tapas bar and wine bar by Ourense Cathedral: cast-iron tixolas, Galician scallops, octopus and Galician wines.",
   /** Full headline (metadata, screen readers). */
   title: "The Art of Tapas in the Heart of Ourense",
   /** Headline split into cover lines (max. 3). */
