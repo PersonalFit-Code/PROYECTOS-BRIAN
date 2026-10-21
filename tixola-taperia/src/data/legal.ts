@@ -11,13 +11,11 @@
    Documentos
    ────────────────────────────────────────────────────────────── */
 
-/** Claves de los tres documentos legales (coinciden con `m.legal.docs.*`). */
-export const LEGAL_DOC_KEYS = ["privacy", "legalNotice", "cookies"] as const;
-export type LegalDocKey = (typeof LEGAL_DOC_KEYS)[number];
-
-export function isLegalDocKey(value: string): value is LegalDocKey {
-  return (LEGAL_DOC_KEYS as readonly string[]).includes(value);
-}
+/* Las claves de los documentos y la vigencia del consentimiento viven en `legal-shape.ts`: las
+   necesita el navegador (banner de cookies, pie) y este módulo NO debe bajar al cliente más que en
+   la propia página legal, porque guarda los datos identificativos de la titular. Se re-exportan
+   para que quien ya los pedía aquí siga compilando. */
+export { LEGAL_DOC_KEYS, isLegalDocKey, CONSENT_MAX_AGE_MONTHS, type LegalDocKey } from "./legal-shape";
 
 /**
  * Fecha ISO (AAAA-MM-DD) de la última revisión de los textos legales.
@@ -89,9 +87,6 @@ export const LEGAL_IDENTITY_PENDING: boolean = Object.values(LEGAL_PLACEHOLDERS)
  * resaltarlos en `LegalArticle`. Global (g) para `String.prototype.split` con captura.
  */
 export const PLACEHOLDER_PATTERN = /(\[[A-ZÁÉÍÓÚÜÑ][A-ZÁÉÍÓÚÜÑ0-9 ,./-]*\])/g;
-
-/** Vigencia del consentimiento de cookies (la AEPD recomienda no superar los 24 meses). */
-export const CONSENT_MAX_AGE_MONTHS = 12;
 
 /* ──────────────────────────────────────────────────────────────
    Contenido estructurado (forma de m.legal.docs.*)

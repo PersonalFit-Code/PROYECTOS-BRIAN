@@ -87,6 +87,16 @@ export const CHAT_LIMITS = {
   maxMessages: 20,
   /** caracteres por mensaje */
   maxChars: 1000,
+  /* LOS CARACTERES NO SON BYTES, Y LO QUE SE PAGA SE PARECE MÁS A LOS BYTES. `maxChars` cuenta
+     unidades UTF-16: 1.000 caracteres de español ocupan unos 1.050 bytes, pero 1.000 de un
+     silabario de tres bytes por letra ocupan 3.000, y con esos el modelo gasta varias veces más sin
+     saltarse ningún límite (medido: 20 mensajes de 1.000 caracteres en Yi pasaban la validación con
+     60.000 bytes, el triple de lo que el código creía estar permitiendo). Estos dos topes cierran
+     eso. No estorban a nadie que escriba en los cuatro idiomas de la web. */
+  /** bytes UTF-8 por mensaje: 1.000 caracteres de cualquier alfabeto de hasta 3 bytes */
+  maxBytesPerMessage: 3000,
+  /** bytes UTF-8 de todos los mensajes sumados: lo que ocupa una conversación entera en español, con holgura */
+  maxBytesTotal: 24 * 1024,
   /** peticiones por IP y ventana */
   rateLimit: 30,
   /** ventana de la cuota en ms (10 min) */

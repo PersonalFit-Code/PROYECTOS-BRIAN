@@ -2,14 +2,27 @@
 <!--
   PLANTILLA DE LA IMAGEN QUE SALE AL COMPARTIR EL ENLACE (Open Graph, 1200×630).
 
-  Es un archivo de TRABAJO, no una página del sitio: se sirve desde `public/`, se fotografía con el
-  navegador y de ahí sale `public/og.jpg`. Está aquí y no en un montaje aparte para que herede las
-  fuentes y los tokens de color REALES del sitio (enlaza su misma hoja de estilos y lleva las clases
-  de fuente del `<html>` de verdad): así, cuando cambia el granate, la miniatura de WhatsApp cambia
-  con él en vez de quedarse con los colores del año pasado.
+  Es un archivo de TRABAJO, no una página del sitio: se fotografía con el navegador y de ahí sale
+  `public/og.jpg`. Hereda las fuentes y los tokens de color REALES del sitio (enlaza su misma hoja de
+  estilos y lleva las clases de fuente del `<html>` de verdad): así, cuando cambia el granate, la
+  miniatura de WhatsApp cambia con él en vez de quedarse con los colores del año pasado.
 
-  Para regenerarla: `npm run build`, levantar `next start`, abrir /_og.html a 1200×630 y guardar.
-  Las referencias a la hoja de estilos hay que actualizarlas si cambian de hash.
+  POR QUÉ VIVE EN `scripts/` Y NO EN `public/`. Hasta el 21-10-2026 estaba en `public/_og.html`, y eso
+  lo convertía en una página pública más del dominio: respondía 200 en tixolataperia.es, sin `noindex`
+  (solo un `Disallow` en robots.txt, que es un ruego, no un candado), enseñando sin estilos —los hashes
+  de CSS de abajo caducan en cada build— una copia congelada de la valoración de Google, el rango de
+  precios, la dirección y el teléfono. Es decir: datos comerciales del negocio que nadie mantiene,
+  publicados en su propio dominio. `scripts/` está en `.vercelignore` y fuera de `public/`, así que
+  desde aquí no se despliega ni se puede servir.
+
+  PARA REGENERAR LA MINIATURA:
+    1. Actualizar los dos `<link rel="stylesheet">` de abajo con los hashes del build actual
+       (`ls .next/static/chunks/*.css`) y las clases de fuente del `<html>` con las del HTML servido.
+    2. Repasar que las cifras del bloque `.chips` sigan coincidiendo con `src/data/business.ts`
+       (`ratings.google`) — están escritas a mano, no salen de los datos.
+    3. `cp scripts/og/plantilla-og.html public/_og.html`, `npm run build`, `npx next start`.
+    4. Abrir /_og.html a 1200×630, fotografiar y guardar sobre `public/og.jpg`.
+    5. `rm public/_og.html` — ese paso no es opcional: es lo que impide que vuelva a publicarse.
 -->
 <html lang="es" class="cormorant_garamond_a4d55701-module__OKdQ9q__variable cinzel_bc049cf1-module__xiPK-G__variable manrope_bfe354df-module__TsHL_q__variable bebas_neue_da3e386-module__bYT8gW__variable">
 <head>

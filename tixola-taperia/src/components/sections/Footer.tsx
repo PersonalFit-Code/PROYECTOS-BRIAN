@@ -6,7 +6,7 @@ import { useCallback, useRef, useSyncExternalStore } from "react";
 import { ArrowUp, ArrowUpRight, Clock, Cookie, MapPin, MessageCircle, Navigation, Phone, Utensils } from "lucide-react";
 import { BUSINESS, type DayKey, type TimeRange } from "@/data/business";
 import { formatNumber } from "@/lib/format";
-import { LEGAL_DOC_KEYS } from "@/data/legal";
+import { LEGAL_DOC_KEYS } from "@/data/legal-shape";
 import Logo from "@/components/ui/Logo";
 import { useNavItems } from "@/components/ui/Navbar";
 import { useLocalizedOpenStatus } from "@/hooks/useLocalizedOpenStatus";

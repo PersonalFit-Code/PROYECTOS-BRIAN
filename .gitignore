@@ -1,0 +1,40 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Reglas de TODO el repositorio.
+#
+# POR QUÉ ESTE FICHERO EXISTE. Este repositorio es un monorepo —andrea-salon,
+# comercial, dos-puertas, tixola-taperia, vapi-voice-agent— y, hasta el
+# 21-10-2026, cada proyecto traía su propio .gitignore pero la raíz no tenía
+# ninguno. Las reglas de .gitignore son POR DIRECTORIO: el `.env*` de
+# tixola-taperia/.gitignore solo cubre lo que cuelga de tixola-taperia/. Un
+# `.env` escrito en la raíz —lo que dejan ahí `vercel link` o `vercel env pull`
+# según desde dónde se ejecuten— no estaba ignorado y entraba en el siguiente
+# `git add -A` sin que git dijera nada. Comprobado con `git check-ignore`, no
+# supuesto.
+#
+# Y el repositorio es PÚBLICO en GitHub, así que ese descuido no se queda en
+# casa: una clave de Anthropic publicada la recogen los rastreadores
+# automáticos en minutos, y a partir de ahí el gasto va contra la cuenta de la
+# casa hasta que alguien mire la factura.
+#
+# Revisados los 267 commits del historial: hoy no hay ninguna clave cometida.
+# Esto es la barandilla que faltaba, no la limpieza de un accidente.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Secretos: ningún .env en ningún proyecto, salvo las plantillas sin valores
+.env
+.env.*
+!.env.example
+
+# Vercel: .vercel/project.json lleva el identificador del proyecto y de la cuenta
+.vercel
+
+# Dependencias y artefactos de compilación
+node_modules
+.next
+dist
+build
+*.tsbuildinfo
+
+# Registros y basura del sistema
+*.log
+.DS_Store

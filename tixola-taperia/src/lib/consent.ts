@@ -13,7 +13,7 @@
  *
  * Solo funciones puras + acceso al DOM guardado: seguro de importar desde componentes de servidor.
  */
-import { CONSENT_MAX_AGE_MONTHS } from "@/data/legal";
+import { CONSENT_MAX_AGE_MONTHS } from "@/data/legal-shape";
 
 export const CONSENT_STORAGE_KEY = "tixola_consent";
 export const CONSENT_EVENT = "tixola:consent";

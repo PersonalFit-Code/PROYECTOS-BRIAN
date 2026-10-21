@@ -114,10 +114,10 @@ la lista no aplica: no hay nada que filtrar por usuario ni contraseñas que prot
 | # | Punto | Estado |
 |---|---|---|
 | 1 | Ocultar API keys | OK. `ANTHROPIC_API_KEY` solo en el servidor (Vercel, marcada como sensible); no aparece en el código que descarga el navegador. |
-| 2 | Secretos fuera de Git | OK. Revisado todo el historial: ninguna clave. `.env` está en `.gitignore`. |
+| 2 | Secretos fuera de Git | OK, pero esta fila decía menos de lo que parecía. Revisado todo el historial (267 commits): ninguna clave cometida, eso sigue siendo cierto. Lo que no era verdad es «`.env` está en `.gitignore`»: el `.gitignore` de este proyecto solo cubre lo que cuelga de `tixola-taperia/`, y el repositorio empieza un nivel más arriba — **y es público**. Un `.env` en la raíz del monorepo NO estaba ignorado. Arreglado el 21-10-2026 con un `.gitignore` en la raíz. Ver `docs/seguridad.md`. |
 | 3–10 | Key de BD, RLS, cifrado, login, acceso a registros, campos, cookies de sesión, contraseñas | No aplica (sin BD ni login). La única cookie, `NEXT_LOCALE` (idioma), va ahora con `Secure` y `SameSite=Lax`. |
-| 11 | Rate limiting | OK. 30 preguntas por IP cada 10 min en `/api/chat`. **Además: poner un tope de gasto mensual en la consola de Anthropic y desactivar la recarga automática.** |
-| 12 | Protección contra bots | Añadido. `/api/chat` rechaza (403) peticiones que no vengan de la propia web, y (413) cuerpos de más de 96 KB. |
+| 11 | Rate limiting | Dos capas. 30 preguntas por IP cada 10 min, y desde el 21-10-2026 un tope global de 300 llamadas al modelo por instancia y ventana: pasado ese punto contesta el camarero sin conexión y deja de gastar. Lo que falta sigue siendo cosa de panel: **tope de gasto mensual en la consola de Anthropic con la recarga automática apagada**, y una regla de límite de tasa en el cortafuegos de Vercel, que es la única que vive delante de todas las instancias. Ver `docs/seguridad.md`. |
+| 12 | Protección contra bots | Añadido y reforzado el 21-10-2026. `/api/chat` rechaza (403) peticiones que no vengan de la propia web —ahora contra una lista de dominios propios, no contra una cabecera que escribe quien llama— y (413) cuerpos de más de 96 KB **medidos en bytes de verdad**, con topes por mensaje y por conversación. Ver `docs/seguridad.md`. |
 | 13 | Queries parametrizadas | No aplica (sin BD). |
 | 14 | Validar inputs | OK. Máx. 20 mensajes × 1000 caracteres, roles válidos, idioma y página en lista cerrada. |
 | 15 | Sanitizar contenido | OK. Las respuestas del chat se pintan como texto con React (nunca HTML) y solo con enlaces seguros; el JSON-LD escapa `<` `>` `&`. |
