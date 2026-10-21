@@ -1,0 +1,340 @@
+<main id="contenido">
+
+<!-- ===================== NUESTRO MOSTRADOR =====================
+     El catálogo: lo que hay en la vitrina, con su foto, su precio y su ficha.
+     No es una tienda: no hay carrito ni se cobra aquí. El precio es
+     orientativo y así lo dice el aviso legal, que ya lo tenía escrito.
+
+     PARA AÑADIR UN DULCE hacen falta dos cosas, y las dos están juntas a
+     propósito:
+       1. su entrada en DULCES (más abajo, en el JS): nombre, lema, foto,
+          emoji, ingredientes, alérgenos y precio;
+       2. una tarjeta aquí, copiando cualquiera de las de abajo y cambiando
+          el data-dulce, el data-i18n y la foto.
+     Si falta la 1, la ficha sale vacía; si falta la 2, el dulce no se ve.
+
+     LO QUE NO HAY QUE HACER es escribir el precio aquí: va en DULCES y lo
+     pinta el JS. Escrito en los dos sitios acaba habiendo dos precios. -->
+<!-- pt- grande a propósito: la cabecera va fija (position:fixed) y en la
+     portada la tapa el hero a pantalla completa. Aquí no hay hero, así que
+     el hueco lo pone la sección o el titular se lee por debajo del menú. -->
+<section id="mostrador" class="bg-white pb-12 pt-28 sm:pb-16 sm:pt-32 lg:pb-24 lg:pt-36">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <!-- A dos columnas con la foto del local: esta página es el mostrador y
+         conviene que se vea cuál es. En el móvil se apila, foto debajo. -->
+    <div class="reveal grid items-center gap-8 lg:grid-cols-[1fr_minmax(0,28rem)] lg:gap-12">
+      <div class="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
+        <p class="antetitulo mb-4" data-i18n="mos.ante">Lo que sale cada mañana</p>
+        <!-- h1: es el titular de ESTA página, no un h2 como en la portada -->
+        <h1 class="font-display text-3xl font-extrabold text-tinta sm:text-4xl" data-i18n="mos.h2">
+          Nuestro <span class="subrayado text-frambuesa">mostrador</span>
+        </h1>
+        <p class="mt-5 text-lg leading-relaxed text-tinta/80" data-i18n="mos.p">
+          Los dulces que hacemos cada día en el obrador, con lo que lleva cada uno y su
+          precio. Pulsa cualquiera y verás sus ingredientes y sus alérgenos.
+        </p>
+        <!-- La misma llamada con la que cierra la página, repetida aquí
+             arriba: el catálogo es largo y antes había que recorrerlo entero
+             para poder preguntar. Comparte clave (mos.cta) y mensaje a
+             propósito: es una sola llamada en dos sitios, no dos distintas. -->
+        <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20saber%20qu%C3%A9%20hay%20hoy%20en%20el%20mostrador"
+           target="_blank" rel="noopener"
+           class="destello mt-7 inline-flex items-center gap-2.5 rounded-full bg-frambuesa px-6 py-3.5 font-rotulo text-sm font-bold text-white shadow-suave transition hover:bg-frambuesa-oscuro">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.53.05-1.02.24-2.86-.56-2.22-.96-3.63-3.27-3.74-3.42-.11-.15-.9-1.2-.9-2.29 0-1.09.57-1.62.78-1.84a.82.82 0 01.59-.28c.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.45.64 1.56.7 1.67.06.11.1.24.02.39-.08.15-.15.24-.29.39-.14.15-.22.24-.31.39-.09.15-.2.31-.09.5.11.19.5.86 1.08 1.39.74.68 1.32.9 1.51.99.19.09.3.08.42-.05.11-.13.5-.58.63-.78.13-.2.26-.16.44-.09.18.07 1.15.54 1.35.64.2.1.33.15.38.23.05.09.05.53-.19 1.21z"/></svg>
+          <span data-i18n="mos.cta">Pregúntanos qué hay hoy</span>
+        </a>
+      </div>
+      <!-- eager y sin lazy: en esta página la foto está arriba del todo, y una
+           imagen perezosa justo en el primer pintado sale a destiempo -->
+      <figure class="mx-auto w-full max-w-md lg:max-w-none">
+        <div class="overflow-hidden rounded-3xl border border-rosa-palo shadow-suave">
+          <img src="assets/local.webp" alt="El mostrador de Bin &amp; Cami Cakes visto desde la calle: globos rosas, el cartel iluminado con el cupcake, la vitrina de dulces y el arcón de los helados."
+               width="1200" height="900" loading="eager" decoding="async" fetchpriority="high"
+               class="block aspect-[4/3] w-full object-cover">
+        </div>
+        <figcaption class="mt-3 text-center text-sm leading-relaxed text-tinta/60 lg:text-left" data-i18n="mos.foto">
+          Rúa do Progreso 27, junto al Jardín do Posío. Esto es lo que verás al llegar.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="mos-rejilla mt-10 sm:mt-12">
+  <article class="mos-carta mostrador reveal" data-dulce="tresleches">
+    <div class="mos-foto lqip-tres-leches">
+      <img src="assets/tres-leches.webp" alt="Porción de tarta tres leches con merengue" width="600" height="450" loading="lazy" decoding="async">
+    </div>
+    <div class="mos-cuerpo">
+      <h3 class="mos-nom">
+        <button type="button" class="ficha-abre" data-dulce="tresleches" data-i18n="dul.tresleches.nom">Tarta tres leches</button>
+      </h3>
+      <p class="mos-lema" data-i18n="dul.tresleches.lema">La que nos trajo hasta aquí</p>
+      <div class="mos-pie">
+        <!-- lo rellena el JS desde DULCES: el precio vive en un solo sitio -->
+        <span class="mos-precio" data-precio="tresleches"></span>
+        <span class="mos-ver" aria-hidden="true" data-i18n="mos.ver">Ver ficha →</span>
+      </div>
+    </div>
+  </article>
+  <article class="mos-carta mostrador reveal" data-dulce="golfeados">
+    <div class="mos-foto lqip-golfeados">
+      <img src="assets/golfeados.webp" alt="Golfeados venezolanos recién horneados, con papelón y queso" width="600" height="450" loading="lazy" decoding="async">
+    </div>
+    <div class="mos-cuerpo">
+      <h3 class="mos-nom">
+        <button type="button" class="ficha-abre" data-dulce="golfeados" data-i18n="dul.golfeados.nom">Golfeados</button>
+      </h3>
+      <p class="mos-lema" data-i18n="dul.golfeados.lema">El de merendar en casa</p>
+      <div class="mos-pie">
+        <!-- lo rellena el JS desde DULCES: el precio vive en un solo sitio -->
+        <span class="mos-precio" data-precio="golfeados"></span>
+        <span class="mos-ver" aria-hidden="true" data-i18n="mos.ver">Ver ficha →</span>
+      </div>
+    </div>
+  </article>
+  <article class="mos-carta mostrador reveal" data-dulce="pinitas">
+    <!-- sin foto todavía: cuando llegue, se cambia este div por el de
+         arriba (mos-foto + img) y ya está -->
+    <div class="mos-foto mos-sin" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#ic-hojaldre"/></svg></div>
+    <div class="mos-cuerpo">
+      <h3 class="mos-nom">
+        <button type="button" class="ficha-abre" data-dulce="pinitas" data-i18n="dul.pinitas.nom">Piñitas</button>
+      </h3>
+      <p class="mos-lema" data-i18n="dul.pinitas.lema">No llegan a casa</p>
+      <div class="mos-pie">
+        <!-- lo rellena el JS desde DULCES: el precio vive en un solo sitio -->
+        <span class="mos-precio" data-precio="pinitas"></span>
+        <span class="mos-ver" aria-hidden="true" data-i18n="mos.ver">Ver ficha →</span>
+      </div>
+    </div>
+  </article>
+  <article class="mos-carta mostrador reveal" data-dulce="cookies">
+    <div class="mos-foto lqip-cookies">
+      <img src="assets/cookies.webp" alt="Tres cookies estilo Nueva York partidas por la mitad y apiladas, con el relleno de chocolate derramándose por el corte" width="960" height="720" loading="lazy" decoding="async">
+    </div>
+    <div class="mos-cuerpo">
+      <h3 class="mos-nom">
+        <button type="button" class="ficha-abre" data-dulce="cookies" data-i18n="dul.cookies.nom">Cookies estilo NY</button>
+      </h3>
+      <p class="mos-lema" data-i18n="dul.cookies.lema">«Ya no querrás otras»</p>
+      <div class="mos-pie">
+        <!-- lo rellena el JS desde DULCES: el precio vive en un solo sitio -->
+        <span class="mos-precio" data-precio="cookies"></span>
+        <span class="mos-ver" aria-hidden="true" data-i18n="mos.ver">Ver ficha →</span>
+      </div>
+    </div>
+  </article>
+    </div>
+
+    <!-- Las porciones que pasó Brian el 5/10, hechas en la tienda. NO son
+         fichas: de una tarta cortada no hay receta publicada, así que van con
+         foto, nombre y entrada a WhatsApp, sin precio ni lista de
+         ingredientes. Los alérgenos se dicen de la única forma honesta que
+         hay aquí: lo que llevan seguro, lo del obrador, y a preguntar. -->
+    <div class="reveal mt-12 sm:mt-14">
+      <h2 class="font-display text-2xl font-extrabold text-tinta" data-i18n="mos.porc.h">Más porciones del mostrador</h2>
+      <p class="mt-1.5 text-tinta/70" data-i18n="mos.porc.p">Lo que hay cortado cambia según el día. Pregúntanos por la de hoy.</p>
+      <div class="porciones mt-6">
+        <a class="porcion" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Vainilla%20con%20dulce%20de%20leche" target="_blank" rel="noopener">
+          <div class="porcion-foto lqip-porcion-dulce-leche">
+            <img src="assets/porcion-dulce-leche.webp" alt="Porción de tarta de vainilla cubierta de dulce de leche, con una guinda encima"
+                 width="600" height="450" loading="lazy" decoding="async">
+          </div>
+          <div class="porcion-cuerpo">
+            <span class="porcion-nom" data-i18n="porc.1.n">Vainilla con dulce de leche</span>
+            <span class="porcion-desc" data-i18n="porc.1.d">Bizcocho de vainilla, relleno y cubierto de dulce de leche, con su guinda.</span>
+            <span class="porcion-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+          </div>
+        </a>
+        <a class="porcion" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Vainilla%20con%20Kinder%20Bueno" target="_blank" rel="noopener">
+          <div class="porcion-foto lqip-porcion-kinder">
+            <img src="assets/porcion-kinder.webp" alt="Porción de tarta de vainilla con crema de Kinder Bueno, fresa y chocolate encima"
+                 width="600" height="450" loading="lazy" decoding="async">
+          </div>
+          <div class="porcion-cuerpo">
+            <span class="porcion-nom" data-i18n="porc.2.n">Vainilla con Kinder Bueno</span>
+            <span class="porcion-desc" data-i18n="porc.2.d">Crema de Kinder Bueno entre capas de bizcocho, con fresa y chocolate encima.</span>
+            <span class="porcion-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+          </div>
+        </a>
+        <a class="porcion" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Dulce%20de%20leche%20con%20Raffaello" target="_blank" rel="noopener">
+          <div class="porcion-foto lqip-porcion-raffaello">
+            <img src="assets/porcion-raffaello.webp" alt="Porción de tarta de dulce de leche y crema, con un Raffaello encima"
+                 width="600" height="450" loading="lazy" decoding="async">
+          </div>
+          <div class="porcion-cuerpo">
+            <span class="porcion-nom" data-i18n="porc.3.n">Dulce de leche con Raffaello</span>
+            <span class="porcion-desc" data-i18n="porc.3.d">Crema y dulce de leche a capas, rematada con un Raffaello.</span>
+            <span class="porcion-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+          </div>
+        </a>
+      </div>
+      <p class="mt-4 text-[13px] leading-relaxed text-tinta/55" data-i18n="mos.porc.al">
+        Las tres llevan bizcocho (harina de trigo), huevo y lácteos. La del Raffaello y la del
+        Kinder Bueno llevan además frutos de cáscara, y todas salen del mismo obrador donde se
+        manipulan. Si tienes una alergia, dínoslo antes de pedir.
+      </p>
+    </div>
+
+    <div class="mos-todo reveal">
+      <!-- Lo que pasó Luisa el 30/9. Cada cosa es una ficha con su icono y su
+           entrada a WhatsApp: son las ventas del día a día y antes estaban como
+           pastillas de texto en fila, que parecían una lista de relleno.
+           «Tartas en porción» y «Cookies» no salen aquí: son dos de las cuatro
+           fichas grandes de arriba.
+           POR CONFIRMAR CON LUISA: las descripciones son lo que es cada cosa por
+           definición, no sus palabras. Están en las claves mt.N.d. -->
+      <!-- A dos columnas: el encabezado y, al lado, la vitrina de verdad (de
+           las fotos que mandó Luisa el 3/10). Lo que viene debajo son fichas
+           con icono, así que esta foto es la única que dice cómo es de verdad
+           lo que hay detrás del cristal. A todo lo ancho se comía la página,
+           así que va contenida y al lado del texto. -->
+      <div class="grid items-center gap-6 lg:grid-cols-[1fr_minmax(0,22rem)] lg:gap-10">
+        <div>
+          <h2 class="font-display text-2xl font-extrabold text-tinta" data-i18n="mos.todo.h">Todo lo que hay</h2>
+          <p class="mt-1.5 text-tinta/70" data-i18n="mos.todo.p">Lo que sale del obrador, además de las tartas de encargo.</p>
+        </div>
+        <figure class="mx-auto w-full max-w-sm lg:max-w-none">
+          <div class="overflow-hidden rounded-2xl border border-rosa-palo shadow-suave lqip-vitrina">
+            <img src="assets/vitrina.webp" alt="Porciones de tarta envasadas una a una en la vitrina de Bin &amp; Cami Cakes: chocolate con fideos, dulce de leche con guinda y bombón"
+                 width="1086" height="814" loading="lazy" decoding="async"
+                 class="block aspect-[4/3] w-full object-cover">
+          </div>
+          <figcaption class="mt-2 text-[13px] leading-relaxed text-tinta/60" data-i18n="mos.vitrina">
+            Así está la vitrina cualquier mañana. Lo que hay cambia según el día.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="mos-grupo mt-7">
+        <h3 data-i18n="mos.g1.h">En el mostrador</h3>
+        <p data-i18n="mos.g1.p">Se compra en el momento, sin esperar.</p>
+        <div class="mos-tejas">
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Cuchareables" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-tarrina"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.2">Cuchareables</span>
+          <span class="mos-teja-desc" data-i18n="mt.2.d">Postres de cuchara, en tarrina</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Boller%C3%ADa" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-hojaldre"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.3">Bollería</span>
+          <span class="mos-teja-desc" data-i18n="mt.3.d">Lo dulce de horno, para el café</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Pan%20dulce" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-rollo"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.4">Pan dulce</span>
+          <span class="mos-teja-desc" data-i18n="mt.4.d">Para desayunar o merendar</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Pan" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-pan"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.5">Pan</span>
+          <span class="mos-teja-desc" data-i18n="mt.5.d">Pregúntanos por el del día</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Empanadillas" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-empanada"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.6">Empanadillas</span>
+          <span class="mos-teja-desc" data-i18n="mt.6.d">Pregúntanos por el relleno</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Brownies" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-brownie"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.8">Brownies</span>
+          <span class="mos-teja-desc" data-i18n="mt.8.d">De chocolate, densos</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Alfajores" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-alfajor"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.9">Alfajores</span>
+          <span class="mos-teja-desc" data-i18n="mt.9.d">Dos galletas y dulce de leche</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Chuches" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-caramelo"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.10">Chuches</span>
+          <span class="mos-teja-desc" data-i18n="mt.10.d">Para los más peques</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Batidos" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-vaso"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.11">Batidos</span>
+          <span class="mos-teja-desc" data-i18n="mt.11.d">Para llevar</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Helados" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-helado"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.12">Helados</span>
+          <span class="mos-teja-desc" data-i18n="mt.12.d">En el arcón de la entrada</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Smoothies" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-fruta"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.13">Smoothies</span>
+          <span class="mos-teja-desc" data-i18n="mt.13.d">De fruta, para llevar</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        </div>
+      </div>
+
+      <div class="mos-grupo">
+        <h3 data-i18n="mos.g2.h">Por encargo</h3>
+        <p data-i18n="mos.g2.p">Nos cuentas lo que necesitas y te pasamos precio.</p>
+        <div class="mos-tejas">
+        <a class="mos-teja es-encargo" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Tartas%20personalizadas" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-tarta"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.14">Tartas personalizadas</span>
+          <span class="mos-teja-desc" data-i18n="mt.14.d">Nos cuentas la idea y la hacemos</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja es-encargo" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Mesas%20dulces" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-bandeja"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.15">Mesas dulces</span>
+          <span class="mos-teja-desc" data-i18n="mt.15.d">Para bodas y comuniones</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja es-encargo" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Pasabocas%20dulces%20y%20salados" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-plato"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.16">Pasabocas dulces y salados</span>
+          <span class="mos-teja-desc" data-i18n="mt.16.d">Para picar en un evento</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja es-encargo" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Arreglos%20de%20cumplea%C3%B1os" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-globo"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.17">Arreglos de cumpleaños</span>
+          <span class="mos-teja-desc" data-i18n="mt.17.d">Para sorprender</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        <a class="mos-teja es-encargo" href="https://wa.me/34656584027?text=Hola%2C%20quiero%20preguntar%20por%3A%20Desayunos%20sorpresa" target="_blank" rel="noopener">
+          <svg class="mos-teja-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-taza"/></svg>
+          <span class="mos-teja-nom" data-i18n="ml.18">Desayunos sorpresa</span>
+          <span class="mos-teja-desc" data-i18n="mt.18.d">Para empezar el día</span>
+          <span class="mos-teja-mas" aria-hidden="true" data-i18n="mos.teja.mas">Pregúntanos →</span>
+        </a>
+        </div>
+      </div>
+    </div>
+
+    <p class="mos-nota reveal" data-i18n="mos.nota">
+      Los precios son orientativos y te confirmamos el definitivo al encargar. Lo que
+      hay en el mostrador cambia cada día según lo que salga del horno, así que si
+      buscas algo en concreto, escríbenos antes de acercarte.
+    </p>
+
+    <p class="reveal mt-7 text-center">
+      <a href="https://wa.me/34656584027?text=Hola%2C%20quiero%20saber%20qu%C3%A9%20hay%20hoy%20en%20el%20mostrador"
+         target="_blank" rel="noopener"
+         class="destello inline-flex items-center gap-2.5 rounded-full bg-frambuesa px-6 py-3.5 font-rotulo font-bold text-white shadow-suave transition hover:bg-frambuesa-oscuro"
+         data-i18n="mos.cta">Pregúntanos qué hay hoy</a>
+    </p>
+
+    <p class="reveal mt-8 text-center">
+      <a href="index.html" class="mos-volver" data-i18n="mos.volver">← Volver a la portada</a>
+    </p>
+
+  </div>
+</section>
+
+</main>
