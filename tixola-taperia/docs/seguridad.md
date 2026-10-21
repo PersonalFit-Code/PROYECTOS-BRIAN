@@ -118,6 +118,13 @@ medir, se dice:
   `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` y
   `Cross-Origin-Opener-Policy` llegan en todas las respuestas, y no se anuncia
   ni la tecnología ni la versión.
+- **No comprobado desde aquí, y conviene decirlo:** una pregunta real al
+  camarero en el sitio publicado. La máquina donde se trabaja no tiene salida de
+  red hacia tixolataperia.es (el proxy responde 403), así que el camino de
+  `Origin` se probó contra un build en modo producción con el mismo `SITE_URL`
+  —ocho casos, todos como se esperaba— y en producción solo se pudo confirmar
+  que la ruta carga bien (responde 405 a un GET, no 500). Abrir el chat y
+  preguntar algo una vez lo cierra del todo.
 - **No comprobado, y conviene decirlo:** el comportamiento del modelo ante un
   historial manipulado. La ruta ya no le pasa el ataque conocido, y la regla del
   prompt cubre el resto, pero medir qué contesta el modelo cuesta dinero de
