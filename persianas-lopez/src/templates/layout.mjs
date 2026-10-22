@@ -101,8 +101,8 @@ ${SPRITE}
             ${idiomas.map(([c, n, r]) => `<li><a href="${r}" hreflang="${c}" lang="${c}" data-idioma="${c}"${c === t.lang ? ' aria-current="true"' : ''} class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-white/90">${BANDERAS[c]}<span class="flex-1">${n}</span>${c === t.lang ? ico('check', 'h-4 w-4 text-brand-600') : ''}</a></li>`).join('')}
           </ul>
         </div>
-        <a href="tel:${SITIO.telefono}" data-medir="llamada" class="btn btn-azul shine hidden px-5 py-2.5 text-sm sm:inline-flex" aria-label="${u.llamarAria}">
-          ${ico('telefono')} ${SITIO.telefonoVisible}
+        <a href="tel:${SITIO.telefono}" data-medir="llamada" class="btn btn-azul shine hidden h-11 w-11 p-0 sm:inline-flex" aria-label="${u.llamarAria}" title="${SITIO.telefonoVisible}">
+          ${ico('telefono', 'h-5 w-5')}
         </a>
         <button id="menu-btn" type="button" class="menu-btn btn h-12 gap-3 bg-brand-900 pl-4 pr-5 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,.25),0_10px_24px_-10px_rgba(0,41,82,.9)]" aria-controls="menu-panel" aria-expanded="false" aria-label="${u.abrirMenu}" data-abrir="${u.abrirMenu}" data-cerrar="${u.cerrarMenu}" data-texto-abrir="${u.menu}" data-texto-cerrar="${u.cerrar}">
           <span class="hamburguesa relative block h-[16.5px] w-6" aria-hidden="true"><span></span><span></span><span></span></span>
