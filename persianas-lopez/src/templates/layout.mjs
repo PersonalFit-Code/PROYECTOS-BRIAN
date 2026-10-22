@@ -1,4 +1,4 @@
-import { SITIO, ANALITICA, PRECIOS, wa } from '../config.mjs';
+import { SITIO, ANALITICA, PRECIOS, HORARIO, wa } from '../config.mjs';
 import { SPRITE, ico } from '../icons.mjs';
 import { logo } from '../logo.mjs';
 
@@ -236,6 +236,7 @@ ${cuerpo}
     </div>
   </div>
 
+  ${HORARIO ? `<script type="application/json" id="datos-horario">${JSON.stringify({ horario: HORARIO, textos: t.herramientas.horario })}</script>` : ''}
   <script src="/assets/app.js" defer></script>
   ${extraScripts}
 </body>

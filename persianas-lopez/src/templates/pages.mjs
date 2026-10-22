@@ -2,6 +2,7 @@ import { SITIO, wa } from '../config.mjs';
 import { ico, PIEZAS } from '../icons.mjs';
 import { layout, ancla, capaBasica } from './layout.mjs';
 import { logo } from '../logo.mjs';
+import { seccionDiagnostico, seccionProbador, seccionMedir, seccionAntesDespues, avisosTemporada, seccionGuias } from './herramientas.mjs';
 
 const chipClase = 'glass glass-light inline-flex rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-[.25em] text-brand-600';
 const h2Clase = 'mt-5 font-display text-[2rem] font-extrabold leading-tight tracking-tight text-brand-950 sm:text-5xl';
@@ -101,6 +102,8 @@ const contactoBloque = (t, { conTitulo = true } = {}) => {
                   <!-- PENDIENTE: confirmar horario exacto con el negocio -->
                   <p class="text-slate-600">${u.horarioTexto}</p>
                   <p class="text-sm text-slate-500">${u.horarioNota}</p>
+                  <p data-horario hidden class="mt-2 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-bold text-slate-700"></p>
+                  <p><a href="${wa(t.herramientas.horario.urgenciaWa)}" target="_blank" rel="noopener" data-medir="urgencia" class="mt-2 inline-flex items-center gap-1.5 text-sm font-bold text-green-700 hover:underline">${ico('rayo', 'h-4 w-4')} ${t.herramientas.horario.urgencia}</a></p>
                 </div>
               </li>
             </ul>
@@ -165,6 +168,8 @@ export function paginaInicio(t, rutaAlt) {
             <span class="flex text-amber-400">${ico('estrella', 'h-4 w-4')}${ico('estrella', 'h-4 w-4')}${ico('estrella', 'h-4 w-4')}${ico('estrella', 'h-4 w-4')}${ico('estrella-media', 'h-4 w-4')}</span>
             4,4 · ${SITIO.valoracion.resenas} ${u.resenasGoogle}
           </a>
+          <p data-horario hidden class="hero-item mt-3 inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-xs font-bold text-slate-700 ring-1 ring-white"></p>
+          ${avisosTemporada(t)}
         </div>
         <div class="absolute inset-x-0 bottom-28 z-[5] flex justify-center sm:bottom-8">
           <a href="#servicios" class="hero-item bajar inline-flex flex-col items-center gap-1 text-sm font-semibold text-brand-800">${h.bajar}${ico('abajo', 'h-5 w-5')}</a>
@@ -212,6 +217,7 @@ export function paginaInicio(t, rutaAlt) {
       </div>
     </section>
 
+${seccionDiagnostico(t)}
     <section id="galeria" class="scroll-mt-20 pb-16 sm:pb-24" aria-labelledby="galeria-titulo">
       <div class="mx-auto max-w-7xl px-5 sm:px-8">
         <div class="reveal mx-auto max-w-2xl text-center">
@@ -234,6 +240,7 @@ export function paginaInicio(t, rutaAlt) {
       </div>
     </section>
 
+${seccionProbador(t)}
     <section id="repuestos" class="scroll-mt-20 py-16 sm:py-24" aria-labelledby="repuestos-titulo">
       <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-2">
         <div class="reveal desde-izq">
@@ -298,6 +305,8 @@ ${pasosBloque(t)}
       </div>
     </section>
 
+${seccionMedir(t)}
+${seccionAntesDespues(t)}
     <section id="faq" class="scroll-mt-20 pb-16 sm:pb-24" aria-labelledby="faq-titulo">
       <div class="mx-auto max-w-3xl px-5 sm:px-8">
         <div class="reveal text-center">
@@ -312,7 +321,7 @@ ${contactoBloque(t)}`;
   return layout({
     t, title: h.title, description: h.description, ruta: t.rutas.inicio, rutaAlt, cuerpo, esInicio: true,
     schema: [negocioSchema(t), faqSchema(h.faq)],
-    extraScripts: '<script src="/assets/portada.js" defer></script>'
+    extraScripts: '<script src="/assets/portada.js" defer></script>\n  <script src="/assets/herramientas.js" defer></script>'
   });
 }
 
@@ -406,16 +415,18 @@ ${cabeceraInterior(t, { migasItems, h1: c.h1, intro: c.intro, icono: 'engranaje'
     <section class="py-20">
       <div class="mx-auto max-w-7xl px-5 sm:px-8">
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          ${c.piezas.map((p, i) => `<article class="reveal group glass glass-light flex flex-col rounded-[2rem] p-5 transition duration-500 hover:-translate-y-2" style="--d:${(i % 4) * 80}ms">
+          ${c.piezas.map((p, i) => `<article id="pieza-${p.id}" class="reveal group glass glass-light flex scroll-mt-28 flex-col rounded-[2rem] p-5 transition duration-500 hover:-translate-y-2" style="--d:${(i % 4) * 80}ms">
             <div class="pieza flex aspect-[4/3] items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-brand-50 to-white ring-1 ring-brand-100">${PIEZAS[p.id] || ''}</div>
             <h2 class="mt-4 font-display text-xl font-bold text-brand-950">${p.nombre}</h2>
             <p class="mt-1 flex-1 text-sm leading-relaxed text-slate-600">${p.texto}</p>
             <a href="${preguntar(p.nombre)}" target="_blank" rel="noopener" data-medir="whatsapp" class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-green-700 hover:underline">${ico('whatsapp', 'h-4 w-4')} ${c.pedir}</a>
+            <a href="${wa(t.herramientas.reservarMensaje.replace('{pieza}', p.nombre.toLowerCase()))}" target="_blank" rel="noopener" data-medir="reserva" class="btn btn-azul mt-3 px-4 py-2.5 text-xs">${ico('tienda', 'h-4 w-4')} ${t.herramientas.reservar}</a>
           </article>`).join('')}
         </div>
         <p class="mt-6 text-center text-sm text-slate-500">${c.notaImagenes}</p>
       </div>
     </section>
+${seccionGuias(t)}
     <section class="pb-24" aria-labelledby="colores-titulo">
       <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-2">
         <div class="reveal desde-izq">

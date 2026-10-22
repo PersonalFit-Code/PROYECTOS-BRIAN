@@ -16,11 +16,21 @@
 - Galería con fotos de modelos (estores noche y día, venecianas, estores enrollables).
 - Datos de la tarjeta: reparaciones a domicilio, motores, compactos, rústicas, verticales, fantasías y Velux.
 
+- Diagnóstico de la persiana en 1 minuto (causa, si la puedes arreglar tú, pieza, visita o urgencia por WhatsApp).
+- Probador «Pruébala en tu ventana» con foto propia (la foto no sale del móvil).
+- Guía de medidas que pasa las medidas al asistente.
+- Guías «Arréglala tú» en repuestos y botón «Reservar para recoger» en cada pieza.
+- Aviso de temporada en la portada según el mes.
+- Código QR que abre el asistente: /qr/asistente-es.png y /qr/asistente-gl.png (también en SVG para imprenta).
+- Preparados y ocultos hasta tener datos: «Abierto ahora / Cerrado» (HORARIO), «Antes y después» (ANTES_DESPUES) y vídeos de las guías (VIDEOS), todo en `src/config.mjs`.
+
 ## Datos que tiene que dar el negocio (salen como [PENDIENTE] en la web)
 
 - Nombre o razón social, NIF y correo para protección de datos (`src/config.mjs`, `titular`).
 - Validez del presupuesto, coste de desplazamiento o visita, coste de cancelación y garantía de las reparaciones (`src/config.mjs`, `condiciones`).
 - Confirmar que el cartel de hojas de reclamación de la Xunta está a la vista en la tienda.
+- Horario real de la tienda para «Abierto ahora».
+- Fotos de trabajos propios (antes y después) y, si se graban, enlaces a vídeos de las guías.
 - Confirmar el plazo de un año para borrar consultas que no acaban en encargo (política de privacidad).
 
 ## Siguientes

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="pared" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3EEE6"/><stop offset="1" stop-color="#E4DCCF"/></linearGradient>
+    <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8EC5F2"/><stop offset=".65" stop-color="#CDE7FB"/><stop offset="1" stop-color="#E9F4FD"/></linearGradient>
+    <linearGradient id="suelo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B8865A"/><stop offset="1" stop-color="#8E6340"/></linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#pared)"/>
+  <rect y="520" width="800" height="80" fill="url(#suelo)"/>
+  <rect y="512" width="800" height="10" fill="#FBF8F3"/>
+  <!-- Hueco de la ventana -->
+  <rect x="166" y="52" width="468" height="408" rx="4" fill="#D8D2C8"/>
+  <rect x="180" y="66" width="440" height="380" fill="url(#cielo)"/>
+  <!-- Paisaje -->
+  <path d="M180 330 C260 290 330 300 400 320 S540 300 620 318 V446 H180Z" fill="#9CCB8B"/>
+  <path d="M180 370 C280 340 380 360 470 352 S580 360 620 350 V446 H180Z" fill="#7DB36C"/>
+  <circle cx="540" cy="140" r="34" fill="#FFF3C4"/>
+  <!-- Marco y hojas -->
+  <rect x="180" y="66" width="440" height="380" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+  <path d="M400 66V446" stroke="#FFFFFF" stroke-width="12"/>
+  <path d="M388 250h-10M412 250h10" stroke="#B8BFC7" stroke-width="6" stroke-linecap="round"/>
+  <!-- Alféizar -->
+  <rect x="150" y="452" width="500" height="18" rx="3" fill="#FBF8F3"/>
+  <rect x="150" y="468" width="500" height="6" fill="#00000014"/>
+  <!-- Planta -->
+  <rect x="610" y="424" width="34" height="30" rx="4" fill="#C9744A"/>
+  <path d="M627 424c-14-20-10-38 0-48 10 10 14 28 0 48Zm0 0c-22-6-30-20-28-32 14 2 24 14 28 32Zm0 0c22-6 30-20 28-32-14 2-24 14-28 32Z" fill="#4F8F4A"/>
+</svg>

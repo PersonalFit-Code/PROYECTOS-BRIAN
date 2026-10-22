@@ -40,4 +40,17 @@ export const ANALITICA = {
 // Ejemplo: { 'reparar': 'desde 40 €', 'mosquitera': 'desde 60 € por ventana' }
 export const PRECIOS = {};
 
+// PENDIENTE: horario real de la tienda. Mientras sea null no se muestra «Abierto ahora / Cerrado».
+// Formato: día de la semana (0 = domingo … 6 = sábado) → tramos [abre, cierra] en hora de Ourense.
+// Ejemplo: { 1: [['09:30', '13:30'], ['16:30', '20:00']], 2: [...], …, 6: [['10:00', '13:30']] }
+export const HORARIO = null;
+
+// Fotos de trabajos propios para el «Antes y después». La sección no aparece mientras esté vacío.
+// Cada entrada usa dos fotos de src/fotos (sin extensión). Ejemplo:
+// { antes: 'salon-antes', despues: 'salon-despues', es: 'Persiana de aluminio en O Couto', gl: 'Persiana de aluminio no Couto' }
+export const ANTES_DESPUES = [];
+
+// Enlaces a vídeos (YouTube u otros) de las guías «Arréglala tú». Se muestran solo si hay enlace.
+export const VIDEOS = { cinta: '', recogedor: '', guias: '' };
+
 export const wa = (texto) => `https://wa.me/${SITIO.whatsapp}?text=${encodeURIComponent(texto)}`;

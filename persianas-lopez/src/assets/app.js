@@ -134,7 +134,7 @@
     var barraMovil = document.getElementById('barra-movil');
     var esInicio = !!document.getElementById('escena');
     var enlaces = document.querySelectorAll('[data-spy]');
-    var secciones = ['inicio', 'servicios', 'repuestos', 'presupuesto', 'faq', 'contacto', 'ubicacion']
+    var secciones = ['inicio', 'servicios', 'diagnostico', 'galeria', 'probador', 'repuestos', 'presupuesto', 'medir', 'faq', 'contacto', 'ubicacion']
       .map(function (id) { return document.getElementById(id); }).filter(Boolean);
     var pendiente = false;
 
@@ -287,12 +287,12 @@
       var primero = opciones.querySelector('button');
       if (primero) primero.focus({ preventScroll: true });
     }
-    function pedirTexto(alResponder) {
+    function pedirTexto(alResponder, inicial) {
       opciones.innerHTML = '';
       opciones.classList.add('hidden');
       form.classList.remove('hidden');
       form.classList.add('flex');
-      input.value = '';
+      input.value = inicial || '';
       input.focus({ preventScroll: true });
       form.onsubmit = function (e) {
         e.preventDefault();
@@ -313,7 +313,7 @@
           limpiarEntrada();
           pasoSiguiente();
         };
-        if (ops) botones(ops, responder); else pedirTexto(responder);
+        if (ops) botones(ops, responder); else pedirTexto(responder, id === 'medidas' ? window.medidasPresupuesto : '');
       });
     }
     function elegirServicio(clave) {
@@ -413,7 +413,52 @@
     document.getElementById('chat-reiniciar').addEventListener('click', function () { iniciar(); }, S);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !chat.hidden) cerrarChat(); }, S);
 
+    /* ---------- Horario: «Abierto ahora / Cerrado» (solo si HORARIO está en config.mjs) ---------- */
+    var datosHorario = document.getElementById('datos-horario');
+    if (datosHorario) {
+      var hz = JSON.parse(datosHorario.textContent);
+      var estadoHorario = calcularHorario(hz.horario, hz.textos);
+      document.querySelectorAll('[data-horario]').forEach(function (el) {
+        el.innerHTML = '<span class="h-2 w-2 rounded-full ' + (estadoHorario.abierto ? 'bg-emerald-500' : 'bg-rose-500') + '"></span>' + estadoHorario.texto;
+        el.hidden = false;
+      });
+    }
+
+    // El QR de la tarjeta lleva ?abrir=asistente: abre el asistente directamente
+    if (/[?&]abrir=asistente/.test(location.search)) {
+      history.replaceState(null, '', location.pathname + location.hash);
+      setTimeout(function () { abrirChat(); medir('qr'); }, 400);
+    }
+
     document.getElementById('anio').textContent = new Date().getFullYear();
+  }
+
+  // Hora de Ourense (Europe/Madrid) sin depender de la zona horaria del móvil
+  function ahoraEnOurense() {
+    var p = {};
+    new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false })
+      .formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+    var dias = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    return { dia: dias[p.weekday], min: (+p.hour % 24) * 60 + (+p.minute) };
+  }
+  function aMin(h) { var x = h.split(':'); return +x[0] * 60 + (+x[1]); }
+  function calcularHorario(horario, tx) {
+    var a = ahoraEnOurense();
+    var hoy = horario[a.dia] || [];
+    for (var i = 0; i < hoy.length; i++) {
+      if (a.min >= aMin(hoy[i][0]) && a.min < aMin(hoy[i][1])) return { abierto: true, texto: tx.abierto + ' · ' + tx.cierra + ' ' + hoy[i][1] };
+    }
+    for (var k = 0; k < 8; k++) {
+      var d = (a.dia + k) % 7;
+      var tramos = horario[d] || [];
+      for (var j = 0; j < tramos.length; j++) {
+        if (k > 0 || aMin(tramos[j][0]) > a.min) {
+          var cuando = k === 0 ? tx.hoy : k === 1 ? tx.manana : tx.dias[d];
+          return { abierto: false, texto: tx.cerrado + ' · ' + tx.abre + ' ' + cuando + ' ' + tramos[j][0] };
+        }
+      }
+    }
+    return { abierto: false, texto: tx.cerrado };
   }
   arrancar();
 
@@ -444,6 +489,7 @@
           rutaActual = location.pathname;
           arrancar();
           if (window.portada) window.portada.iniciar(false);
+          if (window.herramientas) window.herramientas.iniciar();
           window.scrollTo({ top: y, behavior: 'instant' });
           document.getElementById('idioma-btn').focus({ preventScroll: true });
           medir('idioma-' + raiz.lang);

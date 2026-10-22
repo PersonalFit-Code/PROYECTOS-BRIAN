@@ -105,6 +105,16 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
 </svg>`;
 writeFileSync(join(dist, 'og.png'), png(og, 1200));
 
+/* ---------- Código QR para la tarjeta, el escaparate y la furgoneta: abre el asistente ---------- */
+const QRCode = (await import('qrcode')).default;
+mkdirSync(join(dist, 'qr'), { recursive: true });
+for (const t of [es, gl]) {
+  const url = `${SITIO.url}${t.rutas.inicio}?abrir=asistente`;
+  const svg = await QRCode.toString(url, { type: 'svg', margin: 2, errorCorrectionLevel: 'M', color: { dark: '#141B53', light: '#FFFFFF' } });
+  writeFileSync(join(dist, 'qr', `asistente-${t.lang}.svg`), svg);
+  writeFileSync(join(dist, 'qr', `asistente-${t.lang}.png`), png(svg, 1024));
+}
+
 /* ---------- Fotos: cualquier JPG/PNG en src/fotos se publica en WebP ---------- */
 const carpetaFotos = join(raiz, 'src/fotos');
 const fotos = existsSync(carpetaFotos) ? readdirSync(carpetaFotos).filter((f) => /\.(jpe?g|png)$/i.test(f)) : [];

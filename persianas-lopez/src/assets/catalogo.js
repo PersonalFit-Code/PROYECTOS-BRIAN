@@ -15,3 +15,13 @@
     enlace.href = enlace.href.split('?')[0] + '?text=' + encodeURIComponent(enlace.dataset.base + ' ' + b.dataset.nombre.toLowerCase() + '?');
   });
 })();
+
+// Las guías «Arréglala tú» se abren solas si se llega con su ancla (#guia-cinta…)
+(function () {
+  function abrirGuia() {
+    var d = location.hash && document.getElementById(location.hash.slice(1));
+    if (d && d.tagName === 'DETAILS') d.open = true;
+  }
+  window.addEventListener('hashchange', abrirGuia);
+  abrirGuia();
+})();

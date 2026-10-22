@@ -1,6 +1,9 @@
 // Textos en castellano. La versión en gallego está en gl.mjs con la misma estructura.
 
+import herramientas from './herramientas-es.mjs';
+
 export default {
+  herramientas,
   lang: 'es',
   locale: 'es_ES',
   prefijo: '',
@@ -91,7 +94,9 @@ export default {
   nav: [
     { id: 'inicio', ancla: '#inicio', etiqueta: 'Inicio', desc: 'Vuelve a la portada' },
     { id: 'servicios', ancla: '#servicios', etiqueta: 'Servicios', desc: 'Persianas, mosquiteras, estores y mamparas' },
+    { id: 'diagnostico', ancla: '#diagnostico', etiqueta: 'Diagnóstico', desc: 'Qué le pasa a tu persiana, en 1 minuto' },
     { id: 'galeria', ancla: '#galeria', etiqueta: 'Galería', desc: 'Persianas y estores que colocamos' },
+    { id: 'probador', ancla: '#probador', etiqueta: 'Pruébala', desc: 'Mira el modelo en tu ventana con una foto' },
     { id: 'repuestos', ancla: '#repuestos', etiqueta: 'Repuestos', desc: 'Cintas, lamas, ejes y accesorios en tienda' },
     { id: 'ubicacion', ancla: '#ubicacion', etiqueta: 'Ubicación', desc: 'Rúa Bonhome, 10 · Ourense' },
     { id: 'contacto', ancla: '#contacto', etiqueta: 'Contacto', desc: 'Llámanos o escríbenos por WhatsApp' }
