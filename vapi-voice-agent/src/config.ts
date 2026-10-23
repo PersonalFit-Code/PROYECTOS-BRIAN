@@ -148,12 +148,19 @@ export const config = {
    * evitan a cambio de tardar un pelin mas en cederte la palabra.
    */
   interrupcionPalabras: readEntero(process.env.INTERRUPCION_PALABRAS, 1, 0, 10),
-  /** Segundos de voz seguidos antes de callarse. Sube si se corta con ruido. */
+  /**
+   * Segundos de voz seguidos antes de callarse. Vapi solo lo mira cuando
+   * INTERRUPCION_PALABRAS es 0, y solo acepta de 0 a 0,5: con un valor mayor
+   * rechaza el asistente entero y la llamada no se llega a descolgar. Paso de
+   * verdad con 0,8: el webhook contestaba 200 y el cliente oia "no se puede
+   * cursar la llamada". Por eso aqui el tope es 0,5 y el servidor no arranca
+   * con mas, que es mejor que arrancar y romper todas las llamadas en silencio.
+   */
   interrupcionSegundos: readDecimal(
     process.env.INTERRUPCION_SEGUNDOS,
     0.4,
     0,
-    3,
+    0.5,
   ),
   /**
    * Sonido de fondo de la llamada: "office" (murmullo de oficina, el de Vapi

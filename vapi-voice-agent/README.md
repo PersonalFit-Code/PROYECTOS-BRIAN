@@ -297,7 +297,7 @@ despertar, y una llamada entrante no espera tanto.
 | `VOZ_VELOCIDAD` | `1.05` | Solo ElevenLabs. De `0.7` a `1.2`; acepta coma decimal. Fuera de rango, el servidor no arranca. |
 | `SONIDO_FONDO` | `office` | Ambiente detras de la voz: `office`, `off` o la URL de un audio. |
 | `INTERRUPCION_PALABRAS` | `1` | Palabras del cliente para que el agente se calle. `0` es lo mas natural, pero con manos libres el agente se corta a si mismo. |
-| `INTERRUPCION_SEGUNDOS` | `0.4` | Segundos de voz seguidos antes de callarse. Subelo si se entrecorta con ruido. |
+| `INTERRUPCION_SEGUNDOS` | `0.4` | Segundos de voz seguidos antes de callarse. **De 0 a 0,5**: es el limite de Vapi, y con mas rechaza el asistente y la llamada no se descuelga (el servidor no arranca fuera de rango). Solo cuenta con `INTERRUPCION_PALABRAS=0`; si se entrecorta con ruido, sube `INTERRUPCION_PALABRAS`. |
 | `NEGOCIO_DE_EJEMPLO` | *(vacio)* | Negocio de muestra que se sirve **si no hay Firestore**, para poder probar una llamada real sin base de datos: `lavitabuona` o `tixola` (pedidos), `pontenova` o `airea` (citas). Con `FIREBASE_SERVICE_ACCOUNT` puesto se ignora. |
 
 ## Probar en local
