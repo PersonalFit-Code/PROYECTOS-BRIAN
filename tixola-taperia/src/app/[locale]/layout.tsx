@@ -59,13 +59,23 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
        `SITE_URL_IS_PROVISIONAL`). `follow: true` igualmente: que sigan los enlaces no cuesta nada y
        mantiene el sitio "vivo" para cuando se abra. Se abre solo al poner el dominio propio. */
     robots: SITE_URL_IS_PROVISIONAL ? { index: false, follow: true } : { index: true, follow: true },
-    /* SVG para navegadores modernos, .ico para los que piden /favicon.ico por su cuenta (y para Google,
-       que enseña el icono junto al resultado), PNG de 180 px para "Añadir a pantalla de inicio" en iPhone
-       (Safari no usa el SVG) y el manifiesto para Android. Todos salen de `favicon.svg`. */
+    /* SVG para navegadores modernos, .ico para los que piden /favicon.ico por su cuenta, PNG de 180 px
+       para "Añadir a pantalla de inicio" en iPhone (Safari no usa el SVG) y el manifiesto para Android.
+       Todos salen de `favicon.svg`.
+
+       EL PNG DE 192 ESTÁ AQUÍ POR GOOGLE, Y ESTA LÍNEA ES SUYA. El icono que Google enseña junto al
+       resultado sale de las etiquetas `rel="icon"` de la PORTADA, y su documentación (consultada el
+       23-10-2026) dice dos cosas que importan: la lista de formatos que admite es BMP, GIF, ICO, PNG,
+       JPEG, PPM y TIFF —el SVG NO está—, y recomienda un icono de más de 48 px «para que se vea bien
+       en distintas superficies». Con lo que había, lo único que Google podía usar era el .ico de 32
+       px: cumple el mínimo (8 px) pero se queda por debajo de lo recomendado, y el fichero bueno
+       —`icon-192.png`, el mismo dibujo rasterizado a 192— vivía solo dentro del manifiesto web, de
+       donde Google no lo saca. Ahora está declarado donde lo lee. */
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "32x32" },
         { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
       ],
       apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
     },

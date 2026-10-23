@@ -78,11 +78,14 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `${COPY[locale].title} · ${BUSINESS.name}`,
     /* Los iconos los declara el layout de idioma, por el que esta página NO pasa: era la única de
-       la web que se servía sin ellos y el navegador caía al `/favicon.ico` implícito. */
+       la web que se servía sin ellos y el navegador caía al `/favicon.ico` implícito. El bloque está
+       duplicado a propósito, así que tocar uno obliga a tocar el otro (el porqué del PNG de 192 está
+       escrito entero en `[locale]/layout.tsx`). */
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "32x32" },
         { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
       ],
       apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
     },
