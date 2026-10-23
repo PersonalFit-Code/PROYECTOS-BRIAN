@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Noah para La Vita Buona</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm; }
+  :root {
+    --horno:    #140707;
+    --tomate:   #C4321F;
+    --hondo:    #7E1B10;
+    --basilico: #2F6B43;
+    --brasa:    #E0952F;
+    --masa:     #FBF4E9;
+    --humo:     #6D635C;
+    --linea:    #E2D6C4;
+    --fino:     #F3EADC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9.6pt; line-height: 1.45; color: var(--horno);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .hoja { page-break-after: always; zoom: 1.12; }
+  .hoja:last-child { page-break-after: auto; }
+  section, .tarjetas, .rueda, .dialogo, .pantalla, table, .cierre,
+  .precios, .nicho, .regalo { page-break-inside: avoid; }
+  h2 { page-break-after: avoid; }
+  svg { display: block; }
+  b, strong { font-weight: 700; }
+
+  /* ---------------- Portada ---------------- */
+  .portada {
+    background: var(--horno); color: var(--masa);
+    margin: -13mm -14mm 9mm; padding: 20mm 14mm 14mm;
+    position: relative; overflow: hidden;
+  }
+  .portada::after {
+    content: ""; position: absolute; left: 14mm; bottom: 5mm;
+    width: 34mm; height: 2.2mm;
+    background: linear-gradient(90deg, var(--basilico) 0 33.3%, var(--masa) 33.3% 66.6%, var(--tomate) 66.6% 100%);
+  }
+  .portada .marca {
+    font-size: 7.2pt; letter-spacing: 3pt; text-transform: uppercase;
+    color: var(--brasa); margin: 0 0 5mm;
+  }
+  .portada h1 {
+    font-size: 33pt; margin: 0; letter-spacing: -1.2pt;
+    font-weight: 800; line-height: 1.0;
+  }
+  .portada h1 em { font-style: normal; color: var(--brasa); }
+  .portada .bajada {
+    font-size: 12pt; margin: 5mm 0 0; color: #D9CCBB; max-width: 112mm;
+  }
+  .portada .pie { margin: 10mm 0 0; font-size: 8.2pt; color: #9A8D80; }
+  .portada .horno-deco {
+    position: absolute; right: -14mm; top: 50%; transform: translateY(-50%);
+    opacity: .5;
+  }
+
+  /* ---------------- Cabecera interior ---------------- */
+  header.interior {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-bottom: 2px solid var(--horno); padding-bottom: 2mm; margin-bottom: 5mm;
+  }
+  header.interior h1 { font-size: 16.5pt; margin: 0; letter-spacing: -.5pt; font-weight: 800; }
+  header.interior .lado { font-size: 8pt; color: var(--humo); }
+  .epigrafe {
+    font-size: 8pt; letter-spacing: 2pt; text-transform: uppercase;
+    color: var(--tomate); margin: 0 0 2mm; font-weight: 700;
+  }
+  .grande { font-size: 12.2pt; line-height: 1.35; margin: 0 0 4mm; }
+  .grande em { font-style: normal; background: linear-gradient(transparent 60%, #F7D9A8 60%); }
+  p { margin: 0 0 3mm; }
+  .apunte { font-size: 7.8pt; color: var(--humo); margin: 2mm 0 0; }
+
+  /* ---------------- Tarjetas ---------------- */
+  .tarjetas { display: flex; gap: 3.5mm; margin: 4mm 0; }
+  .tarjeta {
+    flex: 1; border: 1px solid var(--linea); border-top: 2.5mm solid var(--tomate);
+    padding: 3.5mm; background: var(--masa);
+  }
+  .tarjeta.verde { border-top-color: var(--basilico); }
+  .tarjeta.brasa { border-top-color: var(--brasa); }
+  .tarjeta b { display: block; font-size: 9.6pt; margin-bottom: 1.2mm; }
+  .tarjeta p { font-size: 8.4pt; color: var(--humo); margin: 0; }
+  .tarjeta .cifra {
+    display: block; font-size: 21pt; font-weight: 800; line-height: 1;
+    color: var(--tomate); margin-bottom: 1.5mm; letter-spacing: -1pt;
+  }
+  .tarjeta.verde .cifra { color: var(--basilico); }
+  .tarjeta.brasa .cifra { color: var(--brasa); }
+</style>
+</head>
+<body>
+<style>
+  /* ---------------- Tabla de precios ---------------- */
+  .precios { width: 100%; border-collapse: collapse; margin: 3mm 0; font-size: 8.8pt; }
+  .precios th {
+    text-align: left; font-size: 7.2pt; letter-spacing: 1pt; text-transform: uppercase;
+    color: var(--humo); border-bottom: 1.5px solid var(--horno); padding: 0 2mm 1.5mm 0;
+    font-weight: 700;
+  }
+  .precios th.num, .precios td.num { text-align: right; padding-right: 0; }
+  .precios td { padding: 1.7mm 2mm 1.7mm 0; border-bottom: 1px solid var(--fino); }
+  .precios tr:last-child td { border-bottom: none; }
+  .precios .plato { font-weight: 700; }
+  .precios .casa { font-weight: 700; }
+  .precios .glovo { color: var(--humo); }
+  .precios .dif { color: var(--tomate); font-weight: 700; }
+  .precios tfoot td {
+    border-top: 1.5px solid var(--horno); border-bottom: none;
+    padding-top: 2mm; font-size: 8.4pt;
+  }
+  .ojo {
+    border-left: 2.5mm solid var(--brasa); background: #FDF6EA;
+    padding: 3mm 3.5mm; margin: 4mm 0;
+  }
+  .ojo b { color: var(--hondo); }
+  .ojo p:last-child { margin-bottom: 0; }
+
+  /* ---------------- Dialogo de la llamada ---------------- */
+  .dialogo { border: 1px solid var(--linea); background: #fff; margin: 3mm 0; }
+  .dialogo .tira {
+    background: var(--horno); color: var(--masa); padding: 2mm 3.5mm;
+    font-size: 7.4pt; letter-spacing: 1.6pt; text-transform: uppercase;
+    display: flex; justify-content: space-between;
+  }
+  .turno { padding: 1.45mm 3.5mm; border-bottom: 1px solid var(--fino); display: flex; gap: 3mm; }
+  .turno:last-child { border-bottom: none; }
+  .turno .quien {
+    flex: 0 0 17mm; font-size: 6.8pt; letter-spacing: 1pt; text-transform: uppercase;
+    color: var(--humo); padding-top: .7mm; font-weight: 700;
+  }
+  .turno.noah { background: var(--masa); }
+  .turno.noah .quien { color: var(--tomate); }
+  .turno p { margin: 0; font-size: 9.2pt; }
+  .turno.maquina { background: #F4F7F4; }
+  .turno.maquina .quien { color: var(--basilico); }
+  .turno.maquina p {
+    font-size: 8pt; color: var(--basilico); font-family: "Courier New", monospace;
+  }
+
+  /* ---------------- Pantalla de cocina ---------------- */
+  .pantalla { border: 1px solid var(--horno); margin: 3mm 0; }
+  .pantalla .barra {
+    background: var(--horno); color: var(--masa); padding: 2mm 3.5mm;
+    font-size: 7.6pt; display: flex; justify-content: space-between; align-items: center;
+  }
+  .pantalla .cuerpo { padding: 3.5mm; }
+  .pantalla .cod {
+    font-size: 16pt; font-weight: 800; letter-spacing: 2pt; color: var(--tomate);
+  }
+  .pantalla table { width: 100%; border-collapse: collapse; font-size: 8.8pt; }
+  .pantalla td { padding: 1.2mm 0; border-bottom: 1px solid var(--fino); }
+  .pantalla td.num { text-align: right; font-weight: 700; }
+  .pantalla .total td { border-bottom: none; border-top: 1.5px solid var(--horno); padding-top: 2mm; font-weight: 800; }
+
+  /* ---------------- Nicho / micronicho ---------------- */
+  .nicho { display: flex; gap: 4mm; align-items: stretch; margin: 4mm 0; }
+  .nicho .caja { flex: 1; border: 1px solid var(--linea); padding: 4mm; background: #fff; }
+  .nicho .caja.micro { background: var(--horno); color: var(--masa); border-color: var(--horno); }
+  .nicho .caja .rotulo {
+    font-size: 7pt; letter-spacing: 2pt; text-transform: uppercase;
+    color: var(--humo); margin: 0 0 2mm; font-weight: 700;
+  }
+  .nicho .caja.micro .rotulo { color: var(--brasa); }
+  .nicho .caja h3 { margin: 0 0 2.5mm; font-size: 13pt; letter-spacing: -.4pt; }
+  .nicho .caja ul { margin: 0; padding-left: 4.5mm; font-size: 8.6pt; }
+  .nicho .caja li { margin-bottom: 1.3mm; }
+  .nicho .caja.micro li { color: #D9CCBB; }
+  .nicho .caja.micro li b { color: var(--masa); }
+
+  /* ---------------- Lista con iconos ---------------- */
+  .lista-ico { display: flex; flex-wrap: wrap; gap: 3mm 4mm; margin: 3mm 0; }
+  .item-ico { flex: 0 0 calc(50% - 2mm); display: flex; gap: 2.5mm; align-items: flex-start; }
+  .item-ico svg { flex: 0 0 auto; margin-top: .3mm; }
+  .item-ico b { display: block; font-size: 9.2pt; }
+  .item-ico p { font-size: 8.3pt; color: var(--humo); margin: 0; }
+
+  /* ---------------- Si / No ---------------- */
+  .sino { display: flex; gap: 4mm; margin: 4mm 0; }
+  .sino .col { flex: 1; }
+  .sino .cabe {
+    font-size: 8pt; letter-spacing: 1.6pt; text-transform: uppercase;
+    font-weight: 700; padding-bottom: 1.5mm; margin-bottom: 2.5mm;
+    border-bottom: 2px solid;
+  }
+  .sino .si .cabe { color: var(--basilico); border-color: var(--basilico); }
+  .sino .no .cabe { color: var(--tomate); border-color: var(--tomate); }
+  .sino ul { margin: 0; padding: 0; list-style: none; font-size: 8.7pt; }
+  .sino li { padding-left: 5mm; position: relative; margin-bottom: 1.8mm; }
+  .sino .si li::before {
+    content: ""; position: absolute; left: 0; top: 1.3mm;
+    width: 2.6mm; height: 1.4mm; border-left: 1.4px solid var(--basilico);
+    border-bottom: 1.4px solid var(--basilico); transform: rotate(-45deg);
+  }
+  .sino .no li::before {
+    content: "—"; position: absolute; left: 0; top: 0; color: var(--tomate); font-weight: 700;
+  }
+
+  /* ---------------- Regalos / cierre ---------------- */
+  .regalo { display: flex; gap: 3mm; margin: 3mm 0; align-items: flex-start; }
+  .regalo .num {
+    flex: 0 0 8mm; height: 8mm; border-radius: 50%; background: var(--tomate);
+    color: #fff; font-weight: 800; font-size: 11pt;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .regalo .txt { flex: 1; }
+  .regalo .txt b { display: block; font-size: 9.6pt; margin-bottom: .8mm; }
+  .regalo .txt p { font-size: 8.5pt; color: var(--humo); margin: 0; }
+  .regalo code {
+    font-family: "Courier New", monospace; font-size: 7.8pt;
+    background: var(--fino); padding: .3mm 1mm; color: var(--hondo);
+  }
+  .cierre {
+    border: 2px solid var(--horno); padding: 4.5mm; margin-top: 5mm; background: var(--masa);
+  }
+  .cierre h3 { margin: 0 0 2mm; font-size: 12.5pt; }
+  .cierre p { margin: 0 0 2mm; font-size: 9.2pt; }
+  .cierre p:last-child { margin-bottom: 0; }
+  .cierre .firma { font-size: 8.4pt; color: var(--humo); margin-top: 3mm; }
+  .pasos { counter-reset: p; margin: 3mm 0 0; padding: 0; list-style: none; }
+  .pasos li {
+    counter-increment: p; position: relative; padding-left: 7mm; margin-bottom: 2mm;
+    font-size: 9pt;
+  }
+  .pasos li::before {
+    content: counter(p); position: absolute; left: 0; top: -.2mm;
+    width: 5mm; height: 5mm; border: 1.3px solid var(--horno); border-radius: 50%;
+    font-size: 7.4pt; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+  .pie-hoja {
+    margin-top: 3mm; padding-top: 1.5mm; border-top: 1px solid var(--linea);
+    font-size: 7.2pt; color: var(--humo); display: flex; justify-content: space-between;
+  }
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <symbol id="i-tel" viewBox="0 0 24 24">
+    <path d="M5 3h4l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v4a2 2 0 01-2 2A15 15 0 013 5a2 2 0 012-2z"
+      fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-tel-no" viewBox="0 0 24 24">
+    <path d="M5 3h4l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v4a2 2 0 01-2 2A15 15 0 013 5a2 2 0 012-2z"
+      fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M3 21L21 3" fill="none" stroke="currentColor" stroke-width="1.9"/>
+  </symbol>
+  <symbol id="i-pizza" viewBox="0 0 24 24">
+    <path d="M12 3c5 0 9 4 9 9H3c0-5 4-9 9-9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M3 12h18l-9 9-9-9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    <circle cx="9.5" cy="9.5" r="1.2" fill="currentColor"/>
+    <circle cx="14.5" cy="10" r="1.2" fill="currentColor"/>
+    <circle cx="12" cy="15" r="1.2" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-horno" viewBox="0 0 24 24">
+    <path d="M3 11a9 7 0 0118 0v8H3v-8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M8.5 19v-4a3.5 3.5 0 017 0v4" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <path d="M12 8.5c0 1-1.3 1.4-1.3 2.4a1.3 1.3 0 002.6 0c0-1-1.3-1.4-1.3-2.4z" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-moto" viewBox="0 0 24 24">
+    <circle cx="5" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <circle cx="19" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <path d="M8 17h8l-3.5-6H9M14 7h3l2 10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-reloj" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <path d="M12 7v5.5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-euro" viewBox="0 0 24 24">
+    <path d="M17 6.5A7 7 0 007 12a7 7 0 0010 5.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    <path d="M4.5 10.5h8M4.5 14h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-carta" viewBox="0 0 24 24">
+    <path d="M5 3h14v18H5z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <path d="M8.5 8h7M8.5 12h7M8.5 16h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-pantalla" viewBox="0 0 24 24">
+    <path d="M3 5h18v11H3z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <path d="M9 20h6M12 16v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    <path d="M6.5 9h7M6.5 12.5h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-estrella" viewBox="0 0 24 24">
+    <path d="M12 3l2.7 5.7 6.3.8-4.6 4.3 1.2 6.2L12 17l-5.6 3 1.2-6.2L3 9.5l6.3-.8L12 3z"
+      fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-chef" viewBox="0 0 24 24">
+    <path d="M6 11a3.5 3.5 0 112-6.4 3.5 3.5 0 018 0A3.5 3.5 0 0118 11v1H6v-1z"
+      fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M7 12v7h10v-7" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <path d="M7 15.5h10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  </symbol>
+  <symbol id="i-candado" viewBox="0 0 24 24">
+    <path d="M5 11h14v10H5z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <path d="M8.5 11V7.5a3.5 3.5 0 017 0V11" fill="none" stroke="currentColor" stroke-width="1.7"/>
+  </symbol>
+ </defs>
+</svg>
+<!-- ============ HOJA 1 · PORTADA ============ -->
+<div class="hoja">
+  <div class="portada">
+    <svg class="horno-deco" width="200" height="200" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="78" fill="none" stroke="#E0952F" stroke-width="2"/>
+      <circle cx="100" cy="100" r="66" fill="none" stroke="#E0952F" stroke-width=".8" stroke-dasharray="3 4"/>
+      <g stroke="#E0952F" stroke-width=".8">
+        <path d="M100 34v132M34 100h132"/>
+        <path d="M53 53l94 94M147 53l-94 94"/>
+      </g>
+      <circle cx="74" cy="76" r="6" fill="#C4321F"/>
+      <circle cx="126" cy="82" r="5" fill="#C4321F"/>
+      <circle cx="84" cy="126" r="5.5" fill="#C4321F"/>
+      <circle cx="122" cy="124" r="4.5" fill="#2F6B43"/>
+      <circle cx="100" cy="100" r="4" fill="#E0952F"/>
+    </svg>
+    <p class="marca">Noah &middot; asistente telefónica con inteligencia artificial</p>
+    <h1>Agente de voz<br>conversacional para<br><em>La Vita Buona</em></h1>
+    <p class="bajada">El teléfono es el único canal donde cobras tu precio entero.
+      Y es el único que ahora mismo no tiene a nadie detrás.</p>
+    <p class="pie">Preparado por Brian &middot; Ourense, 23 de octubre de 2026<br>
+      Rúa Ramón Puga 75 &middot; 988 57 06 24</p>
+  </div>
+
+  <p class="epigrafe">De qué va esto</p>
+  <p class="grande">Abristeis el 1 de octubre. En tres semanas lleváis <em>4,9 estrellas en Google</em>
+    y dos periódicos. Lo que hacéis en el horno funciona.</p>
+  <p>Lo que no funciona todavía es el teléfono, y no por culpa de nadie: con cinco personas
+    repartidas entre comidas y cenas, cuando suena no hay una mano libre. Este documento
+    cuenta qué pasa con esas llamadas, cuánto valen, y qué puede hacer una asistente
+    que coge el teléfono siempre.</p>
+
+  <div class="tarjetas">
+    <div class="tarjeta">
+      <span class="cifra">&minus;20%</span>
+      <b>Lo que cobras en Glovo</b>
+      <p>Exactamente un 20% menos que en tu carta, en cada pizza, cada pasta
+        y cada ensalada. Y encima la comisión.</p>
+    </div>
+    <div class="tarjeta verde">
+      <span class="cifra">63</span>
+      <b>Platos en la carta</b>
+      <p>Nadie se los sabe de memoria a las nueve y media con el comedor lleno.
+        Noah sí, con su precio exacto.</p>
+    </div>
+    <div class="tarjeta brasa">
+      <span class="cifra">0</span>
+      <b>Quejas por el teléfono</b>
+      <p>En 29 reseñas, ninguna. Porque quien llama y no le coges
+        no escribe una reseña: llama al de al lado.</p>
+    </div>
+  </div>
+
+  <div class="pie-hoja"><span>Noah para La Vita Buona</span><span>1 / 7</span></div>
+</div>
+
+<!-- ============ HOJA 2 · EL PRECIO ============ -->
+<div class="hoja">
+  <header class="interior">
+    <h1>El único sitio donde cobras tu precio</h1>
+    <span class="lado">Hoja 2</span>
+  </header>
+
+  <p class="epigrafe">Lo primero que miré</p>
+  <p class="grande">Abrí tu carta y abrí tu Glovo, y los puse uno al lado del otro.
+    El cliente que pide una Margaritha por Glovo paga <em>7,60&nbsp;€</em>.
+    En tu mesa, la misma pizza, del mismo horno, son <em>9,50&nbsp;€</em>.</p>
+
+  <table class="precios">
+    <thead>
+      <tr>
+        <th>Plato</th>
+        <th class="num">Tu carta</th>
+        <th class="num">Glovo hoy</th>
+        <th class="num">Diferencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="plato">Margaritha</td><td class="num casa">9,50 €</td><td class="num glovo">7,60 €</td><td class="num dif">&minus;1,90 €</td></tr>
+      <tr><td class="plato">Reino de las Dos Sicilias <span style="color:var(--brasa)">&#9733;</span></td><td class="num casa">16,90 €</td><td class="num glovo">13,52 €</td><td class="num dif">&minus;3,38 €</td></tr>
+      <tr><td class="plato">La Mortazza</td><td class="num casa">16,00 €</td><td class="num glovo">12,80 €</td><td class="num dif">&minus;3,20 €</td></tr>
+      <tr><td class="plato">Giovani</td><td class="num casa">17,00 €</td><td class="num glovo">13,60 €</td><td class="num dif">&minus;3,40 €</td></tr>
+      <tr><td class="plato">Pasta carbonara</td><td class="num casa">14,00 €</td><td class="num glovo">11,20 €</td><td class="num dif">&minus;2,80 €</td></tr>
+      <tr><td class="plato">Ensalada de burrata</td><td class="num casa">13,90 €</td><td class="num glovo">11,12 €</td><td class="num dif">&minus;2,78 €</td></tr>
+      <tr><td class="plato">Tiramisú, cannoli, panna cotta</td><td class="num casa">6,00 / 4,30 / 4,50 €</td><td class="num glovo">igual</td><td class="num" style="color:var(--basilico);font-weight:700">0 €</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="4">No es una impresión: en pizzas, pastas y ensaladas la diferencia es
+        <b>exactamente un 20,0%</b> en todas. En postres, cero. Da la sensación de que los
+        principales se dieron de alta con una lista de precios vieja y ahí se quedaron.</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="ojo">
+    <p><b>Y eso es solo el escaparate.</b> Encima de ese precio va la comisión de la plataforma
+      &mdash; el número exacto lo sabes tú, yo no lo voy a inventar &mdash; y el reparto lo
+      pones tú: Glovo avisa en tu propia ficha de que &laquo;el establecimiento entrega los
+      pedidos directamente&raquo;.</p>
+    <p>Así que en un pedido por plataforma cobras un 20% menos, pagas comisión y mandas a tu
+      repartidor. En un pedido por teléfono cobras 9,50&nbsp;€, no pagas comisión
+      y mandas al mismo repartidor. <b>El teléfono no es un canal más: es el bueno.</b></p>
+  </div>
+
+  <p class="epigrafe" style="margin-top:5mm">El mismo pedido, por los dos sitios</p>
+  <svg width="494" height="128" viewBox="0 0 494 128">
+    <g font-family="Helvetica, Arial, sans-serif">
+      <!-- columna telefono -->
+      <rect x="0" y="0" width="238" height="128" rx="3" fill="#F1F6F2" stroke="#2F6B43"/>
+      <g transform="translate(14,12)" color="#2F6B43"><use href="#i-tel" width="17" height="17"/></g>
+      <text x="38" y="25" font-size="10.5" font-weight="bold" fill="#2F6B43">Por tu teléfono</text>
+      <g font-size="8.6" fill="#140707">
+        <text x="14" y="46">Bruschetta di parma</text><text x="224" y="46" text-anchor="end">5,00 €</text>
+        <text x="14" y="60">Pizza margaritha</text><text x="224" y="60" text-anchor="end">9,50 €</text>
+        <text x="14" y="74">Reino de las Dos Sicilias</text><text x="224" y="74" text-anchor="end">16,90 €</text>
+        <text x="14" y="88">Tiramisú</text><text x="224" y="88" text-anchor="end">6,00 €</text>
+      </g>
+      <path d="M14 96h210" stroke="#2F6B43" stroke-width="1"/>
+      <text x="14" y="112" font-size="11" font-weight="bold" fill="#2F6B43">Cobras</text>
+      <text x="224" y="112" font-size="14" font-weight="bold" fill="#2F6B43" text-anchor="end">37,40 €</text>
+      <text x="14" y="123" font-size="7.4" fill="#6D635C">Sin comisión. Mismo repartidor.</text>
+
+      <!-- columna glovo -->
+      <rect x="256" y="0" width="238" height="128" rx="3" fill="#FDF0EE" stroke="#C4321F"/>
+      <g transform="translate(270,12)" color="#C4321F"><use href="#i-moto" width="17" height="17"/></g>
+      <text x="294" y="25" font-size="10.5" font-weight="bold" fill="#C4321F">Por la plataforma</text>
+      <g font-size="8.6" fill="#140707">
+        <text x="270" y="46">Bruschetta di parma</text><text x="480" y="46" text-anchor="end">4,00 €</text>
+        <text x="270" y="60">Pizza margaritha</text><text x="480" y="60" text-anchor="end">7,60 €</text>
+        <text x="270" y="74">Reino de las Dos Sicilias</text><text x="480" y="74" text-anchor="end">13,52 €</text>
+        <text x="270" y="88">Tiramisú</text><text x="480" y="88" text-anchor="end">6,00 €</text>
+      </g>
+      <path d="M270 96h210" stroke="#C4321F" stroke-width="1"/>
+      <text x="270" y="112" font-size="11" font-weight="bold" fill="#C4321F">Cobras</text>
+      <text x="480" y="112" font-size="14" font-weight="bold" fill="#C4321F" text-anchor="end">31,12 €</text>
+      <text x="270" y="123" font-size="7.4" fill="#6D635C">Y de aquí sale todavía la comisión.</text>
+    </g>
+  </svg>
+  <p style="margin-top:3mm"><b>6,28&nbsp;€ de diferencia en un solo pedido</b>, y eso antes
+    de que la plataforma se lleve lo suyo. Es el pedido exacto de la hoja 5. Mueve tres
+    pedidos como este a la semana y ya no estamos hablando de calderilla.</p>
+
+  <p class="apunte">Precios de Glovo consultados el 23 de octubre de 2026, con la promoción
+    de &minus;20% que tenías activa. Los de tu carta, los que me pasaste tú.</p>
+
+  <div class="pie-hoja"><span>El único sitio donde cobras tu precio</span><span>2 / 7</span></div>
+</div>
+<!-- ============ HOJA 3 · EL PROBLEMA ============ -->
+<div class="hoja">
+  <header class="interior">
+    <h1>La llamada que no deja rastro</h1>
+    <span class="lado">Hoja 3</span>
+  </header>
+
+  <p class="epigrafe">Por qué esto no sale en tus reseñas</p>
+  <p class="grande">Tienes 29 reseñas y un 4,9. Ni una habla del teléfono.
+    Eso no significa que el teléfono vaya bien: significa que
+    <em>quien llama y no le coges no escribe una reseña</em>. Cuelga y marca el siguiente.</p>
+
+  <svg width="600" height="212" viewBox="0 0 600 212">
+    <defs>
+      <marker id="fl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0 0l10 5-10 5z" fill="#C4321F"/>
+      </marker>
+      <marker id="flg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0 0l10 5-10 5z" fill="#6D635C"/>
+      </marker>
+    </defs>
+    <g font-family="Helvetica, Arial, sans-serif">
+      <rect x="0" y="22" width="132" height="74" rx="3" fill="#FBF4E9" stroke="#E2D6C4"/>
+      <g transform="translate(14,34)" color="#140707"><use href="#i-tel" width="19" height="19"/></g>
+      <text x="14" y="74" font-size="10.5" font-weight="bold" fill="#140707">Suena a las 21:30</text>
+      <text x="14" y="87" font-size="8.4" fill="#6D635C">La mejor hora. Y la peor.</text>
+
+      <rect x="156" y="22" width="132" height="74" rx="3" fill="#FBF4E9" stroke="#E2D6C4"/>
+      <g transform="translate(170,34)" color="#140707"><use href="#i-chef" width="19" height="19"/></g>
+      <text x="170" y="74" font-size="10.5" font-weight="bold" fill="#140707">Nadie puede</text>
+      <text x="170" y="87" font-size="8.4" fill="#6D635C">Cinco personas, dos turnos.</text>
+
+      <rect x="312" y="22" width="132" height="74" rx="3" fill="#FDF0EE" stroke="#C4321F"/>
+      <g transform="translate(326,34)" color="#C4321F"><use href="#i-tel-no" width="19" height="19"/></g>
+      <text x="326" y="74" font-size="10.5" font-weight="bold" fill="#C4321F">Cuelga al sexto tono</text>
+      <text x="326" y="87" font-size="8.4" fill="#6D635C">Sin dejar ni un número.</text>
+
+      <rect x="468" y="22" width="132" height="74" rx="3" fill="#140707"/>
+      <g transform="translate(482,34)" color="#E0952F"><use href="#i-pizza" width="19" height="19"/></g>
+      <text x="482" y="74" font-size="10.5" font-weight="bold" fill="#FBF4E9">Cena en otro sitio</text>
+      <text x="482" y="87" font-size="8.4" fill="#9A8D80">Y tú no lo sabes nunca.</text>
+
+      <path d="M136 59h14" stroke="#C4321F" stroke-width="1.7" marker-end="url(#fl)"/>
+      <path d="M292 59h14" stroke="#C4321F" stroke-width="1.7" marker-end="url(#fl)"/>
+      <path d="M448 59h14" stroke="#C4321F" stroke-width="1.7" marker-end="url(#fl)"/>
+
+      <path d="M534 100v22H66v-22" fill="none" stroke="#6D635C" stroke-width="1.3"
+        stroke-dasharray="4 3" marker-end="url(#flg)"/>
+      <text x="300" y="140" font-size="8.6" fill="#6D635C" text-anchor="middle" font-style="italic">
+        y mañana vuelve a pasar, con otro cliente, a la misma hora
+      </text>
+
+      <rect x="0" y="154" width="600" height="52" rx="3" fill="#FDF6EA" stroke="#E0952F"/>
+      <g transform="translate(16,170)" color="#E0952F"><use href="#i-estrella" width="19" height="19"/></g>
+      <text x="46" y="178" font-size="10.2" font-weight="bold" fill="#7E1B10">
+        Las cuatro casillas de arriba no dejan ni un dato en ningún sitio.
+      </text>
+      <text x="46" y="194" font-size="8.8" fill="#6D635C">
+        Ni llamada perdida que mirar, ni mensaje, ni reseña. Es el único gasto del local que no se puede contar.
+      </text>
+    </g>
+  </svg>
+
+  <p class="epigrafe" style="margin-top:5mm">Las horas en las que pasa</p>
+  <p>Tu cocina abre de 13:00 a 16:00 y de 19:00 a 23:00, y los lunes cierras. Las llamadas
+    de las 16:30, las de las 18:00 de quien quiere encargar la cena, las de las 23:15 y
+    <b>todas las de los lunes</b> hoy no las coge nadie. Son las más fáciles de atender
+    y se pierden enteras.</p>
+
+  <svg width="600" height="96" viewBox="0 0 600 96">
+    <g font-family="Helvetica, Arial, sans-serif">
+      <text x="0" y="9" font-size="7.8" fill="#6D635C" letter-spacing="1.3">UN DÍA CUALQUIERA, DE MARTES A DOMINGO</text>
+      <rect x="0" y="18" width="600" height="26" fill="#F3EADC"/>
+      <rect x="325" y="18" width="75" height="26" fill="#2F6B43"/>
+      <rect x="475" y="18" width="100" height="26" fill="#2F6B43"/>
+      <text x="362" y="36" font-size="9.5" fill="#FBF4E9" text-anchor="middle" font-weight="bold">13&ndash;16</text>
+      <text x="525" y="36" font-size="9.5" fill="#FBF4E9" text-anchor="middle" font-weight="bold">19&ndash;23</text>
+      <g font-size="7.4" fill="#6D635C">
+        <text x="0" y="56">0h</text>
+        <text x="150" y="56" text-anchor="middle">6h</text>
+        <text x="300" y="56" text-anchor="middle">12h</text>
+        <text x="450" y="56" text-anchor="middle">18h</text>
+        <text x="600" y="56" text-anchor="end">24h</text>
+      </g>
+      <text x="0" y="76" font-size="9" fill="#C4321F" font-weight="bold">
+        En verde, las 7 horas con alguien al teléfono. En blanco, las otras 17.
+      </text>
+      <text x="0" y="90" font-size="8.6" fill="#6D635C">
+        Más los lunes enteros: de las 168 horas de la semana, hay 42 con alguien que pueda coger el teléfono.
+      </text>
+    </g>
+  </svg>
+
+  <p class="epigrafe" style="margin-top:5mm">Y justo ahora es cuando más suena</p>
+  <div class="lista-ico">
+    <div class="item-ico">
+      <span style="color:var(--basilico)"><svg width="19" height="19"><use href="#i-carta" width="19" height="19"/></svg></span>
+      <div><b>Dos periódicos en tres semanas</b>
+        <p>La Voz de Galicia el 21 de septiembre y el Faro de Vigo el día de la apertura.
+          Quien lee eso no entra en Glovo: busca el teléfono.</p></div>
+    </div>
+    <div class="item-ico">
+      <span style="color:var(--basilico)"><svg width="19" height="19"><use href="#i-estrella" width="19" height="19"/></svg></span>
+      <div><b>Casi una reseña al día</b>
+        <p>29 en tres semanas, y la última entró esta misma tarde. Eso es gente
+          descubriéndote ahora, y preguntando.</p></div>
+    </div>
+  </div>
+  <p>Son las semanas en las que más llamadas vas a recibir en todo el año, y las preguntas
+    son las más fáciles que hay: dónde estáis, qué horario tenéis, si hacéis reparto, cuánto
+    tardáis. Ninguna necesita a un cocinero. <b>Todas necesitan que alguien coja.</b></p>
+
+  <div class="pie-hoja"><span>La llamada que no deja rastro</span><span>3 / 7</span></div>
+</div>
+
+<!-- ============ HOJA 4 · NICHO Y MICRONICHO ============ -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Por qué esto encaja contigo y no con cualquiera</h1>
+    <span class="lado">Hoja 4</span>
+  </header>
+
+  <p class="epigrafe">A quién sirve esto</p>
+  <p class="grande">Un agente de voz no le vale igual a todo el mundo. Le vale a quien
+    <em>pierde dinero cada vez que suena el teléfono</em>. Tú estás justo en ese sitio.</p>
+
+  <div class="nicho">
+    <div class="caja">
+      <p class="rotulo">El nicho</p>
+      <h3>Hostelería que vende por teléfono</h3>
+      <ul>
+        <li>El pedido entra hablando, no por una app.</li>
+        <li>La carta tiene precio fijo y escrito.</li>
+        <li>El que coge el teléfono está haciendo otra cosa.</li>
+        <li>Las horas punta del teléfono y de la cocina son las mismas.</li>
+      </ul>
+    </div>
+    <div class="caja micro">
+      <p class="rotulo">Tu micronicho</p>
+      <h3>Italiano recién abierto, con reparto propio</h3>
+      <ul>
+        <li><b>Recién abierto.</b> Tres semanas, dos periódicos y reels locales: el pico de llamadas de curiosos es ahora.</li>
+        <li><b>Reparto propio.</b> Repartes tú, así que un pedido por teléfono no te cuesta logística nueva: te ahorra la comisión.</li>
+        <li><b>Carta larga.</b> 63 platos y nombres difíciles de recitar con prisa.</li>
+        <li><b>Maestro pizzero al horno.</b> Tu sitio es el horno, no el auricular.</li>
+        <li><b>Desayunos en camino.</b> Dijiste al Faro que ibas a abrir mañanas: el tercer servicio, con la misma gente.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="epigrafe" style="margin-top:4mm">Los cuatro sitios donde se te escapa dinero hoy</p>
+  <div class="lista-ico">
+    <div class="item-ico">
+      <span style="color:var(--tomate)"><svg width="19" height="19"><use href="#i-euro" width="19" height="19"/></svg></span>
+      <div><b>El 20% de la plataforma</b>
+        <p>Cada pizza que entra por Glovo en vez de por tu teléfono sale a precio rebajado y con comisión.</p></div>
+    </div>
+    <div class="item-ico">
+      <span style="color:var(--tomate)"><svg width="19" height="19"><use href="#i-estrella" width="19" height="19"/></svg></span>
+      <div><b>La pizza premiada no se vende sola</b>
+        <p>La Reino de las Dos Sicilias son 16,90 € contra 9,50 € de una margaritha. Con prisa, nadie la cuenta.</p></div>
+    </div>
+    <div class="item-ico">
+      <span style="color:var(--tomate)"><svg width="19" height="19"><use href="#i-reloj" width="19" height="19"/></svg></span>
+      <div><b>Las horas cerradas</b>
+        <p>Lunes entero, tardes entre servicios y después del cierre: nadie coge, nadie se entera.</p></div>
+    </div>
+    <div class="item-ico">
+      <span style="color:var(--tomate)"><svg width="19" height="19"><use href="#i-carta" width="19" height="19"/></svg></span>
+      <div><b>Dos cartas que no coinciden</b>
+        <p>En Glovo hay un «Panuozzo del Maestro» y una «Pizza Toto» que no están en tu carta; y tus dos risottos y tus tartas no están en Glovo.</p></div>
+    </div>
+  </div>
+
+  <div class="pie-hoja"><span>Por qué esto encaja contigo</span><span>4 / 7</span></div>
+</div>
+<!-- ============ HOJA 5 · LA LLAMADA ============ -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Una llamada, con tu carta</h1>
+    <span class="lado">Hoja 5</span>
+  </header>
+
+  <p class="epigrafe">Esto ya funciona</p>
+  <p class="grande">Tu carta ya está cargada, los 63 platos con tus precios. Los importes
+    de abajo <em>no los he escrito yo</em>: los calculó el sistema al ejecutarlo.</p>
+
+  <div class="dialogo">
+    <div class="tira"><span>Llamada al 988 57 06 24</span><span>un viernes, 21:30</span></div>
+
+    <div class="turno noah"><span class="quien">Noah</span>
+      <p>La Vita Buona, buenas. Soy Noah, su asistente virtual. ¿Qué le pongo?</p></div>
+    <div class="turno"><span class="quien">Cliente</span>
+      <p>Hola, un pedido para recoger. Una margaritha y... ¿cuál es la que ganó el premio?</p></div>
+    <div class="turno noah"><span class="quien">Noah</span>
+      <p>La Reino de las Dos Sicilias: crema de cherry amarillo, cherry semi seco, mozzarella,
+        burrata, jamón serrano, parmesano crujiente, miel y polvo de café. Campeona en 2024.
+        Dieciséis noventa.</p></div>
+    <div class="turno"><span class="quien">Cliente</span>
+      <p>Esa, esa. Y algo para picar.</p></div>
+    <div class="turno noah"><span class="quien">Noah</span>
+      <p>La bruschetta di parma está muy bien: tosta de pan con burrata y jamón serrano.</p></div>
+    <div class="turno"><span class="quien">Cliente</span>
+      <p>Vale, y un tiramisú. Ya está.</p></div>
+
+    <div class="turno maquina"><span class="quien">Servidor</span>
+      <p>1 x Bruschetta di parma = 5,00 €; 1 x Pizza margaritha = 9,50 €;
+        1 x Pizza Reino de las Dos Sicilias = 16,90 €; 1 x Tiramisu = 6,00 €.
+        Subtotal: 37,40 €. Recogida en el local, sin gastos de envio.
+        Total a pagar: 37,40 €.</p></div>
+
+    <div class="turno noah"><span class="quien">Noah</span>
+      <p>Le repito: bruschetta di parma, margaritha, Reino de las Dos Sicilias y tiramisú.
+        Treinta y siete euros con cuarenta. ¿Me da un nombre y un teléfono?</p></div>
+    <div class="turno"><span class="quien">Cliente</span>
+      <p>Ana Ferreiro, seis cero cero, once, veintidós, treinta y tres.</p></div>
+
+    <div class="turno maquina"><span class="quien">Servidor</span>
+      <p>Pedido registrado. El codigo es 7 U E F. Total: 37,40 €.</p></div>
+
+    <div class="turno noah"><span class="quien">Noah</span>
+      <p>Perfecto. Su código es siete, u, e, efe. En quince o veinte minutos lo tiene
+        listo, y se paga al recoger.</p></div>
+  </div>
+
+  <p class="apunte">Lo que dice el cliente es un ejemplo; las dos líneas del servidor, los
+    precios, el total y el código los devolvió el programa. <b>El total no lo suma la
+    inteligencia artificial</b>: lo calcula el servidor con tus precios, así que lo que
+    dice y lo que se cobra no pueden descuadrarse.</p>
+
+  <p class="epigrafe" style="margin-top:4mm">Y en la cocina, al momento</p>
+  <div class="pantalla">
+    <div class="barra"><span>Pedidos de hoy &middot; La Vita Buona</span><span>21:31</span></div>
+    <div class="cuerpo">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2.5mm">
+        <span class="cod">7UEF</span>
+        <span style="font-size:8.4pt;color:var(--humo)">recogida &middot; 600 11 22 33 &middot; pendiente</span>
+      </div>
+      <table>
+        <tr><td>1 &times; Bruschetta di parma</td><td class="num">5,00 €</td></tr>
+        <tr><td>1 &times; Pizza margaritha</td><td class="num">9,50 €</td></tr>
+        <tr><td>1 &times; Pizza Reino de las Dos Sicilias</td><td class="num">16,90 €</td></tr>
+        <tr><td>1 &times; Tiramisu</td><td class="num">6,00 €</td></tr>
+        <tr class="total"><td>TOTAL</td><td class="num">37,40 €</td></tr>
+      </table>
+    </div>
+  </div>
+  <p class="apunte">Una tablet en el pase. Se marca «atendido» con un toque y se filtra por día.</p>
+
+  <div class="pie-hoja"><span>Una llamada, con tu carta</span><span>5 / 7</span></div>
+</div>
+
+<!-- ============ HOJA 6 · ALCANCE ============ -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Lo que hace, y lo que no</h1>
+    <span class="lado">Hoja 6</span>
+  </header>
+
+  <p class="epigrafe">Sin letra pequeña</p>
+  <p class="grande">Prefiero decirte lo que <em>no</em> hace antes de que lo descubras tú.
+    Lo de la izquierda está construido y probado. Lo de la derecha, no.</p>
+
+  <div class="sino">
+    <div class="col si">
+      <p class="cabe">Esto sí, hoy</p>
+      <ul>
+        <li>Coge el teléfono siempre, a la primera, y a la vez si entran dos llamadas.</li>
+        <li>Toma el pedido plato a plato, solo de tus 63, y lo repite entero antes de cerrar.</li>
+        <li>Calcula el total en el servidor: subtotal, envío y envío gratis desde el mínimo.</li>
+        <li>Reparto o recogida. Si es reparto, pide calle, número, piso y teléfono, y los repite.</li>
+        <li>Da un código de pedido y lo lee letra a letra.</li>
+        <li>Si llaman fuera de horario, dice el horario y no coge el pedido.</li>
+        <li>El pedido sale en la pantalla de cocina al momento, y se marca atendido.</li>
+        <li>Dice que es una asistente virtual al descolgar. Es obligación legal, no cortesía.</li>
+        <li>Si piden hablar con una persona, no insiste.</li>
+        <li>Guarda un resumen de cada llamada.</li>
+      </ul>
+    </div>
+    <div class="col no">
+      <p class="cabe">Esto no</p>
+      <ul>
+        <li><b>No reserva mesas.</b> Eso sigue por WhatsApp. Está en la lista, pero hoy no existe y no te lo voy a vender.</li>
+        <li><b>No cobra.</b> No pide tarjetas por teléfono ni las acepta: si alguien empieza a dictar una, corta y dice que se paga al entregar.</li>
+        <li><b>No cambia ni anula</b> un pedido de una llamada anterior.</li>
+        <li><b>No promete nada sobre alergias.</b> Dice que se lo confirma el personal. Con tu carta, en la que solo dos platos llevan marca de gluten, esto es lo único responsable.</li>
+        <li><b>No improvisa.</b> Ni platos, ni medias raciones, ni ofertas, ni descuentos.</li>
+        <li><b>No graba la llamada</b> salvo que tú lo pidas. Grabar obliga a avisar.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ojo">
+    <p><b>Y lo que falta por hacer, dicho en claro:</b> el servidor todavía no está
+      en un sitio encendido las veinticuatro horas &mdash; hoy corre en mi ordenador.
+      Ese es el trabajo del día que me digas que seguimos, y hasta que esté hecho no hay
+      llamada de cliente de verdad. También hay que repasar contigo cuatro datos que he
+      sacado de internet y no de ti: el horario bueno (tu web y el Faro de Vigo
+      publicaron dos distintos), los gastos de envío, el mínimo para envío gratis y
+      hasta dónde reparte.</p>
+  </div>
+
+  <div class="pie-hoja"><span>Lo que hace, y lo que no</span><span>6 / 7</span></div>
+</div>
+<!-- ============ HOJA 7 · REGALOS Y SIGUIENTE PASO ============ -->
+<div class="hoja">
+  <header class="interior">
+    <h1>Cinco cosas que vi mirando lo tuyo</h1>
+    <span class="lado">Hoja 7</span>
+  </header>
+
+  <p class="epigrafe">Esto va aparte y es gratis</p>
+  <p class="grande">Para preparar esto me leí tu web, tu Glovo, tus reseñas y las dos
+    noticias. Encontré cinco cosas que te están costando clientes ahora mismo.
+    <em>Te las digo igual, trabajemos juntos o no.</em></p>
+
+  <div class="regalo">
+    <div class="num">1</div>
+    <div class="txt">
+      <b>El botón «Ver mapa» de tu web manda a la gente a A Coruña</b>
+      <p>Apunta a <code>Rúa Castrillón 37B, 15009 A Coruña</code>, a dos horas de tu puerta.
+        Es un dato que se quedó de la plantilla. Quien le dé al botón para ir a cenar,
+        no llega. Se arregla en un minuto y es lo primero que yo tocaría.</p>
+    </div>
+  </div>
+
+  <div class="regalo">
+    <div class="num">2</div>
+    <div class="txt">
+      <b>Tienes 29 reseñas con un 4,9 y no has contestado a ninguna</b>
+      <p>Van entrando casi una al día. Responder sube cómo te coloca Google en la zona
+        y la gente lo lee antes de elegir. Son dos líneas por reseña y es gratis.</p>
+    </div>
+  </div>
+
+  <div class="regalo">
+    <div class="num">3</div>
+    <div class="txt">
+      <b>Tu web se contradice sobre la masa, y en la misma página</b>
+      <p>Arriba pone «masa artesanal, 48&ndash;72&nbsp;h de reposo lento». Más abajo,
+        en los números grandes, «6&nbsp;h de fermentación». Para un maestro pizzero formado
+        en Nápoles, la masa es el argumento: ese es el dato que no puede bailar.</p>
+    </div>
+  </div>
+
+  <div class="regalo">
+    <div class="num">4</div>
+    <div class="txt">
+      <b>Las opiniones de tu web son de relleno, teniendo 29 de verdad</b>
+      <p>«María G.», «Carlos M.», «Laura P.» vienen con la plantilla. Tienes reseñas
+        reales, con nombre y foto, mejores que esas. Cambiarlas es ganar credibilidad
+        y quitarte de encima un problema de publicidad engañosa.</p>
+    </div>
+  </div>
+
+  <div class="regalo">
+    <div class="num">5</div>
+    <div class="txt">
+      <b>Tu teléfono no está en tu web</b>
+      <p>Solo hay WhatsApp e Instagram. El 988 57 06 24 está en Google, pero no en tu
+        propia página. Quien quiere encargar para recoger y no usa apps, se queda sin
+        saber a dónde llamar. Y ese es justo el pedido que más te deja.</p>
+    </div>
+  </div>
+
+  <div class="cierre">
+    <h3>Lo que propongo</h3>
+    <p>Que lo veas funcionando antes de hablar de nada más. Tengo tu carta cargada;
+      en una visita de veinte minutos te lo enseño atendiendo una llamada y te doy el
+      número para que lo pruebes tú, con tus platos y tus precios.</p>
+    <ol class="pasos">
+      <li>Me confirmas cuatro datos: horario bueno, envío, mínimo y zona de reparto.</li>
+      <li>Te lo pongo en pie y llamas tú. Si no te convence, ahí se queda y no te ha costado nada.</li>
+      <li>Si te convence, hablamos de condiciones. Antes, no.</li>
+    </ol>
+    <p class="firma">Brian &middot; estudiante de desarrollo de inteligencia artificial, aquí en Ourense<br>
+      Las cinco cosas de arriba te las dejo arregladas aunque digas que no.</p>
+  </div>
+
+  <p class="apunte">Todo lo de este documento sale de fuentes públicas consultadas el 23 de
+    octubre de 2026 &mdash; La Voz de Galicia, Faro de Vigo, Google, Glovo y tu propia web &mdash;
+    salvo la carta y los precios, que me los pasaste tú.</p>
+
+  <div class="pie-hoja"><span>Cinco cosas que vi mirando lo tuyo</span><span>7 / 7</span></div>
+</div>
+</body>
+</html>
