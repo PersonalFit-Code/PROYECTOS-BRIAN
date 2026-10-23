@@ -79,6 +79,38 @@ function readDecimal(
   return valor;
 }
 
+/**
+ * Telefono en formato internacional: "+" y de 8 a 15 cifras, sin espacios.
+ * Es lo unico que Vapi acepta para pasar una llamada a un numero.
+ */
+export const TELEFONO_E164 = /^\+[1-9]\d{7,14}$/;
+
+/**
+ * Telefono al que pasar la llamada. Se le quitan espacios y guiones, que es
+ * como lo escribe una persona, y si aun asi no es valido el servidor no
+ * arranca: un numero mal puesto haria que Vapi rechazase el asistente entero.
+ */
+function readTelefono(raw: string | undefined, variable: string): string {
+  const limpio = (raw ?? "").replace(/[\s-]/g, "");
+  if (limpio === "") return "";
+  if (!TELEFONO_E164.test(limpio)) {
+    throw new Error(
+      `${variable} tiene que ir con el prefijo del pais y sin nada mas, por ejemplo +34988123456: "${raw ?? ""}"`,
+    );
+  }
+  return limpio;
+}
+
+/** Como decide el agente que el cliente ha terminado de hablar. */
+export type FinDeTurno = "texto" | "vapi";
+
+function readFinDeTurno(raw: string | undefined): FinDeTurno {
+  const valor = (raw ?? "").trim().toLowerCase();
+  if (valor === "") return "texto";
+  if (valor === "texto" || valor === "vapi") return valor;
+  throw new Error(`FIN_DE_TURNO tiene que ser "texto" o "vapi": "${raw ?? ""}"`);
+}
+
 /** Quita la barra final para poder concatenar rutas sin duplicarla. */
 function readPublicUrl(raw: string | undefined): string {
   return (raw ?? "").trim().replace(/\/+$/, "");
@@ -168,5 +200,22 @@ export const config = {
    * (por ejemplo, ambiente de cocina o de bar).
    */
   sonidoFondo: process.env.SONIDO_FONDO?.trim() || "office",
+  /**
+   * Como se decide que el cliente ha acabado de hablar.
+   *
+   * "texto" (por defecto): por lo que transcribe Deepgram. Si la frase acaba
+   * en punto contesta casi al momento; si no, espera 0,8 segundos.
+   * "vapi": el detector propio de Vapi, que es lo que habia hasta ahora. En
+   * la primera llamada real cada turno tardaba unos 3 segundos; si con
+   * "texto" el agente pisa al cliente, se vuelve a este con FIN_DE_TURNO=vapi.
+   */
+  finDeTurno: readFinDeTurno(process.env.FIN_DE_TURNO),
+  /**
+   * Telefono de una persona al que pasar la llamada cuando piden hablar con
+   * alguien, hay una queja o quieren reservar. Vale para todos los negocios;
+   * el que traiga el suyo (telefonoTraspaso) manda. Vacio: no se pasa la
+   * llamada y el agente ofrece, como hasta ahora, que llamen al restaurante.
+   */
+  telefonoTraspaso: readTelefono(process.env.TELEFONO_TRASPASO, "TELEFONO_TRASPASO"),
   nodeEnv: process.env.NODE_ENV ?? "development",
 } as const;

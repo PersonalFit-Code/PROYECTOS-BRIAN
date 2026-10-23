@@ -87,6 +87,19 @@ export interface Business {
    * asistente salvo que uno quiera la suya.
    */
   nombreAgente?: string;
+  /**
+   * Lo que el agente ofrece una sola vez, al final, cuando el cliente ya ha
+   * terminado de pedir: "Si le apetece, el tiramisu de la casa esta muy
+   * bueno". Una frase, dicha tal cual. Opcional: sin ella no ofrece nada.
+   */
+  sugerencia?: string;
+  /**
+   * Telefono de una persona del local, en formato internacional (+34...), al
+   * que el agente pasa la llamada si piden hablar con alguien, si hay una
+   * queja o si quieren reservar mesa. Opcional: sin el (ni TELEFONO_TRASPASO
+   * en el .env), el agente ofrece que llamen al restaurante.
+   */
+  telefonoTraspaso?: string;
 }
 
 /** Como quiere el cliente recibir el pedido. */
@@ -114,7 +127,11 @@ export interface LineaGuardada {
  * cobra sea exactamente lo que el agente dijo por telefono.
  */
 export interface Pedido {
-  /** Codigo corto que el agente le dice al cliente: "su pedido es el K3F7". */
+  /**
+   * Codigo corto que el agente le dice al cliente: "su pedido es el 4 7 2 9".
+   * Solo cifras desde que se probo por telefono: un "9 E M 7" se entiende mal.
+   * Los pedidos anteriores pueden traer letras.
+   */
   codigo: string;
   businessId: string;
   lineas: LineaGuardada[];
@@ -124,6 +141,11 @@ export interface Pedido {
   tipoEntrega: TipoEntrega;
   /** Direccion completa. Vacia cuando el cliente lo recoge en el local. */
   direccion: string;
+  /**
+   * Nombre del cliente, para llamarle al recoger o al entregar. Opcional
+   * porque los pedidos guardados antes de pedirlo no lo tienen.
+   */
+  nombre?: string;
   /** Telefono de contacto. Vacio cuando no se pidio. */
   telefono: string;
   /** Lo que el cliente anadio de viva voz: alergias, portal, indicaciones. */

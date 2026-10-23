@@ -7,7 +7,7 @@
  * campo en la base de datos.
  */
 
-import { config } from "../config";
+import { config, TELEFONO_E164 } from "../config";
 import { conLimite } from "../util/espera";
 import type { Clinica } from "./clinica";
 import { CLINICAS_DE_EJEMPLO } from "./clinicasDeEjemplo";
@@ -101,6 +101,20 @@ export function camposQueFaltan(valor: unknown): string[] {
   // agente se presentaria con un hueco en mitad de la frase.
   if (doc.nombreAgente !== undefined && !esTextoNoVacio(doc.nombreAgente)) {
     faltan.push("nombreAgente");
+  }
+
+  // La sugerencia se dice tal cual: en blanco seria una frase vacia.
+  if (doc.sugerencia !== undefined && !esTextoNoVacio(doc.sugerencia)) {
+    faltan.push("sugerencia");
+  }
+
+  // Un numero que Vapi no acepte hace que rechace el asistente entero y la
+  // llamada no llega a descolgarse, asi que aqui no se deja pasar.
+  if (
+    doc.telefonoTraspaso !== undefined &&
+    !(typeof doc.telefonoTraspaso === "string" && TELEFONO_E164.test(doc.telefonoTraspaso))
+  ) {
+    faltan.push("telefonoTraspaso (con prefijo y sin espacios: +34988123456)");
   }
 
   const acciones = doc.acciones;

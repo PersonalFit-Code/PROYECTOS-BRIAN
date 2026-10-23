@@ -2,12 +2,13 @@
  * La Vita Buona: restaurante italiano de Ourense, Rua Ramon Puga 75.
  *
  * Esta es la carta de verdad, la que paso el restaurante el 23 de octubre de
- * 2026: 63 platos con sus precios de casa. Vive en su propio fichero y no
+ * 2026: 63 platos con sus precios de casa, y detras seis bebidas sacadas de
+ * su ficha de Glovo (ver el aviso en ese bloque). Vive en su propio fichero y no
  * dentro de negociosDeEjemplo porque 63 platos tapan todo lo demas.
  *
  * Dos avisos para quien lo toque:
  *
- * 1. Los precios son los de la carta del local, NO los de Glovo. En Glovo
+ * 1. Los precios de la comida son los de la carta del local, NO los de Glovo. En Glovo
  *    cada pizza, pasta y ensalada sale un 20% mas barata, asi que si algun
  *    dia se cogen precios de ahi el agente cobrara de menos.
  * 2. El horario y las condiciones de reparto salen de su web, que es la
@@ -455,7 +456,54 @@ export const LA_VITA_BUONA: Business = {
         nombre: "Tiramisu",
         descripcion: "bizcochos banados en cafe, crema de mascarpone y un toque de cacao",
         precioCentimos: 600,
-      },  ],
+      },
+
+      // --- Bebidas ---
+      // PENDIENTE DE CONFIRMAR, todo el bloque. La carta que paso el local no
+      // trae bebidas; estas son las de su ficha de Glovo, con el precio de
+      // alli. Hay que preguntarle a Oumar si en el local valen lo mismo y si
+      // tiene mas (cerveza, vino), porque aqui no se ha inventado ninguna.
+      {
+        id: "b-cocacola",
+        nombre: "Coca-Cola",
+        descripcion: "lata",
+        precioCentimos: 200,
+      },
+      {
+        id: "b-fanta-naranja",
+        nombre: "Fanta de naranja",
+        descripcion: "lata",
+        precioCentimos: 200,
+      },
+      {
+        id: "b-fanta-limon",
+        nombre: "Fanta de limon",
+        descripcion: "lata",
+        precioCentimos: 200,
+      },
+      {
+        id: "b-fuze-limon",
+        nombre: "Fuze Tea de limon",
+        descripcion: "lata",
+        precioCentimos: 200,
+      },
+      {
+        id: "b-fuze-maracuya",
+        nombre: "Fuze Tea de maracuya",
+        descripcion: "lata",
+        precioCentimos: 200,
+      },
+      {
+        id: "b-agua",
+        nombre: "Agua Cabreiroa",
+        descripcion: "botella",
+        precioCentimos: 150,
+      },
+  ],
+
+  // Se ofrece una vez, cuando el cliente ya ha terminado de pedir. Que postre
+  // empujar lo decide el local: esto es una propuesta, hay que preguntarlo.
+  sugerencia: "Si le apetece algo de postre, el tiramisu de la casa esta muy rico.",
 
   emailPedidos: "",
 };

@@ -1,0 +1,202 @@
+/**
+ * Lo que cambio despues de la primera llamada de prueba a La Vita Buona.
+ *
+ * Cada cosa nueva que se le manda a Vapi esta aqui contra los limites de su
+ * API, no contra lo que parece razonable: un solo valor fuera de rango y
+ * Vapi rechaza el asistente entero sin decir nada (paso con el 0,8).
+ */
+
+import assert from "node:assert/strict";
+import { afterEach, describe, it } from "node:test";
+
+import {
+  buildAssistant,
+  buildSystemPrompt,
+  MAX_PALABRAS_CLAVE,
+  palabrasClave,
+  planDeTurno,
+  PRONUNCIACION,
+} from "../assistant";
+import { camposQueFaltan } from "../db/businesses";
+import { LA_VITA_BUONA } from "../db/lavitabuona";
+import { fallbackBusiness } from "../db/fallbackBusiness";
+
+type Asistente = {
+  transcriber: { keyterm?: string[] };
+  voice: { chunkPlan?: { formatPlan?: { replacements?: unknown[] } } };
+  model: { tools: Array<Record<string, unknown>>; messages: Array<{ content: string }> };
+};
+
+const asistente = (negocio = LA_VITA_BUONA) => buildAssistant(negocio) as unknown as Asistente;
+
+describe("fin de turno", () => {
+  it('con "texto" no va el detector de Vapi, que anularia los tiempos', () => {
+    const plan = planDeTurno("texto") as Record<string, unknown>;
+    assert.equal("smartEndpointingPlan" in plan, false);
+    assert.ok(plan.transcriptionEndpointingPlan);
+  });
+
+  it("los tiempos estan dentro de lo que acepta Vapi (de 0 a 3)", () => {
+    const plan = planDeTurno("texto") as {
+      waitSeconds: number;
+      transcriptionEndpointingPlan: Record<string, number>;
+    };
+    for (const [campo, valor] of Object.entries(plan.transcriptionEndpointingPlan)) {
+      assert.ok(valor >= 0 && valor <= 3, `${campo} = ${valor}`);
+    }
+    assert.ok(plan.waitSeconds >= 0 && plan.waitSeconds <= 5);
+    assert.ok(
+      plan.transcriptionEndpointingPlan.onNoPunctuationSeconds! < 1.5,
+      "tiene que contestar antes que con el valor de serie",
+    );
+  });
+
+  it('con "vapi" vuelve al detector de antes, sin tiempos que no se usarian', () => {
+    const plan = planDeTurno("vapi") as Record<string, unknown>;
+    assert.deepEqual(plan.smartEndpointingPlan, { provider: "vapi" });
+    assert.equal("transcriptionEndpointingPlan" in plan, false);
+  });
+});
+
+describe("pronunciacion y palabras clave", () => {
+  it("los reemplazos tienen la forma exacta de Vapi", () => {
+    for (const r of PRONUNCIACION) {
+      assert.deepEqual(Object.keys(r).sort(), ["key", "replaceAllEnabled", "type", "value"]);
+      assert.equal(r.type, "exact");
+      assert.ok(r.value.length <= 1000);
+    }
+    const reemplazos = asistente().voice.chunkPlan?.formatPlan?.replacements;
+    assert.deepEqual(reemplazos, PRONUNCIACION);
+  });
+
+  it("la voz sigue llevando proveedor e identificador", () => {
+    const voz = asistente().voice as Record<string, unknown>;
+    assert.ok(voz.provider && voz.voiceId);
+  });
+
+  it("Deepgram espera el nombre del local, la palabra pizza y los platos", () => {
+    const claves = asistente().transcriber.keyterm ?? [];
+    assert.equal(claves[0], "La Vita Buona");
+    assert.ok(claves.includes("pizza"));
+    assert.ok(claves.includes("Pizza margaritha"));
+  });
+
+  it("no pasa del limite que recomienda Deepgram, ni repite", () => {
+    const claves = palabrasClave(LA_VITA_BUONA);
+    assert.ok(claves.length <= MAX_PALABRAS_CLAVE);
+    assert.equal(new Set(claves.map((c) => c.toLowerCase())).size, claves.length);
+  });
+});
+
+describe("pasar la llamada a una persona", () => {
+  const conNumero = { ...LA_VITA_BUONA, telefonoTraspaso: "+34988123456" };
+
+  it("sin numero no hay herramienta, y el prompt manda llamar al restaurante", () => {
+    const a = asistente(LA_VITA_BUONA);
+    assert.equal(a.model.tools.some((t) => t.type === "transferCall"), false);
+    assert.match(a.model.messages[0]!.content, /ofrece que llamen\s+al restaurante/);
+  });
+
+  it("con numero va la herramienta de Vapi, con el destino en su forma", () => {
+    const traspaso = asistente(conNumero).model.tools.find((t) => t.type === "transferCall");
+    assert.ok(traspaso, "falta transferCall");
+    assert.deepEqual(Object.keys(traspaso).sort(), ["destinations", "type"]);
+    const destinos = traspaso.destinations as Array<Record<string, unknown>>;
+    assert.equal(destinos.length, 1);
+    assert.equal(destinos[0]!.type, "number");
+    assert.equal(destinos[0]!.number, "+34988123456");
+    assert.ok(String(destinos[0]!.message).length <= 1000);
+  });
+
+  it("con numero el prompt le dice que la use en la misma respuesta", () => {
+    const prompt = buildSystemPrompt(conNumero);
+    assert.match(prompt, /herramienta de transferir la llamada EN LA MISMA RESPUESTA/);
+    assert.match(prompt, /restaurante esta cerrado ahora, no pases la llamada/);
+  });
+
+  it("un numero sin prefijo en la ficha no pasa la validacion", () => {
+    assert.deepEqual(camposQueFaltan(conNumero), []);
+    const mal = { ...LA_VITA_BUONA, telefonoTraspaso: "988 12 34 56" };
+    assert.ok(camposQueFaltan(mal).some((c) => c.startsWith("telefonoTraspaso")));
+  });
+});
+
+describe("como toma el pedido", () => {
+  const prompt = buildSystemPrompt(LA_VITA_BUONA);
+
+  it("no vuelve a preguntar una cantidad que ya le han dicho", () => {
+    assert.match(prompt, /no se lo\s+vuelvas a preguntar/);
+  });
+
+  it("confirma una sola vez, con el total ya calculado", () => {
+    assert.match(prompt, /Es la unica vez que\s+repites el pedido/);
+    assert.ok(
+      prompt.indexOf("calcular_total con los platos") < prompt.indexOf("confirma TODO de una vez"),
+      "el total tiene que estar antes de la confirmacion",
+    );
+  });
+
+  it("pide nombre y telefono tambien para recoger", () => {
+    assert.match(prompt, /Para recoger: el nombre, y un telefono/);
+    const registrar = asistente().model.tools.find(
+      (t) => (t.function as { name?: string } | undefined)?.name === "registrar_pedido",
+    );
+    const props = (registrar!.function as { parameters: { properties: Record<string, unknown> } })
+      .parameters.properties;
+    assert.ok(props.nombre, "registrar_pedido tiene que aceptar el nombre");
+  });
+
+  it("dice el codigo cifra a cifra, no letra a letra", () => {
+    assert.match(prompt, /cifra a cifra/);
+    assert.ok(!/letra a letra/.test(prompt));
+  });
+
+  it("ya no dice que no hay bebidas ni postres: los hay", () => {
+    assert.ok(!/ni bebidas, ni postres, ni extras\./.test(prompt));
+    assert.ok(LA_VITA_BUONA.carta.some((p) => p.id === "b-cocacola"));
+    assert.ok(LA_VITA_BUONA.carta.some((p) => p.id === "po-tiramisu"));
+  });
+
+  it("ofrece la sugerencia del local una sola vez", () => {
+    assert.ok(prompt.includes(LA_VITA_BUONA.sugerencia!));
+    assert.match(prompt, /UNA sola vez/);
+  });
+
+  it("sin sugerencia no ofrece nada", () => {
+    const sin = buildSystemPrompt(fallbackBusiness);
+    assert.match(sin, /No ofrezcas nada que el cliente no haya pedido/);
+  });
+
+  it("una sugerencia en blanco no pasa la validacion", () => {
+    assert.ok(camposQueFaltan({ ...LA_VITA_BUONA, sugerencia: "  " }).includes("sugerencia"));
+  });
+});
+
+describe("configuracion nueva", () => {
+  const ANTES = { ...process.env };
+
+  function cargar(variables: Record<string, string>) {
+    Object.assign(process.env, variables);
+    delete require.cache[require.resolve("../config")];
+    return (require("../config") as typeof import("../config")).config;
+  }
+
+  afterEach(() => {
+    for (const clave of ["FIN_DE_TURNO", "TELEFONO_TRASPASO"]) {
+      if (ANTES[clave] === undefined) delete process.env[clave];
+      else process.env[clave] = ANTES[clave];
+    }
+    delete require.cache[require.resolve("../config")];
+  });
+
+  it('FIN_DE_TURNO vacio es "texto" y no admite otra cosa', () => {
+    assert.equal(cargar({ FIN_DE_TURNO: "" }).finDeTurno, "texto");
+    assert.equal(cargar({ FIN_DE_TURNO: "VAPI" }).finDeTurno, "vapi");
+    assert.throws(() => cargar({ FIN_DE_TURNO: "rapido" }), /FIN_DE_TURNO/);
+  });
+
+  it("TELEFONO_TRASPASO acepta espacios pero exige el prefijo", () => {
+    assert.equal(cargar({ TELEFONO_TRASPASO: "+34 988 12 34 56" }).telefonoTraspaso, "+34988123456");
+    assert.throws(() => cargar({ TELEFONO_TRASPASO: "988123456" }), /prefijo/);
+  });
+});

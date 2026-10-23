@@ -136,12 +136,15 @@ function main(): void {
     );
     cliente("Esa, esa. Y para picar algo mientras esperamos.");
     noah(`La ${entrante.nombre} esta muy bien: ${entrante.descripcion}.`);
+    // Ya pide el postre, asi que Noah no le ofrece la sugerencia.
     cliente("Vale, y un tiramisu. Ya esta.");
-    noah("Le repito el pedido entero, a ver si esta bien.");
   } else {
     cliente(`Ponme un ${uno?.nombre}, un ${dos?.nombre} y un ${tres?.nombre}.`);
-    noah("Le repito el pedido entero, a ver si esta bien.");
   }
+  noah("Muy bien. ¿A nombre de quien lo pongo?");
+  cliente("Ana Ferreiro.");
+  noah("¿Y un telefono, por si hay que avisarle?");
+  cliente("Seis cero cero, once, veintidos, treinta y tres.");
 
   const articulos: LineaPedido[] = elegidos
     .filter((p): p is NonNullable<typeof p> => Boolean(p))
@@ -150,12 +153,17 @@ function main(): void {
   const entrega: TipoEntrega = "recogida";
   const total = calcularTotal(negocio, articulos, entrega);
   herramienta("calcular_total", describirTotal(negocio, total));
-  noah("Eso es. ¿Me da un nombre y un telefono?");
-  cliente("Ana Ferreiro, seis cero cero, once, veintidos, treinta y tres.");
+  // Una sola confirmacion, con todo y con el total ya calculado.
+  noah(
+    `Le confirmo: ${total.lineas.map((l) => `${l.cantidad} ${l.nombre}`).join(", ")}, ` +
+      `para recoger a nombre de Ana, telefono 600 11 22 33. ` +
+      `Son ${formatearEuros(total.totalCentimos)}. ¿Se lo confirmo?`,
+  );
+  cliente("Si, perfecto.");
 
   const comanda = construirPedido(
     negocio,
-    { articulos, entrega, telefono: "600 11 22 33", callId: "prueba-1" },
+    { articulos, entrega, nombre: "Ana Ferreiro", telefono: "600 11 22 33", callId: "prueba-1" },
     total,
   );
   herramienta(
@@ -163,15 +171,15 @@ function main(): void {
     `Pedido registrado. El codigo es ${comanda.codigo.split("").join(" ")}. Total: ${formatearEuros(comanda.totalCentimos)}.`,
   );
   noah(
-    `Perfecto. Su codigo es ${comanda.codigo.split("").join(", ")}. ` +
-      `En ${negocio.entrega.tiempoRecogida} lo tiene listo, y se paga al recoger.`,
+    `Hecho, su numero de pedido es el ${comanda.codigo.split("").join(", ")}. ` +
+      `Lo tendra listo ${negocio.entrega.tiempoRecogida} y se paga al recogerlo. ¿Necesita algo mas?`,
   );
 
   // -- 4. La comanda en cocina ---------------------------------------------
   titulo("4. Lo que ve la cocina, al momento");
   console.log(
     verde(`  ${comanda.codigo}`) +
-      gris(`   ${comanda.tipoEntrega}   ${comanda.telefono}   ${comanda.estado}`),
+      gris(`   ${comanda.tipoEntrega}   ${comanda.nombre}   ${comanda.telefono}   ${comanda.estado}`),
   );
   for (const linea of comanda.lineas) {
     console.log(

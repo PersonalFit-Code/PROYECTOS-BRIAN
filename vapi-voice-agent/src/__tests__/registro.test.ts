@@ -27,16 +27,26 @@ const totalRecogida = calcularTotal(
 );
 
 describe("construirPedido", () => {
-  it("genera un codigo de 4 letras faciles de deletrear", () => {
-    // Sin O ni 0, sin I ni 1, sin S ni 5: se confunden al telefono.
+  it("genera un codigo de 4 cifras, sin letras y sin ceros", () => {
+    // Con letras ("9 E M 7") el cliente lo entendia mal por telefono.
     for (let i = 0; i < 200; i += 1) {
       const { codigo } = construirPedido(
         negocio,
         { articulos: [], entrega: "recogida" },
         totalRecogida,
       );
-      assert.match(codigo, /^[ABCDEFGHJKLMNPQRTUVWXYZ2346789]{4}$/, codigo);
+      assert.match(codigo, /^[1-9]{4}$/, codigo);
     }
+  });
+
+  it("guarda el nombre del cliente, tambien en una recogida", () => {
+    const pedido = construirPedido(
+      negocio,
+      { articulos: [], entrega: "recogida", nombre: "  Lucia ", telefono: "600112233" },
+      totalRecogida,
+    );
+    assert.equal(pedido.nombre, "Lucia");
+    assert.equal(pedido.telefono, "600112233");
   });
 
   it("copia las lineas con su identificador de plato y su importe", () => {
