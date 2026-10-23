@@ -26,12 +26,12 @@ import {
   TOOL_REGISTRAR_PEDIDO,
 } from "../tools/names";
 import { normalizarLlamadas, parseArgs } from "../tools/normalizar";
+import { leerArticulos, pedidoParaRegistrar, recordarPedido } from "../tools/memoriaPedido";
 import { conLimite } from "../util/espera";
 import {
   PedidoInvalidoError,
   calcularTotal,
   describirTotal,
-  type LineaPedido,
 } from "../pedido";
 import {
   telefonoDelCliente,
@@ -105,8 +105,9 @@ async function ejecutarHerramientaPedido(
   switch (nombre) {
     case TOOL_CALCULAR_TOTAL: {
       try {
-        const articulos = argumentos.articulos as LineaPedido[] | undefined;
-        const total = calcularTotal(business, articulos ?? [], argumentos.entrega);
+        const articulos = leerArticulos(argumentos.articulos);
+        const total = calcularTotal(business, articulos, argumentos.entrega);
+        recordarPedido(callId, articulos, argumentos.entrega);
         return describirTotal(business, total);
       } catch (error) {
         if (error instanceof PedidoInvalidoError) {
@@ -119,10 +120,15 @@ async function ejecutarHerramientaPedido(
 
     case TOOL_REGISTRAR_PEDIDO: {
       try {
-        const articulos = argumentos.articulos as LineaPedido[] | undefined;
+        const { articulos, entrega, deMemoria } = pedidoParaRegistrar(callId, argumentos);
+        if (deMemoria) {
+          console.warn(
+            `[registrar_pedido] llego sin platos (articulos: ${typeof argumentos.articulos}); se usa lo calculado en esta llamada`,
+          );
+        }
         const { pedido, yaExistia } = await guardarPedido(business, {
-          articulos: articulos ?? [],
-          entrega: argumentos.entrega,
+          articulos,
+          entrega,
           direccion: argumentos.direccion as string | undefined,
           nombre: argumentos.nombre as string | undefined,
           telefono: argumentos.telefono as string | undefined,

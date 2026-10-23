@@ -117,8 +117,9 @@ export function buildSystemPrompt(business: Business, telefonoLlamada = ""): str
   const pasoSugerencia = sugerencia
     ? `3. Cuando diga que ya esta, ofrecele esto UNA sola vez, con estas palabras
    o muy parecidas: "${sugerencia}"
-   Si dice que no, no insistas ni lo vuelvas a ofrecer en toda la llamada. Si
-   ya lo habia pedido, no lo ofrezcas.
+   Si dice que no, no insistas ni lo vuelvas a ofrecer en toda la llamada.
+   ANTES de decirlo, mira lo que lleva pedido: si ya tiene eso que vas a
+   sugerir (o ya lleva postre), sáltate este paso entero y no digas nada.
 `
     : "3. No ofrezcas nada que el cliente no haya pedido.\n";
 
