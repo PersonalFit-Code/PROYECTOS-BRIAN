@@ -26,6 +26,29 @@ Un solo color de acento (el ambar de la portada). **Verde y rojo solo para
 comparar**: sin Noah / con Noah, por telefono / por plataforma. Nada mas
 lleva esos colores.
 
+### Portada y auditoria visual
+
+La portada va **directamente sobre la hoja blanca**, sin recuadro: filete y
+marca arriba, titular en negro con "La Vita Buona" en ambar, y una pizza de
+linea con un trozo aparte y la voz saliendo, recortada por el borde como parte
+de la pagina.
+
+Diez mejoras de la auditoria, todas en `generador/css.part` y `svgs2.py`:
+
+1. Cabecera con numeral grande de seccion y la marca.
+2. Pie con la marca y puntos de progreso (7).
+3. Texto secundario mas oscuro y sin letra por debajo de 8 pt.
+4. Esquinas redondeadas y relieve suave unificados.
+5. Epigrafes con raya ambar.
+6. "Sin Noah / Con Noah" con icono (cruz / check) y una flecha de cambio: no
+   dependen solo del color.
+7. Etiquetas de valor en los graficos (barras al 100 % y 83 %, pastilla con
+   los 6,28 EUR de diferencia).
+8. La pizza de la hoja 1 sobre un plato crema con sombra suave.
+9. Tarjetas de angulos con el icono en circulo.
+10. Tipografia: sin palabras sueltas al final de linea (`text-wrap`) y cifras
+    tabulares para que los precios alineen.
+
 ## De donde sale cada dato
 
 Todo es verificable: si Oumar comprueba uno y cuadra, se cree los demas.

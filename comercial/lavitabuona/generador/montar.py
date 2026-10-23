@@ -16,7 +16,7 @@ import svgs2 as S2  # noqa: E402
 
 css = (base / "css.part").read_text()
 pag = (base / "paginas.part").read_text()
-for clave, fn in (("PIZZA", S2.pizza), ("RUEDA", S2.rueda), ("DOLOR", S2.dolor),
+for clave, fn in (("PORTADA_DECO", S2.pizza_deco), ("PIZZA", S2.pizza), ("RUEDA", S2.rueda), ("DOLOR", S2.dolor),
                   ("ECUACION", S2.ecuacion), ("COMPARATIVA", S2.comparativa),
                   ("CIRCULOS", S2.circulos), ("PROPONGO", S2.propongo)):
     marca = "{{" + clave + "}}"

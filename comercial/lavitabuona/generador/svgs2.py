@@ -21,7 +21,9 @@ def pizza():
         ("Avisa a cocina", "El pedido sale en", "pantalla al momento", "i-pantalla"),
     ]
     filas = [50, 126, 226, 300]
-    s = [f'<svg class="f" viewBox="0 20 600 312" role="img" aria-label="Las ocho cosas que hace Noah"><g {FONT}>']
+    s = [f'<svg class="f" viewBox="0 12 600 324" role="img" aria-label="Las ocho cosas que hace Noah"><g {FONT}>']
+    s.append(f'<circle cx="{cx+3}" cy="{cy+5}" r="{R+12}" fill="#140A06" opacity=".07"/>')
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="{R+12}" fill="#FBF6EC" stroke="#EBDDC4" stroke-width="1.2"/>')
     s.append(f'<circle cx="{cx}" cy="{cy}" r="{(R+Rc)/2}" fill="none" stroke="#D58A22" stroke-width="{R-Rc}"/>')
     for k in range(8):
         a0 = 45 * k
@@ -127,7 +129,7 @@ def dolor():
 
 def ecuacion():
     s = [f'<svg class="f" viewBox="0 0 600 118" role="img" aria-label="Cuenta de ejemplo de llamadas perdidas"><g {FONT}>']
-    s.append(f'<rect x="0" y="0" width="600" height="118" rx="5" fill="#fff" stroke="#E6DCCB"/>')
+    s.append(f'<rect x="0" y="0" width="600" height="118" rx="9" fill="#fff" stroke="#E6DCCB"/>')
     s.append(f'<circle cx="44" cy="59" r="26" fill="{MAL_F}" stroke="{MAL}" stroke-width="1.5"/>')
     s.append(icono("i-tel-no", 31, 46, 26, MAL))
     s.append(f'<text x="82" y="52" font-size="26" font-weight="bold" fill="{NEGRO}">3</text>')
@@ -140,7 +142,7 @@ def ecuacion():
     s.append(f'<text x="274" y="68" font-size="9.8" fill="{HUMO}">un pedido normal</text>')
     s.append(f'<text x="274" y="80" font-size="9.8" fill="{HUMO}">(el de la hoja 2)</text>')
     s.append(f'<text x="392" y="68" font-size="24" fill="{HUMO}" text-anchor="middle">=</text>')
-    s.append(f'<rect x="414" y="14" width="174" height="90" rx="5" fill="{MAL_F}" stroke="{MAL}" stroke-width="1.5"/>')
+    s.append(f'<rect x="414" y="14" width="174" height="90" rx="9" fill="{MAL_F}" stroke="{MAL}" stroke-width="1.5"/>')
     s.append(f'<text x="501" y="56" font-size="27" font-weight="bold" fill="{MAL}" text-anchor="middle">≈ 5.800 €</text>')
     s.append(f'<text x="501" y="75" font-size="10.2" fill="{MAL}" text-anchor="middle">al año que no entran</text>')
     s.append('</g></svg>')
@@ -159,19 +161,23 @@ def comparativa():
          "Cobras", "31,12 €", 31.12 / 37.40, "Y de aquí todavía sale la comisión."),
     ]
     for x0, col, fondo, ic, titulo, lineas, lab, total, frac, nota in datos:
-        s.append(f'<rect x="{x0}" y="0" width="292" height="236" rx="5" fill="{fondo}" stroke="{col}" stroke-width="1.5"/>')
+        s.append(f'<rect x="{x0}" y="0" width="292" height="236" rx="9" fill="{fondo}" stroke="{col}" stroke-width="1.5"/>')
         s.append(icono(ic, x0 + 16, 13, 22, col))
         s.append(f'<text x="{x0+46}" y="30" font-size="13" font-weight="bold" fill="{col}">{titulo}</text>')
         for i, (nom, pre) in enumerate(lineas):
             y = 62 + 18 * i
             s.append(f'<text x="{x0+16}" y="{y}" font-size="10.4" fill="{NEGRO}">{nom}</text>')
-            s.append(f'<text x="{x0+276}" y="{y}" font-size="10.4" fill="{NEGRO}" text-anchor="end">{pre}</text>')
+            s.append(f'<text x="{x0+266}" y="{y}" font-size="10.4" fill="{NEGRO}" text-anchor="end">{pre}</text>')
         s.append(f'<path d="M{x0+16} 142H{x0+276}" stroke="{col}" stroke-width="1.2"/>')
         s.append(f'<text x="{x0+16}" y="168" font-size="13.5" font-weight="bold" fill="{col}">{lab}</text>')
         s.append(f'<text x="{x0+276}" y="171" font-size="22" font-weight="bold" fill="{col}" text-anchor="end">{total}</text>')
-        s.append(f'<rect x="{x0+16}" y="182" width="260" height="11" rx="5.5" fill="#fff"/>')
-        s.append(f'<rect x="{x0+16}" y="182" width="{260*frac:.1f}" height="11" rx="5.5" fill="{col}"/>')
+        s.append(f'<rect x="{x0+16}" y="180" width="260" height="15" rx="7.5" fill="#fff"/>')
+        s.append(f'<rect x="{x0+16}" y="180" width="{260*frac:.1f}" height="15" rx="7.5" fill="{col}"/>')
+        s.append(f'<text x="{x0+16+260*frac-10:.1f}" y="190.6" font-size="9.4" font-weight="bold" fill="#fff" text-anchor="end">{round(frac*100)} %</text>')
         s.append(f'<text x="{x0+16}" y="216" font-size="9.6" fill="{HUMO}">{nota}</text>')
+    s.append(f'<circle cx="300" cy="96" r="22" fill="{NEGRO}" stroke="#fff" stroke-width="2.5"/>')
+    s.append(f'<text x="300" y="93" font-size="9.6" font-weight="bold" fill="{ACENTO}" text-anchor="middle">−6,28</text>')
+    s.append(f'<text x="300" y="104" font-size="8.6" font-weight="bold" fill="{ACENTO}" text-anchor="middle">€</text>')
     s.append('</g></svg>')
     return "".join(s)
 
@@ -208,7 +214,7 @@ def propongo():
     s = [f'<svg class="f" viewBox="0 0 600 268" role="img" aria-label="Lo que propongo"><defs>'
          f'<marker id="fp" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="{ACENTO}"/></marker>'
          f'</defs><g {FONT}>']
-    s.append(f'<rect x="0" y="0" width="600" height="268" rx="6" fill="{NEGRO}"/>')
+    s.append(f'<rect x="0" y="0" width="600" height="268" rx="9" fill="{NEGRO}"/>')
     s.append(f'<rect x="0" y="0" width="600" height="5" fill="{ACENTO}"/>')
     s.append(f'<text x="26" y="36" font-size="9.4" font-weight="bold" fill="{ACENTO}" letter-spacing="2.6">LO QUE PROPONGO</text>')
     s.append(f'<text x="26" y="60" font-size="16" font-weight="bold" fill="#FBF6EC">Que lo veas funcionando antes de hablar de nada más.</text>')
@@ -230,4 +236,30 @@ def propongo():
     s.append(f'<path d="M26 238H574" stroke="#3A2A20" stroke-width="1"/>')
     s.append(f'<text x="26" y="256" font-size="10" fill="#D9CCBB">Brian · estudiante de desarrollo de inteligencia artificial, aquí en Ourense</text>')
     s.append('</g></svg>')
+    return "".join(s)
+
+
+def pizza_deco():
+    cx, cy, R, Rc = 122, 100, 86, 74
+    s = ['<svg class="p-deco" viewBox="0 0 220 200" aria-hidden="true">']
+    for r, o in ((101, .85), (112, .5), (123, .26)):
+        x0, y0 = pt(cx, cy, r, 236); x1, y1 = pt(cx, cy, r, 304)
+        s.append(f'<path d="M{n(x0)} {n(y0)}A{r} {r} 0 0 1 {n(x1)} {n(y1)}" fill="none" stroke="{ACENTO}" stroke-width="2.4" stroke-linecap="round" opacity="{o}"/>')
+    puntos = [(0.55, 14), (0.7, 190), (0.45, 300), (0.78, 118), (0.4, 62), (0.72, 250)]
+    for k in range(8):
+        a0 = 45 * k; tm = a0 + 22.5
+        dx, dy = (0, 0)
+        if k == 5:
+            dx, dy = 11 * math.sin(math.radians(tm)), -11 * math.cos(math.radians(tm))
+        x0, y0 = pt(cx, cy, Rc, a0); x1, y1 = pt(cx, cy, Rc, a0 + 45)
+        c0, c1 = pt(cx, cy, (R + Rc) / 2, a0 + .6), pt(cx, cy, (R + Rc) / 2, a0 + 44.4)
+        fill = "#FCE3B8" if k % 2 == 0 else "#F9D69C"
+        s.append(f'<g transform="translate({n(dx)},{n(dy)})">'
+                 f'<path d="M{cx} {cy}L{n(x0)} {n(y0)}A{Rc} {Rc} 0 0 1 {n(x1)} {n(y1)}Z" fill="{fill}" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/>'
+                 f'<path d="M{n(c0[0])} {n(c0[1])}A{(R+Rc)/2} {(R+Rc)/2} 0 0 1 {n(c1[0])} {n(c1[1])}" fill="none" stroke="#D58A22" stroke-width="{R-Rc}"/>'
+                 f'</g>')
+    for f_, ang in puntos:
+        px, py = pt(cx, cy, 70 * f_, ang)
+        s.append(f'<circle cx="{n(px)}" cy="{n(py)}" r="5.2" fill="#C97B0E"/><circle cx="{n(px)}" cy="{n(py)}" r="1.6" fill="#FBE3B8"/>')
+    s.append('</svg>')
     return "".join(s)

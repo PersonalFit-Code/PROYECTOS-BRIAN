@@ -18,23 +18,6 @@ svg { display: block; }
 b, strong { font-weight: 700; }
 p { margin: 0 0 3mm; }
 
-/* Portada */
-.portada {
-  background: var(--negro); color: var(--crema);
-  margin: 0 0 7mm; padding: 16mm 14mm 12mm;
-  position: relative; overflow: hidden;
-}
-.portada::after {
-  content: ""; position: absolute; left: 14mm; bottom: 5mm;
-  width: 34mm; height: 2.2mm; background: var(--acento);
-}
-.portada .marca { font-size: 7.2pt; letter-spacing: 3pt; text-transform: uppercase; color: var(--acento); margin: 0 0 5mm; }
-.portada h1 { font-size: 33pt; margin: 0; letter-spacing: -1.2pt; font-weight: 800; line-height: 1.0; }
-.portada h1 em { font-style: normal; color: var(--acento); }
-.portada .bajada { font-size: 12pt; margin: 5mm 0 0; color: #D9CCBB; max-width: 112mm; }
-.portada .pie { margin: 10mm 0 0; font-size: 8.2pt; color: #9A8D80; }
-.portada .horno-deco { position: absolute; right: -14mm; top: 50%; transform: translateY(-50%); opacity: .5; }
-
 /* Cabecera y textos */
 header.interior {
   display: flex; align-items: baseline; justify-content: space-between;
@@ -153,8 +136,6 @@ header.interior .lado { font-size: 8pt; color: var(--humo); }
 svg.f { width: 100%; height: auto; }
 .p6 .item-ico { flex-basis: calc(50% - 2.5mm); }
 .p7 .regalo { flex-basis: calc(50% - 2.5mm); }
-.p1 .portada { padding: 13mm 14mm 9mm; margin-bottom: 6mm; }
-.p1 .portada .pie { margin-top: 7mm; }
 
 /* Relleno fino de las hojas que quedaban cortas */
 .p4 .sit .fila { font-size: 9.8pt; padding: 3.8mm 3.2mm 3.8mm 3.6mm; } .p4 .sit .cab { padding: 3mm; } .p4 .epigrafe { margin-top: 5mm; }
@@ -176,3 +157,60 @@ svg.f { width: 100%; height: auto; }
 .p6 .epigrafe { margin-top: 6mm; } .p6 .lista-ico { gap: 5.5mm 6mm; margin: 4mm 0 3mm; } .p6 .item-ico b { font-size: 10.8pt; } .p6 .item-ico p { font-size: 9.6pt; } .p6 .item-ico .c { flex-basis: 11mm; height: 11mm; }
 .p6 .sino ul { font-size: 10pt; } .p6 .sino li { margin-bottom: 3mm; } .p6 .sino .cabe { font-size: 8.8pt; margin-bottom: 3mm; } .p6 .grande { margin-bottom: 3.5mm; }
 .p7 .regalos { gap: 7mm 6mm; margin: 6mm 0 7mm; } .p7 .cierre-frase { font-size: 18pt; padding: 9mm 6mm; margin-top: 6mm; }
+
+/* ===== Portada sobre la hoja blanca ===== */
+.portada { position: relative; overflow: hidden; margin: 0 0 6mm; padding: 0 0 7mm; color: var(--negro); border-bottom: 2px solid var(--negro); }
+.portada .p-top { display: flex; justify-content: space-between; align-items: center; font-size: 7.4pt; letter-spacing: 2.4pt; text-transform: uppercase; color: var(--humo); padding-bottom: 3mm; border-bottom: 1px solid var(--linea); margin-bottom: 11mm; }
+.portada .p-marca { display: flex; align-items: center; gap: 2.2mm; color: var(--acento-txt); font-weight: 700; }
+.portada h1 { position: relative; z-index: 1; font-size: 37pt; line-height: .98; letter-spacing: -1.6pt; margin: 0; font-weight: 800; text-wrap: balance; }
+.portada h1 em { font-style: normal; color: #C97B0E; }
+.portada .bajada { position: relative; z-index: 1; font-size: 12.4pt; line-height: 1.38; color: #3A302A; max-width: 98mm; margin: 5.5mm 0 0; }
+.portada .p-pie { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; font-size: 8.4pt; color: var(--humo); margin-top: 9mm; }
+.portada .p-pie b { color: var(--negro); }
+.portada .p-barra { width: 34mm; height: 2.2mm; background: var(--acento); margin-bottom: 3mm; }
+.portada .p-deco { position: absolute; right: -20mm; top: 13mm; width: 92mm; height: 84mm; z-index: 0; }
+
+/* ===== Mejoras de la auditoria ===== */
+/* 1. Cabecera con numeral y marca */
+header.interior { display: flex; align-items: center; gap: 3.2mm; border-bottom: 2px solid var(--negro); padding-bottom: 2.4mm; margin-bottom: 5mm; }
+header.interior .n { font-size: 22pt; font-weight: 800; color: var(--acento); letter-spacing: -1pt; line-height: 1; font-variant-numeric: tabular-nums; }
+header.interior h1 { flex: 1; font-size: 15.4pt; line-height: 1.1; margin: 0; letter-spacing: -.5pt; font-weight: 800; text-wrap: balance; }
+header.interior .lado { display: flex; align-items: center; }
+/* 2. Pie con marca y progreso */
+.pie-hoja { align-items: center; font-size: 7.6pt; }
+.pie-hoja .izq { display: flex; align-items: center; gap: 1.8mm; }
+.pie-hoja .der { display: flex; align-items: center; gap: 2.4mm; font-variant-numeric: tabular-nums; }
+.pie-hoja .der b { color: var(--negro); }
+/* 3. Legibilidad: secundarios mas oscuros y sin letra minuscula */
+:root { --humo: #5A514A; }
+.apunte { font-size: 8.2pt; }
+.sit .cab .cuando { font-size: 7.8pt; }
+.cuatro p, .cuatro.cinco p { font-size: 8.2pt; }
+.regalo p, .item-ico p, .tarj p, .banner p { color: #4D443D; }
+/* 4. Esquinas y relieve unificados */
+.sit, .tarj, .pantalla, .banner, .cuatro > div, .cierre-frase { border-radius: 2.4mm; }
+.sit, .tarj, .pantalla, .cuatro > div { box-shadow: 0 .3mm 1.1mm rgba(20,10,6,.09); }
+.pantalla { overflow: hidden; }
+.burbuja { border-radius: 3.2mm; }
+.regalo code { border-radius: .8mm; }
+/* 5. Epigrafes con raya */
+.epigrafe::before { content: ""; display: inline-block; width: 6mm; height: .55mm; background: var(--acento); vertical-align: middle; margin-right: 2.2mm; }
+/* 6. Sin/Con Noah: icono y flecha de cambio */
+.sit .fila small { display: flex; align-items: center; gap: 1.2mm; }
+.sit .bien { position: relative; }
+.sit .bien::before { content: "↓"; position: absolute; right: 3mm; top: -2.7mm; width: 5.2mm; height: 5.2mm; border-radius: 50%; background: #fff; border: 1.2px solid var(--bien); color: var(--bien); font-size: 8pt; line-height: 4.4mm; text-align: center; font-weight: 700; }
+/* 9. Tarjetas de angulos: icono en circulo */
+.tarj .ico-t { float: right; width: 9mm; height: 9mm; border-radius: 50%; background: var(--negro); color: var(--acento); display: flex; align-items: center; justify-content: center; }
+.tarj .ico-t svg { width: 17px; height: 17px; }
+/* 10. Tipografia: sin viudas y cifras alineadas */
+body { font-variant-numeric: tabular-nums; }
+.grande, .banner b, .cierre-frase, .regalo b, .cuatro b { text-wrap: balance; }
+p, .regalo p, .item-ico p, .tarj p { text-wrap: pretty; }
+
+.portada h1 { font-size: 33pt; }
+.portada .bajada { max-width: 104mm; }
+.portada .p-deco { right: -12mm; top: 12mm; width: 80mm; height: 73mm; }
+.portada .p-top { margin-bottom: 9mm; }
+.portada .p-pie { margin-top: 7mm; }
+
+.p1 .epigrafe { margin-top: 2mm; } .p1 .cuatro { margin: 1mm 0; } .p1 .grande { margin-bottom: 2mm; }

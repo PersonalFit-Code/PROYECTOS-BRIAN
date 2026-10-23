@@ -4,7 +4,7 @@
 # el documento entero sin avisar.
 import math
 
-NEGRO = "#140A06"; ACENTO = "#E0952F"; TXT = "#9A5B0C"; HUMO = "#6D635C"
+NEGRO = "#140A06"; ACENTO = "#E0952F"; TXT = "#9A5B0C"; HUMO = "#5A514A"
 BIEN = "#2E7D4F"; MAL = "#C0392B"; BIEN_F = "#EAF4EE"; MAL_F = "#FBECEA"
 FONT = 'font-family="Helvetica, Arial, sans-serif"'
 
@@ -269,6 +269,7 @@ def propongo():
 
 # ------------------------------------------------------------------ ICONOS
 SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-marca" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#E0952F"/><g transform="translate(5,5) scale(.58)"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v4a2 2 0 01-2 2A15 15 0 013 5a2 2 0 012-2z" fill="none" stroke="#140A06" stroke-width="2.4" stroke-linejoin="round"/></g></symbol>
 <symbol id="i-tel" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v4a2 2 0 01-2 2A15 15 0 013 5a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
 <symbol id="i-tel-no" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v4a2 2 0 01-2 2A15 15 0 013 5a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 21L21 3" fill="none" stroke="currentColor" stroke-width="1.9"/></symbol>
 <symbol id="i-pizza" viewBox="0 0 24 24"><path d="M12 3c5 0 9 4 9 9H3c0-5 4-9 9-9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 12h18l-9 9-9-9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="9.5" cy="9.5" r="1.2" fill="currentColor"/><circle cx="14.5" cy="10" r="1.2" fill="currentColor"/><circle cx="12" cy="15" r="1.2" fill="currentColor"/></symbol>

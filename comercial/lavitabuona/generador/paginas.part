@@ -1,20 +1,15 @@
 <!-- ============ HOJA 1 · PORTADA + QUE ES NOAH ============ -->
 <div class="hoja p1">
   <div class="portada">
-    <svg class="horno-deco" width="200" height="200" viewBox="0 0 200 200">
-      <circle cx="100" cy="100" r="78" fill="none" stroke="#E0952F" stroke-width="2"/>
-      <circle cx="100" cy="100" r="66" fill="none" stroke="#E0952F" stroke-width=".8" stroke-dasharray="3 4"/>
-      <g stroke="#E0952F" stroke-width=".8"><path d="M100 34v132M34 100h132"/><path d="M53 53l94 94M147 53l-94 94"/></g>
-      <circle cx="74" cy="76" r="6" fill="#E0952F"/><circle cx="126" cy="82" r="5" fill="#E0952F"/>
-      <circle cx="84" cy="126" r="5.5" fill="#E0952F"/><circle cx="122" cy="124" r="4.5" fill="#E0952F"/>
-      <circle cx="100" cy="100" r="4" fill="#E0952F"/>
-    </svg>
-    <p class="marca">Noah &middot; asistente telefónica con inteligencia artificial</p>
+    <div class="p-top"><span class="p-marca"><svg width="17" height="17"><use href="#i-marca" width="17" height="17"/></svg>Noah &middot; asistente telefónica con inteligencia artificial</span><span>Octubre 2026</span></div>
+    {{PORTADA_DECO}}
     <h1>Agente de voz<br>conversacional para<br><em>La Vita Buona</em></h1>
     <p class="bajada">Coge el teléfono, toma el pedido y lo deja en tu cocina.
       Siempre, aunque tengas las manos en la masa.</p>
-    <p class="pie">Preparado por Brian &middot; Ourense, 23 de octubre de 2026<br>
-      Rúa Ramón Puga 75 &middot; 988 57 06 24</p>
+    <div class="p-pie">
+      <div><div class="p-barra"></div>Preparado por <b>Brian</b> &middot; Ourense, 23 de octubre de 2026</div>
+      <div>Rúa Ramón Puga 75 &middot; 988 57 06 24</div>
+    </div>
   </div>
 
   <p class="epigrafe">Qué es Noah</p>
@@ -28,12 +23,12 @@
     <div><span class="c"><svg width="20" height="20"><use href="#i-mapa" width="20" height="20"/></svg></span><b>Tu zona de reparto</b><p>Y el precio del envío</p></div>
     <div><span class="c"><svg width="20" height="20"><use href="#i-tel" width="20" height="20"/></svg></span><b>Un número</b><p>Donde reenviar llamadas</p></div>
   </div>
-  <div class="pie-hoja"><span>Noah para La Vita Buona</span><span>1 / 7</span></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para La Vita Buona</span><span class="der"><svg width="68" height="8" viewBox="0 0 68 8" aria-hidden="true"><circle cx="4" cy="4" r="3.3" fill="#E0952F"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>01</b> / 07</span></span></div>
 </div>
 
 <!-- ============ HOJA 2 · UNA LLAMADA ============ -->
 <div class="hoja p2">
-  <header class="interior"><h1>Una llamada, de principio a fin</h1><span class="lado">Hoja 2</span></header>
+  <header class="interior"><span class="n">02</span><h1>Una llamada, de principio a fin</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
   <p class="epigrafe">Cómo funciona</p>
   <p class="grande">Suena el teléfono, Noah contesta y el pedido aparece en tu cocina.
     <em>Nadie tiene que dejar lo que está haciendo.</em></p>
@@ -79,56 +74,56 @@
     <div><span class="c"><svg width="18" height="18"><use href="#i-euro" width="18" height="18"/></svg></span><b>Total exacto</b><p>Calculado, no sumado a ojo</p></div>
     <div><span class="c"><svg width="18" height="18"><use href="#i-ticket" width="18" height="18"/></svg></span><b>Código</b><p>Para encontrarlo luego</p></div>
   </div>
-  <div class="pie-hoja"><span>Una llamada, de principio a fin</span><span>2 / 7</span></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para La Vita Buona</span><span class="der"><svg width="68" height="8" viewBox="0 0 68 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="3.3" fill="#E0952F"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>02</b> / 07</span></span></div>
 </div>
 
 <!-- ============ HOJA 3 · SITUACIONES ============ -->
 <div class="hoja p3">
-  <header class="interior"><h1>Ocho situaciones de un día normal</h1><span class="lado">Hoja 3</span></header>
+  <header class="interior"><span class="n">03</span><h1>Ocho situaciones de un día normal</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
   <p class="epigrafe">Qué pasa sin Noah y con Noah</p>
   <p class="grande">No todo es la plataforma: el cliente viene a recoger, llama desde el portal,
     pregunta a las cuatro y media. <em>Cada situación, de las dos maneras.</em></p>
 
   <div class="rejilla">
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-reloj" width="18" height="18"/></svg></span><div><b>Hora punta</b><span class="cuando">viernes, 21:30</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Cocina a tope, reparto fuera y el teléfono sonando. Nadie llega y cuelgan.</div>
-      <div class="fila bien"><small>Con Noah</small>Contesta a la primera, y a la vez si entran dos llamadas más.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Cocina a tope, reparto fuera y el teléfono sonando. Nadie llega y cuelgan.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Contesta a la primera, y a la vez si entran dos llamadas más.</div></div>
 
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-bolsa" width="18" height="18"/></svg></span><div><b>Pedido para recoger</b><span class="cuando">el cliente pasa por el local</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Pedido apuntado de pie y a prisa, con el total hecho de cabeza.</div>
-      <div class="fila bien"><small>Con Noah</small>Lo repite, el servidor calcula el total y el cliente recibe un código de pedido.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Pedido apuntado de pie y a prisa, con el total hecho de cabeza.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Lo repite, el servidor calcula el total y el cliente recibe un código de pedido.</div></div>
 
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-moto" width="18" height="18"/></svg></span><div><b>Pedido a domicilio</b><span class="cuando">reparto propio</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Calle oída a medias, piso olvidado y un repartidor llamando desde el portal.</div>
-      <div class="fila bien"><small>Con Noah</small>Pide calle, número, piso y teléfono, y los repite hasta que el cliente confirma.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Calle oída a medias, piso olvidado y un repartidor llamando desde el portal.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Pide calle, número, piso y teléfono, y los repite hasta que el cliente confirma.</div></div>
 
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-luna" width="18" height="18"/></svg></span><div><b>Llaman con la cocina cerrada</b><span class="cuando">lunes, o a las 16:30</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Suena y nadie contesta. El cliente no sabe si abrís ni dónde estáis.</div>
-      <div class="fila bien"><small>Con Noah</small>Dice el horario y la dirección. No toma pedido cerrado, pero nadie se queda sin respuesta.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Suena y nadie contesta. El cliente no sabe si abrís ni dónde estáis.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Dice el horario y la dirección. No toma pedido cerrado, pero nadie se queda sin respuesta.</div></div>
 
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-carta" width="18" height="18"/></svg></span><div><b>Cliente indeciso</b><span class="cuando">63 platos en la carta</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Quien coge recita de memoria ingredientes y precios, y se deja la mitad.</div>
-      <div class="fila bien"><small>Con Noah</small>Conoce la carta entera con sus precios y describe sin inventar nada.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Quien coge recita de memoria ingredientes y precios, y se deja la mitad.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Conoce la carta entera con sus precios y describe sin inventar nada.</div></div>
 
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-euro" width="18" height="18"/></svg></span><div><b>Pedido por plataforma</b><span class="cuando">la misma margaritha</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Por Glovo sale a 7,60 €, antes de comisión.</div>
-      <div class="fila bien"><small>Con Noah</small>Por teléfono la cobras a 9,50 €, sin comisión, y repartes tú igual.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Por Glovo sale a 7,60 €, antes de comisión.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Por teléfono la cobras a 9,50 €, sin comisión, y repartes tú igual.</div></div>
 
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-grupo" width="18" height="18"/></svg></span><div><b>Pedido grande para compartir</b><span class="cuando">cumpleaños, cena de grupo</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Doce platos dictados de corrido: alguno se queda por el camino.</div>
-      <div class="fila bien"><small>Con Noah</small>Plato a plato, con cantidades, y lo repite entero antes de dar el total.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Doce platos dictados de corrido: alguno se queda por el camino.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Plato a plato, con cantidades, y lo repite entero antes de dar el total.</div></div>
 
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-pizza" width="18" height="18"/></svg></span><div><b>Piden algo que no hay</b><span class="cuando">una pizza con piña, una oferta</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Se promete lo que no se tiene y luego hay que desmentirlo.</div>
-      <div class="fila bien"><small>Con Noah</small>Solo se pide de la carta. Si no está, lo dice con naturalidad y ofrece opciones.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Se promete lo que no se tiene y luego hay que desmentirlo.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Solo se pide de la carta. Si no está, lo dice con naturalidad y ofrece opciones.</div></div>
   </div>
   <p class="apunte">«Sin Noah» describe lo que pasa en cualquier local cuando suena el teléfono y no hay quien lo coja; no es una afirmación sobre cómo atendéis hoy.</p>
-  <div class="pie-hoja"><span>Ocho situaciones de un día normal</span><span>3 / 7</span></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para La Vita Buona</span><span class="der"><svg width="68" height="8" viewBox="0 0 68 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="3.3" fill="#E0952F"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>03</b> / 07</span></span></div>
 </div>
 
 <!-- ============ HOJA 4 · EL DOLOR ============ -->
 <div class="hoja p4">
-  <header class="interior"><h1>El dolor: el teléfono suena cuando nadie puede cogerlo</h1><span class="lado">Hoja 4</span></header>
+  <header class="interior"><span class="n">04</span><h1>El dolor: el teléfono suena cuando nadie puede cogerlo</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
   <p class="epigrafe">Lo que le pasa a un local como el tuyo</p>
   <p class="grande">Cinco personas repartidas en dos turnos y un teléfono. Quien podría cogerlo
     <em>tiene las manos en la masa, en la plancha o con una bandeja</em>.</p>
@@ -140,19 +135,19 @@
 
   <div class="rejilla" style="margin-top:4mm">
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-ojo" width="18" height="18"/></svg></span><div><b>Lo que no se ve</b><span class="cuando">una llamada perdida no deja rastro</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Ni mensaje, ni reseña, ni número. No sabes cuántas pierdes ni qué pedían.</div>
-      <div class="fila bien"><small>Con Noah</small>Cada llamada queda registrada, con su resumen y su pedido en pantalla.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Ni mensaje, ni reseña, ni número. No sabes cuántas pierdes ni qué pedían.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Cada llamada queda registrada, con su resumen y su pedido en pantalla.</div></div>
     <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-estrella" width="18" height="18"/></svg></span><div><b>Justo ahora</b><span class="cuando">gente que te acaba de descubrir</span></div></div>
-      <div class="fila mal"><small>Sin Noah</small>Quien llegó por la prensa o por un reel y no consigue hablar, prueba con el siguiente.</div>
-      <div class="fila bien"><small>Con Noah</small>Le atiende una voz que sabe la carta, el horario y la dirección.</div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Quien llegó por la prensa o por un reel y no consigue hablar, prueba con el siguiente.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Le atiende una voz que sabe la carta, el horario y la dirección.</div></div>
   </div>
   <p class="apunte" style="margin-top:3mm">Fuentes: La Voz de Galicia (21-9-2026) y Faro de Vigo (1-10-2026), sobre la apertura y los cinco empleados.</p>
-  <div class="pie-hoja"><span>El dolor</span><span>4 / 7</span></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para La Vita Buona</span><span class="der"><svg width="68" height="8" viewBox="0 0 68 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="3.3" fill="#E0952F"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>04</b> / 07</span></span></div>
 </div>
 
 <!-- ============ HOJA 5 · ANGULOS ============ -->
 <div class="hoja p5">
-  <header class="interior"><h1>Seis formas en que Noah ayuda a tu negocio</h1><span class="lado">Hoja 5</span></header>
+  <header class="interior"><span class="n">05</span><h1>Seis formas en que Noah ayuda a tu negocio</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
   <p class="epigrafe">Por qué merece la pena</p>
   <p class="grande">Más pedidos que entran, menos errores, y una cocina que deja de
     <em>cortarse cada vez que suena el teléfono</em>.</p>
@@ -163,7 +158,7 @@
     <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-check" width="20" height="20"/></svg></span><div class="cifra">2<small> veces</small></div><b>Repite lo importante</b><p>El pedido y la dirección, hasta que el cliente confirma.</p></div>
     <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-carta" width="20" height="20"/></svg></span><div class="cifra">63</div><b>Platos que se sabe</b><p>Nadie tiene que recitar la carta de memoria.</p></div>
     <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-pantalla" width="20" height="20"/></svg></span><div class="cifra">1</div><b>Pantalla en cocina</b><p>El pedido llega solo. Nadie apunta nada.</p></div>
-    <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-luna" width="20" height="20"/></svg></span><div class="cifra">Siempre</div><b>Alguien responde</b><p>Hasta con la cocina cerrada: horario y dirección.</p></div>
+    <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-luna" width="20" height="20"/></svg></span><div class="cifra">24<small> h</small></div><b>Alguien responde</b><p>Hasta con la cocina cerrada: horario y dirección.</p></div>
   </div>
 
   <p class="epigrafe" style="margin-top:4mm">Cuando el pedido iba a entrar por plataforma</p>
@@ -176,12 +171,12 @@
       <p>Los desayunos que anunciaste al Faro de Vigo se añaden a la carta y al horario de Noah.</p></div>
   </div>
   <p class="apunte">Precios de Glovo consultados el 23 de octubre de 2026, con el −20% que tenía activo. Los de tu carta, los que me pasaste tú. En pizzas, pastas y ensaladas, exactamente un 20,0% menos; en postres, igual.</p>
-  <div class="pie-hoja"><span>Seis formas en que Noah ayuda</span><span>5 / 7</span></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para La Vita Buona</span><span class="der"><svg width="68" height="8" viewBox="0 0 68 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="3.3" fill="#E0952F"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>05</b> / 07</span></span></div>
 </div>
 
 <!-- ============ HOJA 6 · NICHO Y MICRONICHO ============ -->
 <div class="hoja p6">
-  <header class="interior"><h1>A quién le sirve esto, y por qué a ti</h1><span class="lado">Hoja 6</span></header>
+  <header class="interior"><span class="n">06</span><h1>A quién le sirve esto, y por qué a ti</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
   <p class="epigrafe">Nicho y micronicho</p>
   <p class="grande">Un agente de voz no le vale a todo el mundo. Le vale a quien
     <em>vende hablando y tiene las manos ocupadas</em>. Tú estás en el centro.</p>
@@ -207,12 +202,12 @@
       <li><svg width="12" height="12" color="#C0392B"><use href="#i-cruz" width="12" height="12"/></svg>No cobra por teléfono: se paga al entregar o recoger.</li>
       <li><svg width="12" height="12" color="#C0392B"><use href="#i-cruz" width="12" height="12"/></svg>No promete nada sobre alergias: lo confirma el personal.</li></ul></div>
   </div>
-  <div class="pie-hoja"><span>A quién le sirve esto</span><span>6 / 7</span></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para La Vita Buona</span><span class="der"><svg width="68" height="8" viewBox="0 0 68 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="3.3" fill="#E0952F"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>06</b> / 07</span></span></div>
 </div>
 
 <!-- ============ HOJA 7 · DETALLES Y PROPUESTA ============ -->
 <div class="hoja p7">
-  <header class="interior"><h1>Lo que vi mirando lo tuyo, y lo que propongo</h1><span class="lado">Hoja 7</span></header>
+  <header class="interior"><span class="n">07</span><h1>Lo que vi mirando lo tuyo, y lo que propongo</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
   <p class="epigrafe">Cinco detalles, gratis</p>
   <p class="grande">Para preparar esto leí tu web, tu Glovo y tus reseñas. Encontré cinco cosas
     que te pueden estar costando clientes. <em>Te las cuento igual, trabajemos juntos o no.</em></p>
@@ -228,5 +223,5 @@
   <div style="margin-top:4mm">{{PROPONGO}}</div>
   <div class="cierre-frase">Que el teléfono deje de ser el sitio por donde se te escapan los pedidos.</div>
   <p class="apunte" style="margin-top:3mm">Todo lo de este documento sale de fuentes públicas consultadas el 23 de octubre de 2026 &mdash; La Voz de Galicia, Faro de Vigo, Google, Glovo y tu propia web &mdash; salvo la carta y los precios, que me los pasaste tú.</p>
-  <div class="pie-hoja"><span>Lo que vi, y lo que propongo</span><span>7 / 7</span></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para La Vita Buona</span><span class="der"><svg width="68" height="8" viewBox="0 0 68 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="3.3" fill="#E0952F"/></svg><span><b>07</b> / 07</span></span></div>
 </div>
