@@ -6,9 +6,26 @@
  * scripts/crear-negocio.ts es solo el que los mete en Firestore.
  */
 
+import { LA_VITA_BUONA } from "./lavitabuona";
 import type { Business } from "./types";
 
 export const EJEMPLOS: Record<string, Business> = {
+  // Su carta son 63 platos y vive aparte, en lavitabuona.ts.
+  lavitabuona: LA_VITA_BUONA,
+
+  // La misma carta, pero abierta a todas horas: para probar una llamada fuera de
+  // su horario real (la cocina cierra de 16:00 a 19:00 y los lunes) sin tocar
+  // la ficha buena. NO es un negocio de verdad: no se le pone a un cliente.
+  "lavitabuona-prueba": {
+    ...LA_VITA_BUONA,
+    id: "lavitabuona-prueba",
+    horario: {
+      texto: "Abierto todos los dias, a cualquier hora.",
+      ultimoPedidoReparto: "23:59",
+      diaCierre: "ninguno",
+    },
+  },
+
   tixola: {
     id: "tixola",
     nombre: "Taperia Tixola",

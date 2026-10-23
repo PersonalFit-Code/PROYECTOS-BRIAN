@@ -7,11 +7,12 @@
  * campo en la base de datos.
  */
 
-import { config } from "../config";
+import { config, TELEFONO_E164 } from "../config";
 import { conLimite } from "../util/espera";
 import type { Clinica } from "./clinica";
 import { CLINICAS_DE_EJEMPLO } from "./clinicasDeEjemplo";
 import { fallbackBusiness } from "./fallbackBusiness";
+import { EJEMPLOS } from "./negociosDeEjemplo";
 import { firestore } from "./firebase";
 import type { Accion, Business } from "./types";
 import { camposQueFaltanClinica, esClinica, pideCitas } from "./validarClinica";
@@ -102,6 +103,29 @@ export function camposQueFaltan(valor: unknown): string[] {
     faltan.push("nombreAgente");
   }
 
+  // El saludo propio tiene que avisar de que no es una persona: es lo
+  // primero que oye el cliente y la ley pide que lo sepa desde el principio.
+  if (
+    doc.saludo !== undefined &&
+    !(esTextoNoVacio(doc.saludo) && /virtual/i.test(doc.saludo as string))
+  ) {
+    faltan.push('saludo (tiene que decir "asistente virtual")');
+  }
+
+  // La sugerencia se dice tal cual: en blanco seria una frase vacia.
+  if (doc.sugerencia !== undefined && !esTextoNoVacio(doc.sugerencia)) {
+    faltan.push("sugerencia");
+  }
+
+  // Un numero que Vapi no acepte hace que rechace el asistente entero y la
+  // llamada no llega a descolgarse, asi que aqui no se deja pasar.
+  if (
+    doc.telefonoTraspaso !== undefined &&
+    !(typeof doc.telefonoTraspaso === "string" && TELEFONO_E164.test(doc.telefonoTraspaso))
+  ) {
+    faltan.push("telefonoTraspaso (con prefijo y sin espacios: +34988123456)");
+  }
+
   const acciones = doc.acciones;
   if (
     !Array.isArray(acciones) ||
@@ -179,20 +203,22 @@ function esBusiness(valor: unknown): valor is Business {
  */
 export async function getNegocio(id: string): Promise<Negocio> {
   if (!firestore) {
-    // Sin Firestore el negocio de ejemplo es uno de pedidos, asi que el modo
-    // citas no se podia ni arrancar en local. Con CLINICA_DE_EJEMPLO se sirve
-    // uno de los de muestra y se puede probar la llamada entera sin base de
-    // datos. Solo aqui dentro: con Firestore configurado esto no se mira.
-    const deEjemplo = CLINICAS_DE_EJEMPLO[config.clinicaDeEjemplo];
-    if (config.clinicaDeEjemplo && !deEjemplo && !avisadoSinFirebase) {
-      console.warn(
-        `CLINICA_DE_EJEMPLO="${config.clinicaDeEjemplo}" no existe. Las que hay: ${Object.keys(CLINICAS_DE_EJEMPLO).join(", ")}.`,
-      );
-    }
+    // Sin Firestore solo se servia el negocio de respaldo, asi que no habia
+    // forma de probar una llamada real contra la carta de un negocio
+    // concreto. Con NEGOCIO_DE_EJEMPLO se sirve el que se pida, de
+    // cualquiera de los dos modos. Solo aqui dentro: con Firestore
+    // configurado esto no se mira, para que un despiste en el .env no pueda
+    // tapar un negocio de verdad.
+    const pedido = config.negocioDeEjemplo;
+    const deEjemplo: Negocio | undefined = EJEMPLOS[pedido] ?? CLINICAS_DE_EJEMPLO[pedido];
     if (!avisadoSinFirebase) {
+      if (pedido && !deEjemplo) {
+        const hay = [...Object.keys(EJEMPLOS), ...Object.keys(CLINICAS_DE_EJEMPLO)].join(", ");
+        console.warn(`NEGOCIO_DE_EJEMPLO="${pedido}" no existe. Los que hay: ${hay}.`);
+      }
       console.warn(
         deEjemplo
-          ? `Firebase no configurado, usando la clinica de ejemplo "${config.clinicaDeEjemplo}".`
+          ? `Firebase no configurado, usando el negocio de ejemplo "${pedido}".`
           : "Firebase no configurado, usando negocio de ejemplo.",
       );
       avisadoSinFirebase = true;

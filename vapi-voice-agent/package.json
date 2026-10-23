@@ -17,7 +17,8 @@
     "crear:negocio": "tsx scripts/crear-negocio.ts",
     "test": "tsx --test src/__tests__/*.test.ts",
     "crear:clinica": "tsx scripts/crear-clinica.ts",
-    "probar:citas": "tsx scripts/probar-citas.ts"
+    "probar:citas": "tsx scripts/probar-citas.ts",
+    "probar:pedido": "tsx scripts/probar-pedido.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.7",

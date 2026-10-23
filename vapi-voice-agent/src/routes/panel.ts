@@ -140,6 +140,10 @@ function pintarPedido(
          <div class="dato"><b>Direccion:</b> ${escapar(pedido.direccion)}</div>`
       : `<div class="entrega recogida">Recoge en el local</div>`;
 
+  const cliente = pedido.nombre
+    ? `<div class="dato"><b>Cliente:</b> ${escapar(pedido.nombre)}</div>`
+    : "";
+
   const telefono = pedido.telefono
     ? `<div class="dato"><b>Telefono:</b> ${escapar(pedido.telefono)}</div>`
     : "";
@@ -175,6 +179,7 @@ function pintarPedido(
       ${entrega}
       <ul class="lineas">${lineas}</ul>
       <div class="total">${formatearEuros(pedido.totalCentimos)} ${envio}</div>
+      ${cliente}
       ${telefono}
       ${notas}
       ${boton}

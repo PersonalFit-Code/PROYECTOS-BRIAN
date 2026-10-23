@@ -3,7 +3,8 @@
  *
  * Existe para no tener que pegar a mano un curl larguisimo cada vez: al
  * pegarlo en la terminal se cuelan caracteres y el JSON se rompe. Con esto
- * basta `npm run prueba:pedido`.
+ * basta `npm run prueba:pedido`, o `npm run prueba:pedido lavitabuona p-margaritha`
+ * para otro negocio y otro plato.
  *
  * Lee el puerto y el secreto del .env, asi que no hay que pasarle nada.
  */
@@ -13,6 +14,9 @@ import "dotenv/config";
 const puerto = process.env.PORT ?? "3000";
 const secreto = process.env.VAPI_SERVER_SECRET ?? "";
 const negocio = process.argv[2] ?? process.env.DEFAULT_BUSINESS_ID ?? "";
+// El plato lo pone quien lo lanza: cada negocio tiene sus identificadores
+// ("margarita" en la pizzeria de ejemplo, "p-margaritha" en La Vita Buona).
+const plato = process.argv[3] ?? "margarita";
 
 const url =
   `http://localhost:${puerto}/voice-webhook` +
@@ -27,7 +31,7 @@ const cuerpo = {
         id: "t1",
         name: "registrar_pedido",
         parameters: {
-          articulos: [{ plato: "margarita", cantidad: 2 }],
+          articulos: [{ plato, cantidad: 2 }],
           entrega: "reparto",
           direccion: "Rua do Paseo 5, 2 A",
           telefono: "600123456",

@@ -117,12 +117,13 @@ async function ejecutarHerramientaPedido(
           articulos: articulos ?? [],
           entrega: argumentos.entrega,
           direccion: argumentos.direccion as string | undefined,
+          nombre: argumentos.nombre as string | undefined,
           telefono: argumentos.telefono as string | undefined,
           notas: argumentos.notas as string | undefined,
           callId,
         });
 
-        // Deletreado: el agente lo lee letra a letra por telefono.
+        // Separado, para que el agente lo diga cifra a cifra.
         const codigo = pedido.codigo.split("").join(" ");
         const total = formatearEuros(pedido.totalCentimos);
 

@@ -33,6 +33,7 @@ export interface DatosPedido {
   articulos: readonly LineaPedido[];
   entrega: unknown;
   direccion?: string;
+  nombre?: string;
   telefono?: string;
   notas?: string;
   callId?: string;
@@ -69,15 +70,17 @@ function idDocumento(callId: string): string {
 }
 
 /**
- * Alfabeto sin caracteres que se confunden al deletrearlos por telefono: sin
- * O ni 0, sin I ni 1, sin S ni 5.
+ * Solo cifras. Con letras y numeros mezclados ("9 E M 7") el cliente lo oia
+ * mal en la primera llamada real y tenia que pedir que se lo repitieran; cuatro
+ * numeros se dicen y se apuntan sin pensar. Sin el 0 para que el codigo no
+ * empiece por "cero", que suena a que falta algo.
  */
-const ALFABETO = "ABCDEFGHJKLMNPQRTUVWXYZ2346789";
+const CIFRAS = "123456789";
 
 function generarCodigo(): string {
   let codigo = "";
   for (let i = 0; i < 4; i += 1) {
-    codigo += ALFABETO[Math.floor(Math.random() * ALFABETO.length)];
+    codigo += CIFRAS[Math.floor(Math.random() * CIFRAS.length)];
   }
   return codigo;
 }
@@ -118,6 +121,7 @@ export function construirPedido(
     totalCentimos: total.totalCentimos,
     tipoEntrega: total.tipoEntrega as TipoEntrega,
     direccion,
+    nombre: texto(datos.nombre),
     telefono: texto(datos.telefono),
     notas: texto(datos.notas),
     callId: texto(datos.callId),

@@ -33,6 +33,7 @@ npm start              # arranca dist/index.js
 | `npm run crear:negocio <id>` | Da de alta un negocio de ejemplo en Firestore. |
 | `npm run crear:clinica <id> <calendario>` | Da de alta un negocio de **cita** (dental, estetica) en Firestore. |
 | `npm run probar:citas [negocio]` | Simula una llamada de cita entera y la imprime. Sin red, sin Google. |
+| `bash scripts/preparar-prueba.sh [--secreto-nuevo]` | Deja el `.env` listo para probar La Vita Buona por telefono (negocio por defecto, secreto, URL de ngrok) y dice que poner en Vapi. El secreto va al portapapeles, no a la pantalla. |
 
 ## El modelo: Claude Haiku 4.5, no 3.5
 
@@ -223,7 +224,7 @@ El calendario es de mentira. Eso quiere decir que esto **no** prueba que Google
 acepte la cita, ni que el modelo elija bien la herramienta, ni como suena la
 voz. Para eso hace falta una llamada de verdad contra un calendario de verdad.
 
-Para probarlo tambien por HTTP, sin base de datos: `CLINICA_DE_EJEMPLO=airea` en
+Para probarlo tambien por HTTP, sin base de datos: `NEGOCIO_DE_EJEMPLO=airea` en
 el `.env`, `npm run dev`, y el webhook sirve ese centro.
 
 ### Dar de alta uno de verdad
@@ -296,8 +297,8 @@ despertar, y una llamada entrante no espera tanto.
 | `VOZ_VELOCIDAD` | `1.05` | Solo ElevenLabs. De `0.7` a `1.2`; acepta coma decimal. Fuera de rango, el servidor no arranca. |
 | `SONIDO_FONDO` | `office` | Ambiente detras de la voz: `office`, `off` o la URL de un audio. |
 | `INTERRUPCION_PALABRAS` | `1` | Palabras del cliente para que el agente se calle. `0` es lo mas natural, pero con manos libres el agente se corta a si mismo. |
-| `INTERRUPCION_SEGUNDOS` | `0.4` | Segundos de voz seguidos antes de callarse. Subelo si se entrecorta con ruido. |
-| `CLINICA_DE_EJEMPLO` | *(vacio)* | `pontenova` o `airea`. Solo se mira **si no hay Firestore**: sirve ese negocio de cita de muestra para poder probar el modo citas en local sin base de datos. Con `FIREBASE_SERVICE_ACCOUNT` puesto se ignora. |
+| `INTERRUPCION_SEGUNDOS` | `0.4` | Segundos de voz seguidos antes de callarse. **De 0 a 0,5**: es el limite de Vapi, y con mas rechaza el asistente y la llamada no se descuelga (el servidor no arranca fuera de rango). Solo cuenta con `INTERRUPCION_PALABRAS=0`; si se entrecorta con ruido, sube `INTERRUPCION_PALABRAS`. |
+| `NEGOCIO_DE_EJEMPLO` | *(vacio)* | Negocio de muestra que se sirve **si no hay Firestore**, para poder probar una llamada real sin base de datos: `lavitabuona` o `tixola` (pedidos), `pontenova` o `airea` (citas). Con `FIREBASE_SERVICE_ACCOUNT` puesto se ignora. |
 
 ## Probar en local
 

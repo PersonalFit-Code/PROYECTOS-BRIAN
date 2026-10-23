@@ -76,6 +76,44 @@ describe("calcularTotal", () => {
     );
   });
 
+  it("con una carta larga NO recita los platos: el agente se los leeria en voz alta", () => {
+    // Paso de verdad al cargar la carta de La Vita Buona: son 63 platos, y el
+    // mensaje de error devolvia los 63 nombres en una sola linea al modelo.
+    const largo: Business = {
+      ...negocio,
+      carta: Array.from({ length: 40 }, (_, i) => ({
+        id: `plato-${i}`,
+        nombre: `Plato numero ${i}`,
+        descripcion: "lo que sea",
+        precioCentimos: 1000 + i,
+      })),
+    };
+
+    assert.throws(
+      () => calcularTotal(largo, [{ plato: "hawaiana", cantidad: 1 }], "recogida"),
+      (error: unknown) => {
+        assert.ok(error instanceof PedidoInvalidoError);
+        assert.match(error.message, /no esta en la carta/);
+        assert.match(error.message, /40 platos/);
+        assert.match(error.message, /No se la leas al cliente/);
+        // Lo que no puede pasar: que vengan los nombres.
+        assert.ok(
+          !error.message.includes("Plato numero 7"),
+          `no puede recitar la carta: ${error.message}`,
+        );
+        return true;
+      },
+    );
+  });
+
+  it("con una carta corta si los dice, que es lo util", () => {
+    assert.throws(
+      () => calcularTotal(negocio, [{ plato: "hawaiana", cantidad: 1 }], "recogida"),
+      (error: unknown) =>
+        error instanceof PedidoInvalidoError && error.message.includes("Solo hay:"),
+    );
+  });
+
   it("rechaza cantidades que no son enteros positivos", () => {
     for (const cantidad of [0, -1, 1.5, Number.NaN]) {
       assert.throws(

@@ -62,6 +62,31 @@ function normalizarTipoEntrega(valor: unknown): TipoEntrega {
   );
 }
 
+/**
+ * Lo maximo que se le puede recitar a un negocio con carta corta. Por encima
+ * de esto se le recuerda al modelo que ya la tiene y se le deja preguntar.
+ */
+const CARTA_QUE_CABE = 12;
+
+/**
+ * Que decirle al modelo cuando pide un plato que no existe.
+ *
+ * Con una carta corta se le devuelven los nombres, que es lo mas util. Con
+ * una carta larga NO: La Vita Buona tiene 63 platos, y devolver los 63 en una
+ * linea hace que el modelo se los lea en voz alta al cliente. La carta
+ * completa ya la tiene en sus instrucciones, asi que basta recordarselo.
+ */
+function recordatorioDeCarta(business: Business): string {
+  if (business.carta.length <= CARTA_QUE_CABE) {
+    return `Solo hay: ${business.carta.map((p) => p.nombre).join(", ")}.`;
+  }
+  return (
+    `La carta tiene ${business.carta.length} platos y la tienes entera en tus ` +
+    "instrucciones. No se la leas al cliente: preguntale que le apetece y " +
+    "ofrecele dos o tres opciones de las que haya."
+  );
+}
+
 export function calcularTotal(
   business: Business,
   lineas: readonly LineaPedido[],
@@ -79,9 +104,8 @@ export function calcularTotal(
       String(linea.plato ?? ""),
     );
     if (!plato) {
-      const disponibles = business.carta.map((p) => p.nombre).join(", ");
       throw new PedidoInvalidoError(
-        `"${linea.plato}" no esta en la carta. Solo hay: ${disponibles}.`,
+        `"${linea.plato}" no esta en la carta. ${recordatorioDeCarta(business)}`,
       );
     }
     const cantidad = normalizarCantidad(linea.cantidad, plato.nombre);

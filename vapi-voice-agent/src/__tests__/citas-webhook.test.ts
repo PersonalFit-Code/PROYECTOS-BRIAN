@@ -70,7 +70,7 @@ before(async () => {
   // Sin Firebase y con la clinica de ejemplo puesta, el webhook sirve el
   // centro de estetica. Hay que recargar config y las rutas que la leyeron.
   process.env.FIREBASE_SERVICE_ACCOUNT = "";
-  process.env.CLINICA_DE_EJEMPLO = ESTETICA;
+  process.env.NEGOCIO_DE_EJEMPLO = ESTETICA;
   process.env.VAPI_SERVER_SECRET = "";
   process.env.PUBLIC_SERVER_URL = "";
   for (const modulo of [

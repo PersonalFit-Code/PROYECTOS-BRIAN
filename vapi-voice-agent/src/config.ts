@@ -79,6 +79,38 @@ function readDecimal(
   return valor;
 }
 
+/**
+ * Telefono en formato internacional: "+" y de 8 a 15 cifras, sin espacios.
+ * Es lo unico que Vapi acepta para pasar una llamada a un numero.
+ */
+export const TELEFONO_E164 = /^\+[1-9]\d{7,14}$/;
+
+/**
+ * Telefono al que pasar la llamada. Se le quitan espacios y guiones, que es
+ * como lo escribe una persona, y si aun asi no es valido el servidor no
+ * arranca: un numero mal puesto haria que Vapi rechazase el asistente entero.
+ */
+function readTelefono(raw: string | undefined, variable: string): string {
+  const limpio = (raw ?? "").replace(/[\s-]/g, "");
+  if (limpio === "") return "";
+  if (!TELEFONO_E164.test(limpio)) {
+    throw new Error(
+      `${variable} tiene que ir con el prefijo del pais y sin nada mas, por ejemplo +34988123456: "${raw ?? ""}"`,
+    );
+  }
+  return limpio;
+}
+
+/** Como decide el agente que el cliente ha terminado de hablar. */
+export type FinDeTurno = "texto" | "vapi";
+
+function readFinDeTurno(raw: string | undefined): FinDeTurno {
+  const valor = (raw ?? "").trim().toLowerCase();
+  if (valor === "") return "texto";
+  if (valor === "texto" || valor === "vapi") return valor;
+  throw new Error(`FIN_DE_TURNO tiene que ser "texto" o "vapi": "${raw ?? ""}"`);
+}
+
 /** Quita la barra final para poder concatenar rutas sin duplicarla. */
 function readPublicUrl(raw: string | undefined): string {
   return (raw ?? "").trim().replace(/\/+$/, "");
@@ -102,14 +134,16 @@ export const config = {
   /** Negocio que se usa cuando la peticion no trae ?business=. */
   defaultBusinessId: process.env.DEFAULT_BUSINESS_ID ?? "",
   /**
-   * Negocio de cita de ejemplo que se sirve cuando no hay Firestore, para
-   * poder probar el modo citas sin base de datos ("pontenova", "airea").
+   * Negocio de ejemplo que se sirve cuando no hay Firestore, para poder
+   * probar una llamada de verdad sin base de datos. Vale cualquiera de los
+   * dos modos: "lavitabuona" o "tixola" (pedidos), "pontenova" o "airea"
+   * (citas).
    *
    * Solo se mira si falta FIREBASE_SERVICE_ACCOUNT: con Firestore configurado
    * manda siempre lo que haya en la base de datos, para que esto no pueda
-   * tapar una clinica real por un despiste en el .env.
+   * tapar un negocio real por un despiste en el .env.
    */
-  clinicaDeEjemplo: process.env.CLINICA_DE_EJEMPLO?.trim() || "",
+  negocioDeEjemplo: process.env.NEGOCIO_DE_EJEMPLO?.trim() || "",
   /**
    * Contrasena del panel de pedidos. Si esta vacia, el panel solo responde a
    * peticiones desde el propio ordenador: mejor eso que dejar direcciones y
@@ -146,12 +180,19 @@ export const config = {
    * evitan a cambio de tardar un pelin mas en cederte la palabra.
    */
   interrupcionPalabras: readEntero(process.env.INTERRUPCION_PALABRAS, 1, 0, 10),
-  /** Segundos de voz seguidos antes de callarse. Sube si se corta con ruido. */
+  /**
+   * Segundos de voz seguidos antes de callarse. Vapi solo lo mira cuando
+   * INTERRUPCION_PALABRAS es 0, y solo acepta de 0 a 0,5: con un valor mayor
+   * rechaza el asistente entero y la llamada no se llega a descolgar. Paso de
+   * verdad con 0,8: el webhook contestaba 200 y el cliente oia "no se puede
+   * cursar la llamada". Por eso aqui el tope es 0,5 y el servidor no arranca
+   * con mas, que es mejor que arrancar y romper todas las llamadas en silencio.
+   */
   interrupcionSegundos: readDecimal(
     process.env.INTERRUPCION_SEGUNDOS,
     0.4,
     0,
-    3,
+    0.5,
   ),
   /**
    * Sonido de fondo de la llamada: "office" (murmullo de oficina, el de Vapi
@@ -159,5 +200,22 @@ export const config = {
    * (por ejemplo, ambiente de cocina o de bar).
    */
   sonidoFondo: process.env.SONIDO_FONDO?.trim() || "office",
+  /**
+   * Como se decide que el cliente ha acabado de hablar.
+   *
+   * "texto" (por defecto): por lo que transcribe Deepgram. Si la frase acaba
+   * en punto contesta casi al momento; si no, espera 0,8 segundos.
+   * "vapi": el detector propio de Vapi, que es lo que habia hasta ahora. En
+   * la primera llamada real cada turno tardaba unos 3 segundos; si con
+   * "texto" el agente pisa al cliente, se vuelve a este con FIN_DE_TURNO=vapi.
+   */
+  finDeTurno: readFinDeTurno(process.env.FIN_DE_TURNO),
+  /**
+   * Telefono de una persona al que pasar la llamada cuando piden hablar con
+   * alguien, hay una queja o quieren reservar. Vale para todos los negocios;
+   * el que traiga el suyo (telefonoTraspaso) manda. Vacio: no se pasa la
+   * llamada y el agente ofrece, como hasta ahora, que llamen al restaurante.
+   */
+  telefonoTraspaso: readTelefono(process.env.TELEFONO_TRASPASO, "TELEFONO_TRASPASO"),
   nodeEnv: process.env.NODE_ENV ?? "development",
 } as const;
