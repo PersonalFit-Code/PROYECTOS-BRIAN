@@ -1,0 +1,178 @@
+@page { size: A4; margin: 13mm 14mm; }
+:root {
+  --negro: #140A06; --crema: #FBF6EC; --linea: #E6DCCB; --fino: #F3EBDD; --humo: #6D635C;
+  --acento: #E0952F; --acento-txt: #9A5B0C; --acento-f: #FCEFD9;
+  --bien: #2E7D4F; --bien-f: #EAF4EE; --mal: #C0392B; --mal-f: #FBECEA;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 9.6pt; line-height: 1.45; color: var(--negro);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.hoja { page-break-after: always; zoom: 1.033; }
+.hoja:last-child { page-break-after: auto; }
+section, .sit, .tarj, .pantalla, .regalo, .caja4, .chat, svg { page-break-inside: avoid; }
+h2 { page-break-after: avoid; }
+svg { display: block; }
+b, strong { font-weight: 700; }
+p { margin: 0 0 3mm; }
+
+/* Portada */
+.portada {
+  background: var(--negro); color: var(--crema);
+  margin: 0 0 7mm; padding: 16mm 14mm 12mm;
+  position: relative; overflow: hidden;
+}
+.portada::after {
+  content: ""; position: absolute; left: 14mm; bottom: 5mm;
+  width: 34mm; height: 2.2mm; background: var(--acento);
+}
+.portada .marca { font-size: 7.2pt; letter-spacing: 3pt; text-transform: uppercase; color: var(--acento); margin: 0 0 5mm; }
+.portada h1 { font-size: 33pt; margin: 0; letter-spacing: -1.2pt; font-weight: 800; line-height: 1.0; }
+.portada h1 em { font-style: normal; color: var(--acento); }
+.portada .bajada { font-size: 12pt; margin: 5mm 0 0; color: #D9CCBB; max-width: 112mm; }
+.portada .pie { margin: 10mm 0 0; font-size: 8.2pt; color: #9A8D80; }
+.portada .horno-deco { position: absolute; right: -14mm; top: 50%; transform: translateY(-50%); opacity: .5; }
+
+/* Cabecera y textos */
+header.interior {
+  display: flex; align-items: baseline; justify-content: space-between;
+  border-bottom: 2px solid var(--negro); padding-bottom: 2mm; margin-bottom: 5mm;
+}
+header.interior h1 { font-size: 16.5pt; margin: 0; letter-spacing: -.5pt; font-weight: 800; }
+header.interior .lado { font-size: 8pt; color: var(--humo); }
+.epigrafe { font-size: 8pt; letter-spacing: 2pt; text-transform: uppercase; color: var(--acento-txt); margin: 0 0 2mm; font-weight: 700; }
+.grande { font-size: 12.2pt; line-height: 1.35; margin: 0 0 3.5mm; }
+.grande em { font-style: normal; background: linear-gradient(transparent 60%, #F7D9A8 60%); }
+.apunte { font-size: 7.8pt; color: var(--humo); margin: 2mm 0 0; }
+.pie-hoja {
+  margin-top: 3mm; padding-top: 1.5mm; border-top: 1px solid var(--linea);
+  font-size: 7.2pt; color: var(--humo); display: flex; justify-content: space-between;
+}
+.dos { display: flex; gap: 4.5mm; align-items: flex-start; }
+.dos > * { flex: 1; min-width: 0; }
+
+/* Situaciones: rojo (sin Noah) y verde (con Noah) */
+.rejilla { display: flex; flex-wrap: wrap; gap: 3.2mm; margin: 3mm 0; }
+.sit { flex: 0 0 calc(50% - 1.6mm); border: 1px solid var(--linea); background: #fff; overflow: hidden; }
+.sit .cab { display: flex; align-items: center; gap: 2.4mm; padding: 2.4mm 3mm; background: var(--crema); border-bottom: 1px solid var(--linea); }
+.sit .ico { flex: 0 0 8.5mm; height: 8.5mm; border-radius: 50%; background: var(--negro); color: var(--acento); display: flex; align-items: center; justify-content: center; }
+.sit .cab b { font-size: 9.8pt; display: block; line-height: 1.15; }
+.sit .cab .cuando { font-size: 7.4pt; color: var(--humo); }
+.sit .fila { padding: 2.1mm 3mm 2.1mm 3.4mm; font-size: 8.6pt; border-left: 3px solid; }
+.sit .mal { background: var(--mal-f); border-color: var(--mal); }
+.sit .bien { background: var(--bien-f); border-color: var(--bien); }
+.sit .fila small { display: block; font-size: 6.6pt; letter-spacing: 1.3pt; text-transform: uppercase; font-weight: 700; margin-bottom: .6mm; }
+.sit .mal small { color: var(--mal); }
+.sit .bien small { color: var(--bien); }
+
+/* Tarjetas de angulos */
+.tarjs { display: flex; flex-wrap: wrap; gap: 3.2mm; margin: 3mm 0; }
+.tarj { flex: 0 0 calc(33.333% - 2.2mm); border: 1px solid var(--linea); border-top: 2.4mm solid var(--acento); background: var(--crema); padding: 3mm; }
+.tarj .cifra { font-size: 22pt; font-weight: 800; line-height: 1; letter-spacing: -1pt; }
+.tarj .cifra small { font-size: 8.6pt; font-weight: 700; color: var(--acento-txt); letter-spacing: 0; }
+.tarj b { display: block; font-size: 9.4pt; margin: 1.4mm 0 .8mm; }
+.tarj p { font-size: 8.3pt; color: var(--humo); margin: 0; }
+.tarj .ico-t { float: right; color: var(--acento-txt); }
+
+/* Pantalla de cocina */
+.pantalla { border: 1px solid var(--negro); }
+.pantalla .barra { background: var(--negro); color: var(--crema); padding: 2mm 3.2mm; font-size: 7.6pt; display: flex; justify-content: space-between; align-items: center; }
+.pantalla .cuerpo { padding: 3.2mm; }
+.pantalla .cod { font-size: 16pt; font-weight: 800; letter-spacing: 2pt; }
+.pantalla table { width: 100%; border-collapse: collapse; font-size: 8.8pt; }
+.pantalla td { padding: 1.2mm 0; border-bottom: 1px solid var(--fino); }
+.pantalla td.num { text-align: right; font-weight: 700; }
+.pantalla .total td { border-bottom: none; border-top: 1.5px solid var(--negro); padding-top: 2mm; font-weight: 800; }
+
+/* Chat */
+.chat { display: flex; flex-direction: column; gap: 2mm; }
+.burbuja { max-width: 90%; padding: 2mm 3mm; font-size: 8.5pt; border-radius: 3mm; }
+.burbuja small { display: block; font-size: 6.4pt; letter-spacing: 1.2pt; text-transform: uppercase; font-weight: 700; margin-bottom: .5mm; }
+.burbuja.cli { align-self: flex-start; background: var(--fino); border-bottom-left-radius: .8mm; }
+.burbuja.cli small { color: var(--humo); }
+.burbuja.noah { align-self: flex-end; background: var(--negro); color: var(--crema); border-bottom-right-radius: .8mm; }
+.burbuja.noah small { color: var(--acento); }
+
+/* Lista con iconos y cajas de cuatro */
+.lista-ico { display: flex; flex-wrap: wrap; gap: 3mm 4mm; margin: 3mm 0; }
+.item-ico { flex: 0 0 calc(50% - 2mm); display: flex; gap: 2.5mm; align-items: flex-start; }
+.item-ico .c { flex: 0 0 8mm; height: 8mm; border-radius: 50%; background: var(--acento-f); border: 1.3px solid var(--acento); color: var(--acento-txt); display: flex; align-items: center; justify-content: center; }
+.item-ico b { display: block; font-size: 9.2pt; }
+.item-ico p { font-size: 8.3pt; color: var(--humo); margin: 0; }
+
+/* Si / No */
+.sino { display: flex; gap: 4mm; margin: 3mm 0; }
+.sino .col { flex: 1; }
+.sino .cabe { font-size: 8pt; letter-spacing: 1.6pt; text-transform: uppercase; font-weight: 700; padding-bottom: 1.5mm; margin-bottom: 2.2mm; border-bottom: 2px solid; display: flex; align-items: center; gap: 2mm; }
+.sino .si .cabe { color: var(--bien); }
+.sino .no .cabe { color: var(--mal); }
+.sino ul { margin: 0; padding: 0; list-style: none; font-size: 8.6pt; }
+.sino li { padding-left: 5.2mm; position: relative; margin-bottom: 1.7mm; }
+.sino li svg { position: absolute; left: 0; top: .6mm; }
+
+/* Regalos */
+.regalos { display: flex; flex-wrap: wrap; gap: 3mm 4mm; margin: 3mm 0; }
+.regalo { flex: 0 0 calc(50% - 2mm); display: flex; gap: 2.6mm; align-items: flex-start; }
+.regalo .num { flex: 0 0 7mm; height: 7mm; border-radius: 50%; background: var(--negro); color: var(--acento); font-weight: 800; font-size: 9.5pt; display: flex; align-items: center; justify-content: center; }
+.regalo b { display: block; font-size: 9.2pt; margin-bottom: .5mm; }
+.regalo p { font-size: 8.2pt; color: var(--humo); margin: 0; }
+.regalo code { font-family: "Courier New", monospace; font-size: 7.6pt; background: var(--fino); padding: .2mm .9mm; color: var(--acento-txt); }
+
+/* Bloques nuevos */
+.cuatro { display: flex; gap: 3mm; margin: 2mm 0; }
+.cuatro > div { flex: 1; min-width: 0; border: 1px solid var(--linea); background: var(--crema); padding: 3mm 2.4mm; text-align: center; }
+.cuatro .c { display: inline-flex; width: 10mm; height: 10mm; border-radius: 50%; background: var(--negro); color: var(--acento); align-items: center; justify-content: center; margin-bottom: 1.6mm; }
+.cuatro b { display: block; font-size: 9.2pt; line-height: 1.2; }
+.cuatro p { font-size: 8pt; color: var(--humo); margin: .6mm 0 0; line-height: 1.3; }
+.cuatro.cinco > div { padding: 2.6mm 1.8mm; }
+.cuatro.cinco b { font-size: 8.6pt; }
+.cuatro.cinco p { font-size: 7.6pt; }
+.banner { display: flex; gap: 3.5mm; align-items: center; background: var(--acento-f); border: 1.3px solid var(--acento); padding: 3.5mm 4mm; margin: 4mm 0 2mm; }
+.banner .c { flex: 0 0 11mm; height: 11mm; border-radius: 50%; background: var(--negro); color: var(--acento); display: flex; align-items: center; justify-content: center; }
+.banner b { display: block; font-size: 10.2pt; margin-bottom: .6mm; }
+.banner p { font-size: 8.8pt; color: #5A4630; margin: 0; }
+.cierre-frase { margin-top: 4mm; padding: 5mm 6mm; background: var(--acento); color: var(--negro); font-size: 15pt; font-weight: 800; letter-spacing: -.4pt; line-height: 1.2; text-align: center; }
+
+/* Ajustes por hoja para aprovechar el alto */
+.p2 .pantalla .cuerpo { padding: 4mm; } .p2 .pantalla table { font-size: 9.4pt; } .p2 .pantalla td { padding: 1.7mm 0; } .p2 .pantalla .cod { font-size: 19pt; }
+.p2 .burbuja { font-size: 9.2pt; padding: 2.5mm 3.3mm; } .p2 .chat { gap: 2.6mm; }
+.p3 .sit .fila { font-size: 8.9pt; padding: 2.2mm 3mm 2.2mm 3.4mm; } .p3 .sit .cab b { font-size: 10pt; }
+.p4 .sit .fila { font-size: 9.1pt; padding: 2.8mm 3mm 2.8mm 3.4mm; }
+.p5 .tarj { padding: 3.2mm 3.2mm; } .p5 .tarj .cifra { font-size: 24pt; } .p5 .tarj b { font-size: 9.6pt; } .p5 .tarj p { font-size: 8.5pt; }
+.p6 .item-ico b { font-size: 10pt; } .p6 .item-ico p { font-size: 8.9pt; } .p6 .item-ico .c { flex-basis: 9.5mm; height: 9.5mm; } .p6 .sino ul { font-size: 9.2pt; } .p6 .sino li { margin-bottom: 2.2mm; } .p6 .lista-ico { gap: 4mm 5mm; }
+.p7 .regalo b { font-size: 10pt; } .p7 .regalo p { font-size: 8.9pt; } .p7 .regalo .num { flex-basis: 8mm; height: 8mm; } .p7 .regalos { gap: 4mm 5mm; }
+
+.cuatro p { white-space: normal; }
+.p1 .cuatro > div { padding: 2.4mm 2mm; } .p1 .cuatro .c { width: 9mm; height: 9mm; margin-bottom: 1mm; }
+.p3 .sit .fila { padding: 2mm 3mm 2mm 3.4mm; } .p3 .sit .cab { padding: 2mm 3mm; } .p3 .rejilla { margin-bottom: 1mm; }
+.p4 .sit .fila { font-size: 9.4pt; padding: 3.2mm 3mm 3.2mm 3.4mm; } .p4 .grande { margin-bottom: 4mm; }
+.p5 .tarj { padding: 3.8mm 3.2mm; } .p5 .tarj .cifra { font-size: 26pt; } .p5 .banner { padding: 4mm 4.4mm; } .p5 .banner p { font-size: 9.2pt; }
+
+svg.f { width: 100%; height: auto; }
+.p6 .item-ico { flex-basis: calc(50% - 2.5mm); }
+.p7 .regalo { flex-basis: calc(50% - 2.5mm); }
+.p1 .portada { padding: 13mm 14mm 9mm; margin-bottom: 6mm; }
+.p1 .portada .pie { margin-top: 7mm; }
+
+/* Relleno fino de las hojas que quedaban cortas */
+.p4 .sit .fila { font-size: 9.8pt; padding: 3.8mm 3.2mm 3.8mm 3.6mm; } .p4 .sit .cab { padding: 3mm; } .p4 .epigrafe { margin-top: 5mm; }
+.p5 .tarj { padding: 4.6mm 3.6mm; } .p5 .tarj .cifra { font-size: 29pt; } .p5 .tarj b { font-size: 10.4pt; } .p5 .tarj p { font-size: 9.2pt; }
+.p5 .banner { padding: 5mm 5mm; margin-top: 5mm; } .p5 .banner b { font-size: 11pt; } .p5 .banner p { font-size: 9.8pt; }
+.p6 .item-ico b { font-size: 10.6pt; } .p6 .item-ico p { font-size: 9.4pt; } .p6 .item-ico .c { flex-basis: 10.5mm; height: 10.5mm; }
+.p6 .sino ul { font-size: 9.8pt; } .p6 .sino li { margin-bottom: 3mm; } .p6 .sino .cabe { font-size: 8.6pt; margin-bottom: 3mm; } .p6 .lista-ico { gap: 5mm 6mm; margin: 4mm 0; } .p6 .epigrafe { margin-top: 6mm; }
+.p7 .regalo b { font-size: 10.6pt; } .p7 .regalo p { font-size: 9.5pt; } .p7 .regalo .num { flex-basis: 9mm; height: 9mm; font-size: 11pt; } .p7 .regalos { gap: 5.5mm 6mm; margin: 4mm 0 5mm; }
+.p7 .cierre-frase { font-size: 18pt; padding: 8mm 7mm; margin-top: 5mm; } .p7 .apunte { margin-top: 4mm; }
+.p6 .sino li { margin-bottom: 2.2mm; } .p6 .lista-ico { gap: 4mm 6mm; margin: 3mm 0; } .p6 .epigrafe { margin-top: 4.5mm; } .p6 .item-ico b { font-size: 10.2pt; } .p6 .item-ico p { font-size: 9pt; }
+.p7 .cierre-frase { font-size: 16pt; padding: 6mm 6mm; margin-top: 4mm; } .p7 .regalos { gap: 4.5mm 6mm; margin: 3.5mm 0 4mm; } .p7 .regalo p { font-size: 9.1pt; } .p7 .regalo b { font-size: 10.2pt; }
+.p6 .sino li { margin-bottom: 1.6mm; } .p6 .sino ul { font-size: 9.3pt; } .p6 .lista-ico { gap: 3mm 6mm; margin: 2.5mm 0; } .p6 .item-ico .c { flex-basis: 9.5mm; height: 9.5mm; } .p6 .epigrafe { margin-top: 3.5mm; } .p6 .sino .cabe { margin-bottom: 2.4mm; }
+.p7 .cierre-frase { font-size: 15pt; padding: 4.6mm 6mm; margin-top: 3mm; } .p7 .regalos { gap: 3.4mm 6mm; margin: 3mm 0 3mm; } .p7 .regalo p { font-size: 8.9pt; } .p7 .regalo .num { flex-basis: 8.4mm; height: 8.4mm; }
+.p6 .epigrafe { margin-top: 2.6mm; } .p6 .sino li { margin-bottom: 1.2mm; } .p6 .lista-ico { margin: 2mm 0; gap: 2.4mm 6mm; } .p6 .grande { margin-bottom: 2.6mm; }
+.p6 .item-ico { flex-basis: calc(50% - 3.2mm); }
+.p7 .regalo { flex-basis: calc(50% - 3.2mm); }
+.p7 .regalo b { font-size: 10.8pt; } .p7 .regalo p { font-size: 9.6pt; } .p7 .regalos { gap: 6mm 6mm; margin: 5mm 0 6mm; } .p7 .regalo .num { flex-basis: 9mm; height: 9mm; font-size: 11pt; }
+.p7 .cierre-frase { font-size: 17pt; padding: 7mm 6mm; margin-top: 5mm; } .p7 .grande { margin-bottom: 5mm; }
+.p6 .epigrafe { margin-top: 6mm; } .p6 .lista-ico { gap: 5.5mm 6mm; margin: 4mm 0 3mm; } .p6 .item-ico b { font-size: 10.8pt; } .p6 .item-ico p { font-size: 9.6pt; } .p6 .item-ico .c { flex-basis: 11mm; height: 11mm; }
+.p6 .sino ul { font-size: 10pt; } .p6 .sino li { margin-bottom: 3mm; } .p6 .sino .cabe { font-size: 8.8pt; margin-bottom: 3mm; } .p6 .grande { margin-bottom: 3.5mm; }
+.p7 .regalos { gap: 7mm 6mm; margin: 6mm 0 7mm; } .p7 .cierre-frase { font-size: 18pt; padding: 9mm 6mm; margin-top: 6mm; }
