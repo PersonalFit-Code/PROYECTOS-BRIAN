@@ -169,8 +169,15 @@ function isSameOrigin(req: Request): boolean {
      cuando le parece. Y para llegar hasta aquí con uno de esos nombres hay que usarlo de verdad: en
      Vercel el enrutado va por el `Host`, un nombre que no sea alias del proyecto ni entra. */
   if (host !== req.headers.get("host")) return false;
-  if (process.env.NODE_ENV !== "production") return true; // en local: localhost, 127.0.0.1 o la IP de la red para probar en el móvil
-  return /\.vercel\.app$/.test(host.replace(/:\d+$/, ""));
+  const sinPuerto = host.replace(/:\d+$/, "");
+  /* La propia máquina. Una petición cuyo `Host` es la de casa ha salido de la de casa: no hay forma
+     de que llegue de fuera. Hace falta tenerlo aquí y no solo en desarrollo porque `next start` —la
+     forma de levantar la web compilada para mirarla antes de publicar— corre con NODE_ENV en
+     producción, y sin esta línea el camarero contesta 403 en local y parece roto cuando no lo está.
+     Medido en el navegador, que es como se vio. */
+  if (sinPuerto === "localhost" || sinPuerto === "127.0.0.1" || sinPuerto === "[::1]") return true;
+  if (process.env.NODE_ENV !== "production") return true; // en desarrollo vale también la IP de la red, para probar en el móvil
+  return /\.vercel\.app$/.test(sinPuerto);
 }
 
 /* ────────────────────────────────────────────────────────────

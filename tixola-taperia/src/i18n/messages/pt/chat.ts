@@ -34,7 +34,7 @@ const chat = {
   offlineNote: "Modo sem ligação: respondo com a informação da ementa e do horário.",
   fallbackNote: "O assistente com IA não está disponível neste momento; respondo com a informação da ementa e do horário.",
   error: "Não consegui responder neste momento. Tente de novo ou ligue-nos.",
-  rateLimited: "Fez muitas perguntas seguidas. Aguarde um minuto ou ligue-nos e atendemos de imediato.",
+  rateLimited: "Fez muitas perguntas seguidas. Tente de novo dentro de alguns minutos ou ligue-nos e atendemos de imediato.",
   retry: "Tentar de novo",
   disclaimer: "As respostas são indicativas. Em caso de alergias graves, consulte sempre o pessoal.",
   privacyNote:

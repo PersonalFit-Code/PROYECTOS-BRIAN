@@ -34,7 +34,7 @@ const chat = {
   offlineNote: "Offline mode: I'm answering from the menu and our opening hours.",
   fallbackNote: "The AI assistant isn't available right now; I'm answering from the menu and our opening hours.",
   error: "I couldn't answer just now. Please try again or give us a call.",
-  rateLimited: "You've sent a lot of questions in a row. Give it a minute, or call us and we'll help you straight away.",
+  rateLimited: "You've sent a lot of questions in a row. Try again in a few minutes, or call us and we'll help you straight away.",
   retry: "Retry",
   disclaimer: "Answers are for guidance only. For serious allergies, always check with our staff.",
   privacyNote: "What you type is sent to our AI provider (Anthropic, in the US) to write the reply. We don't store it; it stays in your browser for this visit only, and the provider normally deletes it from its systems within 30 days. Please don't type personal or health details: ask about dishes or ingredients.",

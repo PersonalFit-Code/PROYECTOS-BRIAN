@@ -33,7 +33,7 @@ const chat: Section<"chat"> = {
   offlineNote: "Modo sen conexión: respondo coa información da carta e do horario.",
   fallbackNote: "O asistente con IA non está dispoñible agora mesmo; respondo coa información da carta e do horario.",
   error: "Non puiden responder agora mesmo. Téntao de novo ou chámanos.",
-  rateLimited: "Fixeches moitas preguntas seguidas. Agarda un minuto ou chámanos e atendémoste de contado.",
+  rateLimited: "Fixeches moitas preguntas seguidas. Téntao de novo nuns minutos ou chámanos e atendémoste de contado.",
   retry: "Tentar de novo",
   disclaimer: "As respostas son orientativas. Ante alerxias graves, consulta sempre co persoal.",
   privacyNote: "O que escribas envíase ao noso provedor de IA (Anthropic, nos EUA) para redactar a resposta. Nós non o gardamos; queda no teu navegador mentres dure a visita e o provedor elimínao dos seus sistemas, por norma, en 30 días como máximo. Non escribas datos persoais nin de saúde: pregunta por pratos ou ingredientes.",

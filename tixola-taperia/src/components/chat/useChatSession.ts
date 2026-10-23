@@ -225,8 +225,26 @@ export function useChatSession({ locale, page }: UseChatSessionOptions): ChatSes
           signal: controller.signal,
         });
 
-        if (res.status === 429) return fail("rateLimited");
-        if (!res.ok || !res.body) return fail("server");
+        /* 429 Y 403 SON LA MISMA COSA PARA QUIEN PREGUNTA: «ahora no, espera». El 429 lo manda la
+           ruta cuando se pasa de cuota; el 403 puede venir del cortafuegos de Vercel, que vive
+           delante de la aplicación y responde él. Los dos acaban en `rateLimited`, que es el único
+           aviso que NO enseña el botón de reintentar — y eso importa: con el texto genérico, la
+           persona pulsa «Reintentar», hace otra petición, el cortafuegos la vuelve a contar y la
+           vuelve a cortar. Se le estaría invitando a martillear la puerta que acaba de cerrarse. */
+        if (res.status === 429 || res.status === 403) return fail("rateLimited");
+        /* NADA QUE NO SEA UN 200 LIMPIO SE PINTA COMO RESPUESTA DEL CAMARERO. Antes esto dejaba
+           pasar cualquier 2xx: una página intermedia de la plataforma (un «checkpoint» de
+           seguridad, una redirección servida con 200) se habría leído como texto y habría salido
+           su HTML dentro del bocadillo del camarero, con el nombre del local debajo. No llegaría a
+           ejecutarse nada —`ChatMessage` construye nodos de React, no inyecta HTML— pero es un
+           destrozo de imagen. La ruta propia solo contesta 200; lo demás, a la tarjeta de error. */
+        if (res.status !== 200 || !res.body) return fail("server");
+        /* Y QUE ADEMÁS SEA TEXTO. Medido en el navegador: con una respuesta de 200 y cuerpo HTML
+           —una página intermedia de la plataforma, por ejemplo— el bocadillo del camarero mostraba
+           literalmente «<html><body>…</body></html>» debajo del nombre del local. El estado no
+           bastaba para distinguirlo; el tipo de contenido sí: la ruta propia contesta SIEMPRE
+           `text/plain`, así que cualquier otra cosa no viene de ella. */
+        if (!res.headers.get("content-type")?.includes("text/plain")) return fail("server");
 
         const header = res.headers.get(WAITER_MODE_HEADER);
         setMode(isWaiterMode(header) ? header : "claude");

@@ -33,7 +33,7 @@ const chat = {
   offlineNote: "Modo sin conexión: respondo con la información de la carta y el horario.",
   fallbackNote: "El asistente con IA no está disponible ahora mismo; respondo con la información de la carta y el horario.",
   error: "No he podido responder ahora mismo. Inténtalo de nuevo o llámanos.",
-  rateLimited: "Has hecho muchas preguntas seguidas. Espera un minuto o llámanos y te atendemos al momento.",
+  rateLimited: "Has hecho muchas preguntas seguidas. Vuelve a intentarlo en unos minutos o llámanos y te atendemos al momento.",
   retry: "Reintentar",
   disclaimer: "Las respuestas son orientativas. Ante alergias graves, consulta siempre al personal.",
   /* PRIMERA CAPA de información (art. 13 RGPD), en el sitio donde se recogen los datos.
