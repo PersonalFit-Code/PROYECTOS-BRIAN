@@ -90,14 +90,67 @@ Dos cosas más, menores, de la misma tanda:
    apagada. Es el único techo duro de la factura: todo lo demás son frenos.
 3. **Doble factor** en GitHub, Vercel y Google.
 
-**Decisión suya, y por eso no lo he tocado:** poner una **regla de límite de
-tasa en el cortafuegos de Vercel** sobre `/api/chat` —por ejemplo 60 peticiones
-por IP cada 10 minutos, acción `deny`—. Es la única protección que vive delante
-de todas las instancias a la vez. No la he puesto por dos razones: es un cambio
-de infraestructura en producción que afecta a todo el que entra en la web, y el
-proyecto sigue en el plan gratuito, donde el límite de tasa puede no estar
-disponible (el proyecto no tiene hoy ninguna configuración de cortafuegos). Con
-un «adelante» se pone en una orden.
+**Bloqueado por un paso que solo puede dar Brian** (actualizado el 23-10-2026,
+con su visto bueno ya dado): la **regla de límite de tasa en el cortafuegos de
+Vercel** sobre `/api/chat`. Es la única protección que vive delante de todas las
+instancias a la vez; la cuota del código vive en la memoria de cada una.
+
+El plan Hobby **sí** admite límite de tasa —la documentación de Vercel dice
+«available on all plans»—, con estos topes, que son los que han dictado la
+regla: una sola regla de límite de tasa por proyecto, conteo solo por IP o JA4,
+algoritmo `fixed_window` y ventana máxima de 600 s. Las «persistent actions»
+(bloquear al cliente durante un rato) sí son de pago, así que no se usan.
+
+**Lo que impide aplicarla:** el proyecto no tiene ninguna configuración de
+cortafuegos, y la API se niega a crearla. Probado, no supuesto: `PUT
+/v1/security/firewall/config` con la regla entera, `PUT` con solo
+`{"firewallEnabled": true}` y `PATCH` con `rules.insert` devuelven los tres
+**404 «Seawall Config not found»**. Tampoco hay salida por `vercel.json`: ahí
+solo se admiten las acciones `challenge` y `deny`, no el límite de tasa. La
+configuración se provisiona al abrir **una vez** la pestaña Firewall del
+proyecto en el panel:
+`https://vercel.com/centropersonalfit/tixola-taperia/firewall`.
+
+**Runbook en cuanto esa pestaña se haya abierto** — la regla, ya calibrada:
+
+```json
+{
+  "firewallEnabled": true,
+  "rules": [{
+    "name": "Limite del camarero virtual",
+    "active": true,
+    "conditionGroup": [{ "conditions": [{ "type": "path", "op": "pre", "value": "/api/chat" }] }],
+    "action": { "mitigate": { "action": "rate_limit", "rateLimit": {
+      "algo": "fixed_window", "window": 600, "limit": 120, "keys": ["ip"], "action": "rate_limit"
+    }}}
+  }]
+}
+```
+
+**Por qué 120 y no 60.** El propio código considera que 30 por IP y 10 minutos
+es el borde de lo que hace UNA persona. Pero una IP no es una persona: por el
+wifi del local salen todos los clientes a la vez, y los móviles españoles
+comparten dirección pública entre abonados (CGNAT). Un sábado bueno, de una
+sola IP pueden salir 20-80 peticiones sin que nadie esté abusando. 60 se queda
+corto; 120 son cuatro veces lo de una persona, por encima de cualquier
+escenario realista de red compartida, y sigue cortando en seco al que ataca
+desde una sola dirección. Dato que permite ser generoso: **el gasto de la IA no
+depende de este número**, porque el freno de mano del código (300 llamadas por
+instancia) degrada al camarero sin conexión antes de seguir gastando. Esta
+regla protege invocaciones y ancho de banda, no la factura del modelo.
+
+**Y por qué acción 429 y no 403.** Medido en un navegador de verdad: con 429 el
+chat enseña «Vuelve a intentarlo en unos minutos» con los botones de Llamar y
+WhatsApp y SIN botón de reintentar. Con 403 enseñaba el aviso genérico CON
+botón de reintentar, es decir, invitaba a volver a llamar a la puerta que el
+cortafuegos acababa de cerrar. Eso ya está arreglado en el código del 23-10-2026
+(ahora 403 y 429 van al mismo aviso), así que la regla es segura con cualquiera
+de las dos; pero 429 sigue siendo la correcta.
+
+**Un cabo suelto conocido:** hay un hilo sin respuesta en la comunidad de Vercel
+de un usuario de Hobby al que el panel le pide pasar a Pro al cambiar la acción
+de rebase a 429. Si eso pasara aquí, el plan B es dejar la acción en `deny`
+(403), que el chat ya trata bien.
 
 **Propuesto y no aplicado:** la subida de dependencias del punto 17.
 
