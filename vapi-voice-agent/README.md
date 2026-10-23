@@ -33,6 +33,7 @@ npm start              # arranca dist/index.js
 | `npm run crear:negocio <id>` | Da de alta un negocio de ejemplo en Firestore. |
 | `npm run crear:clinica <id> <calendario>` | Da de alta un negocio de **cita** (dental, estetica) en Firestore. |
 | `npm run probar:citas [negocio]` | Simula una llamada de cita entera y la imprime. Sin red, sin Google. |
+| `bash scripts/preparar-prueba.sh [--secreto-nuevo]` | Deja el `.env` listo para probar La Vita Buona por telefono (negocio por defecto, secreto, URL de ngrok) y dice que poner en Vapi. El secreto va al portapapeles, no a la pantalla. |
 
 ## El modelo: Claude Haiku 4.5, no 3.5
 
