@@ -85,3 +85,21 @@ describe("registrar_pedido sin platos, por HTTP", () => {
     assert.match(texto, /no lleva ningun plato/);
   });
 });
+
+describe("buscar los platos en el texto, sea cual sea la forma", async () => {
+  const { buscarArticulosEnTexto } = await import("../tools/memoriaPedido");
+  const ids = ["p-prosciutto", "p-prosciutto-funghi", "p-margaritha", "po-tiramisu"];
+
+  it("lee una lista mal formada con sus cantidades", () => {
+    assert.deepEqual(
+      buscarArticulosEnTexto("[{plato: p-margaritha, cantidad: 2}, {plato: 'po-tiramisu', cantidad: 3}]", ids),
+      [{ plato: "p-margaritha", cantidad: 2 }, { plato: "po-tiramisu", cantidad: 3 }],
+    );
+  });
+
+  it("no confunde un plato con otro que empieza igual", () => {
+    assert.deepEqual(buscarArticulosEnTexto('"p-prosciutto-funghi" x1', ids), [
+      { plato: "p-prosciutto-funghi", cantidad: 1 },
+    ]);
+  });
+});

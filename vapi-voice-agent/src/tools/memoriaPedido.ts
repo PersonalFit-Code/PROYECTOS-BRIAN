@@ -48,6 +48,55 @@ export function leerArticulos(valor: unknown): LineaPedido[] {
   return [];
 }
 
+/**
+ * Ultimo recurso: buscar los identificadores de la carta en el texto de los
+ * argumentos, sea cual sea su forma ("[{plato: p-margaritha, cantidad: 2}]",
+ * comillas simples, JSON a medias...). Como el modelo solo puede usar los
+ * identificadores de la carta, encontrarlos en el texto es fiable. La
+ * cantidad es el primer numero que va detras del identificador, antes del
+ * siguiente plato; si no hay, es uno.
+ */
+export function buscarArticulosEnTexto(texto: string, ids: readonly string[]): LineaPedido[] {
+  const encontrados: Array<{ plato: string; desde: number; hasta: number }> = [];
+  // Los mas largos primero, para que "p-prosciutto-funghi" no se lea como
+  // "p-prosciutto".
+  for (const id of [...ids].sort((a, b) => b.length - a.length)) {
+    const patron = new RegExp(`(?<![\\w-])${id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![\\w-])`, "g");
+    for (const m of texto.matchAll(patron)) {
+      const desde = m.index ?? 0;
+      const hasta = desde + id.length;
+      if (encontrados.some((e) => desde < e.hasta && hasta > e.desde)) continue;
+      encontrados.push({ plato: id, desde, hasta });
+    }
+  }
+  encontrados.sort((a, b) => a.desde - b.desde);
+  return encontrados.map((e, i) => {
+    const siguiente = encontrados[i + 1]?.desde ?? texto.length;
+    const tramo = texto.slice(e.hasta, siguiente);
+    const numero = tramo.match(/\d+/);
+    return { plato: e.plato, cantidad: numero ? Number(numero[0]) : 1 };
+  });
+}
+
+/**
+ * Los platos de unos argumentos: primero por la forma esperada, y si no sale
+ * nada, buscando los identificadores de la carta en todo el texto.
+ */
+export function articulosDe(argumentos: Record<string, unknown>, ids: readonly string[]): LineaPedido[] {
+  for (const clave of ["articulos", "platos", "items", "lineas", "pedido"]) {
+    const leidos = leerArticulos(argumentos[clave]);
+    if (leidos.length > 0) return leidos;
+  }
+  return buscarArticulosEnTexto(JSON.stringify(argumentos), ids);
+}
+
+/** Como han llegado los platos, para el log. Son identificadores, no datos personales. */
+export function describirLlegada(argumentos: Record<string, unknown>): string {
+  const crudo = argumentos.articulos;
+  const muestra = typeof crudo === "string" ? crudo : JSON.stringify(crudo);
+  return `campos=[${Object.keys(argumentos).join(",")}] articulos(${Array.isArray(crudo) ? "lista" : typeof crudo})=${String(muestra).slice(0, 300)}`;
+}
+
 interface Recordado {
   articulos: LineaPedido[];
   entrega: unknown;
@@ -74,8 +123,9 @@ export function recordarPedido(callId: string, articulos: LineaPedido[], entrega
 export function pedidoParaRegistrar(
   callId: string,
   argumentos: Record<string, unknown>,
+  ids: readonly string[] = [],
 ): { articulos: LineaPedido[]; entrega: unknown; deMemoria: boolean } {
-  const articulos = leerArticulos(argumentos.articulos);
+  const articulos = articulosDe(argumentos, ids);
   const recordado = recordados.get(callId);
   const entrega = argumentos.entrega ?? recordado?.entrega;
 

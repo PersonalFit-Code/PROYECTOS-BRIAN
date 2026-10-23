@@ -243,7 +243,8 @@ ${pasoSugerencia}4. Pregunta si es para recoger en el local o para llevar a domi
      indicacion para encontrarlo; el nombre; y un telefono de contacto.
    ${instruccionTelefono(telefonoLlamada)}
 6. Llama a la herramienta calcular_total con los platos, las cantidades y el
-   tipo de entrega.
+   tipo de entrega. Llamala sin decir nada antes: el "un momento" ya lo dice
+   el sistema. Manda TODOS los platos del pedido, cada uno con su cantidad.
 7. Ahora, y solo ahora, confirma TODO de una vez, en un solo turno: los platos
    con sus cantidades, si es para recoger o la direccion, el telefono y el
    total que te ha dado la herramienta. Termina con "¿Se lo confirmo?".
@@ -589,6 +590,9 @@ export function urlDelWebhook(businessId?: string): string {
  * de Vapi; estos son valores razonables para castellano, pero hay que
  * ajustarlos a los proveedores disponibles.
  */
+/** Ver el comentario en buildAssistant: con 250 se cortaban los pedidos grandes. */
+export const MAX_TOKENS_POR_TURNO = 1500;
+
 export function buildAssistant(
   business: Business,
   businessId?: string,
@@ -606,6 +610,14 @@ export function buildAssistant(
       provider: "anthropic" as const,
       model: config.vapiModel,
       temperature: 0.4,
+      // Vapi corta cada turno del modelo en 250 tokens si no se dice otra
+      // cosa. Una frase hablada cabe de sobra, pero un pedido grande no: la
+      // lista de platos de la herramienta va en el mismo turno, y con siete
+      // u ocho platos (y la confirmacion leida en voz alta delante) se
+      // cortaba. Los platos llegaban vacios al servidor y el agente "se
+      // olvidaba" del pedido. Los pedidos de dos o tres platos si cabian, por
+      // eso fallaba solo con los grandes.
+      maxTokens: MAX_TOKENS_POR_TURNO,
       messages: [
         { role: "system" as const, content: buildSystemPrompt(business, telefonoLlamada) },
       ],

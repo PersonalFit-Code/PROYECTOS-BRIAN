@@ -273,3 +273,11 @@ describe("lo que fallo en la prueba del pedido de 97 euros", () => {
     assert.ok(!/en horario de apertura para confirmar/.test(buildSystemPrompt(LA_VITA_BUONA)));
   });
 });
+
+describe("pedidos grandes", () => {
+  it("el modelo tiene sitio para un pedido grande: no el tope de 250 de Vapi", () => {
+    const modelo = (buildAssistant(LA_VITA_BUONA) as unknown as { model: { maxTokens?: number } }).model;
+    assert.ok(modelo.maxTokens !== undefined, "sin maxTokens Vapi pone 250 y corta la lista de platos");
+    assert.ok(modelo.maxTokens >= 1000 && modelo.maxTokens <= 10000, String(modelo.maxTokens));
+  });
+});

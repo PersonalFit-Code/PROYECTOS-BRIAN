@@ -93,7 +93,9 @@ export function calcularTotal(
   tipoEntregaBruto: unknown,
 ): TotalPedido {
   if (!Array.isArray(lineas) || lineas.length === 0) {
-    throw new PedidoInvalidoError("El pedido no lleva ningun plato.");
+    throw new PedidoInvalidoError(
+      'El pedido no lleva ningun plato. Manda "articulos" como una lista de objetos, por ejemplo [{"plato": "identificador-de-la-carta", "cantidad": 1}], con todos los platos que ha pedido.',
+    );
   }
 
   const tipoEntrega = normalizarTipoEntrega(tipoEntregaBruto);

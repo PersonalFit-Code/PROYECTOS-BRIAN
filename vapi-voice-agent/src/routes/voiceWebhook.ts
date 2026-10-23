@@ -26,7 +26,12 @@ import {
   TOOL_REGISTRAR_PEDIDO,
 } from "../tools/names";
 import { normalizarLlamadas, parseArgs } from "../tools/normalizar";
-import { leerArticulos, pedidoParaRegistrar, recordarPedido } from "../tools/memoriaPedido";
+import {
+  articulosDe,
+  describirLlegada,
+  pedidoParaRegistrar,
+  recordarPedido,
+} from "../tools/memoriaPedido";
 import { conLimite } from "../util/espera";
 import {
   PedidoInvalidoError,
@@ -105,7 +110,10 @@ async function ejecutarHerramientaPedido(
   switch (nombre) {
     case TOOL_CALCULAR_TOTAL: {
       try {
-        const articulos = leerArticulos(argumentos.articulos);
+        const articulos = articulosDe(argumentos, business.carta.map((p) => p.id));
+        if (articulos.length === 0) {
+          console.warn(`[calcular_total] sin platos: ${describirLlegada(argumentos)}`);
+        }
         const total = calcularTotal(business, articulos, argumentos.entrega);
         recordarPedido(callId, articulos, argumentos.entrega);
         return describirTotal(business, total);
@@ -120,11 +128,17 @@ async function ejecutarHerramientaPedido(
 
     case TOOL_REGISTRAR_PEDIDO: {
       try {
-        const { articulos, entrega, deMemoria } = pedidoParaRegistrar(callId, argumentos);
+        const { articulos, entrega, deMemoria } = pedidoParaRegistrar(
+          callId,
+          argumentos,
+          business.carta.map((p) => p.id),
+        );
         if (deMemoria) {
           console.warn(
-            `[registrar_pedido] llego sin platos (articulos: ${typeof argumentos.articulos}); se usa lo calculado en esta llamada`,
+            `[registrar_pedido] llego sin platos; se usa lo calculado en esta llamada. ${describirLlegada(argumentos)}`,
           );
+        } else if (articulos.length === 0) {
+          console.warn(`[registrar_pedido] sin platos: ${describirLlegada(argumentos)}`);
         }
         const { pedido, yaExistia } = await guardarPedido(business, {
           articulos,
