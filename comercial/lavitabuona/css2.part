@@ -1,0 +1,142 @@
+<style>
+  /* ---------------- Tabla de precios ---------------- */
+  .precios { width: 100%; border-collapse: collapse; margin: 3mm 0; font-size: 8.8pt; }
+  .precios th {
+    text-align: left; font-size: 7.2pt; letter-spacing: 1pt; text-transform: uppercase;
+    color: var(--humo); border-bottom: 1.5px solid var(--horno); padding: 0 2mm 1.5mm 0;
+    font-weight: 700;
+  }
+  .precios th.num, .precios td.num { text-align: right; padding-right: 0; }
+  .precios td { padding: 1.7mm 2mm 1.7mm 0; border-bottom: 1px solid var(--fino); }
+  .precios tr:last-child td { border-bottom: none; }
+  .precios .plato { font-weight: 700; }
+  .precios .casa { font-weight: 700; }
+  .precios .glovo { color: var(--humo); }
+  .precios .dif { color: var(--tomate); font-weight: 700; }
+  .precios tfoot td {
+    border-top: 1.5px solid var(--horno); border-bottom: none;
+    padding-top: 2mm; font-size: 8.4pt;
+  }
+  .ojo {
+    border-left: 2.5mm solid var(--brasa); background: #FDF6EA;
+    padding: 3mm 3.5mm; margin: 4mm 0;
+  }
+  .ojo b { color: var(--hondo); }
+  .ojo p:last-child { margin-bottom: 0; }
+
+  /* ---------------- Dialogo de la llamada ---------------- */
+  .dialogo { border: 1px solid var(--linea); background: #fff; margin: 3mm 0; }
+  .dialogo .tira {
+    background: var(--horno); color: var(--masa); padding: 2mm 3.5mm;
+    font-size: 7.4pt; letter-spacing: 1.6pt; text-transform: uppercase;
+    display: flex; justify-content: space-between;
+  }
+  .turno { padding: 1.9mm 3.5mm; border-bottom: 1px solid var(--fino); display: flex; gap: 3mm; }
+  .turno:last-child { border-bottom: none; }
+  .turno .quien {
+    flex: 0 0 17mm; font-size: 6.8pt; letter-spacing: 1pt; text-transform: uppercase;
+    color: var(--humo); padding-top: .7mm; font-weight: 700;
+  }
+  .turno.noah { background: var(--masa); }
+  .turno.noah .quien { color: var(--tomate); }
+  .turno p { margin: 0; font-size: 9.2pt; }
+  .turno.maquina { background: #F4F7F4; }
+  .turno.maquina .quien { color: var(--basilico); }
+  .turno.maquina p {
+    font-size: 8pt; color: var(--basilico); font-family: "Courier New", monospace;
+  }
+
+  /* ---------------- Pantalla de cocina ---------------- */
+  .pantalla { border: 1px solid var(--horno); margin: 3mm 0; }
+  .pantalla .barra {
+    background: var(--horno); color: var(--masa); padding: 2mm 3.5mm;
+    font-size: 7.6pt; display: flex; justify-content: space-between; align-items: center;
+  }
+  .pantalla .cuerpo { padding: 3.5mm; }
+  .pantalla .cod {
+    font-size: 16pt; font-weight: 800; letter-spacing: 2pt; color: var(--tomate);
+  }
+  .pantalla table { width: 100%; border-collapse: collapse; font-size: 8.8pt; }
+  .pantalla td { padding: 1.2mm 0; border-bottom: 1px solid var(--fino); }
+  .pantalla td.num { text-align: right; font-weight: 700; }
+  .pantalla .total td { border-bottom: none; border-top: 1.5px solid var(--horno); padding-top: 2mm; font-weight: 800; }
+
+  /* ---------------- Nicho / micronicho ---------------- */
+  .nicho { display: flex; gap: 4mm; align-items: stretch; margin: 4mm 0; }
+  .nicho .caja { flex: 1; border: 1px solid var(--linea); padding: 4mm; background: #fff; }
+  .nicho .caja.micro { background: var(--horno); color: var(--masa); border-color: var(--horno); }
+  .nicho .caja .rotulo {
+    font-size: 7pt; letter-spacing: 2pt; text-transform: uppercase;
+    color: var(--humo); margin: 0 0 2mm; font-weight: 700;
+  }
+  .nicho .caja.micro .rotulo { color: var(--brasa); }
+  .nicho .caja h3 { margin: 0 0 2.5mm; font-size: 13pt; letter-spacing: -.4pt; }
+  .nicho .caja ul { margin: 0; padding-left: 4.5mm; font-size: 8.6pt; }
+  .nicho .caja li { margin-bottom: 1.3mm; }
+  .nicho .caja.micro li { color: #D9CCBB; }
+  .nicho .caja.micro li b { color: var(--masa); }
+
+  /* ---------------- Lista con iconos ---------------- */
+  .lista-ico { display: flex; flex-wrap: wrap; gap: 3mm 4mm; margin: 3mm 0; }
+  .item-ico { flex: 0 0 calc(50% - 2mm); display: flex; gap: 2.5mm; align-items: flex-start; }
+  .item-ico svg { flex: 0 0 auto; margin-top: .3mm; }
+  .item-ico b { display: block; font-size: 9.2pt; }
+  .item-ico p { font-size: 8.3pt; color: var(--humo); margin: 0; }
+
+  /* ---------------- Si / No ---------------- */
+  .sino { display: flex; gap: 4mm; margin: 4mm 0; }
+  .sino .col { flex: 1; }
+  .sino .cabe {
+    font-size: 8pt; letter-spacing: 1.6pt; text-transform: uppercase;
+    font-weight: 700; padding-bottom: 1.5mm; margin-bottom: 2.5mm;
+    border-bottom: 2px solid;
+  }
+  .sino .si .cabe { color: var(--basilico); border-color: var(--basilico); }
+  .sino .no .cabe { color: var(--tomate); border-color: var(--tomate); }
+  .sino ul { margin: 0; padding: 0; list-style: none; font-size: 8.7pt; }
+  .sino li { padding-left: 5mm; position: relative; margin-bottom: 1.8mm; }
+  .sino .si li::before {
+    content: ""; position: absolute; left: 0; top: 1.3mm;
+    width: 2.6mm; height: 1.4mm; border-left: 1.4px solid var(--basilico);
+    border-bottom: 1.4px solid var(--basilico); transform: rotate(-45deg);
+  }
+  .sino .no li::before {
+    content: "—"; position: absolute; left: 0; top: 0; color: var(--tomate); font-weight: 700;
+  }
+
+  /* ---------------- Regalos / cierre ---------------- */
+  .regalo { display: flex; gap: 3mm; margin: 3mm 0; align-items: flex-start; }
+  .regalo .num {
+    flex: 0 0 8mm; height: 8mm; border-radius: 50%; background: var(--tomate);
+    color: #fff; font-weight: 800; font-size: 11pt;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .regalo .txt { flex: 1; }
+  .regalo .txt b { display: block; font-size: 9.6pt; margin-bottom: .8mm; }
+  .regalo .txt p { font-size: 8.5pt; color: var(--humo); margin: 0; }
+  .regalo code {
+    font-family: "Courier New", monospace; font-size: 7.8pt;
+    background: var(--fino); padding: .3mm 1mm; color: var(--hondo);
+  }
+  .cierre {
+    border: 2px solid var(--horno); padding: 4.5mm; margin-top: 5mm; background: var(--masa);
+  }
+  .cierre h3 { margin: 0 0 2mm; font-size: 12.5pt; }
+  .cierre p { margin: 0 0 2mm; font-size: 9.2pt; }
+  .cierre p:last-child { margin-bottom: 0; }
+  .cierre .firma { font-size: 8.4pt; color: var(--humo); margin-top: 3mm; }
+  .pasos { counter-reset: p; margin: 3mm 0 0; padding: 0; list-style: none; }
+  .pasos li {
+    counter-increment: p; position: relative; padding-left: 7mm; margin-bottom: 2mm;
+    font-size: 9pt;
+  }
+  .pasos li::before {
+    content: counter(p); position: absolute; left: 0; top: -.2mm;
+    width: 5mm; height: 5mm; border: 1.3px solid var(--horno); border-radius: 50%;
+    font-size: 7.4pt; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+  .pie-hoja {
+    margin-top: 5mm; padding-top: 2mm; border-top: 1px solid var(--linea);
+    font-size: 7.2pt; color: var(--humo); display: flex; justify-content: space-between;
+  }
+</style>

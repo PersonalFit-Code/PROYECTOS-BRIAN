@@ -6,9 +6,13 @@
  * scripts/crear-negocio.ts es solo el que los mete en Firestore.
  */
 
+import { LA_VITA_BUONA } from "./lavitabuona";
 import type { Business } from "./types";
 
 export const EJEMPLOS: Record<string, Business> = {
+  // Su carta son 63 platos y vive aparte, en lavitabuona.ts.
+  lavitabuona: LA_VITA_BUONA,
+
   tixola: {
     id: "tixola",
     nombre: "Taperia Tixola",

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Noah para La Vita Buona</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm; }
+  :root {
+    --horno:    #140707;
+    --tomate:   #C4321F;
+    --hondo:    #7E1B10;
+    --basilico: #2F6B43;
+    --brasa:    #E0952F;
+    --masa:     #FBF4E9;
+    --humo:     #6D635C;
+    --linea:    #E2D6C4;
+    --fino:     #F3EADC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9.6pt; line-height: 1.45; color: var(--horno);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .hoja { page-break-after: always; zoom: 1.04; }
+  .hoja:last-child { page-break-after: auto; }
+  section, .tarjetas, .rueda, .dialogo, .pantalla, table, .cierre,
+  .precios, .nicho, .regalo { page-break-inside: avoid; }
+  h2 { page-break-after: avoid; }
+  svg { display: block; }
+  b, strong { font-weight: 700; }
+
+  /* ---------------- Portada ---------------- */
+  .portada {
+    background: var(--horno); color: var(--masa);
+    margin: -13mm -14mm 9mm; padding: 20mm 14mm 14mm;
+    position: relative; overflow: hidden;
+  }
+  .portada::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+    height: 2.5mm;
+    background: linear-gradient(90deg, var(--basilico) 0 33.3%, var(--masa) 33.3% 66.6%, var(--tomate) 66.6% 100%);
+  }
+  .portada .marca {
+    font-size: 7.2pt; letter-spacing: 3pt; text-transform: uppercase;
+    color: var(--brasa); margin: 0 0 5mm;
+  }
+  .portada h1 {
+    font-size: 33pt; margin: 0; letter-spacing: -1.2pt;
+    font-weight: 800; line-height: 1.0;
+  }
+  .portada h1 em { font-style: normal; color: var(--brasa); }
+  .portada .bajada {
+    font-size: 12pt; margin: 5mm 0 0; color: #D9CCBB; max-width: 112mm;
+  }
+  .portada .pie { margin: 10mm 0 0; font-size: 8.2pt; color: #9A8D80; }
+  .portada .horno-deco {
+    position: absolute; right: -14mm; top: 50%; transform: translateY(-50%);
+    opacity: .5;
+  }
+
+  /* ---------------- Cabecera interior ---------------- */
+  header.interior {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-bottom: 2px solid var(--horno); padding-bottom: 2mm; margin-bottom: 5mm;
+  }
+  header.interior h1 { font-size: 16.5pt; margin: 0; letter-spacing: -.5pt; font-weight: 800; }
+  header.interior .lado { font-size: 8pt; color: var(--humo); }
+  .epigrafe {
+    font-size: 8pt; letter-spacing: 2pt; text-transform: uppercase;
+    color: var(--tomate); margin: 0 0 2mm; font-weight: 700;
+  }
+  .grande { font-size: 12.2pt; line-height: 1.35; margin: 0 0 4mm; }
+  .grande em { font-style: normal; background: linear-gradient(transparent 60%, #F7D9A8 60%); }
+  p { margin: 0 0 3mm; }
+  .apunte { font-size: 7.8pt; color: var(--humo); margin: 2mm 0 0; }
+
+  /* ---------------- Tarjetas ---------------- */
+  .tarjetas { display: flex; gap: 3.5mm; margin: 4mm 0; }
+  .tarjeta {
+    flex: 1; border: 1px solid var(--linea); border-top: 2.5mm solid var(--tomate);
+    padding: 3.5mm; background: var(--masa);
+  }
+  .tarjeta.verde { border-top-color: var(--basilico); }
+  .tarjeta.brasa { border-top-color: var(--brasa); }
+  .tarjeta b { display: block; font-size: 9.6pt; margin-bottom: 1.2mm; }
+  .tarjeta p { font-size: 8.4pt; color: var(--humo); margin: 0; }
+  .tarjeta .cifra {
+    display: block; font-size: 21pt; font-weight: 800; line-height: 1;
+    color: var(--tomate); margin-bottom: 1.5mm; letter-spacing: -1pt;
+  }
+  .tarjeta.verde .cifra { color: var(--basilico); }
+  .tarjeta.brasa .cifra { color: var(--brasa); }
+</style>
+</head>
+<body>

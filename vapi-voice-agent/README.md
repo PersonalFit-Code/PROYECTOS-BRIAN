@@ -223,7 +223,7 @@ El calendario es de mentira. Eso quiere decir que esto **no** prueba que Google
 acepte la cita, ni que el modelo elija bien la herramienta, ni como suena la
 voz. Para eso hace falta una llamada de verdad contra un calendario de verdad.
 
-Para probarlo tambien por HTTP, sin base de datos: `CLINICA_DE_EJEMPLO=airea` en
+Para probarlo tambien por HTTP, sin base de datos: `NEGOCIO_DE_EJEMPLO=airea` en
 el `.env`, `npm run dev`, y el webhook sirve ese centro.
 
 ### Dar de alta uno de verdad
@@ -297,7 +297,7 @@ despertar, y una llamada entrante no espera tanto.
 | `SONIDO_FONDO` | `office` | Ambiente detras de la voz: `office`, `off` o la URL de un audio. |
 | `INTERRUPCION_PALABRAS` | `1` | Palabras del cliente para que el agente se calle. `0` es lo mas natural, pero con manos libres el agente se corta a si mismo. |
 | `INTERRUPCION_SEGUNDOS` | `0.4` | Segundos de voz seguidos antes de callarse. Subelo si se entrecorta con ruido. |
-| `CLINICA_DE_EJEMPLO` | *(vacio)* | `pontenova` o `airea`. Solo se mira **si no hay Firestore**: sirve ese negocio de cita de muestra para poder probar el modo citas en local sin base de datos. Con `FIREBASE_SERVICE_ACCOUNT` puesto se ignora. |
+| `NEGOCIO_DE_EJEMPLO` | *(vacio)* | Negocio de muestra que se sirve **si no hay Firestore**, para poder probar una llamada real sin base de datos: `lavitabuona` o `tixola` (pedidos), `pontenova` o `airea` (citas). Con `FIREBASE_SERVICE_ACCOUNT` puesto se ignora. |
 
 ## Probar en local
 

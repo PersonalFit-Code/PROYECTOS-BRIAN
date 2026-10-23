@@ -102,14 +102,16 @@ export const config = {
   /** Negocio que se usa cuando la peticion no trae ?business=. */
   defaultBusinessId: process.env.DEFAULT_BUSINESS_ID ?? "",
   /**
-   * Negocio de cita de ejemplo que se sirve cuando no hay Firestore, para
-   * poder probar el modo citas sin base de datos ("pontenova", "airea").
+   * Negocio de ejemplo que se sirve cuando no hay Firestore, para poder
+   * probar una llamada de verdad sin base de datos. Vale cualquiera de los
+   * dos modos: "lavitabuona" o "tixola" (pedidos), "pontenova" o "airea"
+   * (citas).
    *
    * Solo se mira si falta FIREBASE_SERVICE_ACCOUNT: con Firestore configurado
    * manda siempre lo que haya en la base de datos, para que esto no pueda
-   * tapar una clinica real por un despiste en el .env.
+   * tapar un negocio real por un despiste en el .env.
    */
-  clinicaDeEjemplo: process.env.CLINICA_DE_EJEMPLO?.trim() || "",
+  negocioDeEjemplo: process.env.NEGOCIO_DE_EJEMPLO?.trim() || "",
   /**
    * Contrasena del panel de pedidos. Si esta vacia, el panel solo responde a
    * peticiones desde el propio ordenador: mejor eso que dejar direcciones y

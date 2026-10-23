@@ -1,0 +1,108 @@
+<!-- ============ HOJA 1 · PORTADA ============ -->
+<div class="hoja">
+  <div class="portada">
+    <svg class="horno-deco" width="200" height="200" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="78" fill="none" stroke="#E0952F" stroke-width="2"/>
+      <circle cx="100" cy="100" r="66" fill="none" stroke="#E0952F" stroke-width=".8" stroke-dasharray="3 4"/>
+      <g stroke="#E0952F" stroke-width=".8">
+        <path d="M100 34v132M34 100h132"/>
+        <path d="M53 53l94 94M147 53l-94 94"/>
+      </g>
+      <circle cx="74" cy="76" r="6" fill="#C4321F"/>
+      <circle cx="126" cy="82" r="5" fill="#C4321F"/>
+      <circle cx="84" cy="126" r="5.5" fill="#C4321F"/>
+      <circle cx="122" cy="124" r="4.5" fill="#2F6B43"/>
+      <circle cx="100" cy="100" r="4" fill="#E0952F"/>
+    </svg>
+    <p class="marca">Noah &middot; asistente telefónica con inteligencia artificial</p>
+    <h1>Agente de voz<br>conversacional para<br><em>La Vita Buona</em></h1>
+    <p class="bajada">El teléfono es el único canal donde cobras tu precio entero.
+      Y es el único que ahora mismo no tiene a nadie detrás.</p>
+    <p class="pie">Preparado por Brian &middot; Ourense, 23 de octubre de 2026<br>
+      Rúa Ramón Puga 75 &middot; 988 57 06 24</p>
+  </div>
+
+  <p class="epigrafe">De qué va esto</p>
+  <p class="grande">Abristeis el 1 de octubre. En tres semanas lleváis <em>4,9 estrellas en Google</em>
+    y dos periódicos. Lo que hacéis en el horno funciona.</p>
+  <p>Lo que no funciona todavía es el teléfono, y no por culpa de nadie: con cinco personas
+    repartidas entre comidas y cenas, cuando suena no hay una mano libre. Este documento
+    cuenta qué pasa con esas llamadas, cuánto valen, y qué puede hacer una asistente
+    que coge el teléfono siempre.</p>
+
+  <div class="tarjetas">
+    <div class="tarjeta">
+      <span class="cifra">&minus;20%</span>
+      <b>Lo que cobras en Glovo</b>
+      <p>Exactamente un 20% menos que en tu carta, en cada pizza, cada pasta
+        y cada ensalada. Y encima la comisión.</p>
+    </div>
+    <div class="tarjeta verde">
+      <span class="cifra">63</span>
+      <b>Platos en la carta</b>
+      <p>Nadie se los sabe de memoria a las nueve y media con el comedor lleno.
+        Noah sí, con su precio exacto.</p>
+    </div>
+    <div class="tarjeta brasa">
+      <span class="cifra">0</span>
+      <b>Quejas por el teléfono</b>
+      <p>En 29 reseñas, ninguna. Porque quien llama y no le coges
+        no escribe una reseña: llama al de al lado.</p>
+    </div>
+  </div>
+
+  <div class="pie-hoja"><span>Noah para La Vita Buona</span><span>1 / 7</span></div>
+</div>
+
+<!-- ============ HOJA 2 · EL PRECIO ============ -->
+<div class="hoja">
+  <header class="interior">
+    <h1>El único sitio donde cobras tu precio</h1>
+    <span class="lado">Hoja 2</span>
+  </header>
+
+  <p class="epigrafe">Lo primero que miré</p>
+  <p class="grande">Abrí tu carta y abrí tu Glovo, y los puse uno al lado del otro.
+    El cliente que pide una Margaritha por Glovo paga <em>7,60&nbsp;€</em>.
+    En tu mesa, la misma pizza, del mismo horno, son <em>9,50&nbsp;€</em>.</p>
+
+  <table class="precios">
+    <thead>
+      <tr>
+        <th>Plato</th>
+        <th class="num">Tu carta</th>
+        <th class="num">Glovo hoy</th>
+        <th class="num">Diferencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="plato">Margaritha</td><td class="num casa">9,50 €</td><td class="num glovo">7,60 €</td><td class="num dif">&minus;1,90 €</td></tr>
+      <tr><td class="plato">Reino de las Dos Sicilias <span style="color:var(--brasa)">&#9733;</span></td><td class="num casa">16,90 €</td><td class="num glovo">13,52 €</td><td class="num dif">&minus;3,38 €</td></tr>
+      <tr><td class="plato">La Mortazza</td><td class="num casa">16,00 €</td><td class="num glovo">12,80 €</td><td class="num dif">&minus;3,20 €</td></tr>
+      <tr><td class="plato">Giovani</td><td class="num casa">17,00 €</td><td class="num glovo">13,60 €</td><td class="num dif">&minus;3,40 €</td></tr>
+      <tr><td class="plato">Pasta carbonara</td><td class="num casa">14,00 €</td><td class="num glovo">11,20 €</td><td class="num dif">&minus;2,80 €</td></tr>
+      <tr><td class="plato">Ensalada de burrata</td><td class="num casa">13,90 €</td><td class="num glovo">11,12 €</td><td class="num dif">&minus;2,78 €</td></tr>
+      <tr><td class="plato">Tiramisú, cannoli, panna cotta</td><td class="num casa">6,00 / 4,30 / 4,50 €</td><td class="num glovo">igual</td><td class="num" style="color:var(--basilico);font-weight:700">0 €</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="4">No es una impresión: en pizzas, pastas y ensaladas la diferencia es
+        <b>exactamente un 20,0%</b> en todas. En postres, cero. Da la sensación de que los
+        principales se dieron de alta con una lista de precios vieja y ahí se quedaron.</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="ojo">
+    <p><b>Y eso es solo el escaparate.</b> Encima de ese precio va la comisión de la plataforma
+      &mdash; el número exacto lo sabes tú, yo no lo voy a inventar &mdash; y el reparto lo
+      pones tú: Glovo avisa en tu propia ficha de que &laquo;el establecimiento entrega los
+      pedidos directamente&raquo;.</p>
+    <p>Así que en un pedido por plataforma cobras un 20% menos, pagas comisión y mandas a tu
+      repartidor. En un pedido por teléfono cobras 9,50&nbsp;€, no pagas comisión
+      y mandas al mismo repartidor. <b>El teléfono no es un canal más: es el bueno.</b></p>
+  </div>
+
+  <p class="apunte">Precios de Glovo consultados el 23 de octubre de 2026, con la promoción
+    de &minus;20% que tenías activa. Los de tu carta, los que me pasaste tú.</p>
+
+  <div class="pie-hoja"><span>El único sitio donde cobras tu precio</span><span>2 / 7</span></div>
+</div>
