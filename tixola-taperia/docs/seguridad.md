@@ -86,9 +86,45 @@ Dos cosas más, menores, de la misma tanda:
    difícil que entre una por descuido. Pero el código de cinco clientes está a
    la vista de cualquiera. Ponerlo en privado es un interruptor en los ajustes
    del repositorio y no rompe nada: Vercel sigue desplegando igual.
-2. **Tope de gasto en la consola de Anthropic**, con la recarga automática
-   apagada. Es el único techo duro de la factura: todo lo demás son frenos.
+2. ~~**Tope de gasto en la consola de Anthropic**, con la recarga automática
+   apagada.~~ **HECHO el 23-10-2026.** Ver «El techo de la factura» más abajo.
 3. **Doble factor** en GitHub, Vercel y Google.
+
+### El techo de la factura (cerrado el 23-10-2026)
+
+Las cuatro capas que acotan lo que el camarero virtual puede gastar, de dentro
+hacia fuera. Las dos primeras son código y se despliegan; las dos últimas son
+ajustes de la cuenta de Brian y no viven en este repositorio.
+
+| Capa | Dónde | Qué frena | Qué NO frena |
+|---|---|---|---|
+| Cuota por IP, 30 / 10 min | `src/lib/waiter/types.ts` (`CHAT_LIMITS.rateLimit`) | A una persona insistente desde su navegador | Vive en la memoria de CADA instancia: cien IP distintas la esquivan |
+| Freno de mano, 300 llamadas al modelo por instancia y 10 min | `src/app/api/chat/route.ts` (`TOPE_GLOBAL`) | **El gasto.** Pasado el tope, contesta el motor sin conexión y se deja de llamar a Anthropic | Es por instancia, no por cuenta |
+| Regla del cortafuegos, 120 por IP / 10 min | Vercel, panel de Firewall del proyecto | Al que machaca desde una sola dirección, ANTES de llegar a la aplicación | No acota la factura: para eso está la capa de arriba |
+| Límite de gasto, 10 $/mes + recarga automática apagada | Consola de Claude, `platform.claude.com/settings/billing` | **El techo duro.** No hay escenario en que se pase de ahí | Nada: es el último |
+
+Estado de la cuenta el 23-10-2026: recarga automática **desactivada** (las
+peticiones se detienen al agotarse el saldo, que es el candado de verdad),
+límite de gasto mensual bajado de los **500 $** que trae el nivel por defecto a
+**10 $**, y 100 $/mes de crédito de API reclamados del plan Max. Gastado hasta
+la fecha: **0,13 $**. A entre 1 y 2 céntimos por pregunta, 10 $ son del orden de
+500 a 1.000 preguntas al mes; la web tenía 9 visitantes a la semana.
+
+**Si alguna capa muerde, el camarero NO se rompe.** La ruta espera al primer
+trozo de texto del modelo antes de contestar, así que un error de la API —y
+quedarse sin crédito o alcanzar el límite lo son— se convierte en una respuesta
+del motor sin conexión, con la carta, el horario y los alérgenos. El visitante
+ve una respuesta más seca, no un fallo.
+
+**Lo que esto acopla, y conviene recordarlo.** Los 100 $/mes del plan Max son un
+bote compartido: de ahí bebe la web del bar y también el uso personal de Claude
+Code. Si un mes se agotan por un lado, el otro se queda sin servicio hasta la
+renovación (los créditos son mensuales y caducan, no se acumulan). La forma
+limpia de desacoplarlo sería un **Workspace** propio para Tixola con su propio
+límite de gasto y su propia clave. Ojo con dos cosas si algún día se hace: al
+workspace por defecto NO se le puede poner límite, así que hay que crear uno
+nuevo, y habría que generar una clave nueva y cambiarla en la variable
+`ANTHROPIC_API_KEY` del proyecto en Vercel. Queda propuesto, no hecho.
 
 **Bloqueado por un paso que solo puede dar Brian** (actualizado el 23-10-2026,
 con su visto bueno ya dado): la **regla de límite de tasa en el cortafuegos de
