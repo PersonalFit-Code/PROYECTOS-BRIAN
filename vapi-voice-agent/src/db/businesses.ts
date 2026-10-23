@@ -103,6 +103,15 @@ export function camposQueFaltan(valor: unknown): string[] {
     faltan.push("nombreAgente");
   }
 
+  // El saludo propio tiene que avisar de que no es una persona: es lo
+  // primero que oye el cliente y la ley pide que lo sepa desde el principio.
+  if (
+    doc.saludo !== undefined &&
+    !(esTextoNoVacio(doc.saludo) && /virtual/i.test(doc.saludo as string))
+  ) {
+    faltan.push('saludo (tiene que decir "asistente virtual")');
+  }
+
   // La sugerencia se dice tal cual: en blanco seria una frase vacia.
   if (doc.sugerencia !== undefined && !esTextoNoVacio(doc.sugerencia)) {
     faltan.push("sugerencia");

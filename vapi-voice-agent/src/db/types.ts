@@ -94,6 +94,12 @@ export interface Business {
    */
   sugerencia?: string;
   /**
+   * Lo que dice el agente al descolgar, si el local quiere el suyo. Tiene que
+   * decir que es una asistente virtual (obligacion legal); si no lo dice, la
+   * ficha no pasa la validacion. Sin el, se usa la presentacion de serie.
+   */
+  saludo?: string;
+  /**
    * Telefono de una persona del local, en formato internacional (+34...), al
    * que el agente pasa la llamada si piden hablar con alguien, si hay una
    * queja o si quieren reservar mesa. Opcional: sin el (ni TELEFONO_TRASPASO

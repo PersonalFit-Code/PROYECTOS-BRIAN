@@ -42,6 +42,33 @@ function cartaEnTexto(business: Business): string {
     .join("\n");
 }
 
+/**
+ * Lo primero que oye el cliente. Se presenta el local, la asistente y lo que
+ * puede hacer, para que el cliente sepa desde el principio que puede pedir
+ * sin esperar a nadie. Son cuatro frases cortas: se pueden interrumpir
+ * (firstMessageInterruptionsEnabled), asi que quien ya sabe lo que quiere no
+ * tiene que escucharlas enteras.
+ *
+ * Un negocio puede escribir el suyo en "saludo", pero tiene que decir que es
+ * virtual: avisar de que no se habla con una persona es obligacion legal, y
+ * por eso la validacion de la ficha no deja pasar uno que no lo diga.
+ */
+export function saludoInicial(business: Business): string {
+  const propio = business.saludo?.trim();
+  if (propio) return propio;
+
+  const agente = nombreDelAgente(business);
+  const entregas = business.entrega.disponible
+    ? "para recoger en el local o a domicilio"
+    : "para recoger en el local";
+  return (
+    `Hola, buenas, gracias por llamar a ${business.nombre}, ${business.tipoLabel} en ${business.ciudad}. ` +
+    `Soy ${agente}, su asistente virtual. ` +
+    `Le tomo el pedido ${entregas}. ` +
+    `¿Qué le apetece hoy?`
+  );
+}
+
 export function buildSystemPrompt(business: Business): string {
   const {
     nombre,
@@ -173,7 +200,8 @@ Antes de tomar un pedido, comprueba la hora actual que tienes arriba:
 
 Sigue estos pasos en orden. No te salgas del orden ni te adelantes.
 
-1. Saluda, di el nombre del restaurante y pregunta que le pongo.
+1. El saludo ya lo has dicho al descolgar: no te vuelvas a presentar ni
+   repitas lo que puedes hacer. Ve directo a lo que te pida.
 2. Toma el pedido ${categoriasSingular} a ${categoriasSingular}. Solo lo que haya en la carta.
    - Si el cliente ya ha dicho cuantas quiere ("dos margaritas"), no se lo
      vuelvas a preguntar. Si nombra un plato sin decir cuantos, es uno.
@@ -535,7 +563,7 @@ export function buildAssistant(business: Business, businessId?: string) {
 
     // El nombre humaniza, pero "virtual" tiene que seguir ahi: avisar de que
     // no se habla con una persona es obligacion legal, no estilo.
-    firstMessage: `${business.nombre}, buenas. Soy ${nombreDelAgente(business)}, su asistente virtual. ¿Que le pongo?`,
+    firstMessage: saludoInicial(business),
     firstMessageMode: "assistant-speaks-first" as const,
 
     model: {

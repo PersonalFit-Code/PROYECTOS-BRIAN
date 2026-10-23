@@ -16,6 +16,7 @@ import {
   palabrasClave,
   planDeTurno,
   PRONUNCIACION,
+  saludoInicial,
 } from "../assistant";
 import { camposQueFaltan } from "../db/businesses";
 import { LA_VITA_BUONA } from "../db/lavitabuona";
@@ -198,5 +199,32 @@ describe("configuracion nueva", () => {
   it("TELEFONO_TRASPASO acepta espacios pero exige el prefijo", () => {
     assert.equal(cargar({ TELEFONO_TRASPASO: "+34 988 12 34 56" }).telefonoTraspaso, "+34988123456");
     assert.throws(() => cargar({ TELEFONO_TRASPASO: "988123456" }), /prefijo/);
+  });
+});
+
+describe("presentacion al descolgar", () => {
+  it("dice el local, que es, la asistente virtual y lo que puede hacer", () => {
+    const saludo = (buildAssistant(LA_VITA_BUONA) as unknown as { firstMessage: string }).firstMessage;
+    assert.match(saludo, /gracias por llamar a La Vita Buona, restaurante italiano en Ourense/);
+    assert.match(saludo, /asistente virtual/);
+    assert.match(saludo, /para recoger en el local o a domicilio/);
+    assert.ok(saludo.length <= 1000);
+  });
+
+  it("sin reparto no ofrece domicilio", () => {
+    const sin = { ...LA_VITA_BUONA, entrega: { ...LA_VITA_BUONA.entrega, disponible: false } };
+    assert.ok(!/domicilio/.test(saludoInicial(sin)));
+  });
+
+  it("el prompt no le hace presentarse dos veces", () => {
+    assert.match(buildSystemPrompt(LA_VITA_BUONA), /no te vuelvas a presentar/);
+  });
+
+  it("un saludo propio vale si dice que es virtual, y si no, no pasa", () => {
+    const bien = { ...LA_VITA_BUONA, saludo: "La Vita Buona, buenas. Soy Noah, la asistente virtual." };
+    assert.equal(saludoInicial(bien), bien.saludo);
+    assert.deepEqual(camposQueFaltan(bien), []);
+    const mal = { ...LA_VITA_BUONA, saludo: "La Vita Buona, buenas, digame." };
+    assert.ok(camposQueFaltan(mal).some((c) => c.startsWith("saludo")));
   });
 });
