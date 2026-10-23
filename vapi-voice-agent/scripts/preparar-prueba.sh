@@ -4,6 +4,7 @@
 #
 #   bash scripts/preparar-prueba.sh                   # La Vita Buona, mismo secreto
 #   bash scripts/preparar-prueba.sh --secreto-nuevo   # genera uno nuevo
+#   NEGOCIO=lavitabuona-prueba bash scripts/preparar-prueba.sh   # abierto a todas horas
 #
 # Con ngrok ya corriendo (ngrok http 3000) lee su URL y la pone en el .env.
 #
@@ -14,7 +15,7 @@ set -uo pipefail
 
 AQUI="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ENV_FILE="$AQUI/.env"
-NEGOCIO="lavitabuona"
+NEGOCIO="${NEGOCIO:-lavitabuona}"
 NUEVO=0
 [ "${1:-}" = "--secreto-nuevo" ] && NUEVO=1
 
