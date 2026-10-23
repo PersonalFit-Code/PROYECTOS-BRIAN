@@ -37,9 +37,18 @@ export interface DatosPedido {
   telefono?: string;
   notas?: string;
   callId?: string;
+  /** Numero desde el que llama el cliente, segun Vapi. Vacio si es oculto. */
+  telefonoLlamada?: string;
 }
 
 export class PedidoNoGuardadoError extends Error {}
+
+/**
+ * Falta un dato que el agente puede pedir y volver a intentar, como la
+ * direccion. No es lo mismo que un fallo de la base de datos: aqui no hay que
+ * mandar al cliente a llamar a nadie, basta con preguntarle.
+ */
+export class DatosIncompletosError extends PedidoNoGuardadoError {}
 
 export interface ResultadoGuardado {
   pedido: Pedido;
@@ -101,7 +110,7 @@ export function construirPedido(
   const direccion = texto(datos.direccion);
 
   if (total.tipoEntrega === "reparto" && !direccion) {
-    throw new PedidoNoGuardadoError(
+    throw new DatosIncompletosError(
       "falta la direccion de entrega, que es obligatoria para el reparto",
     );
   }
@@ -122,7 +131,9 @@ export function construirPedido(
     tipoEntrega: total.tipoEntrega as TipoEntrega,
     direccion,
     nombre: texto(datos.nombre),
-    telefono: texto(datos.telefono),
+    // Si el cliente dijo "este mismo" y el modelo no lo apunto, vale el
+    // numero desde el que llama.
+    telefono: texto(datos.telefono) || texto(datos.telefonoLlamada),
     notas: texto(datos.notas),
     callId: texto(datos.callId),
     estado: "pendiente",

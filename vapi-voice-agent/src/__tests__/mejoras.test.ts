@@ -19,6 +19,9 @@ import {
   saludoInicial,
 } from "../assistant";
 import { camposQueFaltan } from "../db/businesses";
+import { construirPedido, DatosIncompletosError } from "../db/orders";
+import { calcularTotal } from "../pedido";
+import { telefonoDelCliente } from "../types/vapi";
 import { LA_VITA_BUONA } from "../db/lavitabuona";
 import { fallbackBusiness } from "../db/fallbackBusiness";
 
@@ -226,5 +229,47 @@ describe("presentacion al descolgar", () => {
     assert.deepEqual(camposQueFaltan(bien), []);
     const mal = { ...LA_VITA_BUONA, saludo: "La Vita Buona, buenas, digame." };
     assert.ok(camposQueFaltan(mal).some((c) => c.startsWith("saludo")));
+  });
+});
+
+describe("lo que fallo en la prueba del pedido de 97 euros", () => {
+  it("el numero desde el que llama sale del mensaje de Vapi", () => {
+    assert.equal(telefonoDelCliente({ type: "x", call: { customer: { number: "+34600112233" } } }), "+34600112233");
+    assert.equal(telefonoDelCliente({ type: "x", customer: { number: "+34600112233" } }), "+34600112233");
+    assert.equal(telefonoDelCliente({ type: "x", call: {} }), "");
+  });
+
+  it("si dice 'este mismo', el prompt ya tiene el numero", () => {
+    const prompt = buildSystemPrompt(LA_VITA_BUONA, "+34600112233");
+    assert.match(prompt, /llama desde el \+34600112233/);
+    assert.match(prompt, /acaba en 2 3 3/);
+    assert.match(buildSystemPrompt(LA_VITA_BUONA), /numero oculto/);
+  });
+
+  it("sin telefono dictado, el pedido se guarda con el de la llamada", () => {
+    const total = calcularTotal(LA_VITA_BUONA, [{ plato: "p-margaritha", cantidad: 1 }], "recogida");
+    const pedido = construirPedido(
+      LA_VITA_BUONA,
+      { articulos: [], entrega: "recogida", telefonoLlamada: "+34600112233" },
+      total,
+    );
+    assert.equal(pedido.telefono, "+34600112233");
+  });
+
+  it("si falta la direccion, el error es de los que se arreglan preguntando", () => {
+    const total = calcularTotal(LA_VITA_BUONA, [{ plato: "p-margaritha", cantidad: 1 }], "reparto");
+    assert.throws(
+      () => construirPedido(LA_VITA_BUONA, { articulos: [], entrega: "reparto" }, total),
+      DatosIncompletosError,
+    );
+  });
+
+  it("no cambia una pizza por otro plato que se llame parecido", () => {
+    assert.match(buildSystemPrompt(LA_VITA_BUONA), /Nunca cambies una pizza por algo que\s+no es pizza/);
+  });
+
+  it("ante un fallo nunca le dice que el restaurante esta cerrado", () => {
+    assert.match(buildSystemPrompt(LA_VITA_BUONA), /Nunca digas ni des a entender que el restaurante esta cerrado/);
+    assert.ok(!/en horario de apertura para confirmar/.test(buildSystemPrompt(LA_VITA_BUONA)));
   });
 });

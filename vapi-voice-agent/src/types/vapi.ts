@@ -49,6 +49,19 @@ export interface VapiMessage {
   [key: string]: unknown;
 }
 
+/**
+ * Numero desde el que llama el cliente. Vapi lo trae en call.customer o, en
+ * algunos mensajes, en customer. Vacio si llama con numero oculto.
+ */
+export function telefonoDelCliente(message: VapiMessage | undefined): string {
+  const de = (valor: unknown): string => {
+    if (!valor || typeof valor !== "object") return "";
+    const numero = (valor as { number?: unknown }).number;
+    return typeof numero === "string" ? numero.trim() : "";
+  };
+  return de(message?.call?.customer) || de(message?.customer);
+}
+
 export interface VapiWebhookBody {
   message?: VapiMessage;
 }

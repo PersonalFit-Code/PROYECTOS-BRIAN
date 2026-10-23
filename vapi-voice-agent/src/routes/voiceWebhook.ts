@@ -13,7 +13,11 @@ import { getNegocio, type Negocio } from "../db/businesses";
 import { pideCitas } from "../db/validarClinica";
 import { calendarioDeGoogle } from "../google/cliente";
 import { guardarResumenLlamada } from "../db/calls";
-import { PedidoNoGuardadoError, guardarPedido } from "../db/orders";
+import {
+  DatosIncompletosError,
+  PedidoNoGuardadoError,
+  guardarPedido,
+} from "../db/orders";
 import type { Clinica } from "../db/clinica";
 import type { Business } from "../db/types";
 import { formatearEuros } from "../util/format";
@@ -29,11 +33,12 @@ import {
   describirTotal,
   type LineaPedido,
 } from "../pedido";
-import type {
-  VapiAssistantResponse,
-  VapiMessage,
-  VapiToolCallsResponse,
-  VapiWebhookBody,
+import {
+  telefonoDelCliente,
+  type VapiAssistantResponse,
+  type VapiMessage,
+  type VapiToolCallsResponse,
+  type VapiWebhookBody,
 } from "../types/vapi";
 
 export const voiceWebhookRouter = Router();
@@ -57,11 +62,12 @@ async function ejecutarHerramienta(
   nombre: string,
   argumentos: Record<string, unknown>,
   callId: string,
+  telefonoLlamada = "",
 ): Promise<string> {
   if (pideCitas(negocio)) {
     return ejecutarHerramientaCita(negocio, nombre, argumentos, callId);
   }
-  return ejecutarHerramientaPedido(negocio, nombre, argumentos, callId);
+  return ejecutarHerramientaPedido(negocio, nombre, argumentos, callId, telefonoLlamada);
 }
 
 /** Las dos herramientas de una clinica. */
@@ -94,6 +100,7 @@ async function ejecutarHerramientaPedido(
   nombre: string,
   argumentos: Record<string, unknown>,
   callId: string,
+  telefonoLlamada: string,
 ): Promise<string> {
   switch (nombre) {
     case TOOL_CALCULAR_TOTAL: {
@@ -121,6 +128,7 @@ async function ejecutarHerramientaPedido(
           telefono: argumentos.telefono as string | undefined,
           notas: argumentos.notas as string | undefined,
           callId,
+          telefonoLlamada,
         });
 
         // Separado, para que el agente lo diga cifra a cifra.
@@ -131,16 +139,23 @@ async function ejecutarHerramientaPedido(
           ? `Este pedido ya estaba registrado, no se ha duplicado. El codigo sigue siendo ${codigo} y el total ${total}. Leeselo al cliente y no vuelvas a registrarlo.`
           : `Pedido registrado. El codigo es ${codigo}. Total: ${total}.`;
       } catch (error) {
-        // Ni PedidoInvalido ni PedidoNoGuardado deben sonar a "ya esta hecho":
-        // el agente tiene instrucciones de no confirmar si esto falla.
+        // Nada de esto puede sonar a "ya esta hecho". Pero no todo es igual:
+        // si falta un dato o un plato no cuadra, el agente lo arregla con el
+        // cliente y vuelve a intentarlo, sin mandarle a llamar a nadie. Asi se
+        // perdio un pedido de 97 euros en una prueba: el cliente seguia al
+        // telefono y se le dijo que llamase "en horario de apertura".
         if (
-          error instanceof PedidoNoGuardadoError ||
+          error instanceof DatosIncompletosError ||
           error instanceof PedidoInvalidoError
         ) {
-          return `NO se ha podido registrar el pedido: ${error.message}. Pide disculpas y dile al cliente que llame al restaurante para confirmarlo.`;
+          console.warn(`[registrar_pedido] corregible: ${error.message}`);
+          return `Todavia NO esta registrado: ${error.message.replace(/\.+$/, "")}. Arreglalo con el cliente (preguntale lo que falte o corrige el plato) y vuelve a llamar a registrar_pedido. No le digas que llame a nadie.`;
+        }
+        if (error instanceof PedidoNoGuardadoError) {
+          return `NO se ha podido registrar el pedido por un fallo del sistema (${error.message}). Pide disculpas y dile que llame ahora al restaurante para hacerlo con una persona. No le digas que esta cerrado.`;
         }
         console.error("[registrar_pedido] error inesperado", error);
-        return "NO se ha podido registrar el pedido. Pide disculpas y dile al cliente que llame al restaurante para confirmarlo.";
+        return "NO se ha podido registrar el pedido por un fallo del sistema. Pide disculpas y dile que llame ahora al restaurante para hacerlo con una persona. No le digas que esta cerrado.";
       }
     }
 
@@ -166,7 +181,7 @@ function mensajeDeTardanza(nombre: string): string {
     return "NO se ha podido poner la cita: el sistema ha tardado demasiado. Pide disculpas y dile que le llaman en seguida para confirmarsela. NO se la des por hecha.";
   }
   if (nombre === TOOL_REGISTRAR_PEDIDO) {
-    return "NO se ha podido registrar el pedido: el sistema ha tardado demasiado. Pide disculpas y dile al cliente que llame al restaurante para confirmarlo.";
+    return "NO se ha podido registrar el pedido: el sistema ha tardado demasiado. Pide disculpas y dile que llame ahora al restaurante para confirmarlo con una persona. No le digas que esta cerrado.";
   }
   if (nombre === TOOL_CALCULAR_TOTAL) {
     return "No se ha podido calcular el total ahora mismo. Dile al cliente que el importe exacto se lo confirman al entregar el pedido, y sigue adelante.";
@@ -182,13 +197,14 @@ async function ejecutarConLimite(
   negocio: Negocio,
   llamada: { nombre: string; argumentos: Record<string, unknown> },
   callId: string,
+  telefonoLlamada: string,
 ): Promise<string> {
   const inicio = Date.now();
   let texto: string;
 
   try {
     const resultado = await conLimite(
-      ejecutarHerramienta(negocio, llamada.nombre, llamada.argumentos, callId),
+      ejecutarHerramienta(negocio, llamada.nombre, llamada.argumentos, callId, telefonoLlamada),
       MAX_HERRAMIENTA_MS,
     );
     texto = resultado ?? mensajeDeTardanza(llamada.nombre);
@@ -208,6 +224,7 @@ async function handleToolCalls(
   negocio: Negocio,
 ): Promise<VapiToolCallsResponse> {
   const callId = message.call?.id ?? "";
+  const telefonoLlamada = telefonoDelCliente(message);
   const llamadas = normalizarLlamadas(message);
 
   // Si Vapi cambia otra vez la forma del mensaje, que el log lo diga claro en
@@ -228,7 +245,7 @@ async function handleToolCalls(
     llamadas.map(async (llamada) => ({
       toolCallId: llamada.id,
       name: llamada.nombre,
-      result: await ejecutarConLimite(negocio, llamada, callId),
+      result: await ejecutarConLimite(negocio, llamada, callId, telefonoLlamada),
     })),
   );
 
@@ -296,7 +313,7 @@ async function atender(req: Request, res: Response): Promise<void> {
       const respuesta: VapiAssistantResponse = {
         assistant: pideCitas(negocio)
           ? buildAssistantCitas(negocio, businessId)
-          : buildAssistant(negocio, businessId),
+          : buildAssistant(negocio, businessId, telefonoDelCliente(message)),
       };
       res.json(respuesta);
       return;

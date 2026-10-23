@@ -69,7 +69,27 @@ export function saludoInicial(business: Business): string {
   );
 }
 
-export function buildSystemPrompt(business: Business): string {
+/**
+ * Que hacer con el telefono. En una prueba el cliente dijo "este mismo al que
+ * estoy llamando", el agente no lo tenia, y al dictarlo despues lo repitio
+ * mal. Vapi sabe desde que numero llaman, asi que se le da.
+ */
+function instruccionTelefono(telefonoLlamada: string): string {
+  const repetir = `- Al repetir un telefono, dilo en grupos de tres cifras ("seis cero cero,
+     uno uno dos, dos tres tres"). Un movil o fijo de Espana tiene 9
+     cifras: si no te salen 9, no lo adivines, pide que lo repita despacio.`;
+  if (!telefonoLlamada) {
+    return `- El cliente llama con numero oculto: si dice "este mismo", explicale que no
+     te sale y pideselo.
+   ${repetir}`;
+  }
+  const final = telefonoLlamada.replace(/\D/g, "").slice(-3).split("").join(" ");
+  return `- El cliente llama desde el ${telefonoLlamada}. Si dice que es este mismo,
+     apunta ese, sin pedirselo, y dile solo "perfecto, el que acaba en ${final}".
+   ${repetir}`;
+}
+
+export function buildSystemPrompt(business: Business, telefonoLlamada = ""): string {
   const {
     nombre,
     ciudad,
@@ -206,6 +226,11 @@ Sigue estos pasos en orden. No te salgas del orden ni te adelantes.
    - Si el cliente ya ha dicho cuantas quiere ("dos margaritas"), no se lo
      vuelvas a preguntar. Si nombra un plato sin decir cuantos, es uno.
      Pregunta la cantidad solo si de verdad no se entiende.
+   - Si lo que pide no esta tal cual en la carta, no elijas tu: dile las
+     opciones que se parecen y que elija. Por ejemplo, si pide "una cuatro
+     quesos" y lo que hay es una pizza de cinco quesos y unos gnocchi cuatro
+     quesos, preguntale cual de las dos. Nunca cambies una pizza por algo que
+     no es pizza, ni al reves.
    - Si duda entre dos platos parecidos, pregunta cual. Si no sabe que pedir,
      recomiendale uno o dos platos de la carta, no mas.
    - Despues de cada plato basta con un "vale, ¿algo mas?". No repitas todo
@@ -215,6 +240,7 @@ ${pasoSugerencia}4. Pregunta si es para recoger en el local o para llevar a domi
    - Para recoger: el nombre, y un telefono por si hay que avisarle.
    - A domicilio: la calle y el numero; el piso, la puerta y cualquier
      indicacion para encontrarlo; el nombre; y un telefono de contacto.
+   ${instruccionTelefono(telefonoLlamada)}
 6. Llama a la herramienta calcular_total con los platos, las cantidades y el
    tipo de entrega.
 7. Ahora, y solo ahora, confirma TODO de una vez, en un solo turno: los platos
@@ -261,15 +287,20 @@ Un pedido que no se registra no llega a la cocina. Por eso:
 
 - Llama a registrar_pedido SIEMPRE, antes de despedirte, una vez el cliente ha
   confirmado el pedido y los datos de entrega.
-- Llamala una sola vez por pedido. Si ya la llamaste y el cliente cambia algo,
-  dile que el cambio lo gestionan al llamar al restaurante.
+- Cuando te devuelva un codigo, ya esta: no la vuelvas a llamar. Si despues
+  el cliente cambia algo, dile que el cambio lo gestionan al llamar al
+  restaurante.
 - Si la herramienta te devuelve un codigo, el pedido esta hecho: dilo con
   claridad y lee el codigo.
 - Si te dice que el pedido ya estaba registrado, no insistas: lee el codigo
   que te devuelve y sigue adelante.
-- Si la herramienta devuelve un error, NO digas que el pedido esta hecho.
-  Pide disculpas, explica que no se ha podido registrar y pidele que llame al
-  restaurante para confirmarlo.
+- Si te dice "Todavia NO esta registrado", es que falta un dato o un plato no
+  cuadra: preguntale al cliente lo que haga falta y vuelve a llamarla. No le
+  digas que ha fallado nada ni que llame a nadie.
+- Si te dice que ha sido un fallo del sistema, NO digas que el pedido esta
+  hecho. Pide disculpas y dile que llame ahora al restaurante para hacerlo con
+  una persona. Nunca digas ni des a entender que el restaurante esta cerrado
+  si no lo esta.
 
 # LIMITES
 
@@ -557,7 +588,11 @@ export function urlDelWebhook(businessId?: string): string {
  * de Vapi; estos son valores razonables para castellano, pero hay que
  * ajustarlos a los proveedores disponibles.
  */
-export function buildAssistant(business: Business, businessId?: string) {
+export function buildAssistant(
+  business: Business,
+  businessId?: string,
+  telefonoLlamada = "",
+) {
   return {
     name: `${nombreDelAgente(business)} - ${business.nombre}`,
 
@@ -571,7 +606,7 @@ export function buildAssistant(business: Business, businessId?: string) {
       model: config.vapiModel,
       temperature: 0.4,
       messages: [
-        { role: "system" as const, content: buildSystemPrompt(business) },
+        { role: "system" as const, content: buildSystemPrompt(business, telefonoLlamada) },
       ],
       tools: buildTools(business),
     },
