@@ -25,10 +25,11 @@ Uso:  python3 construye_dist.py            -> genera dist/
 """
 import base64, hashlib, io, json, os, re, shutil, sys
 
-RAIZ = os.environ.get(
-    'BCC_RAIZ',
-    '/tmp/claude-0/-home-user-PROYECTOS-BRIAN/d7665f70-4d9f-5163-b58b-425a0e474909'
-    '/scratchpad/bcc/bin-cami-cakes')
+# Por defecto, el proyecto en el que vive este script (la carpeta de arriba).
+# Antes apuntaba a una copia en el scratchpad y, si se olvidaba BCC_RAIZ,
+# construía allí sin avisar en vez de en el repositorio.
+AQUI = os.path.dirname(os.path.abspath(__file__))
+RAIZ = os.environ.get('BCC_RAIZ', os.path.dirname(AQUI))
 PAGINAS = ('index.html', 'mostrador.html')
 
 # El rótulo es distinto en cada página porque así estaba en el dist/ publicado,

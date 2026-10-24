@@ -23,14 +23,12 @@ Uso:  python3 construye_mostrador.py            -> genera mostrador.html
 """
 import io, os, re, sys
 
-RAIZ = os.environ.get(
-    'BCC_RAIZ',
-    '/tmp/claude-0/-home-user-PROYECTOS-BRIAN/d7665f70-4d9f-5163-b58b-425a0e474909'
-    '/scratchpad/bcc/bin-cami-cakes')
-CUERPO = os.environ.get(
-    'BCC_CUERPO',
-    '/tmp/claude-0/-home-user-PROYECTOS-BRIAN/d7665f70-4d9f-5163-b58b-425a0e474909'
-    '/scratchpad/herramientas/catalogo-cuerpo.html')
+# Por defecto, el proyecto en el que vive este script (la carpeta de arriba).
+# Antes apuntaba a una copia en el scratchpad y, si se olvidaba BCC_RAIZ,
+# construía allí sin avisar en vez de en el repositorio.
+AQUI = os.path.dirname(os.path.abspath(__file__))
+RAIZ = os.environ.get('BCC_RAIZ', os.path.dirname(AQUI))
+CUERPO = os.environ.get('BCC_CUERPO', os.path.join(AQUI, 'catalogo-cuerpo.html'))
 
 # Secciones que viven SÓLO en la portada: desde el mostrador hay que ir allí.
 SECCIONES = ('inicio', 'especialidades', 'venezolana', 'nosotras', 'galeria',
