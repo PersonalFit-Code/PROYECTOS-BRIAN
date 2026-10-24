@@ -4,6 +4,12 @@ Web de **BH Tacos**, French tacos en Rúa Pena Trevinca, 12 Bajo (32005 Ourense)
 Tailwind CSS 4 + TypeScript estricto, el mismo stack que `dos-puertas/`. Todo es estático: no hay
 servidor ni base de datos. Los pedidos se derivan a WhatsApp, al teléfono o a Just Eat y Uber Eats.
 
+**En vivo:** https://bh-tacos.vercel.app (proyecto `bh-tacos` en el equipo BRIAN de Vercel, carpeta raíz
+`bh-tacos/`). Igual que `dos-puertas`, la app de GitHub de Vercel no tiene acceso de escritura al
+repositorio, así que **no se redespliega sola con cada push**: cada versión se lanza a producción desde
+su commit de GitHub (API de Vercel con `gitSource`). Para que sea automático, dar acceso a la app de
+Vercel en GitHub y conectar el repositorio en Settings → Git del proyecto.
+
 ```bash
 npm install
 npm run dev        # http://localhost:3000
@@ -55,9 +61,9 @@ fuentes (Anton e Inter) están en `src/app/fonts.ts`.
 
 ## Desplegar
 
-**Vercel** (como `dos-puertas`): New Project → este repositorio → *Root Directory* `bh-tacos`. El
-framework se detecta solo y no hace falta ninguna variable de entorno. Después, poner el dominio en
-`BUSINESS.siteUrl`.
+**Vercel**: ya está creado (ver «En vivo» arriba). Para montarlo de cero: New Project → este
+repositorio → *Root Directory* `bh-tacos`. El framework se detecta solo y no hace falta ninguna
+variable de entorno. Con un dominio propio, cambiar también `BUSINESS.siteUrl`.
 
 **Netlify**: New site → este repositorio, *Base directory* `bh-tacos`, *Build command*
 `npm run build`. El runtime de Next de Netlify se instala solo.
