@@ -2260,7 +2260,7 @@
     :root #menu-movil > nav{
       /* Centrado bajo los botones, que desde el 24/10 van en el centro de la
          cabecera (antes iba pegado a la derecha, bajo las tres rayas). */
-      max-width:27rem; margin-left:auto; margin-right:auto;
+      max-width:min(56rem, 100%); margin-left:auto; margin-right:auto;
       border-radius:var(--r-panel);
       background-color:var(--glass-bg-hoja);
       background-image:var(--glass-sheen);
@@ -2272,10 +2272,48 @@
     /* el origen ya apunta a la esquina del botón, que sigue siendo el último
        elemento de la cápsula, así que el panel sigue naciendo de las rayas */
     :root #menu-movil{ transform-origin:50% 0; }
-    /* Idiomas y «Cuéntanos tu idea» ya están en la cabecera en escritorio:
-       dentro del panel salían por segunda vez a dos dedos de distancia. */
-    :root #menu-movil .idiomas,
+    /* «Cuéntanos tu idea» ya está en la cabecera: dentro del panel salía por
+       segunda vez a dos dedos de distancia. */
     :root #menu-movil .destello{ display:none; }
+  }
+
+  /* ---------- MENÚ GRANDE DE ESCRITORIO (24/10) ----------
+     Brian lo pidió «mucho más grande» y con los idiomas dentro, para que en la
+     cabecera queden sólo «Cuéntanos tu idea» y «Menú», centrados. El panel
+     pasa a ser una hoja de dos columnas: a la izquierda el mostrador con su
+     foto en grande y los idiomas debajo; a la derecha las secciones, en letra
+     grande. */
+  @media (min-width:1024px){
+    :root .cabecera-caja > .idiomas{ display:none; }
+    /* el botón de WhatsApp se escondía entre 1024 y 1280 por falta de sitio;
+       sin los idiomas al lado, ahora cabe siempre */
+    :root .cabecera-caja > div:has(> a.destello){ display:block; }
+
+    :root #menu-movil > nav{
+      display:grid; grid-template-columns:minmax(0, 20rem) minmax(0, 1fr);
+      grid-template-areas:"destacado lista" "idiomas lista";
+      grid-template-rows:auto 1fr; column-gap:1.75rem; row-gap:1rem;
+      padding:1.5rem; }
+    :root #menu-movil .menu-destacado{ grid-area:destacado; margin:0;
+      flex-direction:column; align-items:stretch; gap:.9rem; padding:.75rem .75rem 1.15rem; }
+    :root #menu-movil .menu-destacado-foto{ width:100%; height:auto; aspect-ratio:4 / 3; }
+    :root #menu-movil .menu-destacado-texto{ gap:.3rem; padding:0 2.4rem 0 .35rem; }
+    :root #menu-movil .menu-destacado-ante{ font-size:.7rem; }
+    :root #menu-movil .menu-destacado-h{ font-size:1.55rem; }
+    :root #menu-movil .menu-destacado-p{ font-size:.92rem; }
+    :root #menu-movil .menu-destacado-flecha{ position:absolute; right:1.1rem; bottom:1.25rem;
+      width:1.45rem; height:1.45rem; }
+
+    :root #menu-movil .menu-lista{ grid-area:lista; align-self:center; }
+    :root #menu-movil .menu-lista > li > a{ gap:1rem; padding:.85rem 1.15rem;
+      font-size:1.3rem; letter-spacing:-.005em; }
+    :root #menu-movil .menu-ico{ width:1.5rem; height:1.5rem; }
+
+    :root #menu-movil .idiomas{ grid-area:idiomas; align-self:end; display:flex; width:100%; margin:0; padding:.3rem; }
+    :root #menu-movil .idioma{ flex:1 1 0; padding:.65rem 0; font-size:.95rem; text-align:center; }
+  }
+  @media (min-width:1024px) and (prefers-reduced-motion: no-preference){
+    #menu-movil .idiomas{ animation:menu-cae 400ms cubic-bezier(.32,.72,0,1) 120ms backwards; }
   }
 
   /* ---------- LA PORTADA, SIN LAS FOTOS DE ALREDEDOR ----------
