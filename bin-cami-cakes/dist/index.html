@@ -2644,7 +2644,15 @@
     .portada.fuera *{ animation-play-state:paused !important; }
   }
   @media (prefers-reduced-motion: reduce){
-    .portada-in > *, .portada-cakes, .portada-pista, .portada-mascota{ animation:portada-funde 500ms ease backwards; }
+    /* Sin desplazamientos, pero no plano: lo de dentro se enfoca en vez de
+       subir, y la tarta se sigue dibujando (un trazo no mueve nada de sitio).
+       En iPhone «Reducir movimiento» lo tiene activado mucha gente, y con un
+       fundido de medio segundo parecía que la portada no tenía entrada. */
+    .portada-in > *, .portada-cakes, .portada-pista, .portada-mascota{ animation:portada-enfoca 900ms ease backwards; }
+    .portada-in > :nth-child(2){ animation-delay:120ms; }
+    .portada-in > :nth-child(3), .portada-cakes, .portada-mascota{ animation-delay:300ms; }
+    .portada-pista{ animation-delay:700ms; }
+    .portada-tarta path{ stroke-dasharray:1 1; animation:portada-traza 1.9s ease backwards; }
     /* el guiño es un cambio de imagen, no un movimiento: se queda */
     .portada-guino{ animation:mascota-guino 6s linear 1.9s infinite; }
     .portada-gota{ display:none; }
@@ -2800,7 +2808,48 @@
   }
   #menu-movil .menu-toggle-abierto, #menu-movil .menu-toggle-abierto .menu-toggle-z{ transition-delay:.35s; }
   @media (min-width:1024px){ :root #btn-menu .menu-toggle{ width:1.25rem; height:1.25rem; } }
+
+  /* La entrada espera (ver el script del final del <head>): todo lo de la
+     portada queda en su primer fotograma hasta que se puede ver. */
+  :root[data-portada-espera] .portada *{ animation-play-state:paused !important; }
+
+  /* ---------- Teléfonos ---------- */
+  @media (max-width:639.98px){
+    /* El logo de la cabecera puede encoger: a 320 px de ancho empujaba el
+       botón del menú fuera de la pantalla (también mientras está oculto en la
+       portada, porque oculto sigue ocupando su sitio). */
+    :root .cabecera-logo{ flex-shrink:1; min-width:0; }
+    :root .cabecera-caja{ gap:.5rem; }
+    .portada-lema{ white-space:nowrap; gap:.7rem; letter-spacing:.24em; }
+  }
+  @media (max-width:379.98px){
+    :root .cabecera-logo .marca{ font-size:1.12rem; }
+    :root .cabecera-logo .marca + span{ display:none; }
+    :root .cabecera-logo img{ height:2.3rem; }
+    .portada-lema{ font-size:10px; letter-spacing:.18em; gap:.5rem; }
+    .portada-filete{ width:1.4rem; }
+  }
+  /* Pantallas bajas (un SE, o el navegador con sus barras): la firma se mide
+     también por el alto, y la pista «Desliza» sobra, que se montaba encima
+     del «Ourense · Jardín do Posío». */
+  @media (max-width:639.98px) and (max-height:760px){
+    .portada-marca{ font-size:clamp(3.4rem, min(29vw, 12.5svh), 8.4rem); }
+    .portada-cakes-fila{ font-size:clamp(2.2rem, min(13vw, 6svh), 4.6rem); }
+  }
+  @media (max-width:639.98px) and (max-height:700px){ .portada-pista{ display:none; } }
+  /* Teléfono apaisado (unos 340 px de alto): la portada tenía un mínimo de
+     30rem y la firma se medía sólo por el ancho, así que «Ourense · Jardín do
+     Posío» quedaba por debajo de la pantalla. Aquí manda el alto. */
+  @media (max-height:500px) and (orientation:landscape){
+    .portada-fija{ min-height:0; padding-top:3.5rem; }
+    .portada-ante{ font-size:.68rem; }
+    .portada-marca{ font-size:min(14vw, 24svh); }
+    .portada-cakes-fila{ font-size:min(6.4vw, 11svh); }
+    .portada-lema{ margin-top:.9rem; }
+    .portada-pista{ display:none; }
+  }
   @keyframes portada-funde{ from{ opacity:0; } }
+  @keyframes portada-enfoca{ from{ opacity:0; filter:blur(8px); } }
   @keyframes mascota-entra{ from{ opacity:0; transform:rotate(-38deg) translateY(.45em) scale(.72); } }
   @keyframes mascota-vida{
     0%, 100%{ transform:none; }
@@ -2817,6 +2866,29 @@
   @keyframes portada-deriva-c{ to{ transform:translate3d(8vmax, -9vmax, 0) scale(1.1); } }
   @keyframes portada-late{ to{ transform:scale(1.18); opacity:.7; } }
 </style>
+<script>
+/* La entrada de la portada no empieza hasta que se puede ver. En un móvil con
+   datos, la página tardaba ~3 s en pintarse y la animación (que arranca al
+   calcularse los estilos, no al pintarse) ya iba por la mitad: Brian la veía
+   «saltarse». Ahora espera a tener las dos fuentes de la firma y a que el
+   navegador haya pintado de verdad un fotograma (doble requestAnimationFrame),
+   y como mucho 1,8 s, para que nunca se quede la portada en blanco. Mientras
+   espera, el CSS deja sus animaciones en pausa en el primer fotograma. */
+(function(){
+  var raiz = document.documentElement, hecho = false;
+  raiz.setAttribute('data-portada-espera', '');
+  function arranca(){
+    if (hecho) return; hecho = true;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      raiz.removeAttribute('data-portada-espera');
+    }); });
+  }
+  setTimeout(arranca, 1800);
+  try {
+    Promise.all([document.fonts.load('800 1em Fraunces'), document.fonts.load('700 1em Caveat')]).then(arranca, arranca);
+  } catch (e) { arranca(); }
+})();
+</script>
 </head>
 
 <body>
