@@ -19,7 +19,8 @@
     "crear:clinica": "tsx scripts/crear-clinica.ts",
     "probar:citas": "tsx scripts/probar-citas.ts",
     "probar:pedido": "tsx scripts/probar-pedido.ts",
-    "diagnostico": "tsx scripts/diagnostico.ts"
+    "diagnostico": "tsx scripts/diagnostico.ts",
+    "costes": "tsx scripts/costes.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
