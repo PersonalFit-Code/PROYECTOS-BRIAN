@@ -1,0 +1,183 @@
+{
+  "_fuente": "Carta publicada en Uber Eats y Just Eat (octubre 2026). Lo marcado con \"todo\": true está pendiente de confirmar con BH Tacos.",
+  "currency": "EUR",
+  "tacoSizes": [
+    {
+      "id": "M",
+      "name": "Taco M",
+      "meats": 1,
+      "scale": 0.82,
+      "description": "Perfecto para una comida normal. Una carne, patatas dentro y salsa quesera.",
+      "reference": "Como un bocadillo de media barra"
+    },
+    {
+      "id": "L",
+      "name": "Taco L",
+      "meats": 2,
+      "scale": 1,
+      "description": "Para los que vienen con hambre de verdad. Dos carnes a elegir.",
+      "reference": "Como una barra entera bien cargada"
+    },
+    {
+      "id": "XL",
+      "name": "Taco XL",
+      "meats": 3,
+      "scale": 1.18,
+      "description": "Otro nivel. Tres carnes, todo prensado y a disfrutar.",
+      "reference": "Para compartir… o no"
+    }
+  ],
+  "tacoStyles": [
+    {
+      "id": "clasico",
+      "name": "Clásico",
+      "description": "Tortilla de trigo prensada a la plancha: dorada por fuera, fundida por dentro.",
+      "prices": { "M": 8.99, "L": 9.99, "XL": 11.99 }
+    },
+    {
+      "id": "rebozado",
+      "name": "Rebozado",
+      "description": "Tu taco ahora más crujiente que nunca: con una capa exterior rebozada y dorada.",
+      "prices": { "M": 11.99, "L": 12.99, "XL": 14.99 }
+    }
+  ],
+  "meats": [
+    { "id": "pollo", "name": "Pollo marinado", "color": "#E9B872" },
+    { "id": "picada", "name": "Carne picada", "color": "#7A3E2A" },
+    { "id": "nuggets", "name": "Nuggets", "color": "#D9A040" },
+    { "id": "cordon-bleu", "name": "Cordon bleu", "color": "#F2D49B" },
+    { "id": "tenders", "name": "Tenders", "color": "#C9822E" }
+  ],
+  "sauces": [
+    {
+      "id": "algerienne",
+      "name": "Algérienne",
+      "spice": 2,
+      "profile": "Picante y especiada",
+      "origin": "Origen magrebí, base de mayo y especias.",
+      "pairing": "Marida con pollo y cordon bleu.",
+      "color": "#E07A3F",
+      "default": true
+    },
+    {
+      "id": "spicy-marbella",
+      "name": "Spicy Marbella",
+      "spice": 2,
+      "profile": "Toque picante andaluz",
+      "origin": "Cremosa, con un punto de guindilla.",
+      "pairing": "Perfecta con carne picada.",
+      "color": "#D9472B"
+    },
+    {
+      "id": "cheddar",
+      "name": "Cheddar adicional",
+      "spice": 1,
+      "profile": "Cremosa y suave",
+      "origin": "Refuerza la salsa quesera base.",
+      "pairing": "Combina con todo.",
+      "color": "#F4B53F"
+    },
+    {
+      "id": "mayonesa",
+      "name": "Mayonesa",
+      "group": "Clásicas",
+      "spice": 1,
+      "profile": "Sin picante",
+      "origin": "Para los que van a lo seguro.",
+      "pairing": "Con cualquier carne.",
+      "color": "#F3E6B5"
+    },
+    {
+      "id": "ketchup",
+      "name": "Ketchup",
+      "group": "Clásicas",
+      "spice": 1,
+      "profile": "Sin picante",
+      "origin": "Para los que van a lo seguro.",
+      "pairing": "Con nuggets y tenders.",
+      "color": "#C3261E"
+    },
+    {
+      "id": "barbacoa",
+      "name": "Barbacoa",
+      "group": "Clásicas",
+      "spice": 1,
+      "profile": "Sin picante",
+      "origin": "Para los que van a lo seguro.",
+      "pairing": "Con carne picada.",
+      "color": "#5B2A17"
+    }
+  ],
+  "maxFreeSauces": 2,
+  "extras": [
+    { "id": "gratinado-mozzarella", "name": "Gratinado mozzarella", "price": 1.5, "color": "#FFF1C9", "todo": true },
+    { "id": "gratinado-cabra", "name": "Gratinado queso de cabra", "price": 1.8, "color": "#F7F2E4", "todo": true }
+  ],
+  "categories": [
+    {
+      "id": "haz-tu-taco",
+      "name": "Haz tu propio taco",
+      "description": "Elige tamaño, carnes, salsas y extras. Las patatas y la salsa quesera van siempre dentro.",
+      "items": [
+        { "id": "taco-m", "name": "Taco M", "description": "Personaliza tu taco eligiendo el tamaño, 1 carne, salsas y extras que más te gusten.", "price": 8.99, "builder": { "style": "clasico", "size": "M" }, "featured": false },
+        { "id": "taco-l", "name": "Taco L", "description": "Personaliza tu taco eligiendo el tamaño, 2 carnes, salsas y extras que más te gusten.", "price": 9.99, "builder": { "style": "clasico", "size": "L" }, "featured": true },
+        { "id": "taco-xl", "name": "Taco XL", "description": "Personaliza tu taco eligiendo el tamaño, 3 carnes, salsas y extras que más te gusten. El favorito de la casa.", "price": 11.99, "builder": { "style": "clasico", "size": "XL" }, "featured": true }
+      ]
+    },
+    {
+      "id": "rebozados",
+      "name": "Rebozados",
+      "description": "Tu taco ahora más crujiente que nunca.",
+      "items": [
+        { "id": "rebozado-m", "name": "Taco rebozado M", "description": "Una carne, todo el relleno y una capa exterior rebozada y dorada.", "price": 11.99, "builder": { "style": "rebozado", "size": "M" }, "featured": false },
+        { "id": "rebozado-l", "name": "Taco rebozado L", "description": "Dos carnes y el rebozado crujiente que lo cambia todo.", "price": 12.99, "builder": { "style": "rebozado", "size": "L" }, "featured": false },
+        { "id": "rebozado-xl", "name": "Taco XL rebozado", "description": "Tres carnes, rebozado crujiente y a disfrutar. Solo para valientes.", "price": 14.99, "builder": { "style": "rebozado", "size": "XL" }, "featured": true }
+      ]
+    },
+    {
+      "id": "entrantes",
+      "name": "Entrantes",
+      "description": "Para picar mientras esperas o para acompañar el taco.",
+      "items": [
+        { "id": "tenders-4", "name": "Tenders (4 uds.)", "description": "Tiras de pollo empanizadas, crujientes y jugosas.", "price": 5.9 },
+        { "id": "tenders-6", "name": "Tenders (6 uds.)", "description": "Tiras de pollo empanizadas, crujientes y jugosas.", "price": 7.9 },
+        { "id": "tenders-8", "name": "Tenders (8 uds.)", "description": "Tiras de pollo empanizadas, crujientes y jugosas.", "price": 9.5 },
+        { "id": "nuggets-4", "name": "Nuggets (4 uds.)", "description": "Bocaditos de pollo empanizado, crujientes y dorados.", "price": 4.5 },
+        { "id": "nuggets-6", "name": "Nuggets (6 uds.)", "description": "Bocaditos de pollo empanizado, crujientes y dorados.", "price": 6.2 },
+        { "id": "nuggets-8", "name": "Nuggets (8 uds.)", "description": "Bocaditos de pollo empanizado, crujientes y dorados.", "price": 7.5 },
+        { "id": "mozzarella-4", "name": "Sticks de mozzarella (4 uds.)", "description": "Palitos de mozzarella empanizados, dorados por fuera y derretidos por dentro.", "price": 3.9 },
+        { "id": "mozzarella-6", "name": "Sticks de mozzarella (6 uds.)", "description": "Palitos de mozzarella empanizados, dorados por fuera y derretidos por dentro.", "price": 4.9 },
+        { "id": "mozzarella-8", "name": "Sticks de mozzarella (8 uds.)", "description": "Palitos de mozzarella empanizados, dorados por fuera y derretidos por dentro.", "price": 6.5 },
+        { "id": "patatas", "name": "Patatas fritas", "description": "Crujientes por fuera, suaves por dentro. Perfectas para acompañar tu taco.", "price": 2.3 },
+        { "id": "patatas-cheddar", "name": "Patatas con cheddar", "description": "Nuestras patatas con cheddar fundido por encima.", "price": 4.5 }
+      ]
+    },
+    {
+      "id": "bebidas",
+      "name": "Bebidas francesas importadas",
+      "description": "Refrescos fríos para acompañar. La selección de bebidas importadas de Francia está por confirmar.",
+      "todo": true,
+      "items": [
+        { "id": "coca-cola", "name": "Coca-Cola (lata 330 ml)", "description": "Sabor original.", "price": 2.0 },
+        { "id": "coca-cola-zero", "name": "Coca-Cola Zero (lata 330 ml)", "description": "Zero azúcar.", "price": 2.0 },
+        { "id": "fanta", "name": "Fanta Naranja (lata 330 ml)", "description": "Naranja.", "price": 2.0 },
+        { "id": "7up", "name": "7Up (lata 330 ml)", "description": "Lima-limón.", "price": 2.0 },
+        { "id": "agua", "name": "Agua (500 ml)", "description": "Mineral.", "price": 1.9 }
+      ]
+    }
+  ],
+  "combos": [
+    {
+      "id": "combo-primera-vez",
+      "name": "Combo primera vez",
+      "description": "Taco L + patatas fritas + refresco. Para estrenarse sin pensarlo mucho.",
+      "items": ["taco-l", "patatas", "coca-cola"]
+    },
+    {
+      "id": "combo-hambre",
+      "name": "Combo hambre de verdad",
+      "description": "Taco XL rebozado + sticks de mozzarella (4) + refresco.",
+      "items": ["rebozado-xl", "mozzarella-4", "coca-cola"]
+    }
+  ]
+}

@@ -1,0 +1,386 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   BH TACOS · street food premium
+   Rojo taco (marca) · naranja queso · amarillo queso · verde salsa.
+   Oscuro por defecto; claro con [data-theme="light"] en <html>.
+
+   Movimiento: reglas de Emil Kowalski (github.com/emilkowalski/skills):
+   curvas propias y fuertes, nada de `ease-in` en UI, UI < 300 ms, solo transform/opacity,
+   `scale(0.97)` al pulsar, hover solo con puntero fino, nunca desde scale(0), stagger 30–80 ms.
+   ───────────────────────────────────────────────────────────── */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f0f0f;
+  --bg-alt: #171514;
+  --surface: #1d1a18;
+  --surface-2: #272320;
+  --fg: #f5f5f5;
+  --fg-muted: #c9c3bc; /* 11:1 sobre --bg */
+  --border: rgba(245, 245, 245, 0.12);
+  /* El rojo de marca no llega a 4.5:1 como texto pequeño sobre negro: para texto, uno más claro. */
+  --brand-text: #ff7d85;
+  --gold-text: #ffd166;
+  --shadow-warm: 0 18px 40px -18px rgba(230, 57, 70, 0.35), 0 6px 18px -8px rgba(0, 0, 0, 0.6);
+  --header-bg: rgba(15, 15, 15, 0.72);
+  --noise-opacity: 0.06;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #faf7f2;
+  --bg-alt: #f2ece2;
+  --surface: #ffffff;
+  --surface-2: #f4eee5;
+  --fg: #1a1a1a;
+  --fg-muted: #4d4640; /* 8.5:1 sobre --bg */
+  --border: rgba(26, 26, 26, 0.12);
+  --brand-text: #c42634; /* 5.4:1 sobre --bg */
+  --gold-text: #9a6200; /* el amarillo queso no se lee sobre crema: ocre, 4.8:1 */
+  --shadow-warm: 0 18px 40px -20px rgba(230, 57, 70, 0.28), 0 6px 18px -10px rgba(120, 70, 30, 0.25);
+  --header-bg: rgba(250, 247, 242, 0.8);
+  --noise-opacity: 0.04;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-line: var(--border);
+  --color-brand-text: var(--brand-text);
+  --color-gold-text: var(--gold-text);
+
+  /* Paleta de marca (fija en los dos temas). */
+  --color-brand: #e63946;
+  --color-brand-dark: #c42634;
+  --color-cheese: #f4a261;
+  --color-gold: #ffd166;
+  --color-salsa: #2a9d8f;
+  --color-ink: #1a1a1a;
+  --color-snow: #f5f5f5;
+
+  --font-display: var(--font-anton), "Anton", Impact, "Arial Narrow", sans-serif;
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 20px;
+  --radius-btn: 14px;
+
+  --shadow-warm: var(--shadow-warm);
+
+  /* Curvas de Emil: ease-out fuerte para entradas y respuestas, in-out para lo que se mueve en
+     pantalla, la del cajón de iOS para drawers y hojas. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* Ruido sutil: textura de papel de bolsa de comida, encima de todo y sin capturar clics. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: #e63946;
+  color: #fff;
+}
+
+/* Foco visible en todo lo interactivo, en los dos temas. */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 3px solid #ffd166;
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+[data-theme="light"] :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline-color: #c42634;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 200;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: #ffd166;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ── Pulsables: feedback al pulsar (Emil: 0.97, 160 ms, ease-out) ── */
+.press {
+  transition: transform 160ms var(--ease-out), background-color 160ms ease, color 160ms ease, border-color 160ms ease, box-shadow 200ms ease, opacity 160ms ease;
+}
+.press:active:not(:disabled) {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .lift:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* ── Botones ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-btn);
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+}
+.btn-primary {
+  background: #e63946;
+  color: #fff;
+  box-shadow: var(--shadow-warm);
+}
+.btn-cheese {
+  background: #ffd166;
+  color: #1a1a1a;
+}
+.btn-ghost {
+  border: 1.5px solid var(--border);
+  color: var(--fg);
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+}
+.btn-salsa {
+  background: #1f7a6f; /* el verde salsa oscurecido para que el blanco llegue a 5:1 */
+  color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background: #c42634;
+  }
+  .btn-cheese:hover {
+    background: #f4a261;
+  }
+  .btn-ghost:hover {
+    border-color: var(--fg-muted);
+  }
+  .btn-salsa:hover {
+    background: #17655c;
+  }
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+
+.kicker {
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-text);
+}
+
+/* ── Aparición al hacer scroll (useReveal): opacidad + 12 px, ease-out, una sola vez ── */
+.reveal {
+  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+/* Solo se oculta si hay JavaScript (html[data-js] lo pone el script del layout): sin JS se ve todo. */
+[data-js] .reveal:not([data-shown="true"]) {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+/* ── Microanimaciones de ambiente (decorativas, solo transform, nunca bloquean nada) ── */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+@keyframes drip {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.25);
+  }
+}
+@keyframes sizzle {
+  0% {
+    transform: translateY(0) scale(0.9);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-36px) scale(1.1);
+    opacity: 0;
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.6;
+  }
+}
+.anim-float {
+  animation: float 6s var(--ease-in-out) infinite;
+}
+.anim-drip {
+  transform-origin: top;
+  animation: drip 2.4s var(--ease-in-out) infinite;
+}
+.anim-sizzle {
+  animation: sizzle 2.2s var(--ease-out) infinite;
+}
+.anim-marquee {
+  animation: marquee 40s linear infinite;
+}
+.anim-pulse-dot {
+  animation: pulse-dot 1.8s ease infinite;
+}
+
+/* ── Wizard: paso entrante con slide + fade. Dirección por data-dir. ── */
+@keyframes step-in-next {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+}
+@keyframes step-in-prev {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+}
+.step-in[data-dir="next"] {
+  animation: step-in-next 260ms var(--ease-out);
+}
+.step-in[data-dir="prev"] {
+  animation: step-in-prev 260ms var(--ease-out);
+}
+
+/* Opción seleccionada del wizard: escala 1.02 (pedido) con transición interrumpible. */
+.option {
+  transition: transform 180ms var(--ease-out), border-color 160ms ease, background-color 160ms ease, opacity 160ms ease, box-shadow 200ms ease;
+}
+.option[aria-checked="true"],
+.option[aria-pressed="true"] {
+  transform: scale(1.02);
+}
+.option:active:not([aria-disabled="true"]) {
+  transform: scale(0.97);
+}
+
+/* Tooltips: entrada corta desde el disparador, nunca desde cero. */
+.tip {
+  opacity: 0;
+  transform: translateY(4px) scale(0.97);
+  transform-origin: bottom center;
+  transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out);
+  pointer-events: none;
+}
+.tip[data-open="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Entradas sin JavaScript (Emil: @starting-style en lugar de useEffect + mounted). */
+.enter-up {
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-drawer);
+  @starting-style {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/* Barra de tabs de la carta: oculta la barra de scroll horizontal. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Movimiento reducido: fuera desplazamientos y animaciones de ambiente; se quedan las opacidades. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .anim-float,
+  .anim-drip,
+  .anim-sizzle,
+  .anim-marquee,
+  .anim-pulse-dot {
+    animation: none;
+  }
+  .reveal,
+  [data-js] .reveal:not([data-shown="true"]) {
+    transform: none;
+    transition: opacity 200ms ease;
+  }
+  .step-in[data-dir] {
+    animation: fade-only 160ms ease;
+  }
+  .option,
+  .option[aria-checked="true"],
+  .option[aria-pressed="true"],
+  .press:active:not(:disabled),
+  .lift:hover {
+    transform: none;
+  }
+  .enter-up {
+    transform: none;
+  }
+}
+@keyframes fade-only {
+  from {
+    opacity: 0;
+  }
+}
