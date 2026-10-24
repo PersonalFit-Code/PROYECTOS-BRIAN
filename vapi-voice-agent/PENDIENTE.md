@@ -13,6 +13,10 @@ Apuntado el 24 de octubre de 2026. Por orden de prioridad dentro de cada bloque.
 - [ ] `npm run costes`: coste real por minuto, para confirmar el margen de los planes.
 
 ## 2. Para ponerlo a funcionar de verdad
+- [ ] Pedir YA el numero espanol en Twilio (pide DNI y direccion en Espana; tarda dias). Luego en Vapi: Phone Numbers > Import > Twilio.
+- [ ] Cuenta en Render, plan Starter (~7 €/mes). NO el gratis: se duerme y la primera llamada falla.
+- [ ] Vapi: meter saldo y activar la recarga automatica.
+- [ ] Mirar en Vapi si la voz de ElevenLabs va con clave propia (se paga en ElevenLabs) o por Vapi.
 - [ ] Servidor siempre encendido (Render o Railway). Desbloquea tablet, panel desde fuera y el fondo sin ngrok.
 - [ ] Numero espanol +34 (Twilio o Telnyx) y conectarlo a Vapi.
 - [ ] El local desvia su telefono a Noah ("si no contestas o comunica").
