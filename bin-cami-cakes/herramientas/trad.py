@@ -9,10 +9,9 @@ Uso:  import trad;  trad.mete({'gl': {...}, 'en': {...}, 'pt': {...}})
 """
 import io, json, os, re
 
-RUTA = os.environ.get(
-    'BCC_INDEX',
-    '/tmp/claude-0/-home-user-PROYECTOS-BRIAN/d7665f70-4d9f-5163-b58b-425a0e474909'
-    '/scratchpad/bcc/bin-cami-cakes/index.html')
+# Por defecto, el index.html del proyecto en el que vive este script.
+RUTA = os.environ.get('BCC_INDEX', os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'index.html'))
 PATRON = re.compile(r'(  var TRAD = )(\{.*?\})(;\n)', re.S)
 
 
