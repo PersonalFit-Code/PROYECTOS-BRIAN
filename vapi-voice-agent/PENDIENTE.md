@@ -13,9 +13,11 @@ Apuntado el 24 de octubre de 2026. Por orden de prioridad dentro de cada bloque.
 - [ ] `npm run costes`: coste real por minuto, para confirmar el margen de los planes.
 
 ## 2. Para ponerlo a funcionar de verdad
-- [ ] Pedir YA el numero espanol en Twilio (pide DNI y direccion en Espana; tarda dias). Luego en Vapi: Phone Numbers > Import > Twilio.
+SOLO SI OUMAR DICE QUE SI (antes no se gasta nada):
+- [ ] Numero espanol en Twilio (pide DNI y direccion en Espana; tarda unos dias). Luego en Vapi: Phone Numbers > Import > Twilio.
 - [ ] Cuenta en Render, plan Starter (~7 €/mes). NO el gratis: se duerme y la primera llamada falla.
 - [ ] Vapi: meter saldo y activar la recarga automatica.
+Para la demo basta lo de ahora: tu ordenador, ngrok y el numero gratis de Vapi.
 - [ ] Mirar en Vapi si la voz de ElevenLabs va con clave propia (se paga en ElevenLabs) o por Vapi.
 - [ ] Servidor siempre encendido (Render o Railway). Desbloquea tablet, panel desde fuera y el fondo sin ngrok.
 - [ ] Numero espanol +34 (Twilio o Telnyx) y conectarlo a Vapi.

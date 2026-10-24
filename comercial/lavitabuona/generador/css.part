@@ -271,3 +271,20 @@ p, .regalo p, .item-ico p, .tarj p { text-wrap: pretty; }
 .p8 .todos { margin-top: 5mm; }
 .p8 .todos > div { font-size: 9pt; }
 .p8 .plan li { padding: 1.85mm 0; } .p8 .banner.paga { margin-top: 6mm; padding: 4.4mm 5mm; } .p8 .todos { margin-top: 4mm; } .p8 .planes { margin-top: 6mm; }
+
+/* ===== Hoja 8: flujo ===== */
+.p8f .flujo { margin: 4mm 0 1mm; }
+.piezas { display: flex; flex-wrap: wrap; gap: 2.6mm; margin: 2mm 0 1mm; }
+.pieza { flex: 0 0 calc(25% - 1.95mm); border: 1px solid var(--linea); border-radius: 2.4mm; background: var(--crema); padding: 2.6mm 2.6mm 2.4mm; box-shadow: 0 .3mm 1.1mm rgba(20,10,6,.07); }
+.pieza .pl { height: 5.2mm; display: flex; align-items: center; margin-bottom: 1.4mm; }
+.pieza .pl svg { display: block; }
+.pieza b { display: block; font-size: 9.2pt; margin-bottom: .5mm; }
+.pieza p { font-size: 8pt; color: #4D443D; margin: 0; line-height: 1.3; }
+.p8f .flujo { margin: 6mm 0 2mm; }
+.p8f .grande { margin-bottom: 2mm; }
+.p8f .piezas { gap: 3.2mm; margin: 3mm 0 2mm; }
+.p8f .pieza { flex-basis: calc(25% - 2.4mm); padding: 3.4mm 3mm 3.2mm; }
+.p8f .pieza .pl { height: 6mm; margin-bottom: 2mm; }
+.p8f .pieza b { font-size: 10pt; margin-bottom: .8mm; }
+.p8f .pieza p { font-size: 8.7pt; }
+.p8f .apunte { margin-top: 3mm; }
