@@ -1,3 +1,5 @@
+import { join } from "node:path";
+
 import express, {
   type NextFunction,
   type Request,
@@ -17,6 +19,10 @@ export function createApp() {
   app.get("/health", (_req: Request, res: Response) => {
     res.json({ status: "ok", uptime: process.uptime() });
   });
+
+  // Audios publicos, como el fondo de las llamadas: Vapi los descarga de
+  // aqui. Solo lectura y sin nada privado dentro.
+  app.use("/audio", express.static(join(__dirname, "..", "public", "audio"), { maxAge: "1d" }));
 
   app.use(voiceWebhookRouter);
   app.use(panelRouter);

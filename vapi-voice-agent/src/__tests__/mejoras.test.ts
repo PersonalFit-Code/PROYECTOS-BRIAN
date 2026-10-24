@@ -281,3 +281,29 @@ describe("pedidos grandes", () => {
     assert.ok(modelo.maxTokens >= 1000 && modelo.maxTokens <= 10000, String(modelo.maxTokens));
   });
 });
+
+describe("sonido de fondo propio", async () => {
+  const { fondoDeLlamada } = await import("../assistant");
+  const { existsSync } = await import("node:fs");
+  const { join } = await import("node:path");
+
+  it('"pizzeria" se convierte en la URL publica del audio', () => {
+    assert.equal(
+      fondoDeLlamada("pizzeria", "https://ejemplo.ngrok-free.dev"),
+      "https://ejemplo.ngrok-free.dev/audio/ambiente-pizzeria.mp3",
+    );
+  });
+
+  it("sin URL publica, silencio: Vapi no podria descargarlo", () => {
+    assert.equal(fondoDeLlamada("pizzeria", ""), "off");
+  });
+
+  it("los valores de Vapi pasan tal cual", () => {
+    assert.equal(fondoDeLlamada("office", "https://x"), "office");
+    assert.equal(fondoDeLlamada("off", "https://x"), "off");
+  });
+
+  it("el fichero existe de verdad", () => {
+    assert.ok(existsSync(join(__dirname, "..", "..", "public", "audio", "ambiente-pizzeria.mp3")));
+  });
+});

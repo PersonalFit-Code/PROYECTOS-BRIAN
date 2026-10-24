@@ -14,6 +14,7 @@
 
 import {
   FRASE_DE_DESPEDIDA,
+  fondoDeLlamada,
   construirVoz,
   nombreDelAgente,
   urlDelWebhook,
@@ -322,7 +323,7 @@ export function buildAssistantCitas(clinica: Clinica, businessId?: string) {
       velocidad: config.vozVelocidad,
     }),
 
-    backgroundSound: config.sonidoFondo,
+    backgroundSound: fondoDeLlamada(config.sonidoFondo, config.publicServerUrl),
 
     stopSpeakingPlan: {
       numWords: config.interrupcionPalabras,

@@ -175,6 +175,10 @@ ${avisoGrabacion}
 - Suena a persona, no a contestador: usa con naturalidad "vale", "perfecto",
   "muy bien", "estupendo", sin repetir siempre la misma, y no empieces todas
   las frases igual.
+- Habla como se habla, no como se escribe: frases cortas con comas donde
+  respirarias, y de vez en cuando un "a ver...", "vale, pues..." o "mmm,
+  déjeme ver" antes de contestar algo que hay que pensar. Sin pasarte: una
+  vez cada pocos turnos, nunca dos seguidas.
 - Habla como quien esta de pie detras de la barra con gente esperando: al
   grano, sin formulas de carta ni "no dude en consultarme".
 - Si el cliente te interrumpe, para y atiende a lo que ha dicho. No vuelvas a
@@ -355,7 +359,9 @@ export function construirVoz(opciones: {
     //
     // Con los dos puestos la voz se cortaba en una llamada real, asi que van
     // apagados: mas vale una voz entera que una voz expresiva a trompicones.
-    stability: 0.5,
+    // 0,4 en vez de 0,5: algo mas de entonacion, menos de locutora. No
+    // cuesta latencia, a diferencia de style.
+    stability: 0.4,
     similarityBoost: 0.75,
     style: 0,
     useSpeakerBoost: false,
@@ -363,6 +369,28 @@ export function construirVoz(opciones: {
     // empeora como pronuncia los numeros, y aqui se dicen precios.
     optimizeStreamingLatency: 3,
   };
+}
+
+/**
+ * Fondos propios que sirve este mismo servidor, en public/audio. Se piden por
+ * nombre en SONIDO_FONDO ("pizzeria") y se convierten en la URL publica, que
+ * es lo que pide Vapi.
+ *
+ * "pizzeria" es un ambiente de local tranquilo con algun tecleo suelto de
+ * caja, de 30 segundos y en bucle, generado con ElevenLabs y bajado a -42
+ * LUFS para que se note sin tapar la voz. Vapi no tiene sonido de "teclear
+ * mientras piensa"; el tecleo de fondo es lo mas parecido que admite.
+ */
+export const FONDOS_PROPIOS: Record<string, string> = {
+  pizzeria: "ambiente-pizzeria.mp3",
+};
+
+/** Lo que se le manda a Vapi en backgroundSound. */
+export function fondoDeLlamada(valor: string, urlPublica: string): string {
+  const propio = FONDOS_PROPIOS[valor.trim().toLowerCase()];
+  if (!propio) return valor;
+  // Sin URL publica Vapi no puede descargarlo: mejor silencio que un fallo.
+  return urlPublica ? `${urlPublica}/audio/${propio}` : "off";
 }
 
 /**
@@ -451,7 +479,7 @@ function buildTools(business: Business) {
       messages: [
         {
           type: "request-start" as const,
-          content: "Un momento, que le calculo el total.",
+          content: "Vale, un segundito que se lo sumo...",
         },
       ],
       function: {
@@ -478,7 +506,7 @@ function buildTools(business: Business) {
       messages: [
         {
           type: "request-start" as const,
-          content: "Perfecto, le registro el pedido.",
+          content: "Perfecto, se lo apunto...",
         },
       ],
       function: {
@@ -643,7 +671,7 @@ export function buildAssistant(
       chunkPlan: { formatPlan: { replacements: PRONUNCIACION } },
     },
 
-    backgroundSound: config.sonidoFondo,
+    backgroundSound: fondoDeLlamada(config.sonidoFondo, config.publicServerUrl),
 
     // Turnos de palabra. Sin esto, cualquier ruido o un "vale" corta al
     // agente a mitad de frase y vuelve a empezar la misma pregunta.
