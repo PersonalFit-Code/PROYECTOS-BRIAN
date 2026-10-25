@@ -4,15 +4,24 @@ import { FEATURED_ITEMS, MENU, comboPrice, findItem } from "@/data/menu";
 import { formatPrice } from "@/lib/format";
 import SectionHeading from "@/components/common/SectionHeading";
 import TacoPreview from "@/components/common/TacoPreview";
+import Sticker from "@/components/common/Sticker";
+import TornEdge from "@/components/common/TornEdge";
 
 export default function FeaturedMenu() {
   return (
-    <section aria-labelledby="featured-title" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
-      <SectionHeading id="featured-title" kicker="Para empezar" title={HOME.featured.title} text={HOME.featured.text} />
+    <section aria-labelledby="featured-title" className="on-cream relative">
+      <TornEdge fill="var(--cream-bg)" className="absolute -top-6 left-0 sm:-top-9" />
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
+      <SectionHeading id="featured-title" kicker="Para empezar" title={HOME.featured.title} text={HOME.featured.text} highlight="favoritos" />
       <ul className="mt-12 grid gap-5 md:grid-cols-3">
         {FEATURED_ITEMS.slice(0, 3).map((item, i) => (
           <li key={item.id} className="reveal" style={{ ["--i" as string]: i }}>
-            <article className="card lift press flex h-full flex-col p-5">
+            <article className="card lift press relative flex h-full flex-col p-5 shadow-[var(--shadow-warm)]" style={{ rotate: `${[-0.8, 0.6, -0.4][i]}deg` }}>
+              {item.id === "taco-xl" && (
+                <Sticker tone="brand" rotate={6} className="absolute -right-3 -top-4 z-10 text-base">
+                  🔥 El más pedido
+                </Sticker>
+              )}
               <div className="rounded-2xl bg-bg-alt p-2 text-fg">
                 {item.builder && (
                   <TacoPreview
@@ -26,7 +35,9 @@ export default function FeaturedMenu() {
               </div>
               <div className="mt-4 flex items-start justify-between gap-3">
                 <h3 className="font-display text-3xl uppercase leading-none">{item.name}</h3>
-                <p className="shrink-0 rounded-full bg-gold px-3 py-1 font-bold text-ink">{formatPrice(item.price)}</p>
+                <Sticker rotate={4} className="shrink-0 text-xl">
+                  {formatPrice(item.price)}
+                </Sticker>
               </div>
               <p className="mt-3 flex-1 text-fg-muted">{item.description}</p>
               {item.builder && (
@@ -57,6 +68,7 @@ export default function FeaturedMenu() {
           </li>
         ))}
       </ul>
+      </div>
     </section>
   );
 }

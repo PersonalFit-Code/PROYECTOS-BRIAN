@@ -2,6 +2,7 @@ import { HOME } from "@/content";
 import { MENU, type Sauce } from "@/data/menu";
 import SectionHeading from "@/components/common/SectionHeading";
 import SpiceMeter from "@/components/common/SpiceMeter";
+import TornEdge from "@/components/common/TornEdge";
 
 /* Las clásicas (mayonesa, ketchup, barbacoa) van juntas en una sola tarjeta, como en la carta. */
 function groupSauces(sauces: Sauce[]) {
@@ -20,13 +21,14 @@ function groupSauces(sauces: Sauce[]) {
 
 export default function SauceEncyclopedia() {
   return (
-    <section aria-labelledby="sauces-title" className="bg-bg-alt py-20 lg:py-28">
+    <section aria-labelledby="sauces-title" className="relative bg-bg py-20 lg:py-28">
+      <TornEdge fill="var(--bg)" className="absolute -top-6 left-0 sm:-top-9" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <SectionHeading id="sauces-title" kicker="Salsas" title={HOME.sauces.title} text={HOME.sauces.intro} />
+        <SectionHeading id="sauces-title" kicker="Salsas" title={HOME.sauces.title} text={HOME.sauces.intro} highlight="lo cambian todo" />
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {groupSauces(MENU.sauces).map((c, i) => (
             <li key={c.key} className="reveal" style={{ ["--i" as string]: i }}>
-              <article className="card lift press flex h-full flex-col overflow-hidden">
+              <article className="card lift press flex h-full flex-col overflow-hidden" style={{ rotate: `${[0.8, -1, 0.5, -0.6][i % 4]}deg` }}>
                 <div className="relative h-24 overflow-hidden" aria-hidden>
                   {c.colors.map((color, k) => (
                     <div key={color} className="absolute inset-y-0" style={{ left: `${(k / c.colors.length) * 100}%`, width: `${100 / c.colors.length}%`, background: color }} />

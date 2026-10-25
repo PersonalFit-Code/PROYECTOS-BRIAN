@@ -4,17 +4,20 @@ import { MENU } from "@/data/menu";
 import { formatPrice } from "@/lib/format";
 import SectionHeading from "@/components/common/SectionHeading";
 import TacoPreview from "@/components/common/TacoPreview";
+import TornEdge from "@/components/common/TornEdge";
 
 export default function SizeCompare() {
   const clasico = MENU.tacoStyles.find((s) => s.id === "clasico") ?? MENU.tacoStyles[0];
   const rebozado = MENU.tacoStyles.find((s) => s.id === "rebozado") ?? MENU.tacoStyles[1];
   return (
-    <section aria-labelledby="sizes-title" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
-      <SectionHeading id="sizes-title" kicker="Tamaños" title={HOME.sizes.title} text={HOME.sizes.text} />
+    <section aria-labelledby="sizes-title" className="on-cream relative">
+      <TornEdge fill="var(--cream-bg)" className="absolute -top-6 left-0 sm:-top-9" />
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
+      <SectionHeading id="sizes-title" kicker="Tamaños" title={HOME.sizes.title} text={HOME.sizes.text} highlight="Tú decides" />
       <ul className="mt-12 grid gap-5 md:grid-cols-3">
         {MENU.tacoSizes.map((s, i) => (
           <li key={s.id} className="reveal" style={{ ["--i" as string]: i }}>
-            <article className="card lift press flex h-full flex-col p-6 shadow-[var(--shadow-warm)]">
+            <article className="card lift press flex h-full flex-col p-6 shadow-[var(--shadow-warm)]" style={{ rotate: `${[-1, 0.6, -0.4][i]}deg` }}>
               <div className="flex items-baseline justify-between">
                 <h3 className="font-display text-6xl uppercase text-brand-text">{s.id}</h3>
                 <p className="text-right text-sm text-fg-muted">
@@ -47,6 +50,7 @@ export default function SizeCompare() {
           </li>
         ))}
       </ul>
+      </div>
     </section>
   );
 }

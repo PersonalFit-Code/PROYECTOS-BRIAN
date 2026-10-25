@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import { useId, useState } from "react";
 import { FAQ, HOME } from "@/content";
 import SectionHeading from "@/components/common/SectionHeading";
+import TornEdge from "@/components/common/TornEdge";
 
 /**
  * Acordeón accesible (patrón WAI-ARIA): cada pregunta es un botón con aria-expanded que controla su
@@ -13,7 +14,8 @@ export default function Faq() {
   const [open, setOpen] = useState<number | null>(0);
   const base = useId();
   return (
-    <section aria-labelledby="faq-title" className="bg-bg-alt py-20 lg:py-28">
+    <section aria-labelledby="faq-title" className="relative bg-bg-alt py-20 lg:py-28">
+      <TornEdge fill="var(--bg-alt)" className="absolute -top-6 left-0 sm:-top-9" />
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <SectionHeading id="faq-title" kicker="FAQ" title={HOME.faq.title} />
         <div className="mt-10 grid gap-3">

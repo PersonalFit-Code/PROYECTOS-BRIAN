@@ -1,9 +1,11 @@
 import { Gamepad2 } from "lucide-react";
 import { BUSINESS, HOME } from "@/content";
+import TornEdge from "@/components/common/TornEdge";
 
 export default function GamingZone() {
   return (
-    <section aria-labelledby="gaming-title" className="px-4 py-10 sm:px-6">
+    <section aria-labelledby="gaming-title" className="relative bg-bg px-4 pb-16 pt-20 sm:px-6">
+      <TornEdge fill="var(--bg)" className="absolute -top-6 left-0 sm:-top-9" />
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 overflow-hidden rounded-[28px] bg-[#14112a] p-8 text-snow sm:p-12 lg:grid-cols-[1.3fr_1fr]">
         <div aria-hidden className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-salsa/40 blur-[90px]" />
         <div className="relative reveal">

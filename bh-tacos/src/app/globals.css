@@ -28,6 +28,8 @@
   --shadow-warm: 0 18px 40px -18px rgba(230, 57, 70, 0.35), 0 6px 18px -8px rgba(0, 0, 0, 0.6);
   --header-bg: rgba(15, 15, 15, 0.72);
   --noise-opacity: 0.06;
+  /* Secciones de papel crema que se alternan con las oscuras. */
+  --cream-bg: #faf7f2;
 }
 
 [data-theme="light"] {
@@ -44,6 +46,8 @@
   --shadow-warm: 0 18px 40px -20px rgba(230, 57, 70, 0.28), 0 6px 18px -10px rgba(120, 70, 30, 0.25);
   --header-bg: rgba(250, 247, 242, 0.8);
   --noise-opacity: 0.04;
+  /* En el tema claro el papel es un tono más tostado, para que se note el cambio de sección. */
+  --cream-bg: #efe6d6;
 }
 
 @theme inline {
@@ -205,6 +209,63 @@ body::after {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--brand-text);
+}
+
+/* ── Street food: papel crema, pegatinas y cinta adhesiva ── */
+
+/* Sección de papel: redefine los tokens dentro, así cualquier componente se lee bien encima. */
+.on-cream {
+  --bg: var(--cream-bg);
+  --bg-alt: #f2ece2;
+  --surface: #ffffff;
+  --surface-2: #f4eee5;
+  --fg: #1a1a1a;
+  --fg-muted: #4d4640;
+  --border: rgba(26, 26, 26, 0.12);
+  --brand-text: #c42634;
+  --gold-text: #9a6200;
+  color-scheme: light;
+  background: var(--cream-bg);
+  color: #1a1a1a;
+}
+
+.sticker {
+  padding: 0.35em 0.7em;
+  border-radius: 10px;
+  border: 3px solid #fff;
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.35);
+  line-height: 1;
+}
+
+/* Cinta adhesiva semitransparente con bordes dentados. */
+.tape {
+  background: rgba(255, 241, 201, 0.75);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  -webkit-mask: linear-gradient(90deg, transparent 0 3px, #000 3px calc(100% - 3px), transparent calc(100% - 3px)),
+    repeating-linear-gradient(0deg, #000 0 4px, transparent 4px 6px);
+  mask: linear-gradient(90deg, transparent 0 3px, #000 3px calc(100% - 3px), transparent calc(100% - 3px)),
+    repeating-linear-gradient(0deg, #000 0 4px, transparent 4px 6px);
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+}
+
+/* Foto tipo polaroid: marco blanco, sombra cálida y algo torcida. */
+.polaroid {
+  background: #fff;
+  padding: 10px 10px 34px;
+  border-radius: 6px;
+  box-shadow: var(--shadow-warm), 0 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Palabra destacada en una «cinta» roja dentro de un titular. */
+.ribbon {
+  display: inline-block;
+  padding: 0 0.18em;
+  background: #e63946;
+  color: #fff;
+  transform: rotate(-1.5deg);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 /* ── Aparición al hacer scroll (useReveal): opacidad + 12 px, ease-out, una sola vez ── */
