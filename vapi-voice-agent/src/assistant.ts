@@ -378,7 +378,7 @@ export function construirVoz(opciones: {
  *
  * "pizzeria" es un murmullo continuo de local, de 30 segundos y en bucle,
  * generado con ElevenLabs, recortado a la banda del telefono (150-3400 Hz),
- * a unos -47 LUFS y entrando poco a poco. La primera version llevaba tecleo
+ * a unos -50 LUFS y entrando poco a poco. La primera version llevaba tecleo
  * de caja subido 20 dB y por telefono los golpecitos sonaban a petardeo y
  * saturaba al descolgar: nada de sonidos secos en el fondo.
  */
