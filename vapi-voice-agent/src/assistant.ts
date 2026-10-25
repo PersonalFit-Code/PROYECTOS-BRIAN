@@ -376,10 +376,11 @@ export function construirVoz(opciones: {
  * nombre en SONIDO_FONDO ("pizzeria") y se convierten en la URL publica, que
  * es lo que pide Vapi.
  *
- * "pizzeria" es un ambiente de local tranquilo con algun tecleo suelto de
- * caja, de 30 segundos y en bucle, generado con ElevenLabs y bajado a -42
- * LUFS para que se note sin tapar la voz. Vapi no tiene sonido de "teclear
- * mientras piensa"; el tecleo de fondo es lo mas parecido que admite.
+ * "pizzeria" es un murmullo continuo de local, de 30 segundos y en bucle,
+ * generado con ElevenLabs, recortado a la banda del telefono (150-3400 Hz),
+ * a unos -47 LUFS y entrando poco a poco. La primera version llevaba tecleo
+ * de caja subido 20 dB y por telefono los golpecitos sonaban a petardeo y
+ * saturaba al descolgar: nada de sonidos secos en el fondo.
  */
 export const FONDOS_PROPIOS: Record<string, string> = {
   pizzeria: "ambiente-pizzeria.mp3",
