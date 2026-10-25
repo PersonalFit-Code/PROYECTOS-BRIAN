@@ -7,7 +7,7 @@ import { cn, formatPrice } from "@/lib/format";
 import { totalPrice, type TacoDraft } from "@/lib/price";
 import OrderActions from "@/components/builder/OrderActions";
 import TacoDetails from "@/components/builder/TacoDetails";
-import TacoPreview from "@/components/common/TacoPreview";
+import TacoVisual from "@/components/builder/TacoVisual";
 
 /**
  * Vista previa + resumen. Escritorio: columna derecha fija (sticky). Móvil: barra inferior con el
@@ -23,9 +23,7 @@ export default function SummaryPanel({ draft }: { draft: TacoDraft }) {
     <>
       {/* Escritorio */}
       <aside aria-label="Tu taco" className="card sticky top-28 hidden p-6 lg:block">
-        <div className="rounded-2xl bg-bg-alt p-3 text-fg">
-          <TacoPreview {...draft} className="h-52 w-full" label={`Vista previa: ${title}`} />
-        </div>
+        <TacoVisual draft={draft} />
         <p className="mt-4 font-display text-3xl uppercase">{title}</p>
         <div className="mt-3">
           <TacoDetails draft={draft} />
@@ -48,9 +46,7 @@ export default function SummaryPanel({ draft }: { draft: TacoDraft }) {
           )}
           inert={!open}
         >
-          <div className="rounded-2xl bg-bg-alt p-2 text-fg">
-            <TacoPreview {...draft} className="h-40 w-full" label={`Vista previa: ${title}`} />
-          </div>
+          <TacoVisual draft={draft} />
           <div className="mt-3">
             <TacoDetails draft={draft} />
           </div>

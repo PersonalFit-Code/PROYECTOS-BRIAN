@@ -3,7 +3,7 @@ import { HOME } from "@/content";
 import { MENU } from "@/data/menu";
 import { formatPrice } from "@/lib/format";
 import SectionHeading from "@/components/common/SectionHeading";
-import TacoPreview from "@/components/common/TacoPreview";
+import PhotoSlot from "@/components/common/PhotoSlot";
 import TornEdge from "@/components/common/TornEdge";
 
 export default function SizeCompare() {
@@ -25,8 +25,11 @@ export default function SizeCompare() {
                 </p>
               </div>
               {/* Referencia de escala: el mismo dibujo a la escala de cada tamaño, sobre una regla. */}
-              <div className="relative mt-4 flex h-44 items-end justify-center rounded-2xl bg-bg-alt text-fg">
-                <TacoPreview style="clasico" size={s.id} meats={MENU.meats.slice(0, s.meats).map((m) => m.id)} className="h-full w-auto" />
+              <div className="relative mt-4 flex h-48 items-end justify-center overflow-hidden rounded-2xl bg-bg-alt text-fg">
+                {/* La misma foto a la escala de cada tamaño, sobre la regla. */}
+                <div className="mb-6 w-[56%]" style={{ transform: `scale(${s.scale})`, transformOrigin: "bottom center" }}>
+                  <PhotoSlot slot="taco-clasico" className="aspect-[4/3] w-full rounded-xl shadow-lg" sizes="240px" label={`Taco ${s.id}`} />
+                </div>
                 <div aria-hidden className="absolute inset-x-6 bottom-3 flex justify-between border-t border-dashed border-line pt-1 text-[10px] text-fg-muted">
                   <span>0</span>
                   <span>{s.reference}</span>

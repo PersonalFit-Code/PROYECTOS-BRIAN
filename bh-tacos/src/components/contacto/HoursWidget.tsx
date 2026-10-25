@@ -20,7 +20,7 @@ export default function HoursWidget() {
             return (
               <tr key={d} className={cn("border-b border-line last:border-0", today && "bg-brand/10")} aria-current={today ? "date" : undefined}>
                 <th scope="row" className={cn("py-3 pl-3 font-semibold", today && "text-brand-text")}>
-                  {DAY_NAMES[d]} {today && <span className="ml-1 rounded-full bg-brand px-2 py-0.5 text-xs text-white">Hoy</span>}
+                  {DAY_NAMES[d]} {today && <span className="ml-1 rounded-full bg-brand px-2 py-0.5 text-xs text-ink">Hoy</span>}
                 </th>
                 <td className="py-3 pr-3 text-right text-fg-muted">
                   {HOURS[d].length ? HOURS[d].map((r) => `${r.open}–${r.close}`).join(" · ") : "Cerrado"}

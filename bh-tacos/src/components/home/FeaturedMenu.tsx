@@ -3,7 +3,7 @@ import { HOME } from "@/content";
 import { FEATURED_ITEMS, MENU, comboPrice, findItem } from "@/data/menu";
 import { formatPrice } from "@/lib/format";
 import SectionHeading from "@/components/common/SectionHeading";
-import TacoPreview from "@/components/common/TacoPreview";
+import PhotoSlot from "@/components/common/PhotoSlot";
 import Sticker from "@/components/common/Sticker";
 import TornEdge from "@/components/common/TornEdge";
 
@@ -22,17 +22,12 @@ export default function FeaturedMenu() {
                   🔥 El más pedido
                 </Sticker>
               )}
-              <div className="rounded-2xl bg-bg-alt p-2 text-fg">
-                {item.builder && (
-                  <TacoPreview
-                    style={item.builder.style}
-                    size={item.builder.size}
-                    meats={MENU.meats.slice(0, MENU.tacoSizes.find((s) => s.id === item.builder?.size)?.meats ?? 1).map((m) => m.id)}
-                    sauces={["algerienne"]}
-                    className="h-40 w-full"
-                  />
-                )}
-              </div>
+              <PhotoSlot
+                slot={item.builder?.style === "rebozado" ? "taco-rebozado" : "taco-clasico"}
+                className="-mx-5 -mt-5 aspect-[4/3] rounded-t-[20px]"
+                sizes="(min-width: 768px) 33vw, 100vw"
+                label={item.name}
+              />
               <div className="mt-4 flex items-start justify-between gap-3">
                 <h3 className="font-display text-3xl uppercase leading-none">{item.name}</h3>
                 <Sticker rotate={4} className="shrink-0 text-xl">

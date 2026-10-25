@@ -2,15 +2,13 @@ import { formatPrice } from "@/lib/format";
 import { totalPrice, type TacoDraft } from "@/lib/price";
 import OrderActions from "@/components/builder/OrderActions";
 import TacoDetails from "@/components/builder/TacoDetails";
-import TacoPreview from "@/components/common/TacoPreview";
+import TacoVisual from "@/components/builder/TacoVisual";
 
 export default function StepSummary({ draft, onRestart }: { draft: TacoDraft; onRestart: () => void }) {
   return (
     <div>
-      <div className="rounded-3xl bg-bg-alt p-4 text-fg lg:hidden">
-        <TacoPreview {...draft} className="mx-auto h-48 w-full" label="Tu taco" />
-      </div>
-      <div className="mt-5 lg:mt-0">
+      <TacoVisual draft={draft} className="mb-6 lg:hidden" />
+      <div>
         <TacoDetails draft={draft} />
       </div>
       <p className="mt-6 flex items-baseline justify-between border-t border-line pt-4">

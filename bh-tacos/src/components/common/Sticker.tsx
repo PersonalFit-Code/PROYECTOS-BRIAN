@@ -5,7 +5,7 @@ type Tone = "gold" | "brand" | "salsa" | "ink";
 
 const TONES: Record<Tone, string> = {
   gold: "bg-gold text-ink",
-  brand: "bg-brand text-white",
+  brand: "bg-brand text-ink",
   salsa: "bg-[#1f7a6f] text-white",
   ink: "bg-ink text-snow",
 };

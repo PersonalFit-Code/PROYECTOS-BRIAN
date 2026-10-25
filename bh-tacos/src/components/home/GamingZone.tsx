@@ -1,4 +1,6 @@
 import { Gamepad2 } from "lucide-react";
+import PhotoSlot from "@/components/common/PhotoSlot";
+import Sticker from "@/components/common/Sticker";
 import { BUSINESS, HOME } from "@/content";
 import TornEdge from "@/components/common/TornEdge";
 
@@ -20,11 +22,14 @@ export default function GamingZone() {
         </div>
         {/* Mando dibujado con botones que laten (microanimación decorativa). */}
         <div className="relative reveal mx-auto grid place-items-center" style={{ ["--i" as string]: 1 }}>
-          <div className="anim-float grid h-56 w-56 place-items-center rounded-full border border-white/10 bg-white/5">
-            <Gamepad2 className="h-28 w-28 text-gold" strokeWidth={1.4} aria-hidden />
-          </div>
-          <span aria-hidden className="anim-pulse-dot absolute right-6 top-8 h-4 w-4 rounded-full bg-brand" />
-          <span aria-hidden className="anim-pulse-dot absolute bottom-10 left-6 h-3 w-3 rounded-full bg-salsa" style={{ animationDelay: ".6s" }} />
+          {/* TODO: foto de la zona de la PS5; hoy, el local por dentro. */}
+          <figure className="polaroid relative w-full max-w-sm rotate-2">
+            <PhotoSlot slot="gaming" className="aspect-[4/3] w-full rounded-[4px]" sizes="(min-width: 1024px) 384px, 90vw" label="Zona gaming" />
+            <figcaption className="mt-2 text-center font-display text-lg uppercase tracking-wide text-ink">Ven a echar el rato</figcaption>
+          </figure>
+          <Sticker tone="gold" rotate={-7} className="absolute -left-2 -top-4 text-xl">
+            <Gamepad2 className="h-5 w-5" aria-hidden /> PS5 gratis
+          </Sticker>
         </div>
       </div>
     </section>

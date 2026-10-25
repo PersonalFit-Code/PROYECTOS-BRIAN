@@ -130,7 +130,7 @@ export default function TacoAnatomy() {
                 active === l.id ? "border-brand bg-surface-2" : "border-line bg-surface",
               )}
             >
-              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand font-display text-white">{i + 1}</span>
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand font-display text-ink">{i + 1}</span>
               <span className="font-semibold">{l.label}</span>
             </button>
           </li>

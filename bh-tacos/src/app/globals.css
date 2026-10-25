@@ -15,39 +15,40 @@
 :root,
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0f0f0f;
-  --bg-alt: #171514;
-  --surface: #1d1a18;
-  --surface-2: #272320;
-  --fg: #f5f5f5;
-  --fg-muted: #c9c3bc; /* 11:1 sobre --bg */
+  /* Carbón cálido, como el gris oscuro de su cartel «Hazte un taco». */
+  --bg: #1c1714;
+  --bg-alt: #241d19;
+  --surface: #2a221d;
+  --surface-2: #352b24;
+  --fg: #f7efe2;
+  --fg-muted: #d2c5b4; /* 10:1 sobre --bg */
   --border: rgba(245, 245, 245, 0.12);
-  /* El rojo de marca no llega a 4.5:1 como texto pequeño sobre negro: para texto, uno más claro. */
-  --brand-text: #ff7d85;
-  --gold-text: #ffd166;
-  --shadow-warm: 0 18px 40px -18px rgba(230, 57, 70, 0.35), 0 6px 18px -8px rgba(0, 0, 0, 0.6);
-  --header-bg: rgba(15, 15, 15, 0.72);
+  /* Naranja de marca para texto sobre carbón (8:1). */
+  --brand-text: #f7a04a;
+  --gold-text: #ffd23f;
+  --shadow-warm: 0 18px 40px -18px rgba(240, 138, 36, 0.35), 0 6px 18px -8px rgba(0, 0, 0, 0.6);
+  --header-bg: rgba(28, 23, 20, 0.78);
   --noise-opacity: 0.06;
   /* Secciones de papel crema que se alternan con las oscuras. */
-  --cream-bg: #faf7f2;
+  --cream-bg: #f3e7d3;
 }
 
 [data-theme="light"] {
   color-scheme: light;
-  --bg: #faf7f2;
-  --bg-alt: #f2ece2;
-  --surface: #ffffff;
-  --surface-2: #f4eee5;
-  --fg: #1a1a1a;
-  --fg-muted: #4d4640; /* 8.5:1 sobre --bg */
+  --bg: #f7efe2;
+  --bg-alt: #efe3cf;
+  --surface: #fffaf2;
+  --surface-2: #f3e7d3;
+  --fg: #2a1a12;
+  --fg-muted: #5a4535; /* 8:1 sobre --bg */
   --border: rgba(26, 26, 26, 0.12);
-  --brand-text: #c42634; /* 5.4:1 sobre --bg */
-  --gold-text: #9a6200; /* el amarillo queso no se lee sobre crema: ocre, 4.8:1 */
-  --shadow-warm: 0 18px 40px -20px rgba(230, 57, 70, 0.28), 0 6px 18px -10px rgba(120, 70, 30, 0.25);
-  --header-bg: rgba(250, 247, 242, 0.8);
+  --brand-text: #9e430c; /* naranja tostado, 5.9:1 sobre crema */
+  --gold-text: #8a5a00; /* el amarillo no se lee sobre crema: ocre, 5.3:1 */
+  --shadow-warm: 0 18px 40px -20px rgba(240, 138, 36, 0.3), 0 6px 18px -10px rgba(123, 43, 25, 0.25);
+  --header-bg: rgba(247, 239, 226, 0.85);
   --noise-opacity: 0.04;
   /* En el tema claro el papel es un tono más tostado, para que se note el cambio de sección. */
-  --cream-bg: #efe6d6;
+  --cream-bg: #ecdcc2;
 }
 
 @theme inline {
@@ -61,14 +62,18 @@
   --color-brand-text: var(--brand-text);
   --color-gold-text: var(--gold-text);
 
-  /* Paleta de marca (fija en los dos temas). */
-  --color-brand: #e63946;
-  --color-brand-dark: #c42634;
-  --color-cheese: #f4a261;
-  --color-gold: #ffd166;
+  /* Paleta de marca, sacada de su logo y su cartel (fija en los dos temas).
+     El naranja es claro: el texto encima va en tinta (`ink`, 7:1), nunca en blanco. */
+  --color-brand: #f08a24;
+  --color-brand-dark: #d9822b;
+  --color-cheese: #f7a93b;
+  --color-gold: #ffd23f;
+  --color-cocoa: #7b2b19; /* marrón del aro del logo */
+  --color-rust: #8a2e1a; /* el «BH» del logo */
+  --color-logo-cream: #f3e7d3;
   --color-salsa: #2a9d8f;
-  --color-ink: #1a1a1a;
-  --color-snow: #f5f5f5;
+  --color-ink: #24140c;
+  --color-snow: #f7efe2;
 
   --font-display: var(--font-anton), "Anton", Impact, "Arial Narrow", sans-serif;
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -110,18 +115,18 @@ body::after {
 }
 
 ::selection {
-  background: #e63946;
-  color: #fff;
+  background: #f08a24;
+  color: #24140c;
 }
 
 /* Foco visible en todo lo interactivo, en los dos temas. */
 :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
-  outline: 3px solid #ffd166;
+  outline: 3px solid #ffd23f;
   outline-offset: 3px;
   border-radius: 10px;
 }
 [data-theme="light"] :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
-  outline-color: #c42634;
+  outline-color: #9e430c;
 }
 
 .skip-link {
@@ -131,8 +136,8 @@ body::after {
   z-index: 200;
   padding: 0.75rem 1rem;
   border-radius: 12px;
-  background: #ffd166;
-  color: #1a1a1a;
+  background: #ffd23f;
+  color: #24140c;
   font-weight: 700;
 }
 .skip-link:focus {
@@ -166,13 +171,13 @@ body::after {
   text-align: center;
 }
 .btn-primary {
-  background: #e63946;
-  color: #fff;
+  background: #f08a24;
+  color: #24140c;
   box-shadow: var(--shadow-warm);
 }
 .btn-cheese {
-  background: #ffd166;
-  color: #1a1a1a;
+  background: #ffd23f;
+  color: #24140c;
 }
 .btn-ghost {
   border: 1.5px solid var(--border);
@@ -185,10 +190,10 @@ body::after {
 }
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover {
-    background: #c42634;
+    background: #f7a04a;
   }
   .btn-cheese:hover {
-    background: #f4a261;
+    background: #f7a93b;
   }
   .btn-ghost:hover {
     border-color: var(--fg-muted);
@@ -216,17 +221,17 @@ body::after {
 /* Sección de papel: redefine los tokens dentro, así cualquier componente se lee bien encima. */
 .on-cream {
   --bg: var(--cream-bg);
-  --bg-alt: #f2ece2;
-  --surface: #ffffff;
-  --surface-2: #f4eee5;
-  --fg: #1a1a1a;
-  --fg-muted: #4d4640;
-  --border: rgba(26, 26, 26, 0.12);
-  --brand-text: #c42634;
-  --gold-text: #9a6200;
+  --bg-alt: #ecdcc2;
+  --surface: #fffaf2;
+  --surface-2: #f7efe2;
+  --fg: #2a1a12;
+  --fg-muted: #5a4535;
+  --border: rgba(42, 26, 18, 0.14);
+  --brand-text: #9e430c;
+  --gold-text: #8a5a00;
   color-scheme: light;
   background: var(--cream-bg);
-  color: #1a1a1a;
+  color: #2a1a12;
 }
 
 .sticker {
@@ -261,8 +266,9 @@ body::after {
 .ribbon {
   display: inline-block;
   padding: 0 0.18em;
-  background: #e63946;
-  color: #fff;
+  /* Marrón del logo con letras crema: así lleva la marca dentro del titular. */
+  background: #8a2e1a;
+  color: #f3e7d3;
   transform: rotate(-1.5deg);
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;

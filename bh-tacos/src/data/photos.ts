@@ -1,14 +1,18 @@
 import type { StaticImageData } from "next/image";
+import promoTacos from "../../public/images/promo-tacos.webp";
+import localInterior from "../../public/images/local-interior.webp";
 
 /*
- * Fotos reales de BH Tacos. Cada hueco de la web tiene un id; cuando llega la foto se importa aquí
- * (desde public/images/, en WebP) y el hueco la enseña en lugar de la ilustración de reserva.
+ * Fotos reales de BH Tacos. Cada hueco de la web tiene un id; cuando hay foto, el hueco la enseña y,
+ * si no, un bloque de marca (crema, plancha y el taco del logo). Para añadir una foto: original en
+ * fotos/originales/, `python3 scripts/fotos.py`, importarla aquí y asignarla a su hueco.
  *
- * PENDIENTE: las fotos las pasa Brian (las que el local tiene publicadas en Google). Hay que tener
- * el permiso del local antes de publicar la web definitiva.
+ * PERMISO: son fotos que el local tiene publicadas (las pasó Brian). Hay que confirmar con BH Tacos
+ * que se pueden usar en la web antes de publicar la versión definitiva.
  */
 export const PHOTO_SLOTS = [
-  "taco-cortado", // portada y «¿Qué es un French Taco?»
+  "hero",
+  "taco-cortado", // «¿Qué es un French Taco?»
   "taco-clasico",
   "taco-rebozado",
   "tenders",
@@ -16,7 +20,7 @@ export const PHOTO_SLOTS = [
   "mozzarella",
   "patatas-cheddar",
   "local",
-  "ps5",
+  "gaming",
 ] as const;
 export type PhotoSlot = (typeof PHOTO_SLOTS)[number];
 
@@ -29,7 +33,24 @@ export interface Photo {
   source: string;
 }
 
-export const PHOTOS: Partial<Record<PhotoSlot, Photo>> = {};
+const PROMO: Photo = {
+  src: promoTacos,
+  alt: "Cuatro French tacos de BH Tacos gratinados con cheddar y queso de cabra, con el logo de BH Tacos en el centro",
+  source: "Imagen promocional de BH Tacos (Google, enviada por Brian)",
+};
+const LOCAL: Photo = {
+  src: localInterior,
+  alt: "Interior de BH Tacos: la planta de arriba con mesas, suelo de madera y el letrero de BH Tacos",
+  position: "50% 55%",
+  source: "Foto del local en Google (enviada por Brian)",
+};
+
+// TODO: fotos de producto (taco cortado, clásico, rebozado, entrantes) en buena resolución.
+export const PHOTOS: Partial<Record<PhotoSlot, Photo>> = {
+  hero: PROMO,
+  local: LOCAL,
+  gaming: LOCAL,
+};
 
 /**
  * Puntos del diagrama sobre la foto del taco cortado, en % del ancho y alto. Se ajustan cuando

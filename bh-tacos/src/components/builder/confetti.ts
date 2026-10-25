@@ -3,7 +3,7 @@
  * Es una celebración que se ve una vez por pedido (Emil: lo raro puede tener deleite). Con
  * movimiento reducido no se lanza.
  */
-const COLORS = ["#E63946", "#F4A261", "#FFD166", "#2A9D8F", "#F5F5F5"];
+const COLORS = ["#F08A24", "#FFD23F", "#8A2E1A", "#2A9D8F", "#F3E7D3"];
 
 export function fireConfetti(origin?: { x: number; y: number }) {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;

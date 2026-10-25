@@ -49,7 +49,7 @@ export default function ChoiceChip({ label, checked, blocked, blockedText, role 
             <span className={cn("absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-[var(--ease-out)]", checked ? "translate-x-6" : "translate-x-1")} />
           </span>
         ) : (
-          <span aria-hidden className={cn("grid h-6 w-6 shrink-0 place-items-center rounded-md border-2 transition-colors duration-150", checked ? "border-brand bg-brand text-white" : "border-line")}>
+          <span aria-hidden className={cn("grid h-6 w-6 shrink-0 place-items-center rounded-md border-2 transition-colors duration-150", checked ? "border-brand bg-brand text-ink" : "border-line")}>
             {checked && <Check className="h-4 w-4" strokeWidth={3} />}
           </span>
         )}

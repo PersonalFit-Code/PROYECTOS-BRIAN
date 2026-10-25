@@ -52,7 +52,10 @@ fuentes (Anton e Inter) están en `src/app/fonts.ts`.
 
 ## Decisiones
 
-- **Datos reales, no los del brief**: el teléfono 988 601 723, el Instagram @bhtacos y el horario (lunes cerrado; de martes a domingo 12:30–16:30 y 20:00–00:00) salen de Páxinas Galegas. La carta y los precios, de Uber Eats y Just Eat (octubre 2026). Los textos que en el brief daban horas fijas («cierra a las 16:00») se calculan con el horario real.
+- **Datos reales, no los del brief**: el teléfono 988 601 723, el Instagram @bhtacos y el horario (lunes cerrado; de martes a domingo 12:30–16:30 y 20:00–00:00) salen de Páxinas Galegas. Los textos que en el brief daban horas fijas («cierra a las 16:00») se calculan con el horario real.
+- **Carta del local**: tamaños, precios (M 6,99 €, L 7,99 €, XL 9,99 €), carnes, las 9 salsas y los gratinados salen del cartel «Hazte un taco» del local (`fotos/originales/cartel-hazte-un-taco.png`). Entrantes y bebidas, de Uber Eats y Just Eat. En las apps los tacos cuestan más (8,99 / 9,99 / 11,99 €) y la carta lo avisa.
+- **Marca real**: el logo (`src/components/common/Logo.tsx`) está redibujado en SVG a partir de su insignia redonda. La paleta (naranja, amarillo, marrón y crema sobre carbón) sale del logo y del cartel. Sobre el naranja el texto va en tinta oscura, porque el blanco no llega al contraste AA.
+- **Fotos**: van en `src/data/photos.ts` por huecos. Donde aún no hay foto se ve un bloque de marca (crema, plancha y el taco del logo), nunca un dibujo de comida. Para añadir una: original en `fotos/originales/`, `python3 scripts/fotos.py`, importarla en `photos.ts` y asignarla a su hueco.
 - **Historia**: se mantiene el copy de marca (Lyon) y se añade la historia real de La Voz de Galicia (26-05-2025). Hassan aprendió la receta en Marruecos, donde su familia tiene varios locales de tacos, y abrió el local con su pareja, Patricia da Silva.
 - **Cookies**: la web solo guarda datos técnicos en `localStorage` (`bh_theme`, `bh_taco_draft` y `bh_cookie_consent`). El mapa de Google sí pone cookies de terceros, así que hay banner (Aceptar / Rechazar / Más info) y el mapa no se carga sin permiso. Rechazar es tan fácil como aceptar, como exige la AEPD.
 - **Animación**: sigue las pautas de Emil Kowalski ([emilkowalski/skills](https://github.com/emilkowalski/skills)): curvas propias, UI por debajo de 300 ms, solo `transform`/`opacity`, `scale(0.97)` al pulsar, hover solo con puntero fino, nunca desde `scale(0)`, stagger de 60 ms, confeti solo al terminar el taco y movimiento reducido respetado. Sin librerías de animación.
@@ -75,9 +78,10 @@ variable de entorno. Con un dominio propio, cambiar también `BUSINESS.siteUrl`.
 - [ ] Perfil de **TikTok** (`BUSINESS.social.tiktok`).
 - [ ] **Dominio** (`BUSINESS.siteUrl`) y las coordenadas exactas (`BUSINESS.geo`).
 - [ ] **Textos legales reales** redactados o revisados por un profesional (`LEGAL`), con **NIF**, razón social y datos fiscales (`LEGAL_OWNER`). Después, quitar el `noindex` de las tres páginas legales y meterlas en `src/app/sitemap.ts`.
-- [ ] **Fotos reales** de los tacos y **del local**: hoy todo son ilustraciones SVG.
+- [ ] **Permiso del local** para usar sus fotos (hoy: imagen promocional con el logo y el interior del local, de Google).
+- [ ] **Fotos de producto en buena resolución**: taco cortado, clásico, rebozado, entrantes y la zona de la PS5. Los huecos están en `src/data/photos.ts`; hoy enseñan el bloque de marca.
 - [ ] **Testimonios reales**, con permiso (`REVIEWS`).
 - [ ] **Logos oficiales** de Just Eat y Uber Eats (hoy son botones con sus colores).
-- [ ] Confirmar los precios de los **gratinados** (+1,50 € / +1,80 €), las **salsas** de la casa y la lista de **bebidas francesas importadas** (`menu.json`, marcados con `todo`).
+- [ ] Confirmar con el local (`menu.json`, marcados con `todo`): los precios de los **gratinados** y toppings (en la foto del cartel no se leen), el precio del **rebozado** (el cartel no lo trae; hoy +3 €), si los **tenders** llevan suplemento, las descripciones de las **salsas** y la lista de **bebidas francesas importadas**.
 - [ ] Confirmar el **horario** y los precios del local (los de la web son los de las apps de reparto).
 - [ ] Confirmar la frase «A 5 min andando de la Plaza Mayor. Junto a la estación de tren.» (`CONTACT.mapExtra`).

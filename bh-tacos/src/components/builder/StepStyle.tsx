@@ -1,7 +1,7 @@
 import { MENU, type StyleId } from "@/data/menu";
 import { formatPrice } from "@/lib/format";
 import RadioCards from "@/components/builder/RadioCards";
-import TacoPreview from "@/components/common/TacoPreview";
+import PhotoSlot from "@/components/common/PhotoSlot";
 
 export default function StepStyle({ value, onChange }: { value: StyleId; onChange: (v: StyleId) => void }) {
   return (
@@ -14,7 +14,7 @@ export default function StepStyle({ value, onChange }: { value: StyleId; onChang
         value: s.id,
         title: s.name,
         description: s.description,
-        art: <TacoPreview style={s.id} size="L" meats={["pollo", "picada"]} className="h-36 w-full" />,
+        art: <PhotoSlot slot={s.id === "rebozado" ? "taco-rebozado" : "taco-clasico"} className="aspect-[16/9] w-full rounded-xl" sizes="(min-width: 640px) 30vw, 90vw" label={s.name} />,
         aside: <span className="mr-8 shrink-0 text-sm font-bold text-fg-muted">desde {formatPrice(s.prices.M)}</span>,
       }))}
     />

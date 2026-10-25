@@ -3,7 +3,8 @@ import Link from "next/link";
 import { BadgeEuro, Leaf, PartyPopper } from "lucide-react";
 import { ABOUT, BUSINESS, SEO } from "@/content";
 import Reveal from "@/components/common/Reveal";
-import TacoPreview from "@/components/common/TacoPreview";
+import PhotoSlot from "@/components/common/PhotoSlot";
+import Tape from "@/components/common/Tape";
 
 export const metadata: Metadata = {
   title: SEO.about.title,
@@ -28,9 +29,11 @@ export default function AboutPage() {
             </p>
           ))}
         </div>
-        <div className="anim-float text-fg">
-          <TacoPreview style="clasico" size="L" meats={["pollo", "cordon-bleu"]} sauces={["algerienne", "spicy-marbella"]} className="h-auto w-full" />
-        </div>
+        <figure className="polaroid relative -rotate-2">
+          <Tape className="-top-3 left-1/2 -translate-x-1/2" />
+          <PhotoSlot slot="local" className="aspect-[4/3] w-full rounded-[4px]" sizes="(min-width: 1024px) 40vw, 90vw" label="El local" />
+          <figcaption className="mt-2 text-center font-display text-lg uppercase tracking-wide text-ink">Rúa Pena Trevinca, 12</figcaption>
+        </figure>
       </section>
 
       <section aria-labelledby="people-title" className="mx-auto mt-20 max-w-7xl px-4 sm:px-6">
@@ -55,7 +58,7 @@ export default function AboutPage() {
             return (
               <li key={v.title} className="reveal" style={{ ["--i" as string]: i }}>
                 <article className="card lift press h-full p-6">
-                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand text-white">
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand text-ink">
                     <Icon className="h-6 w-6" aria-hidden />
                   </span>
                   <h3 className="mt-4 font-display text-3xl uppercase">{v.title}</h3>
@@ -81,7 +84,7 @@ export default function AboutPage() {
       </section>
 
       <section className="mx-auto mt-20 max-w-5xl px-4 sm:px-6">
-        <div className="reveal rounded-[28px] bg-brand px-6 py-12 text-center text-white">
+        <div className="reveal rounded-[28px] bg-brand px-6 py-12 text-center text-ink">
           <h2 className="font-display text-4xl uppercase sm:text-5xl">{ABOUT.cta.title}</h2>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/carta" className="press btn btn-cheese">

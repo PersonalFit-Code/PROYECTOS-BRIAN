@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { BUSINESS, NAV } from "@/content";
 import { cn } from "@/lib/format";
 import useScrolledPast from "@/hooks/useScrolledPast";
-import TacoIcon from "@/components/common/TacoIcon";
+import Logo from "@/components/common/Logo";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 import OrderMenu from "@/components/layout/OrderMenu";
 import { GENERIC_ORDER_TEXT, whatsappUrl } from "@/lib/whatsapp";
@@ -64,7 +64,7 @@ export default function Header() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-6">
         <Link href="/" className="press flex items-center gap-2" aria-label={`${BUSINESS.name}, ir al inicio`}>
-          <TacoIcon className="h-9 w-9" />
+          <Logo className="h-11 w-auto drop-shadow-md sm:h-14" title="" />
           <span className="font-display text-2xl uppercase tracking-wide sm:text-3xl">
             BH <span className="text-brand-text">Tacos</span>
           </span>

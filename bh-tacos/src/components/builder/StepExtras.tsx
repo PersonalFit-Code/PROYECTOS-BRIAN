@@ -5,7 +5,7 @@ import ChoiceChip from "@/components/builder/ChoiceChip";
 export default function StepExtras({ selected, onToggle }: { selected: string[]; onToggle: (id: string) => void }) {
   return (
     <fieldset>
-      <legend className="mb-5 text-fg-muted">Gratinado por encima, con queso fundido. Opcional.</legend>
+      <legend className="mb-5 text-fg-muted">Gratinados y toppings por encima, al gusto. Opcionales.</legend>
       <div className="grid gap-3 sm:grid-cols-2">
         {MENU.extras.map((e) => (
           <ChoiceChip

@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { BUSINESS, HOME } from "@/content";
 import OpenBadge from "@/components/layout/OpenBadge";
-import TacoPreview from "@/components/common/TacoPreview";
+import PhotoSlot from "@/components/common/PhotoSlot";
+import Sticker from "@/components/common/Sticker";
+import Tape from "@/components/common/Tape";
+import { MENU } from "@/data/menu";
+import { formatPrice } from "@/lib/format";
 
 export default function Hero() {
   const { hero } = HOME;
@@ -40,24 +44,31 @@ export default function Hero() {
           </ul>
         </div>
 
-        <div className="relative mx-auto w-full max-w-lg">
-          <div className="anim-float text-fg">
-            <TacoPreview style="rebozado" size="XL" meats={["pollo", "cordon-bleu", "picada"]} sauces={["algerienne", "cheddar"]} extras={["gratinado-mozzarella"]} className="h-auto w-full drop-shadow-2xl" label="Ilustración de un French taco XL rebozado, cortado por la mitad: patatas, tres carnes, salsa quesera y gratinado" />
-          </div>
-          <p className="absolute -bottom-2 left-1/2 -translate-x-1/2 -rotate-2 whitespace-nowrap rounded-xl bg-gold px-4 py-2 font-display text-lg uppercase tracking-wide text-ink shadow-lg">
+        {/* Foto real en polaroid, pegada con cinta y con sus pegatinas. */}
+        <div className="relative mx-auto w-full max-w-md lg:max-w-lg">
+          <figure className="polaroid relative rotate-2">
+            <Tape className="-top-3 left-6 -rotate-6" />
+            <Tape className="-top-3 right-6 rotate-6" />
+            <PhotoSlot slot="hero" priority className="aspect-square w-full rounded-[4px]" sizes="(min-width: 1024px) 512px, 90vw" label="French tacos" />
+            <figcaption className="mt-2 text-center font-display text-lg uppercase tracking-wide text-ink">Gratinados de la casa</figcaption>
+          </figure>
+          <Sticker tone="gold" rotate={-8} className="absolute -left-4 top-10 text-2xl sm:-left-8">
+            desde {formatPrice(Math.min(...MENU.tacoStyles.flatMap((s) => Object.values(s.prices))))}
+          </Sticker>
+          <Sticker tone="brand" rotate={5} className="absolute -bottom-4 right-2 text-lg sm:-right-6">
             Prensado a la plancha
-          </p>
+          </Sticker>
         </div>
       </div>
 
       {/* Cinta de ambiente */}
-      <div className="border-y border-line bg-brand py-3 text-white" aria-hidden>
+      <div className="border-y border-line bg-brand py-3 text-ink" aria-hidden>
         <div className="flex w-max anim-marquee gap-10 whitespace-nowrap font-display text-xl uppercase tracking-wider">
           {Array.from({ length: 2 }, (_, k) => (
             <span key={k} className="flex gap-10">
               {["French tacos", "Salsa quesera casera", "Patatas dentro", "Taco rebozado", "Zona gaming PS5", "Rúa Pena Trevinca, 12"].map((t) => (
                 <span key={t} className="flex items-center gap-10">
-                  {t} <span className="text-gold">✦</span>
+                  {t} <span className="text-cocoa">✦</span>
                 </span>
               ))}
             </span>

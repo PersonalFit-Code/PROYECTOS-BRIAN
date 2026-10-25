@@ -167,7 +167,7 @@ export const CARTA = {
     "French Tacos",
     ". Olvídate de la tortilla fina y el relleno escaso. Aquí todo es generoso, contundente y está prensado a la plancha hasta alcanzar la perfección. Elige tu tamaño, tu carne y tus salsas. ¡Tú mandas!",
   ],
-  note: "Precios con IVA incluido, según la carta publicada en las apps de reparto. En el local pueden variar.",
+  note: "Precios en el local, con IVA incluido, según el cartel «Hazte un taco». En Just Eat y Uber Eats pueden ser distintos.",
 } as const;
 
 export const CONTACT = {

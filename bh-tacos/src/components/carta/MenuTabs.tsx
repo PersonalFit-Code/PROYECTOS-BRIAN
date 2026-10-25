@@ -64,7 +64,7 @@ export default function MenuTabs() {
               onKeyDown={(e) => onKey(e, i)}
               className={cn(
                 "press shrink-0 rounded-full px-4 py-2 text-sm font-bold whitespace-nowrap",
-                active === c.id ? "bg-brand text-white" : "bg-surface text-fg-muted hover:text-fg",
+                active === c.id ? "bg-brand text-ink" : "bg-surface text-fg-muted hover:text-fg",
               )}
             >
               {c.name}

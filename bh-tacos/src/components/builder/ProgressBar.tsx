@@ -33,7 +33,7 @@ export default function ProgressBar({ step, labels, onJump }: Props) {
               disabled={i > step}
               onClick={() => onJump(i)}
               aria-current={i === step ? "step" : undefined}
-              className={`press whitespace-nowrap rounded-full px-3 py-1.5 font-semibold ${i === step ? "bg-brand text-white" : i < step ? "bg-surface-2 text-fg" : "text-fg-muted opacity-60"}`}
+              className={`press whitespace-nowrap rounded-full px-3 py-1.5 font-semibold ${i === step ? "bg-brand text-ink" : i < step ? "bg-surface-2 text-fg" : "text-fg-muted opacity-60"}`}
             >
               {i + 1}. {l}
             </button>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { BUSINESS, HOURS_SUMMARY } from "@/content";
 import { whatsappUrl } from "@/lib/whatsapp";
-import TacoIcon from "@/components/common/TacoIcon";
+import Logo from "@/components/common/Logo";
 import SocialLinks from "@/components/common/SocialLinks";
 import Year from "@/components/layout/Year";
 
@@ -12,11 +12,8 @@ export default function Footer() {
     <footer className="border-t border-line bg-bg-alt pb-28 pt-16 lg:pb-12">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Link href="/" className="press inline-flex items-center gap-2">
-            <TacoIcon className="h-10 w-10" />
-            <span className="font-display text-3xl uppercase">
-              BH <span className="text-brand-text">Tacos</span>
-            </span>
+          <Link href="/" className="press inline-flex" aria-label="BH Tacos, ir al inicio">
+            <Logo className="h-32 w-auto drop-shadow-lg" />
           </Link>
           <p className="mt-4 max-w-xs text-fg-muted">{BUSINESS.claim}</p>
           <div className="mt-6">
