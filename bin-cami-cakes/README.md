@@ -5,6 +5,21 @@ Landing de una página. Datos verificados con el cliente; ver
 
 ## Añadir las fotos
 
+> **25/10: ya no queda ninguna foto hecha con IA.** Brian pidió dejar sólo las
+> que mandó Luisa. Se quitaron las tres de muestra que quedaban
+> (`tarta-boda`, `tres-leches`, `golfeados`, con sus `.jpg` y sus miniaturas):
+>
+> - del carrusel salen sus tres diapositivas, que pasa a tener **tres**
+>   (cumpleaños, temática y cookies, todas de Luisa) y tres puntos «de 3»;
+> - en la portada del móvil sus huecos los ocupan tres tartas de Luisa de la
+>   galería (`tarta-04`, `tarta-14` y `tarta-12`), con su misma descripción;
+> - en el mostrador y en las fichas, el tres leches y los golfeados (y la
+>   ficha de la boda) salen **sin foto, con su icono**, como las piñitas.
+>
+> Cuando lleguen las de verdad: volver a meter la diapositiva y su punto, y en
+> el mostrador cambiar el `mos-sin` por `mos-foto` + `img`. Lo de abajo es la
+> historia de cómo estaban antes.
+
 Son 9 motivos (7 se repiten entre la portada y la galería, así que no hacen
 falta 16 fotos distintas). **5 ya están puestas**, generadas con IA como
 maqueta mientras llegan las reales:
