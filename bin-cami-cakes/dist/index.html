@@ -2945,23 +2945,36 @@
 /* La entrada de la portada no empieza hasta que se puede ver. En un móvil con
    datos, la página tardaba ~3 s en pintarse y la animación (que arranca al
    calcularse los estilos, no al pintarse) ya iba por la mitad: Brian la veía
-   «saltarse». Ahora espera a tener las dos fuentes de la firma y a que el
-   navegador haya pintado de verdad un fotograma (doble requestAnimationFrame),
-   y como mucho 1,8 s, para que nunca se quede la portada en blanco. Mientras
-   espera, el CSS deja sus animaciones en pausa en el primer fotograma. */
+   «saltarse». Mientras espera, el CSS deja las animaciones de la portada en
+   pausa en su primer fotograma.
+
+   Primera versión (24/10): esperar a las fuentes y a dos requestAnimationFrame.
+   Bastaba en Chrome, pero en el iPhone seguía saltándose: Safari (y Chrome
+   para iPhone, que es el mismo motor) no pinta hasta tener buena parte de la
+   página, y los requestAnimationFrame llegaban antes de ese primer pintado.
+   Ahora espera también al evento load, que en Safari llega con la página ya
+   pintada, y el tope de seguridad cuenta desde que se ha leído el HTML
+   (DOMContentLoaded + 2,5 s), no desde el principio: con el tope contado
+   desde el principio, en una conexión lenta saltaba antes del primer
+   pintado. */
 (function(){
-  var raiz = document.documentElement, hecho = false;
+  var raiz = document.documentElement, hecho = false, fuentes = false, cargada = false;
   raiz.setAttribute('data-portada-espera', '');
   function arranca(){
     if (hecho) return; hecho = true;
     requestAnimationFrame(function(){ requestAnimationFrame(function(){
-      raiz.removeAttribute('data-portada-espera');
+      setTimeout(function(){ raiz.removeAttribute('data-portada-espera'); }, 80);
     }); });
   }
-  setTimeout(arranca, 1800);
+  function mira(){ if (fuentes && cargada) arranca(); }
   try {
-    Promise.all([document.fonts.load('800 1em Fraunces'), document.fonts.load('700 1em Caveat')]).then(arranca, arranca);
-  } catch (e) { arranca(); }
+    Promise.all([document.fonts.load('800 1em Fraunces'), document.fonts.load('700 1em Caveat')])
+      .then(function(){ fuentes = true; mira(); }, function(){ fuentes = true; mira(); });
+  } catch (e) { fuentes = true; }
+  window.addEventListener('load', function(){ cargada = true; mira(); });
+  document.addEventListener('DOMContentLoaded', function(){ setTimeout(arranca, 2500); });
+  /* volver con el botón atrás (bfcache) no repite la espera */
+  window.addEventListener('pageshow', function(e){ if (e.persisted) raiz.removeAttribute('data-portada-espera'); });
 })();
 </script>
 </head>
