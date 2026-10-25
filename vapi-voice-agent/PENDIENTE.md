@@ -7,8 +7,9 @@ Apuntado el 24 de octubre de 2026. Por orden de prioridad dentro de cada bloque.
       Arreglado: el tope de 250 tokens de Vapi cortaba la lista de platos.
 - [ ] "Una 4 quesos": tiene que preguntar si es la pizza 5 formaggio o los gnocchi.
 - [ ] Telefono "este mismo": tiene que decir "el que acaba en ...".
-- [ ] Fondo nuevo: `SONIDO_FONDO=pizzeria`. Si no se oye, puede ser ngrok gratis.
-- [ ] Voz: ¿suena mas natural? Si no, elegir otra voz en la Voice Library de ElevenLabs.
+- [x] Petardeo en la llamada: era stability 0,4 en la voz. Vuelta a 0,5 y suena limpia (25-10).
+- [ ] Fondo: de momento `SONIDO_FONDO=off`. El de pizzeria (murmullo sin tecleo) queda para probar con calma.
+- [ ] Voz mas natural: probar otra voz de la Voice Library (espanol de Espana), sin tocar stability.
 - [ ] Fin de turno mas rapido (`FIN_DE_TURNO=texto`): si pisa al cliente, volver a `vapi`.
 - [ ] `npm run costes`: coste real por minuto, para confirmar el margen de los planes.
 
