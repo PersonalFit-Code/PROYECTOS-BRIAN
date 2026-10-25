@@ -359,9 +359,9 @@ export function construirVoz(opciones: {
     //
     // Con los dos puestos la voz se cortaba en una llamada real, asi que van
     // apagados: mas vale una voz entera que una voz expresiva a trompicones.
-    // 0,4 en vez de 0,5: algo mas de entonacion, menos de locutora. No
-    // cuesta latencia, a diferencia de style.
-    stability: 0.4,
+    // 0,5 y no menos. Con 0,4 (mas entonacion) la llamada se llenaba de
+    // petardeos, tambien con el fondo apagado; con 0,5 sonaba limpia.
+    stability: 0.5,
     similarityBoost: 0.75,
     style: 0,
     useSpeakerBoost: false,
