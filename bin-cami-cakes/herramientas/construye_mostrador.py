@@ -76,6 +76,12 @@ def construye(raiz=RAIZ, cuerpo=CUERPO, escribir=True):
     s = corta(s, '<a href="mostrador.html"  class="nav-enlace" data-i18n="nav.mostrador">',
               '<a href="mostrador.html"  class="nav-enlace" aria-current="page" data-i18n="nav.mostrador">')
 
+    # el botón «Mostrador» de la cabecera y su pestaña del móvil (26/10)
+    s = corta(s, '<a href="mostrador.html" class="cab-mostrador" data-salida="mostrador">',
+              '<a href="mostrador.html" class="cab-mostrador" aria-current="page">')
+    s = corta(s, '<a href="mostrador.html" class="tab tab-mostrador" data-salida="mostrador">',
+              '<a href="mostrador.html" class="tab tab-mostrador" aria-current="page">')
+
     if escribir:
         destino = os.path.join(raiz, 'mostrador.html')
         io.open(destino, 'w', encoding='utf-8').write(s)
