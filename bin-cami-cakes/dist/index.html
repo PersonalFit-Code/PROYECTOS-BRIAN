@@ -17,16 +17,12 @@
 
 <title>Tartas Personalizadas en Ourense | Bin &amp; Cami Cakes</title>
 <meta name="description" content="Tartas personalizadas en Ourense para cumpleaños, bodas y eventos. Repostería venezolana artesanal: tres leches, golfeados y cookies de receta de casa. Cuéntanos tu idea por WhatsApp.">
-<!-- EN OBRAS · quitar estas dos líneas y restaurar el bloque de abajo cuando
-     la web esté terminada y apuntando a su dominio real -->
+<!-- EN OBRAS · NO quitar a mano. El dominio será binycamicakes.es: cuando ya
+     abra esta web, se pone USAR_DOMINIO_PROPIO = True en
+     herramientas/construye_dist.py, y al construir dist/ se cambia esta línea
+     por «index, follow» + la canónica de cada página, se pasan a ese dominio
+     todas las direcciones de abajo y salen robots.txt y sitemap.xml con él. -->
 <meta name="robots" content="noindex, nofollow">
-
-<!-- AL PUBLICAR: descomentar y poner el dominio real (y el mismo dominio en
-     DOMINIO de herramientas/construye_dist.py, que escribe robots.txt y
-     sitemap.xml)
-<meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="canonical" href="https://DOMINIO-REAL/">
--->
 
 <meta name="geo.region" content="ES-GA">
 <meta name="geo.placename" content="Ourense">
@@ -36,9 +32,10 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bin &amp; Cami Cakes">
 <meta property="og:locale" content="es_ES">
-<!-- AL TENER DOMINIO PROPIO: cambiar las tres direcciones de abajo (og:url,
-     og:image y twitter:image). Mientras, la de Vercel donde está subida la
-     web. El 14/10 se fijó de una vez: el proyecto de Vercel es «bin-cami-cakes»
+<!-- Estas tres direcciones (og:url, og:image y twitter:image) y las de los
+     datos estructurados se pasan solas al dominio propio al construir dist/
+     (ver USAR_DOMINIO_PROPIO en construye_dist.py): aquí se quedan con la de
+     Vercel, donde está subida la web. El 14/10 se fijó de una vez: el proyecto de Vercel es «bin-cami-cakes»
      y se publica siempre ahí, así que estas tres ya no se quedan atrás cada vez
      que se sube. Antes sí: el proyecto cambió de nombre tres veces
      (bincamicakes → bincamicakess → binycamicakes) y estas direcciones se

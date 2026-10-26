@@ -32,11 +32,38 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.environ.get('BCC_RAIZ', os.path.dirname(AQUI))
 PAGINAS = ('index.html', 'mostrador.html')
 
-# El dominio público, en un solo sitio: lo usan robots.txt y sitemap.xml. El
-# día que haya dominio propio se cambia aquí (o con BCC_DOMINIO) y ya.
-DOMINIO = os.environ.get('BCC_DOMINIO', 'https://bin-cami-cakes.vercel.app').rstrip('/')
+# ---- EL DOMINIO ----
+# Las páginas de trabajo llevan siempre la dirección de Vercel. Al construir
+# dist/, si el dominio es otro, se cambian todas (etiquetas de compartir, la
+# imagen que viaja con el enlace y los datos estructurados), se quita el
+# noindex y se pone la dirección canónica de cada página. robots.txt y
+# sitemap.xml salen del mismo valor.
+DOMINIO_VERCEL = 'https://bin-cami-cakes.vercel.app'
+DOMINIO_PROPIO = 'https://binycamicakes.es'
+# INTERRUPTOR. Ponerlo a True SÓLO cuando binycamicakes.es esté comprado y ya
+# abra esta web (Vercel → el proyecto → Domains, en verde). Antes no: con las
+# etiquetas de compartir apuntando a un dominio que no responde, WhatsApp
+# enseña los enlaces sin foto, y Google recibiría como canónica una dirección
+# muerta.
+USAR_DOMINIO_PROPIO = False
+DOMINIO = os.environ.get('BCC_DOMINIO',
+                         DOMINIO_PROPIO if USAR_DOMINIO_PROPIO else DOMINIO_VERCEL).rstrip('/')
 # Las direcciones públicas de cada página (vercel.json lleva cleanUrls: sin .html)
 RUTAS = ('/', '/mostrador')
+RUTA = {'index.html': '/', 'mostrador.html': '/mostrador'}
+NOINDEX = '<meta name="robots" content="noindex, nofollow">'
+
+
+def al_dominio(s, pagina):
+    """Con el dominio de Vercel la página sale tal cual (y comprueba() sigue
+    pudiendo exigir igualdad byte a byte). Con el propio, se abre a buscadores."""
+    if DOMINIO == DOMINIO_VERCEL:
+        return s
+    s = s.replace(DOMINIO_VERCEL, DOMINIO)
+    assert s.count(NOINDEX) == 1, 'no encuentro el noindex en ' + pagina
+    return s.replace(NOINDEX,
+        '<meta name="robots" content="index, follow, max-image-preview:large">\n'
+        '<link rel="canonical" href="%s%s">' % (DOMINIO, RUTA[pagina]))
 
 
 def robots_txt():
@@ -141,7 +168,7 @@ def construye(raiz=RAIZ, escribir=True):
     tw = tailwind_compilado(raiz)
     salidas = {}
     for p in PAGINAS:
-        salidas[p] = compila(io.open(os.path.join(raiz, p), encoding='utf-8').read(), tw, ROTULO[p])
+        salidas[p] = al_dominio(compila(io.open(os.path.join(raiz, p), encoding='utf-8').read(), tw, ROTULO[p]), p)
     vj = vercel_json(hashes(salidas.values()))
     if escribir:
         dist = os.path.join(raiz, 'dist')
