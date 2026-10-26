@@ -329,7 +329,7 @@ ley ni el número de empleados). Como decía el encargo: si no es obligación, e
 | Canonical sin dominio real | ✅ | Está comentado, no llega al navegador |
 | Datos estructurados con dominio real | ✅ **arreglado** | Declaraban `bincamicakes.es`, que no existe |
 | Etiquetas de compartir con dominio real | ✅ **arreglado** | `mostrador.html` seguía con un dominio muerto |
-| `robots.txt` y `sitemap.xml` | ⚠️ | No existen. No hacen falta con `noindex`; sí al abrir |
+| `robots.txt` y `sitemap.xml` | ✅ **26/10** | Los genera `construye_dist.py` con el dominio de su constante `DOMINIO`. `robots.txt` deja pasar a todos a propósito: con `Disallow`, Google no podría leer el `noindex` |
 | Cuatro idiomas en una sola URL | ⚠️ | Sin `hreflang`. Al abrir a buscadores, sólo se indexaría el castellano |
 
 ---
@@ -351,7 +351,7 @@ ley ni el número de empleados). Como decía el encargo: si no es obligación, e
 | 11 | Registro de actividades de tratamiento | Gestoría | Obligación propia, no de la web |
 | ~~12~~ | ~~Decidir si habrá lista de correo~~ | Luisa | **Resuelto el 26/10: se quitó la casilla de correo.** La web ya no recoge ningún correo, y sale de la política de privacidad la fila de «Comunicaciones comerciales» |
 | ~~13~~ | ~~Guardar `construye_dist.py` en el repositorio~~ | Brian | **Hecho (21/10)**: está en `herramientas/` |
-| 14 | Al poner dominio propio: canonical, `robots.txt`, `sitemap`, y las tres etiquetas de compartir | Brian | Están señalizados en el código con comentarios |
+| 14 | Al poner dominio propio: canonical, `DOMINIO` en `construye_dist.py` (de ahí salen `robots.txt` y `sitemap.xml`), y las tres etiquetas de compartir | Brian | Están señalizados en el código con comentarios |
 
 ---
 

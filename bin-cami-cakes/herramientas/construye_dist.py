@@ -32,6 +32,36 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.environ.get('BCC_RAIZ', os.path.dirname(AQUI))
 PAGINAS = ('index.html', 'mostrador.html')
 
+# El dominio público, en un solo sitio: lo usan robots.txt y sitemap.xml. El
+# día que haya dominio propio se cambia aquí (o con BCC_DOMINIO) y ya.
+DOMINIO = os.environ.get('BCC_DOMINIO', 'https://bin-cami-cakes.vercel.app').rstrip('/')
+# Las direcciones públicas de cada página (vercel.json lleva cleanUrls: sin .html)
+RUTAS = ('/', '/mostrador')
+
+
+def robots_txt():
+    """Se deja pasar a todos los rastreadores a propósito. Mientras las páginas
+    lleven <meta name="robots" content="noindex">, lo que las mantiene fuera de
+    Google es ESA etiqueta, y para verla el rastreador tiene que poder entrar:
+    un «Disallow» aquí haría lo contrario de lo que parece (Google no leería el
+    noindex y podría listar la dirección igualmente, sin descripción)."""
+    return ('# Bin & Cami Cakes\n'
+            'User-agent: *\n'
+            'Allow: /\n'
+            '\n'
+            'Sitemap: %s/sitemap.xml\n' % DOMINIO)
+
+
+def sitemap_xml():
+    """Las dos páginas. Sin <lastmod>: una fecha que cambiara en cada build
+    rompería la comprobación byte a byte de comprueba(), y Google la ignora si
+    no es fiable. Los cuatro idiomas van en la misma dirección (los cambia el
+    JS), así que no hay URLs por idioma que listar."""
+    urls = ''.join('  <url><loc>%s%s</loc></url>\n' % (DOMINIO, r) for r in RUTAS)
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            + urls + '</urlset>\n')
+
 # El rótulo es distinto en cada página porque así estaba en el dist/ publicado,
 # y se respeta para que comprueba() pueda exigir igualdad byte a byte.
 ROTULO = {
@@ -118,11 +148,13 @@ def construye(raiz=RAIZ, escribir=True):
         for p, s in salidas.items():
             io.open(os.path.join(dist, p), 'w', encoding='utf-8').write(s)
         io.open(os.path.join(dist, 'vercel.json'), 'w', encoding='utf-8').write(vj)
+        io.open(os.path.join(dist, 'robots.txt'), 'w', encoding='utf-8').write(robots_txt())
+        io.open(os.path.join(dist, 'sitemap.xml'), 'w', encoding='utf-8').write(sitemap_xml())
         destino = os.path.join(dist, 'assets')
         if os.path.exists(destino):
             shutil.rmtree(destino)
         shutil.copytree(os.path.join(raiz, 'assets'), destino)
-        print('dist/ generado: %s + vercel.json + %d assets'
+        print('dist/ generado: %s + vercel.json + robots.txt + sitemap.xml + %d assets'
               % (', '.join(PAGINAS), len(os.listdir(destino))))
     return salidas, vj
 
@@ -141,6 +173,11 @@ def comprueba(raiz=RAIZ):
     igual = (hay.strip() == vj.strip())
     bien &= igual
     print('  %-16s %s' % ('vercel.json', 'idéntico' if igual else 'DISTINTO'))
+    for nombre, esperado in (('robots.txt', robots_txt()), ('sitemap.xml', sitemap_xml())):
+        ruta = os.path.join(raiz, 'dist', nombre)
+        igual = os.path.exists(ruta) and io.open(ruta, encoding='utf-8').read() == esperado
+        bien &= igual
+        print('  %-16s %s' % (nombre, 'idéntico' if igual else 'DISTINTO o falta'))
     return bien
 
 

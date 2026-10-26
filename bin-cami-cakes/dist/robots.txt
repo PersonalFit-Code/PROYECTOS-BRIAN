@@ -1,0 +1,5 @@
+# Bin & Cami Cakes
+User-agent: *
+Allow: /
+
+Sitemap: https://bin-cami-cakes.vercel.app/sitemap.xml
