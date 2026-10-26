@@ -25,6 +25,14 @@ for clave, fn in (("PORTADA_DECO", S2.pizza_deco), ("PIZZA", S2.pizza), ("RUEDA"
     assert marca in pag, clave
     pag = pag.replace(marca, fn())
 
+# Logos de clientes, incrustados para que el PDF no dependa de ficheros sueltos.
+import base64  # noqa: E402
+for nombre in ("personalfit", "tixola", "bincami"):
+    datos = base64.b64encode((base / "clientes" / f"{nombre}.png").read_bytes()).decode()
+    marca = "{{LOGO_" + nombre + "}}"
+    assert marca in pag, nombre
+    pag = pag.replace(marca, f'<img src="data:image/png;base64,{datos}" alt="{nombre}">')
+
 html = ('<!doctype html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n'
         '<title>Noah para La Vita Buona</title>\n<style>\n' + css +
         '</style>\n</head>\n<body>\n' + svgs.SPRITE + '\n' + pag + '\n</body>\n</html>\n')
