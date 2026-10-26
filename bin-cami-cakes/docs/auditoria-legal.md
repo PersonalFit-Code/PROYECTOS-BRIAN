@@ -349,8 +349,8 @@ ley ni el número de empleados). Como decía el encargo: si no es obligación, e
 | 9 | **Confirmar si Kinder Bueno y Raffaello van de verdad** en esas porciones | Luisa | Si no, hay que decir «estilo Kinder» |
 | 10 | **Datos de salud por WhatsApp** (alergias): valorar cómo se guardan | Gestoría | Categoría especial del art. 9 RGPD |
 | 11 | Registro de actividades de tratamiento | Gestoría | Obligación propia, no de la web |
-| 12 | Decidir si habrá lista de correo y con doble confirmación | Luisa | Hoy el boletín abre WhatsApp; no hay lista |
-| 13 | Guardar `construye_dist.py` en el repositorio | Brian | Sin él no se pueden recalcular los hashes de la CSP |
+| ~~12~~ | ~~Decidir si habrá lista de correo~~ | Luisa | **Resuelto el 26/10: se quitó la casilla de correo.** La web ya no recoge ningún correo, y sale de la política de privacidad la fila de «Comunicaciones comerciales» |
+| ~~13~~ | ~~Guardar `construye_dist.py` en el repositorio~~ | Brian | **Hecho (21/10)**: está en `herramientas/` |
 | 14 | Al poner dominio propio: canonical, `robots.txt`, `sitemap`, y las tres etiquetas de compartir | Brian | Están señalizados en el código con comentarios |
 
 ---
@@ -382,6 +382,35 @@ lo viera y las 24 pruebas salían en verde **contra un `mostrador.html` viejo**.
 se para si la construcción falla.
 
 ---
+
+## Revisión con la lista de 20 de seguridad (26/10)
+
+Brian pasó la lista de un vídeo («valida estas cosas antes de lanzar tu web o app»). Está
+pensada para aplicaciones con usuarios, base de datos y pagos; esta web no tiene nada de eso,
+así que la mayoría de puntos no tienen dónde aplicarse. Lo que sí aplica está comprobado:
+
+| # | Punto | Aquí | Estado |
+|---|---|---|---|
+| 1, 2 | Permisos y panel de administración | No hay usuarios ni panel. El «panel» son las cuentas de **Vercel** y **GitHub** de Brian | ⚠️ ver 8 |
+| 3, 4, 9 | Datos entre clientes, base de datos, inyección SQL | No hay base de datos ni se guarda nada de nadie | ✅ no aplica |
+| 5 | Claves privadas | Barrido del código y del historial: ninguna clave, token ni contraseña | ✅ **medido** |
+| 6, 7 | Inicio de sesión y sesiones | No hay inicio de sesión | ✅ no aplica |
+| 8 | Doble factor | Aplica a las cuentas que mandan sobre la web: Vercel y GitHub (Brian) y Google y WhatsApp del negocio (Luisa) | ⚠️ **activarlo** |
+| 10 | Código malicioso (XSS) | CSP estricta con hashes, ningún script de fuera y ningún texto de visitante que se pinte en la página (desde el 26/10 no hay ni un campo de texto) | ✅ **medido** |
+| 11, 14, 15 | Acciones sensibles, webhooks, pagos | No hay compras ni pagos: todo se cierra por WhatsApp o en tienda | ✅ no aplica |
+| 12 | Archivos subidos | Nadie puede subir archivos | ✅ no aplica |
+| 13, 18 | Accesos internos y paneles expuestos | Vercel publica **sólo** `dist/`. Pedidos en vivo `README.md`, `docs/…`, `para-luisa/…`, `herramientas/…` y `vercel.json`: todos **404** | ✅ **medido** |
+| 13 bis | El repositorio de GitHub | **Es público**: cualquiera lee las notas internas, esta auditoría y la carpeta de Luisa | ⚠️ **hacerlo privado** (ver abajo) |
+| 16 | Limitar solicitudes | Web estática en la CDN de Vercel, con su protección; no hay formulario ni API que se puedan abusar | ✅ |
+| 17 | Dependencias | La web publicada no carga ninguna librería: Tailwind va compilado dentro | ✅ |
+| 19 | Accesos sospechosos | No hay cuentas en la web; lo que vigilar son los avisos de inicio de sesión de Vercel, GitHub y Google | ⚠️ ver 8 |
+| 20 | Copias y restaurar | El código está en GitHub y Vercel guarda cada versión publicada (se puede volver a una anterior en un clic); las fotos originales, en el Drive de Luisa | ✅ |
+
+**Sobre hacer privado el repositorio.** Se hace en GitHub → el repositorio → Settings →
+General → «Change visibility». Ojo antes: la conexión de Vercel con GitHub nunca llegó a
+autorizarse (`repo_no_access`) y los despliegues funcionan porque el repositorio es público.
+Al hacerlo privado hay que conectar antes Vercel con GitHub (Vercel → Settings → Connections,
+dando acceso a PersonalFit-Code / PROYECTOS-BRIAN), o dejarán de salir las publicaciones.
 
 ## Preguntas para la gestoría
 
