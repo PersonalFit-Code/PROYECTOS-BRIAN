@@ -185,6 +185,9 @@ export function camposQueFaltan(valor: unknown): string[] {
       ) {
         faltan.push(`carta[${indice}].precioCentimos`);
       }
+      if (p.sinCocina !== undefined && typeof p.sinCocina !== "boolean") {
+        faltan.push(`carta[${indice}].sinCocina`);
+      }
     }
   }
 

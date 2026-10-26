@@ -307,3 +307,39 @@ describe("sonido de fondo propio", async () => {
     assert.ok(existsSync(join(__dirname, "..", "..", "public", "audio", "ambiente-pizzeria.mp3")));
   });
 });
+
+describe("tiempo estimado segun el tamano del pedido", async () => {
+  const { tiempoEstimado } = await import("../pedido");
+  const pedir = (lineas: Array<[string, number]>, entrega: "recogida" | "reparto") =>
+    calcularTotal(LA_VITA_BUONA, lineas.map(([plato, cantidad]) => ({ plato, cantidad })), entrega);
+
+  it("un pedido normal da el tiempo de la ficha", () => {
+    assert.equal(tiempoEstimado(LA_VITA_BUONA, pedir([["p-margaritha", 2]], "recogida")), "entre 15 y 20 minutos");
+  });
+
+  it("diez pizzas para recoger ya no salen en 15-20", () => {
+    // El pedido real que lo destapo: 10 pizzas y el agente dijo 15-20.
+    const total = pedir([["p-prosciutto", 5], ["g-davinci", 1], ["g-giovani", 1], ["p-bbq", 1], ["p-5formaggio", 1], ["p-mare-monte", 1]], "recogida");
+    assert.equal(total.unidadesACocinar, 10);
+    assert.equal(tiempoEstimado(LA_VITA_BUONA, total), "entre 25 y 30 minutos");
+  });
+
+  it("las bebidas y los postres hechos no alargan la espera", () => {
+    const total = pedir([["p-margaritha", 2], ["b-cocacola", 6], ["po-tiramisu", 4]], "reparto");
+    assert.equal(total.unidadesACocinar, 2);
+    assert.equal(tiempoEstimado(LA_VITA_BUONA, total), "entre 35 y 45 minutos");
+  });
+
+  it("calcular_total y el prompt le dicen que use ese tiempo", () => {
+    const total = pedir([["p-prosciutto", 10]], "recogida");
+    const { describirTotal } = require("../pedido") as typeof import("../pedido");
+    assert.match(describirTotal(LA_VITA_BUONA, total), /Tiempo estimado para este pedido: estara listo entre 25 y 30 minutos/);
+    assert.match(buildSystemPrompt(LA_VITA_BUONA), /el\s+tiempo de CADA pedido te lo dan las herramientas/);
+  });
+
+  it("el pedido guardado lleva el tiempo que se le dijo", () => {
+    const total = pedir([["p-prosciutto", 10]], "recogida");
+    const pedido = construirPedido(LA_VITA_BUONA, { articulos: [], entrega: "recogida" }, total);
+    assert.equal(pedido.tiempoEstimado, "entre 25 y 30 minutos");
+  });
+});

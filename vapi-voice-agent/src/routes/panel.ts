@@ -179,6 +179,7 @@ function pintarPedido(
       ${entrega}
       <ul class="lineas">${lineas}</ul>
       <div class="total">${formatearEuros(pedido.totalCentimos)} ${envio}</div>
+      ${pedido.tiempoEstimado ? `<div class="dato"><b>Dicho al cliente:</b> ${escapar(pedido.tiempoEstimado)}</div>` : ""}
       ${cliente}
       ${telefono}
       ${notas}

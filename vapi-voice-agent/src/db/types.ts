@@ -17,6 +17,11 @@ export interface MenuItem {
   descripcion: string;
   /** Precio por unidad, en centimos. */
   precioCentimos: number;
+  /**
+   * true para lo que no pasa por el horno ni por los fogones (bebidas,
+   * postres ya hechos): no alarga el tiempo de espera. Opcional.
+   */
+  sinCocina?: boolean;
 }
 
 /** Horario de apertura, tal como el agente lo recita y lo comprueba. */
@@ -165,6 +170,11 @@ export interface Pedido {
   estado: EstadoPedido;
   /** Momento de creacion en ISO, ademas del timestamp del servidor. */
   creadoEnIso: string;
+  /**
+   * El tiempo que se le dijo al cliente ("entre 25 y 30 minutos"), segun el
+   * tamano del pedido. Opcional: los pedidos de antes no lo tienen.
+   */
+  tiempoEstimado?: string;
 }
 
 /** Un pedido leido de la base de datos, con el id de su documento. */

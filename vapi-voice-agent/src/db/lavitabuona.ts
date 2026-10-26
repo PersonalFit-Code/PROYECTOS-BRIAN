@@ -421,6 +421,8 @@ export const LA_VITA_BUONA: Business = {
       },
 
       // --- Postres ---
+      // Los que ya estan hechos van con sinCocina: no alargan la espera. El
+      // calzone de nutella si pasa por el horno.
       {
         id: "po-nutella",
         nombre: "Calzone de nutella",
@@ -432,30 +434,35 @@ export const LA_VITA_BUONA: Business = {
         nombre: "Cannoli siciliano",
         descripcion: "crujiente relleno de crema suave de ricotta",
         precioCentimos: 430,
+        sinCocina: true,
       },
       {
         id: "po-pannacotta",
         nombre: "Panna cotta",
         descripcion: "panna cotta italiana con coulis de frutos rojos",
         precioCentimos: 450,
+        sinCocina: true,
       },
       {
         id: "po-tarta-nutella",
         nombre: "Tarta de nutella",
         descripcion: "tarta cremosa con sabor intenso a nutella",
         precioCentimos: 590,
+        sinCocina: true,
       },
       {
         id: "po-tarta-queso",
         nombre: "Tarta de queso",
         descripcion: "tarta de queso suave, entre dulce y cremosa",
         precioCentimos: 590,
+        sinCocina: true,
       },
       {
         id: "po-tiramisu",
         nombre: "Tiramisu",
         descripcion: "bizcochos banados en cafe, crema de mascarpone y un toque de cacao",
         precioCentimos: 600,
+        sinCocina: true,
       },
 
       // --- Bebidas ---
@@ -468,36 +475,42 @@ export const LA_VITA_BUONA: Business = {
         nombre: "Coca-Cola",
         descripcion: "lata",
         precioCentimos: 200,
+        sinCocina: true,
       },
       {
         id: "b-fanta-naranja",
         nombre: "Fanta de naranja",
         descripcion: "lata",
         precioCentimos: 200,
+        sinCocina: true,
       },
       {
         id: "b-fanta-limon",
         nombre: "Fanta de limon",
         descripcion: "lata",
         precioCentimos: 200,
+        sinCocina: true,
       },
       {
         id: "b-fuze-limon",
         nombre: "Fuze Tea de limon",
         descripcion: "lata",
         precioCentimos: 200,
+        sinCocina: true,
       },
       {
         id: "b-fuze-maracuya",
         nombre: "Fuze Tea de maracuya",
         descripcion: "lata",
         precioCentimos: 200,
+        sinCocina: true,
       },
       {
         id: "b-agua",
         nombre: "Agua Cabreiroa",
         descripcion: "botella",
         precioCentimos: 150,
+        sinCocina: true,
       },
   ],
 

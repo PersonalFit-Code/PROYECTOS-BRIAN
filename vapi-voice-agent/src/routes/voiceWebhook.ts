@@ -157,7 +157,10 @@ async function ejecutarHerramientaPedido(
 
         return yaExistia
           ? `Este pedido ya estaba registrado, no se ha duplicado. El codigo sigue siendo ${codigo} y el total ${total}. Leeselo al cliente y no vuelvas a registrarlo.`
-          : `Pedido registrado. El codigo es ${codigo}. Total: ${total}.`;
+          : `Pedido registrado. El codigo es ${codigo}. Total: ${total}.` +
+            (pedido.tiempoEstimado
+              ? ` Tiempo estimado: ${pedido.tiempoEstimado}. Di este tiempo, no otro.`
+              : "");
       } catch (error) {
         // Nada de esto puede sonar a "ya esta hecho". Pero no todo es igual:
         // si falta un dato o un plato no cuadra, el agente lo arregla con el

@@ -34,6 +34,7 @@ Para la demo basta lo de ahora: tu ordenador, ngrok y el numero gratis de Vapi.
 - [ ] Precio de las bebidas en el local (ahora son los de Glovo) y si hay mas (cerveza, vino).
 - [ ] Que postre quiere que ofrezca Noah.
 - [ ] Cuantas personas come cada pizza (para recomendar cuanto pedir).
+- [ ] Cuantas pizzas caben a la vez en el horno y cuanto tarda una hornada. Ahora se calcula: hasta 4 platos, el tiempo de la ficha; cada 3 mas, +5 min (src/pedido.ts).
 - [ ] Preguntas frecuentes: aparcamiento, sin gluten, grupos grandes.
 
 ## 4. Mejoras del bot

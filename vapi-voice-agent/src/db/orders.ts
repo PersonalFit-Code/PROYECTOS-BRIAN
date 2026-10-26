@@ -17,7 +17,7 @@
 
 import { FieldValue } from "firebase-admin/firestore";
 
-import { calcularTotal, type LineaPedido, type TotalPedido } from "../pedido";
+import { calcularTotal, tiempoEstimado, type LineaPedido, type TotalPedido } from "../pedido";
 import { firestore } from "./firebase";
 import type {
   Business,
@@ -138,6 +138,7 @@ export function construirPedido(
     callId: texto(datos.callId),
     estado: "pendiente",
     creadoEnIso: new Date().toISOString(),
+    tiempoEstimado: tiempoEstimado(business, total),
   };
 }
 

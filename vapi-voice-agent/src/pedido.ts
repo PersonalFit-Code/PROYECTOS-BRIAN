@@ -29,6 +29,8 @@ export interface LineaCalculada {
 
 export interface TotalPedido {
   lineas: LineaCalculada[];
+  /** Unidades que hay que cocinar: todo menos bebidas y postres hechos. */
+  unidadesACocinar: number;
   subtotalCentimos: number;
   gastosEnvioCentimos: number;
   totalCentimos: number;
@@ -100,6 +102,7 @@ export function calcularTotal(
 
   const tipoEntrega = normalizarTipoEntrega(tipoEntregaBruto);
 
+  let sinCocina = 0;
   const calculadas: LineaCalculada[] = lineas.map((linea) => {
     const plato: MenuItem | undefined = buscarPlato(
       business.carta,
@@ -111,6 +114,7 @@ export function calcularTotal(
       );
     }
     const cantidad = normalizarCantidad(linea.cantidad, plato.nombre);
+    if (plato.sinCocina) sinCocina += cantidad;
     return {
       platoId: plato.id,
       nombre: plato.nombre,
@@ -133,14 +137,52 @@ export function calcularTotal(
     ? 0
     : business.entrega.gastosEnvioCentimos;
 
+  const unidades = calculadas.reduce((suma, linea) => suma + linea.cantidad, 0);
+
   return {
     lineas: calculadas,
+    unidadesACocinar: unidades - sinCocina,
     subtotalCentimos,
     gastosEnvioCentimos,
     totalCentimos: subtotalCentimos + gastosEnvioCentimos,
     envioGratis,
     tipoEntrega,
   };
+}
+
+/**
+ * Cuanto tarda un pedido, segun lo grande que sea.
+ *
+ * Antes el agente decia siempre el tiempo de la ficha ("entre 15 y 20
+ * minutos"), tambien para diez pizzas, que no salen en ese tiempo. Ahora el
+ * tiempo de la ficha vale para un pedido normal, de hasta UNIDADES_SIN_ESPERA
+ * platos a cocinar, y cada tanda de UNIDADES_POR_TANDA mas suma
+ * MINUTOS_POR_TANDA a los dos extremos. Diez pizzas para recoger: 15-20 se
+ * convierte en 25-30.
+ *
+ * Los tres numeros son una estimacion razonable para un horno de pizzeria,
+ * PENDIENTES DE CONFIRMAR con el local: cuantas pizzas caben a la vez y
+ * cuanto tarda cada hornada.
+ */
+export const UNIDADES_SIN_ESPERA = 4;
+export const UNIDADES_POR_TANDA = 3;
+export const MINUTOS_POR_TANDA = 5;
+
+export function tiempoEstimado(business: Business, total: TotalPedido): string {
+  const base =
+    total.tipoEntrega === "recogida"
+      ? business.entrega.tiempoRecogida
+      : business.entrega.tiempoReparto;
+  // "entre 15 y 20 minutos": los dos primeros numeros son el margen. Si la
+  // ficha lo escribe de otra forma, se dice tal cual y sin sumar nada.
+  const numeros = base.match(/\d+/g);
+  if (!numeros || numeros.length < 2) return base;
+
+  const extra = Math.max(0, total.unidadesACocinar - UNIDADES_SIN_ESPERA);
+  const tandas = Math.ceil(extra / UNIDADES_POR_TANDA);
+  const desde = Number(numeros[0]) + tandas * MINUTOS_POR_TANDA;
+  const hasta = Number(numeros[1]) + tandas * MINUTOS_POR_TANDA;
+  return `entre ${desde} y ${hasta} minutos`;
 }
 
 /**
@@ -175,5 +217,9 @@ export function describirTotal(
   }
 
   partes.push(`Total a pagar: ${formatearEuros(total.totalCentimos)}.`);
+  const verbo = total.tipoEntrega === "recogida" ? "Estara listo" : "Llegara";
+  partes.push(
+    `Tiempo estimado para este pedido: ${verbo.toLowerCase()} ${tiempoEstimado(business, total)}. Di este tiempo, no otro.`,
+  );
   return partes.join(" ");
 }
