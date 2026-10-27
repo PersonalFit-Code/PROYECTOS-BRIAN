@@ -7,6 +7,12 @@ mirarlas de una en una.
 **Cuatro están ya en la web**: f07 → cookies, f28 → tarta de cumpleaños,
 f14 → tarta temática, f30 → la vitrina del catálogo.
 
+**27/10: entran cuatro cuchareables** en el mostrador (bloque «Cuchareables»),
+recortados a la tarrina para quitar el texto del cartel: Nata y fresas
+(`11U5zM2…` en el Drive), Snickers (`1oQpU8H…`), Maracuyá (`1NQflJ-…`) y Ping
+Pong (`1qA9qm3…`) → `assets/cuchareable-*.webp`. Lo que dicen que llevan sale
+de los propios carteles de Luisa.
+
 **No hay ninguna** de: tarta de boda, tres leches, golfeados, piñitas,
 mesa de dulces ni el obrador por dentro. Esas seis siguen pendientes.
 
