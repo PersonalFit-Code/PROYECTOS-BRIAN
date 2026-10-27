@@ -56,3 +56,30 @@ mesa de dulces ni el obrador por dentro. Esas seis siguen pendientes.
 | f36 | Porciones de tarta envasadas individualmente en estuches de plástico transparente, colocadas so | vitrina | sí | usar_recortada |
 | f37 | Una ración de churros en bandeja/barqueta de cartón de la marca, bañados con chocolate fundido  | churros | sí | reserva |
 | f38 | Tarta de cumpleaños de un piso, alta, cubierta de buttercream rosa, con corona de merengue rosa | cumpleanos | no | usar |
+
+## La carpeta «bincami fotos» (27/10)
+
+La compartió Brian desde briancarbajalgarcia@gmail.com: 29 fotos y un vídeo.
+Cuatro son los mismos carteles de cuchareables de la carpeta del 3/10 (mismo
+tamaño exacto) y no se volvieron a bajar.
+
+| foto (hora en el nombre) | qué es | dónde va |
+|---|---|---|
+| 09.34.55 | Tarta tres leches en su envase, con canela | **mostrador** (tarjeta y ficha), recortada bajo el título |
+| 09.30.03 (2) | Tres leches con quesillo, en tarrinas | **cuchareables** |
+| 09.30.03 (1) | Cuchareable Cocossette | **cuchareables** |
+| 09.30.03 (3) | Imperial de frutas | **cuchareables** |
+| 09.30.04 (1)/(2) y 09.30.45 (1) | Samba (cartel y fotos) | **cuchareables** (la foto sin título) |
+| 09.30.04 / (3) | Frutos del bosque | **cuchareables** (la foto sin título) |
+| 09.30.04 (4) | Tarta rectangular «Happy Birthday» con fresas | galería, `tarta-17` |
+| 09.30.04 (5) | Tarta con lazo rosa y fruta | galería `tarta-18` y carrusel |
+| 09.30.06 (1) | Tarta de la bolsa (toro y monedas) | galería `tarta-19` y carrusel |
+| 09.30.05 (5) | Tarta casco LS2 «Efren 50» | galería `tarta-20` |
+| 09.30.05 (6) | Tarta Dragon Ball | galería `tarta-21` y carrusel |
+| 09.30.06 | Tarta campo del FC Barcelona | galería `tarta-22` |
+| 09.30.03 | Vitrina con tarrinas | sin usar |
+| 09.30.05 … (1)-(4) | Porciones en su envase | sin usar: no sé su nombre |
+| 09.30.04 (6) | Cuchareable red velvet | **fuera**: Luisa quitó el red velvet |
+| 09.30.04 (7), 09.31.47 | Roll / pan de jamón | sin usar (cartel de Navidad lleno de texto) |
+| 09.31.47 (1) | Tres leches en mano | sin usar (se usó la otra) |
+| vídeo 09.31.47 | — | sin usar |
