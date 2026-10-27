@@ -348,7 +348,7 @@ ley ni el número de empleados). Como decía el encargo: si no es obligación, e
 | 3 | **Confirmar la forma jurídica** y que el NIE es el identificador fiscal correcto | Gestoría | Si fuera sociedad, faltarían denominación y datos registrales en el aviso legal |
 | 4 | **Registro sanitario**: ¿está inscrita? ¿el número debe figurar en la web? | Gestoría | Galicia cambió el registro en agosto de 2025 |
 | 5 | **Hojas de reclamaciones**: ¿hay que mencionarlas en la web? | Gestoría | Si la norma gallega lo exige, hoy no están |
-| 6 | **Cuadrar la valoración**: ¿4,9 y cuántas reseñas hoy? | Luisa | Se declara 18 y se enseñan 16. Una cifra que no se sostiene es publicidad engañosa |
+| ~~6~~ | ~~Cuadrar la valoración~~ | Luisa | **Resuelto (27/10):** la web ya no da un número de reseñas, sólo la media (4,9), y se quita `aggregateRating` del marcado. Revisar el 4,9 de vez en cuando |
 | 7 | **Decidir sobre las reseñas**: ~~nombres completos~~ y enlace | Luisa | **Nombres resueltos (27/10):** sólo el nombre de pila. Queda el enlace genérico |
 | ~~8~~ | ~~Decidir sobre las marcas ajenas~~ (Lamborghini, Totoro, ROBLOX, Nutella, Nintendo, Dragon Ball, FC Barcelona, «Efren 50») | Luisa | **Decidido (27/10):** todas las fotos las mandó ella con su consentimiento para publicarlas. Se quedan |
 | 9 | **Confirmar si Kinder Bueno y Raffaello van de verdad** en esas porciones | Luisa | Si no, hay que decir «estilo Kinder» |
@@ -419,7 +419,7 @@ dando acceso a PersonalFit-Code / PROYECTOS-BRIAN), o dejarán de salir las publ
 
 ## Preguntas para la gestoría
 
-Para copiar y mandar tal cual.
+Para copiar y mandar tal cual. **Versión al día (27/10), lista para enviar: `para-luisa/PREGUNTAS-GESTORIA.md`.**
 
 1. ¿Bajo qué forma jurídica se ejerce la actividad: autónoma o sociedad? Si es sociedad, ¿cuál es
    la denominación social y los datos del Registro Mercantil, para ponerlos en el aviso legal?

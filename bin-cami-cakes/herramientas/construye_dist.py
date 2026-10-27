@@ -60,6 +60,11 @@ def al_dominio(s, pagina):
     if DOMINIO == DOMINIO_VERCEL:
         return s
     s = s.replace(DOMINIO_VERCEL, DOMINIO)
+    # Enlaces internos a la dirección limpia: con cleanUrls, «index.html» y
+    # «mostrador.html» funcionan pero pasan por una redirección, y Google
+    # prefiere enlaces que apunten directo a la canónica.
+    for q in ('"', "'"):
+        s = s.replace(q + 'index.html', q + '/').replace(q + 'mostrador.html', q + '/mostrador')
     assert s.count(NOINDEX) == 1, 'no encuentro el noindex en ' + pagina
     return s.replace(NOINDEX,
         '<meta name="robots" content="index, follow, max-image-preview:large">\n'
