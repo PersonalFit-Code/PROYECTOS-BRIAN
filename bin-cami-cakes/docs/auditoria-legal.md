@@ -224,15 +224,19 @@ corriente. Si algún día entra una tarta con licor, este bloque se reabre.
 | …sin enlace a cada reseña | — | ⚠️ | `index.html:4931`, una sola URL genérica |
 | Tipografías con licencia y propias | TRLPI | ✅ **medido** | Servidas desde el propio dominio, 0 peticiones a Google Fonts |
 | Mapa atribuido | — | ✅ | Es el iframe oficial de Google Maps |
-| Emblema de **Lamborghini** en una tarta | Ley 17/2001 de Marcas | ⚠️ | `assets/tarta-tematica.*`, en portada y galería |
-| **Totoro** (Studio Ghibli) y **ROBLOX** | TRLPI / Marcas | ⚠️ | `assets/tarta-06.*` y `tarta-08.*` |
-| **Nutella** y globos de **Nintendo** al fondo | Marcas | ⚠️ | `assets/pastelera.*` y `assets/og-image.jpg` |
+| Emblema de **Lamborghini** en una tarta | Ley 17/2001 de Marcas | ✅ **decidido por Luisa (27/10)** | `assets/tarta-tematica.*`, en portada y galería |
+| **Totoro** (Studio Ghibli) y **ROBLOX** | TRLPI / Marcas | ✅ **decidido por Luisa (27/10)** | `assets/tarta-06.*` y `tarta-08.*` |
+| **Nutella** y globos de **Nintendo** al fondo | Marcas | ✅ **decidido por Luisa (27/10)** | `assets/pastelera.*` y `assets/og-image.jpg` |
 | **Dragon Ball**, escudo del **FC Barcelona**, casco **LS2** con el nombre «Efren 50» | Marcas / RGPD (nombre del cliente) | ✅ **aprobado por Luisa (27/10)** | `assets/tarta-20.*`, `tarta-21.*` (también en el carrusel) y `tarta-22.*` |
 
 Dejo constancia de una matización honesta: fotografiar una tarta que una clienta encargó con un
 personaje no es lo mismo que vender merchandising, y el riesgo real de que Ghibli o Lamborghini
 reclamen a un obrador de Ourense es bajo. Pero es contenido de marca ajena usado como reclamo
 comercial propio, y la decisión de dejarlo o no es de Luisa, no mía.
+
+> **27/10/2026 — Brian confirma que todas las fotos se las pasó Luisa, con su consentimiento,
+> para publicarlas.** Decisión tomada: se quedan. Es una decisión de riesgo asumido por ella,
+> no una licencia de los titulares de las marcas.
 
 ---
 
@@ -346,7 +350,7 @@ ley ni el número de empleados). Como decía el encargo: si no es obligación, e
 | 5 | **Hojas de reclamaciones**: ¿hay que mencionarlas en la web? | Gestoría | Si la norma gallega lo exige, hoy no están |
 | 6 | **Cuadrar la valoración**: ¿4,9 y cuántas reseñas hoy? | Luisa | Se declara 18 y se enseñan 16. Una cifra que no se sostiene es publicidad engañosa |
 | 7 | **Decidir sobre las reseñas**: nombres completos y enlace | Luisa | Se publican 14 nombres y apellidos sin constancia de permiso |
-| 8 | **Decidir sobre las marcas ajenas** (Lamborghini, Totoro, ROBLOX, Nutella, Nintendo) | Luisa | Riesgo bajo pero real. Las de «bincami fotos» (Dragon Ball, FC Barcelona, «Efren 50») ya las aprobó: las mandó ella para publicarlas (27/10) |
+| ~~8~~ | ~~Decidir sobre las marcas ajenas~~ (Lamborghini, Totoro, ROBLOX, Nutella, Nintendo, Dragon Ball, FC Barcelona, «Efren 50») | Luisa | **Decidido (27/10):** todas las fotos las mandó ella con su consentimiento para publicarlas. Se quedan |
 | 9 | **Confirmar si Kinder Bueno y Raffaello van de verdad** en esas porciones | Luisa | Si no, hay que decir «estilo Kinder» |
 | 10 | **Datos de salud por WhatsApp** (alergias): valorar cómo se guardan | Gestoría | Categoría especial del art. 9 RGPD |
 | 11 | Registro de actividades de tratamiento | Gestoría | Obligación propia, no de la web |
