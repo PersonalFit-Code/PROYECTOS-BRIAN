@@ -318,7 +318,7 @@
 
   <div class="contacto">
     <p class="frase">Noah ya se sabe tu carta.<br>Solo faltan tus datos para ponerlo a coger tu teléfono.</p>
-    <div class="quien"><span class="et">Contacto</span><b>Brian Carbajal</b><span class="tel">611 57 35 80</span></div>
+    <div class="quien"><span class="et">Contacto</span><b>Brian Carbajal</b><span class="rol">Consultor freelance en IA para negocios</span><span class="tel">611 57 35 80</span></div>
   </div>
   <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para La Vita Buona</span><span class="der"><svg width="98" height="8" viewBox="0 0 98 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="94" cy="4" r="3.3" fill="#E0952F"/></svg><span><b>10</b> / 10</span></span></div>
 </div>

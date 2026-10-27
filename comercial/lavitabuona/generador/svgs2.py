@@ -234,7 +234,7 @@ def propongo():
         if i < 2:
             s.append(f'<path d="M{x+42} 130H{x+156}" stroke="{ACENTO}" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#fp)"/>')
     s.append(f'<path d="M26 238H574" stroke="#3A2A20" stroke-width="1"/>')
-    s.append(f'<text x="26" y="256" font-size="10" fill="#D9CCBB">Brian · estudiante de desarrollo de inteligencia artificial, aquí en Ourense</text>')
+    s.append(f'<text x="26" y="256" font-size="10" fill="#D9CCBB">Brian Carbajal · Consultor freelance en inteligencia artificial para negocios · Ourense</text>')
     s.append('</g></svg>')
     return "".join(s)
 
