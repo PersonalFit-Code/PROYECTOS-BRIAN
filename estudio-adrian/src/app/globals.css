@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   DESIGN TOKENS · Estudio Adrián
+   Azul de examen (el de las pantallas del teórico) como color principal,
+   verde y rojo SOLO para acierto y fallo, para que se lean de un vistazo.
+   Modo oscuro automático según el móvil: se estudia mucho de noche.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --fondo: #f3f5fa;
+  --superficie: #ffffff;
+  --superficie-2: #e9edf6;
+  --borde: #d6dceb;
+  --tinta: #121a2e;
+  --tinta-suave: #4d5875;
+  --primario: #1f4fd8;
+  --primario-tinta: #ffffff;
+  --primario-suave: #e3eafd;
+  --bien: #137a3f;
+  --bien-suave: #e2f5ea;
+  --mal: #c22a2a;
+  --mal-suave: #fbe6e6;
+  --aviso: #a35a00;
+  --aviso-suave: #fdf0dc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #0d1220;
+    --superficie: #161d30;
+    --superficie-2: #1f2840;
+    --borde: #2c3754;
+    --tinta: #eef1f8;
+    --tinta-suave: #a5afc8;
+    --primario: #6f93ff;
+    --primario-tinta: #0b1020;
+    --primario-suave: #1f2c55;
+    --bien: #4fd18a;
+    --bien-suave: #15372a;
+    --mal: #ff7b7b;
+    --mal-suave: #431c22;
+    --aviso: #ffb85c;
+    --aviso-suave: #3d2c14;
+  }
+}
+
+@theme inline {
+  --color-fondo: var(--fondo);
+  --color-superficie: var(--superficie);
+  --color-superficie-2: var(--superficie-2);
+  --color-borde: var(--borde);
+  --color-tinta: var(--tinta);
+  --color-tinta-suave: var(--tinta-suave);
+  --color-primario: var(--primario);
+  --color-primario-tinta: var(--primario-tinta);
+  --color-primario-suave: var(--primario-suave);
+  --color-bien: var(--bien);
+  --color-bien-suave: var(--bien-suave);
+  --color-mal: var(--mal);
+  --color-mal-suave: var(--mal-suave);
+  --color-aviso: var(--aviso);
+  --color-aviso-suave: var(--aviso-suave);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--fondo);
+  color: var(--tinta);
+}
+
+:focus-visible {
+  outline: 3px solid var(--primario);
+  outline-offset: 2px;
+}
