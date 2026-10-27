@@ -220,7 +220,7 @@ corriente. Si algún día entra una tarta con licor, este bloque se reabre.
 | Punto | Norma (sin verificar) | Estado | Dónde está |
 |---|---|---|---|
 | 16 reseñas de Google reproducidas | TRLPI art. 32 / condiciones de Google | ⚠️ | `index.html:4914-4930` |
-| …con nombre y apellidos de 14 personas | RGPD | ⚠️ | ídem |
+| …con nombre y apellidos de 14 personas | RGPD | ✅ **resuelto (27/10)** | Ahora sólo el nombre de pila; los alias de Google, tal cual |
 | …sin enlace a cada reseña | — | ⚠️ | `index.html:4931`, una sola URL genérica |
 | Tipografías con licencia y propias | TRLPI | ✅ **medido** | Servidas desde el propio dominio, 0 peticiones a Google Fonts |
 | Mapa atribuido | — | ✅ | Es el iframe oficial de Google Maps |
@@ -349,7 +349,7 @@ ley ni el número de empleados). Como decía el encargo: si no es obligación, e
 | 4 | **Registro sanitario**: ¿está inscrita? ¿el número debe figurar en la web? | Gestoría | Galicia cambió el registro en agosto de 2025 |
 | 5 | **Hojas de reclamaciones**: ¿hay que mencionarlas en la web? | Gestoría | Si la norma gallega lo exige, hoy no están |
 | 6 | **Cuadrar la valoración**: ¿4,9 y cuántas reseñas hoy? | Luisa | Se declara 18 y se enseñan 16. Una cifra que no se sostiene es publicidad engañosa |
-| 7 | **Decidir sobre las reseñas**: nombres completos y enlace | Luisa | Se publican 14 nombres y apellidos sin constancia de permiso |
+| 7 | **Decidir sobre las reseñas**: ~~nombres completos~~ y enlace | Luisa | **Nombres resueltos (27/10):** sólo el nombre de pila. Queda el enlace genérico |
 | ~~8~~ | ~~Decidir sobre las marcas ajenas~~ (Lamborghini, Totoro, ROBLOX, Nutella, Nintendo, Dragon Ball, FC Barcelona, «Efren 50») | Luisa | **Decidido (27/10):** todas las fotos las mandó ella con su consentimiento para publicarlas. Se quedan |
 | 9 | **Confirmar si Kinder Bueno y Raffaello van de verdad** en esas porciones | Luisa | Si no, hay que decir «estilo Kinder» |
 | 10 | **Datos de salud por WhatsApp** (alergias): valorar cómo se guardan | Gestoría | Categoría especial del art. 9 RGPD |
