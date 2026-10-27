@@ -74,9 +74,9 @@ tamaño exacto) y no se volvieron a bajar.
 | 09.30.04 (4) | Tarta rectangular «Happy Birthday» con fresas | galería, `tarta-17` |
 | 09.30.04 (5) | Tarta con lazo rosa y fruta | galería `tarta-18` y carrusel |
 | 09.30.06 (1) | Tarta de la bolsa (toro y monedas) | galería `tarta-19` y carrusel |
-| 09.30.05 (5) | Tarta casco LS2 «Efren 50» | galería `tarta-20` |
-| 09.30.05 (6) | Tarta Dragon Ball | galería `tarta-21` y carrusel |
-| 09.30.06 | Tarta campo del FC Barcelona | galería `tarta-22` |
+| 09.30.05 (5) | Tarta casco LS2 «Efren 50» | galería `tarta-20` (Luisa confirma que se publica) |
+| 09.30.05 (6) | Tarta Dragon Ball | galería `tarta-21` y carrusel (Luisa confirma que se publica) |
+| 09.30.06 | Tarta campo del FC Barcelona | galería `tarta-22` (Luisa confirma que se publica) |
 | 09.30.03 | Vitrina con tarrinas | sin usar |
 | 09.30.05 … (1)-(4) | Porciones en su envase | sin usar: no sé su nombre |
 | 09.30.04 (6) | Cuchareable red velvet | **fuera**: Luisa quitó el red velvet |

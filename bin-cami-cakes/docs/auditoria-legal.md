@@ -227,6 +227,7 @@ corriente. Si algún día entra una tarta con licor, este bloque se reabre.
 | Emblema de **Lamborghini** en una tarta | Ley 17/2001 de Marcas | ⚠️ | `assets/tarta-tematica.*`, en portada y galería |
 | **Totoro** (Studio Ghibli) y **ROBLOX** | TRLPI / Marcas | ⚠️ | `assets/tarta-06.*` y `tarta-08.*` |
 | **Nutella** y globos de **Nintendo** al fondo | Marcas | ⚠️ | `assets/pastelera.*` y `assets/og-image.jpg` |
+| **Dragon Ball**, escudo del **FC Barcelona**, casco **LS2** con el nombre «Efren 50» | Marcas / RGPD (nombre del cliente) | ✅ **aprobado por Luisa (27/10)** | `assets/tarta-20.*`, `tarta-21.*` (también en el carrusel) y `tarta-22.*` |
 
 Dejo constancia de una matización honesta: fotografiar una tarta que una clienta encargó con un
 personaje no es lo mismo que vender merchandising, y el riesgo real de que Ghibli o Lamborghini
@@ -345,7 +346,7 @@ ley ni el número de empleados). Como decía el encargo: si no es obligación, e
 | 5 | **Hojas de reclamaciones**: ¿hay que mencionarlas en la web? | Gestoría | Si la norma gallega lo exige, hoy no están |
 | 6 | **Cuadrar la valoración**: ¿4,9 y cuántas reseñas hoy? | Luisa | Se declara 18 y se enseñan 16. Una cifra que no se sostiene es publicidad engañosa |
 | 7 | **Decidir sobre las reseñas**: nombres completos y enlace | Luisa | Se publican 14 nombres y apellidos sin constancia de permiso |
-| 8 | **Decidir sobre las marcas ajenas** (Lamborghini, Totoro, ROBLOX, Nutella, Nintendo) | Luisa | Riesgo bajo pero real |
+| 8 | **Decidir sobre las marcas ajenas** (Lamborghini, Totoro, ROBLOX, Nutella, Nintendo) | Luisa | Riesgo bajo pero real. Las de «bincami fotos» (Dragon Ball, FC Barcelona, «Efren 50») ya las aprobó: las mandó ella para publicarlas (27/10) |
 | 9 | **Confirmar si Kinder Bueno y Raffaello van de verdad** en esas porciones | Luisa | Si no, hay que decir «estilo Kinder» |
 | 10 | **Datos de salud por WhatsApp** (alergias): valorar cómo se guardan | Gestoría | Categoría especial del art. 9 RGPD |
 | 11 | Registro de actividades de tratamiento | Gestoría | Obligación propia, no de la web |
