@@ -47,7 +47,7 @@ Para la demo basta lo de ahora: tu ordenador, ngrok y el numero gratis de Vapi.
 - [ ] El asistente de clinicas tiene el mismo fallo de fin de turno (smartEndpointingPlan anula los tiempos).
 
 ## 5. Comercial
-- [ ] Modelo elegido: opcion B (implantacion 2.490 €, fraccionable en 3 + mantenimiento 190 €/mes; las llamadas las paga el local a precio de coste, cuentas a su nombre). Tablet descartada.
+- [ ] Modelo elegido: opcion B (implantacion 1.200 €, pago unico + mantenimiento 100 €/mes con servidor y numero; las llamadas las paga el local a precio de coste, cuentas a su nombre). Tablet descartada.
 - [ ] El mantenimiento promete "si algo falla, me entero yo antes": hay que tener el aviso de caida del servidor antes de cobrarlo.
 - [ ] Hoja de planes del dossier: ajustar si `npm run costes` dice que no hay margen.
 - [ ] Dossier dental: repasar las afirmaciones que no se pueden comprobar.
