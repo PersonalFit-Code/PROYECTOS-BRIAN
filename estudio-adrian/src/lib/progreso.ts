@@ -128,6 +128,13 @@ export function borrarProgreso() {
   escribir({ ...VACIO, ajustes: leer().ajustes });
 }
 
+/** Ids de las preguntas que ha fallado alguna vez, aunque luego las acertara. */
+export function idsFalladasAlgunaVez(p: Progreso): string[] {
+  return Object.entries(p.preguntas)
+    .filter(([, e]) => e.fallos > 0)
+    .map(([id]) => id);
+}
+
 /** Ids de las preguntas cuya última respuesta fue un fallo. */
 export function idsFalladas(p: Progreso): string[] {
   return Object.entries(p.preguntas)

@@ -17,10 +17,15 @@ Central de incendios y detección (12) — con la solución del examen original.
     final, apto con 7 fallos como máximo. En blanco cuenta como fallo.
 - **Orden de las preguntas**: salteadas o por temario (el orden del examen
   original). Se elige en la pantalla de inicio y se recuerda.
-- **Repaso de fallos.** Junta las preguntas cuya última respuesta fue un fallo.
-  Al acertarlas, salen del repaso.
+- **Test de errores.** *Pendientes*: las que falló la última vez (al acertarlas,
+  salen). *Todas*: las que ha fallado alguna vez, para asegurarlas.
+- **Asistente IA** (`/asistente`). Chat con Claude para preguntar dudas del curso.
+  Conoce todas las preguntas del examen con su solución, y desde cualquier
+  pregunta corregida hay un enlace «Pregúntale al asistente» que abre el chat
+  con esa pregunta como contexto. La conversación se guarda en el móvil.
 - **Progreso.** Preguntas dominadas por tema, tests hechos, exámenes aprobados e
-  historial. Se guarda en el navegador del móvil (sin cuentas ni servidor).
+  historial. Se guarda en el navegador del móvil (localStorage, sin cuentas):
+  si borra los datos del navegador o cambia de móvil, empieza de cero.
 - Modo oscuro automático. Con teclado: `1`/`2` (o `A`/`B`) para contestar, `Enter` para seguir.
 
 ## Cambiar o añadir preguntas
@@ -51,3 +56,15 @@ npm run lint && npm run typecheck && npm run build
 
 Next.js + Tailwind CSS. Se despliega en Vercel como los demás proyectos
 (Root Directory: `estudio-adrian`).
+
+## Asistente IA: clave y gasto
+
+El chat llama a la API de Anthropic desde `src/app/api/asistente/route.ts`.
+Necesita `ANTHROPIC_API_KEY` en las variables de entorno de Vercel (ver
+`.env.example`). Sin la clave, o si la API falla, no da error: responde con las
+preguntas del temario que más se parecen a la duda.
+
+Cada pregunta cuesta dinero. Frenos que hay: solo acepta peticiones de la propia
+web, 30 preguntas cada 10 minutos por IP y 150 cada 10 minutos en total por
+instancia. El techo real de la factura es el **límite de gasto de la cuenta en
+la consola de Anthropic**, con la recarga automática apagada.

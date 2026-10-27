@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, ChevronRight, ClipboardCheck, RotateCcw, Timer, Trash2 } from "lucide-react";
+import { BookOpen, ChevronRight, ClipboardCheck, RotateCcw, Sparkles, Timer, Trash2 } from "lucide-react";
 import { EXAMEN, TEMAS, TODAS_LAS_PREGUNTAS, temaPorId } from "@/data/temario";
-import { borrarProgreso, guardarOrden, idsFalladas, useProgreso, type Orden, type TestHecho } from "@/lib/progreso";
+import { borrarProgreso, guardarOrden, idsFalladas, idsFalladasAlgunaVez, useProgreso, type Orden, type TestHecho } from "@/lib/progreso";
 import { formatoTiempo } from "@/lib/test";
 import Barra from "@/components/Barra";
 
@@ -11,7 +11,7 @@ const IDS_VALIDOS = new Set(TODAS_LAS_PREGUNTAS.map((p) => p.id));
 
 function nombreTest(t: TestHecho): string {
   if (t.modo === "examen") return t.correccion === "estudio" ? "Examen · modo estudio" : "Examen";
-  if (t.modo === "fallos") return "Repaso de fallos";
+  if (t.modo === "fallos") return "Test de errores";
   const tema = t.temaId ? temaPorId(t.temaId) : undefined;
   return tema ? `Tema ${tema.numero} · ${tema.titulo}` : "Test de tema";
 }
@@ -22,6 +22,7 @@ export default function Inicio() {
   const progreso = useProgreso();
   const dominadas = TODAS_LAS_PREGUNTAS.filter((p) => progreso.preguntas[p.id]?.ultimaBien).length;
   const falladas = idsFalladas(progreso).filter((id) => IDS_VALIDOS.has(id)).length;
+  const falladasAlgunaVez = idsFalladasAlgunaVez(progreso).filter((id) => IDS_VALIDOS.has(id)).length;
   /* Solo cuentan los exámenes de verdad, no los hechos en modo estudio. */
   const examenes = progreso.historial.filter((t) => t.modo === "examen" && t.correccion !== "estudio");
   const aprobados = examenes.filter((t) => t.aprobado).length;
@@ -97,28 +98,43 @@ export default function Inicio() {
         </div>
       </section>
 
-      {falladas > 0 ? (
-        <Link
-          href="/test?modo=fallos"
-          className="flex items-center gap-3 rounded-2xl border-2 border-mal bg-mal-suave p-4 transition active:scale-[0.98]"
-        >
-          <RotateCcw className="size-8 shrink-0 text-mal" aria-hidden />
-          <span>
-            <span className="block text-lg font-bold">Repasar fallos</span>
-            <span className="block text-sm text-tinta-suave">
-              {falladas} {falladas === 1 ? "pregunta pendiente" : "preguntas pendientes"}
-            </span>
-          </span>
-        </Link>
-      ) : (
-        <div className="flex items-center gap-3 rounded-2xl border border-dashed border-borde p-4 text-tinta-suave">
-          <RotateCcw className="size-8 shrink-0" aria-hidden />
-          <span>
-            <span className="block text-lg font-bold">Repasar fallos</span>
-            <span className="block text-sm">Aquí irán las preguntas que falles.</span>
-          </span>
+      <section className="rounded-2xl border border-borde bg-superficie p-4">
+        <div className="flex items-center gap-3">
+          <RotateCcw className="size-7 shrink-0 text-mal" aria-hidden />
+          <div>
+            <h2 className="text-lg font-bold">Test de errores</h2>
+            <p className="text-sm text-tinta-suave">Solo las preguntas que has fallado.</p>
+          </div>
         </div>
-      )}
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          <OpcionErrores
+            href="/test?modo=fallos"
+            titulo="Pendientes"
+            detalle="Las que fallaste la última vez"
+            cuantas={falladas}
+          />
+          <OpcionErrores
+            href="/test?modo=fallos&errores=todas"
+            titulo="Todas"
+            detalle="Las que has fallado alguna vez"
+            cuantas={falladasAlgunaVez}
+          />
+        </div>
+      </section>
+
+      <Link
+        href="/asistente"
+        className="flex items-center gap-3 rounded-2xl border border-borde bg-superficie p-4 transition hover:border-primario active:scale-[0.99]"
+      >
+        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primario-suave text-primario">
+          <Sparkles className="size-6" aria-hidden />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-lg font-bold">Asistente IA</span>
+          <span className="block text-sm text-tinta-suave">Pregúntale tus dudas sobre extintores, BIEs o detección.</span>
+        </span>
+        <ChevronRight className="size-5 shrink-0 text-tinta-suave" aria-hidden />
+      </Link>
 
       <section>
         <h2 className="mb-3 text-lg font-bold">Temario</h2>
@@ -203,5 +219,25 @@ function Dato({ titulo, valor }: { titulo: string; valor: string | number }) {
       <dd className="text-xl font-bold tabular-nums">{valor}</dd>
       <dt className="text-xs text-tinta-suave">{titulo}</dt>
     </div>
+  );
+}
+
+function OpcionErrores({ href, titulo, detalle, cuantas }: { href: string; titulo: string; detalle: string; cuantas: number }) {
+  const contenido = (
+    <>
+      <span className="flex items-baseline justify-between gap-2">
+        <span className="font-bold">{titulo}</span>
+        <span className="text-lg font-bold tabular-nums">{cuantas}</span>
+      </span>
+      <span className="block text-xs text-tinta-suave">{detalle}</span>
+    </>
+  );
+  if (cuantas === 0) {
+    return <div className="rounded-xl border border-dashed border-borde p-3 opacity-60">{contenido}</div>;
+  }
+  return (
+    <Link href={href} className="rounded-xl border-2 border-mal bg-mal-suave p-3 transition active:scale-[0.98]">
+      {contenido}
+    </Link>
   );
 }

@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, ChevronLeft, ChevronRight, Clock, Home, RotateCcw, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Clock, Home, RotateCcw, Sparkles, X } from "lucide-react";
 import { EXAMEN, TEMA_DE_PREGUNTA, temaPorId, type Pregunta } from "@/data/temario";
 import { leerProgreso, registrarRespuesta, registrarTest, type Correccion, type Modo } from "@/lib/progreso";
-import { crearTest, formatoTiempo, LETRAS } from "@/lib/test";
+import { crearTest, formatoTiempo, LETRAS, type Errores } from "@/lib/test";
 import Barra from "@/components/Barra";
 
-type Props = { modo: Modo; temaId?: string; correccion: Correccion; onRepetir: () => void };
+type Props = { modo: Modo; temaId?: string; correccion: Correccion; errores: Errores; onRepetir: () => void };
 
 /*
  * Dos maneras de hacer un test, como en la autoescuela:
@@ -19,11 +19,11 @@ type Props = { modo: Modo; temaId?: string; correccion: Correccion; onRepetir: (
  * El examen completo también se puede hacer en modo estudio: mismas
  * preguntas, pero con la corrección al momento y sin reloj.
  */
-export default function Test({ modo, temaId, correccion, onRepetir }: Props) {
+export default function Test({ modo, temaId, correccion, errores, onRepetir }: Props) {
   const esExamen = modo === "examen";
   /* `examen` = corrección al final y con reloj. */
   const examen = esExamen && correccion === "examen";
-  const [preguntas] = useState<Pregunta[]>(() => crearTest(modo, temaId, leerProgreso()));
+  const [preguntas] = useState<Pregunta[]>(() => crearTest(modo, temaId, leerProgreso(), errores));
   const [respuestas, setRespuestas] = useState<(number | null)[]>(() => preguntas.map(() => null));
   const [actual, setActual] = useState(0);
   const [terminado, setTerminado] = useState(false);
@@ -35,7 +35,7 @@ export default function Test({ modo, temaId, correccion, onRepetir }: Props) {
   const restante = Math.max(0, Math.ceil((fin - ahora) / 1000));
 
   const titulo =
-    esExamen ? (examen ? "Examen" : "Examen · modo estudio") : modo === "fallos" ? "Repaso de fallos" : (temaPorId(temaId ?? "")?.titulo ?? "Test");
+    esExamen ? (examen ? "Examen" : "Examen · modo estudio") : modo === "fallos" ? (errores === "todas" ? "Test de errores · todos" : "Test de errores") : (temaPorId(temaId ?? "")?.titulo ?? "Test");
 
   const terminar = useCallback(
     (finales: (number | null)[]) => {
@@ -135,7 +135,7 @@ export default function Test({ modo, temaId, correccion, onRepetir }: Props) {
     return (
       <div className="space-y-4 py-16 text-center">
         <p className="text-lg font-semibold">
-          {modo === "fallos" ? "No tienes fallos pendientes. ¡Bien hecho!" : "Este tema todavía no tiene preguntas."}
+          {modo === "fallos" ? errores === "todas" ? "Todavía no has fallado ninguna pregunta." : "No tienes errores pendientes. ¡Bien hecho!" : "Este tema todavía no tiene preguntas."}
         </p>
         <Link href="/" className="inline-flex items-center gap-2 rounded-xl bg-primario px-5 py-3 font-semibold text-primario-tinta">
           <Home className="size-5" aria-hidden /> Volver al inicio
@@ -253,6 +253,7 @@ export default function Test({ modo, temaId, correccion, onRepetir }: Props) {
               {elegida === pregunta.correcta ? "¡Correcto!" : `Incorrecto. La buena es la ${LETRAS[pregunta.correcta]}.`}
             </p>
             {pregunta.explicacion && <p className="mt-1 leading-relaxed">{pregunta.explicacion}</p>}
+            <EnlaceAsistente preguntaId={pregunta.id} />
           </div>
         )}
       </article>
@@ -439,6 +440,7 @@ function Resultado({
                     </li>
                   </ul>
                   {p.explicacion && <p className="mt-2 text-sm leading-relaxed text-tinta-suave">{p.explicacion}</p>}
+                  <EnlaceAsistente preguntaId={p.id} />
                 </li>
               );
             })}
@@ -446,5 +448,19 @@ function Resultado({
         )}
       </section>
     </main>
+  );
+}
+
+/* Se abre en otra pestaña para no perder el test que está en marcha. */
+function EnlaceAsistente({ preguntaId }: { preguntaId: string }) {
+  return (
+    <a
+      href={`/asistente?pregunta=${preguntaId}`}
+      target="_blank"
+      rel="noopener"
+      className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-primario"
+    >
+      <Sparkles className="size-4" aria-hidden /> Pregúntale al asistente
+    </a>
   );
 }

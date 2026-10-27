@@ -1,5 +1,5 @@
 import { EXAMEN, PREGUNTAS_POR_TEST_DE_TEMA, TEMAS, TODAS_LAS_PREGUNTAS, temaPorId, type Pregunta } from "@/data/temario";
-import { idsFalladas, type Modo, type Orden, type Progreso } from "@/lib/progreso";
+import { idsFalladas, idsFalladasAlgunaVez, type Modo, type Orden, type Progreso } from "@/lib/progreso";
 
 export function barajar<T>(lista: T[]): T[] {
   const a = [...lista];
@@ -49,11 +49,17 @@ function ordenar(preguntas: Pregunta[], orden: Orden): Pregunta[] {
 }
 
 /** Qué preguntas salen las decide el modo; en qué orden, el ajuste de Adrián (salteadas o por temario). */
-export function crearTest(modo: Modo, temaId: string | undefined, progreso: Progreso): Pregunta[] {
+/**
+ * Test de errores: `pendientes` son las que falló la última vez; `todas`, las
+ * que ha fallado alguna vez aunque ya las acierte (para asegurarlas).
+ */
+export type Errores = "pendientes" | "todas";
+
+export function crearTest(modo: Modo, temaId: string | undefined, progreso: Progreso, errores: Errores = "pendientes"): Pregunta[] {
   const orden = progreso.ajustes.orden;
   if (modo === "examen") return ordenar(preguntasDeExamen(), orden);
   if (modo === "fallos") {
-    const ids = new Set(idsFalladas(progreso));
+    const ids = new Set(errores === "todas" ? idsFalladasAlgunaVez(progreso) : idsFalladas(progreso));
     return ordenar(barajar(TODAS_LAS_PREGUNTAS.filter((p) => ids.has(p.id))), orden);
   }
   const tema = temaId ? temaPorId(temaId) : undefined;
