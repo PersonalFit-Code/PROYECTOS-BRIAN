@@ -1,5 +1,5 @@
 import { EXAMEN, PREGUNTAS_POR_TEST_DE_TEMA, TEMAS, TODAS_LAS_PREGUNTAS, temaPorId, type Pregunta } from "@/data/temario";
-import { idsFalladas, type Modo, type Progreso } from "@/lib/progreso";
+import { idsFalladas, type Modo, type Orden, type Progreso } from "@/lib/progreso";
 
 export function barajar<T>(lista: T[]): T[] {
   const a = [...lista];
@@ -23,7 +23,8 @@ function priorizar(preguntas: Pregunta[], progreso: Progreso, cuantas: number): 
 
 /**
  * El examen reparte las preguntas entre todos los temas de forma proporcional
- * a lo que pesa cada uno, como el teórico: no puede salir todo de un tema.
+ * a lo que pesa cada uno: no puede salir todo de un tema. Si el examen es de
+ * todas las preguntas, salen todas.
  */
 function preguntasDeExamen(): Pregunta[] {
   const total = Math.min(EXAMEN.preguntas, TODAS_LAS_PREGUNTAS.length);
@@ -39,14 +40,24 @@ function preguntasDeExamen(): Pregunta[] {
   return barajar(elegidas);
 }
 
+/** Posición de cada pregunta en el temario, para el orden «por temario». */
+const POSICION = new Map(TODAS_LAS_PREGUNTAS.map((p, i) => [p.id, i]));
+
+function ordenar(preguntas: Pregunta[], orden: Orden): Pregunta[] {
+  if (orden === "aleatorio") return preguntas;
+  return [...preguntas].sort((a, b) => POSICION.get(a.id)! - POSICION.get(b.id)!);
+}
+
+/** Qué preguntas salen las decide el modo; en qué orden, el ajuste de Adrián (salteadas o por temario). */
 export function crearTest(modo: Modo, temaId: string | undefined, progreso: Progreso): Pregunta[] {
-  if (modo === "examen") return preguntasDeExamen();
+  const orden = progreso.ajustes.orden;
+  if (modo === "examen") return ordenar(preguntasDeExamen(), orden);
   if (modo === "fallos") {
     const ids = new Set(idsFalladas(progreso));
-    return barajar(TODAS_LAS_PREGUNTAS.filter((p) => ids.has(p.id)));
+    return ordenar(barajar(TODAS_LAS_PREGUNTAS.filter((p) => ids.has(p.id))), orden);
   }
   const tema = temaId ? temaPorId(temaId) : undefined;
-  return tema ? priorizar(tema.preguntas, progreso, PREGUNTAS_POR_TEST_DE_TEMA) : [];
+  return tema ? ordenar(priorizar(tema.preguntas, progreso, PREGUNTAS_POR_TEST_DE_TEMA), orden) : [];
 }
 
 export const LETRAS = ["A", "B", "C", "D", "E", "F"];

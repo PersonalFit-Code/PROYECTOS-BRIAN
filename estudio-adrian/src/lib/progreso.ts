@@ -21,6 +21,10 @@ export type EstadoPregunta = {
 };
 
 export type Modo = "tema" | "examen" | "fallos";
+/** Examen con corrección al final y reloj, o en modo estudio (corrección al momento). */
+export type Correccion = "examen" | "estudio";
+/** Preguntas salteadas o en el orden del temario. */
+export type Orden = "aleatorio" | "temario";
 
 export type TestHecho = {
   fecha: number;
@@ -29,6 +33,8 @@ export type TestHecho = {
   aciertos: number;
   total: number;
   /** Solo en examen. */
+  correccion?: Correccion;
+  /** Solo en examen. */
   aprobado?: boolean;
   segundos: number;
 };
@@ -36,9 +42,10 @@ export type TestHecho = {
 export type Progreso = {
   preguntas: Record<string, EstadoPregunta>;
   historial: TestHecho[];
+  ajustes: { orden: Orden };
 };
 
-const VACIO: Progreso = { preguntas: {}, historial: [] };
+const VACIO: Progreso = { preguntas: {}, historial: [], ajustes: { orden: "aleatorio" } };
 
 let cacheTexto: string | null = null;
 let cacheValor: Progreso = VACIO;
@@ -55,7 +62,7 @@ function leer(): Progreso {
   cacheTexto = texto;
   try {
     const p = texto ? (JSON.parse(texto) as Partial<Progreso>) : {};
-    cacheValor = { preguntas: p.preguntas ?? {}, historial: p.historial ?? [] };
+    cacheValor = { preguntas: p.preguntas ?? {}, historial: p.historial ?? [], ajustes: { ...VACIO.ajustes, ...p.ajustes } };
   } catch {
     cacheValor = VACIO;
   }
@@ -111,8 +118,14 @@ export function registrarTest(t: TestHecho) {
   escribir({ ...p, historial: [t, ...p.historial].slice(0, MAX_HISTORIAL) });
 }
 
+export function guardarOrden(orden: Orden) {
+  const p = leer();
+  escribir({ ...p, ajustes: { ...p.ajustes, orden } });
+}
+
+/** Borra respuestas e historial; los ajustes se quedan. */
 export function borrarProgreso() {
-  escribir(VACIO);
+  escribir({ ...VACIO, ajustes: leer().ajustes });
 }
 
 /** Ids de las preguntas cuya última respuesta fue un fallo. */

@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, ChevronLeft, ChevronRight, Clock, Home, RotateCcw, X } from "lucide-react";
 import { EXAMEN, TEMA_DE_PREGUNTA, temaPorId, type Pregunta } from "@/data/temario";
-import { leerProgreso, registrarRespuesta, registrarTest, type Modo } from "@/lib/progreso";
+import { leerProgreso, registrarRespuesta, registrarTest, type Correccion, type Modo } from "@/lib/progreso";
 import { crearTest, formatoTiempo, LETRAS } from "@/lib/test";
 import Barra from "@/components/Barra";
 
-type Props = { modo: Modo; temaId?: string; onRepetir: () => void };
+type Props = { modo: Modo; temaId?: string; correccion: Correccion; onRepetir: () => void };
 
 /*
  * Dos maneras de hacer un test, como en la autoescuela:
@@ -16,9 +16,13 @@ type Props = { modo: Modo; temaId?: string; onRepetir: () => void };
  *   bien y por qué. Es para aprender.
  * - EXAMEN: reloj en marcha, puedes ir y volver entre preguntas y cambiar
  *   respuestas, y no sabes nada hasta que corriges. Es para medirse.
+ * El examen completo también se puede hacer en modo estudio: mismas
+ * preguntas, pero con la corrección al momento y sin reloj.
  */
-export default function Test({ modo, temaId, onRepetir }: Props) {
-  const examen = modo === "examen";
+export default function Test({ modo, temaId, correccion, onRepetir }: Props) {
+  const esExamen = modo === "examen";
+  /* `examen` = corrección al final y con reloj. */
+  const examen = esExamen && correccion === "examen";
   const [preguntas] = useState<Pregunta[]>(() => crearTest(modo, temaId, leerProgreso()));
   const [respuestas, setRespuestas] = useState<(number | null)[]>(() => preguntas.map(() => null));
   const [actual, setActual] = useState(0);
@@ -31,14 +35,14 @@ export default function Test({ modo, temaId, onRepetir }: Props) {
   const restante = Math.max(0, Math.ceil((fin - ahora) / 1000));
 
   const titulo =
-    modo === "examen" ? "Simulacro de examen" : modo === "fallos" ? "Repaso de fallos" : (temaPorId(temaId ?? "")?.titulo ?? "Test");
+    esExamen ? (examen ? "Examen" : "Examen · modo estudio") : modo === "fallos" ? "Repaso de fallos" : (temaPorId(temaId ?? "")?.titulo ?? "Test");
 
   const terminar = useCallback(
     (finales: (number | null)[]) => {
       if (cerrado.current) return;
       cerrado.current = true;
       if (examen) {
-        /* En examen la respuesta en blanco cuenta como fallo, igual que en la DGT. */
+        /* En examen la respuesta en blanco cuenta como fallo. */
         preguntas.forEach((p, i) => registrarRespuesta(p.id, finales[i] === p.correcta));
       }
       const aciertos = preguntas.filter((p, i) => finales[i] === p.correcta).length;
@@ -48,13 +52,14 @@ export default function Test({ modo, temaId, onRepetir }: Props) {
         temaId,
         aciertos,
         total: preguntas.length,
-        aprobado: examen ? preguntas.length - aciertos <= EXAMEN.fallosPermitidos : undefined,
+        correccion: esExamen ? correccion : undefined,
+        aprobado: esExamen ? preguntas.length - aciertos <= EXAMEN.fallosPermitidos : undefined,
         segundos: (Date.now() - inicio) / 1000,
       });
       setTerminado(true);
       window.scrollTo({ top: 0 });
     },
-    [examen, inicio, modo, preguntas, temaId],
+    [correccion, esExamen, examen, inicio, modo, preguntas, temaId],
   );
 
   /* Las respuestas al día para el reloj, sin reiniciar el intervalo en cada clic. */
@@ -196,7 +201,7 @@ export default function Test({ modo, temaId, onRepetir }: Props) {
             Tema {tema.numero} · {tema.titulo}
           </p>
         )}
-        <h1 className="text-xl font-semibold leading-snug">{pregunta.enunciado}</h1>
+        <h1 className="whitespace-pre-line text-xl font-semibold leading-snug">{pregunta.enunciado}</h1>
         {pregunta.imagen && (
           // eslint-disable-next-line @next/next/no-img-element -- imágenes del temario, tamaños variables
           <img src={pregunta.imagen} alt="" className="mt-4 max-h-64 w-auto rounded-xl border border-borde bg-white" />
@@ -415,7 +420,7 @@ function Resultado({
               return (
                 <li key={p.id} className="rounded-2xl border border-borde bg-superficie p-4">
                   <p className="text-xs font-semibold text-tinta-suave">Pregunta {i + 1}</p>
-                  <p className="mt-1 font-semibold leading-snug">{p.enunciado}</p>
+                  <p className="mt-1 whitespace-pre-line font-semibold leading-snug">{p.enunciado}</p>
                   <ul className="mt-3 space-y-1.5 text-sm">
                     {!bien && (
                       <li className="flex gap-2 text-mal">

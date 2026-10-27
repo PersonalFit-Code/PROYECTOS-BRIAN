@@ -5,9 +5,9 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Estudio Adrián",
-  description: "Test por temas, examen con tiempo y repaso de fallos.",
-  appleWebApp: { capable: true, title: "Estudio Adrián", statusBarStyle: "default" },
+  title: "Estudio Adrián · Curso de incendios",
+  description: "Test del curso de protección contra incendios: extintores, BIEs y detección.",
+  appleWebApp: { capable: true, title: "Estudio Adrián · Curso de incendios", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {

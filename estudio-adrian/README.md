@@ -5,37 +5,41 @@ Funciona en el móvil y se puede «Añadir a pantalla de inicio» para abrirla c
 
 ## Qué hace
 
-- **Temario por temas.** Cada tema es un test de 10 preguntas. Salen primero las
-  que nunca ha visto o falló la última vez, así cada test enseña algo nuevo.
-  Al contestar ve al momento si ha acertado y la explicación.
-- **Simulacro de examen.** Como el teórico de la DGT: 30 preguntas repartidas
-  entre todos los temas, 30 minutos, apto con 3 fallos como máximo. Puede ir y
-  volver entre preguntas y no sabe nada hasta que corrige. Las respuestas en
-  blanco cuentan como fallo.
-- **Repaso de fallos.** Junta todas las preguntas cuya última respuesta fue un
-  fallo. Al acertarlas, salen del repaso.
+Ahora mismo lleva el **curso de protección contra incendios** (examen PCI):
+35 preguntas de verdadero/falso en 3 temas — Extintores (12), BIEs (11) y
+Central de incendios y detección (12) — con la solución del examen original.
+
+- **Por temas.** Cada tema es un test con todas sus preguntas. Al contestar ve
+  al momento si ha acertado y, en algunas, por qué.
+- **Examen completo**, en dos modos:
+  - *Modo estudio*: las 35 preguntas, corrección al momento y sin reloj.
+  - *Modo examen*: 35 minutos, puede ir y volver entre preguntas, corrige al
+    final, apto con 7 fallos como máximo. En blanco cuenta como fallo.
+- **Orden de las preguntas**: salteadas o por temario (el orden del examen
+  original). Se elige en la pantalla de inicio y se recuerda.
+- **Repaso de fallos.** Junta las preguntas cuya última respuesta fue un fallo.
+  Al acertarlas, salen del repaso.
 - **Progreso.** Preguntas dominadas por tema, tests hechos, exámenes aprobados e
   historial. Se guarda en el navegador del móvil (sin cuentas ni servidor).
-- Modo oscuro automático. Con teclado: `1-4` o `A-D` para contestar, `Enter` para seguir.
+- Modo oscuro automático. Con teclado: `1`/`2` (o `A`/`B`) para contestar, `Enter` para seguir.
 
-## Meter el temario de verdad
+## Cambiar o añadir preguntas
 
-Todo el contenido está en **`src/data/temario.ts`**. Los tres temas que trae
-(Constitución, Geografía, Primeros auxilios) son **de ejemplo**. Cada pregunta:
+Todo el contenido está en **`src/data/temario.ts`**. Cada pregunta:
 
 ```ts
 {
-  id: "t4-01",                  // único y no se cambia después (el progreso cuelga de él)
-  enunciado: "¿…?",
-  opciones: ["…", "…", "…", "…"],
-  correcta: 2,                  // posición de la buena: 0 = A, 1 = B, 2 = C, 3 = D
+  id: "ext-13",                 // único y no se cambia después (el progreso cuelga de él)
+  enunciado: "El extintor…",    // admite \n para listas con viñetas
+  opciones: VF,                 // Verdadero / Falso (o una lista propia: ["…", "…", "…"])
+  correcta: V,                  // V o F; en listas propias, la posición: 0 = A, 1 = B…
   explicacion: "Porque…",       // opcional, sale al contestar
-  imagen: "/img/senal.png",     // opcional, fichero dentro de public/
+  imagen: "/img/foto.png",      // opcional, fichero dentro de public/
 }
 ```
 
-Las reglas del examen (preguntas, minutos, fallos permitidos) están al principio
-del mismo fichero, en `EXAMEN`.
+Las reglas del examen (minutos y fallos permitidos) están en `EXAMEN`, en el
+mismo fichero.
 
 ## Desarrollo
 

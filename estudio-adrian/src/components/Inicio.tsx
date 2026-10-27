@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight, ClipboardCheck, RotateCcw, Timer, Trash2 } from "lucide-react";
+import { BookOpen, ChevronRight, ClipboardCheck, RotateCcw, Timer, Trash2 } from "lucide-react";
 import { EXAMEN, TEMAS, TODAS_LAS_PREGUNTAS, temaPorId } from "@/data/temario";
-import { borrarProgreso, idsFalladas, useProgreso, type TestHecho } from "@/lib/progreso";
+import { borrarProgreso, guardarOrden, idsFalladas, useProgreso, type Orden, type TestHecho } from "@/lib/progreso";
 import { formatoTiempo } from "@/lib/test";
 import Barra from "@/components/Barra";
 
 const IDS_VALIDOS = new Set(TODAS_LAS_PREGUNTAS.map((p) => p.id));
 
 function nombreTest(t: TestHecho): string {
-  if (t.modo === "examen") return "Simulacro de examen";
+  if (t.modo === "examen") return t.correccion === "estudio" ? "Examen · modo estudio" : "Examen";
   if (t.modo === "fallos") return "Repaso de fallos";
   const tema = t.temaId ? temaPorId(t.temaId) : undefined;
   return tema ? `Tema ${tema.numero} · ${tema.titulo}` : "Test de tema";
@@ -22,13 +22,14 @@ export default function Inicio() {
   const progreso = useProgreso();
   const dominadas = TODAS_LAS_PREGUNTAS.filter((p) => progreso.preguntas[p.id]?.ultimaBien).length;
   const falladas = idsFalladas(progreso).filter((id) => IDS_VALIDOS.has(id)).length;
-  const examenes = progreso.historial.filter((t) => t.modo === "examen");
+  /* Solo cuentan los exámenes de verdad, no los hechos en modo estudio. */
+  const examenes = progreso.historial.filter((t) => t.modo === "examen" && t.correccion !== "estudio");
   const aprobados = examenes.filter((t) => t.aprobado).length;
 
   return (
     <main className="space-y-6">
       <header className="pt-2">
-        <p className="text-sm font-medium text-tinta-suave">Estudio tipo test</p>
+        <p className="text-sm font-medium text-tinta-suave">Curso de protección contra incendios</p>
         <h1 className="text-3xl font-bold tracking-tight">Hola, Adrián</h1>
       </header>
 
@@ -47,42 +48,77 @@ export default function Inicio() {
         </dl>
       </section>
 
-      <section className="grid gap-3 sm:grid-cols-2">
+      <section aria-label="Orden de las preguntas" className="flex items-center justify-between gap-3">
+        <h2 className="text-sm font-semibold">Orden de las preguntas</h2>
+        <div className="flex rounded-lg bg-superficie-2 p-1 text-sm" role="group">
+          {(
+            [
+              { v: "aleatorio", t: "Salteadas" },
+              { v: "temario", t: "Por temario" },
+            ] as { v: Orden; t: string }[]
+          ).map(({ v, t }) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => guardarOrden(v)}
+              aria-pressed={progreso.ajustes.orden === v}
+              className={`whitespace-nowrap rounded-md px-3 py-1.5 font-medium ${progreso.ajustes.orden === v ? "bg-superficie shadow-sm" : "text-tinta-suave"}`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-2xl bg-primario p-4 text-primario-tinta shadow-sm">
+        <h2 className="text-lg font-bold">Examen completo</h2>
+        <p className="text-sm opacity-90">
+          Las {Math.min(EXAMEN.preguntas, TODAS_LAS_PREGUNTAS.length)} preguntas de los {TEMAS.length} temas.
+        </p>
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          <Link
+            href="/test?modo=examen&correccion=estudio"
+            className="flex flex-col items-start gap-1 rounded-xl bg-primario-tinta/15 p-3 transition active:scale-[0.98]"
+          >
+            <BookOpen className="size-6" aria-hidden />
+            <span className="font-bold">Modo estudio</span>
+            <span className="text-xs opacity-90">Ves la respuesta al momento, sin reloj.</span>
+          </Link>
+          <Link
+            href="/test?modo=examen&correccion=examen"
+            className="flex flex-col items-start gap-1 rounded-xl bg-primario-tinta/15 p-3 transition active:scale-[0.98]"
+          >
+            <Timer className="size-6" aria-hidden />
+            <span className="font-bold">Modo examen</span>
+            <span className="text-xs opacity-90">
+              {EXAMEN.minutos} min, corriges al final, máx. {EXAMEN.fallosPermitidos} fallos.
+            </span>
+          </Link>
+        </div>
+      </section>
+
+      {falladas > 0 ? (
         <Link
-          href="/test?modo=examen"
-          className="flex items-center gap-3 rounded-2xl bg-primario p-4 text-primario-tinta shadow-sm transition active:scale-[0.98]"
+          href="/test?modo=fallos"
+          className="flex items-center gap-3 rounded-2xl border-2 border-mal bg-mal-suave p-4 transition active:scale-[0.98]"
         >
-          <Timer className="size-8 shrink-0" aria-hidden />
+          <RotateCcw className="size-8 shrink-0 text-mal" aria-hidden />
           <span>
-            <span className="block text-lg font-bold">Simulacro de examen</span>
-            <span className="block text-sm opacity-90">
-              {Math.min(EXAMEN.preguntas, TODAS_LAS_PREGUNTAS.length)} preguntas · {EXAMEN.minutos} min · máx. {EXAMEN.fallosPermitidos} fallos
+            <span className="block text-lg font-bold">Repasar fallos</span>
+            <span className="block text-sm text-tinta-suave">
+              {falladas} {falladas === 1 ? "pregunta pendiente" : "preguntas pendientes"}
             </span>
           </span>
         </Link>
-        {falladas > 0 ? (
-          <Link
-            href="/test?modo=fallos"
-            className="flex items-center gap-3 rounded-2xl border-2 border-mal bg-mal-suave p-4 transition active:scale-[0.98]"
-          >
-            <RotateCcw className="size-8 shrink-0 text-mal" aria-hidden />
-            <span>
-              <span className="block text-lg font-bold">Repasar fallos</span>
-              <span className="block text-sm text-tinta-suave">
-                {falladas} {falladas === 1 ? "pregunta pendiente" : "preguntas pendientes"}
-              </span>
-            </span>
-          </Link>
-        ) : (
-          <div className="flex items-center gap-3 rounded-2xl border border-dashed border-borde p-4 text-tinta-suave">
-            <RotateCcw className="size-8 shrink-0" aria-hidden />
-            <span>
-              <span className="block text-lg font-bold">Repasar fallos</span>
-              <span className="block text-sm">Aquí irán las preguntas que falles.</span>
-            </span>
-          </div>
-        )}
-      </section>
+      ) : (
+        <div className="flex items-center gap-3 rounded-2xl border border-dashed border-borde p-4 text-tinta-suave">
+          <RotateCcw className="size-8 shrink-0" aria-hidden />
+          <span>
+            <span className="block text-lg font-bold">Repasar fallos</span>
+            <span className="block text-sm">Aquí irán las preguntas que falles.</span>
+          </span>
+        </div>
+      )}
 
       <section>
         <h2 className="mb-3 text-lg font-bold">Temario</h2>
@@ -122,7 +158,7 @@ export default function Inicio() {
           <ul className="divide-y divide-borde overflow-hidden rounded-2xl border border-borde bg-superficie">
             {progreso.historial.slice(0, 8).map((t) => {
               const fallos = t.total - t.aciertos;
-              const color = t.modo === "examen" ? (t.aprobado ? "text-bien" : "text-mal") : "text-tinta";
+              const color = t.aprobado !== undefined ? (t.aprobado ? "text-bien" : "text-mal") : "text-tinta";
               return (
                 <li key={t.fecha} className="flex items-center gap-3 px-4 py-3">
                   <ClipboardCheck className="size-5 shrink-0 text-tinta-suave" aria-hidden />
@@ -135,7 +171,7 @@ export default function Inicio() {
                   <span className={`text-right text-sm font-semibold tabular-nums ${color}`}>
                     {t.aciertos}/{t.total}
                     <span className="block text-xs font-normal text-tinta-suave">
-                      {t.modo === "examen" ? (t.aprobado ? "Apto" : "No apto") : `${fallos} ${fallos === 1 ? "fallo" : "fallos"}`}
+                      {t.aprobado !== undefined ? (t.aprobado ? "Apto" : "No apto") : `${fallos} ${fallos === 1 ? "fallo" : "fallos"}`}
                     </span>
                   </span>
                 </li>
