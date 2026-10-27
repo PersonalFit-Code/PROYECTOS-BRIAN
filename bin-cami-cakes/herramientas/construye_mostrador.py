@@ -49,8 +49,13 @@ def construye(raiz=RAIZ, cuerpo=CUERPO, escribir=True):
               '<!-- GENERADO: no editar a mano. Sale de index.html + catalogo-cuerpo.html\n'
               '     con construye_mostrador.py. Lo que se toque aqui se pierde. -->\n'
               '<html lang="es-ES" data-titulo="mos.titulo">')
+    # 28/10: título con lo que la gente busca (el dulce y la ciudad), no con
+    # «mostrador», que es jerga de la casa.
+    TIT = 'Tres leches, golfeados y piñitas en Ourense | Bin &amp; Cami Cakes'
+    DESC_RED = ('Tres leches, golfeados, piñitas, cookies y cuchareables, hechos cada día '
+                'en el mostrador de Bin &amp; Cami Cakes, junto al Jardín do Posío (Ourense).')
     s = corta(s, '<title>Tartas Personalizadas en Ourense | Bin &amp; Cami Cakes</title>',
-              '<title>Nuestro mostrador · tartas y dulces del día | Bin &amp; Cami Cakes</title>')
+              '<title>%s</title>' % TIT)
     s = re.sub(r'<meta name="description" content="[^"]*">',
                '<meta name="description" content="Lo que hay hoy en el mostrador de Bin &amp; Cami Cakes, '
                'en Ourense: tres leches, golfeados, piñitas y cookies, con sus ingredientes '
@@ -58,7 +63,19 @@ def construye(raiz=RAIZ, cuerpo=CUERPO, escribir=True):
     s = corta(s, '<meta property="og:url" content="https://bin-cami-cakes.vercel.app/">',
               '<meta property="og:url" content="https://bin-cami-cakes.vercel.app/mostrador">')
     s = corta(s, '<meta property="og:title" content="Tartas Personalizadas en Ourense | Bin &amp; Cami Cakes">',
-              '<meta property="og:title" content="Nuestro mostrador | Bin &amp; Cami Cakes">')
+              '<meta property="og:title" content="%s">' % TIT)
+    s = corta(s, '<meta name="twitter:title" content="Tartas Personalizadas en Ourense | Bin &amp; Cami Cakes">',
+              '<meta name="twitter:title" content="%s">' % TIT)
+    s = re.sub(r'<meta property="og:description" content="[^"]*">',
+               '<meta property="og:description" content="%s">' % DESC_RED, s, count=1)
+    s = re.sub(r'<meta name="twitter:description" content="[^"]*">',
+               '<meta name="twitter:description" content="%s">' % DESC_RED, s, count=1)
+
+    # Fuera el FAQPage: sus preguntas sólo están a la vista en la portada.
+    i = s.index('"@type": "FAQPage"')
+    ini = s.rindex('<script type="application/ld+json">', 0, i)
+    fin = s.index('</script>', i) + len('</script>\n')
+    s = s[:ini] + s[fin:]
 
     # El <main> entero
     i = s.index('<main'); j = s.index('</main>') + len('</main>')

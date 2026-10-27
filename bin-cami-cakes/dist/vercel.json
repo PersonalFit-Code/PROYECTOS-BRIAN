@@ -7,7 +7,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'sha256-3E4NRL9vLjx1Ml5D9g67Y5gupAycfDNok/Oe7LPfIww=' 'sha256-CUOP5ODbRNDV4AiUzLz5pozi3B53h7Lyfl93HOoSwv8=' 'sha256-G/pSeMVyhMQL54QvApykyE01/HbigeKjb4g1hlH4dYE=' 'sha256-IheP56YxfhI8pM1Dz8eRd0J+1db8JTLCZBLVyJ9VMCE=' 'sha256-JmMdV12pSRz203yQUOCOFuS3e5d7gpo3tAMjDW1X8Sg=' 'sha256-Nle1mKEFFib/61Cj/EXqghN+vIVBtjt5udDifO9T5zM=' 'sha256-V9oyanZ/RZO/tDM10B9RcChhXvg77XgOC9T4d+Wdm9c=' 'sha256-VM/HjYNuTY64nMXJPBS3xNYzl9QH5AL8j2I37YMvY+I=' 'sha256-oqhuWnfqnOdb4h+5MRdTTKPQ6JQc4gi+dyegriQWqvY=' 'sha256-tWYV6CTPCbwErfl1y8NXEM7qhCS7rpJ3PgWkcn6y4Tg=' 'sha256-wtF7m0rp6dUcB6S3FdbMsxFk4SjPHRusjZU6qKFk/xc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://maps.google.com https://www.google.com; form-action 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'sha256-1wgOo4CcxhD8hnXmaom+BEQUX+PrnrLjcYx2l55COHo=' 'sha256-EqC9780oxCVJ1emzj+jaw1D0JfQV6sWPMV6oUZ+jIXM=' 'sha256-MhwpAgBQYwDjvERwQfiDsISbq4wCYkdw6qv7gb1+bD8=' 'sha256-Nle1mKEFFib/61Cj/EXqghN+vIVBtjt5udDifO9T5zM=' 'sha256-PDEoILPl4ibPuF+O2uze6l9Wwbwjyz6IWY+xFNLNIes=' 'sha256-PuV4p8IIASB19f8j6IFs06zj7c0OtVNygh0CY5RYqQ0=' 'sha256-n46plhFK7cHtNKB6UxO1mbYuVPuacKpqReJA9eZ945M=' 'sha256-ntnJ6LJDX7qiTqhGzdDgUohGe5csio5JHX4DSCZR0oM=' 'sha256-tWYV6CTPCbwErfl1y8NXEM7qhCS7rpJ3PgWkcn6y4Tg=' 'sha256-twomOs3bjC3uzfBqG77P80xSHQhlHHkN12GSY8fvpWc=' 'sha256-u6h7Fc30XLvpqreWZZMKHJBoL/Urb8UgBDUhfFZtFko='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://maps.google.com https://www.google.com; form-action 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
         },
         {
           "key": "X-Content-Type-Options",
@@ -34,6 +34,30 @@
           "value": "same-origin"
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:ruta*",
+      "has": [
+        {
+          "type": "host",
+          "value": "bin-cami-cakes.vercel.app"
+        }
+      ],
+      "destination": "https://binycamicakes.es/:ruta*",
+      "permanent": true
+    },
+    {
+      "source": "/:ruta*",
+      "has": [
+        {
+          "type": "host",
+          "value": "bin-cami-cakes-kappa.vercel.app"
+        }
+      ],
+      "destination": "https://binycamicakes.es/:ruta*",
+      "permanent": true
     }
   ]
 }

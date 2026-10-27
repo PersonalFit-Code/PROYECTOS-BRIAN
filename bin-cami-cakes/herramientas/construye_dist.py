@@ -23,7 +23,7 @@ Qué hace, y por qué cada cosa:
 Uso:  python3 construye_dist.py            -> genera dist/
       python3 construye_dist.py --comprueba -> sólo dice si reproduce lo que hay
 """
-import base64, hashlib, io, json, os, re, shutil, sys
+import base64, hashlib, io, json, os, re, shutil, subprocess, sys
 
 # Por defecto, el proyecto en el que vive este script (la carpeta de arriba).
 # Antes apuntaba a una copia en el scratchpad y, si se olvidaba BCC_RAIZ,
@@ -40,6 +40,7 @@ PAGINAS = ('index.html', 'mostrador.html')
 # sitemap.xml salen del mismo valor.
 DOMINIO_VERCEL = 'https://bin-cami-cakes.vercel.app'
 DOMINIO_PROPIO = 'https://binycamicakes.es'
+HOSTS_VERCEL = ('bin-cami-cakes.vercel.app', 'bin-cami-cakes-kappa.vercel.app')
 # INTERRUPTOR. Ponerlo a True SÓLO cuando binycamicakes.es esté comprado y ya
 # abra esta web (Vercel → el proyecto → Domains, en verde). Antes no: con las
 # etiquetas de compartir apuntando a un dominio que no responde, WhatsApp
@@ -164,16 +165,65 @@ def vercel_json(hs):
              " upgrade-insecure-requests")
     cab = [{'key': 'Content-Security-Policy', 'value': csp}]
     cab += [{'key': k, 'value': v} for k, v in CABECERAS]
-    return json.dumps({'cleanUrls': True, 'trailingSlash': False,
-                       'headers': [{'source': '/(.*)', 'headers': cab}]},
-                      ensure_ascii=False, indent=2) + '\n'
+    conf = {'cleanUrls': True, 'trailingSlash': False,
+            'headers': [{'source': '/(.*)', 'headers': cab}]}
+    if DOMINIO != DOMINIO_VERCEL:
+        # Un solo sitio indexable: las direcciones fijas de Vercel mandan al
+        # dominio propio con un 308. Las de cada despliegue (con su código)
+        # no se tocan, que son para revisar antes de publicar.
+        conf['redirects'] = [
+            {'source': '/:ruta*', 'has': [{'type': 'host', 'value': h}],
+             'destination': DOMINIO + '/:ruta*', 'permanent': True}
+            for h in HOSTS_VERCEL]
+    return json.dumps(conf, ensure_ascii=False, indent=2) + '\n'
+
+
+# ---- SIN COMENTARIOS ----
+# Los ficheros fuente van muy comentados (es como se mantiene esta web) y esos
+# comentarios viajaban al móvil en cada visita: ~96 KB, ~32 KB ya comprimidos.
+# En dist/ se quitan, ANTES de calcular los hashes de la CSP. No se tocan los
+# datos estructurados (application/ld+json). El JS lo limpia
+# quita-comentarios.mjs con un analizador de verdad; si no hay node o acorn,
+# el JS se queda como está y se avisa.
+TROZOS = re.compile(r'(<script\b[^>]*>.*?</script>|<style\b[^>]*>.*?</style>)', re.S)
+
+
+def _fuera(texto, ini, fin):
+    """Quita los comentarios ini…fin: los de línea entera, con su línea."""
+    e_ini, e_fin = re.escape(ini), re.escape(fin)
+    texto = re.sub(r'\n[ \t]*' + e_ini + r'.*?' + e_fin + r'[ \t]*(?=\n)', '', texto, flags=re.S)
+    return re.sub(e_ini + r'.*?' + e_fin, '', texto, flags=re.S)
+
+
+def sin_comentarios(s):
+    partes = TROZOS.split(s)
+    js = [i for i, p in enumerate(partes) if i % 2 and p.startswith('<script')
+          and 'ld+json' not in p[:p.index('>')] and ' src=' not in p[:p.index('>')]]
+    for i, p in enumerate(partes):
+        if i % 2 == 0:
+            partes[i] = _fuera(p, '<!--', '-->')
+        elif p.startswith('<style'):
+            a = p.index('>') + 1; z = p.rindex('</style>')
+            partes[i] = p[:a] + _fuera(p[a:z], '/*', '*/') + p[z:]
+    cuerpos = [partes[i][partes[i].index('>') + 1:partes[i].rindex('</script>')] for i in js]
+    try:
+        r = subprocess.run(['node', os.path.join(AQUI, 'quita-comentarios.mjs')],
+                           input=json.dumps(cuerpos), capture_output=True, text=True, check=True)
+        limpios = json.loads(r.stdout)
+    except (OSError, subprocess.CalledProcessError, ValueError) as e:
+        print('AVISO: el JS sale con comentarios (%s)' % getattr(e, 'stderr', e))
+        limpios = cuerpos
+    for i, c in zip(js, limpios):
+        p = partes[i]
+        partes[i] = p[:p.index('>') + 1] + c + p[p.rindex('</script>'):]
+    return ''.join(partes)
 
 
 def construye(raiz=RAIZ, escribir=True):
     tw = tailwind_compilado(raiz)
     salidas = {}
     for p in PAGINAS:
-        salidas[p] = al_dominio(compila(io.open(os.path.join(raiz, p), encoding='utf-8').read(), tw, ROTULO[p]), p)
+        salidas[p] = sin_comentarios(al_dominio(compila(io.open(os.path.join(raiz, p), encoding='utf-8').read(), tw, ROTULO[p]), p))
     vj = vercel_json(hashes(salidas.values()))
     if escribir:
         dist = os.path.join(raiz, 'dist')
