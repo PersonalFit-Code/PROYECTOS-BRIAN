@@ -226,7 +226,7 @@
         la semana que viene porque la primera vez le cogieron el teléfono.</p></div>
   </div>
   <p class="apunte">Cifras de ejemplo: un pedido medio de 30 € y 26 días de apertura al mes (cerráis los lunes). Son ventas, no beneficio.
-    El coste por llamada es el de una de unos cinco minutos; una más corta cuesta menos.</p>
+    El coste es real: una llamada de prueba de 5 minutos y 53 segundos costó 0,50 €, unos 8,5 céntimos por minuto. Un pedido normal, de unos 3 minutos, sale a unos 0,25 €.</p>
   <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para La Vita Buona</span><span class="der"><svg width="98" height="8" viewBox="0 0 98 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="3.3" fill="#E0952F"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="94" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>08</b> / 10</span></span></div>
 </div>
 
@@ -266,7 +266,7 @@
 
   <p class="epigrafe" style="margin-top:6mm">Las llamadas, a precio de coste</p>
   <p class="txt-b">Lo que cobra el proveedor por cada llamada lo pagas directamente tú, con tu tarjeta: unos
-    <b>0,50 € por una llamada de cinco minutos</b>. Yo no gano nada ahí. Lo que pagas depende solo de cuánto te llamen:</p>
+    <b>unos 8,5 céntimos por minuto</b> (una llamada de prueba de 5 min 53 s costó 0,50 €). Yo no gano nada ahí. Para ir a lo seguro, la tabla cuenta 0,50 € por llamada, aunque un pedido de 3 minutos cuesta la mitad:</p>
   <table class="tabla-b">
     <tr><th>Si te llaman</th><th class="num">Llamadas</th><th class="num">Te cuestan</th><th class="num">Ventas si 1 de cada 2 es un pedido de 30 €</th></tr>
     <tr><td>10 llamadas al día</td><td class="num">260 al mes</td><td class="num"><b>130 €</b></td><td class="num">3.900 €</td></tr><tr><td>20 llamadas al día</td><td class="num">520 al mes</td><td class="num"><b>260 €</b></td><td class="num">7.800 €</td></tr><tr><td>30 llamadas al día</td><td class="num">780 al mes</td><td class="num"><b>390 €</b></td><td class="num">11.700 €</td></tr>
@@ -274,7 +274,7 @@
 
   <div class="banner paga">
     <span class="c"><svg width="22" height="22"><use href="#i-euro" width="22" height="22"/></svg></span>
-    <div><b>La implantación equivale a 40 pedidos de 30&nbsp;€: poco más de uno al día durante un mes.</b>
+    <div><b>La implantación equivale a <span style="white-space:nowrap">40 pedidos de 30 €</span>: poco más de uno al día durante un mes.</b>
       <p>Y desde ese momento, cada pedido que Noah salva es venta que antes se perdía con el teléfono sonando.</p></div>
   </div>
   <p class="apunte">Precios sin IVA. Cálculo con 26 días de apertura al mes. El coste de las llamadas lo fija el proveedor y puede variar; una llamada más corta cuesta menos.</p>

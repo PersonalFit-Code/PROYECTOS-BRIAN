@@ -362,3 +362,4 @@ p, .regalo p, .item-ico p, .tarj p { text-wrap: pretty; }
 .p9b .banner.paga { margin-top: 6mm; }
 .p9b .dosb { margin-top: 6mm; } .p9b .caja-b li { padding: 2.1mm 0; font-size: 9.4pt; } .p9b .tabla-b td { padding: 2.8mm 2mm; } .p9b .banner.paga { margin-top: 8mm; padding: 5.4mm; } .p9b .apunte { margin-top: 5mm; }
 .contacto .rol { display: block; font-size: 8.6pt; color: #CDBFAE; margin-top: .8mm; }
+.p9b .dosb { margin-top: 5mm; } .p9b .caja-b li { padding: 1.8mm 0; } .p9b .tabla-b td { padding: 2.3mm 2mm; } .p9b .banner.paga { margin-top: 6mm; padding: 4.6mm; } .p9b .apunte { margin-top: 3.5mm; } .p9b .txt-b { font-size: 9.3pt; }

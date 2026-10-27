@@ -3,7 +3,7 @@
 pedido. Cifras de ejemplo, con las hipotesis escritas al pie de la hoja."""
 from svgs import NEGRO, ACENTO, HUMO, FONT, icono
 
-COSTE_LLAMADA = 0.50   # euros, una llamada de unos cinco minutos
+COSTE_LLAMADA = 0.50   # euros: dato real, una llamada de prueba de 5 min 53 s (unos 0,085 €/min)
 PEDIDO_MEDIO = 30      # euros
 DIAS_MES = 26          # cierran los lunes
 ESCENARIOS = (1, 3, 5) # pedidos salvados al dia
