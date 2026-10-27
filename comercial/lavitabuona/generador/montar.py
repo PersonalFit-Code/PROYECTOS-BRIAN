@@ -19,7 +19,7 @@ css = (base / "css.part").read_text()
 pag = (base / "paginas.part").read_text()
 for clave, fn in (("PORTADA_DECO", S2.pizza_deco), ("PIZZA", S2.pizza), ("RUEDA", S2.rueda), ("DOLOR", S2.dolor),
                   ("ECUACION", S2.ecuacion), ("COMPARATIVA", S2.comparativa),
-                  ("CIRCULOS", S2.circulos), ("PROPONGO", S2.propongo),
+                  ("PROPONGO", S2.propongo),
                   ("FLUJO", F.flujo), ("PIEZAS", F.piezas)):
     marca = "{{" + clave + "}}"
     assert marca in pag, clave
