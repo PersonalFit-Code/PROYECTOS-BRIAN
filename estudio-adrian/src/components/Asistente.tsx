@@ -102,8 +102,8 @@ export default function Asistente({ preguntaId }: { preguntaId?: string }) {
 
   return (
     <main className="flex min-h-[calc(100dvh-3rem)] flex-col pb-32">
-      <header className="flex items-center gap-3">
-        <Link href="/" className="grid size-10 place-items-center rounded-full border border-borde bg-superficie" aria-label="Volver al inicio">
+      <header className="sticky top-0 z-10 -mx-4 flex items-center gap-3 border-b border-borde/60 bg-fondo/95 px-4 pt-[max(0.5rem,env(safe-area-inset-top))] pb-3 backdrop-blur">
+        <Link href="/" className="grid size-11 shrink-0 place-items-center rounded-full border border-borde bg-superficie" aria-label="Volver al inicio">
           <ChevronLeft className="size-5" aria-hidden />
         </Link>
         <div className="min-w-0 flex-1">
@@ -137,8 +137,21 @@ export default function Asistente({ preguntaId }: { preguntaId?: string }) {
 
       <div className="mt-4 flex-1 space-y-3" aria-live="polite">
         {cargado && mensajes.length === 0 && (
-          <div className="py-6 text-center">
-            <p className="text-tinta-suave">Pregúntame lo que no te quede claro del temario.</p>
+          <div className="pt-2">
+            <p className="mb-3 text-tinta-suave">Pregúntame lo que no te quede claro del temario. Por ejemplo:</p>
+            <ul className="space-y-2">
+              {sugerencias.map((s) => (
+                <li key={s}>
+                  <button
+                    type="button"
+                    onClick={() => enviar(s)}
+                    className="w-full rounded-2xl border border-borde bg-superficie px-4 py-3 text-left transition active:scale-[0.99]"
+                  >
+                    {s}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
         {mensajes.map((m, i) =>
@@ -165,20 +178,6 @@ export default function Asistente({ preguntaId }: { preguntaId?: string }) {
 
       <div className="fixed inset-x-0 bottom-0 border-t border-borde bg-fondo/95 backdrop-blur">
         <div className="mx-auto max-w-2xl px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-          {cargado && mensajes.length === 0 && (
-            <div className="-mx-4 mb-2 flex gap-2 overflow-x-auto px-4 pb-1">
-              {sugerencias.map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => enviar(s)}
-                  className="shrink-0 rounded-full border border-borde bg-superficie px-3 py-1.5 text-sm"
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          )}
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -188,18 +187,25 @@ export default function Asistente({ preguntaId }: { preguntaId?: string }) {
           >
             <textarea
               value={texto}
-              onChange={(e) => setTexto(e.target.value)}
+              onChange={(e) => {
+                setTexto(e.target.value);
+                /* Crece con el texto hasta unas 5 líneas. */
+                e.target.style.height = "auto";
+                e.target.style.height = `${Math.min(e.target.scrollHeight, 140)}px`;
+              }}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
+                /* Con teclado físico, Enter envía. En el móvil Enter hace salto de línea y se envía con el botón. */
+                if (e.key === "Enter" && !e.shiftKey && window.matchMedia("(pointer: fine)").matches) {
                   e.preventDefault();
                   enviar(texto);
                 }
               }}
+              enterKeyHint="send"
               rows={1}
               maxLength={LIMITES.maxCaracteres}
               placeholder="Escribe tu duda…"
               aria-label="Tu pregunta"
-              className="max-h-32 min-h-12 flex-1 resize-none rounded-xl border border-borde bg-superficie px-4 py-3 outline-none focus:border-primario"
+              className="max-h-36 min-h-12 flex-1 resize-none rounded-2xl border border-borde bg-superficie px-4 py-3 text-base outline-none focus:border-primario"
             />
             <button
               type="submit"
@@ -218,8 +224,11 @@ export default function Asistente({ preguntaId }: { preguntaId?: string }) {
 }
 
 /** Formato mínimo de las respuestas: párrafos, listas con guiones y **negrita**. */
+/* La app no usa emojis: si el modelo cuela alguno, se quita al mostrarlo. */
+const EMOJI = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu;
+
 function Formato({ texto }: { texto: string }) {
-  const bloques = texto.split(/\n{2,}/);
+  const bloques = texto.replace(EMOJI, "").replace(/ {2,}/g, " ").split(/\n{2,}/);
   return (
     <div className="space-y-2">
       {bloques.map((b, i) => {

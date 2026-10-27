@@ -49,9 +49,9 @@ export default function Inicio() {
         </dl>
       </section>
 
-      <section aria-label="Orden de las preguntas" className="flex items-center justify-between gap-3">
-        <h2 className="text-sm font-semibold">Orden de las preguntas</h2>
-        <div className="flex rounded-lg bg-superficie-2 p-1 text-sm" role="group">
+      <section aria-label="Orden de las preguntas">
+        <h2 className="mb-2 text-sm font-semibold">Orden de las preguntas</h2>
+        <div className="grid grid-cols-2 rounded-xl bg-superficie-2 p-1" role="group">
           {(
             [
               { v: "aleatorio", t: "Salteadas" },
@@ -63,7 +63,7 @@ export default function Inicio() {
               type="button"
               onClick={() => guardarOrden(v)}
               aria-pressed={progreso.ajustes.orden === v}
-              className={`whitespace-nowrap rounded-md px-3 py-1.5 font-medium ${progreso.ajustes.orden === v ? "bg-superficie shadow-sm" : "text-tinta-suave"}`}
+              className={`rounded-lg px-3 py-2.5 font-medium ${progreso.ajustes.orden === v ? "bg-superficie shadow-sm" : "text-tinta-suave"}`}
             >
               {t}
             </button>

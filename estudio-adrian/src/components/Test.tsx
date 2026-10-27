@@ -79,6 +79,14 @@ export default function Test({ modo, temaId, correccion, errores, onRepetir }: P
     return () => clearInterval(id);
   }, [examen, terminado, fin, terminar]);
 
+  /* Cada pregunta empieza arriba del todo: en el móvil, tras leer una explicación larga, la
+     siguiente aparecería a media pantalla. */
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+    /* Y sin el resalte del toque anterior pegado a la opción que cae en el mismo sitio. */
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  }, [actual]);
+
   const pregunta = preguntas[actual];
   const elegida = respuestas[actual];
   const contestada = elegida !== null && elegida !== undefined;
@@ -92,9 +100,19 @@ export default function Test({ modo, temaId, correccion, errores, onRepetir }: P
       const nuevas = [...respuestas];
       nuevas[actual] = i;
       setRespuestas(nuevas);
-      if (!examen) registrarRespuesta(pregunta.id, i === pregunta.correcta);
+      if (!examen) {
+        const bien = i === pregunta.correcta;
+        registrarRespuesta(pregunta.id, bien);
+        /* Un toque de vibración al fallar (solo en los móviles que lo admiten, Android sobre todo). */
+        if (!bien) navigator.vibrate?.(80);
+      } else if (actual < preguntas.length - 1) {
+        /* En examen, al contestar se pasa sola a la siguiente: con el pulgar es lo cómodo. Se puede
+           volver atrás con la flecha o la cuadrícula para cambiarla. */
+        const desde = actual;
+        setTimeout(() => setActual((a) => (a === desde ? a + 1 : a)), 300);
+      }
     },
-    [actual, examen, pregunta, respuestas, terminado],
+    [actual, examen, pregunta, preguntas.length, respuestas, terminado],
   );
 
   const siguiente = useCallback(() => {
@@ -154,13 +172,15 @@ export default function Test({ modo, temaId, correccion, errores, onRepetir }: P
 
   return (
     <main className="pb-28">
+      {/* La cabecera se queda arriba al bajar: en el móvil siempre se ve el reloj o el marcador y por dónde va. */}
+      <div className="sticky top-0 z-10 -mx-4 border-b border-borde/60 bg-fondo/95 px-4 pt-[max(0.5rem,env(safe-area-inset-top))] pb-3 backdrop-blur">
       <header className="flex items-center gap-3">
         <Link
           href="/"
           onClick={(e) => {
             if (respuestas.some((r) => r !== null) && !confirm("¿Salir del test? Lo que llevas contestado no cuenta como test hecho.")) e.preventDefault();
           }}
-          className="grid size-10 place-items-center rounded-full border border-borde bg-superficie"
+          className="grid size-11 shrink-0 place-items-center rounded-full border border-borde bg-superficie"
           aria-label="Salir del test"
         >
           <X className="size-5" aria-hidden />
@@ -183,17 +203,18 @@ export default function Test({ modo, temaId, correccion, errores, onRepetir }: P
           </span>
         ) : (
           <span className="flex gap-1.5 text-sm font-semibold tabular-nums">
-            <span className="rounded-full bg-bien-suave px-2.5 py-1 text-bien" aria-label={`${aciertosHastaAhora} aciertos`}>
-              ✓ {aciertosHastaAhora}
+            <span className="flex items-center gap-1 rounded-full bg-bien-suave px-2.5 py-1 text-bien" aria-label={`${aciertosHastaAhora} aciertos`}>
+              <Check className="size-4" aria-hidden /> {aciertosHastaAhora}
             </span>
-            <span className="rounded-full bg-mal-suave px-2.5 py-1 text-mal" aria-label={`${fallosHastaAhora} fallos`}>
-              ✗ {fallosHastaAhora}
+            <span className="flex items-center gap-1 rounded-full bg-mal-suave px-2.5 py-1 text-mal" aria-label={`${fallosHastaAhora} fallos`}>
+              <X className="size-4" aria-hidden /> {fallosHastaAhora}
             </span>
           </span>
         )}
       </header>
 
-      <Barra valor={actual + (contestada ? 1 : 0)} total={preguntas.length} className="mt-4" />
+      <Barra valor={actual + (contestada ? 1 : 0)} total={preguntas.length} className="mt-3" />
+      </div>
 
       <article className="mt-6">
         {modo !== "tema" && tema && (
@@ -232,12 +253,12 @@ export default function Test({ modo, temaId, correccion, errores, onRepetir }: P
                   onClick={() => elegir(i)}
                   disabled={corregida}
                   aria-pressed={esElegida}
-                  className={`flex w-full items-start gap-3 rounded-2xl border-2 p-3.5 text-left transition active:scale-[0.99] disabled:active:scale-100 ${estilo}`}
+                  className={`flex min-h-14 w-full items-center gap-3 rounded-2xl border-2 p-4 text-left text-[17px] transition active:scale-[0.99] disabled:active:scale-100 ${estilo}`}
                 >
                   <span className={`grid size-8 shrink-0 place-items-center rounded-lg text-sm font-bold ${insignia}`}>
                     {corregida && esCorrecta ? <Check className="size-4" aria-label="Correcta" /> : corregida && esElegida ? <X className="size-4" aria-label="Tu respuesta" /> : LETRAS[i]}
                   </span>
-                  <span className="pt-1 leading-snug">{texto}</span>
+                  <span className="leading-snug">{texto}</span>
                 </button>
               </li>
             );
@@ -263,7 +284,7 @@ export default function Test({ modo, temaId, correccion, errores, onRepetir }: P
           <p className="mb-2 text-sm text-tinta-suave">
             Contestadas {respuestas.filter((r) => r !== null).length} de {preguntas.length}
           </p>
-          <ol className="grid grid-cols-10 gap-1.5">
+          <ol className="grid grid-cols-7 gap-2 sm:grid-cols-10">
             {preguntas.map((p, i) => (
               <li key={p.id}>
                 <button
@@ -271,7 +292,7 @@ export default function Test({ modo, temaId, correccion, errores, onRepetir }: P
                   onClick={() => setActual(i)}
                   aria-current={i === actual}
                   aria-label={`Pregunta ${i + 1}${respuestas[i] !== null ? ", contestada" : ""}`}
-                  className={`aspect-square w-full rounded-lg text-xs font-semibold tabular-nums ${
+                  className={`aspect-square w-full rounded-lg text-sm font-semibold tabular-nums ${
                     i === actual
                       ? "bg-primario text-primario-tinta"
                       : respuestas[i] !== null

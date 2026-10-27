@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "sw
 export const metadata: Metadata = {
   title: "Estudio Adrián · Curso de incendios",
   description: "Test del curso de protección contra incendios: extintores, BIEs y detección.",
-  appleWebApp: { capable: true, title: "Estudio Adrián · Curso de incendios", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "Incendios", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
