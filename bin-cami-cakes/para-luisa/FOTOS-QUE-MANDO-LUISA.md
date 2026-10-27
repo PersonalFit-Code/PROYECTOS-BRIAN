@@ -83,3 +83,24 @@ tamaño exacto) y no se volvieron a bajar.
 | 09.30.04 (7), 09.31.47 | Roll / pan de jamón | sin usar (cartel de Navidad lleno de texto) |
 | 09.31.47 (1) | Tres leches en mano | sin usar (se usó la otra) |
 | vídeo 09.31.47 | — | sin usar |
+
+## Cookies y piñitas (subidas a «bincami fotos» el 27/10, por la tarde)
+
+| Archivo | Qué es | Dónde va |
+|---|---|---|
+| 18.49.41 (1) | Caja de seis cookies decoradas (malvavisco, nueces, canela, frutos rojos, M&M's) | tarjeta y ficha de **Cookies** (`cookies`) |
+| 18.49.41 | Caja de seis cookies decoradas (Oreo, frutos rojos, fideos de colores, pistacho) | galería de cookies del mostrador (`cookies-caja`) |
+| 18.54.00 | Torre de tres cookies: red velvet, vainilla con fideos, azul | galería (`cookies-torre`) |
+| 18.49.41 (3) | Cookie con fresa | galería (`cookies-fresa`) |
+| 18.49.41 (4) | Cookie con cerezas sobre un corazón rojo | galería (`cookies-cerezas`) |
+| 18.54.01 | Bandeja de piñitas | tarjeta y ficha de **Piñitas** (`pinitas`) |
+| 18.49.41 (2) | Cartel «Cookies Americanas · Estilo New York» | sin usar: lleva texto y logo encima |
+
+**Para confirmar con Luisa:**
+- **Piñitas:** la web las describía como «hojaldre relleno», pero en la foto son bollitos de pan
+  dulce con azúcar por encima. Hay que confirmar qué son y qué llevan (sobre todo si llevan
+  huevo, que hoy figura como «trazas»).
+- **Cookies:** en las fotos hay nueces y pistacho, así que «frutos de cáscara» pasa a «sí» en la
+  ficha. Faltan los sabores que hace y los alérgenos de cada uno (Oreo, M&M's, crema de
+  cacahuete…).
+- La foto de la cookie de limón que se pegó en el chat no está en el Drive.
