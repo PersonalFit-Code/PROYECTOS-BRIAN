@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bin-cami-cakes.vercel.app/sitemap.xml
+Sitemap: https://binycamicakes.es/sitemap.xml

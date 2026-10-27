@@ -45,7 +45,7 @@ DOMINIO_PROPIO = 'https://binycamicakes.es'
 # etiquetas de compartir apuntando a un dominio que no responde, WhatsApp
 # enseña los enlaces sin foto, y Google recibiría como canónica una dirección
 # muerta.
-USAR_DOMINIO_PROPIO = False
+USAR_DOMINIO_PROPIO = True   # 27/10: comprado y abriendo esta web
 DOMINIO = os.environ.get('BCC_DOMINIO',
                          DOMINIO_PROPIO if USAR_DOMINIO_PROPIO else DOMINIO_VERCEL).rstrip('/')
 # Las direcciones públicas de cada página (vercel.json lleva cleanUrls: sin .html)

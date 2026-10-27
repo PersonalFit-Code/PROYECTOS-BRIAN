@@ -356,7 +356,7 @@ ley ni el número de empleados). Como decía el encargo: si no es obligación, e
 | 11 | Registro de actividades de tratamiento | Gestoría | Obligación propia, no de la web |
 | ~~12~~ | ~~Decidir si habrá lista de correo~~ | Luisa | **Resuelto el 26/10: se quitó la casilla de correo.** La web ya no recoge ningún correo, y sale de la política de privacidad la fila de «Comunicaciones comerciales» |
 | ~~13~~ | ~~Guardar `construye_dist.py` en el repositorio~~ | Brian | **Hecho (21/10)**: está en `herramientas/` |
-| 14 | Al poner dominio propio: canonical, `DOMINIO` en `construye_dist.py` (de ahí salen `robots.txt` y `sitemap.xml`), y las tres etiquetas de compartir | Brian | Están señalizados en el código con comentarios |
+| ~~14~~ | ~~Al poner dominio propio: canonical, robots.txt, sitemap.xml y etiquetas de compartir~~ | Brian | **Hecho (27/10):** binycamicakes.es activo; `USAR_DOMINIO_PROPIO = True` en `construye_dist.py`. `www` redirige al dominio sin `www` |
 
 ---
 
