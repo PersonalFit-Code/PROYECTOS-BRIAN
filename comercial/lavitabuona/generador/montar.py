@@ -14,13 +14,15 @@ sys.path.insert(0, str(base))
 import svgs  # noqa: E402  (el sprite de iconos y los helpers)
 import svgs2 as S2  # noqa: E402
 import flujo as F  # noqa: E402
+import valor as V  # noqa: E402
 
 css = (base / "css.part").read_text()
 pag = (base / "paginas.part").read_text()
 for clave, fn in (("PORTADA_DECO", S2.pizza_deco), ("PIZZA", S2.pizza), ("RUEDA", S2.rueda), ("DOLOR", S2.dolor),
                   ("ECUACION", S2.ecuacion), ("COMPARATIVA", S2.comparativa),
                   ("PROPONGO", S2.propongo),
-                  ("FLUJO", F.flujo), ("PIEZAS", F.piezas)):
+                  ("FLUJO", F.flujo), ("PIEZAS", F.piezas),
+                  ("BALANZA", V.balanza), ("BARRAS", V.barras)):
     marca = "{{" + clave + "}}"
     assert marca in pag, clave
     pag = pag.replace(marca, fn())

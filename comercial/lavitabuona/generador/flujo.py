@@ -126,7 +126,7 @@ def flujo():
     s.append(circulo_icono(36, 292, "i-pantalla"))
     s.append(f'<text x="60" y="288" font-size="11.2" font-weight="bold" fill="{NEGRO}">La comanda</text>'
              f'<text x="60" y="301" font-size="11.2" font-weight="bold" fill="{NEGRO}">en cocina</text>')
-    s.append(f'<text x="20" y="331" font-size="8.6" fill="#5A4630">En la tablet o el móvil: suena</text>'
+    s.append(f'<text x="20" y="331" font-size="8.6" fill="#5A4630">En el móvil o el ordenador: suena</text>'
              f'<text x="20" y="342.5" font-size="8.6" fill="#5A4630">y aparece sola, con el total</text>'
              f'<text x="20" y="354" font-size="8.6" fill="#5A4630">y el código. Nadie apunta nada.</text>')
 

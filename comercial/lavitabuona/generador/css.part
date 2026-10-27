@@ -326,3 +326,38 @@ p, .regalo p, .item-ico p, .tarj p { text-wrap: pretty; }
 .p10 .contacto .frase { font-size: 13.5pt; }
 .p10 .contacto .quien b, .p10 .contacto .tel { font-size: 17pt; }
 .p10 .cliente .lg img { object-fit: contain; }
+
+/* ===== Hoja 8: la cuenta ===== */
+.p8v .valor-g { margin: 4mm 0 2mm; }
+.p8v .banner.paga { margin-top: 7mm; padding: 5mm; }
+.p8v .banner.paga b { font-size: 11.2pt; }
+.p8v .banner.paga p { font-size: 9.5pt; }
+.p8v .apunte { margin-top: 4mm; }
+.p8v .valor-g { margin: 6mm 0 3mm; } .p8v .grande { margin-bottom: 4mm; } .p8v .banner.paga { margin-top: 9mm; padding: 6mm; } .p8v .apunte { margin-top: 6mm; }
+
+/* ===== Hoja 9: propuesta B ===== */
+.dosb { display: flex; gap: 4mm; margin: 5mm 0 2mm; align-items: stretch; }
+.caja-b { flex: 1; border-radius: 2.6mm; padding: 5mm 4.6mm 4.4mm; }
+.caja-b.oscura { flex: 1.15; background: var(--negro); color: #CDBFAE; box-shadow: 0 1mm 3.4mm rgba(20,10,6,.25); }
+.caja-b.clara { background: var(--crema); border: 1px solid var(--linea); color: #4D443D; }
+.caja-b .et { font-size: 8pt; letter-spacing: 2pt; text-transform: uppercase; font-weight: 700; margin: 0 0 2.4mm; }
+.caja-b.oscura .et { color: var(--acento); } .caja-b.clara .et { color: var(--acento-txt); }
+.caja-b .precio { display: flex; align-items: flex-start; gap: 1.4mm; }
+.caja-b .precio .cifra { font-size: 34pt; font-weight: 800; letter-spacing: -1.4pt; line-height: .9; }
+.caja-b.oscura .precio .cifra { color: #fff; } .caja-b.clara .precio .cifra { color: var(--negro); }
+.caja-b .precio .ud { font-size: 8pt; font-weight: 700; line-height: 1.15; padding-top: 1mm; }
+.caja-b .sub { font-size: 8.8pt; margin: 2mm 0 3.4mm; }
+.caja-b.oscura .sub { color: var(--acento); font-weight: 700; }
+.caja-b ul { list-style: none; margin: 0; padding: 0; }
+.caja-b li { display: flex; gap: 1.8mm; align-items: flex-start; font-size: 9.2pt; line-height: 1.3; padding: 1.7mm 0; border-top: 1px solid; }
+.caja-b.oscura li { border-color: #2E211A; color: #F6EEE2; } .caja-b.oscura li svg { color: var(--acento); }
+.caja-b.clara li { border-color: var(--fino); color: var(--negro); } .caja-b.clara li svg { color: var(--bien); }
+.caja-b li svg { flex: 0 0 auto; margin-top: .4mm; }
+.txt-b { font-size: 9.6pt; margin: 1mm 0 2.6mm; }
+.tabla-b { width: 100%; border-collapse: collapse; font-size: 9.4pt; }
+.tabla-b th { text-align: left; font-size: 7.8pt; letter-spacing: 1pt; text-transform: uppercase; color: var(--humo); font-weight: 700; padding: 1.6mm 2mm; border-bottom: 1.5px solid var(--negro); }
+.tabla-b td { padding: 2.2mm 2mm; border-bottom: 1px solid var(--linea); }
+.tabla-b .num { text-align: right; }
+.tabla-b tr:nth-child(even) td { background: var(--crema); }
+.p9b .banner.paga { margin-top: 6mm; }
+.p9b .dosb { margin-top: 6mm; } .p9b .caja-b li { padding: 2.1mm 0; font-size: 9.4pt; } .p9b .tabla-b td { padding: 2.8mm 2mm; } .p9b .banner.paga { margin-top: 8mm; padding: 5.4mm; } .p9b .apunte { margin-top: 5mm; }
