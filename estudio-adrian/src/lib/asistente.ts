@@ -12,7 +12,7 @@ export const LIMITES = {
 };
 
 /** Modelo por defecto; se cambia con la variable ASISTENTE_MODEL en Vercel. */
-export const MODELO_POR_DEFECTO = "claude-opus-5-5";
+export const MODELO_POR_DEFECTO = "claude-sonnet-5";
 
 function respuesta(p: Pregunta): string {
   return p.opciones[p.correcta];
