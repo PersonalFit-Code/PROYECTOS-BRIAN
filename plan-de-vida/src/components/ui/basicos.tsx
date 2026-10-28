@@ -17,7 +17,7 @@ export function Titulo({ icono, children, sub, acciones, color = "purple" }: { i
           {icono}
         </span>
       )}
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 basis-56">
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{children}</h1>
         {sub && <p className="mt-1 text-sm text-muted">{sub}</p>}
       </div>

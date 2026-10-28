@@ -8,6 +8,7 @@ import type { GoalPeriod, GoalStatus } from "@/lib/tipos";
 function refrescar() {
   revalidatePath("/metas");
   revalidatePath("/hoy");
+  revalidatePath("/calendario");
   revalidatePath("/");
 }
 

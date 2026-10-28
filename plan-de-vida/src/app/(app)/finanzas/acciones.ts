@@ -9,6 +9,7 @@ import { metodoDe, type AccountKind, type Frequency, type PayMethod, type TxKind
 function refrescar() {
   revalidatePath("/finanzas", "layout");
   revalidatePath("/hoy");
+  revalidatePath("/calendario");
   // el saldo de efectivo o banco cambia con cada movimiento (trigger de la migración 0006)
   revalidatePath("/");
 }

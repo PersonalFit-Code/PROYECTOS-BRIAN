@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   BookOpen,
+  CalendarDays,
   ChevronRight,
   ClipboardCheck,
   ListChecks,
@@ -68,6 +69,7 @@ export default async function InicioPage() {
   const { metas, estados } = aplicarAuto(todasMetas, movimientos, recurrentes, mesDe(hoy));
   const metaIngresos = metas.find((m) => m.auto === "ingreso_mensual" && m.status === "activa");
   const ingresoMeta = metaIngresos ? estados.get(metaIngresos.id) : undefined;
+  const proximosFijos = recurrentes.filter((r) => r.active && r.next_date >= hoy && r.next_date <= sumarDias(hoy, 7)).length;
   const activasCuentas = cuentas.filter((c) => c.active);
   const disponible = activasCuentas.filter((c) => c.kind === "liquidez").reduce((a, c) => a + n(c.balance), 0);
   const neto = patrimonioNeto(activasCuentas);
@@ -90,6 +92,14 @@ export default async function InicioPage() {
       resumen: deHoy.length ? `${hechos} de ${deHoy.length} hábitos hechos` : "Empieza tu día",
       detalle: tareas.length ? `${tareas.length} ${tareas.length === 1 ? "tarea pendiente" : "tareas pendientes"}` : "Sin tareas pendientes",
       progreso: deHoy.length ? (100 * hechos) / deHoy.length : undefined,
+    },
+    {
+      href: "/calendario",
+      titulo: "Calendario",
+      icono: CalendarDays,
+      color: "blue",
+      resumen: proximosFijos ? `${proximosFijos} ${proximosFijos === 1 ? "pago o cobro" : "pagos y cobros"} esta semana` : "Lo que toca cada día",
+      detalle: "Tareas, pagos, fechas límite y revisiones",
     },
     {
       href: "/habitos",

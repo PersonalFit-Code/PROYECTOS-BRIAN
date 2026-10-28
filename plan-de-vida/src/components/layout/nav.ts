@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  CalendarDays,
   ClipboardCheck,
   House,
   Landmark,
@@ -26,6 +27,7 @@ export interface ItemNav {
 export const NAV: ItemNav[] = [
   { href: "/", label: "Inicio", icon: House },
   { href: "/hoy", label: "Hoy", icon: Sun },
+  { href: "/calendario", label: "Calendario", icon: CalendarDays },
   { href: "/habitos", label: "Hábitos", icon: ListChecks },
   { href: "/metas", label: "Metas", icon: Target },
   {
