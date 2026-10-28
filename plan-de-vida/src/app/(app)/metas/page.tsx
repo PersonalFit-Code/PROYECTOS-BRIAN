@@ -10,8 +10,9 @@ import { FormAccion } from "@/components/ui/FormAccion";
 import { Hoja } from "@/components/ui/Hoja";
 import { Icono, IconoCaja } from "@/components/ui/iconos";
 import { Segmentado } from "@/components/ui/Segmentado";
-import { getAreas, getMetas, getTareas } from "@/lib/datos/consultas";
-import { hoy as hoyMadrid } from "@/lib/fechas";
+import { getAreas, getMetas, getMovimientos, getRecurrentes, getTareas } from "@/lib/datos/consultas";
+import { hoy as hoyMadrid, mesDe, rangoMes } from "@/lib/fechas";
+import { aplicarAuto } from "@/lib/metas/auto";
 import { getSesion } from "@/lib/sesion";
 import { n, type Area } from "@/lib/tipos";
 import { crearMeta } from "./acciones";
@@ -84,7 +85,15 @@ export default async function MetasPage({ searchParams }: { searchParams: Promis
   const anioActual = Number(hoy.slice(0, 4));
   const anio = Number(sp.anio) >= 2000 && Number(sp.anio) <= 2100 ? Number(sp.anio) : anioActual;
   const s = await getSesion();
-  const [areas, metas, tareas] = await Promise.all([getAreas(s), getMetas(s, anio), getTareas(s, { pendientes: false })]);
+  const mes = rangoMes(mesDe(hoy));
+  const [areas, todas, tareas, movimientos, recurrentes] = await Promise.all([
+    getAreas(s),
+    getMetas(s, anio),
+    getTareas(s, { pendientes: false }),
+    getMovimientos(s, mes.desde, mes.hasta),
+    getRecurrentes(s),
+  ]);
+  const { metas, estados } = aplicarAuto(todas, movimientos, recurrentes, mesDe(hoy));
 
   const cuentaTareas = (id: string) => {
     const ts = tareas.filter((t) => t.goal_id === id);
@@ -141,7 +150,7 @@ export default async function MetasPage({ searchParams }: { searchParams: Promis
             {delArea.length ? (
               <ul className="mt-2 grid gap-3 md:grid-cols-2">
                 {delArea.map((m) => (
-                  <TarjetaMeta key={m.id} meta={m} color={a.color} tareas={cuentaTareas(m.id)} />
+                  <TarjetaMeta key={m.id} meta={m} color={a.color} tareas={cuentaTareas(m.id)} auto={estados.get(m.id)} />
                 ))}
               </ul>
             ) : (
@@ -162,7 +171,7 @@ export default async function MetasPage({ searchParams }: { searchParams: Promis
             {metas
               .filter((m) => !m.area_id)
               .map((m) => (
-                <TarjetaMeta key={m.id} meta={m} color="gray" tareas={cuentaTareas(m.id)} />
+                <TarjetaMeta key={m.id} meta={m} color="gray" tareas={cuentaTareas(m.id)} auto={estados.get(m.id)} />
               ))}
           </ul>
         </Desplegable>

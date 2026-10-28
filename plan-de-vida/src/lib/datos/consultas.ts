@@ -89,10 +89,11 @@ export async function getCuentas({ db, userId }: Sesion): Promise<Account[]> {
   return lanzar(await db.from("accounts").select("*").eq("user_id", userId).eq("active", true).order("kind").order("position"), "las cuentas");
 }
 
+/** Con `anio`: las metas de ese año y las activas de años anteriores cuya fecha límite cae en él o después. */
 export async function getMetas({ db, userId }: Sesion, anio?: number): Promise<Goal[]> {
-  let q = db.from("goals").select("*").eq("user_id", userId);
-  if (anio) q = q.eq("year", anio);
-  return lanzar(await q.order("status").order("created_at"), "las metas");
+  const metas: Goal[] = lanzar(await db.from("goals").select("*").eq("user_id", userId).order("status").order("created_at"), "las metas");
+  if (!anio) return metas;
+  return metas.filter((m) => m.year === anio || (m.year < anio && m.status === "activa" && m.due_date != null && m.due_date >= `${anio}-01-01`));
 }
 
 export async function getTareas({ db, userId }: Sesion, opciones: { pendientes?: boolean; hasta?: string } = {}): Promise<Task[]> {

@@ -5,12 +5,13 @@ import { useState, useTransition } from "react";
 import { avanzarMeta, borrarMeta, estadoMeta } from "@/app/(app)/metas/acciones";
 import { Progreso, Tag } from "@/components/ui/basicos";
 import { fechaCorta } from "@/lib/fechas";
-import { cx } from "@/lib/formato";
+import { cx, euros } from "@/lib/formato";
+import type { EstadoAuto } from "@/lib/metas/auto";
 import { n, type Goal } from "@/lib/tipos";
 
 const PERIODO = (g: Goal) => (g.period === "trimestral" ? `T${g.quarter} ${g.year}` : g.period === "mensual" ? `${g.month}/${g.year}` : `${g.year}`);
 
-export function TarjetaMeta({ meta, color, tareas }: { meta: Goal; color: string; tareas: { hechas: number; total: number } }) {
+export function TarjetaMeta({ meta, color, tareas, auto }: { meta: Goal; color: string; tareas: { hechas: number; total: number }; auto?: EstadoAuto }) {
   const [menu, setMenu] = useState(false);
   const [avance, setAvance] = useState("");
   const [pendiente, start] = useTransition();
@@ -64,7 +65,26 @@ export function TarjetaMeta({ meta, color, tareas }: { meta: Goal; color: string
         <Progreso valor={pct} color={`var(--tag-${color}-fg)`} />
         <span className="w-10 text-right text-xs tabular-nums text-muted">{Math.round(pct)}%</span>
       </div>
-      {meta.status === "activa" && (
+      {auto && (
+        <div className="mt-2 space-y-0.5 text-xs text-muted">
+          <div className="flex flex-wrap justify-between gap-x-3">
+            <span>
+              Este mes: <span className="font-semibold text-fg tabular-nums">{euros(auto.valor, false)}</span> de {euros(n(meta.target_value), false)}
+            </span>
+            {auto.ritmo != null && (
+              <span className="tabular-nums" style={{ color: auto.valor >= auto.ritmo ? "var(--ok)" : "var(--bad)" }}>
+                Ritmo: {euros(auto.ritmo, false)} ({auto.valor >= auto.ritmo ? "+" : "−"}
+                {euros(Math.abs(auto.valor - auto.ritmo), false)})
+              </span>
+            )}
+          </div>
+          <div>
+            Fijos {euros(auto.fijos, false)} · apuntado {euros(auto.apuntado, false)}
+            {auto.falta > 0 && <> · faltan {euros(auto.falta, false)}</>}
+          </div>
+        </div>
+      )}
+      {meta.status === "activa" && !auto && (
         <form
           className="mt-2 flex items-center gap-2 text-xs text-muted"
           onSubmit={(e) => {

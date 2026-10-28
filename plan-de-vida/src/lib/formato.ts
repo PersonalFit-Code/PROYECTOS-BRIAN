@@ -1,5 +1,5 @@
-const euro = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" });
-const euroSinDecimales = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+const euro = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", useGrouping: "always" });
+const euroSinDecimales = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0, useGrouping: "always" });
 
 export function euros(n: number | string | null | undefined, decimales = true): string {
   const v = Number(n ?? 0);

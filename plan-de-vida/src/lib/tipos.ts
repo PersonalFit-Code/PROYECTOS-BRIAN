@@ -32,7 +32,12 @@ export type Goal = {
   progress_pct: Num;
   status: GoalStatus;
   due_date: string | null;
+  /** métrica que se calcula sola (migración 0004); null = avance a mano */
+  auto: GoalAuto | null;
+  created_at: string;
 };
+
+export type GoalAuto = "ingreso_mensual";
 
 export type Task = { id: string; goal_id: string | null; title: string; due_date: string | null; priority: number; done: boolean; done_at: string | null };
 

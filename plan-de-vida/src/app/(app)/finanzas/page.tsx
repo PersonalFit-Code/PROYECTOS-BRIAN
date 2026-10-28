@@ -3,12 +3,14 @@ import Link from "next/link";
 import { ArrowDownLeft, ArrowUpRight, ChartColumn, ChevronLeft, ChevronRight, Gauge, PiggyBank, Receipt, Scale } from "lucide-react";
 import { GraficaMeses } from "@/components/finanzas/GraficaMeses";
 import { ListaMovimientos } from "@/components/finanzas/ListaMovimientos";
+import { HaciaMeta } from "@/components/finanzas/HaciaMeta";
 import { Presupuesto } from "@/components/finanzas/Presupuesto";
 import { Kpi, Titulo } from "@/components/ui/basicos";
 import { Desplegable } from "@/components/ui/Desplegable";
-import { getCategorias, getMovimientos } from "@/lib/datos/consultas";
+import { getCategorias, getMetas, getMovimientos, getRecurrentes } from "@/lib/datos/consultas";
 import { hoy, mesAnterior, mesDe, NOMBRES_MES, nombreMes, rangoMes, sumarMeses } from "@/lib/fechas";
 import { euros, pct } from "@/lib/formato";
+import { aplicarAuto } from "@/lib/metas/auto";
 import { getSesion } from "@/lib/sesion";
 import { n } from "@/lib/tipos";
 
@@ -22,8 +24,16 @@ export default async function FinanzasPage({ searchParams }: { searchParams: Pro
   const inicioGrafica = mesDe(sumarMeses(`${mes}-01`, -5));
 
   const s = await getSesion();
-  const [todos, categorias] = await Promise.all([getMovimientos(s, `${inicioGrafica}-01`, hasta), getCategorias(s)]);
+  const [todos, categorias, metas, recurrentes] = await Promise.all([
+    getMovimientos(s, `${inicioGrafica}-01`, hasta),
+    getCategorias(s),
+    getMetas(s, Number(mes.slice(0, 4))),
+    getRecurrentes(s),
+  ]);
   const delMes = todos.filter((m) => m.day >= desde);
+  // La meta de ingresos solo se mide en el mes en curso (los fijos de hoy no dicen nada de meses pasados).
+  const auto = mes === actual ? aplicarAuto(metas.filter((m) => m.auto === "ingreso_mensual" && m.status === "activa"), delMes, recurrentes, mes) : null;
+  const metaIngresos = auto?.metas[0];
 
   const gastos = delMes.filter((m) => m.kind === "gasto").reduce((a, m) => a + n(m.amount), 0);
   const ingresos = delMes.filter((m) => m.kind === "ingreso").reduce((a, m) => a + n(m.amount), 0);
@@ -71,6 +81,8 @@ export default async function FinanzasPage({ searchParams }: { searchParams: Pro
         <Kpi i={2} icono={<PiggyBank />} etiqueta="Ahorro" valor={euros(ahorro, false)} tono={ahorro >= 0 ? "ok" : "bad"} />
         <Kpi i={3} icono={<Scale />} etiqueta="Tasa de ahorro" valor={ingresos > 0 ? pct((100 * ahorro) / ingresos) : "—"} detalle="objetivo: ≥ 20 %" />
       </div>
+
+      {metaIngresos && auto?.estados.get(metaIngresos.id) && <HaciaMeta meta={metaIngresos} estado={auto.estados.get(metaIngresos.id)!} />}
 
       <Desplegable icono={<Receipt />} color="blue" titulo="Movimientos del mes" resumen={`${delMes.length}`} abierto i={4}>
         <ListaMovimientos movimientos={delMes} categorias={categorias} />

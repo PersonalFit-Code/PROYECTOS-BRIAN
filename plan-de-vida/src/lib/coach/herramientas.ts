@@ -4,7 +4,9 @@ import type Anthropic from "@anthropic-ai/sdk";
 import { revalidatePath } from "next/cache";
 import { hoy, mesDe, rangoMes, sumarDias } from "@/lib/fechas";
 import { mensual, patrimonioNeto } from "@/lib/finanzas";
+import { getMetas, getMovimientos, getRecurrentes } from "@/lib/datos/consultas";
 import { cumplido, indexar, rachaActual, toca } from "@/lib/habitos/metricas";
+import { aplicarAuto } from "@/lib/metas/auto";
 import { periodoDe, PREGUNTAS, resumenPeriodo } from "@/lib/revisiones";
 import type { Sesion } from "@/lib/sesion";
 import {
@@ -89,7 +91,7 @@ export const HERRAMIENTAS: Anthropic.Tool[] = [
   },
   {
     name: "ver_metas",
-    description: "Metas del año por área (salud, dinero, crecimiento, relaciones) con su % de avance y tareas pendientes.",
+    description: "Metas del año por área (salud, dinero, crecimiento, relaciones) con su % de avance y tareas pendientes. Las metas de ingresos mensuales se miden solas: traen lo que entra este mes, el ritmo que debería llevar y lo que falta.",
     input_schema: { type: "object", properties: {} },
   },
   {
@@ -268,14 +270,18 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
     }
 
     case "ver_metas": {
-      const [{ data: metas }, { data: areas }, { data: tareas }] = await Promise.all([
-        s.db.from("goals").select("*").eq("user_id", s.userId).eq("year", Number(dia.slice(0, 4))),
+      const mes = rangoMes(mesDe(dia));
+      const [todas, movimientos, recurrentes, { data: areas }, { data: tareas }] = await Promise.all([
+        getMetas(s, Number(dia.slice(0, 4))),
+        getMovimientos(s, mes.desde, mes.hasta),
+        getRecurrentes(s),
         s.db.from("areas").select("id, name").eq("user_id", s.userId),
         s.db.from("tasks").select("title, goal_id, due_date").eq("user_id", s.userId).eq("done", false).limit(50),
       ]);
       const area = new Map(((areas ?? []) as { id: string; name: string }[]).map((a) => [a.id, a.name]));
+      const { metas, estados } = aplicarAuto(todas, movimientos, recurrentes, mesDe(dia));
       return {
-        metas: ((metas ?? []) as Goal[]).map((g) => ({
+        metas: metas.map((g) => ({
           meta: g.title,
           area: g.area_id ? area.get(g.area_id) : null,
           periodo: g.period,
@@ -285,6 +291,15 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
           objetivo: g.target_value != null ? n(g.target_value) : null,
           unidad: g.unit,
           fecha_limite: g.due_date,
+          ...(estados.has(g.id)
+            ? {
+                medida_sola: "ingresos del mes en curso (apuntados, o los fijos si aún son menos)",
+                ritmo_este_mes: Math.round(estados.get(g.id)!.ritmo ?? 0),
+                ingresos_fijos: Math.round(estados.get(g.id)!.fijos),
+                ingresos_apuntados: Math.round(estados.get(g.id)!.apuntado),
+                falta: Math.round(estados.get(g.id)!.falta),
+              }
+            : {}),
         })),
         tareas_pendientes: (tareas ?? []).map((t) => ({ tarea: t.title, fecha: t.due_date })),
       };

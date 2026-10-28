@@ -17,11 +17,12 @@ import {
 import { IndicadorEnlace } from "@/components/layout/IndicadorEnlace";
 import ShaderBackground from "@/components/ui/shader-background";
 import { Progreso } from "@/components/ui/basicos";
-import { getAjustes, getCategorias, getCuentas, getDiario, getHabitos, getLogs, getMetas, getMovimientos, getTareas } from "@/lib/datos/consultas";
+import { getAjustes, getCategorias, getCuentas, getDiario, getHabitos, getLogs, getMetas, getMovimientos, getRecurrentes, getTareas } from "@/lib/datos/consultas";
 import { fechaLarga, hoy as hoyMadrid, mesDe, rangoMes, sumarDias } from "@/lib/fechas";
 import { patrimonioNeto } from "@/lib/finanzas";
 import { euros } from "@/lib/formato";
 import { cumplido, indexar, rachaActual, toca } from "@/lib/habitos/metricas";
+import { aplicarAuto } from "@/lib/metas/auto";
 import { getSesion } from "@/lib/sesion";
 import { n } from "@/lib/tipos";
 
@@ -50,7 +51,7 @@ export default async function InicioPage() {
   const hoy = hoyMadrid();
   const s = await getSesion();
   const mes = rangoMes(mesDe(hoy));
-  const [ajustes, habitos, logs, movimientos, categorias, metas, tareas, diario, { data: rec }, cuentas] = await Promise.all([
+  const [ajustes, habitos, logs, movimientos, categorias, todasMetas, tareas, diario, { data: rec }, cuentas, recurrentes] = await Promise.all([
     getAjustes(s),
     getHabitos(s),
     getLogs(s, sumarDias(hoy, -400), hoy),
@@ -61,7 +62,11 @@ export default async function InicioPage() {
     getDiario(s, hoy, hoy),
     s.db.from("recommendations").select("action, symbol").eq("user_id", s.userId).order("day", { ascending: false }).order("confidence", { ascending: false }).limit(1).maybeSingle(),
     getCuentas(s),
+    getRecurrentes(s),
   ]);
+  const { metas, estados } = aplicarAuto(todasMetas, movimientos, recurrentes, mesDe(hoy));
+  const metaIngresos = metas.find((m) => m.auto === "ingreso_mensual" && m.status === "activa");
+  const ingresoMeta = metaIngresos ? estados.get(metaIngresos.id) : undefined;
   const activasCuentas = cuentas.filter((c) => c.active);
   const disponible = activasCuentas.filter((c) => c.kind === "liquidez").reduce((a, c) => a + n(c.balance), 0);
   const neto = patrimonioNeto(activasCuentas);
@@ -107,9 +112,17 @@ export default async function InicioPage() {
       titulo: "Finanzas",
       icono: Wallet,
       color: "blue",
-      resumen: `${euros(gastado, false)} gastados este mes`,
-      detalle: presupuesto ? `de ${euros(presupuesto, false)} de presupuesto` : "Movimientos, fijos y presupuesto",
-      progreso: presupuesto ? (100 * gastado) / presupuesto : undefined,
+      resumen:
+        metaIngresos && ingresoMeta
+          ? `${euros(ingresoMeta.valor, false)} de ${euros(n(metaIngresos.target_value), false)} este mes`
+          : `${euros(gastado, false)} gastados este mes`,
+      detalle:
+        metaIngresos && ingresoMeta
+          ? `${euros(gastado, false)} gastados este mes`
+          : presupuesto
+            ? `de ${euros(presupuesto, false)} de presupuesto`
+            : "Movimientos, fijos y presupuesto",
+      progreso: metaIngresos && ingresoMeta ? n(metaIngresos.progress_pct) : presupuesto ? (100 * gastado) / presupuesto : undefined,
     },
     {
       href: "/finanzas/patrimonio",
