@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, ListTodo, Moon, Smile, Sun, Sunrise, Wallet } from "lucide-react";
+import { PreguntarCoach } from "@/components/coach/PreguntarCoach";
 import { Checkin } from "@/components/diario/Checkin";
 import { HabitosHoy, type HabitoDelDia } from "@/components/habitos/HabitosHoy";
 import { Pagina } from "@/components/layout/Pagina";
@@ -85,6 +86,10 @@ export default async function HoyPage() {
       <Titulo icono={<Sun />} color="yellow" sub={fechaLarga(hoy)}>
         Hoy
       </Titulo>
+
+      <div className="mb-4 flex flex-wrap gap-2">
+        <PreguntarCoach pregunta="Dame el plan de ataque para hoy">Plan de ataque para hoy</PreguntarCoach>
+      </div>
 
       {delDia.length > 0 && (
         <div className="glass entrar mb-4 flex items-center gap-3 rounded-2xl px-4 py-3">

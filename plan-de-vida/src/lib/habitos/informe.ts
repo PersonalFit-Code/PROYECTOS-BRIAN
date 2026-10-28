@@ -45,7 +45,7 @@ export async function calcularInforme(s: Sesion, mes: string): Promise<InformeHa
  * Ideas de mejora. Con clave de Anthropic las escribe el coach a partir de las métricas (y las ideas
  * por reglas como base); sin clave, las de reglas.
  */
-export async function generarIdeas(inf: InformeHabitos, ajustes: Pick<Settings, "coach_prompt" | "display_name">): Promise<{ ideas: string[]; modo: "claude" | "reglas" }> {
+export async function generarIdeas(inf: InformeHabitos, ajustes: Pick<Settings, "coach_prompt" | "display_name" | "coach_name">): Promise<{ ideas: string[]; modo: "claude" | "reglas" }> {
   const base = ideasPorReglas(inf);
   const claude = getClaude();
   if (!claude || !inf.habitos.length) return { ideas: base, modo: "reglas" };
@@ -97,7 +97,7 @@ export async function generarIdeas(inf: InformeHabitos, ajustes: Pick<Settings, 
 }
 
 /** Calcula, pide ideas y guarda el informe en la revisión mensual (reviews.report.habitos). */
-export async function generarYGuardarInforme(s: Sesion, mes: string, ajustes: Pick<Settings, "coach_prompt" | "display_name">): Promise<InformeGuardado> {
+export async function generarYGuardarInforme(s: Sesion, mes: string, ajustes: Pick<Settings, "coach_prompt" | "display_name" | "coach_name">): Promise<InformeGuardado> {
   const habitos = await calcularInforme(s, mes);
   const { ideas, modo } = await generarIdeas(habitos, ajustes);
   const informe: InformeGuardado = { habitos, ideas, ideasModo: modo, generadoEl: new Date().toISOString() };

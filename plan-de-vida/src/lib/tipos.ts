@@ -6,6 +6,9 @@ export type Settings = {
   user_id: string;
   display_name: string;
   coach_prompt: string | null;
+  /** notas de negocio para el coach (migración 0005) */
+  negocio: string | null;
+  coach_name: string;
   monthly_investment: Num;
   satellite_pct: Num;
   inflation_pct: Num;

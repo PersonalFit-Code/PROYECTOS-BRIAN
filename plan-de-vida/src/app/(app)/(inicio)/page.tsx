@@ -23,6 +23,7 @@ import { patrimonioNeto } from "@/lib/finanzas";
 import { euros } from "@/lib/formato";
 import { cumplido, indexar, rachaActual, toca } from "@/lib/habitos/metricas";
 import { aplicarAuto } from "@/lib/metas/auto";
+import { nombreCoach } from "@/lib/marca";
 import { getSesion } from "@/lib/sesion";
 import { n } from "@/lib/tipos";
 
@@ -183,7 +184,7 @@ export default async function InicioPage() {
             className="relative mt-5 flex items-center gap-3 rounded-2xl bg-white/15 px-4 py-3 ring-1 ring-white/25 backdrop-blur-xl transition hover:bg-white/25 active:scale-[0.99]"
           >
             <Sparkles className="size-5 shrink-0" />
-            <span className="flex-1 text-sm text-white/90">Habla con tu coach: apunta, pregunta o planifica…</span>
+            <span className="flex-1 text-sm text-white/90">Habla con {nombreCoach(ajustes)}: ideas, dudas, apuntar o planificar…</span>
             <ChevronRight className="size-5 text-white/70" />
             <IndicadorEnlace />
           </Link>

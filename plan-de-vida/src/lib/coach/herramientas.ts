@@ -2,7 +2,7 @@ import "server-only";
 
 import type Anthropic from "@anthropic-ai/sdk";
 import { revalidatePath } from "next/cache";
-import { hoy, mesDe, rangoMes, sumarDias } from "@/lib/fechas";
+import { hoy, mesDe, rangoMes, sumarDias, sumarMeses } from "@/lib/fechas";
 import { mensual, patrimonioNeto } from "@/lib/finanzas";
 import { getMetas, getMovimientos, getRecurrentes } from "@/lib/datos/consultas";
 import { cumplido, indexar, rachaActual, toca } from "@/lib/habitos/metricas";
@@ -125,6 +125,18 @@ export const HERRAMIENTAS: Anthropic.Tool[] = [
     name: "patrimonio",
     description: "Cuentas, inversiones, deudas, patrimonio neto, huchas de ahorro y suscripciones activas.",
     input_schema: { type: "object", properties: {} },
+  },
+  {
+    name: "mi_negocio",
+    description:
+      "Todo lo del negocio de una vez: sus notas de negocio (qué vende, a quién, precios, ideas previas), clientes con cuota fija, ventas e ingresos de los últimos 3 meses, lo que le deben, el stock por vender y cómo va la meta de ingresos mensuales. Úsala antes de dar ideas de negocio, monetización o mejoras.",
+    input_schema: { type: "object", properties: {} },
+  },
+  {
+    name: "guardar_nota_negocio",
+    description:
+      "Apunta en sus notas de negocio (Ajustes → Tu negocio) algo que conviene recordar: un dato nuevo (cliente, precio, servicio), una idea que ha decidido probar o una conclusión. Una línea clara; no repitas lo que ya está.",
+    input_schema: { type: "object", properties: { nota: { type: "string" } }, required: ["nota"] },
   },
   {
     name: "informe_inversion",
@@ -303,6 +315,51 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
         })),
         tareas_pendientes: (tareas ?? []).map((t) => ({ tarea: t.title, fecha: t.due_date })),
       };
+    }
+
+    case "mi_negocio": {
+      const desde = sumarMeses(`${mesDe(dia)}-01`, -2);
+      const [ajustes, todas, movimientos, recurrentes, { data: cuentas }, { data: categorias }] = await Promise.all([
+        s.db.from("settings").select("negocio").eq("user_id", s.userId).maybeSingle(),
+        getMetas(s, Number(dia.slice(0, 4))),
+        getMovimientos(s, desde, dia),
+        getRecurrentes(s),
+        s.db.from("accounts").select("name, kind, balance").eq("user_id", s.userId).eq("active", true).eq("kind", "otro"),
+        s.db.from("categories").select("id, name").eq("user_id", s.userId),
+      ]);
+      const cat = new Map(((categorias ?? []) as Pick<Category, "id" | "name">[]).map((c) => [c.id, c.name]));
+      const ingresos = movimientos.filter((m) => m.kind === "ingreso");
+      const porMes = new Map<string, number>();
+      for (const m of ingresos) porMes.set(mesDe(m.day), (porMes.get(mesDe(m.day)) ?? 0) + n(m.amount));
+      const { metas, estados } = aplicarAuto(todas, movimientos.filter((m) => mesDe(m.day) === mesDe(dia)), recurrentes, mesDe(dia));
+      return {
+        notas_de_negocio: ajustes.data?.negocio || "(vacío: pregúntale qué vende, a quién y a qué precio, y guárdalo)",
+        clientes_con_cuota: recurrentes
+          .filter((r) => r.active && r.kind === "ingreso")
+          .map((r) => ({ cliente: r.name, importe: n(r.amount), cada: r.frequency })),
+        ingresos_por_mes: Object.fromEntries([...porMes].sort().map(([m, v]) => [m, redondear(v)])),
+        ultimos_ingresos: ingresos.slice(0, 15).map((m) => ({ fecha: m.day, importe: n(m.amount), categoria: m.category_id ? cat.get(m.category_id) : null, nota: m.note })),
+        le_deben_y_stock: ((cuentas ?? []) as Pick<Account, "name" | "balance">[]).map((c) => ({ concepto: c.name, valor: n(c.balance) })),
+        metas_de_ingresos: metas
+          .filter((g) => estados.has(g.id))
+          .map((g) => ({ meta: g.title, objetivo_mes: n(g.target_value), este_mes: Math.round(estados.get(g.id)!.valor), ritmo_este_mes: Math.round(estados.get(g.id)!.ritmo ?? 0), falta: Math.round(estados.get(g.id)!.falta), fecha_limite: g.due_date })),
+        otras_metas_de_dinero: metas.filter((g) => !estados.has(g.id) && g.status === "activa").map((g) => ({ meta: g.title, avance_pct: Math.round(n(g.progress_pct)) })),
+      };
+    }
+
+    case "guardar_nota_negocio": {
+      const nota = str(input.nota, 500);
+      if (!nota) return { error: "Falta la nota" };
+      const { data } = await s.db.from("settings").select("negocio").eq("user_id", s.userId).maybeSingle();
+      const actual = (data?.negocio as string | null) ?? "";
+      const r = await s.db
+        .from("settings")
+        .update({ negocio: [actual, `- ${dia}: ${nota}`].filter(Boolean).join("\n").slice(-8000), updated_at: new Date().toISOString() })
+        .eq("user_id", s.userId);
+      if (r.error) return { error: r.error.message };
+      efectos.rutas.add("/ajustes");
+      efectos.acciones.push("Nota de negocio guardada");
+      return { ok: true };
     }
 
     case "crear_tarea": {

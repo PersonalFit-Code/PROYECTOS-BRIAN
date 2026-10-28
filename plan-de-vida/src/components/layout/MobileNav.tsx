@@ -10,7 +10,7 @@ import { IndicadorEnlace } from "./IndicadorEnlace";
 import { activo, NAV, NAV_MOVIL } from "./nav";
 
 /** Barra inferior del móvil (cristal flotante): 4 accesos fijos + "Más" con el resto. */
-export function MobileNav() {
+export function MobileNav({ coach }: { coach: string }) {
   const pathname = usePathname();
   const [abierto, setAbierto] = useState(false);
   const fijos = NAV.filter((i) => NAV_MOVIL.includes(i.href));
@@ -45,7 +45,7 @@ export function MobileNav() {
                     className={cx("entrar relative flex flex-col items-center gap-1.5 rounded-2xl p-3 text-center text-xs transition", activo(pathname, i.href) ? "bg-bg/80 font-medium shadow-sm" : "text-muted hover:bg-hover")}
                   >
                     <i.icon className="size-5" />
-                    {i.label}
+                    {i.href === "/coach" ? coach : i.label}
                     <IndicadorEnlace />
                   </Link>
                 ))}

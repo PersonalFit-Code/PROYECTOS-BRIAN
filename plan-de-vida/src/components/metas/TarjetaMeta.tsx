@@ -3,6 +3,7 @@
 import { Check, MoreHorizontal, Pause, Play, Trash2 } from "lucide-react";
 import { useState, useTransition } from "react";
 import { avanzarMeta, borrarMeta, estadoMeta } from "@/app/(app)/metas/acciones";
+import { PreguntarCoach } from "@/components/coach/PreguntarCoach";
 import { Progreso, Tag } from "@/components/ui/basicos";
 import { fechaCorta } from "@/lib/fechas";
 import { cx, euros } from "@/lib/formato";
@@ -83,6 +84,14 @@ export function TarjetaMeta({ meta, color, tareas, auto }: { meta: Goal; color: 
             {auto.falta > 0 && <> · faltan {euros(auto.falta, false)}</>}
           </div>
         </div>
+      )}
+      {meta.status === "activa" && (
+        <PreguntarCoach
+          className="mt-3 px-2.5 py-1 text-xs"
+          pregunta={auto ? `¿Qué hago este mes para avanzar en mi meta «${meta.title}»? Dame ideas de negocio con números.` : `Ayúdame a avanzar en mi meta «${meta.title}»: ¿cuál es el siguiente paso concreto?`}
+        >
+          {auto ? "Ideas para esta meta" : "Siguiente paso"}
+        </PreguntarCoach>
       )}
       {meta.status === "activa" && !auto && (
         <form

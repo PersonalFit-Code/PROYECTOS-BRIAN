@@ -1,4 +1,4 @@
-# Plan de vida
+# Noah.ai (plan de vida)
 
 App personal para llevar la vida en un solo sitio, al estilo de Notion: **metas, finanzas, hábitos y diario**, con un **coach IA** en el Inicio. Es una web (PWA): se abre en el ordenador y en el móvil se añade a la pantalla de inicio como si fuera una app.
 

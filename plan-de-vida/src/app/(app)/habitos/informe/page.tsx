@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { PreguntarCoach } from "@/components/coach/PreguntarCoach";
+import { getCoach } from "@/lib/coach/nombre";
 import Link from "next/link";
 import { CalendarCheck, ChartColumn, ChevronLeft, ChevronRight, Lightbulb, Sparkles, Table2, TrendingDown, Trophy } from "lucide-react";
 import { Pagina } from "@/components/layout/Pagina";
@@ -34,6 +36,10 @@ export default async function InformePage({ searchParams }: { searchParams: Prom
       <Titulo icono={<ChartColumn />} color="blue" sub={enCurso ? "Mes en curso: los datos se completan a medida que marcas." : "Lo que más fallas, lo que mejor se te da y qué mejorar."}>
         <span className="first-letter:uppercase">Informe de {nombreMes(mes)}</span>
       </Titulo>
+
+      <div className="mb-4 flex flex-wrap gap-2">
+        <PreguntarCoach pregunta={`Comenta mi informe de hábitos de ${nombreMes(mes)}: qué hago bien, qué fallo y qué cambio el mes que viene`}>Coméntalo con {await getCoach()}</PreguntarCoach>
+      </div>
 
       <div className="mb-6 flex items-center gap-2 text-sm">
         <Link href={`/habitos/informe?mes=${mesAnterior(mes)}`} className="glass inline-flex items-center gap-1 rounded-xl px-3 py-1.5 transition hover:bg-hover">
@@ -94,7 +100,7 @@ export default async function InformePage({ searchParams }: { searchParams: Prom
 
           <Desplegable icono={<Lightbulb />} color="yellow" titulo="Ideas para el mes que viene" resumen={`${ideas.length}`} abierto>
             <div className="mb-3">
-              <BotonGenerar mes={mes} hay={guardado?.ideasModo === "claude"} />
+              <BotonGenerar mes={mes} hay={guardado?.ideasModo === "claude"} coach={await getCoach()} />
             </div>
             <ul className="space-y-2">
               {ideas.map((idea, i) =>
@@ -111,7 +117,7 @@ export default async function InformePage({ searchParams }: { searchParams: Prom
               )}
             </ul>
             <p className="mt-3 text-xs text-muted">
-              {guardado?.ideasModo === "claude" ? "Ideas del coach (IA) a partir de tus datos." : "Ideas automáticas a partir de tus datos. Pide las del coach para un análisis más fino."}
+              {guardado?.ideasModo === "claude" ? `Ideas de ${await getCoach()} (IA) a partir de tus datos.` : `Ideas automáticas a partir de tus datos. Pídeselas a ${await getCoach()} para un análisis más fino.`}
             </p>
           </Desplegable>
 

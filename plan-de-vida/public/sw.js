@@ -1,5 +1,5 @@
 /*
- * Service worker de Plan de vida.
+ * Service worker de Noah.ai (el nombre de la app está en src/lib/marca.ts).
  *  · Notificaciones push (recordatorio de hábitos, revisión del domingo, informe de inversión).
  *  · Sin conexión: los estáticos de Next se sirven de caché y las páginas muestran un aviso en vez
  *    del dinosaurio. Los datos NO se cachean: son personales y cambian a cada rato.
@@ -45,7 +45,7 @@ self.addEventListener("fetch", (event) => {
 });
 
 self.addEventListener("push", (event) => {
-  let data = { title: "Plan de vida", body: "", url: "/" };
+  let data = { title: "Noah.ai", body: "", url: "/" };
   try {
     data = { ...data, ...event.data.json() };
   } catch {

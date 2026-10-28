@@ -1,4 +1,5 @@
 import { Rocket } from "lucide-react";
+import { PreguntarCoach } from "@/components/coach/PreguntarCoach";
 import { Progreso } from "@/components/ui/basicos";
 import { euros } from "@/lib/formato";
 import type { EstadoAuto } from "@/lib/metas/auto";
@@ -55,6 +56,10 @@ export function HaciaMeta({ meta, estado }: { meta: Goal; estado: EstadoAuto }) 
           )}
         </p>
       )}
+      <div className="mt-3 flex flex-wrap gap-2">
+        <PreguntarCoach pregunta={`Dame ideas concretas para llegar a ${euros(objetivo, false)} al mes con lo que ya hago`}>Ideas para llegar</PreguntarCoach>
+        <PreguntarCoach pregunta="¿Cómo puedo cobrar más o mejorar lo que ya vendo?">Mejorar lo que vendo</PreguntarCoach>
+      </div>
     </section>
   );
 }

@@ -7,10 +7,13 @@ import { getAjustes, getHabitos, getLogs, getMovimientos } from "@/lib/datos/con
 import { hoy as hoyMadrid, inicioDia, mesDe, rangoMes } from "@/lib/fechas";
 import { euros } from "@/lib/formato";
 import { cumplido, indexar, toca } from "@/lib/habitos/metricas";
+import { getCoach } from "@/lib/coach/nombre";
 import { getSesion } from "@/lib/sesion";
 import { n } from "@/lib/tipos";
 
-export const metadata: Metadata = { title: "Coach" };
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: await getCoach() };
+}
 
 export default async function CoachPage({ searchParams }: { searchParams: Promise<{ pregunta?: string }> }) {
   const sp = await searchParams;
@@ -32,7 +35,7 @@ export default async function CoachPage({ searchParams }: { searchParams: Promis
   const gastado = movimientos.filter((m) => m.kind === "gasto").reduce((a, m) => a + n(m.amount), 0);
 
   return (
-    <div className="relative isolate min-h-dvh overflow-hidden md:m-3 md:min-h-[calc(100dvh-1.5rem)] md:rounded-3xl">
+    <div className="relative isolate min-h-dvh overflow-clip md:m-3 md:min-h-[calc(100dvh-1.5rem)] md:rounded-3xl">
       <ShaderBackground className="-z-10" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/10 via-transparent to-black/40" />
       <div className="flex min-h-dvh flex-col px-4 pt-6 pb-32 md:min-h-[calc(100dvh-1.5rem)] md:pb-10">
@@ -45,7 +48,7 @@ export default async function CoachPage({ searchParams }: { searchParams: Promis
           </Link>
         </div>
         <div className="flex flex-1 flex-col justify-center">
-          <Chat nombre={ajustes.display_name} iniciales={(chat ?? []) as MensajeChat[]} preguntaInicial={sp.pregunta?.slice(0, 500)} />
+          <Chat nombre={ajustes.display_name} coach={await getCoach()} iniciales={(chat ?? []) as MensajeChat[]} preguntaInicial={sp.pregunta?.slice(0, 500)} />
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import { Segmentado } from "@/components/ui/Segmentado";
 import { fechaCorta, hoy, lunesDeSemanaIso, mesAnterior, mesDe, nombreMes, sumarDias } from "@/lib/fechas";
 import { euros } from "@/lib/formato";
 import { periodoDe, PREGUNTAS, resumenPeriodo, type TipoRevision } from "@/lib/revisiones";
+import { getCoach } from "@/lib/coach/nombre";
 import { getSesion } from "@/lib/sesion";
 import type { Review } from "@/lib/tipos";
 
@@ -44,7 +45,7 @@ export default async function RevisionesPage({ searchParams }: { searchParams: P
             href={`/coach?pregunta=${encodeURIComponent(tipo === "semanal" ? "Hagamos mi revisión semanal" : "Hagamos mi revisión mensual")}`}
             className="glass inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium transition hover:bg-hover active:scale-[0.97]"
           >
-            <Sparkles className="size-4" /> Hacerla con el coach
+            <Sparkles className="size-4" /> Hacerla con {await getCoach()}
           </Link>
         }
       >

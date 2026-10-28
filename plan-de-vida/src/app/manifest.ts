@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
+import { APP_NOMBRE } from "@/lib/marca";
 
 /** Manifiesto de la PWA: con esto, "Añadir a pantalla de inicio" la abre como una app, sin barra del navegador. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Plan de vida",
-    short_name: "Plan de vida",
-    description: "Metas, finanzas, hábitos y diario con coach.",
+    name: APP_NOMBRE,
+    short_name: APP_NOMBRE,
+    description: "Tu plan de vida: metas, finanzas, hábitos y diario, con un coach que te empuja.",
     start_url: "/",
     scope: "/",
     display: "standalone",

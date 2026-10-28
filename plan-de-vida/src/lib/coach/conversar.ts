@@ -7,7 +7,7 @@ import type { Sesion } from "@/lib/sesion";
 import { getClaude, logErrorClaude, textoDe } from "./claude";
 import { aplicarEfectos, ejecutarHerramienta, HERRAMIENTAS, type Efectos } from "./herramientas";
 import { responderSinIA } from "./offline";
-import { MODELO_COACH, personalidad } from "./personalidad";
+import { GUIA_NEGOCIO, MODELO_COACH, personalidad } from "./personalidad";
 
 export interface RespuestaCoach {
   texto: string;
@@ -62,7 +62,7 @@ async function conClaude(s: Sesion, claude: Anthropic, efectos: Efectos): Promis
 
   const dia = hoy();
   const system: Anthropic.TextBlockParam[] = [
-    { type: "text", text: personalidad(ajustes), cache_control: { type: "ephemeral" } },
+    { type: "text", text: `${personalidad(ajustes)}\n\n${GUIA_NEGOCIO}`, cache_control: { type: "ephemeral" } },
     { type: "text", text: `Hoy es ${fechaLarga(dia)} (${dia}), zona horaria de Madrid. Moneda: euros.` },
   ];
 

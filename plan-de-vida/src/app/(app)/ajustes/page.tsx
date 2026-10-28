@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ActivarAvisos } from "@/components/ajustes/ActivarAvisos";
 import { Pagina } from "@/components/layout/Pagina";
-import { Bell, Plus, Save, Settings, Smartphone, Sparkles, Tags, TrendingUp, User } from "lucide-react";
+import { Bell, Briefcase, Plus, Save, Settings, Smartphone, Sparkles, Tags, TrendingUp, User } from "lucide-react";
 import { Boton, Campo, Etiqueta, Selector, Texto, Titulo } from "@/components/ui/basicos";
 import { Desplegable } from "@/components/ui/Desplegable";
 import { Hoja } from "@/components/ui/Hoja";
@@ -10,6 +10,7 @@ import { SelectorIcono } from "@/components/ui/SelectorIcono";
 import { FormAccion } from "@/components/ui/FormAccion";
 import { PERSONALIDAD_DE_SERIE } from "@/lib/coach/personalidad";
 import { getAjustes, getCategorias } from "@/lib/datos/consultas";
+import { nombreCoach } from "@/lib/marca";
 import { getSesion } from "@/lib/sesion";
 import { crearCategoria } from "../finanzas/acciones";
 import { guardarAjustes } from "./acciones";
@@ -34,11 +35,23 @@ export default async function AjustesPage() {
           </Etiqueta>
         </Desplegable>
 
-        <Desplegable icono={<Sparkles />} color="purple" titulo="Coach" resumen={conIA ? "con IA" : "modo básico"} i={2}>
+        <Desplegable icono={<Sparkles />} color="purple" titulo={`Coach · ${nombreCoach(ajustes)}`} resumen={conIA ? "con IA" : "modo básico"} i={2}>
+          <div className="mb-3">
+            <Etiqueta label="Nombre del coach">
+              <Campo name="coach_name" defaultValue={nombreCoach(ajustes)} maxLength={30} />
+            </Etiqueta>
+          </div>
           <p className="mb-2 text-sm text-muted">
-            Puedes reescribir su personalidad; déjalo vacío para usar la de serie. <code>{"{nombre}"}</code> se cambia por tu nombre.
+            Puedes reescribir su personalidad; déjalo vacío para usar la de serie. <code>{"{nombre}"}</code> se cambia por tu nombre y <code>{"{coach}"}</code> por el del coach.
           </p>
           <Texto name="coach_prompt" rows={10} defaultValue={ajustes.coach_prompt ?? ""} placeholder={PERSONALIDAD_DE_SERIE} className="font-mono text-xs" />
+        </Desplegable>
+
+        <Desplegable icono={<Briefcase />} color="yellow" titulo="Tu negocio" resumen={ajustes.negocio ? "Listo" : "Vacío"} i={3}>
+          <p className="mb-2 text-sm text-muted">
+            Qué vendes, a quién y a qué precio, tus ideas y lo que te frena. {nombreCoach(ajustes)} lo usa para darte ideas de negocio, y también apunta aquí lo que vais decidiendo.
+          </p>
+          <Texto name="negocio" rows={8} defaultValue={ajustes.negocio ?? ""} placeholder="Hago landing pages y webs… Mantenimiento mensual a clientes… Vendo tarjetas NFC a 20 €…" />
         </Desplegable>
 
         <Desplegable icono={<TrendingUp />} color="orange" titulo="Inversión" resumen={`${ajustes.monthly_investment} €/mes`} i={3}>
