@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Hucha } from "@/components/finanzas/Hucha";
-import { Boton, Campo, Card, Etiqueta, Kpi, Seccion, Titulo, Vacio } from "@/components/ui/basicos";
+import { CalendarClock, PiggyBank, Plus } from "lucide-react";
+import { Boton, Campo, Etiqueta, Kpi, Titulo, Vacio } from "@/components/ui/basicos";
+import { Hoja } from "@/components/ui/Hoja";
+import { SelectorIcono } from "@/components/ui/SelectorIcono";
 import { FormAccion } from "@/components/ui/FormAccion";
 import { getHuchas } from "@/lib/datos/consultas";
 import { hoy } from "@/lib/fechas";
@@ -20,42 +23,56 @@ export default async function HuchasPage() {
 
   return (
     <>
-      <Titulo emoji="🐷" sub="Metas de ahorro: fondo de emergencia, viajes, coche…">
+      <Titulo
+        icono={<PiggyBank />}
+        color="pink"
+        sub="Metas de ahorro: fondo de emergencia, viajes, coche…"
+        acciones={
+          <Hoja titulo="Nueva hucha" boton="Nueva hucha" icono={<Plus />}>
+            <FormAccion accion={crearHucha} className="grid grid-cols-2 gap-3">
+              <div className="col-span-2">
+                <Etiqueta label="Nombre">
+                  <Campo name="name" required placeholder="Fondo de emergencia" />
+                </Etiqueta>
+              </div>
+              <div className="col-span-2">
+                <Etiqueta label="Icono" grupo>
+                  <SelectorIcono name="emoji" inicial="piggy-bank" />
+                </Etiqueta>
+              </div>
+              <Etiqueta label="Objetivo (€)">
+                <Campo name="target" inputMode="decimal" required placeholder="6000" />
+              </Etiqueta>
+              <Etiqueta label="Ya tengo (€)">
+                <Campo name="saved" inputMode="decimal" placeholder="0" />
+              </Etiqueta>
+              <div className="col-span-2">
+                <Etiqueta label="Para cuándo">
+                  <Campo name="target_date" type="date" />
+                </Etiqueta>
+              </div>
+              <div className="col-span-2">
+                <Boton variante="primario" className="w-full">
+                  Crear hucha
+                </Boton>
+              </div>
+            </FormAccion>
+          </Hoja>
+        }
+      >
         Huchas
       </Titulo>
-      <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <Kpi etiqueta="Ahorrado en huchas" valor={euros(total, false)} />
-        <Kpi etiqueta="A apartar al mes" valor={euros(ritmoTotal, false)} detalle="para llegar a tiempo" />
+      <div className="mb-5 grid grid-cols-2 gap-3">
+        <Kpi i={0} icono={<PiggyBank />} etiqueta="Ahorrado en huchas" valor={euros(total, false)} />
+        <Kpi i={1} icono={<CalendarClock />} etiqueta="A apartar al mes" valor={euros(ritmoTotal, false)} detalle="para llegar a tiempo" />
       </div>
-      <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {huchas.length ? huchas.map((h) => <Hucha key={h.id} hucha={h} ritmo={h.done ? null : ritmoMensual(n(h.target), n(h.saved), h.target_date, dia)} />) : <Vacio>Crea tu primera hucha. Consejo: empieza por un fondo de emergencia de 3–6 meses de gastos.</Vacio>}
+      <div className="grid gap-3 sm:grid-cols-2">
+        {huchas.length ? (
+          huchas.map((h) => <Hucha key={h.id} hucha={h} ritmo={h.done ? null : ritmoMensual(n(h.target), n(h.saved), h.target_date, dia)} />)
+        ) : (
+          <Vacio>Crea tu primera hucha. Consejo: empieza por un fondo de emergencia de 3–6 meses de gastos.</Vacio>
+        )}
       </div>
-      <Seccion titulo="Nueva hucha">
-        <Card>
-          <FormAccion accion={crearHucha} className="grid grid-cols-2 gap-3 sm:grid-cols-6">
-            <Etiqueta label="Emoji">
-              <Campo name="emoji" defaultValue="🐷" maxLength={8} className="text-center" />
-            </Etiqueta>
-            <div className="sm:col-span-2">
-              <Etiqueta label="Nombre">
-                <Campo name="name" required placeholder="Fondo de emergencia" />
-              </Etiqueta>
-            </div>
-            <Etiqueta label="Objetivo (€)">
-              <Campo name="target" inputMode="decimal" required placeholder="6000" />
-            </Etiqueta>
-            <Etiqueta label="Ya tengo (€)">
-              <Campo name="saved" inputMode="decimal" placeholder="0" />
-            </Etiqueta>
-            <Etiqueta label="Para cuándo">
-              <Campo name="target_date" type="date" />
-            </Etiqueta>
-            <div className="col-span-full">
-              <Boton variante="primario">Crear hucha</Boton>
-            </div>
-          </FormAccion>
-        </Card>
-      </Seccion>
     </>
   );
 }

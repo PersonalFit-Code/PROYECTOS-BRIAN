@@ -24,10 +24,10 @@ export function FormDiario({ dia, entrada }: { dia: string; entrada: JournalEntr
       className="space-y-4"
     >
       <div className="flex flex-wrap gap-6">
-        <Etiqueta label="Ánimo">
+        <Etiqueta label="Ánimo" grupo>
           <Escala name="mood" etiqueta="Ánimo" caras={CARAS_ANIMO} valor={animo} onChange={setAnimo} />
         </Etiqueta>
-        <Etiqueta label="Energía">
+        <Etiqueta label="Energía" grupo>
           <Escala name="energy" etiqueta="Energía" caras={CARAS_ENERGIA} valor={energia} onChange={setEnergia} />
         </Etiqueta>
       </div>

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Boton, Campo, Etiqueta, Selector } from "@/components/ui/basicos";
+import { useCerrarHoja } from "@/components/ui/Hoja";
+import { SelectorIcono } from "@/components/ui/SelectorIcono";
 import { INICIALES_DIA } from "@/lib/fechas";
 import type { Area, Habit } from "@/lib/tipos";
 
@@ -31,6 +33,7 @@ export function FormHabito({
   const [kind, setKind] = useState(habito?.kind ?? "check");
   const [frecuencia, setFrecuencia] = useState(inicialFrecuencia);
   const [error, setError] = useState<string | null>(null);
+  const cerrar = useCerrarHoja();
 
   return (
     <form
@@ -44,18 +47,21 @@ export function FormHabito({
             setFrecuencia("diario");
           }
           alTerminar?.();
+          cerrar();
         } catch (e) {
           setError(e instanceof Error ? e.message : "No se pudo guardar");
         }
       }}
       className="grid gap-3 sm:grid-cols-6"
     >
-      <Etiqueta label="Emoji">
-        <Campo name="emoji" defaultValue={habito?.emoji ?? "✅"} maxLength={8} className="text-center" />
-      </Etiqueta>
-      <div className="sm:col-span-5">
+      <div className="sm:col-span-6">
         <Etiqueta label="Nombre">
           <Campo name="name" required defaultValue={habito?.name} placeholder="Leer 20 minutos, Gimnasio, Agua…" />
+        </Etiqueta>
+      </div>
+      <div className="sm:col-span-6">
+        <Etiqueta label="Icono" grupo>
+          <SelectorIcono name="emoji" inicial={habito?.emoji ?? "check"} />
         </Etiqueta>
       </div>
       <div className="sm:col-span-2">
@@ -82,7 +88,7 @@ export function FormHabito({
             <option value="">—</option>
             {areas.map((a) => (
               <option key={a.id} value={a.id}>
-                {a.emoji} {a.name}
+                {a.name}
               </option>
             ))}
           </Selector>
@@ -114,7 +120,7 @@ export function FormHabito({
       </div>
       <div className="sm:col-span-3">
         {frecuencia === "dias" && (
-          <Etiqueta label="Días">
+          <Etiqueta label="Días" grupo>
             <div className="flex gap-1">
               {INICIALES_DIA.map((d, i) => (
                 <label key={i} className="flex cursor-pointer flex-col items-center gap-0.5 text-xs">
@@ -133,7 +139,7 @@ export function FormHabito({
       </div>
       {error && <p className="text-sm text-bad sm:col-span-6">{error}</p>}
       <div className="sm:col-span-6">
-        <Boton variante="primario">{textoBoton}</Boton>
+        <Boton variante="primario" className="w-full sm:w-auto">{textoBoton}</Boton>
       </div>
     </form>
   );

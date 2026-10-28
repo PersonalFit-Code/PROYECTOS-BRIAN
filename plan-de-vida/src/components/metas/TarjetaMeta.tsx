@@ -18,7 +18,7 @@ export function TarjetaMeta({ meta, color, tareas }: { meta: Goal; color: string
   const pct = n(meta.progress_pct);
 
   return (
-    <li className={cx("rounded-lg border border-line bg-card p-3", meta.status !== "activa" && "opacity-60", pendiente && "animate-pulse")}>
+    <li className={cx("entrar rounded-2xl border border-line/70 bg-bg/50 p-3", meta.status !== "activa" && "opacity-60", pendiente && "animate-pulse")}>
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
           <div className={cx("font-medium", meta.status === "hecha" && "line-through decoration-faint")}>{meta.title}</div>
@@ -39,20 +39,20 @@ export function TarjetaMeta({ meta, color, tareas }: { meta: Goal; color: string
             <MoreHorizontal className="size-4" />
           </button>
           {menu && (
-            <div className="absolute right-0 z-10 mt-1 w-40 rounded-md border border-line bg-bg p-1 text-sm shadow-lg" onMouseLeave={() => setMenu(false)}>
+            <div className="glass-strong absolute right-0 z-10 mt-1 w-44 rounded-2xl p-1 text-sm" onMouseLeave={() => setMenu(false)}>
               {meta.status !== "hecha" && (
-                <button className="flex w-full items-center gap-2 rounded px-2 py-1.5 hover:bg-hover" onClick={() => start(() => estadoMeta(meta.id, "hecha"))}>
+                <button className="flex w-full items-center gap-2 rounded-xl px-2 py-1.5 hover:bg-hover" onClick={() => start(() => estadoMeta(meta.id, "hecha"))}>
                   <Check className="size-4" /> Marcar hecha
                 </button>
               )}
               <button
-                className="flex w-full items-center gap-2 rounded px-2 py-1.5 hover:bg-hover"
+                className="flex w-full items-center gap-2 rounded-xl px-2 py-1.5 hover:bg-hover"
                 onClick={() => start(() => estadoMeta(meta.id, meta.status === "activa" ? "pausada" : "activa"))}
               >
                 {meta.status === "activa" ? <Pause className="size-4" /> : <Play className="size-4" />}
                 {meta.status === "activa" ? "Pausar" : "Reactivar"}
               </button>
-              <button className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-bad hover:bg-hover" onClick={() => confirm(`¿Borrar "${meta.title}"?`) && start(() => borrarMeta(meta.id))}>
+              <button className="flex w-full items-center gap-2 rounded-xl px-2 py-1.5 text-bad hover:bg-hover" onClick={() => confirm(`¿Borrar "${meta.title}"?`) && start(() => borrarMeta(meta.id))}>
                 <Trash2 className="size-4" /> Borrar
               </button>
             </div>
@@ -87,7 +87,7 @@ export function TarjetaMeta({ meta, color, tareas }: { meta: Goal; color: string
             inputMode="decimal"
             placeholder={conMetrica ? "valor actual" : "%"}
             aria-label="Actualizar avance"
-            className="ml-auto w-24 rounded border border-line bg-bg px-1.5 py-0.5 text-right"
+            className="ml-auto w-28 rounded-xl border border-line bg-bg/70 px-2 py-1 text-right"
           />
         </form>
       )}

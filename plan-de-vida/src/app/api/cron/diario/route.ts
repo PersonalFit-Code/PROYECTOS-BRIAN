@@ -58,7 +58,7 @@ export async function GET(req: Request): Promise<Response> {
         const mes = mesCerrado(dia);
         const inf = await generarYGuardarInforme(s, mes, u);
         await enviarPush(db, u.user_id, {
-          title: `📊 Tu informe de ${nombreMes(mes)}`,
+          title: `Tu informe de ${nombreMes(mes)}`,
           body: `${Math.round(inf.habitos.pctGlobal)} % de hábitos cumplidos. Mira qué mejorar este mes.`,
           url: `/habitos/informe?mes=${mes}`,
         });

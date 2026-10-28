@@ -263,7 +263,7 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
       const r = await s.db.from("habit_logs").upsert(fila, { onConflict: "habit_id,day" });
       if (r.error) return { error: r.error.message };
       efectos.rutas.add("/hoy").add("/habitos");
-      efectos.acciones.push(`${fila.done ? "✓" : "✗"} ${h.emoji} ${h.name}`);
+      efectos.acciones.push(`${fila.done ? "Hecho" : "Desmarcado"}: ${h.name}`);
       return { ok: true, habito: h.name, fecha, hecho: fila.done, valor: fila.value ?? null };
     }
 
@@ -302,7 +302,7 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
       const r = await s.db.from("tasks").insert({ user_id: s.userId, title: titulo, due_date: esFecha(input.fecha) ? input.fecha : null, goal_id, priority: prioridad });
       if (r.error) return { error: r.error.message };
       efectos.rutas.add("/hoy").add("/metas");
-      efectos.acciones.push(`☐ ${titulo}`);
+      efectos.acciones.push(`Tarea: ${titulo}`);
       return { ok: true, titulo, ligada_a_meta: Boolean(goal_id) };
     }
 
@@ -324,7 +324,7 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
       );
       if (r.error) return { error: r.error.message };
       efectos.rutas.add("/diario").add("/hoy");
-      efectos.acciones.push("📓 Diario actualizado");
+      efectos.acciones.push("Diario actualizado");
       return { ok: true, fecha };
     }
 
@@ -387,7 +387,7 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
         .upsert({ user_id: s.userId, kind: tipo, period: p.clave, answers: { ...(rev?.answers ?? {}), ...nuevas }, updated_at: new Date().toISOString() }, { onConflict: "user_id,kind,period" });
       if (r.error) return { error: r.error.message };
       efectos.rutas.add("/revisiones");
-      efectos.acciones.push(`🧭 Revisión ${tipo} guardada`);
+      efectos.acciones.push(`Revisión ${tipo} guardada`);
       return { ok: true, guardadas: Object.keys(nuevas) };
     }
 

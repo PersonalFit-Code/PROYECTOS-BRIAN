@@ -1,51 +1,187 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Chat, type MensajeChat } from "@/components/coach/Chat";
+import {
+  BookOpen,
+  ChevronRight,
+  ClipboardCheck,
+  ListChecks,
+  PiggyBank,
+  Sparkles,
+  Sun,
+  Target,
+  TrendingUp,
+  Wallet,
+  type LucideIcon,
+} from "lucide-react";
 import ShaderBackground from "@/components/ui/shader-background";
-import { getAjustes, getHabitos, getLogs, getMovimientos } from "@/lib/datos/consultas";
-import { hoy as hoyMadrid, inicioDia, mesDe, rangoMes } from "@/lib/fechas";
+import { Progreso } from "@/components/ui/basicos";
+import { getAjustes, getCategorias, getDiario, getHabitos, getLogs, getMetas, getMovimientos, getTareas } from "@/lib/datos/consultas";
+import { fechaLarga, hoy as hoyMadrid, mesDe, rangoMes, sumarDias } from "@/lib/fechas";
 import { euros } from "@/lib/formato";
-import { cumplido, indexar, toca } from "@/lib/habitos/metricas";
+import { cumplido, indexar, rachaActual, toca } from "@/lib/habitos/metricas";
 import { getSesion } from "@/lib/sesion";
 import { n } from "@/lib/tipos";
 
 export const metadata: Metadata = { title: "Inicio" };
 
-export default async function InicioPage({ searchParams }: { searchParams: Promise<{ pregunta?: string }> }) {
-  const sp = await searchParams;
+function saludo(): string {
+  const h = Number(new Intl.DateTimeFormat("es-ES", { hour: "numeric", hour12: false, timeZone: "Europe/Madrid" }).format(new Date()));
+  return h < 6 ? "Buenas noches" : h < 14 ? "Buenos días" : h < 21 ? "Buenas tardes" : "Buenas noches";
+}
+
+interface Apartado {
+  href: string;
+  titulo: string;
+  icono: LucideIcon;
+  color: string;
+  resumen: string;
+  detalle?: string;
+  progreso?: number;
+}
+
+/**
+ * Inicio: un panel para elegir a dónde ir. Cada tarjeta es un apartado con su dato más útil del día,
+ * para saber de un vistazo qué necesita atención. El coach tiene su propia página.
+ */
+export default async function InicioPage() {
   const hoy = hoyMadrid();
   const s = await getSesion();
   const mes = rangoMes(mesDe(hoy));
-  const [ajustes, habitos, logs, movimientos, { data: chat }] = await Promise.all([
+  const [ajustes, habitos, logs, movimientos, categorias, metas, tareas, diario, { data: rec }] = await Promise.all([
     getAjustes(s),
     getHabitos(s),
-    getLogs(s, hoy, hoy),
+    getLogs(s, sumarDias(hoy, -400), hoy),
     getMovimientos(s, mes.desde, mes.hasta),
-    // la conversación de hoy sigue abierta; la de días anteriores queda guardada pero no se muestra
-    s.db.from("chat_messages").select("role, content, created_at").eq("user_id", s.userId).gte("created_at", inicioDia(hoy)).order("created_at").limit(30),
+    getCategorias(s),
+    getMetas(s, Number(hoy.slice(0, 4))),
+    getTareas(s, { pendientes: true, hasta: hoy }),
+    getDiario(s, hoy, hoy),
+    s.db.from("recommendations").select("action, symbol").eq("user_id", s.userId).order("day", { ascending: false }).order("confidence", { ascending: false }).limit(1).maybeSingle(),
   ]);
 
   const porHabito = indexar(logs);
   const deHoy = habitos.filter((h) => toca(h, hoy) && !h.weekly_target);
   const hechos = deHoy.filter((h) => cumplido(h, porHabito.get(h.id)?.get(hoy))).length;
+  const mejorRacha = Math.max(0, ...habitos.map((h) => rachaActual(h, porHabito.get(h.id) ?? new Map(), hoy)));
   const gastado = movimientos.filter((m) => m.kind === "gasto").reduce((a, m) => a + n(m.amount), 0);
+  const presupuesto = categorias.filter((c) => c.kind === "gasto").reduce((a, c) => a + n(c.monthly_budget), 0);
+  const activas = metas.filter((m) => m.status === "activa" || m.status === "hecha");
+  const avance = activas.length ? activas.reduce((a, m) => a + n(m.progress_pct), 0) / activas.length : 0;
+
+  const apartados: Apartado[] = [
+    {
+      href: "/hoy",
+      titulo: "Hoy",
+      icono: Sun,
+      color: "yellow",
+      resumen: deHoy.length ? `${hechos} de ${deHoy.length} hábitos hechos` : "Empieza tu día",
+      detalle: tareas.length ? `${tareas.length} ${tareas.length === 1 ? "tarea pendiente" : "tareas pendientes"}` : "Sin tareas pendientes",
+      progreso: deHoy.length ? (100 * hechos) / deHoy.length : undefined,
+    },
+    {
+      href: "/habitos",
+      titulo: "Hábitos",
+      icono: ListChecks,
+      color: "green",
+      resumen: habitos.length ? `${habitos.length} hábitos activos` : "Crea tu primera rutina",
+      detalle: mejorRacha > 1 ? `Mejor racha: ${mejorRacha} días` : "Marca cada día y crea racha",
+    },
+    {
+      href: "/metas",
+      titulo: "Metas",
+      icono: Target,
+      color: "purple",
+      resumen: activas.length ? `${activas.length} metas este año` : "Define tus metas del año",
+      detalle: activas.length ? `${Math.round(avance)} % de avance medio` : "Visión por áreas de vida",
+      progreso: activas.length ? avance : undefined,
+    },
+    {
+      href: "/finanzas",
+      titulo: "Finanzas",
+      icono: Wallet,
+      color: "blue",
+      resumen: `${euros(gastado, false)} gastados este mes`,
+      detalle: presupuesto ? `de ${euros(presupuesto, false)} de presupuesto` : "Movimientos, fijos y presupuesto",
+      progreso: presupuesto ? (100 * gastado) / presupuesto : undefined,
+    },
+    {
+      href: "/finanzas/inversion",
+      titulo: "Inversión",
+      icono: TrendingUp,
+      color: "orange",
+      resumen: rec ? `Última: ${rec.action} ${rec.symbol}` : "Informe cada día laborable",
+      detalle: "Recomendaciones que aprenden",
+    },
+    {
+      href: "/finanzas/huchas",
+      titulo: "Ahorro y patrimonio",
+      icono: PiggyBank,
+      color: "pink",
+      resumen: "Huchas y patrimonio neto",
+      detalle: "Cuánto tienes y a dónde va",
+    },
+    {
+      href: "/diario",
+      titulo: "Diario",
+      icono: BookOpen,
+      color: "gray",
+      resumen: diario[0] ? "Ya has escrito hoy" : "Aún no has escrito hoy",
+      detalle: "Ánimo, energía y gratitud",
+    },
+    {
+      href: "/revisiones",
+      titulo: "Revisiones",
+      icono: ClipboardCheck,
+      color: "red",
+      resumen: "Semanal y mensual",
+      detalle: "Números y siguientes pasos",
+    },
+  ];
 
   return (
-    <div className="relative isolate min-h-dvh overflow-hidden">
-      <ShaderBackground className="-z-10" />
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/10 via-transparent to-black/40" />
-      <div className="flex min-h-dvh flex-col px-4 pt-6 pb-28 md:pb-10">
-        <div className="mx-auto flex w-full max-w-2xl flex-wrap justify-center gap-2 text-xs">
-          <Link href="/hoy" className="rounded-full bg-white/10 px-3 py-1 text-white/90 ring-1 ring-white/15 backdrop-blur hover:bg-white/20">
-            ✅ {hechos}/{deHoy.length} hábitos hoy
-          </Link>
-          <Link href="/finanzas" className="rounded-full bg-white/10 px-3 py-1 text-white/90 ring-1 ring-white/15 backdrop-blur hover:bg-white/20">
-            💸 {euros(gastado, false)} este mes
+    <div className="mx-auto w-full max-w-5xl px-4 pt-4 pb-32 sm:px-8 md:pt-6 md:pb-16">
+      {/* Cabecera con el fondo animado */}
+      <section className="entrar relative isolate mb-6 overflow-hidden rounded-3xl shadow-xl">
+        <ShaderBackground className="-z-10" />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+        <div className="px-5 pt-10 pb-5 text-white sm:px-8 sm:pt-14">
+          <p className="text-sm text-white/70">{fechaLarga(hoy)}</p>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight drop-shadow sm:text-4xl">
+            {saludo()}, {ajustes.display_name}
+          </h1>
+          <p className="mt-1 text-white/75">¿A dónde quieres ir hoy?</p>
+          <Link
+            href="/coach"
+            className="mt-5 flex items-center gap-3 rounded-2xl bg-white/15 px-4 py-3 ring-1 ring-white/25 backdrop-blur-xl transition hover:bg-white/25 active:scale-[0.99]"
+          >
+            <Sparkles className="size-5 shrink-0" />
+            <span className="flex-1 text-sm text-white/90">Habla con tu coach: apunta, pregunta o planifica…</span>
+            <ChevronRight className="size-5 text-white/70" />
           </Link>
         </div>
-        <div className="flex flex-1 flex-col justify-center">
-          <Chat nombre={ajustes.display_name} iniciales={(chat ?? []) as MensajeChat[]} preguntaInicial={sp.pregunta?.slice(0, 500)} />
-        </div>
+      </section>
+
+      {/* Apartados */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {apartados.map((a, i) => (
+          <Link
+            key={a.href}
+            href={a.href}
+            style={{ ["--i" as string]: i + 1 }}
+            className="glass entrar group flex flex-col rounded-2xl p-3.5 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] sm:p-4"
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <span className="grid size-10 place-items-center rounded-xl" style={{ background: `var(--tag-${a.color}-bg)`, color: `var(--tag-${a.color}-fg)` }}>
+                <a.icono className="size-5" />
+              </span>
+              <ChevronRight className="size-5 text-faint transition group-hover:translate-x-0.5 group-hover:text-fg" />
+            </div>
+            <h2 className="font-semibold">{a.titulo}</h2>
+            <p className="mt-0.5 text-[13px] leading-snug sm:text-sm">{a.resumen}</p>
+            {a.detalle && <p className="mt-0.5 hidden text-xs text-muted sm:block">{a.detalle}</p>}
+            {a.progreso != null && <Progreso valor={a.progreso} className="mt-3" color={a.progreso > 100 ? "var(--bad)" : `var(--tag-${a.color}-fg)`} />}
+          </Link>
+        ))}
       </div>
     </div>
   );

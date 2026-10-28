@@ -30,12 +30,12 @@ export async function GET(req: Request): Promise<Response> {
     if (pendientes.length) {
       enviados += await enviarPush(db, userId, {
         title: `Te quedan ${pendientes.length} ${pendientes.length === 1 ? "hábito" : "hábitos"} hoy`,
-        body: pendientes.slice(0, 4).map((h) => `${h.emoji} ${h.name}`).join(" · "),
+        body: pendientes.slice(0, 4).map((h) => h.name).join(" · "),
         url: "/hoy",
       });
     }
     if (diaSemana(dia) === 6) {
-      enviados += await enviarPush(db, userId, { title: "🧭 Revisión semanal", body: "10 minutos para mirar la semana y decidir las 3 prioridades de la siguiente.", url: "/revisiones" });
+      enviados += await enviarPush(db, userId, { title: "Revisión semanal", body: "10 minutos para mirar la semana y decidir las 3 prioridades de la siguiente.", url: "/revisiones" });
     }
   }
   return Response.json({ ok: true, enviados });

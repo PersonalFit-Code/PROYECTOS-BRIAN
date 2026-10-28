@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Cuenta } from "@/components/finanzas/Cuenta";
 import { GraficaPatrimonio } from "@/components/finanzas/GraficaPatrimonio";
-import { Boton, Campo, Card, Etiqueta, Kpi, Seccion, Selector, Titulo, Vacio } from "@/components/ui/basicos";
+import { Banknote, ChartLine, CreditCard, House, Landmark, Plus, TrendingUp } from "lucide-react";
+import { Boton, Campo, Etiqueta, Kpi, Selector, Titulo, Vacio } from "@/components/ui/basicos";
+import { Desplegable } from "@/components/ui/Desplegable";
+import { Hoja } from "@/components/ui/Hoja";
 import { FormAccion } from "@/components/ui/FormAccion";
 import { getCuentas } from "@/lib/datos/consultas";
 import { mesDe, hoy, NOMBRES_MES } from "@/lib/fechas";
@@ -13,11 +16,11 @@ import { crearCuenta } from "../acciones";
 
 export const metadata: Metadata = { title: "Patrimonio" };
 
-const GRUPOS: { kind: AccountKind; titulo: string }[] = [
-  { kind: "liquidez", titulo: "💶 Liquidez" },
-  { kind: "inversion", titulo: "📈 Inversiones" },
-  { kind: "otro", titulo: "🏠 Otros activos" },
-  { kind: "deuda", titulo: "💳 Deudas" },
+const GRUPOS: { kind: AccountKind; titulo: string; icono: typeof Banknote; color: string }[] = [
+  { kind: "liquidez", titulo: "Liquidez", icono: Banknote, color: "green" },
+  { kind: "inversion", titulo: "Inversiones", icono: TrendingUp, color: "blue" },
+  { kind: "otro", titulo: "Otros activos", icono: House, color: "yellow" },
+  { kind: "deuda", titulo: "Deudas", icono: CreditCard, color: "red" },
 ];
 
 export default async function PatrimonioPage() {
@@ -42,46 +45,12 @@ export default async function PatrimonioPage() {
 
   return (
     <>
-      <Titulo emoji="🏦" sub="Actualiza los saldos cuando quieras; el día 1 de cada mes se guarda una foto para la gráfica.">
-        Patrimonio
-      </Titulo>
-      <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Kpi etiqueta="Patrimonio neto" valor={euros(neto, false)} tono={neto >= 0 ? "ok" : "bad"} detalle={haceUnAno != null && haceUnAno !== 0 ? `${signo((100 * (neto - haceUnAno)) / Math.abs(haceUnAno))} en el periodo` : undefined} />
-        <Kpi etiqueta="Liquidez" valor={euros(total("liquidez"), false)} />
-        <Kpi etiqueta="Invertido" valor={euros(total("inversion"), false)} />
-        <Kpi etiqueta="Deudas" valor={euros(total("deuda"), false)} tono={total("deuda") > 0 ? "bad" : undefined} />
-      </div>
-
-      {serie.length > 1 && (
-        <Seccion titulo="Evolución">
-          <Card className="p-2">
-            <GraficaPatrimonio datos={serie} />
-          </Card>
-        </Seccion>
-      )}
-
-      <div className="grid gap-8 lg:grid-cols-2">
-        <div>
-          {cuentas.length ? (
-            GRUPOS.map((g) => {
-              const delGrupo = cuentas.filter((c) => c.kind === g.kind);
-              if (!delGrupo.length) return null;
-              return (
-                <Seccion key={g.kind} titulo={`${g.titulo} · ${euros(total(g.kind), false)}`}>
-                  <ul>
-                    {delGrupo.map((c) => (
-                      <Cuenta key={c.id} cuenta={c} />
-                    ))}
-                  </ul>
-                </Seccion>
-              );
-            })
-          ) : (
-            <Vacio>Añade tus cuentas, inversiones y deudas para ver tu patrimonio neto.</Vacio>
-          )}
-        </div>
-        <Seccion titulo="Añadir cuenta">
-          <Card>
+      <Titulo
+        icono={<Landmark />}
+        color="blue"
+        sub="Actualiza los saldos tocando la cifra. El día 1 de cada mes se guarda una foto para la gráfica."
+        acciones={
+          <Hoja titulo="Añadir cuenta" boton="Añadir cuenta" icono={<Plus />}>
             <FormAccion accion={crearCuenta} className="grid grid-cols-2 gap-3">
               <div className="col-span-2">
                 <Etiqueta label="Nombre">
@@ -105,12 +74,53 @@ export default async function PatrimonioPage() {
                 </Etiqueta>
               </div>
               <div className="col-span-2">
-                <Boton variante="primario">Añadir</Boton>
+                <Boton variante="primario" className="w-full">
+                  Añadir
+                </Boton>
               </div>
             </FormAccion>
-          </Card>
-        </Seccion>
+          </Hoja>
+        }
+      >
+        Patrimonio
+      </Titulo>
+      <div className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Kpi
+          i={0}
+          icono={<Landmark />}
+          etiqueta="Patrimonio neto"
+          valor={euros(neto, false)}
+          tono={neto >= 0 ? "ok" : "bad"}
+          detalle={haceUnAno != null && haceUnAno !== 0 ? `${signo((100 * (neto - haceUnAno)) / Math.abs(haceUnAno))} en el periodo` : undefined}
+        />
+        <Kpi i={1} icono={<Banknote />} etiqueta="Liquidez" valor={euros(total("liquidez"), false)} />
+        <Kpi i={2} icono={<TrendingUp />} etiqueta="Invertido" valor={euros(total("inversion"), false)} />
+        <Kpi i={3} icono={<CreditCard />} etiqueta="Deudas" valor={euros(total("deuda"), false)} tono={total("deuda") > 0 ? "bad" : undefined} />
       </div>
+
+      {serie.length > 1 && (
+        <Desplegable icono={<ChartLine />} color="purple" titulo="Evolución" abierto i={4}>
+          <GraficaPatrimonio datos={serie} />
+        </Desplegable>
+      )}
+
+      {cuentas.length ? (
+        GRUPOS.map((g, i) => {
+          const delGrupo = cuentas.filter((c) => c.kind === g.kind);
+          if (!delGrupo.length) return null;
+          return (
+            <Desplegable key={g.kind} icono={<g.icono />} color={g.color} titulo={g.titulo} resumen={euros(total(g.kind), false)} abierto i={i + 5}>
+              <ul>
+                {delGrupo.map((c) => (
+                  <Cuenta key={c.id} cuenta={c} />
+                ))}
+              </ul>
+            </Desplegable>
+          );
+        })
+      ) : (
+        <Vacio>Añade tus cuentas, inversiones y deudas para ver tu patrimonio neto.</Vacio>
+      )}
     </>
   );
 }

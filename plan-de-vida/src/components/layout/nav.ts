@@ -8,6 +8,7 @@ import {
   Receipt,
   Repeat,
   Settings,
+  Sparkles,
   Sun,
   Target,
   TrendingUp,
@@ -33,7 +34,7 @@ export const NAV: ItemNav[] = [
     icon: Wallet,
     hijos: [
       { href: "/finanzas", label: "Movimientos", icon: Receipt },
-      { href: "/finanzas/suscripciones", label: "Fijos y suscripciones", icon: Repeat },
+      { href: "/finanzas/suscripciones", label: "Fijos", icon: Repeat },
       { href: "/finanzas/huchas", label: "Huchas", icon: PiggyBank },
       { href: "/finanzas/patrimonio", label: "Patrimonio", icon: Landmark },
       { href: "/finanzas/inversion", label: "Inversión", icon: TrendingUp },
@@ -41,6 +42,7 @@ export const NAV: ItemNav[] = [
   },
   { href: "/diario", label: "Diario", icon: BookOpen },
   { href: "/revisiones", label: "Revisiones", icon: ClipboardCheck },
+  { href: "/coach", label: "Coach", icon: Sparkles },
   { href: "/ajustes", label: "Ajustes", icon: Settings },
 ];
 

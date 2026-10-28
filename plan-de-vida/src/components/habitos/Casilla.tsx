@@ -29,14 +29,14 @@ export function Casilla({
       disabled={deshabilitada}
       onClick={onClick}
       className={cx(
-        "grid shrink-0 place-items-center rounded border transition disabled:cursor-default",
-        tamano === "sm" ? "size-5" : "size-6",
+        "grid shrink-0 place-items-center rounded-lg border transition duration-200 active:scale-90 disabled:cursor-default",
+        tamano === "sm" ? "size-7" : "size-7",
         hecho ? "border-transparent text-white" : "border-faint/60 hover:bg-hover",
         deshabilitada && !hecho && "opacity-40",
       )}
       style={hecho ? { background: color } : undefined}
     >
-      {hecho && <Check className={tamano === "sm" ? "size-3.5" : "size-4"} strokeWidth={3} />}
+      {hecho && <Check className={cx("marcar", tamano === "sm" ? "size-3.5" : "size-4")} strokeWidth={3} />}
     </button>
   );
 }

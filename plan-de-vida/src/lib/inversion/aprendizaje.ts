@@ -84,7 +84,7 @@ export function resumenAprendizaje(actual: MetricaSenal[], anterior: Partial<Rec
     const antes = anterior[m.senal] ?? 1;
     const cambio = Math.round((m.peso - antes) * 100) / 100;
     if (m.evaluadas < MINIMO_EVALUACIONES && m.utiles + m.noUtiles < 3) continue;
-    const datos = `${m.evaluadas} evaluadas, ${m.aciertoPct == null ? "—" : `${Math.round(m.aciertoPct)} % de acierto`}${m.excesoMedio != null ? `, ${m.excesoMedio >= 0 ? "+" : ""}${m.excesoMedio.toFixed(1)} pts vs benchmark` : ""}${m.utiles + m.noUtiles ? `, feedback ${m.utiles}👍/${m.noUtiles}👎` : ""}`;
+    const datos = `${m.evaluadas} evaluadas, ${m.aciertoPct == null ? "—" : `${Math.round(m.aciertoPct)} % de acierto`}${m.excesoMedio != null ? `, ${m.excesoMedio >= 0 ? "+" : ""}${m.excesoMedio.toFixed(1)} pts vs benchmark` : ""}${m.utiles + m.noUtiles ? `, valoración ${m.utiles} útil / ${m.noUtiles} no útil` : ""}`;
     if (Math.abs(cambio) >= 0.05) lineas.push(`${m.senal}: peso ${antes.toFixed(2)} → ${m.peso.toFixed(2)} (${datos}).`);
     else lineas.push(`${m.senal}: sin cambios, ${m.peso.toFixed(2)} (${datos}).`);
   }

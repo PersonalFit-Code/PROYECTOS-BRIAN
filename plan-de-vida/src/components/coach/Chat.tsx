@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, Mic, RotateCcw, Sparkles } from "lucide-react";
+import { ArrowUp, ChartColumn, CircleCheck, Compass, Fuel, Mic, RotateCcw, Sparkles, Target, TrendingUp, type LucideIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { cx } from "@/lib/formato";
@@ -20,17 +20,17 @@ interface ReconocimientoVoz {
   stop: () => void;
 }
 
-const SUGERENCIAS = [
-  { texto: "¿Cómo voy este mes?", icono: "📊" },
-  { texto: "Gasté 12 € en gasolina", icono: "⛽" },
-  { texto: "Hecho: gimnasio", icono: "✅" },
-  { texto: "Hagamos mi revisión semanal", icono: "🧭" },
-  { texto: "¿Qué dice el informe de inversión de hoy?", icono: "📈" },
-  { texto: "Dame el plan de ataque para hoy", icono: "🎯" },
+const SUGERENCIAS: { texto: string; icono: LucideIcon }[] = [
+  { texto: "¿Cómo voy este mes?", icono: ChartColumn },
+  { texto: "Gasté 12 € en gasolina", icono: Fuel },
+  { texto: "Hecho: gimnasio", icono: CircleCheck },
+  { texto: "Hagamos mi revisión semanal", icono: Compass },
+  { texto: "¿Qué dice el informe de inversión de hoy?", icono: TrendingUp },
+  { texto: "Dame el plan de ataque para hoy", icono: Target },
 ];
 
 /**
- * Chat del Inicio, al estilo del "¿Qué quieres hoy?" de Notion. Sin conversación muestra el saludo y
+ * Chat del coach, al estilo del "¿Qué quieres hoy?" de Notion. Sin conversación muestra el saludo y
  * las sugerencias; con conversación, el hilo encima de la caja. El micro usa el dictado del navegador
  * (Chrome/Safari), así se pueden apuntar cosas hablando.
  */
@@ -129,8 +129,8 @@ export function Chat({ nombre, iniciales, preguntaInicial }: { nombre: string; i
             <div key={i} className={cx("flex", m.role === "user" ? "justify-end" : "justify-start")}>
               <div
                 className={cx(
-                  "max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-[15px] leading-relaxed shadow-sm",
-                  m.role === "user" ? "bg-accent text-accent-fg" : "bg-bg/95 text-fg backdrop-blur",
+                  "entrar max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-[15px] leading-relaxed shadow-sm",
+                  m.role === "user" ? "bg-accent text-accent-fg" : "glass-strong text-fg",
                 )}
               >
                 {m.content}
@@ -166,7 +166,7 @@ export function Chat({ nombre, iniciales, preguntaInicial }: { nombre: string; i
           e.preventDefault();
           void enviar(texto);
         }}
-        className="sticky bottom-20 rounded-2xl border border-line bg-bg/95 p-3 shadow-2xl backdrop-blur md:bottom-6"
+        className="glass-strong sticky bottom-24 rounded-3xl p-3 md:bottom-6"
       >
         <textarea
           ref={caja}
@@ -204,7 +204,7 @@ export function Chat({ nombre, iniciales, preguntaInicial }: { nombre: string; i
               onClick={() => void enviar(sug.texto)}
               className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-left text-sm text-white backdrop-blur transition hover:bg-white/20"
             >
-              <span>{sug.icono}</span>
+              <sug.icono className="size-4 shrink-0" />
               <span className="line-clamp-2">{sug.texto}</span>
             </button>
           ))}

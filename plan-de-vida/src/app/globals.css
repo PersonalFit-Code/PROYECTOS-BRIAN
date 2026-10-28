@@ -13,6 +13,16 @@
   --line: #e9e9e7;
   --hover: rgba(55, 53, 47, 0.06);
   --card: #ffffff;
+  --glass: rgba(255, 255, 255, 0.5);
+  --glass-strong: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-edge: rgba(15, 23, 42, 0.07);
+  --glass-shine: rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 10px 40px -12px rgba(30, 27, 75, 0.18), 0 2px 6px -2px rgba(30, 27, 75, 0.06);
+  --mesh-1: rgba(167, 139, 250, 0.55);
+  --mesh-2: rgba(56, 189, 248, 0.4);
+  --mesh-3: rgba(244, 114, 182, 0.32);
+  --mesh-base: #f6f5fb;
   --accent: #2383e2;
   --accent-fg: #ffffff;
   --ok: #448361;
@@ -41,6 +51,16 @@
     --line: #2f2f2f;
     --hover: rgba(255, 255, 255, 0.055);
     --card: #202020;
+    --glass: rgba(28, 28, 40, 0.42);
+    --glass-strong: rgba(26, 26, 36, 0.78);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-edge: rgba(0, 0, 0, 0.4);
+    --glass-shine: rgba(255, 255, 255, 0.14);
+    --glass-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.6), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+    --mesh-1: rgba(124, 58, 237, 0.6);
+    --mesh-2: rgba(14, 165, 233, 0.38);
+    --mesh-3: rgba(219, 39, 119, 0.32);
+    --mesh-base: #0d0d14;
     --accent: #2f8ae5;
     --ok: #4dab9a;
     --bad: #e16f64;
@@ -75,11 +95,104 @@
   --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji";
 }
 
-html,
+/* El color base va solo en <html>: si <body> tuviera fondo, taparía la capa de color de body::before. */
+html {
+  background: var(--mesh-base);
+}
+
 body {
-  background: var(--bg);
+  background: transparent;
   color: var(--fg);
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Fondo de color suave y fijo detrás de todo: es lo que el cristal deja ver. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(45% 40% at 18% 12%, var(--mesh-1), transparent 72%),
+    radial-gradient(40% 38% at 88% 28%, var(--mesh-2), transparent 72%),
+    radial-gradient(50% 45% at 55% 92%, var(--mesh-3), transparent 72%),
+    radial-gradient(30% 30% at 10% 70%, var(--mesh-2), transparent 70%),
+    var(--mesh-base);
+  animation: deriva 40s ease-in-out infinite alternate;
+}
+
+@keyframes deriva {
+  to {
+    transform: translate3d(-3%, 2%, 0) rotate(3deg) scale(1.05);
+  }
+}
+
+/*
+ * Liquid glass: panel translúcido que desenfoca y satura lo de detrás, con un borde de luz arriba
+ * (el "brillo" del cristal) y una sombra suave. Se usa en tarjetas, barra lateral, menús y hojas.
+ */
+.glass,
+.glass-strong {
+  position: relative;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 var(--glass-shine),
+    inset 0 -1px 0 var(--glass-edge),
+    var(--glass-shadow);
+}
+
+.glass-strong {
+  background: var(--glass-strong);
+}
+
+/* Reflejo curvo en la mitad superior, como el cristal de iOS. */
+.glass::after,
+.glass-strong::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--glass-shine) 0%, transparent 38%);
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+}
+
+/* Entrada escalonada de listas y tarjetas: style={{ "--i": n }} */
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.entrar {
+  animation: entrar 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+@keyframes marcar {
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.marcar {
+  animation: marcar 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 body {
@@ -96,6 +209,9 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
   *,
   *::before,
   *::after {

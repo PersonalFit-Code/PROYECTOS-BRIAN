@@ -1,0 +1,175 @@
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, ChevronDown } from "lucide-react";
+import { useOptimistic, useState, useTransition } from "react";
+import { registrarHabito } from "@/app/(app)/habitos/acciones";
+import { Icono } from "@/components/ui/iconos";
+import { diaSemana, INICIALES_DIA } from "@/lib/fechas";
+import { cx } from "@/lib/formato";
+
+export interface FilaHabito {
+  id: string;
+  name: string;
+  emoji: string;
+  kind: "check" | "cantidad" | "dejar";
+  /** días en que toca (los "N por semana" tocan todos) */
+  tocaDias: string[];
+  hechos: string[];
+  pct: number;
+}
+
+type Cambio = { id: string; dia: string; done: boolean };
+
+/**
+ * Casillas de hábitos sin scroll horizontal.
+ *  · semana: una tarjeta por hábito con sus 7 casillas debajo del nombre.
+ *  · mes: un desplegable por hábito con el calendario del mes en 7 columnas.
+ * Se pueden marcar días pasados que se olvidaron; los futuros no.
+ */
+export function VistaHabitos({ filas, dias, hoy, modo }: { filas: FilaHabito[]; dias: string[]; hoy: string; modo: "semana" | "mes" }) {
+  const [, start] = useTransition();
+  const [estado, aplicar] = useOptimistic(filas, (actual, c: Cambio) =>
+    actual.map((f) => (f.id !== c.id ? f : { ...f, hechos: c.done ? [...f.hechos, c.dia] : f.hechos.filter((d) => d !== c.dia) })),
+  );
+  const cambiar = (c: Cambio) =>
+    start(async () => {
+      aplicar(c);
+      await registrarHabito(c.id, c.dia, { done: c.done });
+    });
+
+  return (
+    <div className="space-y-3">
+      {estado.map((f, i) =>
+        modo === "semana" ? (
+          <div key={f.id} className="glass entrar rounded-2xl p-3" style={{ ["--i" as string]: i }}>
+            <Cabecera fila={f} />
+            <div className="mt-3 grid grid-cols-7 gap-1.5">
+              {dias.map((d) => (
+                <Celda key={d} fila={f} dia={d} hoy={hoy} cambiar={cambiar} etiqueta={INICIALES_DIA[diaSemana(d)]} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <MesHabito key={f.id} fila={f} dias={dias} hoy={hoy} cambiar={cambiar} i={i} />
+        ),
+      )}
+    </div>
+  );
+}
+
+function Cabecera({ fila }: { fila: FilaHabito }) {
+  const color = fila.pct >= 80 ? "var(--ok)" : fila.pct >= 50 ? "var(--warn)" : "var(--bad)";
+  return (
+    <div className="flex items-center gap-3">
+      <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-accent/12 text-accent">
+        <Icono nombre={fila.emoji} porDefecto="check" />
+      </span>
+      <span className="min-w-0 flex-1 truncate font-medium">{fila.kind === "dejar" ? `Sin ${fila.name.toLowerCase()}` : fila.name}</span>
+      <span className="text-sm font-semibold tabular-nums" style={{ color }}>
+        {Math.round(fila.pct)}%
+      </span>
+    </div>
+  );
+}
+
+function Celda({ fila, dia, hoy, cambiar, etiqueta }: { fila: FilaHabito; dia: string; hoy: string; cambiar: (c: Cambio) => void; etiqueta: string }) {
+  const toca = fila.tocaDias.includes(dia);
+  const hecho = fila.hechos.includes(dia);
+  const futuro = dia > hoy;
+  const color = fila.kind === "dejar" ? "var(--warn)" : "var(--ok)";
+  if (!toca && !hecho) {
+    return (
+      <div className="flex flex-col items-center gap-1 text-[11px] text-faint">
+        <span>{etiqueta}</span>
+        <span className="grid size-9 place-items-center rounded-xl text-xs">·</span>
+      </div>
+    );
+  }
+  return (
+    <div className={cx("flex flex-col items-center gap-1 text-[11px]", dia === hoy ? "font-semibold text-accent" : "text-muted")}>
+      <span>{etiqueta}</span>
+      <button
+        type="button"
+        role="checkbox"
+        aria-checked={hecho}
+        aria-label={`${fila.name} · ${dia}`}
+        disabled={futuro}
+        onClick={() => cambiar({ id: fila.id, dia, done: !hecho })}
+        className={cx(
+          "grid size-9 place-items-center rounded-xl border transition duration-200 active:scale-90 disabled:opacity-35",
+          hecho ? "border-transparent text-white shadow-sm" : "border-faint/50 hover:bg-hover",
+          dia === hoy && !hecho && "border-accent",
+        )}
+        style={hecho ? { background: color } : undefined}
+      >
+        {hecho && <Check className="marcar size-4" strokeWidth={3} />}
+      </button>
+    </div>
+  );
+}
+
+function MesHabito({ fila, dias, hoy, cambiar, i }: { fila: FilaHabito; dias: string[]; hoy: string; cambiar: (c: Cambio) => void; i: number }) {
+  const [abierto, setAbierto] = useState(i === 0);
+  const hueco = diaSemana(dias[0]);
+  return (
+    <section className="glass entrar overflow-hidden rounded-2xl" style={{ ["--i" as string]: i }}>
+      <button type="button" onClick={() => setAbierto((v) => !v)} aria-expanded={abierto} className="flex w-full items-center gap-2 p-3 text-left transition hover:bg-hover/50">
+        <div className="min-w-0 flex-1">
+          <Cabecera fila={fila} />
+        </div>
+        <motion.span animate={{ rotate: abierto ? 180 : 0 }} className="text-muted">
+          <ChevronDown className="size-5" />
+        </motion.span>
+      </button>
+      <AnimatePresence initial={false}>
+        {abierto && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+            <div className="border-t border-line/60 p-3">
+              <div className="mb-1 grid grid-cols-7 gap-1.5 text-center text-[11px] text-muted">
+                {INICIALES_DIA.map((d) => (
+                  <span key={d}>{d}</span>
+                ))}
+              </div>
+              <div className="grid grid-cols-7 gap-1.5">
+                {Array.from({ length: hueco }, (_, k) => (
+                  <span key={`h${k}`} />
+                ))}
+                {dias.map((d) => (
+                  <CeldaMes key={d} fila={fila} dia={d} hoy={hoy} cambiar={cambiar} />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}
+
+function CeldaMes({ fila, dia, hoy, cambiar }: { fila: FilaHabito; dia: string; hoy: string; cambiar: (c: Cambio) => void }) {
+  const toca = fila.tocaDias.includes(dia);
+  const hecho = fila.hechos.includes(dia);
+  const futuro = dia > hoy;
+  const color = fila.kind === "dejar" ? "var(--warn)" : "var(--ok)";
+  const numero = Number(dia.slice(8));
+  if (!toca && !hecho) return <span className="grid aspect-square place-items-center rounded-xl text-xs text-faint/60">{numero}</span>;
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={hecho}
+      aria-label={`${fila.name} · ${dia}`}
+      disabled={futuro}
+      onClick={() => cambiar({ id: fila.id, dia, done: !hecho })}
+      className={cx(
+        "grid aspect-square place-items-center rounded-xl border text-xs tabular-nums transition duration-200 active:scale-90 disabled:opacity-35",
+        hecho ? "border-transparent font-semibold text-white" : "border-faint/40 text-muted hover:bg-hover",
+        dia === hoy && !hecho && "border-accent text-accent",
+      )}
+      style={hecho ? { background: color } : undefined}
+    >
+      {numero}
+    </button>
+  );
+}

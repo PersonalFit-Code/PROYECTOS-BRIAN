@@ -59,7 +59,7 @@ export async function crearCategoria(f: FormData) {
   const name = texto(f, "name", 40);
   if (!name) throw new Error("La categoría necesita un nombre");
   comprobar(
-    await s.db.from("categories").insert({ user_id: s.userId, name, emoji: texto(f, "emoji", 8) || "•", kind: tipo(f), position: 99 }),
+    await s.db.from("categories").insert({ user_id: s.userId, name, emoji: texto(f, "emoji", 30) || "circle", kind: tipo(f), position: 99 }),
     "crear la categoría",
   );
   refrescar();
@@ -110,7 +110,7 @@ export async function crearHucha(f: FormData) {
     await s.db.from("savings_goals").insert({
       user_id: s.userId,
       name,
-      emoji: texto(f, "emoji", 8) || "🐷",
+      emoji: texto(f, "emoji", 30) || "piggy-bank",
       target: importe(f, "target"),
       saved: Math.max(0, numeroONull(f, "saved") ?? 0),
       target_date: fecha(f, "target_date"),

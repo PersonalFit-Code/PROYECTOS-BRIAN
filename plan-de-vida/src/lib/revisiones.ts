@@ -77,7 +77,7 @@ export async function resumenPeriodo(s: Sesion, desde: string, hasta: string): P
     ingresos: ms.filter((m) => m.kind === "ingreso").reduce((a, m) => a + n(m.amount), 0),
     tareasHechas: tareasHechas ?? 0,
     animoMedio: animos.length ? animos.reduce((a, b) => a + b, 0) / animos.length : null,
-    peorHabito: inf.peores[0] ? `${inf.peores[0].emoji} ${inf.peores[0].nombre}` : null,
-    mejorHabito: inf.mejores[0] ? `${inf.mejores[0].emoji} ${inf.mejores[0].nombre}` : null,
+    peorHabito: inf.peores[0]?.nombre ?? null,
+    mejorHabito: inf.mejores[0]?.nombre ?? null,
   };
 }

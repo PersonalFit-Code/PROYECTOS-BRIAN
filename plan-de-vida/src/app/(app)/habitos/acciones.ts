@@ -49,7 +49,7 @@ function leerHabito(f: FormData) {
   if (!nombre) throw new Error("El hábito necesita un nombre");
   return {
     name: nombre,
-    emoji: texto(f, "emoji", 8) || "✅",
+    emoji: texto(f, "emoji", 30) || "check",
     kind,
     routine,
     target: kind === "cantidad" ? numeroONull(f, "target") : null,

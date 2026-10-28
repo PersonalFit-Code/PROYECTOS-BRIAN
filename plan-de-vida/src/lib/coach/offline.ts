@@ -39,7 +39,7 @@ export async function responderSinIA(s: Sesion, mensaje: string, efectos: Efecto
   const habito = t.match(/^(?:hecho|hecha|completado|he\s+hecho|ya\s+he\s+hecho|hice)[:\s]+(.+)$/i);
   if (habito) {
     const r = (await ejecutarHerramienta(s, "marcar_habito", { habito: habito[1].replace(/[.!]+$/, "") }, efectos)) as { ok?: boolean; habito?: string; error?: string; habitos?: string[] };
-    if (r.ok) return `✓ ${r.habito} marcado. Una casilla más: así se construye la identidad.`;
+    if (r.ok) return `${r.habito} marcado. Una casilla más: así se construye la identidad.`;
     return `${r.error}.${r.habitos?.length ? ` Tus hábitos: ${r.habitos.join(", ")}.` : ""}`;
   }
 

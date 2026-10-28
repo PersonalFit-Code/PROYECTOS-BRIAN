@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { guardarPresupuesto } from "@/app/(app)/finanzas/acciones";
 import { Progreso } from "@/components/ui/basicos";
+import { Icono } from "@/components/ui/iconos";
 import { euros } from "@/lib/formato";
 
 export interface FilaPresupuesto {
@@ -31,8 +32,9 @@ function FilaCat({ f }: { f: FilaPresupuesto }) {
   return (
     <li>
       <div className="mb-1 flex items-center justify-between gap-2 text-sm">
-        <span className="truncate">
-          {f.emoji} {f.nombre}
+        <span className="flex min-w-0 items-center gap-2">
+          <Icono nombre={f.emoji} className="text-muted" />
+          <span className="truncate">{f.nombre}</span>
         </span>
         <span className="flex items-center gap-1 tabular-nums">
           <span className={pasado ? "text-bad" : ""}>{euros(f.gastado)}</span>
@@ -42,7 +44,7 @@ function FilaCat({ f }: { f: FilaPresupuesto }) {
               autoFocus
               inputMode="decimal"
               defaultValue={f.presupuesto ?? ""}
-              className="w-20 rounded border border-line bg-bg px-1 text-right"
+              className="w-24 rounded-lg border border-line bg-bg/70 px-1.5 py-0.5 text-right"
               onBlur={(e) => {
                 const v = Number(e.target.value.replace(",", "."));
                 setEditando(false);

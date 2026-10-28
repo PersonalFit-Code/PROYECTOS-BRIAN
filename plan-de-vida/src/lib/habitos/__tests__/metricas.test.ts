@@ -35,8 +35,8 @@ test("racha: los fines de semana no rompen un hábito de laborables", () => {
 
 test("informe mensual: ordena mejores y peores y detecta el peor día", () => {
   const habitos = [
-    { ...diario, id: "a", name: "Leer", emoji: "📚" },
-    { ...diario, id: "b", name: "Gimnasio", emoji: "🏋️" },
+    { ...diario, id: "a", name: "Leer", emoji: "book-open" },
+    { ...diario, id: "b", name: "Gimnasio", emoji: "dumbbell" },
   ];
   const logs: { habit_id: string; day: string; done: boolean; value: null }[] = [];
   for (let d = 1; d <= 30; d++) {

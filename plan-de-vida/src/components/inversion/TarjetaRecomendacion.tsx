@@ -22,14 +22,15 @@ export function TarjetaRecomendacion({ rec, nombre, nombreSenal }: { rec: Recomm
   }
 
   return (
-    <li className="rounded-lg border border-line bg-card p-3">
+    <li className="glass entrar rounded-2xl p-3">
       <div className="mb-1 flex flex-wrap items-center gap-2">
         <Tag color={COLOR[rec.action]}>{TEXTO[rec.action]}</Tag>
         <span className="font-medium">{nombre}</span>
         <span className="text-xs text-muted">{rec.symbol}</span>
-        <span className="ml-auto text-xs text-muted" title="Confianza">
-          {"●".repeat(rec.confidence)}
-          <span className="text-faint">{"●".repeat(5 - rec.confidence)}</span>
+        <span className="ml-auto flex gap-0.5" title={`Confianza ${rec.confidence} de 5`}>
+          {[1, 2, 3, 4, 5].map((k) => (
+            <span key={k} className={cx("size-1.5 rounded-full", k <= rec.confidence ? "bg-accent" : "bg-faint/40")} />
+          ))}
         </span>
       </div>
       <p className="text-sm">{rec.thesis}</p>
@@ -40,7 +41,7 @@ export function TarjetaRecomendacion({ rec, nombre, nombreSenal }: { rec: Recomm
         <span className="ml-auto flex gap-1">
           <button
             onClick={() => cambiar({ followed: !estado.followed })}
-            className={cx("inline-flex items-center gap-1 rounded px-2 py-1 hover:bg-hover", estado.followed && "bg-hover font-medium text-fg")}
+            className={cx("inline-flex items-center gap-1 rounded-lg px-2 py-1 transition hover:bg-hover active:scale-95", estado.followed && "bg-hover font-medium text-fg")}
           >
             <Check className="size-3.5" /> La seguí
           </button>

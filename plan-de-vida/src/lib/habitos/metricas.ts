@@ -272,11 +272,11 @@ export function ideasPorReglas(inf: InformeHabitos): string[] {
   for (const p of inf.peores) {
     if (p.pct < 40) {
       ideas.push(
-        `${p.emoji} ${p.nombre} (${Math.round(p.pct)} %): baja el listón a una versión mínima que no puedas fallar (2 minutos) durante 2 semanas. Primero la constancia, luego la intensidad.`,
+        `${p.nombre} (${Math.round(p.pct)} %): baja el listón a una versión mínima que no puedas fallar (2 minutos) durante 2 semanas. Primero la constancia, luego la intensidad.`,
       );
     } else {
       ideas.push(
-        `${p.emoji} ${p.nombre} (${Math.round(p.pct)} %): engánchalo a algo que ya haces siempre ("después de X, hago ${p.nombre.toLowerCase()}") y déjalo preparado la noche antes.`,
+        `${p.nombre} (${Math.round(p.pct)} %): engánchalo a algo que ya haces siempre ("después de X, hago ${p.nombre.toLowerCase()}") y déjalo preparado la noche antes.`,
       );
     }
     if (p.peorDia) ideas.push(`${p.nombre} se te cae sobre todo los ${p.peorDia}: planifica ese día en concreto (hora fija en el calendario) o quítalo de ese día y compénsalo otro.`);
@@ -293,7 +293,7 @@ export function ideasPorReglas(inf: InformeHabitos): string[] {
     ideas.push(`Los días que cumples tu rutina tu ánimo medio es ${inf.animo.diasBuenos.toFixed(1)}/5 frente a ${inf.animo.diasFlojos.toFixed(1)}/5 los días flojos. La rutina no es un extra: es lo que te pone bien.`);
   }
   if (inf.mejores[0]) {
-    ideas.push(`${inf.mejores[0].emoji} ${inf.mejores[0].nombre} ya es parte de ti (${Math.round(inf.mejores[0].pct)} %). Úsalo de ancla para colgarle el hábito que más te cuesta.`);
+    ideas.push(`${inf.mejores[0].nombre} ya es parte de ti (${Math.round(inf.mejores[0].pct)} %). Úsalo de ancla para colgarle el hábito que más te cuesta.`);
   }
   return ideas.slice(0, 7);
 }

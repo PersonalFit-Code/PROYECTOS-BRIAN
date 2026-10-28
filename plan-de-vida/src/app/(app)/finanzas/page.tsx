@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, ChartColumn, ChevronLeft, ChevronRight, Gauge, PiggyBank, Receipt, Scale } from "lucide-react";
 import { GraficaMeses } from "@/components/finanzas/GraficaMeses";
 import { ListaMovimientos } from "@/components/finanzas/ListaMovimientos";
 import { Presupuesto } from "@/components/finanzas/Presupuesto";
-import { Card, Kpi, Seccion, Titulo } from "@/components/ui/basicos";
+import { Kpi, Titulo } from "@/components/ui/basicos";
+import { Desplegable } from "@/components/ui/Desplegable";
 import { getCategorias, getMovimientos } from "@/lib/datos/consultas";
 import { hoy, mesAnterior, mesDe, NOMBRES_MES, nombreMes, rangoMes, sumarMeses } from "@/lib/fechas";
 import { euros, pct } from "@/lib/formato";
@@ -47,43 +48,39 @@ export default async function FinanzasPage({ searchParams }: { searchParams: Pro
 
   return (
     <>
-      <Titulo emoji="💸">Movimientos</Titulo>
-      <div className="mb-6 flex items-center gap-1 text-sm">
-        <Link aria-label="Mes anterior" href={`/finanzas?mes=${mesAnterior(mes)}`} className="rounded p-1 hover:bg-hover">
+      <Titulo icono={<Receipt />} color="blue" sub="Toca el botón + para apuntar un gasto o un ingreso en segundos.">
+        Movimientos
+      </Titulo>
+      <div className="glass entrar mb-4 flex items-center justify-between rounded-2xl px-2 py-1.5 text-sm">
+        <Link aria-label="Mes anterior" href={`/finanzas?mes=${mesAnterior(mes)}`} className="rounded-xl p-2 transition hover:bg-hover">
           <ChevronLeft className="size-4" />
         </Link>
-        <span className="min-w-32 text-center font-medium capitalize">{nombreMes(mes)}</span>
-        {mes < actual && (
-          <Link aria-label="Mes siguiente" href={`/finanzas?mes=${mesDe(sumarMeses(`${mes}-01`, 1))}`} className="rounded p-1 hover:bg-hover">
+        <span className="font-medium first-letter:uppercase">{nombreMes(mes)}</span>
+        {mes < actual ? (
+          <Link aria-label="Mes siguiente" href={`/finanzas?mes=${mesDe(sumarMeses(`${mes}-01`, 1))}`} className="rounded-xl p-2 transition hover:bg-hover">
             <ChevronRight className="size-4" />
           </Link>
+        ) : (
+          <span className="size-8" />
         )}
       </div>
 
-      <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Kpi etiqueta="Ingresos" valor={euros(ingresos, false)} tono="ok" />
-        <Kpi etiqueta="Gastos" valor={euros(gastos, false)} />
-        <Kpi etiqueta="Ahorro" valor={euros(ahorro, false)} tono={ahorro >= 0 ? "ok" : "bad"} />
-        <Kpi etiqueta="Tasa de ahorro" valor={ingresos > 0 ? pct((100 * ahorro) / ingresos) : "—"} detalle="objetivo: ≥ 20 %" />
+      <div className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Kpi i={0} icono={<ArrowDownLeft />} etiqueta="Ingresos" valor={euros(ingresos, false)} tono="ok" />
+        <Kpi i={1} icono={<ArrowUpRight />} etiqueta="Gastos" valor={euros(gastos, false)} />
+        <Kpi i={2} icono={<PiggyBank />} etiqueta="Ahorro" valor={euros(ahorro, false)} tono={ahorro >= 0 ? "ok" : "bad"} />
+        <Kpi i={3} icono={<Scale />} etiqueta="Tasa de ahorro" valor={ingresos > 0 ? pct((100 * ahorro) / ingresos) : "—"} detalle="objetivo: ≥ 20 %" />
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-5">
-        <div className="lg:col-span-3">
-          <Seccion titulo="Movimientos del mes">
-            <ListaMovimientos movimientos={delMes} categorias={categorias} />
-          </Seccion>
-        </div>
-        <div className="space-y-8 lg:col-span-2">
-          <Seccion titulo="Presupuesto por categoría">
-            {filas.length ? <Presupuesto filas={filas} /> : <p className="text-sm text-muted">Cuando apuntes gastos verás aquí cada categoría. Toca la cifra para ponerle límite.</p>}
-          </Seccion>
-          <Seccion titulo="Últimos 6 meses">
-            <Card className="p-2">
-              <GraficaMeses datos={meses} />
-            </Card>
-          </Seccion>
-        </div>
-      </div>
+      <Desplegable icono={<Receipt />} color="blue" titulo="Movimientos del mes" resumen={`${delMes.length}`} abierto i={4}>
+        <ListaMovimientos movimientos={delMes} categorias={categorias} />
+      </Desplegable>
+      <Desplegable icono={<Gauge />} color="orange" titulo="Presupuesto por categoría" resumen="toca la cifra para cambiarla" i={5}>
+        <Presupuesto filas={filas} />
+      </Desplegable>
+      <Desplegable icono={<ChartColumn />} color="green" titulo="Últimos 6 meses" i={6}>
+        <GraficaMeses datos={meses} />
+      </Desplegable>
     </>
   );
 }

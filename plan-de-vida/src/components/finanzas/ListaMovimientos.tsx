@@ -4,6 +4,7 @@ import { Repeat, Trash2 } from "lucide-react";
 import { useOptimistic, useTransition } from "react";
 import { borrarMovimiento } from "@/app/(app)/finanzas/acciones";
 import { Vacio } from "@/components/ui/basicos";
+import { Icono } from "@/components/ui/iconos";
 import { fechaLarga } from "@/lib/fechas";
 import { cx, euros } from "@/lib/formato";
 import type { Category, Transaction } from "@/lib/tipos";
@@ -26,8 +27,10 @@ export function ListaMovimientos({ movimientos, categorias }: { movimientos: Tra
             {ms.map((m) => {
               const c = m.category_id ? cat.get(m.category_id) : null;
               return (
-                <li key={m.id} className="group flex items-center gap-3 rounded-md px-1 py-1.5 hover:bg-hover">
-                  <span className="grid size-8 place-items-center rounded-md bg-hover">{c?.emoji ?? "•"}</span>
+                <li key={m.id} className="group flex items-center gap-3 rounded-xl px-1 py-1.5 transition hover:bg-hover/60">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-accent/10 text-accent">
+                    <Icono nombre={c?.emoji} />
+                  </span>
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm">{m.note || c?.name || (m.kind === "gasto" ? "Gasto" : "Ingreso")}</div>
                     <div className="flex items-center gap-1 text-xs text-muted">
@@ -41,7 +44,7 @@ export function ListaMovimientos({ movimientos, categorias }: { movimientos: Tra
                   </span>
                   <button
                     aria-label="Borrar movimiento"
-                    className="rounded p-1 text-muted opacity-0 hover:bg-hover group-hover:opacity-100 focus:opacity-100"
+                    className="rounded-lg p-1 text-muted opacity-60 transition hover:bg-hover hover:opacity-100 md:opacity-0 md:group-hover:opacity-100"
                     onClick={() => {
                       if (confirm("¿Borrar este movimiento?"))
                         start(async () => {

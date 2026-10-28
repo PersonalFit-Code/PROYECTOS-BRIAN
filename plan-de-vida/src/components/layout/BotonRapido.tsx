@@ -1,10 +1,12 @@
 "use client";
 
-import { Plus, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, Plus, X } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState, useTransition } from "react";
 import { crearMovimiento } from "@/app/(app)/finanzas/acciones";
 import { Boton, Campo } from "@/components/ui/basicos";
+import { Icono } from "@/components/ui/iconos";
 import { cx } from "@/lib/formato";
 import type { Category, TxKind } from "@/lib/tipos";
 
@@ -13,8 +15,8 @@ import type { Category, TxKind } from "@/lib/tipos";
  * Se abre también con ?nuevo=1 (atajo "Apuntar gasto" del icono de la app).
  */
 export function BotonRapido({ categorias }: { categorias: Category[] }) {
-  // En el Inicio no hace falta: el coach apunta gastos hablando, y el botón taparía el de enviar.
-  if (usePathname() === "/") return null;
+  // En el coach no hace falta (apunta gastos hablando) y el botón taparía el de enviar.
+  if (usePathname() === "/coach") return null;
   return (
     <Suspense>
       <BotonRapidoInterno categorias={categorias} />
@@ -47,16 +49,24 @@ function BotonRapidoInterno({ categorias }: { categorias: Category[] }) {
           setAbierto(true);
           setHecho(false);
         }}
-        className="fixed right-4 bottom-20 z-30 grid size-14 place-items-center rounded-full bg-accent text-accent-fg shadow-lg transition hover:scale-105 md:right-8 md:bottom-8"
+        className="fixed right-5 bottom-24 z-30 grid size-14 place-items-center rounded-full bg-gradient-to-br from-violet-500 to-sky-500 text-white shadow-xl shadow-violet-500/30 ring-1 ring-white/30 transition duration-300 hover:scale-105 active:scale-95 md:right-8 md:bottom-8"
       >
         <Plus className="size-7" />
       </button>
 
+      <AnimatePresence>
       {abierto && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 md:items-center" onClick={() => setAbierto(false)}>
-          <div className="pb-safe w-full max-w-md rounded-t-2xl border border-line bg-bg p-4 md:rounded-2xl" onClick={(e) => e.stopPropagation()}>
+        <motion.div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/30 backdrop-blur-[2px] md:items-center" onClick={() => setAbierto(false)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <motion.div
+            className="glass-strong pb-safe w-full max-w-md rounded-t-3xl p-5 md:rounded-3xl"
+            onClick={(e) => e.stopPropagation()}
+            initial={{ y: 60, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 60, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 320, damping: 30 }}
+          >
             <div className="mb-3 flex items-center justify-between">
-              <div className="flex rounded-md border border-line p-0.5 text-sm">
+              <div className="flex rounded-xl border border-line p-0.5 text-sm">
                 {(["gasto", "ingreso"] as const).map((k) => (
                   <button
                     key={k}
@@ -65,7 +75,7 @@ function BotonRapidoInterno({ categorias }: { categorias: Category[] }) {
                       setKind(k);
                       setCategoria("");
                     }}
-                    className={cx("rounded px-3 py-1 capitalize", kind === k ? "bg-hover font-medium" : "text-muted")}
+                    className={cx("rounded-lg px-3 py-1 capitalize transition", kind === k ? "bg-bg font-medium shadow-sm" : "text-muted")}
                   >
                     {k}
                   </button>
@@ -111,9 +121,10 @@ function BotonRapidoInterno({ categorias }: { categorias: Category[] }) {
                     key={c.id}
                     type="button"
                     onClick={() => setCategoria(c.id === categoria ? "" : c.id)}
-                    className={cx("rounded-full border px-2.5 py-1 text-sm", categoria === c.id ? "border-accent bg-hover font-medium" : "border-line text-muted")}
+                    className={cx("inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition active:scale-95", categoria === c.id ? "border-accent bg-accent text-accent-fg" : "border-line text-muted hover:bg-hover")}
                   >
-                    {c.emoji} {c.name}
+                    <Icono nombre={c.emoji} className="size-3.5" />
+                    {c.name}
                   </button>
                 ))}
               </div>
@@ -121,12 +132,17 @@ function BotonRapidoInterno({ categorias }: { categorias: Category[] }) {
               <Campo name="day" type="date" defaultValue={new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Madrid" })} />
               {error && <p className="text-sm text-bad">{error}</p>}
               <Boton variante="primario" className="w-full py-2.5" disabled={pendiente}>
-                {hecho ? "✓ Apuntado" : pendiente ? "Guardando…" : `Apuntar ${kind}`}
+                {hecho ? (
+                  <>
+                    <Check className="size-4" /> Apuntado
+                  </>
+                ) : pendiente ? "Guardando…" : `Apuntar ${kind}`}
               </Boton>
             </form>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </>
   );
 }
