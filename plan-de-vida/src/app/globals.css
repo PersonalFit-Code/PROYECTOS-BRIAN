@@ -219,3 +219,45 @@ input[type="number"]::-webkit-inner-spin-button {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Pantalla de carga: siluetas de cristal con un brillo que las recorre. */
+@keyframes brillo {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+.esqueleto {
+  background-color: var(--hover);
+  background-image: linear-gradient(100deg, transparent 20%, var(--glass-shine) 50%, transparent 80%);
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: brillo 1.4s ease-in-out infinite;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+  }
+}
+
+/* La carga aparece con un pequeño retraso: si los datos llegan enseguida, no parpadea. */
+.carga {
+  animation: aparecer 0.35s ease-out 0.08s both;
+}
+
+@keyframes barra-carga {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(200%);
+  }
+}
+
+.barra-carga {
+  animation: barra-carga 0.9s ease-in-out infinite;
+}

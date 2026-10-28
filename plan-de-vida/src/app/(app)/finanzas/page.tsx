@@ -75,7 +75,8 @@ export default async function FinanzasPage({ searchParams }: { searchParams: Pro
       <Desplegable icono={<Receipt />} color="blue" titulo="Movimientos del mes" resumen={`${delMes.length}`} abierto i={4}>
         <ListaMovimientos movimientos={delMes} categorias={categorias} />
       </Desplegable>
-      <Desplegable icono={<Gauge />} color="orange" titulo="Presupuesto por categoría" resumen="toca la cifra para cambiarla" i={5}>
+      <Desplegable icono={<Gauge />} color="orange" titulo="Presupuesto por categoría" i={5}>
+        <p className="mb-3 text-xs text-muted">Toca la cifra de cada categoría para ponerle o cambiarle el límite.</p>
         <Presupuesto filas={filas} />
       </Desplegable>
       <Desplegable icono={<ChartColumn />} color="green" titulo="Últimos 6 meses" i={6}>

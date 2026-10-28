@@ -13,6 +13,7 @@ import {
   Wallet,
   type LucideIcon,
 } from "lucide-react";
+import { IndicadorEnlace } from "@/components/layout/IndicadorEnlace";
 import ShaderBackground from "@/components/ui/shader-background";
 import { Progreso } from "@/components/ui/basicos";
 import { getAjustes, getCategorias, getDiario, getHabitos, getLogs, getMetas, getMovimientos, getTareas } from "@/lib/datos/consultas";
@@ -152,11 +153,12 @@ export default async function InicioPage() {
           <p className="mt-1 text-white/75">¿A dónde quieres ir hoy?</p>
           <Link
             href="/coach"
-            className="mt-5 flex items-center gap-3 rounded-2xl bg-white/15 px-4 py-3 ring-1 ring-white/25 backdrop-blur-xl transition hover:bg-white/25 active:scale-[0.99]"
+            className="relative mt-5 flex items-center gap-3 rounded-2xl bg-white/15 px-4 py-3 ring-1 ring-white/25 backdrop-blur-xl transition hover:bg-white/25 active:scale-[0.99]"
           >
             <Sparkles className="size-5 shrink-0" />
             <span className="flex-1 text-sm text-white/90">Habla con tu coach: apunta, pregunta o planifica…</span>
             <ChevronRight className="size-5 text-white/70" />
+            <IndicadorEnlace />
           </Link>
         </div>
       </section>
@@ -168,7 +170,7 @@ export default async function InicioPage() {
             key={a.href}
             href={a.href}
             style={{ ["--i" as string]: i + 1 }}
-            className="glass entrar group flex flex-col rounded-2xl p-3.5 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] sm:p-4"
+            className="glass entrar group relative flex flex-col rounded-2xl p-3.5 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] sm:p-4"
           >
             <div className="mb-3 flex items-center justify-between">
               <span className="grid size-10 place-items-center rounded-xl" style={{ background: `var(--tag-${a.color}-bg)`, color: `var(--tag-${a.color}-fg)` }}>
@@ -180,6 +182,7 @@ export default async function InicioPage() {
             <p className="mt-0.5 text-[13px] leading-snug sm:text-sm">{a.resumen}</p>
             {a.detalle && <p className="mt-0.5 hidden text-xs text-muted sm:block">{a.detalle}</p>}
             {a.progreso != null && <Progreso valor={a.progreso} className="mt-3" color={a.progreso > 100 ? "var(--bad)" : `var(--tag-${a.color}-fg)`} />}
+            <IndicadorEnlace />
           </Link>
         ))}
       </div>

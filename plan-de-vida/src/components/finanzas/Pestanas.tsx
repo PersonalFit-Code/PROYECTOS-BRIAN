@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV } from "@/components/layout/nav";
+import { IndicadorEnlace } from "@/components/layout/IndicadorEnlace";
 import { cx } from "@/lib/formato";
 
 /** Subapartados de Finanzas en pestañas (en el móvil no hay barra lateral). */
@@ -24,6 +25,7 @@ export function Pestanas() {
               {on && <motion.span layoutId="pestana-finanzas" className="glass-strong absolute inset-0 rounded-2xl" transition={{ type: "spring", stiffness: 380, damping: 32 }} />}
               <h.icon className="relative size-5" />
               <span className="relative">{h.label}</span>
+              <IndicadorEnlace />
             </Link>
           );
         })}

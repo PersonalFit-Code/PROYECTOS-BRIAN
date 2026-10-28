@@ -7,6 +7,7 @@ import { LogOut } from "lucide-react";
 import { cx } from "@/lib/formato";
 import { activo, NAV } from "./nav";
 import { salir } from "@/app/login/acciones";
+import { IndicadorEnlace } from "./IndicadorEnlace";
 
 /** Barra lateral de escritorio: panel de cristal flotante, con la selección deslizándose entre apartados. */
 export function Sidebar({ nombre }: { nombre: string }) {
@@ -51,6 +52,7 @@ function EnlaceNav({ href, label, Icon, on, pequeno }: { href: string; label: st
       {on && <motion.span layoutId={pequeno ? "nav-sub" : "nav"} className="absolute inset-0 rounded-xl bg-bg/80 shadow-sm" transition={{ type: "spring", stiffness: 380, damping: 32 }} />}
       <Icon className="relative size-4 shrink-0" />
       <span className="relative truncate">{label}</span>
+      <IndicadorEnlace />
     </Link>
   );
 }

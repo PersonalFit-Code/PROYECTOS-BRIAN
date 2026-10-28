@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Ellipsis, X } from "lucide-react";
 import { cx } from "@/lib/formato";
+import { IndicadorEnlace } from "./IndicadorEnlace";
 import { activo, NAV, NAV_MOVIL } from "./nav";
 
 /** Barra inferior del móvil (cristal flotante): 4 accesos fijos + "Más" con el resto. */
@@ -41,10 +42,11 @@ export function MobileNav() {
                     href={i.href}
                     onClick={() => setAbierto(false)}
                     style={{ ["--i" as string]: n }}
-                    className={cx("entrar flex flex-col items-center gap-1.5 rounded-2xl p-3 text-center text-xs transition", activo(pathname, i.href) ? "bg-bg/80 font-medium shadow-sm" : "text-muted hover:bg-hover")}
+                    className={cx("entrar relative flex flex-col items-center gap-1.5 rounded-2xl p-3 text-center text-xs transition", activo(pathname, i.href) ? "bg-bg/80 font-medium shadow-sm" : "text-muted hover:bg-hover")}
                   >
                     <i.icon className="size-5" />
                     {i.label}
+                    <IndicadorEnlace />
                   </Link>
                 ))}
               </div>
@@ -61,6 +63,7 @@ export function MobileNav() {
                 {on && <motion.span layoutId="nav-movil" className="absolute inset-0 rounded-2xl bg-bg/80 shadow-sm" transition={{ type: "spring", stiffness: 380, damping: 32 }} />}
                 <i.icon className="relative size-5" />
                 <span className="relative">{i.label}</span>
+                <IndicadorEnlace />
               </Link>
             );
           })}
