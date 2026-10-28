@@ -7,6 +7,7 @@ import {
   ListChecks,
   PiggyBank,
   Sparkles,
+  Landmark,
   Sun,
   Target,
   TrendingUp,
@@ -16,8 +17,9 @@ import {
 import { IndicadorEnlace } from "@/components/layout/IndicadorEnlace";
 import ShaderBackground from "@/components/ui/shader-background";
 import { Progreso } from "@/components/ui/basicos";
-import { getAjustes, getCategorias, getDiario, getHabitos, getLogs, getMetas, getMovimientos, getTareas } from "@/lib/datos/consultas";
+import { getAjustes, getCategorias, getCuentas, getDiario, getHabitos, getLogs, getMetas, getMovimientos, getTareas } from "@/lib/datos/consultas";
 import { fechaLarga, hoy as hoyMadrid, mesDe, rangoMes, sumarDias } from "@/lib/fechas";
+import { patrimonioNeto } from "@/lib/finanzas";
 import { euros } from "@/lib/formato";
 import { cumplido, indexar, rachaActual, toca } from "@/lib/habitos/metricas";
 import { getSesion } from "@/lib/sesion";
@@ -48,7 +50,7 @@ export default async function InicioPage() {
   const hoy = hoyMadrid();
   const s = await getSesion();
   const mes = rangoMes(mesDe(hoy));
-  const [ajustes, habitos, logs, movimientos, categorias, metas, tareas, diario, { data: rec }] = await Promise.all([
+  const [ajustes, habitos, logs, movimientos, categorias, metas, tareas, diario, { data: rec }, cuentas] = await Promise.all([
     getAjustes(s),
     getHabitos(s),
     getLogs(s, sumarDias(hoy, -400), hoy),
@@ -58,7 +60,11 @@ export default async function InicioPage() {
     getTareas(s, { pendientes: true, hasta: hoy }),
     getDiario(s, hoy, hoy),
     s.db.from("recommendations").select("action, symbol").eq("user_id", s.userId).order("day", { ascending: false }).order("confidence", { ascending: false }).limit(1).maybeSingle(),
+    getCuentas(s),
   ]);
+  const activasCuentas = cuentas.filter((c) => c.active);
+  const disponible = activasCuentas.filter((c) => c.kind === "liquidez").reduce((a, c) => a + n(c.balance), 0);
+  const neto = patrimonioNeto(activasCuentas);
 
   const porHabito = indexar(logs);
   const deHoy = habitos.filter((h) => toca(h, hoy) && !h.weekly_target);
@@ -106,6 +112,14 @@ export default async function InicioPage() {
       progreso: presupuesto ? (100 * gastado) / presupuesto : undefined,
     },
     {
+      href: "/finanzas/patrimonio",
+      titulo: "Tu dinero",
+      icono: Landmark,
+      color: "blue",
+      resumen: activasCuentas.length ? `${euros(disponible)} disponibles` : "Apunta tus cuentas",
+      detalle: activasCuentas.length ? `Patrimonio total: ${euros(neto)}` : "Efectivo, banco, inversiones y deudas",
+    },
+    {
       href: "/finanzas/inversion",
       titulo: "Inversión",
       icono: TrendingUp,
@@ -115,11 +129,11 @@ export default async function InicioPage() {
     },
     {
       href: "/finanzas/huchas",
-      titulo: "Ahorro y patrimonio",
+      titulo: "Huchas",
       icono: PiggyBank,
       color: "pink",
-      resumen: "Huchas y patrimonio neto",
-      detalle: "Cuánto tienes y a dónde va",
+      resumen: "Metas de ahorro",
+      detalle: "Cuánto llevas y a qué ritmo",
     },
     {
       href: "/diario",
