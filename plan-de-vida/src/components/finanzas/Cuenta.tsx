@@ -2,10 +2,10 @@
 
 import { Trash2 } from "lucide-react";
 import { useState, useTransition } from "react";
-import { actualizarSaldo, borrarCuenta } from "@/app/(app)/finanzas/acciones";
+import { actualizarSaldo, borrarCuenta, metodoCuenta } from "@/app/(app)/finanzas/acciones";
 import { fechaCorta } from "@/lib/fechas";
 import { cx, euros } from "@/lib/formato";
-import type { Account } from "@/lib/tipos";
+import type { Account, PayMethod } from "@/lib/tipos";
 
 /** Fila de cuenta: el saldo se actualiza tocándolo. */
 export function Cuenta({ cuenta }: { cuenta: Account }) {
@@ -18,7 +18,21 @@ export function Cuenta({ cuenta }: { cuenta: Account }) {
           {cuenta.name}
           {cuenta.symbol && <span className="ml-2 text-xs text-muted">{cuenta.symbol}</span>}
         </div>
-        <div className="text-xs text-muted">actualizado {fechaCorta(cuenta.updated_at.slice(0, 10))}</div>
+        <div className="flex flex-wrap items-center gap-x-2 text-xs text-muted">
+          <span>actualizado {fechaCorta(cuenta.updated_at.slice(0, 10))}</span>
+          {cuenta.kind === "liquidez" && (
+            <select
+              aria-label={`Pagos que mueven ${cuenta.name}`}
+              value={cuenta.pago ?? ""}
+              onChange={(e) => start(() => metodoCuenta(cuenta.id, (e.target.value || null) as PayMethod | null))}
+              className={cx("rounded-md border border-line bg-bg/60 px-1 py-0.5", cuenta.pago && "text-accent")}
+            >
+              <option value="">sin pagos</option>
+              <option value="tarjeta">pagos con tarjeta</option>
+              <option value="efectivo">pagos en efectivo</option>
+            </select>
+          )}
+        </div>
       </div>
       {editando ? (
         <input

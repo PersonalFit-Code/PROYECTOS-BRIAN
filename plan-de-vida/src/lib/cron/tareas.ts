@@ -28,7 +28,7 @@ export async function apuntarRecurrentes(s: Sesion, dia = hoy()): Promise<number
     let fecha = r.next_date;
     const filas: Record<string, unknown>[] = [];
     for (let i = 0; i < 24 && fecha <= dia; i++) {
-      filas.push({ user_id: s.userId, day: fecha, amount: r.amount, kind: r.kind, category_id: r.category_id, note: r.name, recurring_id: r.id });
+      filas.push({ user_id: s.userId, day: fecha, amount: r.amount, kind: r.kind, category_id: r.category_id, note: r.name, recurring_id: r.id, method: r.method ?? "tarjeta" });
       fecha = siguienteFecha(fecha, r.frequency);
     }
     const ins = await s.db.from("transactions").upsert(filas, { onConflict: "recurring_id,day", ignoreDuplicates: true });

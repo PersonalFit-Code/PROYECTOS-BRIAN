@@ -1,14 +1,14 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Plus, X } from "lucide-react";
+import { Banknote, Check, CreditCard, Plus, X } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState, useTransition } from "react";
 import { crearMovimiento } from "@/app/(app)/finanzas/acciones";
 import { Boton, Campo } from "@/components/ui/basicos";
 import { Icono } from "@/components/ui/iconos";
 import { cx } from "@/lib/formato";
-import type { Category, TxKind } from "@/lib/tipos";
+import type { Category, PayMethod, TxKind } from "@/lib/tipos";
 
 /**
  * Botón "+" flotante: apuntar un gasto o ingreso en tres toques (importe → categoría → listo).
@@ -29,6 +29,7 @@ function BotonRapidoInterno({ categorias }: { categorias: Category[] }) {
   // ?nuevo=1: el atajo "Apuntar gasto" del icono de la app abre directamente el formulario
   const [abierto, setAbierto] = useState(() => params.get("nuevo") === "1");
   const [kind, setKind] = useState<TxKind>("gasto");
+  const [metodo, setMetodo] = useState<PayMethod>("tarjeta");
   const [categoria, setCategoria] = useState<string>("");
   const [hecho, setHecho] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -104,6 +105,7 @@ function BotonRapidoInterno({ categorias }: { categorias: Category[] }) {
             >
               <input type="hidden" name="kind" value={kind} />
               <input type="hidden" name="category_id" value={categoria} />
+              <input type="hidden" name="method" value={metodo} />
               <div className="flex items-baseline gap-2">
                 <input
                   ref={importe}
@@ -114,6 +116,28 @@ function BotonRapidoInterno({ categorias }: { categorias: Category[] }) {
                   className="w-full bg-transparent text-4xl font-semibold tabular-nums outline-none placeholder:text-faint"
                 />
                 <span className="text-2xl text-muted">€</span>
+              </div>
+              <div className="grid grid-cols-2 gap-1.5" role="radiogroup" aria-label="Cómo se pagó">
+                {(
+                  [
+                    ["tarjeta", "Tarjeta", CreditCard],
+                    ["efectivo", "Efectivo", Banknote],
+                  ] as const
+                ).map(([m, etiqueta, Icon]) => (
+                  <button
+                    key={m}
+                    type="button"
+                    role="radio"
+                    aria-checked={metodo === m}
+                    onClick={() => setMetodo(m)}
+                    className={cx(
+                      "flex items-center justify-center gap-2 rounded-xl border py-2 text-sm transition active:scale-95",
+                      metodo === m ? "border-accent bg-accent/12 font-medium text-accent" : "border-line text-muted hover:bg-hover",
+                    )}
+                  >
+                    <Icon className="size-4" /> {etiqueta}
+                  </button>
+                ))}
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {lista.map((c) => (
@@ -136,7 +160,7 @@ function BotonRapidoInterno({ categorias }: { categorias: Category[] }) {
                   <>
                     <Check className="size-4" /> Apuntado
                   </>
-                ) : pendiente ? "Guardando…" : `Apuntar ${kind}`}
+                ) : pendiente ? "Guardando…" : `Apuntar ${kind} · ${metodo}`}
               </Boton>
             </form>
           </motion.div>

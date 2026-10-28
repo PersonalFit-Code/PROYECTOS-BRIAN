@@ -1,6 +1,6 @@
 "use client";
 
-import { Repeat, Trash2 } from "lucide-react";
+import { Banknote, CreditCard, Repeat, Trash2 } from "lucide-react";
 import { useOptimistic, useTransition } from "react";
 import { borrarMovimiento } from "@/app/(app)/finanzas/acciones";
 import { Vacio } from "@/components/ui/basicos";
@@ -18,8 +18,19 @@ export function ListaMovimientos({ movimientos, categorias }: { movimientos: Tra
   const porDia = new Map<string, Transaction[]>();
   for (const m of lista) porDia.set(m.day, [...(porDia.get(m.day) ?? []), m]);
 
+  // Gastos del mes según cómo se pagaron (los apuntados antes de existir el método no cuentan).
+  const gastoCon = (metodo: string) => lista.filter((m) => m.kind === "gasto" && m.method === metodo).reduce((a, m) => a + Number(m.amount), 0);
+
   return (
     <div className="space-y-4">
+      <div className="flex flex-wrap gap-x-4 gap-y-1 rounded-xl bg-bg/50 px-3 py-2 text-xs text-muted">
+        <span className="inline-flex items-center gap-1.5">
+          <CreditCard className="size-3.5" /> Gastado con tarjeta: <b className="tabular-nums text-fg">{euros(gastoCon("tarjeta"))}</b>
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <Banknote className="size-3.5" /> En efectivo: <b className="tabular-nums text-fg">{euros(gastoCon("efectivo"))}</b>
+        </span>
+      </div>
       {[...porDia].map(([dia, ms]) => (
         <div key={dia}>
           <div className="mb-1 text-xs font-medium text-muted">{fechaLarga(dia)}</div>
@@ -34,6 +45,11 @@ export function ListaMovimientos({ movimientos, categorias }: { movimientos: Tra
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm">{m.note || c?.name || (m.kind === "gasto" ? "Gasto" : "Ingreso")}</div>
                     <div className="flex items-center gap-1 text-xs text-muted">
+                      {m.method === "efectivo" ? (
+                        <Banknote className="size-3" aria-label="Efectivo" />
+                      ) : m.method === "tarjeta" ? (
+                        <CreditCard className="size-3" aria-label="Tarjeta" />
+                      ) : null}
                       {c?.name}
                       {m.recurring_id && <Repeat className="size-3" aria-label="Fijo" />}
                     </div>

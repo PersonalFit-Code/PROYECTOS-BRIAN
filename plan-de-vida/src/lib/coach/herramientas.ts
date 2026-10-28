@@ -10,6 +10,7 @@ import { aplicarAuto } from "@/lib/metas/auto";
 import { periodoDe, PREGUNTAS, resumenPeriodo } from "@/lib/revisiones";
 import type { Sesion } from "@/lib/sesion";
 import {
+  metodoDe,
   n,
   type Account,
   type Category,
@@ -65,6 +66,11 @@ export const HERRAMIENTAS: Anthropic.Tool[] = [
         tipo: { type: "string", enum: ["gasto", "ingreso"] },
         categoria: { type: "string", description: "Nombre de la categoría (Comida, Restaurantes, Transporte, Casa, Ocio…). Si no encaja ninguna, déjala vacía." },
         nota: { type: "string", description: "Descripción corta: 'Gasolina', 'Cena con Ana'." },
+        metodo: {
+          type: "string",
+          enum: ["tarjeta", "efectivo"],
+          description: "Cómo se pagó o cobró. 'efectivo' si dice en efectivo, en mano, en metálico o cash; si no lo dice, 'tarjeta'. Mueve el saldo de esa cuenta.",
+        },
         fecha: FECHA,
       },
       required: ["importe", "tipo"],
@@ -229,11 +235,25 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
       const { data: cats } = await s.db.from("categories").select("*").eq("user_id", s.userId);
       const categoria = encontrarCategoria((cats ?? []) as Category[], tipo, str(input.categoria), str(input.nota));
       const fecha = esFecha(input.fecha) ? input.fecha : dia;
-      const r = await s.db.from("transactions").insert({ user_id: s.userId, day: fecha, amount: importe, kind: tipo, category_id: categoria?.id ?? null, note: str(input.nota) || null });
+      const metodo = metodoDe(input.metodo);
+      const r = await s.db
+        .from("transactions")
+        .insert({ user_id: s.userId, day: fecha, amount: importe, kind: tipo, category_id: categoria?.id ?? null, note: str(input.nota) || null, method: metodo })
+        .select("account_id")
+        .single();
       if (r.error) return { error: r.error.message };
-      efectos.rutas.add("/finanzas").add("/hoy");
-      efectos.acciones.push(`${tipo === "gasto" ? "−" : "+"}${importe} € · ${categoria?.name ?? "sin categoría"}`);
-      return { ok: true, importe, tipo, categoria: categoria?.name ?? null, fecha };
+      const { data: cuenta } = r.data?.account_id ? await s.db.from("accounts").select("name, balance").eq("id", r.data.account_id).maybeSingle() : { data: null };
+      efectos.rutas.add("/finanzas").add("/hoy").add("/");
+      efectos.acciones.push(`${tipo === "gasto" ? "−" : "+"}${importe} € · ${categoria?.name ?? "sin categoría"} · ${metodo}`);
+      return {
+        ok: true,
+        importe,
+        tipo,
+        categoria: categoria?.name ?? null,
+        fecha,
+        metodo,
+        cuenta: cuenta ? { nombre: cuenta.name, saldo_nuevo: n(cuenta.balance) } : "ninguna cuenta marcada para este método: el saldo no se ha movido",
+      };
     }
 
     case "estado_habitos": {

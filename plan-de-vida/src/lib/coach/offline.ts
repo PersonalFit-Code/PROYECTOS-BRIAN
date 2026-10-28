@@ -10,8 +10,13 @@ import { ejecutarHerramienta, type Efectos } from "./herramientas";
  * cosas hablando funcione igual: gastos, ingresos, hábitos hechos y "¿cuánto he gastado?".
  */
 
+/** "en efectivo", "en mano", "en metálico", "cash": si no lo dice, se entiende tarjeta. */
+const EFECTIVO = /\s*,?\s*\b(?:(?:en|con|pagado en|pagué en)\s+)?(?:efectivo|metálico|metalico|cash|en mano)(?![\p{L}])/iu;
+
 export async function responderSinIA(s: Sesion, mensaje: string, efectos: Efectos): Promise<string> {
-  const t = mensaje.trim();
+  const crudo = mensaje.trim();
+  const metodo = EFECTIVO.test(crudo) ? "efectivo" : "tarjeta";
+  const t = crudo.replace(EFECTIVO, "").trim();
 
   // Gasto: "gasté 12 € en gasolina", "he pagado 30 de cena", "12€ super"
   const gasto = t.match(/^(?:hoy\s+)?(?:me\s+he\s+gastado|he\s+gastado|gast[eé]|he\s+pagado|pagu[eé]|compr[eé])\s+(.+)$/i) ?? t.match(/^(\d[\d.,]*\s*(?:€|euros?)\s+.+)$/i);
@@ -19,8 +24,8 @@ export async function responderSinIA(s: Sesion, mensaje: string, efectos: Efecto
     const importe = interpretarImporte(gasto[1]);
     if (importe) {
       const nota = gasto[1].replace(/^.*?\d[\d.,]*\s*(?:€|eur|euros?)?\s*(?:en|de|del|para)?\s*/i, "").trim();
-      const r = (await ejecutarHerramienta(s, "registrar_movimiento", { importe, tipo: "gasto", nota: nota || undefined }, efectos)) as { ok?: boolean; categoria?: string; error?: string };
-      return r.ok ? `Apuntado: ${euros(importe)}${r.categoria ? ` en ${r.categoria}` : ""}${nota ? ` (${nota})` : ""}. Cada euro con nombre.` : `No he podido apuntarlo: ${r.error}`;
+      const r = (await ejecutarHerramienta(s, "registrar_movimiento", { importe, tipo: "gasto", nota: nota || undefined, metodo }, efectos)) as { ok?: boolean; categoria?: string; error?: string };
+      return r.ok ? `Apuntado: ${euros(importe)}${r.categoria ? ` en ${r.categoria}` : ""}${nota ? ` (${nota})` : ""}, ${metodo === "efectivo" ? "en efectivo" : "con tarjeta"}. Cada euro con nombre.` : `No he podido apuntarlo: ${r.error}`;
     }
   }
 
@@ -30,7 +35,7 @@ export async function responderSinIA(s: Sesion, mensaje: string, efectos: Efecto
     const importe = interpretarImporte(ingreso[1]);
     if (importe) {
       const nota = ingreso[1].replace(/^.*?\d[\d.,]*\s*(?:€|eur|euros?)?\s*(?:de|del|por)?\s*/i, "").trim();
-      const r = (await ejecutarHerramienta(s, "registrar_movimiento", { importe, tipo: "ingreso", nota: nota || undefined }, efectos)) as { ok?: boolean; error?: string };
+      const r = (await ejecutarHerramienta(s, "registrar_movimiento", { importe, tipo: "ingreso", nota: nota || undefined, metodo }, efectos)) as { ok?: boolean; error?: string };
       return r.ok ? `Ingreso apuntado: ${euros(importe)}. Bien hecho, ahora decide a qué hucha va una parte.` : `No he podido apuntarlo: ${r.error}`;
     }
   }

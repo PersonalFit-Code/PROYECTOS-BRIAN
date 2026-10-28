@@ -4,11 +4,13 @@ import { revalidatePath } from "next/cache";
 import { comprobar, fecha, numero, numeroONull, texto, textoONull } from "@/lib/acciones";
 import { hoy } from "@/lib/fechas";
 import { getSesion } from "@/lib/sesion";
-import type { AccountKind, Frequency, TxKind } from "@/lib/tipos";
+import { metodoDe, type AccountKind, type Frequency, type PayMethod, type TxKind } from "@/lib/tipos";
 
 function refrescar() {
   revalidatePath("/finanzas", "layout");
   revalidatePath("/hoy");
+  // el saldo de efectivo o banco cambia con cada movimiento (trigger de la migración 0006)
+  revalidatePath("/");
 }
 
 function importe(f: FormData, campo = "amount"): number {
@@ -33,6 +35,7 @@ export async function crearMovimiento(f: FormData) {
       kind: tipo(f),
       category_id: texto(f, "category_id", 40) || null,
       note: textoONull(f, "note", 300),
+      method: metodoDe(f.get("method")),
     }),
     "apuntar el movimiento",
   );
@@ -82,6 +85,7 @@ export async function crearRecurrente(f: FormData) {
       frequency,
       next_date: fecha(f, "next_date") ?? hoy(),
       is_subscription: f.get("is_subscription") === "on",
+      method: metodoDe(f.get("method")),
     }),
     "guardar el fijo",
   );
@@ -154,6 +158,14 @@ export async function crearCuenta(f: FormData) {
     }),
     "crear la cuenta",
   );
+  refrescar();
+}
+
+/** Marca la cuenta de la que salen (y a la que entran) los pagos en efectivo o con tarjeta. Una por método. */
+export async function metodoCuenta(id: string, pago: PayMethod | null) {
+  const s = await getSesion();
+  if (pago) comprobar(await s.db.from("accounts").update({ pago: null }).eq("user_id", s.userId).eq("pago", pago), "cambiar la cuenta de pago");
+  comprobar(await s.db.from("accounts").update({ pago }).eq("id", id).eq("user_id", s.userId), "cambiar la cuenta de pago");
   refrescar();
 }
 

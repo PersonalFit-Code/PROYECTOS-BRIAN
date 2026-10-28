@@ -69,7 +69,23 @@ export type Review = { id: string; kind: "semanal" | "mensual"; period: string; 
 
 export type TxKind = "gasto" | "ingreso";
 export type Category = { id: string; name: string; emoji: string; kind: TxKind; monthly_budget: Num | null; position: number };
-export type Transaction = { id: string; day: string; amount: Num; kind: TxKind; category_id: string | null; note: string | null; recurring_id: string | null };
+/** Cómo se pagó o cobró: mueve el saldo de la cuenta marcada para ese método (migración 0006). */
+export type PayMethod = "efectivo" | "tarjeta";
+export const METODOS: PayMethod[] = ["tarjeta", "efectivo"];
+export function metodoDe(v: unknown, defecto: PayMethod = "tarjeta"): PayMethod {
+  return v === "efectivo" || v === "tarjeta" ? v : defecto;
+}
+export type Transaction = {
+  id: string;
+  day: string;
+  amount: Num;
+  kind: TxKind;
+  category_id: string | null;
+  note: string | null;
+  recurring_id: string | null;
+  method: PayMethod | null;
+  account_id: string | null;
+};
 export type Frequency = "semanal" | "mensual" | "anual";
 export type RecurringItem = {
   id: string;
@@ -81,10 +97,22 @@ export type RecurringItem = {
   next_date: string;
   is_subscription: boolean;
   active: boolean;
+  method: PayMethod;
 };
 export type SavingsGoal = { id: string; name: string; emoji: string; target: Num; saved: Num; target_date: string | null; done: boolean };
 export type AccountKind = "liquidez" | "inversion" | "deuda" | "otro";
-export type Account = { id: string; name: string; kind: AccountKind; balance: Num; symbol: string | null; active: boolean; position: number; updated_at: string };
+export type Account = {
+  id: string;
+  name: string;
+  kind: AccountKind;
+  balance: Num;
+  symbol: string | null;
+  active: boolean;
+  position: number;
+  updated_at: string;
+  /** qué método de pago sale de esta cuenta (una por método) */
+  pago: PayMethod | null;
+};
 export type AccountSnapshot = { account_id: string; month: string; balance: Num };
 
 export type AssetClass = "renta_variable" | "renta_fija" | "liquidez";

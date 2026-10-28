@@ -49,18 +49,22 @@ export default async function SuscripcionesPage() {
       <Etiqueta label="Próximo cobro">
         <Campo name="next_date" type="date" required defaultValue={hoy()} />
       </Etiqueta>
-      <div className="col-span-2">
-        <Etiqueta label="Categoría">
-          <Selector name="category_id" defaultValue="">
-            <option value="">—</option>
-            {categorias.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name} ({c.kind})
-              </option>
-            ))}
-          </Selector>
-        </Etiqueta>
-      </div>
+      <Etiqueta label="Categoría">
+        <Selector name="category_id" defaultValue="">
+          <option value="">—</option>
+          {categorias.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name} ({c.kind})
+            </option>
+          ))}
+        </Selector>
+      </Etiqueta>
+      <Etiqueta label="Se paga con">
+        <Selector name="method" defaultValue="tarjeta">
+          <option value="tarjeta">Tarjeta</option>
+          <option value="efectivo">Efectivo</option>
+        </Selector>
+      </Etiqueta>
       <label className="col-span-2 flex items-center gap-2 text-sm">
         <input type="checkbox" name="is_subscription" defaultChecked className="accent-[var(--accent)]" /> Es una suscripción
       </label>
