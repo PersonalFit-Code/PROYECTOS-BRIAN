@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useTransition } from "react";
+import { useEffect, useOptimistic, useRef, useTransition } from "react";
 import { registrarHabito } from "@/app/(app)/habitos/acciones";
 import { diaSemana, INICIALES_DIA } from "@/lib/fechas";
 import { cx } from "@/lib/formato";
@@ -35,15 +35,23 @@ export function Cuadricula({ filas, dias, hoy }: { filas: FilaCuadricula[]; dias
   }
 
   const compacta = dias.length > 7;
+  const caja = useRef<HTMLDivElement>(null);
+
+  // En el móvil el mes no cabe: se desplaza para que hoy quede a la vista.
+  useEffect(() => {
+    const el = caja.current;
+    const col = el?.querySelector<HTMLElement>("[data-hoy]");
+    if (el && col) el.scrollLeft = Math.max(0, col.offsetLeft - el.clientWidth + 120);
+  }, []);
 
   return (
-    <div className="-mx-4 overflow-x-auto px-4">
+    <div ref={caja} className="overflow-x-auto">
       <table className="border-separate border-spacing-0 text-sm">
         <thead>
           <tr>
             <th className="sticky left-0 z-10 min-w-36 bg-bg pr-3 text-left text-xs font-medium text-muted">Hábito</th>
             {dias.map((d) => (
-              <th key={d} className={cx("px-0.5 pb-1 text-center text-[10px] font-medium", d === hoy ? "text-accent" : "text-muted")}>
+              <th key={d} data-hoy={d === hoy || undefined} className={cx("px-0.5 pb-1 text-center text-[10px] font-medium", d === hoy ? "text-accent" : "text-muted")}>
                 <div>{INICIALES_DIA[diaSemana(d)]}</div>
                 <div className="tabular-nums">{Number(d.slice(8))}</div>
               </th>

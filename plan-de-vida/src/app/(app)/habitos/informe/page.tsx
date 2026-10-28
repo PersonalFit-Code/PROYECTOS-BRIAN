@@ -72,11 +72,13 @@ export default async function InformePage({ searchParams }: { searchParams: Prom
           </div>
 
           <Seccion titulo="Cumplimiento por día de la semana">
-            <div className="flex h-40 items-end gap-2">
+            <div className="flex items-end gap-2">
               {inf.porDiaSemana.map((p, i) => (
                 <div key={i} className="flex flex-1 flex-col items-center gap-1">
                   <span className="text-xs tabular-nums text-muted">{p == null ? "—" : `${Math.round(p)}%`}</span>
-                  <div className="w-full rounded-t" style={{ height: `${Math.max(2, p ?? 0)}%`, background: p == null ? "var(--line)" : colorPct(p) }} />
+                  <div className="flex h-28 w-full items-end">
+                    <div className="w-full rounded-t" style={{ height: `${Math.max(2, p ?? 0)}%`, background: p == null ? "var(--line)" : colorPct(p) }} />
+                  </div>
                   <span className="text-xs font-medium">{INICIALES_DIA[i]}</span>
                 </div>
               ))}

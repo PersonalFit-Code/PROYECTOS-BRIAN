@@ -17,7 +17,8 @@ export function Checkin({ dia, mood, energy }: { dia: string; mood: number | nul
     start(async () => {
       await guardarCheckin(dia, m, e, l);
       setGuardado(true);
-      setLinea("");
+      // solo se vacía la caja si se ha guardado su texto (tocar el ánimo no debe borrar lo que escribes)
+      if (l) setLinea((actual) => (actual === l ? "" : actual));
     });
   }
 

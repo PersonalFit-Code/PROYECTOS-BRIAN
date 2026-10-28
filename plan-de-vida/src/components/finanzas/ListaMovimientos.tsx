@@ -21,7 +21,7 @@ export function ListaMovimientos({ movimientos, categorias }: { movimientos: Tra
     <div className="space-y-4">
       {[...porDia].map(([dia, ms]) => (
         <div key={dia}>
-          <div className="mb-1 text-xs font-medium capitalize text-muted">{fechaLarga(dia)}</div>
+          <div className="mb-1 text-xs font-medium text-muted">{fechaLarga(dia)}</div>
           <ul>
             {ms.map((m) => {
               const c = m.category_id ? cat.get(m.category_id) : null;

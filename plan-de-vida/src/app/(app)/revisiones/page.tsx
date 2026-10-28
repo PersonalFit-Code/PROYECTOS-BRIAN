@@ -58,7 +58,7 @@ export default async function RevisionesPage({ searchParams }: { searchParams: P
         </Link>
       </div>
 
-      <h2 className="mb-3 text-lg font-semibold capitalize">{titulo}</h2>
+      <h2 className="mb-3 text-lg font-semibold first-letter:uppercase">{titulo}</h2>
       <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
         <Kpi etiqueta="Hábitos cumplidos" valor={`${Math.round(resumen.habitosPct)} %`} detalle={`${resumen.diasPerfectos} días perfectos`} tono={resumen.habitosPct >= 70 ? "ok" : resumen.habitosPct < 50 ? "bad" : undefined} />
         <Kpi etiqueta="Gastos" valor={euros(resumen.gastos, false)} detalle={`ingresos ${euros(resumen.ingresos, false)}`} />

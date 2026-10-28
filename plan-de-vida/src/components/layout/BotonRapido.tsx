@@ -1,7 +1,7 @@
 "use client";
 
 import { Plus, X } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState, useTransition } from "react";
 import { crearMovimiento } from "@/app/(app)/finanzas/acciones";
 import { Boton, Campo } from "@/components/ui/basicos";
@@ -13,6 +13,8 @@ import type { Category, TxKind } from "@/lib/tipos";
  * Se abre también con ?nuevo=1 (atajo "Apuntar gasto" del icono de la app).
  */
 export function BotonRapido({ categorias }: { categorias: Category[] }) {
+  // En el Inicio no hace falta: el coach apunta gastos hablando, y el botón taparía el de enviar.
+  if (usePathname() === "/") return null;
   return (
     <Suspense>
       <BotonRapidoInterno categorias={categorias} />
@@ -45,7 +47,7 @@ function BotonRapidoInterno({ categorias }: { categorias: Category[] }) {
           setAbierto(true);
           setHecho(false);
         }}
-        className="fixed right-4 bottom-20 z-40 grid size-14 place-items-center rounded-full bg-accent text-accent-fg shadow-lg transition hover:scale-105 md:right-8 md:bottom-8"
+        className="fixed right-4 bottom-20 z-30 grid size-14 place-items-center rounded-full bg-accent text-accent-fg shadow-lg transition hover:scale-105 md:right-8 md:bottom-8"
       >
         <Plus className="size-7" />
       </button>

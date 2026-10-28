@@ -45,7 +45,7 @@ export default async function DiarioPage({ searchParams }: { searchParams: Promi
       </Seccion>
 
       <Card className="mb-8">
-        <h2 className="mb-4 font-semibold capitalize">{fechaLarga(dia)}</h2>
+        <h2 className="mb-4 font-semibold">{fechaLarga(dia)}</h2>
         <FormDiario key={dia} dia={dia} entrada={actual ?? null} />
       </Card>
 

@@ -71,7 +71,7 @@ export default async function InversionPage() {
         ⚠️ Análisis automático con fines informativos, no asesoramiento financiero. Rentabilidades pasadas no garantizan futuras. Tú decides y ejecutas en tu bróker: la app no compra ni vende nada.
       </p>
 
-      <Seccion titulo={inf ? `Informe del ${fechaLarga(inf.day)}` : "Informe del día"}>
+      <Seccion titulo={inf ? `Informe del ${fechaLarga(inf.day).toLowerCase()}` : "Informe del día"}>
         {inf ? (
           <Card>
             <div className="whitespace-pre-wrap text-[15px] leading-relaxed">{inf.summary}</div>

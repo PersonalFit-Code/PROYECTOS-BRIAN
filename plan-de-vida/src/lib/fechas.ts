@@ -46,6 +46,7 @@ export function diaSemana(dia: string): number {
 }
 
 export const NOMBRES_DIA = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
+export const NOMBRES_DIA_PLURAL = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábados", "domingos"];
 export const INICIALES_DIA = ["L", "M", "X", "J", "V", "S", "D"];
 export const NOMBRES_MES = [
   "enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -94,8 +95,10 @@ export function diasDelRango(desde: string, hasta: string): string[] {
   return out;
 }
 
+/** "Miércoles, 28 de octubre" (solo la primera letra en mayúscula). */
 export function fechaLarga(dia: string): string {
-  return new Intl.DateTimeFormat("es-ES", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" }).format(aUtc(dia));
+  const t = new Intl.DateTimeFormat("es-ES", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" }).format(aUtc(dia));
+  return t.charAt(0).toUpperCase() + t.slice(1);
 }
 
 export function fechaCorta(dia: string): string {

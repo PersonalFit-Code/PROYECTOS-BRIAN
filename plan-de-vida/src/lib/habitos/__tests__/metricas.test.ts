@@ -58,6 +58,6 @@ test("informe mensual: ordena mejores y peores y detecta el peor día", () => {
   assert.equal(inf.mejores[0].id, "a");
   assert.equal(inf.mejores[0].pct, 100);
   assert.equal(inf.peores[0].id, "b");
-  assert.ok(["sábado", "domingo"].includes(inf.peores[0].peorDia!));
+  assert.equal(inf.peores[0].peorDia, "sábados y domingos");
   assert.ok(ideasPorReglas(inf).length > 0);
 });

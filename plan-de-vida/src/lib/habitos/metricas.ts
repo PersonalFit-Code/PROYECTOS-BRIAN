@@ -2,7 +2,7 @@
  * Cálculos de hábitos, sin base de datos (se prueban en __tests__): qué toca cada día, si se cumplió,
  * rachas y el informe de fin de mes (lo que más fallas, lo que mejor se te da, por día de la semana).
  */
-import { diaSemana, diasDelRango, lunesDe, sumarDias, NOMBRES_DIA } from "@/lib/fechas";
+import { diaSemana, diasDelRango, lunesDe, sumarDias, NOMBRES_DIA, NOMBRES_DIA_PLURAL } from "@/lib/fechas";
 import { n, type Habit, type HabitLog } from "@/lib/tipos";
 
 type HabitoBase = Pick<Habit, "kind" | "target" | "weekdays" | "weekly_target" | "start_date">;
@@ -192,7 +192,7 @@ export function informeMensual(params: {
       pctAnterior: anterior.programados ? porcentaje(anterior) : null,
       mejorRacha: h.weekly_target ? 0 : mejorRacha(h, l, desde, hasta),
       porDiaSemana,
-      peorDia: peorIndice(porDiaSemana),
+      peorDia: peorDiaSignificativo(porDiaSemana, true),
     };
   }).filter((m) => m.programados > 0);
 
@@ -231,8 +231,8 @@ export function informeMensual(params: {
     mejores: ordenados.filter((m) => m.pct >= 50).slice(0, 3),
     peores: [...ordenados].reverse().filter((m) => m.pct < 80).slice(0, 3),
     porDiaSemana,
-    mejorDiaSemana: mejorIndice(porDiaSemana),
-    peorDiaSemana: peorIndice(porDiaSemana),
+    mejorDiaSemana: peorDiaSignificativo(porDiaSemana) ? mejorIndice(porDiaSemana) : null,
+    peorDiaSemana: peorDiaSignificativo(porDiaSemana),
     diasPerfectos,
     diasConDatos,
     animo: { diasBuenos: media(buenos), diasFlojos: media(flojos) },
@@ -247,12 +247,20 @@ function mejorIndice(xs: (number | null)[]): string | null {
   return i < 0 ? null : NOMBRES_DIA[i];
 }
 
-function peorIndice(xs: (number | null)[]): string | null {
-  let i = -1;
-  xs.forEach((x, j) => {
-    if (x != null && (i < 0 || x < (xs[i] as number))) i = j;
-  });
-  return i < 0 ? null : NOMBRES_DIA[i];
+/**
+ * Peor día solo si destaca: si todos los días van parecido (p. ej. todo al 0 %), no hay "peor día".
+ * Con `plural`, para frases tipo "falla más los …", y si empatan hasta 3 días se nombran todos
+ * ("sábados y domingos"); sin `plural` (frases tipo "tu peor día es el …") el empate da null.
+ */
+function peorDiaSignificativo(xs: (number | null)[], plural = false): string | null {
+  const vals = xs.filter((x): x is number => x != null);
+  if (vals.length < 2 || Math.max(...vals) - Math.min(...vals) < 20) return null;
+  const minimo = Math.min(...vals);
+  const empatados = xs.map((x, i) => (x != null && Math.abs(x - minimo) < 0.5 ? i : -1)).filter((i) => i >= 0);
+  if (!plural) return empatados.length === 1 ? NOMBRES_DIA[empatados[0]] : null;
+  if (empatados.length > 3) return null;
+  const nombres = empatados.map((i) => NOMBRES_DIA_PLURAL[i]);
+  return nombres.length === 1 ? nombres[0] : `${nombres.slice(0, -1).join(", ")} y ${nombres[nombres.length - 1]}`;
 }
 
 /**

@@ -75,12 +75,11 @@ export function generarPropuestas(e: EntradaMotor): Propuesta[] {
     .filter((a) => a.target_pct > 0)
     .map((a) => ({ a, hueco: total > 0 ? Math.max(0, a.target_pct - pesoActual(a.symbol)) : a.target_pct }))
     .filter((h) => h.hueco > 0);
-  const sumaHuecos = huecos.reduce((acc, h) => acc + h.hueco, 0);
-  if (e.aportacionMensual > 0 && sumaHuecos > 0) {
-    const reparto = huecos
-      .map((h) => ({ ...h, euros: (e.aportacionMensual * h.hueco) / sumaHuecos }))
-      .sort((x, y) => y.euros - x.euros)
-      .slice(0, 3);
+  if (e.aportacionMensual > 0 && huecos.length) {
+    // los 3 huecos más grandes se reparten TODA la aportación, en proporción a su hueco
+    const top = [...huecos].sort((x, y) => y.hueco - x.hueco).slice(0, 3);
+    const sumaTop = top.reduce((acc, h) => acc + h.hueco, 0);
+    const reparto = top.map((h) => ({ ...h, euros: (e.aportacionMensual * h.hueco) / sumaTop }));
     for (const r of reparto) {
       const ind = e.indicadores.get(r.a.symbol);
       out.push({
@@ -102,8 +101,10 @@ export function generarPropuestas(e: EntradaMotor): Propuesta[] {
   for (const a of e.activos) {
     const ind = e.indicadores.get(a.symbol);
 
-    // 2 · Caídas del núcleo de renta variable: oportunidad para el largo plazo.
-    if (a.quoted && ind && a.sleeve === "nucleo" && a.asset_class === "renta_variable" && ind.drawdown >= 10) {
+    const sobreponderado = total > 0 && a.target_pct > 0 && pesoActual(a.symbol) > a.target_pct + 5;
+
+    // 2 · Caídas del núcleo de renta variable: oportunidad para el largo plazo (salvo que ya pese de más).
+    if (a.quoted && ind && a.sleeve === "nucleo" && a.asset_class === "renta_variable" && ind.drawdown >= 10 && !sobreponderado) {
       out.push({
         symbol: a.symbol,
         action: "aportar",
@@ -147,7 +148,7 @@ export function generarPropuestas(e: EntradaMotor): Propuesta[] {
     }
 
     // 5 · Sobreponderado: más de 5 puntos por encima de su objetivo.
-    if (total > 0 && a.target_pct > 0 && pesoActual(a.symbol) > a.target_pct + 5) {
+    if (sobreponderado) {
       out.push({
         symbol: a.symbol,
         action: "reducir",

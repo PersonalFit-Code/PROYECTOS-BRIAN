@@ -68,7 +68,7 @@ export default async function HoyPage() {
 
   return (
     <Pagina>
-      <Titulo emoji="☀️" sub={<span className="capitalize">{fechaLarga(hoy)}</span>}>
+      <Titulo emoji="☀️" sub={fechaLarga(hoy)}>
         Hoy
       </Titulo>
 

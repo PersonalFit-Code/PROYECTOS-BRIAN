@@ -39,7 +39,10 @@ export async function getAreas({ db, userId }: Sesion): Promise<Area[]> {
 export async function getHabitos({ db, userId }: Sesion, soloActivos = true): Promise<Habit[]> {
   let q = db.from("habits").select("*").eq("user_id", userId);
   if (soloActivos) q = q.eq("active", true);
-  return lanzar(await q.order("routine").order("position").order("created_at"), "los hábitos");
+  const lista = lanzar<Habit[]>(await q.order("position").order("created_at"), "los hábitos");
+  // mañana → día → noche (el orden alfabético de la columna no sirve)
+  const orden: Record<string, number> = { manana: 0, dia: 1, noche: 2 };
+  return lista.sort((a, b) => orden[a.routine] - orden[b.routine]);
 }
 
 export async function getLogs({ db, userId }: Sesion, desde: string, hasta: string): Promise<HabitLog[]> {

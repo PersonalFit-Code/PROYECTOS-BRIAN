@@ -86,3 +86,22 @@ test("pesos: suben con aciertos y bajan con fallos y feedback negativo", () => {
   assert.ok(pesos.debilidad_satelite < 0.6);
   assert.equal(pesos.aportacion_mensual, 1);
 });
+
+test("la aportación se reparte entera y no se contradice con el sobrepeso", () => {
+  const caida = serie([...Array.from({ length: 200 }, () => 100), ...Array.from({ length: 60 }, () => 85)]);
+  const props = generarPropuestas({
+    activos,
+    indicadores: new Map([["WORLD", indicadores(caida)!]]),
+    posiciones: new Map([["WORLD", 9000], ["BONOS", 1000]]),
+    aportacionMensual: 500,
+    inflacion: 2,
+    pesos: {},
+  });
+  const euros = props
+    .filter((p) => p.signal === "aportacion_mensual")
+    .map((p) => Number(p.thesis.match(/unos ([\d.]+) €/)![1].replace(".", "")))
+    .reduce((a, b) => a + b, 0);
+  assert.ok(Math.abs(euros - 500) <= 2, `reparte ${euros} €`);
+  // WORLD pesa de más: no puede salir a la vez "aportar por caída" y "reducir"
+  assert.ok(!props.some((p) => p.symbol === "WORLD" && p.action === "aportar"));
+});

@@ -38,6 +38,11 @@ export function FormHabito({
         setError(null);
         try {
           await accion(f);
+          // el formulario se vacía solo; los selectores controlados vuelven a su valor de partida
+          if (!habito) {
+            setKind("check");
+            setFrecuencia("diario");
+          }
           alTerminar?.();
         } catch (e) {
           setError(e instanceof Error ? e.message : "No se pudo guardar");
