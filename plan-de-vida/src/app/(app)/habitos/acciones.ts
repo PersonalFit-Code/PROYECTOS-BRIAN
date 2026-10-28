@@ -84,3 +84,22 @@ export async function borrarHabito(id: string) {
   comprobar(await s.db.from("habits").delete().eq("id", id).eq("user_id", s.userId), "borrar el hábito");
   refrescar();
 }
+
+/** «Obj:» del mes, como en la libreta. Se guarda en la revisión mensual (answers.objetivo). */
+export async function guardarObjetivoMes(mes: string, f: FormData) {
+  if (!/^\d{4}-\d{2}$/.test(mes)) throw new Error("Mes no válido");
+  const s = await getSesion();
+  const objetivo = String(f.get("objetivo") ?? "").trim().slice(0, 200);
+  const { data: previa } = await s.db.from("reviews").select("answers").eq("user_id", s.userId).eq("kind", "mensual").eq("period", mes).maybeSingle();
+  comprobar(
+    await s.db
+      .from("reviews")
+      .upsert(
+        { user_id: s.userId, kind: "mensual", period: mes, answers: { ...(previa?.answers ?? {}), objetivo }, updated_at: new Date().toISOString() },
+        { onConflict: "user_id,kind,period" },
+      ),
+    "guardar el objetivo del mes",
+  );
+  refrescar();
+  revalidatePath("/revisiones");
+}

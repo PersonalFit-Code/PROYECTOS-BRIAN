@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CalendarDays, CalendarRange, ChartColumn, ChevronLeft, ChevronRight, ListChecks, Plus, Settings2 } from "lucide-react";
+import { CalendarDays, ChartColumn, ChevronLeft, ChevronRight, ChartLine, ListChecks, NotebookPen, Plus, Settings2, Target } from "lucide-react";
 import { FormHabito } from "@/components/habitos/FormHabito";
 import { GestionHabito } from "@/components/habitos/GestionHabito";
+import { Libreta, LineaAnimo } from "@/components/habitos/Libreta";
 import { VistaHabitos, type FilaHabito } from "@/components/habitos/VistaHabitos";
 import { Pagina } from "@/components/layout/Pagina";
-import { Titulo, Vacio } from "@/components/ui/basicos";
+import { Boton, Campo, Titulo, Vacio } from "@/components/ui/basicos";
+import { Desplegable } from "@/components/ui/Desplegable";
+import { FormAccion } from "@/components/ui/FormAccion";
 import { Hoja } from "@/components/ui/Hoja";
 import { Segmentado } from "@/components/ui/Segmentado";
-import { getAreas, getHabitos, getLogs } from "@/lib/datos/consultas";
+import { getAreas, getDiario, getHabitos, getLogs } from "@/lib/datos/consultas";
 import { diasDelRango, fechaCorta, hoy as hoyMadrid, lunesDe, mesAnterior, mesDe, nombreMes, rangoMes, sumarDias, sumarMeses } from "@/lib/fechas";
 import { cumplido, indexar, rachaActual, toca } from "@/lib/habitos/metricas";
 import { getSesion } from "@/lib/sesion";
-import { crearHabito } from "./acciones";
+import { crearHabito, guardarObjetivoMes } from "./acciones";
 
 export const metadata: Metadata = { title: "Hábitos" };
 
@@ -27,7 +30,17 @@ export default async function HabitosPage({ searchParams }: { searchParams: Prom
   const { desde, hasta } = vista === "mes" ? rangoMes(mes) : { desde: lunes, hasta: sumarDias(lunes, 6) };
 
   const sesion = await getSesion();
-  const [habitos, todos, areas] = await Promise.all([getHabitos(sesion), getHabitos(sesion, false), getAreas(sesion)]);
+  const [habitos, todos, areas, diario, revision] = await Promise.all([
+    getHabitos(sesion),
+    getHabitos(sesion, false),
+    getAreas(sesion),
+    vista === "mes" ? getDiario(sesion, desde, hasta) : Promise.resolve([]),
+    vista === "mes"
+      ? sesion.db.from("reviews").select("answers").eq("user_id", sesion.userId).eq("kind", "mensual").eq("period", mes).maybeSingle()
+      : Promise.resolve({ data: null }),
+  ]);
+  const objetivo: string = revision.data?.answers?.objetivo ?? "";
+  const animo: Record<string, number> = Object.fromEntries(diario.filter((e) => e.mood).map((e) => [e.day, e.mood!]));
   const logs = await getLogs(sesion, sumarDias(hoy, -400) < desde ? sumarDias(hoy, -400) : desde, hasta > hoy ? hasta : hoy);
   const porHabito = indexar(logs);
   const dias = diasDelRango(desde, hasta);
@@ -66,7 +79,7 @@ export default async function HabitosPage({ searchParams }: { searchParams: Prom
           valor={vista}
           opciones={[
             { valor: "semana", etiqueta: "Semana", icono: <CalendarDays />, href: "/habitos?vista=semana" },
-            { valor: "mes", etiqueta: "Mes", icono: <CalendarRange />, href: "/habitos?vista=mes" },
+            { valor: "mes", etiqueta: "Libreta", icono: <NotebookPen />, href: "/habitos?vista=mes" },
             { valor: "gestionar", etiqueta: "Mis hábitos", icono: <Settings2 />, href: "/habitos?vista=gestionar" },
           ]}
         />
@@ -105,8 +118,23 @@ export default async function HabitosPage({ searchParams }: { searchParams: Prom
         ) : (
           <Vacio>Aún no tienes hábitos. Pulsa «Nuevo hábito» para crear el primero.</Vacio>
         )
+      ) : vista === "mes" ? (
+        <>
+          <Desplegable icono={<Target />} color="red" titulo="Objetivo del mes" resumen={objetivo || "Sin fijar"} abierto={!objetivo} i={0}>
+            <FormAccion accion={guardarObjetivoMes.bind(null, mes)} resetear={false} className="flex gap-2">
+              <Campo name="objetivo" defaultValue={objetivo} placeholder="Ej.: Salud y ventas" aria-label="Objetivo del mes" maxLength={200} />
+              <Boton variante="primario" type="submit">
+                Guardar
+              </Boton>
+            </FormAccion>
+          </Desplegable>
+          <Desplegable icono={<ChartLine />} color="blue" titulo="Ánimo del mes" resumen={Object.keys(animo).length ? `${Object.keys(animo).length} días` : "Sin datos"} i={1}>
+            <LineaAnimo dias={dias} animo={animo} />
+          </Desplegable>
+          {filas.length ? <Libreta filas={filas} dias={dias} hoy={hoy} animo={animo} /> : <Vacio>Aún no tienes hábitos. Pulsa «Nuevo hábito» para crear el primero.</Vacio>}
+        </>
       ) : filas.length ? (
-        <VistaHabitos filas={filas} dias={dias} hoy={hoy} modo={vista} />
+        <VistaHabitos filas={filas} dias={dias} hoy={hoy} />
       ) : (
         <Vacio>Aún no tienes hábitos. Pulsa «Nuevo hábito» para crear el primero.</Vacio>
       )}

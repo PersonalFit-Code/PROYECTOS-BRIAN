@@ -100,14 +100,14 @@ export default async function RevisionesPage({ searchParams }: { searchParams: P
         </div>
       )}
 
-      <Desplegable icono={<PenLine />} color="red" titulo="Tus respuestas" resumen={Object.values(revision?.answers ?? {}).some(Boolean) ? "Guardada" : "Pendiente"} abierto i={3}>
+      <Desplegable icono={<PenLine />} color="red" titulo="Tus respuestas" resumen={PREGUNTAS[tipo].some((p) => revision?.answers?.[p.id]) ? "Guardada" : "Pendiente"} abierto i={3}>
         <FormRevision tipo={tipo} clave={periodo.clave} preguntas={PREGUNTAS[tipo]} respuestas={revision?.answers ?? {}} />
       </Desplegable>
 
       <Desplegable icono={<History />} color="gray" titulo="Revisiones anteriores" i={4}>
         <ul className="space-y-1 text-sm">
           {((anteriores ?? []) as Review[])
-            .filter((r) => Object.values(r.answers ?? {}).some(Boolean))
+            .filter((r) => PREGUNTAS[r.kind].some((p) => r.answers?.[p.id]))
             .map((r) => (
               <li key={r.id}>
                 <Link href={`/revisiones?tipo=${r.kind}&de=${r.kind === "mensual" ? `${r.period}-15` : lunesDeSemanaIso(r.period)}`} className="flex gap-3 rounded-xl px-2 py-2 transition hover:bg-hover">
