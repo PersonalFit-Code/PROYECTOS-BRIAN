@@ -2,45 +2,32 @@
 -- tocar todas las consultas) pero ahora guarda el NOMBRE de un icono de src/components/ui/iconos.tsx
 -- ("dumbbell", "wallet"…). Un valor desconocido se pinta como un círculo.
 
-create or replace function public._emoji_a_icono(e text, defecto text) returns text
-language sql immutable as $$
-  select case
-    when e ~ '^[a-z0-9-]+$' then e  -- ya es un nombre de icono
-    when e in ('💪', '🏋️', '🏋') then 'dumbbell'
-    when e = '💰' then 'wallet'
-    when e = '📚' then 'book-open'
-    when e in ('❤️', '❤') then 'heart'
-    when e = '🛒' then 'shopping-cart'
-    when e in ('🍽️', '🍽') then 'utensils'
-    when e = '🏠' then 'house'
-    when e = '⛽' then 'fuel'
-    when e = '🔁' then 'repeat'
-    when e = '💊' then 'pill'
-    when e = '🎉' then 'party-popper'
-    when e = '👕' then 'shirt'
-    when e = '💼' then 'briefcase'
-    when e = '💶' then 'banknote'
-    when e = '➕' then 'plus'
-    when e = '🐷' then 'piggy-bank'
-    when e = '✅' then 'check'
-    when e = '💧' then 'droplet'
-    when e = '🧘' then 'brain'
-    when e = '📵' then 'phone-off'
-    else defecto
-  end
-$$;
-
 update public.areas set emoji = case slug
   when 'salud' then 'heart-pulse'
   when 'dinero' then 'wallet'
   when 'crecimiento' then 'book-open'
   when 'relaciones' then 'users'
-  else public._emoji_a_icono(emoji, 'circle') end;
-update public.categories set emoji = public._emoji_a_icono(emoji, 'circle');
-update public.habits set emoji = public._emoji_a_icono(emoji, 'check');
-update public.savings_goals set emoji = public._emoji_a_icono(emoji, 'piggy-bank');
+  else 'circle' end
+where emoji !~ '^[a-z0-9-]+$';
 
-drop function public._emoji_a_icono(text, text);
+update public.categories set emoji = case name
+  when 'Comida' then 'shopping-cart'
+  when 'Restaurantes' then 'utensils'
+  when 'Casa' then 'house'
+  when 'Transporte' then 'fuel'
+  when 'Suscripciones' then 'repeat'
+  when 'Salud' then 'pill'
+  when 'Ocio' then 'party-popper'
+  when 'Ropa' then 'shirt'
+  when 'Formación' then 'graduation-cap'
+  when 'Negocio' then 'briefcase'
+  when 'Nómina / clientes' then 'banknote'
+  when 'Otros ingresos' then 'plus'
+  else 'circle' end
+where emoji !~ '^[a-z0-9-]+$';
+
+update public.habits set emoji = 'check' where emoji !~ '^[a-z0-9-]+$';
+update public.savings_goals set emoji = 'piggy-bank' where emoji !~ '^[a-z0-9-]+$';
 
 alter table public.areas alter column emoji set default 'circle';
 alter table public.categories alter column emoji set default 'circle';

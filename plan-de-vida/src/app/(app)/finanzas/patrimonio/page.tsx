@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Cuenta } from "@/components/finanzas/Cuenta";
 import { GraficaPatrimonio } from "@/components/finanzas/GraficaPatrimonio";
-import { Banknote, ChartLine, CreditCard, House, Landmark, Plus, TrendingUp } from "lucide-react";
+import { Banknote, ChartLine, CreditCard, HandCoins, Landmark, Plus, TrendingUp } from "lucide-react";
 import { Boton, Campo, Etiqueta, Kpi, Selector, Titulo, Vacio } from "@/components/ui/basicos";
 import { Desplegable } from "@/components/ui/Desplegable";
 import { Hoja } from "@/components/ui/Hoja";
@@ -19,7 +19,7 @@ export const metadata: Metadata = { title: "Patrimonio" };
 const GRUPOS: { kind: AccountKind; titulo: string; icono: typeof Banknote; color: string }[] = [
   { kind: "liquidez", titulo: "Liquidez", icono: Banknote, color: "green" },
   { kind: "inversion", titulo: "Inversiones", icono: TrendingUp, color: "blue" },
-  { kind: "otro", titulo: "Otros activos", icono: House, color: "yellow" },
+  { kind: "otro", titulo: "Te deben y otros activos", icono: HandCoins, color: "yellow" },
   { kind: "deuda", titulo: "Deudas", icono: CreditCard, color: "red" },
 ];
 
