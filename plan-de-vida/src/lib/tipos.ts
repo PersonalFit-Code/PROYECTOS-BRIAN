@@ -35,6 +35,9 @@ export type Goal = {
   progress_pct: Num;
   status: GoalStatus;
   due_date: string | null;
+  /** metas sencillas: cómo estoy ahora y qué quiero, en texto (migración 0008) */
+  start_text: string | null;
+  target_text: string | null;
   /** métrica que se calcula sola (migración 0004); null = avance a mano */
   auto: GoalAuto | null;
   created_at: string;

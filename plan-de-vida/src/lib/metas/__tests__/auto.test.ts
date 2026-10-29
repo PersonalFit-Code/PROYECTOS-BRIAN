@@ -33,7 +33,7 @@ test("ritmoMeta: de 200 a 3.000 entre octubre y abril sube lo mismo cada mes", (
 });
 
 test("aplicarAuto: calcula valor y % solo en las metas automáticas", () => {
-  const base = { area_id: null, description: null, period: "anual", year: 2026, quarter: null, month: null, unit: "€/mes", status: "activa", created_at: "2026-10-28" } as const;
+  const base = { area_id: null, description: null, period: "anual", year: 2026, quarter: null, month: null, unit: "€/mes", status: "activa", created_at: "2026-10-28", start_text: null, target_text: null } as const;
   const metas: Goal[] = [
     { ...base, id: "a", title: "3.000 €/mes", start_value: 200, target_value: 3000, current_value: null, progress_pct: 0, due_date: "2027-04-30", auto: "ingreso_mensual" },
     { ...base, id: "b", title: "Otra", start_value: null, target_value: null, current_value: null, progress_pct: 30, due_date: null, auto: null },

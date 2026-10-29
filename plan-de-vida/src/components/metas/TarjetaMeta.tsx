@@ -28,7 +28,7 @@ export function TarjetaMeta({ meta, color, tareas, auto }: { meta: Goal; color: 
             <Tag color={color}>{PERIODO(meta)}</Tag>
             {meta.status === "hecha" && <Tag color="green">Hecha</Tag>}
             {meta.status === "pausada" && <Tag>En pausa</Tag>}
-            {meta.due_date && <span>· hasta {fechaCorta(meta.due_date)}</span>}
+            {meta.due_date && <span>· hasta {fechaCorta(meta.due_date)}{meta.due_date.slice(0, 4) !== String(meta.year) ? ` ${meta.due_date.slice(0, 4)}` : ""}</span>}
             {tareas.total > 0 && (
               <span>
                 · {tareas.hechas}/{tareas.total} tareas
@@ -61,6 +61,22 @@ export function TarjetaMeta({ meta, color, tareas, auto }: { meta: Goal; color: 
           )}
         </div>
       </div>
+      {(meta.start_text || meta.target_text) && (
+        <dl className="mt-2 grid gap-1 text-sm">
+          {meta.start_text && (
+            <div className="flex gap-2">
+              <dt className="w-14 shrink-0 text-xs leading-5 text-muted">Ahora</dt>
+              <dd className="min-w-0 whitespace-pre-wrap">{meta.start_text}</dd>
+            </div>
+          )}
+          {meta.target_text && (
+            <div className="flex gap-2">
+              <dt className="w-14 shrink-0 text-xs leading-5 text-muted">Quiero</dt>
+              <dd className="min-w-0 whitespace-pre-wrap font-medium">{meta.target_text}</dd>
+            </div>
+          )}
+        </dl>
+      )}
       {meta.description && <p className="mt-2 text-sm text-muted">{meta.description}</p>}
       <div className="mt-3 flex items-center gap-2">
         <Progreso valor={pct} color={`var(--tag-${color}-fg)`} />
@@ -93,7 +109,23 @@ export function TarjetaMeta({ meta, color, tareas, auto }: { meta: Goal; color: 
           {auto ? "Ideas para esta meta" : "Siguiente paso"}
         </PreguntarCoach>
       )}
-      {meta.status === "activa" && !auto && (
+      {meta.status === "activa" && !auto && !conMetrica && (
+        <label className="mt-2 flex items-center gap-3 text-xs text-muted">
+          <span className="shrink-0">Cuánto llevas</span>
+          <input
+            type="range"
+            min={0}
+            max={100}
+            step={5}
+            defaultValue={Math.round(pct)}
+            aria-label="Avance de la meta en %"
+            onPointerUp={(e) => start(() => avanzarMeta(meta.id, Number((e.target as HTMLInputElement).value)))}
+            onKeyUp={(e) => start(() => avanzarMeta(meta.id, Number((e.target as HTMLInputElement).value)))}
+            className="flex-1 accent-[var(--accent)]"
+          />
+        </label>
+      )}
+      {meta.status === "activa" && !auto && conMetrica && (
         <form
           className="mt-2 flex items-center gap-2 text-xs text-muted"
           onSubmit={(e) => {
@@ -103,18 +135,14 @@ export function TarjetaMeta({ meta, color, tareas, auto }: { meta: Goal; color: 
             setAvance("");
           }}
         >
-          {conMetrica ? (
-            <span>
-              {n(meta.current_value ?? meta.start_value)} → {n(meta.target_value)} {meta.unit}
-            </span>
-          ) : (
-            <span>Avance manual</span>
-          )}
+          <span>
+            {n(meta.current_value ?? meta.start_value)} → {n(meta.target_value)} {meta.unit}
+          </span>
           <input
             value={avance}
             onChange={(e) => setAvance(e.target.value)}
             inputMode="decimal"
-            placeholder={conMetrica ? "valor actual" : "%"}
+            placeholder="valor actual"
             aria-label="Actualizar avance"
             className="ml-auto w-28 rounded-xl border border-line bg-bg/70 px-2 py-1 text-right"
           />

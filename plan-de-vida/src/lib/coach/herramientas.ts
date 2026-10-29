@@ -348,6 +348,8 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
           actual: g.current_value != null ? n(g.current_value) : null,
           objetivo: g.target_value != null ? n(g.target_value) : null,
           unidad: g.unit,
+          punto_de_partida: g.start_text,
+          lo_que_quiere: g.target_text,
           fecha_limite: g.due_date,
           ...(estados.has(g.id)
             ? {

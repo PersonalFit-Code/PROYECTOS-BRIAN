@@ -70,6 +70,8 @@ function leerMeta(f: FormData) {
   return {
     title,
     description: textoONull(f, "description"),
+    start_text: textoONull(f, "start_text", 500),
+    target_text: textoONull(f, "target_text", 500),
     area_id: texto(f, "area_id", 40) || null,
     period,
     year,

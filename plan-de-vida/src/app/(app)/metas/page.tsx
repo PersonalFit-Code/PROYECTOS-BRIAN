@@ -19,14 +19,33 @@ import { crearMeta } from "./acciones";
 
 export const metadata: Metadata = { title: "Metas" };
 
+/**
+ * Alta de meta. Lo básico es sencillo: qué quieres, cómo estás ahora, qué quieres conseguir y para
+ * cuándo. Los números (desde → hasta, unidad, periodo) van en «Medir con números», abierto de serie solo
+ * en Dinero y negocio, que es donde se miden en euros.
+ */
 function FormMeta({ areas, anio, areaId }: { areas: Area[]; anio: number; areaId?: string }) {
+  const conNumeros = areas.find((a) => a.id === areaId)?.slug === "dinero";
   return (
     <FormAccion accion={crearMeta} className="grid grid-cols-2 gap-3">
       <div className="col-span-2">
         <Etiqueta label="Meta">
-          <Campo name="title" required placeholder="Ahorrar 10.000 €, correr una media maratón…" />
+          <Campo name="title" required placeholder="Conseguir mi físico ideal, leer 20 libros…" />
         </Etiqueta>
       </div>
+      <div className="col-span-2">
+        <Etiqueta label="Cómo estoy ahora (punto de partida)">
+          <Texto name="start_text" rows={2} placeholder="Peso 78 kg, entreno 2 días, sin dieta…" />
+        </Etiqueta>
+      </div>
+      <div className="col-span-2">
+        <Etiqueta label="Lo que quiero conseguir">
+          <Texto name="target_text" rows={2} placeholder="Abdomen marcado, 12 % de grasa, entrenar 5 días…" />
+        </Etiqueta>
+      </div>
+      <Etiqueta label="Para cuándo">
+        <Campo name="due_date" type="date" />
+      </Etiqueta>
       <Etiqueta label="Área">
         <Selector name="area_id" defaultValue={areaId ?? areas[0]?.id}>
           {areas.map((a) => (
@@ -36,40 +55,42 @@ function FormMeta({ areas, anio, areaId }: { areas: Area[]; anio: number; areaId
           ))}
         </Selector>
       </Etiqueta>
-      <Etiqueta label="Periodo">
-        <Selector name="period" defaultValue="anual">
-          <option value="anual">Anual</option>
-          <option value="trimestral">Trimestral</option>
-          <option value="mensual">Mensual</option>
-        </Selector>
-      </Etiqueta>
-      <Etiqueta label="Año">
-        <Campo name="year" type="number" defaultValue={anio} />
-      </Etiqueta>
-      <Etiqueta label="Trimestre / mes">
-        <div className="flex gap-2">
-          <Campo name="quarter" type="number" min={1} max={4} placeholder="T" />
-          <Campo name="month" type="number" min={1} max={12} placeholder="Mes" />
-        </div>
-      </Etiqueta>
-      <Etiqueta label="Desde">
-        <Campo name="start_value" inputMode="decimal" placeholder="0" />
-      </Etiqueta>
-      <Etiqueta label="Hasta (objetivo)">
-        <Campo name="target_value" inputMode="decimal" placeholder="10000" />
-      </Etiqueta>
-      <Etiqueta label="Unidad">
-        <Campo name="unit" placeholder="€, kg, libros…" />
-      </Etiqueta>
-      <Etiqueta label="Fecha límite">
-        <Campo name="due_date" type="date" />
-      </Etiqueta>
       <div className="col-span-2">
         <Etiqueta label="Por qué es importante (opcional)">
           <Texto name="description" rows={2} />
         </Etiqueta>
       </div>
-      <p className="col-span-2 text-xs text-muted">Sin objetivo numérico, el avance se pone a mano en %.</p>
+      <details className="col-span-2 rounded-2xl border border-line/70 px-3 py-2 text-sm" open={conNumeros}>
+        <summary className="cursor-pointer select-none font-medium text-muted">Medir con números (opcional)</summary>
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          <Etiqueta label="Desde (número)">
+            <Campo name="start_value" inputMode="decimal" placeholder="0" />
+          </Etiqueta>
+          <Etiqueta label="Hasta (objetivo)">
+            <Campo name="target_value" inputMode="decimal" placeholder="10000" />
+          </Etiqueta>
+          <Etiqueta label="Unidad">
+            <Campo name="unit" placeholder="€, kg, libros…" />
+          </Etiqueta>
+          <Etiqueta label="Periodo">
+            <Selector name="period" defaultValue="anual">
+              <option value="anual">Anual</option>
+              <option value="trimestral">Trimestral</option>
+              <option value="mensual">Mensual</option>
+            </Selector>
+          </Etiqueta>
+          <Etiqueta label="Año">
+            <Campo name="year" type="number" defaultValue={anio} />
+          </Etiqueta>
+          <Etiqueta label="Trimestre / mes">
+            <div className="flex gap-2">
+              <Campo name="quarter" type="number" min={1} max={4} placeholder="T" />
+              <Campo name="month" type="number" min={1} max={12} placeholder="Mes" />
+            </div>
+          </Etiqueta>
+        </div>
+        <p className="mt-2 text-xs text-muted">Con números, el avance se calcula solo. Sin ellos, lo marcas tú en %.</p>
+      </details>
       <div className="col-span-2">
         <Boton variante="primario" className="w-full">
           Crear meta
