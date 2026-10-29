@@ -1,0 +1,43 @@
+# -*- coding: utf-8 -*-
+"""Monta noah.html a partir de css.part, paginas.part y los dibujos de svgs2.py.
+
+    python3 generador/montar.py
+
+Sobrescribe ../noah.html. Se edita AQUI (textos en paginas.part, estilos en
+css.part, dibujos en svgs2.py), nunca el noah.html a mano.
+"""
+import pathlib
+import sys
+
+base = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(base))
+import svgs  # noqa: E402  (el sprite de iconos y los helpers)
+import svgs2 as S2  # noqa: E402
+import flujo as F  # noqa: E402
+import valor as V  # noqa: E402
+
+css = (base / "css.part").read_text()
+pag = (base / "paginas.part").read_text()
+for clave, fn in (("PORTADA_DECO", S2.pizza_deco), ("PIZZA", S2.pizza), ("RUEDA", S2.rueda), ("DOLOR", S2.dolor),
+                  ("ECUACION", S2.ecuacion), ("COMPARATIVA", S2.comparativa),
+                  
+                  ("FLUJO", F.flujo), ("PIEZAS", F.piezas),
+                  ("BALANZA", V.balanza), ("BARRAS", V.barras)):
+    marca = "{{" + clave + "}}"
+    assert marca in pag, clave
+    pag = pag.replace(marca, fn())
+
+# Logos de clientes, incrustados para que el PDF no dependa de ficheros sueltos.
+import base64  # noqa: E402
+for nombre in ("personalfit", "tixola", "bincami"):
+    datos = base64.b64encode((base / "clientes" / f"{nombre}.png").read_bytes()).decode()
+    marca = "{{LOGO_" + nombre + "}}"
+    assert marca in pag, nombre
+    pag = pag.replace(marca, f'<img src="data:image/png;base64,{datos}" alt="{nombre}">')
+
+html = ('<!doctype html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n'
+        '<title>Noah para pizzerías de Ourense</title>\n<style>\n' + css +
+        '</style>\n</head>\n<body>\n' + svgs.SPRITE + '\n' + pag + '\n</body>\n</html>\n')
+destino = base.parent / "noah.html"
+destino.write_text(html)
+print("noah.html:", len(html), "bytes")

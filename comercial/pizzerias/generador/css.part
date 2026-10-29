@@ -1,0 +1,365 @@
+@page { size: A4; margin: 13mm 14mm; }
+:root {
+  --negro: #140A06; --crema: #FBF6EC; --linea: #E6DCCB; --fino: #F3EBDD; --humo: #6D635C;
+  --acento: #E0952F; --acento-txt: #9A5B0C; --acento-f: #FCEFD9;
+  --bien: #2E7D4F; --bien-f: #EAF4EE; --mal: #C0392B; --mal-f: #FBECEA;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 9.6pt; line-height: 1.45; color: var(--negro);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.hoja { page-break-after: always; zoom: 1.033; }
+.hoja:last-child { page-break-after: auto; }
+section, .sit, .tarj, .pantalla, .regalo, .caja4, .chat, svg { page-break-inside: avoid; }
+h2 { page-break-after: avoid; }
+svg { display: block; }
+b, strong { font-weight: 700; }
+p { margin: 0 0 3mm; }
+
+/* Cabecera y textos */
+header.interior {
+  display: flex; align-items: baseline; justify-content: space-between;
+  border-bottom: 2px solid var(--negro); padding-bottom: 2mm; margin-bottom: 5mm;
+}
+header.interior h1 { font-size: 16.5pt; margin: 0; letter-spacing: -.5pt; font-weight: 800; }
+header.interior .lado { font-size: 8pt; color: var(--humo); }
+.epigrafe { font-size: 8pt; letter-spacing: 2pt; text-transform: uppercase; color: var(--acento-txt); margin: 0 0 2mm; font-weight: 700; }
+.grande { font-size: 12.2pt; line-height: 1.35; margin: 0 0 3.5mm; }
+.grande em { font-style: normal; background: linear-gradient(transparent 60%, #F7D9A8 60%); }
+.apunte { font-size: 7.8pt; color: var(--humo); margin: 2mm 0 0; }
+.pie-hoja {
+  margin-top: 3mm; padding-top: 1.5mm; border-top: 1px solid var(--linea);
+  font-size: 7.2pt; color: var(--humo); display: flex; justify-content: space-between;
+}
+.dos { display: flex; gap: 4.5mm; align-items: flex-start; }
+.dos > * { flex: 1; min-width: 0; }
+
+/* Situaciones: rojo (sin Noah) y verde (con Noah) */
+.rejilla { display: flex; flex-wrap: wrap; gap: 3.2mm; margin: 3mm 0; }
+.sit { flex: 0 0 calc(50% - 1.6mm); border: 1px solid var(--linea); background: #fff; overflow: hidden; }
+.sit .cab { display: flex; align-items: center; gap: 2.4mm; padding: 2.4mm 3mm; background: var(--crema); border-bottom: 1px solid var(--linea); }
+.sit .ico { flex: 0 0 8.5mm; height: 8.5mm; border-radius: 50%; background: var(--negro); color: var(--acento); display: flex; align-items: center; justify-content: center; }
+.sit .cab b { font-size: 9.8pt; display: block; line-height: 1.15; }
+.sit .cab .cuando { font-size: 7.4pt; color: var(--humo); }
+.sit .fila { padding: 2.1mm 3mm 2.1mm 3.4mm; font-size: 8.6pt; border-left: 3px solid; }
+.sit .mal { background: var(--mal-f); border-color: var(--mal); }
+.sit .bien { background: var(--bien-f); border-color: var(--bien); }
+.sit .fila small { display: block; font-size: 6.6pt; letter-spacing: 1.3pt; text-transform: uppercase; font-weight: 700; margin-bottom: .6mm; }
+.sit .mal small { color: var(--mal); }
+.sit .bien small { color: var(--bien); }
+
+/* Tarjetas de angulos */
+.tarjs { display: flex; flex-wrap: wrap; gap: 3.2mm; margin: 3mm 0; }
+.tarj { flex: 0 0 calc(33.333% - 2.2mm); border: 1px solid var(--linea); border-top: 2.4mm solid var(--acento); background: var(--crema); padding: 3mm; }
+.tarj .cifra { font-size: 22pt; font-weight: 800; line-height: 1; letter-spacing: -1pt; }
+.tarj .cifra small { font-size: 8.6pt; font-weight: 700; color: var(--acento-txt); letter-spacing: 0; }
+.tarj b { display: block; font-size: 9.4pt; margin: 1.4mm 0 .8mm; }
+.tarj p { font-size: 8.3pt; color: var(--humo); margin: 0; }
+.tarj .ico-t { float: right; color: var(--acento-txt); }
+
+/* Pantalla de cocina */
+.pantalla { border: 1px solid var(--negro); }
+.pantalla .barra { background: var(--negro); color: var(--crema); padding: 2mm 3.2mm; font-size: 7.6pt; display: flex; justify-content: space-between; align-items: center; }
+.pantalla .cuerpo { padding: 3.2mm; }
+.pantalla .cod { font-size: 16pt; font-weight: 800; letter-spacing: 2pt; }
+.pantalla table { width: 100%; border-collapse: collapse; font-size: 8.8pt; }
+.pantalla td { padding: 1.2mm 0; border-bottom: 1px solid var(--fino); }
+.pantalla td.num { text-align: right; font-weight: 700; }
+.pantalla .total td { border-bottom: none; border-top: 1.5px solid var(--negro); padding-top: 2mm; font-weight: 800; }
+
+/* Chat */
+.chat { display: flex; flex-direction: column; gap: 2mm; }
+.burbuja { max-width: 90%; padding: 2mm 3mm; font-size: 8.5pt; border-radius: 3mm; }
+.burbuja small { display: block; font-size: 6.4pt; letter-spacing: 1.2pt; text-transform: uppercase; font-weight: 700; margin-bottom: .5mm; }
+.burbuja.cli { align-self: flex-start; background: var(--fino); border-bottom-left-radius: .8mm; }
+.burbuja.cli small { color: var(--humo); }
+.burbuja.noah { align-self: flex-end; background: var(--negro); color: var(--crema); border-bottom-right-radius: .8mm; }
+.burbuja.noah small { color: var(--acento); }
+
+/* Lista con iconos y cajas de cuatro */
+.lista-ico { display: flex; flex-wrap: wrap; gap: 3mm 4mm; margin: 3mm 0; }
+.item-ico { flex: 0 0 calc(50% - 2mm); display: flex; gap: 2.5mm; align-items: flex-start; }
+.item-ico .c { flex: 0 0 8mm; height: 8mm; border-radius: 50%; background: var(--acento-f); border: 1.3px solid var(--acento); color: var(--acento-txt); display: flex; align-items: center; justify-content: center; }
+.item-ico b { display: block; font-size: 9.2pt; }
+.item-ico p { font-size: 8.3pt; color: var(--humo); margin: 0; }
+
+/* Si / No */
+.sino { display: flex; gap: 4mm; margin: 3mm 0; }
+.sino .col { flex: 1; }
+.sino .cabe { font-size: 8pt; letter-spacing: 1.6pt; text-transform: uppercase; font-weight: 700; padding-bottom: 1.5mm; margin-bottom: 2.2mm; border-bottom: 2px solid; display: flex; align-items: center; gap: 2mm; }
+.sino .si .cabe { color: var(--bien); }
+.sino .no .cabe { color: var(--mal); }
+.sino ul { margin: 0; padding: 0; list-style: none; font-size: 8.6pt; }
+.sino li { padding-left: 5.2mm; position: relative; margin-bottom: 1.7mm; }
+.sino li svg { position: absolute; left: 0; top: .6mm; }
+
+/* Regalos */
+.regalos { display: flex; flex-wrap: wrap; gap: 3mm 4mm; margin: 3mm 0; }
+.regalo { flex: 0 0 calc(50% - 2mm); display: flex; gap: 2.6mm; align-items: flex-start; }
+.regalo .num { flex: 0 0 7mm; height: 7mm; border-radius: 50%; background: var(--negro); color: var(--acento); font-weight: 800; font-size: 9.5pt; display: flex; align-items: center; justify-content: center; }
+.regalo b { display: block; font-size: 9.2pt; margin-bottom: .5mm; }
+.regalo p { font-size: 8.2pt; color: var(--humo); margin: 0; }
+.regalo code { font-family: "Courier New", monospace; font-size: 7.6pt; background: var(--fino); padding: .2mm .9mm; color: var(--acento-txt); }
+
+/* Bloques nuevos */
+.cuatro { display: flex; gap: 3mm; margin: 2mm 0; }
+.cuatro > div { flex: 1; min-width: 0; border: 1px solid var(--linea); background: var(--crema); padding: 3mm 2.4mm; text-align: center; }
+.cuatro .c { display: inline-flex; width: 10mm; height: 10mm; border-radius: 50%; background: var(--negro); color: var(--acento); align-items: center; justify-content: center; margin-bottom: 1.6mm; }
+.cuatro b { display: block; font-size: 9.2pt; line-height: 1.2; }
+.cuatro p { font-size: 8pt; color: var(--humo); margin: .6mm 0 0; line-height: 1.3; }
+.cuatro.cinco > div { padding: 2.6mm 1.8mm; }
+.cuatro.cinco b { font-size: 8.6pt; }
+.cuatro.cinco p { font-size: 7.6pt; }
+.banner { display: flex; gap: 3.5mm; align-items: center; background: var(--acento-f); border: 1.3px solid var(--acento); padding: 3.5mm 4mm; margin: 4mm 0 2mm; }
+.banner .c { flex: 0 0 11mm; height: 11mm; border-radius: 50%; background: var(--negro); color: var(--acento); display: flex; align-items: center; justify-content: center; }
+.banner b { display: block; font-size: 10.2pt; margin-bottom: .6mm; }
+.banner p { font-size: 8.8pt; color: #5A4630; margin: 0; }
+.cierre-frase { margin-top: 4mm; padding: 5mm 6mm; background: var(--acento); color: var(--negro); font-size: 15pt; font-weight: 800; letter-spacing: -.4pt; line-height: 1.2; text-align: center; }
+
+/* Ajustes por hoja para aprovechar el alto */
+.p2 .pantalla .cuerpo { padding: 4mm; } .p2 .pantalla table { font-size: 9.4pt; } .p2 .pantalla td { padding: 1.7mm 0; } .p2 .pantalla .cod { font-size: 19pt; }
+.p2 .burbuja { font-size: 9.2pt; padding: 2.5mm 3.3mm; } .p2 .chat { gap: 2.6mm; }
+.p3 .sit .fila { font-size: 8.9pt; padding: 2.2mm 3mm 2.2mm 3.4mm; } .p3 .sit .cab b { font-size: 10pt; }
+.p4 .sit .fila { font-size: 9.1pt; padding: 2.8mm 3mm 2.8mm 3.4mm; }
+.p5 .tarj { padding: 3.2mm 3.2mm; } .p5 .tarj .cifra { font-size: 24pt; } .p5 .tarj b { font-size: 9.6pt; } .p5 .tarj p { font-size: 8.5pt; }
+.p6 .item-ico b { font-size: 10pt; } .p6 .item-ico p { font-size: 8.9pt; } .p6 .item-ico .c { flex-basis: 9.5mm; height: 9.5mm; } .p6 .sino ul { font-size: 9.2pt; } .p6 .sino li { margin-bottom: 2.2mm; } .p6 .lista-ico { gap: 4mm 5mm; }
+.p7 .regalo b { font-size: 10pt; } .p7 .regalo p { font-size: 8.9pt; } .p7 .regalo .num { flex-basis: 8mm; height: 8mm; } .p7 .regalos { gap: 4mm 5mm; }
+
+.cuatro p { white-space: normal; }
+.p1 .cuatro > div { padding: 2.4mm 2mm; } .p1 .cuatro .c { width: 9mm; height: 9mm; margin-bottom: 1mm; }
+.p3 .sit .fila { padding: 2mm 3mm 2mm 3.4mm; } .p3 .sit .cab { padding: 2mm 3mm; } .p3 .rejilla { margin-bottom: 1mm; }
+.p4 .sit .fila { font-size: 9.4pt; padding: 3.2mm 3mm 3.2mm 3.4mm; } .p4 .grande { margin-bottom: 4mm; }
+.p5 .tarj { padding: 3.8mm 3.2mm; } .p5 .tarj .cifra { font-size: 26pt; } .p5 .banner { padding: 4mm 4.4mm; } .p5 .banner p { font-size: 9.2pt; }
+
+svg.f { width: 100%; height: auto; }
+.p6 .item-ico { flex-basis: calc(50% - 2.5mm); }
+.p7 .regalo { flex-basis: calc(50% - 2.5mm); }
+
+/* Relleno fino de las hojas que quedaban cortas */
+.p4 .sit .fila { font-size: 9.8pt; padding: 3.8mm 3.2mm 3.8mm 3.6mm; } .p4 .sit .cab { padding: 3mm; } .p4 .epigrafe { margin-top: 5mm; }
+.p5 .tarj { padding: 4.6mm 3.6mm; } .p5 .tarj .cifra { font-size: 29pt; } .p5 .tarj b { font-size: 10.4pt; } .p5 .tarj p { font-size: 9.2pt; }
+.p5 .banner { padding: 5mm 5mm; margin-top: 5mm; } .p5 .banner b { font-size: 11pt; } .p5 .banner p { font-size: 9.8pt; }
+.p6 .item-ico b { font-size: 10.6pt; } .p6 .item-ico p { font-size: 9.4pt; } .p6 .item-ico .c { flex-basis: 10.5mm; height: 10.5mm; }
+.p6 .sino ul { font-size: 9.8pt; } .p6 .sino li { margin-bottom: 3mm; } .p6 .sino .cabe { font-size: 8.6pt; margin-bottom: 3mm; } .p6 .lista-ico { gap: 5mm 6mm; margin: 4mm 0; } .p6 .epigrafe { margin-top: 6mm; }
+.p7 .regalo b { font-size: 10.6pt; } .p7 .regalo p { font-size: 9.5pt; } .p7 .regalo .num { flex-basis: 9mm; height: 9mm; font-size: 11pt; } .p7 .regalos { gap: 5.5mm 6mm; margin: 4mm 0 5mm; }
+.p7 .cierre-frase { font-size: 18pt; padding: 8mm 7mm; margin-top: 5mm; } .p7 .apunte { margin-top: 4mm; }
+.p6 .sino li { margin-bottom: 2.2mm; } .p6 .lista-ico { gap: 4mm 6mm; margin: 3mm 0; } .p6 .epigrafe { margin-top: 4.5mm; } .p6 .item-ico b { font-size: 10.2pt; } .p6 .item-ico p { font-size: 9pt; }
+.p7 .cierre-frase { font-size: 16pt; padding: 6mm 6mm; margin-top: 4mm; } .p7 .regalos { gap: 4.5mm 6mm; margin: 3.5mm 0 4mm; } .p7 .regalo p { font-size: 9.1pt; } .p7 .regalo b { font-size: 10.2pt; }
+.p6 .sino li { margin-bottom: 1.6mm; } .p6 .sino ul { font-size: 9.3pt; } .p6 .lista-ico { gap: 3mm 6mm; margin: 2.5mm 0; } .p6 .item-ico .c { flex-basis: 9.5mm; height: 9.5mm; } .p6 .epigrafe { margin-top: 3.5mm; } .p6 .sino .cabe { margin-bottom: 2.4mm; }
+.p7 .cierre-frase { font-size: 15pt; padding: 4.6mm 6mm; margin-top: 3mm; } .p7 .regalos { gap: 3.4mm 6mm; margin: 3mm 0 3mm; } .p7 .regalo p { font-size: 8.9pt; } .p7 .regalo .num { flex-basis: 8.4mm; height: 8.4mm; }
+.p6 .epigrafe { margin-top: 2.6mm; } .p6 .sino li { margin-bottom: 1.2mm; } .p6 .lista-ico { margin: 2mm 0; gap: 2.4mm 6mm; } .p6 .grande { margin-bottom: 2.6mm; }
+.p6 .item-ico { flex-basis: calc(50% - 3.2mm); }
+.p7 .regalo { flex-basis: calc(50% - 3.2mm); }
+.p7 .regalo b { font-size: 10.8pt; } .p7 .regalo p { font-size: 9.6pt; } .p7 .regalos { gap: 6mm 6mm; margin: 5mm 0 6mm; } .p7 .regalo .num { flex-basis: 9mm; height: 9mm; font-size: 11pt; }
+.p7 .cierre-frase { font-size: 17pt; padding: 7mm 6mm; margin-top: 5mm; } .p7 .grande { margin-bottom: 5mm; }
+.p6 .epigrafe { margin-top: 6mm; } .p6 .lista-ico { gap: 5.5mm 6mm; margin: 4mm 0 3mm; } .p6 .item-ico b { font-size: 10.8pt; } .p6 .item-ico p { font-size: 9.6pt; } .p6 .item-ico .c { flex-basis: 11mm; height: 11mm; }
+.p6 .sino ul { font-size: 10pt; } .p6 .sino li { margin-bottom: 3mm; } .p6 .sino .cabe { font-size: 8.8pt; margin-bottom: 3mm; } .p6 .grande { margin-bottom: 3.5mm; }
+.p7 .regalos { gap: 7mm 6mm; margin: 6mm 0 7mm; } .p7 .cierre-frase { font-size: 18pt; padding: 9mm 6mm; margin-top: 6mm; }
+
+/* ===== Portada sobre la hoja blanca ===== */
+.portada { position: relative; overflow: hidden; margin: 0 0 6mm; padding: 0 0 7mm; color: var(--negro); border-bottom: 2px solid var(--negro); }
+.portada .p-top { display: flex; justify-content: space-between; align-items: center; font-size: 7.4pt; letter-spacing: 2.4pt; text-transform: uppercase; color: var(--humo); padding-bottom: 3mm; border-bottom: 1px solid var(--linea); margin-bottom: 11mm; }
+.portada .p-marca { display: flex; align-items: center; gap: 2.2mm; color: var(--acento-txt); font-weight: 700; }
+.portada h1 { position: relative; z-index: 1; font-size: 37pt; line-height: .98; letter-spacing: -1.6pt; margin: 0; font-weight: 800; text-wrap: balance; }
+.portada h1 em { font-style: normal; color: #C97B0E; }
+.portada .bajada { position: relative; z-index: 1; font-size: 12.4pt; line-height: 1.38; color: #3A302A; max-width: 98mm; margin: 5.5mm 0 0; }
+.portada .p-pie { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; font-size: 8.4pt; color: var(--humo); margin-top: 9mm; }
+.portada .p-pie b { color: var(--negro); }
+.portada .p-barra { width: 34mm; height: 2.2mm; background: var(--acento); margin-bottom: 3mm; }
+.portada .p-deco { position: absolute; right: -20mm; top: 13mm; width: 92mm; height: 84mm; z-index: 0; }
+
+/* ===== Mejoras de la auditoria ===== */
+/* 1. Cabecera con numeral y marca */
+header.interior { display: flex; align-items: center; gap: 3.2mm; border-bottom: 2px solid var(--negro); padding-bottom: 2.4mm; margin-bottom: 5mm; }
+header.interior .n { font-size: 22pt; font-weight: 800; color: var(--acento); letter-spacing: -1pt; line-height: 1; font-variant-numeric: tabular-nums; }
+header.interior h1 { flex: 1; font-size: 15.4pt; line-height: 1.1; margin: 0; letter-spacing: -.5pt; font-weight: 800; text-wrap: balance; }
+header.interior .lado { display: flex; align-items: center; }
+/* 2. Pie con marca y progreso */
+.pie-hoja { align-items: center; font-size: 7.6pt; }
+.pie-hoja .izq { display: flex; align-items: center; gap: 1.8mm; }
+.pie-hoja .der { display: flex; align-items: center; gap: 2.4mm; font-variant-numeric: tabular-nums; }
+.pie-hoja .der b { color: var(--negro); }
+/* 3. Legibilidad: secundarios mas oscuros y sin letra minuscula */
+:root { --humo: #5A514A; }
+.apunte { font-size: 8.2pt; }
+.sit .cab .cuando { font-size: 7.8pt; }
+.cuatro p, .cuatro.cinco p { font-size: 8.2pt; }
+.regalo p, .item-ico p, .tarj p, .banner p { color: #4D443D; }
+/* 4. Esquinas y relieve unificados */
+.sit, .tarj, .pantalla, .banner, .cuatro > div, .cierre-frase { border-radius: 2.4mm; }
+.sit, .tarj, .pantalla, .cuatro > div { box-shadow: 0 .3mm 1.1mm rgba(20,10,6,.09); }
+.pantalla { overflow: hidden; }
+.burbuja { border-radius: 3.2mm; }
+.regalo code { border-radius: .8mm; }
+/* 5. Epigrafes con raya */
+.epigrafe::before { content: ""; display: inline-block; width: 6mm; height: .55mm; background: var(--acento); vertical-align: middle; margin-right: 2.2mm; }
+/* 6. Sin/Con Noah: icono y flecha de cambio */
+.sit .fila small { display: flex; align-items: center; gap: 1.2mm; }
+.sit .bien { position: relative; }
+.sit .bien::before { content: "↓"; position: absolute; right: 3mm; top: -2.7mm; width: 5.2mm; height: 5.2mm; border-radius: 50%; background: #fff; border: 1.2px solid var(--bien); color: var(--bien); font-size: 8pt; line-height: 4.4mm; text-align: center; font-weight: 700; }
+/* 9. Tarjetas de angulos: icono en circulo */
+.tarj .ico-t { float: right; width: 9mm; height: 9mm; border-radius: 50%; background: var(--negro); color: var(--acento); display: flex; align-items: center; justify-content: center; }
+.tarj .ico-t svg { width: 17px; height: 17px; }
+/* 10. Tipografia: sin viudas y cifras alineadas */
+body { font-variant-numeric: tabular-nums; }
+.grande, .banner b, .cierre-frase, .regalo b, .cuatro b { text-wrap: balance; }
+p, .regalo p, .item-ico p, .tarj p { text-wrap: pretty; }
+
+.portada h1 { font-size: 33pt; }
+.portada .bajada { max-width: 104mm; }
+.portada .p-deco { right: -12mm; top: 12mm; width: 80mm; height: 73mm; }
+.portada .p-top { margin-bottom: 9mm; }
+.portada .p-pie { margin-top: 7mm; }
+
+.p1 .epigrafe { margin-top: 2mm; } .p1 .cuatro { margin: 1mm 0; } .p1 .grande { margin-bottom: 2mm; }
+
+/* ===== Hoja 8: planes ===== */
+.planes { display: flex; gap: 3.4mm; align-items: stretch; margin: 5mm 0 2mm; }
+.plan { flex: 1; min-width: 0; position: relative; border: 1px solid var(--linea); border-radius: 2.4mm; background: var(--crema); padding: 4.4mm 3.4mm 3.6mm; color: #6A5F57; }
+.plan .nom { font-size: 10.4pt; margin: 0; letter-spacing: -.2pt; }
+.plan .nom b { font-weight: 800; color: var(--negro); }
+.plan .lema { font-size: 8.4pt; margin: .6mm 0 3mm; min-height: 7.4mm; line-height: 1.25; }
+.plan .precio { display: flex; align-items: flex-start; gap: 1.2mm; color: var(--negro); }
+.plan .precio .cifra { font-size: 29pt; font-weight: 800; letter-spacing: -1.4pt; line-height: .9; }
+.plan .precio .ud { font-size: 7.6pt; font-weight: 700; line-height: 1.15; padding-top: .8mm; }
+.plan .dia { font-size: 8pt; margin: 1.2mm 0 3mm; }
+.plan .mins { display: flex; gap: 2mm; align-items: center; padding: 2.2mm 2.4mm; border-radius: 1.6mm; background: #fff; border: 1px solid var(--linea); margin-bottom: 3mm; color: var(--acento-txt); }
+.plan .mins b { display: block; font-size: 9pt; color: var(--negro); line-height: 1.1; }
+.plan .mins span { font-size: 7.6pt; color: var(--humo); }
+.plan ul { list-style: none; margin: 0; padding: 0; }
+.plan li { display: flex; gap: 1.8mm; align-items: flex-start; font-size: 8.4pt; line-height: 1.3; padding: 1.5mm 0; border-top: 1px solid var(--fino); }
+.plan li svg { flex: 0 0 auto; margin-top: .5mm; }
+.plan li.si { color: var(--negro); }
+.plan li.no { color: #A89D90; text-decoration: line-through; text-decoration-color: #CFC5B8; }
+.plan .nota-plan { font-size: 7.6pt; margin: 2.4mm 0 0; line-height: 1.3; }
+
+/* El plan del medio: mas grande, oscuro y con sello */
+.plan.destacado { flex: 1.14; background: var(--negro); border-color: var(--negro); color: #CDBFAE; transform: scale(1.03); box-shadow: 0 1.2mm 4mm rgba(20,10,6,.28); padding-top: 6.4mm; z-index: 1; }
+.plan.destacado .nom b, .plan.destacado .precio { color: #fff; }
+.plan.destacado .nom b { color: var(--acento); }
+.plan.destacado .mins { background: #2A1D16; border-color: #3B2B21; color: var(--acento); }
+.plan.destacado .mins b { color: #fff; }
+.plan.destacado .mins span, .plan.destacado .dia { color: #CDBFAE; }
+.plan.destacado .dia b, .plan.destacado .dia { font-weight: 700; color: var(--acento); }
+.plan.destacado li { border-color: #2E211A; }
+.plan.destacado li.si { color: #F6EEE2; }
+.plan.destacado li.si svg { color: var(--acento); }
+.plan.destacado li.no { color: #6E5F53; text-decoration-color: #4A3B30; }
+.plan .sello { position: absolute; top: -3mm; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--acento); color: var(--negro); font-size: 7.4pt; font-weight: 800; letter-spacing: 1.2pt; text-transform: uppercase; padding: 1.2mm 3mm; border-radius: 3mm; display: flex; align-items: center; gap: 1.2mm; }
+
+.banner.paga { margin-top: 6mm; }
+.todos { display: flex; gap: 3mm; margin: 3.5mm 0 1mm; }
+.todos > div { flex: 1; display: flex; gap: 2mm; align-items: flex-start; font-size: 8.4pt; line-height: 1.3; color: #4D443D; }
+.todos svg { flex: 0 0 auto; color: var(--acento-txt); margin-top: .3mm; }
+.todos b { color: var(--negro); }
+/* Relleno de la hoja 8 */
+.p8 .planes { margin-top: 6.5mm; }
+.p8 .plan { padding: 5mm 3.8mm 4.2mm; }
+.p8 .plan.destacado { padding-top: 7.2mm; }
+.p8 .plan .nom { font-size: 11.2pt; }
+.p8 .plan .lema { font-size: 8.8pt; margin-bottom: 3.6mm; }
+.p8 .plan .precio .cifra { font-size: 33pt; }
+.p8 .plan .dia { font-size: 8.6pt; margin-bottom: 3.6mm; }
+.p8 .plan .mins { padding: 2.8mm; margin-bottom: 3.4mm; }
+.p8 .plan li { font-size: 9pt; padding: 2.15mm 0; }
+.p8 .plan .nota-plan { font-size: 8pt; margin-top: 3mm; }
+.p8 .banner.paga { margin-top: 7mm; padding: 5mm; }
+.p8 .banner.paga b { font-size: 11pt; }
+.p8 .banner.paga p { font-size: 9.3pt; }
+.p8 .todos { margin-top: 5mm; }
+.p8 .todos > div { font-size: 9pt; }
+.p8 .plan li { padding: 1.85mm 0; } .p8 .banner.paga { margin-top: 6mm; padding: 4.4mm 5mm; } .p8 .todos { margin-top: 4mm; } .p8 .planes { margin-top: 6mm; }
+
+/* ===== Hoja 8: flujo ===== */
+.p8f .flujo { margin: 4mm 0 1mm; }
+.piezas { display: flex; flex-wrap: wrap; gap: 2.6mm; margin: 2mm 0 1mm; }
+.pieza { flex: 0 0 calc(25% - 1.95mm); border: 1px solid var(--linea); border-radius: 2.4mm; background: var(--crema); padding: 2.6mm 2.6mm 2.4mm; box-shadow: 0 .3mm 1.1mm rgba(20,10,6,.07); }
+.pieza .pl { height: 5.2mm; display: flex; align-items: center; margin-bottom: 1.4mm; }
+.pieza .pl svg { display: block; }
+.pieza b { display: block; font-size: 9.2pt; margin-bottom: .5mm; }
+.pieza p { font-size: 8pt; color: #4D443D; margin: 0; line-height: 1.3; }
+.p8f .flujo { margin: 6mm 0 2mm; }
+.p8f .grande { margin-bottom: 2mm; }
+.p8f .piezas { gap: 3.2mm; margin: 3mm 0 2mm; }
+.p8f .pieza { flex-basis: calc(25% - 2.4mm); padding: 3.4mm 3mm 3.2mm; }
+.p8f .pieza .pl { height: 6mm; margin-bottom: 2mm; }
+.p8f .pieza b { font-size: 10pt; margin-bottom: .8mm; }
+.p8f .pieza p { font-size: 8.7pt; }
+.p8f .apunte { margin-top: 3mm; }
+
+/* ===== Hoja 10: como empezamos ===== */
+.franja { display: flex; justify-content: space-between; gap: 4mm; border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea); padding: 3mm 1mm; margin: 4mm 0 5mm; font-size: 9.2pt; color: #4D443D; }
+.franja b { color: var(--negro); }
+.pasos3 { display: flex; gap: 5mm; }
+.paso { flex: 1; }
+.paso .num { display: inline-flex; width: 8mm; height: 8mm; border-radius: 50%; background: var(--negro); color: var(--acento); font-weight: 800; font-size: 10pt; align-items: center; justify-content: center; margin-bottom: 2mm; }
+.paso b { display: block; font-size: 11pt; margin-bottom: 1mm; }
+.paso p { font-size: 9pt; color: #4D443D; margin: 0; }
+.necesito { list-style: none; margin: 2mm 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2.4mm 6mm; }
+.necesito li { flex: 0 0 calc(50% - 3mm); display: flex; gap: 2mm; align-items: flex-start; font-size: 9.4pt; padding: 2.2mm 3mm; background: var(--crema); border: 1px solid var(--linea); border-radius: 2mm; }
+.necesito li svg { flex: 0 0 auto; margin-top: .6mm; }
+.clientes { display: flex; gap: 4mm; margin-top: 2mm; }
+.cliente { flex: 1; text-align: center; }
+.cliente .lg { height: 19mm; border: 1px solid var(--linea); border-radius: 2.4mm; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fff; box-shadow: 0 .3mm 1.1mm rgba(20,10,6,.07); }
+.cliente .lg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cliente b { display: block; font-size: 9.4pt; margin-top: 1.8mm; }
+.cliente span { font-size: 8pt; color: var(--humo); }
+.contacto { display: flex; justify-content: space-between; align-items: center; gap: 6mm; background: var(--negro); color: var(--crema); border-radius: 2.4mm; padding: 7mm 7mm; margin-top: 7mm; }
+.contacto .frase { margin: 0; font-size: 12.5pt; line-height: 1.35; font-weight: 700; color: #F6EEE2; }
+.contacto .quien { text-align: right; flex: 0 0 auto; }
+.contacto .et { display: block; font-size: 7.6pt; letter-spacing: 2.2pt; text-transform: uppercase; color: var(--acento); margin-bottom: 1.4mm; }
+.contacto .quien b { display: block; font-size: 15pt; color: #fff; letter-spacing: -.3pt; }
+.contacto .tel { display: block; font-size: 15pt; font-weight: 800; color: var(--acento); margin-top: .6mm; letter-spacing: .3pt; }
+.p10 .grande { margin-bottom: 3mm; }
+.p10 .franja { margin: 5mm 0 7mm; padding: 3.6mm 1mm; font-size: 9.6pt; }
+.p10 .paso .num { width: 9.5mm; height: 9.5mm; font-size: 11pt; margin-bottom: 2.6mm; }
+.p10 .paso b { font-size: 12pt; }
+.p10 .paso p { font-size: 9.6pt; }
+.p10 .necesito { gap: 3mm 6mm; margin-top: 3mm; }
+.p10 .necesito li { padding: 3mm 3.4mm; font-size: 9.8pt; }
+.p10 .epigrafe { margin-top: 7mm !important; }
+.p10 .cliente .lg { height: 23mm; }
+.p10 .cliente b { font-size: 10pt; margin-top: 2.4mm; }
+.p10 .contacto { padding: 9mm 8mm; margin-top: 9mm; }
+.p10 .contacto .frase { font-size: 13.5pt; }
+.p10 .contacto .quien b, .p10 .contacto .tel { font-size: 17pt; }
+.p10 .cliente .lg img { object-fit: contain; }
+
+/* ===== Hoja 8: la cuenta ===== */
+.p8v .valor-g { margin: 4mm 0 2mm; }
+.p8v .banner.paga { margin-top: 7mm; padding: 5mm; }
+.p8v .banner.paga b { font-size: 11.2pt; }
+.p8v .banner.paga p { font-size: 9.5pt; }
+.p8v .apunte { margin-top: 4mm; }
+.p8v .valor-g { margin: 6mm 0 3mm; } .p8v .grande { margin-bottom: 4mm; } .p8v .banner.paga { margin-top: 9mm; padding: 6mm; } .p8v .apunte { margin-top: 6mm; }
+
+/* ===== Hoja 9: propuesta B ===== */
+.dosb { display: flex; gap: 4mm; margin: 5mm 0 2mm; align-items: stretch; }
+.caja-b { flex: 1; border-radius: 2.6mm; padding: 5mm 4.6mm 4.4mm; }
+.caja-b.oscura { flex: 1.15; background: var(--negro); color: #CDBFAE; box-shadow: 0 1mm 3.4mm rgba(20,10,6,.25); }
+.caja-b.clara { background: var(--crema); border: 1px solid var(--linea); color: #4D443D; }
+.caja-b .et { font-size: 8pt; letter-spacing: 2pt; text-transform: uppercase; font-weight: 700; margin: 0 0 2.4mm; }
+.caja-b.oscura .et { color: var(--acento); } .caja-b.clara .et { color: var(--acento-txt); }
+.caja-b .precio { display: flex; align-items: flex-start; gap: 1.4mm; }
+.caja-b .precio .cifra { font-size: 34pt; font-weight: 800; letter-spacing: -1.4pt; line-height: .9; }
+.caja-b.oscura .precio .cifra { color: #fff; } .caja-b.clara .precio .cifra { color: var(--negro); }
+.caja-b .precio .ud { font-size: 8pt; font-weight: 700; line-height: 1.15; padding-top: 1mm; }
+.caja-b .sub { font-size: 8.8pt; margin: 2mm 0 3.4mm; }
+.caja-b.oscura .sub { color: var(--acento); font-weight: 700; }
+.caja-b ul { list-style: none; margin: 0; padding: 0; }
+.caja-b li { display: flex; gap: 1.8mm; align-items: flex-start; font-size: 9.2pt; line-height: 1.3; padding: 1.7mm 0; border-top: 1px solid; }
+.caja-b.oscura li { border-color: #2E211A; color: #F6EEE2; } .caja-b.oscura li svg { color: var(--acento); }
+.caja-b.clara li { border-color: var(--fino); color: var(--negro); } .caja-b.clara li svg { color: var(--bien); }
+.caja-b li svg { flex: 0 0 auto; margin-top: .4mm; }
+.txt-b { font-size: 9.6pt; margin: 1mm 0 2.6mm; }
+.tabla-b { width: 100%; border-collapse: collapse; font-size: 9.4pt; }
+.tabla-b th { text-align: left; font-size: 7.8pt; letter-spacing: 1pt; text-transform: uppercase; color: var(--humo); font-weight: 700; padding: 1.6mm 2mm; border-bottom: 1.5px solid var(--negro); }
+.tabla-b td { padding: 2.2mm 2mm; border-bottom: 1px solid var(--linea); }
+.tabla-b .num { text-align: right; }
+.tabla-b tr:nth-child(even) td { background: var(--crema); }
+.p9b .banner.paga { margin-top: 6mm; }
+.p9b .dosb { margin-top: 6mm; } .p9b .caja-b li { padding: 2.1mm 0; font-size: 9.4pt; } .p9b .tabla-b td { padding: 2.8mm 2mm; } .p9b .banner.paga { margin-top: 8mm; padding: 5.4mm; } .p9b .apunte { margin-top: 5mm; }
+.contacto .rol { display: block; font-size: 8.6pt; color: #CDBFAE; margin-top: .8mm; }
+.p9b .dosb { margin-top: 5mm; } .p9b .caja-b li { padding: 1.8mm 0; } .p9b .tabla-b td { padding: 2.3mm 2mm; } .p9b .banner.paga { margin-top: 6mm; padding: 4.6mm; } .p9b .apunte { margin-top: 3.5mm; } .p9b .txt-b { font-size: 9.3pt; }

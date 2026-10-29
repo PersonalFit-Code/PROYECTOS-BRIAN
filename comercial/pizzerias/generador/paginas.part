@@ -1,0 +1,302 @@
+<!-- ============ HOJA 1 · PORTADA + QUE ES NOAH ============ -->
+<div class="hoja p1">
+  <div class="portada">
+    <div class="p-top"><span class="p-marca"><svg width="17" height="17"><use href="#i-marca" width="17" height="17"/></svg>Noah &middot; asistente telefónica con inteligencia artificial</span><span>Octubre 2026</span></div>
+    {{PORTADA_DECO}}
+    <h1>Agente de voz<br>conversacional para<br><em>tu pizzería</em></h1>
+    <p class="bajada">Coge el teléfono, toma el pedido y lo deja en tu cocina.
+      Siempre, aunque tengas las manos en la masa.</p>
+    <div class="p-pie">
+      <div><div class="p-barra"></div>Preparado por <b>Brian Carbajal</b> &middot; Ourense, octubre de 2026</div>
+      <div>Para pizzerías de Ourense</div>
+    </div>
+  </div>
+
+  <p class="epigrafe">Qué es Noah</p>
+  <p class="grande">Noah es la <em>asistente telefónica</em> de tu pizzería. Habla en castellano,
+    conoce tu carta entera y hace estas ocho cosas cada vez que suena el teléfono.</p>
+  {{PIZZA}}
+  <p class="epigrafe" style="margin-top:3mm">Para ponerla en marcha solo necesita</p>
+  <div class="cuatro">
+    <div><span class="c"><svg width="20" height="20"><use href="#i-carta" width="20" height="20"/></svg></span><b>Tu carta</b><p>Con sus precios</p></div>
+    <div><span class="c"><svg width="20" height="20"><use href="#i-reloj" width="20" height="20"/></svg></span><b>Tu horario</b><p>Cuándo coger pedidos</p></div>
+    <div><span class="c"><svg width="20" height="20"><use href="#i-mapa" width="20" height="20"/></svg></span><b>Tu zona de reparto</b><p>Y el precio del envío</p></div>
+    <div><span class="c"><svg width="20" height="20"><use href="#i-tel" width="20" height="20"/></svg></span><b>Un número</b><p>Donde reenviar llamadas</p></div>
+  </div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para pizzerías de Ourense</span><span class="der"><svg width="88" height="8" viewBox="0 0 88 8" aria-hidden="true"><circle cx="4" cy="4" r="3.3" fill="#E0952F"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>01</b> / 09</span></span></div>
+</div>
+
+<!-- ============ HOJA 2 · UNA LLAMADA ============ -->
+<div class="hoja p2">
+  <header class="interior"><span class="n">02</span><h1>Una llamada, de principio a fin</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Cómo funciona</p>
+  <p class="grande">Suena el teléfono, Noah contesta y el pedido aparece en tu cocina.
+    <em>Nadie tiene que dejar lo que está haciendo.</em></p>
+  {{RUEDA}}
+
+  <div class="dos" style="margin-top:3mm">
+    <div>
+      <p class="epigrafe">Lo que ve la cocina</p>
+      <div class="pantalla">
+        <div class="barra"><span>Pedidos de hoy &middot; Tu pizzería</span><span>21:31</span></div>
+        <div class="cuerpo">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2.2mm">
+            <span class="cod">4729</span>
+            <span style="font-size:7.8pt;color:var(--humo)">recogida &middot; pendiente</span>
+          </div>
+          <table>
+            <tr><td>1 &times; Pizza margarita</td><td class="num">9,00 €</td></tr>
+            <tr><td>1 &times; Pizza barbacoa</td><td class="num">11,50 €</td></tr>
+            <tr><td>1 &times; Pan de ajo con queso</td><td class="num">4,50 €</td></tr>
+            <tr><td>1 &times; Tiramisú</td><td class="num">5,00 €</td></tr>
+            <tr class="total"><td>TOTAL</td><td class="num">30,00 €</td></tr>
+          </table>
+        </div>
+      </div>
+      <p class="apunte">En el móvil o el ordenador de la cocina. Se marca «atendido» con un toque y se filtra por día.</p>
+    </div>
+    <div>
+      <p class="epigrafe">Así suena</p>
+      <div class="chat">
+        <div class="burbuja noah"><small>Noah</small>Buenas, soy Noah, la asistente virtual de la pizzería. ¿Qué le pongo?</div>
+        <div class="burbuja cli"><small>Cliente</small>Una margarita, una barbacoa y algo para picar.</div>
+        <div class="burbuja noah"><small>Noah</small>El pan de ajo con queso gusta mucho. Cuatro cincuenta.</div>
+        <div class="burbuja noah"><small>Noah</small>Son treinta euros. Su código es cuatro, siete, dos, nueve.</div>
+      </div>
+      <p class="apunte">Platos y precios de ejemplo. Con tu carta cargada, los importes y el código los calcula el programa.</p>
+    </div>
+  </div>
+  <p class="epigrafe" style="margin-top:4mm">Qué queda apuntado en cada pedido</p>
+  <div class="cuatro cinco">
+    <div><span class="c"><svg width="18" height="18"><use href="#i-carta" width="18" height="18"/></svg></span><b>Platos</b><p>Y cantidades</p></div>
+    <div><span class="c"><svg width="18" height="18"><use href="#i-bolsa" width="18" height="18"/></svg></span><b>Recoger o repartir</b><p>Lo que elige el cliente</p></div>
+    <div><span class="c"><svg width="18" height="18"><use href="#i-mapa" width="18" height="18"/></svg></span><b>Dirección</b><p>Y un teléfono</p></div>
+    <div><span class="c"><svg width="18" height="18"><use href="#i-euro" width="18" height="18"/></svg></span><b>Total exacto</b><p>Calculado, no sumado a ojo</p></div>
+    <div><span class="c"><svg width="18" height="18"><use href="#i-ticket" width="18" height="18"/></svg></span><b>Código</b><p>Para encontrarlo luego</p></div>
+  </div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para pizzerías de Ourense</span><span class="der"><svg width="88" height="8" viewBox="0 0 88 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="3.3" fill="#E0952F"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>02</b> / 09</span></span></div>
+</div>
+
+<!-- ============ HOJA 3 · SITUACIONES ============ -->
+<div class="hoja p3">
+  <header class="interior"><span class="n">03</span><h1>Ocho situaciones de un día normal</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Qué pasa sin Noah y con Noah</p>
+  <p class="grande">No todo es la plataforma: el cliente viene a recoger, llama desde el portal,
+    pregunta a las cuatro y media. <em>Cada situación, de las dos maneras.</em></p>
+
+  <div class="rejilla">
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-reloj" width="18" height="18"/></svg></span><div><b>Hora punta</b><span class="cuando">viernes, 21:30</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Cocina a tope, reparto fuera y el teléfono sonando. Nadie llega y cuelgan.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Contesta a la primera, y a la vez si entran dos llamadas más.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-bolsa" width="18" height="18"/></svg></span><div><b>Pedido para recoger</b><span class="cuando">el cliente pasa por el local</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Pedido apuntado de pie y a prisa, con el total hecho de cabeza.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Lo repite, el servidor calcula el total y el cliente recibe un código de pedido.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-moto" width="18" height="18"/></svg></span><div><b>Pedido a domicilio</b><span class="cuando">reparto propio</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Calle oída a medias, piso olvidado y un repartidor llamando desde el portal.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Pide calle, número, piso y teléfono, y los repite hasta que el cliente confirma.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-luna" width="18" height="18"/></svg></span><div><b>Llaman con la cocina cerrada</b><span class="cuando">a las 16:30, o el día de cierre</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Suena y nadie contesta. El cliente no sabe si abrís ni dónde estáis.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Dice el horario y la dirección. No toma pedido cerrado, pero nadie se queda sin respuesta.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-carta" width="18" height="18"/></svg></span><div><b>Cliente indeciso</b><span class="cuando">una carta larga</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Quien coge recita de memoria ingredientes y precios, y se deja la mitad.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Conoce la carta entera con sus precios y describe sin inventar nada.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-euro" width="18" height="18"/></svg></span><div><b>Pedido por plataforma</b><span class="cuando">el mismo pedido de 30 €</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>La plataforma se queda su comisión de cada pedido.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Por teléfono lo cobras entero, sin comisión, y repartes tú igual.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-grupo" width="18" height="18"/></svg></span><div><b>Pedido grande para compartir</b><span class="cuando">cumpleaños, cena de grupo</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Doce platos dictados de corrido: alguno se queda por el camino.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Plato a plato, con cantidades, y lo repite entero antes de dar el total.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-pizza" width="18" height="18"/></svg></span><div><b>Piden algo que no hay</b><span class="cuando">una pizza con piña, una oferta</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Se promete lo que no se tiene y luego hay que desmentirlo.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Solo se pide de la carta. Si no está, lo dice con naturalidad y ofrece opciones.</div></div>
+  </div>
+  <p class="apunte">«Sin Noah» describe lo que pasa en cualquier local cuando suena el teléfono y no hay quien lo coja; no es una afirmación sobre cómo atendéis hoy.</p>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para pizzerías de Ourense</span><span class="der"><svg width="88" height="8" viewBox="0 0 88 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="3.3" fill="#E0952F"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>03</b> / 09</span></span></div>
+</div>
+
+<!-- ============ HOJA 4 · EL TELEFONO ============ -->
+<div class="hoja p4">
+  <header class="interior"><span class="n">04</span><h1>El teléfono suena cuando nadie puede cogerlo</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Lo que le pasa a un local como el tuyo</p>
+  <p class="grande">Pocas manos, mucho trabajo y un solo teléfono. Quien podría cogerlo
+    <em>tiene las manos en la masa, en la plancha o con una bandeja</em>.</p>
+  {{DOLOR}}
+
+  <p class="epigrafe" style="margin-top:4mm">Lo que cuesta cada llamada que no se coge</p>
+  {{ECUACION}}
+  <p class="apunte">Cuenta de ejemplo con el pedido de 30 € de la hoja 2. Cuántas llamadas se pierden de verdad lo sabes tú, no yo: hoy nadie las cuenta.</p>
+
+  <div class="rejilla" style="margin-top:4mm">
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-ojo" width="18" height="18"/></svg></span><div><b>Lo que no se ve</b><span class="cuando">una llamada perdida no deja rastro</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Ni mensaje, ni reseña, ni número. No sabes cuántas pierdes ni qué pedían.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Cada llamada queda registrada, con su resumen y su pedido en pantalla.</div></div>
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-estrella" width="18" height="18"/></svg></span><div><b>Justo ahora</b><span class="cuando">alguien que te acaba de descubrir</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Sin Noah</small>Quien te vio en Instagram o en Google y no consigue hablar, llama a la pizzería de al lado.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Con Noah</small>Le atiende una voz que sabe la carta, el horario y la dirección.</div></div>
+  </div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para pizzerías de Ourense</span><span class="der"><svg width="88" height="8" viewBox="0 0 88 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="3.3" fill="#E0952F"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>04</b> / 09</span></span></div>
+</div>
+
+<!-- ============ HOJA 5 · ANGULOS ============ -->
+<div class="hoja p5">
+  <header class="interior"><span class="n">05</span><h1>Seis formas en que Noah ayuda a tu negocio</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Por qué merece la pena</p>
+  <p class="grande">Más pedidos que entran, menos errores, y una cocina que deja de
+    <em>cortarse cada vez que suena el teléfono</em>.</p>
+
+  <div class="tarjs">
+    <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-tel" width="20" height="20"/></svg></span><div class="cifra">0</div><b>Llamadas sin contestar</b><p>No pierdes un pedido por no llegar al teléfono.</p></div>
+    <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-euro" width="20" height="20"/></svg></span><div class="cifra">100<small> %</small></div><b>De tu precio</b><p>El pedido directo no paga comisión de plataforma.</p></div>
+    <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-check" width="20" height="20"/></svg></span><div class="cifra">2<small> veces</small></div><b>Repite lo importante</b><p>El pedido y la dirección, hasta que el cliente confirma.</p></div>
+    <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-carta" width="20" height="20"/></svg></span><div class="cifra">Toda</div><b>La carta, de memoria</b><p>Platos, ingredientes y precios. Nadie tiene que recitarla.</p></div>
+    <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-pantalla" width="20" height="20"/></svg></span><div class="cifra">1</div><b>Pantalla en cocina</b><p>El pedido llega solo. Nadie apunta nada.</p></div>
+    <div class="tarj"><span class="ico-t"><svg width="20" height="20"><use href="#i-luna" width="20" height="20"/></svg></span><div class="cifra">24<small> h</small></div><b>Alguien responde</b><p>Hasta con la cocina cerrada: horario y dirección.</p></div>
+  </div>
+
+  <p class="epigrafe" style="margin-top:4mm">Cuando el pedido iba a entrar por plataforma</p>
+  {{COMPARATIVA}}
+  <p style="margin-top:2.5mm"><b>9 € de diferencia en un solo pedido de 30 €</b>, con una comisión de ejemplo del 30 %. Y si el cliente iba a recoger al local,
+    pagas lo mismo con o sin plataforma: con Noah el pedido ya está apuntado, repetido y en pantalla cuando llega.</p>
+  <div class="banner">
+    <span class="c"><svg width="22" height="22"><use href="#i-reloj" width="22" height="22"/></svg></span>
+    <div><b>Viernes, sábados y noches de partido, sin sumar a nadie al teléfono.</b>
+      <p>Los picos de llamadas son justo cuando Noah lo nota menos: las coge todas a la vez.</p></div>
+  </div>
+  <p class="apunte">La comisión de cada plataforma depende de su contrato; el 30 % es solo un ejemplo para hacer la cuenta. Pon la tuya y la diferencia sale sola.</p>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para pizzerías de Ourense</span><span class="der"><svg width="88" height="8" viewBox="0 0 88 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="3.3" fill="#E0952F"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>05</b> / 09</span></span></div>
+</div>
+
+<!-- ============ HOJA 6 · FLUJO ============ -->
+<div class="hoja p8f">
+  <header class="interior"><span class="n">06</span><h1>Cómo funciona por dentro: todo conectado</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">El flujo de una llamada</p>
+  <p class="grande">Desde que suena el teléfono hasta que la comanda sale en tu cocina,
+    <em>cada pieza le pasa el trabajo a la siguiente</em>. Así va por dentro.</p>
+  <div class="flujo">{{FLUJO}}</div>
+  <p class="epigrafe" style="margin-top:4mm">Qué hace cada pieza</p>
+  {{PIEZAS}}
+  <p class="apunte">Todo funciona en la nube: en el local no hay que instalar nada. Las marcas y logos son de sus dueños y aparecen solo para explicar con qué está hecho Noah.</p>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para pizzerías de Ourense</span><span class="der"><svg width="88" height="8" viewBox="0 0 88 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="3.3" fill="#E0952F"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>06</b> / 09</span></span></div>
+</div>
+
+<!-- ============ HOJA 7 · LA CUENTA ============ -->
+<div class="hoja p8v">
+  <header class="interior"><span class="n">07</span><h1>La cuenta que importa</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Lo que cuesta frente a lo que deja</p>
+  <p class="grande">Que Noah coja una llamada cuesta unos <em>cincuenta céntimos</em>.
+    Un pedido que no se pierde deja unos treinta euros.</p>
+  <div class="valor-g">{{BALANZA}}</div>
+
+  <p class="epigrafe" style="margin-top:6mm">Si Noah salva solo unos pocos pedidos al día</p>
+  <div class="valor-g">{{BARRAS}}</div>
+
+  <div class="banner paga">
+    <span class="c"><svg width="22" height="22"><use href="#i-euro" width="22" height="22"/></svg></span>
+    <div><b>Con un solo pedido salvado al día, recuperas 780 € de ventas al mes.</b>
+      <p>Las llamadas de esos pedidos cuestan unos 13 €. Y no es solo ese pedido: es el cliente que vuelve a llamar
+        la semana que viene porque la primera vez le cogieron el teléfono.</p></div>
+  </div>
+  <p class="apunte">Cifras de ejemplo: un pedido medio de 30 € y 26 días de apertura al mes (un día de cierre a la semana). Son ventas, no beneficio.
+    El coste es real: una llamada de prueba de 5 minutos y 53 segundos costó 0,50 €, unos 8,5 céntimos por minuto. Un pedido normal, de unos 3 minutos, sale a unos 0,25 €.</p>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para pizzerías de Ourense</span><span class="der"><svg width="88" height="8" viewBox="0 0 88 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="3.3" fill="#E0952F"/><circle cx="74" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>07</b> / 09</span></span></div>
+</div>
+
+<!-- ============ HOJA 8 · LA PROPUESTA ============ -->
+<div class="hoja p9b">
+  <header class="interior"><span class="n">08</span><h1>La propuesta: Noah es tuyo</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Inversión y puesta en marcha</p>
+  <p class="grande">Un pago por dejar a Noah montado con lo tuyo, y una cuota para que siga al día.
+    <em>Las llamadas las pagas tú, a precio de coste, sin margen mío.</em></p>
+
+  <div class="dosb">
+    <div class="caja-b oscura">
+      <p class="et">Implantación</p>
+      <div class="precio"><span class="cifra">1.200</span><span class="ud">€<br>pago único</span></div>
+      <p class="sub">Todo el trabajo de montarlo, una sola vez.</p>
+      <ul>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Noah con tu carta, tus precios, tu horario y tu zona</span></li>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Su voz, su forma de hablar y lo que recomienda</span></li>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Tu teléfono de siempre desviado a Noah</span></li>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Pantalla de pedidos con aviso, en móvil u ordenador</span></li>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Llamadas de prueba juntos hasta que te guste</span></li>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>30 días de ajustes incluidos tras arrancar</span></li>
+      </ul>
+    </div>
+    <div class="caja-b clara">
+      <p class="et">Mantenimiento</p>
+      <div class="precio"><span class="cifra">100</span><span class="ud">€<br>al mes</span></div>
+      <p class="sub">Sin permanencia. Sale a unos 3,30 € al día.</p>
+      <ul>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Servidor y número de teléfono incluidos</span></li><li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Cambios de carta, precios y horario cuando quieras</span></li>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Noah vigilado: si algo falla, me entero yo antes</span></li>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Mejoras y ajustes según cómo llamen tus clientes</span></li>
+        <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg><span>Atención por teléfono, el mismo día</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="epigrafe" style="margin-top:6mm">Las llamadas, a precio de coste</p>
+  <p class="txt-b">Lo que cobra el proveedor por cada llamada lo pagas directamente tú, con tu tarjeta:
+    <b>unos 8,5 céntimos por minuto</b> (una llamada de prueba de 5 min 53 s costó 0,50 €). Yo no gano nada ahí. Para ir a lo seguro, la tabla cuenta 0,50 € por llamada, aunque un pedido de 3 minutos cuesta la mitad:</p>
+  <table class="tabla-b">
+    <tr><th>Si te llaman</th><th class="num">Llamadas</th><th class="num">Te cuestan</th><th class="num">Ventas si 1 de cada 2 es un pedido de 30 €</th></tr>
+    <tr><td>10 llamadas al día</td><td class="num">260 al mes</td><td class="num"><b>130 €</b></td><td class="num">3.900 €</td></tr><tr><td>20 llamadas al día</td><td class="num">520 al mes</td><td class="num"><b>260 €</b></td><td class="num">7.800 €</td></tr><tr><td>30 llamadas al día</td><td class="num">780 al mes</td><td class="num"><b>390 €</b></td><td class="num">11.700 €</td></tr>
+  </table>
+
+  <div class="banner paga">
+    <span class="c"><svg width="22" height="22"><use href="#i-euro" width="22" height="22"/></svg></span>
+    <div><b>La implantación equivale a <span style="white-space:nowrap">40 pedidos de 30 €</span>: poco más de uno al día durante un mes.</b>
+      <p>Y desde ese momento, cada pedido que Noah salva es venta que antes se perdía con el teléfono sonando.</p></div>
+  </div>
+  <p class="apunte">Precios sin IVA. Cálculo con 26 días de apertura al mes. El coste de las llamadas lo fija el proveedor y puede variar; una llamada más corta cuesta menos.</p>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para pizzerías de Ourense</span><span class="der"><svg width="88" height="8" viewBox="0 0 88 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="3.3" fill="#E0952F"/><circle cx="84" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/></svg><span><b>08</b> / 09</span></span></div>
+</div>
+
+<!-- ============ HOJA 9 · COMO EMPEZAMOS ============ -->
+<div class="hoja p10">
+  <header class="interior"><span class="n">09</span><h1>Cómo empezamos</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Si te convence</p>
+  <p class="grande">Tres pasos y Noah está cogiendo tu teléfono. <em>En el local no hay que instalar nada.</em></p>
+
+  <div class="franja">
+    <div><b>Implantación:</b> 1.200 €, pago único</div>
+    <div><b>Mantenimiento:</b> sin permanencia</div>
+    <div><b>Llamadas:</b> a precio de coste</div>
+  </div>
+
+  <div class="pasos3">
+    <div class="paso"><span class="num">1</span><b>Me das el sí</b><p>Con el pago de la implantación, empiezo a dejar a Noah con lo tuyo.</p></div>
+    <div class="paso"><span class="num">2</span><b>Me pasas tus datos</b><p>Los de la lista de abajo. Con eso dejo a Noah con tu horario, tus precios y tu zona.</p></div>
+    <div class="paso"><span class="num">3</span><b>Noah coge el teléfono</b><p>Hacemos juntos unas llamadas de prueba y, cuando te guste, tu número pasa a Noah.</p></div>
+  </div>
+
+  <p class="epigrafe" style="margin-top:5mm">Lo que necesito de ti</p>
+  <ul class="necesito">
+    <li><svg width="13" height="13" color="#9A5B0C"><use href="#i-check" width="13" height="13"/></svg>El horario definitivo, cocina y reparto</li>
+    <li><svg width="13" height="13" color="#9A5B0C"><use href="#i-check" width="13" height="13"/></svg>Gastos de envío y pedido mínimo</li>
+    <li><svg width="13" height="13" color="#9A5B0C"><use href="#i-check" width="13" height="13"/></svg>La zona a la que repartís</li>
+    <li><svg width="13" height="13" color="#9A5B0C"><use href="#i-check" width="13" height="13"/></svg>Tu carta con precios, bebidas y postres</li>
+    <li><svg width="13" height="13" color="#9A5B0C"><use href="#i-check" width="13" height="13"/></svg>Cuántas pizzas salen por hornada</li>
+    <li><svg width="13" height="13" color="#9A5B0C"><use href="#i-check" width="13" height="13"/></svg>Qué postre quieres que ofrezca Noah</li>
+  </ul>
+
+  <p class="epigrafe" style="margin-top:5mm">Negocios de aquí que ya trabajan conmigo</p>
+  <div class="clientes">
+    <div class="cliente"><div class="lg">{{LOGO_personalfit}}</div><b>PersonalFit</b><span>Centro de entrenamiento</span></div>
+    <div class="cliente"><div class="lg" style="background:#2B1512">{{LOGO_tixola}}</div><b>Tixola Tapería</b><span>Ourense · tixolataperia.es</span></div>
+    <div class="cliente"><div class="lg">{{LOGO_bincami}}</div><b>Bin &amp; Cami Cake's</b><span>Obrador de tartas</span></div>
+  </div>
+
+  <div class="contacto">
+    <p class="frase">Pásame tu carta y tus datos,<br>y Noah empieza a coger tu teléfono.</p>
+    <div class="quien"><span class="et">Contacto</span><b>Brian Carbajal</b><span class="rol">Consultor freelance en IA para negocios</span><span class="tel">611 57 35 80</span></div>
+  </div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Noah para pizzerías de Ourense</span><span class="der"><svg width="88" height="8" viewBox="0 0 88 8" aria-hidden="true"><circle cx="4" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="14" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="24" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="34" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="44" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="54" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="64" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="74" cy="4" r="2.6" fill="none" stroke="#CDBDA2" stroke-width="1.1"/><circle cx="84" cy="4" r="3.3" fill="#E0952F"/></svg><span><b>09</b> / 09</span></span></div>
+</div>
