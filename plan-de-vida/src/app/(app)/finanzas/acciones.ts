@@ -37,6 +37,7 @@ export async function crearMovimiento(f: FormData) {
       category_id: texto(f, "category_id", 40) || null,
       note: textoONull(f, "note", 300),
       method: metodoDe(f.get("method")),
+      pending: f.get("pending") === "on",
     }),
     "apuntar el movimiento",
   );
@@ -46,6 +47,41 @@ export async function crearMovimiento(f: FormData) {
 export async function borrarMovimiento(id: string) {
   const s = await getSesion();
   comprobar(await s.db.from("transactions").delete().eq("id", id).eq("user_id", s.userId), "borrar el movimiento");
+  refrescar();
+}
+
+/** Lo pendiente ya ha llegado: pasa a contar desde hoy y mueve el saldo (trigger de la migración 0007). */
+export async function marcarLlegado(id: string) {
+  const s = await getSesion();
+  comprobar(await s.db.from("transactions").update({ pending: false, day: hoy() }).eq("id", id).eq("user_id", s.userId), "marcarlo como llegado");
+  refrescar();
+}
+
+/* ── Traspasos entre cuentas ────────────────────────────── */
+
+export async function crearTraspaso(f: FormData) {
+  const s = await getSesion();
+  const desde = texto(f, "from_account_id", 40);
+  const hacia = texto(f, "to_account_id", 40);
+  if (!desde || !hacia) throw new Error("Elige de qué cuenta sale y a cuál entra");
+  if (desde === hacia) throw new Error("La cuenta de origen y la de destino tienen que ser distintas");
+  comprobar(
+    await s.db.from("transfers").insert({
+      user_id: s.userId,
+      day: fecha(f, "day") ?? hoy(),
+      amount: importe(f),
+      from_account_id: desde,
+      to_account_id: hacia,
+      note: textoONull(f, "note", 300),
+    }),
+    "apuntar el traspaso",
+  );
+  refrescar();
+}
+
+export async function borrarTraspaso(id: string) {
+  const s = await getSesion();
+  comprobar(await s.db.from("transfers").delete().eq("id", id).eq("user_id", s.userId), "borrar el traspaso");
   refrescar();
 }
 

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowDownLeft, ArrowUpRight, ChartColumn, ChevronLeft, ChevronRight, Gauge, PiggyBank, Receipt, Scale } from "lucide-react";
+import { ArrowDownLeft, ArrowLeftRight, ArrowUpRight, ChartColumn, ChevronLeft, ChevronRight, Clock, Gauge, PiggyBank, Receipt, Scale } from "lucide-react";
 import { GraficaMeses } from "@/components/finanzas/GraficaMeses";
 import { ListaMovimientos } from "@/components/finanzas/ListaMovimientos";
 import { HaciaMeta } from "@/components/finanzas/HaciaMeta";
+import { ListaTraspasos, Pendientes } from "@/components/finanzas/Pendientes";
 import { Presupuesto } from "@/components/finanzas/Presupuesto";
 import { Kpi, Titulo } from "@/components/ui/basicos";
 import { Desplegable } from "@/components/ui/Desplegable";
-import { getCategorias, getMetas, getMovimientos, getRecurrentes } from "@/lib/datos/consultas";
+import { getCategorias, getCuentas, getMetas, getMovimientos, getPendientes, getRecurrentes, getTraspasos } from "@/lib/datos/consultas";
 import { hoy, mesAnterior, mesDe, NOMBRES_MES, nombreMes, rangoMes, sumarMeses } from "@/lib/fechas";
 import { euros, pct } from "@/lib/formato";
 import { aplicarAuto } from "@/lib/metas/auto";
@@ -24,12 +25,17 @@ export default async function FinanzasPage({ searchParams }: { searchParams: Pro
   const inicioGrafica = mesDe(sumarMeses(`${mes}-01`, -5));
 
   const s = await getSesion();
-  const [todos, categorias, metas, recurrentes] = await Promise.all([
+  const [todos, categorias, metas, recurrentes, pendientes, traspasos, cuentas] = await Promise.all([
     getMovimientos(s, `${inicioGrafica}-01`, hasta),
     getCategorias(s),
     getMetas(s, Number(mes.slice(0, 4))),
     getRecurrentes(s),
+    getPendientes(s),
+    getTraspasos(s, desde, hasta),
+    getCuentas(s),
   ]);
+  const nombreCuenta = Object.fromEntries(cuentas.map((c) => [c.id, c.name]));
+  const enCamino = pendientes.filter((m) => m.kind === "ingreso").reduce((a, m) => a + n(m.amount), 0);
   const delMes = todos.filter((m) => m.day >= desde);
   // La meta de ingresos solo se mide en el mes en curso (los fijos de hoy no dicen nada de meses pasados).
   const auto = mes === actual ? aplicarAuto(metas.filter((m) => m.auto === "ingreso_mensual" && m.status === "activa"), delMes, recurrentes, mes) : null;
@@ -84,9 +90,22 @@ export default async function FinanzasPage({ searchParams }: { searchParams: Pro
 
       {metaIngresos && auto?.estados.get(metaIngresos.id) && <HaciaMeta meta={metaIngresos} estado={auto.estados.get(metaIngresos.id)!} />}
 
+      {pendientes.length > 0 && (
+        <Desplegable icono={<Clock />} color="yellow" titulo="Pendiente de llegar" resumen={enCamino ? `+${euros(enCamino, false)} en camino` : `${pendientes.length}`} abierto i={4}>
+          <p className="mb-2 text-xs text-muted">No mueven tu saldo ni cuentan en el mes hasta que toques «Ha llegado».</p>
+          <Pendientes pendientes={pendientes} cuentas={nombreCuenta} />
+        </Desplegable>
+      )}
+
       <Desplegable icono={<Receipt />} color="blue" titulo="Movimientos del mes" resumen={`${delMes.length}`} abierto i={4}>
         <ListaMovimientos movimientos={delMes} categorias={categorias} />
       </Desplegable>
+      {traspasos.length > 0 && (
+        <Desplegable icono={<ArrowLeftRight />} color="purple" titulo="Traspasos entre tus cuentas" resumen={`${traspasos.length}`} i={5}>
+          <p className="mb-2 text-xs text-muted">Dinero que solo cambia de sitio (efectivo ↔ banco): no es ingreso ni gasto.</p>
+          <ListaTraspasos traspasos={traspasos} cuentas={nombreCuenta} />
+        </Desplegable>
+      )}
       <Desplegable icono={<Gauge />} color="orange" titulo="Presupuesto por categoría" i={5}>
         <p className="mb-3 text-xs text-muted">Toca la cifra de cada categoría para ponerle o cambiarle el límite.</p>
         <Presupuesto filas={filas} />

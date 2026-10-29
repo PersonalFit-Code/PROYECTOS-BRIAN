@@ -85,7 +85,11 @@ export type Transaction = {
   recurring_id: string | null;
   method: PayMethod | null;
   account_id: string | null;
+  /** dinero en camino: no mueve el saldo ni cuenta en las sumas hasta que llega (migración 0007) */
+  pending: boolean;
 };
+/** Paso de dinero entre cuentas propias (efectivo → banco…): ni ingreso ni gasto. */
+export type Transfer = { id: string; day: string; amount: Num; from_account_id: string; to_account_id: string; note: string | null };
 export type Frequency = "semanal" | "mensual" | "anual";
 export type RecurringItem = {
   id: string;

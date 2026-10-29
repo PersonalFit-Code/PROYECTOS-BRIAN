@@ -71,6 +71,10 @@ export const HERRAMIENTAS: Anthropic.Tool[] = [
           enum: ["tarjeta", "efectivo"],
           description: "Cómo se pagó o cobró. 'efectivo' si dice en efectivo, en mano, en metálico o cash; si no lo dice, 'tarjeta'. Mueve el saldo de esa cuenta.",
         },
+        pendiente: {
+          type: "boolean",
+          description: "true si el dinero aún no ha llegado (o el cargo aún no ha pasado): 'me lo han mandado pero no ha llegado'. No mueve el saldo hasta que lo marque como llegado en Finanzas.",
+        },
         fecha: FECHA,
       },
       required: ["importe", "tipo"],
@@ -129,8 +133,24 @@ export const HERRAMIENTAS: Anthropic.Tool[] = [
   },
   {
     name: "patrimonio",
-    description: "Cuentas, inversiones, deudas, patrimonio neto, huchas de ahorro y suscripciones activas.",
+    description: "Cuentas, inversiones, deudas, patrimonio neto, huchas de ahorro, suscripciones activas y el dinero pendiente de llegar.",
     input_schema: { type: "object", properties: {} },
+  },
+  {
+    name: "registrar_traspaso",
+    description:
+      "Pasa dinero entre sus propias cuentas (meter efectivo en el banco, sacar del cajero, cambiar efectivo por una transferencia). No es ingreso ni gasto: resta de una cuenta y suma a la otra.",
+    input_schema: {
+      type: "object",
+      properties: {
+        importe: { type: "number", description: "En euros, positivo." },
+        desde: { type: "string", description: "Cuenta de la que sale: 'efectivo', 'banco' o el nombre de la cuenta." },
+        hacia: { type: "string", description: "Cuenta a la que entra: 'efectivo', 'banco' o el nombre de la cuenta." },
+        nota: { type: "string", description: "Para qué: 'dinero de mi madre que me llega al banco'." },
+        fecha: FECHA,
+      },
+      required: ["importe", "desde", "hacia"],
+    },
   },
   {
     name: "mi_negocio",
@@ -187,7 +207,7 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
       const desde = esFecha(input.desde) ? input.desde : rangoMes(mesDe(dia)).desde;
       const hasta = esFecha(input.hasta) ? input.hasta : dia;
       const [{ data: movs }, { data: cats }] = await Promise.all([
-        s.db.from("transactions").select("amount, kind, category_id").eq("user_id", s.userId).gte("day", desde).lte("day", hasta),
+        s.db.from("transactions").select("amount, kind, category_id").eq("user_id", s.userId).eq("pending", false).gte("day", desde).lte("day", hasta),
         s.db.from("categories").select("*").eq("user_id", s.userId),
       ]);
       const ms = (movs ?? []) as Transaction[];
@@ -215,7 +235,7 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
       const desde = esFecha(input.desde) ? input.desde : rangoMes(mesDe(dia)).desde;
       const hasta = esFecha(input.hasta) ? input.hasta : dia;
       const [{ data: movs }, { data: cats }] = await Promise.all([
-        s.db.from("transactions").select("day, amount, kind, category_id, note").eq("user_id", s.userId).gte("day", desde).lte("day", hasta).order("day", { ascending: false }).limit(300),
+        s.db.from("transactions").select("day, amount, kind, category_id, note").eq("user_id", s.userId).eq("pending", false).gte("day", desde).lte("day", hasta).order("day", { ascending: false }).limit(300),
         s.db.from("categories").select("id, name").eq("user_id", s.userId),
       ]);
       const nombreCat = new Map(((cats ?? []) as Category[]).map((c) => [c.id, c.name]));
@@ -238,13 +258,13 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
       const metodo = metodoDe(input.metodo);
       const r = await s.db
         .from("transactions")
-        .insert({ user_id: s.userId, day: fecha, amount: importe, kind: tipo, category_id: categoria?.id ?? null, note: str(input.nota) || null, method: metodo })
+        .insert({ user_id: s.userId, day: fecha, amount: importe, kind: tipo, category_id: categoria?.id ?? null, note: str(input.nota) || null, method: metodo, pending: input.pendiente === true })
         .select("account_id")
         .single();
       if (r.error) return { error: r.error.message };
       const { data: cuenta } = r.data?.account_id ? await s.db.from("accounts").select("name, balance").eq("id", r.data.account_id).maybeSingle() : { data: null };
       efectos.rutas.add("/finanzas").add("/hoy").add("/");
-      efectos.acciones.push(`${tipo === "gasto" ? "−" : "+"}${importe} € · ${categoria?.name ?? "sin categoría"} · ${metodo}`);
+      efectos.acciones.push(`${tipo === "gasto" ? "−" : "+"}${importe} € · ${categoria?.name ?? "sin categoría"} · ${metodo}${input.pendiente === true ? " · pendiente" : ""}`);
       return {
         ok: true,
         importe,
@@ -252,7 +272,13 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
         categoria: categoria?.name ?? null,
         fecha,
         metodo,
-        cuenta: cuenta ? { nombre: cuenta.name, saldo_nuevo: n(cuenta.balance) } : "ninguna cuenta marcada para este método: el saldo no se ha movido",
+        pendiente: input.pendiente === true,
+        cuenta:
+          input.pendiente === true
+            ? "pendiente: el saldo se moverá cuando lo marque como llegado en Finanzas"
+            : cuenta
+              ? { nombre: cuenta.name, saldo_nuevo: n(cuenta.balance) }
+              : "ninguna cuenta marcada para este método: el saldo no se ha movido",
       };
     }
 
@@ -421,10 +447,11 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
     }
 
     case "patrimonio": {
-      const [{ data: cuentas }, { data: huchas }, { data: recurrentes }] = await Promise.all([
+      const [{ data: cuentas }, { data: huchas }, { data: recurrentes }, { data: pendientes }] = await Promise.all([
         s.db.from("accounts").select("*").eq("user_id", s.userId).eq("active", true),
         s.db.from("savings_goals").select("*").eq("user_id", s.userId),
         s.db.from("recurring_items").select("*").eq("user_id", s.userId).eq("active", true),
+        s.db.from("transactions").select("day, amount, kind, note").eq("user_id", s.userId).eq("pending", true),
       ]);
       const cs = (cuentas ?? []) as Account[];
       const subs = ((recurrentes ?? []) as RecurringItem[]).filter((r) => r.is_subscription);
@@ -434,7 +461,31 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
         huchas: ((huchas ?? []) as SavingsGoal[]).map((h) => ({ hucha: h.name, ahorrado: n(h.saved), objetivo: n(h.target), fecha: h.target_date })),
         suscripciones: subs.map((r) => ({ nombre: r.name, importe: n(r.amount), cada: r.frequency })),
         suscripciones_al_mes: redondear(subs.reduce((a, r) => a + mensual(r.amount, r.frequency), 0)),
+        pendiente_de_llegar: ((pendientes ?? []) as Pick<Transaction, "day" | "amount" | "kind" | "note">[]).map((m) => ({ desde: m.day, importe: n(m.amount), tipo: m.kind, nota: m.note })),
       };
+    }
+
+    case "registrar_traspaso": {
+      const importe = Math.round(Math.abs(Number(input.importe)) * 100) / 100;
+      if (!Number.isFinite(importe) || importe <= 0) return { error: "Importe no válido" };
+      const { data } = await s.db.from("accounts").select("id, name, kind, pago, balance").eq("user_id", s.userId).eq("active", true).eq("kind", "liquidez");
+      const cuentas = (data ?? []) as Pick<Account, "id" | "name" | "pago" | "balance">[];
+      const buscar = (q: string) => {
+        const t = norm(q);
+        if (/efectivo|metalico|cash|mano/.test(t)) return cuentas.find((c) => c.pago === "efectivo");
+        if (/banco|tarjeta|cuenta$/.test(t)) return cuentas.find((c) => c.pago === "tarjeta");
+        return cuentas.find((c) => norm(c.name).includes(t));
+      };
+      const desde = buscar(str(input.desde));
+      const hacia = buscar(str(input.hacia));
+      if (!desde || !hacia) return { error: "No encuentro esas cuentas", cuentas: cuentas.map((c) => c.name) };
+      if (desde.id === hacia.id) return { error: "La cuenta de origen y la de destino son la misma" };
+      const fecha = esFecha(input.fecha) ? input.fecha : dia;
+      const r = await s.db.from("transfers").insert({ user_id: s.userId, day: fecha, amount: importe, from_account_id: desde.id, to_account_id: hacia.id, note: str(input.nota) || null });
+      if (r.error) return { error: r.error.message };
+      efectos.rutas.add("/finanzas").add("/");
+      efectos.acciones.push(`${importe} € · ${desde.name} → ${hacia.name}`);
+      return { ok: true, importe, desde: desde.name, hacia: hacia.name, saldos_nuevos: { [desde.name]: redondear(n(desde.balance) - importe), [hacia.name]: redondear(n(hacia.balance) + importe) } };
     }
 
     case "informe_inversion": {

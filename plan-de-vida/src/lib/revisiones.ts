@@ -55,7 +55,7 @@ export async function resumenPeriodo(s: Sesion, desde: string, hasta: string): P
   const [{ data: habitos }, { data: logs }, { data: movs }, { count: tareasHechas }, { data: diario }] = await Promise.all([
     s.db.from("habits").select("*").eq("user_id", s.userId).eq("active", true),
     s.db.from("habit_logs").select("habit_id, day, done, value").eq("user_id", s.userId).gte("day", desde).lte("day", hasta),
-    s.db.from("transactions").select("amount, kind").eq("user_id", s.userId).gte("day", desde).lte("day", hasta),
+    s.db.from("transactions").select("amount, kind").eq("user_id", s.userId).eq("pending", false).gte("day", desde).lte("day", hasta),
     s.db.from("tasks").select("id", { count: "exact", head: true }).eq("user_id", s.userId).eq("done", true).gte("done_at", `${desde}T00:00:00Z`).lte("done_at", `${hasta}T23:59:59Z`),
     s.db.from("journal_entries").select("mood").eq("user_id", s.userId).gte("day", desde).lte("day", hasta),
   ]);

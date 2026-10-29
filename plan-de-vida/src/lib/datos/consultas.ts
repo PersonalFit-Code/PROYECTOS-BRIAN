@@ -14,6 +14,7 @@ import type {
   Settings,
   Task,
   Transaction,
+  Transfer,
 } from "@/lib/tipos";
 
 /**
@@ -69,11 +70,25 @@ export async function getMovimientos({ db, userId }: Sesion, desde: string, hast
       .from("transactions")
       .select("*")
       .eq("user_id", userId)
+      // los pendientes no cuentan hasta que llegan: van aparte (getPendientes)
+      .eq("pending", false)
       .gte("day", desde)
       .lte("day", hasta)
       .order("day", { ascending: false })
       .order("created_at", { ascending: false }),
     "los movimientos",
+  );
+}
+
+/** Movimientos que aún no han llegado (ni salido), del más antiguo al más nuevo. */
+export async function getPendientes({ db, userId }: Sesion): Promise<Transaction[]> {
+  return lanzar(await db.from("transactions").select("*").eq("user_id", userId).eq("pending", true).order("day"), "los pendientes");
+}
+
+export async function getTraspasos({ db, userId }: Sesion, desde: string, hasta: string): Promise<Transfer[]> {
+  return lanzar(
+    await db.from("transfers").select("*").eq("user_id", userId).gte("day", desde).lte("day", hasta).order("day", { ascending: false }).order("created_at", { ascending: false }),
+    "los traspasos",
   );
 }
 
