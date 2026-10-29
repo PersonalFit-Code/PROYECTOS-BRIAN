@@ -440,3 +440,19 @@ Para copiar y mandar tal cual. **Versión al día (27/10), lista para enviar: `p
    ¿qué consentimiento hace falta y cómo debe documentarse?
 10. ¿Hay algún problema en publicar fotos de tartas de encargo con marcas de terceros
     (un emblema de coche, un personaje de animación, un logotipo de videojuego)?
+
+---
+
+## Estadística de visitas (29/10)
+
+Brian pide medir las visitas. Se activa **Vercel Web Analytics**, que según la documentación de
+Vercel no usa cookies de terceros, identifica la visita con un hash calculado de la petición que se
+descarta a las 24 horas y sólo ofrece datos agregados. Se carga sólo en `binycamicakes.es`.
+
+Cambios: fila nueva «Estadística de visitas» en la política de privacidad (base: interés legítimo,
+art. 6.1.f), Vercel como encargado también de la estadística, una frase en la política de cookies y
+el aviso de cookies ya no dice «no lleva analítica» (los cuatro idiomas). La CSP admite `'self'` en
+`script-src` para el script de Vercel.
+
+**Para la gestoría:** confirmar que una estadística sin cookies ni almacenamiento en el navegador
+no necesita consentimiento previo (art. 22.2 LSSI) y que el interés legítimo es la base correcta.

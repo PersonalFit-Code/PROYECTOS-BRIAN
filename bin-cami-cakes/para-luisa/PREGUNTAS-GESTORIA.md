@@ -32,6 +32,10 @@ la tienda. Antes de darle más difusión queremos confirmar unos puntos legales:
 9. **Marcas en las tartas.** Publicamos fotos de tartas de encargo con marcas o
    personajes, por ejemplo Dragon Ball, el escudo del FC Barcelona o un emblema de
    coche. ¿Hay algún riesgo que debamos tener en cuenta?
+10. **Estadística de visitas.** La web cuenta las visitas con Vercel Web Analytics, que no usa
+    cookies ni guarda nada en el navegador y solo da cifras agregadas. ¿Hace falta pedir
+    consentimiento para eso, o basta con explicarlo en la política de privacidad (interés
+    legítimo)?
 
 Gracias.
 

@@ -157,7 +157,9 @@ def hashes(paginas):
 
 
 def vercel_json(hs):
-    csp = ("default-src 'self'; script-src "
+    # 'self': el script de la estadística de visitas (Vercel Web Analytics) se
+    # sirve desde el propio dominio. Lo demás sigue entrando sólo por hash.
+    csp = ("default-src 'self'; script-src 'self' "
            + ' '.join("'sha256-%s'" % h for h in hs)
            + "; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';"
              " connect-src 'self'; frame-src https://maps.google.com https://www.google.com;"
