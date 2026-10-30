@@ -1,0 +1,94 @@
+:root {
+  --negro: #140A06; --crema: #FBF6EC; --linea: #E6DCCB; --fino: #F3EBDD; --humo: #6D635C;
+  --acento: #E0952F; --acento-txt: #9A5B0C; --acento-f: #FCEFD9;
+  --mal: #C0392B; --mal-f: #FBECEA;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #ddd; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--negro); }
+svg { display: block; }
+.f { width: 100%; height: auto; }
+
+.foto {
+  position: relative; overflow: hidden; width: 1080px; height: 1350px;
+  padding: 84px 80px 130px; background: var(--crema);
+  display: flex; flex-direction: column;
+}
+.foto + .foto { margin-top: 40px; }
+
+/* Pie con marca y progreso */
+.pie {
+  position: absolute; left: 80px; right: 80px; bottom: 50px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 2px solid var(--linea); padding-top: 22px; font-size: 22px; color: var(--humo);
+}
+.pie .marca { display: flex; align-items: center; gap: 14px; font-weight: 700; }
+.pie .puntos { display: flex; align-items: center; gap: 10px; }
+.pie .puntos i { width: 13px; height: 13px; border-radius: 50%; border: 2px solid #CDBDA2; }
+.pie .puntos i.on { background: var(--acento); border-color: var(--acento); width: 16px; height: 16px; }
+.pie .puntos b { margin-left: 10px; color: var(--negro); }
+
+/* Textos */
+.epi { font-size: 24px; letter-spacing: 5px; text-transform: uppercase; color: var(--acento-txt); font-weight: 800; margin: 0 0 22px; }
+.epi::before { content: ""; display: inline-block; width: 46px; height: 4px; background: var(--acento); vertical-align: middle; margin-right: 16px; }
+h1, h2 { margin: 0; font-weight: 800; text-wrap: balance; }
+h2 { font-size: 64px; line-height: 1.04; letter-spacing: -2px; }
+h1 em, h2 em { font-style: normal; color: #C97B0E; }
+.nota { font-size: 27px; line-height: 1.4; color: #3A302A; margin: 26px 0 0; }
+.nota b { color: var(--negro); }
+.dibujo { margin: auto -30px; }
+
+/* 1 · Portada oscura */
+.oscura { background: var(--negro); color: var(--crema); justify-content: center; }
+.oscura .deco { position: absolute; right: -150px; top: -110px; width: 560px; opacity: .95; }
+.oscura .deco svg { width: 100%; height: auto; }
+.oscura .cinta { position: relative; align-self: flex-start; background: var(--acento); color: var(--negro); font-weight: 800; font-size: 26px; letter-spacing: 3px; text-transform: uppercase; padding: 12px 22px; border-radius: 8px; margin: 250px 0 40px; }
+.oscura h1 { position: relative; font-size: 92px; line-height: 1; letter-spacing: -3px; }
+.oscura h1 em { color: var(--acento); }
+.oscura .bajada { position: relative; font-size: 34px; line-height: 1.38; color: #E8DDCB; margin: 44px 0 0; max-width: 860px; }
+.oscura .bajada b { color: #fff; }
+.oscura .desliza { position: relative; margin-top: auto; display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 800; color: var(--acento); }
+.oscura .desliza span { font-size: 44px; }
+.oscura .pie { border-color: #3A2A20; color: #B9AB98; }
+.oscura .pie .puntos b { color: var(--crema); }
+.oscura .pie .puntos i { border-color: #6D5A48; }
+
+/* 2 · Caja roja */
+.caja { display: flex; gap: 28px; align-items: center; margin-top: auto; padding: 34px 38px; border-radius: 22px; }
+.caja.mal { background: var(--mal-f); border-left: 8px solid var(--mal); }
+.caja svg { flex: 0 0 auto; }
+.caja p { margin: 0; font-size: 31px; line-height: 1.38; }
+
+/* 3 · Lista de seis */
+.lista { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 44px; }
+.lista div { background: #fff; border: 2px solid var(--linea); border-top: 8px solid var(--acento); border-radius: 18px; padding: 26px 26px 28px; color: var(--acento-txt); }
+.lista b { display: block; color: var(--negro); font-size: 30px; line-height: 1.15; margin: 16px 0 8px; }
+.lista span { display: block; color: var(--humo); font-size: 24px; line-height: 1.35; }
+
+/* 4 · Chat y pantalla de cocina */
+.chat { display: flex; flex-direction: column; gap: 12px; }
+.burbuja { max-width: 84%; padding: 14px 24px; font-size: 27px; line-height: 1.32; border-radius: 26px; }
+.burbuja small { display: block; font-size: 18px; letter-spacing: 3px; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; }
+.burbuja.cli { align-self: flex-start; background: #fff; border: 2px solid var(--linea); border-bottom-left-radius: 6px; }
+.burbuja.cli small { color: var(--humo); }
+.burbuja.noah { align-self: flex-end; background: var(--negro); color: var(--crema); border-bottom-right-radius: 6px; }
+.burbuja.noah small { color: var(--acento); }
+.flecha { display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 800; margin: 24px 0 14px; }
+.pantalla { background: #fff; border: 3px solid var(--negro); border-radius: 18px; overflow: hidden; }
+.pantalla .barra { background: var(--negro); color: var(--crema); padding: 14px 26px; font-size: 22px; display: flex; justify-content: space-between; }
+.pantalla .cuerpo { padding: 18px 26px 22px; }
+.pantalla .fila-cod { display: flex; justify-content: space-between; align-items: baseline; font-size: 22px; color: var(--humo); }
+.pantalla .cod { font-size: 46px; font-weight: 800; letter-spacing: 6px; color: var(--negro); }
+.pantalla table { width: 100%; border-collapse: collapse; font-size: 26px; font-variant-numeric: tabular-nums; }
+.pantalla td { padding: 5px 0; border-bottom: 2px solid var(--fino); }
+.pantalla td + td { text-align: right; font-weight: 700; }
+.pantalla .total td { border-bottom: none; border-top: 3px solid var(--negro); padding-top: 12px; font-weight: 800; }
+.foto .pantalla + .nota { font-size: 22px; color: var(--humo); margin-top: 16px; }
+
+/* 5 · Contacto */
+.contacto { margin-top: auto; background: var(--negro); color: var(--crema); border-radius: 24px; padding: 38px 42px; display: flex; justify-content: space-between; align-items: center; gap: 30px; }
+.contacto p { margin: 0; font-size: 28px; line-height: 1.38; color: #E8DDCB; }
+.contacto p b { color: #fff; }
+.contacto .quien { text-align: right; flex: 0 0 auto; }
+.contacto .quien small { display: block; font-size: 34px; font-weight: 800; color: #fff; }
+.contacto .quien span { display: block; font-size: 18px; color: #B9AB98; margin: 4px 0 8px; }
+.contacto .quien b { font-size: 42px; color: var(--acento); letter-spacing: 1px; }

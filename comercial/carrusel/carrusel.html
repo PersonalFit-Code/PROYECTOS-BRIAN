@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Noah · carrusel</title>
+<style>
+:root {
+  --negro: #140A06; --crema: #FBF6EC; --linea: #E6DCCB; --fino: #F3EBDD; --humo: #6D635C;
+  --acento: #E0952F; --acento-txt: #9A5B0C; --acento-f: #FCEFD9;
+  --mal: #C0392B; --mal-f: #FBECEA;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #ddd; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--negro); }
+svg { display: block; }
+.f { width: 100%; height: auto; }
+
+.foto {
+  position: relative; overflow: hidden; width: 1080px; height: 1350px;
+  padding: 84px 80px 130px; background: var(--crema);
+  display: flex; flex-direction: column;
+}
+.foto + .foto { margin-top: 40px; }
+
+/* Pie con marca y progreso */
+.pie {
+  position: absolute; left: 80px; right: 80px; bottom: 50px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 2px solid var(--linea); padding-top: 22px; font-size: 22px; color: var(--humo);
+}
+.pie .marca { display: flex; align-items: center; gap: 14px; font-weight: 700; }
+.pie .puntos { display: flex; align-items: center; gap: 10px; }
+.pie .puntos i { width: 13px; height: 13px; border-radius: 50%; border: 2px solid #CDBDA2; }
+.pie .puntos i.on { background: var(--acento); border-color: var(--acento); width: 16px; height: 16px; }
+.pie .puntos b { margin-left: 10px; color: var(--negro); }
+
+/* Textos */
+.epi { font-size: 24px; letter-spacing: 5px; text-transform: uppercase; color: var(--acento-txt); font-weight: 800; margin: 0 0 22px; }
+.epi::before { content: ""; display: inline-block; width: 46px; height: 4px; background: var(--acento); vertical-align: middle; margin-right: 16px; }
+h1, h2 { margin: 0; font-weight: 800; text-wrap: balance; }
+h2 { font-size: 64px; line-height: 1.04; letter-spacing: -2px; }
+h1 em, h2 em { font-style: normal; color: #C97B0E; }
+.nota { font-size: 27px; line-height: 1.4; color: #3A302A; margin: 26px 0 0; }
+.nota b { color: var(--negro); }
+.dibujo { margin: auto -30px; }
+
+/* 1 · Portada oscura */
+.oscura { background: var(--negro); color: var(--crema); justify-content: center; }
+.oscura .deco { position: absolute; right: -150px; top: -110px; width: 560px; opacity: .95; }
+.oscura .deco svg { width: 100%; height: auto; }
+.oscura .cinta { position: relative; align-self: flex-start; background: var(--acento); color: var(--negro); font-weight: 800; font-size: 26px; letter-spacing: 3px; text-transform: uppercase; padding: 12px 22px; border-radius: 8px; margin: 250px 0 40px; }
+.oscura h1 { position: relative; font-size: 92px; line-height: 1; letter-spacing: -3px; }
+.oscura h1 em { color: var(--acento); }
+.oscura .bajada { position: relative; font-size: 34px; line-height: 1.38; color: #E8DDCB; margin: 44px 0 0; max-width: 860px; }
+.oscura .bajada b { color: #fff; }
+.oscura .desliza { position: relative; margin-top: auto; display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 800; color: var(--acento); }
+.oscura .desliza span { font-size: 44px; }
+.oscura .pie { border-color: #3A2A20; color: #B9AB98; }
+.oscura .pie .puntos b { color: var(--crema); }
+.oscura .pie .puntos i { border-color: #6D5A48; }
+
+/* 2 · Caja roja */
+.caja { display: flex; gap: 28px; align-items: center; margin-top: auto; padding: 34px 38px; border-radius: 22px; }
+.caja.mal { background: var(--mal-f); border-left: 8px solid var(--mal); }
+.caja svg { flex: 0 0 auto; }
+.caja p { margin: 0; font-size: 31px; line-height: 1.38; }
+
+/* 3 · Lista de seis */
+.lista { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 44px; }
+.lista div { background: #fff; border: 2px solid var(--linea); border-top: 8px solid var(--acento); border-radius: 18px; padding: 26px 26px 28px; color: var(--acento-txt); }
+.lista b { display: block; color: var(--negro); font-size: 30px; line-height: 1.15; margin: 16px 0 8px; }
+.lista span { display: block; color: var(--humo); font-size: 24px; line-height: 1.35; }
+
+/* 4 · Chat y pantalla de cocina */
+.chat { display: flex; flex-direction: column; gap: 12px; }
+.burbuja { max-width: 84%; padding: 14px 24px; font-size: 27px; line-height: 1.32; border-radius: 26px; }
+.burbuja small { display: block; font-size: 18px; letter-spacing: 3px; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; }
+.burbuja.cli { align-self: flex-start; background: #fff; border: 2px solid var(--linea); border-bottom-left-radius: 6px; }
+.burbuja.cli small { color: var(--humo); }
+.burbuja.noah { align-self: flex-end; background: var(--negro); color: var(--crema); border-bottom-right-radius: 6px; }
+.burbuja.noah small { color: var(--acento); }
+.flecha { display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 800; margin: 24px 0 14px; }
+.pantalla { background: #fff; border: 3px solid var(--negro); border-radius: 18px; overflow: hidden; }
+.pantalla .barra { background: var(--negro); color: var(--crema); padding: 14px 26px; font-size: 22px; display: flex; justify-content: space-between; }
+.pantalla .cuerpo { padding: 18px 26px 22px; }
+.pantalla .fila-cod { display: flex; justify-content: space-between; align-items: baseline; font-size: 22px; color: var(--humo); }
+.pantalla .cod { font-size: 46px; font-weight: 800; letter-spacing: 6px; color: var(--negro); }
+.pantalla table { width: 100%; border-collapse: collapse; font-size: 26px; font-variant-numeric: tabular-nums; }
+.pantalla td { padding: 5px 0; border-bottom: 2px solid var(--fino); }
+.pantalla td + td { text-align: right; font-weight: 700; }
+.pantalla .total td { border-bottom: none; border-top: 3px solid var(--negro); padding-top: 12px; font-weight: 800; }
+.foto .pantalla + .nota { font-size: 22px; color: var(--humo); margin-top: 16px; }
+
+/* 5 · Contacto */
+.contacto { margin-top: auto; background: var(--negro); color: var(--crema); border-radius: 24px; padding: 38px 42px; display: flex; justify-content: space-between; align-items: center; gap: 30px; }
+.contacto p { margin: 0; font-size: 28px; line-height: 1.38; color: #E8DDCB; }
+.contacto p b { color: #fff; }
+.contacto .quien { text-align: right; flex: 0 0 auto; }
+.contacto .quien small { display: block; font-size: 34px; font-weight: 800; color: #fff; }
+.contacto .quien span { display: block; font-size: 18px; color: #B9AB98; margin: 4px 0 8px; }
+.contacto .quien b { font-size: 42px; color: var(--acento); letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-marca" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#E0952F"/><g transform="translate(5,5) scale(.58)"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v4a2 2 0 01-2 2A15 15 0 013 5a2 2 0 012-2z" fill="none" stroke="#140A06" stroke-width="2.4" stroke-linejoin="round"/></g></symbol>
+<symbol id="i-tel" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v4a2 2 0 01-2 2A15 15 0 013 5a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+<symbol id="i-tel-no" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v4a2 2 0 01-2 2A15 15 0 013 5a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 21L21 3" fill="none" stroke="currentColor" stroke-width="1.9"/></symbol>
+<symbol id="i-pizza" viewBox="0 0 24 24"><path d="M12 3c5 0 9 4 9 9H3c0-5 4-9 9-9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 12h18l-9 9-9-9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="9.5" cy="9.5" r="1.2" fill="currentColor"/><circle cx="14.5" cy="10" r="1.2" fill="currentColor"/><circle cx="12" cy="15" r="1.2" fill="currentColor"/></symbol>
+<symbol id="i-horno" viewBox="0 0 24 24"><path d="M3 11a9 7 0 0118 0v8H3v-8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 19v-4a3.5 3.5 0 017 0v4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8.5c0 1-1.3 1.4-1.3 2.4a1.3 1.3 0 002.6 0c0-1-1.3-1.4-1.3-2.4z" fill="currentColor"/></symbol>
+<symbol id="i-moto" viewBox="0 0 24 24"><circle cx="5" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="19" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 17h8l-3.5-6H9M14 7h3l2 10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+<symbol id="i-reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5.5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="i-euro" viewBox="0 0 24 24"><path d="M17 6.5A7 7 0 007 12a7 7 0 0010 5.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M4.5 10.5h8M4.5 14h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="i-carta" viewBox="0 0 24 24"><path d="M5 3h14v18H5z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="i-pantalla" viewBox="0 0 24 24"><path d="M3 5h18v11H3z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9 20h6M12 16v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M6.5 9h7M6.5 12.5h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+<symbol id="i-estrella" viewBox="0 0 24 24"><path d="M12 3l2.7 5.7 6.3.8-4.6 4.3 1.2 6.2L12 17l-5.6 3 1.2-6.2L3 9.5l6.3-.8L12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+<symbol id="i-chef" viewBox="0 0 24 24"><path d="M6 11a3.5 3.5 0 112-6.4 3.5 3.5 0 018 0A3.5 3.5 0 0118 11v1H6v-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7 12v7h10v-7" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 15.5h10" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+<symbol id="i-bolsa" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 016 0v2" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+<symbol id="i-luna" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+<symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 7h16v4a2 2 0 000 4v4H4v-4a2 2 0 000-4V7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 9.5v5M12 9.5v5M15 9.5v5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-cruz" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+<symbol id="i-mapa" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4V5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+<symbol id="i-lista" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="4.5" cy="6" r="1.3" fill="currentColor"/><circle cx="4.5" cy="12" r="1.3" fill="currentColor"/><circle cx="4.5" cy="18" r="1.3" fill="currentColor"/></symbol>
+<symbol id="i-grupo" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 19a6 6 0 0112 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 14.2A5 5 0 0121 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+<symbol id="i-ojo" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+<symbol id="i-rayo" viewBox="0 0 24 24"><path d="M13 3L5 13h6l-1 8 8-10h-6l1-8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+<symbol id="i-candado" viewBox="0 0 24 24"><path d="M5 11h14v10H5z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 11V7.5a3.5 3.5 0 017 0V11" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+</defs></svg>
+
+<section class="foto oscura">
+  <div class="deco"><svg class="p-deco" viewBox="0 0 220 200" aria-hidden="true"><path d="M38.3 156.5A101 101 0 0 1 38.3 43.5" fill="none" stroke="#E0952F" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/><path d="M29.1 162.6A112 112 0 0 1 29.1 37.4" fill="none" stroke="#E0952F" stroke-width="2.4" stroke-linecap="round" opacity="0.5"/><path d="M20.0 168.8A123 123 0 0 1 20.0 31.2" fill="none" stroke="#E0952F" stroke-width="2.4" stroke-linecap="round" opacity="0.26"/><g transform="translate(0.0,0.0)"><path d="M122 100L122.0 26.0A74 74 0 0 1 174.3 47.7Z" fill="#FCE3B8" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M122.8 20.0A80.0 80.0 0 0 1 178.0 42.8" fill="none" stroke="#D58A22" stroke-width="12"/></g><g transform="translate(0.0,0.0)"><path d="M122 100L174.3 47.7A74 74 0 0 1 196.0 100.0Z" fill="#F9D69C" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M179.2 44.0A80.0 80.0 0 0 1 202.0 99.2" fill="none" stroke="#D58A22" stroke-width="12"/></g><g transform="translate(0.0,0.0)"><path d="M122 100L196.0 100.0A74 74 0 0 1 174.3 152.3Z" fill="#FCE3B8" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M202.0 100.8A80.0 80.0 0 0 1 179.2 156.0" fill="none" stroke="#D58A22" stroke-width="12"/></g><g transform="translate(0.0,0.0)"><path d="M122 100L174.3 152.3A74 74 0 0 1 122.0 174.0Z" fill="#F9D69C" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M178.0 157.2A80.0 80.0 0 0 1 122.8 180.0" fill="none" stroke="#D58A22" stroke-width="12"/></g><g transform="translate(0.0,0.0)"><path d="M122 100L122.0 174.0A74 74 0 0 1 69.7 152.3Z" fill="#FCE3B8" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M121.2 180.0A80.0 80.0 0 0 1 66.0 157.2" fill="none" stroke="#D58A22" stroke-width="12"/></g><g transform="translate(-10.2,4.2)"><path d="M122 100L69.7 152.3A74 74 0 0 1 48.0 100.0Z" fill="#F9D69C" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M64.8 156.0A80.0 80.0 0 0 1 42.0 100.8" fill="none" stroke="#D58A22" stroke-width="12"/></g><g transform="translate(0.0,0.0)"><path d="M122 100L48.0 100.0A74 74 0 0 1 69.7 47.7Z" fill="#FCE3B8" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M42.0 99.2A80.0 80.0 0 0 1 64.8 44.0" fill="none" stroke="#D58A22" stroke-width="12"/></g><g transform="translate(0.0,0.0)"><path d="M122 100L69.7 47.7A74 74 0 0 1 122.0 26.0Z" fill="#F9D69C" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M66.0 42.8A80.0 80.0 0 0 1 121.2 20.0" fill="none" stroke="#D58A22" stroke-width="12"/></g><circle cx="131.3" cy="62.6" r="5.2" fill="#C97B0E"/><circle cx="131.3" cy="62.6" r="1.6" fill="#FBE3B8"/><circle cx="113.5" cy="148.3" r="5.2" fill="#C97B0E"/><circle cx="113.5" cy="148.3" r="1.6" fill="#FBE3B8"/><circle cx="94.7" cy="84.2" r="5.2" fill="#C97B0E"/><circle cx="94.7" cy="84.2" r="1.6" fill="#FBE3B8"/><circle cx="170.2" cy="125.6" r="5.2" fill="#C97B0E"/><circle cx="170.2" cy="125.6" r="1.6" fill="#FBE3B8"/><circle cx="146.7" cy="86.9" r="5.2" fill="#C97B0E"/><circle cx="146.7" cy="86.9" r="1.6" fill="#FBE3B8"/><circle cx="74.6" cy="117.2" r="5.2" fill="#C97B0E"/><circle cx="74.6" cy="117.2" r="1.6" fill="#FBE3B8"/></svg></div>
+  <p class="cinta">Para pizzer&iacute;as de Ourense</p>
+  <h1>&iquest;Cu&aacute;ntos pedidos se te escapan cuando <em>nadie coge el tel&eacute;fono?</em></h1>
+  <p class="bajada">Te presento a <b>Noah</b>: una asistente de voz con inteligencia artificial que contesta las llamadas de tu pizzer&iacute;a y toma los pedidos por ti.</p>
+  <div class="desliza">Desliza <span>&rarr;</span></div>
+  <div class="pie"><span class="marca"><svg width="34" height="34"><use href="#i-marca"/></svg>Noah &middot; asistente telef&oacute;nica con IA</span><span class="puntos"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><b>1/5</b></span></div>
+</section>
+
+<section class="foto">
+  <p class="epi">El problema</p>
+  <h2>Viernes, 21:30. El tel&eacute;fono suena y <em>nadie puede cogerlo.</em></h2>
+  <div class="dibujo"><svg class="f" viewBox="0 10 600 292" role="img" aria-label="Quién coge el teléfono en hora punta"><g font-family="Helvetica, Arial, sans-serif"><path d="M300.0 46.0L300 150" stroke="#C0392B" stroke-width="1.4" stroke-dasharray="4 3" opacity=".75"/><circle cx="300.0" cy="98.0" r="8.5" fill="#fff" stroke="#C0392B" stroke-width="1.3"/><path d="M296.6 94.6l6.8 6.8M303.4 94.6l-6.8 6.8" stroke="#C0392B" stroke-width="1.7" stroke-linecap="round"/><path d="M526.4 117.9L300 150" stroke="#C0392B" stroke-width="1.4" stroke-dasharray="4 3" opacity=".75"/><circle cx="413.2" cy="133.9" r="8.5" fill="#fff" stroke="#C0392B" stroke-width="1.3"/><path d="M409.8 130.5l6.8 6.8M416.6 130.5l-6.8 6.8" stroke="#C0392B" stroke-width="1.7" stroke-linecap="round"/><path d="M439.9 234.1L300 150" stroke="#C0392B" stroke-width="1.4" stroke-dasharray="4 3" opacity=".75"/><circle cx="369.9" cy="192.1" r="8.5" fill="#fff" stroke="#C0392B" stroke-width="1.3"/><path d="M366.5 188.7l6.8 6.8M373.3 188.7l-6.8 6.8" stroke="#C0392B" stroke-width="1.7" stroke-linecap="round"/><path d="M160.1 234.1L300 150" stroke="#C0392B" stroke-width="1.4" stroke-dasharray="4 3" opacity=".75"/><circle cx="230.1" cy="192.1" r="8.5" fill="#fff" stroke="#C0392B" stroke-width="1.3"/><path d="M226.7 188.7l6.8 6.8M233.5 188.7l-6.8 6.8" stroke="#C0392B" stroke-width="1.7" stroke-linecap="round"/><path d="M73.6 117.9L300 150" stroke="#C0392B" stroke-width="1.4" stroke-dasharray="4 3" opacity=".75"/><circle cx="186.8" cy="133.9" r="8.5" fill="#fff" stroke="#C0392B" stroke-width="1.3"/><path d="M183.4 130.5l6.8 6.8M190.2 130.5l-6.8 6.8" stroke="#C0392B" stroke-width="1.7" stroke-linecap="round"/><circle cx="300.0" cy="46.0" r="30" fill="#FBECEA" stroke="#C0392B" stroke-width="1.5"/><g transform="translate(287.0,33.0)" color="#C0392B"><use href="#i-horno" width="26" height="26"/></g><text x="340.0" y="44.0" font-size="11.5" font-weight="bold" fill="#140A06">Horno</text><text x="340.0" y="58.0" font-size="9.8" fill="#5A514A">Manos en la masa</text><circle cx="526.4" cy="117.9" r="30" fill="#FBECEA" stroke="#C0392B" stroke-width="1.5"/><g transform="translate(513.4,104.9)" color="#C0392B"><use href="#i-chef" width="26" height="26"/></g><text x="526.4" y="163.9" font-size="11.5" font-weight="bold" fill="#140A06" text-anchor="middle">Cocina</text><text x="526.4" y="177.9" font-size="9.8" fill="#5A514A" text-anchor="middle">Pasta al punto</text><circle cx="439.9" cy="234.1" r="30" fill="#FBECEA" stroke="#C0392B" stroke-width="1.5"/><g transform="translate(426.9,221.1)" color="#C0392B"><use href="#i-moto" width="26" height="26"/></g><text x="439.9" y="280.1" font-size="11.5" font-weight="bold" fill="#140A06" text-anchor="middle">Reparto</text><text x="439.9" y="294.1" font-size="9.8" fill="#5A514A" text-anchor="middle">Fuera de ruta</text><circle cx="160.1" cy="234.1" r="30" fill="#FBECEA" stroke="#C0392B" stroke-width="1.5"/><g transform="translate(147.1,221.1)" color="#C0392B"><use href="#i-grupo" width="26" height="26"/></g><text x="160.1" y="280.1" font-size="11.5" font-weight="bold" fill="#140A06" text-anchor="middle">Sala</text><text x="160.1" y="294.1" font-size="9.8" fill="#5A514A" text-anchor="middle">Mesas llenas</text><circle cx="73.6" cy="117.9" r="30" fill="#FBECEA" stroke="#C0392B" stroke-width="1.5"/><g transform="translate(60.6,104.9)" color="#C0392B"><use href="#i-euro" width="26" height="26"/></g><text x="73.6" y="163.9" font-size="11.5" font-weight="bold" fill="#140A06" text-anchor="middle">Caja</text><text x="73.6" y="177.9" font-size="9.8" fill="#5A514A" text-anchor="middle">Cobrando</text><circle cx="300" cy="150" r="62" fill="none" stroke="#E0952F" stroke-width="2.2" opacity="0.16"/><circle cx="300" cy="150" r="53" fill="none" stroke="#E0952F" stroke-width="2.2" opacity="0.3"/><circle cx="300" cy="150" r="42" fill="#140A06"/><g transform="translate(283.0,133.0)" color="#E0952F"><use href="#i-tel" width="34" height="34"/></g><text x="300" y="232" font-size="13" font-weight="bold" fill="#140A06" text-anchor="middle">¿Quién lo coge?</text></g></svg></div>
+  <div class="caja mal">
+    <svg width="52" height="52" style="color:#C0392B"><use href="#i-tel-no"/></svg>
+    <p>Cada llamada sin contestar es un pedido que <b>se va a otro local</b>, o que acaba en la plataforma <b>pagando comisi&oacute;n</b>.</p>
+  </div>
+  <div class="pie"><span class="marca"><svg width="34" height="34"><use href="#i-marca"/></svg>Noah &middot; asistente telef&oacute;nica con IA</span><span class="puntos"><i class=""></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><b>2/5</b></span></div>
+</section>
+
+<section class="foto">
+  <p class="epi">La soluci&oacute;n</p>
+  <h2>Noah coge el tel&eacute;fono <em>por ti.</em> Siempre.</h2>
+  <div class="lista">
+    <div><svg width="46" height="46" style="color:currentColor"><use href="#i-tel"/></svg><b>Contesta a la primera</b><span>Y a varias llamadas a la vez.</span></div>
+    <div><svg width="46" height="46" style="color:currentColor"><use href="#i-carta"/></svg><b>Se sabe tu carta entera</b><span>Ingredientes, precios y recomendaciones.</span></div>
+    <div><svg width="46" height="46" style="color:currentColor"><use href="#i-lista"/></svg><b>Toma el pedido plato a plato</b><span>Y lo repite hasta que el cliente confirma.</span></div>
+    <div><svg width="46" height="46" style="color:currentColor"><use href="#i-euro"/></svg><b>Calcula el total exacto</b><span>Lo suma el programa, no &laquo;a ojo&raquo;.</span></div>
+    <div><svg width="46" height="46" style="color:currentColor"><use href="#i-pantalla"/></svg><b>Lo manda a la cocina</b><span>El pedido aparece en pantalla al momento.</span></div>
+    <div><svg width="46" height="46" style="color:currentColor"><use href="#i-luna"/></svg><b>Atiende con el local cerrado</b><span>Da tu horario y la direcci&oacute;n.</span></div>
+  </div>
+  <p class="nota">Habla castellano con voz natural y dice que es una asistente virtual. En el local no hay que instalar nada.</p>
+  <div class="pie"><span class="marca"><svg width="34" height="34"><use href="#i-marca"/></svg>Noah &middot; asistente telef&oacute;nica con IA</span><span class="puntos"><i class=""></i><i class=""></i><i class="on"></i><i class=""></i><i class=""></i><b>3/5</b></span></div>
+</section>
+
+<section class="foto">
+  <p class="epi">As&iacute; suena una llamada</p>
+  <div class="chat">
+    <div class="burbuja noah"><small>Noah</small>Buenas, soy Noah, la asistente virtual de la pizzer&iacute;a. &iquest;Qu&eacute; le pongo?</div>
+    <div class="burbuja cli"><small>Cliente</small>Una margarita, una barbacoa y algo para picar.</div>
+    <div class="burbuja noah"><small>Noah</small>El pan de ajo con queso gusta mucho. Cuatro cincuenta.</div>
+    <div class="burbuja noah"><small>Noah</small>Son treinta euros. Su c&oacute;digo es cuatro, siete, dos, nueve.</div>
+  </div>
+  <p class="flecha"><svg width="34" height="34" style="color:#E0952F"><use href="#i-rayo"/></svg> Y en la cocina aparece esto:</p>
+  <div class="pantalla">
+    <div class="barra"><span>Pedidos de hoy &middot; Tu pizzer&iacute;a</span><span>21:31</span></div>
+    <div class="cuerpo">
+      <div class="fila-cod"><span class="cod">4729</span><span>recogida &middot; pendiente</span></div>
+      <table>
+        <tr><td>1 &times; Pizza margarita</td><td>9,00 &euro;</td></tr>
+        <tr><td>1 &times; Pizza barbacoa</td><td>11,50 &euro;</td></tr>
+        <tr><td>1 &times; Pan de ajo con queso</td><td>4,50 &euro;</td></tr>
+        <tr><td>1 &times; Tiramis&uacute;</td><td>5,00 &euro;</td></tr>
+        <tr class="total"><td>TOTAL</td><td>30,00 &euro;</td></tr>
+      </table>
+    </div>
+  </div>
+  <p class="nota">Platos y precios de ejemplo. Con tu carta cargada, los importes los calcula el programa.</p>
+  <div class="pie"><span class="marca"><svg width="34" height="34"><use href="#i-marca"/></svg>Noah &middot; asistente telef&oacute;nica con IA</span><span class="puntos"><i class=""></i><i class=""></i><i class=""></i><i class="on"></i><i class=""></i><b>4/5</b></span></div>
+</section>
+
+<section class="foto">
+  <p class="epi">La cuenta que importa</p>
+  <h2>Una llamada cuesta unos <em>50 c&eacute;ntimos.</em> Un pedido que no se pierde deja unos <em>30 &euro;.</em></h2>
+  <div class="dibujo"><svg class="f" viewBox="0 0 700 250" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="Una llamada cuesta 0,50 euros y un pedido deja 30"><rect x="8" y="20" width="250" height="210" rx="14" fill="#FBF6EC" stroke="#E6DCCB"/><circle cx="133" cy="92" r="30" fill="#fff" stroke="#CDBDA2" stroke-width="2"/><circle cx="133" cy="92" r="23" fill="none" stroke="#E6DCCB" stroke-width="1.4"/><g transform="translate(121.0,80.0)" color="#5A514A"><use href="#i-tel" width="24" height="24"/></g><text x="133" y="168" font-size="34" font-weight="bold" fill="#140A06" text-anchor="middle">0,50 €</text><text x="133" y="191" font-size="10.5" fill="#5A514A" text-anchor="middle">lo que cuesta que Noah</text><text x="133" y="205" font-size="10.5" fill="#5A514A" text-anchor="middle">coja una llamada</text><circle cx="350" cy="125" r="44" fill="#E0952F"/><text x="350" y="122" font-size="11" font-weight="bold" fill="#140A06" text-anchor="middle" letter-spacing="1.2">DEJA</text><text x="350" y="148" font-size="30" font-weight="bold" fill="#140A06" text-anchor="middle">×60</text><path d="M268 125 h30" stroke="#CDBDA2" stroke-width="2"/><path d="M402 125 h22" stroke="#CDBDA2" stroke-width="2"/><path d="M432 125 l-9 -5 v10z" fill="#CDBDA2"/><rect x="442" y="20" width="250" height="210" rx="14" fill="#140A06"/><circle cx="567" cy="92" r="34" fill="#2A1D16" stroke="#E0952F" stroke-width="2"/><g transform="translate(550.0,75.0)" color="#E0952F"><use href="#i-pizza" width="34" height="34"/></g><text x="567" y="168" font-size="44" font-weight="bold" fill="#fff" text-anchor="middle">30 €</text><text x="567" y="191" font-size="10.5" fill="#CDBFAE" text-anchor="middle">lo que te deja un pedido</text><text x="567" y="205" font-size="10.5" fill="#CDBFAE" text-anchor="middle">medio que no se pierde</text></svg></div>
+  <p class="nota">Con un solo pedido salvado al d&iacute;a, recuperas unos <b>780 &euro; al mes</b> en ventas (26 d&iacute;as de apertura, pedido de 30 &euro;).</p>
+  <div class="contacto">
+    <p>&iquest;Tienes una pizzer&iacute;a en Ourense?<br><b>Escr&iacute;beme y te lo ense&ntilde;o funcionando con una llamada.</b></p>
+    <div class="quien"><small>Brian Carbajal</small><span>Consultor freelance en IA para negocios</span><b>611 57 35 80</b></div>
+  </div>
+  <div class="pie"><span class="marca"><svg width="34" height="34"><use href="#i-marca"/></svg>Noah &middot; asistente telef&oacute;nica con IA</span><span class="puntos"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class="on"></i><b>5/5</b></span></div>
+</section>
+</body>
+</html>
