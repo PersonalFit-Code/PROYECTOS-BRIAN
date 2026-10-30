@@ -15,13 +15,22 @@ Apuntado el 24 de octubre de 2026. Por orden de prioridad dentro de cada bloque.
 
 ## 2. Para ponerlo a funcionar de verdad
 SOLO SI OUMAR DICE QUE SI (antes no se gasta nada):
-- [ ] Numero espanol en Twilio (pide DNI y direccion en Espana; tarda unos dias). Luego en Vapi: Phone Numbers > Import > Twilio.
+- [ ] Numero espanol en Twilio. Comprobado en twilio.com el 30-10-2026:
+      - Fijo local 988 (Ourense): 5,50 $/mes. Pide NIF/CIF + justificante de una direccion
+        DENTRO de la provincia del prefijo (DNI con domicilio, factura de luz, recibo de alquiler,
+        escritura o, si es empresa, la escritura/registro). Direccion completa: calle, numero,
+        portal, piso, puerta, CP, pueblo y provincia.
+      - Mejor a nombre del LOCAL (su CIF o NIF de autonomo y la direccion del local): cuadra con
+        "cuentas a su nombre" de la opcion B y la direccion ya esta en Ourense.
+      - Hay que pasar la cuenta de Twilio de prueba a de pago (meter saldo) antes de comprar.
+      - Los +34 400 son solo para llamadas comerciales salientes: no nos afectan (Noah solo recibe).
+      - Precio por minuto de recibir en un fijo espanol: no sale en la web, mirarlo en la consola.
+      Luego en Vapi: Phone Numbers > Import > Twilio (el SID y el token los pega Brian, nunca en el chat).
 - [ ] Cuenta en Render, plan Starter (~7 €/mes). NO el gratis: se duerme y la primera llamada falla.
 - [ ] Vapi: meter saldo y activar la recarga automatica.
 Para la demo basta lo de ahora: tu ordenador, ngrok y el numero gratis de Vapi.
 - [ ] Mirar en Vapi si la voz de ElevenLabs va con clave propia (se paga en ElevenLabs) o por Vapi.
 - [ ] Servidor siempre encendido (Render o Railway). Desbloquea tablet, panel desde fuera y el fondo sin ngrok.
-- [ ] Numero espanol +34 (Twilio o Telnyx) y conectarlo a Vapi.
 - [ ] El local desvia su telefono a Noah ("si no contestas o comunica").
 - [ ] `PANEL_PASSWORD` puesta.
 - [ ] Pasar de `lavitabuona-prueba` a `lavitabuona` (horario real).
