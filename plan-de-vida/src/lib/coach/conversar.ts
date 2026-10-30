@@ -17,6 +17,8 @@ export interface RespuestaCoach {
 
 const MAX_VUELTAS = 6;
 const HISTORIAL = 16;
+const MAX_TOKENS = 4000;
+const SIN_TEXTO = "…";
 
 /**
  * Una vuelta de conversación: guarda el mensaje, deja a Claude usar las herramientas que necesite
@@ -37,7 +39,7 @@ export async function conversar(s: Sesion, mensaje: string): Promise<RespuestaCo
   }
   if (!respuesta) respuesta = { texto: await responderSinIA(s, mensaje, efectos), acciones: efectos.acciones, modo: "basico" };
 
-  await s.db.from("chat_messages").insert({ user_id: s.userId, role: "assistant", content: respuesta.texto || "…" });
+  await s.db.from("chat_messages").insert({ user_id: s.userId, role: "assistant", content: respuesta.texto || SIN_TEXTO });
   aplicarEfectos(efectos);
   return respuesta;
 }
@@ -53,6 +55,8 @@ async function conClaude(s: Sesion, claude: Anthropic, efectos: Efectos): Promis
 
   const mensajes: Anthropic.MessageParam[] = [];
   for (const m of (historial ?? []).reverse()) {
+    // las respuestas vacías de antes no se le enseñan: invitan a repetirlas
+    if (m.role === "assistant" && m.content.trim() === SIN_TEXTO) continue;
     // la API exige alternar papeles: se juntan los seguidos del mismo
     const ultimo = mensajes[mensajes.length - 1];
     if (ultimo && ultimo.role === m.role) ultimo.content = `${ultimo.content as string}\n\n${m.content}`;
@@ -67,14 +71,13 @@ async function conClaude(s: Sesion, claude: Anthropic, efectos: Efectos): Promis
   ];
 
   for (let vuelta = 0; vuelta < MAX_VUELTAS; vuelta++) {
-    const res = await claude.messages.create({
-      model: MODELO_COACH,
-      max_tokens: 1500,
-      system,
-      tools: HERRAMIENTAS,
-      messages: mensajes,
-    });
-    if (res.stop_reason !== "tool_use") return textoDe(res);
+    const res = await claude.messages.create({ model: MODELO_COACH, max_tokens: MAX_TOKENS, system, tools: HERRAMIENTAS, messages: mensajes });
+    if (res.stop_reason !== "tool_use") {
+      const texto = textoDe(res);
+      if (texto) return texto;
+      console.warn(`[coach] respuesta sin texto (stop_reason: ${res.stop_reason}; bloques: ${res.content.map((b) => b.type).join(", ") || "ninguno"})`);
+      break;
+    }
 
     mensajes.push({ role: "assistant", content: res.content });
     const resultados: Anthropic.ToolResultBlockParam[] = [];
@@ -90,5 +93,30 @@ async function conClaude(s: Sesion, claude: Anthropic, efectos: Efectos): Promis
     }
     mensajes.push({ role: "user", content: resultados });
   }
-  return "He dado demasiadas vueltas con los datos. ¿Me lo preguntas de otra forma, más concreta?";
+  return respuestaFinal(claude, system, mensajes);
+}
+
+/**
+ * Si Claude acaba sin escribir nada (o se le acaban las vueltas), se le pide la respuesta con lo que ya
+ * tiene, sin dejarle usar más herramientas.
+ */
+async function respuestaFinal(claude: Anthropic, system: Anthropic.TextBlockParam[], mensajes: Anthropic.MessageParam[]): Promise<string> {
+  const aviso: Anthropic.TextBlockParam = {
+    type: "text",
+    text: "Ahora contéstame por escrito con lo que ya sabes, sin consultar nada más. Concreto y en pocas líneas.",
+  };
+  const ultimo = mensajes[mensajes.length - 1];
+  const pedido: Anthropic.MessageParam[] =
+    ultimo?.role === "user"
+      ? [...mensajes.slice(0, -1), { role: "user", content: typeof ultimo.content === "string" ? [{ type: "text", text: ultimo.content }, aviso] : [...ultimo.content, aviso] }]
+      : [...mensajes, { role: "user", content: [aviso] }];
+  const res = await claude.messages.create({
+    model: MODELO_COACH,
+    max_tokens: MAX_TOKENS,
+    system,
+    tools: HERRAMIENTAS,
+    tool_choice: { type: "none" },
+    messages: pedido,
+  });
+  return textoDe(res) || "No me ha salido la respuesta. ¿Me lo preguntas otra vez, quizá un poco más concreto?";
 }
