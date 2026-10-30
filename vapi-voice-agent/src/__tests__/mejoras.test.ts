@@ -49,10 +49,18 @@ describe("fin de turno", () => {
       assert.ok(valor >= 0 && valor <= 3, `${campo} = ${valor}`);
     }
     assert.ok(plan.waitSeconds >= 0 && plan.waitSeconds <= 5);
-    assert.ok(
-      plan.transcriptionEndpointingPlan.onNoPunctuationSeconds! < 1.5,
-      "tiene que contestar antes que con el valor de serie",
-    );
+  });
+
+  it("no corta al cliente que se para a pensar a mitad de frase", () => {
+    const plan = planDeTurno("texto") as {
+      waitSeconds: number;
+      transcriptionEndpointingPlan: Record<string, number>;
+    };
+    const tras = (campo: string) => plan.waitSeconds + plan.transcriptionEndpointingPlan[campo]!;
+    // Deepgram pone punto en cualquier pausa: con 0,5 segundos se metia en medio.
+    assert.ok(tras("onPunctuationSeconds") >= 1.2, "tras un punto espera al menos 1,2 s");
+    assert.ok(tras("onNoPunctuationSeconds") > tras("onPunctuationSeconds"));
+    assert.ok(tras("onNumberSeconds") >= tras("onNoPunctuationSeconds"), "un telefono se dicta a trozos");
   });
 
   it('con "vapi" vuelve al detector de antes, sin tiempos que no se usarian', () => {

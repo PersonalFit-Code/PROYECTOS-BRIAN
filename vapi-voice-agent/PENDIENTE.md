@@ -10,7 +10,9 @@ Apuntado el 24 de octubre de 2026. Por orden de prioridad dentro de cada bloque.
 - [x] Petardeo en la llamada: era stability 0,4 en la voz. Vuelta a 0,5 y suena limpia (25-10).
 - [ ] Fondo: de momento `SONIDO_FONDO=off`. El de pizzeria (murmullo sin tecleo) queda para probar con calma.
 - [ ] Voz mas natural: probar otra voz de la Voice Library (espanol de Espana), sin tocar stability.
-- [ ] Fin de turno mas rapido (`FIN_DE_TURNO=texto`): si pisa al cliente, volver a `vapi`.
+- [x] Pisaba al cliente cuando se paraba a pensar (prueba del 30-10, pedido de 117 EUR que salio bien).
+      Ahora espera 1,3 s tras un punto, 1,9 s con la frase abierta y 2,3 s tras un numero.
+- [ ] Probar que ya no corta. Si se hace lento, bajar onPunctuationSeconds (src/assistant.ts, planDeTurno).
 - [ ] `npm run costes`: coste real por minuto, para confirmar el margen de los planes.
 
 ## 2. Para ponerlo a funcionar de verdad

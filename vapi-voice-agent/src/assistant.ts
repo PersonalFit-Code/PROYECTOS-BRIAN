@@ -592,11 +592,21 @@ function buildTools(business: Business) {
  * 1,5 segundos de abajo nunca se aplicaron y mandaba el detector de Vapi, que
  * en la primera llamada real dejaba unos 3 segundos de silencio por turno.
  *
- * Con "texto" se quita el detector y manda lo que transcribe Deepgram: tras
- * un punto contesta casi al momento, y si la frase queda abierta espera 0,8
- * segundos. Tras un numero espera mas, 1 segundo, porque los telefonos se
- * dictan a trozos ("seiscientos... once... veintidos") y cortar ahi seria
- * quedarse con medio numero. Vapi acepta de 0 a 3 en los tres valores.
+ * Con "texto" se quita el detector y manda lo que transcribe Deepgram.
+ *
+ * Al principio contestaba 0,5 segundos despues de un punto, y en la prueba del
+ * 30-10 cortaba al cliente: Deepgram pone punto en cualquier pausa, y quien
+ * pide una pizza se para a pensar a mitad ("una margarita... y una..."). Si el
+ * agente se mete ahi, el cliente tiene que empezar otra vez y nota que habla
+ * con una maquina. Vale mas un segundo de silencio de mas que una
+ * interrupcion, asi que ahora espera:
+ *
+ * - tras un punto, 0,5 + 0,8 = 1,3 segundos;
+ * - con la frase abierta, 0,5 + 1,4 = 1,9;
+ * - tras un numero, 0,5 + 1,8 = 2,3, porque telefonos y direcciones se dictan
+ *   a trozos ("seiscientos... once... veintidos").
+ *
+ * Vapi acepta de 0 a 3 en los tres valores.
  */
 export function planDeTurno(modo: FinDeTurno) {
   if (modo === "vapi") {
@@ -606,11 +616,11 @@ export function planDeTurno(modo: FinDeTurno) {
     };
   }
   return {
-    waitSeconds: 0.4,
+    waitSeconds: 0.5,
     transcriptionEndpointingPlan: {
-      onPunctuationSeconds: 0.1,
-      onNoPunctuationSeconds: 0.8,
-      onNumberSeconds: 1,
+      onPunctuationSeconds: 0.8,
+      onNoPunctuationSeconds: 1.4,
+      onNumberSeconds: 1.8,
     },
   };
 }
