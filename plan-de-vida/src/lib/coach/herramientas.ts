@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { hoy, mesDe, rangoMes, sumarDias, sumarMeses } from "@/lib/fechas";
 import { mensual, patrimonioNeto } from "@/lib/finanzas";
 import { getMetas, getMovimientos, getRecurrentes } from "@/lib/datos/consultas";
+import { LIMITE_NEGOCIO } from "@/lib/marca";
 import { cumplido, indexar, rachaActual, toca } from "@/lib/habitos/metricas";
 import { aplicarAuto } from "@/lib/metas/auto";
 import { periodoDe, PREGUNTAS, resumenPeriodo } from "@/lib/revisiones";
@@ -402,7 +403,7 @@ export async function ejecutarHerramienta(s: Sesion, nombre: string, input: Entr
       const actual = (data?.negocio as string | null) ?? "";
       const r = await s.db
         .from("settings")
-        .update({ negocio: [actual, `- ${dia}: ${nota}`].filter(Boolean).join("\n").slice(-8000), updated_at: new Date().toISOString() })
+        .update({ negocio: [actual, `- ${dia}: ${nota}`].filter(Boolean).join("\n").slice(-LIMITE_NEGOCIO), updated_at: new Date().toISOString() })
         .eq("user_id", s.userId);
       if (r.error) return { error: r.error.message };
       efectos.rutas.add("/ajustes");

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { comprobar, numeroONull, texto } from "@/lib/acciones";
+import { LIMITE_NEGOCIO } from "@/lib/marca";
 import { getSesion } from "@/lib/sesion";
 
 /**
@@ -16,7 +17,7 @@ export async function guardarAjustes(f: FormData) {
   if (f.has("display_name")) cambios.display_name = texto(f, "display_name", 40) || "Tú";
   if (f.has("coach_prompt")) cambios.coach_prompt = String(f.get("coach_prompt") ?? "").trim().slice(0, 8000) || null;
   if (f.has("coach_name")) cambios.coach_name = texto(f, "coach_name", 30) || "Noah";
-  if (f.has("negocio")) cambios.negocio = String(f.get("negocio") ?? "").trim().slice(0, 8000) || null;
+  if (f.has("negocio")) cambios.negocio = String(f.get("negocio") ?? "").trim().slice(0, LIMITE_NEGOCIO) || null;
   if (f.has("monthly_investment")) cambios.monthly_investment = limitar(numeroONull(f, "monthly_investment"), 0, 1_000_000, 0);
   if (f.has("satellite_pct")) cambios.satellite_pct = limitar(numeroONull(f, "satellite_pct"), 0, 100, 20);
   if (f.has("inflation_pct")) cambios.inflation_pct = limitar(numeroONull(f, "inflation_pct"), -5, 30, 2.5);

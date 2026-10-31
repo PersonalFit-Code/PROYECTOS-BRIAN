@@ -8,3 +8,6 @@ export const COACH_POR_DEFECTO = "Noah";
 export function nombreCoach(ajustes: { coach_name?: string | null } | null | undefined): string {
   return ajustes?.coach_name?.trim() || COACH_POR_DEFECTO;
 }
+
+/** Tope de las notas de negocio (Ajustes y coach): cabe la ficha completa con planes, leads y estrategia. */
+export const LIMITE_NEGOCIO = 30_000;
