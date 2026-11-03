@@ -1034,6 +1034,28 @@
   .mcard:hover .mc-pic::after{background:radial-gradient(ellipse at center,rgba(255,240,215,.22),transparent 70%)}
   .mcard:hover{border-color:rgba(255,255,255,.35)}
   @media (hover:none){.mc-pic img{filter:grayscale(.2) brightness(.95)!important}}
+  /* ===== Máquinas: foco de estudio para que se vean las oscuras ===== */
+  .mcard{background:#161616}
+  .mc-pic{background:
+      radial-gradient(ellipse 46% 9% at 50% 90%,rgba(0,0,0,.55),transparent 70%),
+      radial-gradient(ellipse 75% 62% at 50% 40%,#8f8a82 0%,#5b5853 38%,#2a2927 70%,#171716 100%)!important}
+  .mc-pic::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 38% 55% at 50% 0%,rgba(255,248,235,.22),transparent 70%);pointer-events:none;z-index:0}
+  .mc-pic img{position:relative;z-index:1;filter:grayscale(.55) brightness(1.02) contrast(1.06) drop-shadow(0 14px 12px rgba(0,0,0,.55))!important}
+  .mcard:hover .mc-pic img,.mcard:focus-within .mc-pic img,.mcard.lit .mc-pic img{filter:grayscale(0) brightness(1.08) contrast(1.08) drop-shadow(0 0 18px rgba(255,244,225,.35)) drop-shadow(0 18px 16px rgba(0,0,0,.55))!important;transform:scale(1.05)}
+  .mcard.lit{border-color:rgba(255,255,255,.35)}
+  .mcard.lit .mc-pic::after{background:radial-gradient(ellipse at center,rgba(255,240,215,.22),transparent 70%)}
+  @media (hover:none){.mc-pic img{filter:grayscale(.4) brightness(1)!important}}
+  /* móvil: tarjetas y logos más compactos (menos scroll) */
+  @media (max-width:600px){
+    .mc-pic{aspect-ratio:1/1}
+    .mcard figcaption{padding:11px 12px 13px}
+    .mcard b{font-size:9.5px;letter-spacing:.14em}
+    .mcard span{font-size:1.05rem!important}
+    .mcard em{font-size:11.5px}
+    #coleccion .logos{grid-template-columns:repeat(3,1fr)!important}
+    #coleccion .logos div{height:64px;padding:8px}
+    #coleccion .logos img,#coleccion .logos div.svg svg{max-height:28px;max-width:90%}
+  }
 </style>
 </head>
 <body class="boceto">
@@ -1070,7 +1092,6 @@
         <a href="#coleccion" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
         <a href="#gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
         <a href="#tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
-        <a href="#faq" class="hide-md" data-es="Preguntas" data-eu="Galderak">Preguntas</a>
         <a href="#contacto" class="hide-md" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
         <a href="#fundador" class="cta" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a>
       </div>
@@ -1272,17 +1293,6 @@
   </div>
 </section>
 
-<div class="rule" aria-hidden="true"></div>
-<section id="faq">
-  <div class="wrap faqgrid">
-    <div data-reveal class="head">
-      <div class="eyebrow" data-n="09" data-es="Preguntas frecuentes" data-eu="Ohiko galderak">Preguntas frecuentes</div>
-      <h2 data-es="Lo que nos preguntáis" data-eu="Egiten dizkiguzuen galderak">Lo que nos preguntáis</h2>
-      <p data-es="¿No está tu duda? Escríbenos por WhatsApp y te contesta Ander." data-eu="Zure zalantza ez dago hemen? Idatzi WhatsAppez eta Anderrek erantzungo dizu.">¿No está tu duda? Escríbenos por WhatsApp y te contesta Ander.</p>
-    </div>
-    <div id="faqlist"></div>
-  </div>
-</section>
 
 <div class="rule" aria-hidden="true"></div>
 <section id="contacto">
@@ -1330,7 +1340,7 @@
 </footer>
 
 <dialog class="ficha" id="ficha" aria-label="Ficha de la máquina"><button type="button" class="fi-x" aria-label="Cerrar">×</button><div class="fi-body"></div></dialog>
-<div hidden aria-hidden="true"><div id="legends"></div><div id="bars"></div></div>
+<div hidden aria-hidden="true"><div id="faqlist"></div><div id="legends"></div><div id="bars"></div></div>
 <a href="#fundador" class="disc-cta" id="discCta" aria-label="Reserva tu plaza de socio fundador">
   <span class="dc-frame">
     <svg class="dc-txt" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="dcp" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs><text><textPath href="#dcp" textLength="536" data-es="RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ " data-eu="GORDE ZURE PLAZA ✦ BAZKIDE SORTZAILEA ✦ ">RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ </textPath></text></svg>
@@ -1349,7 +1359,7 @@
    ===================================================================== */
 const CONFIG={
   boceto:true,                         // false = quita la barra y los puntos de «por confirmar»
-  apertura:'2027-02-01T07:00:00+01:00',// fecha y hora de apertura (cuenta atrás)
+  apertura:'2027-01-07T07:00:00+01:00',// fecha y hora de apertura (cuenta atrás)
   plazasFundador:100, plazasOcupadas:37,
   whatsapp:'',                         // número de Ander, solo cifras con prefijo: '34600000000'
   email:'kaixo@burdingym.eus',
@@ -1603,13 +1613,13 @@ function renderBars(){
 }
 
 const LOGO_SVG={
- cybex:'<svg viewBox="0 0 400 80" aria-label="Cybex"><path d="M4 52C30 22 92 14 140 20c-40 0-84 10-108 30 24-10 66-14 98-8C96 58 46 66 4 52z" fill="#fff"/><text x="150" y="60" fill="#fff" font-family="Archivo" font-weight="900" font-style="italic" font-stretch="100%" font-size="56" letter-spacing="2">CYBEX</text></svg>',
+ cybex:'<svg viewBox="0 0 400 80" aria-label="Cybex"><path d="M4 52C30 22 92 14 140 20c-40 0-84 10-108 30 24-10 66-14 98-8C96 58 46 66 4 52z" fill="#fff"/><text x="150" y="60" fill="#fff" font-family="Archivo" font-weight="900" font-style="italic" font-stretch="100%" font-size="56" textLength="236" lengthAdjust="spacingAndGlyphs">CYBEX</text></svg>',
  freemotion:'<svg viewBox="0 0 500 90" aria-label="Freemotion"><path d="M6 30c30-6 60-8 72 4 10 10-2 38 8 42 8 3 14-26 26-26 12 0 6 28 16 30 12 2 18-6 34-6" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round"/><text x="164" y="66" fill="#fff" font-family="Poppins" font-weight="500" font-size="52" letter-spacing="1">FREEMOTION</text></svg>',
  'flex-fitness':'<svg viewBox="0 0 420 120" aria-label="Flex Fitness"><rect x="4" y="4" width="412" height="112" rx="56" fill="none" stroke="#fff" stroke-width="5"/><text x="40" y="74" fill="#fff" font-family="Archivo" font-weight="900" font-stretch="70%" font-size="54">FLEX</text><path d="M178 92c18-6 30-30 30-62-12 18-26 30-30 62z" fill="#fff"/><text x="214" y="74" fill="#fff" font-family="Archivo" font-weight="900" font-stretch="70%" font-size="54">FITNESS</text><line x1="40" y1="88" x2="170" y2="88" stroke="#fff" stroke-width="3"/><text x="300" y="104" fill="#fff" font-family="Playfair Display" font-style="italic" font-size="22">Systems</text></svg>',
  david:'<svg viewBox="0 0 420 130" aria-label="David"><text x="210" y="66" text-anchor="middle" fill="#fff" font-family="Archivo" font-weight="800" font-stretch="125%" font-size="72" letter-spacing="4">DAVID</text><line x1="110" y1="88" x2="310" y2="88" stroke="#fff" stroke-width="2.5"/><text x="210" y="120" text-anchor="middle" fill="#fff" font-family="Barlow Condensed" font-weight="700" font-size="24" letter-spacing="2">DAVID HEALTH SOLUTIONS</text></svg>',
  precor:'<svg viewBox="0 0 460 90" aria-label="Precor"><g fill="#fff"><path d="M20 82L36 10h10L30 82z"/><path d="M40 82L56 10h10L50 82z"/><path d="M60 82L76 10h10L70 82z"/></g><text x="92" y="74" fill="#fff" font-family="Archivo" font-weight="900" font-style="italic" font-stretch="118%" font-size="66" letter-spacing="4">PRECOR</text></svg>',
  gym80:'<svg viewBox="0 0 360 140" aria-label="gym80"><circle cx="132" cy="70" r="62" fill="#fff" fill-opacity=".3"/><circle cx="228" cy="70" r="62" fill="#fff" fill-opacity=".3"/><rect x="0" y="48" width="360" height="44" fill="#121212"/><text x="180" y="88" text-anchor="middle" fill="#fff" font-family="Poppins" font-weight="800" font-style="italic" font-size="62" letter-spacing="-1">gym80</text></svg>',
- paramount:'<svg viewBox="0 0 460 90" aria-label="Paramount"><text x="230" y="78" text-anchor="middle" fill="#fff" font-family="Barlow Condensed" font-weight="800" font-size="84" letter-spacing="3">PARAMOUNT</text><path d="M232 6h34l-17 17z" fill="#fff"/></svg>'
+ paramount:'<svg viewBox="0 0 460 90" aria-label="Paramount"><text x="230" y="78" text-anchor="middle" fill="#fff" font-family="Archivo" font-weight="800" font-stretch="75%" font-size="80" textLength="430" lengthAdjust="spacingAndGlyphs">PARAMOUNT</text><path d="M232 6h34l-17 17z" fill="#fff"/></svg>'
 };
 function renderLogos(){
   $('#logos').innerHTML=BRANDS.map(([n,f])=>LOGO_SVG[f]?`<div class="svg">${LOGO_SVG[f]}</div>`:`<div${f==='hammer-strength'||f==='gymleco'?' class="tall"':''}><img src="img/marcas/${f}.png" alt="${n}" onerror="this.parentNode.classList.add('miss')"><span>${n}</span></div>`).join('');
@@ -1870,6 +1880,14 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const run=()=>{nums.forEach((n,i)=>setTimeout(()=>{const to=+n.dataset.n,t0=performance.now(),d=1400;
       (function f(t){const k=Math.min(1,(t-t0)/d);n.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)},i*150));fill()};
   new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){run();o.disconnect()}},{threshold:.35}).observe(box);
+})();
+
+/* ---------- Máquinas: en pantallas táctiles se encienden al pasar por el centro ---------- */
+(function(){
+  if(!matchMedia('(hover:none)').matches||!('IntersectionObserver' in window))return;
+  const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('lit',e.isIntersecting)),{rootMargin:'-38% 0px -38% 0px'});
+  const watch=()=>document.querySelectorAll('#mgrid .mcard').forEach(c=>io.observe(c));
+  watch();new MutationObserver(watch).observe(document.getElementById('mgrid'),{childList:true});
 })();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
