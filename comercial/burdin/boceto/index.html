@@ -887,6 +887,18 @@
   .hero p.sub{max-width:44ch}
   .hero .ctas{flex-wrap:nowrap}
   @media (max-width:900px){.hero .ctas{flex-wrap:wrap}.hero .sign{top:calc(var(--nav) + 190px)!important}.hero .plate{top:calc(var(--nav) + 290px)!important}.hero{padding-top:calc(var(--nav) + 340px)!important}.hero .sign svg{width:84px!important}.hero .sign .n{font-size:1.7rem!important}}
+  /* pie: negro con grano fino y BURDIN entero y legible */
+  footer.paperfoot,footer.paperfoot .paper{background-color:#101010!important}
+  footer.paperfoot .paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .13 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23p)'/%3E%3C/svg%3E")!important}
+  footer.paperfoot{padding:90px 0 50px}
+  footer.paperfoot .deboss{color:#171717;text-shadow:-2px -2px 2px rgba(0,0,0,.9),2px 2px 1px rgba(255,255,255,.11),0 0 1px rgba(0,0,0,.6)}
+  footer.paperfoot .fold{display:none}
+  footer.paperfoot .paper{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23p)'/%3E%3C/svg%3E"),#0e0e0e!important}
+  footer.paperfoot .deboss{color:#131313}
+  /* solo una franja por corte: fuera las de dentro de cada sección */
+  .gauge::before,.mani3::before,.era-head::after,.hero-strip::after{display:none!important}
+  .gauge,.mani3,.hero-strip{border-top:0!important}
+  .era-head{border-bottom:0!important}
 </style>
 </head>
 <body class="boceto">
@@ -1702,7 +1714,7 @@ addEventListener('resize',fitTitles);document.fonts&&document.fonts.ready.then(f
 })();
 
 /* ---------- «BURDIN» estampado: ocupa todo el ancho del manifiesto ---------- */
-function fitDeboss(){document.querySelectorAll('.deboss').forEach(d=>{const w=d.parentNode.clientWidth*.96;d.style.fontSize='100px';d.style.fontSize=Math.floor(100*w/d.getBoundingClientRect().width)+'px'})}
+function fitDeboss(){document.querySelectorAll('.deboss').forEach(d=>{const P=d.parentNode,w=P.clientWidth*.92,h=P.clientHeight*.78;d.style.fontSize='100px';const r=d.getBoundingClientRect();d.style.fontSize=Math.floor(100*Math.min(w/r.width,h/r.height))+'px'})}
 addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(fitDeboss);fitDeboss();
 
 /* ---------- cierre de la ficha ---------- */
