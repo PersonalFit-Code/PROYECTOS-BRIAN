@@ -78,25 +78,29 @@ Quiero que me ayudes a crear una maqueta de su nueva web partiendo de mi plantil
 - **Condiciones**: 50 % al empezar y 50 % a la entrega. Los 30 primeros días de cuota, gratis. Mínimo 3 meses de cuota.
 - **Ya existe un PDF** con la versión anterior del plan (precios antiguos): `comercial/hungceed/Plan-servicios-Hungceed-Brian-Carbajal.pdf`.
 
-## Decisión técnica importante (decidir antes de construir)
-Su tienda vive en **WooCommerce** y vende a diario. Mi plantilla de Andrea Salón es **Next.js + Supabase + Stripe**. Hay tres caminos:
-1. **Maqueta en Next.js solo para enseñar.** Le enseñamos cómo quedaría portada, categorías, ficha de producto y página del gimnasio. Luego aplicamos ese diseño en su WordPress/WooCommerce y su tema. Es el más seguro: no toca pedidos, pagos ni Google.
-2. **Next.js como escaparate conectado a WooCommerce** (se llama «headless»). Más bonito y rápido, pero mucho más trabajo: carrito, pago, cuentas de cliente y redirecciones para Google.
-3. **Migrarlo todo fuera de WooCommerce.** No lo recomiendo: hay riesgo de perder pedidos, clientes y posicionamiento.
+## Decisión técnica: se trabaja dentro de su WordPress, no en Next.js
+Su tienda vive en **WooCommerce** y vende a diario. **No la migramos a Next.js**: el rediseño se hace dentro de su propio WordPress, con el tema de pago y Elementor que ya tiene. Así conserva pedidos, clientes, pagos y posicionamiento, sigue usando el panel que ya conoce y el trabajo cuadra con el precio (900 €).
 
-**Propuesta**: empezar por la opción 1 para cerrar la venta, y decidir la ejecución cuando Jose elija los servicios.
+**Cómo se hace:**
+1. **Copia de prueba (staging).** Desde el hosting, si lo permite, o con un plugin tipo WP Staging. Se trabaja ahí mientras la tienda sigue vendiendo.
+2. **Rediseño con su tema y Elementor:** portada nueva con un solo mensaje, menú, página de categoría, plantilla de ficha de producto y pie con los enlaces legales.
+3. **Reorganizar WooCommerce:**
+   - categorías y subcategorías bien hechas, incluida la Attachment Series;
+   - nombres cortos, y el texto para Google en el campo de SEO, no en el nombre;
+   - revisar precios y variantes (el «0,00 €»);
+   - filtros por tipo, serie y precio con un plugin de filtros.
+4. **Añadir lo que falta:** botón de WhatsApp, opiniones, información de envíos y páginas legales (aviso legal, privacidad, cookies). Arreglar el enlace de «mi cuenta» y subir el logo en buena calidad.
+5. **Página del gimnasio** en Elementor: fotos, horarios, ubicación, tarifas en tarjetas y botones «Apúntate» a cada tarifa de Virtuagym, en lugar del recuadro incrustado.
+6. **Pasar la copia a la web real** cuando Jose la apruebe, sin perder pedidos, clientes ni Google.
+
+**Lo que necesito de Jose cuando cierre:** un usuario de administrador en su WordPress y, si se puede, acceso al hosting para crear la copia de prueba. Nunca se guardan contraseñas en el repositorio.
+
+**La plantilla de Andrea Salón** (`andrea-salon/`, en Next.js) se usa solo como inspiración de diseño, o para una maqueta rápida que enseñarle antes de cerrar. No es la web final.
 
 ## Qué quiero hacer en este chat
-1. Revisar la plantilla `andrea-salon/` y adaptarla a una **maqueta para Hungceed**:
-   - portada con un solo mensaje claro;
-   - menú por categorías y series;
-   - una categoría con filtros y una ficha de producto limpia;
-   - página del gimnasio con tarifas en tarjetas y botones «Apúntate» que lleven a Virtuagym;
-   - botón de WhatsApp;
-   - envíos y opiniones.
-2. Usar su estética: negro, rojo, Poppins y fotos de su web.
-3. Dejarla publicada en una URL de prueba para enseñársela a Jose en la llamada.
-4. Después, preparar la propuesta final en PDF con los precios cerrados.
+1. **Antes de cerrar:** una maqueta rápida (portada, categoría, ficha de producto y página del gimnasio) con su estética (negro, rojo, Poppins y sus fotos), inspirada en la plantilla de Andrea. Debe poder enseñarse en una URL de prueba durante la llamada con Jose.
+2. **Preparar la propuesta final en PDF** con los precios cerrados.
+3. **Cuando cierre:** el plan de trabajo paso a paso para hacerlo en su WordPress sobre la copia de prueba.
 
 Reglas:
 - No me pidas permiso para cada paso.
