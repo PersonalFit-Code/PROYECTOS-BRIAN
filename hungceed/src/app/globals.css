@@ -3,33 +3,35 @@
 /*
  * HUNGCEED · sistema de diseño de la maqueta
  * ─────────────────────────────────────────
- * Marca: negro, rojo intenso y Poppins. Rojo #dc1f26: 4,9:1 sobre blanco (vale para texto) y 4:1
- * sobre negro (solo para titulares grandes, iconos y fondos; el texto pequeño sobre negro va en
- * blanco o gris claro). Gris #5c5d63: 6,6:1 sobre blanco.
+ * Referencias que pasó Jose: Gymshark y Breathe Divinity. Lo que se toma de ellas: blanco, negro y
+ * grises (Jose: «tonos grises, negros, blancos»), titulares estrechos en mayúscula, botones rectos,
+ * fotos a sangre y carruseles de producto sobre gris claro.
  *
- * Los nombres `carmin`, `grafito`, `tinta`, `gris`, `crema` y `nude` se conservan porque los usan
- * los componentes reciclados (botón, menú curvo, marquesina); aquí apuntan a la paleta de Hungceed.
+ * El rojo de Hungceed queda SOLO en la flecha del logo (`marca`). `rojo` se conserva como nombre
+ * porque lo usan los componentes, pero ahora es el acento negro: nada en la web es rojo salvo el logo.
  */
 @theme {
   --color-negro: #0a0a0b;
-  --color-carbon: #17171a;
-  --color-rojo: #dc1f26;
-  --color-rojo-oscuro: #a8141a;
-  --color-hueso: #f4f4f5;
+  --color-carbon: #1c1c1f;
+  --color-rojo: #0a0a0b;
+  --color-rojo-oscuro: #3f3f46;
+  --color-marca: #dc1f26;
+  --color-hueso: #f2f2f2;
+  --color-niebla: #e9e9eb;
   --color-linea: #e4e4e7;
   --color-gris: #5c5d63;
   --color-gris-claro: #a1a1aa;
   --color-blanco: #ffffff;
 
-  --color-carmin: #dc1f26;
-  --color-carmin-suave: #a8141a;
+  --color-carmin: #0a0a0b;
+  --color-carmin-suave: #3f3f46;
   --color-grafito: #0a0a0b;
   --color-tinta: #0a0a0b;
   --color-crema: #ffffff;
   --color-nude: #e4e4e7;
 
   --font-sans: var(--font-poppins), "Poppins", ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-poppins), "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-barlow), "Barlow Condensed", "Arial Narrow", ui-sans-serif, sans-serif;
 
   --shadow-card: 0 24px 48px -28px rgba(10, 10, 11, 0.28), 0 4px 12px -8px rgba(10, 10, 11, 0.12);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -37,13 +39,8 @@
 
 :root {
   color-scheme: light;
-  /* Franja negra de 32 px + fila del logo; en escritorio, más la fila de categorías. */
+    /* Franja gris de 32 px + fila blanca de 64 px (una sola fila, como Gymshark). */
   --header-h: 96px;
-}
-@media (min-width: 1024px) {
-  :root {
-    --header-h: 148px;
-  }
 }
 
 html {
@@ -73,7 +70,7 @@ body {
 }
 
 ::selection {
-  background: var(--color-rojo);
+  background: var(--color-negro);
   color: #fff;
 }
 
@@ -89,7 +86,7 @@ body {
 /* Contenedor de página */
 @utility container-page {
   width: 100%;
-  max-width: 80rem;
+  max-width: 90rem;
   margin-inline: auto;
   padding-inline: 1rem;
   @media (min-width: 640px) {
@@ -107,13 +104,13 @@ body {
   }
 }
 
-/* Titular de marca: Poppins muy gruesa, mayúscula, apretada. */
+/* Titular: Barlow Condensed gruesa, mayúscula, estrecha (como los de Gymshark). */
 @utility titular {
   font-family: var(--font-display);
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 0.95;
+  letter-spacing: 0;
+  line-height: 0.92;
 }
 /* Titular de sección: más ligero y espaciado. */
 @utility subtitular {
@@ -121,7 +118,7 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.01em;
-  line-height: 1.05;
+  line-height: 1;
 }
 /* Etiqueta pequeña («ELITE SERIES», «01»). */
 @utility etiqueta {

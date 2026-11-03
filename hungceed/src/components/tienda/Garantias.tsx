@@ -14,7 +14,7 @@ export default function Garantias({ oscuro = false }: { oscuro?: boolean }) {
           <li key={g.titulo} className={cn("flex gap-4 p-6", oscuro ? "bg-negro" : "bg-white")}>
             <Icono aria-hidden className="mt-0.5 size-6 shrink-0 text-rojo" />
             <div>
-              <h3 className={cn("text-[14px] font-bold tracking-[0.04em] uppercase", oscuro ? "text-white" : "text-negro")}>{g.titulo}</h3>
+              <h3 className={cn("subtitular text-[20px]", oscuro ? "text-white" : "text-negro")}>{g.titulo}</h3>
               <p className={cn("mt-1.5 text-[13px] leading-relaxed", oscuro ? "text-gris-claro" : "text-gris")}>{g.texto}</p>
             </div>
           </li>

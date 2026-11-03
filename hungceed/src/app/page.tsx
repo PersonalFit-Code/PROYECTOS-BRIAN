@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, Building2, House, MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Boton from "@/components/ui/Boton";
 import Foto from "@/components/ui/Foto";
 import Revelar from "@/components/ui/Revelar";
 import Garantias from "@/components/tienda/Garantias";
+import Carrusel from "@/components/tienda/Carrusel";
 import Marquesina from "@/components/tienda/Marquesina";
 import Opiniones from "@/components/tienda/Opiniones";
-import TarjetaProducto from "@/components/tienda/TarjetaProducto";
 import { CATEGORIAS, PRODUCTOS, SERIES, precioTexto, productoPorSlug, type Serie } from "@/data/catalogo";
 import { GYM, TARIFAS } from "@/data/gym";
 import { CONFIANZA, NEGOCIO, VENTAJAS } from "@/data/negocio";
@@ -14,15 +14,15 @@ import { CONFIANZA, NEGOCIO, VENTAJAS } from "@/data/negocio";
 const EUR = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
 /**
- * Portada: UN mensaje y el producto estrella al lado, dos entradas (casa / centro), y debajo el
- * catálogo ordenado: categorías, series, el sistema Attachment, lo más elegido, por qué Hungceed,
- * confianza, opiniones (solo con reseñas reales), garantías y el gimnasio.
+ * Portada al estilo de las referencias de Jose (Gymshark, Breathe Divinity): blanco, negro y grises.
+ * Foto a sangre con el titular abajo a la izquierda y dos botones rectos; carruseles de producto
+ * sobre gris claro; categorías en rejilla con el nombre debajo; segunda foto a sangre para el gym.
  */
 export default function Portada() {
   const rack = productoPorSlug("jaula-potencia-polea")!;
   /* Solo productos con precio publicado: el bloque que vende no puede decir «consultar». */
-  const destacados = PRODUCTOS.filter((p) => p.destacado && p.precio).slice(0, 6);
-  const accesorios = ["elevacion-lateral-rack", "extension-cuadriceps-rack", "asiento-hip-thrust", "multipower-smith", "doble-gancho-barra", "enganche-polea-suspension"].map((s) => productoPorSlug(s)!);
+  const destacados = PRODUCTOS.filter((p) => p.precio).sort((a, b) => Number(!!b.destacado) - Number(!!a.destacado)).slice(0, 10);
+  const accesorios = PRODUCTOS.filter((p) => p.serie === "attachment");
   const ordenSeries: Serie[] = ["elite", "pro", "prelude", "attachment"];
   const enlaceSerie = (s: Serie) => (s === "attachment" ? "/categoria/attachment" : `/categoria/maquinas?serie=${s}`);
   const desde = (grupo: string) => Math.min(...TARIFAS.find((g) => g.id === grupo)!.tarifas.map((t) => t.precio));
@@ -34,128 +34,119 @@ export default function Portada() {
 
   return (
     <>
-      {/* Portada */}
-      <section className="relative isolate overflow-hidden bg-negro pt-[var(--header-h)] text-white">
+      {/* 1 · Foto a sangre, titular abajo a la izquierda. */}
+      <section className="relative isolate mt-[var(--header-h)] flex min-h-[78svh] items-end overflow-hidden text-white sm:min-h-[86svh]">
         <div className="absolute inset-0 -z-10">
-          <Foto src={GYM.fotos.portada} alt="" prioridad className="opacity-55 motion-safe:animate-[zoom-lento_12s_var(--ease-out-expo)_both]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-negro via-negro/75 to-negro/30" />
+          <Foto src={GYM.fotos.portada} alt="" prioridad className="grayscale-[35%] motion-safe:animate-[zoom-lento_12s_var(--ease-out-expo)_both]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-negro/80 via-negro/25 to-transparent" />
         </div>
-        <div className="container-page grid items-center gap-10 py-16 lg:min-h-[78svh] lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:py-20">
-          <div>
-            <p className="hero-in etiqueta text-rojo" style={{ ["--i" as string]: 0 }}>
-              Equipamiento de gimnasio · Marca propia
+        <div className="container-page pb-10 sm:pb-14">
+          <h1 className="hero-in titular text-[clamp(3rem,9vw,6.5rem)]" style={{ ["--i" as string]: 0 }}>
+            Equipa tu gimnasio
+          </h1>
+          <p className="hero-in mt-3 max-w-md text-[14px] leading-relaxed text-white/85" style={{ ["--i" as string]: 1 }}>
+            Racks, máquinas, pesas y accesorios que encajan entre sí. En casa o en el box.
+          </p>
+          <div className="hero-in mt-6 flex flex-wrap gap-2.5" style={{ ["--i" as string]: 2 }}>
+            <Boton href="#mas-elegido" variant="claro" size="sm">
+              Ver el catálogo
+            </Boton>
+            <Boton href={NEGOCIO.whatsapp} target="_blank" variant="contorno" size="sm">
+              Te asesoramos
+            </Boton>
+          </div>
+        </div>
+      </section>
+
+      {/* 2 · Lo más elegido, en carrusel. */}
+      <div id="mas-elegido" className="scroll-mt-[var(--header-h)]">
+        <Carrusel titulo="Lo más elegido" verTodo="/categoria/racks" productos={destacados} />
+      </div>
+
+      {/* 3 · Banda a sangre en gris: el rack que es el centro del sistema. */}
+      <section className="bg-hueso">
+        <div className="container-page grid items-center gap-6 py-12 sm:py-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
+          <div className="order-2 lg:order-1">
+            <p className="text-[12px] font-medium text-gris">{SERIES.attachment.nombre}</p>
+            <h2 className="titular mt-2 text-[clamp(2.6rem,6vw,4.75rem)]">
+              Un rack.
+              <br />
+              Un gimnasio completo.
+            </h2>
+            <p className="mt-4 max-w-md text-[14px] leading-relaxed text-gris">
+              Empieza con la {rack.nombre.toLowerCase()} ({precioTexto(rack.precio)}) y añade cada accesorio cuando lo necesites. Todo encaja en los mismos agujeros, sin herramientas.
             </p>
-            <h1 className="hero-in titular mt-5 text-[clamp(2.5rem,7vw,5.4rem)] text-balance" style={{ ["--i" as string]: 1 }}>
-              Equipa tu gimnasio. <span className="text-rojo">En casa o en el box.</span>
-            </h1>
-            <p className="hero-in mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg" style={{ ["--i" as string]: 2 }}>
-              Racks, máquinas, pesas y accesorios diseñados para encajar entre sí. Ingeniería industrial, sin sobreprecio.
-            </p>
-            <div className="hero-in mt-9 flex flex-col gap-3 sm:flex-row" style={{ ["--i" as string]: 3 }}>
-              <Boton href="#categorias" size="lg" iconRight={<ArrowRight aria-hidden />}>
-                Ver el catálogo
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              <Boton href={`/producto/${rack.slug}`} size="sm">
+                Ver la jaula
               </Boton>
-              <Boton href={NEGOCIO.whatsapp} target="_blank" variant="claro" size="lg" icon={<MessageCircle aria-hidden />}>
-                Te asesoramos
+              <Boton href="/categoria/attachment" variant="secundario" size="sm">
+                Ver accesorios
               </Boton>
             </div>
           </div>
-
-          {/* Producto estrella: lo primero que se ve en una tienda tiene que ser producto. */}
-          <Link href={`/producto/${rack.slug}`} className="hero-in group block bg-white text-negro" style={{ ["--i" as string]: 2 }}>
-            <div className="relative aspect-[4/3] overflow-hidden sm:aspect-square lg:aspect-[4/3]">
-              <Foto src={rack.imagen} alt={rack.nombre} prioridad contener className="p-5 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105" />
-              <span className="absolute top-4 left-4 bg-rojo px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] text-white uppercase">Producto estrella</span>
-            </div>
-            <div className="flex items-end justify-between gap-4 border-t border-linea p-5">
-              <div className="min-w-0">
-                <p className="subtitular text-lg sm:text-xl">{rack.nombre}</p>
-                <p className="mt-1 text-[13px] text-gris">{rack.resumen}</p>
-              </div>
-              <div className="shrink-0 text-right">
-                <p className="text-2xl font-extrabold">{precioTexto(rack.precio)}</p>
-                <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.12em] text-rojo uppercase">
-                  Ver <ArrowRight aria-hidden className="size-3.5 transition-transform group-hover:translate-x-1" />
-                </span>
-              </div>
-            </div>
+          <Link href={`/producto/${rack.slug}`} className="group order-1 block aspect-[4/3] lg:order-2">
+            <Foto src={rack.imagen} alt={rack.nombre} contener className="mix-blend-multiply transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]" />
           </Link>
         </div>
       </section>
 
-      {/* Dos clientes, dos entradas. */}
-      <section aria-label="Para quién" className="bg-carbon text-white">
-        <div className="container-page grid gap-px bg-white/10 sm:grid-cols-2">
-          {[
-            { href: "/categoria/racks", icono: House, titulo: "Para tu casa", texto: "Empieza con un rack y crece con la Attachment Series." },
-            { href: "/equipa-tu-centro", icono: Building2, titulo: "Para tu gimnasio o box", texto: "Máquinas de uso comercial y presupuesto a medida." },
-          ].map((e) => (
-            <Link key={e.href} href={e.href} className="group flex items-center gap-4 bg-carbon px-1 py-6 transition-colors hover:bg-negro sm:gap-5 sm:px-6">
-              <e.icono aria-hidden className="size-8 shrink-0 text-rojo" strokeWidth={1.6} />
-              <span className="min-w-0 flex-1">
-                <span className="subtitular block text-lg sm:text-xl">{e.titulo}</span>
-                <span className="mt-1 block text-[13px] text-gris-claro">{e.texto}</span>
-              </span>
-              <ArrowRight aria-hidden className="size-5 shrink-0 text-white/50 transition-[color,transform] group-hover:translate-x-1 group-hover:text-rojo" />
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* 4 · Los accesorios, en carrusel. */}
+      <Carrusel titulo={SERIES.attachment.nombre} verTodo="/categoria/attachment" productos={accesorios} />
 
       <Marquesina />
 
-      {/* Categorías */}
-      <Revelar as="section" id="categorias" className="container-page scroll-mt-[var(--header-h)] py-20 sm:py-24">
-        <div data-reveal className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="etiqueta text-rojo">Catálogo</p>
-            <h2 className="titular mt-3 text-4xl sm:text-5xl">¿Qué estás montando?</h2>
+      {/* 5 · Categorías: rejilla de fotos con el nombre debajo (como «Popular right now»). */}
+      <Revelar as="section" id="categorias" className="container-page scroll-mt-[var(--header-h)] py-12 sm:py-16">
+        <div data-reveal className="flex flex-wrap items-end justify-between gap-4">
+          <h2 className="titular text-[28px] sm:text-[34px]">¿Qué estás montando?</h2>
+          <div className="flex gap-1.5">
+            <Link href="/categoria/racks" className="inline-flex h-8 items-center border border-negro px-3 text-[12px] font-medium">
+              Para tu casa
+            </Link>
+            <Link href="/equipa-tu-centro" className="inline-flex h-8 items-center border border-linea px-3 text-[12px] font-medium text-gris hover:border-negro hover:text-negro">
+              Para tu centro
+            </Link>
           </div>
-          <p className="max-w-sm text-sm leading-relaxed text-gris">Elige qué estás montando y filtra por serie, tipo o precio.</p>
         </div>
-        <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-6 grid grid-cols-2 gap-1.5 lg:grid-cols-3">
           {CATEGORIAS.map((c) => (
             <li key={c.slug} data-reveal>
-              <Link href={`/categoria/${c.slug}`} className="group flex flex-col border border-linea bg-white transition-[border-color,box-shadow] duration-300 hover:border-negro hover:shadow-card">
-                <div className="relative aspect-[16/10] overflow-hidden bg-white sm:aspect-[4/3]">
-                  <Foto src={c.imagen} alt="" contener className="p-4 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105" />
+              <Link href={`/categoria/${c.slug}`} className="group block">
+                <div className="relative aspect-[4/3] overflow-hidden bg-hueso">
+                  <Foto src={c.imagen} alt="" contener className="p-6 mix-blend-multiply transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04]" />
                 </div>
-                <div className="flex items-center justify-between gap-3 bg-negro p-4 text-white sm:p-5">
-                  <h3 className="subtitular min-w-0 text-lg break-words sm:text-xl">{c.nombre}</h3>
-                  <span aria-hidden className="grid size-10 shrink-0 place-items-center bg-rojo transition-transform duration-300 group-hover:translate-x-1">
-                    <ArrowRight className="size-4" />
-                  </span>
-                </div>
+                <h3 className="mt-3 text-[13px] font-semibold group-hover:underline group-hover:underline-offset-2">{c.nombre}</h3>
+                <p className="mt-0.5 line-clamp-2 text-[12px] leading-snug text-gris">{c.descripcion}</p>
               </Link>
             </li>
           ))}
         </ul>
       </Revelar>
 
-      {/* Series, numeradas */}
-      <section aria-labelledby="series-titulo" className="bg-negro text-white">
-        <Revelar className="container-page grid gap-12 py-20 sm:py-24 lg:grid-cols-[0.8fr_1.2fr]">
+      {/* 6 · Series, numeradas, sobre blanco. */}
+      <section aria-labelledby="series-titulo" className="border-t border-linea">
+        <Revelar className="container-page grid gap-10 py-12 sm:py-16 lg:grid-cols-[0.8fr_1.2fr]">
           <div data-reveal>
-            <p className="etiqueta text-rojo">Series Hungceed</p>
-            <h2 id="series-titulo" className="titular mt-3 text-4xl sm:text-5xl">
+            <h2 id="series-titulo" className="titular text-[clamp(2.4rem,5vw,3.75rem)]">
               Cuatro series.
               <br />
               Un solo sistema.
             </h2>
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-gris-claro">
+            <p className="mt-4 max-w-sm text-[14px] leading-relaxed text-gris">
               Todo está diseñado para integrarse: la Attachment Series convierte cualquier rack Hungceed en un gimnasio completo.
             </p>
           </div>
-          <ol className="border-t border-white/15">
+          <ol className="border-t border-negro">
             {ordenSeries.map((s, i) => (
-              <li key={s} data-reveal className="border-b border-white/15">
-                <Link href={enlaceSerie(s)} className="group grid grid-cols-[3rem_1fr_auto] items-center gap-4 py-6 sm:py-7">
-                  <span className="text-sm font-bold text-rojo">{String(i + 1).padStart(2, "0")}</span>
+              <li key={s} data-reveal className="border-b border-linea">
+                <Link href={enlaceSerie(s)} className="group grid grid-cols-[2.5rem_1fr_auto] items-center gap-4 py-5">
+                  <span className="text-[12px] font-medium text-gris">{String(i + 1).padStart(2, "0")}</span>
                   <span>
-                    <span className="subtitular block text-2xl transition-colors group-hover:text-rojo sm:text-3xl">{SERIES[s].nombre}</span>
-                    <span className="mt-1 block text-[13px] text-gris-claro">{SERIES[s].lema}</span>
+                    <span className="subtitular block text-[26px] sm:text-[30px]">{SERIES[s].nombre}</span>
+                    <span className="mt-0.5 block text-[12px] text-gris">{SERIES[s].lema}</span>
                   </span>
-                  <ArrowRight aria-hidden className="size-5 text-white/50 transition-[color,transform] duration-300 group-hover:translate-x-1 group-hover:text-rojo" />
+                  <ArrowRight aria-hidden className="size-5 text-gris transition-[color,transform] duration-300 group-hover:translate-x-1 group-hover:text-negro" strokeWidth={1.5} />
                 </Link>
               </li>
             ))}
@@ -163,174 +154,92 @@ export default function Portada() {
         </Revelar>
       </section>
 
-      {/* El sistema Attachment: un rack en el centro y los accesorios alrededor. */}
-      <Revelar as="section" aria-labelledby="sistema-titulo" className="container-page py-20 sm:py-24">
-        <div data-reveal className="max-w-2xl">
-          <p className="etiqueta text-rojo">{SERIES.attachment.nombre}</p>
-          <h2 id="sistema-titulo" className="titular mt-3 text-4xl sm:text-5xl">
-            Un rack.
-            <br />
-            Un gimnasio completo.
-          </h2>
-          <p className="mt-5 text-gris">Empieza con la jaula y añade cada accesorio cuando lo necesites. Todo encaja en los mismos agujeros, sin herramientas.</p>
-        </div>
-        <div className="mt-12 grid gap-3 lg:grid-cols-[1fr_1.4fr_1fr]">
-          <ul className="grid gap-3 sm:grid-cols-2 lg:order-1 lg:grid-cols-1">
-            {accesorios.slice(0, 3).map((p) => (
-              <AccesorioMini key={p.slug} slug={p.slug} nombre={p.nombre} imagen={p.imagen} precio={precioTexto(p.precio)} />
-            ))}
-          </ul>
-          <Link href={`/producto/${rack.slug}`} data-reveal className="group order-first flex flex-col border-2 border-negro bg-white lg:order-2">
-            <div className="relative aspect-square overflow-hidden">
-              <Foto src={rack.imagen} alt={rack.nombre} contener className="p-6 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105" />
-            </div>
-            <div className="flex items-center justify-between gap-4 border-t-2 border-negro p-5">
-              <div>
-                <p className="subtitular text-xl">{rack.nombre}</p>
-                <p className="mt-1 text-[13px] text-gris">El centro del sistema</p>
-              </div>
-              <p className="text-2xl font-extrabold">{precioTexto(rack.precio)}</p>
-            </div>
-          </Link>
-          <ul className="grid gap-3 sm:grid-cols-2 lg:order-3 lg:grid-cols-1">
-            {accesorios.slice(3, 6).map((p) => (
-              <AccesorioMini key={p.slug} slug={p.slug} nombre={p.nombre} imagen={p.imagen} precio={precioTexto(p.precio)} />
-            ))}
-          </ul>
-        </div>
-        <div data-reveal className="mt-10 flex justify-center">
-          <Boton href="/categoria/attachment" variant="secundario" iconRight={<ArrowRight aria-hidden />}>
-            Ver toda la Attachment Series
-          </Boton>
-        </div>
-      </Revelar>
-
-      {/* Lo más elegido */}
+      {/* 7 · Por qué Hungceed + frase del CEO + confianza. */}
       <section className="bg-hueso">
-        <Revelar className="container-page py-20 sm:py-24">
-          <div data-reveal className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p className="etiqueta text-rojo">Lo más elegido</p>
-              <h2 className="titular mt-3 text-4xl sm:text-5xl">Empieza por aquí</h2>
+        <Revelar className="container-page py-12 sm:py-16">
+          <div className="grid gap-12 lg:grid-cols-2">
+            <div data-reveal>
+              <h2 className="titular text-[clamp(2.4rem,5vw,3.75rem)]">{NEGOCIO.lema}</h2>
+              <blockquote className="mt-8 border-l-2 border-negro pl-5">
+                <p className="text-lg leading-snug font-medium text-negro sm:text-xl">«{NEGOCIO.fraseCeo}»</p>
+                <footer className="mt-3 text-[12px] text-gris">{NEGOCIO.ceo}</footer>
+              </blockquote>
             </div>
-            <Boton href="/categoria/racks" variant="secundario" iconRight={<ArrowRight aria-hidden />}>
-              Ver racks y jaulas
-            </Boton>
+            <ul className="grid gap-1.5 self-start sm:grid-cols-2">
+              {VENTAJAS.map((v, i) => (
+                <li key={v.titulo} data-reveal className="bg-white p-6">
+                  <span className="text-[12px] font-medium text-gris">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="subtitular mt-2 text-[22px]">{v.titulo}</h3>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-gris">{v.texto}</p>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className="mt-12 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">
-            {destacados.map((p) => (
-              <li key={p.slug} data-reveal className="flex">
-                <TarjetaProducto producto={p} className="w-full" />
+
+          {/* Cifras a rellenar con los datos reales de Jose. */}
+          <ul data-reveal className="mt-10 grid grid-cols-2 gap-1.5 lg:grid-cols-4">
+            {CONFIANZA.map((c) => (
+              <li key={c.texto} className="relative bg-white p-5 pt-8 sm:p-6 sm:pt-9">
+                <p className="titular text-[42px]">{c.cifra}</p>
+                <p className="mt-1 text-[12px] text-gris">{c.texto}</p>
+                {c.pendiente ? <span className="absolute top-2 right-2 border border-linea px-1.5 py-0.5 text-[9px] font-medium text-gris uppercase">Dato por confirmar</span> : null}
               </li>
             ))}
           </ul>
         </Revelar>
       </section>
 
-      {/* Por qué Hungceed + frase del CEO + confianza */}
-      <Revelar as="section" className="container-page py-20 sm:py-24">
-        <div className="grid gap-14 lg:grid-cols-2">
-          <div data-reveal>
-            <p className="etiqueta text-rojo">Por qué Hungceed</p>
-            <h2 className="titular mt-3 text-4xl sm:text-5xl">{NEGOCIO.lema}</h2>
-            <blockquote className="mt-10 border-l-4 border-rojo pl-6">
-              <p className="text-xl leading-snug font-semibold text-negro sm:text-2xl">«{NEGOCIO.fraseCeo}»</p>
-              <footer className="mt-4 text-[12px] font-semibold tracking-[0.14em] text-gris uppercase">{NEGOCIO.ceo}</footer>
-            </blockquote>
-          </div>
-          <ul className="grid gap-px self-start bg-linea sm:grid-cols-2">
-            {VENTAJAS.map((v, i) => (
-              <li key={v.titulo} data-reveal className="bg-white p-7">
-                <span className="text-sm font-bold text-rojo">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="mt-3 text-[15px] font-bold tracking-[0.03em] uppercase">{v.titulo}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-gris">{v.texto}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Barra de confianza: cifras a rellenar con los datos reales de Jose. */}
-        <ul data-reveal className="mt-14 grid grid-cols-2 gap-px border border-linea bg-linea lg:grid-cols-4">
-          {CONFIANZA.map((c) => (
-            <li key={c.texto} className="relative bg-negro p-5 pt-8 text-white sm:p-6 sm:pt-9">
-              <p className="titular text-3xl text-rojo sm:text-4xl">{c.cifra}</p>
-              <p className="mt-2 text-[13px] text-gris-claro">{c.texto}</p>
-              {c.pendiente ? <span className="absolute top-2 right-2 border border-white/30 px-1.5 py-0.5 text-[9px] font-bold tracking-[0.12em] text-white/60 uppercase">Dato por confirmar</span> : null}
-            </li>
-          ))}
-        </ul>
-      </Revelar>
-
       <Opiniones />
 
-      {/* Garantías */}
+      {/* 8 · Garantías */}
       <section aria-label="Envíos y garantías" className="border-y border-linea">
         <div className="container-page py-2">
           <Garantias />
         </div>
       </section>
 
-      {/* Gimnasio: tarifas a la vista, sin hacer clic. */}
-      <section className="bg-negro text-white">
-        <Revelar className="container-page grid gap-12 py-20 sm:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div data-reveal className="relative aspect-[4/5] overflow-hidden sm:aspect-[4/3] lg:aspect-[4/5]">
-            <Foto src={GYM.fotos.secundaria} alt="Entrenando en Hungceed GYM" />
-            <p className="absolute bottom-4 left-4 bg-rojo px-3 py-1.5 text-[11px] font-bold tracking-[0.14em] uppercase">{GYM.localidad}</p>
+      {/* 9 · Gimnasio: segunda foto a sangre y las tarifas a la vista debajo. */}
+      <section className="relative isolate flex min-h-[60svh] items-end overflow-hidden text-white">
+        <div className="absolute inset-0 -z-10">
+          <Foto src={GYM.fotos.secundaria} alt="Entrenando en Hungceed GYM" className="object-[50%_30%] grayscale-[35%]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-negro/80 via-negro/20 to-transparent" />
+        </div>
+        <div className="container-page pb-10 sm:pb-14">
+          <p className="text-[12px] font-medium text-white/80">{GYM.nombre} · {GYM.localidad}</p>
+          <h2 className="titular mt-2 text-[clamp(2.8rem,7vw,5rem)]">Entrena con nosotros</h2>
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            <Boton href={GYM.virtuagym} target="_blank" variant="claro" size="sm">
+              Apúntate
+            </Boton>
+            <Boton href="/gym" variant="contorno" size="sm">
+              Ver tarifas
+            </Boton>
           </div>
-          <div>
-            <p data-reveal className="etiqueta text-rojo">
-              {GYM.nombre}
-            </p>
-            <h2 data-reveal className="titular mt-3 text-4xl sm:text-5xl">
-              Entrena con nosotros
-            </h2>
-            <p data-reveal className="mt-5 max-w-lg text-white/75">
-              Musculación, funcional, grupos semipersonales y entrenador personal. Tarifas claras y alta online en Virtuagym.
-            </p>
-            <ul className="mt-10 grid gap-3 sm:grid-cols-3">
-              {tarifasGym.map((t) => (
-                <li key={t.titulo} data-reveal className="flex flex-col border border-white/15 bg-carbon p-5">
-                  <p className="text-[12px] font-bold tracking-[0.12em] text-gris-claro uppercase">{t.titulo}</p>
-                  <p className="mt-3 text-[13px] text-gris-claro">Desde</p>
-                  <p className="titular text-4xl">{EUR.format(t.precio)}</p>
-                  <p className="mt-1 text-[13px] text-gris-claro">{t.unidad}</p>
-                  <p className="mt-3 text-[13px] text-white/75">{t.texto}</p>
-                  <a
-                    href={GYM.virtuagym}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group mt-5 inline-flex min-h-11 items-center justify-center gap-2 bg-rojo text-[12px] font-bold tracking-[0.14em] text-white uppercase transition-colors hover:bg-white hover:text-negro"
-                  >
-                    Apúntate <ArrowRight aria-hidden className="size-4 transition-transform group-hover:translate-x-1" />
-                    <span className="sr-only"> a {t.titulo} (abre Virtuagym)</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <div data-reveal className="mt-8">
-              <Link href="/gym" className="inline-flex items-center gap-2 text-[13px] font-bold tracking-[0.12em] text-white uppercase underline decoration-rojo decoration-2 underline-offset-8 hover:text-rojo">
-                Todas las tarifas y bonos <ArrowRight aria-hidden className="size-4" />
-              </Link>
-            </div>
-          </div>
-        </Revelar>
+        </div>
       </section>
+      <Revelar as="section" aria-label="Tarifas del gimnasio" className="container-page py-12 sm:py-16">
+        <ul className="grid gap-1.5 sm:grid-cols-3">
+          {tarifasGym.map((t) => (
+            <li key={t.titulo} data-reveal className="flex flex-col bg-hueso p-6">
+              <p className="text-[12px] font-medium text-gris">{t.titulo}</p>
+              <p className="mt-3 text-[12px] text-gris">Desde</p>
+              <p className="titular text-[46px]">{EUR.format(t.precio)}</p>
+              <p className="text-[12px] text-gris">{t.unidad}</p>
+              <p className="mt-3 text-[13px] text-negro">{t.texto}</p>
+              <a
+                href={GYM.virtuagym}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex min-h-11 items-center justify-center bg-negro text-[12px] font-semibold tracking-[0.14em] text-white uppercase transition-colors hover:bg-carbon"
+              >
+                Apúntate
+                <span className="sr-only"> a {t.titulo} (abre Virtuagym)</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Revelar>
     </>
   );
 }
 
-function AccesorioMini({ slug, nombre, imagen, precio }: { slug: string; nombre: string; imagen: string; precio: string }) {
-  return (
-    <li data-reveal className="flex">
-      <Link href={`/producto/${slug}`} className="group flex w-full items-center gap-3 border border-linea bg-white p-3 transition-colors hover:border-negro">
-        <span className="size-20 shrink-0 bg-white">
-          <Foto src={imagen} alt="" contener className="p-1 transition-transform duration-500 group-hover:scale-105" />
-        </span>
-        <span className="min-w-0">
-          <span className="block text-[14px] leading-snug font-semibold">{nombre}</span>
-          <span className="mt-1 block text-[13px] font-bold text-gris">{precio}</span>
-        </span>
-      </Link>
-    </li>
-  );
-}

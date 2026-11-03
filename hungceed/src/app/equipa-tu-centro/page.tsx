@@ -21,11 +21,11 @@ export default function PaginaEquipaTuCentro() {
           <div className="absolute inset-0 bg-gradient-to-r from-negro via-negro/80 to-negro/30" />
         </div>
         <div className="container-page py-20 sm:py-28">
-          <p className="hero-in etiqueta text-rojo" style={{ ["--i" as string]: 0 }}>
+          <p className="hero-in etiqueta text-white/80" style={{ ["--i" as string]: 0 }}>
             Para gimnasios, boxes y estudios
           </p>
           <h1 className="hero-in titular mt-4 max-w-3xl text-[clamp(2.4rem,7vw,5.5rem)]" style={{ ["--i" as string]: 1 }}>
-            Equipa tu centro <span className="text-rojo">con una sola marca.</span>
+            Equipa tu centro <span className="text-white/70">con una sola marca.</span>
           </h1>
           <p className="hero-in mt-6 max-w-xl text-lg text-white/80" style={{ ["--i" as string]: 2 }}>
             Máquinas de uso comercial, racks y peso libre que encajan entre sí. Cuéntanos qué montas y te preparamos una propuesta a medida.

@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
  * manda sobre el gusto del diseño. Sin `will-change`: la web tiene una decena de CTAs y promoverlos
  * todos a capa propia gasta memoria de GPU para un hover.
  */
-type Variant = "primario" | "secundario" | "claro" | "fantasma";
+type Variant = "primario" | "secundario" | "claro" | "contorno" | "fantasma";
 type Size = "sm" | "md" | "lg";
 
 interface BaseProps {
@@ -44,17 +44,18 @@ export type BotonProps = ButtonProps | AnchorProps;
 /* Rectángulo de esquina casi recta, mayúscula espaciada, sin brillo ni sombra de color. La transición se ACOTA a la lista explícita: pulsar responde en 100 ms, el hover en 320.
    `active:` queda para quien no tenga JS: framer pone el mismo hundido. */
 const base =
-  "group relative isolate inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-[2px] text-center font-sans font-semibold uppercase tracking-[0.14em] leading-snug transition-[color,border-color,opacity] duration-300 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rojo focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:opacity-50 disabled:pointer-events-none " +
+  "group relative isolate inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-none text-center font-sans font-semibold uppercase tracking-[0.14em] leading-snug transition-[color,border-color,opacity] duration-300 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rojo focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:opacity-50 disabled:pointer-events-none " +
   /* Al pasar por encima (o enfocar con teclado) un relleno barre el botón de izquierda a derecha y
      cambia el color: se nota siempre que el cursor está encima. Con movimiento reducido, el cambio de
      color es instantáneo (la regla global deja las transiciones en nada). */
   "before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:transition-transform before:duration-500 before:ease-[var(--ease-out-expo)] hover:before:scale-x-100 focus-visible:before:scale-x-100";
 
 const variants: Record<Variant, string> = {
-  primario: "bg-rojo text-white border border-rojo before:bg-negro hover:border-negro",
-  secundario: "bg-transparent text-negro border border-negro/70 before:bg-negro hover:text-white hover:border-negro",
-  claro: "bg-white text-negro border border-white before:bg-rojo hover:text-white hover:border-rojo",
-  fantasma: "bg-transparent text-negro border border-transparent underline decoration-linea decoration-1 underline-offset-[6px] before:hidden hover:text-rojo hover:decoration-rojo",
+  primario: "bg-negro text-white border border-negro before:bg-carbon hover:border-carbon",
+  secundario: "bg-transparent text-negro border border-negro before:bg-negro hover:text-white",
+  claro: "bg-white text-negro border border-white before:bg-hueso",
+  contorno: "bg-transparent text-white border border-white before:bg-white hover:text-negro",
+  fantasma: "bg-transparent text-negro border border-transparent underline decoration-linea decoration-1 underline-offset-[6px] before:hidden hover:decoration-negro",
 };
 
 /* `min-h-*` + padding vertical en vez de `h-*` fija: si la etiqueta salta a dos líneas en un móvil

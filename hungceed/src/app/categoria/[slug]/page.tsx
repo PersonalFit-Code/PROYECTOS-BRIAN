@@ -23,19 +23,19 @@ export default async function PaginaCategoria({ params, searchParams }: { params
 
   return (
     <>
-      <section className="bg-negro pt-[var(--header-h)] text-white">
+      <section className="border-b border-linea bg-white pt-[var(--header-h)] text-negro">
         <div className="container-page py-12 sm:py-16">
-          <nav aria-label="Estás aquí" className="text-[12px] text-gris-claro">
-            <Link href="/" className="hover:text-white">
+          <nav aria-label="Estás aquí" className="text-[12px] text-gris">
+            <Link href="/" className="hover:text-negro">
               Inicio
             </Link>{" "}
-            / <span className="text-white">{categoria.nombre}</span>
+            / <span className="text-negro">{categoria.nombre}</span>
           </nav>
           <h1 className="titular mt-4 text-4xl sm:text-6xl">{categoria.nombre}</h1>
-          <p className="mt-4 max-w-2xl text-white/75">{categoria.descripcion}</p>
+          <p className="mt-4 max-w-2xl text-gris">{categoria.descripcion}</p>
         </div>
         {/* Saltar entre categorías sin volver al menú. */}
-        <div className="border-t border-white/10">
+        <div className="border-t border-linea">
           <ul className="container-page no-scrollbar flex gap-6 overflow-x-auto">
             {CATEGORIAS.map((c) => (
               <li key={c.slug} className="shrink-0">
@@ -44,7 +44,7 @@ export default async function PaginaCategoria({ params, searchParams }: { params
                   aria-current={c.slug === slug ? "page" : undefined}
                   className={cn(
                     "inline-flex h-12 items-center border-b-[3px] text-[12px] font-semibold tracking-[0.12em] uppercase transition-colors",
-                    c.slug === slug ? "border-rojo text-white" : "border-transparent text-white/60 hover:text-white",
+                    c.slug === slug ? "border-negro text-negro" : "border-transparent text-gris hover:text-negro",
                   )}
                 >
                   {c.nombre}

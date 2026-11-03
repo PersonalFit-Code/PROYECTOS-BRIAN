@@ -23,11 +23,11 @@ export default function PaginaGym() {
           <div className="absolute inset-0 bg-gradient-to-t from-negro via-negro/70 to-negro/30" />
         </div>
         <div className="container-page py-20 sm:py-28">
-          <p className="hero-in etiqueta text-rojo" style={{ ["--i" as string]: 0 }}>
+          <p className="hero-in etiqueta text-white/80" style={{ ["--i" as string]: 0 }}>
             {GYM.localidad}
           </p>
           <h1 className="hero-in titular mt-4 text-[clamp(2.8rem,9vw,7rem)]" style={{ ["--i" as string]: 1 }}>
-            Hungceed <span className="text-rojo">GYM</span>
+            Hungceed GYM
           </h1>
           <p className="hero-in mt-6 max-w-xl text-lg text-white/80" style={{ ["--i" as string]: 2 }}>
             Sala de musculación, entrenamiento funcional, grupos semipersonales y entrenador personal. Elige tu tarifa y apúntate online.
@@ -58,7 +58,7 @@ export default function PaginaGym() {
       <section id="tarifas" className="scroll-mt-[var(--header-h)] bg-hueso">
         <Revelar className="container-page py-20 sm:py-24">
           <div data-reveal>
-            <p className="etiqueta text-rojo">Tarifas</p>
+            <p className="etiqueta text-gris">Tarifas</p>
             <h2 className="titular mt-3 text-4xl sm:text-5xl">Elige y apúntate</h2>
             <p className="mt-4 max-w-xl text-gris">Precios actuales de la tienda del gimnasio. El alta y el pago se hacen en Virtuagym, como ahora.</p>
           </div>
@@ -86,7 +86,7 @@ export default function PaginaGym() {
                     <li
                       key={t.nombre}
                       data-reveal
-                      className={cn("relative flex flex-col border bg-white p-4 sm:p-6", t.ahorro ? "border-rojo shadow-[0_0_0_1px_var(--color-rojo)]" : "border-linea")}
+                      className={cn("relative flex flex-col border bg-white p-4 sm:p-6", t.ahorro ? "border-negro shadow-[0_0_0_1px_var(--color-negro)]" : "border-linea")}
                     >
                       {t.ahorro ? <span className="absolute -top-3 left-4 sm:left-6 bg-rojo px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] text-white uppercase">Más ahorro</span> : null}
                       <p className="text-[14px] font-semibold text-gris">{t.nombre}</p>
@@ -98,7 +98,7 @@ export default function PaginaGym() {
                         rel="noopener noreferrer"
                         className={cn(
                           "group mt-6 inline-flex min-h-11 items-center justify-center gap-2 text-[12px] font-bold tracking-[0.14em] uppercase transition-colors",
-                          t.ahorro ? "bg-rojo text-white hover:bg-negro" : "bg-negro text-white hover:bg-rojo",
+                          t.ahorro ? "bg-negro text-white hover:bg-carbon" : "border border-negro text-negro hover:bg-negro hover:text-white",
                         )}
                       >
                         Apúntate
@@ -117,12 +117,12 @@ export default function PaginaGym() {
         </Revelar>
       </section>
 
-      <section className="bg-negro text-white">
+      <section className="bg-hueso text-negro">
         <div className="container-page grid gap-10 py-20 lg:grid-cols-2">
           <div>
             <h2 className="titular text-3xl sm:text-4xl">¿Primera vez?</h2>
-            <p className="mt-4 max-w-md text-white/75">Prueba con un pase de un día por 8 € y decide después qué tarifa te encaja.</p>
-            <ul className="mt-6 space-y-2 text-[14px] text-white/85">
+            <p className="mt-4 max-w-md text-gris">Prueba con un pase de un día por 8 € y decide después qué tarifa te encaja.</p>
+            <ul className="mt-6 space-y-2 text-[14px] text-negro">
               {["Alta online en Virtuagym", "Bono fin de semana por 28 €", "Bono 10 días por 40 €"].map((t) => (
                 <li key={t} className="flex items-center gap-2.5">
                   <Check aria-hidden className="size-4 text-rojo" /> {t}
@@ -130,8 +130,8 @@ export default function PaginaGym() {
               ))}
             </ul>
           </div>
-          <div className="border border-white/15 p-7 text-[14px] leading-relaxed text-white/75">
-            <p className="font-bold tracking-[0.1em] text-white uppercase">Pendiente de Jose</p>
+          <div className="border border-linea bg-white p-7 text-[14px] leading-relaxed text-gris">
+            <p className="font-bold tracking-[0.1em] text-negro uppercase">Pendiente de Jose</p>
             <p className="mt-2">Horario, dirección exacta con mapa y fotos de la sala. Y el enlace de Virtuagym de cada tarifa, para que «Apúntate» abra directamente la elegida.</p>
           </div>
         </div>

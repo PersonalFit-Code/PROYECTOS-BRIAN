@@ -7,7 +7,7 @@ export default function Opiniones() {
   return (
     <section aria-labelledby="opiniones-titulo" className="bg-hueso">
       <div className="container-page py-20 sm:py-24">
-        <p className="etiqueta text-rojo">Opiniones</p>
+        <p className="etiqueta text-gris">Opiniones</p>
         <h2 id="opiniones-titulo" className="titular mt-3 text-4xl sm:text-5xl">
           Lo que dicen
           <br />

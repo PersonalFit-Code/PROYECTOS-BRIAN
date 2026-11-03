@@ -20,11 +20,11 @@ const PREGUNTAS = [
 export default function PaginaEnvios() {
   return (
     <>
-      <section className="bg-negro pt-[var(--header-h)] text-white">
+      <section className="border-b border-linea bg-white pt-[var(--header-h)] text-negro">
         <div className="container-page py-14 sm:py-20">
-          <p className="etiqueta text-rojo">Ayuda</p>
+          <p className="etiqueta text-gris">Ayuda</p>
           <h1 className="titular mt-4 text-4xl sm:text-6xl">Envíos y garantía</h1>
-          <p className="mt-4 max-w-xl text-white/75">Todo lo que necesitas saber antes de comprar, en un solo sitio.</p>
+          <p className="mt-4 max-w-xl text-gris">Todo lo que necesitas saber antes de comprar, en un solo sitio.</p>
         </div>
       </section>
       <div className="container-page py-2">

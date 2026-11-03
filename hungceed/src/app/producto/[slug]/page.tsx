@@ -43,12 +43,12 @@ export default async function PaginaProducto({ params }: { params: Promise<{ slu
 
         <section className="container-page grid gap-10 py-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:py-12">
           <div className="relative aspect-square overflow-hidden bg-hueso">
-            <Foto src={producto.imagen} alt={producto.nombre} prioridad contener className="p-8" />
-            {producto.serie ? <span className="absolute top-4 left-4 bg-negro px-3 py-1.5 text-[11px] font-bold tracking-[0.14em] text-white uppercase">{SERIES[producto.serie].nombre}</span> : null}
+            <Foto src={producto.imagen} alt={producto.nombre} prioridad contener className="p-8 mix-blend-multiply" />
+            {producto.serie ? <span className="absolute bottom-4 left-4 bg-white px-2.5 py-1 text-[11px] font-medium text-negro">{SERIES[producto.serie].nombre}</span> : null}
           </div>
 
           <div className="lg:pt-4">
-            <p className="etiqueta text-rojo">{producto.serie ? SERIES[producto.serie].nombre : categoria.nombre}</p>
+            <p className="etiqueta text-gris">{producto.serie ? SERIES[producto.serie].nombre : categoria.nombre}</p>
             <h1 className="titular mt-3 text-4xl sm:text-5xl">{producto.nombre}</h1>
             <p className="mt-5 text-lg leading-relaxed text-gris">{producto.resumen}</p>
 

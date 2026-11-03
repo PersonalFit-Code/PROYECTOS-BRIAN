@@ -1,26 +1,25 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import Foto from "@/components/ui/Foto";
-import { SERIES, precioTexto, type Producto } from "@/data/catalogo";
+import { CATEGORIAS, SERIES, precioTexto, type Producto } from "@/data/catalogo";
 import { cn } from "@/lib/utils";
 
-/** Tarjeta de producto: foto sobre blanco, serie, nombre corto, una frase entera y precio. */
+/**
+ * Tarjeta de producto al estilo Gymshark: foto grande sobre gris claro (el blanco de las fotos se
+ * funde con `mix-blend-multiply`), etiqueta pequeña en blanco en la esquina, y debajo, sin caja:
+ * nombre, una línea en gris y el precio.
+ */
 export default function TarjetaProducto({ producto, className }: { producto: Producto; className?: string }) {
+  const linea = producto.serie ? SERIES[producto.serie].nombre : (CATEGORIAS.find((c) => c.slug === producto.categoria)?.nombre ?? "");
   return (
-    <Link href={`/producto/${producto.slug}`} className={cn("group flex flex-col border border-linea bg-white transition-[border-color,box-shadow] duration-300 hover:border-negro hover:shadow-card", className)}>
-      <div className="relative aspect-square overflow-hidden bg-white">
-        <Foto src={producto.imagen} alt={producto.nombre} contener className="p-3 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-105" />
-        {producto.serie ? <span className="absolute top-3 left-3 bg-negro px-2 py-1 text-[10px] font-bold tracking-[0.14em] text-white uppercase">{SERIES[producto.serie].nombre}</span> : null}
+    <Link href={`/producto/${producto.slug}`} className={cn("group flex flex-col", className)}>
+      <div className="relative aspect-[4/5] overflow-hidden bg-hueso">
+        <Foto src={producto.imagen} alt={producto.nombre} contener className="p-6 mix-blend-multiply transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04]" />
+        {producto.serie ? <span className="absolute bottom-3 left-3 bg-white px-2 py-1 text-[10px] font-medium text-negro">{SERIES[producto.serie].nombre}</span> : null}
       </div>
-      <div className="flex flex-1 flex-col gap-1.5 border-t border-linea p-4">
-        <h3 className="text-[15px] leading-snug font-semibold text-negro">{producto.nombre}</h3>
-        <p className="text-[13px] leading-relaxed text-gris">{producto.resumen}</p>
-        <div className="mt-auto flex items-center justify-between pt-3">
-          <span className={cn("text-[15px] font-bold", producto.precio ? "text-negro" : "text-gris")}>{precioTexto(producto.precio)}</span>
-          <span aria-hidden className="grid size-9 place-items-center bg-negro text-white transition-colors duration-300 group-hover:bg-rojo">
-            <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:rotate-45" />
-          </span>
-        </div>
+      <div className="flex flex-1 flex-col pt-3">
+        <h3 className="text-[13px] leading-snug font-semibold text-negro group-hover:underline group-hover:underline-offset-2">{producto.nombre}</h3>
+        <p className="mt-0.5 text-[12px] leading-snug text-gris">{producto.resumen || linea}</p>
+        <p className={cn("mt-2 text-[13px] font-semibold", producto.precio ? "text-negro" : "text-gris")}>{precioTexto(producto.precio)}</p>
       </div>
     </Link>
   );
