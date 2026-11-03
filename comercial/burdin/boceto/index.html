@@ -1025,6 +1025,14 @@
   .mcard em{font-style:normal;font-size:12.5px;color:var(--fg2)}
   #coleccion .note{margin-top:18px}
   @media (max-width:900px){.mgrid{grid-template-columns:1fr 1fr;gap:10px}.mcard span{font-size:1.2rem}}
+  /* máquinas: se iluminan al pasar el cursor */
+  .mc-pic{position:relative}
+  .mc-pic::after{content:"";position:absolute;left:15%;right:15%;bottom:8%;height:18%;background:radial-gradient(ellipse at center,rgba(255,240,215,0),transparent 70%);transition:background .6s var(--ease);pointer-events:none}
+  .mc-pic img{filter:grayscale(1) brightness(.62) contrast(1.1) drop-shadow(0 20px 20px rgba(0,0,0,.7))!important;transition:filter .6s var(--ease),transform .7s var(--ease)!important}
+  .mcard:hover .mc-pic img,.mcard:focus-within .mc-pic img{filter:grayscale(0) brightness(1.08) contrast(1.05) drop-shadow(0 0 26px rgba(255,236,205,.28)) drop-shadow(0 20px 20px rgba(0,0,0,.7))!important;transform:scale(1.04)}
+  .mcard:hover .mc-pic::after{background:radial-gradient(ellipse at center,rgba(255,240,215,.22),transparent 70%)}
+  .mcard:hover{border-color:rgba(255,255,255,.35)}
+  @media (hover:none){.mc-pic img{filter:grayscale(.2) brightness(.95)!important}}
 </style>
 </head>
 <body class="boceto">
@@ -1076,7 +1084,7 @@
   <div class="side" aria-hidden="true" data-es="Disciplina · Resultados · Comunidad" data-eu="Diziplina · Emaitzak · Komunitatea">Disciplina · Resultados · Comunidad</div>
   <div class="wrap hero-in">
     <div>
-      <span class="kicker" style="--i:0" data-es="Preapertura · Euskadi · 2027" data-eu="Irekiera aurretik · Euskadi · 2027">Preapertura · Euskadi · 2027</span>
+      <span class="kicker" style="--i:0" data-es="Euskadi" data-eu="Euskadi">Euskadi</span>
       <h1 id="h1" style="--i:1"><span class="l"><span data-es="Hierro" data-eu="Benetako">Hierro</span></span><span class="l"><span data-es="<em>de verdad</em>" data-eu="<em>burdina</em>"><em>de verdad</em></span></span></h1>
       <p class="sub" style="--i:2" data-es="Gimnasio de musculación old school en Euskadi. Más de 40 máquinas de las mejores marcas del mundo. Hazte socio fundador antes de que abramos." data-eu="Eskola zaharreko muskulazio-gimnasioa Euskadin. Munduko marka onenetako 40 makina baino gehiago. Egin bazkide sortzaile ireki aurretik.">Gimnasio de musculación old school en Euskadi. Más de 40 máquinas de las mejores marcas del mundo. Hazte socio fundador antes de que abramos.</p>
       <div class="ctas" style="--i:3">
@@ -1118,7 +1126,7 @@
     </div>
     <div class="logos" id="logos"></div>
     <div class="mgrid" id="mgrid"></div>
-    <p class="note" data-es="Fotos de ejemplo. Las del local, cuando acaben las obras." data-eu="Adibide-argazkiak. Lokalekoak, obrak amaitzean.">Fotos de ejemplo. Las del local, cuando acaben las obras.</p>
+    <p class="note" data-es="Algunas de las máquinas de Burdin, antes de montarlas en la sala." data-eu="Burdineko makina batzuk, aretoan muntatu aurretik.">Algunas de las máquinas de Burdin, antes de montarlas en la sala.</p>
   </div>
 </section>
 
@@ -1487,8 +1495,18 @@ function tierLink(k,label){
   return `href="${waUrl(t)}" target="_blank" rel="noopener" data-noshop="1"`;
 }
 
+const GRID=[
+ ['cadena-old-school','Old school','Press a cadena',{es:'Pecho · Hombro',eu:'Bularra · Sorbalda'}],
+ ['hammer-strength-remo','Hammer Strength','Remo de carga',{es:'Espalda',eu:'Bizkarra'}],
+ ['paramount-remo','Paramount','Remo sentado',{es:'Espalda',eu:'Bizkarra'}],
+ ['nautilus-nitro','Nautilus','Nitro · pierna',{es:'Pierna',eu:'Hanka'}],
+ ['flex-pa560','Flex Fitness','Biceps PA-560',{es:'Bíceps',eu:'Bizepsa'}],
+ ['gymleco-chest-press','Gymleco','Chest Press',{es:'Pecho · Tríceps',eu:'Bularra · Trizepsa'}],
+ ['gymleco-hack-squat','Gymleco','Hack Squat',{es:'Cuádriceps · Glúteo',eu:'Kuadrizepsa · Ipurmasaila'}],
+ ['gymleco-leg-press','Gymleco','Leg Press',{es:'Pierna · Glúteo',eu:'Hanka · Ipurmasaila'}]
+];
 function renderMachines(){
-  const g=document.getElementById('mgrid');if(g){g.innerHTML=MACHINES.filter(m=>!/maquinas\//.test(m.img)).map(m=>`<figure class="mcard" data-reveal><div class="mc-pic"><img src="${m.img}" alt="${m.brand} ${m.name}" loading="lazy"></div><figcaption><b>${m.brand}</b><span>${m.name}</span><em>${m[LANG].g}</em></figcaption></figure>`).join('')}
+  const g=document.getElementById('mgrid');if(g){g.innerHTML=GRID.map(([f,b,nm,gr])=>`<figure class="mcard"><div class="mc-pic"><img src="img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy"></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
   if(!document.getElementById('sheets'))return;
   const l=LANG,x=ML[l];
   $('#sheets').innerHTML=MACHINES.map((m,i)=>{const t=m[l];const yr=(t.year.match(/\d+/)||[''])[0];return `
