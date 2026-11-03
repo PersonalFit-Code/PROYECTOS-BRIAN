@@ -6,7 +6,13 @@
  *  · Fondo blanco, negro para texto y tablas, índigo #6447FA como acento.
  *  · Lenguaje gráfico de nodos y conexiones: nada de cerebros, circuitos ni robots.
  */
-@page { size: A4; margin: 0; }
+@page {
+  size: A4; margin: 21mm 18mm 17mm;
+  @top-left { vertical-align: bottom; padding-bottom: 3mm; border-bottom: 1px solid #e8e7ea; }
+  @top-right { vertical-align: bottom; padding-bottom: 3.6mm; border-bottom: 1px solid #e8e7ea; font-family: "Montserrat"; font-weight: 500; font-size: 6.6pt; letter-spacing: .28em; text-transform: uppercase; color: #6d6d75; }
+  @bottom-left { content: "neuro-node.com · hola@neuro-node.com"; vertical-align: top; padding-top: 3mm; border-top: 1px solid #e8e7ea; font-family: "Quicksand"; font-size: 7pt; color: #6d6d75; }
+  @bottom-right { content: "CONFIDENCIAL"; vertical-align: top; padding-top: 3mm; border-top: 1px solid #e8e7ea; font-family: "Montserrat"; font-weight: 500; font-size: 6.6pt; letter-spacing: .28em; color: #6d6d75; }
+}
 
 @font-face { font-family: "Montserrat"; src: url(fuentes/montserrat.woff2) format("woff2"); font-weight: 100 900; }
 @font-face { font-family: "Quicksand"; src: url(fuentes/quicksand.woff2) format("woff2"); font-weight: 300 700; }
@@ -28,27 +34,16 @@
 
 * { box-sizing: border-box; }
 html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-body { margin: 0; padding: 0 20mm; font-family: "Quicksand", sans-serif; font-size: 10.4pt; line-height: 1.6; color: var(--texto); font-weight: 500; }
+body { margin: 0; font-family: "Quicksand", sans-serif; font-size: 10.4pt; line-height: 1.6; color: var(--texto); font-weight: 500; }
 
-/* Cabecera y pie: fijos en el borde de cada página impresa. El cuerpo va dentro de una tabla
-   cuyas thead/tfoot vacías se repiten en cada página y reservan su hueco (truco estándar de Chrome). */
-.cabecera { position: fixed; top: 0; left: 0; right: 0; height: 15mm; padding: 0 12mm; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--linea); background: #fff; }
-.cabecera .marca { display: flex; align-items: center; gap: 1.8mm; }
-.cabecera .marca img.iso { height: 6mm; }
-.cabecera .marca img.word { height: 4mm; }
-.cabecera .tipo, .pie .der { font-family: "Montserrat"; font-weight: 500; font-size: 6.6pt; letter-spacing: .28em; text-transform: uppercase; color: var(--suave); }
-.pie { position: fixed; bottom: 0; left: 0; right: 0; height: 12mm; padding: 0 12mm; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--linea); font-size: 7pt; color: var(--suave); background: #fff; }
-table.pagina { width: 100%; border-collapse: collapse; margin: 0; font-size: inherit; }
-table.pagina > thead > tr > td { height: 25mm; padding: 0; }
-table.pagina > tfoot > tr > td { height: 20mm; padding: 0; }
-table.pagina > tbody > tr > td { padding: 0; border: 0; font-family: inherit; font-weight: inherit; font-size: inherit; color: inherit; }
+/* Cabecera y pie: van en los márgenes de página (@page arriba); el tipo de documento lo pone generar.py. */
 
 /* Tipografía */
 .etiqueta { font-family: "Montserrat"; font-weight: 600; font-size: 7.2pt; letter-spacing: .3em; text-transform: uppercase; color: var(--indigo); margin: 0 0 2.5mm; }
 h1 { font-family: "Montserrat"; font-weight: 800; font-size: 25pt; line-height: 1.08; letter-spacing: -.005em; text-transform: uppercase; color: var(--negro); margin: 0; }
 .subtitulo { font-size: 12pt; color: var(--texto); margin: 3mm 0 3mm; }
 .meta { font-family: "Montserrat"; font-weight: 600; font-size: 7pt; letter-spacing: .22em; text-transform: uppercase; color: var(--suave); margin: 0; }
-h2 { font-family: "Montserrat"; font-weight: 700; font-size: 13.5pt; text-transform: uppercase; color: var(--negro); margin: 9mm 0 3mm; letter-spacing: .005em; break-after: avoid; }
+h2 { font-family: "Montserrat"; font-weight: 700; font-size: 13.5pt; text-transform: uppercase; color: var(--negro); margin: 7mm 0 2.6mm; letter-spacing: .005em; break-after: avoid; }
 h2 .n { color: var(--indigo); margin-right: 2.4mm; }
 h3 { font-family: "Montserrat"; font-weight: 700; font-size: 10.2pt; color: var(--negro); margin: 5mm 0 1.5mm; break-after: avoid; }
 p { margin: 0 0 3mm; }
@@ -75,18 +70,22 @@ tr { break-inside: avoid; }
 /* Portada */
 .portada { min-height: 245mm; display: flex; flex-direction: column; break-after: page; }
 .portada .arriba { flex: 1; }
-.portada h1 { font-size: 31pt; max-width: 150mm; }
+.portada h1 { font-size: 28pt; max-width: 165mm; }
 .portada .nodos { margin: 12mm 0 0; }
 .portada .preparado { border-top: 1px solid var(--linea); padding-top: 4mm; display: flex; justify-content: space-between; font-size: 9pt; color: var(--suave); }
 .portada .preparado b { color: var(--negro); }
 
 /* Tarjetas en rejilla */
-.rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin: 3mm 0 5mm; }
-.rejilla.tres { grid-template-columns: 1fr 1fr 1fr; }
-.rejilla.cuatro { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 3mm; }
+/* Flex con salto de línea (no grid): Chrome sí mueve una fila entera de tarjetas a la página
+   siguiente cuando no cabe; con grid la corta por debajo del pie. */
+.rejilla { display: flex; flex-wrap: wrap; gap: 4mm; margin: 3mm 0 5mm; }
+.rejilla > .tarjeta { flex: 0 0 calc((100% - 4mm) / 2); }
+.rejilla.tres > .tarjeta { flex-basis: calc((100% - 8mm) / 3); }
+.rejilla.cuatro { gap: 3mm; }
+.rejilla.cuatro > .tarjeta { flex-basis: calc((100% - 9mm) / 4); }
 .rejilla.cuatro .tarjeta { padding: 4mm 3.6mm; }
 .rejilla.cuatro .tarjeta p { font-size: 8.8pt; }
-.tarjeta { break-inside: avoid; border: 1px solid var(--linea); border-radius: 3mm; padding: 4.5mm 4.5mm 4mm; }
+.tarjeta { break-inside: avoid; border: 1px solid var(--linea); border-radius: 3mm; padding: 3.8mm 4mm 3.4mm; }
 .tarjeta .num { font-family: "Montserrat"; font-weight: 800; font-size: 9pt; color: var(--indigo); letter-spacing: .08em; }
 .tarjeta h3 { margin: 1.2mm 0 1.2mm; }
 .tarjeta p { margin: 0; font-size: 9.4pt; }
@@ -112,7 +111,7 @@ tr { break-inside: avoid; }
 .casillas { display: flex; flex-wrap: wrap; gap: 2mm 6mm; margin: 1mm 0 2mm; font-size: 9.4pt; }
 .casillas span { display: inline-flex; align-items: center; gap: 2mm; }
 .casillas span::before { content: ""; width: 3.6mm; height: 3.6mm; border: 1.2px solid var(--indigo); border-radius: 1mm; }
-table.rellenar td { height: 11mm; }
+table.rellenar td { height: 9.4mm; }
 table.rellenar td.mini { width: 16mm; text-align: center; color: var(--gris); font-size: 8pt; }
 
 /* Cierre */

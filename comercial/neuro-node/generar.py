@@ -24,6 +24,7 @@ import pathlib
 import re
 import subprocess
 import sys
+import base64
 
 BASE = pathlib.Path(__file__).resolve().parent
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
@@ -36,17 +37,18 @@ PLANTILLA = """<!doctype html>
 <link rel="stylesheet" href="{recursos}/marca.css">
 </head>
 <body>
-<div class="cabecera">
-  <span class="marca"><img class="iso" src="{recursos}/iso-negro.png" alt=""><img class="word" src="{recursos}/wordmark-negro.png" alt="neuro·node"></span>
-  <span class="tipo">{tipo}</span>
-</div>
-<div class="pie"><span>neuro-node.com · hola@neuro-node.com</span><span class="der">Confidencial</span></div>
-<table class="pagina"><thead><tr><td></td></tr></thead><tfoot><tr><td></td></tr></tfoot><tbody><tr><td>
+<style>@page {{ @top-left {{ content: {logo}; }} @top-right {{ content: "{tipo_mayus}"; }} }}</style>
 {cuerpo}
-</td></tr></tbody></table>
 </body>
 </html>
 """
+
+
+def logo_cabecera() -> str:
+    """Isotipo + logotipo en data URI: los márgenes de página de Chrome solo pintan imágenes
+    incrustadas. Con image-set a 5x el PNG (657 × 113 px) queda a unos 35 × 6 mm."""
+    png = base64.b64encode((BASE / "recursos" / "cabecera-logo.png").read_bytes()).decode()
+    return f'image-set(url("data:image/png;base64,{png}") 5x)'
 
 
 def generar(fuente: pathlib.Path) -> pathlib.Path:
@@ -61,7 +63,7 @@ def generar(fuente: pathlib.Path) -> pathlib.Path:
     cuerpo = m.group(2)
     for k, v in datos.items():
         cuerpo = cuerpo.replace("{{" + k + "}}", v)
-    html = PLANTILLA.format(cuerpo=cuerpo, **datos)
+    html = PLANTILLA.format(cuerpo=cuerpo, tipo_mayus=datos["tipo"].upper(), logo=logo_cabecera(), **datos)
     salida_html = fuente.with_name(fuente.name.replace(".src.html", ".html"))
     salida_html.write_text(html, encoding="utf-8")
     salida_pdf = salida_html.with_suffix(".pdf")

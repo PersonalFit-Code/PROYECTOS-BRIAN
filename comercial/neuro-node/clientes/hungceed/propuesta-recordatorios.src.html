@@ -1,14 +1,14 @@
 ---
-titulo: Recordatorios y respuestas automáticas por WhatsApp
+titulo: Sistema de recordatorios y atención automatizada por WhatsApp
 tipo: Propuesta · Arquitectura
 cliente: Jose P. · Hungceed
 fecha: Noviembre de 2026
 ---
 <section class="portada">
   <div class="arriba">
-    <p class="etiqueta">Propuesta · Automatización de mensajes</p>
-    <h1>Ninguna sesión se pierde por un mensaje que no llegó a tiempo</h1>
-    <p class="subtitulo">Recordatorios, confirmaciones y respuestas inmediatas a los socios de Hungceed GYM desde tu número de Twilio, sin que nadie tenga que estar pendiente del móvil.</p>
+    <p class="etiqueta">Propuesta técnica · Automatización de comunicaciones</p>
+    <h1>Recordatorios y atención automatizada por WhatsApp</h1>
+    <p class="subtitulo">Arquitectura para reducir ausencias, responder consultas en tiempo real y retener socios en Hungceed GYM, integrada con Virtuagym y con el número de Twilio ya habilitado.</p>
     <p class="meta">{{fecha}} · neuro·node · Versión 1.0</p>
     <svg class="nodos" viewBox="0 0 680 210" width="100%" aria-hidden="true">
       <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#36adfb"/><stop offset=".55" stop-color="#6447fa"/><stop offset="1" stop-color="#7f1eed"/></linearGradient></defs>
@@ -21,38 +21,38 @@ fecha: Noviembre de 2026
         <text x="40" y="190" text-anchor="middle">RESERVA</text>
         <text x="250" y="24" text-anchor="middle">RECORDATORIO</text>
         <text x="470" y="194" text-anchor="middle">CONFIRMA</text>
-        <text x="664" y="86" text-anchor="end">ACUDE</text>
+        <text x="664" y="86" text-anchor="end">ASISTENCIA</text>
       </g>
     </svg>
   </div>
   <div class="preparado"><span>Preparado para <b>{{cliente}}</b></span><span>Por <b>neuro·node</b></span></div>
 </section>
 
-<h2><span class="n">01</span>El problema</h2>
-<p>En un gimnasio el dinero se escapa por tres sitios: sesiones a las que no viene nadie, gente que pregunta y no se apunta, y socios que dejan de venir hasta que se dan de baja.</p>
+<h2><span class="n">01</span>Diagnóstico</h2>
+<p>La pérdida de ingresos en un gimnasio se concentra en tres puntos: ausencias a sesiones reservadas, consultas de captación sin respuesta inmediata y socios que reducen su asistencia hasta causar baja.</p>
 <div class="rejilla tres">
-  <div class="tarjeta"><span class="num">01</span><h3>Sesiones vacías</h3><p>El socio olvida su sesión y esa hora ya no se vende.</p></div>
-  <div class="tarjeta"><span class="num">02</span><h3>Interesados que se enfrían</h3><p>Preguntan a las 21:00 y cuando contestas ya se han apuntado en otro gym.</p></div>
-  <div class="tarjeta"><span class="num">03</span><h3>Socios que se van en silencio</h3><p>Dejan de venir, nadie les escribe y llega la baja.</p></div>
+  <div class="tarjeta"><span class="num">01</span><h3>Ausencias a sesiones</h3><p>Sesiones reservadas sin asistencia. La franja del entrenador no se recupera.</p></div>
+  <div class="tarjeta"><span class="num">02</span><h3>Consultas sin respuesta</h3><p>Las consultas fuera de horario pierden conversión con cada hora de espera.</p></div>
+  <div class="tarjeta"><span class="num">03</span><h3>Bajas no detectadas</h3><p>La caída de asistencia precede a la baja y hoy no genera ninguna alerta.</p></div>
 </div>
 <div class="destacado">
-  <p class="cifra">3 sesiones × 30 € = 360 € al mes</p>
-  <p>Ejemplo: tres sesiones de entrenador personal perdidas a la semana (desde 30 €). Y cada socio de musculación que se va son 40 € menos al mes. <span class="pendiente">Rehacemos la cuenta con tus datos reales en la reunión.</span></p>
+  <p class="cifra">360 € / mes</p>
+  <p>Estimación con tarifas actuales: 3 ausencias semanales a sesiones de entrenador personal (30 €/sesión). Cada baja en musculación supone 40 € menos de ingreso recurrente mensual. <span class="pendiente">Rehacemos la cuenta con tus datos reales en la reunión.</span></p>
 </div>
 
-<h2><span class="n">02</span>Qué proponemos</h2>
-<p>Un sistema conectado a Virtuagym que habla con tus socios por WhatsApp desde tu número de Twilio, y que te avisa solo cuando hace falta una persona.</p>
+<h2><span class="n">02</span>Solución propuesta</h2>
+<p>Sistema de mensajería automatizada integrado con Virtuagym y WhatsApp Business (vía Twilio). Envía comunicaciones según eventos de la agenda y deriva al personal las conversaciones que requieren intervención humana.</p>
 <div class="rejilla tres">
-  <div class="tarjeta"><span class="num">A</span><h3>Recordatorio de sesión y clase</h3><p>El día antes, con botones para confirmar, cambiar o cancelar.</p></div>
-  <div class="tarjeta"><span class="num">B</span><h3>Plazas que se recuperan</h3><p>Si alguien cancela, se avisa a la lista de espera.</p></div>
-  <div class="tarjeta"><span class="num">C</span><h3>Respuesta inmediata</h3><p>Tarifas, horarios y enlace de alta, a cualquier hora.</p></div>
-  <div class="tarjeta"><span class="num">D</span><h3>Bienvenida al socio nuevo</h3><p>Cómo reservar, horarios y a quién preguntar.</p></div>
-  <div class="tarjeta"><span class="num">E</span><h3>Cuota a punto de vencer</h3><p>Aviso antes de que caduque, con el enlace para renovar.</p></div>
-  <div class="tarjeta"><span class="num">F</span><h3>«Te echamos de menos»</h3><p>Si lleva semanas sin venir, le escribimos y tú te enteras.</p></div>
+  <div class="tarjeta"><span class="num">A</span><h3>Recordatorios de reserva</h3><p>24 h antes, con respuesta rápida: confirmar, reprogramar o cancelar.</p></div>
+  <div class="tarjeta"><span class="num">B</span><h3>Gestión de lista de espera</h3><p>Cada cancelación libera la plaza y notifica al siguiente socio en espera.</p></div>
+  <div class="tarjeta"><span class="num">C</span><h3>Atención automatizada 24/7</h3><p>Tarifas, horarios y enlace de alta en tiempo real, fuera de horario incluido.</p></div>
+  <div class="tarjeta"><span class="num">D</span><h3>Onboarding de nuevos socios</h3><p>Secuencia de bienvenida: reservas, horarios y canal de contacto.</p></div>
+  <div class="tarjeta"><span class="num">E</span><h3>Aviso de renovación</h3><p>Notificación previa al vencimiento de cuota o bono, con enlace de pago.</p></div>
+  <div class="tarjeta"><span class="num">F</span><h3>Reactivación de inactivos</h3><p>Detección de socios sin asistencia y mensaje de reactivación, con alerta interna.</p></div>
 </div>
 
-<h2 class="saltar"><span class="n">03</span>Cómo funciona por dentro</h2>
-<p>Son cuatro piezas conectadas. Tu agenda manda: el sistema solo lee las reservas y escribe lo que el socio contesta. Nunca decide nada por ti: cobros, altas y excepciones siguen siendo tuyos.</p>
+<h2 class="saltar"><span class="n">03</span>Arquitectura del sistema</h2>
+<p>Cuatro componentes integrados. Virtuagym se mantiene como fuente única de datos: el sistema lee reservas y socios, y registra las respuestas. Cobros, altas y excepciones siguen bajo control del gimnasio.</p>
 <svg viewBox="0 0 700 330" width="100%" role="img" aria-label="Arquitectura: Virtuagym, motor neuro·node, Twilio y WhatsApp del socio">
   <defs>
     <marker id="fl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6447fa"/></marker>
@@ -91,56 +91,56 @@ fecha: Noviembre de 2026
   </g>
 </svg>
 <table class="datos">
-  <thead><tr><th style="width:24%">Pieza</th><th>Qué hace</th><th style="width:24%">De quién es</th></tr></thead>
+  <thead><tr><th style="width:24%">Componente</th><th>Función</th><th style="width:24%">Titularidad</th></tr></thead>
   <tbody>
-    <tr><td>Virtuagym</td><td>Donde ya están tus socios, sus reservas, sus tarifas y sus altas. El sistema lo lee para saber a quién avisar y anota las confirmaciones y cancelaciones.</td><td>Tuyo, como hasta ahora</td></tr>
-    <tr><td>Motor neuro·node</td><td>El centro de control: decide qué mensaje toca, a quién y cuándo; entiende la respuesta del socio y la lleva a Virtuagym; guarda el registro de todo.</td><td>Lo construimos y mantenemos nosotros</td></tr>
-    <tr><td>Twilio</td><td>El puente oficial con WhatsApp. Envía los mensajes desde tu número, recibe las respuestas y nos dice si cada mensaje se entregó y se leyó.</td><td>Tu cuenta y tu número, ya dados de alta</td></tr>
-    <tr><td>WhatsApp del socio</td><td>Donde el socio (o quien pregunta por apuntarse) recibe el mensaje y contesta con un toque. No tiene que instalar nada.</td><td>Del socio</td></tr>
-    <tr><td>Tu equipo</td><td>Recibe un aviso solo cuando hace falta una persona: una cancelación, una pregunta que el sistema no debe responder o un socio que no contesta.</td><td>Tuyo</td></tr>
+    <tr><td>Virtuagym</td><td>Sistema de gestión actual: socios, reservas, tarifas y altas. Origen de los eventos que disparan cada mensaje y destino de confirmaciones y cancelaciones.</td><td>Hungceed</td></tr>
+    <tr><td>Motor neuro·node</td><td>Capa de orquestación: reglas de envío, programación, interpretación de respuestas, sincronización con Virtuagym y registro de actividad.</td><td>neuro·node (desarrollo y mantenimiento)</td></tr>
+    <tr><td>Twilio</td><td>Proveedor oficial de WhatsApp Business API. Envío desde el número del gimnasio, recepción de respuestas y estado de cada mensaje (entregado, leído).</td><td>Hungceed (cuenta y número)</td></tr>
+    <tr><td>WhatsApp del socio</td><td>Canal del destinatario. Sin instalaciones ni registros adicionales.</td><td>Del socio</td></tr>
+    <tr><td>Tu equipo</td><td>Recibe alertas solo en los casos definidos: cancelaciones, consultas fuera de alcance y reservas sin confirmar.</td><td>Tuyo</td></tr>
   </tbody>
 </table>
 
-<h2 class="saltar"><span class="n">04</span>El recorrido de una sesión</h2>
-<p>Así vive una sesión del gym desde que se reserva hasta que el socio sale por la puerta.</p>
+<h2 class="saltar"><span class="n">04</span>Flujo de una reserva</h2>
+<p>Secuencia de eventos desde la reserva hasta la asistencia.</p>
 <div class="recorrido">
-  <div class="paso"><span class="cuando">Al reservar</span><h3>Confirmación inmediata</h3><p>El socio recibe la reserva por escrito en segundos.</p>
+  <div class="paso"><span class="cuando">T0 · Reserva</span><h3>Confirmación inmediata</h3><p>Mensaje de confirmación en segundos tras registrarse la reserva.</p>
     <div class="mensaje">Hola, Laura. Tu sesión de entrenamiento en <b>Hungceed GYM</b> es el <b>jueves 14 a las 17:30</b>. Te esperamos en La Pobla Llarga.</div></div>
-  <div class="paso"><span class="cuando">El día antes</span><h3>Recordatorio con botones</h3><p>Confirmar, cambiar o cancelar, sin llamar ni escribir.</p>
+  <div class="paso"><span class="cuando">T − 24 h</span><h3>Recordatorio con respuesta rápida</h3><p>Plantilla aprobada con botones de confirmación, reprogramación y cancelación.</p>
     <div class="mensaje">Te recordamos tu sesión de mañana a las 17:30.<div class="botones"><span>Confirmo</span><span>Cambiar</span><span>Cancelar</span></div></div></div>
-  <div class="paso"><span class="cuando">Según contesta</span><h3>La agenda se actualiza sola</h3><p>Si confirma, queda marcado. Si cancela, el hueco se libera y tu equipo recibe el aviso. Si pide cambio, le ofrecemos horas libres o pasa la conversación a una persona.</p></div>
-  <div class="paso"><span class="cuando">Si no contesta</span><h3>Aviso al equipo</h3><p>Las sesiones sin confirmar aparecen marcadas para que alguien llame antes de la hora.</p></div>
-  <div class="paso"><span class="cuando">El mismo día</span><h3>Último recordatorio</h3><p>Un mensaje breve unas horas antes, con la dirección y cómo llegar.</p></div>
-  <div class="paso"><span class="cuando">En cualquier momento</span><h3>Respuesta inmediata</h3><p>Si un socio o alguien que quiere apuntarse escribe por su cuenta, recibe respuesta al momento con la información que tú nos des: tarifas, horarios, pase de un día y enlace de alta en Virtuagym. Lo que no deba contestar el sistema te llega a ti.</p></div>
+  <div class="paso"><span class="cuando">Respuesta</span><h3>Sincronización con Virtuagym</h3><p>Confirmación registrada; cancelación con liberación de plaza y aviso a lista de espera; reprogramación con franjas disponibles o derivación al personal.</p></div>
+  <div class="paso"><span class="cuando">Sin respuesta</span><h3>Alerta interna</h3><p>Reservas sin confirmar marcadas para contacto manual previo a la sesión.</p></div>
+  <div class="paso"><span class="cuando">T − 2 h</span><h3>Recordatorio final</h3><p>Mensaje breve con hora y ubicación.</p></div>
+  <div class="paso"><span class="cuando">Entrante</span><h3>Atención de consultas</h3><p>Mensajes iniciados por socios o interesados: respuesta inmediata con la base de conocimiento validada (tarifas, horarios, pase de un día, alta en Virtuagym). Lo que queda fuera de alcance se deriva al personal.</p></div>
 </div>
 
-<h2 class="saltar"><span class="n">05</span>Las reglas del juego</h2>
-<p>WhatsApp es un canal muy potente precisamente porque Meta lo protege. Trabajar dentro de sus reglas es lo que hace que tus mensajes lleguen y que tu número no se bloquee.</p>
+<h2 class="saltar"><span class="n">05</span>Normativa de WhatsApp Business</h2>
+<p>El cumplimiento de las políticas de Meta garantiza la entregabilidad de los mensajes y la reputación del número.</p>
 <div class="rejilla cuatro">
-  <div class="tarjeta"><h3>Plantillas aprobadas</h3><p>Los mensajes que inicia Hungceed (confirmaciones y recordatorios) se redactan como plantillas que Meta revisa y aprueba una a una antes de poder usarlas.</p></div>
-  <div class="tarjeta"><h3>Ventana de 24 horas</h3><p>Cuando el socio escribe, durante 24 horas se le puede responder con libertad. Fuera de esa ventana, solo con plantillas aprobadas.</p></div>
-  <div class="tarjeta"><h3>Consentimiento</h3><p>Solo se escribe a socios que han dado su número para recibir avisos de sus reservas y su cuota. Lo dejamos registrado.</p></div>
-  <div class="tarjeta"><h3>Tus datos</h3><p>Los mensajes llevan lo justo: nombre, día y hora. Nada de lesiones ni datos de salud. Cumplimiento de RGPD, contrato de encargado de tratamiento y cuentas a tu nombre.</p></div>
+  <div class="tarjeta"><h3>Plantillas aprobadas</h3><p>Toda comunicación iniciada por el gimnasio requiere plantilla aprobada por Meta, de forma individual y previa a su uso.</p></div>
+  <div class="tarjeta"><h3>Ventana de 24 horas</h3><p>Tras un mensaje del socio se abre una ventana de 24 h de respuesta libre. Fuera de ella, solo plantillas aprobadas.</p></div>
+  <div class="tarjeta"><h3>Consentimiento</h3><p>Envíos únicamente a socios con consentimiento expreso (opt-in), registrado y auditable.</p></div>
+  <div class="tarjeta"><h3>Protección de datos</h3><p>Minimización: nombre, fecha y hora. Sin datos de salud. RGPD, contrato de encargado de tratamiento y cuentas a nombre del gimnasio.</p></div>
 </div>
 
-<h2><span class="n">06</span>Cómo lo construimos</h2>
-<p>No es una aplicación que se instala: es una infraestructura que se conecta a tu forma de trabajar. Por eso la levantamos por fases y cada una se valida contigo antes de pasar a la siguiente. El punto de partida ya lo tienes: <b>tu número de Twilio está dado de alta</b>.</p>
+<h2><span class="n">06</span>Plan de implantación</h2>
+<p>No se trata de una aplicación estándar, sino de una infraestructura adaptada a la operativa del gimnasio. La implantación se divide en fases, cada una validada antes de iniciar la siguiente. Punto de partida: <b>número de Twilio ya habilitado</b>.</p>
 <div class="rejilla tres">
-  <div class="tarjeta"><span class="num">FASE 1</span><h3>Diagnóstico de tu agenda</h3><p>Cómo se reserva hoy en Virtuagym, qué tipos de sesión y clase tienes, qué excepciones hay y quién debe recibir cada aviso.</p></div>
-  <div class="tarjeta"><span class="num">FASE 2</span><h3>Diseño de los mensajes</h3><p>Redactamos cada mensaje con el tono de Hungceed y lo enviamos a Meta para su aprobación. Si Meta pide cambios, los ajustamos y volvemos a enviarlos.</p></div>
-  <div class="tarjeta"><span class="num">FASE 3</span><h3>Construcción del motor</h3><p>Conexión con Virtuagym y Twilio, reglas de envío, lectura de respuestas, registro y avisos al equipo.</p></div>
-  <div class="tarjeta"><span class="num">FASE 4</span><h3>Piloto controlado</h3><p>Funciona primero con reservas tuyas y de tu equipo, y después con un grupo pequeño de socios. Medimos entregas, respuestas y errores.</p></div>
-  <div class="tarjeta"><span class="num">FASE 5</span><h3>Puesta en marcha</h3><p>Se activa para todas las reservas. Tu equipo aprende a leer los avisos y el registro.</p></div>
-  <div class="tarjeta"><span class="num">FASE 6</span><h3>Seguimiento y mejora</h3><p>Revisamos con datos qué mensajes funcionan mejor, a qué hora conviene enviarlos y qué preguntas se repiten.</p></div>
+  <div class="tarjeta"><span class="num">FASE 1</span><h3>Análisis y requisitos</h3><p>Flujos de reserva en Virtuagym, tipologías de sesión y clase, datos disponibles (asistencia, cuotas), excepciones y destinatarios de alertas.</p></div>
+  <div class="tarjeta"><span class="num">FASE 2</span><h3>Diseño de plantillas</h3><p>Redacción con la voz de Hungceed y tramitación de la aprobación ante Meta, con las iteraciones que requiera.</p></div>
+  <div class="tarjeta"><span class="num">FASE 3</span><h3>Desarrollo e integración</h3><p>Integración con Virtuagym y Twilio, reglas de envío, interpretación de respuestas, registro y alertas.</p></div>
+  <div class="tarjeta"><span class="num">FASE 4</span><h3>Piloto controlado</h3><p>Pruebas con reservas internas y después con un grupo reducido de socios. Métricas de entrega, respuesta e incidencias.</p></div>
+  <div class="tarjeta"><span class="num">FASE 5</span><h3>Despliegue</h3><p>Activación para todas las reservas y formación del personal en alertas y registro.</p></div>
+  <div class="tarjeta"><span class="num">FASE 6</span><h3>Optimización continua</h3><p>Análisis de tasas de confirmación, horarios de envío y consultas recurrentes.</p></div>
 </div>
 
-<h2><span class="n">07</span>Qué cuesta funcionar</h2>
-<p>Además de la construcción, el sistema tiene un coste pequeño por uso que pagas directamente en tu cuenta de Twilio, sin intermediarios.</p>
+<h2><span class="n">07</span>Costes de operación</h2>
+<p>Además de la implantación, el sistema tiene un coste variable por uso, reducido y predecible, facturado directamente en la cuenta de Twilio del gimnasio, sin intermediarios.</p>
 <table class="datos">
-  <thead><tr><th style="width:38%">Concepto</th><th>Cómo se paga</th></tr></thead>
+  <thead><tr><th style="width:38%">Concepto</th><th>Modelo de coste</th></tr></thead>
   <tbody>
-    <tr><td>Mensaje de plantilla (recordatorio, confirmación)</td><td>Tarifa de Meta por mensaje de utilidad más la tarifa de Twilio por mensaje: unos pocos céntimos por recordatorio. <span class="pendiente">Cifra exacta según tu país y volumen.</span></td></tr>
-    <tr><td>Respuestas dentro de las 24 h</td><td>Las respuestas a alguien que te ha escrito tienen un coste menor, y una parte es gratuita cada mes.</td></tr>
+    <tr><td>Mensaje de plantilla (recordatorio, confirmación)</td><td>Tarifa de Meta por mensaje de utilidad más la de Twilio: unos 2 céntimos por recordatorio en España. <span class="pendiente">Lo calculamos con tu volumen real.</span></td></tr>
+    <tr><td>Respuestas dentro de las 24 h</td><td>Meta no cobra las primeras 1.000 respuestas al mes; a partir de ahí, céntimos. Twilio aplica su tarifa por mensaje.</td></tr>
     <tr><td>Motor neuro·node</td><td>Servidor, base de datos, mantenimiento y soporte. <span class="pendiente">[cuota mensual]</span></td></tr>
   </tbody>
 </table>
@@ -149,9 +149,9 @@ fecha: Noviembre de 2026
   <p>Diseño, construcción, piloto y puesta en marcha de la infraestructura completa. <span class="pendiente">[condiciones de pago]</span></p>
 </div>
 
-<h2><span class="n">08</span>Para decidir</h2>
-<p>Este documento describe la arquitectura completa para que veas en qué consiste antes de dar ningún paso. Si encaja con lo que buscas, el siguiente paso es una reunión de diagnóstico de tu agenda.</p>
-<h3>Lo que necesitaremos de ti</h3>
+<h2><span class="n">08</span>Próximos pasos</h2>
+<p>Este documento recoge la arquitectura completa para una decisión informada. Si el enfoque encaja, el siguiente paso es una sesión de análisis: revisión de la configuración de Virtuagym y priorización de los primeros flujos.</p>
+<h3>Requisitos de acceso e información</h3>
 <ul>
   <li>Acceso a tu cuenta de Twilio (como colaboradores, sin compartir contraseñas).</li>
   <li>Un acceso a Virtuagym (API o usuario de administración) para conectarlo.</li>
