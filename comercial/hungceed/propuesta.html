@@ -2,441 +2,548 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>Hungceed — Propuesta</title>
+<title>Propuesta para Hungceed</title>
 <style>
-  @page { size: 210mm 297mm; margin: 0; }
+@page { size: A4; margin: 13mm 14mm; }
+@font-face { font-family: "Poppins"; font-weight: 400; src: url(fuentes/poppins-400.woff2) format("woff2"); }
+@font-face { font-family: "Poppins"; font-weight: 400; src: url(fuentes/poppins-400-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
+@font-face { font-family: "Poppins"; font-weight: 500; src: url(fuentes/poppins-500.woff2) format("woff2"); }
+@font-face { font-family: "Poppins"; font-weight: 600; src: url(fuentes/poppins-600.woff2) format("woff2"); }
+@font-face { font-family: "Poppins"; font-weight: 600; src: url(fuentes/poppins-600-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
+@font-face { font-family: "Poppins"; font-weight: 700; src: url(fuentes/poppins-700.woff2) format("woff2"); }
+@font-face { font-family: "Poppins"; font-weight: 700; src: url(fuentes/poppins-700-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
+@font-face { font-family: "Poppins"; font-weight: 800; src: url(fuentes/poppins-800.woff2) format("woff2"); }
+@font-face { font-family: "Poppins"; font-weight: 800; src: url(fuentes/poppins-800-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
 
-  @font-face { font-family: "Poppins"; font-weight: 400; src: url(fuentes/poppins-400.woff2) format("woff2"); }
-  @font-face { font-family: "Poppins"; font-weight: 400; src: url(fuentes/poppins-400-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
-  @font-face { font-family: "Poppins"; font-weight: 500; src: url(fuentes/poppins-500.woff2) format("woff2"); }
-  @font-face { font-family: "Poppins"; font-weight: 600; src: url(fuentes/poppins-600.woff2) format("woff2"); }
-  @font-face { font-family: "Poppins"; font-weight: 600; src: url(fuentes/poppins-600-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
-  @font-face { font-family: "Poppins"; font-weight: 700; src: url(fuentes/poppins-700.woff2) format("woff2"); }
-  @font-face { font-family: "Poppins"; font-weight: 700; src: url(fuentes/poppins-700-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
-  @font-face { font-family: "Poppins"; font-weight: 800; src: url(fuentes/poppins-800.woff2) format("woff2"); }
-  @font-face { font-family: "Poppins"; font-weight: 800; src: url(fuentes/poppins-800-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
+:root {
+  --negro: #0a0a0b; --hueso: #f4f4f5; --linea: #e4e4e7; --fino: #f0f0f2; --humo: #5c5d63;
+  --rojo: #dc1f26; --rojo-f: #fdecec;
+  --bien: #2E7D4F; --bien-f: #EAF4EE; --mal: #6b6b72; --mal-f: #ececee;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: "Poppins", Arial, sans-serif; font-size: 9.6pt; line-height: 1.45; color: var(--negro);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; font-variant-numeric: tabular-nums;
+}
+.hoja { page-break-after: always; zoom: 1.033; }
+.hoja:last-child { page-break-after: auto; }
+section, .sit, .tarj, .plan, .cuatro > div, .chat, svg { page-break-inside: avoid; }
+svg { display: block; }
+svg.f { width: 100%; height: auto; }
+b, strong { font-weight: 700; }
+p { margin: 0 0 3mm; text-wrap: pretty; }
 
-  :root {
-    --negro: #0a0a0b; --carbon: #17171a; --rojo: #dc1f26; --rojo-osc: #a8141a;
-    --hueso: #f4f4f5; --linea: #e4e4e7; --gris: #5c5d63; --gris-cl: #a1a1aa; --blanco: #fff;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: "Poppins", Arial, sans-serif; color: var(--negro); background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+/* Cabecera, epígrafe, frase grande, pie */
+header.interior { display: flex; align-items: center; gap: 3.2mm; border-bottom: 2.5px solid var(--negro); padding-bottom: 2.4mm; margin-bottom: 5mm; }
+header.interior .n { font-size: 22pt; font-weight: 800; color: var(--rojo); letter-spacing: -1pt; line-height: 1; }
+header.interior h1 { flex: 1; font-size: 15pt; line-height: 1.1; margin: 0; letter-spacing: -.3pt; font-weight: 800; text-transform: uppercase; text-wrap: balance; }
+header.interior .lado { display: flex; align-items: center; color: var(--rojo); }
+.epigrafe { font-size: 7.6pt; letter-spacing: 2pt; text-transform: uppercase; color: var(--rojo); margin: 0 0 2mm; font-weight: 700; }
+.epigrafe::before { content: ""; display: inline-block; width: 6mm; height: .6mm; background: var(--rojo); vertical-align: middle; margin-right: 2.2mm; }
+.grande { font-size: 12.2pt; line-height: 1.35; margin: 0 0 3.5mm; text-wrap: balance; }
+.grande em { font-style: normal; font-weight: 700; background: linear-gradient(transparent 62%, #fbd3d4 62%); }
+.apunte { font-size: 8.2pt; color: var(--humo); margin: 2mm 0 0; }
+.pie-hoja { margin-top: 3mm; padding-top: 1.5mm; border-top: 1px solid var(--linea); font-size: 7.6pt; color: var(--humo); display: flex; justify-content: space-between; align-items: center; }
+.pie-hoja .izq { display: flex; align-items: center; gap: 1.8mm; }
+.pie-hoja .izq svg { color: var(--rojo); }
+.pie-hoja .der { display: flex; align-items: center; gap: 2.4mm; }
+.pie-hoja .der b { color: var(--negro); }
+.dos { display: flex; gap: 4.5mm; align-items: flex-start; }
+.dos > * { flex: 1; min-width: 0; }
 
-  .hoja { position: relative; width: 210mm; height: 297mm; overflow: hidden; background: #fff; page-break-after: always; }
-  .hoja:last-child { page-break-after: auto; }
-  .hoja.negra { background: var(--negro); color: #fff; }
-  .cuerpo { position: relative; padding: 18mm 16mm 0; height: 100%; }
+/* Portada */
+.portada { position: relative; overflow: hidden; margin: 0 0 6mm; padding: 0 0 7mm; border-bottom: 2.5px solid var(--negro); }
+.portada .p-top { display: flex; justify-content: space-between; align-items: center; font-size: 7.4pt; letter-spacing: 2.2pt; text-transform: uppercase; color: var(--humo); font-weight: 700; margin-bottom: 10mm; }
+.portada .p-marca { display: flex; align-items: center; gap: 2mm; color: var(--negro); }
+.portada .p-marca svg { color: var(--rojo); }
+.portada h1 { position: relative; z-index: 1; font-size: 34pt; line-height: .98; letter-spacing: -1.2pt; margin: 0; font-weight: 800; text-transform: uppercase; max-width: 112mm; text-wrap: balance; }
+.portada h1 em { font-style: normal; color: var(--rojo); }
+.portada .bajada { position: relative; z-index: 1; font-size: 12pt; line-height: 1.38; color: #3a3a40; max-width: 104mm; margin: 5.5mm 0 0; }
+.portada .p-pie { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; font-size: 8.4pt; color: var(--humo); margin-top: 7mm; }
+.portada .p-pie b { color: var(--negro); }
+.portada .p-barra { width: 34mm; height: 2.2mm; background: var(--rojo); margin-bottom: 3mm; }
+.portada .p-deco { position: absolute; right: -4mm; top: 10mm; width: 74mm; height: 69mm; z-index: 0; }
 
-  .ojo { font-size: 7.4pt; letter-spacing: 2.6pt; text-transform: uppercase; color: var(--rojo); font-weight: 700; margin: 0 0 4mm; }
-  h2 { font-size: 26pt; line-height: 1; margin: 0 0 4mm; font-weight: 800; letter-spacing: -.5pt; text-transform: uppercase; }
-  h2 em { font-style: normal; color: var(--rojo); }
-  h3 { font-size: 11pt; font-weight: 700; margin: 0 0 1.5mm; text-transform: uppercase; letter-spacing: .2pt; }
-  .entradilla { font-size: 10.4pt; line-height: 1.5; color: var(--gris); max-width: 140mm; margin: 0 0 8mm; }
-  .negra .entradilla { color: var(--gris-cl); }
-  p { margin: 0 0 2.4mm; }
+/* La carta de servicios (portada) */
+.carta { display: flex; gap: 3mm; margin: 2mm 0 0; }
+.carta > div { flex: 1; min-width: 0; border: 1px solid var(--linea); border-top: 2.4mm solid var(--rojo); background: var(--hueso); padding: 3mm 2.8mm; border-radius: 2mm; box-shadow: 0 .3mm 1.1mm rgba(10,10,11,.08); }
+.carta .l { font-size: 7pt; letter-spacing: 2pt; font-weight: 800; color: var(--rojo); }
+.carta .c { display: flex; width: 9mm; height: 9mm; border-radius: 50%; background: var(--negro); color: var(--rojo); align-items: center; justify-content: center; margin: 1.5mm 0 2mm; }
+.carta b { display: block; font-size: 9.6pt; line-height: 1.2; }
+.carta p { font-size: 8.2pt; color: #4d4d52; margin: 1mm 0 0; line-height: 1.3; }
 
-  .cabecera { position: absolute; top: 9mm; left: 16mm; right: 16mm; display: flex; justify-content: space-between; align-items: center; font-size: 6.8pt; letter-spacing: 1.8pt; text-transform: uppercase; color: var(--gris-cl); font-weight: 600; }
-  .cabecera b { color: var(--negro); }
-  .negra .cabecera b { color: #fff; }
-  .pie { position: absolute; bottom: 9mm; left: 16mm; right: 16mm; display: flex; justify-content: space-between; align-items: center; font-size: 7pt; color: var(--gris-cl); letter-spacing: .4pt; }
-  .pie .num { width: 7.5mm; height: 7.5mm; background: var(--rojo); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 8pt; font-weight: 700; }
+/* Situaciones sin / con */
+.rejilla { display: flex; flex-wrap: wrap; gap: 3.2mm; margin: 3mm 0; }
+.sit { flex: 0 0 calc(50% - 1.6mm); border: 1px solid var(--linea); background: #fff; overflow: hidden; border-radius: 2mm; box-shadow: 0 .3mm 1.1mm rgba(10,10,11,.08); }
+.sit .cab { display: flex; align-items: center; gap: 2.4mm; padding: 2.4mm 3mm; background: var(--hueso); border-bottom: 1px solid var(--linea); }
+.sit .ico { flex: 0 0 8.5mm; height: 8.5mm; border-radius: 50%; background: var(--negro); color: var(--rojo); display: flex; align-items: center; justify-content: center; }
+.sit .cab b { font-size: 9.8pt; display: block; line-height: 1.15; }
+.sit .cab .cuando { font-size: 7.8pt; color: var(--humo); }
+.sit .fila { padding: 2.3mm 3mm 2.3mm 3.4mm; font-size: 8.8pt; border-left: 3px solid; }
+.sit .mal { background: var(--mal-f); border-color: var(--mal); }
+.sit .bien { background: var(--bien-f); border-color: var(--bien); position: relative; }
+.sit .fila small { display: flex; align-items: center; gap: 1.2mm; font-size: 6.8pt; letter-spacing: 1.3pt; text-transform: uppercase; font-weight: 700; margin-bottom: .6mm; }
+.sit .mal small { color: var(--mal); }
+.sit .bien small { color: var(--bien); }
 
-  .tarjeta { background: var(--hueso); border: .6pt solid var(--linea); padding: 6mm; }
-  .tarjeta p { font-size: 9.4pt; line-height: 1.5; color: var(--gris); margin: 0; }
-  .tarjeta .n { font-size: 9pt; font-weight: 700; color: var(--rojo); margin: 0 0 2mm; }
-  .negra .tarjeta { background: var(--carbon); border-color: rgba(255,255,255,.12); color: #fff; }
-  .negra .tarjeta p { color: var(--gris-cl); }
+/* Tarjetas de cifras / ángulos */
+.tarjs { display: flex; flex-wrap: wrap; gap: 3.2mm; margin: 3mm 0; }
+.tarj { flex: 0 0 calc(33.333% - 2.2mm); border: 1px solid var(--linea); border-top: 2.4mm solid var(--rojo); background: var(--hueso); padding: 3.4mm 3.2mm; border-radius: 2mm; box-shadow: 0 .3mm 1.1mm rgba(10,10,11,.08); }
+.tarj .cifra { font-size: 24pt; font-weight: 800; line-height: 1; letter-spacing: -1pt; }
+.tarj .cifra small { font-size: 8.6pt; font-weight: 700; color: var(--rojo); letter-spacing: 0; }
+.tarj b { display: block; font-size: 9.6pt; margin: 1.6mm 0 .8mm; }
+.tarj p { font-size: 8.4pt; color: #4d4d52; margin: 0; }
+.tarj .ico-t { float: right; width: 9mm; height: 9mm; border-radius: 50%; background: var(--negro); color: var(--rojo); display: flex; align-items: center; justify-content: center; }
 
-  .rejilla2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
-  .rejilla3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }
-  .rejilla4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+/* Cajas de cuatro */
+.cuatro { display: flex; gap: 3mm; margin: 2mm 0; }
+.cuatro > div { flex: 1; min-width: 0; border: 1px solid var(--linea); background: var(--hueso); padding: 3mm 2.4mm; text-align: center; border-radius: 2mm; box-shadow: 0 .3mm 1.1mm rgba(10,10,11,.08); }
+.cuatro .c { display: inline-flex; width: 10mm; height: 10mm; border-radius: 50%; background: var(--negro); color: var(--rojo); align-items: center; justify-content: center; margin-bottom: 1.5mm; }
+.cuatro b { display: block; font-size: 9.2pt; line-height: 1.2; text-wrap: balance; }
+.cuatro p { font-size: 8.2pt; color: #4d4d52; margin: .6mm 0 0; line-height: 1.3; }
+.cuatro.seis > div { padding: 2.6mm 1.6mm; }
+.cuatro.seis b { font-size: 8.4pt; }
+.cuatro.seis p { font-size: 7.6pt; }
 
-  .lista { list-style: none; padding: 0; margin: 0; }
-  .lista li { font-size: 9.6pt; line-height: 1.5; padding: 0 0 0 7mm; margin: 0 0 3mm; position: relative; }
-  .lista li::before { content: ""; position: absolute; left: 0; top: 1.8mm; width: 3.2mm; height: 3.2mm; background: var(--rojo); }
-  .lista li b { font-weight: 700; }
+/* Regalos (lo que vi) */
+.regalos { display: flex; flex-wrap: wrap; gap: 3mm 4mm; margin: 3mm 0; }
+.regalo { flex: 0 0 calc(50% - 2mm); display: flex; gap: 2.6mm; align-items: flex-start; }
+.regalo .num { flex: 0 0 7.5mm; height: 7.5mm; border-radius: 50%; background: var(--negro); color: var(--rojo); font-weight: 800; font-size: 9.5pt; display: flex; align-items: center; justify-content: center; }
+.regalo b { display: block; font-size: 9.4pt; margin-bottom: .5mm; }
+.regalo p { font-size: 8.4pt; color: #4d4d52; margin: 0; }
 
-  .pasos { list-style: none; padding: 0; margin: 0; counter-reset: paso; }
-  .pasos li { position: relative; padding: 0 0 0 13mm; margin: 0 0 4.5mm; font-size: 9.6pt; line-height: 1.45; counter-increment: paso; }
-  .pasos li::before { content: counter(paso, decimal-leading-zero); position: absolute; left: 0; top: 0; font-size: 9pt; font-weight: 800; color: var(--rojo); }
-  .pasos li b { display: block; font-weight: 700; text-transform: uppercase; font-size: 9.6pt; letter-spacing: .2pt; }
-  .pasos li span { color: var(--gris); }
-  .negra .pasos li span { color: var(--gris-cl); }
+/* Banner y frase de cierre */
+.banner { display: flex; gap: 3.5mm; align-items: center; background: var(--rojo-f); border: 1.3px solid var(--rojo); padding: 3.5mm 4mm; margin: 4mm 0 2mm; border-radius: 2mm; }
+.banner .c { flex: 0 0 11mm; height: 11mm; border-radius: 50%; background: var(--negro); color: var(--rojo); display: flex; align-items: center; justify-content: center; }
+.banner b { display: block; font-size: 10.2pt; margin-bottom: .6mm; text-wrap: balance; }
+.banner p { font-size: 8.8pt; color: #4d4d52; margin: 0; }
+.cierre-frase { margin-top: 4mm; padding: 6mm; background: var(--negro); color: #fff; font-size: 15pt; font-weight: 800; letter-spacing: -.3pt; line-height: 1.2; border-radius: 2mm; text-wrap: balance; }
+.cierre-frase em { font-style: normal; color: var(--rojo); }
 
-  .franja { background: var(--negro); color: #fff; padding: 6mm 7mm; font-size: 10pt; line-height: 1.5; }
-  .franja b { color: var(--rojo); }
-  .franja.roja { background: var(--rojo); }
-  .franja.roja b { color: #fff; }
+/* Chat */
+.chat { display: flex; flex-direction: column; gap: 2mm; }
+.burbuja { max-width: 90%; padding: 2mm 3mm; font-size: 8.6pt; border-radius: 3mm; }
+.burbuja small { display: block; font-size: 6.6pt; letter-spacing: 1.2pt; text-transform: uppercase; font-weight: 700; margin-bottom: .5mm; }
+.burbuja.cli { align-self: flex-start; background: var(--fino); border-bottom-left-radius: .8mm; }
+.burbuja.cli small { color: var(--humo); }
+.burbuja.bot { align-self: flex-end; background: var(--negro); color: #fff; border-bottom-right-radius: .8mm; }
+.burbuja.bot small { color: var(--rojo); }
 
-  .cifra { font-size: 30pt; font-weight: 800; letter-spacing: -1pt; line-height: 1; color: var(--rojo); }
-  .cifra small { font-size: 11pt; letter-spacing: 0; color: var(--negro); font-weight: 700; }
-  .negra .cifra small { color: #fff; }
+/* Tarifas del gimnasio */
+.tarifas { display: flex; gap: 3mm; margin: 2mm 0; }
+.tarifa { flex: 1; min-width: 0; background: var(--negro); color: #fff; padding: 3.4mm 3mm; border-radius: 2mm; position: relative; }
+.tarifa.mas { outline: 2px solid var(--rojo); }
+.tarifa .g { font-size: 6.8pt; letter-spacing: 1.6pt; text-transform: uppercase; color: #a1a1aa; font-weight: 700; }
+.tarifa .p { font-size: 18pt; font-weight: 800; letter-spacing: -.6pt; margin: 1.2mm 0 0; line-height: 1; }
+.tarifa .u { font-size: 7.6pt; color: #a1a1aa; margin: .8mm 0 2.6mm; line-height: 1.3; }
+.tarifa .b { display: block; background: var(--rojo); color: #fff; text-align: center; font-size: 7pt; letter-spacing: 1.6pt; text-transform: uppercase; font-weight: 700; padding: 2mm 0; border-radius: 1mm; }
 
-  .etq { display: inline-block; font-size: 6.6pt; letter-spacing: 1.4pt; text-transform: uppercase; font-weight: 700; padding: 1.2mm 2.4mm; background: var(--negro); color: #fff; }
-  .etq.roja { background: var(--rojo); }
-  .etq.gris { background: var(--linea); color: var(--gris); }
+/* Planes (la carta de precios) */
+.planes { display: flex; gap: 3.4mm; align-items: stretch; margin: 4mm 0 2mm; }
+.plan { flex: 1; min-width: 0; position: relative; border: 1px solid var(--linea); border-radius: 2.4mm; background: var(--hueso); padding: 4.4mm 3.4mm 3.6mm; color: #4d4d52; }
+.plan .nom { font-size: 10.4pt; margin: 0; }
+.plan .nom b { font-weight: 800; color: var(--negro); }
+.plan .nom .l { color: var(--rojo); font-weight: 800; }
+.plan .lema { font-size: 8.4pt; margin: .6mm 0 3mm; min-height: 7.4mm; line-height: 1.25; }
+.plan .precio { display: flex; align-items: flex-start; gap: 1.5mm; color: var(--negro); }
+.plan .precio .cifra { font-size: 27pt; font-weight: 800; letter-spacing: -1.2pt; line-height: .9; }
+.plan .precio .ud { font-size: 7.4pt; font-weight: 700; line-height: 1.15; padding-top: .8mm; }
+.plan .antes { font-size: 8pt; color: var(--humo); text-decoration: line-through; margin: .8mm 0 0; }
+.plan .mes { display: flex; gap: 2mm; align-items: center; padding: 2.2mm 2.4mm; border-radius: 1.6mm; background: #fff; border: 1px solid var(--linea); margin: 2.6mm 0 3mm; }
+.plan .mes b { display: block; font-size: 9.6pt; color: var(--negro); line-height: 1.1; }
+.plan .mes span { font-size: 7.6pt; color: var(--humo); }
+.plan ul { list-style: none; margin: 0; padding: 0; }
+.plan li { display: flex; gap: 1.8mm; align-items: flex-start; font-size: 8.4pt; line-height: 1.3; padding: 1.6mm 0; border-top: 1px solid var(--linea); color: var(--negro); }
+.plan li svg { flex: 0 0 auto; margin-top: .5mm; color: var(--rojo); }
+.plan.destacado { flex: 1.14; background: var(--negro); border-color: var(--negro); color: #c9c9cf; transform: scale(1.03); box-shadow: 0 1.2mm 4mm rgba(10,10,11,.3); padding-top: 6.4mm; }
+.plan.destacado .nom b, .plan.destacado .precio { color: #fff; }
+.plan.destacado .mes { background: #17171a; border-color: #2a2a2e; }
+.plan.destacado .mes b { color: #fff; }
+.plan.destacado .mes span, .plan.destacado .antes { color: #a1a1aa; }
+.plan.destacado li { border-color: #2a2a2e; color: #f4f4f5; }
+.plan .sello { position: absolute; top: -3mm; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--rojo); color: #fff; font-size: 7.2pt; letter-spacing: 1.6pt; text-transform: uppercase; font-weight: 800; padding: 1.3mm 3mm; border-radius: 1mm; }
+.todos { display: flex; gap: 3mm; margin: 4mm 0 1mm; }
+.todos > div { flex: 1; display: flex; gap: 2mm; align-items: flex-start; font-size: 8.6pt; line-height: 1.3; color: #4d4d52; }
+.todos svg { flex: 0 0 auto; color: var(--rojo); margin-top: .3mm; }
+.todos b { color: var(--negro); }
 
-  table { border-collapse: collapse; width: 100%; font-size: 9.4pt; }
-  th, td { text-align: left; padding: 3mm 3mm; border-bottom: .6pt solid var(--linea); vertical-align: top; }
-  th { font-size: 7.2pt; letter-spacing: 1.6pt; text-transform: uppercase; color: var(--gris); font-weight: 700; }
-  td.precio { font-weight: 800; font-size: 12pt; white-space: nowrap; }
-  .tachado { color: var(--gris-cl); text-decoration: line-through; font-weight: 500; font-size: 9pt; margin-right: 1.5mm; }
+/* Cómo empezamos */
+.necesito { list-style: none; margin: 2mm 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2.6mm 5mm; }
+.necesito li { flex: 0 0 calc(50% - 2.5mm); display: flex; gap: 2mm; align-items: flex-start; font-size: 9.2pt; padding: 2.4mm 3mm; background: var(--hueso); border: 1px solid var(--linea); border-radius: 2mm; }
+.necesito li svg { flex: 0 0 auto; margin-top: .6mm; color: var(--rojo); }
+.clientes { display: flex; gap: 4mm; margin-top: 2mm; }
+.cliente { flex: 1; text-align: center; }
+.cliente .lg { height: 20mm; border: 1px solid var(--linea); border-radius: 2mm; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fff; }
+.cliente .lg img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.cliente b { display: block; font-size: 9.4pt; margin-top: 1.8mm; }
+.cliente span { font-size: 8pt; color: var(--humo); }
+.contacto { display: flex; justify-content: space-between; align-items: center; gap: 6mm; background: var(--negro); color: #fff; border-radius: 2.4mm; padding: 7mm 7mm; margin-top: 6mm; }
+.contacto .frase { margin: 0; font-size: 12.5pt; line-height: 1.35; font-weight: 700; text-wrap: balance; }
+.contacto .quien { text-align: right; flex: 0 0 auto; }
+.contacto .et { display: block; font-size: 7.6pt; letter-spacing: 2.2pt; text-transform: uppercase; color: var(--rojo); margin-bottom: 1.4mm; }
+.contacto .quien b { display: block; font-size: 15pt; color: #fff; letter-spacing: -.3pt; }
+.contacto .rol { display: block; font-size: 8.4pt; color: #a1a1aa; }
+.contacto .tel { display: block; font-size: 15pt; font-weight: 800; color: var(--rojo); margin-top: .6mm; }
 
-  .chat { background: #e5ddd5; padding: 4mm; width: 70mm; font-size: 8.4pt; line-height: 1.4; }
-  .chat .cab { background: var(--negro); color: #fff; margin: -4mm -4mm 3mm; padding: 2.5mm 3.5mm; font-size: 8pt; font-weight: 700; display: flex; align-items: center; gap: 2mm; }
-  .chat .cab i { width: 2.2mm; height: 2.2mm; border-radius: 50%; background: #25d366; display: inline-block; }
-  .bur { max-width: 58mm; padding: 2mm 2.8mm; margin: 0 0 2mm; border-radius: 2mm; background: #fff; position: relative; }
-  .bur.yo { background: #dcf8c6; margin-left: auto; }
-  .bur .h { display: block; text-align: right; font-size: 6.4pt; color: #999; margin-top: .6mm; }
+/* ===== Relleno por hoja: que cada una aproveche el alto ===== */
+.p1 .portada h1 { font-size: 38pt; }
+.p1 .portada .bajada { font-size: 13pt; margin-top: 7mm; }
+.p1 .portada .p-deco { width: 84mm; height: 78mm; top: 8mm; }
+.p1 .portada { padding-bottom: 9mm; margin-bottom: 8mm; }
+.p1 .grande { font-size: 13pt; margin-bottom: 5mm; }
+.p1 .carta { gap: 3.6mm; margin-top: 3mm; }
+.p1 .carta > div { padding: 4.4mm 3.6mm; }
+.p1 .carta .c { width: 11mm; height: 11mm; margin: 2.4mm 0 3mm; }
+.p1 .carta b { font-size: 10.8pt; }
+.p1 .carta p { font-size: 9.2pt; margin-top: 1.6mm; line-height: 1.4; }
+.p1 .apunte { margin-top: 5mm; font-size: 9pt; }
 
-  .antes-despues { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: .6pt solid var(--linea); }
-  .antes-despues > div { padding: 5mm; }
-  .antes-despues > div + div { border-left: .6pt solid var(--linea); background: var(--hueso); }
-  .antes-despues .t { font-size: 7pt; letter-spacing: 1.6pt; text-transform: uppercase; font-weight: 700; color: var(--gris); margin: 0 0 2mm; }
-  .antes-despues .t.ok { color: var(--rojo); }
-  .antes-despues p { font-size: 9.4pt; line-height: 1.45; margin: 0; }
+.p3 .grande { font-size: 12.4pt; margin-bottom: 4mm; }
+.p3 .apunte { font-size: 8.6pt; margin-top: 2.5mm; }
+.p3 .regalos { gap: 3.6mm 6mm; margin: 4mm 0; }
+.p3 .regalo .num { flex-basis: 8.5mm; height: 8.5mm; font-size: 10.5pt; }
+.p3 .regalo b { font-size: 10pt; margin-bottom: .8mm; }
+.p3 .regalo p { font-size: 9pt; }
+.p3 .banner { padding: 4.4mm 5mm; margin-top: 4.5mm; }
+.p3 .banner b { font-size: 11pt; } .p3 .banner p { font-size: 9.4pt; }
 
-  .pasos-cortos .pasos li { margin-bottom: 3.2mm; }
-  .compacta .tarjeta { padding: 4mm 4.5mm; }
-  .compacta .tarjeta p { font-size: 8.6pt; line-height: 1.45; }
-  .compacta h3 { font-size: 9.6pt; }
-  .tarifa { border: .6pt solid rgba(255,255,255,.15); background: var(--carbon); padding: 4.5mm; }
-  .tarifa .g { font-size: 7pt; letter-spacing: 1.6pt; text-transform: uppercase; color: var(--gris-cl); font-weight: 700; }
-  .tarifa .p { font-size: 20pt; font-weight: 800; letter-spacing: -.6pt; margin: 1.5mm 0 0; line-height: 1; }
-  .tarifa .u { font-size: 8pt; color: var(--gris-cl); margin: 1mm 0 3mm; }
-  .tarifa .b { display: block; background: var(--rojo); color: #fff; text-align: center; font-size: 7.4pt; letter-spacing: 1.6pt; text-transform: uppercase; font-weight: 700; padding: 2.2mm 0; }
-  .tarifa.mas { border-color: var(--rojo); }
+.p4 .grande { font-size: 13pt; margin-bottom: 5mm; }
+.p4 .cuatro.seis { gap: 3.4mm; margin-top: 4mm; }
+.p4 .cuatro.seis > div { padding: 4.4mm 2mm; }
+.p4 .cuatro.seis .c { width: 12mm; height: 12mm; margin-bottom: 2.4mm; }
+.p4 .cuatro.seis b { font-size: 9.8pt; } .p4 .cuatro.seis p { font-size: 8.6pt; margin-top: 1.2mm; }
+.p4 .dos { margin-top: 7mm !important; gap: 5mm; }
+.p4 .banner { padding: 5.5mm 5mm; }
+.p4 .banner b { font-size: 11.5pt; } .p4 .banner p { font-size: 9.8pt; }
+.p4 .epigrafe { margin-top: 7mm !important; }
 
-  .logo { font-weight: 800; letter-spacing: 1.2pt; text-transform: uppercase; display: inline-flex; align-items: center; gap: 2mm; }
-  .logo svg { width: .95em; height: .95em; }
-  svg { display: block; }
+.p6 .grande { font-size: 12.6pt; margin-bottom: 4.5mm; }
+.p6 .tarifa { padding: 5mm 3.4mm; }
+.p6 .tarifa .p { font-size: 22pt; } .p6 .tarifa .u { font-size: 8.4pt; margin-bottom: 3.6mm; } .p6 .tarifa .b { padding: 2.6mm 0; }
+.p6 .apunte { font-size: 9pt; margin-top: 3mm; }
+.p6 .cuatro { gap: 3.6mm; margin-top: 4mm; }
+.p6 .cuatro > div { padding: 5mm 3mm; }
+.p6 .cuatro .c { width: 12mm; height: 12mm; margin-bottom: 2.4mm; }
+.p6 .cuatro b { font-size: 10.4pt; } .p6 .cuatro p { font-size: 9pt; margin-top: 1.4mm; }
+.p6 .banner { padding: 5.5mm 5mm; margin-top: 7mm; }
+.p6 .banner b { font-size: 11.5pt; } .p6 .banner p { font-size: 9.8pt; }
+
+.p7 .planes { margin-top: 6mm; }
+.p7 .plan { padding: 5.4mm 3.8mm 4.6mm; }
+.p7 .plan.destacado { padding-top: 7.6mm; }
+.p7 .plan .nom { font-size: 11.4pt; } .p7 .plan .lema { font-size: 9pt; margin-bottom: 3.6mm; }
+.p7 .plan .precio .cifra { font-size: 31pt; } .p7 .plan .antes { font-size: 8.6pt; }
+.p7 .plan .mes { padding: 3mm; } .p7 .plan .mes b { font-size: 10.6pt; }
+.p7 .plan li { font-size: 9.2pt; padding: 2.3mm 0; }
+.p7 .todos { margin-top: 6mm; } .p7 .todos > div { font-size: 9.4pt; }
+.p7 .cierre-frase { font-size: 16.5pt; padding: 8mm 7mm; margin-top: 7mm; }
+
+.p5 .grande { font-size: 12.6pt; }
+.p5 .tarj { padding: 4mm 3.4mm; } .p5 .tarj p { font-size: 8.8pt; } .p5 .tarj b { font-size: 10pt; }
+.p5 .burbuja { font-size: 9pt; padding: 2.4mm 3.2mm; } .p5 .chat { gap: 2.4mm; }
 </style>
 </head>
 <body>
-
-<!-- ============================ 1 · PORTADA ============================ -->
-<div class="hoja negra">
-  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
-    <rect width="595" height="842" fill="#0a0a0b"/>
-    <g stroke="#ffffff" stroke-opacity=".06" stroke-width="1">
-      <path d="M0 700 L595 500"/><path d="M0 760 L595 560"/><path d="M0 820 L595 620"/>
-      <path d="M0 640 L595 440"/><path d="M0 580 L595 380"/>
-    </g>
-    <rect x="0" y="0" width="595" height="12" fill="#dc1f26"/>
-    <path d="M430 150 L560 20" stroke="#dc1f26" stroke-width="9" stroke-linecap="square"/>
-    <path d="M480 20 L560 20 L560 100" stroke="#dc1f26" stroke-width="9" fill="none" stroke-linecap="square"/>
-  </svg>
-  <div class="cuerpo" style="padding-top:60mm">
-    <p class="ojo">Propuesta de trabajo · Noviembre de 2026</p>
-    <h2 style="font-size:40pt;line-height:.98;max-width:170mm">Que tu tienda venda sola.<br><em>Y que tu WhatsApp conteste solo.</em></h2>
-    <p class="entradilla" style="max-width:150mm;font-size:12pt;margin-top:8mm">Una web ordenada que encaja con tu marca, un asistente que responde a tus clientes en WhatsApp y una página de verdad para Hungceed GYM.</p>
-    <div style="position:absolute;bottom:22mm;left:16mm;right:16mm;display:flex;justify-content:space-between;align-items:flex-end">
-      <div>
-        <p style="font-size:7.4pt;letter-spacing:2.4pt;text-transform:uppercase;color:#a1a1aa;font-weight:700;margin:0 0 2mm">Preparado para</p>
-        <p class="logo" style="font-size:18pt;margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="#dc1f26" stroke-width="3.2" stroke-linecap="square"><path d="M5 19 19 5M9 5h10v10"/></svg>Hungceed</p>
-        <p style="font-size:9pt;color:#a1a1aa;margin:1.5mm 0 0">Jose P. · Tienda online y Hungceed GYM · La Pobla Llarga</p>
-      </div>
-      <div style="text-align:right;font-size:8.6pt;color:#a1a1aa;line-height:1.5">
-        <b style="color:#fff">Brian Carbajal</b><br>Webs, IA y automatizaciones · Ourense<br>briancarbajalgarcia@gmail.com · 611 573 580
-      </div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-marca" viewBox="0 0 24 24"><path d="M5 19 19 5M9 5h10v10" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="square"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4V5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+<symbol id="i-reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5.5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-euro" viewBox="0 0 24 24"><path d="M17 6.5A7 7 0 007 12a7 7 0 0010 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4.5 10.5h8M4.5 14h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-carta" viewBox="0 0 24 24"><path d="M5 3h14v18H5z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-bolsa" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 016 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-cruz" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+<symbol id="i-ojo" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-rayo" viewBox="0 0 24 24"><path d="M13 3L5 13h6l-1 8 8-10h-6l1-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-persona" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 21a8 8 0 0116 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-web" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-rack" viewBox="0 0 24 24"><path d="M6 3v18M18 3v18M6 5h12M4 21h4M16 21h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 12h18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+<symbol id="i-maquina" viewBox="0 0 24 24"><path d="M5 21V8M5 8h8M13 8v5M9 13h8M17 13v8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="3" width="6" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-engranaje" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-barra" viewBox="0 0 24 24"><path d="M2 12h20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="5" y="7" width="3" height="10" rx="1" fill="currentColor"/><rect x="16" y="7" width="3" height="10" rx="1" fill="currentColor"/></symbol>
+<symbol id="i-pesa" viewBox="0 0 24 24"><path d="M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="8" width="4" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="17" y="8" width="4" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-polea" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 7v12M16 7v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="13" y="16" width="6" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-gym" viewBox="0 0 24 24"><path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-estrella" viewBox="0 0 24 24"><path d="M12 3l2.7 5.7 6.3.8-4.6 4.3 1.2 6.2L12 17l-5.6 3 1.2-6.2L3 9.5l6.3-.8L12 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-mano" viewBox="0 0 24 24"><path d="M7 11V6a1.5 1.5 0 013 0v5M10 10V4.5a1.5 1.5 0 013 0V11M13 10.5V6a1.5 1.5 0 013 0v7M16 12l2.2-1.6a1.4 1.4 0 011.8 2.1L15.5 18c-1 1.5-2.5 2.5-4.5 2.5-3.5 0-6-2.5-6-6v-2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-luna" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-caja" viewBox="0 0 24 24"><path d="M3 8l9-4 9 4v9l-9 4-9-4V8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 8l9 4 9-4M12 12v9" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-edificio" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1v-9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-candado" viewBox="0 0 24 24"><path d="M5 11h14v10H5z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 11V7.5a3.5 3.5 0 017 0V11" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-campana" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4l2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 20a2 2 0 004 0" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-lista" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="4.5" cy="6" r="1.3" fill="currentColor"/><circle cx="4.5" cy="12" r="1.3" fill="currentColor"/><circle cx="4.5" cy="18" r="1.3" fill="currentColor"/></symbol>
+<symbol id="i-tel" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v4a2 2 0 01-2 2A15 15 0 013 5a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<!-- ============ HOJA 1 · PORTADA + LA CARTA ============ -->
+<div class="hoja p1">
+  <div class="portada">
+    <div class="p-top"><span class="p-marca"><svg width="15" height="15"><use href="#i-marca" width="15" height="15"/></svg>Propuesta de trabajo · Hungceed</span><span>Noviembre de 2026</span></div>
+    <svg class="p-deco" viewBox="0 0 300 280" aria-hidden="true"><rect x="61" y="40" width="18" height="230" rx="3" fill="none" stroke="#0a0a0b" stroke-width="3"/><circle cx="70" cy="58" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="75" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="92" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="109" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="126" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="143" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="160" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="177" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="194" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="211" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="228" r="3.2" fill="#0a0a0b"/><circle cx="70" cy="245" r="3.2" fill="#0a0a0b"/><rect x="221" y="40" width="18" height="230" rx="3" fill="none" stroke="#0a0a0b" stroke-width="3"/><circle cx="230" cy="58" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="75" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="92" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="109" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="126" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="143" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="160" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="177" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="194" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="211" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="228" r="3.2" fill="#0a0a0b"/><circle cx="230" cy="245" r="3.2" fill="#0a0a0b"/><rect x="61" y="40" width="178" height="14" rx="3" fill="#0a0a0b"/><rect x="52" y="262" width="36" height="10" rx="3" fill="#0a0a0b"/><rect x="212" y="262" width="36" height="10" rx="3" fill="#0a0a0b"/><rect x="79" y="150" width="22" height="12" rx="2" fill="#dc1f26"/><rect x="199" y="150" width="22" height="12" rx="2" fill="#dc1f26"/><rect x="20" y="146" width="260" height="7" rx="3.5" fill="#0a0a0b"/><rect x="28" y="118" width="12" height="62" rx="3" fill="#0a0a0b"/><rect x="44" y="118" width="12" height="62" rx="3" fill="#0a0a0b"/><rect x="244" y="118" width="12" height="62" rx="3" fill="#0a0a0b"/><rect x="260" y="118" width="12" height="62" rx="3" fill="#0a0a0b"/><rect x="79" y="206" width="142" height="8" rx="3" fill="#dc1f26" opacity=".9"/><path d="M190 96 L262 24" stroke="#dc1f26" stroke-width="10" stroke-linecap="square"/><path d="M214 24 H262 V72" fill="none" stroke="#dc1f26" stroke-width="10" stroke-linecap="square"/></svg>
+    <h1>Que tu tienda<br>venda sola.<br><em>Y tu WhatsApp<br>conteste solo.</em></h1>
+    <p class="bajada">Cuatro servicios. Eliges los que te vengan bien, o te los llevas todos.</p>
+    <div class="p-pie">
+      <div><div class="p-barra"></div>Preparado para <b>Jose P.</b> · Hungceed · La Pobla Llarga</div>
+      <div>Por <b>Brian Carbajal</b> · Webs, IA y automatizaciones</div>
     </div>
   </div>
+
+  <p class="epigrafe">La carta</p>
+  <p class="grande">Tu producto funciona y los pedidos entran a diario. <em>Lo que va por detrás es la web y el WhatsApp.</em> Esto es lo que te propongo arreglar.</p>
+  <div class="carta">
+    <div><span class="l">A</span><span class="c"><svg width="19" height="19"><use href="#i-web" width="19" height="19"/></svg></span><b>Tu tienda, ordenada</b><p>Catálogo por categorías y series, fichas limpias, con tu marca. En tu WordPress.</p></div>
+    <div><span class="l">B</span><span class="c"><svg width="19" height="19"><use href="#i-chat" width="19" height="19"/></svg></span><b>WhatsApp que contesta solo</b><p>Un asistente que responde con tu información y te avisa cuando toca.</p></div>
+    <div><span class="l">C</span><span class="c"><svg width="19" height="19"><use href="#i-gym" width="19" height="19"/></svg></span><b>Hungceed GYM con página</b><p>Tarifas en tarjetas y «Apúntate» directo a Virtuagym.</p></div>
+    <div><span class="l">D</span><span class="c"><svg width="19" height="19"><use href="#i-rayo" width="19" height="19"/></svg></span><b>Lo que puede ir solo</b><p>Pedir opinión, bienvenida a socios, avisos a quien deja de venir.</p></div>
+  </div>
+  <p class="apunte">Las hojas 4, 5 y 6 explican cada uno. La hoja 7 tiene los precios. La 8, cómo empezamos.</p>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Propuesta para Hungceed</span><span class="der"><b>01</b> / 08</span></div>
 </div>
 
-<!-- ============================ 2 · PUNTO DE PARTIDA ============================ -->
-<div class="hoja">
-  <div class="cabecera"><b>Hungceed</b><span>Punto de partida</span></div>
-  <div class="cuerpo">
-    <p class="ojo">Lo que nos contaste</p>
-    <h2>Vendes todos los días.<br><em>Pero la web y el WhatsApp van por detrás.</em></h2>
-    <p class="entradilla">El producto funciona y los pedidos entran a diario. Lo que falla es lo de alrededor: una tienda que no ayuda a comprar, un WhatsApp que te come el día y un gimnasio metido en un recuadro.</p>
+<!-- ============ HOJA 2 · SITUACIONES ============ -->
+<div class="hoja p2">
+  <header class="interior"><span class="n">02</span><h1>Seis situaciones de un día normal</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Qué pasa hoy, y qué pasaría</p>
+  <p class="grande">No es un problema de producto. Es lo que le pasa al cliente <em>antes de llegar a ti</em>: en la web, en el WhatsApp y en la página del gym.</p>
 
-    <div class="rejilla3">
-      <div class="tarjeta"><p class="n">01</p><h3>La web no ayuda a vender</h3><p>Está desorganizada, con muchos productos en una lista sin filtros. Los propios clientes se quejan de cómo está montada, y no tiene la armonía de las webs en las que uno se queda «husmeando».</p></div>
-      <div class="tarjeta"><p class="n">02</p><h3>El WhatsApp te come el día</h3><p>El 80 % de tus clientes te escribe por ahí. La IA de WhatsApp Business se queda corta: no contesta bien del todo y, para lo que hace, sale cara.</p></div>
-      <div class="tarjeta"><p class="n">03</p><h3>El gimnasio, en un recuadro</h3><p>La página de Hungceed GYM es la tienda de Virtuagym incrustada, con su propio scroll y textos mezclados en castellano, catalán e inglés.</p></div>
-    </div>
+  <div class="rejilla">
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-web" width="18" height="18"/></svg></span><div><b>Busca una máquina en tu web</b><span class="cuando">37 productos, de la A a la Z</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Hoy</small>Una lista alfabética sin filtros. Se cansa antes de llegar a la jaula y se va.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Después</small>Entra en «Racks y jaulas», filtra por serie y precio, y la encuentra en dos toques.</div></div>
 
-    <div style="margin-top:8mm" class="rejilla2">
-      <div>
-        <p class="ojo">Lo que vimos en tu web, desde fuera</p>
-        <ul class="lista">
-          <li>El menú no refleja el catálogo: «Accesorios home gym» solo tiene barras y la <b>Attachment Series</b> no tiene sección propia.</li>
-          <li>«Productos» es una lista alfabética sin filtros. En el móvil el titular se corta («EQUIPAMIENT/O») y el botón queda muy abajo.</li>
-          <li>Nombres de producto muy largos, con el texto de Google dentro. Productos sin precio visible y uno «desde 0,00 €».</li>
-          <li>El icono de «mi cuenta» lleva a una demo de la plantilla. Botones con enlaces vacíos. El logo es una captura de pantalla.</li>
-          <li>Sin WhatsApp, sin información de envíos, sin opiniones. Privacidad y cookies sin enlace, y sin aviso legal.</li>
-        </ul>
-      </div>
-      <div>
-        <p class="ojo">La cuenta, con tus números</p>
-        <div class="franja">
-          <p style="margin:0 0 3mm">Si te llegan <b>30 mensajes al día</b> y cada uno te lleva tres minutos, son <b>una hora y media al día</b>: unas treinta horas al mes contestando lo mismo. El asistente se queda con lo repetido (envíos, precios, «¿dónde está mi pedido?», tarifas del gym) y a ti solo te pasa lo que de verdad necesita a Jose.</p>
-          <p style="margin:0;font-size:8.6pt;color:#a1a1aa">Treinta es un ejemplo. Dinos tu cifra real y rehacemos la cuenta en la llamada.</p>
-        </div>
-        <div style="margin-top:4mm" class="franja roja">
-          <p style="margin:0">Y en la tienda: cada cliente que se pierde en la lista de productos es un pedido que no entra. <b>Ordenar el catálogo no es estética: es que se encuentre lo que vendes.</b></p>
-        </div>
-      </div>
-    </div>
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-luna" width="18" height="18"/></svg></span><div><b>Pregunta por WhatsApp a las 22:30</b><span class="cuando">«¿la elevación lateral encaja en mi rack?»</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Hoy</small>Lo lees mañana. O lo contesta la IA de WhatsApp Business a medias.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Después</small>El asistente le dice que sí, cuánto cuesta y le manda el enlace. En un minuto.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-caja" width="18" height="18"/></svg></span><div><b>«¿Dónde está mi pedido?»</b><span class="cuando">la pregunta más repetida</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Hoy</small>Dejas lo que estás haciendo, buscas el pedido y contestas tú.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Después</small>El asistente lo mira en WooCommerce con el número o el email y le da el estado.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-edificio" width="18" height="18"/></svg></span><div><b>Un box quiere equiparse</b><span class="cuando">el pedido grande</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Hoy</small>Escribe al mismo WhatsApp que el que pregunta por un cable, y espera.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Después</small>«Equipa tu centro» en la web, formulario de presupuesto y aviso directo a ti.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-gym" width="18" height="18"/></svg></span><div><b>Quiere apuntarse al gym</b><span class="cuando">llega desde Google</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Hoy</small>Un recuadro con su propio scroll y textos en tres idiomas.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Después</small>Tarifas en tarjetas, «Musculación desde 40 €», y «Apúntate» a Virtuagym.</div></div>
+
+    <div class="sit"><div class="cab"><span class="ico"><svg width="18" height="18"><use href="#i-estrella" width="18" height="18"/></svg></span><div><b>Le ha llegado el rack y está contento</b><span class="cuando">la opinión que no se pide</span></div></div>
+      <div class="fila mal"><small><svg width="9" height="9"><use href="#i-cruz" width="9" height="9"/></svg>Hoy</small>No tienes ninguna reseña publicada. Quien no te conoce, no lo ve.</div>
+      <div class="fila bien"><small><svg width="9" height="9"><use href="#i-check" width="9" height="9"/></svg>Después</small>A los pocos días recibe un WhatsApp pidiéndole la reseña en Google.</div></div>
   </div>
-  <div class="pie"><span>Propuesta · Hungceed</span><span class="num">2</span></div>
+  <p class="apunte">«Hoy» describe lo que pasa en cualquier tienda con una web desordenada y un WhatsApp atendido a mano. Lo que es tuyo de verdad está en la hoja siguiente.</p>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Propuesta para Hungceed</span><span class="der"><b>02</b> / 08</span></div>
 </div>
 
-<!-- ============================ 3 · LA TIENDA ============================ -->
-<div class="hoja">
-  <div class="cabecera"><b>Hungceed</b><span>A · Tu tienda, ordenada</span></div>
-  <div class="cuerpo">
-    <p class="ojo">A · Rediseño de la tienda</p>
-    <h2>Tu misma tienda.<br><em>Ordenada y con tu marca.</em></h2>
-    <p class="entradilla">No migramos nada. Se trabaja dentro de tu WordPress, con tu tema y tu Elementor, sobre una copia de prueba mientras la tienda sigue vendiendo. Conservas pedidos, clientes, pagos y Google, y sigues usando el panel que ya conoces.</p>
+<!-- ============ HOJA 3 · LA CUENTA Y LO QUE VI ============ -->
+<div class="hoja p3">
+  <header class="interior"><span class="n">03</span><h1>Lo que te está costando hoy</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">El WhatsApp, en horas</p>
+  <p class="grande">El 80 % de tus clientes te escribe por WhatsApp. <em>Casi todo es lo mismo:</em> envíos, precios, si encaja, dónde está mi pedido, cuánto cuesta el gym.</p>
+  <svg class="f" viewBox="0 0 600 112" role="img" aria-label="Cuenta de ejemplo del tiempo en WhatsApp"><g font-family="Poppins, Arial, sans-serif"><rect x="0" y="0" width="600" height="112" rx="6" fill="#fff" stroke="#e4e4e7"/><circle cx="42" cy="56" r="25" fill="#f4f4f5" stroke="#0a0a0b" stroke-width="1.4"/><g transform="translate(30.0,44.0)" color="#0a0a0b"><use href="#i-chat" width="24" height="24"/></g><text x="78" y="50" font-size="25" font-weight="800" fill="#0a0a0b">30</text><text x="78" y="66" font-size="9.4" fill="#5c5d63">mensajes al día</text><text x="78" y="78" font-size="9.4" fill="#5c5d63">(dinos tu cifra)</text><text x="176" y="65" font-size="24" fill="#5c5d63" text-anchor="middle">×</text><circle cx="222" cy="56" r="25" fill="#f4f4f5" stroke="#0a0a0b" stroke-width="1.4"/><g transform="translate(210.0,44.0)" color="#0a0a0b"><use href="#i-reloj" width="24" height="24"/></g><text x="258" y="50" font-size="25" font-weight="800" fill="#0a0a0b">3 min</text><text x="258" y="66" font-size="9.4" fill="#5c5d63">cada respuesta,</text><text x="258" y="78" font-size="9.4" fill="#5c5d63">entre leer y contestar</text><text x="376" y="65" font-size="24" fill="#5c5d63" text-anchor="middle">=</text><rect x="400" y="12" width="188" height="88" rx="6" fill="#0a0a0b"/><text x="494" y="50" font-size="26" font-weight="800" fill="#dc1f26" text-anchor="middle">30 h al mes</text><text x="494" y="70" font-size="9.8" fill="#fff" text-anchor="middle">contestando lo mismo</text><text x="494" y="84" font-size="9.8" fill="#a1a1aa" text-anchor="middle">una hora y media al día</text></g></svg>
+  <p class="apunte">Treinta mensajes es un ejemplo. Dime tu cifra y rehacemos la cuenta en la llamada. Y el tiempo es lo de menos: es el cliente que no espera y compra en otro sitio.</p>
 
-    <div class="rejilla2">
-      <ol class="pasos">
-        <li><b>Copia de prueba</b><span>Desde el hosting o con un plugin de staging. Tú entras cuando quieras y ves cómo va.</span></li>
-        <li><b>Portada con un solo mensaje</b><span>Negro, rojo y Poppins. El producto estrella con su precio, y dos entradas: «Para tu casa» y «Para tu gimnasio o box».</span></li>
-        <li><b>Catálogo que se entiende</b><span>Seis categorías y las cuatro series, la Attachment Series con la suya. Filtros por serie, tipo y precio.</span></li>
-        <li><b>Fichas de producto limpias</b><span>Nombre corto, precio claro y el texto para Google en el campo de SEO. Se revisan precios y variantes (el «0,00 €»).</span></li>
-        <li><b>Lo que hoy falta</b><span>WhatsApp, envíos y garantía, opiniones, aviso legal, privacidad y cookies. Se arregla «mi cuenta» y se sube el logo en condiciones.</span></li>
-        <li><b>Pasar a la web real</b><span>Cuando lo apruebes. Sin perder pedidos, clientes ni posicionamiento.</span></li>
-      </ol>
-      <div>
-        <div class="antes-despues">
-          <div><p class="t">Hoy</p><p>Jaula de Potencia con Polea Integrada | Power Cage Rack con Polea Alta y Baja | Hungceed</p></div>
-          <div><p class="t ok">Después</p><p><b>Jaula de potencia con polea</b><br><span style="color:#5c5d63;font-size:8.6pt">El texto largo pasa al campo de SEO. Google lo sigue leyendo; tu cliente no tiene que hacerlo.</span></p></div>
-        </div>
-        <div class="franja" style="margin-top:5mm">
-          <p style="margin:0 0 2mm;font-size:7.2pt;letter-spacing:1.8pt;text-transform:uppercase;color:#a1a1aa;font-weight:700">Ya puedes verlo</p>
-          <p style="margin:0">Hemos montado una <b>maqueta</b> con tus productos, tus fotos y tus precios: portada, categoría con filtros, ficha y la página del gimnasio.</p>
-          <p style="margin:3mm 0 0;font-size:11pt;font-weight:700">hungceed-maqueta.vercel.app</p>
-          <p style="margin:1mm 0 0;font-size:8.4pt;color:#a1a1aa">Es un boceto para decidir el diseño; la web final se hace en tu WordPress.</p>
-        </div>
-      </div>
-    </div>
-
-    <p class="ojo" style="margin-top:6mm">Lo que no cambia</p>
-    <div class="rejilla4 compacta">
-      <div class="tarjeta"><h3>Tus pedidos</h3><p>El mismo WooCommerce. Nada se migra.</p></div>
-      <div class="tarjeta"><h3>Tus pagos</h3><p>Tarjeta, PayPal y el resto, como ahora.</p></div>
-      <div class="tarjeta"><h3>Tu Google</h3><p>Mismas direcciones. Lo que posiciona, sigue.</p></div>
-      <div class="tarjeta"><h3>Tu panel</h3><p>El WordPress que ya conoces.</p></div>
-    </div>
+  <p class="epigrafe" style="margin-top:5mm">Lo que vi en tu web, gratis</p>
+  <p class="grande">Para preparar esto me recorrí tu tienda como un cliente. <em>Seis cosas que te están costando ventas</em>, trabajemos juntos o no.</p>
+  <div class="regalos">
+    <div class="regalo"><span class="num">1</span><div><b>El menú no es tu catálogo</b><p>«Accesorios home gym» solo tiene barras y la Attachment Series no tiene sección.</p></div></div>
+    <div class="regalo"><span class="num">2</span><div><b>Nombres que no se leen</b><p>«Half Rack Musculación | Medio Rack con Barra Dominadas | Hungceed». Eso es para Google, no para el cliente.</p></div></div>
+    <div class="regalo"><span class="num">3</span><div><b>Precios que no se ven</b><p>La mayoría de fichas no enseña precio. Una dice «desde 0,00 €».</p></div></div>
+    <div class="regalo"><span class="num">4</span><div><b>«Mi cuenta» lleva a otra web</b><p>El icono apunta a una demo de la plantilla. Y hay botones con enlaces vacíos.</p></div></div>
+    <div class="regalo"><span class="num">5</span><div><b>Sin WhatsApp, envíos ni opiniones</b><p>Tres cosas que un comprador busca antes de pagar 500 €.</p></div></div>
+    <div class="regalo"><span class="num">6</span><div><b>El móvil corta el titular</b><p>«EQUIPAMIENT / O». Privacidad y cookies sin enlace, y sin aviso legal.</p></div></div>
   </div>
-  <div class="pie"><span>Propuesta · Hungceed</span><span class="num">3</span></div>
+  <div class="banner">
+    <span class="c"><svg width="22" height="22"><use href="#i-euro" width="22" height="22"/></svg></span>
+    <div><b>Ordenar el catálogo no es estética.</b><p>Cada cliente que se pierde en la lista es un pedido que no entra. Y una jaula son 499 €.</p></div>
+  </div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Propuesta para Hungceed</span><span class="der"><b>03</b> / 08</span></div>
 </div>
 
-<!-- ============================ 4 · EL ASISTENTE ============================ -->
-<div class="hoja negra">
-  <div class="cabecera"><b>Hungceed</b><span>B · El asistente de WhatsApp</span></div>
-  <div class="cuerpo">
-    <p class="ojo">B · Asistente de IA en WhatsApp</p>
-    <h2>Un WhatsApp que contesta solo.<br><em>Y que sabe cuándo avisarte.</em></h2>
-    <p class="entradilla" style="margin-bottom:6mm">Con la API oficial de Meta, en tu número. Se entrena con tus propias conversaciones (nos pasas 15–20 chats típicos) para que responda como respondes tú, de la tienda y del gimnasio.</p>
+<!-- ============ HOJA 4 · A · LA TIENDA ============ -->
+<div class="hoja p4">
+  <header class="interior"><span class="n">04</span><h1>A · Tu tienda, ordenada y con tu marca</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Qué hago</p>
+  <p class="grande">Tu misma tienda, en tu mismo WordPress. <em>No se migra nada:</em> conservas pedidos, clientes, pagos y Google.</p>
+  <svg class="f" viewBox="0 0 600 212" role="img" aria-label="El catálogo hoy y después"><defs><marker id="fc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="#dc1f26"/></marker></defs><g font-family="Poppins, Arial, sans-serif"><rect x="0" y="0" width="262" height="212" rx="6" fill="#ececee" stroke="#8a8a92" stroke-width="1.2"/><text x="16" y="24" font-size="8.4" font-weight="800" fill="#8a8a92" letter-spacing="2">HOY</text><text x="16" y="42" font-size="11.5" font-weight="700" fill="#0a0a0b">37 productos, de la A a la Z</text><rect x="16" y="53.0" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="62.0" font-size="7.4" fill="#5c5d63">Agarres cónicos para polea | Aluminio o Nylon | Par…</text><rect x="16" y="67.5" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="76.5" font-size="7.4" fill="#5c5d63">Almacenamiento rotativo barras olímpicas | Sop…</text><rect x="16" y="82.0" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="91.0" font-size="7.4" fill="#5c5d63">Asiento hip thrust para rack | Respaldo giratorio…</text><rect x="16" y="96.5" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="105.5" font-size="7.4" fill="#5c5d63">Banco regulable triple ajuste ELITE | Banco ho…</text><rect x="16" y="111.0" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="120.0" font-size="7.4" fill="#5c5d63">Barra olímpica 50mm | 1,8m y 2,20m | Diseño…</text><rect x="16" y="125.5" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="134.5" font-size="7.4" fill="#5c5d63">Cables de polea para máquinas de gimnasio |…</text><rect x="16" y="140.0" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="149.0" font-size="7.4" fill="#5c5d63">Doble soporte gancho para barra de pesas | Acc…</text><rect x="16" y="154.5" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="163.5" font-size="7.4" fill="#5c5d63">Elevación lateral de hombros para rack | Acc…</text><rect x="16" y="169.0" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="178.0" font-size="7.4" fill="#5c5d63">Enganche polea suspensión para rack | Abraza…</text><rect x="16" y="183.5" width="8" height="8" rx="1.5" fill="#fff" stroke="#8a8a92"/><text x="30" y="192.5" font-size="7.4" fill="#5c5d63">…</text><path d="M272 106 H322" stroke="#dc1f26" stroke-width="2.4" marker-end="url(#fc)"/><rect x="338" y="0" width="262" height="212" rx="6" fill="#fff" stroke="#0a0a0b" stroke-width="1.4"/><text x="354" y="24" font-size="8.4" font-weight="800" fill="#dc1f26" letter-spacing="2">DESPUÉS</text><text x="354" y="42" font-size="11.5" font-weight="700" fill="#0a0a0b">Seis categorías y filtros</text><rect x="354" y="54" width="72" height="54" rx="4" fill="#f4f4f5" stroke="#e4e4e7"/><g transform="translate(380.0,62.0)" color="#0a0a0b"><use href="#i-rack" width="20" height="20"/></g><text x="390" y="99" font-size="7.6" font-weight="700" fill="#0a0a0b" text-anchor="middle">Racks y jaulas</text><rect x="434" y="54" width="72" height="54" rx="4" fill="#f4f4f5" stroke="#e4e4e7"/><g transform="translate(460.0,62.0)" color="#0a0a0b"><use href="#i-maquina" width="20" height="20"/></g><text x="470" y="99" font-size="7.6" font-weight="700" fill="#0a0a0b" text-anchor="middle">Máquinas</text><rect x="514" y="54" width="72" height="54" rx="4" fill="#f4f4f5" stroke="#e4e4e7"/><g transform="translate(540.0,62.0)" color="#0a0a0b"><use href="#i-engranaje" width="20" height="20"/></g><text x="550" y="99" font-size="7.6" font-weight="700" fill="#0a0a0b" text-anchor="middle">Attachment</text><rect x="354" y="116" width="72" height="54" rx="4" fill="#f4f4f5" stroke="#e4e4e7"/><g transform="translate(380.0,124.0)" color="#0a0a0b"><use href="#i-barra" width="20" height="20"/></g><text x="390" y="161" font-size="7.6" font-weight="700" fill="#0a0a0b" text-anchor="middle">Bancos y barras</text><rect x="434" y="116" width="72" height="54" rx="4" fill="#f4f4f5" stroke="#e4e4e7"/><g transform="translate(460.0,124.0)" color="#0a0a0b"><use href="#i-pesa" width="20" height="20"/></g><text x="470" y="161" font-size="7.6" font-weight="700" fill="#0a0a0b" text-anchor="middle">Pesas</text><rect x="514" y="116" width="72" height="54" rx="4" fill="#f4f4f5" stroke="#e4e4e7"/><g transform="translate(540.0,124.0)" color="#0a0a0b"><use href="#i-polea" width="20" height="20"/></g><text x="550" y="161" font-size="7.6" font-weight="700" fill="#0a0a0b" text-anchor="middle">Poleas</text><rect x="354" y="179" width="52" height="16" rx="8" fill="#0a0a0b"/><text x="380" y="190" font-size="7.6" font-weight="700" fill="#fff" text-anchor="middle">Serie ▾</text><rect x="414" y="179" width="52" height="16" rx="8" fill="#0a0a0b"/><text x="440" y="190" font-size="7.6" font-weight="700" fill="#fff" text-anchor="middle">Tipo ▾</text><rect x="474" y="179" width="52" height="16" rx="8" fill="#0a0a0b"/><text x="500" y="190" font-size="7.6" font-weight="700" fill="#fff" text-anchor="middle">Precio ▾</text><text x="540" y="190" font-size="7.4" fill="#5c5d63" text-anchor="middle">filtros</text></g></svg>
 
-    <div style="display:grid;grid-template-columns:70mm 1fr;gap:9mm;align-items:start" class="pasos-cortos">
-      <div class="chat" style="color:#0a0a0b">
-        <div class="cab"><i></i> Hungceed</div>
-        <div class="bur">Hola, tengo la jaula y quiero poner la elevación lateral, ¿encaja?<span class="h">18:42</span></div>
-        <div class="bur yo">¡Hola! Sí: la Elevación Lateral de la Attachment Series encaja en cualquier rack Hungceed, en los mismos agujeros y sin herramientas. Son 229,99 € con envío en 48–72 h. Te paso el enlace.<span class="h">18:42</span></div>
-        <div class="bur">Y mi pedido 1843, ¿cuándo llega?<span class="h">18:43</span></div>
-        <div class="bur yo">Tu pedido 1843 salió ayer y está en reparto. Llega mañana o pasado. Si quieres, te aviso cuando lo entreguen.<span class="h">18:43</span></div>
-        <div class="bur">Vale. Oye, quiero montar un box de 150 m², ¿me hacéis precio?<span class="h">18:44</span></div>
-        <div class="bur yo">Eso te lo prepara Jose en persona. Le acabo de pasar tu mensaje y te escribe hoy mismo.<span class="h">18:44</span></div>
-      </div>
-      <div>
-        <ol class="pasos">
-          <li><b>Llega el mensaje</b><span>A tu WhatsApp de siempre, con la API oficial de Meta.</span></li>
-          <li><b>Recuerda la conversación</b><span>Recupera lo último que habló con ese cliente: no empieza de cero cada vez.</span></li>
-          <li><b>Responde con tu información</b><span>Preguntas frecuentes de tus chats, catálogo y series, envíos y garantías, tarifas y horarios del gym con el enlace a cada tarifa.</span></li>
-          <li><b>Consulta el pedido</b><span>Si preguntan por un pedido, lo busca en tu WooCommerce por número o email y da el estado.</span></li>
-          <li><b>Te avisa cuando toca</b><span>Quejas, pedidos especiales, presupuestos para equipar un centro o algo que no sabe: te lo pasa, lo marca como «humano» y deja de responder ahí hasta que tú lo liberes.</span></li>
-          <li><b>Guarda lo hablado</b><span>Para la próxima vez.</span></li>
-        </ol>
-      </div>
+  <p class="epigrafe" style="margin-top:5mm">Los seis pasos</p>
+  <div class="cuatro seis">
+    <div><span class="c"><svg width="19" height="19"><use href="#i-candado" width="19" height="19"/></svg></span><b>Copia de prueba</b><p>Se trabaja ahí; la tienda sigue vendiendo</p></div>
+    <div><span class="c"><svg width="19" height="19"><use href="#i-web" width="19" height="19"/></svg></span><b>Portada</b><p>Un mensaje, tu producto estrella, negro y rojo</p></div>
+    <div><span class="c"><svg width="19" height="19"><use href="#i-lista" width="19" height="19"/></svg></span><b>Catálogo</b><p>Seis categorías, cuatro series, filtros</p></div>
+    <div><span class="c"><svg width="19" height="19"><use href="#i-carta" width="19" height="19"/></svg></span><b>Fichas</b><p>Nombre corto, precio claro, SEO en su sitio</p></div>
+    <div><span class="c"><svg width="19" height="19"><use href="#i-chat" width="19" height="19"/></svg></span><b>Lo que falta</b><p>WhatsApp, envíos, opiniones, legal, logo</p></div>
+    <div><span class="c"><svg width="19" height="19"><use href="#i-rayo" width="19" height="19"/></svg></span><b>A la web real</b><p>Cuando lo apruebes, sin perder nada</p></div>
+  </div>
+
+  <div class="dos" style="margin-top:4mm">
+    <div class="banner" style="margin:0">
+      <span class="c"><svg width="22" height="22"><use href="#i-ojo" width="22" height="22"/></svg></span>
+      <div><b>Ya puedes verlo.</b><p>Hay una maqueta con tus productos, tus fotos y tus precios: <b>hungceed-maqueta.vercel.app</b>. Es un boceto para decidir el diseño.</p></div>
     </div>
-
-    <div class="rejilla3 compacta" style="margin-top:5mm">
-      <div class="tarjeta"><h3>Todo a tu nombre</h3><p>El número, la cuenta de Meta Business, Make y la clave de la IA son tuyos, con acceso para mí. Si un día dejamos de trabajar juntos, no pierdes tu WhatsApp.</p></div>
-      <div class="tarjeta"><h3>Sin cuota escondida</h3><p>La herramienta que lo mueve (Make) y la IA van dentro de la cuota mensual. Lo único aparte son los céntimos que cobra Meta por mensaje, en tu cuenta.</p></div>
-      <div class="tarjeta"><h3>Tú tienes el mando</h3><p>Cuando quieras contestar tú, contestas. Y lo que el asistente dice se revisa contigo antes de encenderlo.</p></div>
+    <div class="banner" style="margin:0">
+      <span class="c"><svg width="22" height="22"><use href="#i-check" width="22" height="22"/></svg></span>
+      <div><b>Lo ves nacer.</b><p>Entras en la copia cuando quieras y me dices qué cambiarías: un audio, un mensaje. Se cambia sobre la marcha.</p></div>
     </div>
   </div>
-  <div class="pie" style="color:#a1a1aa"><span>Propuesta · Hungceed</span><span class="num">4</span></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Propuesta para Hungceed</span><span class="der"><b>04</b> / 08</span></div>
 </div>
 
-<!-- ============================ 5 · AUTOMATIZACIONES ============================ -->
-<div class="hoja">
-  <div class="cabecera"><b>Hungceed</b><span>D · Lo que puede ir solo</span></div>
-  <div class="cuerpo">
-    <p class="ojo">D · Automatizaciones</p>
-    <h2>Lo que hoy haces a mano,<br><em>o no haces porque no hay tiempo.</em></h2>
-    <p class="entradilla">Con el asistente en marcha, el mismo sistema puede hacer cosas por su cuenta. Cada una se activa por separado y solo si te compensa.</p>
+<!-- ============ HOJA 5 · B · EL ASISTENTE ============ -->
+<div class="hoja p5">
+  <header class="interior"><span class="n">05</span><h1>B · Un WhatsApp que contesta solo</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Cómo funciona</p>
+  <p class="grande">En tu número de siempre, con la API oficial de Meta. <em>Aprende de tus propios chats</em> y contesta como contestas tú, de la tienda y del gym.</p>
+  <svg class="f" viewBox="0 0 600 236" role="img" aria-label="Cómo contesta el asistente"><defs><marker id="ff" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="#dc1f26"/></marker><marker id="fg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="#5c5d63"/></marker></defs><g font-family="Poppins, Arial, sans-serif"><rect x="0" y="78" width="118" height="80" rx="6" fill="#f4f4f5" stroke="#e4e4e7" stroke-width="1.2"/><circle cx="59" cy="104" r="16" fill="#0a0a0b"/><g transform="translate(50.0,95.0)" color="#fff"><use href="#i-chat" width="18" height="18"/></g><text x="59" y="134" font-size="10" font-weight="700" fill="#0a0a0b" text-anchor="middle">Tu cliente</text><text x="59" y="147" font-size="8" fill="#5c5d63" text-anchor="middle">escribe por WhatsApp</text><path d="M118 118 H166" stroke="#dc1f26" stroke-width="2" marker-end="url(#ff)"/><rect x="168" y="62" width="150" height="112" rx="6" fill="#0a0a0b" stroke="#0a0a0b" stroke-width="1.2"/><rect x="168" y="62" width="150" height="5" rx="2" fill="#dc1f26"/><text x="243" y="92" font-size="11.5" font-weight="800" fill="#fff" text-anchor="middle">El asistente</text><circle cx="186" cy="108" r="2.4" fill="#dc1f26"/><text x="194" y="111" font-size="8.4" fill="#e4e4e7">recuerda lo hablado</text><circle cx="186" cy="123" r="2.4" fill="#dc1f26"/><text x="194" y="126" font-size="8.4" fill="#e4e4e7">contesta con tu info</text><circle cx="186" cy="138" r="2.4" fill="#dc1f26"/><text x="194" y="141" font-size="8.4" fill="#e4e4e7">consulta el pedido</text><circle cx="186" cy="153" r="2.4" fill="#dc1f26"/><text x="194" y="156" font-size="8.4" fill="#e4e4e7">y si no sabe, te avisa</text><path d="M318 118 C 340 118, 340 36, 366 36" fill="none" stroke="#5c5d63" stroke-width="1.6" stroke-dasharray="3 3" marker-end="url(#fg)"/><rect x="368" y="10" width="128" height="52" rx="6" fill="#fff" stroke="#e4e4e7" stroke-width="1.2"/><g transform="translate(378.0,25.0)" color="#dc1f26"><use href="#i-carta" width="20" height="20"/></g><text x="404" y="32" font-size="9" font-weight="700" fill="#0a0a0b">Tu catálogo y tus chats</text><text x="404" y="46" font-size="7.8" fill="#5c5d63">series, envíos, gym</text><path d="M318 118 C 340 118, 340 116, 366 116" fill="none" stroke="#5c5d63" stroke-width="1.6" stroke-dasharray="3 3" marker-end="url(#fg)"/><rect x="368" y="90" width="128" height="52" rx="6" fill="#fff" stroke="#e4e4e7" stroke-width="1.2"/><g transform="translate(378.0,105.0)" color="#dc1f26"><use href="#i-bolsa" width="20" height="20"/></g><text x="404" y="112" font-size="9" font-weight="700" fill="#0a0a0b">WooCommerce</text><text x="404" y="126" font-size="7.8" fill="#5c5d63">estado del pedido</text><path d="M318 118 C 340 118, 340 196, 366 196" fill="none" stroke="#5c5d63" stroke-width="1.6" stroke-dasharray="3 3" marker-end="url(#fg)"/><rect x="368" y="170" width="128" height="52" rx="6" fill="#fff" stroke="#e4e4e7" stroke-width="1.2"/><g transform="translate(378.0,185.0)" color="#dc1f26"><use href="#i-gym" width="20" height="20"/></g><text x="404" y="192" font-size="9" font-weight="700" fill="#0a0a0b">Virtuagym</text><text x="404" y="206" font-size="7.8" fill="#5c5d63">socios y tarifas</text><path d="M496 118 H546" stroke="#dc1f26" stroke-width="2" marker-end="url(#ff)"/><rect x="548" y="84" width="52" height="68" rx="6" fill="#f4f4f5" stroke="#e4e4e7" stroke-width="1.2"/><circle cx="574" cy="106" r="12" fill="#dc1f26"/><g transform="translate(567.0,99.0)" color="#fff"><use href="#i-persona" width="14" height="14"/></g><text x="574" y="132" font-size="9.5" font-weight="700" fill="#0a0a0b" text-anchor="middle">Jose</text><text x="574" y="144" font-size="7" fill="#5c5d63" text-anchor="middle">solo lo que</text><text x="574" y="153" font-size="7" fill="#5c5d63" text-anchor="middle">le toca</text><text x="300" y="228" font-size="8.4" fill="#5c5d63" text-anchor="middle">Todo pasa por Make, con la API oficial de Meta. En tu móvil no cambia nada.</text></g></svg>
 
-    <div class="rejilla2">
-      <div class="tarjeta"><p class="n">Tienda</p><h3>Pedir la opinión</h3><p>Unos días después de un pedido entregado, un WhatsApp o un email pidiendo la reseña en Google. Hoy no tienes ninguna publicada y es lo primero que mira quien no te conoce.</p></div>
-      <div class="tarjeta"><p class="n">Gimnasio</p><h3>Bienvenida a cada socio</h3><p>Cuando alguien se da de alta en Virtuagym, recibe un WhatsApp de bienvenida con lo que necesita saber el primer día.</p></div>
-      <div class="tarjeta"><p class="n">Gimnasio</p><h3>Los que dejan de venir</h3><p>Con las visitas de Virtuagym, un aviso a quien lleva X días sin pasar por el gym. Es la baja que se evita antes de que ocurra.</p></div>
-      <div class="tarjeta"><p class="n">Tienda</p><h3>Carritos abandonados</h3><p>Un recordatorio a quien dejó algo en el carrito. Es la más limitada: WooCommerce no lo avisa de serie y hace falta un plugin que conecte con el sistema.</p></div>
+  <div class="dos" style="margin-top:4mm">
+    <div>
+      <p class="epigrafe">Así suena</p>
+      <div class="chat">
+        <div class="burbuja cli"><small>Cliente</small>Tengo la jaula, ¿la elevación lateral encaja?</div>
+        <div class="burbuja bot"><small>Hungceed</small>Sí: va en los mismos agujeros, sin herramientas. 229,99 € con envío en 48–72 h. Te paso el enlace.</div>
+        <div class="burbuja cli"><small>Cliente</small>Y mi pedido 1843, ¿cuándo llega?</div>
+        <div class="burbuja bot"><small>Hungceed</small>Salió ayer y está en reparto. Llega mañana o pasado.</div>
+        <div class="burbuja cli"><small>Cliente</small>Quiero montar un box de 150 m², ¿me hacéis precio?</div>
+        <div class="burbuja bot"><small>Hungceed</small>Eso te lo prepara Jose. Le paso tu mensaje y te escribe hoy.</div>
+      </div>
+      <p class="apunte">Lo del cliente es un ejemplo. Precios y plazos los saca de tu catálogo y de tu WooCommerce.</p>
     </div>
-
-    <div class="franja" style="margin-top:7mm">
-      <p style="margin:0 0 2mm;font-size:7.2pt;letter-spacing:1.8pt;text-transform:uppercase;color:#a1a1aa;font-weight:700">Para que lo sepas antes</p>
-      <p style="margin:0">Los mensajes que inicia el negocio (bienvenida, recordatorio, pedir opinión) necesitan una <b>plantilla aprobada por Meta</b> y tienen un pequeño coste por mensaje, de céntimos, que se paga en tu cuenta de Meta. Las plantillas se piden la primera semana.</p>
+    <div>
+      <p class="epigrafe">Cuándo te avisa, y cuándo no</p>
+      <div class="tarjs" style="margin:0">
+        <div class="tarj" style="flex-basis:100%"><span class="ico-t"><svg width="17" height="17"><use href="#i-campana" width="17" height="17"/></svg></span><b style="margin-top:0">Te avisa</b><p>Quejas, pedidos especiales, presupuestos para un centro, o algo que no sabe. Marca el chat como «humano» y se calla hasta que tú lo liberes.</p></div>
+        <div class="tarj" style="flex-basis:100%"><span class="ico-t"><svg width="17" height="17"><use href="#i-check" width="17" height="17"/></svg></span><b style="margin-top:0">Lo resuelve solo</b><p>Envíos, precios, compatibilidad, estado de pedidos, tarifas y horario del gym. Lo repetido.</p></div>
+        <div class="tarj" style="flex-basis:100%"><span class="ico-t"><svg width="17" height="17"><use href="#i-candado" width="17" height="17"/></svg></span><b style="margin-top:0">Todo a tu nombre</b><p>Tu número, tu Meta Business, tu Make. Si un día dejamos de trabajar juntos, no pierdes nada.</p></div>
+      </div>
     </div>
-
-    <p class="ojo" style="margin-top:8mm">Cómo encaja todo</p>
-    <svg viewBox="0 0 680 150" style="width:178mm;height:auto" font-family="Poppins, Arial" font-size="9.5">
-      <defs><marker id="f" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#dc1f26"/></marker></defs>
-      <g stroke="#dc1f26" stroke-width="1.6" fill="none" marker-end="url(#f)">
-        <path d="M118 75 L182 75"/><path d="M318 55 L382 32"/><path d="M318 75 L382 75"/><path d="M318 95 L382 118"/><path d="M518 75 L582 75"/>
-      </g>
-      <g font-weight="700">
-        <rect x="8" y="48" width="110" height="54" fill="#0a0a0b"/><text x="63" y="71" fill="#fff" text-anchor="middle">Tu cliente</text><text x="63" y="86" fill="#a1a1aa" text-anchor="middle" font-weight="400" font-size="8.5">escribe por WhatsApp</text>
-        <rect x="182" y="40" width="136" height="70" fill="#dc1f26"/><text x="250" y="66" fill="#fff" text-anchor="middle">El asistente</text><text x="250" y="81" fill="#fff" text-anchor="middle" font-weight="400" font-size="8.5">recuerda, responde,</text><text x="250" y="94" fill="#fff" text-anchor="middle" font-weight="400" font-size="8.5">consulta y avisa</text>
-        <rect x="382" y="10" width="136" height="40" fill="#f4f4f5" stroke="#e4e4e7"/><text x="450" y="28" fill="#0a0a0b" text-anchor="middle">Tu catálogo y FAQ</text><text x="450" y="41" fill="#5c5d63" text-anchor="middle" font-weight="400" font-size="8.5">series, envíos, gym</text>
-        <rect x="382" y="55" width="136" height="40" fill="#f4f4f5" stroke="#e4e4e7"/><text x="450" y="73" fill="#0a0a0b" text-anchor="middle">WooCommerce</text><text x="450" y="86" fill="#5c5d63" text-anchor="middle" font-weight="400" font-size="8.5">estado del pedido</text>
-        <rect x="382" y="100" width="136" height="40" fill="#f4f4f5" stroke="#e4e4e7"/><text x="450" y="118" fill="#0a0a0b" text-anchor="middle">Virtuagym</text><text x="450" y="131" fill="#5c5d63" text-anchor="middle" font-weight="400" font-size="8.5">socios, visitas, tarifas</text>
-        <rect x="582" y="48" width="90" height="54" fill="#0a0a0b"/><text x="627" y="71" fill="#fff" text-anchor="middle">Jose</text><text x="627" y="86" fill="#a1a1aa" text-anchor="middle" font-weight="400" font-size="8.5">solo lo que le toca</text>
-      </g>
-    </svg>
   </div>
-  <div class="pie"><span>Propuesta · Hungceed</span><span class="num">5</span></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Propuesta para Hungceed</span><span class="der"><b>05</b> / 08</span></div>
 </div>
 
-<!-- ============================ 6 · EL GIMNASIO ============================ -->
-<div class="hoja negra">
-  <div class="cabecera"><b>Hungceed</b><span>C · Hungceed GYM</span></div>
-  <div class="cuerpo">
-    <p class="ojo">C · Página del gimnasio</p>
-    <h2>Hungceed GYM,<br><em>con página propia.</em></h2>
-    <p class="entradilla">En vez del recuadro de Virtuagym: fotos de la sala, horarios, ubicación y las tarifas en tarjetas, cada una con su botón «Apúntate» que lleva directo a esa tarifa en Virtuagym. El alta y el cobro siguen en Virtuagym, como ahora.</p>
-
-    <div class="rejilla3">
-      <div class="tarifa"><p class="g">Musculación</p><p class="p">40 €</p><p class="u">al mes · 112 € / 3 meses · 390 € / año</p><span class="b">Apúntate</span></div>
-      <div class="tarifa mas"><p class="g">Funcional</p><p class="p">30 €</p><p class="u">al mes, 4 sesiones · 55 € con 12</p><span class="b">Apúntate</span></div>
-      <div class="tarifa"><p class="g">Entrenador personal</p><p class="p">30 €</p><p class="u">la sesión · 95 € / 4 · 180 € / 8</p><span class="b">Apúntate</span></div>
-    </div>
-    <div class="rejilla3" style="margin-top:3mm">
-      <div class="tarifa"><p class="g">Semipersonal</p><p class="p">36 €</p><p class="u">al mes, 4 sesiones · 64 € / 8 · 84 € / 12</p><span class="b">Apúntate</span></div>
-      <div class="tarifa"><p class="g">Pases y bonos</p><p class="p">8 €</p><p class="u">el día · fin de semana 28 € · 10 días 40 €</p><span class="b">Apúntate</span></div>
-      <div class="tarjeta" style="display:flex;flex-direction:column;justify-content:center"><h3>Tus precios de hoy</h3><p>Son los que tienes en Virtuagym. Los cambias allí y se cambian en la web.</p></div>
-    </div>
-
-    <div class="rejilla3" style="margin-top:7mm">
-      <div class="tarjeta"><h3>Se entiende sin hacer clic</h3><p>Quien llega desde Google o Instagram ve qué hay, cuánto cuesta y dónde estás, en su idioma y en su móvil.</p></div>
-      <div class="tarjeta"><h3>Enlaza con el asistente</h3><p>Cuando pregunten por el gym en WhatsApp, el asistente contesta con estas mismas tarifas y el enlace para apuntarse.</p></div>
-      <div class="tarjeta"><h3>Lo que necesito de ti</h3><p>Fotos de la sala, horario, dirección y el enlace de Virtuagym de cada tarifa.</p></div>
-    </div>
+<!-- ============ HOJA 6 · C · GYM + D · AUTOMATIZACIONES ============ -->
+<div class="hoja p6">
+  <header class="interior"><span class="n">06</span><h1>C · El gimnasio &nbsp;·&nbsp; D · Lo que puede ir solo</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">C · Hungceed GYM con página propia</p>
+  <p class="grande">En vez del recuadro de Virtuagym: fotos, horario, ubicación y <em>las tarifas en tarjetas</em>, cada una con su «Apúntate». El alta y el cobro siguen en Virtuagym.</p>
+  <div class="tarifas">
+    <div class="tarifa"><p class="g">Musculación</p><p class="p">40 €</p><p class="u">al mes · 390 € al año</p><span class="b">Apúntate</span></div>
+    <div class="tarifa mas"><p class="g">Funcional</p><p class="p">30 €</p><p class="u">al mes · 4 sesiones</p><span class="b">Apúntate</span></div>
+    <div class="tarifa"><p class="g">Semipersonal</p><p class="p">36 €</p><p class="u">al mes · 4 sesiones</p><span class="b">Apúntate</span></div>
+    <div class="tarifa"><p class="g">Entrenador</p><p class="p">30 €</p><p class="u">la sesión · 180 € / 8</p><span class="b">Apúntate</span></div>
+    <div class="tarifa"><p class="g">Pase 1 día</p><p class="p">8 €</p><p class="u">bono 10 días 40 €</p><span class="b">Apúntate</span></div>
   </div>
-  <div class="pie" style="color:#a1a1aa"><span>Propuesta · Hungceed</span><span class="num">6</span></div>
+  <p class="apunte">Son tus precios de hoy en Virtuagym. Los cambias allí y cambian en la web.</p>
+
+  <p class="epigrafe" style="margin-top:6mm">D · Con el asistente en marcha, esto puede ir solo</p>
+  <p class="grande">Lo que hoy haces a mano, <em>o no haces porque no hay tiempo</em>. Cada una se activa por separado y solo si te compensa.</p>
+  <div class="cuatro">
+    <div><span class="c"><svg width="20" height="20"><use href="#i-estrella" width="20" height="20"/></svg></span><b>Pedir la opinión</b><p>Días después de entregar un pedido, un WhatsApp pidiendo la reseña en Google</p></div>
+    <div><span class="c"><svg width="20" height="20"><use href="#i-mano" width="20" height="20"/></svg></span><b>Bienvenida al socio</b><p>Alta en Virtuagym → WhatsApp con lo que necesita saber el primer día</p></div>
+    <div><span class="c"><svg width="20" height="20"><use href="#i-reloj" width="20" height="20"/></svg></span><b>Quien deja de venir</b><p>Con las visitas de Virtuagym, aviso al que lleva X días sin pasar</p></div>
+    <div><span class="c"><svg width="20" height="20"><use href="#i-bolsa" width="20" height="20"/></svg></span><b>Carrito abandonado</b><p>Un recordatorio a quien dejó algo. Necesita un plugin en WooCommerce</p></div>
+  </div>
+  <div class="banner">
+    <span class="c"><svg width="22" height="22"><use href="#i-candado" width="22" height="22"/></svg></span>
+    <div><b>Para que lo sepas antes.</b><p>Los mensajes que inicia el negocio necesitan una plantilla aprobada por Meta y cuestan céntimos cada uno, en tu cuenta de Meta. Las plantillas se piden la primera semana.</p></div>
+  </div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Propuesta para Hungceed</span><span class="der"><b>06</b> / 08</span></div>
 </div>
 
-<!-- ============================ 7 · CÓMO TRABAJAMOS ============================ -->
-<div class="hoja">
-  <div class="cabecera"><b>Hungceed</b><span>Cómo trabajamos</span></div>
-  <div class="cuerpo">
-    <p class="ojo">Cómo trabajamos</p>
-    <h2>Lo ves nacer.<br><em>Y después no te quedas solo.</em></h2>
-    <p class="entradilla">Nada se enseña el último día. Desde el principio tienes tu copia de prueba y vas diciendo qué cambiarías: un audio, un mensaje, lo que te sea más cómodo.</p>
+<!-- ============ HOJA 7 · PRECIOS ============ -->
+<div class="hoja p7">
+  <header class="interior"><span class="n">07</span><h1>La carta, con precios</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Eliges lo que necesitas</p>
+  <p class="grande">Un pago por el desarrollo y una cuota que incluye soporte y cambios del día a día. <em>Por venir de parte de Brandán, un 10 % menos</em> en el desarrollo, ya aplicado.</p>
 
-    <div class="rejilla2">
-      <div>
-        <p class="ojo">Lo que incluye la cuota mensual</p>
-        <ul class="lista">
-          <li><b>Dudas y soporte, sin límite.</b> Un mensaje y te contesto.</li>
-          <li><b>Cambios del día a día, incluidos.</b> Un precio, una foto, un texto, un producto nuevo, una tarifa del gym.</li>
-          <li><b>Lo que mueve el asistente</b> (Make y la IA), su mantenimiento y la revisión de lo que contesta.</li>
-          <li><b>Lo nuevo se presupuesta aparte:</b> secciones nuevas, campañas, funciones que hoy no existen. Te lo digo antes, nunca después.</li>
-        </ul>
-        <p class="ojo" style="margin-top:6mm">Plazos</p>
-        <table>
-          <tr><td style="padding-left:0">Rediseño de la tienda</td><td style="text-align:right;font-weight:700">3–4 semanas desde que tengo acceso</td></tr>
-          <tr><td style="padding-left:0">Asistente de WhatsApp</td><td style="text-align:right;font-weight:700">2 semanas desde el alta del número en Meta</td></tr>
-          <tr><td style="padding-left:0">Página del gimnasio</td><td style="text-align:right;font-weight:700">Con la tienda</td></tr>
-        </table>
-      </div>
-      <div>
-        <p class="ojo">Lo que necesito de ti para empezar</p>
-        <ol class="pasos">
-          <li><b>Un usuario de administrador</b><span>en tu WordPress y, si se puede, acceso al hosting para crear la copia de prueba.</span></li>
-          <li><b>15–20 conversaciones de WhatsApp</b><span>exportadas, de las típicas. Con eso se entrena el asistente.</span></li>
-          <li><b>Tu cuenta de Meta Business</b><span>para dar de alta el número en la API. Primero comprobamos que puedes seguir usando la app del móvil a la vez.</span></li>
-          <li><b>El logo en vectorial</b><span>y las fotos del gimnasio.</span></li>
-          <li><b>Tres datos</b><span>plazo real de envío, garantía y formas de pago, para no prometer nada que no sea verdad.</span></li>
-        </ol>
-        <div class="franja roja" style="margin-top:2mm">
-          <p style="margin:0">Las contraseñas nunca viajan por WhatsApp ni se guardan en ningún sitio compartido. Se configuran en las conexiones de cada herramienta, a tu nombre.</p>
-        </div>
-      </div>
+  <div class="planes">
+    <div class="plan">
+      <p class="nom"><span class="l">A</span> · <b>Tu tienda</b></p>
+      <p class="lema">Ordenada, con tu marca, en tu WordPress.</p>
+      <div class="precio"><span class="cifra">810</span><span class="ud">€<br>desarrollo</span></div>
+      <p class="antes">900 € sin el descuento</p>
+      <div class="mes"><div><b>49 €/mes</b><span>soporte y cambios</span></div></div>
+      <ul>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>Copia de prueba y paso a real</span></li>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>Portada, catálogo, filtros y fichas</span></li>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>WhatsApp, envíos, legal, logo</span></li>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>3–4 semanas desde el acceso</span></li>
+      </ul>
+    </div>
+    <div class="plan destacado">
+      <span class="sello">Todo junto · ahorras 225 €</span>
+      <p class="nom"><span class="l">A + B + C</span> · <b>Pack</b></p>
+      <p class="lema">Tienda, asistente y gimnasio en un solo proyecto.</p>
+      <div class="precio"><span class="cifra">1.350</span><span class="ud">€<br>desarrollo</span></div>
+      <p class="antes">1.575 € por separado</p>
+      <div class="mes"><div><b>99 €/mes</b><span>en vez de 108 €</span></div></div>
+      <ul>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>Todo lo de A, B y C</span></li>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>Un solo interlocutor, un solo plazo</span></li>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>El asistente ya sabe lo del gym</span></li>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>D se presupuesta cuando lo quieras</span></li>
+      </ul>
+    </div>
+    <div class="plan">
+      <p class="nom"><span class="l">B</span> · <b>El asistente</b></p>
+      <p class="lema">Tu WhatsApp contestando solo.</p>
+      <div class="precio"><span class="cifra">540</span><span class="ud">€<br>desarrollo</span></div>
+      <p class="antes">600 € sin el descuento</p>
+      <div class="mes"><div><b>59 €/mes</b><span>Make y la IA incluidos</span></div></div>
+      <ul>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>Alta en la API de Meta</span></li>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>Entrenado con tus chats</span></li>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>Pedidos de WooCommerce y avisos</span></li>
+        <li><svg width="12" height="12"><use href="#i-check" width="12" height="12"/></svg><span>2 semanas desde el alta del número</span></li>
+      </ul>
     </div>
   </div>
-  <div class="pie"><span>Propuesta · Hungceed</span><span class="num">7</span></div>
+
+  <div class="todos">
+    <div><svg width="14" height="14"><use href="#i-gym" width="14" height="14"/></svg><div><b>C · Página del gimnasio: 225 €</b> (250 € sin el descuento). Sin cuota aparte: va con la de la tienda.</div></div>
+    <div><svg width="14" height="14"><use href="#i-rayo" width="14" height="14"/></svg><div><b>D · Automatizaciones:</b> se presupuestan por escenario, con el asistente ya en marcha.</div></div>
+  </div>
+
+  <div class="todos" style="margin-top:5mm">
+    <div><svg width="14" height="14"><use href="#i-euro" width="14" height="14"/></svg><div><b>Cómo se paga.</b> 50 % al empezar y 50 % a la entrega. Los 30 primeros días de cuota, gratis. Mínimo tres meses.</div></div>
+    <div><svg width="14" height="14"><use href="#i-chat" width="14" height="14"/></svg><div><b>Lo que pagas aparte.</b> Solo lo que cobra Meta por mensaje de WhatsApp: céntimos, en tu cuenta.</div></div>
+    <div><svg width="14" height="14"><use href="#i-candado" width="14" height="14"/></svg><div><b>Lo que es tuyo.</b> Tu WordPress, tu número, tu Meta y tus datos. Sin permanencia pasados los tres meses.</div></div>
+  </div>
+  <div class="cierre-frase">Dudas y soporte, sin límite. Cambios del día a día, incluidos. <em>Lo nuevo, te lo digo antes, nunca después.</em></div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Propuesta para Hungceed</span><span class="der"><b>07</b> / 08</span></div>
 </div>
 
-<!-- ============================ 8 · PRECIO ============================ -->
-<div class="hoja">
-  <div class="cabecera"><b>Hungceed</b><span>La propuesta</span></div>
-  <div class="cuerpo">
-    <p class="ojo">La propuesta</p>
-    <h2>Elige lo que necesitas.<br><em>O llévatelo todo.</em></h2>
-    <p class="entradilla">Un pago único por el desarrollo y una cuota mensual que incluye el soporte, los cambios del día a día y lo que mueve el asistente. Por venir de parte de Brandán, <b>un 10 % de descuento en el desarrollo</b>, ya aplicado.</p>
+<!-- ============ HOJA 8 · COMO EMPEZAMOS ============ -->
+<div class="hoja p8">
+  <header class="interior"><span class="n">08</span><h1>Cómo empezamos</h1><span class="lado"><svg width="19" height="19"><use href="#i-marca" width="19" height="19"/></svg></span></header>
+  <p class="epigrafe">Si te convence</p>
+  <p class="grande">Tres pasos. <em>En tu tienda no se toca nada</em> hasta que lo hayas visto y aprobado en la copia.</p>
+  <svg class="f" viewBox="0 0 600 150" role="img" aria-label="Cómo empezamos"><defs><marker id="fp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="#dc1f26"/></marker></defs><g font-family="Poppins, Arial, sans-serif"><circle cx="100" cy="44" r="30" fill="#0a0a0b"/><g transform="translate(86.0,30.0)" color="#dc1f26"><use href="#i-check" width="28" height="28"/></g><circle cx="124" cy="20" r="11" fill="#dc1f26"/><text x="124" y="24" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">1</text><text x="100" y="100" font-size="12" font-weight="800" fill="#0a0a0b" text-anchor="middle">Me das el sí</text><text x="100" y="116" font-size="9" fill="#5c5d63" text-anchor="middle">Con el 50 % del desarrollo</text><text x="100" y="129" font-size="9" fill="#5c5d63" text-anchor="middle">empiezo la copia de prueba</text><path d="M140 44 H256" stroke="#dc1f26" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#fp)"/><circle cx="300" cy="44" r="30" fill="#0a0a0b"/><g transform="translate(286.0,30.0)" color="#dc1f26"><use href="#i-ojo" width="28" height="28"/></g><circle cx="324" cy="20" r="11" fill="#dc1f26"/><text x="324" y="24" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">2</text><text x="300" y="100" font-size="12" font-weight="800" fill="#0a0a0b" text-anchor="middle">Lo ves nacer</text><text x="300" y="116" font-size="9" fill="#5c5d63" text-anchor="middle">Entras cuando quieras y</text><text x="300" y="129" font-size="9" fill="#5c5d63" text-anchor="middle">me dices qué cambiarías</text><path d="M340 44 H456" stroke="#dc1f26" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#fp)"/><circle cx="500" cy="44" r="30" fill="#0a0a0b"/><g transform="translate(486.0,30.0)" color="#dc1f26"><use href="#i-rayo" width="28" height="28"/></g><circle cx="524" cy="20" r="11" fill="#dc1f26"/><text x="524" y="24" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">3</text><text x="500" y="100" font-size="12" font-weight="800" fill="#0a0a0b" text-anchor="middle">Lo pasamos a real</text><text x="500" y="116" font-size="9" fill="#5c5d63" text-anchor="middle">Cuando lo apruebes. Sin</text><text x="500" y="129" font-size="9" fill="#5c5d63" text-anchor="middle">perder pedidos ni Google</text></g></svg>
 
-    <table>
-      <tr><th style="padding-left:0">Servicio</th><th>Qué incluye</th><th>Desarrollo</th><th>Al mes</th></tr>
-      <tr>
-        <td style="padding-left:0"><b>A · Rediseño de la tienda</b></td>
-        <td>Copia de prueba, portada, catálogo y filtros, fichas, legal, WhatsApp, logo y paso a la web real</td>
-        <td class="precio"><span class="tachado">900 €</span>810 €</td>
-        <td class="precio">49 €</td>
-      </tr>
-      <tr>
-        <td style="padding-left:0"><b>B · Asistente de WhatsApp</b></td>
-        <td>Alta en la API de Meta, entrenamiento con tus chats, pedidos de WooCommerce, avisos a Jose, Make y la IA incluidos</td>
-        <td class="precio"><span class="tachado">600 €</span>540 €</td>
-        <td class="precio">59 €</td>
-      </tr>
-      <tr>
-        <td style="padding-left:0"><b>C · Página del gimnasio</b></td>
-        <td>Tarifas en tarjetas con «Apúntate» a Virtuagym, fotos, horarios y ubicación</td>
-        <td class="precio"><span class="tachado">250 €</span>225 €</td>
-        <td class="precio">—</td>
-      </tr>
-      <tr>
-        <td style="padding-left:0"><b>D · Automatizaciones</b></td>
-        <td>Pedir opinión, bienvenida a socios, socios inactivos, carritos abandonados</td>
-        <td colspan="2" style="color:#5c5d63">Se presupuestan por escenario, con el asistente ya en marcha</td>
-      </tr>
-    </table>
+  <p class="epigrafe" style="margin-top:5mm">Lo que necesito de ti</p>
+  <ul class="necesito">
+    <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg>Un usuario de administrador en tu WordPress y, si se puede, acceso al hosting</li>
+    <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg>15–20 conversaciones de WhatsApp exportadas, de las típicas</li>
+    <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg>Tu cuenta de Meta Business, para dar de alta el número</li>
+    <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg>El logo en vectorial y fotos del gimnasio</li>
+    <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg>Plazo real de envío, garantía y formas de pago</li>
+    <li><svg width="13" height="13"><use href="#i-check" width="13" height="13"/></svg>Cuántos mensajes de WhatsApp recibes al día, más o menos</li>
+  </ul>
+  <p class="apunte">Las contraseñas nunca viajan por WhatsApp ni se guardan en ningún sitio compartido: se configuran en cada herramienta, a tu nombre.</p>
 
-    <div class="franja" style="margin-top:6mm;display:grid;grid-template-columns:1fr auto;gap:8mm;align-items:center">
-      <div>
-        <p style="margin:0 0 1.5mm;font-size:7.2pt;letter-spacing:1.8pt;text-transform:uppercase;color:#a1a1aa;font-weight:700">Pack con todo · A + B + C</p>
-        <p style="margin:0">Tienda, asistente y gimnasio, en un solo proyecto. <b>Te ahorras 225 € más</b> respecto a contratarlo por separado.</p>
-      </div>
-      <div style="text-align:right;white-space:nowrap">
-        <p style="margin:0"><span class="tachado" style="color:#a1a1aa">1.500 €</span><span style="font-size:24pt;font-weight:800;letter-spacing:-.8pt">1.350 €</span></p>
-        <p style="margin:0;font-size:10pt;color:#a1a1aa">+ <b style="color:#fff">99 €/mes</b></p>
-      </div>
-    </div>
-
-    <div class="rejilla3" style="margin-top:6mm">
-      <div class="tarjeta"><h3>Cómo se paga</h3><p>50 % al empezar y 50 % a la entrega. Los 30 primeros días de cuota, gratis. Mínimo tres meses de cuota.</p></div>
-      <div class="tarjeta"><h3>Lo que pagas aparte</h3><p>Solo lo que cobra Meta por mensaje de WhatsApp (céntimos), en tu propia cuenta. Make y la IA van dentro de la cuota.</p></div>
-      <div class="tarjeta"><h3>Lo que es tuyo</h3><p>Tu WordPress, tu número, tu cuenta de Meta y tus datos. Sin permanencia más allá de los tres meses: avisas y listo.</p></div>
-    </div>
-
-    <div style="margin-top:7mm;display:flex;justify-content:space-between;align-items:flex-end">
-      <div>
-        <p class="ojo" style="margin-bottom:2mm">El siguiente paso</p>
-        <p style="font-size:10.4pt;margin:0;max-width:100mm">Vemos juntos la maqueta en la llamada, me dices qué cambiarías y, si te encaja, empezamos con la copia de prueba esa misma semana.</p>
-      </div>
-      <div style="text-align:right;font-size:8.6pt;color:#5c5d63;line-height:1.5;white-space:nowrap">
-        <b style="color:#0a0a0b">Brian Carbajal</b><br>Webs, IA y automatizaciones · Ourense<br>briancarbajalgarcia@gmail.com · 611 573 580
-      </div>
-    </div>
+  <p class="epigrafe" style="margin-top:5mm">Negocios que ya trabajan conmigo</p>
+  <div class="clientes">
+    <div class="cliente"><div class="lg"><img src="data:image/png;base64,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" alt="personalfit"></div><b>PersonalFit</b><span>Centro de entrenamiento</span></div>
+    <div class="cliente"><div class="lg" style="background:#2B1512"><img src="data:image/png;base64,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" alt="tixola"></div><b>Tixola Tapería</b><span>Ourense · tixolataperia.es</span></div>
+    <div class="cliente"><div class="lg"><img src="data:image/png;base64,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" alt="bincami"></div><b>Bin &amp; Cami Cake's</b><span>Obrador de tartas</span></div>
   </div>
-  <div class="pie"><span>Propuesta · Hungceed · Noviembre de 2026</span><span class="num">8</span></div>
+
+  <div class="contacto">
+    <p class="frase">La maqueta ya está hecha con tus productos.<br>Solo falta que me digas por dónde empezamos.</p>
+    <div class="quien"><span class="et">Contacto</span><b>Brian Carbajal</b><span class="rol">Webs, IA y automatizaciones · Ourense</span><span class="tel">611 57 35 80</span></div>
+  </div>
+  <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Propuesta para Hungceed</span><span class="der"><b>08</b> / 08</span></div>
 </div>
 
 </body>
