@@ -661,6 +661,8 @@
   /* ===== Logos SVG ===== */
   .logos div.svg svg{width:78%;max-height:48px;height:auto;opacity:.78;transition:opacity .3s}
   .logos div.svg:hover svg{opacity:1}
+  /* «El gimnasio»: el título se ajusta al ancho exacto del margen */
+  .gtitle h2{display:block;width:100%;white-space:nowrap;font-size:120px;line-height:.86;overflow:visible}
 </style>
 </head>
 <body class="boceto">
@@ -1215,7 +1217,7 @@ function setLang(l){
   LANG=l;document.documentElement.lang=l;
   $$('[data-'+l+']').forEach(e=>e.innerHTML=e.dataset[l]);
   $$('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
-  renderMachines();renderLegends();renderZones();renderBars();renderPlans();renderFaq();renderContact();renderSeats();initGen();prepareMani();if(window.initSlides)initSlides();
+  renderMachines();renderLegends();renderZones();renderBars();renderPlans();renderFaq();renderContact();renderSeats();initGen();prepareMani();if(window.fitTitles)fitTitles();if(window.initSlides)initSlides();
   try{localStorage.setItem('burdin-lang',l)}catch(e){}
   if(window.gsap&&window.ScrollTrigger){animMani();ScrollTrigger.refresh()}
 }
@@ -1379,6 +1381,10 @@ initSlides();window.initSlides=initSlides;
   new IntersectionObserver(e=>{if(e[0].isIntersecting){if(!raf)raf=requestAnimationFrame(f)}else{cancelAnimationFrame(raf);raf=0}}).observe(document.querySelector('.hero'));
 })();
 
+/* ---------- Título gigante ajustado al margen ---------- */
+function fitTitles(){document.querySelectorAll('.gtitle h2').forEach(h=>{const w=h.parentNode.clientWidth;h.style.display='inline-block';h.style.width='auto';h.style.fontSize='100px';const k=w/h.getBoundingClientRect().width;h.style.fontSize=Math.floor(100*k*.99)+'px';h.style.display='';h.style.width=''})}
+addEventListener('resize',fitTitles);document.fonts&&document.fonts.ready.then(fitTitles);
+
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(window.gsap&&!reduce){
@@ -1395,7 +1401,7 @@ if(window.gsap&&!reduce){
     gsap.from(ring,{scale:.7,opacity:0,duration:1.1,ease:E});
     gsap.fromTo({v:0},{v:pct},{v:pct,duration:1.6,ease:E,onUpdate(){const v=this.targets()[0].v;ring.style.setProperty('--pct',v+'%');n.textContent=Math.round(v/100*CONFIG.plazasFundador)}});
   }});
-  gsap.from('.gtitle h2',{xPercent:-6,opacity:0,duration:1.4,ease:E,scrollTrigger:{trigger:'.gtitle',start:'top 85%',once:true}});
+  gsap.from('.gtitle h2',{opacity:0,duration:1.4,ease:E,scrollTrigger:{trigger:'.gtitle',start:'top 85%',once:true}});
   gsap.from('.brush path',{scaleX:0,transformOrigin:'left',duration:1.2,ease:E,scrollTrigger:{trigger:'.gtitle',start:'top 80%',once:true}});
 }
 </script>
