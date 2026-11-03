@@ -216,8 +216,9 @@
   .logos{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--line2);border-right:0;margin-top:34px;background:#0d0d0d}
   .logos div{position:relative;display:grid;place-items:center;height:96px;padding:18px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);font-family:var(--display);font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg2);text-align:center;transition:.3s}
   .logos div:hover{color:var(--fg);background:#161616}
-  .logos img{display:none;max-height:44px;max-width:80%;width:auto;filter:grayscale(1) invert(1) contrast(1.2);mix-blend-mode:screen;opacity:.85;transition:.3s}
+  .logos img{display:none;max-height:46px;max-width:78%;width:auto;height:auto;object-fit:contain;opacity:.72;transition:opacity .3s}
   .logos div:hover img{opacity:1}
+  .logos div.tall img{max-height:62px}
   .logos div.has img{display:block}
   .logos div.has span{display:none}
   .gfoot{display:flex;justify-content:space-between;align-items:center;padding:26px 0;font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3)}
@@ -830,7 +831,7 @@ function renderBars(){
   $('#bars').innerHTML=CONFIG.marcas.map(([n,p,top])=>`<div class="bar${top?' top':''}" style="--w:${p}%"><b data-top="${LANG==='es'?'La que más':'Gehien'}">${n}</b><span>${p}%</span></div>`).join('');
 }
 function renderLogos(){
-  $('#logos').innerHTML=BRANDS.map(([n,f])=>`<div><img src="img/marcas/${f}.png" alt="${n}" loading="lazy" onload="this.parentNode.classList.add('has')"><span>${n}</span></div>`).join('');
+  $('#logos').innerHTML=BRANDS.map(([n,f])=>`<div${f==='hammer-strength'||f==='gymleco'?' class="tall"':''}><img src="img/marcas/${f}.png" alt="${n}" loading="lazy" onload="this.parentNode.classList.add('has')"><span>${n}</span></div>`).join('');
 }
 
 function renderPlans(){
@@ -979,9 +980,9 @@ if(window.gsap&&!reduce){
   const bigN=$('#seatsLeftBig'),target=+bigN.textContent;
   gsap.from({v:0},{v:target,duration:1.6,ease:E,onUpdate(){bigN.textContent=Math.round(this.targets()[0].v)}});
   $$('.stat [data-n]').forEach(el=>{const to=+el.dataset.n;gsap.from({v:0},{v:to,duration:1.4,ease:E,scrollTrigger:{trigger:el,start:'top 85%',once:true},onUpdate(){el.textContent=Math.round(this.targets()[0].v)}})});
-  ScrollTrigger.batch('.sheet',{start:'top 88%',once:true,onEnter:b=>gsap.from(b,{y:50,opacity:0,duration:1.2,ease:E,stagger:.15})});
+  ScrollTrigger.batch('.sheet',{start:'top 88%',once:true,onEnter:b=>gsap.fromTo(b,{y:50,opacity:0},{y:0,opacity:1,duration:1.2,ease:E,stagger:.15,clearProps:'transform,opacity'})});
   $$('[data-parallax]').forEach(img=>gsap.fromTo(img,{yPercent:-56},{yPercent:-44,ease:'none',scrollTrigger:{trigger:img.closest('.sheet'),start:'top bottom',end:'bottom top',scrub:true}}));
-  ['.head','.gbox','.gmid','.logos div','.perks li','.form','.mani p','.plan','.pass','details','.fcta'].forEach(sel=>ScrollTrigger.batch(sel,{start:'top 92%',once:true,onEnter:b=>gsap.from(b,{y:28,opacity:0,duration:1,ease:E,stagger:.06})}));
+  ['.head','.gbox','.gmid','.perks li','.form','.mani p','.plan','.pass','details','.fcta'].forEach(sel=>ScrollTrigger.batch(sel,{start:'top 92%',once:true,onEnter:b=>gsap.fromTo(b,{y:28,opacity:0},{y:0,opacity:1,duration:1,ease:E,stagger:.06,clearProps:'transform,opacity'})}));
   // anillo de plazas: entra a escala y se rellena
   ScrollTrigger.create({trigger:'#ring',start:'top 85%',once:true,onEnter(){
     const ring=$('#ring'),pct=CONFIG.plazasOcupadas/CONFIG.plazasFundador*100,n=$('#ringN');
