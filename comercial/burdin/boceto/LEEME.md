@@ -65,7 +65,7 @@ Las preguntas para que Ander elija entre las dos referencias están en `../PREGU
 Todo lo que cambia está en el objeto `CONFIG`, al principio del `<script>`:
 
 - `apertura`: la fecha de la cuenta atrás;
-- `plazasFundador` y `plazasOcupadas`;
+- `plazasFundador` (total, 100) y `plazasLibres` («quedan X»: Ander lo cambia cuando quiera). El bloque de socio fundador desaparece solo cuando `plazasLibres` llega a 0 o el día de `apertura`; entonces la tarifa pasa a la normal;
 - `whatsapp`: el número de Ander, solo cifras y con el 34 delante;
 - `email`, `instagram`, `direccion` y `mapa`;
 - `virtuagym`: el enlace de cada tarifa en su tienda online. Si un enlace está vacío, el botón abre WhatsApp;

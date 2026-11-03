@@ -1033,6 +1033,32 @@
   .mcard:hover .mc-pic::after{background:radial-gradient(ellipse at center,rgba(255,240,215,.22),transparent 70%)}
   .mcard:hover{border-color:rgba(255,255,255,.35)}
   @media (hover:none){.mc-pic img{filter:grayscale(.2) brightness(.95)!important}}
+  /* ===== Máquinas como pegatinas ===== */
+  .stk-board{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:34px 26px;padding:56px 44px 48px;margin:0 0 44px;
+    background:radial-gradient(ellipse 80% 70% at 50% 40%,#232323,#141414 75%);border:1px solid rgba(255,255,255,.08);border-radius:4px}
+  .stk{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;transform:rotate(var(--r));transition:transform .5s var(--ease);outline:none;cursor:default}
+  .stk:nth-child(even){margin-top:34px}
+  .stk img{width:100%;height:auto;max-height:240px;object-fit:contain;filter:drop-shadow(0 6px 5px rgba(0,0,0,.55)) drop-shadow(0 18px 22px rgba(0,0,0,.35));transition:filter .5s var(--ease)}
+  .stk figcaption{font-family:var(--label);font-weight:600;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:#1a1a1a;background:#ece8df;padding:5px 10px 4px;transform:rotate(calc(var(--r) * -1.3));box-shadow:0 2px 4px rgba(0,0,0,.4)}
+  .stk:hover,.stk:focus-visible{transform:rotate(0deg) scale(1.08) translateY(-6px);z-index:2}
+  .stk:hover img,.stk:focus-visible img{filter:drop-shadow(0 10px 8px rgba(0,0,0,.5)) drop-shadow(0 34px 36px rgba(0,0,0,.45)) brightness(1.06)}
+  html[data-reveal-armed] .stk-board:not(.is-revealed) .stk{opacity:0;transform:rotate(calc(var(--r) * 3)) scale(.85)}
+  html[data-reveal-armed] .stk-board .stk{transition:transform .7s cubic-bezier(.34,1.56,.64,1) calc(var(--k) * 60ms),opacity .4s ease calc(var(--k) * 60ms)}
+  html[data-reveal-armed] .stk-board.is-revealed .stk:hover{transition-delay:0s}
+  #coleccion .logos{margin:0}
+  @media (max-width:900px){
+    .stk-board{grid-template-columns:1fr 1fr;gap:26px 14px;padding:30px 16px 26px}
+    .stk img{max-height:170px}
+    .stk figcaption{font-size:9.5px;letter-spacing:.16em}
+  }
+  @media (max-width:600px){#coleccion .logos{grid-template-columns:repeat(3,1fr)}#coleccion .logos div{height:70px;padding:10px}#coleccion .logos img,#coleccion .logos div.svg svg{max-height:30px;max-width:88%}}
+  @media (prefers-reduced-motion:reduce){.stk,html[data-reveal-armed] .stk-board .stk{transition:none}}
+  /* fundador cerrado: al llegar a 0 plazas o el día de la apertura */
+  .fund-closed #fundador,.fund-closed #fundador+.rule,.fund-closed .links .cta,.fund-closed .cta2,.fund-closed .hero-strip .u-a,.fund-closed .hero-strip .u-b,
+  .fund-closed .s2-feat,.fund-closed .disc-cta,.fund-closed .fcta,.fund-closed #tarifas .tabs{display:none!important}
+  .opened #count{display:none!important}
+  .fund-closed .s2-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  @media (max-width:900px){.fund-closed .s2:nth-child(3){grid-column:1/-1;border-bottom:0}}
 </style>
 </head>
 <body class="boceto">
@@ -1067,9 +1093,7 @@
     <div class="right">
       <div class="links" id="links">
         <a href="#coleccion" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
-        <a href="#gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
         <a href="#tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
-        <a href="#faq" class="hide-md" data-es="Preguntas" data-eu="Galderak">Preguntas</a>
         <a href="#contacto" class="hide-md" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
         <a href="#fundador" class="cta" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a>
       </div>
@@ -1080,7 +1104,7 @@
 </nav>
 
 <header class="hero" id="top">
-  <div class="drift" aria-hidden="true"><img src="img/chain.webp" class="d1" alt=""><img src="img/flex_bicep.webp" class="d3" alt=""></div><div class="bg" id="herobg"><div class="sign" aria-hidden="true"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="plate"></div></div><div class="shade"></div>
+  <div class="drift" aria-hidden="true"><img src="img/maquinas/cadena-old-school.webp" class="d1" alt=""><img src="img/maquinas/flex-pa560.webp" class="d3" alt=""></div><div class="bg" id="herobg"><div class="sign" aria-hidden="true"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="plate"></div></div><div class="shade"></div>
   <div class="side" aria-hidden="true" data-es="Disciplina · Resultados · Comunidad" data-eu="Diziplina · Emaitzak · Komunitatea">Disciplina · Resultados · Comunidad</div>
   <div class="wrap hero-in">
     <div>
@@ -1120,58 +1144,22 @@
 <section id="coleccion">
   <div class="wrap">
     <div data-reveal class="head">
-      <div class="eyebrow" data-n="02" data-es="Las máquinas" data-eu="Makinak">Las máquinas</div>
+      <div class="eyebrow" data-n="01" data-es="Las máquinas" data-eu="Makinak">Las máquinas</div>
       <h2 data-es="Más de 40 máquinas, 12 marcas" data-eu="40 makina baino gehiago, 12 marka">Más de 40 máquinas, 12 marcas</h2>
-      <p data-es="Musculación de las mejores marcas del mundo, elegidas una a una, en 350 m²." data-eu="Munduko marka onenetako muskulazio-makinak, banan-banan aukeratuak, 350 m²-tan.">Musculación de las mejores marcas del mundo, elegidas una a una, en 350 m².</p>
     </div>
+    <div class="stk-board" id="mgrid" data-reveal></div>
     <div class="logos" id="logos"></div>
-    <div class="mgrid" id="mgrid"></div>
-    <p class="note" data-es="Algunas de las máquinas de Burdin, antes de montarlas en la sala." data-eu="Burdineko makina batzuk, aretoan muntatu aurretik.">Algunas de las máquinas de Burdin, antes de montarlas en la sala.</p>
   </div>
 </section>
 
 
 
-<div class="rule" aria-hidden="true"></div>
-<section id="gimnasio">
-  <div class="gtitle">
-    <div class="wrap"><h2 data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</h2></div>
-    <svg class="brush" viewBox="0 0 1240 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9c120-4 260-6 410-5 160 1 290 4 420 2 150-2 260-5 406-3" stroke="#e6e6e6" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".9"/></svg>
-  </div>
-  <div class="wrap gcols">
-    <div data-reveal class="gbox">
-      <span class="tag" data-es="Instalaciones" data-eu="Instalazioak">Instalaciones</span>
-      <div class="fac tbd">
-        <div><b data-es="La sala" data-eu="Aretoa">La sala</b><p data-es="350 m² de máquinas guiadas y peso libre. Lo clásico y lo moderno en la misma planta: sin pasillos, sin esperas." data-eu="350 m² makina gidatu eta pisu askerekin. Klasikoa eta modernoa solairu berean: pasabiderik gabe, itxaronik gabe.">350 m² de máquinas guiadas y peso libre. Lo clásico y lo moderno en la misma planta: sin pasillos, sin esperas.</p></div>
-        <div><b data-es="La zona old school" data-eu="Old school eremua">La zona old school</b><p data-es="Las piezas que ya no se fabrican, juntas y a punto. Cadenas, levas y hierro fundido." data-eu="Jada egiten ez diren piezak, elkarrekin eta prest. Kateak, kamak eta burdinurtua.">Las piezas que ya no se fabrican, juntas y a punto. Cadenas, levas y hierro fundido.</p></div>
-        <div><b data-es="El sonido" data-eu="Soinua">El sonido</b><p data-es="Equipo de sala pensado para entrenar, no para la radio: volumen alto y graves sin distorsión." data-eu="Entrenatzeko pentsatutako soinu-ekipoa, ez irratirako: bolumen altua eta baxuak distortsiorik gabe.">Equipo de sala pensado para entrenar, no para la radio: volumen alto y graves sin distorsión.</p></div>
-        <div><b data-es="Vestuarios" data-eu="Aldagelak">Vestuarios</b><p data-es="Taquillas, duchas y un sitio para dejar la bolsa sin agobios." data-eu="Armairuak, dutxak eta poltsa lasai uzteko lekua.">Taquillas, duchas y un sitio para dejar la bolsa sin agobios.</p></div>
-      </div>
-    </div>
-    <div data-reveal class="gmid">
-      <div class="slides" id="slides"></div>
-      <div class="gnav"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Siguiente">→</button></div></div>
-      <img class="gcut" src="img/cybex_curl.webp" alt="" loading="lazy" aria-hidden="true">
-    </div>
-    <div data-reveal class="gbox">
-      <span class="tag" data-es="La sala por marcas" data-eu="Aretoa marken arabera">La sala por marcas</span>
-      <div class="bars tbd" id="bars"></div>
-      <span class="tag" style="margin-top:10px" data-es="Horario" data-eu="Ordutegia">Horario</span>
-      <div class="hours tbd">
-        <span data-es="Lun – Vie" data-eu="Al – Or">Lun – Vie</span><span>06:00 – 23:00</span>
-        <span data-es="Sábado" data-eu="Larunbata">Sábado</span><span>08:00 – 21:00</span>
-        <span data-es="Dom y festivos" data-eu="Ig eta jaiegunak">Dom y festivos</span><span>09:00 – 14:00</span>
-      </div>
-    </div>
-  </div>
-    <div class="wrap gfoot"><span data-es="Página 03 · El gimnasio" data-eu="03. orria · Gimnasioa">Página 03 · El gimnasio</span><span data-es="Fotos del local cuando acaben las obras" data-eu="Lokaleko argazkiak obrak amaitzean">Fotos del local cuando acaben las obras</span></div>
-</section>
 <div class="rule" aria-hidden="true"></div>
 <section id="fundador">
   <div class="wrap fund2">
     <div class="f-left">
       <div data-reveal class="head" style="margin-bottom:34px">
-        <div class="eyebrow" data-n="04" data-es="Solo antes de abrir" data-eu="Ireki aurretik bakarrik">Solo antes de abrir</div>
+        <div class="eyebrow" data-n="02" data-es="Solo antes de abrir" data-eu="Ireki aurretik bakarrik">Solo antes de abrir</div>
         <h2 data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</h2>
         <p data-es="Los primeros en creer en Burdin entrenan con condiciones que no volverán. Cuando se acaben las plazas, o cuando abramos, se cierra." data-eu="Burdinengan lehenik sinesten dutenek ez dira itzuliko ez diren baldintzetan entrenatzen dute. Plazak amaitzen direnean, edo irekitzen dugunean, ixten da.">Los primeros en creer en Burdin entrenan con condiciones que no volverán. Cuando se acaben las plazas, o cuando abramos, se cierra.</p>
       </div>
@@ -1226,34 +1214,10 @@
 
 
 <div class="rule" aria-hidden="true"></div>
-<section id="manifiesto"><div class="paper" aria-hidden="true"><span class="deboss" id="deboss">BURDIN</span><i class="fold"></i></div>
-  <div class="wrap">
-    <div class="eyebrow" data-n="06" style="margin-bottom:34px" data-es="Manifiesto" data-eu="Manifestua">Manifiesto</div>
-    <div class="mani mani3">
-      <article>
-        <span class="mn">01</span>
-        <h3 data-es="Un listón que merece la pena" data-eu="Merezi duen langa">Un listón que merece la pena</h3>
-        <p data-es="Hemos entrenado en gimnasios de medio mundo y siempre faltaba algo: una sala mal pensada, máquinas sin historia o un ambiente sin carácter. Así que hicimos el gimnasio que siempre quisimos tener, aquí, en casa." data-eu="Mundu erdiko gimnasioetan entrenatu dugu eta beti zerbait falta zen: gaizki pentsatutako aretoa, istoriorik gabeko makinak edo izaerarik gabeko giroa. Beraz, beti izan nahi genuen gimnasioa egin dugu, hemen, etxean.">Hemos entrenado en gimnasios de medio mundo y siempre faltaba algo: una sala mal pensada, máquinas sin historia o un ambiente sin carácter. Así que hicimos el gimnasio que siempre quisimos tener, aquí, en casa.</p>
-      </article>
-      <article>
-        <span class="mn">02</span>
-        <h3 data-es="A la caza de lo raro" data-eu="Arraroaren bila">A la caza de lo raro</h3>
-        <p data-es="Casi todos los gimnasios eligen un catálogo y se lo piden todo a un proveedor. Nosotros fuimos pieza a pieza, viniera de donde viniera. Cada vez que creíamos haber terminado, aparecía otra máquina que no podíamos dejar escapar. Lo bueno casi nunca llega por casualidad." data-eu="Ia gimnasio guztiek katalogo bat aukeratzen dute eta dena hornitzaile bati eskatzen diote. Guk piezaz pieza egin dugu, nondik zetorren kontuan hartu gabe. Amaitu genuela uste genuen bakoitzean, beste makina bat agertzen zen, ezin genuena ihes egiten utzi. Ona ia inoiz ez da kasualitatez iristen.">Casi todos los gimnasios eligen un catálogo y se lo piden todo a un proveedor. Nosotros fuimos pieza a pieza, viniera de donde viniera. Cada vez que creíamos haber terminado, aparecía otra máquina que no podíamos dejar escapar. Lo bueno casi nunca llega por casualidad.</p>
-      </article>
-      <article>
-        <span class="mn">03</span>
-        <h3 data-es="Más que una cuota" data-eu="Kuota bat baino gehiago">Más que una cuota</h3>
-        <p data-es="Lo exclusivo suele quedarse para los clubes privados, pero creemos que entrenar en serio merece ese mismo ambiente. Para mucha gente el gimnasio no es un edificio: es rutina, terapia, disciplina, calma y propósito. Lo sabemos porque a nosotros nos pasa lo mismo." data-eu="Esklusiboa klub pribatuetarako gordetzen da normalean, baina uste dugu serio entrenatzeak giro bera merezi duela. Askorentzat gimnasioa ez da eraikin bat: errutina, terapia, diziplina, lasaitasuna eta helburua da. Badakigu, guri ere gauza bera gertatzen zaigulako.">Lo exclusivo suele quedarse para los clubes privados, pero creemos que entrenar en serio merece ese mismo ambiente. Para mucha gente el gimnasio no es un edificio: es rutina, terapia, disciplina, calma y propósito. Lo sabemos porque a nosotros nos pasa lo mismo.</p>
-      </article>
-      <div class="sign" data-es="El equipo de Burdin" data-eu="Burdin taldea">El equipo de Burdin</div>
-    </div>
-  </div>
-</section>
-<div class="rule" aria-hidden="true"></div>
 <section id="tarifas">
   <div class="wrap">
     <div data-reveal class="head">
-      <div class="eyebrow" data-n="07" data-es="Tarifas" data-eu="Tarifak">Tarifas</div>
+      <div class="eyebrow" data-n="03" data-es="Tarifas" data-eu="Tarifak">Tarifas</div>
       <h2 data-es="Elige tu plan" data-eu="Aukeratu zure plana">Elige tu plan</h2>
       <p data-es="El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar." data-eu="Alta eta ordainketa gure Virtuagym dendan egiten dira: tarifa aukeratu, ordaindu eta sartzeko aplikazioa izango duzu.">El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar.</p>
     </div>
@@ -1264,7 +1228,7 @@
     <div class="plans" id="plans"></div>
     <div class="try">
       <div>
-        <div class="eyebrow" data-n="08" data-es="Sin compromiso" data-eu="Konpromisorik gabe">Sin compromiso</div>
+        <div class="eyebrow" data-n="04" data-es="Sin compromiso" data-eu="Konpromisorik gabe">Sin compromiso</div>
         <h3 data-es="O pruébanos primero" data-eu="Edo proba gaitzazu lehenik">O pruébanos primero</h3>
         <p data-es="¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera." data-eu="Hemendik igarotzen zara edo zure lekua den ikusi nahi duzu? Sartu egun batez, asteburu batez edo aste oso batez.">¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera.</p>
       </div>
@@ -1274,24 +1238,13 @@
   </div>
 </section>
 
-<div class="rule" aria-hidden="true"></div>
-<section id="faq">
-  <div class="wrap faqgrid">
-    <div data-reveal class="head">
-      <div class="eyebrow" data-n="09" data-es="Preguntas frecuentes" data-eu="Ohiko galderak">Preguntas frecuentes</div>
-      <h2 data-es="Lo que nos preguntáis" data-eu="Egiten dizkiguzuen galderak">Lo que nos preguntáis</h2>
-      <p data-es="¿No está tu duda? Escríbenos por WhatsApp y te contesta Ander." data-eu="Zure zalantza ez dago hemen? Idatzi WhatsAppez eta Anderrek erantzungo dizu.">¿No está tu duda? Escríbenos por WhatsApp y te contesta Ander.</p>
-    </div>
-    <div id="faqlist"></div>
-  </div>
-</section>
 
 <div class="rule" aria-hidden="true"></div>
 <section id="contacto">
   <div class="wrap contact">
     <div>
       <div data-reveal class="head" style="margin-bottom:30px">
-        <div class="eyebrow" data-n="10" data-es="Contacto" data-eu="Kontaktua">Contacto</div>
+        <div class="eyebrow" data-n="05" data-es="Contacto" data-eu="Kontaktua">Contacto</div>
         <h2 data-es="Ven a conocernos" data-eu="Etorri ezagutzera">Ven a conocernos</h2>
       </div>
       <div class="row"><small data-es="Dirección" data-eu="Helbidea">Dirección</small><div class="tbd" id="cAddr"></div></div>
@@ -1332,7 +1285,7 @@
 </footer>
 
 <dialog class="ficha" id="ficha" aria-label="Ficha de la máquina"><button type="button" class="fi-x" aria-label="Cerrar">×</button><div class="fi-body"></div></dialog>
-<div hidden aria-hidden="true"><div id="legends"></div></div>
+<div hidden aria-hidden="true"><div id="legends"></div><div id="bars"></div><div id="slides"></div><div id="dots"></div><button id="prev"></button><button id="next"></button><div id="faqlist"></div></div>
 <a href="#fundador" class="disc-cta" id="discCta" aria-label="Reserva tu plaza de socio fundador">
   <span class="dc-frame">
     <svg class="dc-txt" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="dcp" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs><text><textPath href="#dcp" textLength="536" data-es="RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ " data-eu="GORDE ZURE PLAZA ✦ BAZKIDE SORTZAILEA ✦ ">RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ </textPath></text></svg>
@@ -1352,7 +1305,9 @@
 const CONFIG={
   boceto:true,                         // false = quita la barra y los puntos de «por confirmar»
   apertura:'2027-02-01T07:00:00+01:00',// fecha y hora de apertura (cuenta atrás)
-  plazasFundador:100, plazasOcupadas:37,
+  plazasFundador:100,                  // total de plazas de socio fundador
+  plazasLibres:63,                     // «quedan X»: este número lo cambia Ander cuando quiera
+                                       // el bloque de fundador desaparece solo al llegar a 0 o el día de la apertura
   whatsapp:'',                         // número de Ander, solo cifras con prefijo: '34600000000'
   email:'kaixo@burdingym.eus',
   instagram:'burdingym',
@@ -1369,7 +1324,13 @@ const BRANDS=[['Cybex','cybex'],['Hammer Strength','hammer-strength'],['Nautilus
 
 /* ===================================================================== */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-let LANG='es', PHASE='pre';
+CONFIG.plazasLibres=Math.max(0,Math.min(CONFIG.plazasLibres,CONFIG.plazasFundador));
+CONFIG.plazasOcupadas=CONFIG.plazasFundador-CONFIG.plazasLibres;
+const FUND_OPEN=CONFIG.plazasLibres>0&&new Date()<new Date(CONFIG.apertura);
+if(!FUND_OPEN)document.documentElement.classList.add('fund-closed');
+if(new Date()>=new Date(CONFIG.apertura))document.documentElement.classList.add('opened');
+if(!FUND_OPEN){const sb=document.querySelector('.hero .sub');if(sb){sb.dataset.es=sb.dataset.es.replace(' Hazte socio fundador antes de que abramos.','');sb.dataset.eu=sb.dataset.eu.replace(' Egin bazkide sortzaile ireki aurretik.','')}}
+let LANG='es', PHASE=FUND_OPEN?'pre':'post';
 /* ---------- Banderas (SVG) ---------- */
 function FLAG(c){const w='<svg class="flag" viewBox="0 0 30 20" aria-hidden="true">',e='</svg>';
  const F={
@@ -1496,17 +1457,11 @@ function tierLink(k,label){
 }
 
 const GRID=[
- ['cadena-old-school','Old school','Press a cadena',{es:'Pecho · Hombro',eu:'Bularra · Sorbalda'}],
- ['hammer-strength-remo','Hammer Strength','Remo de carga',{es:'Espalda',eu:'Bizkarra'}],
- ['paramount-remo','Paramount','Remo sentado',{es:'Espalda',eu:'Bizkarra'}],
- ['nautilus-nitro','Nautilus','Nitro · pierna',{es:'Pierna',eu:'Hanka'}],
- ['flex-pa560','Flex Fitness','Biceps PA-560',{es:'Bíceps',eu:'Bizepsa'}],
- ['gymleco-chest-press','Gymleco','Chest Press',{es:'Pecho · Tríceps',eu:'Bularra · Trizepsa'}],
- ['gymleco-hack-squat','Gymleco','Hack Squat',{es:'Cuádriceps · Glúteo',eu:'Kuadrizepsa · Ipurmasaila'}],
- ['gymleco-leg-press','Gymleco','Leg Press',{es:'Pierna · Glúteo',eu:'Hanka · Ipurmasaila'}]
+ ['cadena-old-school','Old school',-5],['hammer-strength-remo','Hammer Strength',4],['flex-pa560','Flex Fitness',-3],['nautilus-nitro','Nautilus',6],['press-blanca','Old school',-4],
+ ['gymleco-hack-squat','Gymleco',3],['paramount-remo','Paramount',-6],['fondos-asistidos','Old school',5],['gymleco-chest-press','Gymleco',-2],['gymleco-leg-press','Gymleco',4]
 ];
 function renderMachines(){
-  const g=document.getElementById('mgrid');if(g){g.innerHTML=GRID.map(([f,b,nm,gr])=>`<figure class="mcard"><div class="mc-pic"><img src="img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy"></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
+  const g=document.getElementById('mgrid');if(g){g.innerHTML=GRID.map(([f,b,r],k)=>`<figure class="stk" style="--r:${r}deg;--k:${k}" tabindex="0"><img src="img/maquinas/sticker-${f}.webp" alt="${b}" loading="lazy"><figcaption>${b}</figcaption></figure>`).join('')}
   if(!document.getElementById('sheets'))return;
   const l=LANG,x=ML[l];
   $('#sheets').innerHTML=MACHINES.map((m,i)=>{const t=m[l];const yr=(t.year.match(/\d+/)||[''])[0];return `
@@ -1771,7 +1726,7 @@ const rio=new IntersectionObserver(es=>{let k=0;es.forEach(e=>{if(e.isIntersecti
 function armReveal(){$$('[data-reveal]:not(.is-revealed)').forEach(el=>rio.observe(el))}
 armReveal();new MutationObserver(armReveal).observe(document.body,{childList:true,subtree:true});
 /* ---------- Desliza para reservar (se repite por la página) ---------- */
-function SLt(){return {es:['Desliza para reservar','Vamos allá','Desliza para reservar tu plaza de fundador'],eu:['Irristatu erreserbatzeko','Goazen','Irristatu zure sortzaile-plaza erreserbatzeko']}}
+function SLt(){if(!FUND_OPEN)return {es:['Desliza para ver tarifas','Vamos allá','Desliza para ver las tarifas'],eu:['Irristatu tarifak ikusteko','Goazen','Irristatu tarifak ikusteko']};return {es:['Desliza para reservar','Vamos allá','Desliza para reservar tu plaza de fundador'],eu:['Irristatu erreserbatzeko','Goazen','Irristatu zure sortzaile-plaza erreserbatzeko']}}
 function slideHTML(){const t=SLt()[LANG];return `<div class="track2"><div class="fill"></div><button type="button" class="knob" aria-label="${t[2]}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="lbl2"><svg viewBox="0 0 272 288" aria-hidden="true"><use href="#b"/></svg><span>${t[0]}</span></div><div class="ok">${t[1]}</div></div>`}
 function initSlides(){$$('[data-slide]').forEach(root=>{
   root.innerHTML=slideHTML();root.setAttribute('role','group');
@@ -1781,7 +1736,7 @@ function initSlides(){$$('[data-slide]').forEach(root=>{
   const set=v=>{x=Math.max(0,Math.min(max,v));knob.style.transform=`translateX(${x}px)`;fill.style.width=(W+x)+'px';lbl.style.opacity=Math.max(0,1-x/(max*.55))};
   const done=()=>{measure();root.classList.add('snap','done');set(max);setTimeout(()=>{const to=root.dataset.to;
     if(to){const f=document.querySelector(to);f.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>f.focus({preventScroll:true}),500)}
-    else document.querySelector('#fundador').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    else document.querySelector(FUND_OPEN?'#fundador':'#tarifas').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
     setTimeout(()=>{root.classList.remove('done');set(0)},900)},450)};
   knob.addEventListener('pointerdown',e=>{measure();drag=true;startX=e.clientX-x;root.classList.remove('snap');knob.setPointerCapture(e.pointerId)});
   knob.addEventListener('pointermove',e=>{if(drag)set(e.clientX-startX)});
