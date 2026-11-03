@@ -810,6 +810,59 @@
   #manifiesto .wrap{position:relative;z-index:2}
   #manifiesto canvas.tv{display:none}
   .mani3 article{background:transparent}
+  /* separadores de revista a todo el ancho de la pantalla */
+  .rule{width:100%!important;margin:0!important}
+  .hero-strip{border-top:0!important}
+  .hero-strip::before{display:none}
+  .hero-strip::after{content:"";position:absolute;left:50%;top:0;width:100vw;transform:translateX(-50%);height:9px;border-top:3px solid rgba(236,236,236,.82);border-bottom:1px solid rgba(236,236,236,.4);box-sizing:border-box}
+  .gauge,.mani3{border-top:0!important;position:relative}
+  .gauge::before,.mani3::before{content:"";position:absolute;left:50%;top:0;width:100vw;transform:translateX(-50%);height:9px;border-top:3px solid rgba(236,236,236,.82);border-bottom:1px solid rgba(236,236,236,.4);box-sizing:border-box;pointer-events:none}
+  .era-head{border-bottom:0!important;position:relative}
+  .era-head::after{content:"";position:absolute;left:50%;bottom:0;width:100vw;transform:translateX(-50%);height:9px;border-top:3px solid rgba(236,236,236,.82);border-bottom:1px solid rgba(236,236,236,.4);box-sizing:border-box}
+  .gtitle svg.brush{width:100%!important}
+  /* ===== Ficha de máquina (ventana) ===== */
+  .ficha{border:0;padding:0;max-width:min(1100px,calc(100% - 32px));width:100%;max-height:calc(100% - 32px);background:#141414;color:var(--fg);box-shadow:0 0 0 1px rgba(255,255,255,.18),0 0 0 8px #0a0a0a,0 0 0 9px rgba(255,255,255,.1),0 40px 80px rgba(0,0,0,.7);overflow:auto;animation:fi-in .45s var(--ease)}
+  .ficha::backdrop{background:rgba(5,5,5,.78);backdrop-filter:blur(4px);animation:fi-fade .3s}
+  .ficha.out{animation:fi-out .26s var(--ease) forwards}
+  @keyframes fi-in{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+  @keyframes fi-out{to{opacity:0;transform:translateY(12px) scale(.98)}}
+  @keyframes fi-fade{from{opacity:0}}
+  .fi-x{position:sticky;top:0;float:right;z-index:5;width:52px;height:52px;background:var(--fg);color:var(--bg);border:0;font-size:1.8rem;cursor:pointer}
+  .fi-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .fi-pic{position:relative;min-height:520px;background:radial-gradient(ellipse 70% 60% at 50% 55%,#2a2a2a,#0d0d0d 72%);display:grid;place-items:center}
+  .fi-pic img{max-height:440px;max-width:86%;width:auto;filter:grayscale(1) contrast(1.1) drop-shadow(0 30px 30px rgba(0,0,0,.8));transition:filter .8s var(--ease)}
+  .fi-pic:hover img{filter:grayscale(0)}
+  .fi-pic .hexf{top:22px;left:22px}
+  .fi-n{position:absolute;left:24px;bottom:20px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--fg3)}
+  .fi-txt{padding:42px 42px 34px}
+  .fi-brand{display:flex;justify-content:space-between;font-family:var(--label);font-weight:600;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .fi-brand em{font-style:normal;color:var(--fg3)}
+  .ficha h3{font-family:var(--display);font-weight:900;font-stretch:66%;text-transform:uppercase;font-size:clamp(2.6rem,4.5vw,4rem);line-height:.9;margin:22px 0 6px}
+  .fi-model{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+  .fi-spec{display:grid;grid-template-columns:1fr 1fr;margin:24px 0;border-top:1px solid var(--line)}
+  .fi-spec div{padding:12px 0;border-bottom:1px solid var(--line)}
+  .fi-spec dt{font-family:var(--label);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3)}
+  .fi-spec dd{margin:4px 0 0;font-family:var(--display);font-weight:900;font-stretch:66%;font-size:1.3rem;display:flex;align-items:center}
+  .fi-h{display:block;margin:22px 0 8px;font-family:var(--label);font-weight:600;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3)}
+  .fi-txt p{font-family:var(--serif);font-size:1.06rem;line-height:1.6;color:var(--fg2);margin-bottom:10px}
+  .fi-txt p.fi-why{color:var(--fg);font-size:1.2rem}
+  .fi-nav{display:flex;justify-content:space-between;gap:10px;margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}
+  .fi-nav button{min-height:44px;padding:0 18px;background:transparent;border:1px solid rgba(255,255,255,.35);color:var(--fg);font-family:var(--label);font-weight:600;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+  .fi-nav button:hover{background:var(--fg);color:var(--bg)}
+  @media (max-width:820px){.fi-body{grid-template-columns:1fr}.fi-pic{min-height:300px}.fi-pic img{max-height:260px}.fi-txt{padding:28px 22px}}
+  @media (prefers-reduced-motion:reduce){.ficha,.ficha.out,.ficha::backdrop{animation:none}}
+  .ficha{margin:auto;inset:0;position:fixed}
+  .fi-x{position:absolute;float:none;top:0;right:0}
+  .fi-spec dd{line-height:1.15;align-items:flex-start;gap:8px}
+  .fi-spec dd .flag{margin:3px 0 0}
+  .fi-brand{gap:12px;flex-wrap:wrap}
+  @media (max-width:820px){.ficha{max-width:calc(100% - 20px);max-height:calc(100% - 20px)}.fi-txt{padding:24px 20px}}
+  .fi-ph{display:none}
+  .fi-pic.nofoto img{display:none}
+  .fi-pic.nofoto .fi-ph{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+  .fi-ph b{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--fg3)}
+  .fi-ph span{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(3rem,6vw,5rem);line-height:.9;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.35)}
+  .fi-ph em{font-style:normal;font-family:var(--label);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tbd);border:1px dashed rgba(232,215,155,.45);padding:6px 10px;margin-top:8px}
 </style>
 </head>
 <body class="boceto">
@@ -1118,6 +1171,7 @@
   </div>
 </footer>
 
+<dialog class="ficha" id="ficha" aria-label="Ficha de la máquina"><button type="button" class="fi-x" aria-label="Cerrar">×</button><div class="fi-body"></div></dialog>
 <a href="#fundador" class="disc-cta" id="discCta" aria-label="Reserva tu plaza de socio fundador">
   <span class="dc-frame">
     <svg class="dc-txt" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="dcp" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs><text><textPath href="#dcp" textLength="536" data-es="RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ " data-eu="GORDE ZURE PLAZA ✦ BAZKIDE SORTZAILEA ✦ ">RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ </textPath></text></svg>
@@ -1298,7 +1352,8 @@ function renderMachines(){
        <button type="button" class="btn-text open" data-open><span>${x.open}</span><svg aria-hidden="true"><use href="#arrow"/></svg></button>
      </div>
    </article>`}).join('');
-  $$('[data-open]').forEach(b=>b.onclick=()=>{const s=b.closest('.sheet');s.classList.toggle('open');b.querySelector('span').textContent=s.classList.contains('open')?ML[LANG].close:ML[LANG].open});
+  $$('[data-open]').forEach((b,i)=>b.onclick=()=>openFicha(i));
+  $$('.sheet .pic').forEach((pc,i)=>{pc.style.cursor='zoom-in';pc.onclick=()=>openFicha(i)});
 }
 
 /* patrón generativo tenue por ficha: rejilla técnica con remaches, sembrado por índice */
@@ -1327,6 +1382,29 @@ function splitWords(node){
   });
 }
 function prepareMani(){$$('.mani p').forEach(splitWords)}
+
+/* ---------- Historia larga de cada máquina (ficha) — de ejemplo, Ander la completa ---------- */
+const HIST={
+ 'img/maquinas/gymleco-leg-press.webp':{es:['Gymleco nació en Suecia para equipar gimnasios de fuerza, no salas de fitness. Su prensa de carga es de las que se compran una vez y duran décadas.','Esta unidad llegó desde Estocolmo por carretera. La montamos tal cual sale de fábrica: sin carenados, con el acero a la vista.','Para qué sirve: pierna completa con la espalda apoyada. Carga hasta donde llegue tu valor.'],eu:['Gymleco Suedian sortu zen indar-gimnasioak hornitzeko, ez fitness-aretoak. Bere karga-prentsa behin erosi eta hamarkadak irauten duten horietakoa da.','Unitate hau Stockholmetik iritsi zen errepidez. Fabrikatik irteten den bezala muntatu dugu: karenadurarik gabe, altzairua agerian.','Zertarako: hanka osoa, bizkarra bermatuta. Kargatu zure ausardiak heltzen duen arte.']},
+ 'img/maquinas/gymleco-hack-squat.webp':{es:['La hack squat es la sentadilla de los culturistas escandinavos: espalda fija, carro sobre guía de inoxidable a 45° y todo el trabajo para el cuádriceps.','Viene de la misma fábrica que la prensa. Las dos se pidieron juntas para que la zona de pierna tuviera el mismo acero.','Para qué sirve: cuádriceps y glúteo sin que la espalda limite la carga.'],eu:['Hack squata kulturista eskandinaviarren squata da: bizkarra finko, orga 45°-ko herdoilgaitzezko gidan eta lan guztia kuadrizepsarentzat.','Prentsaren fabrika beretik dator. Biak batera eskatu ziren hanka-eremuak altzairu bera izan zezan.','Zertarako: kuadrizepsa eta ipurmasaila bizkarrak karga mugatu gabe.']},
+ 'img/maquinas/gymleco-chest-press.webp':{es:['Press de pecho con brazos independientes: cada lado empuja su peso. El lado débil deja de esconderse.','Diseño sueco sobrio, negro y sin adornos. Respaldo alto y asiento regulable para que el recorrido sea el tuyo.','Para qué sirve: pecho y tríceps, y corregir desequilibrios entre lados.'],eu:['Beso independenteko bular-prentsa: alde bakoitzak bere pisua bultzatzen du. Alde ahulak ezkutatzeari uzten dio.','Diseinu suediar soila, beltza eta apaingarririk gabea. Bizkar-euskarri altua eta eserleku erregulagarria, ibilbidea zurea izan dadin.','Zertarako: bularra eta trizepsa, eta aldeen arteko desorekak zuzentzea.']}
+};
+function openFicha(i){
+  const m=MACHINES[i],l=LANG,t=m[l],x=ML[l],h=(HIST[m.img]||{})[l]||[t.why];
+  const d=$('#ficha');const hasH=!!(HIST[m.img]||{})[l];
+  d.querySelector('.fi-body').innerHTML=`
+    <div class="fi-pic"><span class="hexf">${FLAG(m.cc)}</span><img src="${m.img}" alt="${m.brand} ${m.name}" onerror="this.parentNode.classList.add('nofoto')"><div class="fi-ph"><b>${m.brand}</b><span>${m.name}</span><em>${l==='es'?'Foto de la pieza · pendiente':'Piezaren argazkia · zain'}</em></div><span class="fi-n">Nº ${String(i+1).padStart(2,'0')} / ${String(MACHINES.length).padStart(2,'0')}</span></div>
+    <div class="fi-txt">
+      <div class="fi-brand"><span>${m.brand}</span><em class="tbd">${x.ex}</em></div>
+      <h3>${m.name}</h3><div class="fi-model">${t.model}</div>
+      <dl class="fi-spec"><div><dt>${x.y}</dt><dd>${t.year}</dd></div><div><dt>${x.f}</dt><dd>${FLAG(m.cc)}${t.from}</dd></div><div><dt>${x.k}</dt><dd>${t.km}</dd></div><div><dt>${x.g} · ${x.t}</dt><dd>${t.g} · ${t.t}</dd></div></dl>
+      <b class="fi-h">${x.w}</b><p class="fi-why">${t.why}</p>
+      ${hasH?`<b class="fi-h">${l==='es'?'La historia':'Istorioa'}</b>${h.map(p=>`<p>${p}</p>`).join('')}`:''}
+      <div class="fi-nav"><button type="button" data-fi="-1">← ${l==='es'?'Anterior':'Aurrekoa'}</button><button type="button" data-fi="1">${l==='es'?'Siguiente':'Hurrengoa'} →</button></div>
+    </div>`;
+  d.querySelectorAll('[data-fi]').forEach(b=>b.onclick=()=>openFicha((i+(+b.dataset.fi)+MACHINES.length)%MACHINES.length));
+  if(!d.open){d.showModal();document.body.style.overflow='hidden'}
+}
 function renderZones(){
   const l=LANG, soon=l==='es'?'Foto del local · cuando acaben las obras':'Lokaleko argazkia · obrak amaitzean';
   $('#slides').innerHTML=ZONES.map((z,i)=>{
@@ -1601,6 +1679,10 @@ addEventListener('resize',fitTitles);document.fonts&&document.fonts.ready.then(f
 /* ---------- «BURDIN» estampado: ocupa todo el ancho del manifiesto ---------- */
 function fitDeboss(){const d=document.getElementById('deboss');if(!d)return;const w=d.parentNode.clientWidth*.96;d.style.fontSize='100px';d.style.fontSize=Math.floor(100*w/d.getBoundingClientRect().width)+'px'}
 addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(fitDeboss);fitDeboss();
+
+/* ---------- cierre de la ficha ---------- */
+(function(){const d=$('#ficha');const close=()=>{d.classList.add('out');setTimeout(()=>{d.close();d.classList.remove('out');document.body.style.overflow=''},260)};
+ d.querySelector('.fi-x').onclick=close;d.addEventListener('click',e=>{if(e.target===d)close()});d.addEventListener('cancel',e=>{e.preventDefault();close()});})();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
