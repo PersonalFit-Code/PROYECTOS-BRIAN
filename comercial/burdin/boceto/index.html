@@ -990,6 +990,27 @@
   }
   @media (min-width:1101px) and (max-width:1320px){.links{gap:18px!important}}
   @media (min-width:1101px) and (max-width:1239px){.links a.hide-md{display:none!important}}
+  /* ===== Franja de cifras ===== */
+  :root{--stone:#c9c2b6}
+  .stats2{position:relative;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23p)'/%3E%3C/svg%3E"),#0e0e0e}
+  .s2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+  .s2{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;padding:60px 20px 54px;border-right:1px solid rgba(255,255,255,.1)}
+  .s2:last-child{border-right:0}
+  .s2 b{display:inline-flex;align-items:flex-start;font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(3.6rem,7vw,6.2rem);line-height:.86;color:var(--fg);font-variant-numeric:tabular-nums}
+  .s2 sup{font-size:.5em;line-height:1;color:var(--stone);margin-left:.06em;vertical-align:baseline;position:relative;top:0}
+  .s2 small{margin-top:22px;font-family:var(--label);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#d6d6d6}
+  .s2-feat{background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px rgba(201,194,182,.25)}
+  .s2-bar{width:min(220px,80%);height:3px;background:rgba(255,255,255,.12);margin-top:18px;position:relative;overflow:hidden}
+  .s2-bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--stone);transition:width 1.4s var(--ease)}
+  .s2-left{margin-top:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg2)}
+  .s2-btn{margin-top:16px;min-height:44px!important;padding:10px 20px!important;font-size:11.5px!important}
+  @media (max-width:900px){
+    .s2-grid{grid-template-columns:1fr 1fr}
+    .s2{padding:40px 12px 36px}
+    .s2:nth-child(2){border-right:0}
+    .s2:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.1)}
+    .s2 small{font-size:11.5px;margin-top:16px}
+  }
 </style>
 </head>
 <body class="boceto">
@@ -1061,11 +1082,18 @@
   </div>
 </header>
 
-<div class="stats wrap" id="stats">
-  <div class="stat"><b class="tbd"><span data-n="60">60</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
-  <div class="stat"><b><span data-n="12">12</span></b><small data-es="Marcas top" data-eu="Marka nagusi">Marcas top</small></div>
-  <div class="stat"><b class="tbd"><span data-n="800">800</span><sup>m²</sup></b><small data-es="De hierro" data-eu="Burdina">De hierro</small></div>
-  <div class="stat"><b class="tbd"><span data-n="100">100</span></b><small data-es="Plazas fundador" data-eu="Sortzaile-plaza">Plazas fundador</small></div>
+<div class="stats2" id="stats">
+  <div class="wrap s2-grid">
+    <div class="s2"><b class="tbd"><span data-n="60">60</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
+    <div class="s2"><b><span data-n="12">12</span></b><small data-es="Marcas top" data-eu="Marka nagusi">Marcas top</small></div>
+    <div class="s2"><b class="tbd"><span data-n="800">800</span><sup>m²</sup></b><small data-es="De hierro" data-eu="Burdina">De hierro</small></div>
+    <div class="s2 s2-feat"><b class="tbd"><span data-n="100">100</span></b><small data-es="Plazas fundador" data-eu="Sortzaile-plaza">Plazas fundador</small>
+      <div class="s2-bar" aria-hidden="true"><i id="s2bar"></i></div>
+      <p class="s2-left"><span id="s2left">63</span> <span data-es="libres" data-eu="libre">libres</span></p>
+      <a href="#fundador" class="btn btn-ghost s2-btn" data-es="Reservar mi plaza" data-eu="Nire plaza gorde">Reservar mi plaza</a>
+    </div>
+  </div>
+</div>
 </div>
 
 <section id="coleccion">
@@ -1812,6 +1840,20 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
 (function(){const d=$('#ficha');const close=()=>{d.classList.add('out');setTimeout(()=>{d.close();d.classList.remove('out');document.body.style.overflow=''},260)};
  d.querySelector('.fi-x').onclick=close;d.addEventListener('click',e=>{if(e.target===d)close()});d.addEventListener('cancel',e=>{e.preventDefault();close()});})();
 
+/* ---------- Cifras: contador de 0 al número, escalonado 150 ms ---------- */
+(function(){
+  const box=document.getElementById('stats');if(!box)return;
+  const nums=[...box.querySelectorAll('[data-n]')];
+  const tot=CONFIG.plazasFundador,left=tot-Math.min(CONFIG.plazasOcupadas,tot);
+  document.getElementById('s2left').textContent=left;
+  const fill=()=>{document.getElementById('s2bar').style.width=(left/tot*100)+'%'};
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){fill();return}
+  nums.forEach(n=>n.textContent='0');
+  const run=()=>{nums.forEach((n,i)=>setTimeout(()=>{const to=+n.dataset.n,t0=performance.now(),d=1400;
+      (function f(t){const k=Math.min(1,(t-t0)/d);n.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)},i*150));fill()};
+  new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){run();o.disconnect()}},{threshold:.35}).observe(box);
+})();
+
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(window.gsap&&!reduce){
@@ -1820,7 +1862,6 @@ if(window.gsap&&!reduce){
   gsap.to('#herobg',{yPercent:12,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
   const bigN=$('#seatsLeftBig'),target=+bigN.textContent;
   gsap.to({v:0},{v:target,duration:1.6,ease:E,onUpdate(){bigN.textContent=Math.round(this.targets()[0].v)}});
-  $$('.stat [data-n]').forEach(el=>{const to=+el.dataset.n;gsap.to({v:0},{v:to,duration:1.4,ease:E,scrollTrigger:{trigger:el,start:'top 85%',once:true},onUpdate(){el.textContent=Math.round(this.targets()[0].v)}})});
   $$('[data-parallax]').forEach(img=>gsap.fromTo(img,{yPercent:-56},{yPercent:-44,ease:'none',scrollTrigger:{trigger:img.closest('.sheet'),start:'top bottom',end:'bottom top',scrub:true}}));
   // anillo de plazas: entra a escala y se rellena
   ScrollTrigger.create({trigger:'#ring',start:'top 85%',once:true,onEnter(){
