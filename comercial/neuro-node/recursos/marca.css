@@ -1,0 +1,128 @@
+/*
+ * neuro·node · hoja de estilo de documentos (briefings y propuestas)
+ * Sale de «Presentación para identidad visual de neuro·node» y de «Plantilla Doc»:
+ *  · Montserrat para titulares (Bold, MAYÚSCULAS) y etiquetas (Medium, mayúsculas con tracking).
+ *  · Quicksand para párrafos y descripciones.
+ *  · Fondo blanco, negro para texto y tablas, índigo #6447FA como acento.
+ *  · Lenguaje gráfico de nodos y conexiones: nada de cerebros, circuitos ni robots.
+ */
+@page { size: A4; margin: 0; }
+
+@font-face { font-family: "Montserrat"; src: url(fuentes/montserrat.woff2) format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Quicksand"; src: url(fuentes/quicksand.woff2) format("woff2"); font-weight: 300 700; }
+
+:root {
+  --negro: #000000;
+  --tinta: #141414;
+  --indigo: #6447fa;      /* Índigo Unión: acento principal */
+  --morado: #7f1eed;      /* Morado Neuro Node */
+  --azul: #36adfb;        /* Azul Salud: el lado del profesional */
+  --real: #341e67;        /* Morado Real */
+  --gris: #e0dfe0;        /* Gris Tecnológico */
+  --rosa: #ffe8e1;        /* Rosa Piel */
+  --lila: #f5f3fe;        /* fondo de los destacados (índigo al 6 %) */
+  --texto: #2b2b30;
+  --suave: #6d6d75;
+  --linea: #e8e7ea;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; padding: 0 20mm; font-family: "Quicksand", sans-serif; font-size: 10.4pt; line-height: 1.6; color: var(--texto); font-weight: 500; }
+
+/* Cabecera y pie: fijos en el borde de cada página impresa. El cuerpo va dentro de una tabla
+   cuyas thead/tfoot vacías se repiten en cada página y reservan su hueco (truco estándar de Chrome). */
+.cabecera { position: fixed; top: 0; left: 0; right: 0; height: 15mm; padding: 0 12mm; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--linea); background: #fff; }
+.cabecera .marca { display: flex; align-items: center; gap: 1.8mm; }
+.cabecera .marca img.iso { height: 6mm; }
+.cabecera .marca img.word { height: 4mm; }
+.cabecera .tipo, .pie .der { font-family: "Montserrat"; font-weight: 500; font-size: 6.6pt; letter-spacing: .28em; text-transform: uppercase; color: var(--suave); }
+.pie { position: fixed; bottom: 0; left: 0; right: 0; height: 12mm; padding: 0 12mm; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--linea); font-size: 7pt; color: var(--suave); background: #fff; }
+table.pagina { width: 100%; border-collapse: collapse; margin: 0; font-size: inherit; }
+table.pagina > thead > tr > td { height: 25mm; padding: 0; }
+table.pagina > tfoot > tr > td { height: 20mm; padding: 0; }
+table.pagina > tbody > tr > td { padding: 0; border: 0; font-family: inherit; font-weight: inherit; font-size: inherit; color: inherit; }
+
+/* Tipografía */
+.etiqueta { font-family: "Montserrat"; font-weight: 600; font-size: 7.2pt; letter-spacing: .3em; text-transform: uppercase; color: var(--indigo); margin: 0 0 2.5mm; }
+h1 { font-family: "Montserrat"; font-weight: 800; font-size: 25pt; line-height: 1.08; letter-spacing: -.005em; text-transform: uppercase; color: var(--negro); margin: 0; }
+.subtitulo { font-size: 12pt; color: var(--texto); margin: 3mm 0 3mm; }
+.meta { font-family: "Montserrat"; font-weight: 600; font-size: 7pt; letter-spacing: .22em; text-transform: uppercase; color: var(--suave); margin: 0; }
+h2 { font-family: "Montserrat"; font-weight: 700; font-size: 13.5pt; text-transform: uppercase; color: var(--negro); margin: 9mm 0 3mm; letter-spacing: .005em; break-after: avoid; }
+h2 .n { color: var(--indigo); margin-right: 2.4mm; }
+h3 { font-family: "Montserrat"; font-weight: 700; font-size: 10.2pt; color: var(--negro); margin: 5mm 0 1.5mm; break-after: avoid; }
+p { margin: 0 0 3mm; }
+b, strong { font-weight: 700; color: var(--negro); }
+ul { margin: 0 0 3mm; padding-left: 5mm; }
+li { margin: 0 0 1.4mm; }
+li::marker { color: var(--indigo); }
+.saltar { break-before: page; }
+.junto { break-inside: avoid; }
+
+/* Destacado: cifra o idea clave, con filete índigo a la izquierda */
+.destacado { break-inside: avoid; background: var(--lila); border-left: 1.2mm solid var(--indigo); border-radius: 0 3mm 3mm 0; padding: 5mm 6mm; margin: 5mm 0; }
+.destacado .cifra { font-family: "Montserrat"; font-weight: 800; font-size: 20pt; color: var(--indigo); line-height: 1.1; margin: 0 0 1mm; }
+.destacado p { margin: 0; color: var(--texto); }
+.destacado.suave { background: #fafafa; border-left-color: var(--gris); }
+
+/* Tabla de la plantilla: cabecera negra, filas con filete */
+table.datos { width: 100%; border-collapse: collapse; margin: 3mm 0 5mm; font-size: 9.4pt; }
+table.datos thead th { background: var(--tinta); color: #fff; font-family: "Montserrat"; font-weight: 600; font-size: 8.4pt; text-align: left; padding: 2.6mm 3.4mm; }
+table.datos tbody td { padding: 2.6mm 3.4mm; border-bottom: 1px solid var(--linea); vertical-align: top; }
+table.datos tbody td:first-child { font-family: "Montserrat"; font-weight: 600; font-size: 8.8pt; color: var(--negro); }
+tr { break-inside: avoid; }
+
+/* Portada */
+.portada { min-height: 245mm; display: flex; flex-direction: column; break-after: page; }
+.portada .arriba { flex: 1; }
+.portada h1 { font-size: 31pt; max-width: 150mm; }
+.portada .nodos { margin: 12mm 0 0; }
+.portada .preparado { border-top: 1px solid var(--linea); padding-top: 4mm; display: flex; justify-content: space-between; font-size: 9pt; color: var(--suave); }
+.portada .preparado b { color: var(--negro); }
+
+/* Tarjetas en rejilla */
+.rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin: 3mm 0 5mm; }
+.rejilla.tres { grid-template-columns: 1fr 1fr 1fr; }
+.rejilla.cuatro { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 3mm; }
+.rejilla.cuatro .tarjeta { padding: 4mm 3.6mm; }
+.rejilla.cuatro .tarjeta p { font-size: 8.8pt; }
+.tarjeta { break-inside: avoid; border: 1px solid var(--linea); border-radius: 3mm; padding: 4.5mm 4.5mm 4mm; }
+.tarjeta .num { font-family: "Montserrat"; font-weight: 800; font-size: 9pt; color: var(--indigo); letter-spacing: .08em; }
+.tarjeta h3 { margin: 1.2mm 0 1.2mm; }
+.tarjeta p { margin: 0; font-size: 9.4pt; }
+
+/* Recorrido en el tiempo (cita, proceso): nodos unidos por una línea */
+.recorrido { position: relative; margin: 4mm 0 6mm; padding-left: 8mm; }
+.recorrido::before { content: ""; position: absolute; left: 2.4mm; top: 2mm; bottom: 2mm; width: .7mm; border-radius: 1mm; background: linear-gradient(var(--azul), var(--indigo), var(--morado)); }
+.recorrido .paso { position: relative; break-inside: avoid; margin: 0 0 4.5mm; }
+.recorrido .paso::before { content: ""; position: absolute; left: -7.6mm; top: 1.2mm; width: 3.6mm; height: 3.6mm; border-radius: 50%; background: #fff; border: .9mm solid var(--indigo); }
+.recorrido .paso .cuando { font-family: "Montserrat"; font-weight: 700; font-size: 7.2pt; letter-spacing: .2em; text-transform: uppercase; color: var(--indigo); }
+.recorrido .paso h3 { margin: .6mm 0 1mm; }
+.recorrido .paso p { margin: 0; font-size: 9.6pt; }
+.mensaje { display: inline-block; margin-top: 2mm; background: #e9fbe5; border-radius: 3mm 3mm 3mm 1mm; padding: 2.2mm 3.4mm; font-size: 8.8pt; color: #1b1b1b; max-width: 120mm; }
+.mensaje .botones { display: flex; gap: 1.6mm; margin-top: 1.8mm; }
+.mensaje .botones span { background: #fff; border-radius: 2mm; padding: 1mm 2.6mm; font-size: 8pt; font-weight: 700; color: #1e7bd4; }
+
+/* Formularios del briefing: líneas para escribir y casillas */
+.pregunta { break-inside: avoid; margin: 0 0 5mm; }
+.pregunta .q { font-family: "Montserrat"; font-weight: 600; font-size: 9.6pt; color: var(--negro); margin: 0 0 1mm; }
+.pregunta .ayuda { font-size: 8.6pt; color: var(--suave); margin: 0 0 2mm; }
+.lineas { border-bottom: 1px solid #cfcdd3; height: 8mm; }
+.lineas + .lineas { margin-top: 0; }
+.casillas { display: flex; flex-wrap: wrap; gap: 2mm 6mm; margin: 1mm 0 2mm; font-size: 9.4pt; }
+.casillas span { display: inline-flex; align-items: center; gap: 2mm; }
+.casillas span::before { content: ""; width: 3.6mm; height: 3.6mm; border: 1.2px solid var(--indigo); border-radius: 1mm; }
+table.rellenar td { height: 11mm; }
+table.rellenar td.mini { width: 16mm; text-align: center; color: var(--gris); font-size: 8pt; }
+
+/* Cierre */
+.cierre { text-align: center; margin: 10mm 0 0; break-inside: avoid; }
+.cierre img.iso { height: 15mm; }
+.cierre img.word { height: 6mm; display: block; margin: 3mm auto 4mm; }
+.cierre .meta { color: var(--suave); }
+.contacto { margin: 8mm auto 0; max-width: 120mm; border: 1px solid var(--linea); border-radius: 3mm; padding: 5mm; font-size: 9.4pt; }
+
+/* Marcas internas para Brian: se ven en amarillo para no olvidarlas, se quitan antes de enviar */
+.pendiente { background: #fff4b8; padding: 0 1mm; border-radius: 1mm; }
+table.datos th.c, table.datos td.c { text-align: center; width: 17%; }
+table.datos td.c { font-size: 12pt; color: var(--indigo); }
