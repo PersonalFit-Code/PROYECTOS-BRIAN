@@ -582,14 +582,13 @@
   .hero h1 em{-webkit-text-stroke:2px var(--fg)}
   .gtitle h2{font-stretch:66%}
   /* ===== Separadores de revista ===== */
-  .rule{width:min(1240px,100% - 40px);margin:0 auto;height:9px;border-top:3px solid rgba(236,236,236,.82);border-bottom:1px solid rgba(236,236,236,.4);position:relative;z-index:3;background:transparent}
+  .rule{width:min(1240px,100% - 40px);margin:0 auto;height:3px;border-top:3px solid rgba(236,236,236,.82);border-bottom:0;position:relative;z-index:3;background:transparent}
   section,#faq,#fundador,#gimnasio,#era,#manifiesto{border-top:0!important}
   footer{border-top:0}
   /* ===== Portada: todo dentro de los márgenes ===== */
   .hero{grid-template-rows:1fr auto;align-items:end}
   .hero-in{width:min(1240px,100% - 40px)}
   .hero-strip{position:relative;z-index:1;margin-top:46px;padding-top:22px;border-top:3px solid rgba(236,236,236,.82);box-shadow:inset 0 4px 0 -3px rgba(0,0,0,0)}
-  .hero-strip::before{content:"";position:absolute;left:0;right:0;top:4px;border-top:1px solid rgba(236,236,236,.4)}
   .hero .urgency{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto auto!important;gap:16px 44px!important;align-items:center!important;max-width:none!important;margin:0!important;padding:0!important;border:0!important}
   .hero .urgency .big{grid-row:auto!important;font-size:clamp(2.4rem,4vw,3.4rem)!important;white-space:nowrap}
   .hero .urgency .u-b{min-width:0}
@@ -814,11 +813,11 @@
   .rule{width:100%!important;margin:0!important}
   .hero-strip{border-top:0!important}
   .hero-strip::before{display:none}
-  .hero-strip::after{content:"";position:absolute;left:50%;top:0;width:100vw;transform:translateX(-50%);height:9px;border-top:3px solid rgba(236,236,236,.82);border-bottom:1px solid rgba(236,236,236,.4);box-sizing:border-box}
+  .hero-strip::after{content:"";position:absolute;left:50%;top:0;width:100vw;transform:translateX(-50%);height:3px;border-top:3px solid rgba(236,236,236,.82);border-bottom:0;box-sizing:border-box}
   .gauge,.mani3{border-top:0!important;position:relative}
-  .gauge::before,.mani3::before{content:"";position:absolute;left:50%;top:0;width:100vw;transform:translateX(-50%);height:9px;border-top:3px solid rgba(236,236,236,.82);border-bottom:1px solid rgba(236,236,236,.4);box-sizing:border-box;pointer-events:none}
+  .gauge::before,.mani3::before{content:"";position:absolute;left:50%;top:0;width:100vw;transform:translateX(-50%);height:3px;border-top:3px solid rgba(236,236,236,.82);border-bottom:0;box-sizing:border-box;pointer-events:none}
   .era-head{border-bottom:0!important;position:relative}
-  .era-head::after{content:"";position:absolute;left:50%;bottom:0;width:100vw;transform:translateX(-50%);height:9px;border-top:3px solid rgba(236,236,236,.82);border-bottom:1px solid rgba(236,236,236,.4);box-sizing:border-box}
+  .era-head::after{content:"";position:absolute;left:50%;bottom:0;width:100vw;transform:translateX(-50%);height:3px;border-top:3px solid rgba(236,236,236,.82);border-bottom:0;box-sizing:border-box}
   .gtitle svg.brush{width:100%!important}
   /* ===== Ficha de máquina (ventana) ===== */
   .ficha{border:0;padding:0;max-width:min(1100px,calc(100% - 32px));width:100%;max-height:calc(100% - 32px);background:#141414;color:var(--fg);box-shadow:0 0 0 1px rgba(255,255,255,.18),0 0 0 8px #0a0a0a,0 0 0 9px rgba(255,255,255,.1),0 40px 80px rgba(0,0,0,.7);overflow:auto;animation:fi-in .45s var(--ease)}
@@ -863,6 +862,13 @@
   .fi-ph b{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--fg3)}
   .fi-ph span{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(3rem,6vw,5rem);line-height:.9;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.35)}
   .fi-ph em{font-style:normal;font-family:var(--label);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tbd);border:1px dashed rgba(232,215,155,.45);padding:6px 10px;margin-top:8px}
+  /* pie sobre el mismo papel que el manifiesto */
+  footer.paperfoot{position:relative;overflow:hidden;background:#1c1c1c}
+  footer.paperfoot>.wrap{position:relative;z-index:2}
+  footer.paperfoot .paper{position:absolute;inset:0;z-index:0;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.25' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23p)'/%3E%3C/svg%3E"),radial-gradient(ellipse 80% 70% at 30% 20%,rgba(255,255,255,.035),transparent 70%),#1c1c1c}
+  footer.paperfoot .deboss{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);white-space:nowrap;font-family:'Syncopate',sans-serif;font-weight:700;letter-spacing:.06em;line-height:1;color:#1c1c1c;text-shadow:-2px -2px 1px rgba(0,0,0,.75),2px 2px 1px rgba(255,255,255,.075),0 0 1px rgba(0,0,0,.5)}
+  footer.paperfoot .fold{position:absolute;left:-10%;right:-10%;top:0;bottom:0;background:linear-gradient(118deg,transparent 0 52%,rgba(255,255,255,.05) 52.1%,rgba(255,255,255,.015) 56%,transparent 64%),linear-gradient(118deg,transparent 0 51.6%,rgba(0,0,0,.35) 52%,transparent 52.4%)}
+  footer.paperfoot .fcta{border-bottom-color:rgba(255,255,255,.14)}
 </style>
 </head>
 <body class="boceto">
@@ -975,7 +981,7 @@
 <section id="gimnasio">
   <div class="gtitle">
     <div class="wrap"><h2 data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</h2></div>
-    <svg class="brush" viewBox="0 0 1240 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9c120-4 260-6 410-5 160 1 290 4 420 2 150-2 260-5 406-3" stroke="#e6e6e6" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".9"/><path d="M40 11c200 1 380-3 600-2 220 1 380 2 560-1" stroke="#e6e6e6" stroke-width="1.4" fill="none" opacity=".45"/></svg>
+    <svg class="brush" viewBox="0 0 1240 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9c120-4 260-6 410-5 160 1 290 4 420 2 150-2 260-5 406-3" stroke="#e6e6e6" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".9"/></svg>
   </div>
   <div class="wrap gcols">
     <div data-reveal class="gbox">
@@ -1153,7 +1159,8 @@
 </section>
 
 <div class="rule" aria-hidden="true"></div>
-<footer>
+<footer class="paperfoot">
+  <div class="paper" aria-hidden="true"><span class="deboss">BURDIN</span><i class="fold"></i></div>
   <div class="wrap">
     <div data-reveal class="fcta">
       <h3 data-es="Quedan <em id='seatsLeft3'>0</em> plazas de fundador." data-eu="<em id='seatsLeft3'>0</em> sortzaile-plaza geratzen dira.">Quedan <em id="seatsLeft3">0</em> plazas de fundador.</h3>
@@ -1677,7 +1684,7 @@ addEventListener('resize',fitTitles);document.fonts&&document.fonts.ready.then(f
 })();
 
 /* ---------- «BURDIN» estampado: ocupa todo el ancho del manifiesto ---------- */
-function fitDeboss(){const d=document.getElementById('deboss');if(!d)return;const w=d.parentNode.clientWidth*.96;d.style.fontSize='100px';d.style.fontSize=Math.floor(100*w/d.getBoundingClientRect().width)+'px'}
+function fitDeboss(){document.querySelectorAll('.deboss').forEach(d=>{const w=d.parentNode.clientWidth*.96;d.style.fontSize='100px';d.style.fontSize=Math.floor(100*w/d.getBoundingClientRect().width)+'px'})}
 addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(fitDeboss);fitDeboss();
 
 /* ---------- cierre de la ficha ---------- */
