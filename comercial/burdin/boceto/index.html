@@ -664,6 +664,76 @@
   .logos div.svg:hover svg{opacity:1}
   /* «El gimnasio»: el título se ajusta al ancho exacto del margen */
   .gtitle h2{display:block;width:100%;white-space:nowrap;font-size:120px;line-height:.86;overflow:visible}
+  /* ===== Socio fundador, versión revista ===== */
+  .fund2{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:64px;align-items:start}
+  .gauge{display:grid;grid-template-columns:auto minmax(0,1fr);gap:34px;align-items:center;padding:30px 0;border-top:3px solid rgba(236,236,236,.82);border-bottom:1px solid rgba(236,236,236,.3);margin-bottom:34px}
+  .dial{position:relative;width:200px;height:200px;display:grid;place-items:center;align-content:center}
+  .dial svg{position:absolute;inset:0;width:100%;height:100%}
+  .dial line{stroke:rgba(255,255,255,.16);stroke-width:2;stroke-linecap:round}
+  .dial line.on{stroke:var(--fg)}
+  .dial.go line.on{animation:tk .5s var(--ease) both;animation-delay:calc(var(--k) * 14ms)}
+  @keyframes tk{from{stroke:rgba(255,255,255,.16)}to{stroke:var(--fg)}}
+  .dial b{position:relative;font-family:var(--display);font-weight:900;font-stretch:66%;font-size:4.2rem;line-height:.9;color:var(--fg)}
+  .dial b small{font-size:.38em;color:var(--fg3)}
+  .dial em{position:relative;font-style:normal;font-family:var(--label);font-weight:500;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3);margin-top:6px}
+  .g-txt .plate{font-size:clamp(1.6rem,2.8vw,2.4rem);transform:rotate(-1.5deg);display:inline-block;margin-bottom:16px}
+  .g-txt p{color:var(--fg2);font-size:14px;max-width:44ch}
+  .perks2{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .perks2 li{position:relative;display:grid;grid-template-columns:40px 1fr;column-gap:14px;row-gap:4px;padding:22px 20px 20px;background:#151515;border:1px solid rgba(255,255,255,.14);transition:transform .3s var(--ease),border-color .3s}
+  .perks2 li:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.35)}
+  .perks2 li:nth-child(2){transform:rotate(.6deg)}
+  .perks2 li:nth-child(3){transform:rotate(-.6deg)}
+  .perks2 li i{position:absolute;right:14px;top:6px;font-style:normal;font-family:var(--display);font-weight:900;font-stretch:66%;font-size:2.6rem;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.18);line-height:1}
+  .perks2 svg{grid-row:span 2;width:32px;height:32px;stroke:var(--fg);fill:none;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
+  .perks2 strong{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:1.25rem;text-transform:uppercase;color:var(--fg);line-height:1}
+  .perks2 span{font-size:13px;color:var(--fg2);line-height:1.5}
+  /* ficha-entrada */
+  .ticket{position:sticky;top:90px;background:#ececec;color:#111;filter:drop-shadow(0 30px 40px rgba(0,0,0,.55));transform:rotate(1.2deg);transition:transform .5s var(--ease)}
+  .ticket:focus-within,.ticket:hover{transform:rotate(0)}
+  .ticket::before{content:"";position:absolute;left:50%;top:-14px;width:110px;height:28px;transform:translateX(-50%) rotate(-3deg);background:rgba(220,220,215,.55);box-shadow:0 1px 2px rgba(0,0,0,.2);backdrop-filter:blur(1px)}
+  .t-top{display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:center;padding:18px 24px;background:#111;color:var(--fg)}
+  .t-top svg{width:34px;height:36px}
+  .t-top b{display:block;font-family:'Syncopate',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.14em;text-transform:uppercase}
+  .t-top span{font-family:var(--label);font-weight:500;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3)}
+  .t-no{text-align:right}
+  .t-no small{display:block;font-family:var(--mono);font-size:10px;color:var(--fg3)}
+  .t-no b{font-family:var(--display)!important;font-weight:900;font-stretch:66%;font-size:2.4rem!important;letter-spacing:0!important;line-height:.9}
+  .t-body{padding:26px 24px 20px}
+  .ticket h3{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:2.4rem;color:#111;margin:0 0 6px;filter:none}
+  .ticket p{color:#555;font-size:13.5px;margin-bottom:20px}
+  .ticket .field span{color:#666}
+  .ticket .field input{background:#fff;border:1px solid #c9c9c9;color:#111}
+  .ticket .field input:focus{border-color:#111;outline:0}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips label{position:relative;cursor:pointer}
+  .chips input{position:absolute;opacity:0;inset:0}
+  .chips span{display:inline-block;padding:10px 14px;border:1px solid #bdbdbd;font-family:var(--label);font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#333;background:#fff;transition:.2s}
+  .chips input:checked+span{background:#111;color:#fff;border-color:#111}
+  .chips input:focus-visible+span{outline:2px solid #111;outline-offset:2px}
+  .ticket .check{color:#555}
+  .ticket .check input{accent-color:#111}
+  .t-cut{position:relative;height:0;border-top:2px dashed #b5b5b5;margin:0 22px}
+  .t-cut::before,.t-cut::after{content:"";position:absolute;top:-13px;width:24px;height:24px;border-radius:50%;background:var(--bg)}
+  .t-cut::before{left:-34px}.t-cut::after{right:-34px}
+  .t-stub{padding:20px 24px 22px}
+  .ticket .btn-primary{background:#111;color:#fff;border-color:#111;outline:0}
+  .ticket .btn-primary::before{background:#2b2b2b}
+  .ticket .btn-primary:hover{color:#fff}
+  .ticket .formnote{color:#777}
+  .ticket .err{color:#b3261e}
+  @media (max-width:900px){
+    .fund2{grid-template-columns:1fr;gap:40px}
+    .ticket{position:relative;top:0;transform:none}
+    .gauge{grid-template-columns:1fr;justify-items:start}
+    .dial{width:170px;height:170px}
+    .perks2{grid-template-columns:1fr}
+    .perks2 li:nth-child(n){transform:none}
+  }
+  @media (prefers-reduced-motion:reduce){.dial.go line.on{animation:none}.ticket{transform:none}}
+  /* fondo de portada: solo dos máquinas, en los bordes, sin tapar el logo */
+  .drift .d1{left:-4%;top:auto;bottom:4%;height:58%;opacity:.16}
+  .drift .d3{right:-3%;left:auto;top:auto;bottom:2%;height:50%;opacity:.12}
+  @media (max-width:900px){.drift{display:none}}
 </style>
 </head>
 <body class="boceto">
@@ -712,7 +782,7 @@
 </nav>
 
 <header class="hero" id="top">
-  <div class="drift" aria-hidden="true"><img src="img/chain.webp" class="d1" alt=""><img src="img/cybex_chest.webp" class="d2" alt=""><img src="img/flex_bicep.webp" class="d3" alt=""><img src="img/cybex_curl.webp" class="d4" alt=""><span class="w1">BURDIN</span><span class="w2">IRON</span><span class="w3">1973</span></div><div class="bg" id="herobg"><div class="sign" aria-hidden="true"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="plate"></div></div><div class="shade"></div>
+  <div class="drift" aria-hidden="true"><img src="img/chain.webp" class="d1" alt=""><img src="img/flex_bicep.webp" class="d3" alt=""></div><div class="bg" id="herobg"><div class="sign" aria-hidden="true"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="plate"></div></div><div class="shade"></div>
   <div class="side" aria-hidden="true" data-es="Disciplina · Resultados · Comunidad" data-eu="Diziplina · Emaitzak · Komunitatea">Disciplina · Resultados · Comunidad</div>
   <div class="wrap hero-in">
     <div>
@@ -810,42 +880,58 @@
 
 <div class="rule" aria-hidden="true"></div>
 <section id="fundador">
-  <div class="wrap fund">
-    <div>
-      <div data-reveal class="head" style="margin-bottom:30px">
+  <div class="wrap fund2">
+    <div class="f-left">
+      <div data-reveal class="head" style="margin-bottom:34px">
         <div class="eyebrow" data-n="04" data-es="Solo antes de abrir" data-eu="Ireki aurretik bakarrik">Solo antes de abrir</div>
         <h2 data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</h2>
         <p data-es="Los primeros en creer en Burdin entrenan con condiciones que no volverán. Cuando se acaben las plazas, o cuando abramos, se cierra." data-eu="Burdinengan lehenik sinesten dutenek ez dira itzuliko ez diren baldintzetan entrenatzen dute. Plazak amaitzen direnean, edo irekitzen dugunean, ixten da.">Los primeros en creer en Burdin entrenan con condiciones que no volverán. Cuando se acaben las plazas, o cuando abramos, se cierra.</p>
       </div>
-      <div data-reveal class="seats">
-        <div class="ring" id="ring"><div class="glow"></div><b><span id="ringN">0</span><small>/<span id="ringT">0</span></small></b></div>
-        <div><div class="t tbd"><span id="seatsTaken2">0</span> <span data-es="plazas reservadas" data-eu="plaza erreserbatuta">plazas reservadas</span><br><em><span id="seatsLeft2">0</span> <span data-es="todavía libres" data-eu="oraindik libre">todavía libres</span></em></div><div class="s" data-es="Cada plaza se confirma con el alta en la tienda de Virtuagym. Sin alta no hay reserva." data-eu="Plaza bakoitza Virtuagym dendako altarekin berresten da. Altarik gabe ez dago erreserbarik.">Cada plaza se confirma con el alta en la tienda de Virtuagym. Sin alta no hay reserva.</div></div>
+      <div data-reveal class="gauge">
+        <div class="dial" id="ring"><svg viewBox="0 0 200 200" id="ticks" aria-hidden="true"></svg><b><span id="ringN">0</span><small>/<span id="ringT">0</span></small></b><em data-es="reservadas" data-eu="erreserbatuta">reservadas</em></div>
+        <div class="g-txt">
+          <span class="plate tbd"><span id="seatsLeft2">0</span>&nbsp;<span data-es="plazas libres" data-eu="plaza libre">plazas libres</span></span>
+          <p><span id="seatsTaken2">0</span> <span data-es="ya tienen dueño. Cada plaza se confirma con el alta en la tienda de Virtuagym: sin alta no hay reserva." data-eu="dagoeneko jabea dute. Plaza bakoitza Virtuagym dendako altarekin berresten da: altarik gabe ez dago erreserbarik.">ya tienen dueño. Cada plaza se confirma con el alta en la tienda de Virtuagym: sin alta no hay reserva.</span></p>
+        </div>
       </div>
-      <ul class="perks" data-reveal>
-        <li><svg aria-hidden="true"><use href="#i-lock"/></svg><div><strong data-es="Precio congelado" data-eu="Prezio izoztua">Precio congelado</strong><span data-es="Tu cuota de fundador se mantiene mientras sigas de alta." data-eu="Zure sortzaile-kuota mantentzen da alta emanda jarraitzen duzun bitartean.">Tu cuota de fundador se mantiene mientras sigas de alta.</span></div></li>
-        <li><svg aria-hidden="true"><use href="#i-nofee"/></svg><div><strong class="tbd" data-es="Sin matrícula" data-eu="Matrikularik gabe">Sin matrícula</strong><span data-es="Te ahorras el alta el día que abrimos." data-eu="Irekitzen dugun egunean alta-kuota aurrezten duzu.">Te ahorras el alta el día que abrimos.</span></div></li>
-        <li><svg aria-hidden="true"><use href="#i-key"/></svg><div><strong class="tbd" data-es="Entra el primero" data-eu="Lehena sartu">Entra el primero</strong><span data-es="Visita privada antes de la apertura para conocer las máquinas." data-eu="Irekiera aurreko bisita pribatua, makinak ezagutzeko.">Visita privada antes de la apertura para conocer las máquinas.</span></div></li>
-        <li><svg aria-hidden="true"><use href="#i-shirt"/></svg><div><strong class="tbd" data-es="Camiseta fundador" data-eu="Sortzaile-kamiseta">Camiseta fundador</strong><span data-es="Edición numerada que no se vende." data-eu="Saltzen ez den edizio zenbakidua.">Edición numerada que no se vende.</span></div></li>
+      <ul class="perks2">
+        <li data-reveal style="--d:.0s"><i>01</i><svg aria-hidden="true"><use href="#i-lock"/></svg><strong data-es="Precio congelado" data-eu="Prezio izoztua">Precio congelado</strong><span data-es="Tu cuota de fundador se mantiene mientras sigas de alta." data-eu="Zure sortzaile-kuota mantentzen da alta emanda jarraitzen duzun bitartean.">Tu cuota de fundador se mantiene mientras sigas de alta.</span></li>
+        <li data-reveal style="--d:.08s"><i>02</i><svg aria-hidden="true"><use href="#i-nofee"/></svg><strong class="tbd" data-es="Sin matrícula" data-eu="Matrikularik gabe">Sin matrícula</strong><span data-es="Te ahorras el alta el día que abrimos." data-eu="Irekitzen dugun egunean alta-kuota aurrezten duzu.">Te ahorras el alta el día que abrimos.</span></li>
+        <li data-reveal style="--d:.16s"><i>03</i><svg aria-hidden="true"><use href="#i-key"/></svg><strong class="tbd" data-es="Entra el primero" data-eu="Lehena sartu">Entra el primero</strong><span data-es="Visita privada antes de la apertura para conocer las máquinas." data-eu="Irekiera aurreko bisita pribatua, makinak ezagutzeko.">Visita privada antes de la apertura para conocer las máquinas.</span></li>
+        <li data-reveal style="--d:.24s"><i>04</i><svg aria-hidden="true"><use href="#i-shirt"/></svg><strong class="tbd" data-es="Camiseta fundador" data-eu="Sortzaile-kamiseta">Camiseta fundador</strong><span data-es="Edición numerada que no se vende." data-eu="Saltzen ez den edizio zenbakidua.">Edición numerada que no se vende.</span></li>
       </ul>
-      <div class="slide-cta" data-slide data-to="#fName" style="margin-top:28px"></div>
     </div>
-    <form data-reveal class="form" id="waitlist" novalidate>
-      <div class="eyebrow" data-n="05" data-es="Lista de espera" data-eu="Itxaron-zerrenda">Lista de espera</div>
-      <h3 data-es="Reserva tu plaza" data-eu="Gorde zure plaza">Reserva tu plaza</h3>
-      <p data-es="Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador." data-eu="Utzi zure izena eta telefonoa. WhatsAppez idatziko dizugu sortzaileen altak irekitzen direnean.">Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador.</p>
-      <label class="field"><span data-es="Nombre" data-eu="Izena">Nombre</span><input id="fName" name="nombre" autocomplete="name" required></label>
-      <label class="field"><span data-es="Teléfono" data-eu="Telefonoa">Teléfono</span><input id="fTel" name="telefono" type="tel" inputmode="tel" autocomplete="tel" required></label>
-      <label class="field"><span data-es="Me interesa" data-eu="Interesatzen zait">Me interesa</span>
-        <select id="fWant">
-          <option value="fundador" data-es="Ser socio fundador" data-eu="Bazkide sortzaile izatea">Ser socio fundador</option>
-          <option value="mensual" data-es="Tarifa normal" data-eu="Ohiko tarifa">Tarifa normal</option>
-          <option value="pase" data-es="Probar con un pase de día" data-eu="Eguneko sarrerarekin probatzea">Probar con un pase de día</option>
-        </select>
-      </label>
-      <label class="check"><input type="checkbox" id="fOk" required><span data-es="Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura." data-eu="Onartzen dut Burdin Gym-ek WhatsAppez nirekin harremanetan jartzea irekierari buruz.">Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura.</span></label>
-      <button class="btn btn-primary block" type="submit"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Reservar por WhatsApp" data-eu="WhatsAppez erreserbatu">Reservar por WhatsApp</span></button>
-      <div class="err" id="fErr" role="alert"></div>
-      <div class="formnote" data-es="Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar." data-eu="WhatsApp irekitzen da mezua prest duela. Bidali sakatu besterik ez duzu.">Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar.</div>
+    <form data-reveal class="ticket" id="waitlist" novalidate>
+      <div class="t-top">
+        <svg viewBox="0 0 272 288" aria-hidden="true"><use href="#b"/></svg>
+        <div><b>Burdin Gym</b><span data-es="Ficha de socio fundador" data-eu="Bazkide sortzailearen fitxa">Ficha de socio fundador</span></div>
+        <div class="t-no"><small>Nº</small><b id="ticketN">038</b></div>
+      </div>
+      <div class="t-body">
+        <h3 data-es="Reserva tu plaza" data-eu="Gorde zure plaza">Reserva tu plaza</h3>
+        <p data-es="Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador." data-eu="Utzi zure izena eta telefonoa. WhatsAppez idatziko dizugu sortzaileen altak irekitzen direnean.">Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador.</p>
+        <label class="field"><span data-es="Nombre" data-eu="Izena">Nombre</span><input id="fName" name="nombre" autocomplete="name" required></label>
+        <label class="field"><span data-es="Teléfono" data-eu="Telefonoa">Teléfono</span><input id="fTel" name="telefono" type="tel" inputmode="tel" autocomplete="tel" required></label>
+        <div class="field"><span data-es="Me interesa" data-eu="Interesatzen zait">Me interesa</span>
+          <div class="chips" role="radiogroup">
+            <label><input type="radio" name="want" value="fundador" checked><span data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</span></label>
+            <label><input type="radio" name="want" value="mensual"><span data-es="Tarifa normal" data-eu="Ohiko tarifa">Tarifa normal</span></label>
+            <label><input type="radio" name="want" value="pase"><span data-es="Pase de día" data-eu="Eguneko sarrera">Pase de día</span></label>
+          </div>
+          <select id="fWant" hidden tabindex="-1" aria-hidden="true">
+            <option value="fundador" data-es="Ser socio fundador" data-eu="Bazkide sortzaile izatea">Ser socio fundador</option>
+            <option value="mensual" data-es="Tarifa normal" data-eu="Ohiko tarifa">Tarifa normal</option>
+            <option value="pase" data-es="Probar con un pase de día" data-eu="Eguneko sarrerarekin probatzea">Probar con un pase de día</option>
+          </select>
+        </div>
+        <label class="check"><input type="checkbox" id="fOk" required><span data-es="Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura." data-eu="Onartzen dut Burdin Gym-ek WhatsAppez nirekin harremanetan jartzea irekierari buruz.">Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura.</span></label>
+      </div>
+      <div class="t-cut" aria-hidden="true"></div>
+      <div class="t-stub">
+        <button class="btn btn-primary block" type="submit"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Reservar mi plaza por WhatsApp" data-eu="Nire plaza WhatsAppez gorde">Reservar mi plaza por WhatsApp</span></button>
+        <div class="err" id="fErr" role="alert"></div>
+        <div class="formnote" data-es="Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar." data-eu="WhatsApp irekitzen da mezua prest duela. Bidali sakatu besterik ez duzu.">Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar.</div>
+      </div>
     </form>
   </div>
 </section>
@@ -1213,6 +1299,8 @@ function renderSeats(){
   ['seatsLeft2','seatsLeft3'].forEach(id=>$('#'+id).textContent=left);
   $('#seatsLeftBig').textContent=left;
   $('#ring').style.setProperty('--pct',(tk/tot*100)+'%');
+  const n=100,on=Math.round(tk/tot*n);let t='';for(let i=0;i<n;i++){const a=(i/n)*Math.PI*2-Math.PI/2,r1=88,r2=i%10===0?72:78,c=i<on?'on':'';t+=`<line class="${c}" style="--k:${i}" x1="${100+r1*Math.cos(a)}" y1="${100+r1*Math.sin(a)}" x2="${100+r2*Math.cos(a)}" y2="${100+r2*Math.sin(a)}"/>`}
+  $('#ticks').innerHTML=t;$('#ticketN').textContent=String(tk+1).padStart(3,'0');
   requestAnimationFrame(()=>$('#seatsBar').style.width=(tk/tot*100)+'%');
 }
 
@@ -1250,6 +1338,7 @@ document.addEventListener('click',e=>{
   }
 });
 
+document.addEventListener('change',e=>{if(e.target.name==='want')$('#fWant').value=e.target.value});
 $('#waitlist').addEventListener('submit',e=>{
   e.preventDefault();
   const n=$('#fName').value.trim(),t=$('#fTel').value.trim(),w=$('#fWant'),ok=$('#fOk').checked,err=$('#fErr');
@@ -1402,7 +1491,7 @@ if(window.gsap&&!reduce){
   ScrollTrigger.create({trigger:'#ring',start:'top 85%',once:true,onEnter(){
     const ring=$('#ring'),pct=CONFIG.plazasOcupadas/CONFIG.plazasFundador*100,n=$('#ringN');
     gsap.from(ring,{scale:.7,opacity:0,duration:1.1,ease:E});
-    gsap.fromTo({v:0},{v:pct},{v:pct,duration:1.6,ease:E,onUpdate(){const v=this.targets()[0].v;ring.style.setProperty('--pct',v+'%');n.textContent=Math.round(v/100*CONFIG.plazasFundador)}});
+    gsap.fromTo({v:0},{v:pct},{v:pct,duration:1.6,ease:E,onUpdate(){const v=this.targets()[0].v;n.textContent=Math.round(v/100*CONFIG.plazasFundador)}});ring.classList.add('go');
   }});
   gsap.from('.gtitle h2',{opacity:0,duration:1.4,ease:E,scrollTrigger:{trigger:'.gtitle',start:'top 85%',once:true}});
   gsap.from('.brush path',{scaleX:0,transformOrigin:'left',duration:1.2,ease:E,scrollTrigger:{trigger:'.gtitle',start:'top 80%',once:true}});
