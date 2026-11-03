@@ -910,6 +910,22 @@
   .chips input:checked+span{background:#111!important;color:#fff!important;border-color:#111!important}
   .t-cut{border-top-color:#6d6d69!important}
   .ticket::before{background:rgba(70,70,68,.55)!important}
+  /* portada estirada: título en una línea y texto ancho */
+  .hero-in{grid-template-columns:minmax(0,1fr)!important}
+  .hero-in>div{max-width:760px!important}
+  .hero h1 .l{display:inline-block!important}
+  .hero h1 .l+.l{margin-left:.22em}
+  .hero h1{white-space:nowrap;font-size:clamp(2.2rem,5.4vw,5rem)!important}
+  .hero p.sub{max-width:68ch!important;font-size:14px!important}
+  @media (max-width:560px){.hero h1{white-space:normal}.hero h1 .l{display:block!important}.hero h1 .l+.l{margin-left:0}}
+  .hero h1{font-size:clamp(2rem,4.2vw,4rem)!important}
+  .hero h1 .l+.l{margin-left:.18em}
+  .hero .sign{left:70%!important;top:36%!important}
+  .hero-in>div{max-width:640px!important}
+  @media (max-width:900px){.hero .sign{left:50%!important}}
+  @media (max-width:900px){.hero .sign{left:50%!important;top:calc(var(--nav) + 190px)!important}}
+  @media (max-width:560px){.hero h1 .l+.l{margin-left:0!important}}
+  @media (min-width:901px) and (max-width:1200px){.hero-in>div{max-width:52%!important}.hero h1{font-size:clamp(2rem,3.6vw,3.4rem)!important}.hero .sign{left:76%!important}}
 </style>
 </head>
 <body class="boceto">
