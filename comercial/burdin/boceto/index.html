@@ -1056,6 +1056,16 @@
     #coleccion .logos div{height:64px;padding:8px}
     #coleccion .logos img,#coleccion .logos div.svg svg{max-height:28px;max-width:90%}
   }
+  /* menú del móvil: pantalla completa con botón de cerrar siempre visible */
+  .m-close{display:none}
+  @media (max-width:900px){
+    .links{top:0!important;bottom:0;height:100dvh;z-index:70;padding:0 20px 40px!important}
+    .m-close{display:flex;align-items:center;justify-content:flex-end;gap:12px;position:sticky;top:0;z-index:2;min-height:var(--nav);margin:0 -20px 6px;padding:0 20px;background:var(--bg);border-bottom:1px solid var(--line);font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg)}
+    .m-close i{position:relative;width:44px;height:44px;border:1px solid var(--line2,rgba(255,255,255,.25))}
+    .m-close i::before,.m-close i::after{content:"";position:absolute;left:11px;right:11px;top:21px;height:2px;background:currentColor;transform:rotate(45deg)}
+    .m-close i::after{transform:rotate(-45deg)}
+    body.menu .disc-cta,body.menu a.wa{visibility:hidden}
+  }
 </style>
 </head>
 <body class="boceto">
@@ -1089,6 +1099,7 @@
     <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="30" height="32" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name">Burdin</span><span class="gym">Gym</span></span></a>
     <div class="right">
       <div class="links" id="links">
+        <button type="button" class="m-close" id="mclose" aria-label="Cerrar menú"><span data-es="Cerrar" data-eu="Itxi">Cerrar</span><i aria-hidden="true"></i></button>
         <a href="#coleccion" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
         <a href="#gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
         <a href="#tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
@@ -1689,8 +1700,9 @@ function setLang(l){
 
 /* ---------- INTERACCIÓN ---------- */
 const nav=$('#nav'),burger=$('#burger');
-function menu(open){if(open)$('#links').style.top=nav.getBoundingClientRect().bottom+'px';nav.classList.toggle('open',open);document.body.classList.toggle('menu',open);burger.setAttribute('aria-expanded',open)}
+function menu(open){nav.classList.toggle('open',open);document.body.classList.toggle('menu',open);burger.setAttribute('aria-expanded',open)}
 burger.onclick=()=>menu(!nav.classList.contains('open'));
+$('#mclose').onclick=()=>menu(false);
 $$('#links a').forEach(a=>a.addEventListener('click',()=>menu(false)));
 addEventListener('keydown',e=>{if(e.key==='Escape')menu(false)});
 // nav sólida al bajar
