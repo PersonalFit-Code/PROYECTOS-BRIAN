@@ -10,7 +10,7 @@
 <script>document.documentElement.setAttribute("data-reveal-armed","");setTimeout(function(){if(!window.__reveal)document.documentElement.removeAttribute("data-reveal-armed")},2600)</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Poppins:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Michroma&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,700..900;1,62..125,900&family=Barlow+Condensed:wght@600;700;800&family=Poppins:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Michroma&family=Syncopate:wght@700&display=swap" rel="stylesheet">
 <style>
   /* Plan: negro casi puro, blanco roto y un solo acento óxido. Anton para gritar, Manrope para leer,
      Space Mono para las fichas técnicas, Playfair para el manifiesto. Syncopate y Michroma solo en el logo. */
@@ -19,7 +19,7 @@
     --fg:#f5f5f5;--fg2:#b9b9b9;--fg3:#7a7a7a;
     --rust:#f5f5f5;--rust2:#ffffff;--rust-dim:rgba(255,255,255,.09);
     --tbd:#e8d79b;
-    --display:'Barlow Condensed','Arial Narrow',sans-serif;--body:'Poppins',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;--serif:'Playfair Display',Georgia,serif;--label:'Poppins',system-ui,sans-serif;
+    --display:'Archivo','Arial Black',sans-serif;--body:'Poppins',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;--serif:'Playfair Display',Georgia,serif;--label:'Poppins',system-ui,sans-serif;
     --ease:cubic-bezier(.16,1,.3,1);--nav:72px;color-scheme:dark
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -576,6 +576,91 @@
     .era-card .mc{grid-row:auto;max-height:130px;margin-bottom:12px}
     .era-card .lg,.era-card dl,.era-card b{grid-column:1}
   }
+  /* ===== Titulares: Archivo Black estrecha (como TDM) ===== */
+  h1,h2,h3,summary,.stat b,.price,.pass b,.ring b,.urgency .big,.urgency .count b,.spec span,.perks strong,.fac b,.bar b,.seats .t,.plate,.era-ph figcaption,.slide h3{font-family:var(--display);font-weight:900;font-stretch:66%;letter-spacing:.005em}
+  .hero h1{font-size:clamp(3rem,8.4vw,7rem)!important;line-height:.9}
+  .hero h1 em{-webkit-text-stroke:2px var(--fg)}
+  .gtitle h2{font-stretch:66%}
+  /* ===== Separadores de revista ===== */
+  .rule{width:min(1240px,100% - 40px);margin:0 auto;height:9px;border-top:3px solid rgba(236,236,236,.82);border-bottom:1px solid rgba(236,236,236,.4);position:relative;z-index:3;background:transparent}
+  section,#faq,#fundador,#gimnasio,#era,#manifiesto{border-top:0!important}
+  footer{border-top:0}
+  /* ===== Portada: todo dentro de los márgenes ===== */
+  .hero{grid-template-rows:1fr auto;align-items:end}
+  .hero-in{width:min(1240px,100% - 40px)}
+  .hero-strip{position:relative;z-index:1;margin-top:46px;padding-top:22px;border-top:3px solid rgba(236,236,236,.82);box-shadow:inset 0 4px 0 -3px rgba(0,0,0,0)}
+  .hero-strip::before{content:"";position:absolute;left:0;right:0;top:4px;border-top:1px solid rgba(236,236,236,.4)}
+  .hero .urgency{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto auto!important;gap:16px 44px!important;align-items:center!important;max-width:none!important;margin:0!important;padding:0!important;border:0!important}
+  .hero .urgency .big{grid-row:auto!important;font-size:clamp(2.4rem,4vw,3.4rem)!important;white-space:nowrap}
+  .hero .urgency .u-b{min-width:0}
+  .hero .urgency .line{margin:0 0 10px!important}
+  .hero .urgency .count{grid-column:auto!important;margin:0!important}
+  .u-p{font-family:var(--label);font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);white-space:nowrap}
+  .ctas{gap:22px}
+  @media (max-width:900px){
+    .hero .urgency{grid-template-columns:1fr!important;gap:14px!important}
+    .u-p{display:none}
+  }
+  /* ===== Collage de fondo animado en la portada ===== */
+  .hero .bg{z-index:-3!important}
+  .drift{position:absolute;inset:0;z-index:-2;mix-blend-mode:screen;overflow:hidden;pointer-events:none}
+  .drift img,.drift span{position:absolute;will-change:transform}
+  .drift img{filter:grayscale(1) contrast(1.15) brightness(.7);opacity:.2}
+  .drift .d1{left:2%;top:8%;height:46%}
+  .drift .d2{left:30%;bottom:-8%;height:40%;opacity:.22}
+  .drift .d3{right:3%;top:52%;height:44%}
+  .drift .d4{right:26%;top:-6%;height:34%;opacity:.18}
+  .drift span{font-family:var(--display);font-weight:900;font-stretch:66%;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.09);line-height:.8;font-size:22vw}
+  .drift .w1{left:-2%;bottom:-4%}
+  .drift .w2{right:-3%;top:6%;font-size:14vw}
+  .drift .w3{left:38%;top:30%;font-size:10vw;-webkit-text-stroke-color:rgba(255,255,255,.06)}
+  .hero .bg{opacity:.92}
+  @media (max-width:900px){.drift .d2,.drift .d4,.drift .w3{display:none}}
+  /* ===== Banderas ===== */
+  .flag{width:24px;height:16px;display:inline-block;vertical-align:-2px;box-shadow:0 0 0 1px rgba(255,255,255,.25);margin-right:8px;flex:0 0 auto}
+  .spec .fl{display:flex;align-items:center}
+  .hexf{position:absolute;z-index:5;left:18px;top:46px;width:62px;height:62px;display:grid;place-items:center;background:#2c2c2c;clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0 50%)}
+  .hexf .flag,.hex .flag{width:30px;height:20px;margin:0}
+  .hex{display:grid;place-items:center}
+  /* ===== Color al pasar el ratón, en todas las máquinas ===== */
+  .era-ph img,.era-card .mc,.slide img.cut,.pic img{transition:filter .8s var(--ease),transform .7s var(--ease)}
+  .era-ph:hover img,.era-card:hover .mc,.slide:hover img.cut{filter:grayscale(0) contrast(1.05)!important}
+  /* ===== Leyendas del hierro ===== */
+  .lq{position:relative;margin:0;padding:34px 34px 28px;background:#1a1a1a;border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 6px #0d0d0d,0 0 0 7px rgba(255,255,255,.1);transition:transform .5s var(--ease)}
+  .lq:hover{transform:translateY(-3px)}
+  .lq .hex{top:-24px;left:-16px;width:70px;height:70px}
+  .lq .lt{font-family:var(--display);font-weight:900;font-stretch:66%;text-transform:uppercase;font-size:clamp(1.6rem,2.8vw,2.6rem);line-height:.98;color:var(--fg);margin:6px 0 14px}
+  .lq .le{font-family:var(--serif);font-style:italic;font-size:15px;line-height:1.5;color:var(--fg2);margin-bottom:18px}
+  .lf .lt{font-family:var(--body);font-weight:500;font-stretch:100%;text-transform:none;font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.5}
+  .lq footer{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:0;border:0;background:none;border-top:1px solid rgba(255,255,255,.14);padding-top:14px}
+  .lq footer b{display:inline-block;background:var(--fg);color:var(--bg);font-family:var(--display);font-weight:900;font-stretch:66%;text-transform:uppercase;font-size:1.15rem;line-height:1;padding:8px 12px}
+  .lq footer span{font-family:var(--label);font-weight:600;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg)}
+  .lq footer em{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fg3)}
+  .era-card dd.n2{font-family:var(--body);font-weight:400;text-transform:none;letter-spacing:0;color:var(--fg2);font-size:12.5px;margin-top:8px}
+  .era-card{grid-template-columns:1fr!important}
+  .era-card::before{display:none}
+  .era-card .lg,.era-card dl,.era-card b{grid-column:1!important}
+  .q1{grid-column:1/8;grid-row:1}
+  .m1{grid-column:8/12;grid-row:1;align-self:end;margin-bottom:-40px;transform:rotate(1deg)}
+  .p1{grid-column:1/5;grid-row:2;aspect-ratio:4/5;margin-top:40px}
+  .p1 img{object-fit:contain;padding:16px 0 0}
+  .q2{grid-column:5/13;grid-row:2;align-self:center;margin-left:-30px;z-index:2}
+  .f1{grid-column:2/8;grid-row:3;margin-top:20px}
+  .m2{grid-column:8/12;grid-row:3;align-self:start;margin-top:70px;transform:rotate(-1.2deg)}
+  .q3{grid-column:1/6;grid-row:4;margin-top:30px}
+  .p2{grid-column:6/10;grid-row:4;aspect-ratio:4/5;margin-top:-30px}
+  .p2 img{object-fit:contain;padding:14px}
+  .f2{grid-column:7/13;grid-row:5;margin-top:40px;z-index:2}
+  .m3{grid-column:2/6;grid-row:5;margin-top:20px;transform:rotate(1deg)}
+  .era-grid{row-gap:34px}
+  @media (max-width:900px){
+    .lq,.era-card,.era-ph{grid-column:1!important;grid-row:auto!important;margin:0!important;transform:none!important}
+    .p1,.p2{aspect-ratio:4/3}
+    .lq .hex{left:-6px;width:58px;height:58px}
+  }
+  /* ===== Logos SVG ===== */
+  .logos div.svg svg{width:78%;max-height:48px;height:auto;opacity:.78;transition:opacity .3s}
+  .logos div.svg:hover svg{opacity:1}
 </style>
 </head>
 <body class="boceto">
@@ -610,7 +695,7 @@
     <div class="right">
       <div class="links" id="links">
         <a href="#coleccion" data-es="La colección" data-eu="Bilduma">La colección</a>
-        <a href="#era" class="hide-md" data-es="La era dorada" data-eu="Urrezko aroa">La era dorada</a>
+        <a href="#era" class="hide-md" data-es="Leyendas" data-eu="Kondairak">Leyendas</a>
         <a href="#gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
         <a href="#tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
         <a href="#faq" class="hide-md" data-es="Preguntas" data-eu="Galderak">Preguntas</a>
@@ -624,7 +709,7 @@
 </nav>
 
 <header class="hero" id="top">
-  <div class="bg" id="herobg"><div class="sign" aria-hidden="true"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="plate"></div></div><div class="shade"></div>
+  <div class="drift" aria-hidden="true"><img src="img/chain.webp" class="d1" alt=""><img src="img/cybex_chest.webp" class="d2" alt=""><img src="img/flex_bicep.webp" class="d3" alt=""><img src="img/cybex_curl.webp" class="d4" alt=""><span class="w1">BURDIN</span><span class="w2">IRON</span><span class="w3">1973</span></div><div class="bg" id="herobg"><div class="sign" aria-hidden="true"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="plate"></div></div><div class="shade"></div>
   <div class="side" aria-hidden="true" data-es="Disciplina · Resultados · Comunidad" data-eu="Diziplina · Emaitzak · Komunitatea">Disciplina · Resultados · Comunidad</div>
   <div class="wrap hero-in">
     <div>
@@ -633,21 +718,20 @@
       <p class="sub" style="--i:2" data-es="Un taller de fuerza, no un gimnasio de catálogo. Máquinas de Cybex, Hammer Strength, Nautilus o Panatta buscadas una a una por su historia y su calidad. Cada pieza tiene nombre, año y kilómetros." data-eu="Indar-tailerra, ez katalogoko gimnasioa. Cybex, Hammer Strength, Nautilus edo Panatta makinak, banan-banan bilatuak beren istorio eta kalitateagatik. Pieza bakoitzak izena, urtea eta kilometroak ditu.">Un taller de fuerza, no un gimnasio de catálogo. Máquinas de Cybex, Hammer Strength, Nautilus o Panatta buscadas una a una por su historia y su calidad. Cada pieza tiene nombre, año y kilómetros.</p>
       <div class="ctas" style="--i:3">
         <div class="slide-cta" data-slide></div>
-        </div>
         <a href="#coleccion" class="btn-text"><span data-es="Descubre las máquinas" data-eu="Ezagutu makinak">Descubre las máquinas</span></a>
       </div>
     </div>
-    <div class="urgency" style="--i:4">
-      <div class="big tbd"><b id="seatsLeftBig">0</b><small data-es="plazas libres" data-eu="plaza libre">plazas libres</small></div>
-      <div class="line"><i id="seatsBar"></i></div>
-      <div class="lbl"><span id="seatsTaken">0</span> <span data-es="de" data-eu="/">de</span> <span id="seatsTotal">0</span> <span data-es="plazas de socio fundador ya reservadas. Se cierran el día de la apertura." data-eu="sortzaile-plaza erreserbatuta daude. Irekiera egunean ixten dira.">plazas de socio fundador ya reservadas. Se cierran el día de la apertura.</span></div>
+  </div>
+  <div class="wrap hero-strip" style="--i:4">
+    <div class="urgency">
+      <div class="u-a big tbd"><b id="seatsLeftBig">0</b><small data-es="plazas libres" data-eu="plaza libre">plazas libres</small></div>
+      <div class="u-b"><div class="line"><i id="seatsBar"></i></div><div class="lbl"><span id="seatsTaken">0</span> <span data-es="de" data-eu="/">de</span> <span id="seatsTotal">0</span> <span data-es="plazas de socio fundador ya reservadas. Se cierran el día de la apertura." data-eu="sortzaile-plaza erreserbatuta daude. Irekiera egunean ixten dira.">plazas de socio fundador ya reservadas. Se cierran el día de la apertura.</span></div></div>
       <div class="count" id="count"><div><b data-k="d">00</b><span data-es="días" data-eu="egun">días</span></div><div><b data-k="h">00</b><span data-es="horas" data-eu="ordu">horas</span></div><div><b data-k="m">00</b>min</div><div><b data-k="s">00</b>seg</div></div>
+      <div class="u-p" data-es="Página 01" data-eu="01. orria">Página 01</div>
     </div>
   </div>
-  <div class="page" data-es="Página 01 · Burdin Gym" data-eu="01. orria · Burdin Gym">Página 01 · Burdin Gym</div>
 </header>
 
-<div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
 <div class="stats wrap" id="stats">
   <div class="stat"><b class="tbd"><span data-n="60">60</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
   <div class="stat"><b><span data-n="12">12</span></b><small data-es="Marcas top" data-eu="Marka nagusi">Marcas top</small></div>
@@ -673,24 +757,19 @@
   </div>
 </section>
 
+<div class="rule" aria-hidden="true"></div>
 <section id="era" aria-labelledby="era-t">
   <div class="wrap">
     <div class="era-head" data-reveal>
-      <span class="plate" data-es="La era dorada" data-eu="Urrezko aroa">La era dorada</span>
-      <h2 id="era-t" data-es="Vol. 01: el hierro que hizo historia" data-eu="1. liburukia: historia egin zuen burdina">Vol. 01: el hierro que hizo historia</h2>
+      <span class="plate" data-es="Leyendas del hierro" data-eu="Burdinaren kondairak">Leyendas del hierro</span>
+      <h2 id="era-t" data-es="Vol. 01: lo que dijeron, en lo que entrenaron" data-eu="1. lib.: zer esan zuten, zertan entrenatu zuten">Vol. 01: lo que dijeron, en lo que entrenaron</h2>
     </div>
-    <div class="era-grid">
-      <figure class="era-ph a" data-reveal><img src="img/chain.webp" alt="Press de pecho a cadena old school"><span class="hex" data-es="Francia<br>años 80" data-eu="Frantzia<br>80ko h.">Francia<br>años 80</span><figcaption data-es="Transmisión a cadena" data-eu="Kate-transmisioa">Transmisión a cadena</figcaption></figure>
-      <div class="era-card c1" data-reveal><img class="mc" src="img/cybex_chest.webp" alt="" aria-hidden="true"><img class="lg" src="img/marcas/gymleco.png" alt="Gymleco"><dl><dt>Gymleco</dt><dd data-es="Hack squat de carga" data-eu="Karga-hack squat">Hack squat de carga</dd></dl><b data-es="En Burdin" data-eu="Burdinen">En Burdin</b></div>
-      <figure class="era-ph b" data-reveal><img src="img/hero-cadena.jpg" alt="Detalle de cadena y piñones"><span class="hex" data-es="Hecho<br>a mano" data-eu="Eskuz<br>egina">Hecho<br>a mano</span><figcaption data-es="Piñones y cadena" data-eu="Pinoiak eta katea">Piñones y cadena</figcaption></figure>
-      <div class="era-card c2" data-reveal><img class="mc" src="img/flex_bicep.webp" alt="" aria-hidden="true"><img class="lg" src="img/marcas/nautilus.png" alt="Nautilus"><dl><dt>Nautilus</dt><dd data-es="Leva de primera generación" data-eu="Lehen belaunaldiko kama">Leva de primera generación</dd></dl><b data-es="En Burdin" data-eu="Burdinen">En Burdin</b></div>
-      <figure class="era-ph c" data-reveal><img src="img/cybex_curl.webp" alt="Cybex Arm Curl gunmetal"><span class="hex" data-es="Alemania<br>2005" data-eu="Alemania<br>2005">Alemania<br>2005</span><figcaption data-es="Cybex gunmetal" data-eu="Cybex gunmetal">Cybex gunmetal</figcaption></figure>
-      <div class="era-card c3" data-reveal><img class="mc" src="img/cybex_curl.webp" alt="" aria-hidden="true"><img class="lg" src="img/marcas/hammer-strength.png" alt="Hammer Strength"><dl><dt>Hammer Strength</dt><dd data-es="Remo de carga independiente" data-eu="Arraun independentea">Remo de carga independiente</dd></dl><b data-es="En Burdin" data-eu="Burdinen">En Burdin</b></div>
-    </div>
-    <span class="plate era-foot" data-reveal data-es="Cada pieza tiene una historia" data-eu="Pieza bakoitzak istorio bat du">Cada pieza tiene una historia</span>
+    <div class="era-grid" id="legends"></div>
+    <span class="plate era-foot" data-reveal data-es="Ellos ya las usaron. Ahora te toca a ti." data-eu="Haiek erabili zituzten. Orain zure txanda da.">Ellos ya las usaron. Ahora te toca a ti.</span>
   </div>
 </section>
 
+<div class="rule" aria-hidden="true"></div>
 <section id="gimnasio">
   <div class="gtitle">
     <div class="wrap"><h2 data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</h2></div>
@@ -726,6 +805,7 @@
   <div class="wrap gfoot"><span data-es="Página 03 · El gimnasio" data-eu="03. orria · Gimnasioa">Página 03 · El gimnasio</span><span data-es="Fotos del local cuando acaben las obras" data-eu="Lokaleko argazkiak obrak amaitzean">Fotos del local cuando acaben las obras</span></div>
 </section>
 
+<div class="rule" aria-hidden="true"></div>
 <section id="fundador">
   <div class="wrap fund">
     <div>
@@ -767,6 +847,7 @@
   </div>
 </section>
 
+<div class="rule" aria-hidden="true"></div>
 <section id="manifiesto"><canvas class="tv" id="tv" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="eyebrow" data-n="06" style="margin-bottom:34px" data-es="Manifiesto" data-eu="Manifestua">Manifiesto</div>
@@ -779,6 +860,7 @@
   </div>
 </section>
 
+<div class="rule" aria-hidden="true"></div>
 <section id="tarifas">
   <div class="wrap">
     <div data-reveal class="head">
@@ -803,6 +885,7 @@
   </div>
 </section>
 
+<div class="rule" aria-hidden="true"></div>
 <section id="faq">
   <div class="wrap faqgrid">
     <div data-reveal class="head">
@@ -814,6 +897,7 @@
   </div>
 </section>
 
+<div class="rule" aria-hidden="true"></div>
 <section id="contacto">
   <div class="wrap contact">
     <div>
@@ -838,6 +922,7 @@
   </div>
 </section>
 
+<div class="rule" aria-hidden="true"></div>
 <footer>
   <div class="wrap">
     <div data-reveal class="fcta">
@@ -886,28 +971,42 @@ const BRANDS=[['Cybex','cybex'],['Hammer Strength','hammer-strength'],['Nautilus
 /* ===================================================================== */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let LANG='es', PHASE='pre';
+/* ---------- Banderas (SVG) ---------- */
+function FLAG(c){const w='<svg class="flag" viewBox="0 0 30 20" aria-hidden="true">',e='</svg>';
+ const F={
+ fr:'<rect width="10" height="20" fill="#0055A4"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#EF4135"/>',
+ it:'<rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#CE2B37"/>',
+ de:'<rect width="30" height="7" fill="#000"/><rect y="6.6" width="30" height="7" fill="#DD0000"/><rect y="13.3" width="30" height="6.7" fill="#FFCE00"/>',
+ se:'<rect width="30" height="20" fill="#006AA7"/><rect x="9" width="4" height="20" fill="#FECC00"/><rect y="8" width="30" height="4" fill="#FECC00"/>',
+ pt:'<rect width="12" height="20" fill="#046A38"/><rect x="12" width="18" height="20" fill="#DA291C"/><circle cx="12" cy="10" r="4" fill="#FFE000"/><circle cx="12" cy="10" r="2.4" fill="#DA291C" stroke="#fff" stroke-width=".6"/>',
+ kr:'<rect width="30" height="20" fill="#fff"/><path d="M10 10a5 5 0 0 1 10 0z" fill="#CD2E3A"/><path d="M10 10a5 5 0 0 0 10 0z" fill="#0047A0"/><circle cx="12.5" cy="10" r="2.5" fill="#CD2E3A"/><circle cx="17.5" cy="10" r="2.5" fill="#0047A0"/><g fill="#000"><rect x="3" y="3" width="4" height=".8" transform="rotate(-33 5 4)"/><rect x="3.4" y="4.4" width="4" height=".8" transform="rotate(-33 5 4)"/><rect x="23" y="15" width="4" height=".8" transform="rotate(-33 25 16)"/><rect x="23.4" y="16.4" width="4" height=".8" transform="rotate(-33 25 16)"/><rect x="23" y="3" width="4" height=".8" transform="rotate(33 25 4)"/><rect x="3" y="15" width="4" height=".8" transform="rotate(33 5 16)"/></g>',
+ us:'<rect width="30" height="20" fill="#B22234"/>'+[1,3,5,7,9,11].map(i=>`<rect y="${i*20/13}" width="30" height="${20/13}" fill="#fff"/>`).join('')+'<rect width="13" height="10.8" fill="#3C3B6E"/>'+[0,1,2,3].map(r=>[0,1,2,3,4].map(c=>`<circle cx="${1.6+c*2.5}" cy="${1.5+r*2.6}" r=".55" fill="#fff"/>`).join('')).join(''),
+ gb:'<rect width="30" height="20" fill="#012169"/><path d="M0 0L30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0L30 20M30 0L0 20" stroke="#C8102E" stroke-width="1.4"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6"/><path d="M15 0v20M0 10h30" stroke="#C8102E" stroke-width="3.4"/>',
+ at:'<rect width="30" height="20" fill="#ED2939"/><rect y="6.7" width="30" height="6.6" fill="#fff"/>'};
+ return w+(F[c]||'')+e}
+
 const eur=n=>(Number.isInteger(n)?n:n.toFixed(2).replace('.',','))+' €';
 
 const MACHINES=[
- {img:'img/maquinas/gymleco-leg-press.webp',brand:'Gymleco',name:'Leg Press',
+ {img:'img/maquinas/gymleco-leg-press.webp',cc:'se',brand:'Gymleco',name:'Leg Press',
   es:{model:'Prensa de carga · Serie 800',d:'Prensa de pierna de carga directa: discos en las astas, respaldo inclinado y plataforma grande. Sin poleas ni cables entre tú y el peso.',year:'Suecia',from:'Fábrica, Estocolmo',km:'2.900 km',why:'Gymleco lleva décadas haciendo hierro en Suecia para gimnasios de fuerza. Acero grueso, soldaduras a la vista y una geometría que no te deja hacer trampa: empujas tú, no la máquina.',g:'Pierna · Glúteo',t:'Carga directa'},
   eu:{model:'Karga-prentsa · 800 seriea',d:'Zuzeneko kargako hanka-prentsa: diskoak adarretan, bizkar-euskarri inklinatua eta plataforma handia. Poleatik eta kablerik gabe zure eta pisuaren artean.',year:'Suedia',from:'Fabrika, Stockholm',km:'2.900 km',why:'Gymlecok hamarkadak daramatza Suedian indar-gimnasioentzako burdina egiten. Altzairu lodia, soldadura agerian eta tranparik egiten uzten ez duen geometria: zuk bultzatzen duzu, ez makinak.',g:'Hanka · Ipurmasaila',t:'Zuzeneko karga'}},
- {img:'img/maquinas/gymleco-hack-squat.webp',brand:'Gymleco',name:'Hack Squat',
+ {img:'img/maquinas/gymleco-hack-squat.webp',cc:'se',brand:'Gymleco',name:'Hack Squat',
   es:{model:'Sentadilla hack de carga',d:'Guía de acero inoxidable a 45°, almohadillas de hombro y plataforma regulable. La sentadilla de siempre, con la espalda apoyada y la pierna sola contra el peso.',year:'Suecia',from:'Fábrica, Estocolmo',km:'2.900 km',why:'Es la máquina que más se ve en los vídeos de culturismo escandinavo. El carro corre sobre la guía de inoxidable sin un ruido: lo único que se oye son los discos.',g:'Cuádriceps · Glúteo',t:'Carga directa'},
   eu:{model:'Karga-hack squat',d:'Altzairu herdoilgaitzezko gida 45°-tan, sorbalda-kuxinak eta plataforma erregulagarria. Betiko squata, bizkarra bermatuta eta hanka bakarrik pisuaren aurka.',year:'Suedia',from:'Fabrika, Stockholm',km:'2.900 km',why:'Eskandinaviako kulturismo-bideoetan gehien ikusten den makina da. Orga herdoilgaitzezko gidaren gainean zarata egin gabe ibiltzen da: diskoak bakarrik entzuten dira.',g:'Kuadrizepsa · Ipurmasaila',t:'Zuzeneko karga'}},
- {img:'img/maquinas/gymleco-chest-press.webp',brand:'Gymleco',name:'Chest Press',
+ {img:'img/maquinas/gymleco-chest-press.webp',cc:'se',brand:'Gymleco',name:'Chest Press',
   es:{model:'Press de pecho de carga',d:'Press de pecho sentado con brazos independientes y carga de discos. Respaldo alto y asiento regulable para ajustar el recorrido a cada uno.',year:'Suecia',from:'Fábrica, Estocolmo',km:'2.900 km',why:'Cada brazo va por su lado, así que el lado débil no se esconde detrás del fuerte. Pieza sobria, negra y sin adornos: sueca hasta el último tornillo.',g:'Pecho · Tríceps',t:'Carga directa'},
   eu:{model:'Karga-bular-prentsa',d:'Eserita egiteko bular-prentsa, beso independenteekin eta disko-kargarekin. Bizkar-euskarri altua eta eserleku erregulagarria ibilbidea bakoitzari egokitzeko.',year:'Suedia',from:'Fabrika, Stockholm',km:'2.900 km',why:'Beso bakoitza bere aldetik doa, beraz alde ahula ez da indartsuaren atzean ezkutatzen. Pieza soila, beltza eta apaingarririk gabea: suediarra azken torlojuraino.',g:'Bularra · Trizepsa',t:'Zuzeneko karga'}},
- {img:'img/chain.webp',brand:'Old school',name:'Chest Press',
+ {img:'img/chain.webp',cc:'fr',brand:'Old school',name:'Chest Press',
   es:{model:'Transmisión por cadena',d:'Press de pecho con transmisión por cadena y piñones. Se nota la cadena trabajar en cada repetición: nada de cables ni levas.',year:'Años 80',from:'Gimnasio cerrado, Francia',km:'1.100 km',why:'Es una de esas piezas que ya no se fabrican. Se desmontó, se limpió pieza a pieza y se tapizó de nuevo. Cruzó Francia en una furgoneta y entró por la puerta antes que la mesa de recepción.',g:'Pecho · Hombro',t:'Cadena'},
   eu:{model:'Kate bidezko transmisioa',d:'Kate eta pinoi bidezko bular-prentsa. Errepikapen bakoitzean katea lanean nabaritzen da: ez kablerik, ez kamarik.',year:'80ko hamarkada',from:'Itxitako gimnasioa, Frantzia',km:'1.100 km',why:'Jada egiten ez diren pieza horietako bat da. Desmuntatu, piezaz pieza garbitu eta berriro tapizatu zen. Frantzia furgoneta batean zeharkatu zuen eta harrera-mahaia baino lehen sartu zen atetik.',g:'Bularra · Sorbalda',t:'Katea'}},
- {img:'img/cybex_chest.webp',brand:'Cybex',name:'Chest Press',
+ {img:'img/cybex_chest.webp',cc:'pt',brand:'Cybex',name:'Chest Press',
   es:{model:'Serie VR',d:'Press de pecho sentado con respaldo inclinado y pedal para colocar el peso con seguridad. Agarre neutro o prono.',year:'2008',from:'Club deportivo, Portugal',km:'850 km',why:'El pedal de ayuda te deja empezar y acabar la serie sin pelearte con la palanca. Ideal para ir al fallo solo. Vino de un club que cerró en Oporto, con las placas originales.',g:'Pecho · Tríceps',t:'Selectorizada'},
   eu:{model:'VR seriea',d:'Eserita egiteko bular-prentsa, bizkar-euskarri inklinatuarekin eta pisua modu seguruan hartzeko oin-pedalarekin. Heldulekua neutroa edo pronoa.',year:'2008',from:'Kirol-kluba, Portugal',km:'850 km',why:'Laguntza-pedalari esker, seriea palankarekin borrokatu gabe hasi eta amaitu dezakezu. Bakarrik hutsegiteraino joateko aproposa. Porton itxi zen klub batetik etorri zen, jatorrizko plakekin.',g:'Bularra · Trizepsa',t:'Pisu-pila'}},
- {img:'img/flex_bicep.webp',brand:'Flex Fitness',name:'Biceps Machine',
+ {img:'img/flex_bicep.webp',cc:'kr',brand:'Flex Fitness',name:'Biceps Machine',
   es:{model:'PA-560',d:'Curl de bíceps con apoyo predicador. La palanca sigue el arco natural del codo. Pila de hasta 100 kg.',year:'2021',from:'Fábrica, Corea del Sur',km:'10.300 km',why:'Flex es la marca coreana que se ha ganado a los culturistas. Pocas hay en España: esta cruzó medio mundo en contenedor y llegó al puerto de Bilbao con el plástico de fábrica puesto.',g:'Bíceps',t:'Selectorizada'},
   eu:{model:'PA-560',d:'Bizeps-kurla, predikadore-euskarriarekin. Palankak ukondoaren arku naturala jarraitzen du. 100 kg arteko pisu-pila.',year:'2021',from:'Fabrika, Hego Korea',km:'10.300 km',why:'Flex kulturistak irabazi dituen marka korearra da. Espainian gutxi daude: honek mundu erdia zeharkatu zuen edukiontzian eta Bilboko portura iritsi zen fabrikako plastikoarekin.',g:'Bizepsa',t:'Pisu-pila'}},
- {img:'img/cybex_curl.webp',brand:'Cybex',name:'Arm Curl',
+ {img:'img/cybex_curl.webp',cc:'de',brand:'Cybex',name:'Arm Curl',
   es:{model:'Leva gunmetal',d:'Curl de brazos con leva: la resistencia cambia a lo largo del recorrido para que el bíceps trabaje igual arriba que abajo.',year:'2005',from:'Gimnasio privado, Alemania',km:'1.600 km',why:'El acabado gunmetal de esa época es de los que ya no se ven. Rodamientos nuevos y lista para otros veinte años. Su anterior dueño la vendió solo cuando supo dónde iba a acabar.',g:'Bíceps',t:'Leva'},
   eu:{model:'Gunmetal kama',d:'Besoetako kurla kamarekin: erresistentzia ibilbidean zehar aldatzen da, bizepsak goian eta behean berdin lan egin dezan.',year:'2005',from:'Gimnasio pribatua, Alemania',km:'1.600 km',why:'Garai hartako gunmetal akabera jada ikusten ez den horietakoa da. Errodamendu berriak, eta beste hogei urterako prest. Aurreko jabeak nora joango zen jakin zuenean bakarrik saldu zuen.',g:'Bizepsa',t:'Kama'}}
 ];
@@ -953,6 +1052,39 @@ const FAQ=[
 ];
 
 /* ---------- RENDER ---------- */
+/* ---------- Leyendas del hierro ---------- */
+const LEG=[
+ {k:'q',cls:'q1',cc:'us',who:'Ronnie Coleman',en:'“Everybody wants to be a bodybuilder, but don\'t nobody want to lift no heavy-ass weights.”',
+  es:{t:'«Todo el mundo quiere ser culturista, pero nadie quiere levantar peso de verdad.»',ctx:'Metroflex Gym · Arlington, Texas',meta:'8 veces Mr. Olympia · 1998–2005'},
+  eu:{t:'«Denek izan nahi dute kulturista, baina inork ez du benetako pisua altxatu nahi.»',ctx:'Metroflex Gym · Arlington, Texas',meta:'8 aldiz Mr. Olympia · 1998–2005'}},
+ {k:'m',cls:'m1',img:'img/marcas/gymleco.png',brand:'Gymleco',es:{d:'Leg press de carga',n:'La prensa para mover peso de verdad'},eu:{d:'Karga-hanka-prentsa',n:'Benetako pisua mugitzeko prentsa'}},
+ {k:'p',cls:'p1',img:'img/chain.webp',cc:'fr',es:{c:'Press a cadena · años 80'},eu:{c:'Kate-prentsa · 80ko h.'}},
+ {k:'q',cls:'q2',cc:'us',who:'Arnold Schwarzenegger',en:'“The last three or four reps is what makes the muscle grow.”',
+  es:{t:'«Las últimas tres o cuatro repeticiones son las que hacen crecer el músculo.»',ctx:'Gold’s Gym · Venice, California',meta:'7 veces Mr. Olympia · Pumping Iron, 1977'},
+  eu:{t:'«Azken hiru edo lau errepikapenek hazten dute muskulua.»',ctx:'Gold’s Gym · Venice, California',meta:'7 aldiz Mr. Olympia · Pumping Iron, 1977'}},
+ {k:'f',cls:'f1',cc:'us',who:'Arthur Jones · Casey Viator',
+  es:{t:'Colorado, 1973. El inventor de Nautilus pone a prueba sus máquinas con Casey Viator: 28 días entrenando solo con máquinas de leva. Según Jones, ganó 28 kg.',ctx:'El experimento Colorado',meta:'Nautilus · leva de primera generación'},
+  eu:{t:'Colorado, 1973. Nautilusen asmatzaileak bere makinak probatzen ditu Casey Viatorrekin: 28 egun kama-makinekin bakarrik. Jonesen arabera, 28 kg irabazi zituen.',ctx:'Colorado esperimentua',meta:'Nautilus · lehen belaunaldiko kama'}},
+ {k:'m',cls:'m2',img:'img/marcas/nautilus.png',brand:'Nautilus',es:{d:'Leva de primera generación',n:'La marca que inventó la máquina moderna'},eu:{d:'Lehen belaunaldiko kama',n:'Makina modernoa asmatu zuen marka'}},
+ {k:'q',cls:'q3',cc:'us',who:'Lee Haney',en:'“Stimulate, don\'t annihilate.”',
+  es:{t:'«Estimula, no destruyas.»',ctx:'Atlanta, Georgia',meta:'8 veces Mr. Olympia · 1984–1991'},
+  eu:{t:'«Estimulatu, ez suntsitu.»',ctx:'Atlanta, Georgia',meta:'8 aldiz Mr. Olympia · 1984–1991'}},
+ {k:'p',cls:'p2',img:'img/cybex_curl.webp',cc:'de',es:{c:'Cybex gunmetal · 2005'},eu:{c:'Cybex gunmetal · 2005'}},
+ {k:'f',cls:'f2',cc:'gb',who:'Dorian Yates',
+  es:{t:'Seis Mr. Olympia seguidos, de 1992 a 1997, entrenando a una sola serie al fallo en un sótano de Birmingham: el Temple Gym.',ctx:'Temple Gym · Birmingham',meta:'Alto voltaje, poco volumen'},
+  eu:{t:'Sei Mr. Olympia jarraian, 1992tik 1997ra, serie bakarra hutsegiteraino eginez Birminghameko soto batean: Temple Gym.',ctx:'Temple Gym · Birmingham',meta:'Tentsio handia, bolumen txikia'}},
+ {k:'m',cls:'m3',img:'img/marcas/hammer-strength.png',brand:'Hammer Strength',es:{d:'Remo de carga independiente',n:'Fundada en 1989 por Gary Jones, hijo de Arthur'},eu:{d:'Arraun independentea',n:'1989an sortua, Arthurren seme Gary Jonesek'}}
+];
+function renderLegends(){
+  const l=LANG,eb=l==='es'?'En Burdin':'Burdinen';
+  $('#legends').innerHTML=LEG.map(x=>{
+    if(x.k==='q')return `<blockquote class="lq ${x.cls}" data-reveal><span class="hex">${FLAG(x.cc)}</span><p class="lt">${x[l].t}</p><p class="le">${x.en}</p><footer><b>${x.who}</b><span>${x[l].ctx}</span><em>${x[l].meta}</em></footer></blockquote>`;
+    if(x.k==='f')return `<div class="lq lf ${x.cls}" data-reveal><span class="hex">${FLAG(x.cc)}</span><p class="lt">${x[l].t}</p><footer><b>${x.who}</b><span>${x[l].ctx}</span><em>${x[l].meta}</em></footer></div>`;
+    if(x.k==='p')return `<figure class="era-ph ${x.cls}" data-reveal><img src="${x.img}" alt=""><span class="hex">${FLAG(x.cc)}</span><figcaption>${x[l].c}</figcaption></figure>`;
+    return `<div class="era-card ${x.cls}" data-reveal><img class="lg" src="${x.img}" alt="${x.brand}"><dl><dt>${x.brand}</dt><dd>${x[l].d}</dd><dd class="n2">${x[l].n}</dd></dl><b>${eb}</b></div>`;
+  }).join('');
+}
+
 function vgUrl(k){return CONFIG.virtuagym[k]||''}
 function waUrl(text){return 'https://wa.me/'+(CONFIG.whatsapp||'')+'?text='+encodeURIComponent(text)}
 function tierLink(k,label){
@@ -966,7 +1098,7 @@ function renderMachines(){
   const l=LANG,x=ML[l];
   $('#sheets').innerHTML=MACHINES.map((m,i)=>{const t=m[l];const yr=(t.year.match(/\d+/)||[''])[0];return `
    <article class="sheet" data-reveal>
-     <div class="pic" data-tilt><canvas class="gen" data-gen="${i}" aria-hidden="true"></canvas><span class="n">Nº 0${i+1} / 0${MACHINES.length}</span><span class="yr" aria-hidden="true">${yr}</span><img src="${m.img}" alt="${m.brand} ${m.name}" data-parallax onerror="this.closest('.pic').classList.add('nofoto')"><div class="ph" aria-hidden="true"><b>${m.brand}</b><span>${m.name}</span><em>${l==='es'?'Foto de la pieza · pendiente':'Piezaren argazkia · zain'}</em></div>
+     <div class="pic" data-tilt><canvas class="gen" data-gen="${i}" aria-hidden="true"></canvas><span class="n">Nº 0${i+1} / 0${MACHINES.length}</span><span class="hexf">${FLAG(m.cc)}</span><span class="yr" aria-hidden="true">${yr}</span><img src="${m.img}" alt="${m.brand} ${m.name}" data-parallax onerror="this.closest('.pic').classList.add('nofoto')"><div class="ph" aria-hidden="true"><b>${m.brand}</b><span>${m.name}</span><em>${l==='es'?'Foto de la pieza · pendiente':'Piezaren argazkia · zain'}</em></div>
        <div class="story"><b>${x.w}</b><p>${t.why}</p></div>
      </div>
      <div class="meta">
@@ -974,7 +1106,7 @@ function renderMachines(){
        <h3>${m.name}</h3><div class="model">${t.model}</div>
        <p class="d">${t.d}</p>
        <div class="spec">
-         <div><small>${x.y}</small><span>${t.year}</span></div><div><small>${x.f}</small><span>${t.from}</span></div>
+         <div><small>${x.y}</small><span>${t.year}</span></div><div><small>${x.f}</small><span class="fl">${FLAG(m.cc)}${t.from}</span></div>
          <div><small>${x.k}</small><span>${t.km}</span></div><div><small>${x.g} · ${x.t}</small><span>${t.g} · ${t.t}</span></div>
        </div>
        <button type="button" class="btn-text open" data-open><span>${x.open}</span><svg aria-hidden="true"><use href="#arrow"/></svg></button>
@@ -1031,8 +1163,16 @@ function updDots(){const c=curSlide();$$('#dots button').forEach((b,i)=>b.classL
 function renderBars(){
   $('#bars').innerHTML=CONFIG.marcas.map(([n,p,top])=>`<div class="bar${top?' top':''}" style="--w:${p}%"><b data-top="${LANG==='es'?'La que más':'Gehien'}">${n}</b><span>${p}%</span></div>`).join('');
 }
+
+const LOGO_SVG={
+ cybex:'<svg viewBox="0 0 400 80" aria-label="Cybex"><path d="M4 52C30 22 92 14 140 20c-40 0-84 10-108 30 24-10 66-14 98-8C96 58 46 66 4 52z" fill="#fff"/><text x="150" y="60" fill="#fff" font-family="Archivo" font-weight="900" font-style="italic" font-stretch="100%" font-size="56" letter-spacing="2">CYBEX</text></svg>',
+ freemotion:'<svg viewBox="0 0 500 90" aria-label="Freemotion"><path d="M6 30c30-6 60-8 72 4 10 10-2 38 8 42 8 3 14-26 26-26 12 0 6 28 16 30 12 2 18-6 34-6" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round"/><text x="164" y="66" fill="#fff" font-family="Poppins" font-weight="500" font-size="52" letter-spacing="1">FREEMOTION</text></svg>',
+ 'flex-fitness':'<svg viewBox="0 0 420 120" aria-label="Flex Fitness"><rect x="4" y="4" width="412" height="112" rx="56" fill="none" stroke="#fff" stroke-width="5"/><text x="40" y="74" fill="#fff" font-family="Archivo" font-weight="900" font-stretch="70%" font-size="54">FLEX</text><path d="M178 92c18-6 30-30 30-62-12 18-26 30-30 62z" fill="#fff"/><text x="214" y="74" fill="#fff" font-family="Archivo" font-weight="900" font-stretch="70%" font-size="54">FITNESS</text><line x1="40" y1="88" x2="170" y2="88" stroke="#fff" stroke-width="3"/><text x="300" y="104" fill="#fff" font-family="Playfair Display" font-style="italic" font-size="22">Systems</text></svg>',
+ david:'<svg viewBox="0 0 420 130" aria-label="David"><text x="210" y="66" text-anchor="middle" fill="#fff" font-family="Archivo" font-weight="800" font-stretch="125%" font-size="72" letter-spacing="4">DAVID</text><line x1="110" y1="88" x2="310" y2="88" stroke="#fff" stroke-width="2.5"/><text x="210" y="120" text-anchor="middle" fill="#fff" font-family="Barlow Condensed" font-weight="700" font-size="24" letter-spacing="2">DAVID HEALTH SOLUTIONS</text></svg>',
+ paramount:'<svg viewBox="0 0 460 90" aria-label="Paramount"><text x="230" y="78" text-anchor="middle" fill="#fff" font-family="Barlow Condensed" font-weight="800" font-size="84" letter-spacing="3">PARAMOUNT</text><path d="M232 6h34l-17 17z" fill="#fff"/></svg>'
+};
 function renderLogos(){
-  $('#logos').innerHTML=BRANDS.map(([n,f])=>`<div${f==='hammer-strength'||f==='gymleco'?' class="tall"':''}><img src="img/marcas/${f}.png" alt="${n}" onerror="this.parentNode.classList.add('miss')"><span>${n}</span></div>`).join('');
+  $('#logos').innerHTML=BRANDS.map(([n,f])=>LOGO_SVG[f]?`<div class="svg">${LOGO_SVG[f]}</div>`:`<div${f==='hammer-strength'||f==='gymleco'?' class="tall"':''}><img src="img/marcas/${f}.png" alt="${n}" onerror="this.parentNode.classList.add('miss')"><span>${n}</span></div>`).join('');
 }
 
 function renderPlans(){
@@ -1075,7 +1215,7 @@ function setLang(l){
   LANG=l;document.documentElement.lang=l;
   $$('[data-'+l+']').forEach(e=>e.innerHTML=e.dataset[l]);
   $$('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
-  renderMachines();renderZones();renderBars();renderPlans();renderFaq();renderContact();renderSeats();initGen();prepareMani();if(window.initSlides)initSlides();
+  renderMachines();renderLegends();renderZones();renderBars();renderPlans();renderFaq();renderContact();renderSeats();initGen();prepareMani();if(window.initSlides)initSlides();
   try{localStorage.setItem('burdin-lang',l)}catch(e){}
   if(window.gsap&&window.ScrollTrigger){animMani();ScrollTrigger.refresh()}
 }
@@ -1130,7 +1270,7 @@ tick();setInterval(tick,1000);
 /* ---------- ARRANQUE ---------- */
 if(!CONFIG.boceto)document.body.classList.remove('boceto');
 const names=BRANDS.map(b=>b[0]);
-$('#track').innerHTML=[...names,...names].map(b=>`<span>${b}</span>`).join('');
+
 renderLogos();
 $('#yr').textContent=new Date().getFullYear();
 $('#map').insertAdjacentHTML('afterbegin',`<iframe title="Mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${encodeURIComponent(CONFIG.mapa)}&z=8&output=embed"></iframe>`);
@@ -1230,6 +1370,15 @@ initSlides();window.initSlides=initSlides;
   const t0=performance.now();
   (function frame(now){if(on){m.x+=(target.x-m.x)*.05;m.y+=(target.y-m.y)*.05;gl.uniform1f(uT,(now-t0)/1000);gl.uniform2f(uM,m.x,m.y);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)}requestAnimationFrame(frame)})(t0);
 })();
+/* ---------- Collage de fondo que se mueve al bajar ---------- */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const items=[...document.querySelectorAll('.drift > *')],sp=[.18,-.12,.26,-.2,.1,-.16,.3];let raf=0;
+  const t0=performance.now();
+  function f(now){const y=scrollY,t=(now-t0)/1000;items.forEach((el,i)=>{const k=sp[i%sp.length];el.style.transform=`translate3d(${Math.sin(t*.25+i)*8}px,${y*k+Math.cos(t*.2+i)*6}px,0) rotate(${Math.sin(t*.15+i)*1.2}deg)`});raf=requestAnimationFrame(f)}
+  new IntersectionObserver(e=>{if(e[0].isIntersecting){if(!raf)raf=requestAnimationFrame(f)}else{cancelAnimationFrame(raf);raf=0}}).observe(document.querySelector('.hero'));
+})();
+
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(window.gsap&&!reduce){
