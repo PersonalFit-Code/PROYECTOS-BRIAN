@@ -734,6 +734,26 @@
   .drift .d1{left:-4%;top:auto;bottom:4%;height:58%;opacity:.16}
   .drift .d3{right:-3%;left:auto;top:auto;bottom:2%;height:50%;opacity:.12}
   @media (max-width:900px){.drift{display:none}}
+  /* ===== Botón-disco flotante (a partir de la 2.ª página) ===== */
+  .disc-cta{position:fixed;z-index:49;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:132px;height:132px;padding:5px;border:1px dashed rgba(255,255,255,.55);border-radius:50%;opacity:0;transform:translateY(16px) scale(.92);pointer-events:none;transition:opacity .5s var(--ease),transform .6s var(--ease)}
+  .disc-cta.on{opacity:1;transform:none;pointer-events:auto}
+  .dc-frame{position:relative;display:block;width:100%;height:100%;border-radius:50%;background:#0d0d0d;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.6);transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .disc-cta:active .dc-frame{transform:scale(.96)}
+  .dc-txt{position:absolute;inset:0;width:100%;height:100%;z-index:3;animation:dc-rot 10s linear infinite}
+  .dc-txt text{font-family:var(--label);font-weight:700;font-size:14.5px;letter-spacing:2px;fill:var(--fg)}
+  @keyframes dc-rot{to{transform:rotate(360deg)}}
+  .dc-disc{position:absolute;inset:20%;width:60%;height:60%;border-radius:50%;z-index:1;filter:grayscale(1) contrast(1.05);transition:transform .9s var(--ease)}
+  .disc-cta:hover .dc-disc{transform:rotate(-40deg)}
+  .dc-hub{position:absolute;z-index:4;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--fg);color:var(--bg);display:grid;place-items:center;overflow:hidden;opacity:0;transform:scale(.4);transition:opacity .3s,transform .4s var(--ease)}
+  .disc-cta:hover .dc-hub,.disc-cta:focus-visible .dc-hub{opacity:1;transform:none}
+  .dc-hub svg{position:absolute;width:11px;height:11px;transition:transform .3s var(--ease)}
+  .dc-hub svg:last-child{transform:translate(-150%,150%)}
+  .disc-cta:hover .dc-hub svg:first-child{transform:translate(150%,-150%)}
+  .disc-cta:hover .dc-hub svg:last-child{transform:none;transition-delay:.1s}
+  .wa{bottom:calc(166px + env(safe-area-inset-bottom,0px))!important;transition:bottom .5s var(--ease),background .3s}
+  body:not(.disc-on) .wa{bottom:calc(18px + env(safe-area-inset-bottom,0px))!important}
+  @media (max-width:560px){.disc-cta{width:100px;height:100px;padding:4px}.dc-txt text{font-size:15.5px}.wa{bottom:calc(132px + env(safe-area-inset-bottom,0px))!important}}
+  @media (prefers-reduced-motion:reduce){.dc-txt{animation:none}}
 </style>
 </head>
 <body class="boceto">
@@ -1030,6 +1050,13 @@
   </div>
 </footer>
 
+<a href="#fundador" class="disc-cta" id="discCta" aria-label="Reserva tu plaza de socio fundador">
+  <span class="dc-frame">
+    <svg class="dc-txt" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="dcp" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs><text><textPath href="#dcp" textLength="536" data-es="RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ " data-eu="GORDE ZURE PLAZA ✦ BAZKIDE SORTZAILEA ✦ ">RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ </textPath></text></svg>
+    <img src="img/disco.webp" alt="" class="dc-disc">
+    <span class="dc-hub"><svg viewBox="0 0 14 15" aria-hidden="true"><path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"/></svg><svg viewBox="0 0 14 15" aria-hidden="true"><path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"/></svg></span>
+  </span>
+</a>
 <a href="#" class="wa wa-link" aria-label="WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
 <div class="toast" id="toast" role="status"></div>
 
@@ -1476,6 +1503,14 @@ initSlides();window.initSlides=initSlides;
 /* ---------- Título gigante ajustado al margen ---------- */
 function fitTitles(){document.querySelectorAll('.gtitle h2').forEach(h=>{const w=h.parentNode.clientWidth;h.style.display='inline-block';h.style.width='auto';h.style.fontSize='100px';const k=w/h.getBoundingClientRect().width;h.style.fontSize=Math.floor(100*k*.99)+'px';h.style.display='';h.style.width=''})}
 addEventListener('resize',fitTitles);document.fonts&&document.fonts.ready.then(fitTitles);
+
+/* ---------- Botón-disco: aparece al salir de la portada, se esconde en «Socio fundador» ---------- */
+(function(){
+  const d=$('#discCta');let pastHero=false,inFund=false;
+  const upd=()=>{const on=pastHero&&!inFund;d.classList.toggle('on',on);document.body.classList.toggle('disc-on',on)};
+  new IntersectionObserver(e=>{pastHero=!e[0].isIntersecting;upd()},{threshold:.05}).observe($('.hero'));
+  new IntersectionObserver(e=>{inFund=e[0].isIntersecting;upd()},{threshold:.2}).observe($('#waitlist'));
+})();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
