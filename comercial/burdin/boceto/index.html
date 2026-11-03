@@ -762,6 +762,38 @@
   /* WhatsApp centrado debajo del disco */
   .wa{right:calc(max(16px,env(safe-area-inset-right,0px)) + 23px)!important}
   @media (max-width:560px){.wa{right:calc(max(16px,env(safe-area-inset-right,0px)) + 15px)!important}}
+  /* ===== Manifiesto en tres columnas de revista ===== */
+  .mani3{max-width:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:3px solid rgba(236,236,236,.82)}
+  .mani3 article{position:relative;padding:34px 34px 10px 0;border-right:1px solid rgba(255,255,255,.14)}
+  .mani3 article+article{padding-left:34px}
+  .mani3 article:last-of-type{border-right:0}
+  .mani3 .mn{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--fg3);margin-bottom:16px}
+  .mani3 h3{font-family:var(--display);font-weight:900;font-stretch:66%;text-transform:uppercase;font-size:clamp(2rem,3.2vw,3rem);line-height:.92;margin:0 0 20px;color:var(--fg)}
+  .mani3 p{font-family:var(--serif)!important;font-size:clamp(1.05rem,1.35vw,1.22rem)!important;line-height:1.55!important;color:var(--fg)}
+  .mani3 p+p{margin-top:0}
+  .mani3 .sign{grid-column:1/-1;margin-top:34px}
+  @media (max-width:900px){
+    .mani3{grid-template-columns:1fr}
+    .mani3 article,.mani3 article+article{padding:28px 0 26px;border-right:0;border-bottom:1px solid rgba(255,255,255,.14)}
+  }
+  /* ===== O pruébanos primero (tarjeta TDM, en euros) ===== */
+  .try{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)!important;align-items:start!important}
+  .passes{display:block!important}
+  .pcard{border:1px dashed rgba(255,255,255,.5);background:rgba(255,255,255,.03)}
+  .pc-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:24px 26px 6px}
+  .pc-name{font-family:var(--mono);font-weight:400;font-size:1.6rem;text-transform:uppercase;letter-spacing:.04em;color:var(--fg)}
+  .pc-tabs{display:flex;gap:8px;flex-wrap:wrap}
+  .pc-tabs button{min-height:34px;padding:6px 14px;background:transparent;border:1px solid rgba(255,255,255,.4);color:var(--fg2);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:.2s}
+  .pc-tabs button:hover{border-color:var(--fg);color:var(--fg)}
+  .pc-tabs button.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+  .pc-price{display:flex;align-items:baseline;gap:16px;padding:14px 26px 24px;border-bottom:1px dashed rgba(255,255,255,.5)}
+  .pc-price b{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:3.4rem;line-height:1;color:var(--fg)}
+  .pc-price span{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3)}
+  .pcard ul{list-style:none;padding:22px 26px 8px;display:grid;gap:16px}
+  .pcard li{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2)}
+  .pcard li svg{width:20px;height:20px;flex:0 0 20px;color:var(--fg)}
+  .pcard .btn{margin:14px 26px 26px}
+  @media (max-width:900px){.try{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body class="boceto">
@@ -968,10 +1000,22 @@
 <section id="manifiesto"><canvas class="tv" id="tv" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="eyebrow" data-n="06" style="margin-bottom:34px" data-es="Manifiesto" data-eu="Manifestua">Manifiesto</div>
-    <div data-reveal class="mani">
-      <p data-es="No abrimos un gimnasio para que te hagas una foto. Lo abrimos para que entrenes en máquinas que <em>alguien diseñó bien</em> hace treinta años y que nadie ha vuelto a fabricar." data-eu="Ez dugu gimnasio bat irekitzen argazki bat egin dezazun. Irekitzen dugu duela hogeita hamar urte <em>norbaitek ondo diseinatu zituen</em> eta inork berriro egin ez dituen makinetan entrena dezazun.">No abrimos un gimnasio para que te hagas una foto. Lo abrimos para que entrenes en máquinas que <em>alguien diseñó bien</em> hace treinta años y que nadie ha vuelto a fabricar.</p>
-      <p data-es="Cada pieza la hemos buscado, revisado y traído hasta aquí. Sabemos de dónde viene y por qué está. Te lo contaremos si preguntas, y si no, te dejaremos entrenar." data-eu="Pieza bakoitza bilatu, berrikusi eta honaino ekarri dugu. Badakigu nondik datorren eta zergatik dagoen. Galdetzen baduzu kontatuko dizugu, eta bestela, entrenatzen utziko dizugu.">Cada pieza la hemos buscado, revisado y traído hasta aquí. Sabemos de dónde viene y por qué está. Te lo contaremos si preguntas, y si no, te dejaremos entrenar.</p>
-      <p data-es="Disciplina, resultados y comunidad. En ese orden." data-eu="Diziplina, emaitzak eta komunitatea. Ordena horretan.">Disciplina, resultados y comunidad. En ese orden.</p>
+    <div data-reveal class="mani mani3">
+      <article>
+        <span class="mn">01</span>
+        <h3 data-es="Un listón que merece la pena" data-eu="Merezi duen langa">Un listón que merece la pena</h3>
+        <p data-es="Hemos entrenado en gimnasios de medio mundo y siempre faltaba algo: una sala mal pensada, máquinas sin historia o un ambiente sin carácter. Así que hicimos el gimnasio que siempre quisimos tener, aquí, en casa." data-eu="Mundu erdiko gimnasioetan entrenatu dugu eta beti zerbait falta zen: gaizki pentsatutako aretoa, istoriorik gabeko makinak edo izaerarik gabeko giroa. Beraz, beti izan nahi genuen gimnasioa egin dugu, hemen, etxean.">Hemos entrenado en gimnasios de medio mundo y siempre faltaba algo: una sala mal pensada, máquinas sin historia o un ambiente sin carácter. Así que hicimos el gimnasio que siempre quisimos tener, aquí, en casa.</p>
+      </article>
+      <article>
+        <span class="mn">02</span>
+        <h3 data-es="A la caza de lo raro" data-eu="Arraroaren bila">A la caza de lo raro</h3>
+        <p data-es="Casi todos los gimnasios eligen un catálogo y se lo piden todo a un proveedor. Nosotros fuimos pieza a pieza, viniera de donde viniera. Cada vez que creíamos haber terminado, aparecía otra máquina que no podíamos dejar escapar. Lo bueno casi nunca llega por casualidad." data-eu="Ia gimnasio guztiek katalogo bat aukeratzen dute eta dena hornitzaile bati eskatzen diote. Guk piezaz pieza egin dugu, nondik zetorren kontuan hartu gabe. Amaitu genuela uste genuen bakoitzean, beste makina bat agertzen zen, ezin genuena ihes egiten utzi. Ona ia inoiz ez da kasualitatez iristen.">Casi todos los gimnasios eligen un catálogo y se lo piden todo a un proveedor. Nosotros fuimos pieza a pieza, viniera de donde viniera. Cada vez que creíamos haber terminado, aparecía otra máquina que no podíamos dejar escapar. Lo bueno casi nunca llega por casualidad.</p>
+      </article>
+      <article>
+        <span class="mn">03</span>
+        <h3 data-es="Más que una cuota" data-eu="Kuota bat baino gehiago">Más que una cuota</h3>
+        <p data-es="Lo exclusivo suele quedarse para los clubes privados, pero creemos que entrenar en serio merece ese mismo ambiente. Para mucha gente el gimnasio no es un edificio: es rutina, terapia, disciplina, calma y propósito. Lo sabemos porque a nosotros nos pasa lo mismo." data-eu="Esklusiboa klub pribatuetarako gordetzen da normalean, baina uste dugu serio entrenatzeak giro bera merezi duela. Askorentzat gimnasioa ez da eraikin bat: errutina, terapia, diziplina, lasaitasuna eta helburua da. Badakigu, guri ere gauza bera gertatzen zaigulako.">Lo exclusivo suele quedarse para los clubes privados, pero creemos que entrenar en serio merece ese mismo ambiente. Para mucha gente el gimnasio no es un edificio: es rutina, terapia, disciplina, calma y propósito. Lo sabemos porque a nosotros nos pasa lo mismo.</p>
+      </article>
       <div class="sign" data-es="El equipo de Burdin" data-eu="Burdin taldea">El equipo de Burdin</div>
     </div>
   </div>
@@ -1312,9 +1356,24 @@ function renderPlans(){
       <div class="price"><span class="tbd">${old}${eur(pr)}</span> <small>${t.per}</small></div>
       <ul>${t.l.map(x=>`<li>${x}</li>`).join('')}</ul>
       <a class="btn ${p.feat?'btn-primary':'btn-ghost'}" ${tierLink(p.k,t.n)}>${t.c}</a></div>`}).join('');
-  $('#passes').innerHTML=PASSES.map(p=>`<a class="pass" ${tierLink(p.k,p[l])}><small>${p[l]}</small><b class="tbd">${eur(CONFIG.precios[p.k])}</b><span>${l==='es'?'Comprar':'Erosi'}</span></a>`).join('');
+  renderPass();
 }
 
+
+/* ---------- O pruébanos primero: tarjeta con pestañas ---------- */
+let PASS='dia';
+const PT={es:{dia:['Día','por día'],semana:['Semana','por semana'],finde:['Fin de semana','el fin de semana'],c1:'Sin compromiso ni permanencia',c2:'Cómpralo en recepción o en nuestra tienda de Virtuagym',c3:'Acceso a todas las máquinas',b:'Comprar pase'},
+          eu:{dia:['Eguna','eguneko'],semana:['Astea','asteko'],finde:['Asteburua','asteburuan'],c1:'Konpromisorik eta iraunaldirik gabe',c2:'Erosi harreran edo gure Virtuagym dendan',c3:'Makina guztietarako sarbidea',b:'Sarrera erosi'}};
+function renderPass(){
+  const t=PT[LANG],ks=['dia','semana','finde'],pr=CONFIG.precios[PASS];
+  const check='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 11l4.5 4.5L17 4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>';
+  $('#passes').innerHTML=`<div class="pcard">
+    <div class="pc-top"><b class="pc-name">${t[PASS][0]}</b><div class="pc-tabs" role="tablist">${ks.map(k=>`<button type="button" role="tab" aria-selected="${k===PASS}" class="${k===PASS?'on':''}" data-pass="${k}">${t[k][0]}</button>`).join('')}</div></div>
+    <div class="pc-price"><b class="tbd">${eur(pr)}</b><span>${t[PASS][1]}</span></div>
+    <ul><li>${check}${t.c1}</li><li>${check}${t.c2}</li><li>${check}${t.c3}</li></ul>
+    <a class="btn btn-ghost" ${tierLink(PASS,t[PASS][0])}>${t.b}</a></div>`;
+  $$('#passes [data-pass]').forEach(b=>b.onclick=()=>{PASS=b.dataset.pass;renderPass()});
+}
 function renderFaq(){
   $('#faqlist').innerHTML=FAQ.map((f,i)=>`<details${i===0?' open':''}><summary>${f[LANG][0]}</summary><p>${f[LANG][1]}</p></details>`).join('');
 }
