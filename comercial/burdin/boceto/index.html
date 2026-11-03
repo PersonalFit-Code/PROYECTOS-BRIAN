@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Burdin Gym</title>
+<meta name="description" content="Burdin Gym · Gimnasio de musculación old school en Euskadi. Máquinas de las mejores marcas del mundo, elegidas una a una.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Syncopate:wght@700&family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#0b0b0b;--coal:#121212;--graphite:#1a1a1a;--stone:#d6d1c9;--silver:#9a9a9a;--taupe:#8a8277;--amber:#f2b366;--line:rgba(255,255,255,.08);--white:#f1ede6;--nav:72px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 10px)}
+  html,body{overflow-x:clip}
+  body{background:var(--black);color:var(--stone);font-family:'Barlow',sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button,input,select{font:inherit}
+  .wrap{width:min(1180px,calc(100% - 40px));margin:0 auto}
+  h1,h2,h3{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;color:var(--white);line-height:.95;letter-spacing:.01em}
+  .eyebrow{font-family:'Michroma',sans-serif;font-size:.64rem;letter-spacing:.32em;text-transform:uppercase;color:var(--amber)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.14em;text-transform:uppercase;padding:14px 26px;border:1px solid var(--amber);background:var(--amber);color:var(--black);transition:.2s;cursor:pointer;text-align:center}
+  .btn:hover{background:transparent;color:var(--amber)}
+  .btn.ghost{background:transparent;color:var(--white);border-color:rgba(255,255,255,.3)}
+  .btn.ghost:hover{border-color:var(--amber);color:var(--amber)}
+  .btn.block{width:100%}
+  /* marca de dato por confirmar (solo en modo boceto) */
+  body.boceto .tbd::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--amber);margin-left:6px;vertical-align:super;box-shadow:0 0 0 3px rgba(242,179,102,.18)}
+  .bocetobar{display:none;background:#1d1710;border-bottom:1px solid rgba(242,179,102,.3);color:#e9cfa8;font-size:.8rem;padding:8px 0}
+  body.boceto .bocetobar{display:block}
+  .bocetobar .wrap{display:flex;gap:14px;align-items:center;justify-content:space-between}
+  .bocetobar b{font-family:'Michroma',sans-serif;font-size:.6rem;letter-spacing:.25em;color:var(--amber);margin-right:8px}
+  .bocetobar i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--amber);margin:0 3px}
+  .bocetobar button{background:none;border:0;color:#e9cfa8;cursor:pointer;font-size:1.1rem;line-height:1}
+
+  /* LOGO */
+  .logo{display:inline-flex;align-items:center;gap:12px}
+  .logo svg{display:block}
+  .logo .txt{display:flex;flex-direction:column;align-items:center;gap:5px}
+  .logo .name{font-family:'Syncopate',sans-serif;font-weight:700;letter-spacing:.14em;color:#ddd7cd;line-height:1;text-transform:uppercase;font-size:1rem}
+  .logo .gym{display:flex;align-items:center;gap:.8em;font-family:'Michroma',sans-serif;letter-spacing:.55em;color:#b9b2a7;text-transform:uppercase;line-height:1;font-size:.45rem}
+  .logo .gym::before,.logo .gym::after{content:"";height:1px;width:2.6em;background:#8a8277}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:40;background:rgba(11,11,11,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav);gap:20px}
+  .links{display:flex;gap:26px;align-items:center}
+  .links a{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:.95rem;color:#cfc9c0}
+  .links a:hover{color:var(--amber)}
+  .links a.cta{color:var(--black);background:var(--amber);padding:8px 14px}
+  .links a.cta:hover{background:transparent;color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}
+  .right{display:flex;align-items:center;gap:14px}
+  .lang{display:flex;border:1px solid var(--line)}
+  .lang button{background:none;border:0;color:var(--silver);font-family:'Michroma',sans-serif;font-size:.62rem;letter-spacing:.15em;padding:8px 11px;cursor:pointer}
+  .lang button.on{background:var(--amber);color:var(--black)}
+  .burger{display:none;width:44px;height:44px;background:none;border:1px solid var(--line);cursor:pointer;position:relative}
+  .burger span{position:absolute;left:11px;right:11px;height:2px;background:var(--stone);transition:.25s}
+  .burger span:nth-child(1){top:14px}.burger span:nth-child(2){top:21px}.burger span:nth-child(3){top:28px}
+  nav.open .burger span:nth-child(1){top:21px;transform:rotate(45deg)}
+  nav.open .burger span:nth-child(2){opacity:0}
+  nav.open .burger span:nth-child(3){top:21px;transform:rotate(-45deg)}
+
+  /* HERO */
+  .hero{position:relative;padding:84px 0 70px;overflow:hidden;background:radial-gradient(ellipse 60% 70% at 72% 55%,rgba(242,179,102,.10),transparent 70%)}
+  .hero::before{content:"BURDIN";position:absolute;left:-2vw;bottom:-4vw;font-family:'Syncopate',sans-serif;font-weight:700;font-size:22vw;letter-spacing:.05em;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.035);pointer-events:none;white-space:nowrap}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:40px}
+  .pill{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(242,179,102,.4);padding:7px 14px;font-family:'Michroma',sans-serif;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--amber)}
+  .pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--amber);animation:pulse 1.6s infinite}
+  @keyframes pulse{50%{opacity:.25}}
+  .hero h1{font-size:clamp(3rem,7vw,5.6rem);font-weight:800;margin:22px 0 20px}
+  .hero h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--stone)}
+  .hero p.lead{max-width:480px;color:#bdb7ae;font-size:1.12rem;margin-bottom:28px}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap}
+  .count{display:flex;gap:10px;margin:0 0 30px}
+  .count div{min-width:74px;border:1px solid var(--line);background:rgba(255,255,255,.02);padding:10px 8px 8px;text-align:center}
+  .count b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.3rem;line-height:1;color:var(--white);font-variant-numeric:tabular-nums}
+  .count small{font-family:'Michroma',sans-serif;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe)}
+  .count-label{font-size:.85rem;color:var(--silver);margin-bottom:10px}
+  .hero-m{position:relative}
+  .hero-m img{position:relative;z-index:1;max-height:560px;margin:0 auto;filter:drop-shadow(0 30px 40px rgba(0,0,0,.7))}
+  .hero-m::after{content:"";position:absolute;left:8%;right:8%;bottom:-10px;height:60px;background:radial-gradient(ellipse at center,rgba(242,179,102,.35),transparent 70%);filter:blur(6px)}
+  .hero-m .tag{position:absolute;z-index:2;right:0;top:12%;background:rgba(11,11,11,.85);border:1px solid var(--line);padding:12px 16px;max-width:200px}
+  .hero-m .tag small{display:block;font-family:'Michroma',sans-serif;font-size:.52rem;letter-spacing:.25em;color:var(--amber);text-transform:uppercase;margin-bottom:4px}
+  .hero-m .tag span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;color:var(--white);text-transform:uppercase;line-height:1.1;display:block}
+
+  .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:18px 0}
+  .track{display:inline-flex;animation:tick 40s linear infinite}
+  .track span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.4rem;letter-spacing:.1em;text-transform:uppercase;color:#6f6a63;padding:0 30px}
+  .track span:nth-child(odd){color:var(--stone)}
+  @keyframes tick{to{transform:translateX(-50%)}}
+
+  section{padding:110px 0}
+  .head{margin-bottom:54px;max-width:680px}
+  .head h2{font-size:clamp(2.6rem,6vw,4.6rem);font-weight:800;margin:14px 0 14px}
+  .head p{color:var(--silver)}
+
+  /* CIFRAS */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+  .stat{padding:54px 20px 46px;text-align:center;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:0}
+  .stat b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(3.4rem,7vw,5.8rem);line-height:.9;color:var(--white)}
+  .stat b sup{font-size:.45em;color:var(--amber);vertical-align:.9em;margin-left:2px}
+  .stat small{display:block;margin-top:12px;font-family:'Michroma',sans-serif;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--taupe)}
+
+  /* FUNDADOR */
+  #fundador{position:relative;background:linear-gradient(180deg,#14110d,#0b0b0b);border-bottom:1px solid var(--line);overflow:hidden}
+  #fundador::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 15% 30%,rgba(242,179,102,.12),transparent 70%);pointer-events:none}
+  .fund{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start}
+  .perks{list-style:none;margin:6px 0 30px}
+  .perks li{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .perks li b{font-family:'Michroma',sans-serif;font-size:.62rem;color:var(--amber);padding-top:5px}
+  .perks li strong{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.3rem;text-transform:uppercase;color:var(--white);letter-spacing:.03em;line-height:1.1}
+  .perks li span{color:var(--silver);font-size:.95rem}
+  .seats{margin-top:8px}
+  .seats .bar{height:8px;background:rgba(255,255,255,.08);margin:10px 0 8px;position:relative;overflow:hidden}
+  .seats .bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#b77d3a,var(--amber))}
+  .seats .row2{display:flex;justify-content:space-between;font-size:.85rem;color:var(--silver)}
+  .seats .row2 b{color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:1.3rem}
+  .form{background:var(--coal);border:1px solid rgba(242,179,102,.35);padding:34px 30px}
+  .form h3{font-size:2rem;font-weight:800;margin:10px 0 8px}
+  .form p{color:var(--silver);font-size:.95rem;margin-bottom:20px}
+  .field{display:block;margin-bottom:14px}
+  .field span{display:block;font-family:'Michroma',sans-serif;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--taupe);margin-bottom:6px}
+  .field input,.field select{width:100%;background:#0b0b0b;border:1px solid rgba(255,255,255,.14);color:var(--white);padding:13px 14px;font-size:16px;border-radius:0;-webkit-appearance:none;appearance:none}
+  .field select{background-image:linear-gradient(45deg,transparent 50%,var(--amber) 50%),linear-gradient(135deg,var(--amber) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 15px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--amber)}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--silver);margin:4px 0 18px}
+  .check input{margin-top:4px;accent-color:var(--amber)}
+  .formnote{font-size:.78rem;color:var(--taupe);margin-top:12px;text-align:center}
+  .err{color:#ff9b7a;font-size:.85rem;margin-top:10px;min-height:1em}
+
+  /* MÁQUINAS */
+  .grid{display:grid;grid-template-columns:1fr;gap:24px}
+  .card{background:var(--coal);border:1px solid var(--line);display:grid;grid-template-columns:.85fr 1.15fr;transition:border-color .3s}
+  .card:hover{border-color:rgba(242,179,102,.45)}
+  .card:nth-child(even){grid-template-columns:1.15fr .85fr}
+  .card:nth-child(even) .stage{order:2}
+  .card:nth-child(even) .info{border-left:0;border-right:1px solid var(--line)}
+  .stage{position:relative;display:flex;align-items:flex-end;justify-content:center;padding:44px 20px 30px;background:radial-gradient(ellipse 80% 60% at 50% 60%,#232323,#111 75%);overflow:hidden;min-height:420px}
+  .stage::after{content:"";position:absolute;left:12%;right:12%;bottom:18px;height:34px;background:radial-gradient(ellipse at center,rgba(242,179,102,.28),transparent 70%)}
+  .stage img{position:relative;z-index:1;max-height:380px;width:auto;object-fit:contain;filter:drop-shadow(0 18px 22px rgba(0,0,0,.75));transition:transform .5s}
+  .card:hover .stage img{transform:scale(1.04)}
+  .num{position:absolute;top:16px;left:18px;font-family:'Michroma',sans-serif;font-size:.62rem;letter-spacing:.25em;color:var(--taupe);z-index:2}
+  .year{position:absolute;top:10px;right:16px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3.4rem;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(242,179,102,.45);z-index:0}
+  .info{padding:34px 34px 30px;display:flex;flex-direction:column;border-left:1px solid var(--line)}
+  .brandtag{display:flex;justify-content:space-between;gap:10px;font-family:'Michroma',sans-serif;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .brandtag em{font-style:normal;color:var(--taupe);letter-spacing:.2em}
+  .info h3{font-size:2.3rem;font-weight:800;margin:18px 0 12px}
+  .info p{color:#aaa49b;font-size:.97rem}
+  .story{margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line)}
+  .story div{padding:12px 14px;border-right:1px solid var(--line)}
+  .story div:last-child{border-right:0}
+  .story small,.meta small{display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe)}
+  .story span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--white);line-height:1.15;display:block}
+  .why{margin-top:18px;padding-left:16px;border-left:2px solid var(--amber);color:#cfc9c0;font-size:.95rem}
+  .why b{display:block;font-family:'Michroma',sans-serif;font-size:.55rem;letter-spacing:.25em;color:var(--amber);text-transform:uppercase;margin-bottom:4px;font-weight:400}
+  .meta{display:grid;grid-template-columns:1fr 1fr;margin-top:auto;padding-top:20px}
+  .meta div{padding-top:12px;border-top:1px solid var(--line)}
+  .meta span{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1.15rem;color:var(--white)}
+  .more{margin-top:24px;border:1px dashed rgba(255,255,255,.14);padding:34px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .more h3{font-size:2rem;font-weight:800}
+  .more p{color:var(--silver);max-width:640px}
+
+  /* MARCAS */
+  #marcas{background:var(--coal);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .brands{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .brands div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:38px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(1.15rem,2vw,1.7rem);letter-spacing:.06em;text-transform:uppercase;color:#cfc9c0;transition:.2s}
+  .brands div:hover{color:var(--amber);background:var(--graphite)}
+
+  /* ZONAS */
+  #zonas{padding-bottom:0}
+  .zhead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  .arrows{display:flex;gap:8px;margin-bottom:54px}
+  .arrows button{width:52px;height:52px;background:none;border:1px solid rgba(255,255,255,.2);color:var(--white);font-size:1.3rem;cursor:pointer}
+  .arrows button:hover{border-color:var(--amber);color:var(--amber)}
+  .slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .slides::-webkit-scrollbar{display:none}
+  .slide{position:relative;flex:0 0 100%;scroll-snap-align:start;height:min(78vh,720px);min-height:460px;overflow:hidden;background:#151515}
+  .slide .bg{position:absolute;inset:0}
+  .slide .bg img.photo{width:100%;height:100%;object-fit:cover}
+  .slide .bg img.cut{position:absolute;right:8%;bottom:6%;height:78%;width:auto;filter:drop-shadow(0 30px 30px rgba(0,0,0,.8))}
+  .slide .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.35) 55%,rgba(0,0,0,.1) 100%)}
+  .slide .txt{position:absolute;left:0;right:0;bottom:0;padding:0 0 60px}
+  .slide .txt .wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+  .slide h3{font-size:clamp(3.4rem,10vw,8.5rem);font-weight:800;line-height:.85}
+  .slide p{max-width:420px;color:#cfc9c0}
+  .slide .idx{font-family:'Michroma',sans-serif;font-size:.6rem;letter-spacing:.3em;color:var(--amber)}
+  .soon{position:absolute;top:22px;right:22px;z-index:3;font-family:'Michroma',sans-serif;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:#e9cfa8;background:rgba(11,11,11,.75);border:1px dashed rgba(242,179,102,.5);padding:8px 12px;max-width:calc(100% - 44px)}
+  .dots{display:flex;justify-content:center;gap:8px;padding:22px 0 0}
+  .dots button{width:28px;height:3px;border:0;background:rgba(255,255,255,.2);cursor:pointer;padding:0}
+  .dots button.on{background:var(--amber)}
+  /* render dibujado: pared de recepción */
+  .wall{position:absolute;inset:0;background:radial-gradient(ellipse 50% 45% at 55% 40%,#6a655e,#4c4843 60%,#3a3733);}
+  .wall::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.6}
+  .wall .sign{position:absolute;left:64%;top:40%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:14px;filter:drop-shadow(0 0 18px rgba(242,179,102,.75)) drop-shadow(0 0 4px rgba(242,179,102,.6))}
+  .wall .sign svg{width:clamp(80px,12vw,150px);height:auto}
+  .wall .sign .n{font-family:'Syncopate',sans-serif;font-weight:700;font-size:clamp(1.6rem,4.5vw,3.6rem);letter-spacing:.14em;color:#111}
+  .wall .sign .g{display:flex;align-items:center;gap:.9em;font-family:'Michroma',sans-serif;letter-spacing:.55em;color:#111;font-size:clamp(.6rem,1.4vw,1rem)}
+  .wall .sign .g::before,.wall .sign .g::after{content:"";height:2px;width:3em;background:#111}
+  .wall .plate{position:absolute;left:0;right:0;bottom:0;height:22%;background:repeating-linear-gradient(45deg,#222 0 3px,#2b2b2b 3px 6px),#262626;border-top:2px solid #f2b366;box-shadow:0 -6px 24px rgba(242,179,102,.45)}
+  .wall .motto{position:absolute;right:4%;top:62%;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.08em;color:#151515;font-size:clamp(.8rem,1.6vw,1.2rem);line-height:1.4}
+  /* render dibujado: fachada con disco */
+  .facade{position:absolute;inset:0;background:linear-gradient(180deg,#8a8781,#6f6c67);}
+  .facade::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.18) 1px,transparent 1px);background-size:180px 120px}
+  .facade .win{position:absolute;left:12%;right:0;bottom:0;height:42%;background:linear-gradient(180deg,#0e0e0e,#1a1a1a);border-top:10px solid #151515}
+  .facade .win::before{content:"";position:absolute;left:52%;right:8%;top:20%;height:3px;background:#e9e2d0;box-shadow:0 0 14px #fff,0 50px 0 #e9e2d0,0 50px 14px #fff}
+  .facade .disc{position:absolute;left:30%;top:10%;width:clamp(200px,30vw,330px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#9a8c78 0 9%,#222 9.5% 22%,#141414 22.5% 88%,#0c0c0c 89%);box-shadow:16px 20px 30px rgba(0,0,0,.5),inset 0 0 0 6px #1d1d1d}
+  .facade .disc svg{position:absolute;inset:0;width:100%;height:100%}
+  .facade .arm{position:absolute;left:18%;top:25%;width:14%;height:16px;background:#151515;box-shadow:0 80px 0 #151515}
+  .facade .letters{position:absolute;right:6%;top:24%;font-family:'Syncopate',sans-serif;font-weight:700;color:#1a1a1a;font-size:clamp(1.4rem,3.6vw,2.8rem);letter-spacing:.14em;text-shadow:0 0 14px rgba(255,230,180,.6)}
+
+  /* TARIFAS */
+  .tabs{display:inline-flex;border:1px solid var(--line);margin-bottom:30px}
+  .tabs button{background:none;border:0;color:var(--silver);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:1rem;padding:12px 20px;cursor:pointer}
+  .tabs button.on{background:var(--amber);color:var(--black)}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .plan{position:relative;border:1px solid var(--line);background:var(--coal);padding:38px 32px;display:flex;flex-direction:column}
+  .plan.feat{border-color:var(--amber);background:linear-gradient(180deg,#19140e,var(--coal) 60%)}
+  .plan .badge{position:absolute;top:-1px;right:24px;background:var(--amber);color:var(--black);font-family:'Michroma',sans-serif;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;padding:7px 10px}
+  .plan h3{font-size:1.8rem;font-weight:800}
+  .plan .sub{color:var(--taupe);font-size:.88rem;margin-top:6px}
+  .price{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3.8rem;color:var(--white);margin:18px 0 6px;line-height:1}
+  .price small{font-size:1rem;color:var(--silver);font-weight:600}
+  .price s{font-size:1.3rem;color:var(--taupe);font-weight:600;margin-right:8px}
+  .plan ul{list-style:none;margin:18px 0 30px;flex:1}
+  .plan li{padding:9px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+  .plan li::before{content:"— ";color:var(--amber)}
+  .try{margin-top:56px;display:grid;grid-template-columns:1fr 2fr;gap:30px;align-items:center;border-top:1px solid var(--line);padding-top:46px}
+  .try h3{font-size:2.4rem;font-weight:800}
+  .try p{color:var(--silver);margin-top:8px}
+  .passes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .pass{border:1px solid var(--line);padding:22px 20px;display:flex;flex-direction:column;gap:6px;transition:.2s;background:transparent;color:inherit;text-align:left;cursor:pointer}
+  .pass:hover{border-color:var(--amber)}
+  .pass small{font-family:'Michroma',sans-serif;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--taupe)}
+  .pass b{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.2rem;color:var(--white);line-height:1}
+  .pass span{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.85rem;color:var(--amber)}
+  .note{margin-top:22px;font-size:.82rem;color:var(--taupe)}
+
+  /* FAQ */
+  #faq{background:var(--coal);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .faqgrid{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px}
+  details{border-bottom:1px solid var(--line)}
+  details:first-child{border-top:1px solid var(--line)}
+  summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;position:relative;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.35rem;text-transform:uppercase;color:var(--white);letter-spacing:.02em;line-height:1.15}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";position:absolute;right:4px;top:16px;font-family:'Barlow',sans-serif;font-weight:400;font-size:1.8rem;color:var(--amber);transition:.2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{padding:0 0 22px;color:#aaa49b;max-width:620px}
+
+  /* CONTACTO */
+  .contact{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:stretch}
+  .row{display:grid;grid-template-columns:130px 1fr;padding:18px 0;border-bottom:1px solid var(--line)}
+  .row small{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--taupe);padding-top:4px}
+  .row div{color:#e9e4dc}
+  .row a:hover{color:var(--amber)}
+  .hours{display:grid;grid-template-columns:1fr auto;gap:4px 24px}
+  .map{position:relative;min-height:420px;border:1px solid var(--line);background:#151515;overflow:hidden}
+  .map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(1) invert(.92) contrast(.9) brightness(.9)}
+  .map .pin{position:absolute;left:16px;bottom:16px;background:rgba(11,11,11,.9);border:1px solid var(--line);padding:10px 14px;font-size:.85rem}
+
+  footer{border-top:1px solid var(--line);padding:50px 0 40px;font-size:.82rem;color:#6f6a63}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .foot .motto{font-family:'Michroma',sans-serif;font-size:.58rem;letter-spacing:.35em;color:var(--taupe)}
+  .foot nav{all:unset;display:flex;gap:18px;flex-wrap:wrap}
+  .foot nav a:hover{color:var(--amber)}
+
+  /* WhatsApp flotante */
+  .wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:50;width:58px;height:58px;border-radius:50%;background:#1b1b1b;border:1px solid var(--amber);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.6);transition:.2s}
+  .wa:hover{background:var(--amber)}
+  .wa:hover svg{fill:var(--black)}
+  .wa svg{width:28px;height:28px;fill:var(--amber)}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:60;background:#1d1710;border:1px solid var(--amber);color:#f4dcb8;padding:14px 18px;font-size:.9rem;max-width:calc(100% - 32px);transition:.3s;text-align:center}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:1060px){
+    .links{gap:18px}
+    .links a.hide-md{display:none}
+  }
+  @media (max-width:900px){
+    :root{--nav:64px}
+    nav{backdrop-filter:none;-webkit-backdrop-filter:none;background:#0b0b0b}
+    .burger{display:block}
+    .hero::before{display:none}
+    .links{position:fixed;left:0;right:0;top:var(--nav);bottom:0;z-index:45;flex-direction:column;align-items:stretch;gap:0;padding:10px 20px 40px;background:#0b0b0b;transform:translateX(100%);transition:transform .3s;overflow-y:auto}
+    nav.open .links{transform:none}
+    .links a,.links a.hide-md{display:block;font-size:1.6rem;padding:16px 4px;border-bottom:1px solid var(--line)}
+    .links a.cta{margin-top:22px;text-align:center;border:0;padding:16px}
+    body.menu{overflow:hidden}
+    .hero{padding:50px 0 60px}
+    .hero-grid,.contact,.fund,.faqgrid,.try{grid-template-columns:1fr}
+    .hero-m{order:-1}
+    .hero-m img{max-height:300px}
+    .hero-m .tag{top:auto;bottom:10px;right:0}
+    .plans{grid-template-columns:1fr}
+    .brands{grid-template-columns:repeat(2,1fr)}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .stat:nth-child(2){border-right:0}
+    .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+    section{padding:80px 0}
+    .card,.card:nth-child(even){grid-template-columns:1fr}
+    .card:nth-child(even) .stage{order:0}
+    .info,.card:nth-child(even) .info{border-left:0;border-right:0;border-top:1px solid var(--line)}
+    .stage{min-height:340px}
+    .stage img{max-height:300px}
+    .faqgrid{gap:20px}
+    .map{min-height:320px}
+    .arrows{margin-bottom:30px}
+  }
+  @media (max-width:560px){
+    body{font-size:16px}
+    .bocetobar{font-size:.72rem}
+    .logo .name{font-size:.85rem}
+    .count div{min-width:0;flex:1}
+    .count b{font-size:1.9rem}
+    .ctas .btn{flex:1 1 100%}
+    .info{padding:26px 22px}
+    .info h3{font-size:1.9rem}
+    .story{grid-template-columns:1fr 1fr}
+    .story div:nth-child(2){border-right:0}
+    .story div:nth-child(3){grid-column:1/-1;border-top:1px solid var(--line)}
+    .passes{grid-template-columns:1fr}
+    .form{padding:26px 20px}
+    .plan{padding:32px 24px}
+    .row{grid-template-columns:100px 1fr}
+    .slide{height:72vh;min-height:440px}
+    .slide .bg img.cut{right:50%;transform:translateX(50%);height:56%;bottom:auto;top:10%}
+    .slide .shade{background:linear-gradient(0deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.4) 50%,rgba(0,0,0,.15) 100%)}
+    .wall .sign{top:30%;left:50%}
+    .wall .motto{display:none}
+    .facade .disc{left:18%;top:8%}
+    .facade .letters{display:none}
+    .more{padding:24px}
+    .soon{top:14px;right:14px;max-width:calc(100% - 28px);font-size:.46rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .track{animation:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body class="boceto">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="stone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ece6dc"/><stop offset=".5" stop-color="#c9c2b6"/><stop offset="1" stop-color="#8f887d"/></linearGradient>
+<filter id="grit" x="0" y="0" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="4" seed="7" result="big"/>
+<feColorMatrix in="big" type="matrix" values="0 0 0 0 .25  0 0 0 0 .23  0 0 0 0 .2  0 0 0 -1.5 .72" result="blot"/>
+<feComposite in="blot" in2="SourceGraphic" operator="in" result="b2"/>
+<feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="fine"/>
+<feColorMatrix in="fine" type="matrix" values="0 0 0 0 .2  0 0 0 0 .18  0 0 0 0 .16  0 0 0 -3 1.5" result="spk"/>
+<feComposite in="spk" in2="SourceGraphic" operator="in" result="s2"/>
+<feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="b2"/><feMergeNode in="s2"/></feMerge></filter>
+<symbol id="b" viewBox="0 0 272 288"><g fill="url(#stone)" filter="url(#grit)"><path d="M0,0H228L270,42V248L230,286H115V238H212V165H115V118H212V46H42Z"/><path d="M42,64H98V286H2L42,240Z"/></g></symbol>
+<symbol id="bdark" viewBox="0 0 272 288"><g fill="#121212"><path d="M0,0H228L270,42V248L230,286H115V238H212V165H115V118H212V46H42Z"/><path d="M42,64H98V286H2L42,240Z"/></g></symbol>
+<symbol id="wa" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91A9.88 9.88 0 0 0 12.04 2Zm5.8 14.03c-.24.68-1.42 1.3-1.95 1.35-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.92-4.66-4.1-.13-.18-1.11-1.48-1.11-2.83 0-1.35.71-2.01.96-2.29.25-.27.55-.34.73-.34l.52.01c.17.01.4-.06.62.47.24.55.79 1.9.86 2.04.07.14.11.3.02.48-.09.18-.14.3-.27.46-.14.16-.29.35-.41.47-.14.14-.28.29-.12.56.16.27.71 1.17 1.52 1.89 1.04.93 1.92 1.22 2.19 1.35.27.14.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.23.61-.14.25.09 1.59.75 1.86.89.27.14.45.2.52.32.07.11.07.66-.17 1.33Z"/></symbol>
+</defs></svg>
+
+<div class="bocetobar" id="bocetobar"><div class="wrap">
+  <span><b>BOCETO</b><span data-es="Los datos con <i></i> están por confirmar. Euskera pendiente de revisión." data-eu="<i></i> duten datuak berresteke daude. Euskara berrikusteke.">Los datos con <i></i> están por confirmar. Euskera pendiente de revisión.</span></span>
+  <button type="button" aria-label="Cerrar" onclick="document.body.classList.remove('boceto')">×</button>
+</div></div>
+
+<nav id="nav">
+  <div class="wrap nav">
+    <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="30" height="32" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name">Burdin</span><span class="gym">Gym</span></span></a>
+    <div class="right">
+      <div class="links" id="links">
+        <a href="#maquinas" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
+        <a href="#zonas" class="hide-md" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
+        <a href="#tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
+        <a href="#faq" class="hide-md" data-es="Preguntas" data-eu="Galderak">Preguntas</a>
+        <a href="#contacto" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
+        <a href="#fundador" class="cta" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a>
+      </div>
+      <div class="lang" role="group" aria-label="Idioma / Hizkuntza"><button type="button" data-l="eu">EU</button><button type="button" data-l="es">ES</button></div>
+      <button type="button" class="burger" id="burger" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill" data-es="Preapertura · Euskadi" data-eu="Irekiera aurretik · Euskadi">Preapertura · Euskadi</span>
+      <h1 data-es="Hierro<br><em>de verdad</em>" data-eu="Benetako<br><em>burdina</em>">Hierro<br><em>de verdad</em></h1>
+      <p class="lead" data-es="Un gimnasio de musculación old school con máquinas de las mejores marcas del mundo, elegidas una a una. Cada pieza tiene su historia." data-eu="Eskola zaharreko muskulazio-gimnasioa, munduko marka onenetako makinekin, banan-banan aukeratuak. Pieza bakoitzak bere istorioa du.">Un gimnasio de musculación old school con máquinas de las mejores marcas del mundo, elegidas una a una. Cada pieza tiene su historia.</p>
+      <div class="count-label"><span data-es="Abrimos el" data-eu="Irekiera:">Abrimos el</span> <b class="tbd" id="opendate" style="color:var(--white)"></b></div>
+      <div class="count" id="count" aria-live="off">
+        <div><b data-k="d">00</b><small data-es="Días" data-eu="Egun">Días</small></div>
+        <div><b data-k="h">00</b><small data-es="Horas" data-eu="Ordu">Horas</small></div>
+        <div><b data-k="m">00</b><small data-es="Min" data-eu="Min">Min</small></div>
+        <div><b data-k="s">00</b><small data-es="Seg" data-eu="Seg">Seg</small></div>
+      </div>
+      <div class="ctas">
+        <a href="#fundador" class="btn" data-es="Quiero ser socio fundador" data-eu="Bazkide sortzaile izan nahi dut">Quiero ser socio fundador</a>
+        <a href="#maquinas" class="btn ghost" data-es="Ver las máquinas" data-eu="Makinak ikusi">Ver las máquinas</a>
+      </div>
+    </div>
+    <div class="hero-m">
+      <img src="img/chain.webp" alt="Press de pecho old school con transmisión por cadena" width="640" height="930">
+      <div class="tag"><small data-es="Pieza Nº 04" data-eu="04. pieza">Pieza Nº 04</small><span data-es="Press de pecho a cadena. Ya no se fabrica." data-eu="Kate bidezko bular-prentsa. Jada ez da egiten.">Press de pecho a cadena. Ya no se fabrica.</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
+
+<div class="stats wrap" id="stats">
+  <div class="stat reveal"><b class="tbd"><span data-n="60">60</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
+  <div class="stat reveal"><b><span data-n="10">10</span></b><small data-es="Marcas top" data-eu="Marka nagusi">Marcas top</small></div>
+  <div class="stat reveal"><b class="tbd"><span data-n="800">800</span><sup>m²</sup></b><small data-es="De hierro" data-eu="Burdina">De hierro</small></div>
+  <div class="stat reveal"><b class="tbd"><span data-n="100">100</span></b><small data-es="Plazas fundador" data-eu="Sortzaile-plaza">Plazas fundador</small></div>
+</div>
+
+<section id="fundador">
+  <div class="wrap fund">
+    <div class="reveal">
+      <div class="head" style="margin-bottom:26px">
+        <div class="eyebrow" data-es="Solo antes de abrir" data-eu="Ireki aurretik bakarrik">Solo antes de abrir</div>
+        <h2 data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</h2>
+        <p data-es="Los primeros en creer en Burdin entrenan con condiciones que no volverán. Plazas limitadas: cuando se acaben, o cuando abramos, se cierra." data-eu="Burdinengan lehenik sinesten dutenek ez dira itzuliko ez diren baldintzetan entrenatzen dute. Plaza mugatuak: amaitzen direnean, edo irekitzen dugunean, ixten da.">Los primeros en creer en Burdin entrenan con condiciones que no volverán. Plazas limitadas: cuando se acaben, o cuando abramos, se cierra.</p>
+      </div>
+      <ul class="perks">
+        <li><b>01</b><div><strong data-es="Precio congelado" data-eu="Prezio izoztua">Precio congelado</strong><span data-es="Tu cuota de fundador se mantiene mientras sigas de alta." data-eu="Zure sortzaile-kuota mantentzen da alta emanda jarraitzen duzun bitartean.">Tu cuota de fundador se mantiene mientras sigas de alta.</span></div></li>
+        <li><b>02</b><div><strong class="tbd" data-es="Sin matrícula" data-eu="Matrikularik gabe">Sin matrícula</strong><span data-es="Te ahorras el alta el día que abrimos." data-eu="Irekitzen dugun egunean alta-kuota aurrezten duzu.">Te ahorras el alta el día que abrimos.</span></div></li>
+        <li><b>03</b><div><strong class="tbd" data-es="Entra el primero" data-eu="Lehena sartu">Entra el primero</strong><span data-es="Visita privada antes de la apertura para conocer las máquinas." data-eu="Irekiera aurreko bisita pribatua, makinak ezagutzeko.">Visita privada antes de la apertura para conocer las máquinas.</span></div></li>
+        <li><b>04</b><div><strong class="tbd" data-es="Camiseta fundador" data-eu="Sortzaile-kamiseta">Camiseta fundador</strong><span data-es="Edición numerada que no se vende." data-eu="Saltzen ez den edizio zenbakidua.">Edición numerada que no se vende.</span></div></li>
+      </ul>
+      <div class="seats">
+        <div class="row2"><span data-es="Plazas ocupadas" data-eu="Plaza beteak">Plazas ocupadas</span><span class="tbd"><b id="seatsTaken">0</b> / <span id="seatsTotal">0</span></span></div>
+        <div class="bar"><i id="seatsBar" style="width:0"></i></div>
+        <div class="row2"><span id="seatsLeft"></span></div>
+      </div>
+    </div>
+
+    <form class="form reveal" id="waitlist" novalidate>
+      <div class="eyebrow" data-es="Lista de espera" data-eu="Itxaron-zerrenda">Lista de espera</div>
+      <h3 data-es="Guárdame una plaza" data-eu="Gorde iezadazu plaza bat">Guárdame una plaza</h3>
+      <p data-es="Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador." data-eu="Utzi zure izena eta telefonoa. WhatsAppez idatziko dizugu sortzaileen altak irekitzen direnean.">Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador.</p>
+      <label class="field"><span data-es="Nombre" data-eu="Izena">Nombre</span><input id="fName" name="nombre" autocomplete="name" required></label>
+      <label class="field"><span data-es="Teléfono" data-eu="Telefonoa">Teléfono</span><input id="fTel" name="telefono" type="tel" inputmode="tel" autocomplete="tel" required></label>
+      <label class="field"><span data-es="Me interesa" data-eu="Interesatzen zait">Me interesa</span>
+        <select id="fWant">
+          <option value="fundador" data-es="Ser socio fundador" data-eu="Bazkide sortzaile izatea">Ser socio fundador</option>
+          <option value="mensual" data-es="Tarifa normal" data-eu="Ohiko tarifa">Tarifa normal</option>
+          <option value="pase" data-es="Probar con un pase de día" data-eu="Eguneko sarrerarekin probatzea">Probar con un pase de día</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" id="fOk" required><span data-es="Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura." data-eu="Onartzen dut Burdin Gym-ek WhatsAppez nirekin harremanetan jartzea irekierari buruz.">Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura.</span></label>
+      <button class="btn block" type="submit"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Enviar por WhatsApp" data-eu="WhatsAppez bidali">Enviar por WhatsApp</span></button>
+      <div class="err" id="fErr" role="alert"></div>
+      <div class="formnote" data-es="Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar." data-eu="WhatsApp irekitzen da mezua prest duela. Bidali sakatu besterik ez duzu.">Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar.</div>
+    </form>
+  </div>
+</section>
+
+<section id="maquinas">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow" data-es="La colección" data-eu="Bilduma">La colección</div>
+      <h2 data-es="Piezas con historia" data-eu="Istorioa duten piezak">Piezas con historia</h2>
+      <p data-es="Aquí no hay máquinas de catálogo. Cada una se buscó, se revisó y se trajo hasta aquí por una razón. Esta es la historia de algunas." data-eu="Hemen ez dago katalogoko makinarik. Bakoitza arrazoi batengatik bilatu, berrikusi eta ekarri zen hona. Hona hemen batzuen istorioa.">Aquí no hay máquinas de catálogo. Cada una se buscó, se revisó y se trajo hasta aquí por una razón. Esta es la historia de algunas.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="more reveal">
+      <div>
+        <h3 data-es="Y muchas más" data-eu="Eta askoz gehiago">Y muchas más</h3>
+        <p data-es="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen." data-eu="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Pieza bakoitzaren istorioa kontatuz joango gara iristen diren heinean.">Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen.</p>
+      </div>
+      <a href="#fundador" class="btn ghost" data-es="Quiero probarlas" data-eu="Probatu nahi ditut">Quiero probarlas</a>
+    </div>
+  </div>
+</section>
+
+<section id="marcas">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow" data-es="Marcas" data-eu="Markak">Marcas</div>
+      <h2 data-es="Lo mejor del mundo" data-eu="Munduko onenak">Lo mejor del mundo</h2>
+      <p data-es="Diez fabricantes de referencia bajo un mismo techo." data-eu="Erreferentziazko hamar fabrikatzaile, sabai beraren azpian.">Diez fabricantes de referencia bajo un mismo techo.</p>
+    </div>
+    <div class="brands" id="brands"></div>
+  </div>
+</section>
+
+<section id="zonas">
+  <div class="wrap zhead">
+    <div class="head reveal" style="margin-bottom:30px">
+      <div class="eyebrow" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</div>
+      <h2 data-es="Zona por zona" data-eu="Eremuz eremu">Zona por zona</h2>
+      <p data-es="Las fotos del local llegan en cuanto acaben las obras." data-eu="Lokaleko argazkiak obrak amaitu bezain laster iritsiko dira.">Las fotos del local llegan en cuanto acaben las obras.</p>
+    </div>
+    <div class="arrows"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Siguiente">→</button></div>
+  </div>
+  <div class="slides" id="slides"></div>
+  <div class="dots" id="dots"></div>
+</section>
+
+<section id="tarifas">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow" data-es="Tarifas" data-eu="Tarifak">Tarifas</div>
+      <h2 data-es="Elige tu plan" data-eu="Aukeratu zure plana">Elige tu plan</h2>
+      <p data-es="El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar." data-eu="Alta eta ordainketa gure Virtuagym dendan egiten dira: tarifa aukeratu, ordaindu eta sartzeko aplikazioa izango duzu.">El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar.</p>
+    </div>
+    <div class="tabs" role="tablist">
+      <button type="button" class="on" data-phase="pre" data-es="Preapertura" data-eu="Irekiera aurretik">Preapertura</button>
+      <button type="button" data-phase="post" data-es="Tras la apertura" data-eu="Irekiera ondoren">Tras la apertura</button>
+    </div>
+    <div class="plans" id="plans"></div>
+    <div class="try reveal">
+      <div>
+        <div class="eyebrow" data-es="Sin compromiso" data-eu="Konpromisorik gabe">Sin compromiso</div>
+        <h3 data-es="O pruébanos primero" data-eu="Edo proba gaitzazu lehenik">O pruébanos primero</h3>
+        <p data-es="¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera." data-eu="Hemendik igarotzen zara edo zure lekua den ikusi nahi duzu? Sartu egun batez, asteburu batez edo aste oso batez.">¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera.</p>
+      </div>
+      <div class="passes" id="passes"></div>
+    </div>
+    <p class="note" data-es="Precios con IVA incluido. Los precios de este boceto son de ejemplo." data-eu="Prezioek BEZa barne dute. Zirriborro honetako prezioak adibideak dira.">Precios con IVA incluido. Los precios de este boceto son de ejemplo.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap faqgrid">
+    <div class="head reveal">
+      <div class="eyebrow" data-es="Preguntas frecuentes" data-eu="Ohiko galderak">Preguntas frecuentes</div>
+      <h2 data-es="Lo que nos preguntáis" data-eu="Egiten dizkiguzuen galderak">Lo que nos preguntáis</h2>
+      <p data-es="¿No está tu duda? Escríbenos por WhatsApp y te contesta Ander." data-eu="Zure zalantza ez dago hemen? Idatzi WhatsAppez eta Anderrek erantzungo dizu.">¿No está tu duda? Escríbenos por WhatsApp y te contesta Ander.</p>
+    </div>
+    <div id="faqlist"></div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="wrap contact">
+    <div class="reveal">
+      <div class="head" style="margin-bottom:30px">
+        <div class="eyebrow" data-es="Contacto" data-eu="Kontaktua">Contacto</div>
+        <h2 data-es="Ven a conocernos" data-eu="Etorri ezagutzera">Ven a conocernos</h2>
+      </div>
+      <div class="row"><small data-es="Dirección" data-eu="Helbidea">Dirección</small><div class="tbd" id="cAddr"></div></div>
+      <div class="row"><small class="tbd" data-es="Horario" data-eu="Ordutegia">Horario</small>
+        <div class="hours">
+          <span data-es="Lunes – Viernes" data-eu="Astelehena – Ostirala">Lunes – Viernes</span><span>06:00 – 23:00</span>
+          <span data-es="Sábado" data-eu="Larunbata">Sábado</span><span>08:00 – 21:00</span>
+          <span data-es="Domingo y festivos" data-eu="Igande eta jaiegunak">Domingo y festivos</span><span>09:00 – 14:00</span>
+        </div>
+      </div>
+      <div class="row"><small>WhatsApp</small><div class="tbd"><a href="#" class="wa-link" id="cTel"></a></div></div>
+      <div class="row"><small>Email</small><div class="tbd"><a id="cMail"></a></div></div>
+      <div class="row"><small>Instagram</small><div class="tbd"><a id="cIg" target="_blank" rel="noopener"></a></div></div>
+      <div style="margin-top:28px"><a href="#" class="btn wa-link"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Escríbenos por WhatsApp" data-eu="Idatzi WhatsAppez">Escríbenos por WhatsApp</span></a></div>
+    </div>
+    <div class="map reveal" id="map"><div class="pin tbd" data-es="Ubicación aproximada" data-eu="Gutxi gorabeherako kokapena">Ubicación aproximada</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="40" height="42" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name" style="font-size:1.2rem">Burdin</span><span class="gym" style="font-size:.5rem">Gym</span></span></a>
+    <div class="motto" data-es="DISCIPLINA · RESULTADOS · COMUNIDAD" data-eu="DIZIPLINA · EMAITZAK · KOMUNITATEA">DISCIPLINA · RESULTADOS · COMUNIDAD</div>
+    <nav aria-label="Legal">
+      <a href="#" data-es="Aviso legal" data-eu="Lege-oharra">Aviso legal</a>
+      <a href="#" data-es="Privacidad" data-eu="Pribatutasuna">Privacidad</a>
+      <span>© <span id="yr"></span> Burdin Gym</span>
+    </nav>
+  </div>
+</footer>
+
+<a href="#" class="wa wa-link" aria-label="WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* =====================================================================
+   DATOS QUE SE CAMBIAN (todo lo editable está aquí arriba)
+   ===================================================================== */
+const CONFIG={
+  boceto:true,                         // false = quita la barra y los puntos ámbar
+  apertura:'2027-02-01T07:00:00+01:00',// fecha y hora de apertura (cuenta atrás)
+  plazasFundador:100, plazasOcupadas:37,
+  whatsapp:'',                         // número de Ander, solo cifras con prefijo: '34600000000'
+  email:'kaixo@burdingym.eus',
+  instagram:'burdingym',
+  direccion:{es:'Dirección por confirmar<br>Euskadi',eu:'Helbidea zehazteke<br>Euskadi'},
+  mapa:'Euskadi',                      // texto que se busca en Google Maps
+  // Enlaces a cada tarifa en la tienda online de Virtuagym. Vacío = abre WhatsApp.
+  virtuagym:{fundador:'',mensual:'',trimestral:'',anual:'',dia:'',finde:'',semana:''},
+  precios:{fundador:34.9,mensual:44.9,trimestral:119,anual:429,dia:9,finde:15,semana:25}
+};
+
+/* ===================================================================== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let LANG='es', PHASE='pre';
+const eur=n=>(Number.isInteger(n)?n:n.toFixed(2).replace('.',','))+' €';
+
+const MACHINES=[
+ {img:'img/chain.webp',brand:'Old school',name:'Chest Press',
+  es:{model:'Transmisión por cadena',d:'Press de pecho con transmisión por cadena y piñones. Se nota la cadena trabajar en cada repetición: nada de cables ni levas.',year:'Años 80',from:'Gimnasio cerrado, Francia',km:'1.100 km',why:'Es una de esas piezas que ya no se fabrican. Se desmontó, se limpió pieza a pieza y se tapizó de nuevo.',g:'Pecho · Hombro',t:'Cadena'},
+  eu:{model:'Kate bidezko transmisioa',d:'Kate eta pinoi bidezko bular-prentsa. Errepikapen bakoitzean katea lanean nabaritzen da: ez kablerik, ez kamarik.',year:'80ko hamarkada',from:'Itxitako gimnasioa, Frantzia',km:'1.100 km',why:'Jada egiten ez diren pieza horietako bat da. Desmuntatu, piezaz pieza garbitu eta berriro tapizatu zen.',g:'Bularra · Sorbalda',t:'Katea'}},
+ {img:'img/cybex_chest.webp',brand:'Cybex',name:'Chest Press',
+  es:{model:'Serie VR',d:'Press de pecho sentado con respaldo inclinado y pedal para colocar el peso con seguridad. Agarre neutro o prono.',year:'2008',from:'Club deportivo, Portugal',km:'850 km',why:'El pedal de ayuda te deja empezar y acabar la serie sin pelearte con la palanca. Ideal para ir al fallo solo.',g:'Pecho · Tríceps',t:'Selectorizada'},
+  eu:{model:'VR seriea',d:'Eserita egiteko bular-prentsa, bizkar-euskarri inklinatuarekin eta pisua modu seguruan hartzeko oin-pedalarekin. Heldulekua neutroa edo pronoa.',year:'2008',from:'Kirol-kluba, Portugal',km:'850 km',why:'Laguntza-pedalari esker, seriea palankarekin borrokatu gabe hasi eta amaitu dezakezu. Bakarrik hutsegiteraino joateko aproposa.',g:'Bularra · Trizepsa',t:'Pisu-pila'}},
+ {img:'img/flex_bicep.webp',brand:'Flex Fitness',name:'Biceps Machine',
+  es:{model:'PA-560',d:'Curl de bíceps con apoyo predicador. La palanca sigue el arco natural del codo. Pila de hasta 100 kg.',year:'2021',from:'Fábrica, Corea del Sur',km:'10.300 km',why:'Flex es la marca coreana que se ha ganado a los culturistas. Pocas hay en España: esta cruzó medio mundo en contenedor.',g:'Bíceps',t:'Selectorizada'},
+  eu:{model:'PA-560',d:'Bizeps-kurla, predikadore-euskarriarekin. Palankak ukondoaren arku naturala jarraitzen du. 100 kg arteko pisu-pila.',year:'2021',from:'Fabrika, Hego Korea',km:'10.300 km',why:'Flex kulturistak irabazi dituen marka korearra da. Espainian gutxi daude: honek mundu erdia zeharkatu zuen edukiontzian.',g:'Bizepsa',t:'Pisu-pila'}},
+ {img:'img/cybex_curl.webp',brand:'Cybex',name:'Arm Curl',
+  es:{model:'Leva gunmetal',d:'Curl de brazos con leva: la resistencia cambia a lo largo del recorrido para que el bíceps trabaje igual arriba que abajo.',year:'2005',from:'Gimnasio privado, Alemania',km:'1.600 km',why:'El acabado gunmetal de esa época es de los que ya no se ven. Rodamientos nuevos y lista para otros veinte años.',g:'Bíceps',t:'Leva'},
+  eu:{model:'Gunmetal kama',d:'Besoetako kurla kamarekin: erresistentzia ibilbidean zehar aldatzen da, bizepsak goian eta behean berdin lan egin dezan.',year:'2005',from:'Gimnasio pribatua, Alemania',km:'1.600 km',why:'Garai hartako gunmetal akabera jada ikusten ez den horietakoa da. Errodamendu berriak, eta beste hogei urterako prest.',g:'Bizepsa',t:'Kama'}}
+];
+const ML={es:{y:'Año',f:'Procedencia',k:'Recorrido',w:'Por qué es especial',g:'Grupo',t:'Tipo',ex:'Historia de ejemplo'},
+          eu:{y:'Urtea',f:'Jatorria',k:'Ibilbidea',w:'Zergatik den berezia',g:'Taldea',t:'Mota',ex:'Adibide-istorioa'}};
+
+const ZONES=[
+ {render:'wall',photo:'img/zona-recepcion.jpg',es:{h:'Bienvenido<br>al hierro',p:'Recepción. Aquí empieza todo.'},eu:{h:'Ongi etorri<br>burdinara',p:'Harrera. Hemen hasten da dena.'}},
+ {img:'img/cybex_chest.webp',photo:'img/zona-pecho.jpg',es:{h:'Empuja',p:'Pecho y hombro: presses de placas y selectorizadas.'},eu:{h:'Bultzatu',p:'Bularra eta sorbalda: plaka- eta pila-prentsak.'}},
+ {img:'img/cybex_curl.webp',photo:'img/zona-brazo.jpg',es:{h:'Bombea',p:'Brazo: curls de leva, predicador y poleas.'},eu:{h:'Ponpatu',p:'Besoa: kama-kurlak, predikadorea eta poleak.'}},
+ {img:'img/chain.webp',photo:'img/zona-oldschool.jpg',es:{h:'Respeta<br>el hierro',p:'Old school: piezas clásicas que ya no se fabrican.'},eu:{h:'Errespetatu<br>burdina',p:'Old school: jada egiten ez diren pieza klasikoak.'}},
+ {render:'facade',photo:'img/zona-fachada.jpg',es:{h:'Te<br>esperamos',p:'Busca el disco de 20 kg en la fachada.'},eu:{h:'Zure<br>zain gaude',p:'Bilatu 20 kg-ko diskoa fatxadan.'}}
+];
+
+const BRANDS=['Cybex','Nautilus','Panatta','Hammer Strength','Gym80','Life Fitness','Gymleco','Flex Fitness','Paramount','Precor'];
+
+const PLANS={
+ pre:[
+  {k:'fundador',feat:true,es:{n:'Socio fundador',s:'Solo hasta la apertura',per:'/ mes',b:'Plazas limitadas',l:['Acceso ilimitado','Precio congelado de por vida','Sin matrícula','Visita privada antes de abrir','Camiseta fundador numerada'],c:'Hazte fundador'},eu:{n:'Bazkide sortzailea',s:'Irekiera arte bakarrik',per:'/ hil',b:'Plaza mugatuak',l:['Sarbide mugagabea','Prezio izoztua betiko','Matrikularik gabe','Ireki aurreko bisita pribatua','Sortzaile-kamiseta zenbakidua'],c:'Egin sortzaile'}},
+  {k:'trimestral',es:{n:'Trimestral',s:'Precio de preapertura',per:'/ 3 meses',l:['Acceso ilimitado','Todas las máquinas','Sin matrícula'],c:'Apúntate'},eu:{n:'Hiruhilekoa',s:'Irekiera aurreko prezioa',per:'/ 3 hil',l:['Sarbide mugagabea','Makina guztiak','Matrikularik gabe'],c:'Eman izena'}},
+  {k:'anual',es:{n:'Anual',s:'Precio de preapertura',per:'/ año',l:['Todo lo del trimestral','Dos meses gratis','El mejor precio por mes'],c:'Apúntate'},eu:{n:'Urtekoa',s:'Irekiera aurreko prezioa',per:'/ urte',l:['Hiruhilekoaren guztia','Bi hilabete doan','Hileko preziorik onena'],c:'Eman izena'}}
+ ],
+ post:[
+  {k:'mensual',feat:true,es:{n:'Mensual',s:'La tarifa de siempre',per:'/ mes',b:'La más elegida',l:['Acceso ilimitado','Todas las máquinas','Sin permanencia'],c:'Apúntate'},eu:{n:'Hilekoa',s:'Betiko tarifa',per:'/ hil',b:'Gehien aukeratua',l:['Sarbide mugagabea','Makina guztiak','Iraunaldirik gabe'],c:'Eman izena'}},
+  {k:'trimestral',es:{n:'Trimestral',s:'Paga una vez cada 3 meses',per:'/ 3 meses',l:['Acceso ilimitado','Todas las máquinas','Ahorras frente al mensual'],c:'Apúntate'},eu:{n:'Hiruhilekoa',s:'3 hilean behin ordaindu',per:'/ 3 hil',l:['Sarbide mugagabea','Makina guztiak','Hilekoarekin alderatuta aurrezten duzu'],c:'Eman izena'}},
+  {k:'anual',es:{n:'Anual',s:'Para los que vienen a quedarse',per:'/ año',l:['Todo lo del trimestral','Dos meses gratis','El mejor precio por mes'],c:'Apúntate'},eu:{n:'Urtekoa',s:'Geratzera datozenentzat',per:'/ urte',l:['Hiruhilekoaren guztia','Bi hilabete doan','Hileko preziorik onena'],c:'Eman izena'}}
+ ]
+};
+const PASSES=[{k:'dia',es:'Pase de día',eu:'Eguneko sarrera'},{k:'finde',es:'Fin de semana',eu:'Asteburua'},{k:'semana',es:'Una semana',eu:'Aste bat'}];
+
+const FAQ=[
+ {es:['¿Cuándo abrís?','Estamos terminando las obras. La fecha de apertura es la de la cuenta atrás de arriba; si cambia, lo verás aquí y te avisamos por WhatsApp si estás en la lista.'],
+  eu:['Noiz irekiko duzue?','Obrak amaitzen ari gara. Irekiera-data goiko atzerako kontaketakoa da; aldatzen bada, hemen ikusiko duzu eta WhatsAppez abisatuko dizugu zerrendan bazaude.']},
+ {es:['¿Qué es ser socio fundador?','Es una tarifa especial solo para quien se apunta antes de abrir. El precio se te queda congelado mientras sigas de alta. Hay plazas limitadas y se cierra el día de la apertura.'],
+  eu:['Zer da bazkide sortzailea izatea?','Ireki aurretik izena ematen dutenentzako tarifa berezia da. Prezioa izoztuta geratzen zaizu alta emanda jarraitzen duzun bitartean. Plaza mugatuak daude eta irekiera egunean ixten da.']},
+ {es:['¿Cómo me doy de alta?','Pulsa en la tarifa que quieras: te lleva a nuestra tienda de Virtuagym, pagas allí de forma segura y con la app de Virtuagym gestionas tu cuota.'],
+  eu:['Nola eman dezaket alta?','Sakatu nahi duzun tarifan: gure Virtuagym dendara eramango zaitu, han modu seguruan ordainduko duzu eta Virtuagym aplikazioarekin zure kuota kudeatuko duzu.']},
+ {es:['¿Puedo probar antes de apuntarme?','Sí. Tienes pase de día, de fin de semana y de una semana. Si luego te apuntas, te lo tenemos en cuenta.'],
+  eu:['Izena eman aurretik proba dezaket?','Bai. Eguneko, asteburuko eta aste beteko sarrerak dituzu. Gero izena ematen baduzu, kontuan hartuko dugu.']},
+ {es:['¿Hay permanencia o matrícula?','La tarifa mensual no tiene permanencia. Los socios fundadores no pagan matrícula.'],
+  eu:['Iraunaldirik edo matrikularik dago?','Hileko tarifak ez du iraunaldirik. Bazkide sortzaileek ez dute matrikularik ordaintzen.']},
+ {es:['¿Es un gimnasio para principiantes?','Es un gimnasio de musculación, pero no hace falta ser culturista. Las máquinas guiadas son la forma más segura de empezar, y siempre habrá alguien para explicarte cómo se usan.'],
+  eu:['Hasiberrientzako gimnasioa da?','Muskulazio-gimnasioa da, baina ez da kulturista izan behar. Makina gidatuak hasteko modurik seguruena dira, eta beti egongo da norbait nola erabili azaltzeko.']},
+ {es:['¿Puedo congelar la cuota?','Sí, por lesión o por viaje. Escríbenos y lo dejamos en pausa desde Virtuagym.'],
+  eu:['Kuota izoztu dezaket?','Bai, lesio edo bidaiagatik. Idatzi iezaguzu eta Virtuagymetik etenda utziko dugu.']}
+];
+
+/* ---------- RENDER ---------- */
+function vgUrl(k){return CONFIG.virtuagym[k]||''}
+function waUrl(text){return 'https://wa.me/'+(CONFIG.whatsapp||'')+'?text='+encodeURIComponent(text)}
+function tierLink(k,label){
+  const u=vgUrl(k);
+  if(u) return `href="${u}" target="_blank" rel="noopener"`;
+  const t=LANG==='es'?`Hola, me interesa la tarifa «${label}» de Burdin Gym.`:`Kaixo, Burdin Gym-en «${label}» tarifa interesatzen zait.`;
+  return `href="${waUrl(t)}" target="_blank" rel="noopener" data-noshop="1"`;
+}
+
+function renderMachines(){
+  const l=LANG,x=ML[l];
+  $('#grid').innerHTML=MACHINES.map((m,i)=>{const t=m[l];return `
+   <article class="card reveal in">
+     <div class="stage"><span class="num">Nº 0${i+1}</span><span class="year">${(t.year.match(/\d+/)||[''])[0]}</span><img src="${m.img}" alt="${m.brand} ${m.name}" loading="lazy"></div>
+     <div class="info">
+       <div class="brandtag"><span>${m.brand}</span><em class="tbd">${x.ex}</em></div>
+       <h3>${m.name}<br><small style="font-size:.5em;color:var(--taupe);letter-spacing:.08em">${t.model}</small></h3>
+       <p>${t.d}</p>
+       <div class="story"><div><small>${x.y}</small><span>${t.year}</span></div><div><small>${x.f}</small><span>${t.from}</span></div><div><small>${x.k}</small><span>${t.km}</span></div></div>
+       <div class="why"><b>${x.w}</b>${t.why}</div>
+       <div class="meta"><div><small>${x.g}</small><span>${t.g}</span></div><div><small>${x.t}</small><span>${t.t}</span></div></div>
+     </div>
+   </article>`}).join('');
+}
+
+function drawDisc(){
+  return `<svg viewBox="0 0 200 200"><defs><path id="arcT" d="M30,100 a70,70 0 0 1 140,0"/><path id="arcB" d="M38,100 a62,62 0 0 0 124,0"/></defs>
+   <text font-family="Syncopate" font-weight="700" font-size="21" fill="#d8d2c6" letter-spacing="3" text-anchor="middle"><textPath href="#arcT" startOffset="50%">BURDIN</textPath></text>
+   <text font-family="Syncopate" font-weight="700" font-size="19" fill="#d8d2c6" letter-spacing="4" text-anchor="middle" dy="17"><textPath href="#arcB" startOffset="50%">GYM</textPath></text>
+   <text x="44" y="98" font-family="Barlow Condensed" font-weight="700" font-size="15" fill="#d8d2c6">20</text><text x="44" y="113" font-family="Barlow Condensed" font-weight="700" font-size="15" fill="#d8d2c6">KG</text></svg>`;
+}
+function renderZones(){
+  const l=LANG, soon=l==='es'?'Foto del local · cuando acaben las obras':'Lokaleko argazkia · obrak amaitzean';
+  $('#slides').innerHTML=ZONES.map((z,i)=>{
+    let art='';
+    if(z.render==='wall') art=`<div class="wall"><div class="sign"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="motto">${(l==='es'?'DISCIPLINA<br>RESULTADOS<br>COMUNIDAD':'DIZIPLINA<br>EMAITZAK<br>KOMUNITATEA')}</div><div class="plate"></div></div>`;
+    else if(z.render==='facade') art=`<div class="facade"><div class="arm"></div><div class="disc">${drawDisc()}</div><div class="letters">BURDIN</div><div class="win"></div></div>`;
+    else art=`<div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 72% 60%,#2a2622,#0e0e0e 75%)"></div><img class="cut" src="${z.img}" alt="" loading="lazy">`;
+    return `<div class="slide" role="group" aria-label="${i+1} / ${ZONES.length}">
+      <div class="bg">${art}<img class="photo" src="${z.photo}" alt="" loading="lazy" style="position:absolute;inset:0;display:none" onload="this.style.display='block';this.closest('.slide').querySelector('.soon')?.remove()"></div>
+      <div class="shade"></div><span class="soon">${soon}</span>
+      <div class="txt"><div class="wrap"><span class="idx">0${i+1} / 0${ZONES.length}</span><h3>${z[l].h}</h3><p>${z[l].p}</p></div></div></div>`}).join('');
+  $('#dots').innerHTML=ZONES.map((_,i)=>`<button type="button" aria-label="${i+1}"></button>`).join('');
+  $$('#dots button').forEach((b,i)=>b.onclick=()=>goSlide(i));
+  updDots();
+}
+const slidesEl=()=>$('#slides');
+function curSlide(){const s=slidesEl();return Math.round(s.scrollLeft/s.clientWidth)}
+function goSlide(i){const s=slidesEl();i=(i+ZONES.length)%ZONES.length;s.scrollTo({left:i*s.clientWidth,behavior:'smooth'})}
+function updDots(){const c=curSlide();$$('#dots button').forEach((b,i)=>b.classList.toggle('on',i===c))}
+
+function renderPlans(){
+  const l=LANG;
+  $('#plans').innerHTML=PLANS[PHASE].map(p=>{const t=p[l],pr=CONFIG.precios[p.k];
+    const old=(p.k==='fundador')?`<s>${eur(CONFIG.precios.mensual)}</s>`:'';
+    return `<div class="plan${p.feat?' feat':''}">${t.b?`<span class="badge">${t.b}</span>`:''}
+      <h3>${t.n}</h3><div class="sub">${t.s}</div>
+      <div class="price"><span class="tbd">${old}${eur(pr)}</span> <small>${t.per}</small></div>
+      <ul>${t.l.map(x=>`<li>${x}</li>`).join('')}</ul>
+      <a class="btn${p.feat?'':' ghost'}" ${tierLink(p.k,t.n)}>${t.c}</a></div>`}).join('');
+  $('#passes').innerHTML=PASSES.map(p=>`<a class="pass" ${tierLink(p.k,p[l])}><small>${p[l]}</small><b class="tbd">${eur(CONFIG.precios[p.k])}</b><span>${l==='es'?'Comprar':'Erosi'} →</span></a>`).join('');
+}
+
+function renderFaq(){
+  $('#faqlist').innerHTML=FAQ.map((f,i)=>`<details${i===0?' open':''}><summary>${f[LANG][0]}</summary><p>${f[LANG][1]}</p></details>`).join('');
+}
+
+function renderContact(){
+  const l=LANG;
+  $('#cAddr').innerHTML=CONFIG.direccion[l];
+  $('#cTel').textContent=CONFIG.whatsapp?('+'+CONFIG.whatsapp.replace(/^(\d{2})(\d{3})(\d{3})(\d{3})$/,'$1 $2 $3 $4')):(l==='es'?'Número por confirmar':'Zenbakia zehazteke');
+  $('#cMail').textContent=CONFIG.email;$('#cMail').href='mailto:'+CONFIG.email;
+  $('#cIg').textContent='@'+CONFIG.instagram;$('#cIg').href='https://instagram.com/'+CONFIG.instagram;
+  const msg=l==='es'?'Hola Ander, tengo una pregunta sobre Burdin Gym.':'Kaixo Ander, galdera bat dut Burdin Gym-i buruz.';
+  $$('.wa-link').forEach(a=>{a.href=waUrl(msg);a.target='_blank';a.rel='noopener';a.dataset.noshop='1'});
+  const d=new Date(CONFIG.apertura);
+  $('#opendate').textContent=d.toLocaleDateString(l==='es'?'es-ES':'eu-ES',{day:'numeric',month:'long',year:'numeric'});
+}
+
+function renderSeats(){
+  const tot=CONFIG.plazasFundador,tk=Math.min(CONFIG.plazasOcupadas,tot),left=tot-tk;
+  $('#seatsTaken').textContent=tk;$('#seatsTotal').textContent=tot;
+  $('#seatsBar').style.width=(tk/tot*100)+'%';
+  $('#seatsLeft').innerHTML=LANG==='es'?`Quedan <b style="color:var(--amber)">${left}</b> plazas de fundador`:`<b style="color:var(--amber)">${left}</b> sortzaile-plaza geratzen dira`;
+}
+
+function setLang(l){
+  LANG=l;document.documentElement.lang=l;
+  $$('[data-'+l+']').forEach(e=>e.innerHTML=e.dataset[l]);
+  $$('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+  renderMachines();renderZones();renderPlans();renderFaq();renderContact();renderSeats();
+  try{localStorage.setItem('burdin-lang',l)}catch(e){}
+}
+
+/* ---------- INTERACCIÓN ---------- */
+// menú móvil
+const nav=$('#nav'),burger=$('#burger');
+function menu(open){if(open)$('#links').style.top=nav.getBoundingClientRect().bottom+'px';nav.classList.toggle('open',open);document.body.classList.toggle('menu',open);burger.setAttribute('aria-expanded',open)}
+burger.onclick=()=>menu(!nav.classList.contains('open'));
+$$('#links a').forEach(a=>a.addEventListener('click',()=>menu(false)));
+addEventListener('keydown',e=>{if(e.key==='Escape')menu(false)});
+
+$$('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+$$('.tabs button').forEach(b=>b.onclick=()=>{PHASE=b.dataset.phase;$$('.tabs button').forEach(x=>x.classList.toggle('on',x===b));renderPlans()});
+$('#prev').onclick=()=>goSlide(curSlide()-1);
+$('#next').onclick=()=>goSlide(curSlide()+1);
+let st;$('#slides').addEventListener('scroll',()=>{clearTimeout(st);st=setTimeout(updDots,60)},{passive:true});
+
+// aviso en modo boceto: los botones aún no van a Virtuagym
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),3800)}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[data-noshop]');
+  if(a&&CONFIG.boceto&&!CONFIG.whatsapp){
+    e.preventDefault();
+    toast(LANG==='es'?'Boceto: aquí se abrirá la tarifa en Virtuagym o el WhatsApp de Ander.':'Zirriborroa: hemen Virtuagymeko tarifa edo Anderren WhatsAppa irekiko da.');
+  }
+});
+
+// lista de espera → WhatsApp
+$('#waitlist').addEventListener('submit',e=>{
+  e.preventDefault();
+  const n=$('#fName').value.trim(),t=$('#fTel').value.trim(),w=$('#fWant'),ok=$('#fOk').checked,err=$('#fErr');
+  if(n.length<2){err.textContent=LANG==='es'?'Escribe tu nombre.':'Idatzi zure izena.';return}
+  if(t.replace(/\D/g,'').length<9){err.textContent=LANG==='es'?'Revisa el teléfono.':'Begiratu telefonoa.';return}
+  if(!ok){err.textContent=LANG==='es'?'Marca la casilla para que podamos escribirte.':'Markatu laukia idatzi ahal izateko.';return}
+  err.textContent='';
+  const want=w.options[w.selectedIndex].text;
+  const msg=LANG==='es'
+    ?`Hola Ander, quiero entrar en la lista de espera de Burdin Gym.\nNombre: ${n}\nTeléfono: ${t}\nMe interesa: ${want}`
+    :`Kaixo Ander, Burdin Gym-en itxaron-zerrendan sartu nahi dut.\nIzena: ${n}\nTelefonoa: ${t}\nInteresatzen zait: ${want}`;
+  if(!CONFIG.whatsapp&&CONFIG.boceto){toast(LANG==='es'?'Boceto: el mensaje llegará al WhatsApp de Ander en cuanto pongamos su número.':'Zirriborroa: mezua Anderren WhatsAppera iritsiko da haren zenbakia jartzen dugunean.');return}
+  window.open(waUrl(msg),'_blank','noopener');
+});
+
+// cuenta atrás
+function tick(){
+  let ms=Math.max(0,new Date(CONFIG.apertura)-new Date());
+  const d=Math.floor(ms/864e5),h=Math.floor(ms/36e5)%24,m=Math.floor(ms/6e4)%60,s=Math.floor(ms/1e3)%60;
+  const v={d,h,m,s};$$('#count b').forEach(b=>b.textContent=String(v[b.dataset.k]).padStart(2,'0'));
+}
+tick();setInterval(tick,1000);
+
+// cifras que cuentan + aparición al hacer scroll
+const io=new IntersectionObserver(es=>es.forEach(en=>{
+  if(!en.isIntersecting)return;en.target.classList.add('in');io.unobserve(en.target);
+  en.target.querySelectorAll('[data-n]').forEach(el=>{const to=+el.dataset.n,t0=performance.now();
+    const step=now=>{const p=Math.min(1,(now-t0)/1200);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
+}),{threshold:.2});
+
+// arranque
+if(!CONFIG.boceto)document.body.classList.remove('boceto');
+$('#track').innerHTML=[...BRANDS,...BRANDS].map(b=>`<span>${b}</span>`).join('');
+$('#brands').innerHTML=BRANDS.map(b=>`<div>${b}</div>`).join('');
+$('#yr').textContent=new Date().getFullYear();
+$('#map').insertAdjacentHTML('afterbegin',`<iframe title="Mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${encodeURIComponent(CONFIG.mapa)}&z=8&output=embed"></iframe>`);
+let start='es';try{start=localStorage.getItem('burdin-lang')||'es'}catch(e){}
+setLang(start);
+$$('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
