@@ -8,6 +8,16 @@ sus tarjetas de máquina, las marcas y el selector EU/ES.
 Vercel, con la carpeta raíz `comercial/burdin/boceto`. Es pública, sin la protección de Vercel,
 y lleva `noindex` para que Google no la indexe.
 
+## Estilo
+
+Base gris y negra, como Blvckout: botones blancos, fotos de máquinas en blanco y negro (en las
+tarjetas recuperan el color al pasar el ratón), titulares grandes en blanco. Encima, los
+detalles de TDM: grano de papel por toda la página, letra Space Mono en números y etiquetas,
+secciones numeradas, sello circular que gira en la portada, texto vertical en el lateral y
+marcos discontinuos en las llamadas importantes. Un solo color de acento (crema, `--accent`)
+reservado para socio fundador, plazas, etiquetas de sección y la marca de dato por confirmar.
+Las preguntas para que Ander elija entre las dos referencias están en `../PREGUNTAS-ANDER.md`.
+
 ## Qué tiene
 
 | Bloque | Qué hace |
