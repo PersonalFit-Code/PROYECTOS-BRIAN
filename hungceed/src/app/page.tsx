@@ -175,7 +175,7 @@ export default function Portada() {
           <p className="mt-5 text-gris">Empieza con la jaula y añade cada accesorio cuando lo necesites. Todo encaja en los mismos agujeros, sin herramientas.</p>
         </div>
         <div className="mt-12 grid gap-3 lg:grid-cols-[1fr_1.4fr_1fr]">
-          <ul className="grid grid-cols-2 gap-3 lg:order-1 lg:grid-cols-1">
+          <ul className="grid gap-3 sm:grid-cols-2 lg:order-1 lg:grid-cols-1">
             {accesorios.slice(0, 3).map((p) => (
               <AccesorioMini key={p.slug} slug={p.slug} nombre={p.nombre} imagen={p.imagen} precio={precioTexto(p.precio)} />
             ))}
@@ -192,7 +192,7 @@ export default function Portada() {
               <p className="text-2xl font-extrabold">{precioTexto(rack.precio)}</p>
             </div>
           </Link>
-          <ul className="grid grid-cols-2 gap-3 lg:order-3 lg:grid-cols-1">
+          <ul className="grid gap-3 sm:grid-cols-2 lg:order-3 lg:grid-cols-1">
             {accesorios.slice(3, 6).map((p) => (
               <AccesorioMini key={p.slug} slug={p.slug} nombre={p.nombre} imagen={p.imagen} precio={precioTexto(p.precio)} />
             ))}
