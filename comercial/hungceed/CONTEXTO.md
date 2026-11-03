@@ -97,6 +97,41 @@ Su tienda vive en **WooCommerce** y vende a diario. **No la migramos a Next.js**
 
 **La plantilla de Andrea Salón** (`andrea-salon/`, en Next.js) se usa solo como inspiración de diseño, o para una maqueta rápida que enseñarle antes de cerrar. No es la web final.
 
+## Asistente de WhatsApp y automatizaciones: se hacen en Make
+Todo el asistente de IA y las automatizaciones se montan en **Make** (make.com). Brian tiene Make conectado.
+
+**Módulos de Make que se usan:**
+- **WhatsApp Business Cloud**: recibe los mensajes y envía las respuestas, con la API oficial de Meta.
+- **Claude** (o OpenAI): genera la respuesta con la información del negocio.
+- **WooCommerce**: consulta pedidos.
+- **Virtuagym**: socios nuevos, visitas y membresías.
+- **Data store de Make**: guarda la conversación de cada cliente para que la IA tenga memoria.
+
+**Escenario 1. Asistente de WhatsApp (tienda + gimnasio):**
+1. Llega un mensaje a su WhatsApp (módulo «Watch events» de WhatsApp Business Cloud).
+2. Make recupera del data store los últimos mensajes de ese número.
+3. La IA responde con su base de conocimiento:
+   - preguntas frecuentes sacadas de sus conversaciones exportadas;
+   - catálogo y series;
+   - envíos, garantías y devoluciones;
+   - tarifas y horarios del gimnasio, con el enlace a cada tarifa de Virtuagym.
+4. Si pregunta por un pedido, Make lo busca en WooCommerce por número de pedido o email y le da el estado.
+5. Si es una queja, un pedido especial, un presupuesto para equipar un centro o la IA no sabe responder: avisa a Jose (WhatsApp o email), marca la conversación como «humano» en el data store y deja de responder ahí hasta que Jose la libere.
+6. Se guarda la conversación actualizada en el data store.
+
+**Escenarios de automatización (servicio D):**
+- **Pedir opinión**: X días después de un pedido completado en WooCommerce, se envía un WhatsApp o email pidiendo la reseña de Google.
+- **Bienvenida a socios**: cuando hay un socio nuevo en Virtuagym, se le manda un WhatsApp de bienvenida.
+- **Socios que dejan de venir**: con las visitas de Virtuagym, aviso a quien lleva X días sin ir.
+- **Carritos abandonados**: más limitado. WooCommerce no lo avisa de serie y suele necesitar un plugin que envíe el aviso a Make por webhook.
+
+**A tener en cuenta:**
+- **Operaciones de Make:** cada mensaje gasta unas 5-8 operaciones (recibir, leer memoria, IA, responder, guardar). Calcular el plan de Make con el volumen real de mensajes de Jose antes de fijar la cuota. Make más la IA tiene que caber en los 59 €/mes del asistente y dejar margen.
+- **Ventana de 24 h de Meta:** responder dentro de las 24 h desde el último mensaje del cliente es gratis. Los mensajes que se inician desde el negocio (bienvenida, recordatorios, pedir opinión) necesitan **plantillas aprobadas por Meta** y tienen un pequeño coste por mensaje.
+- **Su número de WhatsApp:** comprobar la «coexistencia» (usar a la vez la app de WhatsApp Business en el móvil y la API) antes de prometérsela. Jose cree que tiene el negocio verificado en Meta Business.
+- **Cuentas a nombre de Jose:** Make, Meta Business y la clave de la IA, con acceso para Brian. Así el cliente no pierde su WhatsApp si deja de trabajar con Brian.
+- **Claves y tokens** solo en las conexiones de Make, nunca en el repositorio ni en el chat.
+
 ## Qué quiero hacer en este chat
 1. **Antes de cerrar:** una maqueta rápida (portada, categoría, ficha de producto y página del gimnasio) con su estética (negro, rojo, Poppins y sus fotos), inspirada en la plantilla de Andrea. Debe poder enseñarse en una URL de prueba durante la llamada con Jose.
 2. **Preparar la propuesta final en PDF** con los precios cerrados.
