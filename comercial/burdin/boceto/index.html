@@ -794,6 +794,22 @@
   .pcard li svg{width:20px;height:20px;flex:0 0 20px;color:var(--fg)}
   .pcard .btn{margin:14px 26px 26px}
   @media (max-width:900px){.try{grid-template-columns:1fr!important}}
+  /* ===== Manifiesto sobre papel: «BURDIN» estampado en bajorrelieve y pliegue diagonal ===== */
+  #manifiesto{background:#1c1c1c!important}
+  #manifiesto::before,#manifiesto::after{display:none!important}
+  #manifiesto .paper{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.25' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23p)'/%3E%3C/svg%3E"),
+               radial-gradient(ellipse 80% 70% at 30% 20%,rgba(255,255,255,.035),transparent 70%),#1c1c1c}
+  #manifiesto .deboss{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);white-space:nowrap;
+    font-family:'Syncopate',sans-serif;font-weight:700;letter-spacing:.06em;line-height:1;font-size:16vw;
+    color:#1c1c1c;
+    text-shadow:-2px -2px 1px rgba(0,0,0,.75),2px 2px 1px rgba(255,255,255,.075),0 0 1px rgba(0,0,0,.5)}
+  #manifiesto .fold{position:absolute;left:-10%;right:-10%;top:0;bottom:0;
+    background:linear-gradient(118deg,transparent 0 52%,rgba(255,255,255,.05) 52.1%,rgba(255,255,255,.015) 56%,transparent 64%),
+               linear-gradient(118deg,transparent 0 51.6%,rgba(0,0,0,.35) 52%,transparent 52.4%)}
+  #manifiesto .wrap{position:relative;z-index:2}
+  #manifiesto canvas.tv{display:none}
+  .mani3 article{background:transparent}
 </style>
 </head>
 <body class="boceto">
@@ -997,7 +1013,7 @@
 </section>
 
 <div class="rule" aria-hidden="true"></div>
-<section id="manifiesto"><canvas class="tv" id="tv" aria-hidden="true"></canvas>
+<section id="manifiesto"><div class="paper" aria-hidden="true"><span class="deboss" id="deboss">BURDIN</span><i class="fold"></i></div>
   <div class="wrap">
     <div class="eyebrow" data-n="06" style="margin-bottom:34px" data-es="Manifiesto" data-eu="Manifestua">Manifiesto</div>
     <div data-reveal class="mani mani3">
@@ -1581,6 +1597,10 @@ addEventListener('resize',fitTitles);document.fonts&&document.fonts.ready.then(f
   new IntersectionObserver(e=>{pastHero=!e[0].isIntersecting;upd()},{threshold:.05}).observe($('.hero'));
   new IntersectionObserver(e=>{inFund=e[0].isIntersecting;upd()},{threshold:0}).observe($('#waitlist'));
 })();
+
+/* ---------- «BURDIN» estampado: ocupa todo el ancho del manifiesto ---------- */
+function fitDeboss(){const d=document.getElementById('deboss');if(!d)return;const w=d.parentNode.clientWidth*.96;d.style.fontSize='100px';d.style.fontSize=Math.floor(100*w/d.getBoundingClientRect().width)+'px'}
+addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(fitDeboss);fitDeboss();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
