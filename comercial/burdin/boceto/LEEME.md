@@ -4,6 +4,10 @@ Una sola página (`index.html`) con las fotos en `img/`, en castellano y euskera
 Parte del borrador de Ander (`../borrador-ander/`). Mantiene su logo, sus colores y sus letras,
 sus tarjetas de máquina, las marcas y el selector EU/ES.
 
+**URL de prueba:** https://burdin-gym-boceto.vercel.app. Es el proyecto `burdin-gym-boceto` en
+Vercel, con la carpeta raíz `comercial/burdin/boceto`. Es pública, sin la protección de Vercel,
+y lleva `noindex` para que Google no la indexe.
+
 ## Qué tiene
 
 | Bloque | Qué hace |
