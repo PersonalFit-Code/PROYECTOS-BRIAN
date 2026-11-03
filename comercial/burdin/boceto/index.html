@@ -754,6 +754,10 @@
   body:not(.disc-on) .wa{bottom:calc(18px + env(safe-area-inset-bottom,0px))!important}
   @media (max-width:560px){.disc-cta{width:100px;height:100px;padding:4px}.dc-txt text{font-size:15.5px}.wa{bottom:calc(132px + env(safe-area-inset-bottom,0px))!important}}
   @media (prefers-reduced-motion:reduce){.dc-txt{animation:none}}
+  /* banderas en el selector de idioma */
+  .lang button{display:inline-flex;align-items:center;gap:7px;padding:7px 10px}
+  .lang .flag{width:20px;height:13px;margin:0;opacity:.55;transition:opacity .2s}
+  .lang button.on .flag,.lang button:hover .flag{opacity:1}
 </style>
 </head>
 <body class="boceto">
@@ -1098,6 +1102,8 @@ function FLAG(c){const w='<svg class="flag" viewBox="0 0 30 20" aria-hidden="tru
  kr:'<rect width="30" height="20" fill="#fff"/><path d="M10 10a5 5 0 0 1 10 0z" fill="#CD2E3A"/><path d="M10 10a5 5 0 0 0 10 0z" fill="#0047A0"/><circle cx="12.5" cy="10" r="2.5" fill="#CD2E3A"/><circle cx="17.5" cy="10" r="2.5" fill="#0047A0"/><g fill="#000"><rect x="3" y="3" width="4" height=".8" transform="rotate(-33 5 4)"/><rect x="3.4" y="4.4" width="4" height=".8" transform="rotate(-33 5 4)"/><rect x="23" y="15" width="4" height=".8" transform="rotate(-33 25 16)"/><rect x="23.4" y="16.4" width="4" height=".8" transform="rotate(-33 25 16)"/><rect x="23" y="3" width="4" height=".8" transform="rotate(33 25 4)"/><rect x="3" y="15" width="4" height=".8" transform="rotate(33 5 16)"/></g>',
  us:'<rect width="30" height="20" fill="#B22234"/>'+[1,3,5,7,9,11].map(i=>`<rect y="${i*20/13}" width="30" height="${20/13}" fill="#fff"/>`).join('')+'<rect width="13" height="10.8" fill="#3C3B6E"/>'+[0,1,2,3].map(r=>[0,1,2,3,4].map(c=>`<circle cx="${1.6+c*2.5}" cy="${1.5+r*2.6}" r=".55" fill="#fff"/>`).join('')).join(''),
  gb:'<rect width="30" height="20" fill="#012169"/><path d="M0 0L30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0L30 20M30 0L0 20" stroke="#C8102E" stroke-width="1.4"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6"/><path d="M15 0v20M0 10h30" stroke="#C8102E" stroke-width="3.4"/>',
+ eu:'<rect width="30" height="20" fill="#D52B1E"/><path d="M0 0L30 20M30 0L0 20" stroke="#009B48" stroke-width="3.4"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="3"/>',
+ es:'<rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/>',
  at:'<rect width="30" height="20" fill="#ED2939"/><rect y="6.7" width="30" height="6.6" fill="#fff"/>'};
  return w+(F[c]||'')+e}
 
@@ -1390,6 +1396,7 @@ tick();setInterval(tick,1000);
 
 /* ---------- ARRANQUE ---------- */
 if(!CONFIG.boceto)document.body.classList.remove('boceto');
+$$('.lang button').forEach(b=>b.innerHTML=FLAG(b.dataset.l)+'<span>'+b.dataset.l.toUpperCase()+'</span>');
 const names=BRANDS.map(b=>b[0]);
 
 renderLogos();
@@ -1509,7 +1516,7 @@ addEventListener('resize',fitTitles);document.fonts&&document.fonts.ready.then(f
   const d=$('#discCta');let pastHero=false,inFund=false;
   const upd=()=>{const on=pastHero&&!inFund;d.classList.toggle('on',on);document.body.classList.toggle('disc-on',on)};
   new IntersectionObserver(e=>{pastHero=!e[0].isIntersecting;upd()},{threshold:.05}).observe($('.hero'));
-  new IntersectionObserver(e=>{inFund=e[0].isIntersecting;upd()},{threshold:.2}).observe($('#waitlist'));
+  new IntersectionObserver(e=>{inFund=e[0].isIntersecting;upd()},{threshold:0}).observe($('#waitlist'));
 })();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
