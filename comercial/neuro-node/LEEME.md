@@ -29,9 +29,9 @@ con la clase `pendiente` sale en amarillo: hay que rellenarlo antes de enviar.
 ## Hungceed (Jose P.): recordatorios por Twilio y asistente
 
 - `propuesta-recordatorios.pdf`: la arquitectura de recordatorios y respuestas por WhatsApp con
-  su número de Twilio, conectado a Virtuagym (gym) y WooCommerce (tienda). Explica el dolor, las piezas, el recorrido de una sesión, las reglas de
+  su número de Twilio, conectado a Virtuagym. Centrada solo en Hungceed GYM. Explica el dolor, las piezas, el recorrido de una sesión, las reglas de
   Meta, las fases y los costes de uso. **Faltan**: inversión, cuota mensual y condiciones de pago.
 - `briefing-chatbot.pdf`: el cuestionario para el asistente. Recoge el canal (web, WhatsApp,
-  Instagram), las preguntas repetidas de la tienda y del gym, qué responde solo y qué deriva, si
+  Instagram), las preguntas repetidas del gym, qué responde solo y qué deriva, si
   tiene una base de datos de preguntas y respuestas para entrenarlo, el tono, cuándo pasa a una
   persona y los límites.
