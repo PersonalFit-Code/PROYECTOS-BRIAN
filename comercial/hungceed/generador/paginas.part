@@ -1,10 +1,14 @@
 <!-- ============ HOJA 1 · PORTADA + LA CARTA ============ -->
 <div class="hoja p1">
-  <div class="portada">
-    <div class="p-top"><span class="p-marca"><svg width="15" height="15"><use href="#i-marca" width="15" height="15"/></svg>Propuesta de trabajo · Hungceed</span><span>Noviembre de 2026</span></div>
-    {{PORTADA_DECO}}
-    <h1>Que tu tienda<br>venda sola.<br><em>Y tu WhatsApp<br>conteste solo.</em></h1>
-    <p class="bajada">Cuatro servicios. Eliges los que te vengan bien, o te los llevas todos.</p>
+  <div class="portada2">
+    <div class="p-top"><span class="p-marca"><svg width="14" height="14"><use href="#i-marca" width="14" height="14"/></svg>Propuesta de trabajo · Hungceed</span><span>Noviembre de 2026</span></div>
+    <h1>Que tu tienda venda sola.<br><em>Y tu WhatsApp conteste solo.</em></h1>
+    <div class="p-cuerpo">
+      <div class="p-texto">
+        <p class="bajada">Cuatro servicios. Eliges los que te vengan bien, o te los llevas todos.</p>
+      </div>
+      {{PORTADA_ESCENA}}
+    </div>
     <div class="p-pie">
       <div><div class="p-barra"></div>Preparado para <b>Jose P.</b> · Hungceed · La Pobla Llarga</div>
       <div>Por <b>Brian Carbajal</b> · Webs, IA y automatizaciones</div>

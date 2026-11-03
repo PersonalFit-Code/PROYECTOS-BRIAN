@@ -14,10 +14,11 @@ base = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(base))
 import svgs as S  # noqa: E402
 import dibujos as D  # noqa: E402
+import portada as P  # noqa: E402
 
 css = (base / "css.part").read_text()
 pag = (base / "paginas.part").read_text()
-for clave, fn in (("PORTADA_DECO", S.portada_deco), ("ECUACION", S.ecuacion), ("CATALOGO", S.catalogo),
+for clave, fn in (("PORTADA_ESCENA", P.escena), ("PORTADA_DECO", S.portada_deco), ("ECUACION", S.ecuacion), ("CATALOGO", S.catalogo),
                   ("FLUJO", S.flujo), ("PASOS", S.pasos),
                   ("DOLOR", D.dolor), ("WEB_ANOTADA", D.web_anotada),
                   ("TIENDA_HOY", D.tienda_hoy), ("TIENDA_DESPUES", D.tienda_despues),

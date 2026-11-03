@@ -58,6 +58,26 @@ header.interior .lado { display: flex; align-items: center; color: var(--rojo); 
 .portada .p-barra { width: 34mm; height: 2.2mm; background: var(--rojo); margin-bottom: 3mm; }
 .portada .p-deco { position: absolute; right: -4mm; top: 10mm; width: 74mm; height: 69mm; z-index: 0; }
 
+/* Portada en bloque negro: texto a la izquierda, la escena a la derecha, sin pisarse */
+.portada2 { position: relative; background: var(--negro); color: #fff; border-radius: 4mm; padding: 6.5mm 7mm 6mm; margin: 0 0 7mm; overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
+.portada2::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent); }
+.portada2 .p-top { display: flex; justify-content: space-between; align-items: center; font-size: 7pt; letter-spacing: 2.2pt; text-transform: uppercase; color: #8a8a92; font-weight: 700; padding-bottom: 4mm; border-bottom: 1px solid rgba(255,255,255,.1); }
+.portada2 .p-marca { display: flex; align-items: center; gap: 2mm; color: #fff; }
+.portada2 .p-marca svg { color: var(--rojo); }
+.portada2 .p-cuerpo { display: flex; align-items: flex-end; gap: 3mm; margin: 0 -4mm 0 0; }
+.portada2 .p-texto { flex: 0 0 52mm; padding-bottom: 6mm; }
+.portada2 .p-lista { list-style: none; margin: 6mm 0 0; padding: 0; font-size: 8.6pt; color: #d4d4d8; }
+.portada2 .p-lista li { display: flex; align-items: center; gap: 2.6mm; padding: 1.9mm 0; border-top: 1px solid rgba(255,255,255,.08); }
+.portada2 .p-lista span { width: 5mm; height: 5mm; border-radius: 1.3mm; background: rgba(220,31,38,.14); color: var(--rojo); font-weight: 800; font-size: 7pt; display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(220,31,38,.35); }
+.portada2 h1 { font-size: 29pt; line-height: 1.02; letter-spacing: -1.1pt; margin: 6mm 0 0; font-weight: 800; text-transform: uppercase; }
+.portada2 h1 em { font-style: normal; color: var(--rojo); }
+.portada2 .bajada { font-size: 12pt; line-height: 1.42; color: #b4b4bb; margin: 0; }
+.portada2 .p-escena { flex: 1; min-width: 0; width: 100%; height: auto; }
+.portada2 .p-pie { display: flex; justify-content: space-between; align-items: flex-end; font-size: 7.8pt; color: #8a8a92; padding-top: 3.5mm; border-top: 1px solid rgba(255,255,255,.1); }
+.portada2 .p-pie b { color: #fff; font-weight: 600; }
+.portada2 .p-barra { width: 22mm; height: 1.6mm; background: var(--rojo); border-radius: 1mm; margin-bottom: 2.6mm; }
+
 /* La carta de servicios (portada) */
 .carta { display: flex; gap: 3mm; margin: 2mm 0 0; }
 .carta > div { flex: 1; min-width: 0; border: 1px solid var(--linea); border-top: 2.4mm solid var(--rojo); background: var(--hueso); padding: 3mm 2.8mm; border-radius: 2mm; box-shadow: 0 .3mm 1.1mm rgba(10,10,11,.08); }
@@ -180,14 +200,10 @@ header.interior .lado { display: flex; align-items: center; color: var(--rojo); 
 .contacto .tel { display: block; font-size: 15pt; font-weight: 800; color: var(--rojo); margin-top: .6mm; }
 
 /* ===== Relleno por hoja: que cada una aproveche el alto ===== */
-.p1 .portada h1 { font-size: 38pt; }
-.p1 .portada .bajada { font-size: 13pt; margin-top: 7mm; }
-.p1 .portada .p-deco { width: 84mm; height: 78mm; top: 8mm; }
-.p1 .portada { padding-bottom: 9mm; margin-bottom: 8mm; }
-.p1 .grande { font-size: 13pt; margin-bottom: 5mm; }
+.p1 .grande { font-size: 12.4pt; margin-bottom: 3.5mm; }
 .p1 .carta { gap: 3.6mm; margin-top: 3mm; }
-.p1 .carta > div { padding: 4.4mm 3.6mm; }
-.p1 .carta .c { width: 11mm; height: 11mm; margin: 2.4mm 0 3mm; }
+.p1 .carta > div { padding: 3.6mm 3.4mm; }
+.p1 .carta .c { width: 9.5mm; height: 9.5mm; margin: 1.6mm 0 2.2mm; }
 .p1 .carta b { font-size: 10.8pt; }
 .p1 .carta p { font-size: 9.2pt; margin-top: 1.6mm; line-height: 1.4; }
 .p1 .apunte { margin-top: 5mm; font-size: 9pt; }

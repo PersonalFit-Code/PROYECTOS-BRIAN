@@ -5,8 +5,9 @@ Noah para La Vita Buona: poco texto, dibujos, el dolor primero y una carta de se
 que elija.
 
 - `propuesta.html` se **genera**: no se edita a mano.
-- `generador/` es donde se edita: textos en `paginas.part`, estilos en `css.part`, dibujos
-  básicos (rack de portada, la cuenta, el flujo del asistente, los pasos) en `svgs.py` y los
+- `generador/` es donde se edita: textos en `paginas.part`, estilos en `css.part`, la escena
+  de portada (jaula con polea en perspectiva, aviso de pedido y WhatsApp) en `portada.py`, dibujos
+  básicos ( la cuenta, el flujo del asistente, los pasos) en `svgs.py` y los
   de problema → solución (móviles, navegador anotado, el dolor, la línea de tiempo) en
   `dibujos.py`. Los logos de clientes en `generador/clientes/`.
 - `fuentes/` lleva Poppins (la letra de su marca), sacada de la maqueta `hungceed/`.
@@ -27,7 +28,7 @@ Tienen que salir **9 hojas**:
 
 | Hoja | Qué cuenta |
 | --- | --- |
-| 1 | Portada con el rack dibujado y **la carta**: A tienda, B asistente, C gym, D automatizaciones |
+| 1 | Portada en bloque negro: titular, la jaula con polea (499 €) en perspectiva con un pedido y un WhatsApp entrando solos, y **la carta**: A tienda, B asistente, C gym, D automatizaciones |
 | 2 | El problema: Jose en el centro y todo lo que tira de él; la cuenta del WhatsApp; la solución en cuatro piezas |
 | 3 | Su web actual dibujada y anotada con seis fallos, cada uno con su arreglo |
 | 4 | A · Tienda: móvil de hoy (problema) → móvil nuevo (solución), qué incluye, qué gana |
