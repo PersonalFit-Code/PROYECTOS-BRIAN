@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Burdin Gym</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Syncopate:wght@700&family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#0b0b0b;--coal:#121212;--graphite:#1a1a1a;--stone:#d6d1c9;--silver:#9a9a9a;--taupe:#8a8277;--amber:#f2b366;--line:rgba(255,255,255,.08)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{overflow-x:clip}
+  body{background:var(--black);color:var(--stone);font-family:'Barlow',sans-serif;font-size:17px;line-height:1.6}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:min(1180px,90vw);margin:0 auto}
+  h1,h2,h3{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;color:#f1ede6;line-height:.95;letter-spacing:.01em}
+  .wm{font-family:'Michroma',sans-serif;text-transform:uppercase;letter-spacing:.32em}
+  .eyebrow{font-family:'Michroma',sans-serif;font-size:.66rem;letter-spacing:.32em;text-transform:uppercase;color:var(--amber)}
+  .btn{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:14px 26px;border:1px solid var(--amber);background:var(--amber);color:var(--black);transition:.2s}
+  .btn:hover{background:transparent;color:var(--amber)}
+  .btn.ghost{background:transparent;color:#f1ede6;border-color:rgba(255,255,255,.3)}
+  .btn.ghost:hover{border-color:var(--amber);color:var(--amber)}
+
+  /* LOGO */
+  .logo{display:inline-flex;flex-direction:column;align-items:center;gap:0}
+  .logo svg.b{display:block}
+  .logo .name{font-family:'Syncopate',sans-serif;font-weight:700;letter-spacing:.14em;color:#ddd7cd;line-height:1;text-transform:uppercase}
+  .logo .gym{display:flex;align-items:center;gap:.8em;font-family:'Michroma',sans-serif;letter-spacing:.55em;color:#b9b2a7;text-transform:uppercase;line-height:1}
+  .logo .gym::before,.logo .gym::after{content:"";height:1px;width:2.6em;background:#8a8277}
+  .logo-row{flex-direction:row;gap:12px}
+  .logo-row .txt{display:flex;flex-direction:column;align-items:center;gap:5px}
+  /* NAV */
+  nav{position:sticky;top:0;z-index:20;background:rgba(11,11,11,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:20px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .name{font-size:1rem}
+  .brand .gym{font-size:.45rem}
+  .links{display:flex;gap:30px;align-items:center}
+  .links a{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:.95rem;color:#cfc9c0}
+  .links a:hover{color:var(--amber)}
+  .lang{display:flex;border:1px solid var(--line)}
+  .lang button{background:none;border:0;color:var(--silver);font-family:'Michroma',sans-serif;font-size:.62rem;letter-spacing:.15em;padding:8px 11px;cursor:pointer}
+  .lang button.on{background:var(--amber);color:var(--black)}
+
+  /* HERO */
+  .hero{position:relative;padding:90px 0 80px;overflow:hidden;background:radial-gradient(ellipse 60% 70% at 72% 55%,rgba(242,179,102,.10),transparent 70%)}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:40px}
+  .hero .logo{margin-bottom:46px}
+  .hero .logo svg.b{width:clamp(110px,13vw,150px);height:auto;margin-bottom:22px}
+  .hero .logo .name{font-size:clamp(2.6rem,5.6vw,4.4rem)}
+  .hero .logo .gym{font-size:clamp(.7rem,1.2vw,.95rem);margin-top:14px}
+  .hero h1{font-size:clamp(2.6rem,5vw,4.2rem);font-weight:800;margin:18px 0 18px}
+  .hero h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--stone)}
+  .hero p{max-width:470px;color:#bdb7ae;font-size:1.12rem;margin-bottom:32px}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap}
+  .hero-m{position:relative}
+  .hero-m img{position:relative;z-index:1;max-height:560px;margin:0 auto;filter:drop-shadow(0 30px 40px rgba(0,0,0,.7))}
+  .hero-m::after{content:"";position:absolute;left:8%;right:8%;bottom:-10px;height:60px;background:radial-gradient(ellipse at center,rgba(242,179,102,.35),transparent 70%);filter:blur(6px)}
+
+  .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:18px 0}
+  .track{display:inline-flex;animation:tick 40s linear infinite}
+  .track span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.4rem;letter-spacing:.1em;text-transform:uppercase;color:#6f6a63;padding:0 30px}
+  .track span:nth-child(odd){color:var(--stone)}
+  @keyframes tick{to{transform:translateX(-50%)}}
+
+  section{padding:110px 0}
+  .head{margin-bottom:54px;max-width:640px}
+  .head h2{font-size:clamp(2.6rem,6vw,4.6rem);font-weight:800;margin:14px 0 14px}
+  .head p{color:var(--silver)}
+
+  /* MACHINES (TDM style) */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  .card{background:var(--coal);border:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;min-height:420px;transition:.3s}
+  .card:hover{border-color:rgba(242,179,102,.45)}
+  .stage{position:relative;display:flex;align-items:flex-end;justify-content:center;padding:34px 20px 30px;background:radial-gradient(ellipse 80% 60% at 50% 60%,#232323,#111 75%);overflow:hidden}
+  .stage::after{content:"";position:absolute;left:12%;right:12%;bottom:18px;height:34px;background:radial-gradient(ellipse at center,rgba(242,179,102,.28),transparent 70%)}
+  .stage img{position:relative;z-index:1;max-height:340px;width:auto;object-fit:contain;filter:drop-shadow(0 18px 22px rgba(0,0,0,.75));transition:.5s}
+  .card:hover .stage img{transform:scale(1.04)}
+  .num{position:absolute;top:16px;left:18px;font-family:'Michroma',sans-serif;font-size:.62rem;letter-spacing:.25em;color:var(--taupe);z-index:2}
+  .info{padding:32px 30px;display:flex;flex-direction:column;border-left:1px solid var(--line)}
+  .brandtag{font-family:'Michroma',sans-serif;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .info h3{font-size:2.1rem;font-weight:800;margin:18px 0 12px}
+  .info p{color:#aaa49b;font-size:.95rem;flex:1}
+  .meta{display:grid;grid-template-columns:1fr 1fr;margin-top:20px;border-top:1px solid var(--line)}
+  .meta div{padding-top:12px}
+  .meta small{display:block;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe)}
+  .meta span{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1.15rem;color:#f1ede6}
+  .more{margin-top:24px;border:1px dashed rgba(255,255,255,.14);padding:34px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .more h3{font-size:2rem;font-weight:800}
+  .more p{color:var(--silver)}
+
+  /* BRANDS */
+  #markak{background:var(--coal);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .brands{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .brands div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:38px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(1.2rem,2vw,1.7rem);letter-spacing:.06em;text-transform:uppercase;color:#cfc9c0;transition:.2s}
+  .brands div:hover{color:var(--amber);background:var(--graphite)}
+
+  /* PRICES */
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .plan{border:1px solid var(--line);background:var(--coal);padding:38px 32px;display:flex;flex-direction:column}
+  .plan.feat{border-color:var(--amber)}
+  .plan h3{font-size:1.8rem;font-weight:800}
+  .price{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3.8rem;color:#f1ede6;margin:18px 0 6px;line-height:1}
+  .price small{font-size:1rem;color:var(--silver);font-weight:600}
+  .plan ul{list-style:none;margin:20px 0 30px;flex:1}
+  .plan li{padding:9px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+  .plan li::before{content:"— ";color:var(--amber)}
+  .plan .btn{text-align:center}
+  .note{margin-top:18px;font-size:.82rem;color:var(--taupe)}
+
+  /* CONTACT */
+  #kontaktua{background:var(--coal);border-top:1px solid var(--line)}
+  .contact{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+  .row{display:grid;grid-template-columns:130px 1fr;padding:18px 0;border-bottom:1px solid var(--line)}
+  .row small{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--taupe);padding-top:4px}
+  .row div{color:#e9e4dc}
+  .hours{display:grid;grid-template-columns:1fr auto;gap:4px 24px}
+  .bigmark{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px 0}
+  .bigmark svg.b{width:140px;height:auto;margin-bottom:18px}
+  .bigmark .name{font-size:2.4rem}
+  .bigmark .gym{font-size:.75rem;margin-top:12px}
+  .motto{font-family:'Michroma',sans-serif;font-size:.62rem;letter-spacing:.35em;color:var(--taupe);text-align:center}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;font-size:.8rem;color:#6f6a63}
+  footer .wrap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+  @media (max-width:900px){
+    .links a:not(.keep){display:none}
+    .hero-grid,.contact{grid-template-columns:1fr}
+    .hero-m img{max-height:380px}
+    .grid,.plans{grid-template-columns:1fr}
+    .brands{grid-template-columns:repeat(2,1fr)}
+    section{padding:80px 0}
+  }
+  @media (max-width:560px){
+    .card{grid-template-columns:1fr}
+    .info{border-left:0;border-top:1px solid var(--line)}
+    .stage img{max-height:300px}
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<linearGradient id="stone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ece6dc"/><stop offset=".5" stop-color="#c9c2b6"/><stop offset="1" stop-color="#8f887d"/></linearGradient>
+<filter id="grit" x="0" y="0" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="4" seed="7" result="big"/>
+<feColorMatrix in="big" type="matrix" values="0 0 0 0 .25  0 0 0 0 .23  0 0 0 0 .2  0 0 0 -1.5 .72" result="blot"/>
+<feComposite in="blot" in2="SourceGraphic" operator="in" result="b2"/>
+<feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="fine"/>
+<feColorMatrix in="fine" type="matrix" values="0 0 0 0 .2  0 0 0 0 .18  0 0 0 0 .16  0 0 0 -3 1.5" result="spk"/>
+<feComposite in="spk" in2="SourceGraphic" operator="in" result="s2"/>
+<feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="b2"/><feMergeNode in="s2"/></feMerge></filter>
+<symbol id="b" viewBox="0 0 272 288"><g fill="url(#stone)" filter="url(#grit)"><path d="M0,0H228L270,42V248L230,286H115V238H212V165H115V118H212V46H42Z"/><path d="M42,64H98V286H2L42,240Z"/></g></symbol>
+</defs></svg>
+
+<nav>
+  <div class="wrap nav">
+    <a href="#top" class="brand logo logo-row" aria-label="Burdin Gym"><svg class="b" viewBox="0 0 272 288" width="30" height="32" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name">Burdin</span><span class="gym">Gym</span></span></a>
+    <div class="links">
+      <a href="#makinak" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
+      <a href="#markak" data-es="Marcas" data-eu="Markak">Marcas</a>
+      <a href="#tarifak" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
+      <a href="#kontaktua" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
+      <div class="lang"><button data-l="eu">EU</button><button data-l="es">ES</button></div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="logo"><svg class="b" viewBox="0 0 272 288" width="150" height="159" aria-hidden="true"><use href="#b"/></svg><span class="name">Burdin</span><span class="gym">Gym</span></div>
+      <div class="eyebrow" data-es="Disciplina · Resultados · Comunidad" data-eu="Diziplina · Emaitzak · Komunitatea">Disciplina · Resultados · Comunidad</div>
+      <h1 data-es="Hierro<br><em>de verdad</em>" data-eu="Benetako<br><em>burdina</em>">Hierro<br><em>de verdad</em></h1>
+      <p data-es="Máquinas de las mejores marcas del mundo, elegidas una a una. Espíritu old school para entrenar hoy." data-eu="Munduko marka onenetako makinak, banan-banan aukeratuak. Eskola zaharreko espiritua, gaur egun entrenatzeko.">Máquinas de las mejores marcas del mundo, elegidas una a una. Espíritu old school para entrenar hoy.</p>
+      <div class="ctas">
+        <a href="#makinak" class="btn" data-es="Ver máquinas" data-eu="Makinak ikusi">Ver máquinas</a>
+        <a href="#tarifak" class="btn ghost" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
+      </div>
+    </div>
+    <div class="hero-m"><img src="img/flex_bicep.webp" alt="Flex Fitness Biceps Machine"></div>
+  </div>
+</header>
+
+<div class="ticker"><div class="track" id="track"></div></div>
+
+<section id="makinak">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" data-es="Equipamiento" data-eu="Ekipamendua">Equipamiento</div>
+      <h2 data-es="Nuestras máquinas" data-eu="Gure makinak">Nuestras máquinas</h2>
+      <p data-es="Una muestra de lo que te espera. Ven y pruébalas todas." data-eu="Hemen duzu zer aurkituko duzun erakusteko lagin bat. Etorri eta probatu guztiak.">Una muestra de lo que te espera. Ven y pruébalas todas.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="more">
+      <div>
+        <h3 data-es="Y muchas más" data-eu="Eta askoz gehiago">Y muchas más</h3>
+        <p data-es="Nautilus, Panatta, Hammer, Gym80, Gymleco, Life Fitness, Paramount, Precor… Ven a verlas en persona." data-eu="Nautilus, Panatta, Hammer, Gym80, Gymleco, Life Fitness, Paramount, Precor… Etorri eta ikusi zuzenean.">Nautilus, Panatta, Hammer, Gym80, Gymleco, Life Fitness, Paramount, Precor… Ven a verlas en persona.</p>
+      </div>
+      <a href="#kontaktua" class="btn ghost" data-es="Visítanos" data-eu="Bisitatu gaitzazu">Visítanos</a>
+    </div>
+  </div>
+</section>
+
+<section id="markak">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" data-es="Marcas" data-eu="Markak">Marcas</div>
+      <h2 data-es="Lo mejor del mundo" data-eu="Munduko onenak">Lo mejor del mundo</h2>
+      <p data-es="Diez fabricantes de referencia bajo un mismo techo." data-eu="Erreferentziazko hamar fabrikatzaile, sabai beraren azpian.">Diez fabricantes de referencia bajo un mismo techo.</p>
+    </div>
+    <div class="brands" id="brands"></div>
+  </div>
+</section>
+
+<section id="tarifak">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" data-es="Tarifas" data-eu="Tarifak">Tarifas</div>
+      <h2 data-es="Elige tu plan" data-eu="Aukeratu zure plana">Elige tu plan</h2>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3 data-es="Pase de día" data-eu="Eguneko sarrera">Pase de día</h3>
+        <div class="price">XX €</div>
+        <ul>
+          <li data-es="Acceso todo el día" data-eu="Egun osoko sarbidea">Acceso todo el día</li>
+          <li data-es="Sin compromiso" data-eu="Konpromisorik gabe">Sin compromiso</li>
+        </ul>
+        <a href="#kontaktua" class="btn ghost" data-es="Más info" data-eu="Informazio gehiago">Más info</a>
+      </div>
+      <div class="plan feat">
+        <h3 data-es="Mensual" data-eu="Hilabetekoa">Mensual</h3>
+        <div class="price">XX € <small data-es="/ mes" data-eu="/ hilabete">/ mes</small></div>
+        <ul>
+          <li data-es="Acceso ilimitado" data-eu="Sarbide mugagabea">Acceso ilimitado</li>
+          <li data-es="Todas las máquinas" data-eu="Makina guztiak">Todas las máquinas</li>
+          <li data-es="Valoración inicial" data-eu="Hasierako balorazioa">Valoración inicial</li>
+        </ul>
+        <a href="#kontaktua" class="btn" data-es="Apúntate" data-eu="Eman izena">Apúntate</a>
+      </div>
+      <div class="plan">
+        <h3 data-es="Anual" data-eu="Urtekoa">Anual</h3>
+        <div class="price">XXX € <small data-es="/ año" data-eu="/ urte">/ año</small></div>
+        <ul>
+          <li data-es="Todo lo del plan mensual" data-eu="Hilabeteko planaren guztia">Todo lo del plan mensual</li>
+          <li data-es="El mejor precio" data-eu="Preziorik onena">El mejor precio</li>
+        </ul>
+        <a href="#kontaktua" class="btn ghost" data-es="Apúntate" data-eu="Eman izena">Apúntate</a>
+      </div>
+    </div>
+    <p class="note" data-es="* Precios a definir." data-eu="* Prezioak zehazteke.">* Precios a definir.</p>
+  </div>
+</section>
+
+<section id="kontaktua">
+  <div class="wrap contact">
+    <div>
+      <div class="head" style="margin-bottom:30px">
+        <div class="eyebrow" data-es="Contacto" data-eu="Kontaktua">Contacto</div>
+        <h2 data-es="Ven a conocernos" data-eu="Etorri ezagutzera">Ven a conocernos</h2>
+      </div>
+      <div class="row"><small data-es="Dirección" data-eu="Helbidea">Dirección</small><div>Kalea, 00<br>00000 Herria</div></div>
+      <div class="row"><small data-es="Horario" data-eu="Ordutegia">Horario</small>
+        <div class="hours">
+          <span data-es="Lunes – Viernes" data-eu="Astelehena – Ostirala">Lunes – Viernes</span><span>06:00 – 23:00</span>
+          <span data-es="Sábado" data-eu="Larunbata">Sábado</span><span>08:00 – 21:00</span>
+          <span data-es="Domingo" data-eu="Igandea">Domingo</span><span>09:00 – 14:00</span>
+        </div>
+      </div>
+      <div class="row"><small data-es="Teléfono" data-eu="Telefonoa">Teléfono</small><div>+34 000 000 000</div></div>
+      <div class="row"><small>Email</small><div>kaixo@burdingym.com</div></div>
+      <div class="row"><small>Instagram</small><div>@burdingym</div></div>
+    </div>
+    <div class="bigmark">
+      <div class="logo"><svg class="b" viewBox="0 0 272 288" width="140" height="148" aria-hidden="true"><use href="#b"/></svg><span class="name">Burdin</span><span class="gym">Gym</span></div>
+      <div class="motto" data-es="DISCIPLINA · RESULTADOS · COMUNIDAD" data-eu="DIZIPLINA · EMAITZAK · KOMUNITATEA">DISCIPLINA · RESULTADOS · COMUNIDAD</div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>© 2026 Burdin Gym</span><span data-es="Hecho con hierro." data-eu="Burdinaz egina.">Hecho con hierro.</span></div></footer>
+
+<script>
+const M=[
+ {img:'img/cybex_chest.webp',brand:'Cybex',name:'Chest Press',
+  es:{d:'Press de pecho sentado con respaldo inclinado y pedal para colocar el peso con seguridad. Agarre neutro o prono.',g:'Pecho · Tríceps',t:'Selectorizada'},
+  eu:{d:'Eserita egiteko bular-prentsa, bizkar-euskarri inklinatuarekin eta pisua modu seguruan hartzeko oin-pedalarekin. Heldulekua neutroa edo pronoa.',g:'Bularra · Trizepsa',t:'Pisu-pila'}},
+ {img:'img/flex_bicep.webp',brand:'Flex Fitness',name:'Biceps Machine PA-560',
+  es:{d:'Curl de bíceps con apoyo predicador. La palanca sigue el arco natural del codo. Pila de hasta 100 kg.',g:'Bíceps',t:'Selectorizada'},
+  eu:{d:'Bizeps-kurla, predikadore-euskarriarekin. Palankak ukondoaren arku naturala jarraitzen du. 100 kg arteko pisu-pila.',g:'Bizepsa',t:'Pisu-pila'}},
+ {img:'img/cybex_curl.webp',brand:'Cybex',name:'Arm Curl',
+  es:{d:'Curl de brazos con leva: la resistencia se adapta a todo el recorrido. Acabado gunmetal y asiento regulable.',g:'Bíceps',t:'Leva'},
+  eu:{d:'Besoetako kurla kamarekin: erresistentzia ibilbide osora egokitzen da. Gunmetal akabera eta eserleku erregulagarria.',g:'Bizepsa',t:'Kama'}},
+ {img:'img/chain.webp',brand:'Old school',name:'Chest Press',
+  es:{d:'Press de pecho con transmisión por cadena y piñones. Una de esas piezas clásicas que ya no se fabrican.',g:'Pecho · Hombro',t:'Cadena'},
+  eu:{d:'Kate eta pinoi bidezko bular-prentsa. Jada egiten ez diren pieza klasiko horietako bat.',g:'Bularra · Sorbalda',t:'Katea'}}
+];
+const L={es:{g:'Grupo',t:'Tipo'},eu:{g:'Taldea',t:'Mota'}};
+const brands=['Cybex','Nautilus','Panatta','Hammer Strength','Gym80','Life Fitness','Gymleco','Flex Fitness','Paramount','Precor'];
+document.getElementById('track').innerHTML=[...brands,...brands].map(b=>`<span>${b}</span>`).join('');
+document.getElementById('brands').innerHTML=brands.map(b=>`<div>${b}</div>`).join('');
+
+function renderM(l){
+  document.getElementById('grid').innerHTML=M.map((m,i)=>`
+   <div class="card">
+     <div class="stage"><span class="num">0${i+1}</span><img src="${m.img}" alt="${m.brand} ${m.name}" loading="lazy"></div>
+     <div class="info">
+       <div class="brandtag">${m.brand}</div>
+       <h3>${m.name}</h3>
+       <p>${m[l].d}</p>
+       <div class="meta"><div><small>${L[l].g}</small><span>${m[l].g}</span></div><div><small>${L[l].t}</small><span>${m[l].t}</span></div></div>
+     </div>
+   </div>`).join('');
+}
+function setLang(l){
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-'+l+']').forEach(e=>e.innerHTML=e.dataset[l]);
+  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+  renderM(l);
+  try{localStorage.setItem('burdin-lang',l)}catch(e){}
+}
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+let start='es';try{start=localStorage.getItem('burdin-lang')||'es'}catch(e){}
+setLang(start);
+</script>
+</body>
+</html>
