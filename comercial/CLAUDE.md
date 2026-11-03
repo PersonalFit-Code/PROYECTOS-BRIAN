@@ -6,4 +6,4 @@ se hace con la marca neuro·node**, con el sistema de `neuro-node/` (`recursos/m
 (`formato: horizontal`). Tono profesional y técnico (p. ej. «Preguntas usuales», no «lo que te
 preguntan siempre»). Las carpetas antiguas (`comercial/hungceed/`, etc.) quedan como histórico.
 
-Tarifas de Brian para webs: con chatbot 600 € + 50 €/mes de mantenimiento; sin chatbot 500 € + 35 €/mes.
+Tarifas de Brian para webs: con chatbot 650 € + 65 €/mes de mantenimiento; sin chatbot 500 € + 35 €/mes.
