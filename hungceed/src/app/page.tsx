@@ -112,7 +112,82 @@ export default function Portada() {
         </div>
       </section>
 
-      {/* 2 · Lo más elegido, en carrusel. */}
+      {/* 2 · El gimnasio, justo debajo de la portada: tarifas a la vista y «Apúntate» directo a Virtuagym. */}
+      <section aria-labelledby="gym-titulo" className="border-b border-linea">
+        <Revelar className="container-page grid gap-8 py-12 sm:py-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14">
+          <div
+            data-reveal
+            className="relative aspect-[4/3] overflow-hidden bg-hueso sm:aspect-[16/10] lg:aspect-[4/5]"
+          >
+            <Foto
+              src={GYM.fotos.secundaria}
+              alt="Entrenando en Hungceed GYM"
+              className="object-[50%_30%] grayscale-[35%]"
+            />
+            <span className="absolute bottom-3 left-3 bg-white px-2 py-1 text-[11px] font-medium text-negro">
+              {GYM.localidad}
+            </span>
+          </div>
+          <div>
+            <p data-reveal className="text-[12px] font-medium text-gris">
+              {GYM.nombre}
+            </p>
+            <h2
+              id="gym-titulo"
+              data-reveal
+              className="titular mt-2 text-[clamp(2.8rem,7vw,5rem)]"
+            >
+              Entrena con nosotros
+            </h2>
+            <p
+              data-reveal
+              className="mt-4 max-w-lg text-[14px] leading-relaxed text-gris"
+            >
+              Musculación, funcional y entrenador personal, en la misma sala
+              donde probamos nuestro equipamiento. Te das de alta online en un
+              minuto.
+            </p>
+            <ul className="mt-8 grid gap-1.5 sm:grid-cols-3">
+              {tarifasGym.map((t) => (
+                <li
+                  key={t.titulo}
+                  data-reveal
+                  className="flex flex-col bg-hueso p-5"
+                >
+                  <p className="text-[12px] font-medium text-gris">
+                    {t.titulo}
+                  </p>
+                  <p className="mt-2 text-[12px] text-gris">Desde</p>
+                  <p className="titular text-[42px]">{EUR.format(t.precio)}</p>
+                  <p className="text-[12px] text-gris">{t.unidad}</p>
+                  <a
+                    href={GYM.virtuagym}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex min-h-11 items-center justify-center bg-negro text-[12px] font-semibold tracking-[0.14em] text-white uppercase transition-colors hover:bg-carbon"
+                  >
+                    Apúntate
+                    <span className="sr-only">
+                      {" "}
+                      a {t.titulo} (abre Virtuagym)
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div data-reveal className="mt-6">
+              <Link
+                href="/gym"
+                className="text-[13px] font-medium underline underline-offset-4 hover:text-gris"
+              >
+                Todas las tarifas y bonos
+              </Link>
+            </div>
+          </div>
+        </Revelar>
+      </section>
+
+      {/* 3 · Lo más elegido, en carrusel. */}
       <div id="mas-elegido" className="scroll-mt-[var(--header-h)]">
         <Carrusel
           titulo="Lo más elegido"
@@ -283,9 +358,9 @@ export default function Portada() {
       >
         <div className="absolute inset-0 -z-10">
           <Foto
-            src={GYM.fotos.secundaria}
+            src={GYM.fotos.portada}
             alt=""
-            className="object-[50%_35%] grayscale"
+            className="object-[50%_40%] grayscale"
           />
           <div className="absolute inset-0 bg-negro/75" />
         </div>
@@ -377,69 +452,6 @@ export default function Portada() {
           <Garantias />
         </div>
       </section>
-
-      {/* 10 · Gimnasio: segunda foto a sangre y las tarifas a la vista debajo. */}
-      <section className="relative isolate flex min-h-[60svh] items-end overflow-hidden text-white">
-        <div className="absolute inset-0 -z-10">
-          <Foto
-            src={GYM.fotos.portada}
-            alt="Entrenando en Hungceed GYM"
-            className="object-[70%_40%] grayscale-[35%]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-negro/80 via-negro/20 to-transparent" />
-        </div>
-        <div className="container-page pb-10 sm:pb-14">
-          <p className="text-[12px] font-medium text-white/80">
-            {GYM.nombre} · {GYM.localidad}
-          </p>
-          <h2 className="titular mt-2 text-[clamp(2.8rem,7vw,5rem)]">
-            Entrena con nosotros
-          </h2>
-          <div className="mt-5 flex flex-wrap gap-2.5">
-            <Boton
-              href={GYM.virtuagym}
-              target="_blank"
-              variant="claro"
-              size="sm"
-            >
-              Apúntate
-            </Boton>
-            <Boton href="/gym" variant="contorno" size="sm">
-              Ver tarifas
-            </Boton>
-          </div>
-        </div>
-      </section>
-      <Revelar
-        as="section"
-        aria-label="Tarifas del gimnasio"
-        className="container-page py-12 sm:py-16"
-      >
-        <ul className="grid gap-1.5 sm:grid-cols-3">
-          {tarifasGym.map((t) => (
-            <li
-              key={t.titulo}
-              data-reveal
-              className="flex flex-col bg-hueso p-6"
-            >
-              <p className="text-[12px] font-medium text-gris">{t.titulo}</p>
-              <p className="mt-3 text-[12px] text-gris">Desde</p>
-              <p className="titular text-[46px]">{EUR.format(t.precio)}</p>
-              <p className="text-[12px] text-gris">{t.unidad}</p>
-              <p className="mt-3 text-[13px] text-negro">{t.texto}</p>
-              <a
-                href={GYM.virtuagym}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex min-h-11 items-center justify-center bg-negro text-[12px] font-semibold tracking-[0.14em] text-white uppercase transition-colors hover:bg-carbon"
-              >
-                Apúntate
-                <span className="sr-only"> a {t.titulo} (abre Virtuagym)</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </Revelar>
     </>
   );
 }
