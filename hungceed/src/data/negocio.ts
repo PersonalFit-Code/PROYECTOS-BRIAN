@@ -10,6 +10,8 @@ export const NEGOCIO = {
   lema: "Una sola marca. Todo el equipamiento que necesitas.",
   fraseCeo: "En Hungceed desarrollamos lo que nos gustaría encontrar en el mercado y no encontramos.",
   ceo: "Jose P., CEO de Hungceed",
+  /* Firma de Jose tal como sale en la portada de hungceed.es (PNG claro sobre transparente). */
+  firmaCeo: "https://hungceed.es/wp-content/uploads/2026/04/signature-01.png",
   email: "hungceed@gmail.com",
   instagram: { url: "https://www.instagram.com/hungceed/", handle: "@hungceed" },
   /* PENDIENTE DE CONFIRMAR: que el número del gimnasio sea también el WhatsApp de la tienda. */
