@@ -933,6 +933,29 @@
   .hero p.sub{font-size:15.5px!important;max-width:62ch!important}
   .hero .slide-cta{width:min(100%,330px)!important}
   @media (min-width:901px) and (max-width:1200px){.hero-in>div{max-width:60%!important}.hero h1{font-size:clamp(2.2rem,4.4vw,4rem)!important}}
+  /* ===== Colección en zigzag: una a la izquierda, otra a la derecha ===== */
+  @media (min-width:901px){
+    .sheets{gap:90px!important}
+    .sheet{width:84%;grid-template-columns:1.1fr .9fr!important;border-top:0!important;position:relative}
+    .sheet:nth-child(odd){margin-right:auto}
+    .sheet:nth-child(even){margin-left:auto}
+    .sheet .meta{position:relative;z-index:3;align-self:center;margin:60px 0;box-shadow:0 30px 60px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.14)!important}
+    .sheet:nth-child(odd) .meta{margin-left:-70px}
+    .sheet:nth-child(even) .meta{margin-right:-70px}
+    .sheet .pic{border:1px solid rgba(255,255,255,.1)}
+    .sheet::after{content:attr(data-num);position:absolute;top:-40px;font-family:var(--display);font-weight:900;font-stretch:66%;font-size:9rem;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.1);pointer-events:none;z-index:0}
+    .sheet:nth-child(odd)::after{right:-12%}
+    .sheet:nth-child(even)::after{left:-12%}
+  }
+  /* entrada al hacer scroll: la foto desde su lado, el texto desde el contrario */
+  html[data-reveal-armed] .sheet .pic,html[data-reveal-armed] .sheet .meta{transition:opacity .9s var(--ease),transform 1s var(--ease)}
+  html[data-reveal-armed] .sheet:not(.is-revealed) .pic{opacity:0;transform:translate3d(-60px,0,0)}
+  html[data-reveal-armed] .sheet:not(.is-revealed) .meta{opacity:0;transform:translate3d(60px,30px,0)}
+  html[data-reveal-armed] .sheet:nth-child(even):not(.is-revealed) .pic{transform:translate3d(60px,0,0)}
+  html[data-reveal-armed] .sheet:nth-child(even):not(.is-revealed) .meta{transform:translate3d(-60px,30px,0)}
+  html[data-reveal-armed] .sheet.is-revealed .meta{transition-delay:.15s}
+  html[data-reveal-armed] [data-reveal].sheet{opacity:1!important;transform:none!important}
+  @media (prefers-reduced-motion:reduce){html[data-reveal-armed] .sheet .pic,html[data-reveal-armed] .sheet .meta{transform:none!important}}
 </style>
 </head>
 <body class="boceto">
@@ -1408,7 +1431,7 @@ function tierLink(k,label){
 function renderMachines(){
   const l=LANG,x=ML[l];
   $('#sheets').innerHTML=MACHINES.map((m,i)=>{const t=m[l];const yr=(t.year.match(/\d+/)||[''])[0];return `
-   <article class="sheet" data-reveal>
+   <article class="sheet" data-reveal data-num="${String(i+1).padStart(2,'0')}">
      <div class="pic" data-tilt><canvas class="gen" data-gen="${i}" aria-hidden="true"></canvas><span class="n">Nº 0${i+1} / 0${MACHINES.length}</span><span class="hexf">${FLAG(m.cc)}</span><span class="yr" aria-hidden="true">${yr}</span><img src="${m.img}" alt="${m.brand} ${m.name}" data-parallax onerror="this.closest('.pic').classList.add('nofoto')"><div class="ph" aria-hidden="true"><b>${m.brand}</b><span>${m.name}</span><em>${l==='es'?'Foto de la pieza · pendiente':'Piezaren argazkia · zain'}</em></div>
        <div class="story"><b>${x.w}</b><p>${t.why}</p></div>
      </div>
