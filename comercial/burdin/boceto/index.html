@@ -1011,6 +1011,20 @@
     .s2:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.1)}
     .s2 small{font-size:11.5px;margin-top:16px}
   }
+  /* ===== Máquinas, versión sencilla ===== */
+  #coleccion .logos{margin:0 0 40px}
+  .mgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .mcard{margin:0;background:#121212;border:1px solid rgba(255,255,255,.1);transition:border-color .3s}
+  .mcard:hover{border-color:rgba(255,255,255,.3)}
+  .mc-pic{aspect-ratio:4/5;display:grid;place-items:center;background:radial-gradient(ellipse 70% 60% at 50% 55%,#242424,#0d0d0d 72%);overflow:hidden}
+  .mc-pic img{max-height:82%;max-width:80%;width:auto;filter:grayscale(1) contrast(1.1) drop-shadow(0 20px 20px rgba(0,0,0,.7));transition:filter .6s var(--ease),transform .7s var(--ease)}
+  .mcard:hover .mc-pic img{filter:grayscale(0);transform:scale(1.04)}
+  .mcard figcaption{display:grid;gap:2px;padding:16px 18px 18px;border-top:1px solid rgba(255,255,255,.08)}
+  .mcard b{font-family:var(--label);font-weight:600;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3)}
+  .mcard span{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:1.5rem;text-transform:uppercase;color:var(--fg);line-height:1.05}
+  .mcard em{font-style:normal;font-size:12.5px;color:var(--fg2)}
+  #coleccion .note{margin-top:18px}
+  @media (max-width:900px){.mgrid{grid-template-columns:1fr 1fr;gap:10px}.mcard span{font-size:1.2rem}}
 </style>
 </head>
 <body class="boceto">
@@ -1044,9 +1058,7 @@
     <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="30" height="32" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name">Burdin</span><span class="gym">Gym</span></span></a>
     <div class="right">
       <div class="links" id="links">
-        <a href="#coleccion" data-es="La colección" data-eu="Bilduma">La colección</a>
-        <a href="#era" class="hide-md" data-es="Leyendas" data-eu="Kondairak">Leyendas</a>
-        <a href="#gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
+        <a href="#coleccion" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
         <a href="#tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
         <a href="#faq" class="hide-md" data-es="Preguntas" data-eu="Galderak">Preguntas</a>
         <a href="#contacto" class="hide-md" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
@@ -1065,7 +1077,7 @@
     <div>
       <span class="kicker" style="--i:0" data-es="Preapertura · Euskadi · 2027" data-eu="Irekiera aurretik · Euskadi · 2027">Preapertura · Euskadi · 2027</span>
       <h1 id="h1" style="--i:1"><span class="l"><span data-es="Hierro" data-eu="Benetako">Hierro</span></span><span class="l"><span data-es="<em>de verdad</em>" data-eu="<em>burdina</em>"><em>de verdad</em></span></span></h1>
-      <p class="sub" style="--i:2" data-es="Un taller de fuerza, no un gimnasio de catálogo. Máquinas de Cybex, Hammer Strength, Nautilus o Panatta buscadas una a una por su historia y su calidad. Cada pieza tiene nombre, año y kilómetros." data-eu="Indar-tailerra, ez katalogoko gimnasioa. Cybex, Hammer Strength, Nautilus edo Panatta makinak, banan-banan bilatuak beren istorio eta kalitateagatik. Pieza bakoitzak izena, urtea eta kilometroak ditu.">Un taller de fuerza, no un gimnasio de catálogo. Máquinas de Cybex, Hammer Strength, Nautilus o Panatta buscadas una a una por su historia y su calidad. Cada pieza tiene nombre, año y kilómetros.</p>
+      <p class="sub" style="--i:2" data-es="Gimnasio de musculación old school en Euskadi. Más de 40 máquinas de las mejores marcas del mundo. Hazte socio fundador antes de que abramos." data-eu="Eskola zaharreko muskulazio-gimnasioa Euskadin. Munduko marka onenetako 40 makina baino gehiago. Egin bazkide sortzaile ireki aurretik.">Gimnasio de musculación old school en Euskadi. Más de 40 máquinas de las mejores marcas del mundo. Hazte socio fundador antes de que abramos.</p>
       <div class="ctas" style="--i:3">
         <div class="slide-cta" data-slide></div>
         <a href="#coleccion" class="btn-text"><span data-es="Descubre las máquinas" data-eu="Ezagutu makinak">Descubre las máquinas</span></a>
@@ -1084,9 +1096,9 @@
 
 <div class="stats2" id="stats">
   <div class="wrap s2-grid">
-    <div class="s2"><b class="tbd"><span data-n="60">60</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
+    <div class="s2"><b class="tbd"><span data-n="40">40</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
     <div class="s2"><b><span data-n="12">12</span></b><small data-es="Marcas top" data-eu="Marka nagusi">Marcas top</small></div>
-    <div class="s2"><b class="tbd"><span data-n="800">800</span><sup>m²</sup></b><small data-es="De hierro" data-eu="Burdina">De hierro</small></div>
+    <div class="s2"><b class="tbd"><span data-n="350">350</span><sup>m²</sup></b><small data-es="De sala" data-eu="Aretoa">De sala</small></div>
     <div class="s2 s2-feat"><b class="tbd"><span data-n="100">100</span></b><small data-es="Plazas fundador" data-eu="Sortzaile-plaza">Plazas fundador</small>
       <div class="s2-bar" aria-hidden="true"><i id="s2bar"></i></div>
       <p class="s2-left"><span id="s2left">63</span> <span data-es="libres" data-eu="libre">libres</span></p>
@@ -1099,68 +1111,17 @@
 <section id="coleccion">
   <div class="wrap">
     <div data-reveal class="head">
-      <div class="eyebrow" data-n="02" data-es="La colección" data-eu="Bilduma">La colección</div>
-      <h2 data-es="Piezas con historia" data-eu="Istorioa duten piezak">Piezas con historia</h2>
-      <p data-es="Cada máquina es una ficha de museo: de dónde vino, cuántos kilómetros hizo hasta llegar aquí y por qué merecía el viaje. Pasa por encima para leer su historia." data-eu="Makina bakoitza museoko fitxa bat da: nondik etorri zen, zenbat kilometro egin zituen honaino eta zergatik merezi zuen bidaia. Pasa gainetik bere istorioa irakurtzeko.">Cada máquina es una ficha de museo: de dónde vino, cuántos kilómetros hizo hasta llegar aquí y por qué merecía el viaje. Pasa por encima para leer su historia.</p>
+      <div class="eyebrow" data-n="02" data-es="Las máquinas" data-eu="Makinak">Las máquinas</div>
+      <h2 data-es="Más de 40 máquinas, 12 marcas" data-eu="40 makina baino gehiago, 12 marka">Más de 40 máquinas, 12 marcas</h2>
+      <p data-es="Musculación de las mejores marcas del mundo, elegidas una a una, en 350 m²." data-eu="Munduko marka onenetako muskulazio-makinak, banan-banan aukeratuak, 350 m²-tan.">Musculación de las mejores marcas del mundo, elegidas una a una, en 350 m².</p>
     </div>
-    <div class="sheets" id="sheets"></div>
-    <div data-reveal class="more">
-      <div>
-        <h3 data-es="Y muchas más" data-eu="Eta askoz gehiago">Y muchas más</h3>
-        <p data-es="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen." data-eu="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Pieza bakoitzaren istorioa kontatuz joango gara iristen diren heinean.">Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen.</p>
-      </div>
-      <div class="slide-cta" data-slide></div>
-    </div>
+    <div class="logos" id="logos"></div>
+    <div class="mgrid" id="mgrid"></div>
+    <p class="note" data-es="Fotos de ejemplo. Las del local, cuando acaben las obras." data-eu="Adibide-argazkiak. Lokalekoak, obrak amaitzean.">Fotos de ejemplo. Las del local, cuando acaben las obras.</p>
   </div>
 </section>
 
-<div class="rule" aria-hidden="true"></div>
-<section id="era" aria-labelledby="era-t">
-  <div class="wrap">
-    <div class="era-head" data-reveal>
-      <span class="plate" data-es="Leyendas del hierro" data-eu="Burdinaren kondairak">Leyendas del hierro</span>
-      <h2 id="era-t" data-es="Vol. 01: lo que dijeron, en lo que entrenaron" data-eu="1. lib.: zer esan zuten, zertan entrenatu zuten">Vol. 01: lo que dijeron, en lo que entrenaron</h2>
-    </div>
-    <div class="era-grid" id="legends"></div>
-    <span class="plate era-foot" data-reveal data-es="Ellos ya las usaron. Ahora te toca a ti." data-eu="Haiek erabili zituzten. Orain zure txanda da.">Ellos ya las usaron. Ahora te toca a ti.</span>
-  </div>
-</section>
 
-<div class="rule" aria-hidden="true"></div>
-<section id="gimnasio">
-  <div class="gtitle">
-    <div class="wrap"><h2 data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</h2></div>
-    <svg class="brush" viewBox="0 0 1240 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9c120-4 260-6 410-5 160 1 290 4 420 2 150-2 260-5 406-3" stroke="#e6e6e6" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".9"/></svg>
-  </div>
-  <div class="wrap gcols">
-    <div data-reveal class="gbox">
-      <span class="tag" data-es="Instalaciones" data-eu="Instalazioak">Instalaciones</span>
-      <div class="fac tbd">
-        <div><b data-es="La sala" data-eu="Aretoa">La sala</b><p data-es="800 m² de máquinas guiadas y peso libre. Lo clásico y lo moderno en la misma planta: sin pasillos, sin esperas." data-eu="800 m² makina gidatu eta pisu askerekin. Klasikoa eta modernoa solairu berean: pasabiderik gabe, itxaronik gabe.">800 m² de máquinas guiadas y peso libre. Lo clásico y lo moderno en la misma planta: sin pasillos, sin esperas.</p></div>
-        <div><b data-es="La zona old school" data-eu="Old school eremua">La zona old school</b><p data-es="Las piezas que ya no se fabrican, juntas y a punto. Cadenas, levas y hierro fundido." data-eu="Jada egiten ez diren piezak, elkarrekin eta prest. Kateak, kamak eta burdinurtua.">Las piezas que ya no se fabrican, juntas y a punto. Cadenas, levas y hierro fundido.</p></div>
-        <div><b data-es="El sonido" data-eu="Soinua">El sonido</b><p data-es="Equipo de sala pensado para entrenar, no para la radio: volumen alto y graves sin distorsión." data-eu="Entrenatzeko pentsatutako soinu-ekipoa, ez irratirako: bolumen altua eta baxuak distortsiorik gabe.">Equipo de sala pensado para entrenar, no para la radio: volumen alto y graves sin distorsión.</p></div>
-        <div><b data-es="Vestuarios" data-eu="Aldagelak">Vestuarios</b><p data-es="Taquillas, duchas y un sitio para dejar la bolsa sin agobios." data-eu="Armairuak, dutxak eta poltsa lasai uzteko lekua.">Taquillas, duchas y un sitio para dejar la bolsa sin agobios.</p></div>
-      </div>
-    </div>
-    <div data-reveal class="gmid">
-      <div class="slides" id="slides"></div>
-      <div class="gnav"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Siguiente">→</button></div></div>
-      <img class="gcut" src="img/cybex_curl.webp" alt="" loading="lazy" aria-hidden="true">
-    </div>
-    <div data-reveal class="gbox">
-      <span class="tag" data-es="La sala por marcas" data-eu="Aretoa marken arabera">La sala por marcas</span>
-      <div class="bars tbd" id="bars"></div>
-      <span class="tag" style="margin-top:10px" data-es="Horario" data-eu="Ordutegia">Horario</span>
-      <div class="hours tbd">
-        <span data-es="Lun – Vie" data-eu="Al – Or">Lun – Vie</span><span>06:00 – 23:00</span>
-        <span data-es="Sábado" data-eu="Larunbata">Sábado</span><span>08:00 – 21:00</span>
-        <span data-es="Dom y festivos" data-eu="Ig eta jaiegunak">Dom y festivos</span><span>09:00 – 14:00</span>
-      </div>
-    </div>
-  </div>
-  <div class="wrap"><div class="logos" id="logos"></div></div>
-  <div class="wrap gfoot"><span data-es="Página 03 · El gimnasio" data-eu="03. orria · Gimnasioa">Página 03 · El gimnasio</span><span data-es="Fotos del local cuando acaben las obras" data-eu="Lokaleko argazkiak obrak amaitzean">Fotos del local cuando acaben las obras</span></div>
-</section>
 
 <div class="rule" aria-hidden="true"></div>
 <section id="fundador">
@@ -1220,30 +1181,6 @@
   </div>
 </section>
 
-<div class="rule" aria-hidden="true"></div>
-<section id="manifiesto"><div class="paper" aria-hidden="true"><span class="deboss" id="deboss">BURDIN</span><i class="fold"></i></div>
-  <div class="wrap">
-    <div class="eyebrow" data-n="06" style="margin-bottom:34px" data-es="Manifiesto" data-eu="Manifestua">Manifiesto</div>
-    <div class="mani mani3">
-      <article>
-        <span class="mn">01</span>
-        <h3 data-es="Un listón que merece la pena" data-eu="Merezi duen langa">Un listón que merece la pena</h3>
-        <p data-es="Hemos entrenado en gimnasios de medio mundo y siempre faltaba algo: una sala mal pensada, máquinas sin historia o un ambiente sin carácter. Así que hicimos el gimnasio que siempre quisimos tener, aquí, en casa." data-eu="Mundu erdiko gimnasioetan entrenatu dugu eta beti zerbait falta zen: gaizki pentsatutako aretoa, istoriorik gabeko makinak edo izaerarik gabeko giroa. Beraz, beti izan nahi genuen gimnasioa egin dugu, hemen, etxean.">Hemos entrenado en gimnasios de medio mundo y siempre faltaba algo: una sala mal pensada, máquinas sin historia o un ambiente sin carácter. Así que hicimos el gimnasio que siempre quisimos tener, aquí, en casa.</p>
-      </article>
-      <article>
-        <span class="mn">02</span>
-        <h3 data-es="A la caza de lo raro" data-eu="Arraroaren bila">A la caza de lo raro</h3>
-        <p data-es="Casi todos los gimnasios eligen un catálogo y se lo piden todo a un proveedor. Nosotros fuimos pieza a pieza, viniera de donde viniera. Cada vez que creíamos haber terminado, aparecía otra máquina que no podíamos dejar escapar. Lo bueno casi nunca llega por casualidad." data-eu="Ia gimnasio guztiek katalogo bat aukeratzen dute eta dena hornitzaile bati eskatzen diote. Guk piezaz pieza egin dugu, nondik zetorren kontuan hartu gabe. Amaitu genuela uste genuen bakoitzean, beste makina bat agertzen zen, ezin genuena ihes egiten utzi. Ona ia inoiz ez da kasualitatez iristen.">Casi todos los gimnasios eligen un catálogo y se lo piden todo a un proveedor. Nosotros fuimos pieza a pieza, viniera de donde viniera. Cada vez que creíamos haber terminado, aparecía otra máquina que no podíamos dejar escapar. Lo bueno casi nunca llega por casualidad.</p>
-      </article>
-      <article>
-        <span class="mn">03</span>
-        <h3 data-es="Más que una cuota" data-eu="Kuota bat baino gehiago">Más que una cuota</h3>
-        <p data-es="Lo exclusivo suele quedarse para los clubes privados, pero creemos que entrenar en serio merece ese mismo ambiente. Para mucha gente el gimnasio no es un edificio: es rutina, terapia, disciplina, calma y propósito. Lo sabemos porque a nosotros nos pasa lo mismo." data-eu="Esklusiboa klub pribatuetarako gordetzen da normalean, baina uste dugu serio entrenatzeak giro bera merezi duela. Askorentzat gimnasioa ez da eraikin bat: errutina, terapia, diziplina, lasaitasuna eta helburua da. Badakigu, guri ere gauza bera gertatzen zaigulako.">Lo exclusivo suele quedarse para los clubes privados, pero creemos que entrenar en serio merece ese mismo ambiente. Para mucha gente el gimnasio no es un edificio: es rutina, terapia, disciplina, calma y propósito. Lo sabemos porque a nosotros nos pasa lo mismo.</p>
-      </article>
-      <div class="sign" data-es="El equipo de Burdin" data-eu="Burdin taldea">El equipo de Burdin</div>
-    </div>
-  </div>
-</section>
 
 <div class="rule" aria-hidden="true"></div>
 <section id="tarifas">
@@ -1328,6 +1265,7 @@
 </footer>
 
 <dialog class="ficha" id="ficha" aria-label="Ficha de la máquina"><button type="button" class="fi-x" aria-label="Cerrar">×</button><div class="fi-body"></div></dialog>
+<div hidden aria-hidden="true"><div id="legends"></div><div id="slides"></div><div id="dots"></div><div id="bars"></div><button type="button" id="prev"></button><button type="button" id="next"></button></div>
 <a href="#fundador" class="disc-cta" id="discCta" aria-label="Reserva tu plaza de socio fundador">
   <span class="dc-frame">
     <svg class="dc-txt" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="dcp" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs><text><textPath href="#dcp" textLength="536" data-es="RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ " data-eu="GORDE ZURE PLAZA ✦ BAZKIDE SORTZAILEA ✦ ">RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ </textPath></text></svg>
@@ -1491,6 +1429,8 @@ function tierLink(k,label){
 }
 
 function renderMachines(){
+  const g=document.getElementById('mgrid');if(g){g.innerHTML=MACHINES.filter(m=>!/maquinas\//.test(m.img)).map(m=>`<figure class="mcard" data-reveal><div class="mc-pic"><img src="${m.img}" alt="${m.brand} ${m.name}" loading="lazy"></div><figcaption><b>${m.brand}</b><span>${m.name}</span><em>${m[LANG].g}</em></figcaption></figure>`).join('')}
+  if(!document.getElementById('sheets'))return;
   const l=LANG,x=ML[l];
   $('#sheets').innerHTML=MACHINES.map((m,i)=>{const t=m[l];const yr=(t.year.match(/\d+/)||[''])[0];return `
    <article class="sheet" data-reveal data-num="${String(i+1).padStart(2,'0')}">
