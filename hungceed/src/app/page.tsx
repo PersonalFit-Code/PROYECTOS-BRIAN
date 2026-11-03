@@ -143,9 +143,9 @@ export default function Portada() {
               data-reveal
               className="mt-4 max-w-lg text-[14px] leading-relaxed text-gris"
             >
-              Musculación, funcional y entrenador personal, en la misma sala
-              donde probamos nuestro equipamiento. Te das de alta online en un
-              minuto.
+              Musculación, funcional y entrenador personal. Tarifas claras y
+              alta online en Virtuagym. ¿Primera vez? Prueba con un pase de un
+              día por 8 €.
             </p>
             <ul className="mt-8 grid gap-1.5 sm:grid-cols-3">
               {tarifasGym.map((t) => (
