@@ -105,7 +105,7 @@ export default function Header() {
           </nav>
         </div>
 
-        <Link href="/" className="text-[1.3rem] sm:text-[1.45rem] lg:order-1" aria-label="Hungceed, inicio">
+        <Link href="/" className="block text-[42px] leading-none sm:text-[46px] lg:order-1 lg:text-[52px]" aria-label="Hungceed, inicio">
           <Logo />
         </Link>
 

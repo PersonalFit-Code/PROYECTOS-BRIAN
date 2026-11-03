@@ -13,7 +13,7 @@ export default function Footer() {
     <footer className="bg-hueso text-negro">
       <div className="container-page grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <Link href="/" className="text-2xl" aria-label="Hungceed, inicio">
+          <Link href="/" className="block text-[72px] leading-none" aria-label="Hungceed, inicio">
             <Logo />
           </Link>
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-gris">{NEGOCIO.lema}</p>
