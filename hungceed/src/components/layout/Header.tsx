@@ -23,13 +23,14 @@ export default function Header() {
 
   const itemsMovil = [
     ...MENU.map((m) => ({ heading: m.nombre, href: m.href, active: activo(m.href) })),
+    { heading: "Equipa tu centro", href: "/equipa-tu-centro", subheading: "Presupuesto para gimnasios y boxes", active: activo("/equipa-tu-centro") },
     { heading: "Hungceed GYM", href: "/gym", subheading: "Tarifas y altas online", active: activo("/gym") },
     { heading: "Envíos y garantía", href: "/envios", active: activo("/envios") },
   ];
 
   return (
     <header className={cn("fixed inset-x-0 top-0 z-40 bg-negro text-white transition-shadow duration-300", scrolled && "shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)]")}>
-      {/* Franja: lo que tranquiliza antes de comprar, siempre a la vista. */}
+      {/* Franja: lo que tranquiliza antes de comprar. PENDIENTE DE CONFIRMAR con Jose (sale de su web): envío, garantía y pago. */}
       <div className="border-b border-white/10 bg-carbon">
         <div className="container-page flex h-8 items-center justify-between gap-4 text-[11px] font-medium tracking-[0.08em] text-gris-claro uppercase">
           <p className="truncate">
@@ -75,6 +76,15 @@ export default function Header() {
 
         <div className="flex items-center justify-end gap-1 sm:gap-3">
           <Link
+            href="/equipa-tu-centro"
+            className={cn(
+              "hidden h-10 items-center px-3 text-[12px] font-semibold tracking-[0.14em] uppercase transition-colors lg:inline-flex",
+              activo("/equipa-tu-centro") ? "text-rojo" : "text-white/80 hover:text-rojo",
+            )}
+          >
+            Equipa tu centro
+          </Link>
+          <Link
             href="/gym"
             className={cn(
               "hidden h-10 items-center px-3 text-[12px] font-semibold tracking-[0.14em] uppercase transition-colors sm:inline-flex",
@@ -83,19 +93,6 @@ export default function Header() {
           >
             Hungceed GYM
           </Link>
-          {/* Icono que se despliega a texto al pasar por encima (lo pidió Brian para los botones). */}
-          <a
-            href={NEGOCIO.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group/wa hidden h-10 items-center overflow-hidden rounded-[2px] bg-rojo px-3 text-white transition-colors hover:bg-white hover:text-negro md:inline-flex"
-          >
-            <MessageCircle aria-hidden className="size-[18px] shrink-0" />
-            <span className="max-w-0 overflow-hidden text-[12px] font-semibold tracking-[0.12em] whitespace-nowrap uppercase opacity-0 transition-all duration-300 group-hover/wa:ml-2 group-hover/wa:max-w-40 group-hover/wa:opacity-100 group-focus-visible/wa:ml-2 group-focus-visible/wa:max-w-40 group-focus-visible/wa:opacity-100">
-              WhatsApp
-            </span>
-            <span className="sr-only"> (abre WhatsApp)</span>
-          </a>
           <span className="relative inline-flex size-10 items-center justify-center text-white" aria-label="Carrito (no activo en la maqueta)" role="img">
             <ShoppingBag aria-hidden className="size-5" />
             <span aria-hidden className="absolute top-1 right-0.5 grid size-4 place-items-center rounded-full bg-rojo text-[10px] font-bold">0</span>

@@ -22,7 +22,9 @@ export interface Producto {
   imagen: string;
   /** La ficha actual en hungceed.es. */
   original: string;
+  /** Sale en «Lo más elegido» de la portada. Solo productos CON precio publicado. */
   destacado?: boolean;
+  /** Una frase corta (≤ 55 caracteres): cabe entera en dos líneas de la tarjeta, sin «…». */
   resumen: string;
 }
 
@@ -94,7 +96,7 @@ export const PRODUCTOS: Producto[] = [
     imagen: `${U}/2026/04/163.png`,
     original: "https://hungceed.es/jaula-rack-con-polea-central/",
     destacado: true,
-    resumen: "Barra libre y polea alta y baja en una sola estructura de cuatro columnas.",
+    resumen: "Barra libre y polea alta y baja en un solo rack.",
   },
   {
     slug: "half-rack",
@@ -104,8 +106,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/04/c94de42a67fc2e960007c61538f16f0a.jpeg`,
     original: "https://hungceed.es/half-rack/",
-    destacado: true,
-    resumen: "Medio rack compacto con barra de dominadas para entrenar fuerza en poco espacio.",
+    resumen: "Medio rack compacto con barra de dominadas.",
   },
   {
     slug: "rack-abatible-pared",
@@ -115,7 +116,8 @@ export const PRODUCTOS: Producto[] = [
     precio: { valor: 550 },
     imagen: `${U}/2026/03/161-300x300.png`,
     original: "https://hungceed.es/rack-abatible-pared-palasi-series/",
-    resumen: "Se pliega contra la pared cuando no entrenas. Con barra de dominadas.",
+    destacado: true,
+    resumen: "Se pliega contra la pared. Con dominadas.",
   },
   {
     slug: "rack-plegable-frontal",
@@ -125,6 +127,7 @@ export const PRODUCTOS: Producto[] = [
     precio: { valor: 550 },
     imagen: `${U}/2026/03/160-300x300.png`,
     original: "https://hungceed.es/rack-plegable-pared-frontal-palasi-series/",
+    destacado: true,
     resumen: "Plegado frontal para garajes y salas pequeñas.",
   },
   // Máquinas
@@ -137,8 +140,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/a98734b6-7992-4d1e-bb03-24a0b4512545-1024x731.jpg`,
     original: "https://hungceed.es/estacion-cruce-de-poleas-elite-serie/",
-    destacado: true,
-    resumen: "Functional trainer de doble polea ajustable para gimnasio comercial.",
+    resumen: "Doble polea ajustable de uso comercial.",
   },
   {
     slug: "aperturas-pecho-elite",
@@ -149,7 +151,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/80ad5b61-e976-40db-a25a-fff263e94e19-1024x639.jpg`,
     original: "https://hungceed.es/maquina-aperturas-de-pecho-elite-serie/",
-    resumen: "Contractora iso-lateral para trabajar cada lado por separado.",
+    resumen: "Contractora iso-lateral, cada lado por separado.",
   },
   {
     slug: "curl-femoral-elite",
@@ -171,7 +173,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/477f666d-e227-45a5-a106-99a3fb6b70d5-1024x731.jpg`,
     original: "https://hungceed.es/maquina-deltoides-posterior-elite-serie/",
-    resumen: "Rear delt fly iso-lateral para hombro y espalda alta.",
+    resumen: "Rear delt fly iso-lateral para hombro y espalda.",
   },
   {
     slug: "curl-scott-triceps-elite",
@@ -182,7 +184,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/5b7a0b83-cb87-4813-9588-0b097d80ee6e-1024x640.jpg`,
     original: "https://hungceed.es/maquina-curl-de-biceps-scott-elite-serie/",
-    resumen: "Dos máquinas en una: bíceps y tríceps en el mismo puesto.",
+    resumen: "Bíceps y tríceps en el mismo puesto.",
   },
   {
     slug: "abductores-elite",
@@ -204,7 +206,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/02574082-5773-48ca-9ffb-fe763b1ea00e-1024x731.jpg`,
     original: "https://hungceed.es/maquina-adductores-elite-serie/",
-    resumen: "Selectorizada de uso comercial para la cara interna del muslo.",
+    resumen: "Selectorizada de uso comercial para aductores.",
   },
   {
     slug: "curl-predicador-pro",
@@ -215,7 +217,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/01/Captura-de-pantalla-2025-04-29-a-las-16.36.37-1024x1024.jpg`,
     original: "https://hungceed.es/curl-predicador-biceps-sentado-hungceed-pro-series/",
-    resumen: "Plate loaded: carga con discos, sin pila de placas.",
+    resumen: "Carga con discos, sin pila de placas.",
   },
   {
     slug: "aperturas-inclinada-pro",
@@ -237,7 +239,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/01/Captura-de-pantalla-2025-04-29-a-las-16.26.36-1024x829.jpg`,
     original: "https://hungceed.es/maquina-curl-isquios-femorales-hungceed-pro-series/",
-    resumen: "Femoral plate loaded de recorrido largo.",
+    resumen: "Femoral de discos con recorrido largo.",
   },
   {
     slug: "gemelos-pro",
@@ -259,7 +261,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/IMG_0139-Photoroom-774x1024.png`,
     original: "https://hungceed.es/jalon-lateral-prelude-series/",
-    resumen: "Perfil de resistencia variable que acompaña la fuerza del músculo.",
+    resumen: "Resistencia variable que acompaña al músculo.",
   },
   // Attachment Series
   {
@@ -283,7 +285,8 @@ export const PRODUCTOS: Producto[] = [
     precio: { valor: 184.99 },
     imagen: `${U}/2026/03/H431434da9c07438398ed23c96443187aw.jpg`,
     original: "https://hungceed.es/extension-de-cuadriceps-rack-attach-series/",
-    resumen: "Leg extension universal que se ancla a cualquier power rack.",
+    destacado: true,
+    resumen: "Leg extension universal para cualquier rack.",
   },
   {
     slug: "extension-cuadriceps-asiento",
@@ -294,7 +297,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/Hf3cd6b0cc58545a2bd5e4cbe09cde0c40.jpg`,
     original: "https://hungceed.es/accesorio-extension-de-cuadriceps-rack-attach-series/",
-    resumen: "Versión con asiento propio, sin necesidad de banco.",
+    resumen: "Con asiento propio, sin necesidad de banco.",
   },
   {
     slug: "asiento-hip-thrust",
@@ -305,7 +308,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/H04cf7da2ea3f4fabba87b72c46da9ff90.jpg`,
     original: "https://hungceed.es/respaldo-almohadilla-asiento-hip-thrust-para-rack-attachement-series/",
-    resumen: "Respaldo giratorio para hip thrust estable y cómodo.",
+    resumen: "Respaldo giratorio para hip thrust estable.",
   },
   {
     slug: "doble-gancho-barra",
@@ -327,7 +330,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/H92b9b21e59c04608a46fdefd3939f8aci.jpg`,
     original: "https://hungceed.es/enganches-polea-en-suspension-rack/",
-    resumen: "Abrazadera universal con mosquetón para colgar poleas.",
+    resumen: "Abrazadera con mosquetón para colgar poleas.",
   },
   {
     slug: "multipower-smith",
@@ -339,8 +342,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/Pau-Hungceed-49-683x1024.jpg`,
     original: "https://hungceed.es/multipower-personalizable/",
-    destacado: true,
-    resumen: "Multipower y poleas para tu rack. Configurable por piezas.",
+    resumen: "Multipower y poleas para tu rack, por piezas.",
   },
   {
     slug: "almacenamiento-barras",
@@ -351,7 +353,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/76.png`,
     original: "https://hungceed.es/almacenamiento-rotativo-barras-attach-series/",
-    resumen: "Soporte giratorio de suelo para 10 barras olímpicas.",
+    resumen: "Soporte giratorio de suelo para 10 barras.",
   },
   // Bancos y barras
   {
@@ -394,7 +396,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/AmazonSession-September_2022-34_1600x-1024x1024.jpg`,
     original: "https://hungceed.es/apoyo-curl-biceps-y-hip-thrust/",
-    resumen: "Cojín predicador portátil, también para hip thrust.",
+    resumen: "Cojín predicador portátil, también hip thrust.",
   },
   // Pesas
   {
@@ -406,7 +408,7 @@ export const PRODUCTOS: Producto[] = [
     imagen: `${U}/2026/05/ChatGPT-Image-6-may-2026-18_13_07-1024x1024.png`,
     original: "https://hungceed.es/mancuernas-regulables-ajustables/",
     destacado: true,
-    resumen: "Par regulable con dial: un mancuernero entero en dos mancuernas.",
+    resumen: "Un mancuernero entero en dos mancuernas.",
   },
   {
     slug: "mancuernas-hexagonales",
@@ -436,7 +438,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/01/Rodri-Hungceed-39-1024x683.jpg`,
     original: "https://hungceed.es/discos-pack-man-fraccionales-05-kg/",
-    resumen: "Pequeñas subidas de carga para no estancarte.",
+    resumen: "Subidas pequeñas de carga para no estancarte.",
   },
   {
     slug: "clubbell",
@@ -446,7 +448,7 @@ export const PRODUCTOS: Producto[] = [
     precio: { valor: 14.99, desde: true },
     imagen: `${U}/2026/01/c60e7a42-72b7-4b17-9941-9653aaa94247-683x1024.jpg`,
     original: "https://hungceed.es/clubbell/",
-    resumen: "Mazas de varios pesos para movilidad y fuerza rotacional.",
+    resumen: "Mazas para movilidad y fuerza rotacional.",
   },
   {
     slug: "mancuernero-bandeja",
@@ -457,7 +459,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/H9976c6173a44451bb64eb35a7125ab32L-1.jpg`,
     original: "https://hungceed.es/mancuernero-desplegable-prelude-series/",
-    resumen: "Rack de mancuernas de alta capacidad con bandeja deslizante.",
+    resumen: "Rack de mancuernas con bandeja deslizante.",
   },
   // Poleas y recambios
   {
@@ -479,7 +481,7 @@ export const PRODUCTOS: Producto[] = [
     precio: null,
     imagen: `${U}/2026/03/Ha724bc7f101b4eb687d8c1145fac56615-Photoroom.png`,
     original: "https://hungceed.es/cables-de-polea/",
-    resumen: "Acero recubierto con bola y arandela. 1,3 · 2,6 · 3 m.",
+    resumen: "Acero recubierto. 1,3 · 2,6 · 3 m.",
   },
   {
     slug: "agarres-conicos",
