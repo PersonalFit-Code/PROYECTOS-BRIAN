@@ -330,3 +330,7 @@ header.interior .lado { display: flex; align-items: center; color: var(--rojo); 
 .ganas span { color: var(--humo); }
 .solucion4 { background: #fff; color: var(--negro); border: 1px solid var(--linea); }
 .solucion4 .s span { color: var(--humo); }
+
+/* Aviso urgente de la hoja 3: la tienda no deja comprar */
+.banner.urgente { border-color: var(--rojo); background: var(--rojo-f); }
+.banner.urgente .c { background: var(--rojo); color: #fff; }

@@ -65,9 +65,9 @@
     <div><span class="num">5</span><div><b>Nombres kilométricos</b><p>«Half Rack Musculación | Medio Rack con…»</p><span class="arreglo">→ Nombre corto, SEO en su campo</span></div></div>
     <div><span class="num">6</span><div><b>Precios que no se ven</b><p>La mayoría sin precio; uno «desde 0,00 €».</p><span class="arreglo">→ Precio claro en cada ficha</span></div></div>
   </div>
-  <div class="banner">
-    <span class="c"><svg width="22" height="22"><use href="#i-euro" width="22" height="22"/></svg></span>
-    <div><b>Ordenar la tienda no es estética.</b><p>Cada cliente que se pierde en la lista es un pedido que no entra. Y una jaula son 499 €.</p></div>
+  <div class="banner urgente">
+    <span class="c"><svg width="22" height="22"><use href="#i-bolsa" width="22" height="22"/></svg></span>
+    <div><b>Lo más urgente: hoy tu web no deja comprar.</b><p>Probé a comprar las mancuernas. El botón «Añadir al carrito» está oculto (la tienda tiene el modo catálogo activado) y el pago con Apple Pay o Google Pay da error: «Añade el producto al carrito». El cliente no tiene por dónde pagar. Se arregla en minutos, y es lo primero que haría.</p></div>
   </div>
   <div class="pie-hoja"><span class="izq"><svg width="13" height="13"><use href="#i-marca" width="13" height="13"/></svg>Propuesta para Hungceed</span><span class="der"><b>03</b> / 09</span></div>
 </div>
