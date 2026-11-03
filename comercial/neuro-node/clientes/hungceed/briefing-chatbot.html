@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>Briefing técnico · Asistente virtual de Hungceed GYM · neuro·node</title>
+<title>Briefing técnico · Asistente virtual de Hungceed · neuro·node</title>
 <link rel="stylesheet" href="../../recursos/marca.css">
 </head>
 <body class="horizontal">
@@ -11,7 +11,7 @@
   <div class="arriba">
     <p class="etiqueta">Briefing técnico · Asistente virtual</p>
     <h1>Base de conocimiento y criterios del asistente virtual</h1>
-    <p class="subtitulo">Este cuestionario define el alcance, la base de conocimiento, el tono y los criterios de derivación del asistente virtual de Hungceed GYM. La información recogida se utiliza para su configuración y entrenamiento.</p>
+    <p class="subtitulo">Este cuestionario define el alcance, la base de conocimiento, el tono y los criterios de derivación del asistente virtual de Hungceed, para sus dos áreas: Hungceed GYM y la tienda de equipamiento. La información recogida se utiliza para su configuración y entrenamiento.</p>
     <p class="meta">Noviembre de 2026 · neuro·node · Versión 1.0</p>
     <svg class="nodos" viewBox="0 0 680 190" width="100%" aria-hidden="true">
       <defs><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#36adfb"/><stop offset=".55" stop-color="#6447fa"/><stop offset="1" stop-color="#7f1eed"/></linearGradient></defs>
@@ -26,7 +26,11 @@
 </section>
 
 <section class="lamina"><div class="izq"><h2><span class="n">01</span>Canales de atención</h2>
-<p>El asistente puede desplegarse en uno o varios canales, con una base de conocimiento común.</p></div><div class="der">
+<p>El asistente puede desplegarse en uno o varios canales, con una base de conocimiento común.</p>
+</div><div class="der"><div class="pregunta">
+  <p class="q">Áreas que atenderá el asistente</p>
+  <div class="casillas"><span>Hungceed GYM</span><span>Tienda de equipamiento</span><span>Ambas</span></div>
+</div>
 <div class="pregunta">
   <p class="q">Canales de despliegue</p>
   <div class="casillas"><span>En la web</span><span>En WhatsApp</span><span>En Instagram (mensajes directos)</span><span>En varios: _______________</span></div>
@@ -36,13 +40,14 @@
   <div class="casillas"><span>WhatsApp</span><span>Instagram</span><span>Formulario o correo</span><span>Teléfono</span><span>Otro</span></div>
 </div>
 <div class="pregunta">
-  <p class="q">Volumen diario aproximado de mensajes y franjas de mayor carga</p>
+  <p class="q">Volumen diario aproximado de mensajes (gimnasio / tienda) y franjas de mayor carga</p>
   <div class="lineas"></div><div class="lineas"></div>
 </div>
 
 </div></section>
 <section class="lamina"><div class="izq"><h2><span class="n">02</span>Preguntas usuales</h2>
-<p>Relación de consultas recurrentes y su respuesta de referencia. Constituyen el núcleo de la base de conocimiento (tarifas, horarios, clases, altas…).</p></div><div class="der">
+<p>Relación de consultas recurrentes y su respuesta de referencia. Constituyen el núcleo de la base de conocimiento: del gimnasio (tarifas, horarios, clases, altas) y de la tienda (precios, stock, envíos, montaje).</p>
+</div><div class="der"><h3>Hungceed GYM</h3>
 <table class="datos rellenar">
   <thead><tr><th style="width:4%">#</th><th style="width:38%">Consulta</th><th>Respuesta de referencia</th><th style="width:15%">Autónoma</th></tr></thead>
   <tbody>
@@ -52,40 +57,55 @@
     <tr><td>4</td><td></td><td></td><td class="mini">Sí · No</td></tr>
     <tr><td>5</td><td></td><td></td><td class="mini">Sí · No</td></tr>
     <tr><td>6</td><td></td><td></td><td class="mini">Sí · No</td></tr>
-    <tr><td>7</td><td></td><td></td><td class="mini">Sí · No</td></tr>
-    <tr><td>8</td><td></td><td></td><td class="mini">Sí · No</td></tr>
-    <tr><td>9</td><td></td><td></td><td class="mini">Sí · No</td></tr>
-    <tr><td>10</td><td></td><td></td><td class="mini">Sí · No</td></tr>
+  </tbody>
+</table>
+<h3>Tienda de equipamiento</h3>
+<table class="datos rellenar">
+  <thead><tr><th style="width:4%">#</th><th style="width:38%">Consulta</th><th>Respuesta de referencia</th><th style="width:15%">Autónoma</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td></td><td></td><td class="mini">Sí · No</td></tr>
+    <tr><td>2</td><td></td><td></td><td class="mini">Sí · No</td></tr>
+    <tr><td>3</td><td></td><td></td><td class="mini">Sí · No</td></tr>
+    <tr><td>4</td><td></td><td></td><td class="mini">Sí · No</td></tr>
+    <tr><td>5</td><td></td><td></td><td class="mini">Sí · No</td></tr>
+    <tr><td>6</td><td></td><td></td><td class="mini">Sí · No</td></tr>
   </tbody>
 </table>
 <p class="ayuda" style="font-size:8.6pt;color:#6d6d75">Pueden añadirse tantas consultas como sea necesario. A mayor volumen de casos reales, mayor precisión desde el lanzamiento.</p>
 
 </div></section>
 <section class="lamina"><div class="izq"><h2><span class="n">03</span>Criterios de derivación</h2>
-<p>Nivel de autonomía por categoría de consulta.</p></div><div class="der">
-<table class="datos">
+<p>Nivel de autonomía por categoría de consulta.</p>
+<div class="destacado suave"><p><b>Restricción fija:</b> el asistente no emite recomendaciones sobre lesiones o salud, no elabora planes de entrenamiento, no negocia precios ni tramita bajas, y no confirma stock ni plazos de entrega que no estén publicados. Estos casos se derivan siempre al personal.</p></div></div><div class="der">
+<table class="datos compacta">
   <thead><tr><th style="width:46%">Categoría</th><th class="c">Autónoma</th><th class="c">Con notificación</th><th class="c">Derivación directa</th></tr></thead>
   <tbody>
-    <tr><td>Horarios del gym, dirección y cómo llegar</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr class="grupo"><td colspan="4">Hungceed GYM</td></tr>
+    <tr><td>Horarios, ubicación y cómo llegar</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
     <tr><td>Tarifas, bonos y pase de un día</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
-    <tr><td>Cómo darse de alta en Virtuagym</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr><td>Alta en Virtuagym</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
     <tr><td>Horario de clases y plazas libres</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
-    <tr><td>Reservar, cambiar o cancelar una sesión o clase</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
-    <tr><td>Entrenador personal y grupos semipersonales</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
-    <tr><td>Renovar la cuota o cambiar de tarifa</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
-    <tr><td>Congelar la cuota o darse de baja</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
-    <tr><td>Quejas o incidencias en la sala</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr><td>Reservas: alta, cambio o cancelación</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr><td>Renovación, congelación o baja de cuota</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr class="grupo"><td colspan="4">Tienda de equipamiento</td></tr>
+    <tr><td>Precio y disponibilidad de producto</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr><td>Envíos, plazos y seguimiento de pedido</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr><td>Medidas, montaje y compatibilidad</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr><td>Garantía, devoluciones y recambios</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr><td>Recomendación de equipamiento según espacio</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr><td>Presupuestos para gimnasios y boxes</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    <tr><td>Quejas o incidencias</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
     <tr><td>Lesiones, salud o planes de entrenamiento</td><td class="c">—</td><td class="c">—</td><td class="c">☑ Obligatoria</td></tr>
   </tbody>
 </table>
-<div class="destacado suave"><p><b>Restricción fija:</b> el asistente no emite recomendaciones sobre lesiones o salud, no elabora planes de entrenamiento y no negocia precios ni tramita bajas. Estos casos se derivan siempre al personal.</p></div>
+
 
 </div></section>
 <section class="lamina"><div class="izq"><h2><span class="n">04</span>Fuentes de información</h2>
-<p>Documentación existente que puede incorporarse a la base de conocimiento.</p></div><div class="der">
-<div class="pregunta">
+<p>Documentación existente que puede incorporarse a la base de conocimiento.</p>
+</div><div class="der"><div class="pregunta">
   <p class="q">Fuentes disponibles</p>
-  <div class="casillas"><span>Página del gym en la web</span><span>Excel o documento</span><span>Respuestas rápidas de WhatsApp Business</span><span>Chats antiguos exportados</span><span>Tarifas en Virtuagym</span><span>Sin documentación previa</span></div>
+  <div class="casillas"><span>Página del gimnasio en la web</span><span>Fichas de producto (WooCommerce)</span><span>Fichas técnicas o catálogos en PDF</span><span>Excel o documento</span><span>Respuestas rápidas de WhatsApp Business</span><span>Chats antiguos exportados</span><span>Tarifas en Virtuagym</span><span>Sin documentación previa</span></div>
 </div>
 <div class="pregunta">
   <p class="q">Formato y vía de entrega de la información</p>
@@ -93,7 +113,7 @@
   <div class="lineas"></div><div class="lineas"></div>
 </div>
 <div class="pregunta">
-  <p class="q">Documentación de referencia (tarifas y bonos, horario de clases, normativa interna, política de cancelación y bajas…)</p>
+  <p class="q">Documentación de referencia (tarifas y bonos, horario de clases, normativa interna, política de cancelación y bajas, política de envíos y devoluciones, fichas técnicas…)</p>
   <div class="lineas"></div><div class="lineas"></div>
 </div>
 
@@ -132,7 +152,7 @@
 <section class="lamina"><div class="izq"><h2><span class="n">07</span>Tratamiento de datos y restricciones</h2>
 </div><div class="der"><div class="pregunta">
   <p class="q">Datos que el asistente puede solicitar</p>
-  <div class="casillas"><span>Nombre</span><span>Teléfono</span><span>Correo</span><span>Servicio de interés (musculación, funcional, entrenador)</span><span>Preferencia horaria</span></div>
+  <div class="casillas"><span>Nombre</span><span>Teléfono</span><span>Correo</span><span>Servicio de interés (musculación, funcional, entrenador)</span><span>Preferencia horaria</span><span>Código postal (envíos)</span><span>Espacio disponible (medidas)</span><span>Uso: doméstico o centro</span></div>
 </div>
 <div class="pregunta">
   <p class="q">Contenidos excluidos (precios no publicados, promociones, comparativas…)</p>

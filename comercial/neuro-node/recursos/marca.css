@@ -159,3 +159,9 @@ table.datos td.c { font-size: 12pt; color: var(--indigo); }
 .horizontal .recorrido .paso h3 { font-size: 9.4pt; }
 .horizontal .recorrido .paso p { font-size: 8.8pt; line-height: 1.45; }
 .horizontal .mensaje { font-size: 7.8pt; padding: 1.8mm 2.6mm; }
+table.datos tr.grupo td { background: var(--lila); color: var(--indigo); font-family: "Montserrat"; font-weight: 700; font-size: 7.4pt; letter-spacing: .2em; text-transform: uppercase; padding-top: 1.6mm; padding-bottom: 1.6mm; }
+.horizontal .lamina .der h3 { margin: 0 0 1mm; font-size: 9pt; color: var(--indigo); letter-spacing: .04em; }
+.horizontal .lamina .der table + h3 { margin-top: 3mm; }
+.horizontal table.rellenar td { height: 7.6mm; }
+.horizontal .lamina .izq .destacado { margin-top: 6mm; font-size: 9pt; }
+.horizontal table.compacta tbody td { padding-top: .95mm; padding-bottom: .95mm; }

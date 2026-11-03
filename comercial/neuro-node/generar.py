@@ -58,7 +58,7 @@ def laminas(cuerpo: str) -> str:
     salida = [partes[0]]
     for parte in partes[1:]:
         parte = re.sub(r'<h2 class="saltar">', "<h2>", parte)
-        m = re.match(r"(<h2.*?</h2>\s*(?:<p>.*?</p>)?)(.*)", parte, re.S)
+        m = re.match(r'(<h2.*?</h2>\s*(?:<p>.*?</p>)?\s*(?:<div class="destacado suave">.*?</div>)?)(.*)', parte, re.S)
         izq, der = m.group(1), m.group(2)
         salida.append(f'<section class="lamina"><div class="izq">{izq}</div><div class="der">{der}</div></section>\n')
     return "".join(salida)
