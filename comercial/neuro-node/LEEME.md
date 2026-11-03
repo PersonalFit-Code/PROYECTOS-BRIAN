@@ -23,7 +23,7 @@ identidad visual de neuro·node» y «Plantilla Doc» (Drive › Marca Brian):
     python3 generar.py                                   # todo
     python3 generar.py clientes/hungceed/*.src.html
 
-Cada fuente empieza con sus datos (`titulo`, `tipo`, `cliente`, `fecha`) entre `---`. Lo marcado
+Cada fuente empieza con sus datos (`titulo`, `tipo`, `cliente`, `fecha` y, opcional, `formato: horizontal`) entre `---`. En horizontal, cada `<h2>` abre una lámina: título y entradilla a la izquierda, contenido a la derecha. Lo marcado
 con la clase `pendiente` sale en amarillo: hay que rellenarlo antes de enviar.
 
 ## Hungceed (Jose P.): recordatorios por Twilio y asistente

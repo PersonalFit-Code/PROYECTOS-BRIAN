@@ -125,3 +125,37 @@ table.rellenar td.mini { width: 16mm; text-align: center; color: var(--gris); fo
 .pendiente { background: #fff4b8; padding: 0 1mm; border-radius: 1mm; }
 table.datos th.c, table.datos td.c { text-align: center; width: 17%; }
 table.datos td.c { font-size: 12pt; color: var(--indigo); }
+
+/* ===== Formato horizontal (formato: horizontal): láminas tipo presentación ===== */
+.horizontal .portada { min-height: 160mm; display: grid; grid-template-columns: 1.05fr 1fr; grid-template-rows: 1fr auto; column-gap: 12mm; align-items: center; }
+.horizontal .portada .arriba { display: contents; }
+.horizontal .portada .arriba > *:not(.nodos) { grid-column: 1; }
+.horizontal .portada .nodos { grid-column: 2; grid-row: 1 / span 6; margin: 0; align-self: center; }
+.horizontal .portada .preparado { grid-column: 1 / -1; }
+.horizontal .portada h1 { font-size: 30pt; }
+.horizontal .lamina { break-before: page; display: grid; grid-template-columns: 62mm 1fr; column-gap: 10mm; align-items: stretch; }
+.horizontal .lamina .izq { border-right: 1px solid var(--linea); padding-right: 8mm; }
+.horizontal .lamina .izq h2 { margin-top: 2mm; font-size: 16pt; line-height: 1.15; }
+.horizontal .lamina .izq h2 .n { display: block; font-size: 30pt; margin: 0 0 3mm; }
+.horizontal .lamina .izq p { font-size: 10.6pt; color: var(--texto); }
+.horizontal .lamina .der { padding-top: 2mm; }
+.horizontal .lamina .der > *:first-child { margin-top: 0; }
+.horizontal .lamina .der h2 { margin-top: 0; }
+.horizontal .cierre { margin-top: 6mm; }
+.horizontal .lamina .der > svg { max-height: 74mm; width: 100%; }
+.horizontal table.datos { margin: 2mm 0 3mm; font-size: 8.8pt; }
+.horizontal table.datos thead th { padding: 2mm 3mm; }
+.horizontal table.datos tbody td { padding: 1.7mm 3mm; }
+.horizontal table.rellenar td { height: 8.6mm; }
+.horizontal .destacado { margin: 3mm 0; padding: 4mm 5mm; }
+/* El recorrido pasa a rejilla de 3 × 2: un nodo arriba de cada paso */
+.horizontal .recorrido { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm 5mm; padding: 4mm 0 0; margin: 0; }
+.horizontal .recorrido::before { left: 0; right: 0; top: 1.5mm; bottom: auto; width: auto; height: .7mm; background: linear-gradient(90deg, var(--azul), var(--indigo), var(--morado)); }
+.horizontal .recorrido .paso { margin: 0; padding: 5mm 4mm 4mm; border: 1px solid var(--linea); border-radius: 3mm; background: #fff; }
+.horizontal .recorrido .paso::before { left: 4mm; top: -2.4mm; }
+.horizontal .recorrido .paso:nth-child(n+4) { margin-top: 2mm; }
+.horizontal .mensaje { max-width: 100%; font-size: 8.4pt; }
+.horizontal .pregunta { margin-bottom: 4mm; }
+.horizontal .recorrido .paso h3 { font-size: 9.4pt; }
+.horizontal .recorrido .paso p { font-size: 8.8pt; line-height: 1.45; }
+.horizontal .mensaje { font-size: 7.8pt; padding: 1.8mm 2.6mm; }

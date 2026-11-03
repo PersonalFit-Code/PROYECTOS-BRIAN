@@ -36,8 +36,8 @@ PLANTILLA = """<!doctype html>
 <title>{titulo} · neuro·node</title>
 <link rel="stylesheet" href="{recursos}/marca.css">
 </head>
-<body>
-<style>@page {{ @top-left {{ content: {logo}; }} @top-right {{ content: "{tipo_mayus}"; }} }}</style>
+<body class="{formato}">
+<style>{pagina}@page {{ @top-left {{ content: {logo}; }} @top-right {{ content: "{tipo_mayus}"; }} }}</style>
 {cuerpo}
 </body>
 </html>
@@ -51,6 +51,19 @@ def logo_cabecera() -> str:
     return f'image-set(url("data:image/png;base64,{png}") 5x)'
 
 
+def laminas(cuerpo: str) -> str:
+    """Formato horizontal: cada <h2> abre una lámina (una página). El título y su primer
+    párrafo van a la columna izquierda; el resto, a la derecha."""
+    partes = re.split(r"(?=<h2[ >])", cuerpo)
+    salida = [partes[0]]
+    for parte in partes[1:]:
+        parte = re.sub(r'<h2 class="saltar">', "<h2>", parte)
+        m = re.match(r"(<h2.*?</h2>\s*(?:<p>.*?</p>)?)(.*)", parte, re.S)
+        izq, der = m.group(1), m.group(2)
+        salida.append(f'<section class="lamina"><div class="izq">{izq}</div><div class="der">{der}</div></section>\n')
+    return "".join(salida)
+
+
 def generar(fuente: pathlib.Path) -> pathlib.Path:
     texto = fuente.read_text(encoding="utf-8")
     m = re.match(r"---\n(.*?)\n---\n(.*)", texto, re.S)
@@ -61,9 +74,13 @@ def generar(fuente: pathlib.Path) -> pathlib.Path:
     datos.setdefault("titulo", fuente.stem)
     datos["recursos"] = os.path.relpath(BASE / "recursos", fuente.parent)
     cuerpo = m.group(2)
+    datos.setdefault("formato", "vertical")
+    if datos["formato"] == "horizontal":
+        cuerpo = laminas(cuerpo)
     for k, v in datos.items():
         cuerpo = cuerpo.replace("{{" + k + "}}", v)
-    html = PLANTILLA.format(cuerpo=cuerpo, tipo_mayus=datos["tipo"].upper(), logo=logo_cabecera(), **datos)
+    html = PLANTILLA.format(cuerpo=cuerpo, tipo_mayus=datos["tipo"].upper(), logo=logo_cabecera(),
+                           pagina="@page { size: A4 landscape; } " if datos["formato"] == "horizontal" else "", **datos)
     salida_html = fuente.with_name(fuente.name.replace(".src.html", ".html"))
     salida_html.write_text(html, encoding="utf-8")
     salida_pdf = salida_html.with_suffix(".pdf")
