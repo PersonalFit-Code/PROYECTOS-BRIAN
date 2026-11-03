@@ -869,6 +869,24 @@
   footer.paperfoot .deboss{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);white-space:nowrap;font-family:'Syncopate',sans-serif;font-weight:700;letter-spacing:.06em;line-height:1;color:#1c1c1c;text-shadow:-2px -2px 1px rgba(0,0,0,.75),2px 2px 1px rgba(255,255,255,.075),0 0 1px rgba(0,0,0,.5)}
   footer.paperfoot .fold{position:absolute;left:-10%;right:-10%;top:0;bottom:0;background:linear-gradient(118deg,transparent 0 52%,rgba(255,255,255,.05) 52.1%,rgba(255,255,255,.015) 56%,transparent 64%),linear-gradient(118deg,transparent 0 51.6%,rgba(0,0,0,.35) 52%,transparent 52.4%)}
   footer.paperfoot .fcta{border-bottom-color:rgba(255,255,255,.14)}
+  /* portada minimalista: texto pequeño y en la esquina, más pared a la vista */
+  .hero{align-items:end}
+  .hero-in{align-self:end;padding-bottom:6px}
+  .hero-in>div{max-width:440px}
+  .hero .kicker{margin-bottom:14px}
+  .hero h1{font-size:clamp(2.4rem,4.6vw,4.4rem)!important;line-height:.88!important}
+  .hero p.sub{font-size:13px!important;max-width:40ch;margin:14px 0 18px!important;color:rgba(245,245,245,.72)}
+  .hero .ctas{gap:16px}
+  .hero .slide-cta{width:min(100%,290px)}
+  .hero .shade{background:linear-gradient(90deg,rgba(10,10,10,.72) 0%,rgba(10,10,10,.25) 34%,rgba(10,10,10,0) 55%),linear-gradient(0deg,rgba(10,10,10,.9) 0%,rgba(10,10,10,.4) 22%,rgba(10,10,10,0) 40%)!important}
+  .hero .sign{left:62%!important;top:40%!important}
+  .hero .sign svg{width:clamp(110px,14vw,210px)!important}
+  .hero .sign .n{font-size:clamp(2rem,5vw,4.6rem)!important}
+  @media (max-width:900px){.hero-in>div{max-width:none}.hero .sign{left:50%!important;top:calc(var(--nav) + 130px)!important}}
+  .hero-in>div{max-width:560px}
+  .hero p.sub{max-width:44ch}
+  .hero .ctas{flex-wrap:nowrap}
+  @media (max-width:900px){.hero .ctas{flex-wrap:wrap}.hero .sign{top:calc(var(--nav) + 190px)!important}.hero .plate{top:calc(var(--nav) + 290px)!important}.hero{padding-top:calc(var(--nav) + 340px)!important}.hero .sign svg{width:84px!important}.hero .sign .n{font-size:1.7rem!important}}
 </style>
 </head>
 <body class="boceto">
