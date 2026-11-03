@@ -1,13 +1,14 @@
 # Propuesta para Hungceed (Jose)
 
-Lo que se le manda a Jose: `propuesta-hungceed.pdf`, **8 hojas**, al estilo del dossier de
+Lo que se le manda a Jose: `propuesta-hungceed.pdf`, **9 hojas**, al estilo del dossier de
 Noah para La Vita Buona: poco texto, dibujos, el dolor primero y una carta de servicios para
 que elija.
 
 - `propuesta.html` se **genera**: no se edita a mano.
 - `generador/` es donde se edita: textos en `paginas.part`, estilos en `css.part`, dibujos
-  (rack de portada, la cuenta, el catálogo antes/después, el flujo del asistente, los pasos)
-  en `svgs.py`. Los logos de clientes en `generador/clientes/`.
+  básicos (rack de portada, la cuenta, el flujo del asistente, los pasos) en `svgs.py` y los
+  de problema → solución (móviles, navegador anotado, el dolor, la línea de tiempo) en
+  `dibujos.py`. Los logos de clientes en `generador/clientes/`.
 - `fuentes/` lleva Poppins (la letra de su marca), sacada de la maqueta `hungceed/`.
 - El alcance sale del contexto del cliente y de `hungceed/docs/asistente-make.md`.
 
@@ -22,18 +23,19 @@ Para revisarlo como imágenes antes de mandarlo:
 
     pdftoppm -png -r 70 propuesta-hungceed.pdf pg
 
-Tienen que salir **8 hojas**:
+Tienen que salir **9 hojas**:
 
 | Hoja | Qué cuenta |
 | --- | --- |
 | 1 | Portada con el rack dibujado y **la carta**: A tienda, B asistente, C gym, D automatizaciones |
-| 2 | Seis situaciones de un día normal, hoy y después (gris / verde) |
-| 3 | La cuenta del WhatsApp en horas y las seis cosas que vi en su web, gratis |
-| 4 | A · La tienda: el catálogo hoy y después, los seis pasos, la maqueta |
-| 5 | B · El asistente: el flujo dibujado, un chat corto, cuándo avisa |
-| 6 | C · El gym con sus tarifas en tarjetas · D · Lo que puede ir solo |
-| 7 | La carta con precios: A, Pack (destacado), B; C y D debajo; condiciones |
-| 8 | Cómo empezamos: tres pasos, lo que necesito, clientes, contacto |
+| 2 | El problema: Jose en el centro y todo lo que tira de él; la cuenta del WhatsApp; la solución en cuatro piezas |
+| 3 | Su web actual dibujada y anotada con seis fallos, cada uno con su arreglo |
+| 4 | A · Tienda: móvil de hoy (problema) → móvil nuevo (solución), qué incluye, qué gana |
+| 5 | B · Asistente: WhatsApp con 47 sin leer → chat que contesta solo, flujo por dentro |
+| 6 | C · Gym: recuadro de Virtuagym → página con tarifas, tarifas en tarjetas |
+| 7 | D · Automatizaciones: lo que no se hace → línea de tiempo «pasa algo → WhatsApp → resultado» |
+| 8 | La carta con precios: A, Pack (destacado), B; C y D debajo; condiciones |
+| 9 | Cómo empezamos: tres pasos, lo que necesito, clientes, contacto |
 
 ## Lo que tiene que confirmar Brian antes de mandarlo
 

@@ -192,46 +192,98 @@ header.interior .lado { display: flex; align-items: center; color: var(--rojo); 
 .p1 .carta p { font-size: 9.2pt; margin-top: 1.6mm; line-height: 1.4; }
 .p1 .apunte { margin-top: 5mm; font-size: 9pt; }
 
-.p3 .grande { font-size: 12.4pt; margin-bottom: 4mm; }
-.p3 .apunte { font-size: 8.6pt; margin-top: 2.5mm; }
-.p3 .regalos { gap: 3.6mm 6mm; margin: 4mm 0; }
-.p3 .regalo .num { flex-basis: 8.5mm; height: 8.5mm; font-size: 10.5pt; }
-.p3 .regalo b { font-size: 10pt; margin-bottom: .8mm; }
-.p3 .regalo p { font-size: 9pt; }
-.p3 .banner { padding: 4.4mm 5mm; margin-top: 4.5mm; }
-.p3 .banner b { font-size: 11pt; } .p3 .banner p { font-size: 9.4pt; }
+.viejo3 .grande { font-size: 12.4pt; margin-bottom: 4mm; }
+.viejo3 .apunte { font-size: 8.6pt; margin-top: 2.5mm; }
+.viejo3 .regalos { gap: 3.6mm 6mm; margin: 4mm 0; }
+.viejo3 .regalo .num { flex-basis: 8.5mm; height: 8.5mm; font-size: 10.5pt; }
+.viejo3 .regalo b { font-size: 10pt; margin-bottom: .8mm; }
+.viejo3 .regalo p { font-size: 9pt; }
+.viejo3 .banner { padding: 4.4mm 5mm; margin-top: 4.5mm; }
+.viejo3 .banner b { font-size: 11pt; } .viejo3 .banner p { font-size: 9.4pt; }
 
-.p4 .grande { font-size: 13pt; margin-bottom: 5mm; }
-.p4 .cuatro.seis { gap: 3.4mm; margin-top: 4mm; }
-.p4 .cuatro.seis > div { padding: 4.4mm 2mm; }
-.p4 .cuatro.seis .c { width: 12mm; height: 12mm; margin-bottom: 2.4mm; }
-.p4 .cuatro.seis b { font-size: 9.8pt; } .p4 .cuatro.seis p { font-size: 8.6pt; margin-top: 1.2mm; }
-.p4 .dos { margin-top: 7mm !important; gap: 5mm; }
-.p4 .banner { padding: 5.5mm 5mm; }
-.p4 .banner b { font-size: 11.5pt; } .p4 .banner p { font-size: 9.8pt; }
-.p4 .epigrafe { margin-top: 7mm !important; }
+.viejo4 .grande { font-size: 13pt; margin-bottom: 5mm; }
+.viejo4 .cuatro.seis { gap: 3.4mm; margin-top: 4mm; }
+.viejo4 .cuatro.seis > div { padding: 4.4mm 2mm; }
+.viejo4 .cuatro.seis .c { width: 12mm; height: 12mm; margin-bottom: 2.4mm; }
+.viejo4 .cuatro.seis b { font-size: 9.8pt; } .viejo4 .cuatro.seis p { font-size: 8.6pt; margin-top: 1.2mm; }
+.viejo4 .dos { margin-top: 7mm !important; gap: 5mm; }
+.viejo4 .banner { padding: 5.5mm 5mm; }
+.viejo4 .banner b { font-size: 11.5pt; } .viejo4 .banner p { font-size: 9.8pt; }
+.viejo4 .epigrafe { margin-top: 7mm !important; }
 
-.p6 .grande { font-size: 12.6pt; margin-bottom: 4.5mm; }
-.p6 .tarifa { padding: 5mm 3.4mm; }
-.p6 .tarifa .p { font-size: 22pt; } .p6 .tarifa .u { font-size: 8.4pt; margin-bottom: 3.6mm; } .p6 .tarifa .b { padding: 2.6mm 0; }
-.p6 .apunte { font-size: 9pt; margin-top: 3mm; }
-.p6 .cuatro { gap: 3.6mm; margin-top: 4mm; }
-.p6 .cuatro > div { padding: 5mm 3mm; }
-.p6 .cuatro .c { width: 12mm; height: 12mm; margin-bottom: 2.4mm; }
-.p6 .cuatro b { font-size: 10.4pt; } .p6 .cuatro p { font-size: 9pt; margin-top: 1.4mm; }
-.p6 .banner { padding: 5.5mm 5mm; margin-top: 7mm; }
-.p6 .banner b { font-size: 11.5pt; } .p6 .banner p { font-size: 9.8pt; }
+.viejo6 .grande { font-size: 12.6pt; margin-bottom: 4.5mm; }
+.viejo6 .tarifa { padding: 5mm 3.4mm; }
+.viejo6 .tarifa .p { font-size: 22pt; } .viejo6 .tarifa .u { font-size: 8.4pt; margin-bottom: 3.6mm; } .viejo6 .tarifa .b { padding: 2.6mm 0; }
+.viejo6 .apunte { font-size: 9pt; margin-top: 3mm; }
+.viejo6 .cuatro { gap: 3.6mm; margin-top: 4mm; }
+.viejo6 .cuatro > div { padding: 5mm 3mm; }
+.viejo6 .cuatro .c { width: 12mm; height: 12mm; margin-bottom: 2.4mm; }
+.viejo6 .cuatro b { font-size: 10.4pt; } .viejo6 .cuatro p { font-size: 9pt; margin-top: 1.4mm; }
+.viejo6 .banner { padding: 5.5mm 5mm; margin-top: 7mm; }
+.viejo6 .banner b { font-size: 11.5pt; } .viejo6 .banner p { font-size: 9.8pt; }
 
-.p7 .planes { margin-top: 6mm; }
-.p7 .plan { padding: 5.4mm 3.8mm 4.6mm; }
-.p7 .plan.destacado { padding-top: 7.6mm; }
-.p7 .plan .nom { font-size: 11.4pt; } .p7 .plan .lema { font-size: 9pt; margin-bottom: 3.6mm; }
-.p7 .plan .precio .cifra { font-size: 31pt; } .p7 .plan .antes { font-size: 8.6pt; }
-.p7 .plan .mes { padding: 3mm; } .p7 .plan .mes b { font-size: 10.6pt; }
-.p7 .plan li { font-size: 9.2pt; padding: 2.3mm 0; }
-.p7 .todos { margin-top: 6mm; } .p7 .todos > div { font-size: 9.4pt; }
-.p7 .cierre-frase { font-size: 16.5pt; padding: 8mm 7mm; margin-top: 7mm; }
+.p8 .planes { margin-top: 6mm; }
+.p8 .plan { padding: 5.4mm 3.8mm 4.6mm; }
+.p8 .plan.destacado { padding-top: 7.6mm; }
+.p8 .plan .nom { font-size: 11.4pt; } .p8 .plan .lema { font-size: 9pt; margin-bottom: 3.6mm; }
+.p8 .plan .precio .cifra { font-size: 31pt; } .p8 .plan .antes { font-size: 8.6pt; }
+.p8 .plan .mes { padding: 3mm; } .p8 .plan .mes b { font-size: 10.6pt; }
+.p8 .plan li { font-size: 9.2pt; padding: 2.3mm 0; }
+.p8 .todos { margin-top: 6mm; } .p8 .todos > div { font-size: 9.4pt; }
+.p8 .cierre-frase { font-size: 16.5pt; padding: 8mm 7mm; margin-top: 7mm; }
 
-.p5 .grande { font-size: 12.6pt; }
-.p5 .tarj { padding: 4mm 3.4mm; } .p5 .tarj p { font-size: 8.8pt; } .p5 .tarj b { font-size: 10pt; }
-.p5 .burbuja { font-size: 9pt; padding: 2.4mm 3.2mm; } .p5 .chat { gap: 2.4mm; }
+.viejo5 .grande { font-size: 12.6pt; }
+.viejo5 .tarj { padding: 4mm 3.4mm; } .viejo5 .tarj p { font-size: 8.8pt; } .viejo5 .tarj b { font-size: 10pt; }
+.viejo5 .burbuja { font-size: 9pt; padding: 2.4mm 3.2mm; } .viejo5 .chat { gap: 2.4mm; }
+
+/* ===== Problema → solución ===== */
+.ps { display: flex; align-items: stretch; gap: 0; margin: 3mm 0 0; }
+.ps .lado { flex: 1; min-width: 0; border-radius: 2.4mm; padding: 3.4mm 3.4mm 3mm; display: flex; flex-direction: column; }
+.ps .problema { background: var(--mal-f); border: 1px solid #d4d4d8; }
+.ps .solucion { background: #fff; border: 2px solid var(--negro); box-shadow: 0 1mm 3mm rgba(10,10,11,.12); }
+.ps .flecha { flex: 0 0 11mm; display: flex; align-items: center; justify-content: center; }
+.ps .flecha span { width: 9mm; height: 9mm; border-radius: 50%; background: var(--rojo); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 .6mm 1.6mm rgba(220,31,38,.4); }
+.ps .tag { align-self: flex-start; display: inline-flex; align-items: center; gap: 1.4mm; font-size: 7pt; letter-spacing: 1.8pt; text-transform: uppercase; font-weight: 800; padding: 1.2mm 2.6mm; border-radius: 1mm; }
+.ps .problema .tag { background: #52525b; color: #fff; }
+.ps .solucion .tag { background: var(--rojo); color: #fff; }
+.ps h3 { font-size: 12pt; line-height: 1.15; margin: 2.4mm 0 1mm; font-weight: 800; text-wrap: balance; }
+.ps .problema h3 { color: #3f3f46; }
+.ps svg.dib { width: 100%; height: auto; margin: 1mm 0 1.5mm; }
+.ps ul { list-style: none; margin: auto 0 0; padding: 0; }
+.ps li { display: flex; gap: 1.8mm; align-items: flex-start; font-size: 8.8pt; line-height: 1.3; padding: 1.3mm 0; border-top: 1px solid rgba(10,10,11,.08); }
+.ps li svg { flex: 0 0 auto; margin-top: .4mm; }
+.ps .problema li svg { color: #71717a; }
+.ps .solucion li svg { color: var(--bien); }
+
+/* Lo que ganas: iconos grandes en fila */
+.ganas { display: flex; gap: 3mm; margin: 4mm 0 0; }
+.ganas > div { flex: 1; min-width: 0; display: flex; gap: 2.6mm; align-items: center; background: var(--negro); color: #fff; border-radius: 2mm; padding: 3.4mm 3.2mm; }
+.ganas .c { flex: 0 0 11mm; height: 11mm; border-radius: 50%; background: var(--rojo); color: #fff; display: flex; align-items: center; justify-content: center; }
+.ganas b { display: block; font-size: 10pt; line-height: 1.15; }
+.ganas span { font-size: 8pt; color: #a1a1aa; line-height: 1.25; display: block; margin-top: .6mm; }
+
+/* Solución general en cuatro iconos (hoja 2) */
+.solucion4 { display: flex; align-items: center; gap: 2.4mm; background: var(--negro); color: #fff; border-radius: 2.4mm; padding: 4.4mm 4.4mm; margin-top: 4mm; }
+.solucion4 .tit { flex: 0 0 34mm; font-size: 12pt; font-weight: 800; line-height: 1.15; }
+.solucion4 .tit em { font-style: normal; color: var(--rojo); }
+.solucion4 .s { flex: 1; text-align: center; }
+.solucion4 .s .c { display: inline-flex; width: 11mm; height: 11mm; border-radius: 50%; background: var(--rojo); align-items: center; justify-content: center; margin-bottom: 1.4mm; }
+.solucion4 .s b { display: block; font-size: 8.8pt; line-height: 1.15; }
+.solucion4 .s span { font-size: 7.6pt; color: #a1a1aa; }
+.solucion4 .mas { color: var(--rojo); font-weight: 800; font-size: 14pt; }
+
+/* Lista numerada con iconos (hoja 3) */
+.vi { display: flex; flex-wrap: wrap; gap: 2.6mm 4mm; margin: 3mm 0 0; }
+.vi > div { flex: 0 0 calc(50% - 2mm); display: flex; gap: 2.4mm; align-items: flex-start; padding: 2.6mm 3mm; background: var(--hueso); border: 1px solid var(--linea); border-radius: 2mm; }
+.vi .num { flex: 0 0 7mm; height: 7mm; border-radius: 50%; background: var(--rojo); color: #fff; font-weight: 800; font-size: 9pt; display: flex; align-items: center; justify-content: center; }
+.vi b { display: block; font-size: 9.4pt; }
+.vi p { font-size: 8.4pt; color: #4d4d52; margin: .4mm 0 0; }
+.vi .arreglo { display: block; font-size: 8.2pt; color: var(--bien); font-weight: 700; margin-top: .8mm; }
+.plan .ico-plan { display: flex; width: 10mm; height: 10mm; border-radius: 50%; background: var(--negro); color: var(--rojo); align-items: center; justify-content: center; margin-bottom: 2mm; }
+.plan.destacado .ico-plan { background: var(--rojo); color: #fff; }
+.p3 .vi > div { padding: 3.2mm 3.4mm; } .p3 .vi b { font-size: 10pt; } .p3 .vi p { font-size: 8.8pt; } .p3 .vi { gap: 3.2mm 4mm; margin-top: 4mm; }
+.p3 .banner { margin-top: 5mm; padding: 4.4mm 5mm; }
+.p4 .ganas > div, .p6 .ganas > div { padding: 4.4mm 3.4mm; } .p4 .ganas, .p6 .ganas { margin-top: 5mm; }
+.p4 .cuatro.seis > div { padding: 3.6mm 1.6mm; } .p4 .cuatro.seis .c { width: 11mm; height: 11mm; }
+.p7 .ganas { margin-top: 5mm; } .p7 .ganas > div { padding: 4.4mm 3.4mm; } .p7 .banner { margin-top: 5mm; }
+.p7 .cierre-frase { margin-top: 5mm; font-size: 16pt; padding: 7mm 6mm; }

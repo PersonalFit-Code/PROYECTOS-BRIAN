@@ -13,14 +13,20 @@ import sys
 base = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(base))
 import svgs as S  # noqa: E402
+import dibujos as D  # noqa: E402
 
 css = (base / "css.part").read_text()
 pag = (base / "paginas.part").read_text()
 for clave, fn in (("PORTADA_DECO", S.portada_deco), ("ECUACION", S.ecuacion), ("CATALOGO", S.catalogo),
-                  ("FLUJO", S.flujo), ("PASOS", S.pasos)):
+                  ("FLUJO", S.flujo), ("PASOS", S.pasos),
+                  ("DOLOR", D.dolor), ("WEB_ANOTADA", D.web_anotada),
+                  ("TIENDA_HOY", D.tienda_hoy), ("TIENDA_DESPUES", D.tienda_despues),
+                  ("WA_HOY", D.whatsapp_hoy), ("WA_DESPUES", D.whatsapp_despues),
+                  ("GYM_HOY", D.gym_hoy), ("GYM_DESPUES", D.gym_despues),
+                  ("AUTO_HOY", D.auto_hoy), ("AUTO_DESPUES", D.auto_despues)):
     marca = "{{" + clave + "}}"
-    assert marca in pag, clave
-    pag = pag.replace(marca, fn())
+    if marca in pag:
+        pag = pag.replace(marca, fn())
 
 for nombre in ("personalfit", "tixola", "bincami"):
     datos = base64.b64encode((base / "clientes" / f"{nombre}.png").read_bytes()).decode()
