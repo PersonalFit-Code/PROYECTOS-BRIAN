@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Hungceed — Propuesta</title>
+<style>
+  @page { size: 210mm 297mm; margin: 0; }
+
+  @font-face { font-family: "Poppins"; font-weight: 400; src: url(fuentes/poppins-400.woff2) format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 400; src: url(fuentes/poppins-400-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
+  @font-face { font-family: "Poppins"; font-weight: 500; src: url(fuentes/poppins-500.woff2) format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 600; src: url(fuentes/poppins-600.woff2) format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 600; src: url(fuentes/poppins-600-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
+  @font-face { font-family: "Poppins"; font-weight: 700; src: url(fuentes/poppins-700.woff2) format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 700; src: url(fuentes/poppins-700-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
+  @font-face { font-family: "Poppins"; font-weight: 800; src: url(fuentes/poppins-800.woff2) format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 800; src: url(fuentes/poppins-800-ext.woff2) format("woff2"); unicode-range: U+100-2BA,U+1E00-1EFF,U+20A0-20AB; }
+
+  :root {
+    --negro: #0a0a0b; --carbon: #17171a; --rojo: #dc1f26; --rojo-osc: #a8141a;
+    --hueso: #f4f4f5; --linea: #e4e4e7; --gris: #5c5d63; --gris-cl: #a1a1aa; --blanco: #fff;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Poppins", Arial, sans-serif; color: var(--negro); background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .hoja { position: relative; width: 210mm; height: 297mm; overflow: hidden; background: #fff; page-break-after: always; }
+  .hoja:last-child { page-break-after: auto; }
+  .hoja.negra { background: var(--negro); color: #fff; }
+  .cuerpo { position: relative; padding: 18mm 16mm 0; height: 100%; }
+
+  .ojo { font-size: 7.4pt; letter-spacing: 2.6pt; text-transform: uppercase; color: var(--rojo); font-weight: 700; margin: 0 0 4mm; }
+  h2 { font-size: 26pt; line-height: 1; margin: 0 0 4mm; font-weight: 800; letter-spacing: -.5pt; text-transform: uppercase; }
+  h2 em { font-style: normal; color: var(--rojo); }
+  h3 { font-size: 11pt; font-weight: 700; margin: 0 0 1.5mm; text-transform: uppercase; letter-spacing: .2pt; }
+  .entradilla { font-size: 10.4pt; line-height: 1.5; color: var(--gris); max-width: 140mm; margin: 0 0 8mm; }
+  .negra .entradilla { color: var(--gris-cl); }
+  p { margin: 0 0 2.4mm; }
+
+  .cabecera { position: absolute; top: 9mm; left: 16mm; right: 16mm; display: flex; justify-content: space-between; align-items: center; font-size: 6.8pt; letter-spacing: 1.8pt; text-transform: uppercase; color: var(--gris-cl); font-weight: 600; }
+  .cabecera b { color: var(--negro); }
+  .negra .cabecera b { color: #fff; }
+  .pie { position: absolute; bottom: 9mm; left: 16mm; right: 16mm; display: flex; justify-content: space-between; align-items: center; font-size: 7pt; color: var(--gris-cl); letter-spacing: .4pt; }
+  .pie .num { width: 7.5mm; height: 7.5mm; background: var(--rojo); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 8pt; font-weight: 700; }
+
+  .tarjeta { background: var(--hueso); border: .6pt solid var(--linea); padding: 6mm; }
+  .tarjeta p { font-size: 9.4pt; line-height: 1.5; color: var(--gris); margin: 0; }
+  .tarjeta .n { font-size: 9pt; font-weight: 700; color: var(--rojo); margin: 0 0 2mm; }
+  .negra .tarjeta { background: var(--carbon); border-color: rgba(255,255,255,.12); color: #fff; }
+  .negra .tarjeta p { color: var(--gris-cl); }
+
+  .rejilla2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  .rejilla3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }
+  .rejilla4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+
+  .lista { list-style: none; padding: 0; margin: 0; }
+  .lista li { font-size: 9.6pt; line-height: 1.5; padding: 0 0 0 7mm; margin: 0 0 3mm; position: relative; }
+  .lista li::before { content: ""; position: absolute; left: 0; top: 1.8mm; width: 3.2mm; height: 3.2mm; background: var(--rojo); }
+  .lista li b { font-weight: 700; }
+
+  .pasos { list-style: none; padding: 0; margin: 0; counter-reset: paso; }
+  .pasos li { position: relative; padding: 0 0 0 13mm; margin: 0 0 4.5mm; font-size: 9.6pt; line-height: 1.45; counter-increment: paso; }
+  .pasos li::before { content: counter(paso, decimal-leading-zero); position: absolute; left: 0; top: 0; font-size: 9pt; font-weight: 800; color: var(--rojo); }
+  .pasos li b { display: block; font-weight: 700; text-transform: uppercase; font-size: 9.6pt; letter-spacing: .2pt; }
+  .pasos li span { color: var(--gris); }
+  .negra .pasos li span { color: var(--gris-cl); }
+
+  .franja { background: var(--negro); color: #fff; padding: 6mm 7mm; font-size: 10pt; line-height: 1.5; }
+  .franja b { color: var(--rojo); }
+  .franja.roja { background: var(--rojo); }
+  .franja.roja b { color: #fff; }
+
+  .cifra { font-size: 30pt; font-weight: 800; letter-spacing: -1pt; line-height: 1; color: var(--rojo); }
+  .cifra small { font-size: 11pt; letter-spacing: 0; color: var(--negro); font-weight: 700; }
+  .negra .cifra small { color: #fff; }
+
+  .etq { display: inline-block; font-size: 6.6pt; letter-spacing: 1.4pt; text-transform: uppercase; font-weight: 700; padding: 1.2mm 2.4mm; background: var(--negro); color: #fff; }
+  .etq.roja { background: var(--rojo); }
+  .etq.gris { background: var(--linea); color: var(--gris); }
+
+  table { border-collapse: collapse; width: 100%; font-size: 9.4pt; }
+  th, td { text-align: left; padding: 3mm 3mm; border-bottom: .6pt solid var(--linea); vertical-align: top; }
+  th { font-size: 7.2pt; letter-spacing: 1.6pt; text-transform: uppercase; color: var(--gris); font-weight: 700; }
+  td.precio { font-weight: 800; font-size: 12pt; white-space: nowrap; }
+  .tachado { color: var(--gris-cl); text-decoration: line-through; font-weight: 500; font-size: 9pt; margin-right: 1.5mm; }
+
+  .chat { background: #e5ddd5; padding: 4mm; width: 70mm; font-size: 8.4pt; line-height: 1.4; }
+  .chat .cab { background: var(--negro); color: #fff; margin: -4mm -4mm 3mm; padding: 2.5mm 3.5mm; font-size: 8pt; font-weight: 700; display: flex; align-items: center; gap: 2mm; }
+  .chat .cab i { width: 2.2mm; height: 2.2mm; border-radius: 50%; background: #25d366; display: inline-block; }
+  .bur { max-width: 58mm; padding: 2mm 2.8mm; margin: 0 0 2mm; border-radius: 2mm; background: #fff; position: relative; }
+  .bur.yo { background: #dcf8c6; margin-left: auto; }
+  .bur .h { display: block; text-align: right; font-size: 6.4pt; color: #999; margin-top: .6mm; }
+
+  .antes-despues { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: .6pt solid var(--linea); }
+  .antes-despues > div { padding: 5mm; }
+  .antes-despues > div + div { border-left: .6pt solid var(--linea); background: var(--hueso); }
+  .antes-despues .t { font-size: 7pt; letter-spacing: 1.6pt; text-transform: uppercase; font-weight: 700; color: var(--gris); margin: 0 0 2mm; }
+  .antes-despues .t.ok { color: var(--rojo); }
+  .antes-despues p { font-size: 9.4pt; line-height: 1.45; margin: 0; }
+
+  .pasos-cortos .pasos li { margin-bottom: 3.2mm; }
+  .compacta .tarjeta { padding: 4mm 4.5mm; }
+  .compacta .tarjeta p { font-size: 8.6pt; line-height: 1.45; }
+  .compacta h3 { font-size: 9.6pt; }
+  .tarifa { border: .6pt solid rgba(255,255,255,.15); background: var(--carbon); padding: 4.5mm; }
+  .tarifa .g { font-size: 7pt; letter-spacing: 1.6pt; text-transform: uppercase; color: var(--gris-cl); font-weight: 700; }
+  .tarifa .p { font-size: 20pt; font-weight: 800; letter-spacing: -.6pt; margin: 1.5mm 0 0; line-height: 1; }
+  .tarifa .u { font-size: 8pt; color: var(--gris-cl); margin: 1mm 0 3mm; }
+  .tarifa .b { display: block; background: var(--rojo); color: #fff; text-align: center; font-size: 7.4pt; letter-spacing: 1.6pt; text-transform: uppercase; font-weight: 700; padding: 2.2mm 0; }
+  .tarifa.mas { border-color: var(--rojo); }
+
+  .logo { font-weight: 800; letter-spacing: 1.2pt; text-transform: uppercase; display: inline-flex; align-items: center; gap: 2mm; }
+  .logo svg { width: .95em; height: .95em; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ============================ 1 · PORTADA ============================ -->
+<div class="hoja negra">
+  <svg width="210mm" height="297mm" viewBox="0 0 595 842" style="position:absolute;top:0;left:0">
+    <rect width="595" height="842" fill="#0a0a0b"/>
+    <g stroke="#ffffff" stroke-opacity=".06" stroke-width="1">
+      <path d="M0 700 L595 500"/><path d="M0 760 L595 560"/><path d="M0 820 L595 620"/>
+      <path d="M0 640 L595 440"/><path d="M0 580 L595 380"/>
+    </g>
+    <rect x="0" y="0" width="595" height="12" fill="#dc1f26"/>
+    <path d="M430 150 L560 20" stroke="#dc1f26" stroke-width="9" stroke-linecap="square"/>
+    <path d="M480 20 L560 20 L560 100" stroke="#dc1f26" stroke-width="9" fill="none" stroke-linecap="square"/>
+  </svg>
+  <div class="cuerpo" style="padding-top:60mm">
+    <p class="ojo">Propuesta de trabajo · Noviembre de 2026</p>
+    <h2 style="font-size:40pt;line-height:.98;max-width:170mm">Que tu tienda venda sola.<br><em>Y que tu WhatsApp conteste solo.</em></h2>
+    <p class="entradilla" style="max-width:150mm;font-size:12pt;margin-top:8mm">Una web ordenada que encaja con tu marca, un asistente que responde a tus clientes en WhatsApp y una página de verdad para Hungceed GYM.</p>
+    <div style="position:absolute;bottom:22mm;left:16mm;right:16mm;display:flex;justify-content:space-between;align-items:flex-end">
+      <div>
+        <p style="font-size:7.4pt;letter-spacing:2.4pt;text-transform:uppercase;color:#a1a1aa;font-weight:700;margin:0 0 2mm">Preparado para</p>
+        <p class="logo" style="font-size:18pt;margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="#dc1f26" stroke-width="3.2" stroke-linecap="square"><path d="M5 19 19 5M9 5h10v10"/></svg>Hungceed</p>
+        <p style="font-size:9pt;color:#a1a1aa;margin:1.5mm 0 0">Jose P. · Tienda online y Hungceed GYM · La Pobla Llarga</p>
+      </div>
+      <div style="text-align:right;font-size:8.6pt;color:#a1a1aa;line-height:1.5">
+        <b style="color:#fff">Brian Carbajal</b><br>Webs, IA y automatizaciones · Ourense<br>briancarbajalgarcia@gmail.com · 611 573 580
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ 2 · PUNTO DE PARTIDA ============================ -->
+<div class="hoja">
+  <div class="cabecera"><b>Hungceed</b><span>Punto de partida</span></div>
+  <div class="cuerpo">
+    <p class="ojo">Lo que nos contaste</p>
+    <h2>Vendes todos los días.<br><em>Pero la web y el WhatsApp van por detrás.</em></h2>
+    <p class="entradilla">El producto funciona y los pedidos entran a diario. Lo que falla es lo de alrededor: una tienda que no ayuda a comprar, un WhatsApp que te come el día y un gimnasio metido en un recuadro.</p>
+
+    <div class="rejilla3">
+      <div class="tarjeta"><p class="n">01</p><h3>La web no ayuda a vender</h3><p>Está desorganizada, con muchos productos en una lista sin filtros. Los propios clientes se quejan de cómo está montada, y no tiene la armonía de las webs en las que uno se queda «husmeando».</p></div>
+      <div class="tarjeta"><p class="n">02</p><h3>El WhatsApp te come el día</h3><p>El 80 % de tus clientes te escribe por ahí. La IA de WhatsApp Business se queda corta: no contesta bien del todo y, para lo que hace, sale cara.</p></div>
+      <div class="tarjeta"><p class="n">03</p><h3>El gimnasio, en un recuadro</h3><p>La página de Hungceed GYM es la tienda de Virtuagym incrustada, con su propio scroll y textos mezclados en castellano, catalán e inglés.</p></div>
+    </div>
+
+    <div style="margin-top:8mm" class="rejilla2">
+      <div>
+        <p class="ojo">Lo que vimos en tu web, desde fuera</p>
+        <ul class="lista">
+          <li>El menú no refleja el catálogo: «Accesorios home gym» solo tiene barras y la <b>Attachment Series</b> no tiene sección propia.</li>
+          <li>«Productos» es una lista alfabética sin filtros. En el móvil el titular se corta («EQUIPAMIENT/O») y el botón queda muy abajo.</li>
+          <li>Nombres de producto muy largos, con el texto de Google dentro. Productos sin precio visible y uno «desde 0,00 €».</li>
+          <li>El icono de «mi cuenta» lleva a una demo de la plantilla. Botones con enlaces vacíos. El logo es una captura de pantalla.</li>
+          <li>Sin WhatsApp, sin información de envíos, sin opiniones. Privacidad y cookies sin enlace, y sin aviso legal.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="ojo">La cuenta, con tus números</p>
+        <div class="franja">
+          <p style="margin:0 0 3mm">Si te llegan <b>30 mensajes al día</b> y cada uno te lleva tres minutos, son <b>una hora y media al día</b>: unas treinta horas al mes contestando lo mismo. El asistente se queda con lo repetido (envíos, precios, «¿dónde está mi pedido?», tarifas del gym) y a ti solo te pasa lo que de verdad necesita a Jose.</p>
+          <p style="margin:0;font-size:8.6pt;color:#a1a1aa">Treinta es un ejemplo. Dinos tu cifra real y rehacemos la cuenta en la llamada.</p>
+        </div>
+        <div style="margin-top:4mm" class="franja roja">
+          <p style="margin:0">Y en la tienda: cada cliente que se pierde en la lista de productos es un pedido que no entra. <b>Ordenar el catálogo no es estética: es que se encuentre lo que vendes.</b></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pie"><span>Propuesta · Hungceed</span><span class="num">2</span></div>
+</div>
+
+<!-- ============================ 3 · LA TIENDA ============================ -->
+<div class="hoja">
+  <div class="cabecera"><b>Hungceed</b><span>A · Tu tienda, ordenada</span></div>
+  <div class="cuerpo">
+    <p class="ojo">A · Rediseño de la tienda</p>
+    <h2>Tu misma tienda.<br><em>Ordenada y con tu marca.</em></h2>
+    <p class="entradilla">No migramos nada. Se trabaja dentro de tu WordPress, con tu tema y tu Elementor, sobre una copia de prueba mientras la tienda sigue vendiendo. Conservas pedidos, clientes, pagos y Google, y sigues usando el panel que ya conoces.</p>
+
+    <div class="rejilla2">
+      <ol class="pasos">
+        <li><b>Copia de prueba</b><span>Desde el hosting o con un plugin de staging. Tú entras cuando quieras y ves cómo va.</span></li>
+        <li><b>Portada con un solo mensaje</b><span>Negro, rojo y Poppins. El producto estrella con su precio, y dos entradas: «Para tu casa» y «Para tu gimnasio o box».</span></li>
+        <li><b>Catálogo que se entiende</b><span>Seis categorías y las cuatro series, la Attachment Series con la suya. Filtros por serie, tipo y precio.</span></li>
+        <li><b>Fichas de producto limpias</b><span>Nombre corto, precio claro y el texto para Google en el campo de SEO. Se revisan precios y variantes (el «0,00 €»).</span></li>
+        <li><b>Lo que hoy falta</b><span>WhatsApp, envíos y garantía, opiniones, aviso legal, privacidad y cookies. Se arregla «mi cuenta» y se sube el logo en condiciones.</span></li>
+        <li><b>Pasar a la web real</b><span>Cuando lo apruebes. Sin perder pedidos, clientes ni posicionamiento.</span></li>
+      </ol>
+      <div>
+        <div class="antes-despues">
+          <div><p class="t">Hoy</p><p>Jaula de Potencia con Polea Integrada | Power Cage Rack con Polea Alta y Baja | Hungceed</p></div>
+          <div><p class="t ok">Después</p><p><b>Jaula de potencia con polea</b><br><span style="color:#5c5d63;font-size:8.6pt">El texto largo pasa al campo de SEO. Google lo sigue leyendo; tu cliente no tiene que hacerlo.</span></p></div>
+        </div>
+        <div class="franja" style="margin-top:5mm">
+          <p style="margin:0 0 2mm;font-size:7.2pt;letter-spacing:1.8pt;text-transform:uppercase;color:#a1a1aa;font-weight:700">Ya puedes verlo</p>
+          <p style="margin:0">Hemos montado una <b>maqueta</b> con tus productos, tus fotos y tus precios: portada, categoría con filtros, ficha y la página del gimnasio.</p>
+          <p style="margin:3mm 0 0;font-size:11pt;font-weight:700">hungceed-maqueta.vercel.app</p>
+          <p style="margin:1mm 0 0;font-size:8.4pt;color:#a1a1aa">Es un boceto para decidir el diseño; la web final se hace en tu WordPress.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="ojo" style="margin-top:6mm">Lo que no cambia</p>
+    <div class="rejilla4 compacta">
+      <div class="tarjeta"><h3>Tus pedidos</h3><p>El mismo WooCommerce. Nada se migra.</p></div>
+      <div class="tarjeta"><h3>Tus pagos</h3><p>Tarjeta, PayPal y el resto, como ahora.</p></div>
+      <div class="tarjeta"><h3>Tu Google</h3><p>Mismas direcciones. Lo que posiciona, sigue.</p></div>
+      <div class="tarjeta"><h3>Tu panel</h3><p>El WordPress que ya conoces.</p></div>
+    </div>
+  </div>
+  <div class="pie"><span>Propuesta · Hungceed</span><span class="num">3</span></div>
+</div>
+
+<!-- ============================ 4 · EL ASISTENTE ============================ -->
+<div class="hoja negra">
+  <div class="cabecera"><b>Hungceed</b><span>B · El asistente de WhatsApp</span></div>
+  <div class="cuerpo">
+    <p class="ojo">B · Asistente de IA en WhatsApp</p>
+    <h2>Un WhatsApp que contesta solo.<br><em>Y que sabe cuándo avisarte.</em></h2>
+    <p class="entradilla" style="margin-bottom:6mm">Con la API oficial de Meta, en tu número. Se entrena con tus propias conversaciones (nos pasas 15–20 chats típicos) para que responda como respondes tú, de la tienda y del gimnasio.</p>
+
+    <div style="display:grid;grid-template-columns:70mm 1fr;gap:9mm;align-items:start" class="pasos-cortos">
+      <div class="chat" style="color:#0a0a0b">
+        <div class="cab"><i></i> Hungceed</div>
+        <div class="bur">Hola, tengo la jaula y quiero poner la elevación lateral, ¿encaja?<span class="h">18:42</span></div>
+        <div class="bur yo">¡Hola! Sí: la Elevación Lateral de la Attachment Series encaja en cualquier rack Hungceed, en los mismos agujeros y sin herramientas. Son 229,99 € con envío en 48–72 h. Te paso el enlace.<span class="h">18:42</span></div>
+        <div class="bur">Y mi pedido 1843, ¿cuándo llega?<span class="h">18:43</span></div>
+        <div class="bur yo">Tu pedido 1843 salió ayer y está en reparto. Llega mañana o pasado. Si quieres, te aviso cuando lo entreguen.<span class="h">18:43</span></div>
+        <div class="bur">Vale. Oye, quiero montar un box de 150 m², ¿me hacéis precio?<span class="h">18:44</span></div>
+        <div class="bur yo">Eso te lo prepara Jose en persona. Le acabo de pasar tu mensaje y te escribe hoy mismo.<span class="h">18:44</span></div>
+      </div>
+      <div>
+        <ol class="pasos">
+          <li><b>Llega el mensaje</b><span>A tu WhatsApp de siempre, con la API oficial de Meta.</span></li>
+          <li><b>Recuerda la conversación</b><span>Recupera lo último que habló con ese cliente: no empieza de cero cada vez.</span></li>
+          <li><b>Responde con tu información</b><span>Preguntas frecuentes de tus chats, catálogo y series, envíos y garantías, tarifas y horarios del gym con el enlace a cada tarifa.</span></li>
+          <li><b>Consulta el pedido</b><span>Si preguntan por un pedido, lo busca en tu WooCommerce por número o email y da el estado.</span></li>
+          <li><b>Te avisa cuando toca</b><span>Quejas, pedidos especiales, presupuestos para equipar un centro o algo que no sabe: te lo pasa, lo marca como «humano» y deja de responder ahí hasta que tú lo liberes.</span></li>
+          <li><b>Guarda lo hablado</b><span>Para la próxima vez.</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="rejilla3 compacta" style="margin-top:5mm">
+      <div class="tarjeta"><h3>Todo a tu nombre</h3><p>El número, la cuenta de Meta Business, Make y la clave de la IA son tuyos, con acceso para mí. Si un día dejamos de trabajar juntos, no pierdes tu WhatsApp.</p></div>
+      <div class="tarjeta"><h3>Sin cuota escondida</h3><p>La herramienta que lo mueve (Make) y la IA van dentro de la cuota mensual. Lo único aparte son los céntimos que cobra Meta por mensaje, en tu cuenta.</p></div>
+      <div class="tarjeta"><h3>Tú tienes el mando</h3><p>Cuando quieras contestar tú, contestas. Y lo que el asistente dice se revisa contigo antes de encenderlo.</p></div>
+    </div>
+  </div>
+  <div class="pie" style="color:#a1a1aa"><span>Propuesta · Hungceed</span><span class="num">4</span></div>
+</div>
+
+<!-- ============================ 5 · AUTOMATIZACIONES ============================ -->
+<div class="hoja">
+  <div class="cabecera"><b>Hungceed</b><span>D · Lo que puede ir solo</span></div>
+  <div class="cuerpo">
+    <p class="ojo">D · Automatizaciones</p>
+    <h2>Lo que hoy haces a mano,<br><em>o no haces porque no hay tiempo.</em></h2>
+    <p class="entradilla">Con el asistente en marcha, el mismo sistema puede hacer cosas por su cuenta. Cada una se activa por separado y solo si te compensa.</p>
+
+    <div class="rejilla2">
+      <div class="tarjeta"><p class="n">Tienda</p><h3>Pedir la opinión</h3><p>Unos días después de un pedido entregado, un WhatsApp o un email pidiendo la reseña en Google. Hoy no tienes ninguna publicada y es lo primero que mira quien no te conoce.</p></div>
+      <div class="tarjeta"><p class="n">Gimnasio</p><h3>Bienvenida a cada socio</h3><p>Cuando alguien se da de alta en Virtuagym, recibe un WhatsApp de bienvenida con lo que necesita saber el primer día.</p></div>
+      <div class="tarjeta"><p class="n">Gimnasio</p><h3>Los que dejan de venir</h3><p>Con las visitas de Virtuagym, un aviso a quien lleva X días sin pasar por el gym. Es la baja que se evita antes de que ocurra.</p></div>
+      <div class="tarjeta"><p class="n">Tienda</p><h3>Carritos abandonados</h3><p>Un recordatorio a quien dejó algo en el carrito. Es la más limitada: WooCommerce no lo avisa de serie y hace falta un plugin que conecte con el sistema.</p></div>
+    </div>
+
+    <div class="franja" style="margin-top:7mm">
+      <p style="margin:0 0 2mm;font-size:7.2pt;letter-spacing:1.8pt;text-transform:uppercase;color:#a1a1aa;font-weight:700">Para que lo sepas antes</p>
+      <p style="margin:0">Los mensajes que inicia el negocio (bienvenida, recordatorio, pedir opinión) necesitan una <b>plantilla aprobada por Meta</b> y tienen un pequeño coste por mensaje, de céntimos, que se paga en tu cuenta de Meta. Las plantillas se piden la primera semana.</p>
+    </div>
+
+    <p class="ojo" style="margin-top:8mm">Cómo encaja todo</p>
+    <svg viewBox="0 0 680 150" style="width:178mm;height:auto" font-family="Poppins, Arial" font-size="9.5">
+      <defs><marker id="f" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#dc1f26"/></marker></defs>
+      <g stroke="#dc1f26" stroke-width="1.6" fill="none" marker-end="url(#f)">
+        <path d="M118 75 L182 75"/><path d="M318 55 L382 32"/><path d="M318 75 L382 75"/><path d="M318 95 L382 118"/><path d="M518 75 L582 75"/>
+      </g>
+      <g font-weight="700">
+        <rect x="8" y="48" width="110" height="54" fill="#0a0a0b"/><text x="63" y="71" fill="#fff" text-anchor="middle">Tu cliente</text><text x="63" y="86" fill="#a1a1aa" text-anchor="middle" font-weight="400" font-size="8.5">escribe por WhatsApp</text>
+        <rect x="182" y="40" width="136" height="70" fill="#dc1f26"/><text x="250" y="66" fill="#fff" text-anchor="middle">El asistente</text><text x="250" y="81" fill="#fff" text-anchor="middle" font-weight="400" font-size="8.5">recuerda, responde,</text><text x="250" y="94" fill="#fff" text-anchor="middle" font-weight="400" font-size="8.5">consulta y avisa</text>
+        <rect x="382" y="10" width="136" height="40" fill="#f4f4f5" stroke="#e4e4e7"/><text x="450" y="28" fill="#0a0a0b" text-anchor="middle">Tu catálogo y FAQ</text><text x="450" y="41" fill="#5c5d63" text-anchor="middle" font-weight="400" font-size="8.5">series, envíos, gym</text>
+        <rect x="382" y="55" width="136" height="40" fill="#f4f4f5" stroke="#e4e4e7"/><text x="450" y="73" fill="#0a0a0b" text-anchor="middle">WooCommerce</text><text x="450" y="86" fill="#5c5d63" text-anchor="middle" font-weight="400" font-size="8.5">estado del pedido</text>
+        <rect x="382" y="100" width="136" height="40" fill="#f4f4f5" stroke="#e4e4e7"/><text x="450" y="118" fill="#0a0a0b" text-anchor="middle">Virtuagym</text><text x="450" y="131" fill="#5c5d63" text-anchor="middle" font-weight="400" font-size="8.5">socios, visitas, tarifas</text>
+        <rect x="582" y="48" width="90" height="54" fill="#0a0a0b"/><text x="627" y="71" fill="#fff" text-anchor="middle">Jose</text><text x="627" y="86" fill="#a1a1aa" text-anchor="middle" font-weight="400" font-size="8.5">solo lo que le toca</text>
+      </g>
+    </svg>
+  </div>
+  <div class="pie"><span>Propuesta · Hungceed</span><span class="num">5</span></div>
+</div>
+
+<!-- ============================ 6 · EL GIMNASIO ============================ -->
+<div class="hoja negra">
+  <div class="cabecera"><b>Hungceed</b><span>C · Hungceed GYM</span></div>
+  <div class="cuerpo">
+    <p class="ojo">C · Página del gimnasio</p>
+    <h2>Hungceed GYM,<br><em>con página propia.</em></h2>
+    <p class="entradilla">En vez del recuadro de Virtuagym: fotos de la sala, horarios, ubicación y las tarifas en tarjetas, cada una con su botón «Apúntate» que lleva directo a esa tarifa en Virtuagym. El alta y el cobro siguen en Virtuagym, como ahora.</p>
+
+    <div class="rejilla3">
+      <div class="tarifa"><p class="g">Musculación</p><p class="p">40 €</p><p class="u">al mes · 112 € / 3 meses · 390 € / año</p><span class="b">Apúntate</span></div>
+      <div class="tarifa mas"><p class="g">Funcional</p><p class="p">30 €</p><p class="u">al mes, 4 sesiones · 55 € con 12</p><span class="b">Apúntate</span></div>
+      <div class="tarifa"><p class="g">Entrenador personal</p><p class="p">30 €</p><p class="u">la sesión · 95 € / 4 · 180 € / 8</p><span class="b">Apúntate</span></div>
+    </div>
+    <div class="rejilla3" style="margin-top:3mm">
+      <div class="tarifa"><p class="g">Semipersonal</p><p class="p">36 €</p><p class="u">al mes, 4 sesiones · 64 € / 8 · 84 € / 12</p><span class="b">Apúntate</span></div>
+      <div class="tarifa"><p class="g">Pases y bonos</p><p class="p">8 €</p><p class="u">el día · fin de semana 28 € · 10 días 40 €</p><span class="b">Apúntate</span></div>
+      <div class="tarjeta" style="display:flex;flex-direction:column;justify-content:center"><h3>Tus precios de hoy</h3><p>Son los que tienes en Virtuagym. Los cambias allí y se cambian en la web.</p></div>
+    </div>
+
+    <div class="rejilla3" style="margin-top:7mm">
+      <div class="tarjeta"><h3>Se entiende sin hacer clic</h3><p>Quien llega desde Google o Instagram ve qué hay, cuánto cuesta y dónde estás, en su idioma y en su móvil.</p></div>
+      <div class="tarjeta"><h3>Enlaza con el asistente</h3><p>Cuando pregunten por el gym en WhatsApp, el asistente contesta con estas mismas tarifas y el enlace para apuntarse.</p></div>
+      <div class="tarjeta"><h3>Lo que necesito de ti</h3><p>Fotos de la sala, horario, dirección y el enlace de Virtuagym de cada tarifa.</p></div>
+    </div>
+  </div>
+  <div class="pie" style="color:#a1a1aa"><span>Propuesta · Hungceed</span><span class="num">6</span></div>
+</div>
+
+<!-- ============================ 7 · CÓMO TRABAJAMOS ============================ -->
+<div class="hoja">
+  <div class="cabecera"><b>Hungceed</b><span>Cómo trabajamos</span></div>
+  <div class="cuerpo">
+    <p class="ojo">Cómo trabajamos</p>
+    <h2>Lo ves nacer.<br><em>Y después no te quedas solo.</em></h2>
+    <p class="entradilla">Nada se enseña el último día. Desde el principio tienes tu copia de prueba y vas diciendo qué cambiarías: un audio, un mensaje, lo que te sea más cómodo.</p>
+
+    <div class="rejilla2">
+      <div>
+        <p class="ojo">Lo que incluye la cuota mensual</p>
+        <ul class="lista">
+          <li><b>Dudas y soporte, sin límite.</b> Un mensaje y te contesto.</li>
+          <li><b>Cambios del día a día, incluidos.</b> Un precio, una foto, un texto, un producto nuevo, una tarifa del gym.</li>
+          <li><b>Lo que mueve el asistente</b> (Make y la IA), su mantenimiento y la revisión de lo que contesta.</li>
+          <li><b>Lo nuevo se presupuesta aparte:</b> secciones nuevas, campañas, funciones que hoy no existen. Te lo digo antes, nunca después.</li>
+        </ul>
+        <p class="ojo" style="margin-top:6mm">Plazos</p>
+        <table>
+          <tr><td style="padding-left:0">Rediseño de la tienda</td><td style="text-align:right;font-weight:700">3–4 semanas desde que tengo acceso</td></tr>
+          <tr><td style="padding-left:0">Asistente de WhatsApp</td><td style="text-align:right;font-weight:700">2 semanas desde el alta del número en Meta</td></tr>
+          <tr><td style="padding-left:0">Página del gimnasio</td><td style="text-align:right;font-weight:700">Con la tienda</td></tr>
+        </table>
+      </div>
+      <div>
+        <p class="ojo">Lo que necesito de ti para empezar</p>
+        <ol class="pasos">
+          <li><b>Un usuario de administrador</b><span>en tu WordPress y, si se puede, acceso al hosting para crear la copia de prueba.</span></li>
+          <li><b>15–20 conversaciones de WhatsApp</b><span>exportadas, de las típicas. Con eso se entrena el asistente.</span></li>
+          <li><b>Tu cuenta de Meta Business</b><span>para dar de alta el número en la API. Primero comprobamos que puedes seguir usando la app del móvil a la vez.</span></li>
+          <li><b>El logo en vectorial</b><span>y las fotos del gimnasio.</span></li>
+          <li><b>Tres datos</b><span>plazo real de envío, garantía y formas de pago, para no prometer nada que no sea verdad.</span></li>
+        </ol>
+        <div class="franja roja" style="margin-top:2mm">
+          <p style="margin:0">Las contraseñas nunca viajan por WhatsApp ni se guardan en ningún sitio compartido. Se configuran en las conexiones de cada herramienta, a tu nombre.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pie"><span>Propuesta · Hungceed</span><span class="num">7</span></div>
+</div>
+
+<!-- ============================ 8 · PRECIO ============================ -->
+<div class="hoja">
+  <div class="cabecera"><b>Hungceed</b><span>La propuesta</span></div>
+  <div class="cuerpo">
+    <p class="ojo">La propuesta</p>
+    <h2>Elige lo que necesitas.<br><em>O llévatelo todo.</em></h2>
+    <p class="entradilla">Un pago único por el desarrollo y una cuota mensual que incluye el soporte, los cambios del día a día y lo que mueve el asistente. Por venir de parte de Brandán, <b>un 10 % de descuento en el desarrollo</b>, ya aplicado.</p>
+
+    <table>
+      <tr><th style="padding-left:0">Servicio</th><th>Qué incluye</th><th>Desarrollo</th><th>Al mes</th></tr>
+      <tr>
+        <td style="padding-left:0"><b>A · Rediseño de la tienda</b></td>
+        <td>Copia de prueba, portada, catálogo y filtros, fichas, legal, WhatsApp, logo y paso a la web real</td>
+        <td class="precio"><span class="tachado">900 €</span>810 €</td>
+        <td class="precio">49 €</td>
+      </tr>
+      <tr>
+        <td style="padding-left:0"><b>B · Asistente de WhatsApp</b></td>
+        <td>Alta en la API de Meta, entrenamiento con tus chats, pedidos de WooCommerce, avisos a Jose, Make y la IA incluidos</td>
+        <td class="precio"><span class="tachado">600 €</span>540 €</td>
+        <td class="precio">59 €</td>
+      </tr>
+      <tr>
+        <td style="padding-left:0"><b>C · Página del gimnasio</b></td>
+        <td>Tarifas en tarjetas con «Apúntate» a Virtuagym, fotos, horarios y ubicación</td>
+        <td class="precio"><span class="tachado">250 €</span>225 €</td>
+        <td class="precio">—</td>
+      </tr>
+      <tr>
+        <td style="padding-left:0"><b>D · Automatizaciones</b></td>
+        <td>Pedir opinión, bienvenida a socios, socios inactivos, carritos abandonados</td>
+        <td colspan="2" style="color:#5c5d63">Se presupuestan por escenario, con el asistente ya en marcha</td>
+      </tr>
+    </table>
+
+    <div class="franja" style="margin-top:6mm;display:grid;grid-template-columns:1fr auto;gap:8mm;align-items:center">
+      <div>
+        <p style="margin:0 0 1.5mm;font-size:7.2pt;letter-spacing:1.8pt;text-transform:uppercase;color:#a1a1aa;font-weight:700">Pack con todo · A + B + C</p>
+        <p style="margin:0">Tienda, asistente y gimnasio, en un solo proyecto. <b>Te ahorras 225 € más</b> respecto a contratarlo por separado.</p>
+      </div>
+      <div style="text-align:right;white-space:nowrap">
+        <p style="margin:0"><span class="tachado" style="color:#a1a1aa">1.500 €</span><span style="font-size:24pt;font-weight:800;letter-spacing:-.8pt">1.350 €</span></p>
+        <p style="margin:0;font-size:10pt;color:#a1a1aa">+ <b style="color:#fff">99 €/mes</b></p>
+      </div>
+    </div>
+
+    <div class="rejilla3" style="margin-top:6mm">
+      <div class="tarjeta"><h3>Cómo se paga</h3><p>50 % al empezar y 50 % a la entrega. Los 30 primeros días de cuota, gratis. Mínimo tres meses de cuota.</p></div>
+      <div class="tarjeta"><h3>Lo que pagas aparte</h3><p>Solo lo que cobra Meta por mensaje de WhatsApp (céntimos), en tu propia cuenta. Make y la IA van dentro de la cuota.</p></div>
+      <div class="tarjeta"><h3>Lo que es tuyo</h3><p>Tu WordPress, tu número, tu cuenta de Meta y tus datos. Sin permanencia más allá de los tres meses: avisas y listo.</p></div>
+    </div>
+
+    <div style="margin-top:7mm;display:flex;justify-content:space-between;align-items:flex-end">
+      <div>
+        <p class="ojo" style="margin-bottom:2mm">El siguiente paso</p>
+        <p style="font-size:10.4pt;margin:0;max-width:100mm">Vemos juntos la maqueta en la llamada, me dices qué cambiarías y, si te encaja, empezamos con la copia de prueba esa misma semana.</p>
+      </div>
+      <div style="text-align:right;font-size:8.6pt;color:#5c5d63;line-height:1.5;white-space:nowrap">
+        <b style="color:#0a0a0b">Brian Carbajal</b><br>Webs, IA y automatizaciones · Ourense<br>briancarbajalgarcia@gmail.com · 611 573 580
+      </div>
+    </div>
+  </div>
+  <div class="pie"><span>Propuesta · Hungceed · Noviembre de 2026</span><span class="num">8</span></div>
+</div>
+
+</body>
+</html>
