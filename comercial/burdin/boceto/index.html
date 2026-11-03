@@ -1155,9 +1155,7 @@
       <img class="gcut" src="img/cybex_curl.webp" alt="" loading="lazy" aria-hidden="true">
     </div>
     <div data-reveal class="gbox">
-      <span class="tag" data-es="La sala por marcas" data-eu="Aretoa marken arabera">La sala por marcas</span>
-      <div class="bars tbd" id="bars"></div>
-      <span class="tag" style="margin-top:10px" data-es="Horario" data-eu="Ordutegia">Horario</span>
+      <span class="tag" data-es="Horario" data-eu="Ordutegia">Horario</span>
       <div class="hours">
         <span data-es="Todos los días" data-eu="Egunero">Todos los días</span><span>05:00 – 01:00</span>
         <span data-es="Abierto" data-eu="Irekita">Abierto</span><span data-es="365 días" data-eu="365 egun">365 días</span>
@@ -1294,7 +1292,7 @@
         <div class="eyebrow" data-n="10" data-es="Contacto" data-eu="Kontaktua">Contacto</div>
         <h2 data-es="Ven a conocernos" data-eu="Etorri ezagutzera">Ven a conocernos</h2>
       </div>
-      <div class="row"><small data-es="Dirección" data-eu="Helbidea">Dirección</small><div class="tbd" id="cAddr"></div></div>
+      <div class="row"><small data-es="Dirección" data-eu="Helbidea">Dirección</small><div id="cAddr"></div></div>
       <div class="row"><small data-es="Horario" data-eu="Ordutegia">Horario</small>
         <div class="hrs">
           <span data-es="Todos los días" data-eu="Egunero">Todos los días</span><span>05:00 – 01:00</span>
@@ -1332,7 +1330,7 @@
 </footer>
 
 <dialog class="ficha" id="ficha" aria-label="Ficha de la máquina"><button type="button" class="fi-x" aria-label="Cerrar">×</button><div class="fi-body"></div></dialog>
-<div hidden aria-hidden="true"><div id="legends"></div></div>
+<div hidden aria-hidden="true"><div id="legends"></div><div id="bars"></div></div>
 <a href="#fundador" class="disc-cta" id="discCta" aria-label="Reserva tu plaza de socio fundador">
   <span class="dc-frame">
     <svg class="dc-txt" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="dcp" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs><text><textPath href="#dcp" textLength="536" data-es="RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ " data-eu="GORDE ZURE PLAZA ✦ BAZKIDE SORTZAILEA ✦ ">RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ </textPath></text></svg>
@@ -1356,8 +1354,8 @@ const CONFIG={
   whatsapp:'',                         // número de Ander, solo cifras con prefijo: '34600000000'
   email:'kaixo@burdingym.eus',
   instagram:'burdingym',
-  direccion:{es:'Dirección por confirmar<br>Euskadi',eu:'Helbidea zehazteke<br>Euskadi'},
-  mapa:'Euskadi',                      // texto que se busca en Google Maps
+  direccion:{es:'Usabal 127, Pabellón 2<br>20400 Tolosa (Gipuzkoa)',eu:'Usabal 127, 2. pabiloia<br>20400 Tolosa (Gipuzkoa)'},
+  mapa:'Usabal 127, 20400 Tolosa, Gipuzkoa',                      // texto que se busca en Google Maps
   // Enlaces a cada tarifa en la tienda online de Virtuagym. Vacío = abre WhatsApp.
   virtuagym:{fundador:'',mensual:'',trimestral:'',anual:'',dia:'',finde:'',semana:''},
   precios:{fundador:34.9,mensual:44.9,trimestral:119,anual:429,dia:9,finde:15,semana:25},
@@ -1734,7 +1732,7 @@ const names=BRANDS.map(b=>b[0]);
 
 renderLogos();
 $('#yr').textContent=new Date().getFullYear();
-$('#map').insertAdjacentHTML('afterbegin',`<iframe title="Mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${encodeURIComponent(CONFIG.mapa)}&z=8&output=embed"></iframe>`);
+$('#map').insertAdjacentHTML('afterbegin',`<iframe title="Mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${encodeURIComponent(CONFIG.mapa)}&z=15&output=embed"></iframe>`);
 let start='es';try{start=localStorage.getItem('burdin-lang')||'es'}catch(e){}
 setLang(start);
 
