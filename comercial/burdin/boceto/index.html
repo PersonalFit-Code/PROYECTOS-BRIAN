@@ -10,7 +10,7 @@
 <script>document.documentElement.setAttribute("data-reveal-armed","");setTimeout(function(){if(!window.__reveal)document.documentElement.removeAttribute("data-reveal-armed")},2600)</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Michroma&family=Syncopate:wght@700&family=Open+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Poppins:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Michroma&family=Syncopate:wght@700&display=swap" rel="stylesheet">
 <style>
   /* Plan: negro casi puro, blanco roto y un solo acento óxido. Anton para gritar, Manrope para leer,
      Space Mono para las fichas técnicas, Playfair para el manifiesto. Syncopate y Michroma solo en el logo. */
@@ -19,7 +19,7 @@
     --fg:#f5f5f5;--fg2:#b9b9b9;--fg3:#7a7a7a;
     --rust:#f5f5f5;--rust2:#ffffff;--rust-dim:rgba(255,255,255,.09);
     --tbd:#e8d79b;
-    --display:'Anton',Impact,'Arial Narrow',sans-serif;--body:'Manrope',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;--serif:'Playfair Display',Georgia,serif;--label:'Open Sans',Arial,sans-serif;
+    --display:'Barlow Condensed','Arial Narrow',sans-serif;--body:'Poppins',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;--serif:'Playfair Display',Georgia,serif;--label:'Poppins',system-ui,sans-serif;
     --ease:cubic-bezier(.16,1,.3,1);--nav:72px;color-scheme:dark
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -150,6 +150,12 @@
   .pic canvas.gen{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.5;pointer-events:none}
   .pic .n{position:absolute;left:24px;top:22px;z-index:3;font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;color:var(--fg2)}
   .pic .yr{position:absolute;right:22px;top:6px;z-index:1;font-family:var(--display);font-size:clamp(4rem,9vw,7.5rem);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.18)}
+  .pic .ph{display:none}
+  .pic.nofoto img{display:none}
+  .pic.nofoto .ph{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center}
+  .pic.nofoto .ph b{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--fg3)}
+  .pic.nofoto .ph span{font-family:var(--display);font-weight:800;font-size:clamp(3rem,7vw,5.5rem);line-height:.9;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.35)}
+  .pic.nofoto .ph em{font-style:normal;font-family:var(--label);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tbd);border:1px dashed rgba(232,215,155,.45);padding:6px 10px;margin-top:10px}
   .story{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:flex-end;gap:18px;padding:40px;background:linear-gradient(180deg,rgba(10,10,10,0) 0%,rgba(10,10,10,.9) 55%);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .7s var(--ease)}
   .story p{font-family:var(--serif);font-size:1.3rem;line-height:1.4;color:var(--fg);max-width:40ch}
   .story b{font-family:var(--mono);font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--rust2);font-weight:400}
@@ -262,7 +268,10 @@
   #manifiesto{background:#0d0d0d;border-top:1px solid var(--line);position:relative;overflow:hidden}
   #manifiesto::before{content:"";position:absolute;inset:0;background:url(img/detalle-pie.jpg) center/cover no-repeat;opacity:.22}
   #manifiesto::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,13,13,.95) 30%,rgba(13,13,13,.6))}
-  #manifiesto .wrap{position:relative;z-index:1}
+  #manifiesto .wrap{position:relative;z-index:2}
+  #manifiesto canvas.tv{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.26;mix-blend-mode:screen;pointer-events:none}
+  #manifiesto::after{z-index:0}
+  @media (prefers-reduced-motion:reduce){#manifiesto canvas.tv{display:none}}
   .mani{max-width:860px}
   .mani p{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.5rem);line-height:1.3;color:var(--fg);text-wrap:pretty}
   .mani p+p{margin-top:1.2em}
@@ -496,22 +505,77 @@
   .track span{font-size:22px}
   .track span+span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--fg3);vertical-align:middle;margin:0 34px 0 -34px;transform:translateX(-17px)}
   /* ===== Desliza para reservar (estilo TDM) ===== */
-  .slide-cta{position:relative;display:block;width:min(100%,440px);padding:6px;border:1px dashed rgba(255,255,255,.42);user-select:none;-webkit-user-select:none;touch-action:pan-y}
-  .slide-cta .track2{position:relative;height:58px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);overflow:hidden;display:flex;align-items:center}
-  .slide-cta .fill{position:absolute;left:0;top:0;bottom:0;width:58px;background:rgba(255,255,255,.14);pointer-events:none}
-  .slide-cta .lbl2{position:absolute;inset:0 0 0 58px;display:flex;align-items:center;justify-content:center;gap:14px;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,245,245,.8);pointer-events:none;transition:opacity .2s}
-  .slide-cta .lbl2 svg{width:20px;height:22px;flex:0 0 auto}
+  .slide-cta{position:relative;display:block;width:min(100%,340px);padding:5px;border:1px dashed rgba(255,255,255,.42);user-select:none;-webkit-user-select:none;touch-action:pan-y}
+  .slide-cta .track2{position:relative;height:46px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);overflow:hidden;display:flex;align-items:center}
+  .slide-cta .fill{position:absolute;left:0;top:0;bottom:0;width:46px;background:rgba(255,255,255,.14);pointer-events:none}
+  .slide-cta .lbl2{position:absolute;inset:0 0 0 46px;display:flex;align-items:center;justify-content:center;gap:14px;font-family:var(--label);font-weight:600;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,245,245,.8);pointer-events:none;transition:opacity .2s}
+  .slide-cta .lbl2 svg{width:16px;height:17px;flex:0 0 auto}
   .slide-cta .lbl2 span{background:linear-gradient(90deg,rgba(245,245,245,.45) 0%,#fff 50%,rgba(245,245,245,.45) 100%) 0 0/200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 2.6s linear infinite}
   @keyframes shine{to{background-position:-200% 0}}
-  .slide-cta .knob{position:absolute;left:0;top:0;bottom:0;width:58px;display:grid;place-items:center;background:#2a2a2a;border-right:1px solid rgba(255,255,255,.4);color:var(--fg);cursor:grab;z-index:2;border:0;transition:background .3s}
+  .slide-cta .knob{position:absolute;left:0;top:0;bottom:0;width:46px;display:grid;place-items:center;background:#2a2a2a;border-right:1px solid rgba(255,255,255,.4);color:var(--fg);cursor:grab;z-index:2;border:0;transition:background .3s}
   .slide-cta .knob:active{cursor:grabbing}
-  .slide-cta .knob svg{width:18px;height:18px}
+  .slide-cta .knob svg{width:15px;height:15px}
   .slide-cta.done .knob{background:var(--fg);color:var(--bg)}
   .slide-cta.done .lbl2{opacity:0}
   .slide-cta .ok{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--label);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);background:var(--fg);opacity:0;transition:opacity .3s;pointer-events:none}
   .slide-cta.done .ok{opacity:1}
   .slide-cta.snap .knob,.slide-cta.snap .fill{transition:transform .5s cubic-bezier(.34,1.3,.64,1),width .5s cubic-bezier(.34,1.3,.64,1)}
   @media (prefers-reduced-motion:reduce){.slide-cta .lbl2 span{animation:none;color:var(--fg)}.hero .bg{animation:none}}
+  /* ===== Letra del prompt: Barlow Condensed (titulares) + Poppins (texto) ===== */
+  body{font-size:14px;line-height:1.6}
+  h1,h2,h3,summary,.stat b,.price,.pass b,.ring b,.urgency .big,.urgency .count b,.spec span,.perks strong,.fac b,.bar b,.track span,.seats .t,.logos div{font-family:var(--display);font-weight:800;letter-spacing:0;line-height:.92}
+  .hero h1{font-size:clamp(3rem,9vw,6.5rem)!important;line-height:.92}
+  .head h2{font-size:clamp(2.4rem,5vw,3.75rem)}
+  .slide h3{font-size:34px!important}
+  .meta h3,.form h3,.try h3,.plan h3,.more h3{letter-spacing:.01em;line-height:1;font-weight:700}
+  .hero h1,.head h2,.gtitle h2,.fcta h3,.meta h3,.slide h3{-webkit-text-stroke:0;filter:drop-shadow(.03em .045em 0 rgba(0,0,0,.5))}
+  .hero h1 em{-webkit-text-stroke:1.5px var(--fg)}
+  .fcta h3 em,.seats .t em{-webkit-text-stroke:1.5px var(--fg)}
+  .lead,.head p,.hero p.sub,.meta p.d,details p,.form p,.try p,.perks span{font-size:14px;line-height:1.6;color:var(--fg2)}
+  .hero p.sub{font-size:15px}
+  .links a,.eyebrow,.hero .kicker,.lang button,.tabs button,.meta .brand,.spec small,.plan .sub,.plan .badge,.story b,.field span,.row small,.stat small,.urgency .big small,.urgency .count,.pass small,.pass span,.foot nav,.gfoot,.page,.soon,.side,.meta .model,.mani .sign,.bocetobar b{font-family:var(--label);font-weight:500;font-size:11.5px;letter-spacing:.12em}
+  .links a{font-size:13px;letter-spacing:.04em;text-transform:none;font-weight:500}
+  .btn,.btn-text,.slide-cta .lbl2,.slide-cta .ok{font-family:var(--label);font-weight:600}
+  .track span{font-size:22px;font-weight:700;letter-spacing:.01em}
+  /* ===== La era dorada (collage al estilo TDM) ===== */
+  #era{background:#0d0d0d;border-top:1px solid var(--line);overflow:hidden}
+  .era-head{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding-bottom:26px;margin-bottom:46px;border-bottom:2px solid rgba(255,255,255,.55)}
+  .era-head h2{font-size:clamp(2rem,4.2vw,3.4rem);color:var(--fg)}
+  .plate{display:inline-block;background:var(--fg);color:var(--bg);font-family:var(--display);font-weight:800;font-size:clamp(1.3rem,2.2vw,1.9rem);text-transform:uppercase;line-height:1;padding:12px 18px}
+  .era-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(60px,auto);gap:18px;align-items:start}
+  .era-ph{position:relative;margin:0;border:1px solid rgba(255,255,255,.18);background:#151515}
+  .era-ph img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.12) brightness(.9)}
+  .era-ph::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.55))}
+  .era-ph figcaption{position:absolute;left:-1px;bottom:-1px;z-index:2;background:#2f2f2f;color:var(--fg);font-family:var(--display);font-weight:800;font-size:clamp(1.1rem,2vw,1.6rem);text-transform:uppercase;line-height:1;padding:12px 16px;border-top:1px solid rgba(255,255,255,.2);border-right:1px solid rgba(255,255,255,.2)}
+  .hex{position:absolute;z-index:3;top:-22px;left:-18px;width:86px;height:86px;display:grid;place-items:center;text-align:center;background:#3a3a3a;color:var(--fg);font-family:var(--label);font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;line-height:1.25;clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0 50%);transform:rotate(-8deg)}
+  .era-card{position:relative;display:grid;grid-template-columns:42% 1fr;grid-template-rows:auto 1fr auto;column-gap:18px;padding:22px;background:#2a2a2a;border:1px solid rgba(255,255,255,.22);box-shadow:0 0 0 6px #0d0d0d,0 0 0 7px rgba(255,255,255,.12);min-height:170px;transition:transform .7s var(--ease)}
+  .era-card:hover{transform:rotate(-1deg) scale(1.02)}
+  .era-card .lg{grid-column:2;grid-row:1;max-height:30px;width:auto;max-width:100%;opacity:.9}
+  .era-card dl{grid-column:2;grid-row:2;margin:14px 0 0}
+  .era-card dt{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg2)}
+  .era-card dd{margin:4px 0 0;font-family:var(--label);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);line-height:1.4}
+  .era-card b{grid-column:2;grid-row:3;margin-top:14px;font-family:var(--label);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg)}
+  .era-card::before{content:"";grid-column:1;grid-row:1/4;background:radial-gradient(ellipse at center,rgba(255,255,255,.08),transparent 70%)}
+  .era-card .mc{grid-column:1;grid-row:1/4;align-self:center;justify-self:center;max-height:150px;width:auto;filter:grayscale(1) contrast(1.1) drop-shadow(0 10px 14px rgba(0,0,0,.7));z-index:1}
+  .era-ph.a{grid-column:1/7;grid-row:1/5;aspect-ratio:4/5;max-height:520px}
+  .era-ph.a img{object-fit:contain;padding:18px 0 0}
+  .c1{grid-column:8/13;grid-row:2/3}
+  .c2{grid-column:1/6;grid-row:5/6;margin-top:30px}
+  .era-ph.b{grid-column:7/13;grid-row:4/7;aspect-ratio:5/4;margin-top:60px}
+  .era-ph.c{grid-column:1/6;grid-row:7/9;aspect-ratio:4/3;margin-top:30px}
+  .era-ph.c img{object-fit:contain;padding:12px}
+  .c3{grid-column:7/12;grid-row:7/8;margin-top:80px}
+  .era-foot{margin-top:60px;background:#2f2f2f;color:var(--fg);font-size:clamp(1.1rem,2vw,1.5rem);padding:14px 22px;border:1px solid rgba(255,255,255,.2)}
+  @media (max-width:900px){
+    .era-grid{grid-template-columns:1fr;gap:34px}
+    .era-grid>*{grid-column:1!important;grid-row:auto!important;margin-top:0!important}
+    .era-ph.a,.era-ph.b,.era-ph.c{aspect-ratio:4/3;max-height:none}
+    .hex{left:-6px;width:74px;height:74px;font-size:9px}
+    .era-card{grid-template-columns:1fr;min-height:0}
+    .era-card::before{display:none}
+    .era-card .mc{grid-row:auto;max-height:130px;margin-bottom:12px}
+    .era-card .lg,.era-card dl,.era-card b{grid-column:1}
+  }
 </style>
 </head>
 <body class="boceto">
@@ -546,6 +610,7 @@
     <div class="right">
       <div class="links" id="links">
         <a href="#coleccion" data-es="La colección" data-eu="Bilduma">La colección</a>
+        <a href="#era" class="hide-md" data-es="La era dorada" data-eu="Urrezko aroa">La era dorada</a>
         <a href="#gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
         <a href="#tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
         <a href="#faq" class="hide-md" data-es="Preguntas" data-eu="Galderak">Preguntas</a>
@@ -567,12 +632,7 @@
       <h1 id="h1" style="--i:1"><span class="l"><span data-es="Hierro" data-eu="Benetako">Hierro</span></span><span class="l"><span data-es="<em>de verdad</em>" data-eu="<em>burdina</em>"><em>de verdad</em></span></span></h1>
       <p class="sub" style="--i:2" data-es="Un taller de fuerza, no un gimnasio de catálogo. Máquinas de Cybex, Hammer Strength, Nautilus o Panatta buscadas una a una por su historia y su calidad. Cada pieza tiene nombre, año y kilómetros." data-eu="Indar-tailerra, ez katalogoko gimnasioa. Cybex, Hammer Strength, Nautilus edo Panatta makinak, banan-banan bilatuak beren istorio eta kalitateagatik. Pieza bakoitzak izena, urtea eta kilometroak ditu.">Un taller de fuerza, no un gimnasio de catálogo. Máquinas de Cybex, Hammer Strength, Nautilus o Panatta buscadas una a una por su historia y su calidad. Cada pieza tiene nombre, año y kilómetros.</p>
       <div class="ctas" style="--i:3">
-        <div class="slide-cta" id="slidecta" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="track2"><div class="fill"></div>
-            <button type="button" class="knob" id="knob" aria-label="Desliza para reservar tu plaza de fundador"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="lbl2"><svg viewBox="0 0 272 288" aria-hidden="true"><use href="#b"/></svg><span data-es="Desliza para reservar" data-eu="Irristatu erreserbatzeko">Desliza para reservar</span></div>
-            <div class="ok" data-es="Vamos allá" data-eu="Goazen">Vamos allá</div>
-          </div>
+        <div class="slide-cta" data-slide></div>
         </div>
         <a href="#coleccion" class="btn-text"><span data-es="Descubre las máquinas" data-eu="Ezagutu makinak">Descubre las máquinas</span></a>
       </div>
@@ -608,8 +668,26 @@
         <h3 data-es="Y muchas más" data-eu="Eta askoz gehiago">Y muchas más</h3>
         <p data-es="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen." data-eu="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Pieza bakoitzaren istorioa kontatuz joango gara iristen diren heinean.">Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen.</p>
       </div>
-      <a href="#fundador" class="btn btn-ghost" data-es="Quiero entrenar con ellas" data-eu="Haiekin entrenatu nahi dut">Quiero entrenar con ellas</a>
+      <div class="slide-cta" data-slide></div>
     </div>
+  </div>
+</section>
+
+<section id="era" aria-labelledby="era-t">
+  <div class="wrap">
+    <div class="era-head" data-reveal>
+      <span class="plate" data-es="La era dorada" data-eu="Urrezko aroa">La era dorada</span>
+      <h2 id="era-t" data-es="Vol. 01: el hierro que hizo historia" data-eu="1. liburukia: historia egin zuen burdina">Vol. 01: el hierro que hizo historia</h2>
+    </div>
+    <div class="era-grid">
+      <figure class="era-ph a" data-reveal><img src="img/chain.webp" alt="Press de pecho a cadena old school"><span class="hex" data-es="Francia<br>años 80" data-eu="Frantzia<br>80ko h.">Francia<br>años 80</span><figcaption data-es="Transmisión a cadena" data-eu="Kate-transmisioa">Transmisión a cadena</figcaption></figure>
+      <div class="era-card c1" data-reveal><img class="mc" src="img/cybex_chest.webp" alt="" aria-hidden="true"><img class="lg" src="img/marcas/gymleco.png" alt="Gymleco"><dl><dt>Gymleco</dt><dd data-es="Hack squat de carga" data-eu="Karga-hack squat">Hack squat de carga</dd></dl><b data-es="En Burdin" data-eu="Burdinen">En Burdin</b></div>
+      <figure class="era-ph b" data-reveal><img src="img/hero-cadena.jpg" alt="Detalle de cadena y piñones"><span class="hex" data-es="Hecho<br>a mano" data-eu="Eskuz<br>egina">Hecho<br>a mano</span><figcaption data-es="Piñones y cadena" data-eu="Pinoiak eta katea">Piñones y cadena</figcaption></figure>
+      <div class="era-card c2" data-reveal><img class="mc" src="img/flex_bicep.webp" alt="" aria-hidden="true"><img class="lg" src="img/marcas/nautilus.png" alt="Nautilus"><dl><dt>Nautilus</dt><dd data-es="Leva de primera generación" data-eu="Lehen belaunaldiko kama">Leva de primera generación</dd></dl><b data-es="En Burdin" data-eu="Burdinen">En Burdin</b></div>
+      <figure class="era-ph c" data-reveal><img src="img/cybex_curl.webp" alt="Cybex Arm Curl gunmetal"><span class="hex" data-es="Alemania<br>2005" data-eu="Alemania<br>2005">Alemania<br>2005</span><figcaption data-es="Cybex gunmetal" data-eu="Cybex gunmetal">Cybex gunmetal</figcaption></figure>
+      <div class="era-card c3" data-reveal><img class="mc" src="img/cybex_curl.webp" alt="" aria-hidden="true"><img class="lg" src="img/marcas/hammer-strength.png" alt="Hammer Strength"><dl><dt>Hammer Strength</dt><dd data-es="Remo de carga independiente" data-eu="Arraun independentea">Remo de carga independiente</dd></dl><b data-es="En Burdin" data-eu="Burdinen">En Burdin</b></div>
+    </div>
+    <span class="plate era-foot" data-reveal data-es="Cada pieza tiene una historia" data-eu="Pieza bakoitzak istorio bat du">Cada pieza tiene una historia</span>
   </div>
 </section>
 
@@ -666,6 +744,7 @@
         <li><svg aria-hidden="true"><use href="#i-key"/></svg><div><strong class="tbd" data-es="Entra el primero" data-eu="Lehena sartu">Entra el primero</strong><span data-es="Visita privada antes de la apertura para conocer las máquinas." data-eu="Irekiera aurreko bisita pribatua, makinak ezagutzeko.">Visita privada antes de la apertura para conocer las máquinas.</span></div></li>
         <li><svg aria-hidden="true"><use href="#i-shirt"/></svg><div><strong class="tbd" data-es="Camiseta fundador" data-eu="Sortzaile-kamiseta">Camiseta fundador</strong><span data-es="Edición numerada que no se vende." data-eu="Saltzen ez den edizio zenbakidua.">Edición numerada que no se vende.</span></div></li>
       </ul>
+      <div class="slide-cta" data-slide data-to="#fName" style="margin-top:28px"></div>
     </div>
     <form data-reveal class="form" id="waitlist" novalidate>
       <div class="eyebrow" data-n="05" data-es="Lista de espera" data-eu="Itxaron-zerrenda">Lista de espera</div>
@@ -688,7 +767,7 @@
   </div>
 </section>
 
-<section id="manifiesto">
+<section id="manifiesto"><canvas class="tv" id="tv" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="eyebrow" data-n="06" style="margin-bottom:34px" data-es="Manifiesto" data-eu="Manifestua">Manifiesto</div>
     <div data-reveal class="mani">
@@ -763,7 +842,7 @@
   <div class="wrap">
     <div data-reveal class="fcta">
       <h3 data-es="Quedan <em id='seatsLeft3'>0</em> plazas de fundador." data-eu="<em id='seatsLeft3'>0</em> sortzaile-plaza geratzen dira.">Quedan <em id="seatsLeft3">0</em> plazas de fundador.</h3>
-      <a href="#fundador" class="btn btn-primary" data-es="Reserva la tuya" data-eu="Gorde zurea">Reserva la tuya</a>
+      <div class="slide-cta" data-slide></div>
     </div>
     <div class="foot">
       <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="40" height="42" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name" style="font-size:1.2rem">Burdin</span><span class="gym" style="font-size:.5rem">Gym</span></span></a>
@@ -810,6 +889,15 @@ let LANG='es', PHASE='pre';
 const eur=n=>(Number.isInteger(n)?n:n.toFixed(2).replace('.',','))+' €';
 
 const MACHINES=[
+ {img:'img/maquinas/gymleco-leg-press.webp',brand:'Gymleco',name:'Leg Press',
+  es:{model:'Prensa de carga · Serie 800',d:'Prensa de pierna de carga directa: discos en las astas, respaldo inclinado y plataforma grande. Sin poleas ni cables entre tú y el peso.',year:'Suecia',from:'Fábrica, Estocolmo',km:'2.900 km',why:'Gymleco lleva décadas haciendo hierro en Suecia para gimnasios de fuerza. Acero grueso, soldaduras a la vista y una geometría que no te deja hacer trampa: empujas tú, no la máquina.',g:'Pierna · Glúteo',t:'Carga directa'},
+  eu:{model:'Karga-prentsa · 800 seriea',d:'Zuzeneko kargako hanka-prentsa: diskoak adarretan, bizkar-euskarri inklinatua eta plataforma handia. Poleatik eta kablerik gabe zure eta pisuaren artean.',year:'Suedia',from:'Fabrika, Stockholm',km:'2.900 km',why:'Gymlecok hamarkadak daramatza Suedian indar-gimnasioentzako burdina egiten. Altzairu lodia, soldadura agerian eta tranparik egiten uzten ez duen geometria: zuk bultzatzen duzu, ez makinak.',g:'Hanka · Ipurmasaila',t:'Zuzeneko karga'}},
+ {img:'img/maquinas/gymleco-hack-squat.webp',brand:'Gymleco',name:'Hack Squat',
+  es:{model:'Sentadilla hack de carga',d:'Guía de acero inoxidable a 45°, almohadillas de hombro y plataforma regulable. La sentadilla de siempre, con la espalda apoyada y la pierna sola contra el peso.',year:'Suecia',from:'Fábrica, Estocolmo',km:'2.900 km',why:'Es la máquina que más se ve en los vídeos de culturismo escandinavo. El carro corre sobre la guía de inoxidable sin un ruido: lo único que se oye son los discos.',g:'Cuádriceps · Glúteo',t:'Carga directa'},
+  eu:{model:'Karga-hack squat',d:'Altzairu herdoilgaitzezko gida 45°-tan, sorbalda-kuxinak eta plataforma erregulagarria. Betiko squata, bizkarra bermatuta eta hanka bakarrik pisuaren aurka.',year:'Suedia',from:'Fabrika, Stockholm',km:'2.900 km',why:'Eskandinaviako kulturismo-bideoetan gehien ikusten den makina da. Orga herdoilgaitzezko gidaren gainean zarata egin gabe ibiltzen da: diskoak bakarrik entzuten dira.',g:'Kuadrizepsa · Ipurmasaila',t:'Zuzeneko karga'}},
+ {img:'img/maquinas/gymleco-chest-press.webp',brand:'Gymleco',name:'Chest Press',
+  es:{model:'Press de pecho de carga',d:'Press de pecho sentado con brazos independientes y carga de discos. Respaldo alto y asiento regulable para ajustar el recorrido a cada uno.',year:'Suecia',from:'Fábrica, Estocolmo',km:'2.900 km',why:'Cada brazo va por su lado, así que el lado débil no se esconde detrás del fuerte. Pieza sobria, negra y sin adornos: sueca hasta el último tornillo.',g:'Pecho · Tríceps',t:'Carga directa'},
+  eu:{model:'Karga-bular-prentsa',d:'Eserita egiteko bular-prentsa, beso independenteekin eta disko-kargarekin. Bizkar-euskarri altua eta eserleku erregulagarria ibilbidea bakoitzari egokitzeko.',year:'Suedia',from:'Fabrika, Stockholm',km:'2.900 km',why:'Beso bakoitza bere aldetik doa, beraz alde ahula ez da indartsuaren atzean ezkutatzen. Pieza soila, beltza eta apaingarririk gabea: suediarra azken torlojuraino.',g:'Bularra · Trizepsa',t:'Zuzeneko karga'}},
  {img:'img/chain.webp',brand:'Old school',name:'Chest Press',
   es:{model:'Transmisión por cadena',d:'Press de pecho con transmisión por cadena y piñones. Se nota la cadena trabajar en cada repetición: nada de cables ni levas.',year:'Años 80',from:'Gimnasio cerrado, Francia',km:'1.100 km',why:'Es una de esas piezas que ya no se fabrican. Se desmontó, se limpió pieza a pieza y se tapizó de nuevo. Cruzó Francia en una furgoneta y entró por la puerta antes que la mesa de recepción.',g:'Pecho · Hombro',t:'Cadena'},
   eu:{model:'Kate bidezko transmisioa',d:'Kate eta pinoi bidezko bular-prentsa. Errepikapen bakoitzean katea lanean nabaritzen da: ez kablerik, ez kamarik.',year:'80ko hamarkada',from:'Itxitako gimnasioa, Frantzia',km:'1.100 km',why:'Jada egiten ez diren pieza horietako bat da. Desmuntatu, piezaz pieza garbitu eta berriro tapizatu zen. Frantzia furgoneta batean zeharkatu zuen eta harrera-mahaia baino lehen sartu zen atetik.',g:'Bularra · Sorbalda',t:'Katea'}},
@@ -823,8 +911,8 @@ const MACHINES=[
   es:{model:'Leva gunmetal',d:'Curl de brazos con leva: la resistencia cambia a lo largo del recorrido para que el bíceps trabaje igual arriba que abajo.',year:'2005',from:'Gimnasio privado, Alemania',km:'1.600 km',why:'El acabado gunmetal de esa época es de los que ya no se ven. Rodamientos nuevos y lista para otros veinte años. Su anterior dueño la vendió solo cuando supo dónde iba a acabar.',g:'Bíceps',t:'Leva'},
   eu:{model:'Gunmetal kama',d:'Besoetako kurla kamarekin: erresistentzia ibilbidean zehar aldatzen da, bizepsak goian eta behean berdin lan egin dezan.',year:'2005',from:'Gimnasio pribatua, Alemania',km:'1.600 km',why:'Garai hartako gunmetal akabera jada ikusten ez den horietakoa da. Errodamendu berriak, eta beste hogei urterako prest. Aurreko jabeak nora joango zen jakin zuenean bakarrik saldu zuen.',g:'Bizepsa',t:'Kama'}}
 ];
-const ML={es:{y:'Año',f:'Procedencia',k:'Recorrido',w:'Por qué es especial',g:'Grupo',t:'Tipo',ex:'Historia de ejemplo',open:'Ver historia',close:'Cerrar historia'},
-          eu:{y:'Urtea',f:'Jatorria',k:'Ibilbidea',w:'Zergatik den berezia',g:'Taldea',t:'Mota',ex:'Adibide-istorioa',open:'Istorioa ikusi',close:'Istorioa itxi'}};
+const ML={es:{y:'Año / origen',f:'Procedencia',k:'Recorrido',w:'Por qué es especial',g:'Grupo',t:'Tipo',ex:'Historia de ejemplo',open:'Ver historia',close:'Cerrar historia'},
+          eu:{y:'Urtea / jatorria',f:'Jatorria',k:'Ibilbidea',w:'Zergatik den berezia',g:'Taldea',t:'Mota',ex:'Adibide-istorioa',open:'Istorioa ikusi',close:'Istorioa itxi'}};
 
 const ZONES=[
  {img:'img/chain.webp',photo:'img/zona-oldschool.jpg',es:{h:'Respeta<br>el hierro',p:'Old school: piezas clásicas que ya no se fabrican.'},eu:{h:'Errespetatu<br>burdina',p:'Old school: jada egiten ez diren pieza klasikoak.'}},
@@ -878,7 +966,7 @@ function renderMachines(){
   const l=LANG,x=ML[l];
   $('#sheets').innerHTML=MACHINES.map((m,i)=>{const t=m[l];const yr=(t.year.match(/\d+/)||[''])[0];return `
    <article class="sheet" data-reveal>
-     <div class="pic" data-tilt><canvas class="gen" data-gen="${i}" aria-hidden="true"></canvas><span class="n">Nº 0${i+1} / 0${MACHINES.length}</span><span class="yr" aria-hidden="true">${yr}</span><img src="${m.img}" alt="${m.brand} ${m.name}" loading="lazy" data-parallax>
+     <div class="pic" data-tilt><canvas class="gen" data-gen="${i}" aria-hidden="true"></canvas><span class="n">Nº 0${i+1} / 0${MACHINES.length}</span><span class="yr" aria-hidden="true">${yr}</span><img src="${m.img}" alt="${m.brand} ${m.name}" data-parallax onerror="this.closest('.pic').classList.add('nofoto')"><div class="ph" aria-hidden="true"><b>${m.brand}</b><span>${m.name}</span><em>${l==='es'?'Foto de la pieza · pendiente':'Piezaren argazkia · zain'}</em></div>
        <div class="story"><b>${x.w}</b><p>${t.why}</p></div>
      </div>
      <div class="meta">
@@ -987,7 +1075,7 @@ function setLang(l){
   LANG=l;document.documentElement.lang=l;
   $$('[data-'+l+']').forEach(e=>e.innerHTML=e.dataset[l]);
   $$('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
-  renderMachines();renderZones();renderBars();renderPlans();renderFaq();renderContact();renderSeats();initGen();prepareMani();
+  renderMachines();renderZones();renderBars();renderPlans();renderFaq();renderContact();renderSeats();initGen();prepareMani();if(window.initSlides)initSlides();
   try{localStorage.setItem('burdin-lang',l)}catch(e){}
   if(window.gsap&&window.ScrollTrigger){animMani();ScrollTrigger.refresh()}
 }
@@ -1084,19 +1172,63 @@ window.__reveal=true;
 const rio=new IntersectionObserver(es=>{let k=0;es.forEach(e=>{if(e.isIntersecting){const el=e.target;if(!el.style.getPropertyValue('--d'))el.style.setProperty('--d',(k++%6)*.1+'s');el.classList.add('is-revealed');rio.unobserve(el)}})},{rootMargin:'0px 0px -8% 0px'});
 function armReveal(){$$('[data-reveal]:not(.is-revealed)').forEach(el=>rio.observe(el))}
 armReveal();new MutationObserver(armReveal).observe(document.body,{childList:true,subtree:true});
-/* ---------- Desliza para reservar ---------- */
-(function(){
-  const root=$('#slidecta'),knob=$('#knob'),fill=root.querySelector('.fill'),lbl=root.querySelector('.lbl2');let x=0,max=0,startX=0,drag=false;
-  const set=v=>{x=Math.max(0,Math.min(max,v));knob.style.transform=`translateX(${x}px)`;fill.style.width=(58+x)+'px';lbl.style.opacity=Math.max(0,1-x/(max*.55));root.setAttribute('aria-valuenow',Math.round(x/max*100)||0)};
-  const done=()=>{root.classList.add('snap','done');set(max);setTimeout(()=>{location.hash='';document.querySelector('#fundador').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});setTimeout(()=>{$('#fName')?.focus({preventScroll:true});root.classList.remove('done');set(0)},900)},450)};
-  const measure=()=>{max=root.querySelector('.track2').clientWidth-58};measure();addEventListener('resize',measure);
+/* ---------- Desliza para reservar (se repite por la página) ---------- */
+function SLt(){return {es:['Desliza para reservar','Vamos allá','Desliza para reservar tu plaza de fundador'],eu:['Irristatu erreserbatzeko','Goazen','Irristatu zure sortzaile-plaza erreserbatzeko']}}
+function slideHTML(){const t=SLt()[LANG];return `<div class="track2"><div class="fill"></div><button type="button" class="knob" aria-label="${t[2]}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="lbl2"><svg viewBox="0 0 272 288" aria-hidden="true"><use href="#b"/></svg><span>${t[0]}</span></div><div class="ok">${t[1]}</div></div>`}
+function initSlides(){$$('[data-slide]').forEach(root=>{
+  root.innerHTML=slideHTML();root.setAttribute('role','group');
+  const W=46,knob=root.querySelector('.knob'),fill=root.querySelector('.fill'),lbl=root.querySelector('.lbl2'),tr=root.querySelector('.track2');
+  let x=0,max=0,startX=0,drag=false;
+  const measure=()=>{max=tr.clientWidth-W};
+  const set=v=>{x=Math.max(0,Math.min(max,v));knob.style.transform=`translateX(${x}px)`;fill.style.width=(W+x)+'px';lbl.style.opacity=Math.max(0,1-x/(max*.55))};
+  const done=()=>{measure();root.classList.add('snap','done');set(max);setTimeout(()=>{const to=root.dataset.to;
+    if(to){const f=document.querySelector(to);f.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>f.focus({preventScroll:true}),500)}
+    else document.querySelector('#fundador').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    setTimeout(()=>{root.classList.remove('done');set(0)},900)},450)};
   knob.addEventListener('pointerdown',e=>{measure();drag=true;startX=e.clientX-x;root.classList.remove('snap');knob.setPointerCapture(e.pointerId)});
   knob.addEventListener('pointermove',e=>{if(drag)set(e.clientX-startX)});
-  const end=()=>{if(!drag)return;drag=false;if(x>max*.82)done();else{root.classList.add('snap');set(0)}};
+  const end=()=>{if(!drag)return;drag=false;if(x>max*.8)done();else{root.classList.add('snap');set(0)}};
   knob.addEventListener('pointerup',end);knob.addEventListener('pointercancel',end);
-  knob.addEventListener('click',()=>{if(x<4){root.classList.add('snap');set(max*.22);setTimeout(()=>set(0),350)}});
+  knob.addEventListener('click',()=>{if(x<4){measure();root.classList.add('snap');set(max*.22);setTimeout(()=>set(0),350)}});
   knob.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '||e.key==='ArrowRight'){e.preventDefault();done()}});
-  root.querySelector('.track2').addEventListener('dblclick',done);
+  tr.addEventListener('dblclick',done);
+})}
+initSlides();window.initSlides=initSlides;
+/* ---------- Shader «tele antigua» del manifiesto (port en WebGL del componente old-television-shader) ---------- */
+(function tv(){
+  const c=$('#tv');if(!c||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const gl=c.getContext('webgl',{alpha:false,antialias:false});if(!gl){c.remove();return}
+  const vs='attribute vec2 p;varying vec2 vUv;void main(){vUv=p*.5+.5;gl_Position=vec4(p,0.,1.);}';
+  const fs=`precision mediump float;
+  uniform float uTime;uniform vec3 uColorA;uniform vec3 uColorB;uniform vec2 uMouse;varying vec2 vUv;
+  float noise(vec2 st){return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123);}
+  float fbm(vec2 st){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(st);st*=2.;a*=.5;}return v;}
+  float smoothNoise(vec2 st){vec2 i=floor(st),f=fract(st);float a=noise(i),b=noise(i+vec2(1.,0.)),c=noise(i+vec2(0.,1.)),d=noise(i+vec2(1.,1.));vec2 u=f*f*(3.-2.*f);return mix(a,b,u.x)+(c-a)*u.y*(1.-u.x)+(d-b)*u.x*u.y;}
+  void main(){vec2 st=vUv;
+    float w=sin(st.x*8.+uTime*2.)*.1+sin(st.y*6.+uTime*1.5)*.1+sin((st.x+st.y)*4.+uTime*3.)*.05;
+    st+=(uMouse-.5)*.3;
+    float n=mix(smoothNoise(st*3.+uTime*.5),fbm(st*2.+uTime*.3),.6);
+    float m=smoothstep(.2,.8,(w+n+1.)*.5);
+    vec3 col=mix(uColorA,uColorB,m);
+    float g=smoothstep(0.,1.,1.-distance(st,vec2(.5))*1.2)+n*.2;
+    col+=g*.15;col*=.9+sin(uTime*.8)*.1;
+    gl_FragColor=vec4(col,1.);}`;
+  const sh=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);return o};
+  const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){c.remove();return}
+  gl.useProgram(pr);
+  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+  const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+  const U=n=>gl.getUniformLocation(pr,n);
+  gl.uniform3f(U('uColorA'),1,1,1);gl.uniform3f(U('uColorB'),0,0,0);
+  const uT=U('uTime'),uM=U('uMouse');
+  const target={x:.5,y:.5},m={x:.5,y:.5};
+  addEventListener('pointermove',e=>{target.x=e.clientX/innerWidth;target.y=1-e.clientY/innerHeight},{passive:true});
+  const size=()=>{const k=.5;c.width=Math.max(1,c.clientWidth*k);c.height=Math.max(1,c.clientHeight*k);gl.viewport(0,0,c.width,c.height)};
+  size();addEventListener('resize',size);
+  let on=false;new IntersectionObserver(e=>{on=e[0].isIntersecting}).observe(c);
+  const t0=performance.now();
+  (function frame(now){if(on){m.x+=(target.x-m.x)*.05;m.y+=(target.y-m.y)*.05;gl.uniform1f(uT,(now-t0)/1000);gl.uniform2f(uM,m.x,m.y);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)}requestAnimationFrame(frame)})(t0);
 })();
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
