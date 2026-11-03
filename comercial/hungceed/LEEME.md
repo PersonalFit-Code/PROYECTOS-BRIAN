@@ -28,7 +28,7 @@ Tienen que salir **9 hojas**:
 
 | Hoja | Qué cuenta |
 | --- | --- |
-| 1 | Portada en bloque negro: titular, la jaula con polea (499 €) en perspectiva con un pedido y un WhatsApp entrando solos, y **la carta**: A tienda, B asistente, C gym, D automatizaciones |
+| 1 | Portada sobre blanco: titular, la jaula con polea (499 €) en perspectiva con un pedido y un WhatsApp entrando solos, y **la carta**: A tienda, B asistente, C gym, D automatizaciones |
 | 2 | El problema: Jose en el centro y todo lo que tira de él; la cuenta del WhatsApp; la solución en cuatro piezas |
 | 3 | Su web actual dibujada y anotada con seis fallos, cada uno con su arreglo |
 | 4 | A · Tienda: móvil de hoy (problema) → móvil nuevo (solución), qué incluye, qué gana |

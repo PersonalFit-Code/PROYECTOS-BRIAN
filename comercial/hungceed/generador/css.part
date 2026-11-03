@@ -303,3 +303,30 @@ header.interior .lado { display: flex; align-items: center; color: var(--rojo); 
 .p4 .cuatro.seis > div { padding: 3.6mm 1.6mm; } .p4 .cuatro.seis .c { width: 11mm; height: 11mm; }
 .p7 .ganas { margin-top: 5mm; } .p7 .ganas > div { padding: 4.4mm 3.4mm; } .p7 .banner { margin-top: 5mm; }
 .p7 .cierre-frase { margin-top: 5mm; font-size: 16pt; padding: 7mm 6mm; }
+
+/* ===== Todo sobre blanco: sin bloques de fondo negro (petición de Brian) ===== */
+.portada2 { background: transparent; color: var(--negro); box-shadow: none; border-radius: 0; padding: 0 0 5mm; border-bottom: 2.5px solid var(--negro); overflow: visible; }
+.portada2::after { display: none; }
+.portada2 .p-top { color: var(--humo); border-bottom-color: var(--linea); }
+.portada2 .p-marca { color: var(--negro); }
+.portada2 .bajada { color: #3a3a40; }
+.portada2 .p-pie { color: var(--humo); border-top-color: var(--linea); }
+.portada2 .p-pie b { color: var(--negro); }
+.carta .c, .sit .ico, .tarj .ico-t, .cuatro .c, .regalo .num, .banner .c, .plan .ico-plan { background: var(--rojo-f); color: var(--rojo); }
+.cierre-frase { background: #fff; color: var(--negro); border: 1px solid var(--linea); border-left: 2mm solid var(--rojo); }
+.burbuja.bot { background: var(--rojo-f); color: var(--negro); }
+.tarifa { background: #fff; color: var(--negro); border: 1px solid var(--linea); }
+.tarifa .g, .tarifa .u { color: var(--humo); }
+.plan.destacado { background: #fff; border: 2px solid var(--rojo); color: #4d4d52; box-shadow: 0 1.2mm 4mm rgba(220,31,38,.12); }
+.plan.destacado .nom b, .plan.destacado .precio, .plan.destacado .mes b { color: var(--negro); }
+.plan.destacado .mes { background: var(--hueso); border-color: var(--linea); }
+.plan.destacado .mes span, .plan.destacado .antes { color: var(--humo); }
+.plan.destacado li { border-color: var(--linea); color: var(--negro); }
+.plan.destacado .ico-plan { background: var(--rojo); color: #fff; }
+.contacto { background: #fff; color: var(--negro); border: 1px solid var(--linea); border-top: 2.5px solid var(--rojo); }
+.contacto .quien b { color: var(--negro); }
+.contacto .rol { color: var(--humo); }
+.ganas > div { background: #fff; color: var(--negro); border: 1px solid var(--linea); }
+.ganas span { color: var(--humo); }
+.solucion4 { background: #fff; color: var(--negro); border: 1px solid var(--linea); }
+.solucion4 .s span { color: var(--humo); }

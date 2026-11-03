@@ -64,10 +64,10 @@ def ecuacion():
     s.append(f'<text x="258" y="66" font-size="9.4" fill="{HUMO}">cada respuesta,</text>')
     s.append(f'<text x="258" y="78" font-size="9.4" fill="{HUMO}">entre leer y contestar</text>')
     s.append(f'<text x="376" y="65" font-size="24" fill="{HUMO}" text-anchor="middle">=</text>')
-    s.append(f'<rect x="400" y="12" width="188" height="88" rx="6" fill="{NEGRO}"/>')
+    s.append(f'<rect x="400" y="12" width="188" height="88" rx="6" fill="#fdecec" stroke="{ROJO}" stroke-width="1.2"/>')
     s.append(f'<text x="494" y="50" font-size="26" font-weight="800" fill="{ROJO}" text-anchor="middle">30 h al mes</text>')
-    s.append(f'<text x="494" y="70" font-size="9.8" fill="#fff" text-anchor="middle">contestando lo mismo</text>')
-    s.append(f'<text x="494" y="84" font-size="9.8" fill="#a1a1aa" text-anchor="middle">una hora y media al día</text>')
+    s.append(f'<text x="494" y="70" font-size="9.8" fill="{NEGRO}" text-anchor="middle">contestando lo mismo</text>')
+    s.append(f'<text x="494" y="84" font-size="9.8" fill="{HUMO}" text-anchor="middle">una hora y media al día</text>')
     s.append('</g></svg>')
     return "".join(s)
 
@@ -121,17 +121,17 @@ def flujo():
     s = [f'<svg class="f" viewBox="0 0 600 236" role="img" aria-label="Cómo contesta el asistente"><defs>{marker("ff", ROJO)}{marker("fg", HUMO)}</defs><g {FONT}>']
     # cliente
     s.append(tarjeta(0, 78, 118, 80, HUESO, LINEA))
-    s.append(f'<circle cx="59" cy="104" r="16" fill="{NEGRO}"/>' + icono("i-chat", 50, 95, 18, "#fff"))
+    s.append(f'<circle cx="59" cy="104" r="16" fill="#fdecec"/>' + icono("i-chat", 50, 95, 18, ROJO))
     s.append(f'<text x="59" y="134" font-size="10" font-weight="700" fill="{NEGRO}" text-anchor="middle">Tu cliente</text>')
     s.append(f'<text x="59" y="147" font-size="8" fill="{HUMO}" text-anchor="middle">escribe por WhatsApp</text>')
     s.append(f'<path d="M118 118 H166" stroke="{ROJO}" stroke-width="2" marker-end="url(#ff)"/>')
     # asistente
-    s.append(tarjeta(168, 62, 150, 112, NEGRO, NEGRO))
+    s.append(tarjeta(168, 62, 150, 112, "#fff", ROJO))
     s.append(f'<rect x="168" y="62" width="150" height="5" rx="2" fill="{ROJO}"/>')
-    s.append(f'<text x="243" y="92" font-size="11.5" font-weight="800" fill="#fff" text-anchor="middle">El asistente</text>')
+    s.append(f'<text x="243" y="92" font-size="11.5" font-weight="800" fill="{NEGRO}" text-anchor="middle">El asistente</text>')
     for i, t in enumerate(("recuerda lo hablado", "contesta con tu info", "consulta el pedido", "y si no sabe, te avisa")):
         s.append(f'<circle cx="186" cy="{108+i*15}" r="2.4" fill="{ROJO}"/>')
-        s.append(f'<text x="194" y="{111+i*15}" font-size="8.4" fill="#e4e4e7">{t}</text>')
+        s.append(f'<text x="194" y="{111+i*15}" font-size="8.4" fill="{NEGRO}">{t}</text>')
     # fuentes
     fuentes = [(10, "Tu catálogo y tus chats", "series, envíos, gym", "i-carta"),
                (90, "WooCommerce", "estado del pedido", "i-bolsa"),
@@ -161,7 +161,7 @@ def pasos():
              (300, "i-ojo", "Lo ves nacer", "Entras cuando quieras y", "me dices qué cambiarías"),
              (500, "i-rayo", "Lo pasamos a real", "Cuando lo apruebes. Sin", "perder pedidos ni Google")]
     for i, (x, ic, t, l1, l2) in enumerate(datos):
-        s.append(f'<circle cx="{x}" cy="44" r="30" fill="{NEGRO}"/>')
+        s.append(f'<circle cx="{x}" cy="44" r="30" fill="#fdecec"/>')
         s.append(icono(ic, x - 14, 30, 28, ROJO))
         s.append(f'<circle cx="{x+24}" cy="20" r="11" fill="{ROJO}"/>')
         s.append(f'<text x="{x+24}" y="24" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">{i+1}</text>')

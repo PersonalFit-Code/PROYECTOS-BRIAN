@@ -272,7 +272,7 @@ def auto_despues():
     for i, (ic, disp, espera, accion, ic2, res) in enumerate(filas):
         y = 14 + i * 70
         s.append(f'<rect x="4" y="{y}" width="292" height="58" rx="6" fill="#fff" stroke="{NEGRO}" stroke-width="1.1"/>')
-        s.append(f'<circle cx="28" cy="{y+29}" r="17" fill="{NEGRO}"/>')
+        s.append(f'<circle cx="28" cy="{y+29}" r="17" fill="#fdecec"/>')
         s.append(icono(ic, 18, y + 19, 20, ROJO))
         s.append(f'<text x="52" y="{y+24}" font-size="8.6" font-weight="800" fill="{NEGRO}">{disp}</text>')
         s.append(f'<text x="52" y="{y+36}" font-size="7.4" fill="{HUMO}">{espera}</text>')
@@ -325,9 +325,9 @@ def dolor():
             s.append(f'<text x="{n(xt)}" y="{n(y+10)}" font-size="8.4" fill="{HUMO}" text-anchor="{anc}">{sub}</text>')
     for r, o in ((60, .14), (51, .28)):
         s.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{ROJO}" stroke-width="2.4" opacity="{o}"/>')
-    s.append(f'<circle cx="{cx}" cy="{cy}" r="42" fill="{NEGRO}"/>')
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="42" fill="{ROJO}"/>')
     s.append(icono("i-persona", cx - 16, cy - 22, 32, "#fff"))
-    s.append(f'<text x="{cx}" y="{cy+24}" font-size="10" font-weight="800" fill="{ROJO}" text-anchor="middle">JOSE</text>')
+    s.append(f'<text x="{cx}" y="{cy+24}" font-size="10" font-weight="800" fill="#fff" text-anchor="middle">JOSE</text>')
     s.append('</g></svg>')
     return "".join(s)
 

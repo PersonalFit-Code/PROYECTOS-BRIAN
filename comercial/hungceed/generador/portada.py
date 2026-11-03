@@ -65,23 +65,22 @@ def placa(xa, xb, y, z, r, cara, canto):
 def escena():
     W, D, H = 168, 112, 226   # ancho, fondo y alto de la jaula
     T = 9                     # grosor de los postes
-    BLANCO, LADO, TECHO = "#f4f4f5", "#b9b9c0", "#ffffff"
+    BLANCO, LADO, TECHO = "#2a2a2f", "#0a0a0b", "#55555c"
 
     s = [f'<svg class="p-escena" viewBox="0 0 430 360" role="img" '
          f'aria-label="Jaula de potencia con polea de Hungceed, con un pedido y un WhatsApp entrando solos">']
     s.append('<defs>'
-             f'<radialGradient id="pg-halo" cx="58%" cy="46%" r="52%"><stop offset="0" stop-color="{ROJO}" stop-opacity=".34"/>'
-             f'<stop offset=".55" stop-color="{ROJO}" stop-opacity=".08"/><stop offset="1" stop-color="{ROJO}" stop-opacity="0"/></radialGradient>'
-             '<radialGradient id="pg-sombra" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".75"/>'
+             f'<radialGradient id="pg-halo" cx="58%" cy="46%" r="52%"><stop offset="0" stop-color="{ROJO}" stop-opacity=".11"/>'
+             f'<stop offset=".55" stop-color="{ROJO}" stop-opacity=".035"/><stop offset="1" stop-color="{ROJO}" stop-opacity="0"/></radialGradient>'
+             '<radialGradient id="pg-sombra" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#0a0a0b" stop-opacity=".2"/>'
              '<stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>'
-             '<linearGradient id="pg-tarima" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#232327"/><stop offset="1" stop-color="#151518"/></linearGradient>'
-             '<pattern id="pg-puntos" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".75" fill="#fff" fill-opacity=".09"/></pattern>'
+             '<linearGradient id="pg-tarima" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ededef"/><stop offset="1" stop-color="#e2e2e5"/></linearGradient>'
+             '<pattern id="pg-puntos" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".75" fill="#0a0a0b" fill-opacity=".08"/></pattern>'
              '<filter id="pg-sombra-tarjeta" x="-20%" y="-30%" width="140%" height="190%">'
-             '<feDropShadow dx="0" dy="1" stdDeviation=".6" flood-color="#000" flood-opacity=".35"/>'
-             '<feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#000" flood-opacity=".45"/></filter>'
+             '<feDropShadow dx="0" dy="1" stdDeviation=".6" flood-color="#000" flood-opacity=".1"/>'
+             '<feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#000" flood-opacity=".12"/></filter>'
              '</defs>')
     # Fondo: rejilla de puntos y halo rojo detras de la jaula
-    s.append('<rect width="430" height="360" fill="url(#pg-puntos)"/>')
     s.append('<ellipse cx="236" cy="168" rx="210" ry="170" fill="url(#pg-halo)"/>')
 
     # Tarima (plataforma de goma) con su canto
@@ -90,15 +89,15 @@ def escena():
     canto_f = [p(x0, 0, z0), p(x1, 0, z0), p(x1, -7, z0), p(x0, -7, z0)]
     canto_l = [p(x1, 0, z0), p(x1, 0, z1), p(x1, -7, z1), p(x1, -7, z0)]
     s.append(f'<ellipse cx="{p(W/2, -10, D/2)[0]:.1f}" cy="{p(W/2, -10, D/2)[1]+6:.1f}" rx="250" ry="34" fill="url(#pg-sombra)"/>')
-    s.append(f'<polygon points="{pts(canto_l)}" fill="#0f0f11"/><polygon points="{pts(canto_f)}" fill="#111114"/>')
-    s.append(f'<polygon points="{pts(top)}" fill="url(#pg-tarima)" stroke="rgba(255,255,255,.08)" stroke-width=".8"/>')
+    s.append(f'<polygon points="{pts(canto_l)}" fill="#c4c4ca"/><polygon points="{pts(canto_f)}" fill="#d4d4d8"/>')
+    s.append(f'<polygon points="{pts(top)}" fill="url(#pg-tarima)" stroke="rgba(10,10,11,.08)" stroke-width=".8"/>')
     # juntas de la goma
     for zz in range(int(z0) + 46, int(z1), 46):
         a, b = p(x0, 0, zz), p(x1, 0, zz)
-        s.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="rgba(255,255,255,.06)" stroke-width=".8"/>')
+        s.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="rgba(10,10,11,.07)" stroke-width=".8"/>')
     for xx in (x0 + 90, x1 - 90):
         a, b = p(xx, 0, z0), p(xx, 0, z1)
-        s.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="rgba(255,255,255,.06)" stroke-width=".8"/>')
+        s.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="rgba(10,10,11,.07)" stroke-width=".8"/>')
     # sombra de contacto de la jaula
     c = p(W / 2, 0, D / 2)
     s.append(f'<ellipse cx="{c[0]:.1f}" cy="{c[1]:.1f}" rx="150" ry="24" fill="url(#pg-sombra)" opacity=".9"/>')
@@ -127,13 +126,13 @@ def escena():
     pa = p(cx, H - 20, D - 26)
     pf = p(cx, H - 20, 6)
     arr = p(cx, 84, D - 26)
-    s.append(f'<path d="M{arr[0]:.1f},{arr[1]:.1f} L{pa[0]:.1f},{pa[1]+6:.1f}" stroke="#d4d4d8" stroke-width="1.2"/>')
+    s.append(f'<path d="M{arr[0]:.1f},{arr[1]:.1f} L{pa[0]:.1f},{pa[1]+6:.1f}" stroke="#52525b" stroke-width="1.2"/>')
 
     # postes laterales arriba (largueros de la izquierda y derecha)
     s.append(caja(0, H - 9, 0, T, H, D, BLANCO, LADO, TECHO))
 
-    s.append(f'<path d="M{pa[0]:.1f},{pa[1]-6:.1f} L{pf[0]:.1f},{pf[1]-6:.1f}" stroke="#d4d4d8" stroke-width="1.2"/>')
-    s.append(f'<circle cx="{pa[0]:.1f}" cy="{pa[1]:.1f}" r="6.5" fill="#26262b" stroke="#a1a1aa" stroke-width="1.2"/>')
+    s.append(f'<path d="M{pa[0]:.1f},{pa[1]-6:.1f} L{pf[0]:.1f},{pf[1]-6:.1f}" stroke="#52525b" stroke-width="1.2"/>')
+    s.append(f'<circle cx="{pa[0]:.1f}" cy="{pa[1]:.1f}" r="6.5" fill="#fff" stroke="#0a0a0b" stroke-width="1.2"/>')
 
     s.append(caja(W - T, H - 9, 0, W, H, D, BLANCO, LADO, TECHO))
 
@@ -142,18 +141,18 @@ def escena():
         s.append(caja(xx, 0, 0, xx + T, H, T, BLANCO, LADO, TECHO))
         for k, y in enumerate(range(18, H - 16, 11)):
             q = p(xx + T / 2, y, 0)
-            s.append(f'<circle cx="{q[0]:.1f}" cy="{q[1]:.1f}" r="1.45" fill="#0a0a0b" fill-opacity=".7"/>')
+            s.append(f'<circle cx="{q[0]:.1f}" cy="{q[1]:.1f}" r="1.45" fill="#fff" fill-opacity=".6"/>')
     # travesano delantero de arriba y barra de dominadas que sobresale
     s.append(caja(0, H - 9, 0, W, H, T, BLANCO, LADO, TECHO))
-    s.append(caja(-26, H - 4, -10, W + 26, H + 2, -4, "#d4d4d8", "#9b9ba3", "#f4f4f5"))
+    s.append(caja(-26, H - 4, -10, W + 26, H + 2, -4, "#a1a1aa", "#71717a", "#d4d4d8"))
     for xx in (-24, W + 18):
         s.append(caja(xx, H - 4, -10, xx + 6, H + 2, -4, "#232327", "#141417", "#3a3a40", "rgba(0,0,0,.4)"))  # puños
 
     # polea delantera, cable bajando y maneral
-    s.append(f'<circle cx="{pf[0]:.1f}" cy="{pf[1]:.1f}" r="6.5" fill="#26262b" stroke="#a1a1aa" stroke-width="1.2"/>')
+    s.append(f'<circle cx="{pf[0]:.1f}" cy="{pf[1]:.1f}" r="6.5" fill="#fff" stroke="#0a0a0b" stroke-width="1.2"/>')
     man = p(cx, 112, 6)
-    s.append(f'<path d="M{pf[0]:.1f},{pf[1]+6:.1f} L{man[0]:.1f},{man[1]:.1f}" stroke="#d4d4d8" stroke-width="1.2"/>')
-    s.append(f'<path d="M{man[0]-13:.1f},{man[1]+9:.1f} L{man[0]:.1f},{man[1]} L{man[0]+13:.1f},{man[1]+9:.1f}" fill="none" stroke="#d4d4d8" stroke-width="1.1"/>')
+    s.append(f'<path d="M{pf[0]:.1f},{pf[1]+6:.1f} L{man[0]:.1f},{man[1]:.1f}" stroke="#52525b" stroke-width="1.2"/>')
+    s.append(f'<path d="M{man[0]-13:.1f},{man[1]+9:.1f} L{man[0]:.1f},{man[1]} L{man[0]+13:.1f},{man[1]+9:.1f}" fill="none" stroke="#52525b" stroke-width="1.1"/>')
     s.append(f'<rect x="{man[0]-17:.1f}" y="{man[1]+8:.1f}" width="34" height="5" rx="2.5" fill="{ROJO}"/>')
 
     # brazos de seguridad (rojos) y soportes J
@@ -180,10 +179,10 @@ def escena():
     # ---- Aviso de pedido, apilado como las notificaciones del sistema
     tx, ty, tw, th = 6, 262, 212, 50
     # dos avisos anteriores asomando por detras, mas pequenos y apagados
-    for dy, esc, color in ((-14, .88, "#3a3a40"), (-7, .94, "#6b6b72")):
+    for dy, esc, color in ((-14, .88, "#e9e9ec"), (-7, .94, "#f4f4f5")):
         w = tw * esc
         s.append(f'<rect x="{tx + (tw - w)/2:.1f}" y="{ty + dy:.1f}" width="{w:.1f}" height="{th}" rx="11" '
-                 f'fill="{color}" stroke="rgba(255,255,255,.12)" stroke-width=".6" filter="url(#pg-sombra-tarjeta)"/>')
+                 f'fill="{color}" stroke="#dcdce0" stroke-width=".6" filter="url(#pg-sombra-tarjeta)"/>')
     s.append(f'<g filter="url(#pg-sombra-tarjeta)"><rect x="{tx}" y="{ty}" width="{tw}" height="{th}" rx="11" fill="#fff"/></g>')
     s.append(f'<rect x="{tx+.5}" y="{ty+.5}" width="{tw-1}" height="{th-1}" rx="10.5" fill="none" stroke="#e4e4e7"/>')
     s.append(f'<rect x="{tx+11}" y="{ty+11}" width="28" height="28" rx="8" fill="{ROJO}"/>')
@@ -196,12 +195,12 @@ def escena():
 
     # ---- WhatsApp: pregunta del cliente y respuesta del asistente
     bx, by = 250, 8
-    s.append(f'<g filter="url(#pg-sombra-tarjeta)"><rect x="{bx}" y="{by}" width="160" height="36" rx="10" fill="#fff"/></g>')
+    s.append(f'<g filter="url(#pg-sombra-tarjeta)"><rect x="{bx}" y="{by}" width="160" height="36" rx="10" fill="#fff" stroke="#e4e4e7"/></g>')
     s.append(f'<text x="{bx+11}" y="{by+15}" font-size="8.4" fill="#0a0a0b">¿Qué precio tiene la jaula</text>')
     s.append(f'<text x="{bx+11}" y="{by+27}" font-size="8.4" fill="#0a0a0b">con polea?</text>')
     s.append(f'<text x="{bx+151}" y="{by+29}" font-size="6.4" fill="#8a8a92" text-anchor="end">10:42</text>')
     ry = by + 44
-    s.append(f'<g filter="url(#pg-sombra-tarjeta)"><rect x="{bx+18}" y="{ry}" width="150" height="56" rx="10" fill="#e7f7df"/></g>')
+    s.append(f'<g filter="url(#pg-sombra-tarjeta)"><rect x="{bx+18}" y="{ry}" width="150" height="56" rx="10" fill="#e7f7df" stroke="#cfe9c2"/></g>')
     s.append(f'<text x="{bx+29}" y="{ry+13}" font-size="6.2" font-weight="700" fill="{ROJO}" letter-spacing=".8">ASISTENTE HUNGCEED</text>')
     s.append(f'<text x="{bx+29}" y="{ry+26}" font-size="8.4" fill="#0a0a0b"><tspan font-weight="700">499 €.</tspan> Te paso la ficha</text>')
     s.append(f'<text x="{bx+29}" y="{ry+38}" font-size="8.4" fill="#0a0a0b">para pedirla ahí mismo.</text>')
