@@ -32,8 +32,13 @@ Dirección de arte: «un taller de fuerza, no un gimnasio de catálogo».
   máquina recortada que se sale del marco.
 - **Movimiento (GSAP + ScrollTrigger desde cdnjs):** entrada del titular, parallax suave en la
   foto de portada y en las máquinas, fichas que aparecen escalonadas, cifras que cuentan, anillo
-  de plazas con brillo cónico que gira. Si GSAP no carga o el usuario pide menos movimiento, la
-  página se ve igual, quieta.
+  de plazas que entra a escala y se rellena, y el manifiesto que se ilumina palabra a palabra al
+  bajar. Si GSAP no carga o el usuario pide menos movimiento, la página se ve igual, quieta.
+- **Efectos hechos a medida** (el conector de 21st.dev no conectaba, así que no son componentes
+  suyos): un shader WebGL de «deriva de malla» en tonos óxido fundido sobre la foto de portada
+  (se para cuando la portada no se ve y se quita con `prefers-reduced-motion`); inclinación 3D de
+  cada ficha siguiendo el ratón (solo con puntero fino); y un patrón generativo tenue por ficha
+  (rejilla técnica con remaches, sembrado por el número de pieza) dibujado en canvas.
 
 Las preguntas para que Ander elija entre las dos referencias están en `../PREGUNTAS-ANDER.md`.
 
