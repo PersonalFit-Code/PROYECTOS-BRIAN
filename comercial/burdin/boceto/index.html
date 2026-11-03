@@ -6,371 +6,396 @@
 <title>Burdin Gym</title>
 <meta name="description" content="Burdin Gym · Gimnasio de musculación old school en Euskadi. Máquinas de las mejores marcas del mundo, elegidas una a una.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0b0b0b">
+<meta name="theme-color" content="#0a0a0a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Syncopate:wght@700&family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Michroma&family=Syncopate:wght@700&display=swap" rel="stylesheet">
 <style>
-  :root{--black:#0a0a0a;--coal:#131313;--graphite:#1b1b1b;--stone:#dcdcdc;--silver:#9a9a9a;--mute:#6b6b6b;--accent:#e8d79b;--line:rgba(255,255,255,.08);--white:#f4f4f4;--nav:72px}
+  /* Plan: negro casi puro, blanco roto y un solo acento óxido. Anton para gritar, Manrope para leer,
+     Space Mono para las fichas técnicas, Playfair para el manifiesto. Syncopate y Michroma solo en el logo. */
+  :root{
+    --bg:#0a0a0a;--bg2:#101010;--bg3:#161616;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.18);
+    --fg:#f5f5f5;--fg2:#b9b9b9;--fg3:#7a7a7a;
+    --rust:#c8522a;--rust2:#e2673a;--rust-dim:rgba(200,82,42,.18);
+    --tbd:#e8d79b;
+    --display:'Anton',Impact,'Arial Narrow',sans-serif;--body:'Manrope',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;--serif:'Playfair Display',Georgia,serif;
+    --ease:cubic-bezier(.16,1,.3,1);--nav:72px;color-scheme:dark
+  }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 10px)}
   html,body{overflow-x:clip}
-  body{background:var(--black);color:var(--stone);font-family:'Barlow',sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
   img{display:block;max-width:100%}
   a{color:inherit;text-decoration:none}
   button,input,select{font:inherit}
-  .wrap{width:min(1180px,calc(100% - 40px));margin:0 auto}
-  h1,h2,h3{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;color:var(--white);line-height:.95;letter-spacing:.01em}
-  .eyebrow{font-family:'Michroma',sans-serif;font-size:.64rem;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.14em;text-transform:uppercase;padding:14px 26px;border:1px solid var(--white);background:var(--white);color:var(--black);transition:.2s;cursor:pointer;text-align:center}
-  .btn:hover{background:transparent;color:var(--white)}
-  .btn.accent{background:var(--accent);border-color:var(--accent);outline:1px dashed rgba(232,215,155,.45);outline-offset:5px}
-  .btn.accent:hover{background:transparent;color:var(--accent)}
-  .btn.ghost{background:transparent;color:var(--white);border-color:rgba(255,255,255,.3)}
-  .btn.ghost:hover{border-color:var(--white);background:var(--white);color:var(--black)}
+  .wrap{width:min(1240px,100% - 40px);margin-inline:auto}
+  h1,h2,h3{font-family:var(--display);font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:.005em;color:var(--fg);text-wrap:balance}
+  .mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+  .eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rust2)}
+  .eyebrow::before{content:"[" attr(data-n) "] ";color:var(--fg3)}
+  .lead{color:var(--fg2);max-width:62ch}
+  /* grano de película */
+  body::after{content:"";position:fixed;inset:0;z-index:95;pointer-events:none;opacity:.08;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* botones: jerarquía clara */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--display);font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;padding:16px 30px;border:1px solid transparent;cursor:pointer;transition:transform .5s var(--ease),background .3s,color .3s,border-color .3s;position:relative;overflow:hidden;text-align:center}
+  .btn-primary{background:var(--rust);color:#fff;border-color:var(--rust)}
+  .btn-primary::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);transform:translateX(-120%);transition:transform .8s var(--ease)}
+  .btn-primary:hover{background:var(--rust2);border-color:var(--rust2);transform:translateY(-2px)}
+  .btn-primary:hover::after{transform:translateX(120%)}
+  .btn-ghost{background:transparent;color:var(--fg);border-color:var(--line2)}
+  .btn-ghost:hover{border-color:var(--fg);background:var(--fg);color:var(--bg)}
+  .btn-text{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg);padding:16px 4px;background:none;border:0;cursor:pointer;transition:.3s}
+  .btn-text svg{width:20px;height:20px;transition:transform .5s var(--ease)}
+  .btn-text:hover{color:var(--rust2)}
+  .btn-text:hover svg{transform:translateX(6px)}
   .btn.block{width:100%}
-  body::after{content:"";position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
-  .mono{font-family:'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase}
-  body{counter-reset:sec}
-  section{counter-increment:sec}
-  .head .eyebrow::before{content:"[0" counter(sec) "] ";font-family:'Space Mono',monospace;letter-spacing:.05em;color:var(--mute);margin-right:6px}
-  /* marca de dato por confirmar (solo en modo boceto) */
-  body.boceto .tbd::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:6px;vertical-align:super;box-shadow:0 0 0 3px rgba(232,215,155,.18)}
-  .bocetobar{display:none;background:#161616;border-bottom:1px solid rgba(232,215,155,.3);color:#e6dcb4;font-size:.8rem;padding:8px 0}
+  :focus-visible{outline:2px solid var(--rust2);outline-offset:3px}
+
+  /* marca de dato por confirmar */
+  body.boceto .tbd::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--tbd);margin-left:6px;vertical-align:super;box-shadow:0 0 0 3px rgba(232,215,155,.18)}
+  .bocetobar{display:none;background:#171511;border-bottom:1px solid rgba(232,215,155,.3);color:#e6dcb4;font-size:.8rem;padding:8px 0;position:relative;z-index:60}
   body.boceto .bocetobar{display:block}
   .bocetobar .wrap{display:flex;gap:14px;align-items:center;justify-content:space-between}
-  .bocetobar b{font-family:'Michroma',sans-serif;font-size:.6rem;letter-spacing:.25em;color:var(--accent);margin-right:8px}
-  .bocetobar i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin:0 3px}
+  .bocetobar b{font-family:var(--mono);font-size:.62rem;letter-spacing:.25em;color:var(--tbd);margin-right:8px}
+  .bocetobar i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--tbd);margin:0 3px}
   .bocetobar button{background:none;border:0;color:#e6dcb4;cursor:pointer;font-size:1.1rem;line-height:1}
 
   /* LOGO */
   .logo{display:inline-flex;align-items:center;gap:12px}
-  .logo svg{display:block}
+  .logo svg{display:block;transition:width .4s var(--ease),height .4s var(--ease)}
   .logo .txt{display:flex;flex-direction:column;align-items:center;gap:5px}
   .logo .name{font-family:'Syncopate',sans-serif;font-weight:700;letter-spacing:.14em;color:#e2e2e2;line-height:1;text-transform:uppercase;font-size:1rem}
   .logo .gym{display:flex;align-items:center;gap:.8em;font-family:'Michroma',sans-serif;letter-spacing:.55em;color:#b3b3b3;text-transform:uppercase;line-height:1;font-size:.45rem}
   .logo .gym::before,.logo .gym::after{content:"";height:1px;width:2.6em;background:#6b6b6b}
 
-  /* NAV */
-  nav{position:sticky;top:0;z-index:40;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav);gap:20px}
-  .links{display:flex;gap:26px;align-items:center}
-  .links a{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:.95rem;color:#cfcfcf}
-  .links a:hover{color:var(--white)}
-  .links a.cta{color:var(--black);background:var(--accent);padding:8px 14px}
-  .links a.cta:hover{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+  /* NAV: transparente sobre la portada, sólida al bajar */
+  nav.top{position:sticky;left:0;right:0;top:0;z-index:50}
+  nav.top::before{content:"";position:absolute;inset:0;background:rgba(10,10,10,0);border-bottom:1px solid transparent;transition:.4s}
+  nav.top.solid::before{background:rgba(10,10,10,.92);border-color:var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .nav{position:relative;display:flex;align-items:center;justify-content:space-between;height:var(--nav);gap:20px;transition:height .4s var(--ease)}
+  nav.top.solid .nav{height:62px}
+  nav.top.solid .logo svg{width:26px;height:28px}
+  .links{display:flex;gap:28px;align-items:center}
+  .links a{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg2);transition:.3s}
+  .links a:hover{color:var(--fg)}
+  .links a.cta{color:#fff;background:var(--rust);padding:10px 14px}
+  .links a.cta:hover{background:var(--rust2)}
   .right{display:flex;align-items:center;gap:14px}
-  .lang{display:flex;border:1px solid var(--line)}
-  .lang button{background:none;border:0;color:var(--silver);font-family:'Michroma',sans-serif;font-size:.62rem;letter-spacing:.15em;padding:8px 11px;cursor:pointer}
-  .lang button.on{background:var(--white);color:var(--black)}
-  .burger{display:none;width:44px;height:44px;background:none;border:1px solid var(--line);cursor:pointer;position:relative}
-  .burger span{position:absolute;left:11px;right:11px;height:2px;background:var(--stone);transition:.25s}
+  .lang{display:flex;border:1px solid var(--line2)}
+  .lang button{background:none;border:0;color:var(--fg3);font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;padding:8px 11px;cursor:pointer}
+  .lang button.on{background:var(--fg);color:var(--bg)}
+  .burger{display:none;width:44px;height:44px;background:none;border:1px solid var(--line2);cursor:pointer;position:relative}
+  .burger span{position:absolute;left:11px;right:11px;height:2px;background:var(--fg);transition:.25s}
   .burger span:nth-child(1){top:14px}.burger span:nth-child(2){top:21px}.burger span:nth-child(3){top:28px}
   nav.open .burger span:nth-child(1){top:21px;transform:rotate(45deg)}
   nav.open .burger span:nth-child(2){opacity:0}
   nav.open .burger span:nth-child(3){top:21px;transform:rotate(-45deg)}
 
-  /* HERO */
-  .hero{position:relative;padding:84px 0 70px;overflow:hidden;background:radial-gradient(ellipse 60% 70% at 72% 55%,rgba(255,255,255,.07),transparent 70%)}
-  .hero::before{content:"BURDIN";position:absolute;left:-2vw;bottom:-4vw;font-family:'Syncopate',sans-serif;font-weight:700;font-size:22vw;letter-spacing:.05em;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.035);pointer-events:none;white-space:nowrap}
-  .hero::after{content:"";position:absolute;inset:-6%;background:url(img/chain.webp) 78% 40%/58% auto no-repeat;filter:grayscale(1) blur(26px) brightness(.55);opacity:.38;pointer-events:none}
-  .hero>.wrap{position:relative;z-index:1}
-  .hero>.side{z-index:1}
-  .hero-grid{position:relative;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:40px}
-  .pill{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(232,215,155,.4);padding:7px 14px;font-family:'Michroma',sans-serif;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent)}
-  .pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.6s infinite}
+  /* HERO a pantalla completa */
+  .hero{position:relative;min-height:calc(100svh - var(--nav));margin-top:calc(-1 * var(--nav));display:grid;align-items:end;padding:calc(var(--nav) + 60px) 0 70px;overflow:hidden;isolation:isolate}
+  .hero .bg{position:absolute;inset:-8% 0;z-index:-2;background:url(img/hero-cadena.jpg) 62% 35%/cover no-repeat;will-change:transform}
+  .hero .shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,10,10,.6) 0%,rgba(10,10,10,.25) 40%,rgba(10,10,10,.93) 100%),radial-gradient(ellipse 60% 70% at 70% 45%,transparent,rgba(10,10,10,.6))}
+  .hero-in{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:end}
+  .hero .kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--fg2);margin-bottom:26px}
+  .hero .kicker::before{content:"";width:8px;height:8px;background:var(--rust);animation:pulse 1.6s infinite}
   @keyframes pulse{50%{opacity:.25}}
-  .hero h1{font-size:clamp(3rem,7vw,5.6rem);font-weight:800;margin:22px 0 20px}
-  .hero h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--stone)}
-  .hero p.lead{max-width:480px;color:#b5b5b5;font-size:1.12rem;margin-bottom:28px}
-  .ctas{display:flex;gap:12px;flex-wrap:wrap}
-  .count{display:flex;gap:10px;margin:0 0 30px}
-  .count div{min-width:74px;border:1px solid var(--line);background:rgba(255,255,255,.02);padding:10px 8px 8px;text-align:center}
-  .count b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.3rem;line-height:1;color:var(--white);font-variant-numeric:tabular-nums}
-  .count small{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-  .count-label{font-size:.85rem;color:var(--silver);margin-bottom:10px}
-  .hero-m{position:relative}
-  .hero-m img{position:relative;z-index:1;max-height:560px;margin:0 auto;filter:grayscale(1) contrast(1.08) drop-shadow(0 30px 40px rgba(0,0,0,.7))}
-  .hero-m::after{content:"";position:absolute;left:8%;right:8%;bottom:-10px;height:60px;background:radial-gradient(ellipse at center,rgba(255,255,255,.18),transparent 70%);filter:blur(6px)}
-  .hero-m .tag{position:absolute;z-index:2;left:0;bottom:4%;background:rgba(10,10,10,.85);border:1px solid var(--line);padding:12px 16px;max-width:200px}
-  .hero-m .tag small{display:block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:4px}
-  .hero-m .tag span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;color:var(--white);text-transform:uppercase;line-height:1.1;display:block}
+  .hero h1{font-size:clamp(4.4rem,13vw,13.5rem);line-height:.86;letter-spacing:-.005em}
+  .hero h1 .l{display:block;overflow:hidden}
+  .hero h1 .l span{display:block}
+  .hero h1 em{font-style:normal;color:transparent;-webkit-text-stroke:2px var(--fg)}
+  .hero p.sub{max-width:52ch;color:var(--fg2);font-size:1.15rem;margin:28px 0 34px}
+  .ctas{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  .urgency{border-left:1px solid var(--line2);padding-left:26px}
+  .urgency .big{font-family:var(--display);font-size:clamp(3rem,5vw,4.6rem);line-height:1;color:var(--fg);font-variant-numeric:tabular-nums}
+  .urgency .big b{color:var(--rust2);font-weight:400}
+  .urgency .big small{font-size:.38em;color:var(--fg3);font-family:var(--mono);letter-spacing:.1em;margin-left:8px}
+  .urgency .line{height:2px;background:var(--line);margin:14px 0 10px;position:relative;overflow:hidden}
+  .urgency .line i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--rust);transition:width 1.6s var(--ease)}
+  .urgency .lbl{color:var(--fg2);font-size:.95rem}
+  .urgency .count{display:flex;gap:18px;margin-top:22px;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--fg3);text-transform:uppercase}
+  .urgency .count b{display:block;font-family:var(--display);font-size:1.7rem;letter-spacing:.02em;color:var(--fg);font-variant-numeric:tabular-nums;line-height:1}
+  .page{position:absolute;left:max(20px,calc(50% - 620px));bottom:22px;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--fg3);text-transform:uppercase}
+  .side{position:absolute;right:max(20px,calc(50% - 620px));top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:var(--mono);font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--fg3)}
 
-  .stamp{position:absolute;z-index:3;right:-14px;bottom:-30px;width:124px;height:124px}
-  .stamp svg.ring{width:100%;height:100%;animation:spin 22s linear infinite}
-  .stamp .core{position:absolute;inset:34px;border-radius:50%;background:var(--black);border:1px solid rgba(232,215,155,.4);display:flex;align-items:center;justify-content:center}
-  .stamp .core svg{width:28px;height:30px}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .side{position:absolute;left:18px;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mute)}
-  .pagecount{position:absolute;left:0;bottom:-46px;font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.2em;color:var(--mute)}
-  .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:18px 0}
-  .track{display:inline-flex;animation:tick 40s linear infinite}
-  .track span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.4rem;letter-spacing:.1em;text-transform:uppercase;color:#666;padding:0 30px}
-  .track span:nth-child(odd){color:var(--white)}
+  /* cinta y cifras */
+  .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:16px 0;background:var(--bg)}
+  .track{display:inline-flex;animation:tick 48s linear infinite}
+  .track span{font-family:var(--display);font-size:1.35rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg3);padding:0 34px}
+  .track span:nth-child(odd){color:var(--fg)}
   @keyframes tick{to{transform:translateX(-50%)}}
-
-  section{padding:110px 0}
-  .head{margin-bottom:54px;max-width:680px}
-  .head h2{font-size:clamp(2.6rem,6vw,4.6rem);font-weight:800;margin:14px 0 14px}
-  .head p{color:var(--silver)}
-
-  /* CIFRAS */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
-  .stat{padding:54px 20px 46px;text-align:center;border-right:1px solid var(--line)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr)}
+  .stat{padding:56px 20px 48px;text-align:center;border-right:1px solid var(--line)}
   .stat:last-child{border-right:0}
-  .stat b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(3.4rem,7vw,5.8rem);line-height:.9;color:var(--white)}
-  .stat b sup{font-size:.45em;color:var(--silver);vertical-align:.9em;margin-left:2px}
-  .stat small{display:block;margin-top:12px;font-family:'Michroma',sans-serif;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--mute)}
+  .stat b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,7vw,6rem);line-height:.9;color:var(--fg);font-variant-numeric:tabular-nums}
+  .stat b sup{font-size:.4em;color:var(--fg3);vertical-align:1em;margin-left:2px}
+  .stat small{display:block;margin-top:12px;font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3)}
 
-  /* FUNDADOR */
-  #fundador{position:relative;background:linear-gradient(180deg,#161616,#0b0b0b);border-bottom:1px solid var(--line);overflow:hidden}
-  #fundador::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 15% 30%,rgba(232,215,155,.06),transparent 70%);pointer-events:none}
-  .fund{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start}
-  .perks{list-style:none;margin:6px 0 30px}
-  .perks li{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:16px 0;border-bottom:1px solid var(--line)}
-  .perks li b{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--mute);padding-top:5px}
-  .perks li strong{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.3rem;text-transform:uppercase;color:var(--white);letter-spacing:.03em;line-height:1.1}
-  .perks li span{color:var(--silver);font-size:.95rem}
-  .seats{margin-top:8px}
-  .seats .bar{height:8px;background:rgba(255,255,255,.08);margin:10px 0 8px;position:relative;overflow:hidden}
-  .seats .bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#9b8e60,var(--accent))}
-  .seats .row2{display:flex;justify-content:space-between;font-size:.85rem;color:var(--silver)}
-  .seats .row2 b{color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:1.3rem}
-  .form{background:var(--coal);border:1px solid rgba(255,255,255,.14);outline:1px dashed rgba(232,215,155,.35);outline-offset:6px;padding:34px 30px}
-  .form h3{font-size:2rem;font-weight:800;margin:10px 0 8px}
-  .form p{color:var(--silver);font-size:.95rem;margin-bottom:20px}
-  .field{display:block;margin-bottom:14px}
-  .field span{display:block;font-family:'Michroma',sans-serif;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
-  .field input,.field select{width:100%;background:#0b0b0b;border:1px solid rgba(255,255,255,.14);color:var(--white);padding:13px 14px;font-size:16px;border-radius:0;-webkit-appearance:none;appearance:none}
-  .field select{background-image:linear-gradient(45deg,transparent 50%,var(--accent) 50%),linear-gradient(135deg,var(--accent) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 15px) 55%;background-size:5px 5px;background-repeat:no-repeat}
-  .field input:focus,.field select:focus{outline:none;border-color:var(--white)}
-  .check{display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--silver);margin:4px 0 18px}
-  .check input{margin-top:4px;accent-color:var(--accent)}
-  .formnote{font-size:.78rem;color:var(--mute);margin-top:12px;text-align:center}
-  .err{color:#ff9b7a;font-size:.85rem;margin-top:10px;min-height:1em}
+  section{padding:120px 0;position:relative}
+  .head{margin-bottom:60px;max-width:760px}
+  .head h2{font-size:clamp(3.2rem,7vw,6rem);margin:16px 0 18px}
+  .head p{color:var(--fg2)}
 
-  /* MÁQUINAS */
-  .grid{display:grid;grid-template-columns:1fr;gap:24px}
-  .card{background:var(--coal);border:1px solid var(--line);display:grid;grid-template-columns:.85fr 1.15fr;transition:border-color .3s}
-  .card:hover{border-color:rgba(255,255,255,.28)}
-  .card:nth-child(even){grid-template-columns:1.15fr .85fr}
-  .card:nth-child(even) .stage{order:2}
-  .card:nth-child(even) .info{border-left:0;border-right:1px solid var(--line)}
-  .stage{position:relative;display:flex;align-items:flex-end;justify-content:center;padding:44px 20px 30px;background:radial-gradient(ellipse 80% 60% at 50% 60%,#232323,#111 75%);overflow:hidden;min-height:420px}
-  .stage::after{content:"";position:absolute;left:12%;right:12%;bottom:18px;height:34px;background:radial-gradient(ellipse at center,rgba(255,255,255,.14),transparent 70%)}
-  .stage img{position:relative;z-index:1;max-height:380px;width:auto;object-fit:contain;filter:grayscale(1) contrast(1.08) drop-shadow(0 18px 22px rgba(0,0,0,.75));transition:transform .5s,filter .6s}
-  .card:hover .stage img{transform:scale(1.04);filter:grayscale(0) drop-shadow(0 18px 22px rgba(0,0,0,.75))}
-  .num{position:absolute;top:16px;left:18px;font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.15em;color:var(--mute);z-index:2}
-  .year{position:absolute;top:10px;right:16px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3.4rem;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.22);z-index:0}
-  .info{padding:34px 34px 30px;display:flex;flex-direction:column;border-left:1px solid var(--line)}
-  .brandtag{display:flex;justify-content:space-between;gap:10px;font-family:'Michroma',sans-serif;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--white);padding-bottom:14px;border-bottom:1px solid var(--line)}
-  .brandtag em{font-style:normal;color:var(--mute);letter-spacing:.2em}
-  .info h3{font-size:2.3rem;font-weight:800;margin:18px 0 12px}
-  .info p{color:#a5a5a5;font-size:.97rem}
-  .story{margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line)}
-  .story div{padding:12px 14px;border-right:1px solid var(--line)}
-  .story div:last-child{border-right:0}
-  .story small,.meta small{display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
-  .story span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--white);line-height:1.15;display:block}
-  .why{margin-top:18px;padding-left:16px;border-left:2px solid var(--accent);color:#cfcfcf;font-size:.95rem}
-  .why b{display:block;font-family:'Michroma',sans-serif;font-size:.55rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:4px;font-weight:400}
-  .meta{display:grid;grid-template-columns:1fr 1fr;margin-top:auto;padding-top:20px}
-  .meta div{padding-top:12px;border-top:1px solid var(--line)}
-  .meta span{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1.15rem;color:var(--white)}
-  .more{margin-top:24px;border:1px dashed rgba(255,255,255,.14);padding:34px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-  .more h3{font-size:2rem;font-weight:800}
-  .more p{color:var(--silver);max-width:640px}
+  /* LA COLECCIÓN: fichas de museo */
+  .sheets{display:grid;gap:120px}
+  .sheet{display:grid;grid-template-columns:1.05fr .95fr;gap:0;align-items:stretch;border-top:1px solid var(--line)}
+  .sheet:nth-child(even) .pic{order:2}
+  .pic{position:relative;min-height:560px;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 50% 55%,#242424,#0d0d0d 72%)}
+  .pic::before{content:"";position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 75% 70% at 50% 50%,transparent 45%,rgba(10,10,10,.85) 100%);pointer-events:none}
+  .pic img{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);height:84%;width:auto;max-width:none;filter:grayscale(1) contrast(1.1) drop-shadow(0 40px 40px rgba(0,0,0,.8));transition:transform 1.2s var(--ease),filter .8s;will-change:transform}
+  .sheet:hover .pic img{transform:translate(-50%,-50%) scale(1.05);filter:grayscale(0) contrast(1.05) drop-shadow(0 40px 40px rgba(0,0,0,.8))}
+  .pic .n{position:absolute;left:24px;top:22px;z-index:3;font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;color:var(--fg2)}
+  .pic .yr{position:absolute;right:22px;top:6px;z-index:1;font-family:var(--display);font-size:clamp(4rem,9vw,7.5rem);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.18)}
+  .story{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:flex-end;gap:18px;padding:40px;background:linear-gradient(180deg,rgba(10,10,10,0) 0%,rgba(10,10,10,.9) 55%);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  .story p{font-family:var(--serif);font-size:1.3rem;line-height:1.4;color:var(--fg);max-width:40ch}
+  .story b{font-family:var(--mono);font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--rust2);font-weight:400}
+  .sheet:hover .story,.sheet.open .story{opacity:1;transform:none}
+  .meta{display:flex;flex-direction:column;padding:40px 44px;border-left:1px solid var(--line);background:var(--bg2)}
+  .sheet:nth-child(even) .meta{border-left:0;border-right:1px solid var(--line)}
+  .meta .brand{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fg)}
+  .meta .brand em{font-style:normal;color:var(--fg3);letter-spacing:.14em}
+  .meta h3{font-size:clamp(2.4rem,4vw,3.6rem);margin:24px 0 4px}
+  .meta .model{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rust2)}
+  .meta p.d{color:var(--fg2);margin:20px 0 28px}
+  .spec{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);margin-top:auto}
+  .spec div{padding:14px 0;border-bottom:1px solid var(--line);display:grid;gap:4px}
+  .spec div:nth-child(odd){border-right:1px solid var(--line);padding-right:16px}
+  .spec div:nth-child(even){padding-left:16px}
+  .spec small{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3)}
+  .spec span{font-family:var(--display);font-size:1.35rem;color:var(--fg);line-height:1.1}
+  .meta .open{margin-top:24px;align-self:flex-start}
+  .more{margin-top:80px;border:1px dashed var(--line2);padding:40px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .more h3{font-size:2.2rem}
+  .more p{color:var(--fg2);max-width:60ch}
 
-  /* MARCAS */
-  #marcas{background:var(--coal);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .brands{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
-  .brands div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:38px 10px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(1.15rem,2vw,1.7rem);letter-spacing:.06em;text-transform:uppercase;color:#cfcfcf;transition:.2s}
-  .brands div{position:relative}
-  .brands div::before{content:attr(data-i);position:absolute;top:10px;left:12px;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--mute)}
-  .brands div:hover{color:var(--white);background:var(--graphite)}
-
-  /* ZONAS */
-  #zonas{padding-bottom:0}
-  .zhead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
-  .arrows{display:flex;gap:8px;margin-bottom:54px}
-  .arrows button{width:52px;height:52px;background:none;border:1px solid rgba(255,255,255,.2);color:var(--white);font-size:1.3rem;cursor:pointer}
-  .arrows button:hover{border-color:var(--white);background:var(--white);color:var(--black)}
-  .slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  /* EL GIMNASIO: inspirado en la hoja «Environment» de TDM */
+  #gimnasio{padding:0;background:#111 linear-gradient(118deg,rgba(255,255,255,.035) 0 50%,transparent 50.4%);border-top:1px solid var(--line);overflow:hidden}
+  .gtitle{position:relative;padding:70px 0 10px;overflow:hidden}
+  .gtitle h2{font-size:clamp(4rem,15.4vw,15.6rem);line-height:.84;white-space:nowrap;letter-spacing:-.01em;color:#ececec}
+  .gtitle svg.brush{display:block;width:min(100% - 40px,1240px);height:14px;margin:10px auto 0}
+  .gcols{display:grid;grid-template-columns:.9fr 1.5fr .9fr;gap:28px;padding:40px 0 0}
+  .gbox{border:1px solid var(--line2);padding:26px 24px;display:flex;flex-direction:column;gap:18px;position:relative}
+  .gbox .tag{display:inline-block;align-self:flex-start;background:var(--fg);color:var(--bg);font-family:var(--display);font-size:.95rem;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px}
+  .fac{display:grid;gap:20px}
+  .fac b{display:block;font-family:var(--display);font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg)}
+  .fac p{font-family:var(--mono);font-size:.74rem;line-height:1.7;color:var(--fg2);text-transform:uppercase;letter-spacing:.03em}
+  .gmid{position:relative;padding:0 0 110px;min-width:0}
+  .gbox{min-width:0}
+  .slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border:1px solid var(--line2);background:#0b0b0b}
   .slides::-webkit-scrollbar{display:none}
-  .slide{position:relative;flex:0 0 100%;scroll-snap-align:start;height:min(78vh,720px);min-height:460px;overflow:hidden;background:#151515}
+  .slide{position:relative;flex:0 0 100%;width:100%;min-width:100%;scroll-snap-align:start;aspect-ratio:16/10;min-height:300px;overflow:hidden;background:#151515}
   .slide .bg{position:absolute;inset:0}
   .slide .bg .blur{position:absolute;inset:-12%;background:#101010 center 40%/70% auto no-repeat;filter:grayscale(1) blur(34px) brightness(.45)}
   .slide .bg img.photo{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
   .slide .bg img.cut{position:absolute;right:8%;bottom:6%;height:78%;width:auto;filter:grayscale(1) contrast(1.1) drop-shadow(0 30px 30px rgba(0,0,0,.8))}
-  .slide .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.35) 55%,rgba(0,0,0,.1) 100%)}
-  .slide .txt{position:absolute;left:0;right:0;bottom:0;padding:0 0 60px}
-  .slide .txt .wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
-  .slide h3{font-size:clamp(3.4rem,10vw,8.5rem);font-weight:800;line-height:.85}
-  .slide p{max-width:420px;color:#cfcfcf}
-  .slide .idx{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.2em;color:var(--accent)}
-  .soon{position:absolute;top:22px;right:22px;z-index:3;font-family:'Michroma',sans-serif;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:#e6dcb4;background:rgba(10,10,10,.75);border:1px dashed rgba(232,215,155,.5);padding:8px 12px;max-width:calc(100% - 44px)}
-  .dots{display:flex;justify-content:center;gap:8px;padding:22px 0 0}
-  .dots button{width:28px;height:3px;border:0;background:rgba(255,255,255,.2);cursor:pointer;padding:0}
-  .dots button.on{background:var(--white)}
-  /* render dibujado: pared de recepción */
-  .wall{position:absolute;inset:0;background:radial-gradient(ellipse 50% 45% at 55% 40%,#6a655e,#4c4843 60%,#3a3733);}
-  .wall::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.6}
-  .wall .sign{position:absolute;left:64%;top:40%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:14px;filter:drop-shadow(0 0 18px rgba(232,215,155,.75)) drop-shadow(0 0 4px rgba(232,215,155,.6))}
-  .wall .sign svg{width:clamp(80px,12vw,150px);height:auto}
-  .wall .sign .n{font-family:'Syncopate',sans-serif;font-weight:700;font-size:clamp(1.6rem,4.5vw,3.6rem);letter-spacing:.14em;color:#111}
-  .wall .sign .g{display:flex;align-items:center;gap:.9em;font-family:'Michroma',sans-serif;letter-spacing:.55em;color:#111;font-size:clamp(.6rem,1.4vw,1rem)}
-  .wall .sign .g::before,.wall .sign .g::after{content:"";height:2px;width:3em;background:#111}
-  .wall .plate{position:absolute;left:0;right:0;bottom:0;height:22%;background:repeating-linear-gradient(45deg,#222 0 3px,#2b2b2b 3px 6px),#262626;border-top:2px solid #e8d79b;box-shadow:0 -6px 24px rgba(232,215,155,.45)}
-  .wall .motto{position:absolute;right:4%;top:62%;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.08em;color:#151515;font-size:clamp(.8rem,1.6vw,1.2rem);line-height:1.4}
-  /* render dibujado: fachada con disco */
-  .facade{position:absolute;inset:0;background:linear-gradient(180deg,#8a8781,#6f6c67);}
-  .facade::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.18) 1px,transparent 1px);background-size:180px 120px}
-  .facade .win{position:absolute;left:12%;right:0;bottom:0;height:42%;background:linear-gradient(180deg,#0e0e0e,#1a1a1a);border-top:10px solid #151515}
-  .facade .win::before{content:"";position:absolute;left:52%;right:8%;top:20%;height:3px;background:#e9e2d0;box-shadow:0 0 14px #fff,0 50px 0 #e9e2d0,0 50px 14px #fff}
-  .facade .disc{position:absolute;left:30%;top:10%;width:clamp(200px,30vw,330px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#9a9a9a 0 9%,#222 9.5% 22%,#141414 22.5% 88%,#0c0c0c 89%);box-shadow:16px 20px 30px rgba(0,0,0,.5),inset 0 0 0 6px #1d1d1d}
-  .facade .disc svg{position:absolute;inset:0;width:100%;height:100%}
-  .facade .arm{position:absolute;left:18%;top:25%;width:14%;height:16px;background:#151515;box-shadow:0 80px 0 #151515}
-  .facade .letters{position:absolute;right:6%;top:24%;font-family:'Syncopate',sans-serif;font-weight:700;color:#1a1a1a;font-size:clamp(1.4rem,3.6vw,2.8rem);letter-spacing:.14em;text-shadow:0 0 14px rgba(232,215,155,.5)}
+  .slide .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.3) 55%,rgba(0,0,0,.1) 100%)}
+  .slide .txt{position:absolute;left:0;right:0;bottom:0;padding:0 28px 28px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+  .slide h3{font-size:clamp(2.4rem,5vw,4.6rem);line-height:.88}
+  .slide p{max-width:40ch;color:var(--fg2);font-size:.95rem}
+  .slide .idx{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--rust2)}
+  .soon{position:absolute;top:14px;right:14px;z-index:3;font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tbd);background:rgba(10,10,10,.8);border:1px dashed rgba(232,215,155,.5);padding:7px 10px;max-width:calc(100% - 28px)}
+  .gnav{display:flex;align-items:center;justify-content:flex-start;gap:24px;margin-top:14px}
+  .dots{display:flex;gap:8px}
+  .dots button{width:26px;height:3px;border:0;background:rgba(255,255,255,.2);cursor:pointer;padding:0}
+  .dots button.on{background:var(--fg)}
+  .arrows{display:flex;gap:8px}
+  .arrows button{width:46px;height:46px;background:none;border:1px solid var(--line2);color:var(--fg);font-size:1.2rem;cursor:pointer;transition:.3s}
+  .arrows button:hover{background:var(--fg);color:var(--bg)}
+  .gcut{position:absolute;right:-3%;bottom:-40px;height:300px;width:auto;z-index:3;filter:grayscale(1) contrast(1.1) drop-shadow(0 30px 30px rgba(0,0,0,.85));pointer-events:none}
+  .bars{display:grid;gap:10px}
+  .bar{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;background:#1a1a1a;border:1px solid var(--line);padding:9px 12px;position:relative;overflow:hidden}
+  .bar::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--rust-dim);border-right:1px solid var(--rust)}
+  .bar b{position:relative;font-family:var(--display);font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg);font-weight:400}
+  .bar span{position:relative;font-family:var(--mono);font-size:.68rem;color:var(--fg2)}
+  .bar.top b::after{content:attr(data-top);margin-left:10px;background:var(--rust);color:#fff;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;padding:2px 6px;vertical-align:middle}
+  .hours{display:grid;grid-template-columns:1fr auto;gap:6px 20px;font-family:var(--mono);font-size:.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.04em}
+  .hours span:nth-child(even){color:var(--fg)}
+  .logos{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--line2);border-right:0;margin-top:34px;background:#0d0d0d}
+  .logos div{position:relative;display:grid;place-items:center;height:96px;padding:18px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);font-family:var(--display);font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg2);text-align:center;transition:.3s}
+  .logos div:hover{color:var(--fg);background:#161616}
+  .logos img{display:none;max-height:44px;max-width:80%;width:auto;filter:grayscale(1) invert(1) contrast(1.2);mix-blend-mode:screen;opacity:.85;transition:.3s}
+  .logos div:hover img{opacity:1}
+  .logos div.has img{display:block}
+  .logos div.has span{display:none}
+  .gfoot{display:flex;justify-content:space-between;align-items:center;padding:26px 0;font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3)}
+
+  /* SOCIO FUNDADOR */
+  #fundador{background:linear-gradient(180deg,#0f0f0f,var(--bg));border-top:1px solid var(--line)}
+  .fund{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:start}
+  .seats{position:relative;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;margin:0 0 40px;padding:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .ring{position:relative;width:170px;height:170px;border-radius:50%;display:grid;place-items:center;isolation:isolate}
+  .ring::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,var(--rust) 0 var(--pct),rgba(255,255,255,.08) var(--pct) 100%)}
+  .ring::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--bg2)}
+  .ring .glow{position:absolute;inset:-26px;border-radius:50%;background:conic-gradient(from 0deg,transparent,rgba(200,82,42,.35),transparent 60%);filter:blur(18px);z-index:-1;animation:spin 9s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ring b{position:relative;z-index:1;font-family:var(--display);font-size:3.2rem;line-height:1;color:var(--fg);font-variant-numeric:tabular-nums;font-weight:400}
+  .ring b small{font-size:.42em;color:var(--fg3)}
+  .seats .t{font-family:var(--display);font-size:clamp(1.8rem,3vw,2.6rem);line-height:1;color:var(--fg);text-transform:uppercase}
+  .seats .t em{font-style:normal;color:var(--rust2)}
+  .seats .s{color:var(--fg2);margin-top:10px;font-size:.95rem}
+  .perks{list-style:none;display:grid;gap:0}
+  .perks li{display:grid;grid-template-columns:48px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line);align-items:start}
+  .perks svg{width:34px;height:34px;stroke:var(--fg);fill:none;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
+  .perks strong{display:block;font-family:var(--display);font-weight:400;font-size:1.35rem;letter-spacing:.03em;text-transform:uppercase;color:var(--fg)}
+  .perks span{color:var(--fg2);font-size:.95rem}
+  .form{background:var(--bg2);border:1px solid var(--line2);padding:36px 32px;position:relative}
+  .form::before{content:"";position:absolute;inset:-7px;border:1px dashed rgba(255,255,255,.18);pointer-events:none}
+  .form h3{font-size:2.4rem;margin:10px 0 8px}
+  .form p{color:var(--fg2);font-size:.95rem;margin-bottom:22px}
+  .field{display:block;margin-bottom:14px}
+  .field span{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3);margin-bottom:6px}
+  .field input,.field select{width:100%;background:var(--bg);border:1px solid var(--line2);color:var(--fg);padding:14px;font-size:16px;border-radius:0;-webkit-appearance:none;appearance:none}
+  .field select{background-image:linear-gradient(45deg,transparent 50%,var(--fg) 50%),linear-gradient(135deg,var(--fg) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 15px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--rust2)}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--fg2);margin:4px 0 18px}
+  .check input{margin-top:4px;accent-color:var(--rust)}
+  .formnote{font-size:.78rem;color:var(--fg3);margin-top:12px;text-align:center}
+  .err{color:#ff9b7a;font-size:.85rem;margin-top:10px;min-height:1em}
+
+  /* MANIFIESTO */
+  #manifiesto{background:#0d0d0d;border-top:1px solid var(--line);position:relative;overflow:hidden}
+  #manifiesto::before{content:"";position:absolute;inset:0;background:url(img/detalle-pie.jpg) center/cover no-repeat;opacity:.22}
+  #manifiesto::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,13,13,.95) 30%,rgba(13,13,13,.6))}
+  #manifiesto .wrap{position:relative;z-index:1}
+  .mani{max-width:860px}
+  .mani p{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.5rem);line-height:1.3;color:var(--fg);text-wrap:pretty}
+  .mani p+p{margin-top:1.2em}
+  .mani p em{font-style:italic;color:var(--rust2)}
+  .mani .sign{margin-top:40px;display:flex;align-items:center;gap:18px;font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fg2)}
+  .mani .sign::before{content:"";width:48px;height:1px;background:var(--rust)}
 
   /* TARIFAS */
-  .tabs{display:inline-flex;border:1px solid var(--line);margin-bottom:30px}
-  .tabs button{background:none;border:0;color:var(--silver);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:1rem;padding:12px 20px;cursor:pointer}
-  .tabs button.on{background:var(--white);color:var(--black)}
+  .tabs{display:inline-flex;border:1px solid var(--line2);margin-bottom:32px}
+  .tabs button{background:none;border:0;color:var(--fg3);font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;padding:14px 20px;cursor:pointer;transition:.3s}
+  .tabs button.on{background:var(--fg);color:var(--bg)}
   .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .plan{position:relative;border:1px solid var(--line);background:var(--coal);padding:38px 32px;display:flex;flex-direction:column}
-  .plan.feat{border-color:rgba(255,255,255,.45);background:linear-gradient(180deg,#1d1d1d,var(--coal) 60%)}
-  .plan.feat .badge{background:var(--white)}
-  .plan.gold{border-color:var(--accent);background:linear-gradient(180deg,#1c1a14,var(--coal) 60%)}
-  .plan.gold .badge{background:var(--accent)}
-  .plan.gold .price{color:var(--accent)}
-  .plan .badge{position:absolute;top:-1px;right:24px;background:var(--accent);color:var(--black);font-family:'Michroma',sans-serif;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;padding:7px 10px}
-  .plan h3{font-size:1.8rem;font-weight:800}
-  .plan .sub{color:var(--mute);font-size:.88rem;margin-top:6px}
-  .price{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3.8rem;color:var(--white);margin:18px 0 6px;line-height:1}
-  .price small{font-size:1rem;color:var(--silver);font-weight:600}
-  .price s{font-size:1.3rem;color:var(--mute);font-weight:600;margin-right:8px}
-  .plan ul{list-style:none;margin:18px 0 30px;flex:1}
-  .plan li{padding:9px 0;border-bottom:1px solid var(--line);font-size:.95rem}
-  .plan li::before{content:"— ";color:var(--accent)}
-  .try{margin-top:56px;display:grid;grid-template-columns:1fr 2fr;gap:30px;align-items:center;border-top:1px solid var(--line);padding-top:46px}
-  .try h3{font-size:2.4rem;font-weight:800}
-  .try p{color:var(--silver);margin-top:8px}
+  .plan{position:relative;border:1px solid var(--line);background:var(--bg2);padding:40px 32px;display:flex;flex-direction:column;transition:border-color .3s,transform .6s var(--ease)}
+  .plan:hover{transform:translateY(-4px);border-color:var(--line2)}
+  .plan.feat{border-color:var(--rust);background:linear-gradient(180deg,#1a120d,var(--bg2) 55%)}
+  .plan .badge{position:absolute;top:-1px;right:24px;background:var(--rust);color:#fff;font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;padding:7px 10px}
+  .plan h3{font-size:2rem}
+  .plan .sub{color:var(--fg3);margin-top:6px;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+  .price{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-family:var(--display);font-size:4rem;color:var(--fg);margin:22px 0 6px;line-height:1;font-variant-numeric:tabular-nums}
+  .price small{white-space:nowrap}
+  .plan.feat .price{color:var(--rust2)}
+  .price small{font-size:1rem;color:var(--fg3);font-family:var(--mono);letter-spacing:.06em}
+  .price s{font-size:1.4rem;color:var(--fg3);margin-right:8px}
+  .plan ul{list-style:none;margin:18px 0 32px;flex:1}
+  .plan li{padding:10px 0;border-bottom:1px solid var(--line);font-size:.95rem;color:var(--fg2)}
+  .plan li::before{content:"— ";color:var(--rust2)}
+  .try{margin-top:70px;display:grid;grid-template-columns:1fr 2fr;gap:30px;align-items:center;border-top:1px solid var(--line);padding-top:50px}
+  .try .eyebrow{display:block;margin-bottom:12px}
+  .try h3{font-size:2.6rem}
+  .try p{color:var(--fg2);margin-top:8px}
   .passes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .pass{border:1px solid var(--line);padding:22px 20px;display:flex;flex-direction:column;gap:6px;transition:.2s;background:transparent;color:inherit;text-align:left;cursor:pointer}
-  .pass:hover{border-color:rgba(255,255,255,.4)}
-  .pass small{font-family:'Michroma',sans-serif;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-  .pass b{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.2rem;color:var(--white);line-height:1}
-  .pass span{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.85rem;color:var(--white)}
-  .note{margin-top:22px;font-size:.82rem;color:var(--mute)}
+  .pass{border:1px solid var(--line);padding:24px 20px;display:flex;flex-direction:column;gap:6px;transition:.3s;background:transparent;color:inherit;text-align:left;cursor:pointer}
+  .pass:hover{border-color:var(--fg);background:var(--bg2)}
+  .pass small{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3)}
+  .pass b{font-family:var(--display);font-weight:400;font-size:2.4rem;color:var(--fg);line-height:1}
+  .pass span{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg)}
+  .note{margin-top:24px;font-size:.82rem;color:var(--fg3)}
 
   /* FAQ */
-  #faq{background:var(--coal);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  #faq{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .faqgrid{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px}
   details{border-bottom:1px solid var(--line)}
   details:first-child{border-top:1px solid var(--line)}
-  summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;position:relative;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.35rem;text-transform:uppercase;color:var(--white);letter-spacing:.02em;line-height:1.15}
+  summary{list-style:none;cursor:pointer;padding:22px 44px 22px 0;position:relative;font-family:var(--display);font-size:1.35rem;text-transform:uppercase;color:var(--fg);letter-spacing:.02em;line-height:1.15}
   summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";position:absolute;right:4px;top:16px;font-family:'Barlow',sans-serif;font-weight:400;font-size:1.8rem;color:var(--silver);transition:.2s}
-  details[open] summary::after{transform:rotate(45deg);color:var(--accent)}
-  details p{padding:0 0 22px;color:#a5a5a5;max-width:620px}
+  summary::after{content:"+";position:absolute;right:4px;top:14px;font-family:var(--body);font-weight:300;font-size:1.9rem;color:var(--fg3);transition:.3s}
+  details[open] summary::after{transform:rotate(45deg);color:var(--rust2)}
+  details p{padding:0 0 22px;color:var(--fg2);max-width:62ch}
 
-  /* CONTACTO */
+  /* CONTACTO + PIE */
   .contact{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:stretch}
   .row{display:grid;grid-template-columns:130px 1fr;padding:18px 0;border-bottom:1px solid var(--line)}
-  .row small{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding-top:4px}
-  .row div{color:#e6e6e6}
-  .row a:hover{color:var(--accent)}
-  .hours{display:grid;grid-template-columns:1fr auto;gap:4px 24px}
-  .map{position:relative;min-height:420px;border:1px solid var(--line);background:#151515 linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px) 0 0/60px 60px,linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px) 0 0/60px 60px;overflow:hidden}
+  .row small{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3);padding-top:5px}
+  .row div{color:var(--fg)}
+  .row a:hover{color:var(--rust2)}
+  .hrs{display:grid;grid-template-columns:1fr auto;gap:4px 24px}
+  .map{position:relative;min-height:420px;border:1px solid var(--line);background:#121212 linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px) 0 0/60px 60px,linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px) 0 0/60px 60px;overflow:hidden}
   .map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(1) invert(.92) contrast(.9) brightness(.9)}
   .map .pin{position:absolute;left:16px;bottom:16px;background:rgba(10,10,10,.9);border:1px solid var(--line);padding:10px 14px;font-size:.85rem}
+  footer{border-top:1px solid var(--line);background:var(--bg);padding:70px 0 40px}
+  .fcta{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;padding-bottom:50px;border-bottom:1px solid var(--line);margin-bottom:34px}
+  .fcta h3{font-size:clamp(2.4rem,5vw,4rem)}
+  .fcta h3 em{font-style:normal;color:var(--rust2)}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;font-size:.82rem;color:var(--fg3)}
+  .foot nav{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase}
+  .foot nav a:hover{color:var(--fg)}
 
-  footer{border-top:1px solid var(--line);padding:50px 0 40px;font-size:.82rem;color:#666}
-  .foot{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
-  .foot .motto{font-family:'Michroma',sans-serif;font-size:.58rem;letter-spacing:.35em;color:var(--mute)}
-  .foot nav{all:unset;display:flex;gap:18px;flex-wrap:wrap}
-  .foot nav a:hover{color:var(--accent)}
-
-  /* WhatsApp flotante */
-  .wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:50;width:58px;height:58px;border-radius:50%;background:#1b1b1b;border:1px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.6);transition:.2s}
-  .wa:hover{background:var(--white)}
-  .wa:hover svg{fill:var(--black)}
-  .wa svg{width:28px;height:28px;fill:var(--white)}
-  .toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:60;background:#161616;border:1px solid var(--accent);color:#efe6c4;padding:14px 18px;font-size:.9rem;max-width:calc(100% - 32px);transition:.3s;text-align:center}
+  .wa{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:50;width:58px;height:58px;border-radius:50%;background:#1b1b1b;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.6);transition:.3s}
+  .wa:hover{background:var(--fg)}
+  .wa:hover svg{fill:var(--bg)}
+  .wa svg{width:28px;height:28px;fill:var(--fg)}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:60;background:#171511;border:1px solid var(--tbd);color:#efe6c4;padding:14px 18px;font-size:.9rem;max-width:calc(100% - 32px);transition:.3s;text-align:center}
   .toast.on{opacity:1;transform:translate(-50%,0)}
 
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
-  .reveal.in{opacity:1;transform:none}
-
-  @media (max-width:1060px){
+  @media (max-width:1100px){
     .links{gap:18px}
     .links a.hide-md{display:none}
+    .gcols{grid-template-columns:1fr 1fr}
+    .gmid{grid-column:1/-1;order:-1;padding-bottom:0}
+    .gcut{display:none}
+    .logos{grid-template-columns:repeat(4,1fr)}
   }
   @media (max-width:900px){
     :root{--nav:64px}
-    nav{backdrop-filter:none;-webkit-backdrop-filter:none;background:#0b0b0b}
     .burger{display:block}
-    .hero::before{display:none}
-    .side{display:none}
-    .stamp{width:84px;height:84px;right:-4px;bottom:-34px}
-    .hero-m{margin-bottom:30px}
-    .stamp .core{inset:25px}
-    .stamp .core svg{width:22px;height:24px}
-    .links{position:fixed;left:0;right:0;top:var(--nav);bottom:0;z-index:45;flex-direction:column;align-items:stretch;gap:0;padding:10px 20px 40px;background:#0b0b0b;transform:translateX(100%);transition:transform .3s;overflow-y:auto}
+    nav.top::before{background:rgba(10,10,10,.92);border-color:var(--line)}
+    .links{position:fixed;left:0;right:0;top:var(--nav);bottom:0;z-index:45;flex-direction:column;align-items:stretch;gap:0;padding:10px 20px 40px;background:var(--bg);transform:translateX(100%);transition:transform .4s var(--ease);overflow-y:auto}
     nav.open .links{transform:none}
-    .links a,.links a.hide-md{display:block;font-size:1.6rem;padding:16px 4px;border-bottom:1px solid var(--line)}
+    .links a,.links a.hide-md{display:block;font-family:var(--display);font-size:2rem;letter-spacing:.04em;padding:16px 4px;border-bottom:1px solid var(--line)}
     .links a.cta{margin-top:22px;text-align:center;border:0;padding:16px}
     body.menu{overflow:hidden}
-    .hero{padding:50px 0 60px}
-    .hero-grid,.contact,.fund,.faqgrid,.try{grid-template-columns:1fr}
-    .hero-m{order:-1}
-    .hero-m img{max-height:300px}
-    .hero-m .tag{bottom:0;left:0;max-width:170px}
-    .plans{grid-template-columns:1fr}
-    .brands{grid-template-columns:repeat(2,1fr)}
+    .hero{min-height:0;padding:calc(var(--nav) + 50px) 0 60px}
+    .hero .bg{background-position:70% 40%}
+    .hero-in,.contact,.fund,.faqgrid,.try{grid-template-columns:1fr}
+    .hero h1{font-size:clamp(4rem,19vw,7rem)}
+    .side{display:none}
+    .urgency{border-left:0;padding-left:0;border-top:1px solid var(--line2);padding-top:26px}
+    .plans,.passes{grid-template-columns:1fr}
     .stats{grid-template-columns:repeat(2,1fr)}
     .stat:nth-child(2){border-right:0}
     .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
-    section{padding:80px 0}
-    .card,.card:nth-child(even){grid-template-columns:1fr}
-    .card:nth-child(even) .stage{order:0}
-    .info,.card:nth-child(even) .info{border-left:0;border-right:0;border-top:1px solid var(--line)}
-    .stage{min-height:340px}
-    .stage img{max-height:300px}
-    .faqgrid{gap:20px}
+    section{padding:90px 0}
+    .sheets{gap:70px}
+    .sheet,.sheet:nth-child(even) .pic{grid-template-columns:1fr;order:0}
+    .meta,.sheet:nth-child(even) .meta{border-left:0;border-right:0;border-top:1px solid var(--line);padding:30px 24px}
+    .pic{aspect-ratio:4/5.2}
+    .pic img{top:36%;height:58%}
+    .story{opacity:1;transform:none;padding:22px 20px;gap:10px;background:linear-gradient(180deg,rgba(10,10,10,0) 0%,rgba(10,10,10,.94) 40%)}
+    .story p{font-size:1.05rem;max-width:100%}
+    .gfoot{flex-direction:column;align-items:flex-start;gap:6px}
+    .meta .open{display:none}
+    .gcols{grid-template-columns:1fr;gap:20px}
+    .gtitle{padding-top:50px}
+    .logos{grid-template-columns:repeat(2,1fr)}
     .map{min-height:320px}
-    .arrows{margin-bottom:30px}
+    .seats{grid-template-columns:1fr;gap:20px}
+    .ring{width:140px;height:140px}
+    .ring b{font-size:2.6rem}
   }
   @media (max-width:560px){
     body{font-size:16px}
     .bocetobar{font-size:.72rem}
     .logo .name{font-size:.85rem}
-    .count div{min-width:0;flex:1}
-    .count b{font-size:1.9rem}
-    .ctas .btn{flex:1 1 100%}
-    .info{padding:26px 22px}
-    .info h3{font-size:1.9rem}
-    .story{grid-template-columns:1fr 1fr}
-    .story div:nth-child(2){border-right:0}
-    .story div:nth-child(3){grid-column:1/-1;border-top:1px solid var(--line)}
-    .passes{grid-template-columns:1fr}
-    .form{padding:26px 20px}
+    .ctas .btn,.ctas .btn-text{flex:1 1 100%;justify-content:center}
+    .spec{grid-template-columns:1fr}
+    .spec div:nth-child(odd){border-right:0;padding-right:0}
+    .spec div:nth-child(even){padding-left:0}
+    .form{padding:28px 20px}
     .plan{padding:32px 24px}
     .row{grid-template-columns:100px 1fr}
-    .slide{height:72vh;min-height:440px}
-    .slide .bg img.cut{right:50%;transform:translateX(50%);height:56%;bottom:auto;top:10%}
-    .slide .shade{background:linear-gradient(0deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.4) 50%,rgba(0,0,0,.15) 100%)}
-    .wall .sign{top:30%;left:50%}
-    .wall .motto{display:none}
-    .facade .disc{left:18%;top:8%}
-    .facade .letters{display:none}
-    .more{padding:24px}
-    .soon{top:14px;right:14px;max-width:calc(100% - 28px);font-size:.46rem}
+    .more{padding:26px}
+    .page{display:none}
+    .urgency .big{font-size:2.8rem}
+    .gbox{padding:22px 18px}
   }
   @media (prefers-reduced-motion:reduce){
-    .track{animation:none}
-    .reveal{opacity:1;transform:none;transition:none}
+    .track,.ring .glow{animation:none}
     html{scroll-behavior:auto}
+    *{transition-duration:.01ms!important}
   }
 </style>
 </head>
@@ -388,6 +413,11 @@
 <symbol id="b" viewBox="0 0 272 288"><g fill="url(#stone)" filter="url(#grit)"><path d="M0,0H228L270,42V248L230,286H115V238H212V165H115V118H212V46H42Z"/><path d="M42,64H98V286H2L42,240Z"/></g></symbol>
 <symbol id="bdark" viewBox="0 0 272 288"><g fill="#121212"><path d="M0,0H228L270,42V248L230,286H115V238H212V165H115V118H212V46H42Z"/><path d="M42,64H98V286H2L42,240Z"/></g></symbol>
 <symbol id="wa" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91A9.88 9.88 0 0 0 12.04 2Zm5.8 14.03c-.24.68-1.42 1.3-1.95 1.35-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.92-4.66-4.1-.13-.18-1.11-1.48-1.11-2.83 0-1.35.71-2.01.96-2.29.25-.27.55-.34.73-.34l.52.01c.17.01.4-.06.62.47.24.55.79 1.9.86 2.04.07.14.11.3.02.48-.09.18-.14.3-.27.46-.14.16-.29.35-.41.47-.14.14-.28.29-.12.56.16.27.71 1.17 1.52 1.89 1.04.93 1.92 1.22 2.19 1.35.27.14.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.23.61-.14.25.09 1.59.75 1.86.89.27.14.45.2.52.32.07.11.07.66-.17 1.33Z"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-lock" viewBox="0 0 40 40"><rect x="9" y="17" width="22" height="17"/><path d="M14 17v-5a6 6 0 0 1 12 0v5M20 24v4"/></symbol>
+<symbol id="i-nofee" viewBox="0 0 40 40"><path d="M9 7h22v26l-3-2-3 2-3-2-3 2-3-2-3 2-3-2-3 2zM14 15h12M14 21h12M14 27h7"/><path d="M8 32 32 8"/></symbol>
+<symbol id="i-key" viewBox="0 0 40 40"><circle cx="14" cy="20" r="7"/><path d="M21 20h13M30 20v5M34 20v4"/></symbol>
+<symbol id="i-shirt" viewBox="0 0 40 40"><path d="M14 8l6 3 6-3 7 5-3 6-4-1v15H14V18l-4 1-3-6z"/><path d="M17 23h6"/></symbol>
 </defs></svg>
 
 <div class="bocetobar" id="bocetobar"><div class="wrap">
@@ -395,16 +425,16 @@
   <button type="button" aria-label="Cerrar" onclick="document.body.classList.remove('boceto')">×</button>
 </div></div>
 
-<nav id="nav">
+<nav class="top" id="nav">
   <div class="wrap nav">
     <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="30" height="32" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name">Burdin</span><span class="gym">Gym</span></span></a>
     <div class="right">
       <div class="links" id="links">
-        <a href="#maquinas" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
-        <a href="#zonas" class="hide-md" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
+        <a href="#coleccion" data-es="La colección" data-eu="Bilduma">La colección</a>
+        <a href="#gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
         <a href="#tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
         <a href="#faq" class="hide-md" data-es="Preguntas" data-eu="Galderak">Preguntas</a>
-        <a href="#contacto" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
+        <a href="#contacto" class="hide-md" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
         <a href="#fundador" class="cta" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a>
       </div>
       <div class="lang" role="group" aria-label="Idioma / Hizkuntza"><button type="button" data-l="eu">EU</button><button type="button" data-l="es">ES</button></div>
@@ -414,65 +444,111 @@
 </nav>
 
 <header class="hero" id="top">
+  <div class="bg" id="herobg"></div><div class="shade"></div>
   <div class="side" aria-hidden="true" data-es="Disciplina · Resultados · Comunidad" data-eu="Diziplina · Emaitzak · Komunitatea">Disciplina · Resultados · Comunidad</div>
-  <div class="wrap hero-grid">
+  <div class="wrap hero-in">
     <div>
-      <span class="pill" data-es="Preapertura · Euskadi" data-eu="Irekiera aurretik · Euskadi">Preapertura · Euskadi</span>
-      <h1 data-es="Hierro<br><em>de verdad</em>" data-eu="Benetako<br><em>burdina</em>">Hierro<br><em>de verdad</em></h1>
-      <p class="lead" data-es="Un gimnasio de musculación old school con máquinas de las mejores marcas del mundo, elegidas una a una. Cada pieza tiene su historia." data-eu="Eskola zaharreko muskulazio-gimnasioa, munduko marka onenetako makinekin, banan-banan aukeratuak. Pieza bakoitzak bere istorioa du.">Un gimnasio de musculación old school con máquinas de las mejores marcas del mundo, elegidas una a una. Cada pieza tiene su historia.</p>
-      <div class="count-label"><span data-es="Abrimos el" data-eu="Irekiera:">Abrimos el</span> <b class="tbd" id="opendate" style="color:var(--white)"></b></div>
-      <div class="count" id="count" aria-live="off">
-        <div><b data-k="d">00</b><small data-es="Días" data-eu="Egun">Días</small></div>
-        <div><b data-k="h">00</b><small data-es="Horas" data-eu="Ordu">Horas</small></div>
-        <div><b data-k="m">00</b><small data-es="Min" data-eu="Min">Min</small></div>
-        <div><b data-k="s">00</b><small data-es="Seg" data-eu="Seg">Seg</small></div>
-      </div>
+      <span class="kicker" data-es="Preapertura · Euskadi · 2027" data-eu="Irekiera aurretik · Euskadi · 2027">Preapertura · Euskadi · 2027</span>
+      <h1 id="h1"><span class="l"><span data-es="Hierro" data-eu="Benetako">Hierro</span></span><span class="l"><span data-es="<em>de verdad</em>" data-eu="<em>burdina</em>"><em>de verdad</em></span></span></h1>
+      <p class="sub" data-es="Un taller de fuerza, no un gimnasio de catálogo. Máquinas de Cybex, Hammer Strength, Nautilus o Panatta buscadas una a una por su historia y su calidad. Cada pieza tiene nombre, año y kilómetros." data-eu="Indar-tailerra, ez katalogoko gimnasioa. Cybex, Hammer Strength, Nautilus edo Panatta makinak, banan-banan bilatuak beren istorio eta kalitateagatik. Pieza bakoitzak izena, urtea eta kilometroak ditu.">Un taller de fuerza, no un gimnasio de catálogo. Máquinas de Cybex, Hammer Strength, Nautilus o Panatta buscadas una a una por su historia y su calidad. Cada pieza tiene nombre, año y kilómetros.</p>
       <div class="ctas">
-        <a href="#fundador" class="btn accent" data-es="Quiero ser socio fundador" data-eu="Bazkide sortzaile izan nahi dut">Quiero ser socio fundador</a>
-        <a href="#maquinas" class="btn ghost" data-es="Ver las máquinas" data-eu="Makinak ikusi">Ver las máquinas</a>
+        <a href="#fundador" class="btn btn-primary" data-es="Reserva tu plaza de fundador" data-eu="Gorde zure sortzaile-plaza">Reserva tu plaza de fundador</a>
+        <a href="#coleccion" class="btn-text"><span data-es="Descubre las máquinas" data-eu="Ezagutu makinak">Descubre las máquinas</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
       </div>
     </div>
-    <div class="hero-m">
-      <img src="img/chain.webp" alt="Press de pecho old school con transmisión por cadena" width="640" height="930">
-      <div class="stamp" aria-hidden="true"><svg class="ring" viewBox="0 0 128 128"><defs><path id="circ" d="M64,64 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs><text font-family="Space Mono" font-weight="700" font-size="9.4" letter-spacing="1.7" fill="#e8d79b"><textPath href="#circ">OLD SCHOOL IRON · BURDIN GYM · EUSKADI ·</textPath></text></svg><div class="core"><svg viewBox="0 0 272 288"><use href="#b"/></svg></div></div>
-      <div class="tag"><small data-es="Pieza Nº 04" data-eu="04. pieza">Pieza Nº 04</small><span data-es="Press de pecho a cadena. Ya no se fabrica." data-eu="Kate bidezko bular-prentsa. Jada ez da egiten.">Press de pecho a cadena. Ya no se fabrica.</span></div>
+    <div class="urgency">
+      <div class="big tbd"><b id="seatsLeftBig">0</b><small data-es="plazas libres" data-eu="plaza libre">plazas libres</small></div>
+      <div class="line"><i id="seatsBar"></i></div>
+      <div class="lbl"><span id="seatsTaken">0</span> <span data-es="de" data-eu="/">de</span> <span id="seatsTotal">0</span> <span data-es="plazas de socio fundador ya reservadas. Se cierran el día de la apertura." data-eu="sortzaile-plaza erreserbatuta daude. Irekiera egunean ixten dira.">plazas de socio fundador ya reservadas. Se cierran el día de la apertura.</span></div>
+      <div class="count" id="count"><div><b data-k="d">00</b><span data-es="días" data-eu="egun">días</span></div><div><b data-k="h">00</b><span data-es="horas" data-eu="ordu">horas</span></div><div><b data-k="m">00</b>min</div><div><b data-k="s">00</b>seg</div></div>
     </div>
   </div>
+  <div class="page" data-es="Página 01 · Burdin Gym" data-eu="01. orria · Burdin Gym">Página 01 · Burdin Gym</div>
 </header>
 
 <div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
-
 <div class="stats wrap" id="stats">
-  <div class="stat reveal"><b class="tbd"><span data-n="60">60</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
-  <div class="stat reveal"><b><span data-n="10">10</span></b><small data-es="Marcas top" data-eu="Marka nagusi">Marcas top</small></div>
-  <div class="stat reveal"><b class="tbd"><span data-n="800">800</span><sup>m²</sup></b><small data-es="De hierro" data-eu="Burdina">De hierro</small></div>
-  <div class="stat reveal"><b class="tbd"><span data-n="100">100</span></b><small data-es="Plazas fundador" data-eu="Sortzaile-plaza">Plazas fundador</small></div>
+  <div class="stat"><b class="tbd"><span data-n="60">60</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
+  <div class="stat"><b><span data-n="12">12</span></b><small data-es="Marcas top" data-eu="Marka nagusi">Marcas top</small></div>
+  <div class="stat"><b class="tbd"><span data-n="800">800</span><sup>m²</sup></b><small data-es="De hierro" data-eu="Burdina">De hierro</small></div>
+  <div class="stat"><b class="tbd"><span data-n="100">100</span></b><small data-es="Plazas fundador" data-eu="Sortzaile-plaza">Plazas fundador</small></div>
 </div>
+
+<section id="coleccion">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" data-n="02" data-es="La colección" data-eu="Bilduma">La colección</div>
+      <h2 data-es="Piezas con historia" data-eu="Istorioa duten piezak">Piezas con historia</h2>
+      <p data-es="Cada máquina es una ficha de museo: de dónde vino, cuántos kilómetros hizo hasta llegar aquí y por qué merecía el viaje. Pasa por encima para leer su historia." data-eu="Makina bakoitza museoko fitxa bat da: nondik etorri zen, zenbat kilometro egin zituen honaino eta zergatik merezi zuen bidaia. Pasa gainetik bere istorioa irakurtzeko.">Cada máquina es una ficha de museo: de dónde vino, cuántos kilómetros hizo hasta llegar aquí y por qué merecía el viaje. Pasa por encima para leer su historia.</p>
+    </div>
+    <div class="sheets" id="sheets"></div>
+    <div class="more">
+      <div>
+        <h3 data-es="Y muchas más" data-eu="Eta askoz gehiago">Y muchas más</h3>
+        <p data-es="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen." data-eu="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Pieza bakoitzaren istorioa kontatuz joango gara iristen diren heinean.">Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen.</p>
+      </div>
+      <a href="#fundador" class="btn btn-ghost" data-es="Quiero entrenar con ellas" data-eu="Haiekin entrenatu nahi dut">Quiero entrenar con ellas</a>
+    </div>
+  </div>
+</section>
+
+<section id="gimnasio">
+  <div class="gtitle">
+    <div class="wrap"><h2 data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</h2></div>
+    <svg class="brush" viewBox="0 0 1240 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9c120-4 260-6 410-5 160 1 290 4 420 2 150-2 260-5 406-3" stroke="#e6e6e6" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".9"/><path d="M40 11c200 1 380-3 600-2 220 1 380 2 560-1" stroke="#e6e6e6" stroke-width="1.4" fill="none" opacity=".45"/></svg>
+  </div>
+  <div class="wrap gcols">
+    <div class="gbox">
+      <span class="tag" data-es="Instalaciones" data-eu="Instalazioak">Instalaciones</span>
+      <div class="fac tbd">
+        <div><b data-es="La sala" data-eu="Aretoa">La sala</b><p data-es="800 m² de máquinas guiadas y peso libre. Lo clásico y lo moderno en la misma planta: sin pasillos, sin esperas." data-eu="800 m² makina gidatu eta pisu askerekin. Klasikoa eta modernoa solairu berean: pasabiderik gabe, itxaronik gabe.">800 m² de máquinas guiadas y peso libre. Lo clásico y lo moderno en la misma planta: sin pasillos, sin esperas.</p></div>
+        <div><b data-es="La zona old school" data-eu="Old school eremua">La zona old school</b><p data-es="Las piezas que ya no se fabrican, juntas y a punto. Cadenas, levas y hierro fundido." data-eu="Jada egiten ez diren piezak, elkarrekin eta prest. Kateak, kamak eta burdinurtua.">Las piezas que ya no se fabrican, juntas y a punto. Cadenas, levas y hierro fundido.</p></div>
+        <div><b data-es="El sonido" data-eu="Soinua">El sonido</b><p data-es="Equipo de sala pensado para entrenar, no para la radio: volumen alto y graves sin distorsión." data-eu="Entrenatzeko pentsatutako soinu-ekipoa, ez irratirako: bolumen altua eta baxuak distortsiorik gabe.">Equipo de sala pensado para entrenar, no para la radio: volumen alto y graves sin distorsión.</p></div>
+        <div><b data-es="Vestuarios" data-eu="Aldagelak">Vestuarios</b><p data-es="Taquillas, duchas y un sitio para dejar la bolsa sin agobios." data-eu="Armairuak, dutxak eta poltsa lasai uzteko lekua.">Taquillas, duchas y un sitio para dejar la bolsa sin agobios.</p></div>
+      </div>
+    </div>
+    <div class="gmid">
+      <div class="slides" id="slides"></div>
+      <div class="gnav"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Siguiente">→</button></div></div>
+      <img class="gcut" src="img/cybex_curl.webp" alt="" loading="lazy" aria-hidden="true">
+    </div>
+    <div class="gbox">
+      <span class="tag" data-es="La sala por marcas" data-eu="Aretoa marken arabera">La sala por marcas</span>
+      <div class="bars tbd" id="bars"></div>
+      <span class="tag" style="margin-top:10px" data-es="Horario" data-eu="Ordutegia">Horario</span>
+      <div class="hours tbd">
+        <span data-es="Lun – Vie" data-eu="Al – Or">Lun – Vie</span><span>06:00 – 23:00</span>
+        <span data-es="Sábado" data-eu="Larunbata">Sábado</span><span>08:00 – 21:00</span>
+        <span data-es="Dom y festivos" data-eu="Ig eta jaiegunak">Dom y festivos</span><span>09:00 – 14:00</span>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="logos" id="logos"></div></div>
+  <div class="wrap gfoot"><span data-es="Página 03 · El gimnasio" data-eu="03. orria · Gimnasioa">Página 03 · El gimnasio</span><span data-es="Fotos del local cuando acaben las obras" data-eu="Lokaleko argazkiak obrak amaitzean">Fotos del local cuando acaben las obras</span></div>
+</section>
 
 <section id="fundador">
   <div class="wrap fund">
-    <div class="reveal">
-      <div class="head" style="margin-bottom:26px">
-        <div class="eyebrow" data-es="Solo antes de abrir" data-eu="Ireki aurretik bakarrik">Solo antes de abrir</div>
+    <div>
+      <div class="head" style="margin-bottom:30px">
+        <div class="eyebrow" data-n="04" data-es="Solo antes de abrir" data-eu="Ireki aurretik bakarrik">Solo antes de abrir</div>
         <h2 data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</h2>
-        <p data-es="Los primeros en creer en Burdin entrenan con condiciones que no volverán. Plazas limitadas: cuando se acaben, o cuando abramos, se cierra." data-eu="Burdinengan lehenik sinesten dutenek ez dira itzuliko ez diren baldintzetan entrenatzen dute. Plaza mugatuak: amaitzen direnean, edo irekitzen dugunean, ixten da.">Los primeros en creer en Burdin entrenan con condiciones que no volverán. Plazas limitadas: cuando se acaben, o cuando abramos, se cierra.</p>
+        <p data-es="Los primeros en creer en Burdin entrenan con condiciones que no volverán. Cuando se acaben las plazas, o cuando abramos, se cierra." data-eu="Burdinengan lehenik sinesten dutenek ez dira itzuliko ez diren baldintzetan entrenatzen dute. Plazak amaitzen direnean, edo irekitzen dugunean, ixten da.">Los primeros en creer en Burdin entrenan con condiciones que no volverán. Cuando se acaben las plazas, o cuando abramos, se cierra.</p>
+      </div>
+      <div class="seats">
+        <div class="ring" id="ring"><div class="glow"></div><b><span id="ringN">0</span><small>/<span id="ringT">0</span></small></b></div>
+        <div><div class="t tbd"><span id="seatsTaken2">0</span> <span data-es="plazas reservadas" data-eu="plaza erreserbatuta">plazas reservadas</span><br><em><span id="seatsLeft2">0</span> <span data-es="todavía libres" data-eu="oraindik libre">todavía libres</span></em></div><div class="s" data-es="Cada plaza se confirma con el alta en la tienda de Virtuagym. Sin alta no hay reserva." data-eu="Plaza bakoitza Virtuagym dendako altarekin berresten da. Altarik gabe ez dago erreserbarik.">Cada plaza se confirma con el alta en la tienda de Virtuagym. Sin alta no hay reserva.</div></div>
       </div>
       <ul class="perks">
-        <li><b>01</b><div><strong data-es="Precio congelado" data-eu="Prezio izoztua">Precio congelado</strong><span data-es="Tu cuota de fundador se mantiene mientras sigas de alta." data-eu="Zure sortzaile-kuota mantentzen da alta emanda jarraitzen duzun bitartean.">Tu cuota de fundador se mantiene mientras sigas de alta.</span></div></li>
-        <li><b>02</b><div><strong class="tbd" data-es="Sin matrícula" data-eu="Matrikularik gabe">Sin matrícula</strong><span data-es="Te ahorras el alta el día que abrimos." data-eu="Irekitzen dugun egunean alta-kuota aurrezten duzu.">Te ahorras el alta el día que abrimos.</span></div></li>
-        <li><b>03</b><div><strong class="tbd" data-es="Entra el primero" data-eu="Lehena sartu">Entra el primero</strong><span data-es="Visita privada antes de la apertura para conocer las máquinas." data-eu="Irekiera aurreko bisita pribatua, makinak ezagutzeko.">Visita privada antes de la apertura para conocer las máquinas.</span></div></li>
-        <li><b>04</b><div><strong class="tbd" data-es="Camiseta fundador" data-eu="Sortzaile-kamiseta">Camiseta fundador</strong><span data-es="Edición numerada que no se vende." data-eu="Saltzen ez den edizio zenbakidua.">Edición numerada que no se vende.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#i-lock"/></svg><div><strong data-es="Precio congelado" data-eu="Prezio izoztua">Precio congelado</strong><span data-es="Tu cuota de fundador se mantiene mientras sigas de alta." data-eu="Zure sortzaile-kuota mantentzen da alta emanda jarraitzen duzun bitartean.">Tu cuota de fundador se mantiene mientras sigas de alta.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#i-nofee"/></svg><div><strong class="tbd" data-es="Sin matrícula" data-eu="Matrikularik gabe">Sin matrícula</strong><span data-es="Te ahorras el alta el día que abrimos." data-eu="Irekitzen dugun egunean alta-kuota aurrezten duzu.">Te ahorras el alta el día que abrimos.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#i-key"/></svg><div><strong class="tbd" data-es="Entra el primero" data-eu="Lehena sartu">Entra el primero</strong><span data-es="Visita privada antes de la apertura para conocer las máquinas." data-eu="Irekiera aurreko bisita pribatua, makinak ezagutzeko.">Visita privada antes de la apertura para conocer las máquinas.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#i-shirt"/></svg><div><strong class="tbd" data-es="Camiseta fundador" data-eu="Sortzaile-kamiseta">Camiseta fundador</strong><span data-es="Edición numerada que no se vende." data-eu="Saltzen ez den edizio zenbakidua.">Edición numerada que no se vende.</span></div></li>
       </ul>
-      <div class="seats">
-        <div class="row2"><span data-es="Plazas ocupadas" data-eu="Plaza beteak">Plazas ocupadas</span><span class="tbd"><b id="seatsTaken">0</b> / <span id="seatsTotal">0</span></span></div>
-        <div class="bar"><i id="seatsBar" style="width:0"></i></div>
-        <div class="row2"><span id="seatsLeft"></span></div>
-      </div>
     </div>
-
-    <form class="form reveal" id="waitlist" novalidate>
-      <div class="eyebrow" data-es="Lista de espera" data-eu="Itxaron-zerrenda">Lista de espera</div>
-      <h3 data-es="Guárdame una plaza" data-eu="Gorde iezadazu plaza bat">Guárdame una plaza</h3>
+    <form class="form" id="waitlist" novalidate>
+      <div class="eyebrow" data-n="05" data-es="Lista de espera" data-eu="Itxaron-zerrenda">Lista de espera</div>
+      <h3 data-es="Reserva tu plaza" data-eu="Gorde zure plaza">Reserva tu plaza</h3>
       <p data-es="Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador." data-eu="Utzi zure izena eta telefonoa. WhatsAppez idatziko dizugu sortzaileen altak irekitzen direnean.">Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador.</p>
       <label class="field"><span data-es="Nombre" data-eu="Izena">Nombre</span><input id="fName" name="nombre" autocomplete="name" required></label>
       <label class="field"><span data-es="Teléfono" data-eu="Telefonoa">Teléfono</span><input id="fTel" name="telefono" type="tel" inputmode="tel" autocomplete="tel" required></label>
@@ -484,59 +560,29 @@
         </select>
       </label>
       <label class="check"><input type="checkbox" id="fOk" required><span data-es="Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura." data-eu="Onartzen dut Burdin Gym-ek WhatsAppez nirekin harremanetan jartzea irekierari buruz.">Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura.</span></label>
-      <button class="btn block accent" type="submit"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Enviar por WhatsApp" data-eu="WhatsAppez bidali">Enviar por WhatsApp</span></button>
+      <button class="btn btn-primary block" type="submit"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Reservar por WhatsApp" data-eu="WhatsAppez erreserbatu">Reservar por WhatsApp</span></button>
       <div class="err" id="fErr" role="alert"></div>
       <div class="formnote" data-es="Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar." data-eu="WhatsApp irekitzen da mezua prest duela. Bidali sakatu besterik ez duzu.">Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar.</div>
     </form>
   </div>
 </section>
 
-<section id="maquinas">
+<section id="manifiesto">
   <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow" data-es="La colección" data-eu="Bilduma">La colección</div>
-      <h2 data-es="Piezas con historia" data-eu="Istorioa duten piezak">Piezas con historia</h2>
-      <p data-es="Aquí no hay máquinas de catálogo. Cada una se buscó, se revisó y se trajo hasta aquí por una razón. Esta es la historia de algunas." data-eu="Hemen ez dago katalogoko makinarik. Bakoitza arrazoi batengatik bilatu, berrikusi eta ekarri zen hona. Hona hemen batzuen istorioa.">Aquí no hay máquinas de catálogo. Cada una se buscó, se revisó y se trajo hasta aquí por una razón. Esta es la historia de algunas.</p>
-    </div>
-    <div class="grid" id="grid"></div>
-    <div class="more reveal">
-      <div>
-        <h3 data-es="Y muchas más" data-eu="Eta askoz gehiago">Y muchas más</h3>
-        <p data-es="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen." data-eu="Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Pieza bakoitzaren istorioa kontatuz joango gara iristen diren heinean.">Nautilus, Panatta, Hammer Strength, Gym80, Gymleco, Life Fitness, Paramount, Precor… Iremos contando la historia de cada pieza según lleguen.</p>
-      </div>
-      <a href="#fundador" class="btn ghost" data-es="Quiero probarlas" data-eu="Probatu nahi ditut">Quiero probarlas</a>
+    <div class="eyebrow" data-n="06" style="margin-bottom:34px" data-es="Manifiesto" data-eu="Manifestua">Manifiesto</div>
+    <div class="mani">
+      <p data-es="No abrimos un gimnasio para que te hagas una foto. Lo abrimos para que entrenes en máquinas que <em>alguien diseñó bien</em> hace treinta años y que nadie ha vuelto a fabricar." data-eu="Ez dugu gimnasio bat irekitzen argazki bat egin dezazun. Irekitzen dugu duela hogeita hamar urte <em>norbaitek ondo diseinatu zituen</em> eta inork berriro egin ez dituen makinetan entrena dezazun.">No abrimos un gimnasio para que te hagas una foto. Lo abrimos para que entrenes en máquinas que <em>alguien diseñó bien</em> hace treinta años y que nadie ha vuelto a fabricar.</p>
+      <p data-es="Cada pieza la hemos buscado, revisado y traído hasta aquí. Sabemos de dónde viene y por qué está. Te lo contaremos si preguntas, y si no, te dejaremos entrenar." data-eu="Pieza bakoitza bilatu, berrikusi eta honaino ekarri dugu. Badakigu nondik datorren eta zergatik dagoen. Galdetzen baduzu kontatuko dizugu, eta bestela, entrenatzen utziko dizugu.">Cada pieza la hemos buscado, revisado y traído hasta aquí. Sabemos de dónde viene y por qué está. Te lo contaremos si preguntas, y si no, te dejaremos entrenar.</p>
+      <p data-es="Disciplina, resultados y comunidad. En ese orden." data-eu="Diziplina, emaitzak eta komunitatea. Ordena horretan.">Disciplina, resultados y comunidad. En ese orden.</p>
+      <div class="sign" data-es="El equipo de Burdin" data-eu="Burdin taldea">El equipo de Burdin</div>
     </div>
   </div>
-</section>
-
-<section id="marcas">
-  <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow" data-es="Marcas" data-eu="Markak">Marcas</div>
-      <h2 data-es="Lo mejor del mundo" data-eu="Munduko onenak">Lo mejor del mundo</h2>
-      <p data-es="Diez fabricantes de referencia bajo un mismo techo." data-eu="Erreferentziazko hamar fabrikatzaile, sabai beraren azpian.">Diez fabricantes de referencia bajo un mismo techo.</p>
-    </div>
-    <div class="brands" id="brands"></div>
-  </div>
-</section>
-
-<section id="zonas">
-  <div class="wrap zhead">
-    <div class="head reveal" style="margin-bottom:30px">
-      <div class="eyebrow" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</div>
-      <h2 data-es="Zona por zona" data-eu="Eremuz eremu">Zona por zona</h2>
-      <p data-es="Las fotos del local llegan en cuanto acaben las obras." data-eu="Lokaleko argazkiak obrak amaitu bezain laster iritsiko dira.">Las fotos del local llegan en cuanto acaben las obras.</p>
-    </div>
-    <div class="arrows"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Siguiente">→</button></div>
-  </div>
-  <div class="slides" id="slides"></div>
-  <div class="dots" id="dots"></div>
 </section>
 
 <section id="tarifas">
   <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow" data-es="Tarifas" data-eu="Tarifak">Tarifas</div>
+    <div class="head">
+      <div class="eyebrow" data-n="07" data-es="Tarifas" data-eu="Tarifak">Tarifas</div>
       <h2 data-es="Elige tu plan" data-eu="Aukeratu zure plana">Elige tu plan</h2>
       <p data-es="El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar." data-eu="Alta eta ordainketa gure Virtuagym dendan egiten dira: tarifa aukeratu, ordaindu eta sartzeko aplikazioa izango duzu.">El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar.</p>
     </div>
@@ -545,9 +591,9 @@
       <button type="button" data-phase="post" data-es="Tras la apertura" data-eu="Irekiera ondoren">Tras la apertura</button>
     </div>
     <div class="plans" id="plans"></div>
-    <div class="try reveal">
+    <div class="try">
       <div>
-        <div class="eyebrow" data-es="Sin compromiso" data-eu="Konpromisorik gabe">Sin compromiso</div>
+        <div class="eyebrow" data-n="08" data-es="Sin compromiso" data-eu="Konpromisorik gabe">Sin compromiso</div>
         <h3 data-es="O pruébanos primero" data-eu="Edo proba gaitzazu lehenik">O pruébanos primero</h3>
         <p data-es="¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera." data-eu="Hemendik igarotzen zara edo zure lekua den ikusi nahi duzu? Sartu egun batez, asteburu batez edo aste oso batez.">¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera.</p>
       </div>
@@ -559,8 +605,8 @@
 
 <section id="faq">
   <div class="wrap faqgrid">
-    <div class="head reveal">
-      <div class="eyebrow" data-es="Preguntas frecuentes" data-eu="Ohiko galderak">Preguntas frecuentes</div>
+    <div class="head">
+      <div class="eyebrow" data-n="09" data-es="Preguntas frecuentes" data-eu="Ohiko galderak">Preguntas frecuentes</div>
       <h2 data-es="Lo que nos preguntáis" data-eu="Egiten dizkiguzuen galderak">Lo que nos preguntáis</h2>
       <p data-es="¿No está tu duda? Escríbenos por WhatsApp y te contesta Ander." data-eu="Zure zalantza ez dago hemen? Idatzi WhatsAppez eta Anderrek erantzungo dizu.">¿No está tu duda? Escríbenos por WhatsApp y te contesta Ander.</p>
     </div>
@@ -570,14 +616,14 @@
 
 <section id="contacto">
   <div class="wrap contact">
-    <div class="reveal">
+    <div>
       <div class="head" style="margin-bottom:30px">
-        <div class="eyebrow" data-es="Contacto" data-eu="Kontaktua">Contacto</div>
+        <div class="eyebrow" data-n="10" data-es="Contacto" data-eu="Kontaktua">Contacto</div>
         <h2 data-es="Ven a conocernos" data-eu="Etorri ezagutzera">Ven a conocernos</h2>
       </div>
       <div class="row"><small data-es="Dirección" data-eu="Helbidea">Dirección</small><div class="tbd" id="cAddr"></div></div>
       <div class="row"><small class="tbd" data-es="Horario" data-eu="Ordutegia">Horario</small>
-        <div class="hours">
+        <div class="hrs">
           <span data-es="Lunes – Viernes" data-eu="Astelehena – Ostirala">Lunes – Viernes</span><span>06:00 – 23:00</span>
           <span data-es="Sábado" data-eu="Larunbata">Sábado</span><span>08:00 – 21:00</span>
           <span data-es="Domingo y festivos" data-eu="Igande eta jaiegunak">Domingo y festivos</span><span>09:00 – 14:00</span>
@@ -586,33 +632,41 @@
       <div class="row"><small>WhatsApp</small><div class="tbd"><a href="#" class="wa-link" id="cTel"></a></div></div>
       <div class="row"><small>Email</small><div class="tbd"><a id="cMail"></a></div></div>
       <div class="row"><small>Instagram</small><div class="tbd"><a id="cIg" target="_blank" rel="noopener"></a></div></div>
-      <div style="margin-top:28px"><a href="#" class="btn wa-link"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Escríbenos por WhatsApp" data-eu="Idatzi WhatsAppez">Escríbenos por WhatsApp</span></a></div>
+      <div style="margin-top:28px"><a href="#" class="btn btn-ghost wa-link"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Escríbenos por WhatsApp" data-eu="Idatzi WhatsAppez">Escríbenos por WhatsApp</span></a></div>
     </div>
-    <div class="map reveal" id="map"><div class="pin tbd" data-es="Ubicación aproximada" data-eu="Gutxi gorabeherako kokapena">Ubicación aproximada</div></div>
+    <div class="map" id="map"><div class="pin tbd" data-es="Ubicación aproximada" data-eu="Gutxi gorabeherako kokapena">Ubicación aproximada</div></div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap foot">
-    <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="40" height="42" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name" style="font-size:1.2rem">Burdin</span><span class="gym" style="font-size:.5rem">Gym</span></span></a>
-    <div class="motto" data-es="DISCIPLINA · RESULTADOS · COMUNIDAD" data-eu="DIZIPLINA · EMAITZAK · KOMUNITATEA">DISCIPLINA · RESULTADOS · COMUNIDAD</div>
-    <nav aria-label="Legal">
-      <a href="#" data-es="Aviso legal" data-eu="Lege-oharra">Aviso legal</a>
-      <a href="#" data-es="Privacidad" data-eu="Pribatutasuna">Privacidad</a>
-      <span class="mono" style="font-size:.7rem;color:var(--mute)">© <span id="yr"></span> Burdin Gym</span>
-    </nav>
+  <div class="wrap">
+    <div class="fcta">
+      <h3 data-es="Quedan <em id='seatsLeft3'>0</em> plazas de fundador." data-eu="<em id='seatsLeft3'>0</em> sortzaile-plaza geratzen dira.">Quedan <em id="seatsLeft3">0</em> plazas de fundador.</h3>
+      <a href="#fundador" class="btn btn-primary" data-es="Reserva la tuya" data-eu="Gorde zurea">Reserva la tuya</a>
+    </div>
+    <div class="foot">
+      <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="40" height="42" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name" style="font-size:1.2rem">Burdin</span><span class="gym" style="font-size:.5rem">Gym</span></span></a>
+      <nav aria-label="Legal">
+        <a href="#" data-es="Aviso legal" data-eu="Lege-oharra">Aviso legal</a>
+        <a href="#" data-es="Privacidad" data-eu="Pribatutasuna">Privacidad</a>
+        <a id="fIg" target="_blank" rel="noopener">Instagram</a>
+        <span>© <span id="yr"></span> Burdin Gym · Euskadi</span>
+      </nav>
+    </div>
   </div>
 </footer>
 
 <a href="#" class="wa wa-link" aria-label="WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
 <div class="toast" id="toast" role="status"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 /* =====================================================================
    DATOS QUE SE CAMBIAN (todo lo editable está aquí arriba)
    ===================================================================== */
 const CONFIG={
-  boceto:true,                         // false = quita la barra y los puntos ámbar
+  boceto:true,                         // false = quita la barra y los puntos de «por confirmar»
   apertura:'2027-02-01T07:00:00+01:00',// fecha y hora de apertura (cuenta atrás)
   plazasFundador:100, plazasOcupadas:37,
   whatsapp:'',                         // número de Ander, solo cifras con prefijo: '34600000000'
@@ -622,8 +676,12 @@ const CONFIG={
   mapa:'Euskadi',                      // texto que se busca en Google Maps
   // Enlaces a cada tarifa en la tienda online de Virtuagym. Vacío = abre WhatsApp.
   virtuagym:{fundador:'',mensual:'',trimestral:'',anual:'',dia:'',finde:'',semana:''},
-  precios:{fundador:34.9,mensual:44.9,trimestral:119,anual:429,dia:9,finde:15,semana:25}
+  precios:{fundador:34.9,mensual:44.9,trimestral:119,anual:429,dia:9,finde:15,semana:25},
+  // reparto de la sala por marcas (de ejemplo)
+  marcas:[['Cybex',28,true],['Hammer Strength',18],['Nautilus',14],['Panatta',12],['Gym80 · Gymleco · Flex',16],['Otras',12]]
 };
+// Marcas: nombre y archivo del logo en img/marcas/ (si no existe, sale el nombre)
+const BRANDS=[['Cybex','cybex'],['Hammer Strength','hammer-strength'],['Nautilus','nautilus'],['Panatta','panatta'],['Life Fitness','life-fitness'],['Gymleco','gymleco'],['Flex Fitness','flex-fitness'],['Paramount','paramount'],['David','david'],['Freemotion','freemotion'],['Gym80','gym80'],['Precor','precor']];
 
 /* ===================================================================== */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -632,30 +690,27 @@ const eur=n=>(Number.isInteger(n)?n:n.toFixed(2).replace('.',','))+' €';
 
 const MACHINES=[
  {img:'img/chain.webp',brand:'Old school',name:'Chest Press',
-  es:{model:'Transmisión por cadena',d:'Press de pecho con transmisión por cadena y piñones. Se nota la cadena trabajar en cada repetición: nada de cables ni levas.',year:'Años 80',from:'Gimnasio cerrado, Francia',km:'1.100 km',why:'Es una de esas piezas que ya no se fabrican. Se desmontó, se limpió pieza a pieza y se tapizó de nuevo.',g:'Pecho · Hombro',t:'Cadena'},
-  eu:{model:'Kate bidezko transmisioa',d:'Kate eta pinoi bidezko bular-prentsa. Errepikapen bakoitzean katea lanean nabaritzen da: ez kablerik, ez kamarik.',year:'80ko hamarkada',from:'Itxitako gimnasioa, Frantzia',km:'1.100 km',why:'Jada egiten ez diren pieza horietako bat da. Desmuntatu, piezaz pieza garbitu eta berriro tapizatu zen.',g:'Bularra · Sorbalda',t:'Katea'}},
+  es:{model:'Transmisión por cadena',d:'Press de pecho con transmisión por cadena y piñones. Se nota la cadena trabajar en cada repetición: nada de cables ni levas.',year:'Años 80',from:'Gimnasio cerrado, Francia',km:'1.100 km',why:'Es una de esas piezas que ya no se fabrican. Se desmontó, se limpió pieza a pieza y se tapizó de nuevo. Cruzó Francia en una furgoneta y entró por la puerta antes que la mesa de recepción.',g:'Pecho · Hombro',t:'Cadena'},
+  eu:{model:'Kate bidezko transmisioa',d:'Kate eta pinoi bidezko bular-prentsa. Errepikapen bakoitzean katea lanean nabaritzen da: ez kablerik, ez kamarik.',year:'80ko hamarkada',from:'Itxitako gimnasioa, Frantzia',km:'1.100 km',why:'Jada egiten ez diren pieza horietako bat da. Desmuntatu, piezaz pieza garbitu eta berriro tapizatu zen. Frantzia furgoneta batean zeharkatu zuen eta harrera-mahaia baino lehen sartu zen atetik.',g:'Bularra · Sorbalda',t:'Katea'}},
  {img:'img/cybex_chest.webp',brand:'Cybex',name:'Chest Press',
-  es:{model:'Serie VR',d:'Press de pecho sentado con respaldo inclinado y pedal para colocar el peso con seguridad. Agarre neutro o prono.',year:'2008',from:'Club deportivo, Portugal',km:'850 km',why:'El pedal de ayuda te deja empezar y acabar la serie sin pelearte con la palanca. Ideal para ir al fallo solo.',g:'Pecho · Tríceps',t:'Selectorizada'},
-  eu:{model:'VR seriea',d:'Eserita egiteko bular-prentsa, bizkar-euskarri inklinatuarekin eta pisua modu seguruan hartzeko oin-pedalarekin. Heldulekua neutroa edo pronoa.',year:'2008',from:'Kirol-kluba, Portugal',km:'850 km',why:'Laguntza-pedalari esker, seriea palankarekin borrokatu gabe hasi eta amaitu dezakezu. Bakarrik hutsegiteraino joateko aproposa.',g:'Bularra · Trizepsa',t:'Pisu-pila'}},
+  es:{model:'Serie VR',d:'Press de pecho sentado con respaldo inclinado y pedal para colocar el peso con seguridad. Agarre neutro o prono.',year:'2008',from:'Club deportivo, Portugal',km:'850 km',why:'El pedal de ayuda te deja empezar y acabar la serie sin pelearte con la palanca. Ideal para ir al fallo solo. Vino de un club que cerró en Oporto, con las placas originales.',g:'Pecho · Tríceps',t:'Selectorizada'},
+  eu:{model:'VR seriea',d:'Eserita egiteko bular-prentsa, bizkar-euskarri inklinatuarekin eta pisua modu seguruan hartzeko oin-pedalarekin. Heldulekua neutroa edo pronoa.',year:'2008',from:'Kirol-kluba, Portugal',km:'850 km',why:'Laguntza-pedalari esker, seriea palankarekin borrokatu gabe hasi eta amaitu dezakezu. Bakarrik hutsegiteraino joateko aproposa. Porton itxi zen klub batetik etorri zen, jatorrizko plakekin.',g:'Bularra · Trizepsa',t:'Pisu-pila'}},
  {img:'img/flex_bicep.webp',brand:'Flex Fitness',name:'Biceps Machine',
-  es:{model:'PA-560',d:'Curl de bíceps con apoyo predicador. La palanca sigue el arco natural del codo. Pila de hasta 100 kg.',year:'2021',from:'Fábrica, Corea del Sur',km:'10.300 km',why:'Flex es la marca coreana que se ha ganado a los culturistas. Pocas hay en España: esta cruzó medio mundo en contenedor.',g:'Bíceps',t:'Selectorizada'},
-  eu:{model:'PA-560',d:'Bizeps-kurla, predikadore-euskarriarekin. Palankak ukondoaren arku naturala jarraitzen du. 100 kg arteko pisu-pila.',year:'2021',from:'Fabrika, Hego Korea',km:'10.300 km',why:'Flex kulturistak irabazi dituen marka korearra da. Espainian gutxi daude: honek mundu erdia zeharkatu zuen edukiontzian.',g:'Bizepsa',t:'Pisu-pila'}},
+  es:{model:'PA-560',d:'Curl de bíceps con apoyo predicador. La palanca sigue el arco natural del codo. Pila de hasta 100 kg.',year:'2021',from:'Fábrica, Corea del Sur',km:'10.300 km',why:'Flex es la marca coreana que se ha ganado a los culturistas. Pocas hay en España: esta cruzó medio mundo en contenedor y llegó al puerto de Bilbao con el plástico de fábrica puesto.',g:'Bíceps',t:'Selectorizada'},
+  eu:{model:'PA-560',d:'Bizeps-kurla, predikadore-euskarriarekin. Palankak ukondoaren arku naturala jarraitzen du. 100 kg arteko pisu-pila.',year:'2021',from:'Fabrika, Hego Korea',km:'10.300 km',why:'Flex kulturistak irabazi dituen marka korearra da. Espainian gutxi daude: honek mundu erdia zeharkatu zuen edukiontzian eta Bilboko portura iritsi zen fabrikako plastikoarekin.',g:'Bizepsa',t:'Pisu-pila'}},
  {img:'img/cybex_curl.webp',brand:'Cybex',name:'Arm Curl',
-  es:{model:'Leva gunmetal',d:'Curl de brazos con leva: la resistencia cambia a lo largo del recorrido para que el bíceps trabaje igual arriba que abajo.',year:'2005',from:'Gimnasio privado, Alemania',km:'1.600 km',why:'El acabado gunmetal de esa época es de los que ya no se ven. Rodamientos nuevos y lista para otros veinte años.',g:'Bíceps',t:'Leva'},
-  eu:{model:'Gunmetal kama',d:'Besoetako kurla kamarekin: erresistentzia ibilbidean zehar aldatzen da, bizepsak goian eta behean berdin lan egin dezan.',year:'2005',from:'Gimnasio pribatua, Alemania',km:'1.600 km',why:'Garai hartako gunmetal akabera jada ikusten ez den horietakoa da. Errodamendu berriak, eta beste hogei urterako prest.',g:'Bizepsa',t:'Kama'}}
+  es:{model:'Leva gunmetal',d:'Curl de brazos con leva: la resistencia cambia a lo largo del recorrido para que el bíceps trabaje igual arriba que abajo.',year:'2005',from:'Gimnasio privado, Alemania',km:'1.600 km',why:'El acabado gunmetal de esa época es de los que ya no se ven. Rodamientos nuevos y lista para otros veinte años. Su anterior dueño la vendió solo cuando supo dónde iba a acabar.',g:'Bíceps',t:'Leva'},
+  eu:{model:'Gunmetal kama',d:'Besoetako kurla kamarekin: erresistentzia ibilbidean zehar aldatzen da, bizepsak goian eta behean berdin lan egin dezan.',year:'2005',from:'Gimnasio pribatua, Alemania',km:'1.600 km',why:'Garai hartako gunmetal akabera jada ikusten ez den horietakoa da. Errodamendu berriak, eta beste hogei urterako prest. Aurreko jabeak nora joango zen jakin zuenean bakarrik saldu zuen.',g:'Bizepsa',t:'Kama'}}
 ];
-const ML={es:{y:'Año',f:'Procedencia',k:'Recorrido',w:'Por qué es especial',g:'Grupo',t:'Tipo',ex:'Historia de ejemplo'},
-          eu:{y:'Urtea',f:'Jatorria',k:'Ibilbidea',w:'Zergatik den berezia',g:'Taldea',t:'Mota',ex:'Adibide-istorioa'}};
+const ML={es:{y:'Año',f:'Procedencia',k:'Recorrido',w:'Por qué es especial',g:'Grupo',t:'Tipo',ex:'Historia de ejemplo',open:'Ver historia',close:'Cerrar historia'},
+          eu:{y:'Urtea',f:'Jatorria',k:'Ibilbidea',w:'Zergatik den berezia',g:'Taldea',t:'Mota',ex:'Adibide-istorioa',open:'Istorioa ikusi',close:'Istorioa itxi'}};
 
 const ZONES=[
- {render:'wall',photo:'img/zona-recepcion.jpg',es:{h:'Bienvenido<br>al hierro',p:'Recepción. Aquí empieza todo.'},eu:{h:'Ongi etorri<br>burdinara',p:'Harrera. Hemen hasten da dena.'}},
- {img:'img/cybex_chest.webp',photo:'img/zona-pecho.jpg',es:{h:'Empuja',p:'Pecho y hombro: presses de placas y selectorizadas.'},eu:{h:'Bultzatu',p:'Bularra eta sorbalda: plaka- eta pila-prentsak.'}},
- {img:'img/cybex_curl.webp',photo:'img/zona-brazo.jpg',es:{h:'Bombea',p:'Brazo: curls de leva, predicador y poleas.'},eu:{h:'Ponpatu',p:'Besoa: kama-kurlak, predikadorea eta poleak.'}},
  {img:'img/chain.webp',photo:'img/zona-oldschool.jpg',es:{h:'Respeta<br>el hierro',p:'Old school: piezas clásicas que ya no se fabrican.'},eu:{h:'Errespetatu<br>burdina',p:'Old school: jada egiten ez diren pieza klasikoak.'}},
- {render:'facade',photo:'img/zona-fachada.jpg',es:{h:'Te<br>esperamos',p:'Busca el disco de 20 kg en la fachada.'},eu:{h:'Zure<br>zain gaude',p:'Bilatu 20 kg-ko diskoa fatxadan.'}}
+ {img:'img/cybex_chest.webp',photo:'img/zona-pecho.jpg',es:{h:'Empuja',p:'Pecho y hombro: presses de placas y selectorizadas.'},eu:{h:'Bultzatu',p:'Bularra eta sorbalda: plaka- eta pila-prentsak.'}},
+ {img:'img/flex_bicep.webp',photo:'img/zona-brazo.jpg',es:{h:'Bombea',p:'Brazo: curls de leva, predicador y poleas.'},eu:{h:'Ponpatu',p:'Besoa: kama-kurlak, predikadorea eta poleak.'}},
+ {render:'wall',photo:'img/zona-recepcion.jpg',es:{h:'Bienvenido',p:'Recepción. Aquí empieza todo.'},eu:{h:'Ongi etorri',p:'Harrera. Hemen hasten da dena.'}}
 ];
-
-const BRANDS=['Cybex','Nautilus','Panatta','Hammer Strength','Gym80','Life Fitness','Gymleco','Flex Fitness','Paramount','Precor'];
 
 const PLANS={
  pre:[
@@ -700,37 +755,35 @@ function tierLink(k,label){
 
 function renderMachines(){
   const l=LANG,x=ML[l];
-  $('#grid').innerHTML=MACHINES.map((m,i)=>{const t=m[l];return `
-   <article class="card reveal in">
-     <div class="stage"><span class="num">Nº 0${i+1}</span><span class="year">${(t.year.match(/\d+/)||[''])[0]}</span><img src="${m.img}" alt="${m.brand} ${m.name}" loading="lazy"></div>
-     <div class="info">
-       <div class="brandtag"><span>${m.brand}</span><em class="tbd">${x.ex}</em></div>
-       <h3>${m.name}<br><small style="font-size:.5em;color:var(--mute);letter-spacing:.08em">${t.model}</small></h3>
-       <p>${t.d}</p>
-       <div class="story"><div><small>${x.y}</small><span>${t.year}</span></div><div><small>${x.f}</small><span>${t.from}</span></div><div><small>${x.k}</small><span>${t.km}</span></div></div>
-       <div class="why"><b>${x.w}</b>${t.why}</div>
-       <div class="meta"><div><small>${x.g}</small><span>${t.g}</span></div><div><small>${x.t}</small><span>${t.t}</span></div></div>
+  $('#sheets').innerHTML=MACHINES.map((m,i)=>{const t=m[l];const yr=(t.year.match(/\d+/)||[''])[0];return `
+   <article class="sheet">
+     <div class="pic"><span class="n">Nº 0${i+1} / 0${MACHINES.length}</span><span class="yr" aria-hidden="true">${yr}</span><img src="${m.img}" alt="${m.brand} ${m.name}" loading="lazy" data-parallax>
+       <div class="story"><b>${x.w}</b><p>${t.why}</p></div>
+     </div>
+     <div class="meta">
+       <div class="brand"><span>${m.brand}</span><em class="tbd">${x.ex}</em></div>
+       <h3>${m.name}</h3><div class="model">${t.model}</div>
+       <p class="d">${t.d}</p>
+       <div class="spec">
+         <div><small>${x.y}</small><span>${t.year}</span></div><div><small>${x.f}</small><span>${t.from}</span></div>
+         <div><small>${x.k}</small><span>${t.km}</span></div><div><small>${x.g} · ${x.t}</small><span>${t.g} · ${t.t}</span></div>
+       </div>
+       <button type="button" class="btn-text open" data-open><span>${x.open}</span><svg aria-hidden="true"><use href="#arrow"/></svg></button>
      </div>
    </article>`}).join('');
+  $$('[data-open]').forEach(b=>b.onclick=()=>{const s=b.closest('.sheet');s.classList.toggle('open');b.querySelector('span').textContent=s.classList.contains('open')?ML[LANG].close:ML[LANG].open});
 }
 
-function drawDisc(){
-  return `<svg viewBox="0 0 200 200"><defs><path id="arcT" d="M30,100 a70,70 0 0 1 140,0"/><path id="arcB" d="M38,100 a62,62 0 0 0 124,0"/></defs>
-   <text font-family="Syncopate" font-weight="700" font-size="21" fill="#dadada" letter-spacing="3" text-anchor="middle"><textPath href="#arcT" startOffset="50%">BURDIN</textPath></text>
-   <text font-family="Syncopate" font-weight="700" font-size="19" fill="#dadada" letter-spacing="4" text-anchor="middle" dy="17"><textPath href="#arcB" startOffset="50%">GYM</textPath></text>
-   <text x="44" y="98" font-family="Barlow Condensed" font-weight="700" font-size="15" fill="#dadada">20</text><text x="44" y="113" font-family="Barlow Condensed" font-weight="700" font-size="15" fill="#dadada">KG</text></svg>`;
-}
 function renderZones(){
   const l=LANG, soon=l==='es'?'Foto del local · cuando acaben las obras':'Lokaleko argazkia · obrak amaitzean';
   $('#slides').innerHTML=ZONES.map((z,i)=>{
     let art='';
-    if(z.render==='wall') art=`<div class="wall"><div class="sign"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="motto">${(l==='es'?'DISCIPLINA<br>RESULTADOS<br>COMUNIDAD':'DIZIPLINA<br>EMAITZAK<br>KOMUNITATEA')}</div><div class="plate"></div></div>`;
-    else if(z.render==='facade') art=`<div class="facade"><div class="arm"></div><div class="disc">${drawDisc()}</div><div class="letters">BURDIN</div><div class="win"></div></div>`;
+    if(z.render==='wall') art=`<div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 45% at 55% 40%,#5e5a54,#3e3b37 60%,#2a2826)"></div><div style="position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;filter:drop-shadow(0 0 16px rgba(232,200,140,.7))"><svg viewBox="0 0 272 288" style="width:clamp(60px,10vw,110px)"><use href="#bdark"/></svg><span style="font-family:Syncopate,sans-serif;font-weight:700;font-size:clamp(1.2rem,3.2vw,2.4rem);letter-spacing:.14em;color:#111">BURDIN</span></div><div style="position:absolute;left:0;right:0;bottom:0;height:20%;background:repeating-linear-gradient(45deg,#222 0 3px,#2b2b2b 3px 6px);border-top:2px solid #e8c88c;box-shadow:0 -6px 24px rgba(232,200,140,.4)"></div>`;
     else art=`<div class="blur" style="background-image:url(${z.img})"></div><img class="cut" src="${z.img}" alt="" loading="lazy">`;
     return `<div class="slide" role="group" aria-label="${i+1} / ${ZONES.length}">
       <div class="bg">${art}<img class="photo" src="${z.photo}" alt="" loading="lazy" style="position:absolute;inset:0;display:none" onload="this.style.display='block';this.closest('.slide').querySelector('.soon')?.remove()"></div>
       <div class="shade"></div><span class="soon">${soon}</span>
-      <div class="txt"><div class="wrap"><span class="idx">0${i+1} / 0${ZONES.length}</span><h3>${z[l].h}</h3><p>${z[l].p}</p></div></div></div>`}).join('');
+      <div class="txt"><span class="idx">0${i+1} / 0${ZONES.length}</span><h3>${z[l].h}</h3><p>${z[l].p}</p></div></div>`}).join('');
   $('#dots').innerHTML=ZONES.map((_,i)=>`<button type="button" aria-label="${i+1}"></button>`).join('');
   $$('#dots button').forEach((b,i)=>b.onclick=()=>goSlide(i));
   updDots();
@@ -740,15 +793,22 @@ function curSlide(){const s=slidesEl();return Math.round(s.scrollLeft/s.clientWi
 function goSlide(i){const s=slidesEl();i=(i+ZONES.length)%ZONES.length;s.scrollTo({left:i*s.clientWidth,behavior:'smooth'})}
 function updDots(){const c=curSlide();$$('#dots button').forEach((b,i)=>b.classList.toggle('on',i===c))}
 
+function renderBars(){
+  $('#bars').innerHTML=CONFIG.marcas.map(([n,p,top])=>`<div class="bar${top?' top':''}" style="--w:${p}%"><b data-top="${LANG==='es'?'La que más':'Gehien'}">${n}</b><span>${p}%</span></div>`).join('');
+}
+function renderLogos(){
+  $('#logos').innerHTML=BRANDS.map(([n,f])=>`<div><img src="img/marcas/${f}.png" alt="${n}" loading="lazy" onload="this.parentNode.classList.add('has')"><span>${n}</span></div>`).join('');
+}
+
 function renderPlans(){
   const l=LANG;
   $('#plans').innerHTML=PLANS[PHASE].map(p=>{const t=p[l],pr=CONFIG.precios[p.k];
     const old=(p.k==='fundador')?`<s>${eur(CONFIG.precios.mensual)}</s>`:'';
-    return `<div class="plan${p.k==='fundador'?' gold':(p.feat?' feat':'')}">${t.b?`<span class="badge">${t.b}</span>`:''}
+    return `<div class="plan${p.feat?' feat':''}">${t.b?`<span class="badge">${t.b}</span>`:''}
       <h3>${t.n}</h3><div class="sub">${t.s}</div>
       <div class="price"><span class="tbd">${old}${eur(pr)}</span> <small>${t.per}</small></div>
       <ul>${t.l.map(x=>`<li>${x}</li>`).join('')}</ul>
-      <a class="btn${p.k==='fundador'?' accent':(p.feat?'':' ghost')}" ${tierLink(p.k,t.n)}>${t.c}</a></div>`}).join('');
+      <a class="btn ${p.feat?'btn-primary':'btn-ghost'}" ${tierLink(p.k,t.n)}>${t.c}</a></div>`}).join('');
   $('#passes').innerHTML=PASSES.map(p=>`<a class="pass" ${tierLink(p.k,p[l])}><small>${p[l]}</small><b class="tbd">${eur(CONFIG.precios[p.k])}</b><span>${l==='es'?'Comprar':'Erosi'} →</span></a>`).join('');
 }
 
@@ -761,35 +821,39 @@ function renderContact(){
   $('#cAddr').innerHTML=CONFIG.direccion[l];
   $('#cTel').textContent=CONFIG.whatsapp?('+'+CONFIG.whatsapp.replace(/^(\d{2})(\d{3})(\d{3})(\d{3})$/,'$1 $2 $3 $4')):(l==='es'?'Número por confirmar':'Zenbakia zehazteke');
   $('#cMail').textContent=CONFIG.email;$('#cMail').href='mailto:'+CONFIG.email;
-  $('#cIg').textContent='@'+CONFIG.instagram;$('#cIg').href='https://instagram.com/'+CONFIG.instagram;
+  $('#cIg').textContent='@'+CONFIG.instagram;$('#cIg').href='https://instagram.com/'+CONFIG.instagram;$('#fIg').href='https://instagram.com/'+CONFIG.instagram;
   const msg=l==='es'?'Hola Ander, tengo una pregunta sobre Burdin Gym.':'Kaixo Ander, galdera bat dut Burdin Gym-i buruz.';
   $$('.wa-link').forEach(a=>{a.href=waUrl(msg);a.target='_blank';a.rel='noopener';a.dataset.noshop='1'});
-  const d=new Date(CONFIG.apertura);
-  $('#opendate').textContent=d.toLocaleDateString(l==='es'?'es-ES':'eu-ES',{day:'numeric',month:'long',year:'numeric'});
 }
 
 function renderSeats(){
   const tot=CONFIG.plazasFundador,tk=Math.min(CONFIG.plazasOcupadas,tot),left=tot-tk;
-  $('#seatsTaken').textContent=tk;$('#seatsTotal').textContent=tot;
-  $('#seatsBar').style.width=(tk/tot*100)+'%';
-  $('#seatsLeft').innerHTML=LANG==='es'?`Quedan <b style="color:var(--accent)">${left}</b> plazas de fundador`:`<b style="color:var(--accent)">${left}</b> sortzaile-plaza geratzen dira`;
+  ['seatsTaken','seatsTaken2','ringN'].forEach(id=>$('#'+id).textContent=tk);
+  ['seatsTotal','ringT'].forEach(id=>$('#'+id).textContent=tot);
+  ['seatsLeft2','seatsLeft3'].forEach(id=>$('#'+id).textContent=left);
+  $('#seatsLeftBig').textContent=left;
+  $('#ring').style.setProperty('--pct',(tk/tot*100)+'%');
+  requestAnimationFrame(()=>$('#seatsBar').style.width=(tk/tot*100)+'%');
 }
 
 function setLang(l){
   LANG=l;document.documentElement.lang=l;
   $$('[data-'+l+']').forEach(e=>e.innerHTML=e.dataset[l]);
   $$('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
-  renderMachines();renderZones();renderPlans();renderFaq();renderContact();renderSeats();
+  renderMachines();renderZones();renderBars();renderPlans();renderFaq();renderContact();renderSeats();
   try{localStorage.setItem('burdin-lang',l)}catch(e){}
+  if(window.ScrollTrigger)ScrollTrigger.refresh();
 }
 
 /* ---------- INTERACCIÓN ---------- */
-// menú móvil
 const nav=$('#nav'),burger=$('#burger');
 function menu(open){if(open)$('#links').style.top=nav.getBoundingClientRect().bottom+'px';nav.classList.toggle('open',open);document.body.classList.toggle('menu',open);burger.setAttribute('aria-expanded',open)}
 burger.onclick=()=>menu(!nav.classList.contains('open'));
 $$('#links a').forEach(a=>a.addEventListener('click',()=>menu(false)));
 addEventListener('keydown',e=>{if(e.key==='Escape')menu(false)});
+// nav sólida al bajar
+const solid=()=>nav.classList.toggle('solid',scrollY>40);
+addEventListener('scroll',solid,{passive:true});solid();
 
 $$('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
 $$('.tabs button').forEach(b=>b.onclick=()=>{PHASE=b.dataset.phase;$$('.tabs button').forEach(x=>x.classList.toggle('on',x===b));renderPlans()});
@@ -797,7 +861,6 @@ $('#prev').onclick=()=>goSlide(curSlide()-1);
 $('#next').onclick=()=>goSlide(curSlide()+1);
 let st;$('#slides').addEventListener('scroll',()=>{clearTimeout(st);st=setTimeout(updDots,60)},{passive:true});
 
-// aviso en modo boceto: los botones aún no van a Virtuagym
 function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),3800)}
 document.addEventListener('click',e=>{
   const a=e.target.closest('a[data-noshop]');
@@ -807,7 +870,6 @@ document.addEventListener('click',e=>{
   }
 });
 
-// lista de espera → WhatsApp
 $('#waitlist').addEventListener('submit',e=>{
   e.preventDefault();
   const n=$('#fName').value.trim(),t=$('#fTel').value.trim(),w=$('#fWant'),ok=$('#fOk').checked,err=$('#fErr');
@@ -817,13 +879,12 @@ $('#waitlist').addEventListener('submit',e=>{
   err.textContent='';
   const want=w.options[w.selectedIndex].text;
   const msg=LANG==='es'
-    ?`Hola Ander, quiero entrar en la lista de espera de Burdin Gym.\nNombre: ${n}\nTeléfono: ${t}\nMe interesa: ${want}`
-    :`Kaixo Ander, Burdin Gym-en itxaron-zerrendan sartu nahi dut.\nIzena: ${n}\nTelefonoa: ${t}\nInteresatzen zait: ${want}`;
+    ?`Hola Ander, quiero reservar plaza en la lista de espera de Burdin Gym.\nNombre: ${n}\nTeléfono: ${t}\nMe interesa: ${want}`
+    :`Kaixo Ander, Burdin Gym-en itxaron-zerrendan plaza gorde nahi dut.\nIzena: ${n}\nTelefonoa: ${t}\nInteresatzen zait: ${want}`;
   if(!CONFIG.whatsapp&&CONFIG.boceto){toast(LANG==='es'?'Boceto: el mensaje llegará al WhatsApp de Ander en cuanto pongamos su número.':'Zirriborroa: mezua Anderren WhatsAppera iritsiko da haren zenbakia jartzen dugunean.');return}
   window.open(waUrl(msg),'_blank','noopener');
 });
 
-// cuenta atrás
 function tick(){
   let ms=Math.max(0,new Date(CONFIG.apertura)-new Date());
   const d=Math.floor(ms/864e5),h=Math.floor(ms/36e5)%24,m=Math.floor(ms/6e4)%60,s=Math.floor(ms/1e3)%60;
@@ -831,22 +892,36 @@ function tick(){
 }
 tick();setInterval(tick,1000);
 
-// cifras que cuentan + aparición al hacer scroll
-const io=new IntersectionObserver(es=>es.forEach(en=>{
-  if(!en.isIntersecting)return;en.target.classList.add('in');io.unobserve(en.target);
-  en.target.querySelectorAll('[data-n]').forEach(el=>{const to=+el.dataset.n,t0=performance.now();
-    const step=now=>{const p=Math.min(1,(now-t0)/1200);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
-}),{threshold:.2});
-
-// arranque
+/* ---------- ARRANQUE ---------- */
 if(!CONFIG.boceto)document.body.classList.remove('boceto');
-$('#track').innerHTML=[...BRANDS,...BRANDS].map(b=>`<span>${b}</span>`).join('');
-$('#brands').innerHTML=BRANDS.map((b,i)=>`<div data-i="${String(i+1).padStart(2,'0')}">${b}</div>`).join('');
+const names=BRANDS.map(b=>b[0]);
+$('#track').innerHTML=[...names,...names].map(b=>`<span>${b}</span>`).join('');
+renderLogos();
 $('#yr').textContent=new Date().getFullYear();
 $('#map').insertAdjacentHTML('afterbegin',`<iframe title="Mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${encodeURIComponent(CONFIG.mapa)}&z=8&output=embed"></iframe>`);
 let start='es';try{start=localStorage.getItem('burdin-lang')||'es'}catch(e){}
 setLang(start);
-$$('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(window.gsap&&!reduce){
+  gsap.registerPlugin(ScrollTrigger);
+  const E='expo.out';
+  gsap.timeline({defaults:{ease:E}})
+    .from('#h1 .l span',{yPercent:110,duration:1.2,stagger:.12},.1)
+    .from('.hero .kicker',{opacity:0,y:10,duration:.8},.3)
+    .from('.hero .sub, .hero .ctas',{opacity:0,y:20,duration:1,stagger:.1},.6)
+    .from('.urgency',{opacity:0,x:30,duration:1},.7);
+  gsap.to('#herobg',{yPercent:12,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  const bigN=$('#seatsLeftBig'),target=+bigN.textContent;
+  gsap.from({v:0},{v:target,duration:1.6,ease:E,onUpdate(){bigN.textContent=Math.round(this.targets()[0].v)}});
+  $$('.stat [data-n]').forEach(el=>{const to=+el.dataset.n;gsap.from({v:0},{v:to,duration:1.4,ease:E,scrollTrigger:{trigger:el,start:'top 85%',once:true},onUpdate(){el.textContent=Math.round(this.targets()[0].v)}})});
+  ScrollTrigger.batch('.sheet',{start:'top 88%',once:true,onEnter:b=>gsap.from(b,{y:50,opacity:0,duration:1.2,ease:E,stagger:.15})});
+  $$('[data-parallax]').forEach(img=>gsap.fromTo(img,{yPercent:-56},{yPercent:-44,ease:'none',scrollTrigger:{trigger:img.closest('.sheet'),start:'top bottom',end:'bottom top',scrub:true}}));
+  ['.head','.gbox','.gmid','.logos div','.perks li','.form','.mani p','.plan','.pass','details','.fcta'].forEach(sel=>ScrollTrigger.batch(sel,{start:'top 92%',once:true,onEnter:b=>gsap.from(b,{y:28,opacity:0,duration:1,ease:E,stagger:.06})}));
+  gsap.from('.gtitle h2',{xPercent:-6,opacity:0,duration:1.4,ease:E,scrollTrigger:{trigger:'.gtitle',start:'top 85%',once:true}});
+  gsap.from('.brush path',{scaleX:0,transformOrigin:'left',duration:1.2,ease:E,scrollTrigger:{trigger:'.gtitle',start:'top 80%',once:true}});
+}
 </script>
 </body>
 </html>
