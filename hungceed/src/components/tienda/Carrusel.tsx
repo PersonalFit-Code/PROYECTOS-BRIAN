@@ -37,7 +37,7 @@ export default function Carrusel({ titulo, verTodo, productos }: { titulo: strin
           </button>
         </div>
       </div>
-      <ul ref={pista} className="no-scrollbar container-page mt-6 flex snap-x snap-mandatory gap-1.5 overflow-x-auto scroll-smooth">
+      <ul ref={pista} className="no-scrollbar container-page mt-6 flex snap-x snap-mandatory scroll-px-4 gap-1.5 overflow-x-auto scroll-smooth sm:scroll-px-6 lg:scroll-px-10">
         {productos.map((p) => (
           <li key={p.slug} className="w-[68%] shrink-0 snap-start sm:w-[38%] lg:w-[calc((100%-4*0.375rem)/5)]">
             <TarjetaProducto producto={p} />
