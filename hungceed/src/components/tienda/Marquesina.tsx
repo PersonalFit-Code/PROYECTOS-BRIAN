@@ -7,12 +7,12 @@ const ITEMS = ["Elite Series", "Pro Series", "Prelude Series", "Attachment Serie
 
 export default function Marquesina() {
   return (
-    <div className="border-b border-linea bg-white py-4 text-negro">
+    <div className="bg-pizarra py-4 text-white">
       <Marquee pauseOnHover repeat={3} fade={false} className="[--duration:50s] [--gap:2.5rem]">
         {ITEMS.map((texto) => (
           <span key={texto} className="flex items-center gap-10">
             <span className="subtitular text-[22px] whitespace-nowrap">{texto}</span>
-            <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-gris-claro" />
+            <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-white/40" />
           </span>
         ))}
       </Marquee>

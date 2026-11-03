@@ -30,13 +30,13 @@ export default function Header() {
 
   return (
     <header className={cn("fixed inset-x-0 top-0 z-40 bg-white text-negro transition-shadow duration-300", scrolled && "shadow-[0_1px_0_var(--color-linea)]")}>
-      {/* Franja fina en gris, como la de Gymshark. PENDIENTE DE CONFIRMAR con Jose (sale de su web): envío y garantía. */}
-      <div className="bg-hueso">
-        <div className="container-page flex h-8 items-center justify-center gap-4 text-[11px] font-medium text-negro">
+      {/* Franja fina en gris pizarra, como la de Gymshark. PENDIENTE DE CONFIRMAR con Jose (sale de su web): envío y garantía. */}
+      <div className="bg-pizarra">
+        <div className="container-page flex h-8 items-center justify-center gap-4 text-[11px] font-medium text-white">
           <p className="truncate">
-            Envío en 48–72 h <span aria-hidden className="mx-2 text-gris-claro">·</span> Garantía de 30 días
+            Envío en 48–72 h <span aria-hidden className="mx-2 text-white/40">·</span> Garantía de 30 días
             <span className="hidden sm:inline">
-              <span aria-hidden className="mx-2 text-gris-claro">·</span>
+              <span aria-hidden className="mx-2 text-white/40">·</span>
               <a href={NEGOCIO.whatsapp} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
                 Te asesoramos por WhatsApp
               </a>

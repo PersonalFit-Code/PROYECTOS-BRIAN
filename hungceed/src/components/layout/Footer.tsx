@@ -10,7 +10,7 @@ import { NEGOCIO } from "@/data/negocio";
 export default function Footer() {
   const legal = ["Aviso legal", "Privacidad", "Cookies"];
   return (
-    <footer className="bg-hueso text-negro">
+    <footer className="bg-niebla text-negro">
       <div className="container-page grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <Link href="/" className="block text-[72px] leading-none" aria-label="Hungceed, inicio">

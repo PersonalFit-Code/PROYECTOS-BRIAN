@@ -113,11 +113,11 @@ export default function Portada() {
       </section>
 
       {/* 2 · El gimnasio, justo debajo de la portada: tarifas a la vista y «Apúntate» directo a Virtuagym. */}
-      <section aria-labelledby="gym-titulo" className="border-b border-linea">
+      <section aria-labelledby="gym-titulo" className="bg-niebla">
         <Revelar className="container-page grid gap-8 py-12 sm:py-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14">
           <div
             data-reveal
-            className="relative aspect-[4/3] overflow-hidden bg-hueso sm:aspect-[16/10] lg:aspect-[4/5]"
+            className="relative aspect-[4/3] overflow-hidden bg-acero sm:aspect-[16/10] lg:aspect-[4/5]"
           >
             <Foto
               src={GYM.fotos.secundaria}
@@ -152,7 +152,7 @@ export default function Portada() {
                 <li
                   key={t.titulo}
                   data-reveal
-                  className="flex flex-col bg-hueso p-5"
+                  className="flex flex-col bg-white p-5"
                 >
                   <p className="text-[12px] font-medium text-gris">
                     {t.titulo}
@@ -196,8 +196,8 @@ export default function Portada() {
         />
       </div>
 
-      {/* 3 · Banda a sangre en gris: el rack que es el centro del sistema. */}
-      <section className="bg-hueso">
+      {/* 3 · Banda a sangre en gris acero: el rack que es el centro del sistema. */}
+      <section className="bg-acero">
         <div className="container-page grid items-center gap-6 py-12 sm:py-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
           <div className="order-2 lg:order-1">
             <p className="text-[12px] font-medium text-gris">
@@ -302,10 +302,7 @@ export default function Portada() {
       </Revelar>
 
       {/* 6 · Series, numeradas, sobre blanco. */}
-      <section
-        aria-labelledby="series-titulo"
-        className="border-t border-linea"
-      >
+      <section aria-labelledby="series-titulo" className="bg-niebla">
         <Revelar className="container-page grid gap-10 py-12 sm:py-16 lg:grid-cols-[0.8fr_1.2fr]">
           <div data-reveal>
             <h2
