@@ -175,7 +175,7 @@ export default function Portada() {
         <div className="container-page py-24 sm:py-32">
           <p className="etiqueta text-rojo">{GYM.nombre}</p>
           <h2 className="titular mt-4 max-w-2xl text-4xl sm:text-6xl">Entrena con nuestro equipo en {GYM.localidad.split(" (")[0]}</h2>
-          <p className="mt-6 max-w-lg text-white/80">Musculación, funcional, grupos semipersonales y entrenador personal. Tarifas claras y alta online en un minuto.</p>
+          <p className="mt-6 max-w-lg text-white/80">Musculación, funcional, grupos semipersonales y entrenador personal. Tarifas claras y alta online en Virtuagym.</p>
           <div className="mt-9">
             <Boton href="/gym" size="lg" iconRight={<ArrowRight aria-hidden />}>
               Ver tarifas
