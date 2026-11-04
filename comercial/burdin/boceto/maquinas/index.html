@@ -2438,7 +2438,16 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
 /* ---------- Peso libre: puntos del deslizable del móvil ---------- */
 (function(){const t=document.querySelector('.ptiles'),d=[...document.querySelectorAll('#pdots i')];if(!t||!d.length)return;
   const up=()=>{const c=[...t.children];let b=0,m=1e9;c.forEach((x,i)=>{const v=Math.abs(x.getBoundingClientRect().left-t.getBoundingClientRect().left-20);if(v<m){m=v;b=i}});d.forEach((x,i)=>x.classList.toggle('on',i===b))};
-  t.addEventListener('scroll',()=>requestAnimationFrame(up),{passive:true});})();
+  t.addEventListener('scroll',()=>requestAnimationFrame(up),{passive:true});
+  // pasa solo, uno a uno, cada 3 s (solo en el móvil); se para al tocar y fuera de pantalla
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const mq=matchMedia('(max-width:900px)');let vis=false,hold=0,idx=0;
+  const go=i=>{const c=t.children;idx=(i+c.length)%c.length;t.scrollTo({left:c[idx].offsetLeft-20,behavior:'smooth'})};
+  const cur=()=>{const c=[...t.children];let b=0,m=1e9;c.forEach((x,i)=>{const v=Math.abs(x.getBoundingClientRect().left-t.getBoundingClientRect().left-20);if(v<m){m=v;b=i}});return b};
+  t.addEventListener('touchstart',()=>{hold=Date.now()+6000},{passive:true});
+  new IntersectionObserver(([e])=>{vis=e.isIntersecting},{threshold:.5}).observe(t);
+  setInterval(()=>{if(!mq.matches||!vis||document.hidden||Date.now()<hold)return;go(cur()+1)},3000);
+})();
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(window.gsap&&!reduce){
