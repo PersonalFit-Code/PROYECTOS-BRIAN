@@ -1202,14 +1202,53 @@
   html.fund-closed body section#fundador,.fund-closed .links .cta,.fund-closed .cta2,.fund-closed .s2-feat,.fund-closed .hero-strip .u-a,.fund-closed .hero-strip .u-b,.fund-closed .fcta,.fund-closed .disc-cta{display:none!important}
   .fund-closed .s2-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   /* discos rojos: se abren en abanico al pasar el ratón (o el dedo) de lado a lado */
-  .d-fan{position:relative;width:min(820px,88%);--sp:0;touch-action:pan-y}
-  .d-fan .dk{position:absolute;height:auto;filter:drop-shadow(0 14px 14px rgba(0,0,0,.5));
-    transform:translateX(calc(var(--sp) * var(--k) * 34%)) rotate(calc(var(--sp) * var(--k) * 8deg));transition:transform .5s cubic-bezier(.2,.8,.2,1);will-change:transform}
-  .d-fan.live .dk{transition:transform .18s ease-out}
-  html[data-reveal-armed] .discos:not(.is-revealed) .d-fan{transform:translateX(-30%);opacity:0}
-  .d-fan{transition:transform 1.2s var(--ease),opacity .9s ease}
-  @media (max-width:900px){.d-fan{width:66%}}
-  @media (prefers-reduced-motion:reduce){.d-fan .dk{transition:none}}
+  /* discos rojos: apilados → en fila → separados, según el ratón (o el scroll en el móvil) */
+  .d-rojo{justify-content:center!important}
+  .d-fan{position:relative;width:min(900px,96%);aspect-ratio:896/640;touch-action:pan-y}
+  .d-fan .dk{position:absolute;left:0;top:0;height:auto;will-change:transform;transform-origin:0 0;filter:drop-shadow(0 16px 14px rgba(0,0,0,.55))}
+  html[data-reveal-armed] .discos:not(.is-revealed) .d-fan{opacity:0}
+  .d-fan{transition:opacity .9s ease}
+  @media (max-width:900px){.d-fan{width:100%}}
+  /* ===== Auditoría de diseño (iPhone 13 / 1440): móvil primero ===== */
+  /* contraste: gris secundario a #9a9a9a (≈6,9:1 sobre #0a0a0a) */
+  :root{--fg3:#9a9a9a}
+  /* numeración [01] fuera en todo el sitio */
+  .eyebrow::before{content:none!important}
+  /* dos estilos de botón: primario (blanco sólido) y secundario (borde fino), esquinas redondeadas, 48 px mínimo */
+  .btn{border-radius:6px!important;min-height:48px!important}
+  .btn-primary{background:#f5f5f5!important;color:#0a0a0a!important;border:1px solid #f5f5f5!important}
+  .btn-ghost{background:transparent!important;color:#f5f5f5!important;border:1px solid rgba(255,255,255,.45)!important}
+  .btn-ghost:hover{border-color:#f5f5f5!important}
+  .hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
+  .hcta{padding:14px 26px!important}
+  /* WhatsApp: 48×48 en el móvil, encima de la barra inferior */
+  @media (max-width:900px){.wa{width:48px!important;height:48px!important;right:16px!important;bottom:calc(80px + env(safe-area-inset-bottom,0px))!important}.wa svg{width:22px;height:22px}}
+  /* áreas de toque ≥ 44 px */
+  .lang button{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+  .bocetobar button{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  .foot nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
+  /* banderas iguales */
+  .lang .flag,.lang button.on .flag{width:22px!important;height:15px!important;opacity:1!important;filter:none!important}
+  /* textos pequeños ≥ 12 px */
+  .bnav a{font-size:12px!important;letter-spacing:.04em!important}
+  .mcard b{font-size:12px!important;letter-spacing:.14em!important}
+  .s2 small,.idx span,.loc-list span{font-size:max(12px,1em)}
+  /* cifras: tres columnas */
+  .s2-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  @media (max-width:900px){.s2-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.s2{padding:30px 6px 26px!important;border-bottom:0!important}.s2:nth-child(2){border-right:1px solid rgba(255,255,255,.1)!important}.s2 b{font-size:clamp(2.2rem,11vw,3.2rem)!important}.s2 small{font-size:11px!important;letter-spacing:.12em!important;margin-top:12px!important}}
+  /* portada en el móvil: sin el rótulo grande de la pared, titular + texto + botón en la primera pantalla */
+  @media (max-width:900px){
+    .hero .sign,.hero .plate,.hero .side,.hero .drift{display:none!important}
+    .hero{padding-top:calc(var(--nav) + 34px)!important;padding-bottom:28px!important;min-height:calc(100svh - 64px)!important;align-content:start}
+    .hero-in{align-self:start}
+    .hero h1{font-size:clamp(3.2rem,16vw,4.6rem)!important;margin:10px 0 14px!important}
+    .hero .sub{font-size:15px!important;line-height:1.5!important;margin-bottom:22px!important;max-width:34ch}
+    .hero .ctas .btn{flex:1 1 100%}
+    .hero-strip{margin-top:26px}
+  }
+  .pc-tabs button,.p-alt{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  .contact .row a{display:inline-flex;align-items:center;min-height:44px}
+  .dots button{padding:20px 0;background-clip:content-box}
 </style>
 </head>
 <body data-page="tarifas" class="boceto">
@@ -1268,15 +1307,14 @@
 
 <header class="hero" id="top">
   <div class="drift" aria-hidden="true"><img src="/img/chain.webp" class="d1" alt=""><img src="/img/flex_bicep.webp" class="d3" alt=""></div><div class="bg" id="herobg"><div class="sign" aria-hidden="true"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="plate"></div></div><div class="shade"></div>
-  <div class="side" aria-hidden="true" data-es="Disciplina · Resultados · Comunidad" data-eu="Diziplina · Emaitzak · Komunitatea">Disciplina · Resultados · Comunidad</div>
   <div class="wrap hero-in">
     <div>
       <span class="kicker" style="--i:0" data-es="Euskadi" data-eu="Euskadi">Euskadi</span>
       <h1 id="h1" style="--i:1"><span class="l"><span data-es="Hierro" data-eu="Benetako">Hierro</span></span><span class="l"><span data-es="<em>de verdad</em>" data-eu="<em>burdina</em>"><em>de verdad</em></span></span></h1>
       <p class="sub" style="--i:2" data-es="Gimnasio de musculación old school en Euskadi. Más de 40 máquinas de las mejores marcas del mundo. Hazte socio fundador antes de que abramos." data-eu="Eskola zaharreko muskulazio-gimnasioa Euskadin. Munduko marka onenetako 40 makina baino gehiago. Egin bazkide sortzaile ireki aurretik.">Gimnasio de musculación old school en Euskadi. Más de 40 máquinas de las mejores marcas del mundo. Hazte socio fundador antes de que abramos.</p>
       <div class="ctas" style="--i:3">
-        <div class="slide-cta" data-slide></div>
-        <a href="/tarifas/" class="btn-text"><span data-es="Ver tarifas" data-eu="Tarifak ikusi">Ver tarifas</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
+        <a href="/tarifas/#fundador" class="btn btn-primary hcta" id="heroCta"><span data-es="Hazte socio fundador · 40 €/mes" data-eu="Egin bazkide sortzaile · 40 €/hil">Hazte socio fundador · 40 €/mes</span></a>
+        <a href="/tarifas/" class="btn btn-ghost"><span data-es="Ver tarifas" data-eu="Tarifak ikusi">Ver tarifas</span></a>
       </div>
     </div>
   </div>
@@ -1285,21 +1323,15 @@
       <div class="u-a big tbd"><b id="seatsLeftBig">0</b><small data-es="plazas libres" data-eu="plaza libre">plazas libres</small></div>
       <div class="u-b"><div class="line"><i id="seatsBar"></i></div><div class="lbl"><span id="seatsTaken">0</span> <span data-es="de" data-eu="/">de</span> <span id="seatsTotal">0</span> <span data-es="plazas de socio fundador ya reservadas. Se cierran el día de la apertura." data-eu="sortzaile-plaza erreserbatuta daude. Irekiera egunean ixten dira.">plazas de socio fundador ya reservadas. Se cierran el día de la apertura.</span></div></div>
       <div class="count" id="count"><div><b data-k="d">00</b><span data-es="días" data-eu="egun">días</span></div><div><b data-k="h">00</b><span data-es="horas" data-eu="ordu">horas</span></div><div><b data-k="m">00</b>min</div><div><b data-k="s">00</b>seg</div></div>
-      <div class="u-p" data-es="Página 01" data-eu="01. orria">Página 01</div>
     </div>
   </div>
 </header>
 
 <div class="stats2" id="stats">
   <div class="wrap s2-grid">
-    <div class="s2"><b class="tbd"><span data-n="40">40</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
+    <div class="s2"><b><span data-n="40">40</span><sup>+</sup></b><small data-es="Máquinas" data-eu="Makina">Máquinas</small></div>
     <div class="s2"><b><span data-n="12">12</span></b><small data-es="Marcas top" data-eu="Marka nagusi">Marcas top</small></div>
-    <div class="s2"><b class="tbd"><span data-n="350">350</span><sup>m²</sup></b><small data-es="De sala" data-eu="Aretoa">De sala</small></div>
-    <div class="s2 s2-feat"><b class="tbd"><span data-n="100">100</span></b><small data-es="Plazas fundador" data-eu="Sortzaile-plaza">Plazas fundador</small>
-      <div class="s2-bar" aria-hidden="true"><i id="s2bar"></i></div>
-      <p class="s2-left"><span id="s2left">63</span> <span data-es="libres" data-eu="libre">libres</span></p>
-      <a href="/tarifas/#fundador" class="btn btn-ghost s2-btn" data-es="Reservar mi plaza" data-eu="Nire plaza gorde">Reservar mi plaza</a>
-    </div>
+    <div class="s2"><b><span data-n="350">350</span><sup>m²</sup></b><small data-es="De sala" data-eu="Aretoa">De sala</small></div>
   </div>
 </div>
 </div>
@@ -1325,7 +1357,7 @@
       <h2 data-es="Un taller de fuerza, no un gimnasio comercial" data-eu="Indar-tailer bat, ez gimnasio komertzial bat">Un taller de fuerza, no un gimnasio comercial</h2>
     </div>
     <div class="why">
-      <div><svg aria-hidden="true"><use href="#i-iron"/></svg><b data-es="Máquinas con historia" data-eu="Historiadun makinak">Máquinas con historia</b><p data-es="Cybex, Hammer Strength, Nautilus, Paramount… elegidas una a una, muchas ya no se fabrican." data-eu="Cybex, Hammer Strength, Nautilus, Paramount… banan-banan aukeratuak, asko jada ez dira egiten.">Cybex, Hammer Strength, Nautilus, Paramount… elegidas una a una, muchas ya no se fabrican.</p></div>
+      <div><svg aria-hidden="true"><use href="#i-iron"/></svg><b data-es="Máquinas con historia" data-eu="Historiadun makinak">Máquinas con historia</b><p data-es="Cybex, Hammer Strength, Nautilus, Gymleco… elegidas una a una, muchas ya no se fabrican." data-eu="Cybex, Hammer Strength, Nautilus, Paramount… banan-banan aukeratuak, asko jada ez dira egiten.">Cybex, Hammer Strength, Nautilus, Gymleco… elegidas una a una, muchas ya no se fabrican.</p></div>
       <div><svg aria-hidden="true"><use href="#i-clock"/></svg><b data-es="Abierto cuando entrenas tú" data-eu="Zuk entrenatzen duzunean irekita">Abierto cuando entrenas tú</b><p data-es="De 05:00 a 01:00, los 365 días. Entras con la app, sin llaves ni tarjeta." data-eu="05:00etatik 01:00etara, 365 egunetan. Aplikazioarekin sartzen zara, giltzarik gabe.">De 05:00 a 01:00, los 365 días. Entras con la app, sin llaves ni tarjeta.</p></div>
       <div><svg aria-hidden="true"><use href="#i-flame"/></svg><b data-es="Ambiente de verdad" data-eu="Benetako giroa">Ambiente de verdad</b><p data-es="350 m² para culturistas, powerlifters y gente que viene a entrenar en serio. Sin postureo." data-eu="350 m² kulturista, powerlifter eta serio entrenatzera datorren jendearentzat. Itxurakeriarik gabe.">350 m² para culturistas, powerlifters y gente que viene a entrenar en serio. Sin postureo.</p></div>
     </div>
@@ -1349,7 +1381,7 @@
       </div>
       <div class="mgrid" id="pgrid"></div>
       <div class="discos" data-reveal>
-        <div class="d-row d-rojo"><div class="d-fan" id="dfan" role="img" aria-label="Discos de goma de 25 a 5 kg" style="aspect-ratio:1356/610"><img class="dk" style="--k:0;left:0.000%;top:0.000%;width:40.118%;z-index:1" src="/img/discos/rojo-25.webp" alt="" draggable="false"><img class="dk" style="--k:1;left:24.705%;top:13.115%;width:35.103%;z-index:2" src="/img/discos/rojo-20.webp" alt="" draggable="false"><img class="dk" style="--k:2;left:45.206%;top:24.590%;width:29.941%;z-index:3" src="/img/discos/rojo-15.webp" alt="" draggable="false"><img class="dk" style="--k:3;left:63.791%;top:35.246%;width:25.664%;z-index:4" src="/img/discos/rojo-10.webp" alt="" draggable="false"><img class="dk" style="--k:4;left:76.991%;top:48.852%;width:23.009%;z-index:5" src="/img/discos/rojo-5.webp" alt="" draggable="false"></div></div>
+        <div class="d-row d-rojo"><div class="d-fan" id="dfan" role="img" aria-label="Discos de goma de 25 a 5 kg"><img class="dk" src="/img/discos/rojo-25.webp" alt="" draggable="false" style="z-index:1"><img class="dk" src="/img/discos/rojo-20.webp" alt="" draggable="false" style="z-index:2"><img class="dk" src="/img/discos/rojo-15.webp" alt="" draggable="false" style="z-index:3"><img class="dk" src="/img/discos/rojo-10.webp" alt="" draggable="false" style="z-index:4"><img class="dk" src="/img/discos/rojo-5.webp" alt="" draggable="false" style="z-index:5"></div></div>
         <div class="d-mid"><b data-es="Discos" data-eu="Diskoak">Discos</b></div>
         <div class="d-row d-hierro"><img src="/img/maquinas/peso-discos-hierro.webp" alt="Discos de hierro de 5 a 25 kg" loading="lazy" onerror="this.parentNode.remove()"></div>
       </div>
@@ -1512,10 +1544,6 @@
 <footer class="paperfoot">
   <div class="paper" aria-hidden="true"><span class="deboss">BURDIN</span><i class="fold"></i></div>
   <div class="wrap">
-    <div data-reveal class="fcta only-home">
-      <h3 data-es="Quedan <em id='seatsLeft3'>0</em> plazas de fundador." data-eu="<em id='seatsLeft3'>0</em> sortzaile-plaza geratzen dira.">Quedan <em id="seatsLeft3">0</em> plazas de fundador.</h3>
-      <div class="slide-cta" data-slide></div>
-    </div>
     <div class="foot">
       <a href="/" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="40" height="42" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name" style="font-size:1.2rem">Burdin</span><span class="gym" style="font-size:.5rem">Gym</span></span></a>
       <nav aria-label="Legal">
@@ -1875,7 +1903,7 @@ function renderSeats(){
   const tot=CONFIG.plazasFundador,tk=Math.min(CONFIG.plazasOcupadas,tot),left=tot-tk;
   ['seatsTaken','seatsTaken2','ringN'].forEach(id=>$('#'+id).textContent=tk);
   ['seatsTotal','ringT'].forEach(id=>$('#'+id).textContent=tot);
-  ['seatsLeft2','seatsLeft3'].forEach(id=>$('#'+id).textContent=left);
+  ['seatsLeft2'].forEach(id=>{const e=$('#'+id);if(e)e.textContent=left});
   $('#seatsLeftBig').textContent=left;
   $('#ring').style.setProperty('--pct',(tk/tot*100)+'%');
   const n=100,on=Math.round(tk/tot*n);let t='';for(let i=0;i<n;i++){const a=(i/n)*Math.PI*2-Math.PI/2,r1=88,r2=i%10===0?72:78,c=i<on?'on':'';t+=`<line class="${c}" style="--k:${i}" x1="${100+r1*Math.cos(a)}" y1="${100+r1*Math.sin(a)}" x2="${100+r2*Math.cos(a)}" y2="${100+r2*Math.sin(a)}"/>`}
@@ -2072,8 +2100,8 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const box=document.getElementById('stats');if(!box)return;
   const nums=[...box.querySelectorAll('[data-n]')];
   const tot=CONFIG.plazasFundador,left=tot-Math.min(CONFIG.plazasOcupadas,tot);
-  document.getElementById('s2left').textContent=left;
-  const fill=()=>{document.getElementById('s2bar').style.width=(left/tot*100)+'%'};
+  const sl=document.getElementById('s2left');if(sl)sl.textContent=left;
+  const fill=()=>{const sb=document.getElementById('s2bar');if(sb)sb.style.width=(left/tot*100)+'%'};
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){fill();return}
   nums.forEach(n=>n.textContent='0');
   const run=()=>{nums.forEach((n,i)=>setTimeout(()=>{const to=+n.dataset.n,t0=performance.now(),d=1400;
@@ -2096,6 +2124,7 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const visible=id=>{const el=document.getElementById(id);return el&&getComputedStyle(el).display!=='none'};
   document.querySelectorAll('a[href^="#"]').forEach(a=>{const id=a.getAttribute('href').slice(1);if(!(id in PAGE))return;
     if(!visible(id))a.setAttribute('href','/'+(PAGE[id]?PAGE[id]+'/':'')+(id==='top'?'':'#'+id))});
+  const hc=document.getElementById('heroCta');if(hc&&!FUND_OPEN){hc.href='/tarifas/';hc.firstElementChild.dataset.es='Hazte socio · 50 €/mes';hc.firstElementChild.dataset.eu='Egin bazkide · 50 €/hil';hc.firstElementChild.textContent=LANG==='es'?'Hazte socio · 50 €/mes':'Egin bazkide · 50 €/hil'}
   document.querySelectorAll('.links a[data-page],.bnav a[data-page]').forEach(a=>a.classList.toggle('on',a.dataset.page===here));
   const gm=document.getElementById('goMaps');if(gm)gm.href='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(CONFIG.mapa);
   const cf=document.getElementById('cform');if(cf)cf.addEventListener('submit',e=>{e.preventDefault();const f=new FormData(cf),n=(f.get('nombre')||'').trim(),m=(f.get('email')||'').trim(),t=(f.get('mensaje')||'').trim(),err=document.getElementById('cErr');
@@ -2106,14 +2135,30 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   if(location.hash&&visible(location.hash.slice(1)))setTimeout(()=>document.querySelector(location.hash).scrollIntoView(),50);
 })();
 
-/* ---------- Discos rojos: abanico según la posición horizontal del ratón ---------- */
+/* ---------- Discos rojos: secuencia apilados → en fila → separados (fotos de Ander) ----------
+   Coordenadas en un lienzo de 896×640 (las fotos de referencia, recortadas en altura).
+   Cada fase: [centro x, centro y, diámetro]. */
 (function(){
-  const f=document.getElementById('dfan');if(!f)return;const box=f.closest('.discos');
-  const set=x=>{const r=box.getBoundingClientRect();const p=Math.min(1,Math.max(0,(x-r.left)/r.width));f.style.setProperty('--sp',p.toFixed(3))};
-  box.addEventListener('pointermove',e=>{f.classList.add('live');set(e.clientX)});
-  box.addEventListener('pointerleave',()=>{f.classList.remove('live');f.style.setProperty('--sp','0')});
-  // en el móvil no hay ratón: se abren al pasar por la pantalla con el scroll
-  if(matchMedia('(hover:none)').matches){const on=()=>{const r=box.getBoundingClientRect(),vh=innerHeight;const p=Math.min(1,Math.max(0,(vh*.85-r.top)/(vh*.6)));f.style.setProperty('--sp',p.toFixed(3))};addEventListener('scroll',on,{passive:true});on()}
+  const f=document.getElementById('dfan');if(!f)return;const box=f.closest('.discos'),imgs=[...f.querySelectorAll('.dk')];
+  const W=896,H=640,Y0=260;
+  const BASE=[267,230,196,167,149];                       // ancho de cada recorte (foto separada)
+  const STACK=[[180,575,320],[372,595,262],[522,610,222],[655,625,190],[783,650,180]];
+  const ROW  =[[135,595,215],[340,605,186],[522,615,152],[668,625,140],[808,640,126]];
+  const SPLIT=[[156,468,267],[344,704,230],[531,522,196],[677,754,167],[795,572,149]];
+  const lerp=(a,b,t)=>a+(b-a)*t,ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+  let cur=0,target=0,raf=0,size=0;
+  const place=()=>{const w=f.clientWidth,h=f.clientHeight;
+    imgs.forEach((im,k)=>{let A,B,t;if(cur<.5){A=STACK[k];B=ROW[k];t=ease(cur*2)}else{A=ROW[k];B=SPLIT[k];t=ease((cur-.5)*2)}
+      const cx=lerp(A[0],B[0],t),cy=lerp(A[1],B[1],t)-Y0,d=lerp(A[2],B[2],t),sc=d/BASE[k];
+      const iw=BASE[k]/W*w;im.style.width=iw+'px';
+      im.style.transform=`translate(${(cx-d/2)/W*w}px,${(cy-d/2*(im.naturalHeight/im.naturalWidth||1))/H*h}px) scale(${sc})`;
+      im.style.zIndex=cur<.5?k+1:5-k})};
+  const loop=()=>{cur+=(target-cur)*.14;if(Math.abs(target-cur)<.001)cur=target;place();raf=Math.abs(target-cur)>0?requestAnimationFrame(loop):0};
+  const go=t=>{target=Math.min(1,Math.max(0,t));if(!raf)raf=requestAnimationFrame(loop)};
+  box.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=box.getBoundingClientRect();go((e.clientX-r.left)/r.width)});
+  box.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')go(0)});
+  if(matchMedia('(hover:none)').matches){const on=()=>{const r=box.getBoundingClientRect(),vh=innerHeight;go((vh*.9-r.top)/(vh*.75))};addEventListener('scroll',on,{passive:true});on()}
+  imgs.forEach(im=>im.complete?0:im.addEventListener('load',place));new ResizeObserver(place).observe(f);place();
 })();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
