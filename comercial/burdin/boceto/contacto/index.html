@@ -1456,6 +1456,14 @@
     .hero .hero-in{margin:0!important;padding:0 20px!important;width:100%!important;max-width:none!important;justify-self:stretch!important;grid-column:1/-1!important}
   }
   .s2 b sup.pre{margin-right:.04em}
+  /* ===== Portada: deslizador + enlace normal debajo ===== */
+  .hero .hslide .slide-cta{width:min(100%,360px)!important}
+  .halt{margin:14px 0 0;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--fg2)}
+  .halt a{color:#f5f5f5;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.4);min-height:44px;display:inline-flex;align-items:center}
+  .halt a:hover{text-decoration-color:#f5f5f5}
+  .halt i{font-style:normal;color:var(--fg3)}
+  .hero .hnote{margin-top:2px}
+  @media (max-width:900px){.hero .hslide .slide-cta{width:100%!important}.halt{justify-content:center}.hero .hnote{text-align:center}}
 </style>
 </head>
 <body data-page="contacto" class="boceto">
@@ -1518,10 +1526,10 @@
     <div>
       <h1 id="h1" style="--i:1"><span class="l"><span data-es="Hierro" data-eu="Benetako">Hierro</span></span><span class="l"><span data-es="<em>de verdad</em>" data-eu="<em>burdina</em>"><em>de verdad</em></span></span></h1>
       <p class="sub" style="--i:2" data-es="Musculación old school con más de 40 máquinas de las mejores marcas del mundo." data-eu="Eskola zaharreko muskulazioa, munduko marka onenetako 40 makina baino gehiagorekin.">Musculación old school con más de 40 máquinas de las mejores marcas del mundo.</p>
-      <div class="ctas" style="--i:3">
-        <a href="/tarifas/#fundador" class="btn btn-primary hcta" id="heroCta"><span data-es="Hazte socio fundador" data-eu="Egin bazkide sortzaile">Hazte socio fundador</span></a>
-        <a href="/tarifas/" class="btn btn-ghost"><span data-es="Ver tarifas" data-eu="Tarifak ikusi">Ver tarifas</span></a>
+      <div class="ctas hslide" style="--i:3">
+        <div class="slide-cta" data-slide></div>
       </div>
+      <p class="halt" style="--i:4"><a href="/tarifas/#fundador" id="heroCta"><span data-es="o pulsa aquí" data-eu="edo sakatu hemen">o pulsa aquí</span></a><i aria-hidden="true">·</i><a href="/tarifas/" data-es="Ver tarifas" data-eu="Tarifak ikusi">Ver tarifas</a></p>
       <p class="hnote" id="heroNote" style="--i:4" data-es="40 €/mes · plazas limitadas" data-eu="40 €/hil · plaza mugatuak">40 €/mes · plazas limitadas</p>
     </div>
   </div>
@@ -2240,7 +2248,7 @@ const rio=new IntersectionObserver(es=>{let k=0;es.forEach(e=>{if(e.isIntersecti
 function armReveal(){$$('[data-reveal]:not(.is-revealed)').forEach(el=>rio.observe(el))}
 armReveal();new MutationObserver(armReveal).observe(document.body,{childList:true,subtree:true});
 /* ---------- Desliza para reservar (se repite por la página) ---------- */
-function SLt(){return {es:['Desliza para reservar','Vamos allá','Desliza para reservar tu plaza de fundador'],eu:['Irristatu erreserbatzeko','Goazen','Irristatu zure sortzaile-plaza erreserbatzeko']}}
+function SLt(){return {es:[FUND_OPEN?'Desliza para hacerte socio':'Desliza para apuntarte','Vamos allá','Desliza para hacerte socio'],eu:[FUND_OPEN?'Irristatu bazkide egiteko':'Irristatu izena emateko','Goazen','Irristatu bazkide egiteko']}}
 function slideHTML(){const t=SLt()[LANG];return `<div class="track2"><div class="fill"></div><button type="button" class="knob" aria-label="${t[2]}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="lbl2"><svg viewBox="0 0 272 288" aria-hidden="true"><use href="#b"/></svg><span>${t[0]}</span></div><div class="ok">${t[1]}</div></div>`}
 function initSlides(){$$('[data-slide]').forEach(root=>{
   root.innerHTML=slideHTML();root.setAttribute('role','group');
@@ -2357,7 +2365,7 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
     if(!visible(id))a.setAttribute('href','/'+(PAGE[id]?PAGE[id]+'/':'')+(id==='top'?'':'#'+id))});
   const hcta=document.getElementById('horCta');if(hcta&&!FUND_OPEN){hcta.href='/tarifas/';hcta.firstElementChild.dataset.es='Hazte socio';hcta.firstElementChild.dataset.eu='Egin bazkide';hcta.firstElementChild.textContent=LANG==='es'?'Hazte socio':'Egin bazkide'}
   const pc=document.getElementById('pesoCta');if(pc&&!FUND_OPEN){pc.href='/tarifas/';pc.firstElementChild.dataset.es='Hazte socio · 50 €/mes';pc.firstElementChild.dataset.eu='Egin bazkide · 50 €/hil';pc.firstElementChild.textContent=LANG==='es'?'Hazte socio · 50 €/mes':'Egin bazkide · 50 €/hil'}
-  const hc=document.getElementById('heroCta');if(hc&&!FUND_OPEN){hc.href='/tarifas/';hc.firstElementChild.dataset.es='Hazte socio';hc.firstElementChild.dataset.eu='Egin bazkide';hc.firstElementChild.textContent=LANG==='es'?'Hazte socio':'Egin bazkide';const hn=document.getElementById('heroNote');if(hn){hn.dataset.es='50 €/mes o 530 €/año';hn.dataset.eu='50 €/hil edo 530 €/urte';hn.textContent=LANG==='es'?hn.dataset.es:hn.dataset.eu}}
+  const hc=document.getElementById('heroCta');if(hc&&!FUND_OPEN){hc.href='/tarifas/';const hn=document.getElementById('heroNote');if(hn){hn.dataset.es='50 €/mes o 530 €/año';hn.dataset.eu='50 €/hil edo 530 €/urte';hn.textContent=LANG==='es'?hn.dataset.es:hn.dataset.eu}}
   document.querySelectorAll('.links a[data-page],.bnav a[data-page]').forEach(a=>a.classList.toggle('on',a.dataset.page===here));
   const gm=document.getElementById('goMaps');if(gm)gm.href='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(CONFIG.mapa);
   const cf=document.getElementById('cform');if(cf)cf.addEventListener('submit',e=>{e.preventDefault();const f=new FormData(cf),n=(f.get('nombre')||'').trim(),m=(f.get('email')||'').trim(),t=(f.get('mensaje')||'').trim(),err=document.getElementById('cErr');
