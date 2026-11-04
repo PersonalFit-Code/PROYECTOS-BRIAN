@@ -1464,6 +1464,11 @@
   .halt i{font-style:normal;color:var(--fg3)}
   .hero .hnote{margin-top:2px}
   @media (max-width:900px){.hero .hslide .slide-cta{width:100%!important}.halt{justify-content:center}.hero .hnote{text-align:center}}
+  /* fondo de la portada nítido: sin desenfoque, degradado más suave */
+  .hero .bg::after{content:none!important;display:none!important}
+  .hero .shade{background:linear-gradient(90deg,rgba(10,10,10,.78) 0%,rgba(10,10,10,.5) 30%,rgba(10,10,10,.08) 55%,rgba(10,10,10,0) 68%),linear-gradient(0deg,rgba(10,10,10,.92) 0%,rgba(10,10,10,.4) 18%,rgba(10,10,10,0) 36%),linear-gradient(180deg,rgba(10,10,10,.5) 0%,rgba(10,10,10,0) 14%)!important}
+  .hero h1,.hero .sub{text-shadow:0 2px 18px rgba(0,0,0,.55)!important}
+  @media (max-width:900px){.hero .shade{background:linear-gradient(0deg,rgba(10,10,10,.95) 0%,rgba(10,10,10,.82) 36%,rgba(10,10,10,.3) 56%,rgba(10,10,10,0) 68%),linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,0) 14%)!important}}
 </style>
 </head>
 <body data-page="contacto" class="boceto">
