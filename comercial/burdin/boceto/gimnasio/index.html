@@ -1387,6 +1387,46 @@
   @media (min-width:901px){.ptile figcaption span{min-height:4.5em}}
   @media (max-width:1100px) and (min-width:901px){.ptiles{grid-template-columns:1fr 1fr!important}.ptile.discos{grid-column:1/-1}}
   @media (max-width:900px){.ptiles{grid-template-columns:1fr!important;gap:12px}.ptile{min-height:340px}.ptile.discos{min-height:0}}
+  /* ===== Gimnasio v3: carrusel a toda la altura, máquina grande, autoplay con barras ===== */
+  .gcols{align-items:stretch}
+  .gmid{display:flex!important;flex-direction:column;min-height:0}
+  .gmid .slides{flex:1 1 auto;min-height:620px}
+  .gbox:not(.ghor) .fac{flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+  .slide.zs{display:flex!important;flex-direction:column;align-items:stretch!important;height:auto;min-height:0!important}
+  .slide.zs .zs-pic{order:1;position:relative;flex:1 1 auto;min-height:300px;padding:0;height:auto}
+  .slide.zs .zs-pic img{position:absolute;left:5%;right:5%;top:3%;bottom:0;width:90%;height:97%;max-width:none;max-height:none;object-fit:contain}
+  .slide.zs .zs-txt{order:2;padding:14px 26px 24px;gap:6px}
+  .slide.zs .zs-txt h3{font-size:clamp(2rem,3vw,2.8rem)!important}
+  .gnav{display:flex!important;align-items:center;gap:16px!important;margin-top:14px}
+  .gnav{padding:0}.zcount{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--fg);min-width:62px}
+  .dots{flex:1;display:flex!important;gap:6px!important}
+  .dots button{flex:1;position:relative;height:28px!important;width:auto!important;min-width:0!important;padding:0!important;background:none!important;border:0!important;cursor:pointer}
+  .dots button::before,.dots button i{content:"";position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;border-radius:2px}
+  .dots button::before{background:rgba(255,255,255,.22)}
+  .dots button i{background:var(--fg);transform-origin:0 50%;transform:scaleX(0)}
+  .dots button.past i{transform:scaleX(1)}
+  .dots button.on i{animation:zfill 5s linear forwards}
+  .gmid.paused .dots button.on i{animation-play-state:paused}
+  .gmid.noauto .dots button.on i{animation:none;transform:scaleX(1)}
+  @keyframes zfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @media (max-width:900px){
+    .gmid .slides{min-height:0}
+    .slide.zs .zs-pic{min-height:0;aspect-ratio:1/1}
+    .slide.zs .zs-txt{padding:6px 20px 22px}
+  }
+  /* Horario: lleno de arriba abajo */
+  .ghor{gap:16px!important}
+  .hbig{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-family:var(--display);font-weight:900;font-stretch:66%;line-height:.9;margin-top:6px}
+  .hbig{flex-wrap:nowrap!important}.hbig b{font-size:clamp(2.2rem,3.1vw,3.2rem);color:var(--fg)}
+  .hbig i{font-style:normal;font-size:clamp(1.6rem,2.4vw,2.2rem);color:var(--fg3)}
+  .hsub{margin:-6px 0 4px;color:var(--fg2);font-size:14px;line-height:1.5}
+  .ghor .hours{padding:14px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);gap:10px 20px!important;font-size:12px!important}
+  .hwhere{display:grid;gap:4px}
+  .hwhere small{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3)}
+  .hwhere b{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:1.5rem;text-transform:uppercase;line-height:1}
+  .hwhere span{color:var(--fg2);font-size:14px}
+  .hbtns{margin-top:auto;display:grid;gap:10px}
+  .hbtns .btn{width:100%;justify-content:center}
 </style>
 </head>
 <body data-page="maquinas" class="boceto">
@@ -1557,14 +1597,26 @@
     </div>
     <div data-reveal class="gmid">
       <div class="slides" id="slides"></div>
-      <div class="gnav"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Siguiente">→</button></div></div>
+      <div class="gnav"><span class="zcount" id="zcount" aria-live="polite">01 / 03</span><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Siguiente">→</button></div></div>
     </div>
-    <div data-reveal class="gbox">
+    <div data-reveal class="gbox ghor">
       <span class="tag" data-es="Horario" data-eu="Ordutegia">Horario</span>
+      <div class="hbig"><b>05:00</b><i>—</i><b>01:00</b></div>
+      <p class="hsub" data-es="Todos los días del año, festivos incluidos." data-eu="Urteko egun guztietan, jaiegunak barne.">Todos los días del año, festivos incluidos.</p>
       <div class="hours">
         <span data-es="Todos los días" data-eu="Egunero">Todos los días</span><span>05:00 – 01:00</span>
         <span data-es="Abierto" data-eu="Irekita">Abierto</span><span data-es="365 días" data-eu="365 egun">365 días</span>
         <span data-es="Acceso" data-eu="Sarbidea">Acceso</span><span data-es="Con la app" data-eu="Aplikazioarekin">Con la app</span>
+        <span data-es="Apertura" data-eu="Irekiera">Apertura</span><span data-es="7 de enero de 2027" data-eu="2027ko urtarrilaren 7a">7 de enero de 2027</span>
+      </div>
+      <div class="hwhere">
+        <small data-es="Dónde" data-eu="Non">Dónde</small>
+        <b>Usabal 123, Pabellón 2</b>
+        <span>20400 Tolosa · Gipuzkoa</span>
+      </div>
+      <div class="hbtns">
+        <a href="/tarifas/#fundador" class="btn btn-primary" id="horCta"><span data-es="Hazte socio fundador" data-eu="Egin bazkide sortzaile">Hazte socio fundador</span></a>
+        <a href="https://www.google.com/maps/dir/?api=1&amp;destination=43.12671,-2.08496" target="_blank" rel="noopener" class="btn btn-ghost"><span data-es="Cómo llegar" data-eu="Nola iritsi">Cómo llegar</span></a>
       </div>
     </div>
   </div>
@@ -1795,9 +1847,9 @@ const ML={es:{y:'Año / origen',f:'Procedencia',k:'Recorrido',w:'Por qué es esp
           eu:{y:'Urtea / jatorria',f:'Jatorria',k:'Ibilbidea',w:'Zergatik den berezia',g:'Taldea',t:'Mota',ex:'Adibide-istorioa',open:'Istorioa ikusi',close:'Istorioa itxi'}};
 
 const ZONES=[
- {img:'/img/maquinas/startrac-biceps.webp',m:'Star Trac · P3-350',es:{h:'Bombea',p:'Biceps Machine. Curl guiado, sentado y con apoyo de brazos.'},eu:{h:'Ponpatu',p:'Biceps Machine. Kurl gidatua, eserita eta besoak bermatuta.'}},
- {img:'/img/maquinas/eagle-chest-press.webp',m:'Eagle by Cybex',es:{h:'Empuja',p:'Chest Press. Press de pecho de placas, de los de siempre.'},eu:{h:'Bultzatu',p:'Chest Press. Plaka-bular prentsa, betikoa.'}},
- {img:'/img/maquinas/cybex-leg-extension.webp',m:'Cybex',es:{h:'Respeta<br>el hierro',p:'Leg Extension de discos. Cuádriceps a la antigua.'},eu:{h:'Errespetatu<br>burdina',p:'Leg Extension diskoekin. Kuadrizepsa betiko eran.'}}
+ {img:'/img/chain.webp',m:'Old school',es:{h:'Respeta<br>el hierro',p:'Piezas clásicas que ya no se fabrican.'},eu:{h:'Errespetatu<br>burdina',p:'Jada egiten ez diren pieza klasikoak.'}},
+ {img:'/img/cybex_chest.webp',m:'Pecho · Hombro',es:{h:'Empuja',p:'Presses de placas y selectorizadas.'},eu:{h:'Bultzatu',p:'Plaka- eta pila-prentsak.'}},
+ {img:'/img/flex_bicep.webp',m:'Brazo',es:{h:'Bombea',p:'Curls de leva, predicador y poleas.'},eu:{h:'Ponpatu',p:'Kama-kurlak, predikadorea eta poleak.'}}
 ];
 
 const PLANS={
@@ -1874,10 +1926,10 @@ function tierLink(k,label){
 
 const GRID=[
  ['cadena-old-school','Nautilus','Super Pullover SPO III',{es:'Espalda',eu:'Bizkarra'}],
- ['cybex-classic-chest-press','Cybex Classic','Chest Press',{es:'Pecho · Tríceps',eu:'Bularra · Trizepsa'}],
+ ['eagle-chest-press','Eagle by Cybex','Chest Press',{es:'Pecho · Tríceps',eu:'Bularra · Trizepsa'}],
  ['hammer-strength-remo','Hammer Strength','Dorian Iso Seated Row',{es:'Espalda',eu:'Bizkarra'}],
- ['nautilus-nitro','Cybex Advance','Leg Extension',{es:'Cuádriceps',eu:'Kuadrizepsa'}],
- ['flex-pa560','Flex Fitness','Biceps PA-560',{es:'Bíceps',eu:'Bizepsa'}],
+ ['cybex-leg-extension','Cybex','Leg Extension',{es:'Cuádriceps',eu:'Kuadrizepsa'}],
+ ['startrac-biceps','Star Trac','Biceps P3-350',{es:'Bíceps',eu:'Bizepsa'}],
  ['gymleco-chest-press','Gymleco','Chest Press',{es:'Pecho · Tríceps',eu:'Bularra · Trizepsa'}],
  ['gymleco-hack-squat','Gymleco','Hack Squat',{es:'Cuádriceps · Glúteo',eu:'Kuadrizepsa · Ipurmasaila'}],
  ['gymleco-leg-press','Gymleco','Leg Press',{es:'Pierna · Glúteo',eu:'Hanka · Ipurmasaila'}],
@@ -1966,15 +2018,16 @@ function renderZones(){
   const l=LANG;
   $('#slides').innerHTML=ZONES.map((z,i)=>`<div class="slide zs" role="group" aria-label="${i+1} / ${ZONES.length}">
       <div class="zs-pic"><img src="${z.img}" alt="${z.m}" loading="lazy"></div>
-      <div class="zs-txt"><span class="idx">0${i+1} / 0${ZONES.length}</span><span class="zs-m">${z.m}</span><h3>${z[l].h}</h3><p>${z[l].p}</p></div></div>`).join('');
-  $('#dots').innerHTML=ZONES.map((_,i)=>`<button type="button" aria-label="${i+1}"></button>`).join('');
+      <div class="zs-txt"><span class="zs-m">${z.m}</span><h3>${z[l].h.replace('<br>',' ')}</h3><p>${z[l].p}</p></div></div>`).join('');
+  $('#dots').innerHTML=ZONES.map((z,i)=>`<button type="button" aria-label="${z.m}"><i></i></button>`).join('');
+  $$('#dots button i').forEach(x=>x.addEventListener('animationend',()=>goSlide(curSlide()+1)));
   $$('#dots button').forEach((b,i)=>b.onclick=()=>goSlide(i));
   updDots();
 }
 const slidesEl=()=>$('#slides');
 function curSlide(){const s=slidesEl();return Math.round(s.scrollLeft/s.clientWidth)}
 function goSlide(i){const s=slidesEl();i=(i+ZONES.length)%ZONES.length;s.scrollTo({left:i*s.clientWidth,behavior:'smooth'})}
-function updDots(){const c=curSlide();$$('#dots button').forEach((b,i)=>b.classList.toggle('on',i===c))}
+function updDots(){const c=curSlide();$$('#dots button').forEach((b,i)=>{b.classList.toggle('on',i===c);b.classList.toggle('past',i<c)});const z=$('#zcount');if(z)z.textContent='0'+(c+1)+' / 0'+ZONES.length}
 
 function renderBars(){
   $('#bars').innerHTML=CONFIG.marcas.map(([n,p,top])=>`<div class="bar${top?' top':''}" style="--w:${p}%"><b data-top="${LANG==='es'?'La que más':'Gehien'}">${n}</b><span>${p}%</span></div>`).join('');
@@ -2075,6 +2128,15 @@ $$('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
 
 $('#prev').onclick=()=>goSlide(curSlide()-1);
 $('#next').onclick=()=>goSlide(curSlide()+1);
+(function(){const g=document.querySelector('.gmid');if(!g)return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){g.classList.add('noauto');return}
+  const set=()=>g.classList.toggle('paused',g._h||g._off||document.hidden);
+  g.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){g._h=1;set()}});
+  g.addEventListener('pointerleave',()=>{g._h=0;set()});
+  g.addEventListener('touchstart',()=>{g._h=1;set();clearTimeout(g._t);g._t=setTimeout(()=>{g._h=0;set()},6000)},{passive:true});
+  new IntersectionObserver(([e])=>{g._off=!e.isIntersecting;set()},{threshold:.35}).observe(g);
+  document.addEventListener('visibilitychange',set);
+})();
 let st;$('#slides').addEventListener('scroll',()=>{clearTimeout(st);st=setTimeout(updDots,60)},{passive:true});
 
 function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),3800)}
@@ -2264,6 +2326,7 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const visible=id=>{const el=document.getElementById(id);return el&&getComputedStyle(el).display!=='none'};
   document.querySelectorAll('a[href^="#"]').forEach(a=>{const id=a.getAttribute('href').slice(1);if(!(id in PAGE))return;
     if(!visible(id))a.setAttribute('href','/'+(PAGE[id]?PAGE[id]+'/':'')+(id==='top'?'':'#'+id))});
+  const hcta=document.getElementById('horCta');if(hcta&&!FUND_OPEN){hcta.href='/tarifas/';hcta.firstElementChild.dataset.es='Hazte socio';hcta.firstElementChild.dataset.eu='Egin bazkide';hcta.firstElementChild.textContent=LANG==='es'?'Hazte socio':'Egin bazkide'}
   const pc=document.getElementById('pesoCta');if(pc&&!FUND_OPEN){pc.href='/tarifas/';pc.firstElementChild.dataset.es='Hazte socio · 50 €/mes';pc.firstElementChild.dataset.eu='Egin bazkide · 50 €/hil';pc.firstElementChild.textContent=LANG==='es'?'Hazte socio · 50 €/mes':'Egin bazkide · 50 €/hil'}
   const hc=document.getElementById('heroCta');if(hc&&!FUND_OPEN){hc.href='/tarifas/';hc.firstElementChild.dataset.es='Hazte socio · 50 €/mes';hc.firstElementChild.dataset.eu='Egin bazkide · 50 €/hil';hc.firstElementChild.textContent=LANG==='es'?'Hazte socio · 50 €/mes':'Egin bazkide · 50 €/hil'}
   document.querySelectorAll('.links a[data-page],.bnav a[data-page]').forEach(a=>a.classList.toggle('on',a.dataset.page===here));
