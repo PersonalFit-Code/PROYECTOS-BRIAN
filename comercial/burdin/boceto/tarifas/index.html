@@ -1174,12 +1174,12 @@
   @media (max-width:900px){.peso{margin-top:46px}#pgrid{grid-template-columns:1fr 1fr}}
   /* ===== Discos: rojos de 25 a 5 arriba, hierro de 5 a 25 abajo ===== */
   #pgrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .discos{margin-top:18px;padding:34px 0 30px;border:1px solid rgba(255,255,255,.1);background:radial-gradient(ellipse 70% 80% at 50% 50%,#3b3936,#151515 75%);overflow:hidden}
+  .discos{margin-top:18px;padding:18px 0 14px;border:1px solid rgba(255,255,255,.1);background:radial-gradient(ellipse 70% 80% at 50% 50%,#3b3936,#151515 75%);overflow:hidden}
   .d-row{display:flex;padding:0 4%}
   .d-row img{display:block;width:min(820px,92%);height:auto;filter:drop-shadow(0 18px 18px rgba(0,0,0,.55));transition:transform 1.2s var(--ease),opacity .9s ease}
   .d-rojo{justify-content:flex-start}
   .d-hierro{justify-content:center!important}
-  .d-fan-h{aspect-ratio:896/700!important}
+  .d-fan-h{aspect-ratio:896/560!important}
   .d-mid{display:flex;justify-content:center;padding:14px 20px}
   .d-mid b{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(2rem,5vw,3.4rem);text-transform:uppercase;line-height:1}
   html[data-reveal-armed] .discos:not(.is-revealed) .d-rojo img{transform:translateX(-30%);opacity:0}
@@ -1204,7 +1204,7 @@
   /* discos rojos: se abren en abanico al pasar el ratón (o el dedo) de lado a lado */
   /* discos rojos: apilados → en fila → separados, según el ratón (o el scroll en el móvil) */
   .d-rojo{justify-content:center!important}
-  .d-fan{position:relative;width:min(900px,96%);aspect-ratio:896/640;touch-action:pan-y}
+  .d-fan{position:relative;width:min(820px,96%);aspect-ratio:896/540;touch-action:pan-y}
   .d-fan .dk{position:absolute;left:0;top:0;height:auto;will-change:transform;transform-origin:50% 50%;backface-visibility:hidden;filter:drop-shadow(0 16px 14px rgba(0,0,0,.55))}
   html[data-reveal-armed] .discos:not(.is-revealed) .d-fan{opacity:0}
   .d-fan{transition:opacity .9s ease}
@@ -1311,6 +1311,21 @@
   .ptile span{font-size:15px;line-height:1.5;color:#e6e6e6}
   @media (max-width:900px){.ptiles{grid-template-columns:1fr;gap:12px}.ptile{min-height:320px}.ptile figcaption{padding:18px}}
   #pgrid[hidden],.mgrid[hidden]{display:none!important}
+  .d-mid{flex-direction:column;align-items:center;gap:6px!important;padding:8px 20px!important}
+  .d-mid b{font-size:clamp(1.8rem,4vw,2.8rem)!important}
+  .d-mid span{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg2)}
+  .peso-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin-top:22px;padding:26px 20px;border:1px solid rgba(255,255,255,.1);background:#121212}
+  .peso-cta p{flex-basis:100%;text-align:center;margin:0 0 4px;font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(1.5rem,3vw,2.1rem);text-transform:uppercase}
+  @media (max-width:900px){.peso-cta .btn{flex:1 1 100%}}
+  /* ordenador: rojos y hierro lado a lado, título encima */
+  @media (min-width:901px){
+    .discos{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"t t" "r h";align-items:center;padding:20px 18px 18px!important}
+    .discos .d-mid{grid-area:t}
+    .discos .d-rojo{grid-area:r;padding:0!important}
+    .discos .d-hierro{grid-area:h;padding:0!important}
+    .discos .d-fan{width:100%!important}
+  }
+  @media (max-width:600px){.peso-cta .btn,.hero .ctas .btn{letter-spacing:.08em!important;padding-left:14px!important;padding-right:14px!important;white-space:nowrap}}
 </style>
 </head>
 <body data-page="tarifas" class="boceto">
@@ -1448,8 +1463,13 @@
       <div class="mgrid" id="pgrid" hidden></div>
       <div class="discos" data-reveal>
         <div class="d-row d-rojo"><div class="d-fan" id="dfan" role="img" aria-label="Discos de goma de 25 a 5 kg"><img class="dk" src="/img/discos/rojo-25.webp" alt="" draggable="false" style="z-index:1"><img class="dk" src="/img/discos/rojo-20.webp" alt="" draggable="false" style="z-index:2"><img class="dk" src="/img/discos/rojo-15.webp" alt="" draggable="false" style="z-index:3"><img class="dk" src="/img/discos/rojo-10.webp" alt="" draggable="false" style="z-index:4"><img class="dk" src="/img/discos/rojo-5.webp" alt="" draggable="false" style="z-index:5"></div></div>
-        <div class="d-mid"><b data-es="Discos" data-eu="Diskoak">Discos</b></div>
+        <div class="d-mid"><b data-es="Discos" data-eu="Diskoak">Discos</b><span data-es="Goma y hierro · de 5 a 25 kg" data-eu="Goma eta burdina · 5etik 25 kg-ra">Goma y hierro · de 5 a 25 kg</span></div>
         <div class="d-row d-hierro"><div class="d-fan d-fan-h" id="dfanh" role="img" aria-label="Discos de hierro de 5 a 25 kg"><img class="dk" src="/img/discos/hierro-5.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-10.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-15.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-20.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-25.webp" alt="" draggable="false"></div></div>
+      </div>
+      <div class="peso-cta">
+        <p data-es="¿Te ves entrenando aquí?" data-eu="Hemen entrenatzen ikusten zara?">¿Te ves entrenando aquí?</p>
+        <a href="/tarifas/#fundador" class="btn btn-primary" id="pesoCta"><span data-es="Hazte socio fundador · 40 €/mes" data-eu="Egin bazkide sortzaile · 40 €/hil">Hazte socio fundador · 40 €/mes</span></a>
+        <a href="/tarifas/" class="btn btn-ghost"><span data-es="Ver tarifas" data-eu="Tarifak ikusi">Ver tarifas</span></a>
       </div>
     </div>
     <p class="note" data-es="Algunas de las máquinas de Burdin, antes de montarlas en la sala." data-eu="Burdineko makina batzuk, aretoan muntatu aurretik.">Algunas de las máquinas de Burdin, antes de montarlas en la sala.</p>
@@ -2190,6 +2210,7 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const visible=id=>{const el=document.getElementById(id);return el&&getComputedStyle(el).display!=='none'};
   document.querySelectorAll('a[href^="#"]').forEach(a=>{const id=a.getAttribute('href').slice(1);if(!(id in PAGE))return;
     if(!visible(id))a.setAttribute('href','/'+(PAGE[id]?PAGE[id]+'/':'')+(id==='top'?'':'#'+id))});
+  const pc=document.getElementById('pesoCta');if(pc&&!FUND_OPEN){pc.href='/tarifas/';pc.firstElementChild.dataset.es='Hazte socio · 50 €/mes';pc.firstElementChild.dataset.eu='Egin bazkide · 50 €/hil';pc.firstElementChild.textContent=LANG==='es'?'Hazte socio · 50 €/mes':'Egin bazkide · 50 €/hil'}
   const hc=document.getElementById('heroCta');if(hc&&!FUND_OPEN){hc.href='/tarifas/';hc.firstElementChild.dataset.es='Hazte socio · 50 €/mes';hc.firstElementChild.dataset.eu='Egin bazkide · 50 €/hil';hc.firstElementChild.textContent=LANG==='es'?'Hazte socio · 50 €/mes':'Egin bazkide · 50 €/hil'}
   document.querySelectorAll('.links a[data-page],.bnav a[data-page]').forEach(a=>a.classList.toggle('on',a.dataset.page===here));
   const gm=document.getElementById('goMaps');if(gm)gm.href='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(CONFIG.mapa);
@@ -2207,9 +2228,9 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
    un muelle amortiguado (sin rebote) e independiente de los fps. */
 (function(){
   // [centro x, centro y, ancho] en un lienzo de 896 de ancho. Rojos: 25 → 5.
-  const RED={stack:[[180,315,320],[372,335,262],[522,350,222],[655,365,190],[783,390,180]],
-             row:[[135,335,215],[340,345,186],[522,355,152],[668,365,140],[808,380,126]],
-             split:[[156,208,267],[344,444,230],[531,262,196],[677,494,167],[795,312,149]]};
+  const RED={stack:[[180,278,288],[372,293,236],[522,304,200],[655,314,171],[783,332,162]],
+             row:[[135,293,194],[340,300,167],[522,307,137],[668,314,126],[808,325,113]],
+             split:[[156,201,240],[344,371,207],[531,240,176],[677,407,150],[795,276,134]]};
   // Hierro: 5 → 25, la misma coreografía en espejo (el pequeño delante).
   const mir=a=>a.map(([x,y,d])=>[896-x,y,d]).reverse();
   const IRON={stack:mir(RED.stack),row:mir(RED.row),split:mir(RED.split)};
@@ -2226,9 +2247,9 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
     new ResizeObserver(()=>{size();draw(o.cur)}).observe(f);size();
     return o;
   }
-  const fans=[fan('dfan',RED,true,0),fan('dfanh',IRON,true,40)].filter(Boolean);if(!fans.length)return;
+  const fans=[fan('dfan',RED,true,0),fan('dfanh',IRON,true,20)].filter(Boolean);if(!fans.length)return;
   let raf=0,last=0;
-  const target=x=>{const r=x.f.getBoundingClientRect(),vh=innerHeight;return Math.min(1,Math.max(0,(vh*.95-r.top)/(vh*.8)))};
+  const target=x=>{const r=x.f.getBoundingClientRect(),vh=innerHeight;return Math.min(1,Math.max(0,(vh*1.15-r.top)/(vh*.7)))};
   fans.forEach(x=>{x.cur=target(x);x.vel=0;x.draw(x.cur)});
   function tick(now){const dt=Math.min(.05,(now-(last||now))/1000);last=now;let moving=false;
     fans.forEach(x=>{const t=target(x);if(reduced){x.cur=t;x.vel=0}else{const w=9;x.vel+=(-(w*w)*(x.cur-t)-2*w*x.vel)*dt;x.cur+=x.vel*dt}
