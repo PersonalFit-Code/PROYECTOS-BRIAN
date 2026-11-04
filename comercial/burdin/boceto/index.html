@@ -1171,6 +1171,21 @@
   .mc-pic.nopic{background:repeating-linear-gradient(135deg,#1a1a1a 0 14px,#161616 14px 28px)!important}
   .mc-pic.nopic .mc-soon{display:block;position:relative;z-index:1;font-family:var(--label);font-weight:600;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3);border:1px dashed rgba(255,255,255,.25);padding:8px 12px}
   @media (max-width:900px){.peso{margin-top:46px}#pgrid{grid-template-columns:1fr 1fr}}
+  /* ===== Discos: rojos de 25 a 5 arriba, hierro de 5 a 25 abajo (entran en sentidos opuestos) ===== */
+  #pgrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .discos{margin-top:18px;padding:34px 0 30px;border:1px solid rgba(255,255,255,.1);background:radial-gradient(ellipse 70% 80% at 50% 50%,#3b3936,#151515 75%);overflow:hidden}
+  .d-row{display:flex;padding:0 4%}
+  .d-row img{display:block;width:min(820px,92%);height:auto;filter:drop-shadow(0 18px 18px rgba(0,0,0,.55));transition:transform 1.2s var(--ease),opacity .9s ease}
+  .d-rojo{justify-content:flex-start}
+  .d-hierro{justify-content:flex-end}
+  .d-mid{display:flex;align-items:baseline;justify-content:center;gap:14px;padding:16px 20px;text-align:center;flex-wrap:wrap}
+  .d-mid b{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(2rem,5vw,3.4rem);text-transform:uppercase;line-height:1}
+  .d-mid span{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg2)}
+  html[data-reveal-armed] .discos:not(.is-revealed) .d-rojo img{transform:translateX(-30%);opacity:0}
+  html[data-reveal-armed] .discos:not(.is-revealed) .d-hierro img{transform:translateX(30%);opacity:0}
+  html[data-reveal-armed] .discos{opacity:1!important;transform:none!important}
+  @media (max-width:900px){#pgrid{grid-template-columns:1fr 1fr!important}#pgrid .mcard:last-child{grid-column:1/-1}#pgrid .mcard:last-child .mc-pic{aspect-ratio:16/10}.discos{padding:22px 0 20px}.d-row img{width:100%}}
+  @media (prefers-reduced-motion:reduce){.d-row img{transition:none}}
 </style>
 </head>
 <body data-page="" class="boceto">
@@ -1309,6 +1324,11 @@
         <p data-es="Dos racks, mancuernero completo y discos." data-eu="Bi rack, mankuerna-euskarri osoa eta diskoak.">Dos racks, mancuernero completo y discos.</p>
       </div>
       <div class="mgrid" id="pgrid"></div>
+      <div class="discos" data-reveal>
+        <div class="d-row d-rojo"><img src="/img/maquinas/peso-discos.webp" alt="Discos de goma de 25 a 5 kg" loading="lazy"></div>
+        <div class="d-mid"><b data-es="Discos" data-eu="Diskoak">Discos</b><span data-es="De 5 a 25 kg · goma y hierro" data-eu="5etik 25 kg-ra · goma eta burdina">De 5 a 25 kg · goma y hierro</span></div>
+        <div class="d-row d-hierro"><img src="/img/maquinas/peso-discos-hierro.webp" alt="Discos de hierro de 5 a 25 kg" loading="lazy" onerror="this.parentNode.remove()"></div>
+      </div>
     </div>
     <p class="note" data-es="Algunas de las máquinas de Burdin, antes de montarlas en la sala." data-eu="Burdineko makina batzuk, aretoan muntatu aurretik.">Algunas de las máquinas de Burdin, antes de montarlas en la sala.</p>
   </div>
@@ -1667,8 +1687,7 @@ const GRID=[
 const PESO=[
  ['hammer-full-rack','Hammer Strength','Full Rack',{es:'Sentadilla · Press · Dominadas',eu:'Squat · Press · Tiraldiak'}],
  ['hammer-power-rack','Hammer Strength','Power Rack',{es:'Sentadilla · Press · Dominadas',eu:'Squat · Press · Tiraldiak'}],
- ['peso-mancuernas','Peso libre','Mancuernas',{es:'Mancuernero completo',eu:'Mankuerna-euskarri osoa'}],
- ['peso-discos','Peso libre','Discos',{es:'De 5 a 25 kg',eu:'5etik 25 kg-ra'}]
+ ['peso-mancuernas','Peso libre','Mancuernas',{es:'Mancuernero completo',eu:'Mankuerna-euskarri osoa'}]
 ];
 function renderPeso(){const g=document.getElementById('pgrid');if(!g)return;
   g.innerHTML=PESO.map(([f,b,nm,gr])=>`<figure class="mcard"><div class="mc-pic"><img src="/img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy" onerror="this.parentNode.classList.add('nopic');this.remove()"><span class="mc-soon">${LANG==='es'?'Foto en camino':'Argazkia bidean'}</span></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
