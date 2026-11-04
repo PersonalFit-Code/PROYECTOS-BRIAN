@@ -1144,6 +1144,23 @@
   .loc .map .pin::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:22px;background:#141414;transform:translateX(-50%)}
   .loc .map .pin svg{width:18px;height:19px;fill:#fff}
   @media (max-width:900px){.loc{grid-template-columns:1fr;margin-top:40px}.loc-info{padding:24px 20px}.loc-info h3{font-size:1.8rem}.loc .map{min-height:300px;border-left:0;border-top:1px solid #d6d1c6}.cform{padding:20px 18px}}
+  /* ===== Tarifas reales: fundador / posterior, precio mensual y anual ===== */
+  .plans{grid-template-columns:repeat(2,minmax(0,1fr))!important;max-width:920px}
+  .plan .p-year{margin:6px 0 18px;font-size:14px;color:var(--fg2)}
+  .plan .p-year b{color:var(--fg)}
+  .plan .p-year span{color:var(--fg3);white-space:nowrap}
+  .plan.feat .p-year,.plan.feat .p-year span,.plan.feat .p-year b{color:inherit}
+  .plan.feat .p-year span{opacity:.75}
+  .p-ctas{display:grid;gap:10px;margin-top:auto}
+  .p-alt{display:block;text-align:center;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:inherit;opacity:.75;text-decoration:underline;text-underline-offset:4px;padding:6px;cursor:pointer}
+  .p-alt:hover{opacity:1}
+  .fcard .f-price{display:flex;align-items:baseline;gap:8px;margin:6px 0 4px}
+  .fcard .f-price b{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:3.4rem;line-height:1}
+  .fcard .f-price span{opacity:.7}
+  .fcard .f-year{font-size:14px;opacity:.85;margin:0 0 12px}
+  .fcard .f-note{font-size:13px;opacity:.65;margin:0}
+  .fcard .t-stub{display:grid;gap:8px}
+  @media (max-width:900px){.plans{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body data-page="contacto" class="boceto">
@@ -1323,10 +1340,6 @@
       <h2 data-es="Tarifas y socio fundador" data-eu="Tarifak eta bazkide sortzailea">Tarifas y socio fundador</h2>
       <p data-es="El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar." data-eu="Alta eta ordainketa gure Virtuagym dendan egiten dira: tarifa aukeratu, ordaindu eta sartzeko aplikazioa izango duzu.">El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar.</p>
     </div>
-    <div class="tabs" role="tablist">
-      <button type="button" class="on" data-phase="pre" data-es="Preapertura" data-eu="Irekiera aurretik">Preapertura</button>
-      <button type="button" data-phase="post" data-es="Tras la apertura" data-eu="Irekiera ondoren">Tras la apertura</button>
-    </div>
     <div class="plans" id="plans"></div>
     <div class="try">
       <div>
@@ -1336,7 +1349,7 @@
       </div>
       <div class="passes" id="passes"></div>
     </div>
-    <p class="note" data-es="Precios con IVA incluido. Los precios de este boceto son de ejemplo." data-eu="Prezioek BEZa barne dute. Zirriborro honetako prezioak adibideak dira.">Precios con IVA incluido. Los precios de este boceto son de ejemplo.</p>
+    <p class="note" data-es="Precios con IVA incluido. Los precios de los pases son de ejemplo." data-eu="Prezioek BEZa barne dute. Sarreren prezioak adibideak dira.">Precios con IVA incluido. Los precios de los pases son de ejemplo.</p>
   </div>
 </section>
 <div class="rule" aria-hidden="true"></div>
@@ -1352,7 +1365,7 @@
         <div class="dial" id="ring"><svg viewBox="0 0 200 200" id="ticks" aria-hidden="true"></svg><b><span id="ringN">0</span><small>/<span id="ringT">0</span></small></b><em data-es="reservadas" data-eu="erreserbatuta">reservadas</em></div>
         <div class="g-txt">
           <span class="plate tbd"><span id="seatsLeft2">0</span>&nbsp;<span data-es="plazas libres" data-eu="plaza libre">plazas libres</span></span>
-          <p><span id="seatsTaken2">0</span> <span data-es="ya tienen dueño. Cada plaza se confirma con el alta en la tienda de Virtuagym: sin alta no hay reserva." data-eu="dagoeneko jabea dute. Plaza bakoitza Virtuagym dendako altarekin berresten da: altarik gabe ez dago erreserbarik.">ya tienen dueño. Cada plaza se confirma con el alta en la tienda de Virtuagym: sin alta no hay reserva.</span></p>
+          <p><span id="seatsTaken2">0</span> <span data-es="ya tienen dueño. Cada plaza se confirma con el alta en la tienda de Virtuagym." data-eu="dagoeneko jabea dute. Plaza bakoitza Virtuagym dendako altarekin berresten da: altarik gabe ez dago erreserbarik.">ya tienen dueño. Cada plaza se confirma con el alta en la tienda de Virtuagym.</span></p>
         </div>
       </div>
       <ul class="perks2">
@@ -1361,38 +1374,25 @@
         <li data-reveal style="--d:.16s"><i>03</i><svg aria-hidden="true"><use href="#i-key"/></svg><strong class="tbd" data-es="Entra el primero" data-eu="Lehena sartu">Entra el primero</strong><span data-es="Visita privada antes de la apertura para conocer las máquinas." data-eu="Irekiera aurreko bisita pribatua, makinak ezagutzeko.">Visita privada antes de la apertura para conocer las máquinas.</span></li>
       </ul>
     </div>
-    <form data-reveal class="ticket" id="waitlist" novalidate>
+    <div data-reveal class="ticket fcard" id="waitlist">
       <div class="t-top">
         <svg viewBox="0 0 272 288" aria-hidden="true"><use href="#b"/></svg>
-        <div><b>Burdin Gym</b><span data-es="Ficha de socio fundador" data-eu="Bazkide sortzailearen fitxa">Ficha de socio fundador</span></div>
+        <div><b>Burdin Gym</b><span data-es="Alta de socio fundador" data-eu="Bazkide sortzailearen alta">Alta de socio fundador</span></div>
         <div class="t-no"><small>Nº</small><b id="ticketN">038</b></div>
       </div>
       <div class="t-body">
-        <h3 data-es="Reserva tu plaza" data-eu="Gorde zure plaza">Reserva tu plaza</h3>
-        <p data-es="Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador." data-eu="Utzi zure izena eta telefonoa. WhatsAppez idatziko dizugu sortzaileen altak irekitzen direnean.">Déjanos tu nombre y teléfono. Te escribimos por WhatsApp en cuanto se abran las altas de fundador.</p>
-        <label class="field"><span data-es="Nombre" data-eu="Izena">Nombre</span><input id="fName" name="nombre" autocomplete="name" required></label>
-        <label class="field"><span data-es="Teléfono" data-eu="Telefonoa">Teléfono</span><input id="fTel" name="telefono" type="tel" inputmode="tel" autocomplete="tel" required></label>
-        <div class="field"><span data-es="Me interesa" data-eu="Interesatzen zait">Me interesa</span>
-          <div class="chips" role="radiogroup">
-            <label><input type="radio" name="want" value="fundador" checked><span data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</span></label>
-            <label><input type="radio" name="want" value="mensual"><span data-es="Tarifa normal" data-eu="Ohiko tarifa">Tarifa normal</span></label>
-            <label><input type="radio" name="want" value="pase"><span data-es="Pase de día" data-eu="Eguneko sarrera">Pase de día</span></label>
-          </div>
-          <select id="fWant" hidden tabindex="-1" aria-hidden="true">
-            <option value="fundador" data-es="Ser socio fundador" data-eu="Bazkide sortzaile izatea">Ser socio fundador</option>
-            <option value="mensual" data-es="Tarifa normal" data-eu="Ohiko tarifa">Tarifa normal</option>
-            <option value="pase" data-es="Probar con un pase de día" data-eu="Eguneko sarrerarekin probatzea">Probar con un pase de día</option>
-          </select>
-        </div>
-        <label class="check"><input type="checkbox" id="fOk" required><span data-es="Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura." data-eu="Onartzen dut Burdin Gym-ek WhatsAppez nirekin harremanetan jartzea irekierari buruz.">Acepto que Burdin Gym me contacte por WhatsApp sobre la apertura.</span></label>
+        <h3 data-es="Hazte socio fundador" data-eu="Egin bazkide sortzaile">Hazte socio fundador</h3>
+        <div class="f-price"><b id="fpM">40 €</b><span data-es="/ mes" data-eu="/ hil">/ mes</span></div>
+        <p class="f-year"><span data-es="o" data-eu="edo">o</span> <b id="fpA">450 €</b> <span data-es="al año (equivale a 37,50 €/mes)" data-eu="urtean (hileko 37,50 €)">al año (equivale a 37,50 €/mes)</span></p>
+        <p class="f-note" data-es="Precio especial de apertura. Se cierra al llegar a 100 socios o el día que abrimos." data-eu="Irekierako prezio berezia. 100 bazkidera iristean edo irekitzen dugun egunean ixten da.">Precio especial de apertura. Se cierra al llegar a 100 socios o el día que abrimos.</p>
       </div>
       <div class="t-cut" aria-hidden="true"></div>
       <div class="t-stub">
-        <button class="btn btn-primary block" type="submit"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Reservar mi plaza por WhatsApp" data-eu="Nire plaza WhatsAppez gorde">Reservar mi plaza por WhatsApp</span></button>
-        <div class="err" id="fErr" role="alert"></div>
-        <div class="formnote" data-es="Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar." data-eu="WhatsApp irekitzen da mezua prest duela. Bidali sakatu besterik ez duzu.">Se abre WhatsApp con el mensaje listo. Solo tienes que pulsar enviar.</div>
+        <a class="btn btn-primary block" id="fGo"><span data-es="Darme de alta como fundador" data-eu="Sortzaile gisa alta eman">Darme de alta como fundador</span></a>
+        <a class="p-alt" id="fGoY" data-es="Prefiero pagar el año →" data-eu="Nahiago dut urtea ordaindu →">Prefiero pagar el año →</a>
+        <div class="formnote" data-es="El alta y el pago se hacen en nuestra tienda de Virtuagym." data-eu="Alta eta ordainketa gure Virtuagym dendan egiten dira.">El alta y el pago se hacen en nuestra tienda de Virtuagym.</div>
       </div>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -1500,8 +1500,9 @@ const CONFIG={
   direccion:{es:'Usabal 123, Pabellón 2<br>20400 Tolosa (Gipuzkoa)',eu:'Usabal 123, 2. pabiloia<br>20400 Tolosa (Gipuzkoa)'},
   mapa:'43.12671,-2.08496',             // punto exacto de la nave (Usabal 123, Pabellón 2, Tolosa)                      // texto que se busca en Google Maps
   // Enlaces a cada tarifa en la tienda online de Virtuagym. Vacío = abre WhatsApp.
-  virtuagym:{fundador:'',mensual:'',trimestral:'',anual:'',dia:'',finde:'',semana:''},
-  precios:{fundador:34.9,mensual:44.9,trimestral:119,anual:429,dia:9,finde:15,semana:25},
+  virtuagym:{fundador:'',fundadorAnual:'',mensual:'',anual:'',dia:'',finde:'',semana:''},
+  // Tarifas de Ander (noviembre 2026). Fundador: precio especial de apertura.
+  precios:{fundador:40,fundadorAnual:450,mensual:50,anual:530,dia:9,finde:15,semana:25},
   // reparto de la sala por marcas (de ejemplo)
   marcas:[['Cybex',28,true],['Hammer Strength',18],['Nautilus',14],['Panatta',12],['Gym80 · Gymleco · Flex',16],['Otras',12]]
 };
@@ -1562,18 +1563,14 @@ const ZONES=[
  {render:'wall',photo:'/img/zona-recepcion.jpg',es:{h:'Bienvenido',p:'Recepción. Aquí empieza todo.'},eu:{h:'Ongi etorri',p:'Harrera. Hemen hasten da dena.'}}
 ];
 
-const PLANS={
- pre:[
-  {k:'fundador',feat:true,es:{n:'Socio fundador',s:'Solo hasta la apertura',per:'/ mes',b:'Plazas limitadas',l:['Acceso ilimitado','Precio congelado de por vida','Sin matrícula','Visita privada antes de abrir'],c:'Hazte fundador'},eu:{n:'Bazkide sortzailea',s:'Irekiera arte bakarrik',per:'/ hil',b:'Plaza mugatuak',l:['Sarbide mugagabea','Prezio izoztua betiko','Matrikularik gabe','Ireki aurreko bisita pribatua'],c:'Egin sortzaile'}},
-  {k:'trimestral',es:{n:'Trimestral',s:'Precio de preapertura',per:'/ 3 meses',l:['Acceso ilimitado','Todas las máquinas','Sin matrícula'],c:'Apúntate'},eu:{n:'Hiruhilekoa',s:'Irekiera aurreko prezioa',per:'/ 3 hil',l:['Sarbide mugagabea','Makina guztiak','Matrikularik gabe'],c:'Eman izena'}},
-  {k:'anual',es:{n:'Anual',s:'Precio de preapertura',per:'/ año',l:['Todo lo del trimestral','Dos meses gratis','El mejor precio por mes'],c:'Apúntate'},eu:{n:'Urtekoa',s:'Irekiera aurreko prezioa',per:'/ urte',l:['Hiruhilekoaren guztia','Bi hilabete doan','Hileko preziorik onena'],c:'Eman izena'}}
- ],
- post:[
-  {k:'mensual',feat:true,es:{n:'Mensual',s:'La tarifa de siempre',per:'/ mes',b:'La más elegida',l:['Acceso ilimitado','Todas las máquinas','Sin permanencia'],c:'Apúntate'},eu:{n:'Hilekoa',s:'Betiko tarifa',per:'/ hil',b:'Gehien aukeratua',l:['Sarbide mugagabea','Makina guztiak','Iraunaldirik gabe'],c:'Eman izena'}},
-  {k:'trimestral',es:{n:'Trimestral',s:'Paga una vez cada 3 meses',per:'/ 3 meses',l:['Acceso ilimitado','Todas las máquinas','Ahorras frente al mensual'],c:'Apúntate'},eu:{n:'Hiruhilekoa',s:'3 hilean behin ordaindu',per:'/ 3 hil',l:['Sarbide mugagabea','Makina guztiak','Hilekoarekin alderatuta aurrezten duzu'],c:'Eman izena'}},
-  {k:'anual',es:{n:'Anual',s:'Para los que vienen a quedarse',per:'/ año',l:['Todo lo del trimestral','Dos meses gratis','El mejor precio por mes'],c:'Apúntate'},eu:{n:'Urtekoa',s:'Geratzera datozenentzat',per:'/ urte',l:['Hiruhilekoaren guztia','Bi hilabete doan','Hileko preziorik onena'],c:'Eman izena'}}
- ]
-};
+const PLANS=[
+ {k:'fundador',ka:'fundadorAnual',feat:true,
+  es:{n:'Socios fundadores',s:'Precio especial de apertura',b:'Plazas limitadas',l:['Acceso ilimitado, 05:00 – 01:00','Precio congelado mientras sigas de alta','Sin matrícula'],c:'Hazte socio fundador'},
+  eu:{n:'Bazkide sortzaileak',s:'Irekierako prezio berezia',b:'Plaza mugatuak',l:['Sarbide mugagabea, 05:00 – 01:00','Prezio izoztua alta emanda jarraitzen duzun bitartean','Matrikularik gabe'],c:'Egin bazkide sortzaile'}},
+ {k:'mensual',ka:'anual',
+  es:{n:'Socios posteriores',s:'Tarifa a partir de la apertura',l:['Acceso ilimitado, 05:00 – 01:00','Todas las máquinas','Entras con la app'],c:'Apúntate'},
+  eu:{n:'Ondorengo bazkideak',s:'Irekieratik aurrerako tarifa',l:['Sarbide mugagabea, 05:00 – 01:00','Makina guztiak','Aplikazioarekin sartzen zara'],c:'Eman izena'}}
+];
 const PASSES=[{k:'dia',es:'Pase de día',eu:'Eguneko sarrera'},{k:'finde',es:'Fin de semana',eu:'Asteburua'},{k:'semana',es:'Una semana',eu:'Aste bat'}];
 
 const FAQ=[
@@ -1642,7 +1639,6 @@ const GRID=[
  ['cadena-old-school','Nautilus','Super Pullover SPO III',{es:'Espalda',eu:'Bizkarra'}],
  ['cybex-classic-chest-press','Cybex Classic','Chest Press',{es:'Pecho · Tríceps',eu:'Bularra · Trizepsa'}],
  ['hammer-strength-remo','Hammer Strength','Dorian Iso Seated Row',{es:'Espalda',eu:'Bizkarra'}],
- ['paramount-remo','Paramount','DRP 600 Seated Row',{es:'Espalda',eu:'Bizkarra'}],
  ['nautilus-nitro','Cybex Advance','Leg Extension',{es:'Cuádriceps',eu:'Kuadrizepsa'}],
  ['flex-pa560','Flex Fitness','Biceps PA-560',{es:'Bíceps',eu:'Bizepsa'}],
  ['gymleco-chest-press','Gymleco','Chest Press',{es:'Pecho · Tríceps',eu:'Bularra · Trizepsa'}],
@@ -1760,14 +1756,14 @@ function renderLogos(){
 }
 
 function renderPlans(){
-  const l=LANG;
-  $('#plans').innerHTML=PLANS[PHASE].map(p=>{const t=p[l],pr=CONFIG.precios[p.k];
-    const old=(p.k==='fundador')?`<s>${eur(CONFIG.precios.mensual)}</s>`:'';
-    return `<div data-reveal style="--d:${PLANS[PHASE].indexOf(p)*.1}s" class="plan${p.feat?' feat':''}">${t.b?`<span class="badge">${t.b}</span>`:''}
+  const l=LANG,pm=l==='es'?'/ mes':'/ hil',py=l==='es'?'al año':'urtean',eq=l==='es'?'equivale a':'hileko',or=l==='es'?'o':'edo';
+  $('#plans').innerHTML=PLANS.map((p,i)=>{const t=p[l],m=CONFIG.precios[p.k],a=CONFIG.precios[p.ka];
+    return `<div data-reveal style="--d:${i*.1}s" class="plan${p.feat?' feat':''}">${t.b?`<span class="badge">${t.b}</span>`:''}
       <h3>${t.n}</h3><div class="sub">${t.s}</div>
-      <div class="price"><span class="tbd">${old}${eur(pr)}</span> <small>${t.per}</small></div>
+      <div class="price"><span>${eur(m)}</span> <small>${pm}</small></div>
+      <p class="p-year">${or} <b>${eur(a)}</b> ${py} <span>(${eq} ${eur(a/12)}${l==='es'?'/mes':''})</span></p>
       <ul>${t.l.map(x=>`<li>${x}</li>`).join('')}</ul>
-      <a class="btn ${p.feat?'btn-primary':'btn-ghost'}" ${tierLink(p.k,t.n)}>${t.c}</a></div>`}).join('');
+      <div class="p-ctas"><a class="btn ${p.feat?'btn-primary':'btn-ghost'}" ${tierLink(p.k,t.n+' · '+eur(m)+' '+pm)}>${t.c}</a><a class="p-alt" ${tierLink(p.ka,t.n+' · '+eur(a)+' '+py)}>${l==='es'?'Pagar el año':'Urtea ordaindu'} →</a></div></div>`}).join('');
   renderPass();
 }
 
@@ -1816,7 +1812,7 @@ function setLang(l){
   LANG=l;document.documentElement.lang=l;
   $$('[data-'+l+']').forEach(e=>e.innerHTML=e.dataset[l]);
   $$('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
-  renderMachines();renderLegends();renderZones();renderBars();renderPlans();renderFaq();renderContact();renderSeats();initGen();prepareMani();if(window.fitTitles)fitTitles();if(window.initSlides)initSlides();
+  renderMachines();renderLegends();renderZones();renderBars();renderPlans();renderFundCard();renderFaq();renderContact();renderSeats();initGen();prepareMani();if(window.fitTitles)fitTitles();if(window.initSlides)initSlides();
   try{localStorage.setItem('burdin-lang',l)}catch(e){}
   if(window.gsap&&window.ScrollTrigger){animMani();ScrollTrigger.refresh()}
 }
@@ -1833,7 +1829,7 @@ const solid=()=>nav.classList.toggle('solid',scrollY>40);
 addEventListener('scroll',solid,{passive:true});solid();
 
 $$('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
-$$('.tabs button').forEach(b=>b.onclick=()=>{PHASE=b.dataset.phase;$$('.tabs button').forEach(x=>x.classList.toggle('on',x===b));renderPlans()});
+
 $('#prev').onclick=()=>goSlide(curSlide()-1);
 $('#next').onclick=()=>goSlide(curSlide()+1);
 let st;$('#slides').addEventListener('scroll',()=>{clearTimeout(st);st=setTimeout(updDots,60)},{passive:true});
@@ -1847,21 +1843,14 @@ document.addEventListener('click',e=>{
   }
 });
 
-document.addEventListener('change',e=>{if(e.target.name==='want')$('#fWant').value=e.target.value});
-$('#waitlist').addEventListener('submit',e=>{
-  e.preventDefault();
-  const n=$('#fName').value.trim(),t=$('#fTel').value.trim(),w=$('#fWant'),ok=$('#fOk').checked,err=$('#fErr');
-  if(n.length<2){err.textContent=LANG==='es'?'Escribe tu nombre.':'Idatzi zure izena.';return}
-  if(t.replace(/\D/g,'').length<9){err.textContent=LANG==='es'?'Revisa el teléfono.':'Begiratu telefonoa.';return}
-  if(!ok){err.textContent=LANG==='es'?'Marca la casilla para que podamos escribirte.':'Markatu laukia idatzi ahal izateko.';return}
-  err.textContent='';
-  const want=w.options[w.selectedIndex].text;
-  const msg=LANG==='es'
-    ?`Hola Ander, quiero reservar plaza en la lista de espera de Burdin Gym.\nNombre: ${n}\nTeléfono: ${t}\nMe interesa: ${want}`
-    :`Kaixo Ander, Burdin Gym-en itxaron-zerrendan plaza gorde nahi dut.\nIzena: ${n}\nTelefonoa: ${t}\nInteresatzen zait: ${want}`;
-  if(!CONFIG.whatsapp&&CONFIG.boceto){toast(LANG==='es'?'Boceto: el mensaje llegará al WhatsApp de Ander en cuanto pongamos su número.':'Zirriborroa: mezua Anderren WhatsAppera iritsiko da haren zenbakia jartzen dugunean.');return}
-  window.open(waUrl(msg),'_blank','noopener');
-});
+
+function renderFundCard(){
+  const pm=CONFIG.precios.fundador,pa=CONFIG.precios.fundadorAnual,go=$('#fGo'),gy=$('#fGoY');if(!go)return;
+  $('#fpM').textContent=eur(pm);$('#fpA').textContent=eur(pa);
+  const set=(a,k,txt)=>{const tmp=document.createElement('div');tmp.innerHTML=`<a ${tierLink(k,txt)}></a>`;const n=tmp.firstChild;['href','target','rel','data-noshop'].forEach(x=>n.hasAttribute(x)?a.setAttribute(x,n.getAttribute(x)):a.removeAttribute(x))};
+  set(go,'fundador',(LANG==='es'?'Socio fundador · ':'Bazkide sortzailea · ')+eur(pm)+(LANG==='es'?' / mes':' / hil'));
+  set(gy,'fundadorAnual',(LANG==='es'?'Socio fundador anual · ':'Urteko bazkide sortzailea · ')+eur(pa));
+}
 
 function tick(){
   let ms=Math.max(0,new Date(CONFIG.apertura)-new Date());
