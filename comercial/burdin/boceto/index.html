@@ -95,7 +95,7 @@
 
   /* HERO a pantalla completa */
   .hero{position:relative;min-height:calc(100svh - var(--nav));margin-top:calc(-1 * var(--nav));display:grid;align-items:end;padding:calc(var(--nav) + 60px) 0 70px;overflow:hidden;isolation:isolate}
-  .hero .bg{position:absolute;inset:-8% 0;z-index:-2;background:url(img/hero-cadena.jpg) 62% 35%/cover no-repeat;will-change:transform}
+  .hero .bg{position:absolute;inset:-8% 0;z-index:-2;background:url(/img/hero-cadena.jpg) 62% 35%/cover no-repeat;will-change:transform}
   .hero .shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,10,10,.6) 0%,rgba(10,10,10,.25) 40%,rgba(10,10,10,.93) 100%),radial-gradient(ellipse 60% 70% at 70% 45%,transparent,rgba(10,10,10,.6))}
   .hero canvas.mesh{position:absolute;inset:0;z-index:-1;width:100%;height:100%;mix-blend-mode:screen;opacity:.55;pointer-events:none}
   .hero-in{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:end}
@@ -266,7 +266,7 @@
 
   /* MANIFIESTO */
   #manifiesto{background:#0d0d0d;border-top:1px solid var(--line);position:relative;overflow:hidden}
-  #manifiesto::before{content:"";position:absolute;inset:0;background:url(img/detalle-pie.jpg) center/cover no-repeat;opacity:.22}
+  #manifiesto::before{content:"";position:absolute;inset:0;background:url(/img/detalle-pie.jpg) center/cover no-repeat;opacity:.22}
   #manifiesto::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,13,13,.95) 30%,rgba(13,13,13,.6))}
   #manifiesto .wrap{position:relative;z-index:2}
   #manifiesto canvas.tv{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.26;mix-blend-mode:screen;pointer-events:none}
@@ -331,7 +331,7 @@
   .row a:hover{color:var(--rust2)}
   .hrs{display:grid;grid-template-columns:1fr auto;gap:4px 24px}
   .map{position:relative;min-height:420px;border:1px solid var(--line);background:#121212 linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px) 0 0/60px 60px,linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px) 0 0/60px 60px;overflow:hidden}
-  .map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(1) invert(.92) contrast(.9) brightness(.9)}
+  .map iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .map .pin{position:absolute;left:16px;bottom:16px;background:rgba(10,10,10,.9);border:1px solid var(--line);padding:10px 14px;font-size:.85rem}
   footer{border-top:1px solid var(--line);background:var(--bg);padding:70px 0 40px}
   .fcta{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;padding-bottom:50px;border-bottom:1px solid var(--line);margin-bottom:34px}
@@ -1066,9 +1066,31 @@
     .m-close i::after{transform:rotate(-45deg)}
     body.menu .disc-cta,body.menu a.wa{visibility:hidden}
   }
+  /* ===== Varias páginas: cada una muestra solo su apartado ===== */
+  .idx{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .idx a{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:16px;align-items:center;padding:22px 24px;background:#141414;border:1px solid rgba(255,255,255,.12);text-decoration:none;color:var(--fg);transition:border-color .3s,background .3s}
+  .idx a:hover{border-color:rgba(255,255,255,.4);background:#191919}
+  .idx b{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:1.9rem;text-transform:uppercase;line-height:1}
+  .idx span{grid-column:1;font-size:13.5px;color:var(--fg2);margin-top:6px}
+  .idx span em{font-style:normal;color:var(--fg);font-weight:600}
+  .idx i{grid-column:2;grid-row:1/3;font-style:normal;font-size:1.6rem;color:var(--fg3);transition:transform .3s}
+  .idx a:hover i{transform:translateX(4px);color:var(--fg)}
+  .idx .idx-feat{background:#f3f3f3;color:#111;border-color:#f3f3f3}
+  .idx .idx-feat span,.idx .idx-feat span em,.idx .idx-feat i{color:#111}
+  .idx .idx-feat:hover{background:#fff;border-color:#fff}
+  #indice{padding:70px 0 20px}
+  @media (max-width:600px){.idx{grid-template-columns:1fr;gap:10px}.idx a{padding:18px 18px}.idx b{font-size:1.6rem}#indice{padding:48px 0 10px}}
+  /* qué se ve en cada página */
+  body:not([data-page=""]) .hero,body:not([data-page=""]) .stats2,body:not([data-page=""]) .only-home,body:not([data-page=""]) .rule,body:not([data-page=""]) .disc-cta{display:none!important}
+  body[data-page=""] section#coleccion,body[data-page=""] section#gimnasio,body[data-page=""] section#fundador,body[data-page=""] section#contacto,
+  body[data-page=""] #coleccion+.rule,body[data-page=""] #gimnasio+.rule,body[data-page=""] #fundador+.rule,body[data-page=""] #contacto+.rule{display:none}
+  body:not([data-page=""]) section#coleccion,body:not([data-page=""]) section#gimnasio,body:not([data-page=""]) section#fundador,body:not([data-page=""]) section#contacto,body:not([data-page=""]) section#tarifas{display:none}
+  body[data-page="maquinas"] section#coleccion,body[data-page="gimnasio"] section#gimnasio,body[data-page="fundador"] section#fundador,body[data-page="contacto"] section#contacto,body[data-page="tarifas"] section#tarifas{display:block!important;padding-top:calc(var(--nav) + 60px)}
+  .links a.on{color:var(--fg);text-decoration:underline;text-underline-offset:6px}
+  @media (max-width:600px){body:not([data-page=""]) section#coleccion,body:not([data-page=""]) section#gimnasio,body:not([data-page=""]) section#fundador,body:not([data-page=""]) section#contacto,body:not([data-page=""]) section#tarifas{padding-top:calc(var(--nav) + 20px)}}
 </style>
 </head>
-<body class="boceto">
+<body data-page="" class="boceto">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <linearGradient id="stone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ece6dc"/><stop offset=".5" stop-color="#c9c2b6"/><stop offset="1" stop-color="#8f887d"/></linearGradient>
 <filter id="grit" x="0" y="0" width="100%" height="100%">
@@ -1096,24 +1118,25 @@
 
 <nav class="top" id="nav">
   <div class="wrap nav">
-    <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="30" height="32" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name">Burdin</span><span class="gym">Gym</span></span></a>
+    <a href="/" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="30" height="32" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name">Burdin</span><span class="gym">Gym</span></span></a>
     <div class="right">
       <div class="links" id="links">
         <button type="button" class="m-close" id="mclose" aria-label="Cerrar menú"><span data-es="Cerrar" data-eu="Itxi">Cerrar</span><i aria-hidden="true"></i></button>
-        <a href="#coleccion" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
-        <a href="#gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
-        <a href="#tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
-        <a href="#contacto" class="hide-md" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
-        <a href="#fundador" class="cta" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a>
+        <a href="/" data-page="" data-es="Inicio" data-eu="Hasiera">Inicio</a>
+        <a href="/tarifas/" data-page="tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
+        <a href="/maquinas/" data-page="maquinas" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
+        <a href="/gimnasio/" data-page="gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
+        <a href="/contacto/" data-page="contacto" class="hide-md" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
+        <a href="/fundador/" data-page="fundador" class="cta" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a>
       </div>
-      <div class="nav-end"><a href="#fundador" class="cta2" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a><div class="lang" role="group" aria-label="Idioma / Hizkuntza"><button type="button" data-l="eu">EU</button><button type="button" data-l="es">ES</button></div></div>
+      <div class="nav-end"><a href="/fundador/" class="cta2" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a><div class="lang" role="group" aria-label="Idioma / Hizkuntza"><button type="button" data-l="eu">EU</button><button type="button" data-l="es">ES</button></div></div>
       <button type="button" class="burger" id="burger" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="drift" aria-hidden="true"><img src="img/chain.webp" class="d1" alt=""><img src="img/flex_bicep.webp" class="d3" alt=""></div><div class="bg" id="herobg"><div class="sign" aria-hidden="true"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="plate"></div></div><div class="shade"></div>
+  <div class="drift" aria-hidden="true"><img src="/img/chain.webp" class="d1" alt=""><img src="/img/flex_bicep.webp" class="d3" alt=""></div><div class="bg" id="herobg"><div class="sign" aria-hidden="true"><svg viewBox="0 0 272 288"><use href="#bdark"/></svg><span class="n">BURDIN</span><span class="g">GYM</span></div><div class="plate"></div></div><div class="shade"></div>
   <div class="side" aria-hidden="true" data-es="Disciplina · Resultados · Comunidad" data-eu="Diziplina · Emaitzak · Komunitatea">Disciplina · Resultados · Comunidad</div>
   <div class="wrap hero-in">
     <div>
@@ -1144,11 +1167,27 @@
     <div class="s2 s2-feat"><b class="tbd"><span data-n="100">100</span></b><small data-es="Plazas fundador" data-eu="Sortzaile-plaza">Plazas fundador</small>
       <div class="s2-bar" aria-hidden="true"><i id="s2bar"></i></div>
       <p class="s2-left"><span id="s2left">63</span> <span data-es="libres" data-eu="libre">libres</span></p>
-      <a href="#fundador" class="btn btn-ghost s2-btn" data-es="Reservar mi plaza" data-eu="Nire plaza gorde">Reservar mi plaza</a>
+      <a href="/fundador/" class="btn btn-ghost s2-btn" data-es="Reservar mi plaza" data-eu="Nire plaza gorde">Reservar mi plaza</a>
     </div>
   </div>
 </div>
 </div>
+
+<section id="indice" class="only-home">
+  <div class="wrap">
+    <div class="head" style="margin-bottom:28px">
+      <div class="eyebrow" data-n="01" data-es="Índice" data-eu="Aurkibidea">Índice</div>
+      <h2 data-es="¿Qué buscas?" data-eu="Zer bilatzen duzu?">¿Qué buscas?</h2>
+    </div>
+    <nav class="idx" aria-label="Apartados">
+      <a href="#tarifas"><b data-es="Tarifas" data-eu="Tarifak">Tarifas</b><span data-es="Cuotas, pases y precio de fundador" data-eu="Kuotak, sarrerak eta sortzaile-prezioa">Cuotas, pases y precio de fundador</span><i>→</i></a>
+      <a href="/fundador/" class="idx-feat"><b data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</b><span><em id="idxLeft">0</em> <span data-es="plazas libres · solo hasta la apertura" data-eu="plaza libre · irekiera arte bakarrik">plazas libres · solo hasta la apertura</span></span><i>→</i></a>
+      <a href="/maquinas/"><b data-es="Máquinas" data-eu="Makinak">Máquinas</b><span data-es="Más de 40 máquinas de 12 marcas" data-eu="12 markatako 40 makina baino gehiago">Más de 40 máquinas de 12 marcas</span><i>→</i></a>
+      <a href="/gimnasio/"><b data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</b><span data-es="350 m² en Tolosa, abierto 365 días" data-eu="350 m² Tolosan, 365 egun irekita">350 m² en Tolosa, abierto 365 días</span><i>→</i></a>
+      <a href="/contacto/"><b data-es="Contacto" data-eu="Kontaktua">Contacto</b><span data-es="Dónde estamos, horario y WhatsApp" data-eu="Non gauden, ordutegia eta WhatsApp">Dónde estamos, horario y WhatsApp</span><i>→</i></a>
+    </nav>
+  </div>
+</section>
 
 <section id="coleccion">
   <div class="wrap">
@@ -1184,7 +1223,7 @@
     <div data-reveal class="gmid">
       <div class="slides" id="slides"></div>
       <div class="gnav"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Siguiente">→</button></div></div>
-      <img class="gcut" src="img/cybex_curl.webp" alt="" loading="lazy" aria-hidden="true">
+      <img class="gcut" src="/img/cybex_curl.webp" alt="" loading="lazy" aria-hidden="true">
     </div>
     <div data-reveal class="gbox">
       <span class="tag" data-es="Horario" data-eu="Ordutegia">Horario</span>
@@ -1256,30 +1295,6 @@
 
 
 <div class="rule" aria-hidden="true"></div>
-<section id="manifiesto"><div class="paper" aria-hidden="true"><span class="deboss" id="deboss">BURDIN</span><i class="fold"></i></div>
-  <div class="wrap">
-    <div class="eyebrow" data-n="06" style="margin-bottom:34px" data-es="Manifiesto" data-eu="Manifestua">Manifiesto</div>
-    <div class="mani mani3">
-      <article>
-        <span class="mn">01</span>
-        <h3 data-es="Un listón que merece la pena" data-eu="Merezi duen langa">Un listón que merece la pena</h3>
-        <p data-es="Hemos entrenado en gimnasios de medio mundo y siempre faltaba algo: una sala mal pensada, máquinas sin historia o un ambiente sin carácter. Así que hicimos el gimnasio que siempre quisimos tener, aquí, en casa." data-eu="Mundu erdiko gimnasioetan entrenatu dugu eta beti zerbait falta zen: gaizki pentsatutako aretoa, istoriorik gabeko makinak edo izaerarik gabeko giroa. Beraz, beti izan nahi genuen gimnasioa egin dugu, hemen, etxean.">Hemos entrenado en gimnasios de medio mundo y siempre faltaba algo: una sala mal pensada, máquinas sin historia o un ambiente sin carácter. Así que hicimos el gimnasio que siempre quisimos tener, aquí, en casa.</p>
-      </article>
-      <article>
-        <span class="mn">02</span>
-        <h3 data-es="A la caza de lo raro" data-eu="Arraroaren bila">A la caza de lo raro</h3>
-        <p data-es="Casi todos los gimnasios eligen un catálogo y se lo piden todo a un proveedor. Nosotros fuimos pieza a pieza, viniera de donde viniera. Cada vez que creíamos haber terminado, aparecía otra máquina que no podíamos dejar escapar. Lo bueno casi nunca llega por casualidad." data-eu="Ia gimnasio guztiek katalogo bat aukeratzen dute eta dena hornitzaile bati eskatzen diote. Guk piezaz pieza egin dugu, nondik zetorren kontuan hartu gabe. Amaitu genuela uste genuen bakoitzean, beste makina bat agertzen zen, ezin genuena ihes egiten utzi. Ona ia inoiz ez da kasualitatez iristen.">Casi todos los gimnasios eligen un catálogo y se lo piden todo a un proveedor. Nosotros fuimos pieza a pieza, viniera de donde viniera. Cada vez que creíamos haber terminado, aparecía otra máquina que no podíamos dejar escapar. Lo bueno casi nunca llega por casualidad.</p>
-      </article>
-      <article>
-        <span class="mn">03</span>
-        <h3 data-es="Más que una cuota" data-eu="Kuota bat baino gehiago">Más que una cuota</h3>
-        <p data-es="Lo exclusivo suele quedarse para los clubes privados, pero creemos que entrenar en serio merece ese mismo ambiente. Para mucha gente el gimnasio no es un edificio: es rutina, terapia, disciplina, calma y propósito. Lo sabemos porque a nosotros nos pasa lo mismo." data-eu="Esklusiboa klub pribatuetarako gordetzen da normalean, baina uste dugu serio entrenatzeak giro bera merezi duela. Askorentzat gimnasioa ez da eraikin bat: errutina, terapia, diziplina, lasaitasuna eta helburua da. Badakigu, guri ere gauza bera gertatzen zaigulako.">Lo exclusivo suele quedarse para los clubes privados, pero creemos que entrenar en serio merece ese mismo ambiente. Para mucha gente el gimnasio no es un edificio: es rutina, terapia, disciplina, calma y propósito. Lo sabemos porque a nosotros nos pasa lo mismo.</p>
-      </article>
-      <div class="sign" data-es="El equipo de Burdin" data-eu="Burdin taldea">El equipo de Burdin</div>
-    </div>
-  </div>
-</section>
-<div class="rule" aria-hidden="true"></div>
 <section id="tarifas">
   <div class="wrap">
     <div data-reveal class="head">
@@ -1334,12 +1349,12 @@
 <footer class="paperfoot">
   <div class="paper" aria-hidden="true"><span class="deboss">BURDIN</span><i class="fold"></i></div>
   <div class="wrap">
-    <div data-reveal class="fcta">
+    <div data-reveal class="fcta only-home">
       <h3 data-es="Quedan <em id='seatsLeft3'>0</em> plazas de fundador." data-eu="<em id='seatsLeft3'>0</em> sortzaile-plaza geratzen dira.">Quedan <em id="seatsLeft3">0</em> plazas de fundador.</h3>
       <div class="slide-cta" data-slide></div>
     </div>
     <div class="foot">
-      <a href="#top" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="40" height="42" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name" style="font-size:1.2rem">Burdin</span><span class="gym" style="font-size:.5rem">Gym</span></span></a>
+      <a href="/" class="logo" aria-label="Burdin Gym"><svg viewBox="0 0 272 288" width="40" height="42" aria-hidden="true"><use href="#b"/></svg><span class="txt"><span class="name" style="font-size:1.2rem">Burdin</span><span class="gym" style="font-size:.5rem">Gym</span></span></a>
       <nav aria-label="Legal">
         <a href="#" data-es="Aviso legal" data-eu="Lege-oharra">Aviso legal</a>
         <a href="#" data-es="Privacidad" data-eu="Pribatutasuna">Privacidad</a>
@@ -1355,7 +1370,7 @@
 <a href="#fundador" class="disc-cta" id="discCta" aria-label="Reserva tu plaza de socio fundador">
   <span class="dc-frame">
     <svg class="dc-txt" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="dcp" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs><text><textPath href="#dcp" textLength="536" data-es="RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ " data-eu="GORDE ZURE PLAZA ✦ BAZKIDE SORTZAILEA ✦ ">RESERVA TU PLAZA ✦ SOCIO FUNDADOR ✦ </textPath></text></svg>
-    <img src="img/disco.webp" alt="" class="dc-disc">
+    <img src="/img/disco.webp" alt="" class="dc-disc">
     <span class="dc-hub"><svg viewBox="0 0 14 15" aria-hidden="true"><path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"/></svg><svg viewBox="0 0 14 15" aria-hidden="true"><path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"/></svg></span>
   </span>
 </a>
@@ -1408,25 +1423,25 @@ function FLAG(c){const w='<svg class="flag" viewBox="0 0 30 20" aria-hidden="tru
 const eur=n=>(Number.isInteger(n)?n:n.toFixed(2).replace('.',','))+' €';
 
 const MACHINES=[
- {img:'img/maquinas/gymleco-leg-press.webp',cc:'se',brand:'Gymleco',name:'Leg Press',
+ {img:'/img/maquinas/gymleco-leg-press.webp',cc:'se',brand:'Gymleco',name:'Leg Press',
   es:{model:'Prensa de carga · Serie 800',d:'Prensa de pierna de carga directa: discos en las astas, respaldo inclinado y plataforma grande. Sin poleas ni cables entre tú y el peso.',year:'Suecia',from:'Fábrica, Estocolmo',km:'2.900 km',why:'Gymleco lleva décadas haciendo hierro en Suecia para gimnasios de fuerza. Acero grueso, soldaduras a la vista y una geometría que no te deja hacer trampa: empujas tú, no la máquina.',g:'Pierna · Glúteo',t:'Carga directa'},
   eu:{model:'Karga-prentsa · 800 seriea',d:'Zuzeneko kargako hanka-prentsa: diskoak adarretan, bizkar-euskarri inklinatua eta plataforma handia. Poleatik eta kablerik gabe zure eta pisuaren artean.',year:'Suedia',from:'Fabrika, Stockholm',km:'2.900 km',why:'Gymlecok hamarkadak daramatza Suedian indar-gimnasioentzako burdina egiten. Altzairu lodia, soldadura agerian eta tranparik egiten uzten ez duen geometria: zuk bultzatzen duzu, ez makinak.',g:'Hanka · Ipurmasaila',t:'Zuzeneko karga'}},
- {img:'img/maquinas/gymleco-hack-squat.webp',cc:'se',brand:'Gymleco',name:'Hack Squat',
+ {img:'/img/maquinas/gymleco-hack-squat.webp',cc:'se',brand:'Gymleco',name:'Hack Squat',
   es:{model:'Sentadilla hack de carga',d:'Guía de acero inoxidable a 45°, almohadillas de hombro y plataforma regulable. La sentadilla de siempre, con la espalda apoyada y la pierna sola contra el peso.',year:'Suecia',from:'Fábrica, Estocolmo',km:'2.900 km',why:'Es la máquina que más se ve en los vídeos de culturismo escandinavo. El carro corre sobre la guía de inoxidable sin un ruido: lo único que se oye son los discos.',g:'Cuádriceps · Glúteo',t:'Carga directa'},
   eu:{model:'Karga-hack squat',d:'Altzairu herdoilgaitzezko gida 45°-tan, sorbalda-kuxinak eta plataforma erregulagarria. Betiko squata, bizkarra bermatuta eta hanka bakarrik pisuaren aurka.',year:'Suedia',from:'Fabrika, Stockholm',km:'2.900 km',why:'Eskandinaviako kulturismo-bideoetan gehien ikusten den makina da. Orga herdoilgaitzezko gidaren gainean zarata egin gabe ibiltzen da: diskoak bakarrik entzuten dira.',g:'Kuadrizepsa · Ipurmasaila',t:'Zuzeneko karga'}},
- {img:'img/maquinas/gymleco-chest-press.webp',cc:'se',brand:'Gymleco',name:'Chest Press',
+ {img:'/img/maquinas/gymleco-chest-press.webp',cc:'se',brand:'Gymleco',name:'Chest Press',
   es:{model:'Press de pecho de carga',d:'Press de pecho sentado con brazos independientes y carga de discos. Respaldo alto y asiento regulable para ajustar el recorrido a cada uno.',year:'Suecia',from:'Fábrica, Estocolmo',km:'2.900 km',why:'Cada brazo va por su lado, así que el lado débil no se esconde detrás del fuerte. Pieza sobria, negra y sin adornos: sueca hasta el último tornillo.',g:'Pecho · Tríceps',t:'Carga directa'},
   eu:{model:'Karga-bular-prentsa',d:'Eserita egiteko bular-prentsa, beso independenteekin eta disko-kargarekin. Bizkar-euskarri altua eta eserleku erregulagarria ibilbidea bakoitzari egokitzeko.',year:'Suedia',from:'Fabrika, Stockholm',km:'2.900 km',why:'Beso bakoitza bere aldetik doa, beraz alde ahula ez da indartsuaren atzean ezkutatzen. Pieza soila, beltza eta apaingarririk gabea: suediarra azken torlojuraino.',g:'Bularra · Trizepsa',t:'Zuzeneko karga'}},
- {img:'img/chain.webp',cc:'fr',brand:'Old school',name:'Chest Press',
+ {img:'/img/chain.webp',cc:'fr',brand:'Old school',name:'Chest Press',
   es:{model:'Transmisión por cadena',d:'Press de pecho con transmisión por cadena y piñones. Se nota la cadena trabajar en cada repetición: nada de cables ni levas.',year:'Años 80',from:'Gimnasio cerrado, Francia',km:'1.100 km',why:'Es una de esas piezas que ya no se fabrican. Se desmontó, se limpió pieza a pieza y se tapizó de nuevo. Cruzó Francia en una furgoneta y entró por la puerta antes que la mesa de recepción.',g:'Pecho · Hombro',t:'Cadena'},
   eu:{model:'Kate bidezko transmisioa',d:'Kate eta pinoi bidezko bular-prentsa. Errepikapen bakoitzean katea lanean nabaritzen da: ez kablerik, ez kamarik.',year:'80ko hamarkada',from:'Itxitako gimnasioa, Frantzia',km:'1.100 km',why:'Jada egiten ez diren pieza horietako bat da. Desmuntatu, piezaz pieza garbitu eta berriro tapizatu zen. Frantzia furgoneta batean zeharkatu zuen eta harrera-mahaia baino lehen sartu zen atetik.',g:'Bularra · Sorbalda',t:'Katea'}},
- {img:'img/cybex_chest.webp',cc:'pt',brand:'Cybex',name:'Chest Press',
+ {img:'/img/cybex_chest.webp',cc:'pt',brand:'Cybex',name:'Chest Press',
   es:{model:'Serie VR',d:'Press de pecho sentado con respaldo inclinado y pedal para colocar el peso con seguridad. Agarre neutro o prono.',year:'2008',from:'Club deportivo, Portugal',km:'850 km',why:'El pedal de ayuda te deja empezar y acabar la serie sin pelearte con la palanca. Ideal para ir al fallo solo. Vino de un club que cerró en Oporto, con las placas originales.',g:'Pecho · Tríceps',t:'Selectorizada'},
   eu:{model:'VR seriea',d:'Eserita egiteko bular-prentsa, bizkar-euskarri inklinatuarekin eta pisua modu seguruan hartzeko oin-pedalarekin. Heldulekua neutroa edo pronoa.',year:'2008',from:'Kirol-kluba, Portugal',km:'850 km',why:'Laguntza-pedalari esker, seriea palankarekin borrokatu gabe hasi eta amaitu dezakezu. Bakarrik hutsegiteraino joateko aproposa. Porton itxi zen klub batetik etorri zen, jatorrizko plakekin.',g:'Bularra · Trizepsa',t:'Pisu-pila'}},
- {img:'img/flex_bicep.webp',cc:'kr',brand:'Flex Fitness',name:'Biceps Machine',
+ {img:'/img/flex_bicep.webp',cc:'kr',brand:'Flex Fitness',name:'Biceps Machine',
   es:{model:'PA-560',d:'Curl de bíceps con apoyo predicador. La palanca sigue el arco natural del codo. Pila de hasta 100 kg.',year:'2021',from:'Fábrica, Corea del Sur',km:'10.300 km',why:'Flex es la marca coreana que se ha ganado a los culturistas. Pocas hay en España: esta cruzó medio mundo en contenedor y llegó al puerto de Bilbao con el plástico de fábrica puesto.',g:'Bíceps',t:'Selectorizada'},
   eu:{model:'PA-560',d:'Bizeps-kurla, predikadore-euskarriarekin. Palankak ukondoaren arku naturala jarraitzen du. 100 kg arteko pisu-pila.',year:'2021',from:'Fabrika, Hego Korea',km:'10.300 km',why:'Flex kulturistak irabazi dituen marka korearra da. Espainian gutxi daude: honek mundu erdia zeharkatu zuen edukiontzian eta Bilboko portura iritsi zen fabrikako plastikoarekin.',g:'Bizepsa',t:'Pisu-pila'}},
- {img:'img/cybex_curl.webp',cc:'de',brand:'Cybex',name:'Arm Curl',
+ {img:'/img/cybex_curl.webp',cc:'de',brand:'Cybex',name:'Arm Curl',
   es:{model:'Leva gunmetal',d:'Curl de brazos con leva: la resistencia cambia a lo largo del recorrido para que el bíceps trabaje igual arriba que abajo.',year:'2005',from:'Gimnasio privado, Alemania',km:'1.600 km',why:'El acabado gunmetal de esa época es de los que ya no se ven. Rodamientos nuevos y lista para otros veinte años. Su anterior dueño la vendió solo cuando supo dónde iba a acabar.',g:'Bíceps',t:'Leva'},
   eu:{model:'Gunmetal kama',d:'Besoetako kurla kamarekin: erresistentzia ibilbidean zehar aldatzen da, bizepsak goian eta behean berdin lan egin dezan.',year:'2005',from:'Gimnasio pribatua, Alemania',km:'1.600 km',why:'Garai hartako gunmetal akabera jada ikusten ez den horietakoa da. Errodamendu berriak, eta beste hogei urterako prest. Aurreko jabeak nora joango zen jakin zuenean bakarrik saldu zuen.',g:'Bizepsa',t:'Kama'}}
 ];
@@ -1434,10 +1449,10 @@ const ML={es:{y:'Año / origen',f:'Procedencia',k:'Recorrido',w:'Por qué es esp
           eu:{y:'Urtea / jatorria',f:'Jatorria',k:'Ibilbidea',w:'Zergatik den berezia',g:'Taldea',t:'Mota',ex:'Adibide-istorioa',open:'Istorioa ikusi',close:'Istorioa itxi'}};
 
 const ZONES=[
- {img:'img/chain.webp',photo:'img/zona-oldschool.jpg',es:{h:'Respeta<br>el hierro',p:'Old school: piezas clásicas que ya no se fabrican.'},eu:{h:'Errespetatu<br>burdina',p:'Old school: jada egiten ez diren pieza klasikoak.'}},
- {img:'img/cybex_chest.webp',photo:'img/zona-pecho.jpg',es:{h:'Empuja',p:'Pecho y hombro: presses de placas y selectorizadas.'},eu:{h:'Bultzatu',p:'Bularra eta sorbalda: plaka- eta pila-prentsak.'}},
- {img:'img/flex_bicep.webp',photo:'img/zona-brazo.jpg',es:{h:'Bombea',p:'Brazo: curls de leva, predicador y poleas.'},eu:{h:'Ponpatu',p:'Besoa: kama-kurlak, predikadorea eta poleak.'}},
- {render:'wall',photo:'img/zona-recepcion.jpg',es:{h:'Bienvenido',p:'Recepción. Aquí empieza todo.'},eu:{h:'Ongi etorri',p:'Harrera. Hemen hasten da dena.'}}
+ {img:'/img/chain.webp',photo:'/img/zona-oldschool.jpg',es:{h:'Respeta<br>el hierro',p:'Old school: piezas clásicas que ya no se fabrican.'},eu:{h:'Errespetatu<br>burdina',p:'Old school: jada egiten ez diren pieza klasikoak.'}},
+ {img:'/img/cybex_chest.webp',photo:'/img/zona-pecho.jpg',es:{h:'Empuja',p:'Pecho y hombro: presses de placas y selectorizadas.'},eu:{h:'Bultzatu',p:'Bularra eta sorbalda: plaka- eta pila-prentsak.'}},
+ {img:'/img/flex_bicep.webp',photo:'/img/zona-brazo.jpg',es:{h:'Bombea',p:'Brazo: curls de leva, predicador y poleas.'},eu:{h:'Ponpatu',p:'Besoa: kama-kurlak, predikadorea eta poleak.'}},
+ {render:'wall',photo:'/img/zona-recepcion.jpg',es:{h:'Bienvenido',p:'Recepción. Aquí empieza todo.'},eu:{h:'Ongi etorri',p:'Harrera. Hemen hasten da dena.'}}
 ];
 
 const PLANS={
@@ -1479,23 +1494,23 @@ const LEG=[
  {k:'q',cls:'q1',cc:'us',who:'Ronnie Coleman',en:'“Everybody wants to be a bodybuilder, but don\'t nobody want to lift no heavy-ass weights.”',
   es:{t:'«Todo el mundo quiere ser culturista, pero nadie quiere levantar peso de verdad.»',ctx:'Metroflex Gym · Arlington, Texas',meta:'8 veces Mr. Olympia · 1998–2005'},
   eu:{t:'«Denek izan nahi dute kulturista, baina inork ez du benetako pisua altxatu nahi.»',ctx:'Metroflex Gym · Arlington, Texas',meta:'8 aldiz Mr. Olympia · 1998–2005'}},
- {k:'m',cls:'m1',img:'img/marcas/gymleco.png',brand:'Gymleco',es:{d:'Leg press de carga',n:'La prensa para mover peso de verdad'},eu:{d:'Karga-hanka-prentsa',n:'Benetako pisua mugitzeko prentsa'}},
- {k:'p',cls:'p1',img:'img/chain.webp',cc:'fr',es:{c:'Press a cadena · años 80'},eu:{c:'Kate-prentsa · 80ko h.'}},
+ {k:'m',cls:'m1',img:'/img/marcas/gymleco.png',brand:'Gymleco',es:{d:'Leg press de carga',n:'La prensa para mover peso de verdad'},eu:{d:'Karga-hanka-prentsa',n:'Benetako pisua mugitzeko prentsa'}},
+ {k:'p',cls:'p1',img:'/img/chain.webp',cc:'fr',es:{c:'Press a cadena · años 80'},eu:{c:'Kate-prentsa · 80ko h.'}},
  {k:'q',cls:'q2',cc:'us',who:'Arnold Schwarzenegger',en:'“The last three or four reps is what makes the muscle grow.”',
   es:{t:'«Las últimas tres o cuatro repeticiones son las que hacen crecer el músculo.»',ctx:'Gold’s Gym · Venice, California',meta:'7 veces Mr. Olympia · Pumping Iron, 1977'},
   eu:{t:'«Azken hiru edo lau errepikapenek hazten dute muskulua.»',ctx:'Gold’s Gym · Venice, California',meta:'7 aldiz Mr. Olympia · Pumping Iron, 1977'}},
  {k:'f',cls:'f1',cc:'us',who:'Arthur Jones · Casey Viator',
   es:{t:'Colorado, 1973. El inventor de Nautilus pone a prueba sus máquinas con Casey Viator: 28 días entrenando solo con máquinas de leva. Según Jones, ganó 28 kg.',ctx:'El experimento Colorado',meta:'Nautilus · leva de primera generación'},
   eu:{t:'Colorado, 1973. Nautilusen asmatzaileak bere makinak probatzen ditu Casey Viatorrekin: 28 egun kama-makinekin bakarrik. Jonesen arabera, 28 kg irabazi zituen.',ctx:'Colorado esperimentua',meta:'Nautilus · lehen belaunaldiko kama'}},
- {k:'m',cls:'m2',img:'img/marcas/nautilus.png',brand:'Nautilus',es:{d:'Leva de primera generación',n:'La marca que inventó la máquina moderna'},eu:{d:'Lehen belaunaldiko kama',n:'Makina modernoa asmatu zuen marka'}},
+ {k:'m',cls:'m2',img:'/img/marcas/nautilus.png',brand:'Nautilus',es:{d:'Leva de primera generación',n:'La marca que inventó la máquina moderna'},eu:{d:'Lehen belaunaldiko kama',n:'Makina modernoa asmatu zuen marka'}},
  {k:'q',cls:'q3',cc:'us',who:'Lee Haney',en:'“Stimulate, don\'t annihilate.”',
   es:{t:'«Estimula, no destruyas.»',ctx:'Atlanta, Georgia',meta:'8 veces Mr. Olympia · 1984–1991'},
   eu:{t:'«Estimulatu, ez suntsitu.»',ctx:'Atlanta, Georgia',meta:'8 aldiz Mr. Olympia · 1984–1991'}},
- {k:'p',cls:'p2',img:'img/cybex_curl.webp',cc:'de',es:{c:'Cybex gunmetal · 2005'},eu:{c:'Cybex gunmetal · 2005'}},
+ {k:'p',cls:'p2',img:'/img/cybex_curl.webp',cc:'de',es:{c:'Cybex gunmetal · 2005'},eu:{c:'Cybex gunmetal · 2005'}},
  {k:'f',cls:'f2',cc:'gb',who:'Dorian Yates',
   es:{t:'Seis Mr. Olympia seguidos, de 1992 a 1997, entrenando a una sola serie al fallo en un sótano de Birmingham: el Temple Gym.',ctx:'Temple Gym · Birmingham',meta:'Alto voltaje, poco volumen'},
   eu:{t:'Sei Mr. Olympia jarraian, 1992tik 1997ra, serie bakarra hutsegiteraino eginez Birminghameko soto batean: Temple Gym.',ctx:'Temple Gym · Birmingham',meta:'Tentsio handia, bolumen txikia'}},
- {k:'m',cls:'m3',img:'img/marcas/hammer-strength.png',brand:'Hammer Strength',es:{d:'Remo de carga independiente',n:'Fundada en 1989 por Gary Jones, hijo de Arthur'},eu:{d:'Arraun independentea',n:'1989an sortua, Arthurren seme Gary Jonesek'}}
+ {k:'m',cls:'m3',img:'/img/marcas/hammer-strength.png',brand:'Hammer Strength',es:{d:'Remo de carga independiente',n:'Fundada en 1989 por Gary Jones, hijo de Arthur'},eu:{d:'Arraun independentea',n:'1989an sortua, Arthurren seme Gary Jonesek'}}
 ];
 function renderLegends(){
   const l=LANG,eb=l==='es'?'En Burdin':'Burdinen';
@@ -1528,7 +1543,7 @@ const GRID=[
  ['gymleco-leg-press','Gymleco','Leg Press',{es:'Pierna · Glúteo',eu:'Hanka · Ipurmasaila'}]
 ];
 function renderMachines(){
-  const g=document.getElementById('mgrid');if(g){g.innerHTML=GRID.map(([f,b,nm,gr])=>`<figure class="mcard"><div class="mc-pic"><img src="img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy"></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
+  const g=document.getElementById('mgrid');if(g){g.innerHTML=GRID.map(([f,b,nm,gr])=>`<figure class="mcard"><div class="mc-pic"><img src="/img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy"></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
   if(!document.getElementById('sheets'))return;
   const l=LANG,x=ML[l];
   $('#sheets').innerHTML=MACHINES.map((m,i)=>{const t=m[l];const yr=(t.year.match(/\d+/)||[''])[0];return `
@@ -1580,9 +1595,9 @@ function prepareMani(){$$('.mani p').forEach(splitWords)}
 
 /* ---------- Historia larga de cada máquina (ficha) — de ejemplo, Ander la completa ---------- */
 const HIST={
- 'img/maquinas/gymleco-leg-press.webp':{es:['Gymleco nació en Suecia para equipar gimnasios de fuerza, no salas de fitness. Su prensa de carga es de las que se compran una vez y duran décadas.','Esta unidad llegó desde Estocolmo por carretera. La montamos tal cual sale de fábrica: sin carenados, con el acero a la vista.','Para qué sirve: pierna completa con la espalda apoyada. Carga hasta donde llegue tu valor.'],eu:['Gymleco Suedian sortu zen indar-gimnasioak hornitzeko, ez fitness-aretoak. Bere karga-prentsa behin erosi eta hamarkadak irauten duten horietakoa da.','Unitate hau Stockholmetik iritsi zen errepidez. Fabrikatik irteten den bezala muntatu dugu: karenadurarik gabe, altzairua agerian.','Zertarako: hanka osoa, bizkarra bermatuta. Kargatu zure ausardiak heltzen duen arte.']},
- 'img/maquinas/gymleco-hack-squat.webp':{es:['La hack squat es la sentadilla de los culturistas escandinavos: espalda fija, carro sobre guía de inoxidable a 45° y todo el trabajo para el cuádriceps.','Viene de la misma fábrica que la prensa. Las dos se pidieron juntas para que la zona de pierna tuviera el mismo acero.','Para qué sirve: cuádriceps y glúteo sin que la espalda limite la carga.'],eu:['Hack squata kulturista eskandinaviarren squata da: bizkarra finko, orga 45°-ko herdoilgaitzezko gidan eta lan guztia kuadrizepsarentzat.','Prentsaren fabrika beretik dator. Biak batera eskatu ziren hanka-eremuak altzairu bera izan zezan.','Zertarako: kuadrizepsa eta ipurmasaila bizkarrak karga mugatu gabe.']},
- 'img/maquinas/gymleco-chest-press.webp':{es:['Press de pecho con brazos independientes: cada lado empuja su peso. El lado débil deja de esconderse.','Diseño sueco sobrio, negro y sin adornos. Respaldo alto y asiento regulable para que el recorrido sea el tuyo.','Para qué sirve: pecho y tríceps, y corregir desequilibrios entre lados.'],eu:['Beso independenteko bular-prentsa: alde bakoitzak bere pisua bultzatzen du. Alde ahulak ezkutatzeari uzten dio.','Diseinu suediar soila, beltza eta apaingarririk gabea. Bizkar-euskarri altua eta eserleku erregulagarria, ibilbidea zurea izan dadin.','Zertarako: bularra eta trizepsa, eta aldeen arteko desorekak zuzentzea.']}
+ '/img/maquinas/gymleco-leg-press.webp':{es:['Gymleco nació en Suecia para equipar gimnasios de fuerza, no salas de fitness. Su prensa de carga es de las que se compran una vez y duran décadas.','Esta unidad llegó desde Estocolmo por carretera. La montamos tal cual sale de fábrica: sin carenados, con el acero a la vista.','Para qué sirve: pierna completa con la espalda apoyada. Carga hasta donde llegue tu valor.'],eu:['Gymleco Suedian sortu zen indar-gimnasioak hornitzeko, ez fitness-aretoak. Bere karga-prentsa behin erosi eta hamarkadak irauten duten horietakoa da.','Unitate hau Stockholmetik iritsi zen errepidez. Fabrikatik irteten den bezala muntatu dugu: karenadurarik gabe, altzairua agerian.','Zertarako: hanka osoa, bizkarra bermatuta. Kargatu zure ausardiak heltzen duen arte.']},
+ '/img/maquinas/gymleco-hack-squat.webp':{es:['La hack squat es la sentadilla de los culturistas escandinavos: espalda fija, carro sobre guía de inoxidable a 45° y todo el trabajo para el cuádriceps.','Viene de la misma fábrica que la prensa. Las dos se pidieron juntas para que la zona de pierna tuviera el mismo acero.','Para qué sirve: cuádriceps y glúteo sin que la espalda limite la carga.'],eu:['Hack squata kulturista eskandinaviarren squata da: bizkarra finko, orga 45°-ko herdoilgaitzezko gidan eta lan guztia kuadrizepsarentzat.','Prentsaren fabrika beretik dator. Biak batera eskatu ziren hanka-eremuak altzairu bera izan zezan.','Zertarako: kuadrizepsa eta ipurmasaila bizkarrak karga mugatu gabe.']},
+ '/img/maquinas/gymleco-chest-press.webp':{es:['Press de pecho con brazos independientes: cada lado empuja su peso. El lado débil deja de esconderse.','Diseño sueco sobrio, negro y sin adornos. Respaldo alto y asiento regulable para que el recorrido sea el tuyo.','Para qué sirve: pecho y tríceps, y corregir desequilibrios entre lados.'],eu:['Beso independenteko bular-prentsa: alde bakoitzak bere pisua bultzatzen du. Alde ahulak ezkutatzeari uzten dio.','Diseinu suediar soila, beltza eta apaingarririk gabea. Bizkar-euskarri altua eta eserleku erregulagarria, ibilbidea zurea izan dadin.','Zertarako: bularra eta trizepsa, eta aldeen arteko desorekak zuzentzea.']}
 };
 function openFicha(i){
   const m=MACHINES[i],l=LANG,t=m[l],x=ML[l],h=(HIST[m.img]||{})[l]||[t.why];
@@ -1633,7 +1648,7 @@ const LOGO_SVG={
  paramount:'<svg viewBox="0 0 460 90" aria-label="Paramount"><text x="230" y="78" text-anchor="middle" fill="#fff" font-family="Archivo" font-weight="800" font-stretch="75%" font-size="80" textLength="430" lengthAdjust="spacingAndGlyphs">PARAMOUNT</text><path d="M232 6h34l-17 17z" fill="#fff"/></svg>'
 };
 function renderLogos(){
-  $('#logos').innerHTML=BRANDS.map(([n,f])=>LOGO_SVG[f]?`<div class="svg">${LOGO_SVG[f]}</div>`:`<div${f==='hammer-strength'||f==='gymleco'?' class="tall"':''}><img src="img/marcas/${f}.png" alt="${n}" onerror="this.parentNode.classList.add('miss')"><span>${n}</span></div>`).join('');
+  $('#logos').innerHTML=BRANDS.map(([n,f])=>LOGO_SVG[f]?`<div class="svg">${LOGO_SVG[f]}</div>`:`<div${f==='hammer-strength'||f==='gymleco'?' class="tall"':''}><img src="/img/marcas/${f}.png" alt="${n}" onerror="this.parentNode.classList.add('miss')"><span>${n}</span></div>`).join('');
 }
 
 function renderPlans(){
@@ -1804,7 +1819,7 @@ function initSlides(){$$('[data-slide]').forEach(root=>{
   const set=v=>{x=Math.max(0,Math.min(max,v));knob.style.transform=`translateX(${x}px)`;fill.style.width=(W+x)+'px';lbl.style.opacity=Math.max(0,1-x/(max*.55))};
   const done=()=>{measure();root.classList.add('snap','done');set(max);setTimeout(()=>{const to=root.dataset.to;
     if(to){const f=document.querySelector(to);f.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>f.focus({preventScroll:true}),500)}
-    else document.querySelector('#fundador').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    else if(getComputedStyle(document.querySelector('#fundador')).display==='none')location.href='/fundador/';else document.querySelector('#fundador').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
     setTimeout(()=>{root.classList.remove('done');set(0)},900)},450)};
   knob.addEventListener('pointerdown',e=>{measure();drag=true;startX=e.clientX-x;root.classList.remove('snap');knob.setPointerCapture(e.pointerId)});
   knob.addEventListener('pointermove',e=>{if(drag)set(e.clientX-startX)});
@@ -1900,6 +1915,18 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('lit',e.isIntersecting)),{rootMargin:'-38% 0px -38% 0px'});
   const watch=()=>document.querySelectorAll('#mgrid .mcard').forEach(c=>io.observe(c));
   watch();new MutationObserver(watch).observe(document.getElementById('mgrid'),{childList:true});
+})();
+
+/* ---------- Páginas: los enlaces a un apartado que no está en esta página van a su página ---------- */
+(function(){
+  const PAGE={coleccion:'maquinas',gimnasio:'gimnasio',fundador:'fundador',contacto:'contacto',tarifas:'tarifas',top:''};
+  const here=document.body.dataset.page||'';
+  const visible=id=>{const el=document.getElementById(id);return el&&getComputedStyle(el).display!=='none'};
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{const id=a.getAttribute('href').slice(1);if(!(id in PAGE))return;
+    if(!visible(id))a.setAttribute('href','/'+(PAGE[id]?PAGE[id]+'/':'')+(id==='top'?'':'#'+id))});
+  document.querySelectorAll('.links a[data-page]').forEach(a=>a.classList.toggle('on',a.dataset.page===here));
+  const l=document.getElementById('idxLeft');if(l)l.textContent=CONFIG.plazasFundador-Math.min(CONFIG.plazasOcupadas,CONFIG.plazasFundador);
+  if(location.hash&&visible(location.hash.slice(1)))setTimeout(()=>document.querySelector(location.hash).scrollIntoView(),50);
 })();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */

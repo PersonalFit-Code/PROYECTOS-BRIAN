@@ -103,3 +103,22 @@ enseña la máquina o el dibujo.
 - **Revisión del euskera.** Está traducido por nosotros y tiene que revisarlo un nativo.
 - **Fotos propias** de las máquinas y del local, y los logos de las marcas.
 - **Aviso legal y privacidad.** El formulario solo abre WhatsApp y no guarda datos.
+
+
+## Varias páginas (noviembre 2026)
+
+La web ya no es una sola página larga. `index.html` sigue siendo el único archivo que se edita;
+`build.py` genera las demás páginas como copias con `<body data-page="…">`, y el CSS muestra
+solo el apartado de cada una:
+
+| URL | Qué muestra |
+|---|---|
+| `/` | Portada, cifras, índice «¿Qué buscas?», tarifas y pie |
+| `/tarifas/` | Tarifas y pases |
+| `/fundador/` | Socio fundador (contador y ficha de reserva) |
+| `/maquinas/` | Las máquinas y las marcas |
+| `/gimnasio/` | El gimnasio |
+| `/contacto/` | Dirección, horario, WhatsApp y mapa |
+
+**Después de cada cambio en `index.html`, ejecutar `python3 build.py`** para regenerar las carpetas.
+El manifiesto y las preguntas frecuentes están quitados (siguen en el historial de git).
