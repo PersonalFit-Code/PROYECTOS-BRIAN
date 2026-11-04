@@ -1280,6 +1280,17 @@
   .btn-ghost:hover *,.btn-ghost:focus-visible *{color:#0a0a0a!important}
   .btn-primary::before,.ticket .btn-primary::before{background:#d4d4d4!important}
   .btn-primary:hover,.btn-primary:focus-visible,.ticket .btn-primary:hover{color:#0a0a0a!important}
+  /* ===== Zona de peso libre: cabecera con el mancuernero de fondo ===== */
+  .peso-hero{position:relative;max-width:none!important;min-height:440px;display:flex;flex-direction:column;justify-content:flex-end;padding:34px 34px 30px;margin-bottom:18px!important;overflow:hidden;border:1px solid rgba(255,255,255,.1);isolation:isolate}
+  .peso-hero .ph-bg{position:absolute;inset:-12% 0;z-index:-1;background:url(/img/peso-fondo.webp) 50% 42%/cover no-repeat;will-change:transform;transform:translate3d(0,var(--py,0px),0) scale(1.06)}
+  .peso-hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:linear-gradient(180deg,rgba(10,10,10,.15) 0%,rgba(10,10,10,.35) 45%,rgba(10,10,10,.92) 100%),radial-gradient(ellipse 120% 90% at 50% 40%,transparent 45%,rgba(0,0,0,.6) 100%)}
+  .peso-hero h3{font-size:clamp(2.6rem,6.5vw,5rem)!important;text-shadow:0 4px 24px rgba(0,0,0,.6)}
+  .peso-hero p{color:#e6e6e6!important;font-size:16px!important;text-shadow:0 2px 10px rgba(0,0,0,.7)}
+  .peso-hero .eyebrow{color:#e6e6e6}
+  @media (max-width:900px){.peso-hero{min-height:340px;padding:22px 18px 20px}.peso-hero .ph-bg{background-image:url(/img/peso-fondo-m.webp);background-position:38% 45%}}
+  .peso-hero::after{background:linear-gradient(180deg,rgba(10,10,10,.25) 0%,rgba(10,10,10,.5) 50%,rgba(10,10,10,.94) 100%),linear-gradient(90deg,rgba(10,10,10,.55),transparent 65%)!important}
+  @media (max-width:900px){.peso-hero::after{background:linear-gradient(180deg,rgba(10,10,10,.35) 0%,rgba(10,10,10,.72) 55%,rgba(10,10,10,.96) 100%)!important}}
 </style>
 </head>
 <body data-page="contacto" class="boceto">
@@ -1405,7 +1416,7 @@
     <div class="logos" id="logos"></div>
     <div class="mgrid" id="mgrid"></div>
     <div class="peso" id="peso">
-      <div class="peso-head">
+      <div class="peso-head peso-hero"><div class="ph-bg" id="phbg" aria-hidden="true"></div>
         <div class="eyebrow" data-n="02" data-es="Peso libre" data-eu="Pisu librea">Peso libre</div>
         <h3 data-es="Zona de peso libre" data-eu="Pisu libreko eremua">Zona de peso libre</h3>
         <p data-es="Racks, mancuernas de 2,5 a 60 kg y discos." data-eu="Rackak, 2,5etik 60 kg-rako mankuernak eta diskoak.">Racks, mancuernas de 2,5 a 60 kg y discos.</p>
@@ -2202,6 +2213,11 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const kick=()=>{if(!raf)raf=requestAnimationFrame(tick)};
   addEventListener('scroll',kick,{passive:true});addEventListener('resize',kick);
 })();
+
+/* ---------- Peso libre: parallax suave del mancuernero (solo ordenador, sin «reducir movimiento») ---------- */
+(function(){const b=document.getElementById('phbg');if(!b||matchMedia('(max-width:900px),(prefers-reduced-motion: reduce)').matches)return;let r=0;
+  const on=()=>{if(r)return;r=requestAnimationFrame(()=>{r=0;const box=b.parentNode.getBoundingClientRect(),vh=innerHeight;if(box.bottom<0||box.top>vh)return;const p=(box.top+box.height/2-vh/2)/vh;b.style.setProperty('--py',(p*-60).toFixed(1)+'px')})};
+  addEventListener('scroll',on,{passive:true});on()})();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
