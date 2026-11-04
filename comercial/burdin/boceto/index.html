@@ -1479,6 +1479,19 @@
     .pdots i{width:28px;height:4px;border-radius:2px;background:rgba(255,255,255,.22);transition:background .3s}
     .pdots i.on{background:#f5f5f5}
   }
+  /* ===== Peso libre: el título se distingue de las tarjetas ===== */
+  .peso-hero{border:0!important;border-bottom:3px solid #f5f5f5!important;margin-bottom:32px!important}
+  .peso-hero .eyebrow{display:inline-block;background:#f5f5f5;color:#0a0a0a!important;padding:6px 10px;font-weight:700;letter-spacing:.2em}
+  .peso-hero h3{letter-spacing:.005em}
+  .ptile{border-color:rgba(255,255,255,.16)!important;border-radius:6px}
+  .ptile small{display:inline-block;align-self:flex-start;padding:5px 9px;border:1px solid rgba(255,255,255,.45);border-radius:4px;background:rgba(10,10,10,.45);color:#f5f5f5!important;letter-spacing:.16em!important}
+  .ptile b{font-size:clamp(1.7rem,2.6vw,2.4rem)!important}
+  @media (max-width:900px){
+    .peso-hero{margin-bottom:26px!important}
+    .peso-hero h3{font-size:clamp(3.2rem,15vw,4.4rem)!important}
+    .ptile b{font-size:1.9rem!important}
+  }
+  .peso-hero .eyebrow,.ptile small{width:fit-content!important;max-width:100%;justify-self:start;align-self:flex-start}
 </style>
 </head>
 <body data-page="" class="boceto">
