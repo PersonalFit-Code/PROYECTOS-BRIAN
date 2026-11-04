@@ -1249,6 +1249,30 @@
   .pc-tabs button,.p-alt{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
   .contact .row a{display:inline-flex;align-items:center;min-height:44px}
   .dots button{padding:20px 0;background-clip:content-box}
+  /* ===== Cristal líquido: solo en la capa funcional (barras, WhatsApp, idioma). Nunca en tarjetas ni fondos. ===== */
+  :root{--glass-bg:rgba(20,20,22,.74);--glass-edge:rgba(255,255,255,.22);--glass-hi:rgba(255,255,255,.14)}
+  .glass,nav.top.solid::before,.bnav,.wa,.lang{
+    background:var(--glass-bg)!important;
+    -webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);
+    box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 0 0 1px var(--glass-edge),0 10px 30px rgba(0,0,0,.35)}
+  nav.top.solid::before{border-bottom:0!important;box-shadow:inset 0 -1px 0 var(--glass-edge),0 8px 24px rgba(0,0,0,.3)}
+  .lang{border:0!important;border-radius:12px;overflow:hidden;padding:2px}
+  .lang button{border-radius:10px}
+  .lang button.on{background:rgba(255,255,255,.92)!important;color:#0a0a0a!important}
+  .wa{border:0!important}
+  @media (max-width:900px){
+    nav.top::before{background:var(--glass-bg)!important;-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border-bottom:0!important;box-shadow:inset 0 -1px 0 var(--glass-edge)}
+    /* barra inferior flotante en forma de cápsula, con el contenido pasando por debajo */
+    .bnav{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;border:0!important;border-radius:26px;padding:4px!important}
+    .bnav a{border-radius:22px;padding:8px 2px 7px!important;color:#e9e9e9!important;opacity:.78}
+    .bnav a.on{opacity:1;background:rgba(255,255,255,.14)}
+    body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
+    .wa{bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
+  }
+  /* sin transparencia o con más contraste, el cristal pasa a sólido */
+  @media (prefers-reduced-transparency:reduce),(prefers-contrast:more){
+    .glass,nav.top.solid::before,.bnav,.wa,.lang,nav.top::before{background:#161616!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)!important}
+  }
 </style>
 </head>
 <body data-page="tarifas" class="boceto">
