@@ -1200,6 +1200,15 @@
   /* fundador cerrado (100 socios o día de apertura): fuera todo lo de fundador */
   html.fund-closed body section#fundador,.fund-closed .links .cta,.fund-closed .cta2,.fund-closed .s2-feat,.fund-closed .hero-strip .u-a,.fund-closed .hero-strip .u-b,.fund-closed .fcta,.fund-closed .disc-cta{display:none!important}
   .fund-closed .s2-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* discos rojos: se abren en abanico al pasar el ratón (o el dedo) de lado a lado */
+  .d-fan{position:relative;width:min(820px,88%);--sp:0;touch-action:pan-y}
+  .d-fan .dk{position:absolute;height:auto;filter:drop-shadow(0 14px 14px rgba(0,0,0,.5));
+    transform:translateX(calc(var(--sp) * var(--k) * 34%)) rotate(calc(var(--sp) * var(--k) * 8deg));transition:transform .5s cubic-bezier(.2,.8,.2,1);will-change:transform}
+  .d-fan.live .dk{transition:transform .18s ease-out}
+  html[data-reveal-armed] .discos:not(.is-revealed) .d-fan{transform:translateX(-30%);opacity:0}
+  .d-fan{transition:transform 1.2s var(--ease),opacity .9s ease}
+  @media (max-width:900px){.d-fan{width:66%}}
+  @media (prefers-reduced-motion:reduce){.d-fan .dk{transition:none}}
 </style>
 </head>
 <body data-page="" class="boceto">
@@ -1339,7 +1348,7 @@
       </div>
       <div class="mgrid" id="pgrid"></div>
       <div class="discos" data-reveal>
-        <div class="d-row d-rojo"><img src="/img/maquinas/peso-discos.webp" alt="Discos de goma de 25 a 5 kg" loading="lazy"></div>
+        <div class="d-row d-rojo"><div class="d-fan" id="dfan" role="img" aria-label="Discos de goma de 25 a 5 kg" style="aspect-ratio:1356/610"><img class="dk" style="--k:0;left:0.000%;top:0.000%;width:40.118%;z-index:1" src="/img/discos/rojo-25.webp" alt="" draggable="false"><img class="dk" style="--k:1;left:24.705%;top:13.115%;width:35.103%;z-index:2" src="/img/discos/rojo-20.webp" alt="" draggable="false"><img class="dk" style="--k:2;left:45.206%;top:24.590%;width:29.941%;z-index:3" src="/img/discos/rojo-15.webp" alt="" draggable="false"><img class="dk" style="--k:3;left:63.791%;top:35.246%;width:25.664%;z-index:4" src="/img/discos/rojo-10.webp" alt="" draggable="false"><img class="dk" style="--k:4;left:76.991%;top:48.852%;width:23.009%;z-index:5" src="/img/discos/rojo-5.webp" alt="" draggable="false"></div></div>
         <div class="d-mid"><b data-es="Discos" data-eu="Diskoak">Discos</b></div>
         <div class="d-row d-hierro"><img src="/img/maquinas/peso-discos-hierro.webp" alt="Discos de hierro de 5 a 25 kg" loading="lazy" onerror="this.parentNode.remove()"></div>
       </div>
@@ -2094,6 +2103,16 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const l=document.getElementById('idxLeft');if(l)l.textContent=CONFIG.plazasFundador-Math.min(CONFIG.plazasOcupadas,CONFIG.plazasFundador);
   if(!FUND_OPEN&&l){const sp=l.parentNode;sp.innerHTML=LANG==='es'?'50 €/mes o 530 €/año':'50 €/hil edo 530 €/urte'}
   if(location.hash&&visible(location.hash.slice(1)))setTimeout(()=>document.querySelector(location.hash).scrollIntoView(),50);
+})();
+
+/* ---------- Discos rojos: abanico según la posición horizontal del ratón ---------- */
+(function(){
+  const f=document.getElementById('dfan');if(!f)return;const box=f.closest('.discos');
+  const set=x=>{const r=box.getBoundingClientRect();const p=Math.min(1,Math.max(0,(x-r.left)/r.width));f.style.setProperty('--sp',p.toFixed(3))};
+  box.addEventListener('pointermove',e=>{f.classList.add('live');set(e.clientX)});
+  box.addEventListener('pointerleave',()=>{f.classList.remove('live');f.style.setProperty('--sp','0')});
+  // en el móvil no hay ratón: se abren al pasar por la pantalla con el scroll
+  if(matchMedia('(hover:none)').matches){const on=()=>{const r=box.getBoundingClientRect(),vh=innerHeight;const p=Math.min(1,Math.max(0,(vh*.85-r.top)/(vh*.6)));f.style.setProperty('--sp',p.toFixed(3))};addEventListener('scroll',on,{passive:true});on()}
 })();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
