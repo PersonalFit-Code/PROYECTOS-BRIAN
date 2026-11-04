@@ -1326,6 +1326,34 @@
     .discos .d-fan{width:100%!important}
   }
   @media (max-width:600px){.peso-cta .btn,.hero .ctas .btn{letter-spacing:.08em!important;padding-left:14px!important;padding-right:14px!important;white-space:nowrap}}
+  /* «Por qué Burdin»: tarjetas con cifra, icono en placa y enlace */
+  .why{gap:14px!important}
+  .why .whyc{position:relative;display:flex;flex-direction:column;padding:26px 26px 22px;background:linear-gradient(180deg,#171717,#111);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:var(--fg);text-decoration:none;overflow:hidden;transition:border-color .35s,transform .45s var(--ease),box-shadow .45s var(--ease)}
+  .why .whyc::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);transform:scaleX(0);transition:transform .6s var(--ease)}
+  .why .whyc:hover,.why .whyc:focus-visible{border-color:rgba(255,255,255,.32);transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+  .why .whyc:hover::before,.why .whyc:focus-visible::before{transform:scaleX(1)}
+  .why .wi{display:grid;place-items:center;width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);margin-bottom:18px;transition:background .35s}
+  .why .wi svg{width:24px!important;height:24px!important;margin:0!important;stroke:#f0f0f0!important}
+  .why .whyc:hover .wi{background:rgba(255,255,255,.12)}
+  .why .wn{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
+  .why .wn em{font-style:normal;font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(2.6rem,4.5vw,3.6rem);line-height:.9;color:#f5f5f5}
+  .why .wn small{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg2)}
+  .why .whyc b{font-size:1.35rem!important;margin-bottom:6px!important}
+  .why .whyc p{flex:1}
+  .why .wg{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#e6e6e6;min-height:44px}
+  .why .wg svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;transition:transform .4s var(--ease)}
+  .why .whyc:hover .wg svg{transform:translateX(5px)}
+  @media (max-width:900px){.why .whyc{padding:20px 20px 16px}.why .wn em{font-size:2.6rem}}
+  @media (prefers-reduced-motion:reduce){.why .whyc,.why .whyc::before,.why .wg svg{transition:none}}
+  @media (max-width:900px){
+    .why .whyc{display:grid;grid-template-columns:44px 1fr;column-gap:14px;padding:18px 18px 8px}
+    .why .wi{width:44px;height:44px;margin:0;grid-row:1}
+    .why .wn{grid-column:2;grid-row:1;align-self:center;margin:0}
+    .why .wn em{font-size:2.3rem!important}
+    .why .whyc b,.why .whyc p,.why .wg{grid-column:1/-1}
+    .why .whyc b{margin-top:12px!important;font-size:1.2rem!important}
+    .why .wg{margin-top:10px;padding-top:6px}
+  }
 </style>
 </head>
 <body data-page="maquinas" class="boceto">
@@ -1434,9 +1462,9 @@
       <h2 data-es="Un taller de fuerza, no un gimnasio comercial" data-eu="Indar-tailer bat, ez gimnasio komertzial bat">Un taller de fuerza, no un gimnasio comercial</h2>
     </div>
     <div class="why">
-      <div><svg aria-hidden="true"><use href="#i-iron"/></svg><b data-es="Máquinas con historia" data-eu="Historiadun makinak">Máquinas con historia</b><p data-es="Cybex, Hammer Strength, Nautilus, Gymleco… elegidas una a una, muchas ya no se fabrican." data-eu="Cybex, Hammer Strength, Nautilus, Paramount… banan-banan aukeratuak, asko jada ez dira egiten.">Cybex, Hammer Strength, Nautilus, Gymleco… elegidas una a una, muchas ya no se fabrican.</p></div>
-      <div><svg aria-hidden="true"><use href="#i-clock"/></svg><b data-es="Abierto cuando entrenas tú" data-eu="Zuk entrenatzen duzunean irekita">Abierto cuando entrenas tú</b><p data-es="De 05:00 a 01:00, los 365 días. Entras con la app, sin llaves ni tarjeta." data-eu="05:00etatik 01:00etara, 365 egunetan. Aplikazioarekin sartzen zara, giltzarik gabe.">De 05:00 a 01:00, los 365 días. Entras con la app, sin llaves ni tarjeta.</p></div>
-      <div><svg aria-hidden="true"><use href="#i-flame"/></svg><b data-es="Ambiente de verdad" data-eu="Benetako giroa">Ambiente de verdad</b><p data-es="350 m² para culturistas, powerlifters y gente que viene a entrenar en serio. Sin postureo." data-eu="350 m² kulturista, powerlifter eta serio entrenatzera datorren jendearentzat. Itxurakeriarik gabe.">350 m² para culturistas, powerlifters y gente que viene a entrenar en serio. Sin postureo.</p></div>
+      <a class="whyc" href="/maquinas/"><span class="wi"><svg aria-hidden="true"><use href="#i-iron"/></svg></span><span class="wn"><em>40+</em><small data-es="máquinas" data-eu="makina">máquinas</small></span><b data-es="Máquinas con historia" data-eu="Historiadun makinak">Máquinas con historia</b><p data-es="Cybex, Hammer Strength, Nautilus, Gymleco… elegidas una a una, muchas ya no se fabrican." data-eu="Cybex, Hammer Strength, Nautilus, Paramount… banan-banan aukeratuak, asko jada ez dira egiten.">Cybex, Hammer Strength, Nautilus, Gymleco… elegidas una a una, muchas ya no se fabrican.</p><span class="wg"><span data-es="Ver máquinas" data-eu="Makinak ikusi">Ver máquinas</span><svg aria-hidden="true"><use href="#arrow"/></svg></span></a>
+      <a class="whyc" href="/contacto/"><span class="wi"><svg aria-hidden="true"><use href="#i-clock"/></svg></span><span class="wn"><em>365</em><small data-es="días al año" data-eu="egun urtean">días al año</small></span><b data-es="Abierto cuando entrenas tú" data-eu="Zuk entrenatzen duzunean irekita">Abierto cuando entrenas tú</b><p data-es="De 05:00 a 01:00, los 365 días. Entras con la app, sin llaves ni tarjeta." data-eu="05:00etatik 01:00etara, 365 egunetan. Aplikazioarekin sartzen zara, giltzarik gabe.">De 05:00 a 01:00, los 365 días. Entras con la app, sin llaves ni tarjeta.</p><span class="wg"><span data-es="Ver horario" data-eu="Ordutegia ikusi">Ver horario</span><svg aria-hidden="true"><use href="#arrow"/></svg></span></a>
+      <a class="whyc" href="/maquinas/#gimnasio"><span class="wi"><svg aria-hidden="true"><use href="#i-flame"/></svg></span><span class="wn"><em>350</em><small data-es="m² de sala" data-eu="m² aretoa">m² de sala</small></span><b data-es="Ambiente de verdad" data-eu="Benetako giroa">Ambiente de verdad</b><p data-es="350 m² para culturistas, powerlifters y gente que viene a entrenar en serio. Sin postureo." data-eu="350 m² kulturista, powerlifter eta serio entrenatzera datorren jendearentzat. Itxurakeriarik gabe.">350 m² para culturistas, powerlifters y gente que viene a entrenar en serio. Sin postureo.</p><span class="wg"><span data-es="Ver el gimnasio" data-eu="Gimnasioa ikusi">Ver el gimnasio</span><svg aria-hidden="true"><use href="#arrow"/></svg></span></a>
     </div>
   </div>
 </section>
