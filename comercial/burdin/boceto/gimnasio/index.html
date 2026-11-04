@@ -1299,6 +1299,17 @@
   .peso-band span{display:block;margin-top:8px;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#e0e0e0}
   .d-mid:empty{padding:6px}
   @media (max-width:900px){.peso-band{min-height:240px;align-items:flex-end;background:linear-gradient(180deg,transparent 30%,rgba(10,10,10,.88) 100%),url(/img/peso-barra-m.webp) 60% 50%/cover no-repeat}.peso-band .pb-in{padding:20px 18px}}
+  /* peso libre: dos fotos de ambiente con la descripción encima */
+  .ptiles{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .ptile{position:relative;margin:0;min-height:420px;display:flex;align-items:flex-end;overflow:hidden;border:1px solid rgba(255,255,255,.1);isolation:isolate}
+  .ptile::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--img) 50% 50%/cover no-repeat;transition:transform 1.2s var(--ease)}
+  .ptile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,10,10,0) 35%,rgba(10,10,10,.6) 65%,rgba(10,10,10,.93) 100%)}
+  .ptile:hover::before{transform:scale(1.04)}
+  .ptile figcaption{padding:24px 26px 26px;display:grid;gap:6px;max-width:460px}
+  .ptile small{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#d8d8d8}
+  .ptile b{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(2rem,4vw,3rem);text-transform:uppercase;line-height:.95;color:#f5f5f5}
+  .ptile span{font-size:15px;line-height:1.5;color:#e6e6e6}
+  @media (max-width:900px){.ptiles{grid-template-columns:1fr;gap:12px}.ptile{min-height:320px}.ptile figcaption{padding:18px}}
 </style>
 </head>
 <body data-page="maquinas" class="boceto">
@@ -1429,11 +1440,14 @@
         <h3 data-es="Zona de peso libre" data-eu="Pisu libreko eremua">Zona de peso libre</h3>
         <p data-es="Racks, mancuernas de 2,5 a 60 kg y discos." data-eu="Rackak, 2,5etik 60 kg-rako mankuernak eta diskoak.">Racks, mancuernas de 2,5 a 60 kg y discos.</p>
       </div>
-      <div class="mgrid" id="pgrid"></div>
-      <div class="peso-band" aria-hidden="false"><div class="pb-in"><b data-es="Discos" data-eu="Diskoak">Discos</b><span data-es="Goma y hierro · de 5 a 25 kg" data-eu="Goma eta burdina · 5etik 25 kg-ra">Goma y hierro · de 5 a 25 kg</span></div></div>
+      <div class="ptiles">
+        <figure class="ptile" style="--img:url(/img/peso-card-rack.webp)"><figcaption><small>Hammer Strength</small><b data-es="Racks ×2" data-eu="Rackak ×2">Racks ×2</b><span data-es="Dos racks de potencia con barra olímpica y discos de hierro, para sentadilla, press y dominadas." data-eu="Bi potentzia-rack barra olinpiko eta burdinazko diskoekin, squat, press eta tiraldietarako.">Dos racks de potencia con barra olímpica y discos de hierro, para sentadilla, press y dominadas.</span></figcaption></figure>
+        <figure class="ptile" style="--img:url(/img/peso-card-mancuernas.webp)"><figcaption><small data-es="Peso libre" data-eu="Pisu librea">Peso libre</small><b data-es="Mancuernas" data-eu="Mankuernak">Mancuernas</b><span data-es="Mancuernero completo de 2,5 a 60 kg, de goma, siempre ordenado." data-eu="Mankuerna-euskarri osoa, 2,5etik 60 kg-ra, gomazkoa, beti ordenatuta.">Mancuernero completo de 2,5 a 60 kg, de goma, siempre ordenado.</span></figcaption></figure>
+      </div>
+      <div class="mgrid" id="pgrid" hidden></div>
       <div class="discos" data-reveal>
         <div class="d-row d-rojo"><div class="d-fan" id="dfan" role="img" aria-label="Discos de goma de 25 a 5 kg"><img class="dk" src="/img/discos/rojo-25.webp" alt="" draggable="false" style="z-index:1"><img class="dk" src="/img/discos/rojo-20.webp" alt="" draggable="false" style="z-index:2"><img class="dk" src="/img/discos/rojo-15.webp" alt="" draggable="false" style="z-index:3"><img class="dk" src="/img/discos/rojo-10.webp" alt="" draggable="false" style="z-index:4"><img class="dk" src="/img/discos/rojo-5.webp" alt="" draggable="false" style="z-index:5"></div></div>
-        <div class="d-mid"></div>
+        <div class="d-mid"><b data-es="Discos" data-eu="Diskoak">Discos</b></div>
         <div class="d-row d-hierro"><div class="d-fan d-fan-h" id="dfanh" role="img" aria-label="Discos de hierro de 5 a 25 kg"><img class="dk" src="/img/discos/hierro-5.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-10.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-15.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-20.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-25.webp" alt="" draggable="false"></div></div>
       </div>
     </div>
