@@ -5,9 +5,10 @@ Cada página es una copia con <body data-page="…">: el CSS muestra solo su apa
 import os,re
 here=os.path.dirname(os.path.abspath(__file__))
 src=open(os.path.join(here,'index.html'),encoding='utf-8').read()
-PAGES={'tarifas':'Tarifas','maquinas':'Las máquinas','gimnasio':'El gimnasio','fundador':'Socio fundador','contacto':'Contacto'}
-for slug,title in PAGES.items():
-    out=src.replace('<body data-page=""','<body data-page="%s"'%slug,1)
+PAGES={'tarifas':('tarifas','Tarifas y socio fundador'),'maquinas':('maquinas','Máquinas e instalaciones'),'contacto':('contacto','Contacto'),
+       'fundador':('tarifas','Tarifas y socio fundador'),'gimnasio':('maquinas','Máquinas e instalaciones')}  # fundador y gimnasio: enlaces antiguos
+for slug,(page,title) in PAGES.items():
+    out=src.replace('<body data-page=""','<body data-page="%s"'%page,1)
     out=out.replace('<title>Burdin Gym</title>','<title>%s · Burdin Gym</title>'%title,1)
     out='<!-- GENERADO por build.py a partir de index.html: no editar a mano -->\n'+out
     d=os.path.join(here,slug);os.makedirs(d,exist_ok=True)

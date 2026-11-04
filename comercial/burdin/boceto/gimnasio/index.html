@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>El gimnasio · Burdin Gym</title>
+<title>Máquinas e instalaciones · Burdin Gym</title>
 <meta name="description" content="Burdin Gym · Gimnasio de musculación old school en Euskadi. Máquinas de las mejores marcas del mundo, elegidas una a una.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0a0a0a">
@@ -333,7 +333,7 @@
   .hrs{display:grid;grid-template-columns:1fr auto;gap:4px 24px}
   .map{position:relative;min-height:420px;border:1px solid var(--line);background:#121212 linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px) 0 0/60px 60px,linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px) 0 0/60px 60px;overflow:hidden}
   .map iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-  .map .pin{position:absolute;left:16px;bottom:16px;background:rgba(10,10,10,.9);border:1px solid var(--line);padding:10px 14px;font-size:.85rem}
+  .map .pin{position:absolute;left:16px;bottom:16px;background:rgba(10,10,10,.9);border:1px solid var(--line);padding:10px 14px;font-size:.85rem;z-index:2}
   footer{border-top:1px solid var(--line);background:var(--bg);padding:70px 0 40px}
   .fcta{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;padding-bottom:50px;border-bottom:1px solid var(--line);margin-bottom:34px}
   .fcta h3{font-size:clamp(2.4rem,5vw,4rem)}
@@ -1083,15 +1083,70 @@
   @media (max-width:600px){.idx{grid-template-columns:1fr;gap:10px}.idx a{padding:18px 18px}.idx b{font-size:1.6rem}#indice{padding:48px 0 10px}}
   /* qué se ve en cada página */
   body:not([data-page=""]) .hero,body:not([data-page=""]) .stats2,body:not([data-page=""]) .only-home,body:not([data-page=""]) .rule,body:not([data-page=""]) .disc-cta{display:none!important}
-  body[data-page=""] section#coleccion,body[data-page=""] section#gimnasio,body[data-page=""] section#fundador,body[data-page=""] section#contacto,
-  body[data-page=""] #coleccion+.rule,body[data-page=""] #gimnasio+.rule,body[data-page=""] #fundador+.rule,body[data-page=""] #contacto+.rule{display:none}
+  body[data-page=""] section#coleccion,body[data-page=""] section#gimnasio,body[data-page=""] section#fundador,body[data-page=""] section#contacto,body[data-page=""] section#tarifas,body[data-page=""] .rule{display:none}
   body:not([data-page=""]) section#coleccion,body:not([data-page=""]) section#gimnasio,body:not([data-page=""]) section#fundador,body:not([data-page=""]) section#contacto,body:not([data-page=""]) section#tarifas{display:none}
-  body[data-page="maquinas"] section#coleccion,body[data-page="gimnasio"] section#gimnasio,body[data-page="fundador"] section#fundador,body[data-page="contacto"] section#contacto,body[data-page="tarifas"] section#tarifas{display:block!important;padding-top:calc(var(--nav) + 60px)}
+  body[data-page="maquinas"] section#coleccion,body[data-page="tarifas"] section#tarifas,body[data-page="contacto"] section#contacto{display:block!important;padding-top:calc(var(--nav) + 60px)}
+  body[data-page="maquinas"] section#gimnasio,body[data-page="tarifas"] section#fundador{display:block!important;padding-top:0}
+  body[data-page="maquinas"] #coleccion{padding-bottom:40px}
+  body[data-page="tarifas"] #tarifas{padding-bottom:30px}
   .links a.on{color:var(--fg);text-decoration:underline;text-underline-offset:6px}
-  @media (max-width:600px){body:not([data-page=""]) section#coleccion,body:not([data-page=""]) section#gimnasio,body:not([data-page=""]) section#fundador,body:not([data-page=""]) section#contacto,body:not([data-page=""]) section#tarifas{padding-top:calc(var(--nav) + 20px)}}
+  @media (max-width:600px){body[data-page="maquinas"] section#coleccion,body[data-page="tarifas"] section#tarifas,body[data-page="contacto"] section#contacto{padding-top:calc(var(--nav) + 20px)}}
+  /* ===== Portada: índice de 3 con icono, «Por qué Burdin», barra inferior, contacto ===== */
+  .idx{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .idx a{grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;row-gap:2px}
+  .idx a>svg{grid-row:1/3;width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;opacity:.85}
+  .idx b{grid-column:2;font-size:1.55rem}
+  .idx span{grid-column:2}
+  .idx i{grid-column:3}
+  .why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .why>div{padding:24px;background:#121212;border:1px solid rgba(255,255,255,.1)}
+  .why svg{width:34px;height:34px;fill:none;stroke:var(--stone);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;margin-bottom:14px;display:block}
+  .why b{display:block;font-family:var(--display);font-weight:900;font-stretch:66%;font-size:1.5rem;text-transform:uppercase;line-height:1;margin-bottom:8px}
+  .why p{font-size:14px;color:var(--fg2);line-height:1.5}
+  #porque{padding:40px 0 90px}
+  @media (max-width:900px){.idx,.why{grid-template-columns:1fr}.idx b{font-size:1.45rem}.why>div{padding:18px 20px}.why svg{width:28px;height:28px;margin-bottom:10px}.why b{font-size:1.3rem}#porque{padding:30px 0 70px}}
+  /* barra inferior (solo móvil) */
+  .bnav{display:none}
+  @media (max-width:900px){
+    .bnav{position:fixed;left:0;right:0;bottom:0;z-index:48;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(12,12,12,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.14);padding-bottom:env(safe-area-inset-bottom,0px)}
+    .bnav a{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 9px;font-family:var(--label);font-weight:600;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);text-decoration:none}
+    .bnav a svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round;stroke-linecap:round}
+    .bnav a.on{color:var(--fg)}
+    body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+    .wa{bottom:calc(80px + env(safe-area-inset-bottom,0px))!important}
+    .disc-cta{display:none!important}
+    body.menu .bnav{visibility:hidden}
+  }
+  /* portada: altura de pantalla en el móvil, sin pasarse */
+  @media (max-width:900px){.hero{min-height:calc(100svh - var(--nav));display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:28px}.hero .hero-in{margin-top:auto}}
+  /* contacto: formulario y bloque de ubicación */
+  .cform{background:#121212;border:1px solid rgba(255,255,255,.12);padding:26px 24px 22px;align-self:start}
+  .cform h3{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:1.7rem;text-transform:uppercase;margin:0 0 14px}
+  .cform .field{display:block;margin-bottom:12px}
+  .cform .field span{display:block;font-family:var(--label);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);margin-bottom:6px}
+  .cform input,.cform textarea{width:100%;background:#0d0d0d;border:1px solid rgba(255,255,255,.18);color:var(--fg);padding:12px 14px;font:inherit;font-size:16px}
+  .cform textarea{resize:vertical;min-height:110px}
+  .cform .btn{margin-top:6px}
+  .loc{display:grid;grid-template-columns:1fr 1.15fr;gap:0;margin-top:60px;background:#ece8df;color:#141414;border:1px solid #ece8df}
+  .loc-info{padding:34px 34px 30px}
+  .loc-info .eyebrow{color:#5a5650;margin-bottom:8px}
+  .loc-info h3{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:2.2rem;line-height:.95;text-transform:uppercase;margin:0 0 20px;color:#141414}
+  .loc-list{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:12px}
+  .loc-list li{display:grid;grid-template-columns:40px 1fr;column-gap:12px;align-items:start}
+  .loc-list svg{grid-row:1/3;width:36px;height:36px;fill:none;stroke:#141414;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;background:#fff;border:1px solid #d6d1c6;padding:6px;box-sizing:border-box}
+  .loc-list b{font-family:var(--label);font-weight:600;font-size:14px;color:#141414}
+  .loc-list span{font-size:13.5px;color:#4a4740;line-height:1.4}
+  .loc-list li.tbd::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#c9a24a;margin-left:6px;vertical-align:middle;grid-column:2}
+  .loc .btn-primary{background:#141414;color:#f5f5f5;border-color:#141414}
+  .loc .btn-primary svg{fill:none;stroke:currentColor;stroke-width:2}
+  .loc .map{min-height:420px;border:0;border-left:1px solid #d6d1c6}
+  .loc .map .pin{left:50%;bottom:auto;top:50%;transform:translate(-50%,-100%);display:flex;align-items:center;gap:8px;background:#141414;color:#fff;border:0;padding:8px 12px;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;pointer-events:none}
+  .loc .map .pin::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:22px;background:#141414;transform:translateX(-50%)}
+  .loc .map .pin svg{width:18px;height:19px;fill:#fff}
+  @media (max-width:900px){.loc{grid-template-columns:1fr;margin-top:40px}.loc-info{padding:24px 20px}.loc-info h3{font-size:1.8rem}.loc .map{min-height:300px;border-left:0;border-top:1px solid #d6d1c6}.cform{padding:20px 18px}}
 </style>
 </head>
-<body data-page="gimnasio" class="boceto">
+<body data-page="maquinas" class="boceto">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <linearGradient id="stone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ece6dc"/><stop offset=".5" stop-color="#c9c2b6"/><stop offset="1" stop-color="#8f887d"/></linearGradient>
 <filter id="grit" x="0" y="0" width="100%" height="100%">
@@ -1108,6 +1163,16 @@
 <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-lock" viewBox="0 0 40 40"><rect x="9" y="17" width="22" height="17"/><path d="M14 17v-5a6 6 0 0 1 12 0v5M20 24v4"/></symbol>
 <symbol id="i-nofee" viewBox="0 0 40 40"><path d="M9 7h22v26l-3-2-3 2-3-2-3 2-3-2-3 2-3-2-3 2zM14 15h12M14 21h12M14 27h7"/><path d="M8 32 32 8"/></symbol>
+<symbol id="i-tag" viewBox="0 0 40 40"><path d="M6 8h14l14 14-12 12L8 20V8z"/><circle cx="14" cy="14" r="2.5"/></symbol>
+<symbol id="i-iron" viewBox="0 0 40 40"><path d="M4 20h4M32 20h4M8 13h5v14H8zM27 13h5v14h-5zM13 16h14v8H13z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 40 40"><path d="M20 35s-11-10-11-18a11 11 0 0 1 22 0c0 8-11 18-11 18z"/><circle cx="20" cy="17" r="4"/></symbol>
+<symbol id="i-clock" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14"/><path d="M20 11v9l6 4"/></symbol>
+<symbol id="i-flame" viewBox="0 0 40 40"><path d="M20 5c2 6 9 9 9 18a9 9 0 0 1-18 0c0-4 2-6 3-8 1 3 3 4 3 4 0-5 1-10 3-14z"/></symbol>
+<symbol id="i-car" viewBox="0 0 40 40"><path d="M7 24l3-9h20l3 9v8H7zM7 24h26"/><circle cx="13" cy="29" r="2"/><circle cx="27" cy="29" r="2"/></symbol>
+<symbol id="i-train" viewBox="0 0 40 40"><rect x="10" y="6" width="20" height="24" rx="4"/><path d="M10 18h20M14 34l-2 3M26 34l2 3"/><circle cx="15" cy="25" r="1.5"/><circle cx="25" cy="25" r="1.5"/></symbol>
+<symbol id="i-app" viewBox="0 0 40 40"><rect x="12" y="5" width="16" height="30" rx="3"/><path d="M17 9h6M20 30v.01"/></symbol>
+<symbol id="i-home" viewBox="0 0 40 40"><path d="M6 19L20 7l14 12v14H6z"/><path d="M16 33V22h8v11"/></symbol>
+<symbol id="i-mail" viewBox="0 0 40 40"><rect x="5" y="10" width="30" height="20"/><path d="M5 12l15 10 15-10"/></symbol>
 <symbol id="i-key" viewBox="0 0 40 40"><circle cx="14" cy="20" r="7"/><path d="M21 20h13M30 20v5M34 20v4"/></symbol>
 <symbol id="i-shirt" viewBox="0 0 40 40"><path d="M14 8l6 3 6-3 7 5-3 6-4-1v15H14V18l-4 1-3-6z"/><path d="M17 23h6"/></symbol>
 </defs></svg>
@@ -1126,11 +1191,10 @@
         <a href="/" data-page="" data-es="Inicio" data-eu="Hasiera">Inicio</a>
         <a href="/tarifas/" data-page="tarifas" data-es="Tarifas" data-eu="Tarifak">Tarifas</a>
         <a href="/maquinas/" data-page="maquinas" data-es="Máquinas" data-eu="Makinak">Máquinas</a>
-        <a href="/gimnasio/" data-page="gimnasio" data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</a>
-        <a href="/contacto/" data-page="contacto" class="hide-md" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
-        <a href="/fundador/" data-page="fundador" class="cta" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a>
+        <a href="/contacto/" data-page="contacto" data-es="Contacto" data-eu="Kontaktua">Contacto</a>
+        <a href="/tarifas/#fundador" class="cta" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a>
       </div>
-      <div class="nav-end"><a href="/fundador/" class="cta2" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a><div class="lang" role="group" aria-label="Idioma / Hizkuntza"><button type="button" data-l="eu">EU</button><button type="button" data-l="es">ES</button></div></div>
+      <div class="nav-end"><a href="/tarifas/#fundador" class="cta2" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a><div class="lang" role="group" aria-label="Idioma / Hizkuntza"><button type="button" data-l="eu">EU</button><button type="button" data-l="es">ES</button></div></div>
       <button type="button" class="burger" id="burger" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -1146,7 +1210,7 @@
       <p class="sub" style="--i:2" data-es="Gimnasio de musculación old school en Euskadi. Más de 40 máquinas de las mejores marcas del mundo. Hazte socio fundador antes de que abramos." data-eu="Eskola zaharreko muskulazio-gimnasioa Euskadin. Munduko marka onenetako 40 makina baino gehiago. Egin bazkide sortzaile ireki aurretik.">Gimnasio de musculación old school en Euskadi. Más de 40 máquinas de las mejores marcas del mundo. Hazte socio fundador antes de que abramos.</p>
       <div class="ctas" style="--i:3">
         <div class="slide-cta" data-slide></div>
-        <a href="#coleccion" class="btn-text"><span data-es="Descubre las máquinas" data-eu="Ezagutu makinak">Descubre las máquinas</span></a>
+        <a href="/tarifas/" class="btn-text"><span data-es="Ver tarifas" data-eu="Tarifak ikusi">Ver tarifas</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
       </div>
     </div>
   </div>
@@ -1168,7 +1232,7 @@
     <div class="s2 s2-feat"><b class="tbd"><span data-n="100">100</span></b><small data-es="Plazas fundador" data-eu="Sortzaile-plaza">Plazas fundador</small>
       <div class="s2-bar" aria-hidden="true"><i id="s2bar"></i></div>
       <p class="s2-left"><span id="s2left">63</span> <span data-es="libres" data-eu="libre">libres</span></p>
-      <a href="/fundador/" class="btn btn-ghost s2-btn" data-es="Reservar mi plaza" data-eu="Nire plaza gorde">Reservar mi plaza</a>
+      <a href="/tarifas/#fundador" class="btn btn-ghost s2-btn" data-es="Reservar mi plaza" data-eu="Nire plaza gorde">Reservar mi plaza</a>
     </div>
   </div>
 </div>
@@ -1176,24 +1240,36 @@
 
 <section id="indice" class="only-home">
   <div class="wrap">
-    <div class="head" style="margin-bottom:28px">
+    <div class="head" style="margin-bottom:24px">
       <div class="eyebrow" data-n="01" data-es="Índice" data-eu="Aurkibidea">Índice</div>
       <h2 data-es="¿Qué buscas?" data-eu="Zer bilatzen duzu?">¿Qué buscas?</h2>
     </div>
     <nav class="idx" aria-label="Apartados">
-      <a href="#tarifas"><b data-es="Tarifas" data-eu="Tarifak">Tarifas</b><span data-es="Cuotas, pases y precio de fundador" data-eu="Kuotak, sarrerak eta sortzaile-prezioa">Cuotas, pases y precio de fundador</span><i>→</i></a>
-      <a href="/fundador/" class="idx-feat"><b data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</b><span><em id="idxLeft">0</em> <span data-es="plazas libres · solo hasta la apertura" data-eu="plaza libre · irekiera arte bakarrik">plazas libres · solo hasta la apertura</span></span><i>→</i></a>
-      <a href="/maquinas/"><b data-es="Máquinas" data-eu="Makinak">Máquinas</b><span data-es="Más de 40 máquinas de 12 marcas" data-eu="12 markatako 40 makina baino gehiago">Más de 40 máquinas de 12 marcas</span><i>→</i></a>
-      <a href="/gimnasio/"><b data-es="El gimnasio" data-eu="Gimnasioa">El gimnasio</b><span data-es="350 m² en Tolosa, abierto 365 días" data-eu="350 m² Tolosan, 365 egun irekita">350 m² en Tolosa, abierto 365 días</span><i>→</i></a>
-      <a href="/contacto/"><b data-es="Contacto" data-eu="Kontaktua">Contacto</b><span data-es="Dónde estamos, horario y WhatsApp" data-eu="Non gauden, ordutegia eta WhatsApp">Dónde estamos, horario y WhatsApp</span><i>→</i></a>
+      <a href="/tarifas/" class="idx-feat"><svg aria-hidden="true"><use href="#i-tag"/></svg><b data-es="Tarifas y socio fundador" data-eu="Tarifak eta bazkide sortzailea">Tarifas y socio fundador</b><span><em id="idxLeft">0</em> <span data-es="plazas de fundador libres · cuotas y pases" data-eu="sortzaile-plaza libre · kuotak eta sarrerak">plazas de fundador libres · cuotas y pases</span></span><i>→</i></a>
+      <a href="/maquinas/"><svg aria-hidden="true"><use href="#i-iron"/></svg><b data-es="Máquinas e instalaciones" data-eu="Makinak eta instalazioak">Máquinas e instalaciones</b><span data-es="Más de 40 máquinas de 12 marcas en 350 m²" data-eu="12 markatako 40 makina baino gehiago, 350 m²-tan">Más de 40 máquinas de 12 marcas en 350 m²</span><i>→</i></a>
+      <a href="/contacto/"><svg aria-hidden="true"><use href="#i-pin"/></svg><b data-es="Contacto" data-eu="Kontaktua">Contacto</b><span data-es="Dónde estamos, horario y WhatsApp" data-eu="Non gauden, ordutegia eta WhatsApp">Dónde estamos, horario y WhatsApp</span><i>→</i></a>
     </nav>
+  </div>
+</section>
+
+<section id="porque" class="only-home">
+  <div class="wrap">
+    <div class="head" style="margin-bottom:24px">
+      <div class="eyebrow" data-n="02" data-es="Por qué Burdin" data-eu="Zergatik Burdin">Por qué Burdin</div>
+      <h2 data-es="Un taller de fuerza, no un gimnasio comercial" data-eu="Indar-tailer bat, ez gimnasio komertzial bat">Un taller de fuerza, no un gimnasio comercial</h2>
+    </div>
+    <div class="why">
+      <div><svg aria-hidden="true"><use href="#i-iron"/></svg><b data-es="Máquinas con historia" data-eu="Historiadun makinak">Máquinas con historia</b><p data-es="Cybex, Hammer Strength, Nautilus, Paramount… elegidas una a una, muchas ya no se fabrican." data-eu="Cybex, Hammer Strength, Nautilus, Paramount… banan-banan aukeratuak, asko jada ez dira egiten.">Cybex, Hammer Strength, Nautilus, Paramount… elegidas una a una, muchas ya no se fabrican.</p></div>
+      <div><svg aria-hidden="true"><use href="#i-clock"/></svg><b data-es="Abierto cuando entrenas tú" data-eu="Zuk entrenatzen duzunean irekita">Abierto cuando entrenas tú</b><p data-es="De 05:00 a 01:00, los 365 días. Entras con la app, sin llaves ni tarjeta." data-eu="05:00etatik 01:00etara, 365 egunetan. Aplikazioarekin sartzen zara, giltzarik gabe.">De 05:00 a 01:00, los 365 días. Entras con la app, sin llaves ni tarjeta.</p></div>
+      <div><svg aria-hidden="true"><use href="#i-flame"/></svg><b data-es="Ambiente de verdad" data-eu="Benetako giroa">Ambiente de verdad</b><p data-es="350 m² para culturistas, powerlifters y gente que viene a entrenar en serio. Sin postureo." data-eu="350 m² kulturista, powerlifter eta serio entrenatzera datorren jendearentzat. Itxurakeriarik gabe.">350 m² para culturistas, powerlifters y gente que viene a entrenar en serio. Sin postureo.</p></div>
+    </div>
   </div>
 </section>
 
 <section id="coleccion">
   <div class="wrap">
     <div data-reveal class="head">
-      <div class="eyebrow" data-n="02" data-es="Las máquinas" data-eu="Makinak">Las máquinas</div>
+      <div class="eyebrow" data-n="01" data-es="Las máquinas" data-eu="Makinak">Las máquinas</div>
       <h2 data-es="Más de 40 máquinas, 12 marcas" data-eu="40 makina baino gehiago, 12 marka">Más de 40 máquinas, 12 marcas</h2>
       <p data-es="Musculación de las mejores marcas del mundo, elegidas una a una, en 350 m²." data-eu="Munduko marka onenetako muskulazio-makinak, banan-banan aukeratuak, 350 m²-tan.">Musculación de las mejores marcas del mundo, elegidas una a una, en 350 m².</p>
     </div>
@@ -1237,12 +1313,38 @@
   </div>
     <div class="wrap gfoot"><span data-es="Página 03 · El gimnasio" data-eu="03. orria · Gimnasioa">Página 03 · El gimnasio</span><span data-es="Fotos del local cuando acaben las obras" data-eu="Lokaleko argazkiak obrak amaitzean">Fotos del local cuando acaben las obras</span></div>
 </section>
+
+
+<div class="rule" aria-hidden="true"></div>
+<section id="tarifas">
+  <div class="wrap">
+    <div data-reveal class="head">
+      <div class="eyebrow" data-n="01" data-es="Tarifas" data-eu="Tarifak">Tarifas</div>
+      <h2 data-es="Tarifas y socio fundador" data-eu="Tarifak eta bazkide sortzailea">Tarifas y socio fundador</h2>
+      <p data-es="El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar." data-eu="Alta eta ordainketa gure Virtuagym dendan egiten dira: tarifa aukeratu, ordaindu eta sartzeko aplikazioa izango duzu.">El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar.</p>
+    </div>
+    <div class="tabs" role="tablist">
+      <button type="button" class="on" data-phase="pre" data-es="Preapertura" data-eu="Irekiera aurretik">Preapertura</button>
+      <button type="button" data-phase="post" data-es="Tras la apertura" data-eu="Irekiera ondoren">Tras la apertura</button>
+    </div>
+    <div class="plans" id="plans"></div>
+    <div class="try">
+      <div>
+        <div class="eyebrow" data-n="02" data-es="Sin compromiso" data-eu="Konpromisorik gabe">Sin compromiso</div>
+        <h3 data-es="O pruébanos primero" data-eu="Edo proba gaitzazu lehenik">O pruébanos primero</h3>
+        <p data-es="¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera." data-eu="Hemendik igarotzen zara edo zure lekua den ikusi nahi duzu? Sartu egun batez, asteburu batez edo aste oso batez.">¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera.</p>
+      </div>
+      <div class="passes" id="passes"></div>
+    </div>
+    <p class="note" data-es="Precios con IVA incluido. Los precios de este boceto son de ejemplo." data-eu="Prezioek BEZa barne dute. Zirriborro honetako prezioak adibideak dira.">Precios con IVA incluido. Los precios de este boceto son de ejemplo.</p>
+  </div>
+</section>
 <div class="rule" aria-hidden="true"></div>
 <section id="fundador">
   <div class="wrap fund2">
     <div class="f-left">
       <div data-reveal class="head" style="margin-bottom:34px">
-        <div class="eyebrow" data-n="04" data-es="Solo antes de abrir" data-eu="Ireki aurretik bakarrik">Solo antes de abrir</div>
+        <div class="eyebrow" data-n="03" data-es="Solo antes de abrir" data-eu="Ireki aurretik bakarrik">Solo antes de abrir</div>
         <h2 data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</h2>
         <p data-es="Los primeros en creer en Burdin entrenan con condiciones que no volverán. Cuando se acaben las plazas, o cuando abramos, se cierra." data-eu="Burdinengan lehenik sinesten dutenek ez dira itzuliko ez diren baldintzetan entrenatzen dute. Plazak amaitzen direnean, edo irekitzen dugunean, ixten da.">Los primeros en creer en Burdin entrenan con condiciones que no volverán. Cuando se acaben las plazas, o cuando abramos, se cierra.</p>
       </div>
@@ -1296,37 +1398,11 @@
 
 
 <div class="rule" aria-hidden="true"></div>
-<section id="tarifas">
-  <div class="wrap">
-    <div data-reveal class="head">
-      <div class="eyebrow" data-n="07" data-es="Tarifas" data-eu="Tarifak">Tarifas</div>
-      <h2 data-es="Elige tu plan" data-eu="Aukeratu zure plana">Elige tu plan</h2>
-      <p data-es="El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar." data-eu="Alta eta ordainketa gure Virtuagym dendan egiten dira: tarifa aukeratu, ordaindu eta sartzeko aplikazioa izango duzu.">El alta y el pago se hacen en nuestra tienda de Virtuagym: eliges tarifa, pagas y ya tienes la app para entrar.</p>
-    </div>
-    <div class="tabs" role="tablist">
-      <button type="button" class="on" data-phase="pre" data-es="Preapertura" data-eu="Irekiera aurretik">Preapertura</button>
-      <button type="button" data-phase="post" data-es="Tras la apertura" data-eu="Irekiera ondoren">Tras la apertura</button>
-    </div>
-    <div class="plans" id="plans"></div>
-    <div class="try">
-      <div>
-        <div class="eyebrow" data-n="08" data-es="Sin compromiso" data-eu="Konpromisorik gabe">Sin compromiso</div>
-        <h3 data-es="O pruébanos primero" data-eu="Edo proba gaitzazu lehenik">O pruébanos primero</h3>
-        <p data-es="¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera." data-eu="Hemendik igarotzen zara edo zure lekua den ikusi nahi duzu? Sartu egun batez, asteburu batez edo aste oso batez.">¿De paso por aquí o quieres ver si es tu sitio? Entra un día, un fin de semana o una semana entera.</p>
-      </div>
-      <div class="passes" id="passes"></div>
-    </div>
-    <p class="note" data-es="Precios con IVA incluido. Los precios de este boceto son de ejemplo." data-eu="Prezioek BEZa barne dute. Zirriborro honetako prezioak adibideak dira.">Precios con IVA incluido. Los precios de este boceto son de ejemplo.</p>
-  </div>
-</section>
-
-
-<div class="rule" aria-hidden="true"></div>
 <section id="contacto">
   <div class="wrap contact">
     <div>
       <div data-reveal class="head" style="margin-bottom:30px">
-        <div class="eyebrow" data-n="10" data-es="Contacto" data-eu="Kontaktua">Contacto</div>
+        <div class="eyebrow" data-n="01" data-es="Contacto" data-eu="Kontaktua">Contacto</div>
         <h2 data-es="Ven a conocernos" data-eu="Etorri ezagutzera">Ven a conocernos</h2>
       </div>
       <div class="row"><small data-es="Dirección" data-eu="Helbidea">Dirección</small><div id="cAddr"></div></div>
@@ -1342,7 +1418,31 @@
       <div class="row"><small>Instagram</small><div class="tbd"><a id="cIg" target="_blank" rel="noopener"></a></div></div>
       <div style="margin-top:28px"><a href="#" class="btn btn-ghost wa-link"><svg width="18" height="18" fill="currentColor" aria-hidden="true"><use href="#wa"/></svg><span data-es="Escríbenos por WhatsApp" data-eu="Idatzi WhatsAppez">Escríbenos por WhatsApp</span></a></div>
     </div>
-    <div data-reveal class="map" id="map"><div class="pin" data-es="Burdin Gym · Usabal 123, Pabellón 2" data-eu="Burdin Gym · Usabal 123, 2. pabiloia">Burdin Gym · Usabal 123, Pabellón 2</div></div>
+    <form data-reveal class="cform" id="cform" novalidate>
+      <h3 data-es="O déjanos un mensaje" data-eu="Edo utzi mezu bat">O déjanos un mensaje</h3>
+      <label class="field"><span data-es="Nombre" data-eu="Izena">Nombre</span><input name="nombre" autocomplete="name" required></label>
+      <label class="field"><span>Email</span><input name="email" type="email" inputmode="email" autocomplete="email" required></label>
+      <label class="field"><span data-es="Mensaje" data-eu="Mezua">Mensaje</span><textarea name="mensaje" rows="4" required></textarea></label>
+      <button class="btn btn-primary block" type="submit"><span data-es="Enviar" data-eu="Bidali">Enviar</span></button>
+      <div class="err" id="cErr" role="alert"></div>
+      <div class="formnote" data-es="Se abre tu correo con el mensaje listo para Ander." data-eu="Zure posta irekitzen da mezua Anderrentzat prest.">Se abre tu correo con el mensaje listo para Ander.</div>
+    </form>
+  </div>
+  <div class="wrap">
+    <div data-reveal class="loc">
+      <div class="loc-info">
+        <div class="eyebrow" data-n="02" data-es="Cómo llegar" data-eu="Nola iritsi">Cómo llegar</div>
+        <h3 data-es="Polígono Usabal, Tolosa" data-eu="Usabal industrialdea, Tolosa">Polígono Usabal, Tolosa</h3>
+        <ul class="loc-list">
+          <li><svg aria-hidden="true"><use href="#i-pin"/></svg><b data-es="Usabal 123, Pabellón 2" data-eu="Usabal 123, 2. pabiloia">Usabal 123, Pabellón 2</b><span>20400 Tolosa (Gipuzkoa)</span></li>
+          <li class="tbd"><svg aria-hidden="true"><use href="#i-car"/></svg><b data-es="En coche" data-eu="Autoz">En coche</b><span data-es="Salida Tolosa de la A-1/N-I. Parking en la puerta." data-eu="A-1/N-I errepideko Tolosa irteera. Aparkalekua atean.">Salida Tolosa de la A-1/N-I. Parking en la puerta.</span></li>
+          <li class="tbd"><svg aria-hidden="true"><use href="#i-train"/></svg><b data-es="En tren o bus" data-eu="Trenez edo autobusez">En tren o bus</b><span data-es="Estación de Tolosa (Renfe) a 15 min a pie. Lurraldebus hasta Usabal." data-eu="Tolosako geltokia (Renfe) 15 minutura oinez. Lurraldebus Usabaleraino.">Estación de Tolosa (Renfe) a 15 min a pie. Lurraldebus hasta Usabal.</span></li>
+          <li><svg aria-hidden="true"><use href="#i-app"/></svg><b data-es="Entras con la app" data-eu="Aplikazioarekin sartzen zara">Entras con la app</b><span data-es="05:00 – 01:00, los 365 días. Sin llaves ni tarjeta." data-eu="05:00 – 01:00, 365 egunetan. Giltzarik eta txartelik gabe.">05:00 – 01:00, los 365 días. Sin llaves ni tarjeta.</span></li>
+        </ul>
+        <a class="btn btn-primary" id="goMaps" target="_blank" rel="noopener"><svg width="18" height="18" aria-hidden="true"><use href="#i-pin"/></svg><span data-es="Cómo llegar en Google Maps" data-eu="Nola iritsi Google Maps-en">Cómo llegar en Google Maps</span></a>
+      </div>
+      <div class="map" id="map"><div class="pin"><svg viewBox="0 0 272 288" aria-hidden="true"><use href="#b"/></svg><span>Burdin Gym</span></div></div>
+    </div>
   </div>
 </section>
 
@@ -1366,6 +1466,12 @@
   </div>
 </footer>
 
+<nav class="bnav" aria-label="Navegación">
+  <a href="/" data-page=""><svg aria-hidden="true"><use href="#i-home"/></svg><span data-es="Inicio" data-eu="Hasiera">Inicio</span></a>
+  <a href="/tarifas/" data-page="tarifas"><svg aria-hidden="true"><use href="#i-tag"/></svg><span data-es="Tarifas" data-eu="Tarifak">Tarifas</span></a>
+  <a href="/maquinas/" data-page="maquinas"><svg aria-hidden="true"><use href="#i-iron"/></svg><span data-es="Máquinas" data-eu="Makinak">Máquinas</span></a>
+  <a href="/contacto/" data-page="contacto"><svg aria-hidden="true"><use href="#i-pin"/></svg><span data-es="Contacto" data-eu="Kontaktua">Contacto</span></a>
+</nav>
 <dialog class="ficha" id="ficha" aria-label="Ficha de la máquina"><button type="button" class="fi-x" aria-label="Cerrar">×</button><div class="fi-body"></div></dialog>
 <div hidden aria-hidden="true"><div id="faqlist"></div><div id="legends"></div><div id="bars"></div></div>
 <a href="#fundador" class="disc-cta" id="discCta" aria-label="Reserva tu plaza de socio fundador">
@@ -1541,7 +1647,8 @@ const GRID=[
  ['flex-pa560','Flex Fitness','Biceps PA-560',{es:'Bíceps',eu:'Bizepsa'}],
  ['gymleco-chest-press','Gymleco','Chest Press',{es:'Pecho · Tríceps',eu:'Bularra · Trizepsa'}],
  ['gymleco-hack-squat','Gymleco','Hack Squat',{es:'Cuádriceps · Glúteo',eu:'Kuadrizepsa · Ipurmasaila'}],
- ['gymleco-leg-press','Gymleco','Leg Press',{es:'Pierna · Glúteo',eu:'Hanka · Ipurmasaila'}]
+ ['gymleco-leg-press','Gymleco','Leg Press',{es:'Pierna · Glúteo',eu:'Hanka · Ipurmasaila'}],
+ ['nautilus-glute-drive','Nautilus','Glute Drive',{es:'Glúteo',eu:'Ipurmasaila'}]
 ];
 function renderMachines(){
   const g=document.getElementById('mgrid');if(g){g.innerHTML=GRID.map(([f,b,nm,gr])=>`<figure class="mcard"><div class="mc-pic"><img src="/img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy"></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
@@ -1820,7 +1927,7 @@ function initSlides(){$$('[data-slide]').forEach(root=>{
   const set=v=>{x=Math.max(0,Math.min(max,v));knob.style.transform=`translateX(${x}px)`;fill.style.width=(W+x)+'px';lbl.style.opacity=Math.max(0,1-x/(max*.55))};
   const done=()=>{measure();root.classList.add('snap','done');set(max);setTimeout(()=>{const to=root.dataset.to;
     if(to){const f=document.querySelector(to);f.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>f.focus({preventScroll:true}),500)}
-    else if(getComputedStyle(document.querySelector('#fundador')).display==='none')location.href='/fundador/';else document.querySelector('#fundador').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    else if(getComputedStyle(document.querySelector('#fundador')).display==='none')location.href='/tarifas/#fundador';else document.querySelector('#fundador').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
     setTimeout(()=>{root.classList.remove('done');set(0)},900)},450)};
   knob.addEventListener('pointerdown',e=>{measure();drag=true;startX=e.clientX-x;root.classList.remove('snap');knob.setPointerCapture(e.pointerId)});
   knob.addEventListener('pointermove',e=>{if(drag)set(e.clientX-startX)});
@@ -1920,12 +2027,16 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
 
 /* ---------- Páginas: los enlaces a un apartado que no está en esta página van a su página ---------- */
 (function(){
-  const PAGE={coleccion:'maquinas',gimnasio:'gimnasio',fundador:'fundador',contacto:'contacto',tarifas:'tarifas',top:''};
+  const PAGE={coleccion:'maquinas',gimnasio:'maquinas',fundador:'tarifas',contacto:'contacto',tarifas:'tarifas',top:''};
   const here=document.body.dataset.page||'';
   const visible=id=>{const el=document.getElementById(id);return el&&getComputedStyle(el).display!=='none'};
   document.querySelectorAll('a[href^="#"]').forEach(a=>{const id=a.getAttribute('href').slice(1);if(!(id in PAGE))return;
     if(!visible(id))a.setAttribute('href','/'+(PAGE[id]?PAGE[id]+'/':'')+(id==='top'?'':'#'+id))});
-  document.querySelectorAll('.links a[data-page]').forEach(a=>a.classList.toggle('on',a.dataset.page===here));
+  document.querySelectorAll('.links a[data-page],.bnav a[data-page]').forEach(a=>a.classList.toggle('on',a.dataset.page===here));
+  const gm=document.getElementById('goMaps');if(gm)gm.href='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(CONFIG.mapa);
+  const cf=document.getElementById('cform');if(cf)cf.addEventListener('submit',e=>{e.preventDefault();const f=new FormData(cf),n=(f.get('nombre')||'').trim(),m=(f.get('email')||'').trim(),t=(f.get('mensaje')||'').trim(),err=document.getElementById('cErr');
+    if(!n||!m||!t){err.textContent=LANG==='es'?'Rellena los tres campos.':'Bete hiru eremuak.';return}err.textContent='';
+    location.href='mailto:'+CONFIG.email+'?subject='+encodeURIComponent('Burdin Gym · '+n)+'&body='+encodeURIComponent(t+'\n\n'+n+' · '+m)});
   const l=document.getElementById('idxLeft');if(l)l.textContent=CONFIG.plazasFundador-Math.min(CONFIG.plazasOcupadas,CONFIG.plazasFundador);
   if(location.hash&&visible(location.hash.slice(1)))setTimeout(()=>document.querySelector(location.hash).scrollIntoView(),50);
 })();
