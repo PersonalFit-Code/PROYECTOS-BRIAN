@@ -1290,6 +1290,14 @@
   @media (max-width:900px){.peso-hero{min-height:340px;padding:22px 18px 20px}.peso-hero .ph-bg{background-image:url(/img/peso-fondo-m.webp);background-position:38% 45%}}
   .peso-hero::after{background:linear-gradient(180deg,rgba(10,10,10,.25) 0%,rgba(10,10,10,.5) 50%,rgba(10,10,10,.94) 100%),linear-gradient(90deg,rgba(10,10,10,.55),transparent 65%)!important}
   @media (max-width:900px){.peso-hero::after{background:linear-gradient(180deg,rgba(10,10,10,.35) 0%,rgba(10,10,10,.72) 55%,rgba(10,10,10,.96) 100%)!important}}
+  /* banda con la barra cargada, antes de los discos */
+  .peso-band{position:relative;margin-top:18px;min-height:300px;display:flex;align-items:center;border:1px solid rgba(255,255,255,.1);overflow:hidden;
+    background:linear-gradient(90deg,rgba(10,10,10,.85) 0%,rgba(10,10,10,.35) 45%,transparent 70%),url(/img/peso-barra.webp) 70% 50%/cover no-repeat}
+  .peso-band .pb-in{padding:30px 34px}
+  .peso-band b{display:block;font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(2.6rem,6vw,4.4rem);text-transform:uppercase;line-height:.95}
+  .peso-band span{display:block;margin-top:8px;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#e0e0e0}
+  .d-mid:empty{padding:6px}
+  @media (max-width:900px){.peso-band{min-height:240px;align-items:flex-end;background:linear-gradient(180deg,transparent 30%,rgba(10,10,10,.88) 100%),url(/img/peso-barra-m.webp) 60% 50%/cover no-repeat}.peso-band .pb-in{padding:20px 18px}}
 </style>
 </head>
 <body data-page="" class="boceto">
@@ -1421,9 +1429,10 @@
         <p data-es="Racks, mancuernas de 2,5 a 60 kg y discos." data-eu="Rackak, 2,5etik 60 kg-rako mankuernak eta diskoak.">Racks, mancuernas de 2,5 a 60 kg y discos.</p>
       </div>
       <div class="mgrid" id="pgrid"></div>
+      <div class="peso-band" aria-hidden="false"><div class="pb-in"><b data-es="Discos" data-eu="Diskoak">Discos</b><span data-es="Goma y hierro · de 5 a 25 kg" data-eu="Goma eta burdina · 5etik 25 kg-ra">Goma y hierro · de 5 a 25 kg</span></div></div>
       <div class="discos" data-reveal>
         <div class="d-row d-rojo"><div class="d-fan" id="dfan" role="img" aria-label="Discos de goma de 25 a 5 kg"><img class="dk" src="/img/discos/rojo-25.webp" alt="" draggable="false" style="z-index:1"><img class="dk" src="/img/discos/rojo-20.webp" alt="" draggable="false" style="z-index:2"><img class="dk" src="/img/discos/rojo-15.webp" alt="" draggable="false" style="z-index:3"><img class="dk" src="/img/discos/rojo-10.webp" alt="" draggable="false" style="z-index:4"><img class="dk" src="/img/discos/rojo-5.webp" alt="" draggable="false" style="z-index:5"></div></div>
-        <div class="d-mid"><b data-es="Discos" data-eu="Diskoak">Discos</b></div>
+        <div class="d-mid"></div>
         <div class="d-row d-hierro"><div class="d-fan d-fan-h" id="dfanh" role="img" aria-label="Discos de hierro de 5 a 25 kg"><img class="dk" src="/img/discos/hierro-5.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-10.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-15.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-20.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-25.webp" alt="" draggable="false"></div></div>
       </div>
     </div>
