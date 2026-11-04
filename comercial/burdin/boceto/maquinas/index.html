@@ -1166,7 +1166,7 @@
   .peso-head{margin-bottom:24px;max-width:640px}
   .peso-head h3{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(2.2rem,5vw,3.6rem);text-transform:uppercase;line-height:.95;margin:8px 0 8px}
   .peso-head p{color:var(--fg2);font-size:15px}
-  #pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #pgrid{grid-template-columns:repeat(4,minmax(0,1fr))}
   .mc-soon{display:none}
   .mcard .mc-pic .mc-soon{font-family:var(--label)!important;font-weight:600!important;font-stretch:100%!important;font-size:10px!important;letter-spacing:.2em!important;line-height:1.3!important;color:var(--fg3)!important;white-space:nowrap}
   .mc-pic.nopic{background:repeating-linear-gradient(135deg,#1a1a1a 0 14px,#161616 14px 28px)!important}
@@ -1305,9 +1305,9 @@
     <div class="mgrid" id="mgrid"></div>
     <div class="peso" id="peso">
       <div class="peso-head">
-        <div class="eyebrow" data-n="02" data-es="Zona power" data-eu="Power eremua">Zona power</div>
-        <h3 data-es="Peso libre" data-eu="Pisu librea">Peso libre</h3>
-        <p data-es="Racks, mancuernas y discos para entrenar pesado." data-eu="Rackak, mankuernak eta diskoak astun entrenatzeko.">Racks, mancuernas y discos para entrenar pesado.</p>
+        <div class="eyebrow" data-n="02" data-es="Peso libre" data-eu="Pisu librea">Peso libre</div>
+        <h3 data-es="Zona de peso libre" data-eu="Pisu libreko eremua">Zona de peso libre</h3>
+        <p data-es="Dos racks, mancuernero completo y discos." data-eu="Bi rack, mankuerna-euskarri osoa eta diskoak.">Dos racks, mancuernero completo y discos.</p>
       </div>
       <div class="mgrid" id="pgrid"></div>
     </div>
@@ -1667,8 +1667,9 @@ const GRID=[
 ];
 const PESO=[
  ['hammer-full-rack','Hammer Strength','Full Rack',{es:'Sentadilla · Press · Dominadas',eu:'Squat · Press · Tiraldiak'}],
+ ['hammer-power-rack','Hammer Strength','Power Rack',{es:'Sentadilla · Press · Dominadas',eu:'Squat · Press · Tiraldiak'}],
  ['peso-mancuernas','Peso libre','Mancuernas',{es:'Mancuernero completo',eu:'Mankuerna-euskarri osoa'}],
- ['peso-discos','Peso libre','Discos',{es:'Discos de goma',eu:'Gomazko diskoak'}]
+ ['peso-discos','Peso libre','Discos',{es:'De 5 a 25 kg',eu:'5etik 25 kg-ra'}]
 ];
 function renderPeso(){const g=document.getElementById('pgrid');if(!g)return;
   g.innerHTML=PESO.map(([f,b,nm,gr])=>`<figure class="mcard"><div class="mc-pic"><img src="/img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy" onerror="this.parentNode.classList.add('nopic');this.remove()"><span class="mc-soon">${LANG==='es'?'Foto en camino':'Argazkia bidean'}</span></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
