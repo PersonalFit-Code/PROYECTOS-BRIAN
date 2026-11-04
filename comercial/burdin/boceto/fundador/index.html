@@ -1354,6 +1354,38 @@
     .why .whyc b{margin-top:12px!important;font-size:1.2rem!important}
     .why .wg{margin-top:10px;padding-top:6px}
   }
+  /* ===== Gimnasio: máquina y texto separados (sin nada encima de nada) ===== */
+  .gmid{padding-bottom:0!important}
+  .slide.zs{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;aspect-ratio:auto!important;min-height:380px;background:radial-gradient(ellipse 70% 80% at 70% 50%,#2e2d2b,#121212 75%)}
+  .zs-pic{order:2;display:flex;align-items:center;justify-content:center;padding:22px;height:100%}
+  .zs-pic img{display:block;max-width:100%;max-height:330px;width:auto;height:auto;filter:grayscale(1) contrast(1.08) drop-shadow(0 24px 22px rgba(0,0,0,.75));transition:filter .8s var(--ease)}
+  .slide.zs:hover .zs-pic img{filter:grayscale(0) drop-shadow(0 24px 22px rgba(0,0,0,.75))}
+  .zs-txt{order:1;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:28px}
+  .zs-txt h3{font-size:clamp(2rem,3.4vw,3rem)!important;line-height:.9}
+  .zs-txt p{max-width:34ch;color:var(--fg2);font-size:15px;line-height:1.5;margin:0}
+  @media (max-width:900px){
+    .slide.zs{grid-template-columns:1fr;grid-template-rows:auto auto;min-height:0}
+    .zs-pic{order:1;height:auto;padding:22px 22px 6px}.zs-pic img{max-height:230px}
+    .zs-txt{order:2;padding:10px 20px 22px}
+  }
+  /* ===== Peso libre: título de sección grande + tres bloques al mismo nivel ===== */
+  .peso-hero h3{font-size:clamp(3rem,9vw,6.4rem)!important;line-height:.88!important}
+  .peso-hero .eyebrow{font-size:13px}
+  .ptiles{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px}
+  .ptile{min-height:480px}
+  .ptile figcaption{width:100%}
+  .ptile b{font-size:clamp(2rem,3.2vw,2.8rem)!important}
+  .ptile.discos{margin:0;padding:0!important;display:flex!important;flex-direction:column;justify-content:space-between;align-items:stretch;background:radial-gradient(ellipse 80% 60% at 50% 35%,#3b3936,#151515 75%)}
+  .ptile.discos::before{content:none}
+  .ptile.discos .d-row{padding:18px 14px 0!important;display:flex;justify-content:center}
+  .ptile.discos .d-row+.d-row{padding-top:0!important;margin-top:-8%}
+  .ptile.discos .d-fan{width:100%!important}
+  .ptile.discos figcaption{margin-top:auto}
+  .zs-m{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#d8d8d8;white-space:nowrap}
+  .slide.zs{grid-template-columns:1fr 1fr}
+  @media (min-width:901px){.ptile figcaption span{min-height:4.5em}}
+  @media (max-width:1100px) and (min-width:901px){.ptiles{grid-template-columns:1fr 1fr!important}.ptile.discos{grid-column:1/-1}}
+  @media (max-width:900px){.ptiles{grid-template-columns:1fr!important;gap:12px}.ptile{min-height:340px}.ptile.discos{min-height:0}}
 </style>
 </head>
 <body data-page="tarifas" class="boceto">
@@ -1485,15 +1517,15 @@
         <p data-es="Racks, mancuernas de 2,5 a 60 kg y discos." data-eu="Rackak, 2,5etik 60 kg-rako mankuernak eta diskoak.">Racks, mancuernas de 2,5 a 60 kg y discos.</p>
       </div>
       <div class="ptiles">
-        <figure class="ptile" style="--img:url(/img/peso-card-rack.webp)"><figcaption><small>Hammer Strength</small><b data-es="Racks ×2" data-eu="Rackak ×2">Racks ×2</b><span data-es="Dos racks de potencia con barra olímpica y discos de hierro, para sentadilla, press y dominadas." data-eu="Bi potentzia-rack barra olinpiko eta burdinazko diskoekin, squat, press eta tiraldietarako.">Dos racks de potencia con barra olímpica y discos de hierro, para sentadilla, press y dominadas.</span></figcaption></figure>
-        <figure class="ptile" style="--img:url(/img/peso-card-mancuernas.webp)"><figcaption><small data-es="Peso libre" data-eu="Pisu librea">Peso libre</small><b data-es="Mancuernas" data-eu="Mankuernak">Mancuernas</b><span data-es="Mancuernero completo de 2,5 a 60 kg, de goma, siempre ordenado." data-eu="Mankuerna-euskarri osoa, 2,5etik 60 kg-ra, gomazkoa, beti ordenatuta.">Mancuernero completo de 2,5 a 60 kg, de goma, siempre ordenado.</span></figcaption></figure>
+        <figure class="ptile" style="--img:url(/img/peso-card-rack.webp)"><figcaption><small>01 · Hammer Strength</small><b data-es="Racks ×2" data-eu="Rackak ×2">Racks ×2</b><span data-es="Dos racks de potencia con barra olímpica y discos de hierro, para sentadilla, press y dominadas." data-eu="Bi potentzia-rack barra olinpiko eta burdinazko diskoekin, squat, press eta tiraldietarako.">Dos racks de potencia con barra olímpica y discos de hierro, para sentadilla, press y dominadas.</span></figcaption></figure>
+        <figure class="ptile" style="--img:url(/img/peso-card-mancuernas.webp)"><figcaption><small data-es="02 · Mancuernero" data-eu="02 · Mankuerna-euskarria">02 · Mancuernero</small><b data-es="Mancuernas" data-eu="Mankuernak">Mancuernas</b><span data-es="Mancuernero completo de 2,5 a 60 kg, de goma, siempre ordenado." data-eu="Mankuerna-euskarri osoa, 2,5etik 60 kg-ra, gomazkoa, beti ordenatuta.">Mancuernero completo de 2,5 a 60 kg, de goma, siempre ordenado.</span></figcaption></figure>
+      <figure class="ptile discos" data-reveal>
+        <div class="d-row d-rojo"><div class="d-fan" id="dfan" role="img" aria-label="Discos de goma de 25 a 5 kg"><img class="dk" src="/img/discos/rojo-25.webp" alt="" draggable="false" style="z-index:1"><img class="dk" src="/img/discos/rojo-20.webp" alt="" draggable="false" style="z-index:2"><img class="dk" src="/img/discos/rojo-15.webp" alt="" draggable="false" style="z-index:3"><img class="dk" src="/img/discos/rojo-10.webp" alt="" draggable="false" style="z-index:4"><img class="dk" src="/img/discos/rojo-5.webp" alt="" draggable="false" style="z-index:5"></div></div>
+        <div class="d-row d-hierro"><div class="d-fan d-fan-h" id="dfanh" role="img" aria-label="Discos de hierro de 5 a 25 kg"><img class="dk" src="/img/discos/hierro-5.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-10.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-15.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-20.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-25.webp" alt="" draggable="false"></div></div>
+        <figcaption><small data-es="03 · Goma y hierro" data-eu="03 · Goma eta burdina">03 · Goma y hierro</small><b data-es="Discos" data-eu="Diskoak">Discos</b><span data-es="De 5 a 25 kg, de goma para el suelo y de hierro para los racks." data-eu="5etik 25 kg-ra, gomazkoak lurrerako eta burdinazkoak racketarako.">De 5 a 25 kg, de goma para el suelo y de hierro para los racks.</span></figcaption>
+      </figure>
       </div>
       <div class="mgrid" id="pgrid" hidden></div>
-      <div class="discos" data-reveal>
-        <div class="d-row d-rojo"><div class="d-fan" id="dfan" role="img" aria-label="Discos de goma de 25 a 5 kg"><img class="dk" src="/img/discos/rojo-25.webp" alt="" draggable="false" style="z-index:1"><img class="dk" src="/img/discos/rojo-20.webp" alt="" draggable="false" style="z-index:2"><img class="dk" src="/img/discos/rojo-15.webp" alt="" draggable="false" style="z-index:3"><img class="dk" src="/img/discos/rojo-10.webp" alt="" draggable="false" style="z-index:4"><img class="dk" src="/img/discos/rojo-5.webp" alt="" draggable="false" style="z-index:5"></div></div>
-        <div class="d-mid"><b data-es="Discos" data-eu="Diskoak">Discos</b><span data-es="Goma y hierro · de 5 a 25 kg" data-eu="Goma eta burdina · 5etik 25 kg-ra">Goma y hierro · de 5 a 25 kg</span></div>
-        <div class="d-row d-hierro"><div class="d-fan d-fan-h" id="dfanh" role="img" aria-label="Discos de hierro de 5 a 25 kg"><img class="dk" src="/img/discos/hierro-5.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-10.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-15.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-20.webp" alt="" draggable="false"><img class="dk" src="/img/discos/hierro-25.webp" alt="" draggable="false"></div></div>
-      </div>
       <div class="peso-cta">
         <p data-es="¿Te ves entrenando aquí?" data-eu="Hemen entrenatzen ikusten zara?">¿Te ves entrenando aquí?</p>
         <a href="/tarifas/#fundador" class="btn btn-primary" id="pesoCta"><span data-es="Hazte socio fundador · 40 €/mes" data-eu="Egin bazkide sortzaile · 40 €/hil">Hazte socio fundador · 40 €/mes</span></a>
@@ -1525,7 +1557,6 @@
     <div data-reveal class="gmid">
       <div class="slides" id="slides"></div>
       <div class="gnav"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Siguiente">→</button></div></div>
-      <img class="gcut" src="/img/cybex_curl.webp" alt="" loading="lazy" aria-hidden="true">
     </div>
     <div data-reveal class="gbox">
       <span class="tag" data-es="Horario" data-eu="Ordutegia">Horario</span>
@@ -1536,7 +1567,7 @@
       </div>
     </div>
   </div>
-    <div class="wrap gfoot"><span data-es="Página 03 · El gimnasio" data-eu="03. orria · Gimnasioa">Página 03 · El gimnasio</span><span data-es="Fotos del local cuando acaben las obras" data-eu="Lokaleko argazkiak obrak amaitzean">Fotos del local cuando acaben las obras</span></div>
+    <div class="wrap gfoot"><span data-es="Página 03 · El gimnasio" data-eu="03. orria · Gimnasioa">Página 03 · El gimnasio</span></div>
 </section>
 
 
@@ -1763,10 +1794,9 @@ const ML={es:{y:'Año / origen',f:'Procedencia',k:'Recorrido',w:'Por qué es esp
           eu:{y:'Urtea / jatorria',f:'Jatorria',k:'Ibilbidea',w:'Zergatik den berezia',g:'Taldea',t:'Mota',ex:'Adibide-istorioa',open:'Istorioa ikusi',close:'Istorioa itxi'}};
 
 const ZONES=[
- {img:'/img/chain.webp',photo:'/img/zona-oldschool.jpg',es:{h:'Respeta<br>el hierro',p:'Old school: piezas clásicas que ya no se fabrican.'},eu:{h:'Errespetatu<br>burdina',p:'Old school: jada egiten ez diren pieza klasikoak.'}},
- {img:'/img/cybex_chest.webp',photo:'/img/zona-pecho.jpg',es:{h:'Empuja',p:'Pecho y hombro: presses de placas y selectorizadas.'},eu:{h:'Bultzatu',p:'Bularra eta sorbalda: plaka- eta pila-prentsak.'}},
- {img:'/img/flex_bicep.webp',photo:'/img/zona-brazo.jpg',es:{h:'Bombea',p:'Brazo: curls de leva, predicador y poleas.'},eu:{h:'Ponpatu',p:'Besoa: kama-kurlak, predikadorea eta poleak.'}},
- {render:'wall',photo:'/img/zona-recepcion.jpg',es:{h:'Bienvenido',p:'Recepción. Aquí empieza todo.'},eu:{h:'Ongi etorri',p:'Harrera. Hemen hasten da dena.'}}
+ {img:'/img/maquinas/startrac-biceps.webp',m:'Star Trac · P3-350',es:{h:'Bombea',p:'Biceps Machine. Curl guiado, sentado y con apoyo de brazos.'},eu:{h:'Ponpatu',p:'Biceps Machine. Kurl gidatua, eserita eta besoak bermatuta.'}},
+ {img:'/img/maquinas/eagle-chest-press.webp',m:'Eagle by Cybex',es:{h:'Empuja',p:'Chest Press. Press de pecho de placas, de los de siempre.'},eu:{h:'Bultzatu',p:'Chest Press. Plaka-bular prentsa, betikoa.'}},
+ {img:'/img/maquinas/cybex-leg-extension.webp',m:'Cybex',es:{h:'Respeta<br>el hierro',p:'Leg Extension de discos. Cuádriceps a la antigua.'},eu:{h:'Errespetatu<br>burdina',p:'Leg Extension diskoekin. Kuadrizepsa betiko eran.'}}
 ];
 
 const PLANS={
@@ -1932,15 +1962,10 @@ function openFicha(i){
   if(!d.open){d.showModal();document.body.style.overflow='hidden'}
 }
 function renderZones(){
-  const l=LANG, soon=l==='es'?'Foto del local · cuando acaben las obras':'Lokaleko argazkia · obrak amaitzean';
-  $('#slides').innerHTML=ZONES.map((z,i)=>{
-    let art='';
-    if(z.render==='wall') art=`<div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 45% at 55% 40%,#5e5a54,#3e3b37 60%,#2a2826)"></div><div style="position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;filter:drop-shadow(0 0 16px rgba(232,200,140,.7))"><svg viewBox="0 0 272 288" style="width:clamp(60px,10vw,110px)"><use href="#bdark"/></svg><span style="font-family:Syncopate,sans-serif;font-weight:700;font-size:clamp(1.2rem,3.2vw,2.4rem);letter-spacing:.14em;color:#111">BURDIN</span></div><div style="position:absolute;left:0;right:0;bottom:0;height:20%;background:repeating-linear-gradient(45deg,#222 0 3px,#2b2b2b 3px 6px);border-top:2px solid #e8c88c;box-shadow:0 -6px 24px rgba(232,200,140,.4)"></div>`;
-    else art=`<div class="blur" style="background-image:url(${z.img})"></div><img class="cut" src="${z.img}" alt="" loading="lazy">`;
-    return `<div class="slide" role="group" aria-label="${i+1} / ${ZONES.length}">
-      <div class="bg">${art}<img class="photo" src="${z.photo}" alt="" loading="lazy" style="position:absolute;inset:0;display:none" onload="this.style.display='block';this.closest('.slide').querySelector('.soon')?.remove()"></div>
-      <div class="shade"></div><span class="soon">${soon}</span>
-      <div class="txt"><span class="idx">0${i+1} / 0${ZONES.length}</span><h3>${z[l].h}</h3><p>${z[l].p}</p></div></div>`}).join('');
+  const l=LANG;
+  $('#slides').innerHTML=ZONES.map((z,i)=>`<div class="slide zs" role="group" aria-label="${i+1} / ${ZONES.length}">
+      <div class="zs-pic"><img src="${z.img}" alt="${z.m}" loading="lazy"></div>
+      <div class="zs-txt"><span class="idx">0${i+1} / 0${ZONES.length}</span><span class="zs-m">${z.m}</span><h3>${z[l].h}</h3><p>${z[l].p}</p></div></div>`).join('');
   $('#dots').innerHTML=ZONES.map((_,i)=>`<button type="button" aria-label="${i+1}"></button>`).join('');
   $$('#dots button').forEach((b,i)=>b.onclick=()=>goSlide(i));
   updDots();
