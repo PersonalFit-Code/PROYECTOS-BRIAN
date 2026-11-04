@@ -1468,6 +1468,17 @@
   .hero .shade{background:linear-gradient(90deg,rgba(10,10,10,.78) 0%,rgba(10,10,10,.5) 30%,rgba(10,10,10,.08) 55%,rgba(10,10,10,0) 68%),linear-gradient(0deg,rgba(10,10,10,.92) 0%,rgba(10,10,10,.4) 18%,rgba(10,10,10,0) 36%),linear-gradient(180deg,rgba(10,10,10,.5) 0%,rgba(10,10,10,0) 14%)!important}
   .hero h1,.hero .sub{text-shadow:0 2px 18px rgba(0,0,0,.55)!important}
   @media (max-width:900px){.hero .shade{background:linear-gradient(0deg,rgba(10,10,10,.95) 0%,rgba(10,10,10,.82) 36%,rgba(10,10,10,.3) 56%,rgba(10,10,10,0) 68%),linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,0) 14%)!important}}
+  /* ===== Peso libre en el móvil: los tres bloques en fila, deslizables ===== */
+  .pdots{display:none}
+  @media (max-width:900px){
+    .ptiles{display:flex!important;gap:12px!important;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -20px;padding:0 20px;scroll-padding:0 20px}
+    .ptiles::-webkit-scrollbar{display:none}
+    .ptile{flex:0 0 84%;scroll-snap-align:start;min-height:400px!important}
+    .ptile.discos{min-height:400px!important}
+    .pdots{display:flex;justify-content:center;gap:8px;margin:14px 0 0}
+    .pdots i{width:28px;height:4px;border-radius:2px;background:rgba(255,255,255,.22);transition:background .3s}
+    .pdots i.on{background:#f5f5f5}
+  }
 </style>
 </head>
 <body data-page="" class="boceto">
@@ -1607,6 +1618,7 @@
         <figcaption><small data-es="03 · Goma y hierro" data-eu="03 · Goma eta burdina">03 · Goma y hierro</small><b data-es="Discos" data-eu="Diskoak">Discos</b><span data-es="De 5 a 25 kg, de goma para el suelo y de hierro para los racks." data-eu="5etik 25 kg-ra, gomazkoak lurrerako eta burdinazkoak racketarako.">De 5 a 25 kg, de goma para el suelo y de hierro para los racks.</span></figcaption>
       </figure>
       </div>
+      <div class="pdots" id="pdots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
       <div class="mgrid" id="pgrid" hidden></div>
       <div class="peso-cta">
         <p data-es="¿Te ves entrenando aquí?" data-eu="Hemen entrenatzen ikusten zara?">¿Te ves entrenando aquí?</p>
@@ -2422,6 +2434,10 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const on=()=>{if(r)return;r=requestAnimationFrame(()=>{r=0;const box=b.parentNode.getBoundingClientRect(),vh=innerHeight;if(box.bottom<0||box.top>vh)return;const p=(box.top+box.height/2-vh/2)/vh;b.style.setProperty('--py',(p*-60).toFixed(1)+'px')})};
   addEventListener('scroll',on,{passive:true});on()})();
 
+/* ---------- Peso libre: puntos del deslizable del móvil ---------- */
+(function(){const t=document.querySelector('.ptiles'),d=[...document.querySelectorAll('#pdots i')];if(!t||!d.length)return;
+  const up=()=>{const c=[...t.children];let b=0,m=1e9;c.forEach((x,i)=>{const v=Math.abs(x.getBoundingClientRect().left-t.getBoundingClientRect().left-20);if(v<m){m=v;b=i}});d.forEach((x,i)=>x.classList.toggle('on',i===b))};
+  t.addEventListener('scroll',()=>requestAnimationFrame(up),{passive:true});})();
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(window.gsap&&!reduce){
