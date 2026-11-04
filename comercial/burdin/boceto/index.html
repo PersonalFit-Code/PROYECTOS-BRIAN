@@ -1171,21 +1171,39 @@
   .mc-pic.nopic{background:repeating-linear-gradient(135deg,#1a1a1a 0 14px,#161616 14px 28px)!important}
   .mc-pic.nopic .mc-soon{display:block;position:relative;z-index:1;font-family:var(--label);font-weight:600;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3);border:1px dashed rgba(255,255,255,.25);padding:8px 12px}
   @media (max-width:900px){.peso{margin-top:46px}#pgrid{grid-template-columns:1fr 1fr}}
-  /* ===== Discos: rojos de 25 a 5 arriba, hierro de 5 a 25 abajo (entran en sentidos opuestos) ===== */
+  /* ===== Discos: carrusel en cascada (port del Disc Cascade Carousel de 21st.dev a JS plano) ===== */
   #pgrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-  .discos{margin-top:18px;padding:34px 0 30px;border:1px solid rgba(255,255,255,.1);background:radial-gradient(ellipse 70% 80% at 50% 50%,#3b3936,#151515 75%);overflow:hidden}
-  .d-row{display:flex;padding:0 4%}
-  .d-row img{display:block;width:min(820px,92%);height:auto;filter:drop-shadow(0 18px 18px rgba(0,0,0,.55));transition:transform 1.2s var(--ease),opacity .9s ease}
-  .d-rojo{justify-content:flex-start}
-  .d-hierro{justify-content:flex-end}
-  .d-mid{display:flex;align-items:baseline;justify-content:center;gap:14px;padding:16px 20px;text-align:center;flex-wrap:wrap}
-  .d-mid b{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(2rem,5vw,3.4rem);text-transform:uppercase;line-height:1}
-  .d-mid span{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg2)}
-  html[data-reveal-armed] .discos:not(.is-revealed) .d-rojo img{transform:translateX(-30%);opacity:0}
-  html[data-reveal-armed] .discos:not(.is-revealed) .d-hierro img{transform:translateX(30%);opacity:0}
-  html[data-reveal-armed] .discos{opacity:1!important;transform:none!important}
-  @media (max-width:900px){#pgrid{grid-template-columns:1fr 1fr!important}#pgrid .mcard:last-child{grid-column:1/-1}#pgrid .mcard:last-child .mc-pic{aspect-ratio:16/10}.discos{padding:22px 0 20px}.d-row img{width:100%}}
-  @media (prefers-reduced-motion:reduce){.d-row img{transition:none}}
+  .dcc{position:relative;overflow:hidden;margin-top:18px;height:520px;border:1px solid rgba(255,255,255,.1);
+    background:radial-gradient(ellipse 80% 90% at 50% 45%,#3a3835,#141414 70%);user-select:none;-webkit-user-select:none;touch-action:pan-y;outline:none;
+    --s:clamp(170px,32vw,330px);cursor:grab}
+  .dcc:focus-visible{box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)}
+  .dcc[data-dragging]{cursor:grabbing}
+  .dcc-stage{position:absolute;left:50%;top:54%;width:var(--s);aspect-ratio:1;transform:translate(-50%,-50%);perspective:calc(var(--s) * 3.2)}
+  .dcc-slide{position:absolute;inset:0;border-radius:50%;will-change:transform;transform-style:preserve-3d;cursor:pointer}
+  .dcc-slide img{position:absolute;inset:0;width:100%;height:100%;display:block;border-radius:50%;transform:rotate(var(--roll,0deg));
+    filter:drop-shadow(0 18px 16px rgba(0,0,0,.55))}
+  .dcc[data-spin] .dcc-slide[data-active] img{animation:dccSpin 24s linear infinite}
+  .dcc[data-dragging] .dcc-slide img{animation-play-state:paused}
+  @keyframes dccSpin{to{transform:rotate(calc(var(--roll,0deg) + 360deg))}}
+  .dcc-head{position:absolute;left:24px;top:22px;z-index:4;width:min(260px,44%);pointer-events:none}
+  .dcc-head h4{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(1.6rem,3.2vw,2.6rem);text-transform:uppercase;line-height:.95;margin:0 0 10px}
+  .dcc-head dl{margin:0}
+  .dcc-head .r{display:flex;justify-content:space-between;gap:12px;padding:5px 0 6px;border-top:1px solid rgba(255,255,255,.4)}
+  .dcc-head dt{font-family:var(--label);font-weight:600;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg2)}
+  .dcc-head dd{margin:0;font-size:12px;text-align:right}
+  .dcc-head .in{animation:dccIn .8s var(--ease) both;animation-delay:calc(var(--i,0) * 60ms)}
+  @keyframes dccIn{from{opacity:0;transform:translateY(10px);filter:blur(4px)}}
+  .dcc-quote{position:absolute;right:24px;top:24px;z-index:4;width:min(220px,40%);text-align:right;pointer-events:none}
+  .dcc-hint{position:absolute;left:24px;bottom:20px;z-index:4;font-family:var(--label);font-size:9px;letter-spacing:.18em;text-transform:uppercase;opacity:.5;pointer-events:none;line-height:34px}
+  .dcc-ctl{position:absolute;right:20px;bottom:18px;z-index:5;display:flex;align-items:center;gap:10px}
+  .dcc-btn{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.3);color:var(--fg);font-size:15px;cursor:pointer;transition:background .2s,opacity .2s}
+  .dcc-btn:hover:not(:disabled){background:rgba(255,255,255,.12)}
+  .dcc-btn:disabled{opacity:.3;cursor:default}
+  .dcc-count{font-family:var(--mono);font-size:11px;letter-spacing:.1em;min-width:56px;text-align:center}
+  .dcc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  @media (max-width:900px){#pgrid{grid-template-columns:1fr 1fr!important}#pgrid .mcard:last-child{grid-column:1/-1}#pgrid .mcard:last-child .mc-pic{aspect-ratio:16/10}
+    .dcc{height:430px;--s:clamp(150px,46vw,220px)}.dcc-stage{top:58%}.dcc-head{left:16px;top:16px;width:46%}.dcc-head .r:nth-child(n+3){display:none}.dcc-hint{display:none}.dcc-ctl{right:14px;bottom:14px}}
+  @media (prefers-reduced-motion:reduce){.dcc .dcc-slide img{animation:none}.dcc-head .in{animation:none}}
 </style>
 </head>
 <body data-page="" class="boceto">
@@ -1324,10 +1342,12 @@
         <p data-es="Dos racks, mancuernero completo y discos." data-eu="Bi rack, mankuerna-euskarri osoa eta diskoak.">Dos racks, mancuernero completo y discos.</p>
       </div>
       <div class="mgrid" id="pgrid"></div>
-      <div class="discos" data-reveal>
-        <div class="d-row d-rojo"><img src="/img/maquinas/peso-discos.webp" alt="Discos de goma de 25 a 5 kg" loading="lazy"></div>
-        <div class="d-mid"><b data-es="Discos" data-eu="Diskoak">Discos</b><span data-es="De 5 a 25 kg · goma y hierro" data-eu="5etik 25 kg-ra · goma eta burdina">De 5 a 25 kg · goma y hierro</span></div>
-        <div class="d-row d-hierro"><img src="/img/maquinas/peso-discos-hierro.webp" alt="Discos de hierro de 5 a 25 kg" loading="lazy" onerror="this.parentNode.remove()"></div>
+      <div class="dcc" id="dcc" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Discos">
+        <div class="dcc-head" id="dccHead" aria-hidden="true"></div>
+        <div class="dcc-stage" id="dccStage"></div>
+        <div class="dcc-hint" data-es="Arrastra · ← →" data-eu="Arrastatu · ← →">Arrastra · ← →</div>
+        <div class="dcc-ctl"><button type="button" class="dcc-btn" id="dccPrev" aria-label="Anterior">←</button><span class="dcc-count" id="dccCount">01 / 05</span><button type="button" class="dcc-btn" id="dccNext" aria-label="Siguiente">→</button></div>
+        <div class="dcc-sr" id="dccSr" aria-live="polite"></div>
       </div>
     </div>
     <p class="note" data-es="Algunas de las máquinas de Burdin, antes de montarlas en la sala." data-eu="Burdineko makina batzuk, aretoan muntatu aurretik.">Algunas de las máquinas de Burdin, antes de montarlas en la sala.</p>
@@ -1857,7 +1877,7 @@ function setLang(l){
   LANG=l;document.documentElement.lang=l;
   $$('[data-'+l+']').forEach(e=>e.innerHTML=e.dataset[l]);
   $$('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
-  renderMachines();renderLegends();renderZones();renderBars();renderPlans();renderFundCard();renderFaq();renderContact();renderSeats();initGen();prepareMani();if(window.fitTitles)fitTitles();if(window.initSlides)initSlides();
+  renderMachines();renderLegends();renderZones();renderBars();renderPlans();renderFundCard();if(window.dccRelabel)dccRelabel();renderFaq();renderContact();renderSeats();initGen();prepareMani();if(window.fitTitles)fitTitles();if(window.initSlides)initSlides();
   try{localStorage.setItem('burdin-lang',l)}catch(e){}
   if(window.gsap&&window.ScrollTrigger){animMani();ScrollTrigger.refresh()}
 }
@@ -2073,6 +2093,54 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
     location.href='mailto:'+CONFIG.email+'?subject='+encodeURIComponent('Burdin Gym · '+n)+'&body='+encodeURIComponent(t+'\n\n'+n+' · '+m)});
   const l=document.getElementById('idxLeft');if(l)l.textContent=CONFIG.plazasFundador-Math.min(CONFIG.plazasOcupadas,CONFIG.plazasFundador);
   if(location.hash&&visible(location.hash.slice(1)))setTimeout(()=>document.querySelector(location.hash).scrollIntoView(),50);
+})();
+
+/* ---------- Discos: carrusel en cascada. Port a JS plano del «Disc Cascade Carousel» (21st.dev): dos muelles,
+   uno rígido para la línea y otro más suelto para la profundidad, el giro y el rodar. ---------- */
+(function(){
+  const root=document.getElementById('dcc');if(!root)return;
+  const ITEMS=[25,20,15,10,5].map(kg=>({kg,src:'/img/discos/rojo-'+kg+'.webp'}));
+  const n=ITEMS.length,stage=document.getElementById('dccStage'),head=document.getElementById('dccHead'),count=document.getElementById('dccCount'),sr=document.getElementById('dccSr');
+  const C={spacing:1.02,rise:.24,depth:.42,yaw:22,fan:-10,tilt:-6,roll:110,bounce:.22,duration:.9};
+  const S={a:2,va:0,b:2,vb:0,target:2,raf:0,last:0,size:300,drag:null,active:-1,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches};
+  stage.innerHTML=ITEMS.map((it,i)=>`<button type="button" class="dcc-slide" data-i="${i}" aria-label="${it.kg} kg"><img src="${it.src}" alt="" draggable="false"></button>`).join('');
+  const slides=[...stage.children];
+  const pose=(dx,d)=>{const near=Math.min(d,2.2);return{x:dx*C.spacing,y:-dx*C.rise,z:near*C.depth,yaw:C.yaw+d*C.fan,roll:d*C.roll,zi:100+Math.round(d*10),op:d<-2.5?Math.max(0,1-(-d-2.5)/1.2):1,hid:dx<-4||dx>2.8}};
+  function paint(){slides.forEach((el,i)=>{const p=pose(i-S.a,i-S.b);
+    el.style.transform=`translate3d(calc(${p.x.toFixed(4)} * var(--s)),calc(${p.y.toFixed(4)} * var(--s)),calc(${p.z.toFixed(4)} * var(--s))) rotateZ(${C.tilt}deg) rotateY(${p.yaw.toFixed(2)}deg) rotateX(8deg)`;
+    el.style.zIndex=p.zi;el.style.opacity=p.op<1?p.op.toFixed(3):'';el.style.visibility=p.hid||p.op<=0?'hidden':'';el.style.setProperty('--roll',p.roll.toFixed(1)+'deg')})}
+  const spring=(x,v,t,w,z,dt)=>{const st=Math.max(1,Math.ceil(dt*240)),h=dt/st;for(let k=0;k<st;k++){v+=(-w*w*(x-t)-2*z*w*v)*h;x+=v*h}return[x,v]};
+  function frame(now){const dt=Math.min((now-(S.last||now))/1000,1/20);S.last=now;const w=2*Math.PI/C.duration,zs=1-C.bounce/2,zt=1-C.bounce;
+    if(S.reduced&&!S.drag){S.a=S.b=S.target;S.va=S.vb=0}else{if(!S.drag)[S.a,S.va]=spring(S.a,S.va,S.target,w,zs,dt);[S.b,S.vb]=spring(S.b,S.vb,S.a,w*1.05,zt,dt)}
+    paint();
+    const done=!S.drag&&Math.abs(S.a-S.target)<1e-3&&Math.abs(S.va)<1e-2&&Math.abs(S.b-S.a)<1e-3&&Math.abs(S.vb)<1e-2;
+    if(done){S.a=S.b=S.target;S.va=S.vb=0;paint();S.raf=0;S.last=0;return}S.raf=requestAnimationFrame(frame)}
+  const kick=()=>{if(!S.raf)S.raf=requestAnimationFrame(frame)};
+  const clamp=(t)=>Math.min(Math.max(t,0),n-1);
+  function setActive(i){if(i===S.active)return;S.active=i;slides.forEach((el,k)=>{el.toggleAttribute('data-active',k===i);el.tabIndex=k===i?0:-1});
+    const it=ITEMS[i],es=LANG==='es';
+    head.innerHTML=`<h4 class="in">${es?'Disco':'Diskoa'} ${it.kg} kg</h4><dl><div class="r in" style="--i:1"><dt>${es?'Peso':'Pisua'}</dt><dd>${it.kg} kg</dd></div><div class="r in" style="--i:2"><dt>${es?'Material':'Materiala'}</dt><dd>${es?'Goma':'Goma'}</dd></div><div class="r in" style="--i:3"><dt>${es?'Zona':'Eremua'}</dt><dd>${es?'Peso libre':'Pisu librea'}</dd></div></dl>`;
+    count.innerHTML=`<b>${String(i+1).padStart(2,'0')}</b> / ${String(n).padStart(2,'0')}`;sr.textContent=`${es?'Disco':'Diskoa'} ${i+1} ${es?'de':'/'} ${n}: ${it.kg} kg`;
+    document.getElementById('dccPrev').disabled=i<=0;document.getElementById('dccNext').disabled=i>=n-1}
+  function setTarget(t){S.target=clamp(t);setActive(clamp(Math.round(S.target)));kick()}
+  const step=by=>setTarget(Math.round(S.target)+by);
+  const rubber=p=>p<0?p/3:p>n-1?n-1+(p-(n-1))/3:p;
+  root.addEventListener('pointerdown',e=>{if(e.button!==0||e.target.closest('.dcc-ctl'))return;S.drag={id:e.pointerId,x0:e.clientX,pos0:S.a,moved:false,samples:[{t:e.timeStamp,x:e.clientX}]}});
+  root.addEventListener('pointermove',e=>{const d=S.drag;if(!d||d.id!==e.pointerId)return;const dx=e.clientX-d.x0;
+    if(!d.moved){if(Math.abs(dx)<6)return;d.moved=true;d.x0=e.clientX;d.pos0=S.a;S.va=0;root.setPointerCapture(e.pointerId);root.setAttribute('data-dragging','')}
+    S.a=rubber(d.pos0-(e.clientX-d.x0)/(S.size*C.spacing));d.samples.push({t:e.timeStamp,x:e.clientX});if(d.samples.length>6)d.samples.shift();setActive(clamp(Math.round(S.a)));kick()});
+  const up=e=>{const d=S.drag;if(!d||d.id!==e.pointerId)return;S.drag=null;if(!d.moved)return;root.removeAttribute('data-dragging');S.block=true;setTimeout(()=>S.block=false,0);
+    const f=d.samples[0],l=d.samples[d.samples.length-1],ms=Math.max(l.t-f.t,1),v=e.type==='pointercancel'?0:(-(l.x-f.x)/ms/(S.size*C.spacing))*1000;S.va=v;
+    const here=Math.round(S.a);setTarget(Math.min(Math.max(Math.round(S.a+v*.2),here-3),here+3))};
+  root.addEventListener('pointerup',up);root.addEventListener('pointercancel',up);
+  slides.forEach((el,i)=>el.addEventListener('click',()=>{if(S.block)return;setTarget(i)}));
+  document.getElementById('dccPrev').onclick=()=>step(-1);document.getElementById('dccNext').onclick=()=>step(1);
+  root.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'){step(1);e.preventDefault()}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){step(-1);e.preventDefault()}else if(e.key==='Home'){setTarget(0);e.preventDefault()}else if(e.key==='End'){setTarget(n-1);e.preventDefault()}});
+  let wheel=0,wheelAt=0,stepAt=0;root.addEventListener('wheel',e=>{if(Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;e.preventDefault();const now=performance.now();if(now-wheelAt>160)wheel=0;wheelAt=now;wheel+=e.deltaX;if(Math.abs(wheel)>50&&now-stepAt>320){step(Math.sign(wheel));wheel=0;stepAt=now}},{passive:false});
+  new ResizeObserver(()=>{S.size=stage.offsetWidth||300}).observe(stage);
+  if(!S.reduced)root.setAttribute('data-spin','');
+  window.dccRelabel=()=>{const i=S.active;S.active=-1;setActive(i)};
+  setActive(2);paint();
 })();
 
 /* ---------- ANIMACIÓN (GSAP). Si no carga, la página se ve igual, quieta. ---------- */

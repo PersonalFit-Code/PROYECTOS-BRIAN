@@ -122,3 +122,11 @@ solo el apartado de cada una:
 
 **Después de cada cambio en `index.html`, ejecutar `python3 build.py`** para regenerar las carpetas.
 El manifiesto y las preguntas frecuentes están quitados (siguen en el historial de git).
+
+## Carrusel de discos (zona de peso libre)
+
+Es un port a JavaScript plano del «Disc Cascade Carousel» de 21st.dev (el original es un componente
+React/TypeScript para proyectos con shadcn y Tailwind; esta web es un solo HTML sin build, así que se
+reescribió con el mismo motor de dos muelles). Los discos están en `img/discos/rojo-25.webp` … `rojo-5.webp`,
+recortados uno a uno de la foto. Para añadir los de hierro: guardar `hierro-5.webp` … `hierro-25.webp` y
+ampliar la lista `ITEMS` del bloque «Discos: carrusel en cascada» en `index.html`.
