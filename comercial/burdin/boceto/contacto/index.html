@@ -1502,6 +1502,12 @@
   @media (max-width:900px){.seal{width:60px;height:60px;top:8px;left:8px}.seal i{font-size:8px}}
   .seal{width:112px!important;height:112px!important;top:12px!important;left:12px!important}
   @media (max-width:900px){.seal{width:84px!important;height:84px!important;top:8px!important;left:8px!important}}
+  /* sello en diagonal, metido en la esquina */
+  .mcard.hist,.mcard.hist .mc-pic{overflow:visible!important}
+  .mcard.hist{position:relative;z-index:2}
+  .seal{top:-14px!important;left:-14px!important;width:100px!important;height:100px!important;transform:rotate(-16deg);transform-origin:50% 50%}
+  @media (max-width:900px){.seal{top:-10px!important;left:-10px!important;width:76px!important;height:76px!important}}
+  .mcard:hover .seal{transform:rotate(-8deg) scale(1.05);transition:transform .4s var(--ease)}
 </style>
 </head>
 <body data-page="contacto" class="boceto">
