@@ -1499,7 +1499,6 @@
   .seal img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.6))!important;transform:none!important}
   .seal img~i{display:none}
   .seal i{font-style:normal;width:100%;height:100%;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f6e3a1,#d4a93e 45%,#8a6418 100%);box-shadow:inset 0 0 0 3px rgba(255,240,190,.55),inset 0 0 0 6px rgba(120,80,10,.5),0 6px 14px rgba(0,0,0,.6);color:#3a2700;font-family:var(--label);font-weight:700;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;transform:rotate(-12deg)}
-  .mcard.hist{border-color:rgba(212,169,62,.45)!important}
   @media (max-width:900px){.seal{width:60px;height:60px;top:8px;left:8px}.seal i{font-size:8px}}
 </style>
 </head>
@@ -2020,7 +2019,7 @@ const PESO=[
 function renderPeso(){const g=document.getElementById('pgrid');if(!g)return;
   g.innerHTML=PESO.map(([f,b,nm,gr])=>`<figure class="mcard"><div class="mc-pic"><img src="/img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy" onerror="this.parentNode.classList.add('nopic');this.remove()"><span class="mc-soon">${LANG==='es'?'Foto en camino':'Argazkia bidean'}</span></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
 function renderMachines(){renderPeso();
-  const g=document.getElementById('mgrid');if(g){g.innerHTML=GRID.map(([f,b,nm,gr])=>`<figure class="mcard${SELLO.includes(f)?' hist':''}"><div class="mc-pic">${SELLO.includes(f)?`<span class="seal" title="${LANG==='es'?'Máquina histórica':'Makina historikoa'}"><img src="/img/sello-historica.webp" alt="" onerror="this.remove()"><i>${LANG==='es'?'Histórica':'Historikoa'}</i></span>`:''}<img src="/img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy"></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
+  const g=document.getElementById('mgrid');if(g){g.innerHTML=GRID.map(([f,b,nm,gr])=>`<figure class="mcard${SELLO.includes(f)?' hist':''}"><div class="mc-pic">${SELLO.includes(f)?`<span class="seal" title="${LANG==='es'?'Máquina histórica':'Makina historikoa'}"><img src="/img/sello-historica.webp" alt="" onerror="this.parentNode.remove()"></span>`:''}<img src="/img/maquinas/${f}.webp" alt="${b} ${nm}" loading="lazy"></div><figcaption><b>${b}</b><span>${nm}</span><em>${gr[LANG]}</em></figcaption></figure>`).join('')}
   if(!document.getElementById('sheets'))return;
   const l=LANG,x=ML[l];
   $('#sheets').innerHTML=MACHINES.map((m,i)=>{const t=m[l];const yr=(t.year.match(/\d+/)||[''])[0];return `
