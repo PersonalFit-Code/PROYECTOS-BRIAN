@@ -1532,6 +1532,20 @@
   nav.open .burger .mi .l2{opacity:0}
   nav.open .burger .mi .l3{transform:rotate(-45deg) translateY(-7px)}
   @media (prefers-reduced-motion:reduce){.burger .mi path{animation:none;stroke-dashoffset:0}}
+  /* ===== X de cerrar el menú: se dibuja al abrir, gira al pasar y sale girando al pulsar ===== */
+  @media (max-width:900px){
+    .m-close i{transition:transform .35s cubic-bezier(.22,1,.36,1)}
+    .m-close i::before,.m-close i::after{transform-origin:50% 50%}
+    nav.open .m-close i::before{animation:mx-in1 .3s .15s cubic-bezier(.22,1,.36,1) both}
+    nav.open .m-close i::after{animation:mx-in2 .3s .35s cubic-bezier(.22,1,.36,1) both}
+    .m-close:hover i,.m-close:focus-visible i{transform:rotate(90deg)}
+    .m-close.bye i{transform:rotate(360deg) scale(.4)!important;opacity:0;transition:transform .38s cubic-bezier(.55,0,.45,1),opacity .38s ease}
+  }
+  @keyframes mx-in1{from{transform:rotate(45deg) scaleX(0)}to{transform:rotate(45deg) scaleX(1)}}
+  @keyframes mx-in2{from{transform:rotate(-45deg) scaleX(0)}to{transform:rotate(-45deg) scaleX(1)}}
+  @media (prefers-reduced-motion:reduce){nav.open .m-close i::before,nav.open .m-close i::after{animation:none}.m-close i{transition:none}}
+  /* con el menú abierto, la barra BOCETO no tapa la X de cerrar */
+  @media (max-width:900px){body.menu .bocetobar{visibility:hidden}body.menu #nav{z-index:80}}
 </style>
 </head>
 <body data-page="" class="boceto">
@@ -1885,7 +1899,7 @@
    DATOS QUE SE CAMBIAN (todo lo editable está aquí arriba)
    ===================================================================== */
 const CONFIG={
-  boceto:true,                         // false = quita la barra y los puntos de «por confirmar»
+  boceto:false,                        // false = quita la barra y los puntos de «por confirmar»
   apertura:'2027-01-07T07:00:00+01:00',// fecha y hora de apertura (cuenta atrás)
   plazasFundador:100, plazasOcupadas:37,
   whatsapp:'',                         // número de Ander, solo cifras con prefijo: '34600000000'
@@ -2226,7 +2240,7 @@ function setLang(l){
 const nav=$('#nav'),burger=$('#burger');
 function menu(open){nav.classList.toggle('open',open);document.body.classList.toggle('menu',open);burger.setAttribute('aria-expanded',open)}
 burger.onclick=()=>menu(!nav.classList.contains('open'));
-$('#mclose').onclick=()=>menu(false);
+$('#mclose').onclick=()=>{const b=$('#mclose');if(matchMedia('(prefers-reduced-motion: reduce)').matches){menu(false);return}b.classList.add('bye');setTimeout(()=>{menu(false);b.classList.remove('bye')},380)};
 $$('#links a').forEach(a=>a.addEventListener('click',()=>menu(false)));
 addEventListener('keydown',e=>{if(e.key==='Escape')menu(false)});
 // nav sólida al bajar
