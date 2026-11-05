@@ -1510,6 +1510,17 @@
   .mcard:hover .seal{transform:rotate(-8deg) scale(1.05);transition:transform .4s var(--ease)}
   /* portada móvil: foto vertical 9:16 */
   @media (max-width:900px){.hero .bg{background-image:url(/img/hero-sala-m.webp)!important;background-size:100% auto!important;background-position:50% 0!important;background-color:#0b0b0b!important}.hero{padding-top:calc(var(--nav) + 150px)!important}}
+  /* ===== Cifras con números de ancho fijo ===== */
+  .s2 b span[data-n]{font-variant-numeric:tabular-nums;display:inline-block}
+  /* ===== Cuenta atrás: dígitos que ruedan ===== */
+  #count{align-items:flex-start}
+  #count>div{display:flex;flex-direction:column;align-items:center}
+  #count b{display:flex!important;overflow:hidden;height:1.12em;line-height:1.12!important}
+  #count .dg{display:block;height:1.12em;overflow:hidden;font-style:normal}
+  #count .dc{display:flex;flex-direction:column;transition:transform .7s cubic-bezier(.22,1,.36,1);will-change:transform;font-style:normal}
+  #count .dc i{display:block;height:1.12em;line-height:1.12;font-style:normal;text-align:center}
+  #count .sep{font-style:normal;font-family:var(--display);font-weight:800;font-size:1.3rem;line-height:1.25;color:var(--fg3)}
+  @media (prefers-reduced-motion:reduce){#count .dc{transition:none}}
 </style>
 </head>
 <body data-page="contacto" class="boceto">
@@ -1583,7 +1594,7 @@
     <div class="urgency">
       <div class="u-a big tbd"><b id="seatsLeftBig">0</b><small data-es="plazas libres" data-eu="plaza libre">plazas libres</small></div>
       <div class="u-b"><div class="line"><i id="seatsBar"></i></div><div class="lbl"><span id="seatsTaken">0</span> <span data-es="de" data-eu="/">de</span> <span id="seatsTotal">0</span> <span data-es="plazas de socio fundador ya reservadas. Se cierran el día de la apertura." data-eu="sortzaile-plaza erreserbatuta daude. Irekiera egunean ixten dira.">plazas de socio fundador ya reservadas. Se cierran el día de la apertura.</span></div></div>
-      <div class="count" id="count"><div><b data-k="d">00</b><span data-es="días" data-eu="egun">días</span></div><div><b data-k="h">00</b><span data-es="horas" data-eu="ordu">horas</span></div><div><b data-k="m">00</b>min</div><div><b data-k="s">00</b>seg</div></div>
+      <div class="count" id="count"><div><b data-k="d">00</b><span data-es="días" data-eu="egun">días</span></div><i class="sep" aria-hidden="true">:</i><div><b data-k="h">00</b><span data-es="horas" data-eu="ordu">horas</span></div><i class="sep" aria-hidden="true">:</i><div><b data-k="m">00</b>min</div><i class="sep" aria-hidden="true">:</i><div><b data-k="s">00</b>seg</div></div>
     </div>
   </div>
 </header>
@@ -2247,7 +2258,10 @@ function renderFundCard(){
 function tick(){
   let ms=Math.max(0,new Date(CONFIG.apertura)-new Date());
   const d=Math.floor(ms/864e5),h=Math.floor(ms/36e5)%24,m=Math.floor(ms/6e4)%60,s=Math.floor(ms/1e3)%60;
-  const v={d,h,m,s};$$('#count b').forEach(b=>b.textContent=String(v[b.dataset.k]).padStart(2,'0'));
+  const v={d,h,m,s};$$('#count b').forEach(b=>{const str=String(v[b.dataset.k]).padStart(2,'0');
+    if(b.children.length!==str.length)b.innerHTML=[...str].map(()=>'<i class="dg"><i class="dc">'+'0123456789'.split('').map(x=>'<i>'+x+'</i>').join('')+'</i></i>').join('');
+    b.setAttribute('aria-label',str);
+    [...str].forEach((c,i)=>{b.children[i].firstChild.style.transform='translateY('+(-c*10)+'%)'})});
 }
 tick();setInterval(tick,1000);
 
@@ -2393,8 +2407,11 @@ addEventListener('resize',fitDeboss);document.fonts&&document.fonts.ready.then(f
   const fill=()=>{const sb=document.getElementById('s2bar');if(sb)sb.style.width=(left/tot*100)+'%'};
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){fill();return}
   nums.forEach(n=>n.textContent='0');
-  const run=()=>{nums.forEach((n,i)=>setTimeout(()=>{const to=+n.dataset.n,t0=performance.now(),d=1400;
-      (function f(t){const k=Math.min(1,(t-t0)/d);n.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)},i*150));fill()};
+  // muelle como NumberTicker (framer-motion useSpring: damping 60, stiffness 100, masa 1)
+  const spring=(n,to)=>{let x=0,v=0,last=performance.now();(function f(t){let dt=Math.min(.032,(t-last)/1000);last=t;
+      for(let k=0;k<4;k++){const a=-100*(x-to)-60*v;v+=a*dt/4;x+=v*dt/4}
+      n.textContent=Math.round(x);if(Math.abs(to-x)>.4||Math.abs(v)>.4)requestAnimationFrame(f);else n.textContent=to})(last)};
+  const run=()=>{nums.forEach((n,i)=>setTimeout(()=>spring(n,+n.dataset.n),i*150));fill()};
   new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){run();o.disconnect()}},{threshold:.35}).observe(box);
 })();
 
