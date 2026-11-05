@@ -1520,6 +1520,18 @@
   #count .dc i{display:block;height:1.12em;line-height:1.12;font-style:normal;text-align:center}
   #count .sep{font-style:normal;font-family:var(--display);font-weight:800;font-size:1.3rem;line-height:1.25;color:var(--fg3)}
   @media (prefers-reduced-motion:reduce){#count .dc{transition:none}}
+  /* ===== Icono del menú: las tres líneas se dibujan una tras otra (0,3 s cada una) y se cruzan en X al abrir ===== */
+  .burger{color:var(--fg);display:none;place-items:center}
+  @media (max-width:900px){.burger{display:grid!important}}
+  .burger .mi{display:block}
+  .burger .mi path{stroke-dasharray:16;stroke-dashoffset:16;animation:mi-draw .3s ease forwards;transform-box:view-box;transform-origin:12px 12px;transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .2s}
+  .burger .mi .l2{animation-delay:.3s}
+  .burger .mi .l3{animation-delay:.6s}
+  @keyframes mi-draw{to{stroke-dashoffset:0}}
+  nav.open .burger .mi .l1{transform:rotate(45deg) translateY(7px)}
+  nav.open .burger .mi .l2{opacity:0}
+  nav.open .burger .mi .l3{transform:rotate(-45deg) translateY(-7px)}
+  @media (prefers-reduced-motion:reduce){.burger .mi path{animation:none;stroke-dashoffset:0}}
 </style>
 </head>
 <body data-page="" class="boceto">
@@ -1571,7 +1583,7 @@
         <a href="/tarifas/#fundador" class="cta" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a>
       </div>
       <div class="nav-end"><a href="/tarifas/#fundador" class="cta2" data-es="Socio fundador" data-eu="Bazkide sortzailea">Socio fundador</a><div class="lang" role="group" aria-label="Idioma / Hizkuntza"><button type="button" data-l="eu">EU</button><button type="button" data-l="es">ES</button></div></div>
-      <button type="button" class="burger" id="burger" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button type="button" class="burger" id="burger" aria-label="Menú" aria-expanded="false"><svg class="mi" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path class="l1" d="M5 5h14"/><path class="l2" d="M5 12h14"/><path class="l3" d="M5 19h14"/></g></svg></button>
     </div>
   </div>
 </nav>
