@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Hero from "@/components/secciones/Hero";
 import Intro from "@/components/secciones/Intro";
 import Conceptos from "@/components/secciones/Conceptos";
@@ -8,12 +9,13 @@ import Apuntate from "@/components/secciones/Apuntate";
 import Equipo from "@/components/secciones/Equipo";
 import Historia from "@/components/secciones/Historia";
 import Comunidad from "@/components/secciones/Comunidad";
-import Clubes from "@/components/secciones/Clubes";
-import Preguntas from "@/components/secciones/Preguntas";
+import MasDe720 from "@/components/secciones/MasDe720";
 import Contacto from "@/components/secciones/Contacto";
 import FraseGigante from "@/components/ui/FraseGigante";
 import CintaLogos from "@/components/ui/CintaLogos";
 import Cierre from "@/components/secciones/Cierre";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function Inicio() {
   return (
@@ -34,8 +36,7 @@ export default function Inicio() {
         <FraseGigante frase="Si puedes levantarlo, puedes bajarlo." tono="contorno" sentido={-1} className="pb-24" />
       </section>
       <Comunidad />
-      <Clubes />
-      <Preguntas />
+      <MasDe720 />
       <Cierre />
       <Contacto />
       <CintaLogos />

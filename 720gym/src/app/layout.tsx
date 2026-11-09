@@ -15,10 +15,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(URL_SITIO),
   title: {
     default: "720 GYM CLUB · Gimnasio con aforo limitado en Ourense",
-    template: "%s · 720 GYM CLUB Ourense",
+    template: "%s · 720 GYM CLUB",
   },
   description:
-    "Club de entrenamiento con aforo limitado en Ourense, abierto los 365 días. Sala de fuerza, Pilates Reformer, yoga, powerlifting y CrossGym. Prueba una clase gratis.",
+    "Gimnasio con aforo limitado en Ourense, abierto los 365 días. Fuerza, Pilates Reformer, yoga, powerlifting y CrossGym. Prueba una clase gratis.",
   keywords: ["gimnasio Ourense", "gimnasio aforo limitado Ourense", "Pilates Reformer Ourense", "powerlifting Ourense", "yoga Ourense", "entrada diaria gimnasio Ourense"],
   openGraph: {
     type: "website",
@@ -59,6 +59,12 @@ const jsonLd = {
     },
   ],
   sameAs: [negocio.instagram, negocio.facebook],
+  image: `${URL_SITIO}/opengraph-image`,
+  logo: `${URL_SITIO}/icon.svg`,
+  priceRange: "5 €–375 €",
+  hasMap: negocio.google.url,
+  areaServed: "Ourense",
+  knowsAbout: ["Entrenamiento de fuerza", "Pilates Reformer", "Yoga", "Powerlifting", "Entrenamiento personal", "Hipopresivos"],
   amenityFeature: [{ "@type": "LocationFeatureSpecification", name: "Accesible en silla de ruedas", value: true }],
 };
 

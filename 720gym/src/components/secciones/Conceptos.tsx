@@ -12,7 +12,7 @@ export default function Conceptos({ excluir }: { excluir?: string }) {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p data-reveal className="etiqueta text-white/55">
-              <span className="text-acento">02</span> · Conceptos
+              {!excluir && <><span className="text-acento">02</span> · </>}Conceptos
             </p>
             <h2 id="titulo-conceptos" data-reveal className="titular mt-5 text-[clamp(3rem,9vw,7rem)]">
               {excluir ? "Más en 720" : "Elige cómo entrenar"}

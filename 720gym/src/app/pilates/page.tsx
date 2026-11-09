@@ -10,14 +10,15 @@ import Horario from "@/components/secciones/Horario";
 import Apuntate from "@/components/secciones/Apuntate";
 import FraseGigante from "@/components/ui/FraseGigante";
 import CintaLogos from "@/components/ui/CintaLogos";
+import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { pilates, wa } from "@/data/negocio";
 import { condicionesPilates, tarifasPilates } from "@/data/tarifas";
 import { equipo } from "@/data/equipo";
 
 export const metadata: Metadata = {
-  title: "720 Pilates · Pilates Reformer en Ourense",
+  title: { absolute: "Pilates Reformer en Ourense · 720 Pilates" },
   description:
-    "720 Pilates en Ourense: Reformer, Mat, Wall Unit e Hipopresivos en grupos reducidos y por niveles. Primera clase gratis y sin matrícula.",
+    "720 Pilates en Ourense: Pilates Reformer desde 55 €/mes, Mat, Wall Unit e Hipopresivos en grupos reducidos y por niveles. Primera clase gratis y sin matrícula.",
   alternates: { canonical: "/pilates" },
 };
 
@@ -38,6 +39,7 @@ export default function PaginaPilates() {
   const bea = equipo.find((p) => p.nombre === "Bea");
   return (
     <div style={paleta} className="paleta-pilates bg-crema text-carbon">
+      <JsonLd datos={migas([["720 Pilates", "/pilates"]])} />
       <section className="relative overflow-hidden pt-[calc(var(--header-h)+3rem)] pb-20 sm:pb-28" aria-labelledby="titulo-pilates">
         <Geometria className="-top-10 -right-40 w-[520px] opacity-80 sm:-right-20 lg:top-10 lg:right-[-60px] lg:w-[620px] lg:opacity-30" />
         <div className="container-page relative grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-10">
@@ -47,7 +49,7 @@ export default function PaginaPilates() {
               <span className="subtitular text-[20px] tracking-[0.16em] text-pil-menta-osc">PILATES</span>
             </p>
             <h1 id="titulo-pilates" className="hero-in mt-6" style={{ ["--i" as string]: 1 }}>
-              <span className="titular block text-[clamp(4.5rem,15vw,11rem)]">Pilates</span>
+              <span className="titular block text-[clamp(4.5rem,15vw,11rem)]">Pilates</span>{" "}
               <span className="subtitular mt-2 block text-[clamp(1.6rem,3.6vw,2.6rem)] text-carbon/65">en grupos reducidos, en el centro de Ourense.</span>
             </h1>
             <p className="hero-in mt-6 max-w-lg text-[18px] leading-relaxed text-carbon/70" style={{ ["--i" as string]: 2 }}>
@@ -65,7 +67,7 @@ export default function PaginaPilates() {
                 Inscríbete
               </Link>
               <Link href="/pilates?tipo=prueba&actividad=pilates#apuntate" className={claseBoton("contorno-oscuro", true)}>
-                Primera clase gratis
+                Clase gratis
               </Link>
               <a href={wa("Hola, quiero información de 720 Pilates.", pilates.whatsapp)} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno-oscuro", true)}>
                 WhatsApp {pilates.whatsappVisible}
@@ -129,12 +131,12 @@ export default function PaginaPilates() {
         </section>
       )}
 
-      <Horario soloClases={["reformer", "mat", "hipopresivos"]} titulo="Horario de Pilates" tono="crema" id="horario-pilates" />
+      <Horario soloClases={["reformer", "mat", "hipopresivos"]} titulo="Horario de Pilates" tono="crema" id="horario-pilates" numero="03" />
 
       <section id="tarifas-pilates" className="bg-white py-24 sm:py-32" aria-labelledby="titulo-tarifas-pilates">
         <div className="container-page">
           <p data-reveal className="etiqueta text-carbon/50">
-            <span className="text-pil-menta-osc">03</span> · Tarifas 2025
+            <span className="text-pil-menta-osc">04</span> · Tarifas 2025
           </p>
           <h2 id="titulo-tarifas-pilates" data-reveal className="mt-5">
             <span className="subtitular block text-[clamp(1.5rem,3vw,2.25rem)] text-carbon/55">Sin matrícula. Pagas del 1 al 7.</span>
@@ -177,7 +179,7 @@ export default function PaginaPilates() {
         </div>
       </section>
 
-      <Apuntate tono="crema" actividadInicial="pilates" titulo="Tu primera clase" />
+      <Apuntate tono="crema" actividadInicial="pilates" titulo="Tu primera clase" orden="05" />
 
       <section className="pb-20" aria-label="Contacto de 720 Pilates">
         <div className="container-page flex flex-col gap-4 border-t border-carbon/15 pt-10 text-[15px] text-carbon/70 sm:flex-row sm:justify-between">

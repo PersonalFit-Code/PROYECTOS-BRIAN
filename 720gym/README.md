@@ -28,9 +28,11 @@ npm run typecheck && npm run lint && npm run build
 ## Qué hay
 | Ruta | Qué es |
 |---|---|
-| `/` | Portada, conceptos, horario con reservas, tarifas, formulario único, equipo, historia, comunidad, clubes, 720P, preguntas, contacto |
+| `/` | Portada, conceptos, horario con reservas, tarifas, formulario único, equipo, historia, comunidad, enlaces a clubes / 720P / preguntas y contacto |
 | `/conceptos/[slug]` | Página por disciplina: gimnasio, entrenamiento personal, yoga, powerlifting, CrossGym |
 | `/pilates` | 720 Pilates con su paleta |
+| `/clubes` | Clubes que entrenan en 720 y espacios para profesionales (720P) |
+| `/preguntas` | Preguntas frecuentes (con marcado FAQPage para Google) |
 | `/alta` | Inscripción + pago (plan → datos → pasarela) |
 | `/panel` | Panel de gestión (PIN de demo **0720**). Enlace «Acceso gestión» en el pie |
 | `/api/aviso` | Reenvía solicitudes y reservas a un webhook (Make → WhatsApp/email) |
@@ -62,3 +64,13 @@ En producción: base de datos (Supabase) y acceso con usuario y contraseña en l
 - Textos del equipo (Brais, Bea, Pablo) y tres reseñas reales de Google con nombre y fecha.
 - Números de WhatsApp de cada club; datos del titular para los textos legales.
 - Cuenta de Stripe a su nombre (los cobros van directos a su banco).
+
+## SEO
+- Título y descripción propios en cada página (títulos de 40–60 caracteres, descripciones de 140–160),
+  canonical, un solo `h1`, Open Graph con imagen y tarjeta de Twitter.
+- Datos estructurados: `ExerciseGym` (dirección, horario, teléfono, rango de precios, mapa) en todas,
+  `BreadcrumbList` en las internas y `FAQPage` en `/preguntas`.
+- `sitemap.xml`, `manifest.webmanifest` e icono para iPhone.
+- **Indexación apagada** mientras sea URL de prueba (`noindex` y `robots.txt` bloqueando). Al publicar
+  con su dominio: `NEXT_PUBLIC_INDEXAR=1` y `NEXT_PUBLIC_SITE_URL=https://su-dominio`, y dar de alta
+  la web en Google Search Console y en su ficha de Google Business.

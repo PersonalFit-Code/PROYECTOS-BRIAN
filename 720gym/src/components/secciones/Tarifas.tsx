@@ -83,7 +83,7 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                       ))}
                     </ul>
                   )}
-                  <Link href={`/alta?plan=${t.pagoId}`} className={cn(claseBoton("venta"), "mt-auto w-full")}>
+                  <Link href={`/alta?plan=${t.pagoId}`} className={cn(claseBoton(t.destacada ? "venta" : "contorno-oscuro"), "mt-auto w-full")}>
                     {t.boton}
                   </Link>
                   <Link href={enlace("inscripcion", { plan: t.plan, actividad: "gimnasio" })} className="mt-3 text-center text-[13px] underline-offset-4 opacity-60 hover:underline hover:opacity-100">
@@ -167,7 +167,7 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                           ? `/alta?plan=bono-${b.sesiones}`
                           : enlace("inscripcion", { actividad: "personal", plan: modalidad === "Individual" ? `Bono ${b.sesiones} sesiones` : "En pareja / trío / grupo de 4" })
                       }
-                      className={cn(claseBoton("venta"), "mt-4 h-10 text-[15px]")}
+                      className={cn(claseBoton(b.recomendado ? "venta" : "contorno-oscuro"), "mt-4 h-10 text-[15px]")}
                     >
                       Lo quiero
                     </Link>
@@ -223,7 +223,7 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                   Inscríbete
                 </Link>
                 <Link href={enlace("prueba", { actividad: "pilates" })} className={claseBoton("contorno-oscuro")}>
-                  Prueba gratis
+                  Clase gratis
                 </Link>
               </div>
             </div>

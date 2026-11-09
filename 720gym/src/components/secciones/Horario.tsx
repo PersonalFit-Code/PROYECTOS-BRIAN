@@ -19,7 +19,9 @@ export default function Horario({
   titulo = "Horario de clases",
   id = "horario",
   tono = "oscuro",
+  numero = "04",
 }: {
+  numero?: string | null;
   soloClases?: ClaseId[];
   titulo?: string;
   id?: string;
@@ -55,7 +57,7 @@ export default function Horario({
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p data-reveal className={cn("etiqueta", cr ? "text-carbon/55" : "text-white/55")}>
-              <span className={cr ? "text-pil-menta-osc" : "text-acento"}>04</span> · Semana tipo
+              {numero && <><span className={cr ? "text-pil-menta-osc" : "text-acento"}>{numero}</span> · </>}Semana tipo
             </p>
             <h2 id={`titulo-${id}`} data-reveal className="titular mt-5 text-[clamp(3rem,9vw,7rem)]">
               {titulo}

@@ -49,7 +49,7 @@ export const conceptos: Concepto[] = [
     fotosExtra: ["Detalle de mancuernas en el rack", "Socio entrenando en peso libre"],
     actividad: "gimnasio",
     planPago: "gimnasio-libre",
-    seo: { titulo: "Gimnasio con aforo limitado en Ourense", descripcion: "Gimnasio libre en Ourense por 35 €/mes: máquinas, peso libre y cardio, abierto los 365 días y con aforo limitado." },
+    seo: { titulo: "Gimnasio con aforo limitado en Ourense", descripcion: "Gimnasio libre en Ourense por 35 €/mes: máquinas, peso libre, powerlifting y cardio, abierto los 365 días de 08:00 a 22:30 y con aforo limitado. Sin colas." },
   },
   {
     slug: "entrenamiento-personal",
@@ -70,7 +70,7 @@ export const conceptos: Concepto[] = [
     fotosExtra: ["Libreta o tablet con el plan de entrenamiento", "Entreno en pareja"],
     actividad: "personal",
     planPago: "valoracion",
-    seo: { titulo: "Entrenador personal en Ourense", descripcion: "Entrenamiento personal en Ourense: valoración inicial, plan a medida y bonos desde 15 €/sesión en grupo." },
+    seo: { titulo: "Entrenador personal en Ourense", descripcion: "Entrenador personal en Ourense: valoración inicial y plan a medida por 35 €, bonos de 10 sesiones a 27 €/sesión y entrenos en pareja o grupo desde 15 €." },
   },
   {
     slug: "pilates",
@@ -110,7 +110,7 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Clase de yoga en la sala, luz cálida, plano vertical",
     fotosExtra: ["Detalle de esterillas y bloques", "Postura de grupo"],
     actividad: "yoga",
-    seo: { titulo: "Yoga en Ourense", descripcion: "720 Yoga en Ourense: clases en grupo reducido para ganar movilidad y calma, dentro de 720 GYM CLUB." },
+    seo: { titulo: "Yoga en Ourense", descripcion: "Clases de yoga en Ourense en grupo reducido: movilidad, respiración y calma en 720 GYM CLUB, abierto los 365 días en la calle Río Bibei. Prueba una clase gratis." },
   },
   {
     slug: "powerlifting",
@@ -129,7 +129,7 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Peso muerto con discos de competición, plano bajo y vertical",
     fotosExtra: ["Discos calibrados en el soporte", "Magnesio y barra"],
     actividad: "powerlifting",
-    seo: { titulo: "Powerlifting en Ourense", descripcion: "720 Powerlifting: entrena sentadilla, banca y peso muerto con material de competición en Ourense." },
+    seo: { titulo: "Powerlifting en Ourense", descripcion: "Powerlifting en Ourense: entrena sentadilla, press banca y peso muerto con racks, barras y discos de competición en 720 GYM CLUB. Desde iniciación hasta competir." },
   },
   {
     slug: "crossgym",
@@ -148,7 +148,7 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Grupo de CrossGym con kettlebells y cajones, plano vertical",
     fotosExtra: ["Kettlebells en el suelo negro", "Pizarra con el entreno del día"],
     actividad: "crossgym",
-    seo: { titulo: "CrossGym: entrenamiento funcional en Ourense", descripcion: "CrossGym 720: fuerza y acondicionamiento en grupo en Ourense, adaptado a cada nivel." },
+    seo: { titulo: "CrossGym: entrenamiento funcional en Ourense", descripcion: "CrossGym 720: entrenamiento funcional de fuerza y acondicionamiento en grupo en Ourense, con la técnica por delante y adaptado a cada nivel. Clase gratis." },
   },
 ];
 

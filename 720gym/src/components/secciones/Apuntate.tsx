@@ -22,7 +22,7 @@ import { guardarSolicitud } from "@/lib/demo";
 type Tipo = "prueba" | "inscripcion" | "entrada";
 
 const tipos: { id: Tipo; nombre: string; corto: string }[] = [
-  { id: "prueba", nombre: "Clase de prueba gratis", corto: "Prueba gratis" },
+  { id: "prueba", nombre: "Clase de prueba gratis", corto: "Clase gratis" },
   { id: "inscripcion", nombre: "Inscripción", corto: "Inscripción" },
   { id: "entrada", nombre: "Entrada diaria · 5 €", corto: "Entrada diaria" },
 ];
@@ -47,6 +47,8 @@ interface Props {
   tono?: "oscuro" | "crema";
   titulo?: string;
   numero?: string;
+  /** Número de sección («06»); null en páginas internas. */
+  orden?: string | null;
 }
 
 function Formulario({ tipoInicial = "prueba", actividadInicial = "gimnasio", planInicial, tono = "oscuro" }: Props) {
@@ -270,7 +272,7 @@ export default function Apuntate(props: Props & { id?: string }) {
       <div className="container-page grid gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="min-w-0 lg:col-span-5">
           <p data-reveal className={cn("etiqueta", claro ? "text-carbon/55" : "text-white/55")}>
-            <span className={claro ? "text-pil-menta-osc" : "text-acento"}>06</span> · En dos toques
+            {props.orden !== null && <><span className={claro ? "text-pil-menta-osc" : "text-acento"}>{props.orden ?? "06"}</span> · </>}En dos toques
           </p>
           <h2 id="titulo-apuntate" data-reveal className="mt-5">
             <span className="titular block text-[clamp(3.25rem,9vw,7rem)]">{titulo ?? "Ven a probar"}</span>

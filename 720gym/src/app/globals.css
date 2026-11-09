@@ -509,6 +509,10 @@ details > summary::-webkit-details-marker {
 .vidrio-fuerte {
   --vidrio-velo: rgb(18 18 20 / 0.8);
 }
+/* Cabecera y barra del móvil: velo algo más denso para que no se vean pardas sobre fondos claros. */
+.vidrio-denso {
+  --vidrio-velo: rgb(18 18 20 / 0.7);
+}
 /* Vidrio teñido para la acción principal flotante (WhatsApp). */
 .vidrio-verde {
   background:

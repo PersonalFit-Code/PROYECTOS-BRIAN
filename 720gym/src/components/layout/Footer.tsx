@@ -26,6 +26,16 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li className="pt-2">
+                <Link href="/clubes" className="text-white/75 hover:text-white">
+                  Clubes y 720P
+                </Link>
+              </li>
+              <li>
+                <Link href="/preguntas" className="text-white/75 hover:text-white">
+                  Preguntas frecuentes
+                </Link>
+              </li>
             </ul>
           </div>
           <div>

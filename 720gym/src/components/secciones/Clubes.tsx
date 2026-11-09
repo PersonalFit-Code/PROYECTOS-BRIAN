@@ -9,16 +9,18 @@ const usos = ["Cursos", "Eventos", "Entrenamientos grupales", "Talleres", "Maste
 const talleres = ["Pilates", "Yoga", "Defensa personal", "Wushu", "Nutrición", "Acrobacias", "Baile"];
 
 /** Clubes que entrenan en 720 + espacios para profesionales (720P). */
-export default function Clubes() {
+export default function Clubes({ pagina = false }: { pagina?: boolean }) {
+  const Titulo = pagina ? "h1" : "h2";
   return (
-    <section id="clubes" className="bg-pizarra py-24 sm:py-32" aria-labelledby="titulo-clubes">
+    <section id="clubes" className={pagina ? "bg-pizarra pt-[calc(var(--header-h)+4rem)] pb-24 sm:pb-32" : "bg-pizarra py-24 sm:py-32"} aria-labelledby="titulo-clubes">
       <div className="container-page">
         <p data-reveal className="etiqueta text-white/55">
-          <span className="text-acento">10</span> · Clubes que entrenan en 720
+          Clubes que entrenan en 720
         </p>
-        <h2 id="titulo-clubes" data-reveal className="titular mt-5 max-w-4xl text-[clamp(3rem,9vw,7rem)]">
+        <Titulo id="titulo-clubes" data-reveal className="titular mt-5 max-w-4xl text-[clamp(3rem,9vw,7rem)]">
           Un centro vivo, de la mañana a la noche
-        </h2>
+          {pagina && <span className="sr-only">: clubes deportivos y alquiler de salas en Ourense</span>}
+        </Titulo>
         <ul className="mt-14 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
           {clubes.map((c) => (
             <li key={c.nombre} data-reveal className="flex flex-col bg-pizarra p-7">

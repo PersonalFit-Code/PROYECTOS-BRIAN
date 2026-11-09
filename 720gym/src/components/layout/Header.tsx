@@ -40,7 +40,9 @@ export default function Header() {
     return () => window.removeEventListener("keydown", esc);
   }, [abierto]);
 
-  const transparente = !bajado && !abierto && !conceptosAbierto && ruta !== "/pilates" && !ruta.startsWith("/legal");
+  /* Transparente solo arriba del todo y en páginas que empiezan en oscuro. */
+  const empiezaOscura = ruta === "/" || ruta.startsWith("/conceptos") || ruta === "/clubes" || ruta === "/alta";
+  const transparente = !bajado && !abierto && !conceptosAbierto && empiezaOscura;
 
   const abrirConceptos = () => {
     window.clearTimeout(cierre.current);
@@ -61,7 +63,7 @@ export default function Header() {
       <div
         className={cn(
           "mx-auto flex h-[var(--header-h)] items-center justify-between gap-6 px-4 transition-[max-width,border-radius,background-color,box-shadow] duration-500 sm:px-6 lg:px-8",
-          transparente ? "max-w-[84rem] lg:px-10" : "vidrio max-w-full lg:max-w-[min(80rem,calc(100%-3rem))] lg:rounded-full",
+          transparente ? "max-w-[84rem] lg:px-10" : "vidrio vidrio-denso max-w-full lg:max-w-[min(80rem,calc(100%-3rem))] lg:rounded-full",
         )}
       >
         <Link href="/" className="text-[19px]" aria-label="720 GYM CLUB, inicio">
@@ -128,7 +130,7 @@ export default function Header() {
               <ArrowUpRight className="mt-6 size-5 shrink-0 text-white/40 transition-[transform,color] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-acento" aria-hidden />
             </Link>
           ))}
-          <Link href="/#clubes" className="col-span-3 mt-3 text-[13px] text-white/60 hover:text-white">
+          <Link href="/clubes" className="col-span-3 mt-3 text-[13px] text-white/60 hover:text-white">
             Y además: gimnasia acrobática, capoeira, jiu-jitsu brasileño y halterofilia con los clubes que entrenan en 720 →
           </Link>
         </div>
@@ -157,7 +159,7 @@ export default function Header() {
                 </li>
               ))}
               <li>
-                <Link href="/#clubes" className="block py-2.5 text-[14px] text-white/55">
+                <Link href="/clubes" className="block py-2.5 text-[14px] text-white/55">
                   Clubes: acrobacia, capoeira, BJJ…
                 </Link>
               </li>
@@ -173,7 +175,7 @@ export default function Header() {
               Inscríbete ahora
             </Link>
             <Link href={enlacePrueba} className={claseBoton("contorno", true)}>
-              Prueba una clase gratis
+              Clase gratis
             </Link>
             <a href={wa("Hola, tengo una duda sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno", true)}>
               Escríbenos por WhatsApp

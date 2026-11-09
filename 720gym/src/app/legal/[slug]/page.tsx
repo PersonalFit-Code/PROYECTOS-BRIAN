@@ -45,7 +45,7 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const p = paginas[(await params).slug];
-  return p ? { title: p.titulo, robots: { index: false } } : {};
+  return p ? { title: p.titulo, description: `${p.titulo} de 720 GYM CLUB, gimnasio en Calle Río Bibei 16, Ourense.`, robots: { index: false } } : {};
 }
 
 export default async function PaginaLegal({ params }: { params: Promise<{ slug: string }> }) {

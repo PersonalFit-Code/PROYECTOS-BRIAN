@@ -1,17 +1,17 @@
 import { Plus } from "lucide-react";
 import { preguntas } from "@/data/preguntas";
 
-export default function Preguntas() {
+export default function Preguntas({ pagina = false }: { pagina?: boolean }) {
+  const Titulo = pagina ? "h1" : "h2";
   return (
-    <section id="preguntas" className="bg-white py-24 text-negro sm:py-32" aria-labelledby="titulo-preguntas">
+    <section id="preguntas" className={pagina ? "bg-white pt-[calc(var(--header-h)+4rem)] pb-24 text-negro sm:pb-32" : "bg-white py-24 text-negro sm:py-32"} aria-labelledby="titulo-preguntas">
       <div className="container-page grid gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
-          <p data-reveal className="etiqueta text-negro/50">
-            <span className="text-acento-texto">11</span> · Preguntas frecuentes
-          </p>
-          <h2 id="titulo-preguntas" data-reveal className="titular mt-5 text-[clamp(3rem,8vw,6rem)]">
+          <p data-reveal className="etiqueta text-negro/50">Preguntas frecuentes</p>
+          <Titulo id="titulo-preguntas" data-reveal className="titular mt-5 text-[clamp(3rem,8vw,6rem)]">
             Antes de venir
-          </h2>
+            {pagina && <span className="sr-only">: preguntas frecuentes de 720 GYM CLUB en Ourense</span>}
+          </Titulo>
         </div>
         <div className="lg:col-span-8">
           {preguntas.map((q) => (

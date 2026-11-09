@@ -25,7 +25,7 @@ export default function BarraMovil() {
   return (
     <div
       className={cn(
-        "vidrio fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 rounded-[1.75rem] p-2 transition-[transform,opacity] duration-500 lg:hidden",
+        "vidrio vidrio-denso fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 rounded-[1.75rem] p-2 transition-[transform,opacity] duration-500 lg:hidden",
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[calc(100%+1.5rem)] opacity-0",
       )}
     >

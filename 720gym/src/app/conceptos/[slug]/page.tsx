@@ -11,6 +11,7 @@ import Conceptos from "@/components/secciones/Conceptos";
 import FraseGigante from "@/components/ui/FraseGigante";
 import CintaLogos from "@/components/ui/CintaLogos";
 import Cierre from "@/components/secciones/Cierre";
+import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { conceptoPorSlug, conceptos } from "@/data/conceptos";
 import { wa } from "@/data/negocio";
 
@@ -35,6 +36,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
 
   return (
     <>
+      <JsonLd datos={migas([["Conceptos", "/#conceptos"], [c.nombre, c.href]])} />
       <section className="relative overflow-hidden bg-negro pt-[calc(var(--header-h)+3rem)] pb-20 sm:pb-28" aria-labelledby="titulo-concepto">
         <Ondas lineas={10} color="rgb(255 255 255 / 0.06)" />
         <div className="container-page relative grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-10">
@@ -47,6 +49,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
             </p>
             <h1 id="titulo-concepto" className="hero-in titular mt-4 text-[clamp(3.25rem,11vw,7.5rem)] [overflow-wrap:anywhere] lg:text-[clamp(4rem,6.6vw,7.5rem)]" style={{ ["--i" as string]: 2 }}>
               {c.nombre}
+              <span className="sr-only"> en Ourense</span>
             </h1>
             <p className="hero-in mt-6 max-w-lg text-[18px] leading-relaxed text-white/70" style={{ ["--i" as string]: 3 }}>
               {c.lineas}
@@ -56,7 +59,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
                 Inscríbete
               </Link>
               <Link href={prueba} className={claseBoton("contorno", true)}>
-                Prueba gratis
+                Clase gratis
               </Link>
               <a href={wa(`Hola, quiero información de ${c.nombre} en 720 GYM CLUB.`)} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno", true)}>
                 Información
@@ -131,14 +134,14 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
         </div>
       </section>
 
-      {c.clases.length > 0 && <Horario soloClases={c.clases} titulo={`Horario de ${c.nombre.replace(/^720 /, "")}`} />}
+      {c.clases.length > 0 && <Horario soloClases={c.clases} titulo={`Horario de ${c.nombre.replace(/^720 /, "")}`} numero={null} />}
 
       <section className="bg-white" aria-label="Lema">
         <FraseGigante frase="Busca mejorar tu versión. Evita las comparaciones." className="py-20" />
       </section>
 
       <Cierre />
-      <Apuntate actividadInicial={c.actividad} />
+      <Apuntate actividadInicial={c.actividad} orden={null} />
       <Conceptos excluir={c.slug} />
       <CintaLogos />
     </>

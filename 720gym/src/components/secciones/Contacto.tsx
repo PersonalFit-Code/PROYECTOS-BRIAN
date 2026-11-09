@@ -14,7 +14,7 @@ export default function Contacto() {
       <div className="container-page grid gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <p data-reveal className="etiqueta text-white/55">
-            <span className="text-acento">12</span> · Contacto
+            <span className="text-acento">10</span> · Contacto
           </p>
           <h2 id="titulo-contacto" data-reveal className="titular mt-5 text-[clamp(3.25rem,10vw,7.5rem)]">
             Ven a vernos

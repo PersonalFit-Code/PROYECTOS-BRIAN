@@ -88,7 +88,7 @@ const reglas: { claves: RegExp; r: Respuesta }[] = [
   },
   {
     claves: /capoeira|bjj|jiu|acrobac|ninos|nino|peques|halterofilia|club/,
-    r: { texto: "Dentro de 720 entrenan clubes con su propio equipo: gimnasia acrobática (Clube Ximnasia Burgas), Capoeira Andaruê, BJJ Mambises y Halterofilia. Te ponemos en contacto con ellos.", acciones: [{ etiqueta: "Ver clubes", href: "/#clubes" }, A.whatsapp] },
+    r: { texto: "Dentro de 720 entrenan clubes con su propio equipo: gimnasia acrobática (Clube Ximnasia Burgas), Capoeira Andaruê, BJJ Mambises y Halterofilia. Te ponemos en contacto con ellos.", acciones: [{ etiqueta: "Ver clubes", href: "/clubes" }, A.whatsapp] },
   },
   {
     claves: /pago|pagar|cobr|tarjeta|bizum|domicilia|cancelar|baja/,
@@ -96,7 +96,7 @@ const reglas: { claves: RegExp; r: Respuesta }[] = [
   },
   {
     claves: /alquil|profesional|sala|taller|evento|720p/,
-    r: { texto: "Con 720P alquilamos espacio a entrenadores, terapeutas e instructores para cursos, talleres, eventos o clinics. Escríbenos y te contamos disponibilidad.", acciones: [{ etiqueta: "Espacios 720P", href: "/#profesionales" }, A.whatsapp] },
+    r: { texto: "Con 720P alquilamos espacio a entrenadores, terapeutas e instructores para cursos, talleres, eventos o clinics. Escríbenos y te contamos disponibilidad.", acciones: [{ etiqueta: "Espacios 720P", href: "/clubes#profesionales" }, A.whatsapp] },
   },
   {
     claves: /telefono|llamar|contacto|email|correo|whatsapp/,
