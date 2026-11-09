@@ -45,7 +45,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
             <p className="hero-in etiqueta mt-10 text-acento" style={{ ["--i" as string]: 1 }}>
               {c.marca}
             </p>
-            <h1 id="titulo-concepto" className="hero-in titular mt-4 text-[clamp(4rem,13vw,10rem)]" style={{ ["--i" as string]: 2 }}>
+            <h1 id="titulo-concepto" className="hero-in titular mt-4 text-[clamp(3.25rem,11vw,7.5rem)] [overflow-wrap:anywhere] lg:text-[clamp(4rem,6.6vw,7.5rem)]" style={{ ["--i" as string]: 2 }}>
               {c.nombre}
             </h1>
             <p className="hero-in mt-6 max-w-lg text-[18px] leading-relaxed text-white/70" style={{ ["--i" as string]: 3 }}>
@@ -68,7 +68,8 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
           </div>
         </div>
 
-        <dl className="container-page relative mt-16 grid gap-px bg-white/10 sm:grid-cols-3">
+        <div className="container-page relative mt-16">
+        <dl className="grid gap-px bg-white/10 sm:grid-cols-3">
           <div className="bg-negro py-6 pr-6">
             <dt className="etiqueta text-white/45">Para quién</dt>
             <dd className="mt-3 text-[16px] leading-relaxed text-white/85">{c.paraQuien}</dd>
@@ -92,6 +93,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
             </dd>
           </div>
         </dl>
+        </div>
       </section>
 
       <section className="bg-pared py-24 text-negro sm:py-32" aria-labelledby="titulo-detalle">
