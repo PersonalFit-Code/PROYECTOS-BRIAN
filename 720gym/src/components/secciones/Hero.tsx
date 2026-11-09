@@ -1,7 +1,7 @@
 import FotoAvance from "@/components/ui/FotoAvance";
 import Link from "next/link";
 import { fotos } from "@/data/fotos";
-import { Star } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 import FondoMarca from "@/components/ui/FondoMarca";
 import Contador from "@/components/ui/Contador";
 import EstadoAbierto from "@/components/ui/EstadoAbierto";
@@ -28,8 +28,8 @@ export default function Hero() {
       <FondoMarca agua={false} className="opacity-30" />
       <div className="avance-contenido container-page relative flex flex-1 flex-col justify-end gap-10 pb-10 lg:flex-row lg:items-end lg:justify-between lg:pb-16">
         <div className="max-w-xl">
-          <p className="hero-in etiqueta text-white/60" style={{ ["--i" as string]: 0 }}>
-            Centro privado de entrenamiento · Ourense
+          <p className="hero-in etiqueta flex items-center gap-2 text-white/70" style={{ ["--i" as string]: 0 }}>
+            <MapPin className="size-3.5" aria-hidden /> Centro privado de entrenamiento · Ourense
           </p>
           <h1 id="titulo-portada" className="hero-in titular mt-4 text-[clamp(2.6rem,5.4vw,4rem)]" style={{ ["--i" as string]: 1 }}>
             Entrena. Cuídate. <span className="texto-logo">Crece.</span>

@@ -8,7 +8,7 @@ import Foto from "@/components/ui/Foto";
 import { claseBoton } from "@/components/ui/Boton";
 import Horario from "@/components/secciones/Horario";
 import Apuntate from "@/components/secciones/Apuntate";
-import Ticker from "@/components/ui/Ticker";
+import Normas from "@/components/ui/Normas";
 import CintaLogos from "@/components/ui/CintaLogos";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { pilates, wa } from "@/data/negocio";
@@ -107,9 +107,7 @@ export default function PaginaPilates() {
         </div>
       </section>
 
-      <div className="py-8 text-carbon">
-        <Ticker frases={["Cada persona, a su ritmo", "Grupos reducidos", "Primera clase gratis", "Sin matrícula"]} tono="claro" grande duracion={45} className="!text-carbon" />
-      </div>
+      <Normas className="py-12 text-carbon" tono="crema" />
 
       {bea && (
         <section className="py-20 sm:py-28" aria-labelledby="titulo-equipo-pilates">

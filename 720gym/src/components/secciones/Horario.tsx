@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
-import { ArrowUpRight, Clock, Info } from "lucide-react";
+import { ArrowUpRight, Clock, Flame, Flower2, Info, Sun, Wind } from "lucide-react";
+import type { ComponentType, SVGProps } from "react";
+import { Anillas, BarraDiscos, Berimbau, Cinturon, Reformer } from "@/components/ui/IconosMarca";
 import { clasesHorario, dias, sesiones, type ClaseId, type Dia, type Sesion } from "@/data/horario";
 import { capacidad, claveSesion, esReservable, ocupacionBase } from "@/data/plazas";
 import { useDemo, type Reserva } from "@/lib/demo";
@@ -22,6 +24,19 @@ const ahoraMadrid = () => {
   return `${dia}|${hora}`;
 };
 const info = (id: ClaseId) => clasesHorario.find((c) => c.id === id)!;
+type Icono = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
+/** Icono de cada clase (Lucide + SVG propios). */
+const iconoClase: Record<ClaseId, Icono> = {
+  reformer: Reformer,
+  mat: Flower2 as Icono,
+  hipopresivos: Wind as Icono,
+  yoga: Sun as Icono,
+  crossgym: Flame as Icono,
+  powerlifting: BarraDiscos,
+  acrobacia: Anillas,
+  capoeira: Berimbau,
+  bjj: Cinturon,
+};
 const vars = (id: ClaseId) => ({ ["--c-color" as string]: info(id).color, ["--c-gris" as string]: info(id).gris });
 const capital = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -60,9 +75,15 @@ export function TarjetaClase({ s, cr = false, destacada = false, onReservar }: {
           <Clock className="size-3" aria-hidden /> {s.duracion}
         </span>
       </div>
-      <p className="subtitular mt-3 flex items-center gap-2 text-[16px]">
-        <span className="size-2.5 rounded-full bg-[var(--clase)] ring-1 ring-black/20" aria-hidden />
+      <p className="subtitular mt-3 flex items-center gap-2.5 text-[16px]">
+        <span className={cn("grid size-8 place-items-center rounded-lg ring-1", cr ? "bg-crema ring-carbon/10" : "bg-white/[0.07] ring-white/10")} aria-hidden>
+          {(() => {
+            const I = iconoClase[s.clase];
+            return <I className="size-4" />;
+          })()}
+        </span>
         {info(s.clase).nombre}
+        <span className="ml-auto size-2 rounded-full bg-[var(--clase)] ring-1 ring-black/20" aria-hidden />
       </p>
       {reservable ? (
         <>

@@ -8,7 +8,7 @@ import { claseBoton } from "@/components/ui/Boton";
 import Horario from "@/components/secciones/Horario";
 import Apuntate from "@/components/secciones/Apuntate";
 import Conceptos from "@/components/secciones/Conceptos";
-import Ticker from "@/components/ui/Ticker";
+import Normas from "@/components/ui/Normas";
 import CintaLogos from "@/components/ui/CintaLogos";
 import Cierre from "@/components/secciones/Cierre";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
@@ -140,9 +140,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
       {c.clases.length > 0 && <Horario soloClases={c.clases} titulo={`Horario de ${c.nombre.replace(/^720 /, "")}`} />}
 
       <section className="bg-white" aria-label="Lema">
-        <div className="py-6">
-          <Ticker frases={["Busca mejorar tu versión", "Evita las comparaciones", "Si puedes levantarlo, puedes bajarlo", "Somos una familia"]} tono="claro" grande duracion={50} />
-        </div>
+        <Normas className="py-12" />
       </section>
 
       <Cierre />

@@ -1,12 +1,19 @@
-import { ArrowUpRight, Star } from "lucide-react";
+import { ArrowUpRight, Car, Heart, Plane, ShieldCheck, Smile, Sparkles, UserCheck, Users, Star } from "lucide-react";
 import Contador from "@/components/ui/Contador";
-import Ticker from "@/components/ui/Ticker";
+import Normas from "@/components/ui/Normas";
 import { negocio } from "@/data/negocio";
 
-const temas = ["Ambiente familiar", "Grupos reducidos", "Atención personalizada", "Limpieza", "Sin competitividad tóxica", "Todas las edades", "Pases para quien viene de fuera", "Fácil aparcamiento"];
+const temas = [
+  { t: "Ambiente familiar", I: Heart },
+  { t: "Grupos reducidos", I: Users },
+  { t: "Atención personalizada", I: UserCheck },
+  { t: "Limpieza", I: Sparkles },
+  { t: "Sin competitividad tóxica", I: ShieldCheck },
+  { t: "Todas las edades", I: Smile },
+  { t: "Pases para quien viene de fuera", I: Plane },
+  { t: "Fácil aparcamiento", I: Car },
+];
 
-/** Sus normas del dosier: definen el tono mejor que cualquier eslogan. */
-const normas = ["Si puedes levantarlo, puedes bajarlo", "Busca mejorar tu versión y evita las comparaciones", "Deja los problemas y el ego fuera", "Recuerda que somos una familia"];
 
 export default function Comunidad({ resumen = false }: { resumen?: boolean }) {
   return (
@@ -18,8 +25,9 @@ export default function Comunidad({ resumen = false }: { resumen?: boolean }) {
             720 también es la gente que entrena aquí
           </h2>
           <ul data-reveal className="mt-6 flex flex-wrap gap-2">
-            {temas.slice(0, resumen ? 5 : temas.length).map((t) => (
-              <li key={t} className="rounded-full bg-white px-3.5 py-2 text-[13px] font-medium text-negro/80">
+            {temas.slice(0, resumen ? 6 : temas.length).map(({ t, I }) => (
+              <li key={t} className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[13px] font-medium text-negro/80">
+                <I className="size-3.5 text-negro/60" aria-hidden />
                 {t}
               </li>
             ))}
@@ -51,10 +59,7 @@ export default function Comunidad({ resumen = false }: { resumen?: boolean }) {
           </div>
         </div>
       </div>
-      <div className="mt-12 border-y border-negro/10 py-5">
-        <p className="sr-only">Nuestras normas: {normas.join(". ")}.</p>
-        <Ticker frases={normas} tono="claro" grande duracion={50} />
-      </div>
+      <Normas className="mt-12" />
     </section>
   );
 }

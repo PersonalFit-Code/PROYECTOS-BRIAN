@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowUpRight, Check, Dumbbell, UserCheck } from "lucide-react";
+import { Reformer } from "@/components/ui/IconosMarca";
 import { claseBoton } from "@/components/ui/Boton";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +30,12 @@ export default function TarifasDestacadas() {
           {planes.map((p) => (
             <li key={p.plan} data-reveal className="w-[82%] shrink-0 snap-start md:w-auto">
               <div className={cn("flex h-full flex-col rounded-3xl p-6 transition duration-500 hover:-translate-y-1", p.destacado ? "bg-negro text-white shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)]" : "bg-white ring-1 ring-negro/8")}>
-                <p className={cn("etiqueta !text-[10px]", p.destacado ? "text-white/55" : "text-negro/45")}>{p.nota}</p>
+                <div className="flex items-start justify-between gap-3">
+                  <p className={cn("etiqueta !text-[10px]", p.destacado ? "text-white/55" : "text-negro/45")}>{p.nota}</p>
+                  <span className={cn("grid size-10 place-items-center rounded-xl", p.destacado ? "bg-white/10" : "bg-pared")} aria-hidden>
+                    {p.plan === "gimnasio-libre" ? <Dumbbell className="size-5" /> : p.plan === "reformer-1" ? <Reformer className="size-5" /> : <UserCheck className="size-5" />}
+                  </span>
+                </div>
                 <h3 className="subtitular mt-3 text-[18px]">{p.nombre}</h3>
                 <p className="mt-2 flex items-baseline gap-1">
                   <span className="titular text-[48px] leading-none">{p.precio}</span>

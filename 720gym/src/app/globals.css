@@ -697,3 +697,41 @@ button.tarjeta-vidrio:hover {
     filter: none;
   }
 }
+
+/* Iconos que flotan suavemente (universo 720) */
+@media (prefers-reduced-motion: no-preference) {
+  .icono-flota {
+    animation: flota 4.5s ease-in-out infinite;
+  }
+}
+@keyframes flota {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Galería rotativa: cada foto entra con fundido y avance de cámara */
+.rota-foto {
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-out-expo);
+}
+.rota-foto[data-activa="true"] {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rota-foto[data-activa="true"] img {
+    animation: rota-avance 7s ease-out both;
+  }
+}
+@keyframes rota-avance {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.14);
+  }
+}

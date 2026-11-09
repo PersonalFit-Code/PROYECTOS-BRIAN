@@ -7,7 +7,7 @@ import { ClasesHoy } from "@/components/secciones/Horario";
 import TarifasDestacadas from "@/components/secciones/TarifasDestacadas";
 import Comunidad from "@/components/secciones/Comunidad";
 import Cierre from "@/components/secciones/Cierre";
-import Ticker from "@/components/ui/Ticker";
+import Linea from "@/components/ui/Linea";
 import CintaLogos from "@/components/ui/CintaLogos";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
@@ -20,12 +20,12 @@ export default function Inicio() {
   return (
     <>
       <Hero />
-      <div className="border-y border-white/10 bg-negro py-4">
-        <Ticker frases={["Aforo limitado", "Abierto 365 días", "Pilates Reformer", "5,0 en Google", "Primera clase gratis", "Entrada diaria 5 €", "Sin matrícula en Pilates"]} />
-      </div>
       <PorQue />
+      <Linea />
       <Galeria />
+      <Linea />
       <Indice />
+      <Linea />
       <ClasesHoy />
       <TarifasDestacadas />
       <Comunidad resumen />

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
+import MarcaAjustada from "@/components/ui/MarcaAjustada";
 import SelectorAcento from "./SelectorAcento";
 import { negocio, pilates } from "@/data/negocio";
 import { enlacesConceptos } from "./navegacion";
@@ -7,9 +8,6 @@ import { enlacesConceptos } from "./navegacion";
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-negro pb-24 text-white lg:pb-0">
-      <span className="marca-agua pointer-events-none absolute -bottom-[4vw] left-1/2 -translate-x-1/2 text-[34vw] lg:text-[22vw]" aria-hidden>
-        720
-      </span>
       <div className="container-page relative grid gap-12 py-16 sm:py-20 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Logo className="text-[28px]" />
@@ -18,8 +16,10 @@ export default function Footer() {
           </p>
           <p className="titular texto-logo mt-6 text-[26px]">Entrena. Cuídate. Crece.</p>
         </div>
-        <div className="grid gap-10 sm:grid-cols-3 lg:col-span-8">
-          <div>
+        <div className="relative grid gap-10 sm:grid-cols-3 lg:col-span-8">
+          {/* El «720» llena de arriba abajo el recuadro de las columnas (de Conceptos a Contacto), centrado. */}
+          <MarcaAjustada className="pointer-events-none absolute inset-0 -z-0 h-full w-full" />
+          <div className="relative">
             <p className="etiqueta text-white/45">Conceptos</p>
             <ul className="mt-4 space-y-2 text-[15px]">
               {enlacesConceptos.map((c) => (
@@ -56,7 +56,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div>
+          <div className="relative">
             <p className="etiqueta text-white/45">Visítanos</p>
             <address className="mt-4 space-y-2 text-[15px] not-italic text-white/75">
               <p>{negocio.direccion.calle}</p>
@@ -67,7 +67,7 @@ export default function Footer() {
               <p className="text-white/50">{negocio.horario.detalle}</p>
             </address>
           </div>
-          <div>
+          <div className="relative">
             <p className="etiqueta text-white/45">Contacto</p>
             <ul className="mt-4 space-y-2 text-[15px] text-white/75">
               <li>
