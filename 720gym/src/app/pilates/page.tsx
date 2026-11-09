@@ -9,7 +9,7 @@ import { claseBoton } from "@/components/ui/Boton";
 import Horario from "@/components/secciones/Horario";
 import Apuntate from "@/components/secciones/Apuntate";
 import Normas from "@/components/ui/Normas";
-import CintaLogos from "@/components/ui/CintaLogos";
+import TuPlan from "@/components/secciones/TuPlan";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { pilates, wa } from "@/data/negocio";
 import { condicionesPilates, tarifasPilates } from "@/data/tarifas";
@@ -195,7 +195,7 @@ export default function PaginaPilates() {
           </p>
         </div>
       </section>
-      <CintaLogos />
+      <TuPlan />
     </div>
   );
 }

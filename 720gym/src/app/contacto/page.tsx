@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Contacto from "@/components/secciones/Contacto";
-import CintaLogos from "@/components/ui/CintaLogos";
+import TuPlan from "@/components/secciones/TuPlan";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default function PaginaContacto() {
     <>
       <JsonLd datos={migas([["Contacto", "/contacto"]])} />
       <Contacto pagina />
-      <CintaLogos />
+      <TuPlan />
     </>
   );
 }

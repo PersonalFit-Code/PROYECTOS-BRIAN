@@ -193,11 +193,13 @@ body {
   color: transparent;
   animation: relleno-pan 14s ease-in-out infinite alternate;
 }
+/* «720» relleno con foto: estático (sin movimiento) y encajado a la caja de las letras. */
 .letras-relleno[data-foto] {
+  display: inline-block;
   background-image: var(--foto);
   background-size: cover;
-  background-position: center;
-  animation: relleno-foto 22s ease-in-out infinite alternate;
+  background-position: var(--foto-pos, center);
+  animation: none;
 }
 @keyframes relleno-pan {
   from {
@@ -975,4 +977,28 @@ button.tarjeta-vidrio:hover {
   .plegable-cuerpo {
     transition: none;
   }
+}
+
+/* «Tu plan en 30 segundos»: chispas al mostrar el resultado. */
+@keyframes chispa {
+  0% {
+    transform: rotate(var(--a)) translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--a)) translateY(calc(var(--d) * -1)) scale(0.2);
+    opacity: 0;
+  }
+}
+.chispa {
+  position: absolute;
+  width: 6px;
+  height: 14px;
+  margin-left: -3px;
+  border-radius: 3px;
+  background: #fff;
+  animation: chispa 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.chispa:nth-child(3n) {
+  background: #9a9aa0;
 }

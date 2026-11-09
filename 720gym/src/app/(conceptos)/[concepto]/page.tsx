@@ -9,7 +9,7 @@ import Horario from "@/components/secciones/Horario";
 import Apuntate from "@/components/secciones/Apuntate";
 import Conceptos from "@/components/secciones/Conceptos";
 import Normas from "@/components/ui/Normas";
-import CintaLogos from "@/components/ui/CintaLogos";
+import TuPlan from "@/components/secciones/TuPlan";
 import Cierre from "@/components/secciones/Cierre";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { conceptoPorSlug, conceptos } from "@/data/conceptos";
@@ -146,7 +146,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
       <Cierre />
       <Apuntate actividadInicial={c.actividad} orden={null} />
       <Conceptos excluir={c.slug} />
-      <CintaLogos />
+      <TuPlan />
     </>
   );
 }

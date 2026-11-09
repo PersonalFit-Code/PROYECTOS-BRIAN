@@ -9,7 +9,7 @@ import TarifasDestacadas from "@/components/secciones/TarifasDestacadas";
 import Comunidad from "@/components/secciones/Comunidad";
 import Cierre from "@/components/secciones/Cierre";
 import Linea from "@/components/ui/Linea";
-import CintaLogos from "@/components/ui/CintaLogos";
+import TuPlan from "@/components/secciones/TuPlan";
 import PlegableMovil from "@/components/ui/PlegableMovil";
 import FranjaCta from "@/components/ui/FranjaCta";
 
@@ -46,7 +46,7 @@ export default function Inicio() {
         <Comunidad resumen />
       </PlegableMovil>
       <Cierre />
-      <CintaLogos />
+      <TuPlan />
     </>
   );
 }

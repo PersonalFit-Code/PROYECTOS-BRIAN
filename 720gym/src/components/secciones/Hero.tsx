@@ -1,4 +1,4 @@
-import { ChevronDown, MapPin } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { HeroSection } from "@/components/ui/hero-section-4";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import { fotos } from "@/data/fotos";
@@ -15,11 +15,6 @@ export default function Hero() {
       <HeroSection
         aria-labelledby="titulo-portada"
         imageUrl={fotos.sala.grande}
-        eyebrow={
-          <span className="vidrio inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-semibold tracking-wide text-white/90">
-            <MapPin className="size-3.5" aria-hidden /> Centro privado de entrenamiento · Ourense
-          </span>
-        }
         title={
           <span id="titulo-portada">
             Entrena. Cuídate. Crece.
