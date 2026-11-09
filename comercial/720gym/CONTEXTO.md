@@ -101,6 +101,11 @@ Una **web única, rápida y preciosa** que lo reúna todo y convierta visitas en
 - Para 720 encaja el plan **Clientes** (web completa + inscripción y clase de prueba con aviso a WhatsApp).
 - El **Pro** añadiría reservas de clases con plazas limitadas, asistente con IA para WhatsApp y panel de gestión.
 
+## Datos reales
+Lee `comercial/720gym/DATOS.md`: tarifas completas de 720 GYM y 720 Pilates, horario, contactos, zonas, clubes, textos propios y condiciones, sacados de su dosier oficial (`comercial/720gym/material/INFORMACION_720GYM_2025-26.pdf`). Usa estos datos reales, no los «XX €».
+
+**No es una maqueta:** queremos hacer directamente **la web buena y definitiva**, rápida y muy chula. Al cliente se le enseña el lunes y, si le gusta, solo hay que ajustar detalles con él.
+
 ## Guía de marca
 Lee también `comercial/720gym/MARCA.md`: paleta con hex, tipografías, nicho y micronicho, perfiles de cliente, tono de voz, SEO local y el sistema de submarcas «720» (720 YOGA, 720 PILATES, CROSSGYM 720, 720 POWERLIFTING, 720P). Síguela al diseñar.
 

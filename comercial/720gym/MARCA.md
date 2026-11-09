@@ -5,6 +5,18 @@ Lo marcado como **(confirmar)** se revisa el lunes en la visita.
 
 ## 1. Paleta de colores
 
+> **Importante:** su dosier oficial 2025-26 usa otra paleta:
+> - fondo negro con líneas onduladas;
+> - **naranja** `#F7941D` como color de titulares;
+> - el logo «720GYM» con **fotos del gimnasio dentro de las letras**, con un degradado azul → naranja → verde.
+>
+> Hay dos caminos y lo decidimos con ellos el lunes:
+> - **A) Su dosier:** negro + naranja `#F7941D` + fotos dentro de las letras. Es continuista con lo que ya reparten.
+> - **B) El local:** negro + blanco + rojo `#D7232B` de las máquinas. Es más actual y potente.
+>
+> Para la web propongo usar el **recurso de fotos dentro de las letras «720GYM»** en la portada (queda espectacular) y llevar los dos acentos preparados. Por defecto, el **naranja de su dosier**, porque es su identidad actual.
+
+
 La marca ya tiene una personalidad clara: **local blanco y luminoso, suelo negro y máquinas rojas**. El logo es blanco sobre negro.
 
 | Rol | Color | Hex | Dónde se usa |
