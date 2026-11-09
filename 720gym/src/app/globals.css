@@ -658,46 +658,6 @@ button.tarjeta-vidrio:hover {
   }
 }
 
-/* ── Walkthrough del hero: la cámara entra en la sala ── */
-.avance-auto,
-.avance-scroll {
-  transform-origin: var(--foco, 58% 52%);
-  will-change: transform;
-}
-.avance-scroll {
-  transform: scale(calc(1 + var(--avance, 0) * 0.32)) translate3d(0, calc(var(--avance, 0) * 2%), 0);
-  filter: brightness(calc(1 + var(--avance, 0) * 0.15));
-}
-.avance-velo {
-  opacity: calc(1 - var(--avance, 0) * 0.35);
-}
-.avance-contenido {
-  transform: translate3d(0, calc(var(--avance, 0) * -60px), 0);
-  opacity: calc(1 - var(--avance, 0) * 1.6);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .avance-auto {
-    animation: avance-lento 24s cubic-bezier(0.25, 0.1, 0.25, 1) infinite alternate;
-  }
-}
-@keyframes avance-lento {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.12);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .avance-scroll,
-  .avance-contenido,
-  .avance-velo {
-    transform: none;
-    opacity: 1;
-    filter: none;
-  }
-}
-
 /* Iconos que flotan suavemente (universo 720) */
 @media (prefers-reduced-motion: no-preference) {
   .icono-flota {
