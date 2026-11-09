@@ -36,6 +36,16 @@ La marca ya tiene una personalidad clara: **local blanco y luminoso, suelo negro
 - Alternar secciones negras y blancas da ritmo y recuerda al local: suelo negro, paredes blancas.
 - **(confirmar)** El rojo exacto: medirlo con una foto buena de las máquinas.
 
+### Submarca 720 PILATES (su propio dosier 2025-26)
+720 Pilates tiene una identidad distinta, más suave y femenina:
+- fondo **crema** `#F6F0E8`;
+- acentos **naranja** `#F6A33B` y **verde menta** `#3FBF9B`;
+- detalles en gris carbón;
+- formas geométricas (círculos, triángulos, puntos y líneas);
+- fotos de Pilates en tonos verdosos.
+
+En la web, la sección o página de **720 Pilates** debería usar esta paleta. Así se nota que es un estudio con personalidad propia dentro del universo 720.
+
 ## 2. Tipografía
 
 | Uso | Letra (Google Fonts) | Por qué |

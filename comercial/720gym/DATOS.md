@@ -123,6 +123,14 @@ Máquinas · Peso libre · Powerlifting (material de competición) · Cardio · 
 ## Inscripciones actuales (Google Forms)
 - **Inscripción 720GYM:** 1) datos personales, 2) elegir plan, 3) enviar.
 - **Entrada diaria:** 1) datos personales, 2) elegir el día, 3) enviar.
-- También tienen formularios para 720 Yoga y 720 Pilates.
+- - **Inscripción 720 Pilates:**
+  1. datos personales;
+  2. elegir plan;
+  3. consultar el horario;
+  4. marcar los días elegidos;
+  5. marcar las horas de cada día;
+  6. enviar.
+- También hay formulario para 720 Yoga.
+- **(pedir el horario de clases de Pilates, Yoga e Hipopresivos):** el formulario lo menciona, pero no lo tenemos.
 
 En la web lo sustituimos por **un único formulario**: datos, plan o disciplina, día si es entrada diaria, y enviar. El aviso les llega por WhatsApp o email.
