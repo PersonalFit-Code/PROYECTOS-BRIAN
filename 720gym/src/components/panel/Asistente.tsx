@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Bot } from "lucide-react";
 import { Kpi, NuevoWeb, Tarjeta, TituloBloque, hace, useAhora } from "./ui";
 import { useDatosVivos } from "./datos";
+import IaGerencia from "./IaGerencia";
 import { conversacionesSemilla, preguntasFrecuentes } from "@/data/panel-demo";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +21,7 @@ export default function Asistente() {
 
   return (
     <div className="grid gap-4">
+      <IaGerencia />
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
         <Kpi oscura etiqueta="Conversaciones" valor={127 + chats.length} nota="este mes" />
         <Kpi etiqueta="Resueltas sin personal" valor="84 %" nota="sin pasar a WhatsApp" />

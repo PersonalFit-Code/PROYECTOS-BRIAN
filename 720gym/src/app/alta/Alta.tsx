@@ -24,7 +24,8 @@ export default function Alta() {
   const [plan, setPlan] = useState<PlanPago>(inicial);
   const [grupo, setGrupo] = useState<(typeof grupos)[number]>(inicial.grupo);
   const [paso, setPaso] = useState<Paso>(params.get("estado") === "ok" ? "ok" : "datos");
-  const [datos, setDatos] = useState({ nombre: "", telefono: "", email: "" });
+  /* Si llega desde el asistente, los datos vienen ya rellenados. */
+  const [datos, setDatos] = useState({ nombre: params.get("nombre") ?? "", telefono: params.get("telefono") ?? "", email: params.get("email") ?? "" });
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
   const delGrupo = useMemo(() => planesPago.filter((p) => p.grupo === grupo), [grupo]);

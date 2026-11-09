@@ -375,7 +375,7 @@ export default function Panel() {
               ))}
             </nav>
 
-            <main className="panel-vidrio min-w-0 flex-1 rounded-[28px] p-4 sm:p-6 lg:p-8">
+            <section aria-label="Contenido del panel" className="panel-vidrio min-w-0 flex-1 rounded-[28px] p-4 sm:p-6 lg:p-8">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="text-[13px] text-negro/60">{seccion === "resumen" ? `${saludo(hora)}, gerencia.` : "720 GYM CLUB · gestión"}</p>
@@ -397,7 +397,7 @@ export default function Panel() {
                 {seccion === "solicitudes" && <Solicitudes />}
                 {seccion === "asistente" && <Asistente />}
               </div>
-            </main>
+            </section>
           </div>
         </div>
 

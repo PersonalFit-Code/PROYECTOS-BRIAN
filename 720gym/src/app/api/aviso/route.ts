@@ -29,9 +29,12 @@ export async function POST(req: Request) {
     recibido: new Date().toISOString(),
     origen: "web 720gym",
   };
-  if (!aviso.nombre || aviso.telefono.replace(/\D/g, "").length < 9 || !["prueba", "inscripcion", "entrada", "reserva"].includes(aviso.tipo)) {
-    return NextResponse.json({ ok: false }, { status: 422 });
-  }
+  /* «alerta»: aviso del asistente a la gerencia (queja, venta grande…); puede no traer teléfono. */
+  const valido =
+    aviso.tipo === "alerta"
+      ? aviso.comentario.length > 0
+      : Boolean(aviso.nombre) && aviso.telefono.replace(/\D/g, "").length >= 9 && ["prueba", "inscripcion", "entrada", "reserva"].includes(aviso.tipo);
+  if (!valido) return NextResponse.json({ ok: false }, { status: 422 });
 
   const webhook = process.env.AVISO_WEBHOOK_URL;
   if (!webhook) return NextResponse.json({ ok: true, reenviado: false });

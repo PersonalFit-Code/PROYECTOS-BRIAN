@@ -4,6 +4,7 @@ import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { Estado, Kpi, NuevoWeb, Tarjeta, botonNegro, hace, useAhora } from "./ui";
 import { useDatosVivos } from "./datos";
+import FichasAsistente from "./FichasAsistente";
 import { solicitudesSemilla } from "@/data/panel-demo";
 import { cn } from "@/lib/utils";
 
@@ -61,6 +62,7 @@ export default function Solicitudes() {
 
   return (
     <div className="grid gap-4">
+      <FichasAsistente />
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
         <Kpi oscura etiqueta="Nuevas" valor={lista.filter((s) => s.estado === "Nueva").length} nota="por contestar" />
         <Kpi etiqueta="Desde la web (demo)" valor={solicitudes.length} nota="formulario único" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { Bot, CalendarCheck, CreditCard, Inbox, X } from "lucide-react";
+import { Bot, CalendarCheck, CreditCard, FileText, Flame, Inbox, Siren, X } from "lucide-react";
 import { hace, euros, useAhora } from "./ui";
 import { useDatosVivos } from "./datos";
 import { solicitudesSemilla } from "@/data/panel-demo";
@@ -21,11 +21,14 @@ const tipoTexto = { prueba: "Clase de prueba", inscripcion: "Inscripción", entr
 /** Lo último que ha pasado en la web (reservas, solicitudes, pagos, chats) + ejemplos de partida. */
 export function useAvisos(): Aviso[] {
   const ahora = useAhora();
-  const { reservas, solicitudes, pagos, chats } = useDatosVivos();
+  const { reservas, solicitudes, pagos, chats, fichas, alertas, planes } = useDatosVivos();
   const vivos: Aviso[] = [
     ...solicitudes.map((s) => ({ id: s.id, texto: `${tipoTexto[s.tipo]} · ${s.nombre}`, detalle: s.actividad ?? s.plan ?? "Desde la web", cuando: s.creada, seccion: "solicitudes" as Seccion, Icono: Inbox })),
     ...reservas.map((r) => ({ id: r.id, texto: `Reserva · ${r.nombre}`, detalle: `${r.clase} · ${r.dia} ${r.hora}`, cuando: r.creada, seccion: "calendario" as Seccion, Icono: CalendarCheck })),
     ...pagos.map((p) => ({ id: p.id, texto: `Pago online · ${euros(p.importe)}`, detalle: `${p.concepto} · ${p.nombre}`, cuando: p.creada, seccion: "movimientos" as Seccion, Icono: CreditCard })),
+    ...alertas.map((a) => ({ id: a.id, texto: `${a.urgencia === "alta" ? "URGENTE · " : ""}Aviso del asistente`, detalle: a.resumen, cuando: a.creada, seccion: "solicitudes" as Seccion, Icono: Siren })),
+    ...fichas.filter((f) => f.temperatura === "caliente").map((f) => ({ id: `f${f.id}`, texto: `Cliente caliente · ${f.nombre ?? "sin nombre"}`, detalle: f.siguiente_paso, cuando: f.creada, seccion: "solicitudes" as Seccion, Icono: Flame })),
+    ...planes.map((p) => ({ id: p.id, texto: `Plan de 4 semanas · ${p.nombre}`, detalle: `${p.objetivo} · ${p.telefono}`, cuando: p.creada, seccion: "solicitudes" as Seccion, Icono: FileText })),
     ...chats.map((c) => ({ id: c.id, texto: "Conversación con el asistente", detalle: `${c.mensajes.length} mensajes`, cuando: c.inicio, seccion: "asistente" as Seccion, Icono: Bot })),
   ].map((a) => ({ ...a, fecha: new Date(a.cuando).getTime(), cuando: hace(a.cuando, ahora) }));
   vivos.sort((a, b) => b.fecha - a.fecha);

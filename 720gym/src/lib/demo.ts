@@ -55,7 +55,55 @@ export interface Conversacion {
   mensajes: MensajeChat[];
 }
 
-const CLAVES = { reservas: "720demo:reservas", solicitudes: "720demo:solicitudes", chats: "720demo:chats", pagos: "720demo:pagos" } as const;
+/** Ficha que el asistente rellena solo con lo que cuenta el cliente (salida estructurada). */
+export interface FichaLead {
+  id: string;
+  conversacion: string;
+  nombre?: string;
+  telefono?: string;
+  objetivo: string;
+  disponibilidad?: string;
+  plan_recomendado?: string;
+  temperatura: "frio" | "templado" | "caliente";
+  siguiente_paso: string;
+  idioma: string;
+  resumen: string;
+  creada: string;
+}
+/** Aviso del asistente a la gerencia (duda seria, queja, venta grande). */
+export interface AlertaGerente {
+  id: string;
+  conversacion: string;
+  motivo: "venta_grande" | "queja" | "duda_compleja" | "lesion_o_salud" | "otro";
+  urgencia: "normal" | "alta";
+  resumen: string;
+  nombre?: string;
+  telefono?: string;
+  creada: string;
+}
+/** Plan de 4 semanas generado por el asistente (imán de clientes potenciales). */
+export interface PlanSemanas {
+  id: string;
+  conversacion: string;
+  nombre: string;
+  telefono: string;
+  objetivo: string;
+  nivel: string;
+  dias_por_semana: number;
+  semanas: { semana: number; enfoque: string; sesiones: { dia: string; titulo: string; ejercicios: string[] }[] }[];
+  consejos: string[];
+  creada: string;
+}
+
+const CLAVES = {
+  reservas: "720demo:reservas",
+  solicitudes: "720demo:solicitudes",
+  chats: "720demo:chats",
+  pagos: "720demo:pagos",
+  fichas: "720demo:fichas",
+  alertas: "720demo:alertas",
+  planes: "720demo:planes",
+} as const;
 type Clave = keyof typeof CLAVES;
 const EVENTO = "720demo";
 
@@ -123,6 +171,27 @@ export function guardarPago(p: Omit<Pago, "id" | "creada">): Pago {
   escribir("pagos", [...leer<Pago>("pagos"), completo]);
   return completo;
 }
+/** Una ficha por conversación: cada vez que el asistente sabe algo más, la actualiza. */
+export function guardarFicha(f: Omit<FichaLead, "id" | "creada">): FichaLead {
+  const lista = leer<FichaLead>("fichas");
+  const previa = lista.find((x) => x.conversacion === f.conversacion);
+  const completa: FichaLead = { ...previa, ...f, id: previa?.id ?? nuevoId(), creada: new Date().toISOString() };
+  escribir("fichas", [...lista.filter((x) => x.conversacion !== f.conversacion), completa]);
+  return completa;
+}
+export function guardarAlerta(a: Omit<AlertaGerente, "id" | "creada">): AlertaGerente {
+  const completa = { ...a, id: nuevoId(), creada: new Date().toISOString() };
+  escribir("alertas", [...leer<AlertaGerente>("alertas"), completa]);
+  return completa;
+}
+export function guardarPlan(p: Omit<PlanSemanas, "id" | "creada">): PlanSemanas {
+  const completo = { ...p, id: nuevoId(), creada: new Date().toISOString() };
+  escribir("planes", [...leer<PlanSemanas>("planes"), completo]);
+  return completo;
+}
+export const leerPlanes = () => leer<PlanSemanas>("planes");
+export const leerReservas = () => leer<Reserva>("reservas");
+
 export function borrarDemo() {
   for (const k of Object.keys(CLAVES) as Clave[]) escribir(k, []);
 }

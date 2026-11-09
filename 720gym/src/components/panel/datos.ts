@@ -1,6 +1,6 @@
 "use client";
 
-import { useDemo, type Conversacion, type Pago, type Reserva, type Solicitud } from "@/lib/demo";
+import { useDemo, type AlertaGerente, type Conversacion, type FichaLead, type Pago, type PlanSemanas, type Reserva, type Solicitud } from "@/lib/demo";
 import { sesiones, clasesHorario, type Sesion } from "@/data/horario";
 import { capacidad, claveSesion, esReservable, ocupacionBase } from "@/data/plazas";
 import { entrenadorDe, fichaBase, gastosMes, historico, ingresosMes, movimientos, porEntrenador, socios, type SocioDemo } from "@/data/panel-demo";
@@ -13,7 +13,10 @@ export function useDatosVivos() {
   const solicitudes = useDemo<Solicitud>("solicitudes");
   const chats = useDemo<Conversacion>("chats");
   const pagos = useDemo<Pago>("pagos");
-  return { reservas, solicitudes, chats, pagos };
+  const fichas = useDemo<FichaLead>("fichas");
+  const alertas = useDemo<AlertaGerente>("alertas");
+  const planes = useDemo<PlanSemanas>("planes");
+  return { reservas, solicitudes, chats, pagos, fichas, alertas, planes };
 }
 
 export const nombreClase = (id: string) => clasesHorario.find((c) => c.id === id)?.nombre ?? id;
