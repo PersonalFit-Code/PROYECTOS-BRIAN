@@ -10,6 +10,7 @@ import Apuntate from "@/components/secciones/Apuntate";
 import Conceptos from "@/components/secciones/Conceptos";
 import FraseGigante from "@/components/ui/FraseGigante";
 import CintaLogos from "@/components/ui/CintaLogos";
+import Cierre from "@/components/secciones/Cierre";
 import { conceptoPorSlug, conceptos } from "@/data/conceptos";
 import { wa } from "@/data/negocio";
 
@@ -50,12 +51,15 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
             <p className="hero-in mt-6 max-w-lg text-[18px] leading-relaxed text-white/70" style={{ ["--i" as string]: 3 }}>
               {c.lineas}
             </p>
-            <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row" style={{ ["--i" as string]: 4 }}>
-              <Link href={prueba} className={claseBoton("acento", true)}>
+            <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap" style={{ ["--i" as string]: 4 }}>
+              <Link href={c.planPago ? `/alta?plan=${c.planPago}` : `${base}?tipo=inscripcion&actividad=${c.actividad}#apuntate`} className={claseBoton("venta", true)}>
+                Inscríbete
+              </Link>
+              <Link href={prueba} className={claseBoton("contorno", true)}>
                 Prueba gratis
               </Link>
               <a href={wa(`Hola, quiero información de ${c.nombre} en 720 GYM CLUB.`)} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno", true)}>
-                Preguntar por WhatsApp
+                Información
               </a>
             </div>
           </div>
@@ -114,8 +118,8 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
                   </li>
                 ))}
               </ul>
-              <Link href={`${base}?tipo=inscripcion&actividad=${c.actividad}#apuntate`} className={`${claseBoton("acento")} mt-10 w-full`}>
-                Apuntarme
+              <Link href={c.planPago ? `/alta?plan=${c.planPago}` : `${base}?tipo=inscripcion&actividad=${c.actividad}#apuntate`} className={`${claseBoton("venta")} mt-10 w-full`}>
+                Inscríbete
               </Link>
               <Link href="/#tarifas" className="mt-4 block text-center text-[13px] text-white/60 underline underline-offset-4 hover:text-white">
                 Ver todas las tarifas
@@ -131,6 +135,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
         <FraseGigante frase="Busca mejorar tu versión. Evita las comparaciones." className="py-20" />
       </section>
 
+      <Cierre />
       <Apuntate actividadInicial={c.actividad} />
       <Conceptos excluir={c.slug} />
       <CintaLogos />

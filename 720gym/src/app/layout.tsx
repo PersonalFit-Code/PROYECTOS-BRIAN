@@ -6,6 +6,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BotonWhatsApp from "@/components/layout/BotonWhatsApp";
 import Revelados from "@/components/ui/Revelados";
+import BarraMovil from "@/components/layout/BarraMovil";
+import Asistente from "@/components/layout/Asistente";
 import { negocio } from "@/data/negocio";
 import { INDEXAR, URL_SITIO } from "@/lib/sitio";
 
@@ -86,6 +88,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main id="main">{children}</main>
         <Footer />
         <BotonWhatsApp />
+        <BarraMovil />
+        <Asistente />
         <Revelados />
       </body>
     </html>

@@ -13,6 +13,7 @@ import Preguntas from "@/components/secciones/Preguntas";
 import Contacto from "@/components/secciones/Contacto";
 import FraseGigante from "@/components/ui/FraseGigante";
 import CintaLogos from "@/components/ui/CintaLogos";
+import Cierre from "@/components/secciones/Cierre";
 
 export default function Inicio() {
   return (
@@ -35,6 +36,7 @@ export default function Inicio() {
       <Comunidad />
       <Clubes />
       <Preguntas />
+      <Cierre />
       <Contacto />
       <CintaLogos />
     </>

@@ -13,10 +13,10 @@ export default function Logo({ className, tono = "blanco" }: { className?: strin
       role="img"
     >
       <span className="flex flex-col items-start">
-        <span className="titular text-[1.9em] leading-[0.8]">720</span>
-        <span className="titular text-[1.18em] leading-[0.9] tracking-[0.06em]">GYM</span>
+        <span className="marca text-[1.9em] leading-[0.8]">720</span>
+        <span className="marca text-[1.18em] leading-[0.9] tracking-[0.06em]">GYM</span>
       </span>
-      <span className="mb-[0.12em] font-club text-[0.5em] font-black tracking-[0.18em]">CLUB</span>
+      <span className="mb-[0.12em] font-sans text-[0.48em] font-extrabold tracking-[0.2em]">CLUB</span>
     </span>
   );
 }

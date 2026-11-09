@@ -74,7 +74,7 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                   </p>
                   <p className="mt-4 text-[14px] leading-relaxed opacity-70">{t.detalle}</p>
                   {t.incluye && (
-                    <ul className="mt-5 space-y-2 text-[14px]">
+                    <ul className="mt-5 mb-8 space-y-2 text-[14px]">
                       {t.incluye.map((x) => (
                         <li key={x} className="flex gap-2">
                           <Check className="mt-0.5 size-4 shrink-0 text-acento" aria-hidden />
@@ -83,11 +83,11 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                       ))}
                     </ul>
                   )}
-                  <Link
-                    href={enlace(t.tipo, { plan: t.plan, actividad: "gimnasio" })}
-                    className={cn(claseBoton(t.destacada ? "acento" : "negro"), "mt-8 w-full")}
-                  >
+                  <Link href={`/alta?plan=${t.pagoId}`} className={cn(claseBoton("venta"), "mt-auto w-full")}>
                     {t.boton}
+                  </Link>
+                  <Link href={enlace("inscripcion", { plan: t.plan, actividad: "gimnasio" })} className="mt-3 text-center text-[13px] underline-offset-4 opacity-60 hover:underline hover:opacity-100">
+                    Prefiero que me llaméis
                   </Link>
                 </li>
               ))}
@@ -130,8 +130,8 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                   </li>
                 ))}
               </ul>
-              <Link href={enlace("inscripcion", { actividad: "personal", plan: "1 sesión + valoración inicial · 35 €" })} className={cn(claseBoton("acento"), "mt-8 w-full")}>
-                Reservar valoración
+              <Link href="/alta?plan=valoracion" className={cn(claseBoton("venta"), "mt-8 w-full")}>
+                Reservar y pagar valoración
               </Link>
             </div>
             <div className="bg-white p-6 sm:p-8 lg:col-span-8">
@@ -162,8 +162,12 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                     </p>
                     <p className={cn("mt-1 text-[13px] font-semibold", b.recomendado ? "text-acento" : "text-negro/60")}>{b.porSesion}</p>
                     <Link
-                      href={enlace("inscripcion", { actividad: "personal", plan: modalidad === "Individual" ? `Bono ${b.sesiones} sesiones${b.recomendado ? " (recomendado)" : ""}` : "En pareja / trío / grupo de 4" })}
-                      className="mt-4 text-[13px] font-semibold underline underline-offset-4"
+                      href={
+                        modalidad === "Individual" && b.sesiones >= 5
+                          ? `/alta?plan=bono-${b.sesiones}`
+                          : enlace("inscripcion", { actividad: "personal", plan: modalidad === "Individual" ? `Bono ${b.sesiones} sesiones` : "En pareja / trío / grupo de 4" })
+                      }
+                      className={cn(claseBoton("venta"), "mt-4 h-10 text-[15px]")}
                     >
                       Lo quiero
                     </Link>
@@ -188,7 +192,15 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                   <ul className="mt-5 divide-y divide-negro/10 border-y border-negro/10">
                     {g.planes.map((p) => (
                       <li key={p.nombre} className="flex items-baseline justify-between gap-3 py-3">
-                        <span className="text-[14px] text-negro/80">{p.nombre}</span>
+                        <span className="text-[14px] text-negro/80">
+                          {p.pagoId ? (
+                            <Link href={`/alta?plan=${p.pagoId}`} className="underline-offset-4 hover:underline">
+                              {p.nombre}
+                            </Link>
+                          ) : (
+                            p.nombre
+                          )}
+                        </span>
                         <span className="subtitular shrink-0 text-[22px]">
                           {p.precio}
                           <span className="ml-0.5 text-[13px] opacity-60">€/mes</span>
@@ -207,11 +219,11 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                 <li>· Sesión suelta: 15 €</li>
               </ul>
               <div className="flex shrink-0 gap-3">
-                <Link href={enlace("prueba", { actividad: "pilates" })} className={claseBoton("acento")}>
-                  Clase de prueba gratis
+                <Link href="/alta?plan=reformer-1" className={claseBoton("venta")}>
+                  Inscríbete
                 </Link>
-                <Link href="/pilates" className={claseBoton("contorno-oscuro")}>
-                  Ver 720 Pilates
+                <Link href={enlace("prueba", { actividad: "pilates" })} className={claseBoton("contorno-oscuro")}>
+                  Prueba gratis
                 </Link>
               </div>
             </div>

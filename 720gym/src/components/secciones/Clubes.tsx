@@ -23,7 +23,7 @@ export default function Clubes() {
           {clubes.map((c) => (
             <li key={c.nombre} data-reveal className="flex flex-col bg-pizarra p-7">
               <div className="grid h-28 place-items-center bg-suelo ring-1 ring-inset ring-white/8">
-                <span className="font-club text-[22px] font-black tracking-tight text-white/80">{c.corto}</span>
+                <span className="font-sans text-[22px] font-black tracking-tight text-white/80">{c.corto}</span>
               </div>
               <p className="etiqueta mt-6 text-acento">{c.disciplina}</p>
               <h3 className="subtitular mt-2 text-[26px]">{c.nombre}</h3>

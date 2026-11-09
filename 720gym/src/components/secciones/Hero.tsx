@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Star } from "lucide-react";
 import Ondas from "@/components/ui/Ondas";
 import { claseBoton } from "@/components/ui/Boton";
+import DeslizaInscribete from "@/components/ui/DeslizaInscribete";
 import { negocio, wa } from "@/data/negocio";
 import { enlacePrueba } from "@/components/layout/navegacion";
 
@@ -25,7 +26,7 @@ export default function Hero() {
 
         <p
           aria-hidden
-          className="hero-in titular letras-relleno mt-4 -ml-[0.04em] text-[29.5vw] leading-[0.78] lg:text-[min(27vw,25rem)]"
+          className="hero-in titular letras-relleno mt-4 -ml-[0.03em] text-[31vw] leading-[0.8] tracking-[-0.02em] lg:text-[min(32vw,29rem)]"
           data-foto={FOTO_LETRAS ? "" : undefined}
           style={{ ["--i" as string]: 1, ...(FOTO_LETRAS ? { ["--foto" as string]: `url(${FOTO_LETRAS})` } : {}) }}
         >
@@ -42,13 +43,16 @@ export default function Hero() {
               Un club de entrenamiento con aforo limitado, abierto los 365 días. Fuerza, Pilates Reformer y comunidad en el centro de Ourense.
             </p>
           </div>
-          <div className="hero-in flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:flex-col lg:items-stretch xl:flex-row xl:justify-end" style={{ ["--i" as string]: 4 }}>
-            <Link href={enlacePrueba} className={claseBoton("acento", true)}>
-              Prueba una clase gratis
-            </Link>
-            <a href={wa("Hola, quiero información sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno", true)}>
-              Escríbenos por WhatsApp
-            </a>
+          <div className="hero-in flex flex-col gap-3 lg:col-span-5 lg:items-end" style={{ ["--i" as string]: 4 }}>
+            <DeslizaInscribete className="lg:max-w-[26rem]" />
+            <div className="grid w-full grid-cols-2 gap-3 lg:max-w-[26rem]">
+              <Link href={enlacePrueba} className={claseBoton("contorno")}>
+                Clase gratis
+              </Link>
+              <a href={wa("Hola, quiero información sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno")}>
+                Información
+              </a>
+            </div>
           </div>
         </div>
 

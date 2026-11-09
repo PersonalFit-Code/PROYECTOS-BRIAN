@@ -85,6 +85,9 @@ export default function Footer() {
             <Link href="/legal/cookies" className="hover:text-white">
               Cookies
             </Link>
+            <Link href="/panel" className="hover:text-white">
+              Acceso gestión
+            </Link>
           </nav>
           <SelectorAcento />
         </div>

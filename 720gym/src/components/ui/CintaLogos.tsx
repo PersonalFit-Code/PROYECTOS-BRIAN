@@ -28,13 +28,13 @@ export default function CintaLogos({ tono = "claro" }: { tono?: "claro" | "oscur
             <li key={i} aria-hidden={i >= marcas.length} className="flex shrink-0 items-baseline gap-2 opacity-70 transition-opacity hover:opacity-100">
               {m.estilo === "stencil" ? (
                 <>
-                  <span className="titular text-[40px]">{m.a}</span>
+                  <span className="marca text-[40px]">{m.a}</span>
                   <span className="subtitular text-[18px] tracking-[0.12em]">{m.b}</span>
                 </>
               ) : (
                 <>
-                  <span className="font-club text-[22px] font-black tracking-tight">{m.a}</span>
-                  <span className="font-club text-[14px] font-extrabold tracking-[0.2em] opacity-70">{m.b}</span>
+                  <span className="font-sans text-[22px] font-black tracking-tight">{m.a}</span>
+                  <span className="font-sans text-[14px] font-extrabold tracking-[0.2em] opacity-70">{m.b}</span>
                 </>
               )}
             </li>

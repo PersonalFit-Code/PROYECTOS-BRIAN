@@ -2,7 +2,10 @@
 
 import { useState, useSyncExternalStore } from "react";
 import { Info } from "lucide-react";
-import { clasesHorario, dias, sesiones, type ClaseId, type Dia } from "@/data/horario";
+import { clasesHorario, dias, sesiones, type ClaseId, type Dia, type Sesion } from "@/data/horario";
+import { capacidad, claveSesion, esReservable, ocupacionBase } from "@/data/plazas";
+import { useDemo, type Reserva } from "@/lib/demo";
+import ModalReserva from "./ModalReserva";
 import { cn } from "@/lib/utils";
 
 /**
@@ -37,6 +40,13 @@ export default function Horario({
   const visibles = sesiones.filter((s) => (soloClases ? soloClases.includes(s.clase) : true) && (filtro === "todas" || s.clase === filtro));
   const horas = [...new Set(visibles.map((s) => s.hora))].sort();
   const info = (id: ClaseId) => clasesHorario.find((c) => c.id === id)!;
+  const reservas = useDemo<Reserva>("reservas");
+  const [abierta, setAbierta] = useState<Sesion | null>(null);
+  const plazas = (s: Sesion) => {
+    const total = capacidad[s.clase] ?? 0;
+    const mias = reservas.filter((r) => r.clave === claveSesion(s)).length;
+    return { total, libres: Math.max(0, total - ocupacionBase(s) - mias) };
+  };
   const vars = (id: ClaseId) => ({ ["--c-color" as string]: info(id).color, ["--c-gris" as string]: info(id).gris });
 
   return (
@@ -53,7 +63,7 @@ export default function Horario({
           </div>
           <p data-reveal className={cn("flex max-w-md items-start gap-2 border border-acento/40 bg-acento/8 px-4 py-3 text-[13px] leading-relaxed", cr ? "text-carbon/80" : "text-white/80")}>
             <Info className="mt-0.5 size-4 shrink-0 text-acento" aria-hidden />
-            Horario de ejemplo: pendiente de cargar el real. {cr ? "Grupos reducidos por niveles: reserva tu plaza." : "La sala de musculación está abierta todos los días de 08:00 a 22:30."}
+            Reserva tu plaza en un toque. Horario de ejemplo: pendiente de cargar el real. {cr ? "Grupos reducidos por niveles: reserva tu plaza." : "La sala de musculación está abierta todos los días de 08:00 a 22:30."}
           </p>
         </div>
 
@@ -101,10 +111,25 @@ export default function Horario({
                 <li key={i} className="flex items-center gap-4 py-4">
                   <span className="subtitular w-16 text-[22px]">{s.hora}</span>
                   <span className="marca-clase h-8 w-1 bg-[var(--clase)] ring-1 ring-black/15" style={vars(s.clase)} aria-hidden />
-                  <span>
+                  <span className="flex-1">
                     <span className="block font-semibold">{info(s.clase).nombre}</span>
-                    <span className="text-[13px] opacity-55">{s.duracion}</span>
+                    <span className="text-[13px] opacity-55">
+                      {s.duracion}
+                      {esReservable(s.clase) && ` · ${plazas(s).libres} ${plazas(s).libres === 1 ? "plaza libre" : "plazas libres"}`}
+                    </span>
                   </span>
+                  {esReservable(s.clase) ? (
+                    <button
+                      type="button"
+                      disabled={plazas(s).libres === 0}
+                      onClick={() => setAbierta(s)}
+                      className={cn("subtitular h-10 shrink-0 px-4 text-[15px] disabled:opacity-40", cr ? "bg-carbon text-crema" : "bg-white text-negro")}
+                    >
+                      {plazas(s).libres === 0 ? "Completa" : "Reservar"}
+                    </button>
+                  ) : (
+                    <span className="shrink-0 text-[12px] opacity-50">Con el club</span>
+                  )}
                 </li>
               ))}
           </ul>
@@ -134,12 +159,31 @@ export default function Horario({
                     const s = visibles.find((x) => x.dia === d && x.hora === h);
                     return (
                       <td key={d} className="p-1 align-top">
-                        {s && (
-                          <div className={cn("marca-clase h-full px-3 py-2.5 shadow-[inset_3px_0_0_var(--clase)]", cr ? "bg-white" : "bg-suelo")} style={vars(s.clase)}>
-                            <p className="text-[13px] font-semibold leading-tight">{info(s.clase).nombre}</p>
-                            <p className="mt-0.5 text-[11px] opacity-50">{s.duracion}</p>
-                          </div>
-                        )}
+                        {s &&
+                          (esReservable(s.clase) ? (
+                            <button
+                              type="button"
+                              onClick={() => setAbierta(s)}
+                              disabled={plazas(s).libres === 0}
+                              className={cn(
+                                "marca-clase group block h-full w-full px-3 py-2.5 text-left shadow-[inset_3px_0_0_var(--clase)] transition disabled:cursor-not-allowed",
+                                cr ? "bg-white hover:bg-crema-2" : "bg-suelo hover:bg-suelo-2",
+                              )}
+                              style={vars(s.clase)}
+                              aria-label={`Reservar ${info(s.clase).nombre}, ${d} a las ${h}`}
+                            >
+                              <p className="text-[13px] font-semibold leading-tight">{info(s.clase).nombre}</p>
+                              <p className="mt-0.5 text-[11px] opacity-55">
+                                {plazas(s).libres === 0 ? "Completa" : `${plazas(s).libres} ${plazas(s).libres === 1 ? "libre" : "libres"}`}
+                                <span className="ml-1 opacity-0 transition group-hover:opacity-100">· Reservar →</span>
+                              </p>
+                            </button>
+                          ) : (
+                            <div className={cn("marca-clase h-full px-3 py-2.5 shadow-[inset_3px_0_0_var(--clase)]", cr ? "bg-white" : "bg-suelo")} style={vars(s.clase)}>
+                              <p className="text-[13px] font-semibold leading-tight">{info(s.clase).nombre}</p>
+                              <p className="mt-0.5 text-[11px] opacity-50">{s.duracion} · club</p>
+                            </div>
+                          ))}
                       </td>
                     );
                   })}
@@ -149,6 +193,15 @@ export default function Horario({
           </table>
         </div>
       </div>
+      {abierta && (
+        <ModalReserva
+          sesion={abierta}
+          nombreClase={info(abierta.clase).nombre}
+          libres={plazas(abierta).libres}
+          total={plazas(abierta).total}
+          onCerrar={() => setAbierta(null)}
+        />
+      )}
     </section>
   );
 }

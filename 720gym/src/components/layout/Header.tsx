@@ -82,8 +82,11 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href={enlacePrueba} className={cn(claseBoton("acento"), "hidden h-11 sm:inline-flex")}>
-            Prueba gratis
+          <Link href={enlacePrueba} className={cn(claseBoton("contorno"), "h-11 max-xl:!hidden")}>
+            Clase gratis
+          </Link>
+          <Link href="/alta" className={cn(claseBoton("venta"), "h-11 px-4 sm:px-5")}>
+            Inscríbete
           </Link>
           <button
             type="button"
@@ -160,7 +163,10 @@ export default function Header() {
             </Link>
           ))}
           <div className="mt-auto grid gap-3 pt-8">
-            <Link href={enlacePrueba} className={claseBoton("acento", true)}>
+            <Link href="/alta" className={claseBoton("venta", true)}>
+              Inscríbete ahora
+            </Link>
+            <Link href={enlacePrueba} className={claseBoton("contorno", true)}>
               Prueba una clase gratis
             </Link>
             <a href={wa("Hola, tengo una duda sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno", true)}>

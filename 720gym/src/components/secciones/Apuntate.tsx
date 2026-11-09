@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { actividades } from "@/data/conceptos";
 import { negocio, pilates } from "@/data/negocio";
 import { planesFormulario } from "@/data/tarifas";
+import { guardarSolicitud } from "@/lib/demo";
 
 /**
  * FORMULARIO ÚNICO. Sustituye a sus cuatro Google Forms (inscripción, entrada diaria, yoga y
@@ -96,6 +97,7 @@ function Formulario({ tipoInicial = "prueba", actividadInicial = "gimnasio", pla
     const destino = tipo !== "entrada" && act?.pilates ? pilates.whatsapp : negocio.whatsapp;
     const url = `https://wa.me/${destino}?text=${encodeURIComponent(texto)}`;
 
+    guardarSolicitud({ tipo, nombre, telefono, email, actividad: act?.nombre, plan, fecha, hora, comentario });
     /* Se abre en el mismo gesto del usuario para que el navegador no lo bloquee. */
     window.open(url, "_blank", "noopener");
     fetch("/api/aviso", {

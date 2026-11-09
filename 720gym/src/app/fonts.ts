@@ -1,26 +1,18 @@
-import { Big_Shoulders, Big_Shoulders_Stencil, Inter, Nunito_Sans } from "next/font/google";
+import { Barlow_Condensed, Big_Shoulders_Stencil, Inter } from "next/font/google";
 
 /*
- * Tipografía de la guía de marca (comercial/720gym/MARCA.md §2):
- *  - Big Shoulders Stencil (óptica Display, opsz 72): titulares grandes, como el «720 GYM» del logo.
- *  - Big Shoulders (sin cortes): subtítulos y botones, legible en pequeño.
+ * Tipografía. Brian (09/11): nada de letra «partida» en los titulares; elegante y seria, en la línea
+ * de Hungceed y Gymshark. Por eso:
+ *  - Barlow Condensed (700/800): titulares, botones y cifras. Estrecha, maciza y limpia.
  *  - Inter: texto.
- *  - Nunito Sans ExtraBold: el detalle «CLUB» del logo, redondeado.
- * Autoalojadas por next/font: no hay peticiones a Google desde el navegador.
+ *  - Big Shoulders Stencil: SOLO en el logo y en las marcas «720 ___» de las submarcas, que es su
+ *    letra de marca (su logo es stencil).
+ * Autoalojadas por next/font: el navegador no pide nada a Google.
  */
-export const stencil = Big_Shoulders_Stencil({
+export const barlow = Barlow_Condensed({
   subsets: ["latin", "latin-ext"],
-  weight: "variable",
-  axes: ["opsz"],
-  variable: "--font-stencil",
-  display: "swap",
-});
-
-export const display = Big_Shoulders({
-  subsets: ["latin", "latin-ext"],
-  weight: "variable",
-  axes: ["opsz"],
-  variable: "--font-display-f",
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-barlow",
   display: "swap",
 });
 
@@ -30,11 +22,12 @@ export const inter = Inter({
   display: "swap",
 });
 
-export const club = Nunito_Sans({
+export const stencil = Big_Shoulders_Stencil({
   subsets: ["latin"],
-  weight: ["800", "900"],
-  variable: "--font-club",
+  weight: "variable",
+  axes: ["opsz"],
+  variable: "--font-stencil",
   display: "swap",
 });
 
-export const fontVariables = `${stencil.variable} ${display.variable} ${inter.variable} ${club.variable}`;
+export const fontVariables = `${barlow.variable} ${inter.variable} ${stencil.variable}`;

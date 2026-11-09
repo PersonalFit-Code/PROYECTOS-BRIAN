@@ -12,6 +12,8 @@ export interface Tarifa {
   plan: string;
   boton: string;
   tipo: "inscripcion" | "entrada" | "prueba";
+  /** Plan de la pasarela (/alta?plan=…). */
+  pagoId: string;
 }
 
 export const tarifasGimnasio: Tarifa[] = [
@@ -24,6 +26,7 @@ export const tarifasGimnasio: Tarifa[] = [
     incluye: ["Acceso ilimitado", "365 días", "Aforo limitado: nunca masificado"],
     destacada: true,
     plan: "Gimnasio libre · 35 €/mes",
+    pagoId: "gimnasio-libre",
     boton: "Darme de alta",
     tipo: "inscripcion",
   },
@@ -34,6 +37,7 @@ export const tarifasGimnasio: Tarifa[] = [
     detalle: "Acceso ilimitado más 1 h al mes de entrenamiento en grupo supervisado para corregir técnica.",
     incluye: ["Acceso ilimitado", "1 h/mes supervisada", "Máximo 10 atletas", "Requiere valoración inicial"],
     plan: "Supervisión en grupo · 45 €/mes",
+    pagoId: "supervision",
     boton: "Darme de alta",
     tipo: "inscripcion",
   },
@@ -45,6 +49,7 @@ export const tarifasGimnasio: Tarifa[] = [
     detalle: "Para empezar con buen pie: entrevista, valoración y plan personalizado.",
     incluye: ["Entrevista y valoración", "Plan personalizado", "1 sesión de entrenamiento personal de 1 h", "1 mes de acceso ilimitado"],
     plan: "Paquete Inicio · 75 €",
+    pagoId: "paquete-inicio",
     boton: "Quiero el paquete",
     tipo: "inscripcion",
   },
@@ -55,6 +60,7 @@ export const tarifasGimnasio: Tarifa[] = [
     detalle: "¿Estás de paso por Ourense? Entra a entrenar un día. Pídela online en un minuto.",
     incluye: ["Acceso por un día", "Sala completa"],
     plan: "Entrada diaria · 5 €",
+    pagoId: "entrada-diaria",
     boton: "Pedir entrada",
     tipo: "entrada",
   },
@@ -102,23 +108,24 @@ export const extrasPersonal = [
 export interface PlanPilates {
   nombre: string;
   precio: string;
+  pagoId?: string;
 }
 export const tarifasPilates: { grupo: string; descripcion: string; planes: PlanPilates[] }[] = [
   {
     grupo: "Reformer",
     descripcion: "Máquina Reformer en grupo reducido. 50 min.",
     planes: [
-      { nombre: "1 día/semana", precio: "55" },
-      { nombre: "2 días/semana", precio: "95" },
-      { nombre: "3 días/semana", precio: "127" },
+      { nombre: "1 día/semana", precio: "55", pagoId: "reformer-1" },
+      { nombre: "2 días/semana", precio: "95", pagoId: "reformer-2" },
+      { nombre: "3 días/semana", precio: "127", pagoId: "reformer-3" },
     ],
   },
   {
     grupo: "Mat Integral",
     descripcion: "Pilates de suelo y Wall Unit. 50 min.",
     planes: [
-      { nombre: "1 día/semana", precio: "40" },
-      { nombre: "2 días/semana", precio: "57" },
+      { nombre: "1 día/semana", precio: "40", pagoId: "mat-1" },
+      { nombre: "2 días/semana", precio: "57", pagoId: "mat-2" },
       { nombre: "3 días/semana", precio: "87" },
     ],
   },
@@ -126,7 +133,7 @@ export const tarifasPilates: { grupo: string; descripcion: string; planes: PlanP
     grupo: "Mixto",
     descripcion: "Combina Mat y Reformer a tu gusto.",
     planes: [
-      { nombre: "2 días · Mat + Reformer", precio: "78" },
+      { nombre: "2 días · Mat + Reformer", precio: "78", pagoId: "mixto-2" },
       { nombre: "3 días · 2 Mat + Reformer", precio: "98" },
       { nombre: "3 días · 2 Reformer + Mat", precio: "118" },
     ],
@@ -135,7 +142,7 @@ export const tarifasPilates: { grupo: string; descripcion: string; planes: PlanP
     grupo: "Hipopresivos",
     descripcion: "Suelo pélvico y postura. 30 min.",
     planes: [
-      { nombre: "1 día/semana", precio: "35" },
+      { nombre: "1 día/semana", precio: "35", pagoId: "hipopresivos-1" },
       { nombre: "2 días/semana", precio: "55" },
       { nombre: "2 días · Hipopresivos + Mat", precio: "60" },
       { nombre: "2 días · Hipopresivos + Reformer", precio: "80" },

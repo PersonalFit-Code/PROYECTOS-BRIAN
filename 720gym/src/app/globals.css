@@ -83,9 +83,8 @@
   --color-carbon: #2e2e30;
 
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-stencil: var(--font-stencil), "Big Shoulders Stencil", "Arial Narrow", sans-serif;
-  --font-display: var(--font-display-f), "Big Shoulders", "Arial Narrow", sans-serif;
-  --font-club: var(--font-club), "Nunito Sans", ui-sans-serif, sans-serif;
+  --font-display: var(--font-barlow), "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-marca: var(--font-stencil), "Big Shoulders Stencil", "Arial Narrow", sans-serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -144,23 +143,29 @@ body {
   }
 }
 
-/* Titular grande: stencil como el logo. */
+/* Titular grande: Barlow Condensed maciza, mayúscula (línea Hungceed / Gymshark). */
 @utility titular {
-  font-family: var(--font-stencil);
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.005em;
+}
+/* Subtítulo / botón. */
+@utility subtitular {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+/* Letra de marca (stencil): solo logo y marcas «720 ___». */
+@utility marca {
+  font-family: var(--font-marca);
   font-variation-settings: "opsz" 72;
   font-weight: 800;
   text-transform: uppercase;
-  line-height: 0.92;
-  letter-spacing: 0.005em;
-}
-/* Subtítulo / botón: Big Shoulders sin cortes. */
-@utility subtitular {
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 40;
-  font-weight: 800;
-  text-transform: uppercase;
-  line-height: 0.95;
-  letter-spacing: 0.01em;
+  line-height: 0.85;
 }
 @utility etiqueta {
   font-family: var(--font-sans);
@@ -277,24 +282,146 @@ body {
   background-image: repeating-linear-gradient(-45deg, transparent 0 14px, rgb(0 0 0 / 0.035) 14px 28px);
 }
 
-/* Botón con barrido */
-.boton-barrido {
+/*
+ * BOTONES (Brian: animación en todos, que se desplieguen y cambien de color, y diferenciar).
+ *  · .boton-venta  → «Inscríbete», pagar, reservar. Relleno de acento, brillo que pasa cada pocos
+ *    segundos, y al pasar: se invierte el color con un barrido, sube 2 px y despliega la flecha.
+ *  · .boton-info   → «Información», WhatsApp, ver más. Contorno; al pasar se rellena suave desde
+ *    abajo y la flecha ↗ gira.
+ *  · .boton-barrido → neutros (blanco / negro) con barrido.
+ */
+.boton-barrido,
+.boton-venta,
+.boton-info {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  transition:
+    color 0.35s var(--ease-out-expo),
+    transform 0.35s var(--ease-out-expo),
+    box-shadow 0.35s var(--ease-out-expo);
 }
-.boton-barrido::before {
+.boton-barrido::before,
+.boton-venta::before,
+.boton-info::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--barrido, var(--acento-oscuro));
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.boton-barrido::before {
+  background: var(--barrido, rgb(127 127 127 / 0.2));
   transform: translate3d(-101%, 0, 0);
-  transition: transform 0.45s var(--ease-out-expo);
 }
 .boton-barrido:hover::before,
 .boton-barrido:focus-visible::before {
   transform: none;
+}
+
+.boton-venta {
+  color: var(--acento-tinta);
+  background:
+    linear-gradient(110deg, transparent 35%, rgb(150 150 150 / 0.35) 50%, transparent 65%) no-repeat,
+    var(--acento);
+  background-size:
+    250% 100%,
+    auto;
+  background-position:
+    150% 0,
+    0 0;
+  box-shadow: inset 0 0 0 1.5px var(--acento);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .boton-venta {
+    animation: brillo 5s var(--ease-out-expo) infinite;
+  }
+}
+@keyframes brillo {
+  0%,
+  70% {
+    background-position:
+      150% 0,
+      0 0;
+  }
+  100% {
+    background-position:
+      -60% 0,
+      0 0;
+  }
+}
+.boton-venta::before {
+  background: var(--acento-tinta);
+  transform: translate3d(-101%, 0, 0);
+}
+.boton-venta::after {
+  content: "→";
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+  margin-left: -0.5rem;
+  transform: translateX(-6px);
+  transition:
+    max-width 0.4s var(--ease-out-expo),
+    opacity 0.3s,
+    margin 0.4s var(--ease-out-expo),
+    transform 0.4s var(--ease-out-expo);
+}
+.boton-venta:hover,
+.boton-venta:focus-visible {
+  color: var(--acento);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1.5px var(--acento),
+    0 14px 30px -14px rgb(0 0 0 / 0.55);
+}
+.boton-venta:hover::before,
+.boton-venta:focus-visible::before {
+  transform: none;
+}
+.boton-venta:hover::after,
+.boton-venta:focus-visible::after {
+  max-width: 1.5em;
+  opacity: 1;
+  margin-left: 0;
+  transform: none;
+}
+.boton-venta:active,
+.boton-info:active,
+.boton-barrido:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.boton-info {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 40%, transparent);
+}
+.boton-info::before {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  transform: translate3d(0, 101%, 0);
+}
+.boton-info::after {
+  content: "↗";
+  display: inline-block;
+  font-size: 0.9em;
+  opacity: 0.7;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.boton-info:hover,
+.boton-info:focus-visible {
+  box-shadow: inset 0 0 0 1px currentColor;
+  transform: translateY(-2px);
+}
+.boton-info:hover::before,
+.boton-info:focus-visible::before {
+  transform: none;
+}
+.boton-info:hover::after,
+.boton-info:focus-visible::after {
+  transform: rotate(45deg);
+  opacity: 1;
+}
+.sin-flecha::after {
+  content: none !important;
 }
 
 details > summary {
@@ -311,4 +438,38 @@ details > summary::-webkit-details-marker {
 :root[data-acento] .marca-clase,
 .paleta-pilates .marca-clase {
   --clase: var(--c-color);
+}
+
+/* Deslizador «Desliza para inscribirte»: el texto lleva un reflejo que lo recorre, y la flecha empuja. */
+.desliza-texto {
+  background: linear-gradient(90deg, rgb(255 255 255 / 0.45) 0%, #fff 45%, rgb(255 255 255 / 0.45) 60%) 0 0 / 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .desliza-texto {
+    animation: reflejo 2.6s linear infinite;
+  }
+  .desliza-flecha {
+    animation: empuja 1.6s var(--ease-out-expo) infinite;
+  }
+}
+@keyframes reflejo {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -120% 0;
+  }
+}
+@keyframes empuja {
+  0%,
+  60%,
+  100% {
+    transform: translateX(0);
+  }
+  30% {
+    transform: translateX(4px);
+  }
 }

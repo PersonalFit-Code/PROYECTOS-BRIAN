@@ -24,7 +24,7 @@ export default function Conceptos({ excluir }: { excluir?: string }) {
         </div>
       </div>
 
-      <ul className="no-scrollbar mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 sm:px-6 lg:container-page lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-14 lg:overflow-visible">
+      <ul className="no-scrollbar mt-14 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 sm:scroll-px-6 sm:px-6 lg:container-page lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-14 lg:overflow-visible">
         {lista.map((c, i) => (
           <li key={c.slug} data-reveal className="w-[78vw] max-w-[22rem] shrink-0 snap-start sm:w-[44vw] lg:w-auto lg:max-w-none">
             <Link href={c.href} className="group block">

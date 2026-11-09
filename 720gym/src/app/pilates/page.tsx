@@ -43,7 +43,7 @@ export default function PaginaPilates() {
         <div className="container-page relative grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-10">
           <div className="lg:col-span-6">
             <p className="hero-in flex items-baseline gap-2" style={{ ["--i" as string]: 0 }}>
-              <span className="titular text-[40px]">720</span>
+              <span className="marca text-[40px]">720</span>
               <span className="subtitular text-[20px] tracking-[0.16em] text-pil-menta-osc">PILATES</span>
             </p>
             <h1 id="titulo-pilates" className="hero-in mt-6" style={{ ["--i" as string]: 1 }}>
@@ -60,8 +60,11 @@ export default function PaginaPilates() {
                 </li>
               ))}
             </ul>
-            <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row" style={{ ["--i" as string]: 4 }}>
-              <Link href="/pilates?tipo=prueba&actividad=pilates#apuntate" className={claseBoton("acento", true)}>
+            <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap" style={{ ["--i" as string]: 4 }}>
+              <Link href="/alta?plan=reformer-1" className={claseBoton("venta", true)}>
+                Inscríbete
+              </Link>
+              <Link href="/pilates?tipo=prueba&actividad=pilates#apuntate" className={claseBoton("contorno-oscuro", true)}>
                 Primera clase gratis
               </Link>
               <a href={wa("Hola, quiero información de 720 Pilates.", pilates.whatsapp)} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno-oscuro", true)}>
@@ -154,11 +157,8 @@ export default function PaginaPilates() {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href={`/pilates?tipo=inscripcion&actividad=pilates#apuntate`}
-                  className={`${claseBoton(i === 0 ? "acento" : "negro")} mt-6 w-full`}
-                >
-                  Reservar plaza
+                <Link href={`/alta?plan=${g.planes[0].pagoId ?? "sesion-suelta"}`} className={`${claseBoton(i === 0 ? "venta" : "negro")} mt-6 w-full`}>
+                  Inscríbete
                 </Link>
               </li>
             ))}

@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     recibido: new Date().toISOString(),
     origen: "web 720gym",
   };
-  if (!aviso.nombre || aviso.telefono.replace(/\D/g, "").length < 9 || !["prueba", "inscripcion", "entrada"].includes(aviso.tipo)) {
+  if (!aviso.nombre || aviso.telefono.replace(/\D/g, "").length < 9 || !["prueba", "inscripcion", "entrada", "reserva"].includes(aviso.tipo)) {
     return NextResponse.json({ ok: false }, { status: 422 });
   }
 

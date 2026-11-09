@@ -24,6 +24,8 @@ export interface Concepto {
   foto?: string;
   /** Valor del desplegable «actividad» del formulario. */
   actividad: string;
+  /** Plan de la pasarela para «Inscríbete» (si se puede pagar online). */
+  planPago?: string;
   seo: { titulo: string; descripcion: string };
 }
 
@@ -46,6 +48,7 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Sala de musculación: máquinas rojas y negras sobre suelo negro, plano vertical",
     fotosExtra: ["Detalle de mancuernas en el rack", "Socio entrenando en peso libre"],
     actividad: "gimnasio",
+    planPago: "gimnasio-libre",
     seo: { titulo: "Gimnasio con aforo limitado en Ourense", descripcion: "Gimnasio libre en Ourense por 35 €/mes: máquinas, peso libre y cardio, abierto los 365 días y con aforo limitado." },
   },
   {
@@ -66,6 +69,7 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Entrenador corrigiendo la técnica de un socio en sentadilla, plano vertical",
     fotosExtra: ["Libreta o tablet con el plan de entrenamiento", "Entreno en pareja"],
     actividad: "personal",
+    planPago: "valoracion",
     seo: { titulo: "Entrenador personal en Ourense", descripcion: "Entrenamiento personal en Ourense: valoración inicial, plan a medida y bonos desde 15 €/sesión en grupo." },
   },
   {
@@ -86,6 +90,7 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Sala de Pilates Reformer, máquinas en fila, luz natural, plano vertical",
     fotosExtra: ["Detalle de manos en la barra del Reformer", "Clase de Mat con esterillas"],
     actividad: "pilates",
+    planPago: "reformer-1",
     seo: { titulo: "Pilates Reformer en Ourense", descripcion: "720 Pilates en Ourense: Reformer, Mat, Wall Unit e Hipopresivos en grupos reducidos. Primera clase gratis, sin matrícula." },
   },
   {
