@@ -70,13 +70,12 @@ const jsonLd = {
   amenityFeature: [{ "@type": "LocationFeatureSpecification", name: "Accesible en silla de ruedas", value: true }],
 };
 
-/* Antes del primer pintado: arma los revelados (con vigía) y aplica el acento guardado o pedido por
-   URL (?acento=bn|naranja|rojo). Sin nada, monocromo. */
+/* Antes del primer pintado: arma los revelados (con vigía). La web va siempre en blanco y negro
+   (se quitó el selector de color; se borra la elección que hubiera guardada). */
 const scriptInicial =
   'try{var r=document.documentElement;r.setAttribute("data-reveal-armed","");' +
   'window.__revealWatchdog=window.setTimeout(function(){r.removeAttribute("data-reveal-armed");delete window.__revealWatchdog},2600);' +
-  'var q=new URLSearchParams(location.search).get("acento");if(q==="rojo"||q==="naranja"||q==="bn"){try{localStorage.setItem("acento-720",q)}catch(e){}}' +
-  'var a=q||(function(){try{return localStorage.getItem("acento-720")}catch(e){return null}})();if(a==="rojo"||a==="naranja")r.setAttribute("data-acento",a)}catch(e){}';
+  'try{localStorage.removeItem("acento-720")}catch(e){}}catch(e){}';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

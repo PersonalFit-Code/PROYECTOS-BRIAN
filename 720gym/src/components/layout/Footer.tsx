@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
 import MarcaAjustada from "@/components/ui/MarcaAjustada";
-import SelectorAcento from "./SelectorAcento";
 import { negocio, pilates } from "@/data/negocio";
 import { enlacesConceptos } from "./navegacion";
 
@@ -117,7 +116,6 @@ export default function Footer() {
               Acceso gestión
             </Link>
           </nav>
-          <SelectorAcento />
         </div>
       </div>
     </footer>
