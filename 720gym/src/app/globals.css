@@ -51,6 +51,18 @@
   --relleno-letras: linear-gradient(100deg, #ffffff 0%, #d7232b 45%, #9e141b 70%, #ffffff 100%);
 }
 
+/*
+ * Acento con `@theme inline`: las utilidades (text-acento, bg-acento…) leen var(--acento) en el
+ * propio elemento, así que siguen al fondo de cada sección y a la paleta de 720 Pilates. Sin
+ * `inline`, la variable se resolvía una sola vez en la raíz (blanco) y desaparecía sobre blanco.
+ */
+@theme inline {
+  --color-acento: var(--acento);
+  --color-acento-oscuro: var(--acento-oscuro);
+  --color-acento-tinta: var(--acento-tinta);
+  --color-acento-texto: var(--acento-texto);
+}
+
 @theme {
   --color-negro: #0e0e0f;
   --color-suelo: #1a1a1c;
@@ -64,10 +76,6 @@
   --color-gris-acero-osc: #5d5d62;
   --color-linea: #d9d9db;
   --color-blanco: #ffffff;
-  --color-acento: var(--acento);
-  --color-acento-oscuro: var(--acento-oscuro);
-  --color-acento-tinta: var(--acento-tinta);
-  --color-acento-texto: var(--acento-texto);
 
   /* Degradado del logo del dosier: azul → naranja → verde */
   --color-dosier-azul: #2f6fd6;
