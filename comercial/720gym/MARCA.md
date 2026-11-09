@@ -84,3 +84,20 @@ gimnasio Ourense · gimnasio aforo limitado Ourense · Pilates Reformer Ourense 
 
 ## 9. Competencia a tener en cuenta (confirmar)
 En Ourense hay cadenas low cost y gimnasios grandes. 720 no compite en precio ni en tamaño, sino en **trato, aforo limitado, Reformer y variedad de disciplinas**. La web tiene que dejar eso claro en los primeros 5 segundos.
+
+## 10. Submarcas y clubes asociados (visto en su Beacons)
+Ya tienen un **sistema de submarcas «720»**, todas con la misma letra del logo:
+- **720 GYM**: sala de musculación, inscripción y entrada diaria.
+- **720 YOGA**, **720 PILATES**, **CROSSGYM 720** y **720 POWERLIFTING**.
+- **720P**: espacios para profesionales.
+
+Y **clubes externos que entrenan dentro de 720**, cada uno con su logo y su propio contacto:
+- **Clube Ximnasia Burgas** (acrobacia);
+- **Capoeira Ourense Andaruê**;
+- **Brazilian Jiu-Jitsu Mambises**.
+
+**En la web:**
+- Presentarlo como **«El universo 720»**: una tarjeta por submarca con su mini logo, y una sección aparte de «Clubes que entrenan en 720» con los logos de los clubes asociados.
+- Así se ve un centro grande y vivo, con mucha actividad, y cada club conserva su identidad.
+- **(confirmar)** Pedir los logos de cada submarca y de cada club en buena calidad.
+- **Fondo de su Beacons:** una foto en blanco y negro de un niño en las anillas. Las fotos en **blanco y negro con un toque de rojo** encajan muy bien con la marca y son una buena idea para la web.
