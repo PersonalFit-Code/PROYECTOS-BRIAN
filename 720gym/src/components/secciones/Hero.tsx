@@ -1,13 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { fotos } from "@/data/fotos";
-import { MapPin, Star } from "lucide-react";
+import { MapPin } from "lucide-react";
 import FondoMarca from "@/components/ui/FondoMarca";
-import Contador from "@/components/ui/Contador";
-import EstadoAbierto from "@/components/ui/EstadoAbierto";
 import DeslizaInscribete from "@/components/ui/DeslizaInscribete";
 import { claseBoton } from "@/components/ui/Boton";
-import { negocio } from "@/data/negocio";
 import { enlacePrueba } from "@/components/layout/navegacion";
 
 /**
@@ -24,7 +21,8 @@ export default function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-negro to-transparent" />
       </div>
       <FondoMarca agua={false} className="opacity-30" />
-      <div className="container-page relative flex flex-1 flex-col justify-end gap-10 pb-10 lg:flex-row lg:items-end lg:justify-between lg:pb-16">
+      {/* Enunciado pegado a la izquierda (margen mínimo) y, abajo a la derecha, el deslizador. */}
+      <div className="relative flex flex-1 flex-col justify-end gap-8 px-5 pb-10 sm:px-8 lg:flex-row lg:items-end lg:justify-between lg:px-12 lg:pb-16">
         <div className="max-w-xl">
           <p className="hero-in etiqueta flex items-center gap-2 text-white/70" style={{ ["--i" as string]: 0 }}>
             <MapPin className="size-3.5" aria-hidden /> Centro privado de entrenamiento · Ourense
@@ -36,48 +34,15 @@ export default function Hero() {
           <p className="hero-in mt-4 max-w-md text-[15px] leading-relaxed text-white/75 sm:text-[16px]" style={{ ["--i" as string]: 2 }}>
             Un club de entrenamiento con aforo limitado, abierto los 365 días. Fuerza, Pilates Reformer y comunidad en el centro de Ourense.
           </p>
-          <div className="hero-in mt-7 hidden gap-3 sm:flex" style={{ ["--i" as string]: 3 }}>
-            <Link href="/alta" className={claseBoton("venta")}>
-              Inscríbete
-            </Link>
-            <Link href={enlacePrueba} className={claseBoton("contorno")}>
-              Clase gratis
-            </Link>
-          </div>
-          <div className="hero-in mt-7 flex flex-col gap-3 sm:hidden" style={{ ["--i" as string]: 3 }}>
-            <DeslizaInscribete />
+          <div className="hero-in mt-7" style={{ ["--i" as string]: 3 }}>
             <Link href={enlacePrueba} className={claseBoton("contorno")}>
               Prueba una clase gratis
             </Link>
           </div>
         </div>
 
-        <div className="hero-in tarjeta-vidrio w-full rounded-3xl p-5 sm:p-6 lg:w-[25rem]" style={{ ["--i" as string]: 4 }}>
-          <EstadoAbierto className="text-[13px] font-medium text-white/85" />
-          <dl className="mt-5 grid grid-cols-3 gap-3 border-t border-white/10 pt-5">
-            <div>
-              <dt className="sr-only">Instalaciones</dt>
-              <dd className="titular text-[28px] leading-none">
-                <Contador hasta={1000} prefijo="+" />
-              </dd>
-              <dd className="mt-1 text-[12px] text-white/60">m² de club</dd>
-            </div>
-            <div>
-              <dt className="sr-only">Días abierto</dt>
-              <dd className="titular text-[28px] leading-none">
-                <Contador hasta={365} />
-              </dd>
-              <dd className="mt-1 text-[12px] text-white/60">días al año</dd>
-            </div>
-            <div>
-              <dt className="sr-only">Valoración en Google</dt>
-              <dd className="titular flex items-center gap-1 text-[28px] leading-none">
-                <Contador hasta={5} decimales={1} />
-                <Star className="size-4 fill-white text-white" aria-hidden />
-              </dd>
-              <dd className="mt-1 text-[12px] text-white/60">{negocio.google.resenas} reseñas</dd>
-            </div>
-          </dl>
+        <div className="hero-in w-full sm:max-w-md lg:w-[26rem]" style={{ ["--i" as string]: 4 }}>
+          <DeslizaInscribete />
         </div>
       </div>
     </section>
