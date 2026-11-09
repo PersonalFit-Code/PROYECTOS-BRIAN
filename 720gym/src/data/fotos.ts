@@ -1,6 +1,7 @@
 /**
  * Fotos reales de 720 (su Instagram / Google). Para la demo; para publicar, permiso y originales en
- * alta calidad (estas miden 680 px: las «-grande» son ampliadas con enfoque para los fondos).
+ * alta calidad. Las originales medían 680 px; están reescaladas con IA (EDSR ×4): 1200 px las
+ * normales y 1920 px las «-grande» de los fondos.
  */
 export const fotos = {
   sala: { src: "/fotos/sala-general.webp", grande: "/fotos/sala-general-grande.webp", alt: "Sala de 720 GYM: racks, máquinas rojas y suelo negro" },

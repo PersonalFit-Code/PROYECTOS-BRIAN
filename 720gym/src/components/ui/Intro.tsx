@@ -15,7 +15,7 @@ export default function Intro() {
     try {
       sessionStorage.setItem("720intro", "1");
     } catch {}
-    const t = window.setTimeout(() => r.removeAttribute("data-intro"), 2800);
+    const t = window.setTimeout(() => r.removeAttribute("data-intro"), 1700);
     return () => window.clearTimeout(t);
   }, []);
 

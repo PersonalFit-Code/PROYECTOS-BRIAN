@@ -45,14 +45,14 @@ const HeroSection = React.forwardRef<HTMLElement, HeroSectionProps>(
     return (
       <section ref={ref} className={cn("relative isolate flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-negro", className)} {...props}>
         {/* Foto de fondo: entra con un leve acercamiento y se queda quieta (sin zoom al hacer scroll). */}
-        <motion.div className="absolute inset-0 -z-20" initial={reducir ? false : { scale: 1.1 }} animate={{ scale: 1 }} transition={{ duration: conIntro ? 2.4 : 1.6, delay: conIntro ? 0.9 : 0, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true">
+        <motion.div className="hero-fondo absolute inset-0 -z-20" initial={reducir ? false : { scale: 1.1 }} animate={{ scale: 1 }} transition={conIntro ? { duration: 0 } : { duration: 1.6, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true">
           <Image src={imageUrl} alt={imageAlt} fill priority sizes="100vw" quality={90} className="object-cover" />
         </motion.div>
         {/* Velo suave para leer el texto sin apagar la foto. */}
         <div className="absolute inset-0 -z-10 bg-black/35" aria-hidden="true" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-black/70 to-transparent" aria-hidden="true" />
 
-        <motion.div className="z-10 flex max-w-4xl flex-col items-center px-5 pt-[var(--header-h,4rem)] text-center text-white" variants={contenedor(conIntro ? 2 : 0.25)} initial={reducir ? false : "hidden"} animate="visible">
+        <motion.div className="z-10 flex max-w-4xl flex-col items-center px-5 pt-[var(--header-h,4rem)] text-center text-white" variants={contenedor(conIntro ? 1.25 : 0.25)} initial={reducir ? false : "hidden"} animate="visible">
           {eyebrow && (
             <motion.div variants={itemVariants} className="mb-5">
               {eyebrow}
