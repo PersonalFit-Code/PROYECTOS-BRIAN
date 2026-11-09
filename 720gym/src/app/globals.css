@@ -1058,7 +1058,12 @@ button.tarjeta-vidrio:hover {
   background-image:
     radial-gradient(70% 55% at 12% 35%, rgb(255 255 255 / 0.045), transparent 65%),
     radial-gradient(70% 55% at 100% 100%, rgb(255 255 255 / 0.035), transparent 60%),
-    linear-gradient(180deg, #0f0f10 0%, #151517 50%, #0f0f10 100%);
+    linear-gradient(180deg, rgb(15 15 16 / 0.86) 0%, rgb(21 21 23 / 0.8) 50%, rgb(15 15 16 / 0.86) 100%),
+    url("/fotos/textura-suelo.webp");
+  background-size: auto, auto, auto, 1376px auto;
+  /* La textura de suelo (caucho con magnesio) queda fija: es una sola superficie continua detrás
+     de todas las secciones, sin cortes entre ellas. */
+  background-attachment: scroll, scroll, scroll, fixed;
 }
 :is(section, aside, footer).bg-pizarra:not(.panel-raiz *, .paleta-pilates *) {
   background-image:

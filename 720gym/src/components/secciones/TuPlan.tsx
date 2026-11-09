@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ComponentType, type SVGProps } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CalendarDays, Check, Dumbbell, Flame, Flower2, Gift, MapPinned, RotateCcw, Sparkles, Sun, UserCheck, Zap } from "lucide-react";
@@ -9,6 +10,7 @@ import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import Contador from "@/components/ui/Contador";
 import { eur, planPorId } from "@/data/pagos";
 import { wa } from "@/data/negocio";
+import { fotos } from "@/data/fotos";
 import { cn } from "@/lib/utils";
 
 /**
@@ -226,7 +228,11 @@ export default function TuPlan() {
 
   return (
     <section className="relative isolate overflow-hidden bg-negro py-20 text-white sm:py-28" aria-labelledby="titulo-tuplan">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_80%_20%,rgb(255_255_255/0.07),transparent),radial-gradient(50%_60%_at_10%_90%,rgb(255_255_255/0.05),transparent)]" aria-hidden />
+      <div className="absolute inset-0 -z-10" aria-hidden>
+        <Image src={fotos.iaDiscos.grande} alt="" fill sizes="100vw" className="object-cover object-[60%_50%] opacity-40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-negro via-negro/85 to-negro/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-negro via-transparent to-negro" />
+      </div>
       <div className="container-page grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-4">
           <p data-reveal className="etiqueta text-white/55">

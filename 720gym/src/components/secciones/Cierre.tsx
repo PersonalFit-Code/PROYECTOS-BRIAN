@@ -13,7 +13,7 @@ export default function Cierre() {
   return (
     <section className="relative isolate overflow-hidden bg-negro py-20 sm:py-28" aria-labelledby="titulo-cierre">
       <div className="absolute inset-0 -z-10" aria-hidden>
-        <Image src={fotos.racks.grande} alt="" fill sizes="100vw" className="scale-110 object-cover opacity-30 blur-[6px]" />
+        <Image src={fotos.iaBarra.grande} alt="" fill sizes="100vw" className="object-cover object-[70%_50%] opacity-45" />
         <div className="absolute inset-0 bg-gradient-to-b from-negro via-negro/80 to-negro" />
       </div>
       <div className="container-page relative text-center">
