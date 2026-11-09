@@ -77,7 +77,9 @@ const scriptInicial =
   'window.__revealWatchdog=window.setTimeout(function(){r.removeAttribute("data-reveal-armed");delete window.__revealWatchdog},2600);' +
   'try{localStorage.removeItem("acento-720")}catch(e){}' +
   /* Intro de la portada: una vez por sesión (o forzada con ?intro=1), nunca con «reducir movimiento». */
-  'if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches){var f=/[?&]intro=1/.test(location.search),v=null;try{v=sessionStorage.getItem("720intro")}catch(e){}if(f||!v)r.setAttribute("data-intro","")}' +
+  'if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches){var f=/[?&]intro=1/.test(location.search),v=null;try{v=sessionStorage.getItem("720intro")}catch(e){}if(f||!v){r.setAttribute("data-intro","");' +
+  /* Arranca cuando la letra del 720 y la foto del hero están listas (máx. 1,2 s de espera). */
+  'var go=function(){r.setAttribute("data-intro-ya","")},t=setTimeout(go,1200);document.addEventListener("DOMContentLoaded",function(){var i=document.querySelector(".hero-fondo img");Promise.all([document.fonts?document.fonts.ready:0,i&&i.decode?i.decode().catch(function(){}):0]).then(function(){clearTimeout(t);go()})})}}' +
   '}catch(e){}';
 
 export default function RootLayout({ children }: { children: ReactNode }) {

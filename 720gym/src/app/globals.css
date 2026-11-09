@@ -1003,7 +1003,7 @@ button.tarjeta-vidrio:hover {
   background: #9a9aa0;
 }
 
-/* ── Intro de la portada: «720» recortado y, de una, zoom hacia dentro hasta el hero ── */
+/* ── Intro de la portada: «720» recortado y, del tirón, zoom hacia dentro hasta el hero ── */
 .intro {
   display: none;
 }
@@ -1016,27 +1016,30 @@ button.tarjeta-vidrio:hover {
   inset: 0;
   z-index: 200;
   cursor: pointer;
-  /* El negro se va justo cuando las letras ya cubren la pantalla: sin corte. */
-  animation: intro-sale 0.28s 1.22s linear forwards;
+  background: #0e0e0f;
 }
+/* Mientras cargan la letra y la foto, solo negro: así el movimiento arranca sin saltos. */
 .intro-texto {
   font-size: min(56vw, 64vh);
   transform-box: fill-box;
   transform-origin: 50% 50%;
-  /* Un solo movimiento que arranca suave y acelera (ease-in exponencial): «7-20 y ¡boom!». */
-  animation: intro-zoom 1.5s cubic-bezier(0.7, 0, 0.84, 0) both;
+  opacity: 0;
+}
+:root[data-intro-ya] .intro {
+  background: transparent;
+  animation: intro-sale 0.14s 0.78s linear forwards;
+}
+/* Un único movimiento de menos de un segundo: arranca legible y acelera sin pausa. */
+:root[data-intro-ya] .intro-texto {
+  opacity: 1;
+  animation: intro-zoom 0.92s cubic-bezier(0.62, 0, 0.88, 0.14) both;
 }
 @keyframes intro-zoom {
-  0% {
-    transform: scale(0.92);
-    opacity: 0;
+  from {
+    transform: scale(1);
   }
-  12% {
-    opacity: 1;
-  }
-  100% {
-    transform: scale(42);
-    opacity: 1;
+  to {
+    transform: scale(46);
   }
 }
 @keyframes intro-sale {

@@ -52,7 +52,7 @@ const HeroSection = React.forwardRef<HTMLElement, HeroSectionProps>(
         <div className="absolute inset-0 -z-10 bg-black/35" aria-hidden="true" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-black/70 to-transparent" aria-hidden="true" />
 
-        <motion.div className="z-10 flex max-w-4xl flex-col items-center px-5 pt-[var(--header-h,4rem)] text-center text-white" variants={contenedor(conIntro ? 1.25 : 0.25)} initial={reducir ? false : "hidden"} animate="visible">
+        <motion.div className="z-10 flex max-w-4xl flex-col items-center px-5 pt-[var(--header-h,4rem)] text-center text-white" variants={contenedor(conIntro ? 0.9 : 0.25)} initial={reducir ? false : "hidden"} animate="visible">
           {eyebrow && (
             <motion.div variants={itemVariants} className="mb-5">
               {eyebrow}

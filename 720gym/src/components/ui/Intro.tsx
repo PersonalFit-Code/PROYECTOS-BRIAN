@@ -8,14 +8,20 @@ import { useEffect } from "react";
  * hero sin corte. Una vez por sesión, nunca con «reducir movimiento», y se salta con un toque.
  * La decide el script de <head> (atributo data-intro) para que no haya parpadeo.
  */
+function terminar() {
+  document.documentElement.removeAttribute("data-intro");
+  document.documentElement.removeAttribute("data-intro-ya");
+}
+
 export default function Intro() {
   useEffect(() => {
     const r = document.documentElement;
     if (!r.hasAttribute("data-intro")) return;
+    const fin = terminar;
     try {
       sessionStorage.setItem("720intro", "1");
     } catch {}
-    const t = window.setTimeout(() => r.removeAttribute("data-intro"), 1700);
+    const t = window.setTimeout(fin, 2600);
     return () => window.clearTimeout(t);
   }, []);
 
@@ -23,8 +29,8 @@ export default function Intro() {
     <div
       className="intro"
       aria-hidden
-      onClick={() => document.documentElement.removeAttribute("data-intro")}
-      onAnimationEnd={(e) => e.animationName === "intro-sale" && document.documentElement.removeAttribute("data-intro")}
+      onClick={terminar}
+      onAnimationEnd={(e) => e.animationName === "intro-sale" && terminar()}
     >
       <svg className="block size-full">
         <defs>
