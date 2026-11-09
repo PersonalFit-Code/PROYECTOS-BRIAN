@@ -68,6 +68,7 @@ Una **web única, rápida y preciosa** que lo reúna todo y convierta visitas en
 
 **Estilo:**
 - Moderno, cercano y con energía, sin parecer una cadena de gimnasios low cost.
+- **Logo:** en `comercial/720gym/marca/` (original, blanco sobre transparente y negro sobre transparente). Es «720 / GYM» en letra tipo plantilla (stencil) y «CLUB» en sans redondeada.
 - **Su identidad ya existe:**
   - logo en letra tipo plantilla (stencil), negro sobre blanco: «720 / GYM / CLUB»;
   - local de paredes blancas, suelo negro y máquinas en **rojo y negro**.
