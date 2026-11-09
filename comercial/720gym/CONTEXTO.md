@@ -23,8 +23,9 @@ En este chat vamos a crear **desde cero la web de 720 GYM CLUB**, un gimnasio de
   - **Brais**, gerente y entrenador principal: empático y motivador, cuida la técnica.
   - **Bea**, instructora de Pilates muy valorada.
   - **Pablo**, entrenador.
-- **Reseñas:** más de 100 reseñas muy positivas (un directorio muestra 111 con nota máxima). Se repiten estas ideas: ambiente familiar, grupos reducidos, atención personalizada, limpieza, sin competitividad tóxica, gente de todas las edades, pases temporales para quien viene de fuera y fácil aparcamiento.
-  - Comprueba la nota y el número exactos en su ficha de Google antes de ponerlos en la web.
+- **Google:** **5,0 ★ con 64 reseñas**. La ficha dice que es accesible en silla de ruedas, amigable con la comunidad LGTBQ+ y que **se identifica como negocio de propietarias mujeres**. Confirmar el lunes quién lleva el negocio.
+- **Reseñas:** muy positivas. Se repiten estas ideas: ambiente familiar, grupos reducidos, atención personalizada, limpieza, sin competitividad tóxica, gente de todas las edades, pases temporales para quien viene de fuera y fácil aparcamiento.
+  - La nota y el número de reseñas cambian: revísalos antes de publicar.
 - **Qué ofrecen:**
   - Sala de musculación y peso libre.
   - **Pilates** en dos salas: **Reformer** y suelo.
@@ -67,7 +68,11 @@ Una **web única, rápida y preciosa** que lo reúna todo y convierta visitas en
 
 **Estilo:**
 - Moderno, cercano y con energía, sin parecer una cadena de gimnasios low cost.
-- Paleta oscura con un color de acento sacado de su logo e Instagram. Si no hay logo claro, propón uno: negro, blanco roto y un acento cálido.
+- **Su identidad ya existe:**
+  - logo en letra tipo plantilla (stencil), negro sobre blanco: «720 / GYM / CLUB»;
+  - local de paredes blancas, suelo negro y máquinas en **rojo y negro**.
+- Paleta: **negro, blanco y rojo intenso** (el rojo de las máquinas como acento).
+- Titulares en letra condensada o stencil que recuerde a su logo.
 - Tipografía condensada potente para titulares y una limpia para textos.
 - Micro-animaciones suaves y perfecto en móvil, que es donde entra el 90 % de la gente desde Instagram.
 
