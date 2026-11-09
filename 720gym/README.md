@@ -1,5 +1,7 @@
 # 720 GYM CLUB · web + gestión
 
+Demo publicada: **https://720gym-club.vercel.app** (proyecto `720gym-club` en Vercel, desplegado desde esta rama).
+
 Web de 720 GYM CLUB (Ourense) con todo lo del **plan completo**: web, inscripción y pago online,
 reservas de clases con plazas, asistente con IA y panel de gestión para la gerencia.
 

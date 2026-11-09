@@ -41,5 +41,5 @@ con la clase `pendiente` sale en amarillo: hay que rellenarlo antes de enviar.
 - `clientes/720gym/propuesta-web.pdf`: tres planes sobre el mismo diseño. Básico (500 € + 35 €/mes),
   Clientes (700 €) y Pro (1.200 €, lo que se ve en la demo: alta y pago online, reservas con plazas,
   asistente y panel de gestión). Capturas de la demo en `img/` (se rehacen con la demo en marcha).
-  **Faltan**: enlace de la demo, cuotas mensuales de Clientes y Pro, horas de cambios incluidas,
+  Demo: 720gym-club.vercel.app. **Faltan**: cuotas mensuales de Clientes y Pro, horas de cambios incluidas,
   uso de IA incluido y plazo de entrega.
