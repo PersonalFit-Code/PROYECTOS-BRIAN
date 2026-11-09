@@ -27,10 +27,10 @@ interface HeroSectionProps extends Omit<React.HTMLAttributes<HTMLElement>, "titl
   extra?: React.ReactNode;
 }
 
-const containerVariants: Variants = {
+const contenedor = (retraso: number): Variants => ({
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.16, delayChildren: 0.25 } },
-};
+  visible: { opacity: 1, transition: { staggerChildren: 0.16, delayChildren: retraso } },
+});
 
 const itemVariants: Variants = {
   hidden: { y: 22, opacity: 0, filter: "blur(6px)" },
@@ -40,17 +40,19 @@ const itemVariants: Variants = {
 const HeroSection = React.forwardRef<HTMLElement, HeroSectionProps>(
   ({ className, title, subtitle, eyebrow, primaryButtonText, primaryButtonHref, secondaryButtonText, secondaryButtonHref, imageUrl, imageAlt = "", extra, ...props }, ref) => {
     const reducir = useReducedMotion();
+    /* Si la portada arranca con la intro del «720», el texto entra cuando la intro termina. */
+    const [conIntro] = React.useState(() => typeof document !== "undefined" && document.documentElement.hasAttribute("data-intro"));
     return (
       <section ref={ref} className={cn("relative isolate flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-negro", className)} {...props}>
         {/* Foto de fondo: entra con un leve acercamiento y se queda quieta (sin zoom al hacer scroll). */}
-        <motion.div className="absolute inset-0 -z-20" initial={reducir ? false : { scale: 1.08, opacity: 0.4 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true">
+        <motion.div className="absolute inset-0 -z-20" initial={reducir ? false : { scale: 1.1 }} animate={{ scale: 1 }} transition={{ duration: conIntro ? 2.4 : 1.6, delay: conIntro ? 0.9 : 0, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true">
           <Image src={imageUrl} alt={imageAlt} fill priority sizes="100vw" quality={90} className="object-cover" />
         </motion.div>
         {/* Velo suave para leer el texto sin apagar la foto. */}
         <div className="absolute inset-0 -z-10 bg-black/35" aria-hidden="true" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-black/70 to-transparent" aria-hidden="true" />
 
-        <motion.div className="z-10 flex max-w-4xl flex-col items-center px-5 pt-[var(--header-h,4rem)] text-center text-white" variants={containerVariants} initial={reducir ? false : "hidden"} animate="visible">
+        <motion.div className="z-10 flex max-w-4xl flex-col items-center px-5 pt-[var(--header-h,4rem)] text-center text-white" variants={contenedor(conIntro ? 2 : 0.25)} initial={reducir ? false : "hidden"} animate="visible">
           {eyebrow && (
             <motion.div variants={itemVariants} className="mb-5">
               {eyebrow}

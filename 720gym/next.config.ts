@@ -34,6 +34,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  /* Calidad 90 para las fotos grandes de fondo (hero). */
+  images: { qualities: [75, 90] },
   /* Las páginas de concepto pasaron de /conceptos/x a /x. */
   async redirects() {
     return [

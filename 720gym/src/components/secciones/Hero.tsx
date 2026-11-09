@@ -1,6 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { HeroSection } from "@/components/ui/hero-section-4";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
+import Intro from "@/components/ui/Intro";
 import { fotos } from "@/data/fotos";
 import { wa } from "@/data/negocio";
 import { enlacePrueba } from "@/components/layout/navegacion";
@@ -12,6 +13,7 @@ import { enlacePrueba } from "@/components/layout/navegacion";
 export default function Hero() {
   return (
     <div className="relative">
+      <Intro />
       <HeroSection
         aria-labelledby="titulo-portada"
         imageUrl={fotos.sala.grande}

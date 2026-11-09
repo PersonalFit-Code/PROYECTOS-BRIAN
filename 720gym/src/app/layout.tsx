@@ -75,7 +75,10 @@ const jsonLd = {
 const scriptInicial =
   'try{var r=document.documentElement;r.setAttribute("data-reveal-armed","");' +
   'window.__revealWatchdog=window.setTimeout(function(){r.removeAttribute("data-reveal-armed");delete window.__revealWatchdog},2600);' +
-  'try{localStorage.removeItem("acento-720")}catch(e){}}catch(e){}';
+  'try{localStorage.removeItem("acento-720")}catch(e){}' +
+  /* Intro de la portada: una vez por sesión (o forzada con ?intro=1), nunca con «reducir movimiento». */
+  'if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches){var f=/[?&]intro=1/.test(location.search),v=null;try{v=sessionStorage.getItem("720intro")}catch(e){}if(f||!v)r.setAttribute("data-intro","")}' +
+  '}catch(e){}';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

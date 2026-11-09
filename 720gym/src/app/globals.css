@@ -1002,3 +1002,47 @@ button.tarjeta-vidrio:hover {
 .chispa:nth-child(3n) {
   background: #9a9aa0;
 }
+
+/* ── Intro de la portada: «720» recortado que hace zoom hasta mostrar el hero ─────── */
+.intro {
+  display: none;
+}
+:root[data-intro] {
+  overflow: hidden;
+}
+:root[data-intro] .intro {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  cursor: pointer;
+  animation: intro-sale 0.6s 1.85s ease forwards;
+}
+.intro-texto {
+  font-size: min(56vw, 64vh);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: intro-zoom 2.3s cubic-bezier(0.75, 0, 0.2, 1) both;
+}
+@keyframes intro-zoom {
+  0% {
+    transform: scale(0.86);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(0.94);
+    opacity: 1;
+  }
+  42% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(26);
+  }
+}
+@keyframes intro-sale {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
