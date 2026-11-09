@@ -1,4 +1,4 @@
-import Image from "next/image";
+import FotoAvance from "@/components/ui/FotoAvance";
 import Link from "next/link";
 import { fotos } from "@/data/fotos";
 import { Star } from "lucide-react";
@@ -16,15 +16,17 @@ import { enlacePrueba } from "@/components/layout/navegacion";
  */
 export default function Hero() {
   return (
-    <section className="relative flex min-h-[88svh] flex-col overflow-hidden bg-negro pt-[var(--header-h)] lg:min-h-[78svh]" aria-labelledby="titulo-portada">
+    <section className="relative bg-negro lg:h-[165svh]" aria-labelledby="titulo-portada">
+      {/* En escritorio el hero queda fijo mientras la cámara entra en la sala (scroll), luego sigue la página. */}
+      <div className="relative flex min-h-[88svh] flex-col overflow-hidden pt-[var(--header-h)] lg:sticky lg:top-0 lg:h-[100svh] lg:min-h-0">
       {/* Foto real de la sala con velo: legible a la izquierda, la sala se ve a la derecha. */}
       <div className="absolute inset-0" aria-hidden>
-        <Image src={fotos.sala.grande} alt="" fill priority sizes="100vw" className="fondo-vivo object-cover object-[60%_50%] saturate-[0.9]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-negro via-negro/55 to-negro/10 lg:bg-gradient-to-r lg:from-negro/95 lg:via-negro/50 lg:to-transparent" />
+        <FotoAvance src={fotos.sala.grande} />
+        <div className="avance-velo absolute inset-0 bg-gradient-to-t from-negro via-negro/55 to-negro/10 lg:bg-gradient-to-r lg:from-negro/95 lg:via-negro/50 lg:to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-negro to-transparent" />
       </div>
       <FondoMarca agua={false} className="opacity-30" />
-      <div className="container-page relative flex flex-1 flex-col justify-end gap-10 pb-10 lg:flex-row lg:items-end lg:justify-between lg:pb-16">
+      <div className="avance-contenido container-page relative flex flex-1 flex-col justify-end gap-10 pb-10 lg:flex-row lg:items-end lg:justify-between lg:pb-16">
         <div className="max-w-xl">
           <p className="hero-in etiqueta text-white/60" style={{ ["--i" as string]: 0 }}>
             Centro privado de entrenamiento · Ourense
@@ -79,6 +81,7 @@ export default function Hero() {
             </div>
           </dl>
         </div>
+      </div>
       </div>
     </section>
   );
