@@ -110,10 +110,10 @@ export default function Asistente() {
           <button
             type="button"
             onClick={() => setAbierto(true)}
-            className="hero-in mb-2 max-w-[15rem] bg-white px-4 py-3 text-left text-[14px] leading-snug text-negro shadow-2xl"
+            className="vidrio-fuerte hero-in mb-2 max-w-[15rem] rounded-2xl px-4 py-3 text-left text-[14px] leading-snug text-white"
           >
             <strong className="block">¿Te ayudo a elegir plan?</strong>
-            <span className="text-negro/60">Respondo al momento.</span>
+            <span className="text-white/75">Respondo al momento.</span>
           </button>
         )}
         <button
@@ -121,7 +121,7 @@ export default function Asistente() {
           onClick={() => setAbierto((v) => !v)}
           aria-label={abierto ? "Cerrar asistente" : "Abrir asistente"}
           aria-expanded={abierto}
-          className="relative grid size-16 place-items-center rounded-full bg-white text-negro shadow-[0_14px_34px_-10px_rgb(0_0_0/0.6)] ring-1 ring-black/10 transition-transform hover:scale-105"
+          className="vidrio relative grid size-16 place-items-center rounded-full text-white transition-transform hover:scale-105"
         >
           {abierto ? <X className="size-6" /> : <MessageCircle className="size-7" />}
           {!abierto && <span className="absolute top-1 right-1 size-3 animate-pulse rounded-full bg-[#25d366] ring-2 ring-white" aria-hidden />}
@@ -134,8 +134,8 @@ export default function Asistente() {
         aria-label="Asistente de 720 GYM CLUB"
         aria-modal="false"
         className={cn(
-          "fixed z-[55] flex flex-col bg-negro text-white shadow-[0_30px_80px_-20px_rgb(0_0_0/0.8)] ring-1 ring-white/10 transition-[opacity,transform] duration-300",
-          "inset-0 lg:inset-auto lg:right-6 lg:bottom-26 lg:h-[min(640px,calc(100svh-9rem))] lg:w-[400px]",
+          "vidrio-fuerte fixed z-[55] flex flex-col overflow-hidden text-white transition-[opacity,transform] duration-300",
+          "inset-0 lg:inset-auto lg:right-6 lg:bottom-26 lg:h-[min(640px,calc(100svh-9rem))] lg:w-[400px] lg:rounded-[2rem]",
           abierto ? "visible translate-y-0 opacity-100" : "invisible translate-y-4 opacity-0",
         )}
       >
@@ -158,7 +158,7 @@ export default function Asistente() {
               <p
                 className={cn(
                   "max-w-[85%] px-4 py-3 text-[15px] leading-relaxed",
-                  m.rol === "usuario" ? "bg-white text-negro" : "bg-suelo text-white/90",
+                  m.rol === "usuario" ? "rounded-2xl rounded-br-md bg-white text-negro" : "rounded-2xl rounded-bl-md bg-white/10 text-white",
                 )}
               >
                 {m.texto}
@@ -187,7 +187,7 @@ export default function Asistente() {
             </div>
           ))}
           {escribiendo && (
-            <div className="flex gap-1.5 bg-suelo px-4 py-4" style={{ width: "fit-content" }} aria-label="Escribiendo">
+            <div className="flex gap-1.5 rounded-2xl bg-white/10 px-4 py-4" style={{ width: "fit-content" }} aria-label="Escribiendo">
               {[0, 1, 2].map((d) => (
                 <span key={d} className="size-2 animate-bounce rounded-full bg-white/60" style={{ animationDelay: `${d * 0.15}s` }} />
               ))}
@@ -196,7 +196,7 @@ export default function Asistente() {
           {mensajes.length === 1 && (
             <div className="flex flex-wrap gap-2 pt-2">
               {SUGERENCIAS.map((s) => (
-                <button key={s} type="button" onClick={() => preguntar(s)} className="bg-white/8 px-3 py-2 text-[13px] text-white/85 ring-1 ring-white/10 transition hover:bg-white hover:text-negro">
+                <button key={s} type="button" onClick={() => preguntar(s)} className="rounded-full bg-white/10 px-3.5 py-2 text-[13px] text-white ring-1 ring-white/15 transition hover:bg-white hover:text-negro">
                   {s}
                 </button>
               ))}
@@ -215,9 +215,9 @@ export default function Asistente() {
             onChange={(e) => setTexto(e.target.value)}
             maxLength={500}
             placeholder="Escribe tu pregunta…"
-            className="h-12 flex-1 bg-suelo px-4 text-[16px] outline-none ring-1 ring-white/10 placeholder:text-white/35 focus:ring-white"
+            className="h-12 flex-1 rounded-full bg-white/10 px-5 text-[16px] outline-none ring-1 ring-white/15 placeholder:text-white/45 focus:ring-white"
           />
-          <button type="submit" disabled={!texto.trim() || escribiendo} className="grid size-12 place-items-center bg-white text-negro transition disabled:opacity-40" aria-label="Enviar">
+          <button type="submit" disabled={!texto.trim() || escribiendo} className="grid size-12 place-items-center rounded-full bg-white text-negro transition disabled:opacity-40" aria-label="Enviar">
             <ArrowUp className="size-5" />
           </button>
         </form>

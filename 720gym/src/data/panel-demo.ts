@@ -301,6 +301,7 @@ export function fichaBase(s: SocioDemo, indice: number, hoy: Date): FichaBase {
       pagada: !(deuda > 0 && k < 2),
     });
   }
+  sesiones.sort((x, y) => y.fecha.localeCompare(x.fecha));
   return { entrenador, bono, deuda, pagos, sesiones };
 }
 

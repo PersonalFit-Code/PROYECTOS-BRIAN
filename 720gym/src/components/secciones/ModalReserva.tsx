@@ -47,14 +47,14 @@ export default function ModalReserva({
     setHecho(true);
   }
 
-  const campo = "h-13 w-full bg-negro px-4 text-[16px] text-white ring-1 ring-white/12 outline-none focus:ring-2 focus:ring-white";
+  const campo = "h-13 w-full rounded-2xl bg-white/10 px-4 text-[16px] text-white ring-1 ring-white/15 outline-none placeholder:text-white/45 focus:ring-2 focus:ring-white";
 
   return (
     <dialog
       ref={dialogo}
       onClose={onCerrar}
       onClick={(e) => e.target === dialogo.current && onCerrar()}
-      className="m-auto w-[min(92vw,30rem)] bg-suelo p-0 text-white backdrop:bg-black/70 backdrop:backdrop-blur-sm"
+      className="vidrio-fuerte m-auto w-[min(92vw,30rem)] overflow-hidden rounded-[2rem] p-0 text-white backdrop:bg-black/60 backdrop:backdrop-blur-md"
       aria-labelledby="titulo-reserva"
     >
       <div className="relative p-7 sm:p-8">
@@ -68,7 +68,7 @@ export default function ModalReserva({
             <p className="mt-3 text-[15px] leading-relaxed text-white/70">
               {nombreClase}, {sesion.dia.toLowerCase()} a las {sesion.hora}. Te enviaremos un recordatorio por WhatsApp el día antes. Si no puedes venir, avísanos y liberamos tu plaza para otra persona.
             </p>
-            <button type="button" onClick={onCerrar} className={`${claseBoton("blanco")} mt-7 w-full`}>
+            <button type="button" onClick={onCerrar} className={`${claseBoton("blanco")} mt-7 w-full rounded-full`}>
               Perfecto
             </button>
           </div>
@@ -104,7 +104,7 @@ export default function ModalReserva({
                 {error}
               </p>
             )}
-            <button type="submit" className={`${claseBoton("blanco", true)} mt-6 w-full`}>
+            <button type="submit" className={`${claseBoton("blanco", true)} mt-6 w-full rounded-full`}>
               Confirmar reserva
             </button>
             <p className="mt-3 text-center text-[12px] text-white/45">Socios y clase de prueba. Al reservar aceptas la política de privacidad.</p>

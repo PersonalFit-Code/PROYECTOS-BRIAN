@@ -268,7 +268,7 @@ export default function Apuntate(props: Props & { id?: string }) {
   return (
     <section id={props.id ?? "apuntate"} className={cn("py-24 sm:py-32", claro ? "bg-crema text-carbon" : "bg-negro")} aria-labelledby="titulo-apuntate">
       <div className="container-page grid gap-12 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-5">
+        <div className="min-w-0 lg:col-span-5">
           <p data-reveal className={cn("etiqueta", claro ? "text-carbon/55" : "text-white/55")}>
             <span className={claro ? "text-pil-menta-osc" : "text-acento"}>06</span> · En dos toques
           </p>
@@ -285,12 +285,12 @@ export default function Apuntate(props: Props & { id?: string }) {
             {["Rellena tus datos", "Elige actividad, plan o día", "Te confirmamos por WhatsApp"].map((paso, i) => (
               <li key={paso} className="flex items-center gap-4">
                 <span className={cn("titular grid size-12 place-items-center text-[26px]", claro ? "bg-carbon text-crema" : "bg-white text-negro")}>{i + 1}</span>
-                <span className="subtitular text-[22px]">{paso}</span>
+                <span className="subtitular text-[19px] sm:text-[22px]">{paso}</span>
               </li>
             ))}
           </ol>
         </div>
-        <div data-reveal className="lg:col-span-7">
+        <div data-reveal className="min-w-0 lg:col-span-7">
           <Suspense fallback={<Formulario {...props} />}>
             <FormularioConParametros {...props} />
           </Suspense>

@@ -258,7 +258,7 @@ export default function Panel() {
             </div>
           </header>
 
-          <div className="px-4 pt-2 pb-16 sm:px-6 lg:px-8">
+          <div className="px-4 pt-2 pb-16 sm:px-6 lg:px-8 [&_.grid>*]:min-w-0">
             {seccion === "inicio" && <Inicio ir={ir} />}
             {seccion === "clientes" && <Socios />}
             {seccion === "calendario" && <Calendario />}

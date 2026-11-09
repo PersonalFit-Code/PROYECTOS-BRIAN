@@ -64,7 +64,7 @@ export default function DeslizaInscribete({
       ref={pista}
       className={cn(
         "relative h-15 w-full max-w-md select-none overflow-hidden rounded-full p-1.5",
-        claro ? "bg-negro text-white" : "bg-white/10 text-white ring-1 ring-white/20 backdrop-blur",
+        "vidrio text-white",
         className,
       )}
     >

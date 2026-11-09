@@ -174,6 +174,10 @@ table.datos tr.grupo td { background: var(--lila); color: var(--indigo); font-fa
 .captura figcaption { font-family: "Montserrat"; font-weight: 600; font-size: 6.6pt; letter-spacing: .2em; text-transform: uppercase; color: var(--suave); margin-top: 1.4mm; }
 .captura.alta img { height: 100%; max-height: 112mm; width: auto; margin: 0 auto; }
 .opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin: 0 0 3mm; }
+.opciones.tres { grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }
+.opciones.tres .opcion { padding: 4.5mm 4.5mm 4mm; }
+.opciones.tres .precio { font-size: 21pt; }
+.opciones.tres .opcion .sello { right: 3.5mm; letter-spacing: .14em; }
 .opcion { break-inside: avoid; border: 1px solid var(--linea); border-radius: 3mm; padding: 5mm 5.5mm 4.5mm; position: relative; }
 .opcion.recomendada { border: 1.6px solid var(--indigo); background: var(--lila); }
 .opcion .sello { position: absolute; top: -2.6mm; right: 5mm; background: var(--indigo); color: #fff; font-family: "Montserrat"; font-weight: 700; font-size: 6.4pt; letter-spacing: .22em; text-transform: uppercase; padding: .9mm 2.6mm; border-radius: 1mm; }

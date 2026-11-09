@@ -11,6 +11,11 @@ Google), guía de marca en `comercial/720gym/MARCA.md` y contexto en `comercial/
 - Selector de color en el pie: blanco y negro (por defecto), naranja del dosier o rojo de las máquinas.
   También `?acento=bn|naranja|rojo` en la URL.
 - **720 Pilates** (`/pilates`) lleva la paleta de su propio dosier (crema, naranja y menta).
+- **Liquid Glass** solo en la capa que flota (cabecera, desplegable, barra del móvil, botones flotantes,
+  deslizador, chat y ventana de reserva): utilidades `.vidrio`, `.vidrio-fuerte` y `.vidrio-verde` en
+  `globals.css`, con alternativa opaca si el usuario pide reducir transparencia.
+- **Botones**: `venta` (Inscríbete, pagar, reservar) e `info` (información, WhatsApp), animados.
+  «Desliza para inscribirte» en la portada y en el cierre; barra fija en el móvil.
 
 ```bash
 npm install

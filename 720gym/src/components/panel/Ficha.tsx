@@ -79,12 +79,20 @@ export default function Ficha({ socioId, onCerrar }: { socioId: string; onCerrar
       )}
 
       <div className="grid grid-cols-2 gap-px bg-black/[0.08] sm:grid-cols-4">
-        {[
-          ["Bono comprado", f.bono ? `${f.bono.sesiones}` : "—"],
-          ["Usadas", f.bono ? `${f.bono.usadas}` : `${s.asistencias} visitas`],
-          ["Restantes", f.bono ? `${restantes}` : "Ilimitado"],
-          ["Deuda", euros(f.deuda)],
-        ].map(([a, b]) => (
+        {(f.bono
+          ? [
+              ["Bono comprado", `${f.bono.sesiones}`],
+              ["Usadas", `${f.bono.usadas}`],
+              ["Restantes", `${restantes}`],
+              ["Deuda", euros(f.deuda)],
+            ]
+          : [
+              ["Cuota", "Mensual"],
+              ["Visitas del mes", `${s.asistencias}`],
+              ["Acceso", "Ilimitado"],
+              ["Deuda", euros(f.deuda)],
+            ]
+        ).map(([a, b]) => (
           <div key={a} className={cn("bg-white p-4", a === "Deuda" && f.deuda > 0 && "bg-negro text-white")}>
             <p className="etiqueta opacity-60">{a}</p>
             <p className="titular mt-2 text-[32px] leading-none">{b}</p>

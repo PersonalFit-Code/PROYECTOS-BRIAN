@@ -27,7 +27,13 @@ import sys
 import base64
 
 BASE = pathlib.Path(__file__).resolve().parent
-CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+# El Chromium preinstalado cambia de carpeta según la versión: se usa el primero que exista.
+CHROME = next(
+    (c for c in [os.environ.get("NEURO_CHROME", ""), "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
+                 *sorted(glob.glob("/opt/pw-browsers/chromium-*/chrome-linux*/chrome"), reverse=True)]
+     if c and os.path.exists(c)),
+    "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
+)
 
 PLANTILLA = """<!doctype html>
 <html lang="es">

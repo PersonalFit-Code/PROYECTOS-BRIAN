@@ -53,11 +53,17 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,box-shadow] duration-500",
-        transparente ? "bg-transparent" : "bg-negro/92 shadow-[0_1px_0_rgb(255_255_255/0.07)] backdrop-blur-md",
+        "fixed inset-x-0 top-0 z-50 transition-[padding] duration-500",
+        !transparente && "lg:pt-3",
       )}
     >
-      <div className="container-page flex h-[var(--header-h)] items-center justify-between gap-6">
+      {/* Barra de vidrio flotante al bajar (Liquid Glass); transparente sobre la portada. */}
+      <div
+        className={cn(
+          "mx-auto flex h-[var(--header-h)] items-center justify-between gap-6 px-4 transition-[max-width,border-radius,background-color,box-shadow] duration-500 sm:px-6 lg:px-8",
+          transparente ? "max-w-[84rem] lg:px-10" : "vidrio max-w-full lg:max-w-[min(80rem,calc(100%-3rem))] lg:rounded-full",
+        )}
+      >
         <Link href="/" className="text-[19px]" aria-label="720 GYM CLUB, inicio">
           <Logo />
         </Link>
@@ -82,10 +88,10 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href={enlacePrueba} className={cn(claseBoton("contorno"), "h-11 max-xl:!hidden")}>
+          <Link href={enlacePrueba} className={cn(claseBoton("contorno"), "h-11 rounded-full max-xl:!hidden")}>
             Clase gratis
           </Link>
-          <Link href="/alta" className={cn(claseBoton("venta"), "h-11 px-4 sm:px-5")}>
+          <Link href="/alta" className={cn(claseBoton("venta"), "h-11 rounded-full px-4 sm:px-5")}>
             Inscríbete
           </Link>
           <button
@@ -107,11 +113,11 @@ export default function Header() {
         onMouseEnter={abrirConceptos}
         onMouseLeave={cerrarConceptos}
         className={cn(
-          "absolute inset-x-0 top-full hidden border-t border-white/8 bg-negro/97 backdrop-blur-md transition-[opacity,transform] duration-300 lg:block",
+          "vidrio-fuerte absolute inset-x-6 top-[calc(100%+0.5rem)] mx-auto hidden max-w-[80rem] rounded-[2rem] transition-[opacity,transform] duration-300 lg:block",
           conceptosAbierto ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0",
         )}
       >
-        <div className="container-page grid grid-cols-3 gap-x-10 gap-y-1 py-8">
+        <div className="grid grid-cols-3 gap-x-10 gap-y-1 px-10 py-8">
           {enlacesConceptos.map((c) => (
             <Link key={c.href} href={c.href} className="group flex items-start justify-between gap-4 border-b border-white/8 py-4">
               <span>

@@ -3,7 +3,9 @@
 import { useSyncExternalStore, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export const euros = (n: number) => `${n.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 2 })} €`;
+/* `useGrouping: "always"`: en español los miles de 4 cifras no se separan por defecto (1199 €). */
+const formatoEuros = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 2, useGrouping: "always" } as Intl.NumberFormatOptions);
+export const euros = (n: number) => `${formatoEuros.format(n)} €`;
 
 /** Minuto actual, solo en el navegador (el panel no se pinta en el servidor tras el PIN). */
 function suscribirMinuto(aviso: () => void) {
@@ -32,7 +34,7 @@ export function hace(iso: string, ahora: Date) {
 }
 
 export function Tarjeta({ children, className, oscura = false }: { children: ReactNode; className?: string; oscura?: boolean }) {
-  return <div className={cn("p-5 sm:p-6", oscura ? "bg-negro text-white" : "bg-white text-negro ring-1 ring-black/[0.06]", className)}>{children}</div>;
+  return <div className={cn("min-w-0 p-5 sm:p-6", oscura ? "bg-negro text-white" : "bg-white text-negro ring-1 ring-black/[0.06]", className)}>{children}</div>;
 }
 
 export function TituloBloque({ children, accion }: { children: ReactNode; accion?: ReactNode }) {
