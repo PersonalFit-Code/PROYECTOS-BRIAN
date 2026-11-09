@@ -19,9 +19,9 @@ export default function Historia() {
       <div className="container-page grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-10">
         <div className="lg:col-span-5">
           <p data-reveal className="etiqueta text-white/55">
-            <span className="text-acento">08</span> · Nuestra historia
+            Nuestra historia
           </p>
-          <h2 id="titulo-historia" data-reveal className="titular mt-5 text-[clamp(3.5rem,11vw,8.5rem)]">
+          <h2 id="titulo-historia" data-reveal className="titular mt-5 text-[clamp(2.4rem,4.6vw,3.6rem)]">
             Aquí no había <span className="text-acento">nada.</span>
           </h2>
           <div data-reveal className="mt-8 max-w-md space-y-4 text-[16px] leading-relaxed text-white/70">

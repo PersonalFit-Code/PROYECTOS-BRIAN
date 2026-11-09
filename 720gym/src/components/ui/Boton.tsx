@@ -24,7 +24,7 @@ const variantes: Record<Variante, string> = {
 export function claseBoton(variante: Variante = "venta", grande = false) {
   return cn(
     "inline-flex items-center justify-center gap-2 whitespace-nowrap subtitular",
-    grande ? "h-14 px-7 text-[19px]" : "h-12 px-5 text-[17px]",
+    grande ? "h-12 px-6 text-[15px]" : "h-11 px-5 text-[14px]",
     variantes[variante],
   );
 }

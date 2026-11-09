@@ -64,7 +64,7 @@ export default function ModalReserva({
         {hecho ? (
           <div role="status">
             <CheckCircle2 className="size-10" aria-hidden />
-            <p className="titular mt-5 text-[44px]">Plaza reservada</p>
+            <p className="titular mt-5 text-[28px]">Plaza reservada</p>
             <p className="mt-3 text-[15px] leading-relaxed text-white/70">
               {nombreClase}, {sesion.dia.toLowerCase()} a las {sesion.hora}. Te enviaremos un recordatorio por WhatsApp el día antes. Si no puedes venir, avísanos y liberamos tu plaza para otra persona.
             </p>
@@ -75,7 +75,7 @@ export default function ModalReserva({
         ) : (
           <form onSubmit={enviar} noValidate>
             <p className="etiqueta text-white/50">Reservar plaza</p>
-            <h3 id="titulo-reserva" className="titular mt-3 text-[44px]">
+            <h3 id="titulo-reserva" className="titular mt-3 text-[28px]">
               {nombreClase}
             </h3>
             <p className="mt-1 text-[15px] text-white/70">

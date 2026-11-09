@@ -16,9 +16,9 @@ export interface Respuesta {
 
 const A = {
   alta: { etiqueta: "Inscribirme", href: "/alta" },
-  prueba: { etiqueta: "Clase gratis", href: "/?tipo=prueba#apuntate" },
-  tarifas: { etiqueta: "Ver tarifas", href: "/#tarifas" },
-  horario: { etiqueta: "Ver horario", href: "/#horario" },
+  prueba: { etiqueta: "Clase gratis", href: "/clase-gratis" },
+  tarifas: { etiqueta: "Ver tarifas", href: "/tarifas" },
+  horario: { etiqueta: "Ver horario", href: "/horario" },
   pilates: { etiqueta: "720 Pilates", href: "/pilates" },
   entrada: { etiqueta: "Entrada diaria", href: "/alta?plan=entrada-diaria" },
   mapa: { etiqueta: "Cómo llegar", href: negocio.comoLlegar },

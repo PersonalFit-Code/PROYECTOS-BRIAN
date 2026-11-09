@@ -12,9 +12,9 @@ export default function Conceptos({ excluir }: { excluir?: string }) {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p data-reveal className="etiqueta text-white/55">
-              {!excluir && <><span className="text-acento">02</span> · </>}Conceptos
+              {!excluir && <></>}Conceptos
             </p>
-            <h2 id="titulo-conceptos" data-reveal className="titular mt-5 text-[clamp(3rem,9vw,7rem)]">
+            <h2 id="titulo-conceptos" data-reveal className="titular mt-5 text-[clamp(2.1rem,3.6vw,3.1rem)]">
               {excluir ? "Más en 720" : "Elige cómo entrenar"}
             </h2>
           </div>
@@ -41,7 +41,7 @@ export default function Conceptos({ excluir }: { excluir?: string }) {
               <div className="mt-5 flex items-start justify-between gap-4">
                 <div>
                   <p className="etiqueta text-acento">{c.marca}</p>
-                  <h3 className="titular mt-2 text-[40px] sm:text-[44px]">{c.nombre}</h3>
+                  <h3 className="titular mt-2 text-[28px] sm:text-[44px]">{c.nombre}</h3>
                   <p className="mt-2 line-clamp-2 text-[15px] leading-relaxed text-white/60">{c.lineas}</p>
                 </div>
                 <ArrowUpRight className="mt-8 size-6 shrink-0 text-white/40 transition-[transform,color] duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-acento" aria-hidden />

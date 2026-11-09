@@ -8,8 +8,10 @@ reservas de clases con plazas, asistente con IA y panel de gestión para la gere
 Fuentes de datos: `comercial/720gym/DATOS.md` (dosier oficial 2025-26, PDF de 720 Pilates, Beacons,
 Google), guía de marca en `comercial/720gym/MARCA.md` y contexto en `comercial/720gym/CONTEXTO.md`.
 
-- Next.js 16 + Tailwind 4. Blanco y negro con toques de gris (Brian, 09/11); letra Barlow Condensed
-  en titulares (la stencil, solo en el logo y las marcas «720 ___»). Inter para el texto.
+- Next.js 16 + Tailwind 4. Blanco y negro con toques de gris (Brian, 09/11). Titulares en minúsculas
+  y a tamaño contenido (medidas de Gymshark) con Barlow Condensed; botones y texto en Inter. La
+  stencil, solo en el logo y las marcas «720 ___». Fondo con degradados y el «720» del logo de marca
+  de agua; tarjetas de vidrio; cifras que cuentan al aparecer; cintas en bucle que se leen enteras.
 - Selector de color en el pie: blanco y negro (por defecto), naranja del dosier o rojo de las máquinas.
   También `?acento=bn|naranja|rojo` en la URL.
 - **720 Pilates** (`/pilates`) lleva la paleta de su propio dosier (crema, naranja y menta).
@@ -25,19 +27,26 @@ npm run dev        # http://localhost:3000
 npm run typecheck && npm run lint && npm run build
 ```
 
-## Qué hay
+## Qué hay (v3: portada corta, cada apartado en su página)
 | Ruta | Qué es |
 |---|---|
-| `/` | Portada, conceptos, horario con reservas, tarifas, formulario único, equipo, historia, comunidad, enlaces a clubes / 720P / preguntas y contacto |
-| `/conceptos/[slug]` | Página por disciplina: gimnasio, entrenamiento personal, yoga, powerlifting, CrossGym |
+| `/` | Portada: hero, cinta, «Por qué 720» con contadores, índice «¿Qué buscas?», próximas clases, 3 tarifas, comunidad y cierre |
+| `/gimnasio` `/entrenamiento-personal` `/yoga` `/powerlifting` `/crossgym` | Una página por concepto (antes en `/conceptos/…`, que redirige) |
 | `/pilates` | 720 Pilates con su paleta |
-| `/clubes` | Clubes que entrenan en 720 y espacios para profesionales (720P) |
-| `/preguntas` | Preguntas frecuentes (con marcado FAQPage para Google) |
+| `/horario` | Horario con reservas: días en pastilla, filtros y tarjetas con plazas |
+| `/tarifas` | Todas las tarifas (gimnasio, entrenamiento personal, Pilates) |
+| `/club` | Concepto, aforo limitado, equipo, historia y comunidad |
+| `/clase-gratis` | Formulario único: clase de prueba, inscripción, entrada diaria |
 | `/alta` | Inscripción + pago (plan → datos → pasarela) |
+| `/clubes` `/preguntas` `/contacto` | Clubes y 720P, preguntas frecuentes (FAQPage) y cómo llegar |
 | `/panel` | Panel de gestión (PIN de demo **0720**). Enlace «Acceso gestión» en el pie |
-| `/api/aviso` | Reenvía solicitudes y reservas a un webhook (Make → WhatsApp/email) |
-| `/api/pago` | Crea el pago en Stripe Checkout |
-| `/api/asistente` | Asistente: Claude con los datos del negocio, o motor local |
+| `/api/aviso` `/api/pago` `/api/asistente` | Avisos (webhook), Stripe Checkout y asistente |
+
+**Subdominios** (`src/proxy.ts`): con el dominio de 720 en Vercel y un DNS comodín `*.dominio`,
+`pilates.dominio`, `crossgym.dominio`, `powerlifting.dominio`, `yoga.dominio`, `gimnasio.dominio` y
+`entrenador.dominio` abren su página. En `vercel.app` no hay subdominios: se usan las rutas cortas.
+
+**Móvil:** barra de pestañas tipo app (Inicio · Clases · Inscríbete · Tarifas · Más) con el panel «Más».
 
 ## Variables de entorno (en Vercel, nunca en el código: el repositorio es público)
 | Variable | Para qué | Sin ella |

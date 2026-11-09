@@ -115,7 +115,7 @@ function Formulario({ tipoInicial = "prueba", actividadInicial = "gimnasio", pla
     return (
       <div className={cn("p-8 sm:p-10", claro ? "bg-white text-carbon" : "bg-suelo")} role="status">
         <CheckCircle2 className="size-10 text-acento" aria-hidden />
-        <p className="titular mt-6 text-[48px]">¡Listo!</p>
+        <p className="titular mt-6 text-[30px]">¡Listo!</p>
         <p className={cn("mt-3 max-w-md text-[16px] leading-relaxed", claro ? "text-carbon/70" : "text-white/70")}>
           Se ha abierto WhatsApp con tu mensaje preparado: solo tienes que pulsar <strong>enviar</strong>. Te contestamos enseguida para confirmarlo.
         </p>
@@ -264,22 +264,23 @@ function FormularioConParametros(props: Props) {
   return <Formulario key={`${tipo}-${actividad}-${plan}`} {...props} tipoInicial={tipo} actividadInicial={actividad} planInicial={plan ?? undefined} />;
 }
 
-export default function Apuntate(props: Props & { id?: string }) {
+export default function Apuntate(props: Props & { id?: string; pagina?: boolean }) {
+  const Titulo = props.pagina ? "h1" : "h2";
   const { tono = "oscuro", titulo } = props;
   const claro = tono === "crema";
   return (
-    <section id={props.id ?? "apuntate"} className={cn("py-24 sm:py-32", claro ? "bg-crema text-carbon" : "bg-negro")} aria-labelledby="titulo-apuntate">
+    <section id={props.id ?? "apuntate"} className={cn(props.pagina ? "pt-[calc(var(--header-h)+3rem)] pb-16 sm:pb-24" : "py-16 sm:py-24", claro ? "bg-crema text-carbon" : "bg-negro")} aria-labelledby="titulo-apuntate">
       <div className="container-page grid gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="min-w-0 lg:col-span-5">
           <p data-reveal className={cn("etiqueta", claro ? "text-carbon/55" : "text-white/55")}>
-            {props.orden !== null && <><span className={claro ? "text-pil-menta-osc" : "text-acento"}>{props.orden ?? "06"}</span> · </>}En dos toques
+            En dos toques
           </p>
-          <h2 id="titulo-apuntate" data-reveal className="mt-5">
-            <span className="titular block text-[clamp(3.25rem,9vw,7rem)]">{titulo ?? "Ven a probar"}</span>
-            <span className={cn("subtitular mt-2 block text-[clamp(1.5rem,3vw,2.25rem)]", claro ? "text-carbon/55" : "text-white/55")}>
+          <Titulo id="titulo-apuntate" data-reveal className="mt-5">
+            <span className="titular block text-[clamp(2.1rem,3.6vw,3.1rem)]">{titulo ?? "Ven a probar"}</span>
+            <span className={cn("subtitular mt-2 block text-[clamp(1.05rem,1.6vw,1.3rem)]", claro ? "text-carbon/55" : "text-white/55")}>
               Tu primera clase, gratis.
             </span>
-          </h2>
+          </Titulo>
           <p data-reveal className={cn("mt-6 max-w-md text-[16px] leading-relaxed", claro ? "text-carbon/70" : "text-white/70")}>
             Elige día y hora, o date de alta directamente. Te escribimos por WhatsApp para confirmarlo. Sin colas, sin papeleo y sin compromiso.
           </p>

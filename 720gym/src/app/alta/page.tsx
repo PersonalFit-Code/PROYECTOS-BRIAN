@@ -14,7 +14,7 @@ export default function PaginaAlta() {
     <Suspense
       fallback={
         <section className="min-h-[100svh] bg-negro pt-[calc(var(--header-h)+2rem)]">
-          <h1 className="container-page titular mt-16 text-[clamp(3.5rem,11vw,8rem)]">Inscríbete</h1>
+          <h1 className="container-page titular mt-16 text-[clamp(2.4rem,4.6vw,3.6rem)]">Inscríbete</h1>
         </section>
       }
     >

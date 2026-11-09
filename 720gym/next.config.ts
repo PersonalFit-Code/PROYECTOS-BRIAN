@@ -34,6 +34,13 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  /* Las páginas de concepto pasaron de /conceptos/x a /x. */
+  async redirects() {
+    return [
+      { source: "/conceptos/pilates", destination: "/pilates", permanent: true },
+      { source: "/conceptos/:slug", destination: "/:slug", permanent: true },
+    ];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

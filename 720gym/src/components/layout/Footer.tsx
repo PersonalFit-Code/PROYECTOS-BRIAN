@@ -6,14 +6,17 @@ import { enlacesConceptos } from "./navegacion";
 
 export default function Footer() {
   return (
-    <footer className="bg-negro text-white">
-      <div className="container-page grid gap-12 py-16 sm:py-20 lg:grid-cols-12">
+    <footer className="relative overflow-hidden bg-negro pb-24 text-white lg:pb-0">
+      <span className="marca-agua pointer-events-none absolute -bottom-[4vw] left-1/2 -translate-x-1/2 text-[34vw] lg:text-[22vw]" aria-hidden>
+        720
+      </span>
+      <div className="container-page relative grid gap-12 py-16 sm:py-20 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Logo className="text-[28px]" />
           <p className="mt-6 max-w-xs text-[15px] leading-relaxed text-white/60">
             Centro privado de entrenamiento en Ourense. Fuerza, salud y comunidad, con aforo limitado.
           </p>
-          <p className="titular mt-6 text-[28px] text-white/90">Entrena. Cuídate. Crece.</p>
+          <p className="titular texto-logo mt-6 text-[26px]">Entrena. Cuídate. Crece.</p>
         </div>
         <div className="grid gap-10 sm:grid-cols-3 lg:col-span-8">
           <div>
@@ -27,6 +30,21 @@ export default function Footer() {
                 </li>
               ))}
               <li className="pt-2">
+                <Link href="/horario" className="text-white/75 hover:text-white">
+                  Horario
+                </Link>
+              </li>
+              <li>
+                <Link href="/tarifas" className="text-white/75 hover:text-white">
+                  Tarifas
+                </Link>
+              </li>
+              <li>
+                <Link href="/club" className="text-white/75 hover:text-white">
+                  El club
+                </Link>
+              </li>
+              <li>
                 <Link href="/clubes" className="text-white/75 hover:text-white">
                   Clubes y 720P
                 </Link>
@@ -82,7 +100,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-white/8">
+      <div className="relative border-t border-white/8">
         <div className="container-page flex flex-col gap-4 py-6 text-[12px] text-white/45 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} 720 GYM CLUB · Ourense</p>
           <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Legal">

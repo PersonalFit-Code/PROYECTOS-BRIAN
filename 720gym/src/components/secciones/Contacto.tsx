@@ -2,7 +2,8 @@ import { MapPin, Clock, Phone, Mail, Bus, Car } from "lucide-react";
 import { claseBoton } from "@/components/ui/Boton";
 import { negocio, pilates, wa } from "@/data/negocio";
 
-export default function Contacto() {
+export default function Contacto({ pagina = false }: { pagina?: boolean }) {
+  const Titulo = pagina ? "h1" : "h2";
   const filas = [
     { Icono: MapPin, titulo: "Dirección", texto: negocio.direccion.completa },
     { Icono: Clock, titulo: "Horario", texto: `${negocio.horario.texto}. ${negocio.horario.detalle}.` },
@@ -10,15 +11,15 @@ export default function Contacto() {
     { Icono: Car, titulo: "Aparcamiento", texto: "Fácil aparcamiento en la zona." },
   ];
   return (
-    <section id="contacto" className="bg-negro py-24 sm:py-32" aria-labelledby="titulo-contacto">
+    <section id="contacto" className={pagina ? "bg-negro pt-[calc(var(--header-h)+3rem)] pb-16 sm:pb-24" : "bg-negro py-16 sm:py-24"} aria-labelledby="titulo-contacto">
       <div className="container-page grid gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <p data-reveal className="etiqueta text-white/55">
-            <span className="text-acento">10</span> · Contacto
+            Contacto
           </p>
-          <h2 id="titulo-contacto" data-reveal className="titular mt-5 text-[clamp(3.25rem,10vw,7.5rem)]">
+          <Titulo id="titulo-contacto" data-reveal className="titular mt-5 text-[clamp(2.1rem,3.6vw,3.1rem)]">
             Ven a vernos
-          </h2>
+          </Titulo>
           <ul className="mt-10 space-y-6">
             {filas.map(({ Icono, titulo, texto }) => (
               <li key={titulo} data-reveal className="flex gap-4">

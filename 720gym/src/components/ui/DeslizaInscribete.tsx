@@ -63,7 +63,7 @@ export default function DeslizaInscribete({
     <div
       ref={pista}
       className={cn(
-        "relative h-15 w-full max-w-md select-none overflow-hidden rounded-full p-1.5",
+        "relative h-14 w-full max-w-md select-none overflow-hidden rounded-full p-1.5",
         "vidrio text-white",
         className,
       )}
@@ -74,7 +74,7 @@ export default function DeslizaInscribete({
         aria-hidden
       />
       <span
-        className="desliza-texto subtitular pointer-events-none absolute inset-0 grid place-items-center pl-12 text-[17px] tracking-[0.06em]"
+        className="desliza-texto subtitular pointer-events-none absolute inset-0 grid place-items-center pl-12 text-[14px]"
         style={{ opacity: 1 - progreso * 1.4 }}
         aria-hidden
       >
@@ -89,7 +89,7 @@ export default function DeslizaInscribete({
         onClick={() => !movido.current && completar()}
         aria-label={`${texto}: ir a la inscripción`}
         className={cn(
-          "relative z-10 grid size-12 cursor-grab touch-none place-items-center rounded-full shadow-lg active:cursor-grabbing",
+          "relative z-10 grid size-11 cursor-grab touch-none place-items-center rounded-full shadow-lg active:cursor-grabbing",
           claro ? "bg-white text-negro" : "bg-white text-negro",
         )}
         style={{ transform: `translate3d(${x}px,0,0)`, transition: arrastrando ? "none" : "transform .45s cubic-bezier(.16,1,.3,1)" }}

@@ -17,7 +17,7 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
         <p data-reveal className="etiqueta text-white/55">
           Clubes que entrenan en 720
         </p>
-        <Titulo id="titulo-clubes" data-reveal className="titular mt-5 max-w-4xl text-[clamp(3rem,9vw,7rem)]">
+        <Titulo id="titulo-clubes" data-reveal className="titular mt-5 max-w-4xl text-[clamp(2.1rem,3.6vw,3.1rem)]">
           Un centro vivo, de la mañana a la noche
           {pagina && <span className="sr-only">: clubes deportivos y alquiler de salas en Ourense</span>}
         </Titulo>
@@ -47,8 +47,8 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
           <div className="lg:col-span-6">
             <p data-reveal className="etiqueta text-white/55">720P · Espacios para profesionales</p>
             <h3 data-reveal className="mt-5">
-              <span className="titular block text-[clamp(3rem,8vw,6rem)]">¿Quieres un espacio para tu club?</span>
-              <span className="subtitular mt-2 block text-[clamp(1.5rem,3vw,2.25rem)] text-acento">Aquí lo podrás tener.</span>
+              <span className="titular block text-[clamp(2.1rem,3.6vw,3.1rem)]">¿Quieres un espacio para tu club?</span>
+              <span className="subtitular mt-2 block text-[clamp(1.05rem,1.6vw,1.3rem)] text-acento">Aquí lo podrás tener.</span>
             </h3>
             <p data-reveal className="mt-6 max-w-lg text-[16px] leading-relaxed text-white/70">
               Entrenadores, terapeutas e instructores: alquila sala dentro de 720 para tu actividad, con un centro de {">"}1.000 m², horario amplio y una
@@ -66,7 +66,7 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
               <a href={wa("Hola, soy profesional y me interesa alquilar un espacio en 720 (720P).")} target="_blank" rel="noopener noreferrer" className={claseBoton("acento", true)}>
                 Consultar disponibilidad
               </a>
-              <Link href="/#contacto" className={claseBoton("contorno", true)}>
+              <Link href="/contacto" className={claseBoton("contorno", true)}>
                 Ven a verlo
               </Link>
             </div>

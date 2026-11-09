@@ -23,24 +23,25 @@ const pestanas = [
 ] as const;
 type Pestana = (typeof pestanas)[number]["id"];
 
-const enlace = (tipo: string, extra: Record<string, string>) => `/?${new URLSearchParams({ tipo, ...extra }).toString()}#apuntate`;
+const enlace = (tipo: string, extra: Record<string, string>) => `/clase-gratis?${new URLSearchParams({ tipo, ...extra }).toString()}`;
 
-export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana }) {
+export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inicial?: Pestana; pagina?: boolean }) {
+  const Titulo = pagina ? "h1" : "h2";
   const [pestana, setPestana] = useState<Pestana>(inicial);
   const [modalidad, setModalidad] = useState<Modalidad>("Individual");
 
   return (
-    <section id="tarifas" className="bg-acero py-24 text-negro sm:py-32" aria-labelledby="titulo-tarifas">
+    <section id="tarifas" className={cn("bg-acero text-negro", pagina ? "pt-[calc(var(--header-h)+3rem)] pb-16 sm:pb-24" : "py-16 sm:py-24")} aria-labelledby="titulo-tarifas">
       <div className="container-page">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p data-reveal className="etiqueta text-negro/50">
-              <span className="text-acento-texto">05</span> · Tarifas 2025-26
+              Tarifas 2025-26
             </p>
-            <h2 id="titulo-tarifas" data-reveal className="mt-5">
-              <span className="subtitular block text-[clamp(1.5rem,3vw,2.25rem)] text-negro/55">Claras y sin letra pequeña.</span>
-              <span className="titular mt-1 block text-[clamp(3rem,9vw,7rem)]">Tarifas</span>
-            </h2>
+            <Titulo id="titulo-tarifas" data-reveal className="mt-5">
+              <span className="subtitular block text-[clamp(1.05rem,1.6vw,1.3rem)] text-negro/55">Claras y sin letra pequeña.</span>
+              <span className="titular mt-1 block text-[clamp(2.1rem,3.6vw,3.1rem)]">Tarifas</span>
+            </Titulo>
           </div>
           <div data-reveal className="no-scrollbar -mx-4 flex gap-1 overflow-x-auto px-4 sm:mx-0 sm:px-0" role="tablist" aria-label="Tipo de tarifa">
             {pestanas.map((p) => (
@@ -69,7 +70,7 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                   </div>
                   <h3 className="subtitular mt-6 text-[28px]">{t.nombre}</h3>
                   <p className="mt-3 flex items-baseline gap-1.5">
-                    <span className={cn("titular text-[76px] leading-none", t.destacada && "text-acento")}>{t.precio}</span>
+                    <span className={cn("titular text-[47px] leading-none", t.destacada && "text-acento")}>{t.precio}</span>
                     <span className="text-[15px] font-semibold opacity-70">{t.unidad}</span>
                   </p>
                   <p className="mt-4 text-[14px] leading-relaxed opacity-70">{t.detalle}</p>
@@ -118,7 +119,7 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
               <p className="etiqueta text-white/55">Primer paso</p>
               <h3 className="subtitular mt-6 text-[30px]">{primeraSesion.nombre}</h3>
               <p className="mt-3 flex items-baseline gap-1.5">
-                <span className="titular text-[84px] leading-none text-acento">{primeraSesion.precio}</span>
+                <span className="titular text-[52px] leading-none text-acento">{primeraSesion.precio}</span>
                 <span className="text-[15px] font-semibold text-white/70">€</span>
               </p>
               <p className="mt-4 text-[14px] leading-relaxed text-white/70">{primeraSesion.detalle}</p>
@@ -157,7 +158,7 @@ export default function Tarifas({ inicial = "gimnasio" }: { inicial?: Pestana })
                     {b.recomendado && <span className="absolute -top-2.5 left-5 bg-acento px-2 py-0.5 text-[10px] font-bold tracking-wider text-acento-tinta uppercase">Recomendado</span>}
                     <p className="subtitular text-[20px]">Bono {b.sesiones}</p>
                     <p className="mt-2 flex items-baseline gap-1">
-                      <span className="titular text-[54px] leading-none">{b.total}</span>
+                      <span className="titular text-[33px] leading-none">{b.total}</span>
                       <span className="text-[14px] font-semibold opacity-70">€</span>
                     </p>
                     <p className={cn("mt-1 text-[13px] font-semibold", b.recomendado ? "text-acento" : "text-negro/60")}>{b.porSesion}</p>

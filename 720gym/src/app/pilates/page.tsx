@@ -8,7 +8,7 @@ import Foto from "@/components/ui/Foto";
 import { claseBoton } from "@/components/ui/Boton";
 import Horario from "@/components/secciones/Horario";
 import Apuntate from "@/components/secciones/Apuntate";
-import FraseGigante from "@/components/ui/FraseGigante";
+import Ticker from "@/components/ui/Ticker";
 import CintaLogos from "@/components/ui/CintaLogos";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { pilates, wa } from "@/data/negocio";
@@ -49,8 +49,8 @@ export default function PaginaPilates() {
               <span className="subtitular text-[20px] tracking-[0.16em] text-pil-menta-osc">PILATES</span>
             </p>
             <h1 id="titulo-pilates" className="hero-in mt-6" style={{ ["--i" as string]: 1 }}>
-              <span className="titular block text-[clamp(4.5rem,15vw,11rem)]">Pilates</span>{" "}
-              <span className="subtitular mt-2 block text-[clamp(1.6rem,3.6vw,2.6rem)] text-carbon/65">en grupos reducidos, en el centro de Ourense.</span>
+              <span className="titular block text-[clamp(2.4rem,4.6vw,3.6rem)]">Pilates</span>{" "}
+              <span className="subtitular mt-2 block text-[clamp(1.05rem,1.6vw,1.3rem)] text-carbon/65">en grupos reducidos, en el centro de Ourense.</span>
             </h1>
             <p className="hero-in mt-6 max-w-lg text-[18px] leading-relaxed text-carbon/70" style={{ ["--i" as string]: 2 }}>
               Un estudio con personalidad propia dentro del universo 720, con un equipo de profesionales del Pilates. Reformer, Mat, Wall Unit e Hipopresivos.
@@ -92,14 +92,14 @@ export default function PaginaPilates() {
           <p data-reveal className="etiqueta text-carbon/50">
             <span className="text-pil-menta-osc">01</span> · Disciplinas
           </p>
-          <h2 id="titulo-disciplinas-pilates" data-reveal className="titular mt-5 text-[clamp(3rem,9vw,7rem)]">
+          <h2 id="titulo-disciplinas-pilates" data-reveal className="titular mt-5 text-[clamp(2.1rem,3.6vw,3.1rem)]">
             Cuatro formas de cuidarte
           </h2>
           <ul className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {disciplinas.map((d, i) => (
               <li key={d.nombre} data-reveal className={i % 2 ? "lg:mt-14" : ""}>
                 <Foto descripcion={d.foto} tono="crema" proporcion="aspect-[3/4]" sizes="(min-width:1024px) 22vw, 90vw" />
-                <h3 className="titular mt-5 text-[44px]">{d.nombre}</h3>
+                <h3 className="titular mt-5 text-[28px]">{d.nombre}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-carbon/65">{d.texto}</p>
               </li>
             ))}
@@ -107,7 +107,9 @@ export default function PaginaPilates() {
         </div>
       </section>
 
-      <FraseGigante frase="Cada persona, a su ritmo." className="py-20 [&_p]:text-carbon" />
+      <div className="py-8 text-carbon">
+        <Ticker frases={["Cada persona, a su ritmo", "Grupos reducidos", "Primera clase gratis", "Sin matrícula"]} tono="claro" grande duracion={45} className="!text-carbon" />
+      </div>
 
       {bea && (
         <section className="py-20 sm:py-28" aria-labelledby="titulo-equipo-pilates">
@@ -120,7 +122,7 @@ export default function PaginaPilates() {
                 <span className="text-pil-menta-osc">02</span> · El equipo
               </p>
               <h2 id="titulo-equipo-pilates" data-reveal className="mt-5">
-                <span className="titular block text-[clamp(4rem,12vw,9rem)]">{bea.nombre}</span>
+                <span className="titular block text-[clamp(2.4rem,4.6vw,3.6rem)]">{bea.nombre}</span>
                 <span className="subtitular mt-1 block text-[28px] text-carbon/60">y el equipo de 720 Pilates</span>
               </h2>
               <p data-reveal className="mt-6 max-w-lg text-[17px] leading-relaxed text-carbon/70">
@@ -131,7 +133,7 @@ export default function PaginaPilates() {
         </section>
       )}
 
-      <Horario soloClases={["reformer", "mat", "hipopresivos"]} titulo="Horario de Pilates" tono="crema" id="horario-pilates" numero="03" />
+      <Horario soloClases={["reformer", "mat", "hipopresivos"]} titulo="Horario de Pilates" tono="crema" id="horario-pilates" />
 
       <section id="tarifas-pilates" className="bg-white py-24 sm:py-32" aria-labelledby="titulo-tarifas-pilates">
         <div className="container-page">
@@ -139,8 +141,8 @@ export default function PaginaPilates() {
             <span className="text-pil-menta-osc">04</span> · Tarifas 2025
           </p>
           <h2 id="titulo-tarifas-pilates" data-reveal className="mt-5">
-            <span className="subtitular block text-[clamp(1.5rem,3vw,2.25rem)] text-carbon/55">Sin matrícula. Pagas del 1 al 7.</span>
-            <span className="titular mt-1 block text-[clamp(3rem,9vw,7rem)]">Elige tu plan</span>
+            <span className="subtitular block text-[clamp(1.05rem,1.6vw,1.3rem)] text-carbon/55">Sin matrícula. Pagas del 1 al 7.</span>
+            <span className="titular mt-1 block text-[clamp(2.1rem,3.6vw,3.1rem)]">Elige tu plan</span>
           </h2>
           <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {tarifasPilates.map((g, i) => (
@@ -168,7 +170,7 @@ export default function PaginaPilates() {
           <div data-reveal className="mt-6 grid gap-6 bg-crema p-7 sm:grid-cols-2">
             <p className="flex items-baseline gap-3">
               <span className="subtitular text-[22px]">Sesión suelta</span>
-              <span className="titular text-[48px] leading-none">15 €</span>
+              <span className="titular text-[30px] leading-none">15 €</span>
             </p>
             <ul className="space-y-1 text-[14px] text-carbon/70">
               {condicionesPilates.map((c) => (

@@ -1,44 +1,33 @@
 import type { Metadata } from "next";
 import Hero from "@/components/secciones/Hero";
-import Intro from "@/components/secciones/Intro";
-import Conceptos from "@/components/secciones/Conceptos";
-import Aforo from "@/components/secciones/Aforo";
-import Horario from "@/components/secciones/Horario";
-import Tarifas from "@/components/secciones/Tarifas";
-import Apuntate from "@/components/secciones/Apuntate";
-import Equipo from "@/components/secciones/Equipo";
-import Historia from "@/components/secciones/Historia";
+import PorQue from "@/components/secciones/PorQue";
+import Indice from "@/components/secciones/Indice";
+import { ClasesHoy } from "@/components/secciones/Horario";
+import TarifasDestacadas from "@/components/secciones/TarifasDestacadas";
 import Comunidad from "@/components/secciones/Comunidad";
-import MasDe720 from "@/components/secciones/MasDe720";
-import Contacto from "@/components/secciones/Contacto";
-import FraseGigante from "@/components/ui/FraseGigante";
-import CintaLogos from "@/components/ui/CintaLogos";
 import Cierre from "@/components/secciones/Cierre";
+import Ticker from "@/components/ui/Ticker";
+import CintaLogos from "@/components/ui/CintaLogos";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
+/**
+ * Portada v3, corta (Brian: «en móvil se ve muy cansino tanto scroll»): lo esencial y un índice;
+ * cada apartado tiene su página (horario, tarifas, el club, conceptos, clase gratis, contacto).
+ */
 export default function Inicio() {
   return (
     <>
       <Hero />
-      <Intro />
-      <Conceptos />
-      <section className="bg-white" aria-label="Lema">
-        <FraseGigante frase="Aquí entrenas a tu ritmo, rodeado de gente como tú." className="pt-24 pb-4 sm:pt-32" />
-      </section>
-      <Aforo />
-      <Horario />
-      <Tarifas />
-      <Apuntate />
-      <Equipo />
-      <Historia />
-      <section className="bg-negro" aria-label="Norma de la casa">
-        <FraseGigante frase="Si puedes levantarlo, puedes bajarlo." tono="contorno" sentido={-1} className="pb-24" />
-      </section>
-      <Comunidad />
-      <MasDe720 />
+      <div className="border-y border-white/10 bg-negro py-4">
+        <Ticker frases={["Aforo limitado", "Abierto 365 días", "Pilates Reformer", "5,0 en Google", "Primera clase gratis", "Entrada diaria 5 €", "Sin matrícula en Pilates"]} />
+      </div>
+      <PorQue />
+      <Indice />
+      <ClasesHoy />
+      <TarifasDestacadas />
+      <Comunidad resumen />
       <Cierre />
-      <Contacto />
       <CintaLogos />
     </>
   );

@@ -9,6 +9,8 @@ export interface Concepto {
   slug: string;
   /** Enlace de la tarjeta (720 Pilates tiene página propia con su paleta). */
   href: string;
+  /** Icono de Lucide para índices y menús. */
+  icono: "dumbbell" | "user-check" | "flower" | "sun" | "weight" | "flame";
   nombre: string;
   marca: string;
   /** Las dos líneas de la tarjeta. */
@@ -32,7 +34,8 @@ export interface Concepto {
 export const conceptos: Concepto[] = [
   {
     slug: "gimnasio",
-    href: "/conceptos/gimnasio",
+    href: "/gimnasio",
+    icono: "dumbbell",
     nombre: "Gimnasio libre",
     marca: "720 GYM",
     lineas: "Máquinas, peso libre y cardio los 365 días. Con aforo limitado, la máquina que quieres está libre.",
@@ -53,7 +56,8 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "entrenamiento-personal",
-    href: "/conceptos/entrenamiento-personal",
+    href: "/entrenamiento-personal",
+    icono: "user-check",
     nombre: "Entrenamiento personal",
     marca: "720 GYM",
     lineas: "Entrevista, valoración y un plan solo para ti. Solo, en pareja o en grupos de hasta cuatro.",
@@ -75,6 +79,7 @@ export const conceptos: Concepto[] = [
   {
     slug: "pilates",
     href: "/pilates",
+    icono: "flower",
     nombre: "720 Pilates",
     marca: "720 PILATES",
     lineas: "Reformer, Mat, Wall Unit e Hipopresivos en grupos reducidos. Primera clase gratis.",
@@ -95,7 +100,8 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "yoga",
-    href: "/conceptos/yoga",
+    href: "/yoga",
+    icono: "sun",
     nombre: "720 Yoga",
     marca: "720 YOGA",
     lineas: "Movilidad, respiración y calma. El contrapunto perfecto a la sala de fuerza.",
@@ -114,7 +120,8 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "powerlifting",
-    href: "/conceptos/powerlifting",
+    href: "/powerlifting",
+    icono: "weight",
     nombre: "720 Powerlifting",
     marca: "720 POWERLIFTING",
     lineas: "Material de competición y un equipo que entrena fuerza en serio. Sentadilla, banca y peso muerto.",
@@ -133,7 +140,8 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "crossgym",
-    href: "/conceptos/crossgym",
+    href: "/crossgym",
+    icono: "flame",
     nombre: "CrossGym 720",
     marca: "CROSSGYM 720",
     lineas: "Fuerza y acondicionamiento físico general en grupo. Entreno duro, técnica primero.",

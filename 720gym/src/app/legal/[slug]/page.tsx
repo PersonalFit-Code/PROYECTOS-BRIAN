@@ -55,7 +55,7 @@ export default async function PaginaLegal({ params }: { params: Promise<{ slug: 
     <section className="bg-pared pt-[calc(var(--header-h)+4rem)] pb-24 text-negro">
       <div className="container-page max-w-3xl">
         <p className="etiqueta text-negro/50">Legal</p>
-        <h1 className="titular mt-4 text-[clamp(3rem,10vw,6rem)]">{p.titulo}</h1>
+        <h1 className="titular mt-4 text-[clamp(2.1rem,3.6vw,3.1rem)]">{p.titulo}</h1>
         <p className="mt-6 border-l-4 border-acento bg-white px-4 py-3 text-[14px] text-negro/70">
           Texto pendiente de completar con los datos del titular (razón social y NIF).
         </p>

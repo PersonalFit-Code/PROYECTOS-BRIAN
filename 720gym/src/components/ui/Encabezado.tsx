@@ -26,7 +26,7 @@ export default function Encabezado({
         <span className={cn("h-px w-8", tono === "oscuro" ? "bg-white/25" : "bg-negro/25")} aria-hidden />
         {etiqueta}
       </p>
-      <h2 id={id} data-reveal className="titular mt-4 text-[clamp(2.75rem,8vw,5.5rem)]">
+      <h2 id={id} data-reveal className="titular mt-4 text-[clamp(2.1rem,3.6vw,3.1rem)]">
         {titulo}
       </h2>
       {children && (

@@ -8,46 +8,49 @@ import { claseBoton } from "@/components/ui/Boton";
 import Horario from "@/components/secciones/Horario";
 import Apuntate from "@/components/secciones/Apuntate";
 import Conceptos from "@/components/secciones/Conceptos";
-import FraseGigante from "@/components/ui/FraseGigante";
+import Ticker from "@/components/ui/Ticker";
 import CintaLogos from "@/components/ui/CintaLogos";
 import Cierre from "@/components/secciones/Cierre";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { conceptoPorSlug, conceptos } from "@/data/conceptos";
 import { wa } from "@/data/negocio";
 
-/** Página de cada concepto (720 Pilates tiene la suya propia en /pilates, con su paleta). */
+/**
+ * Página de cada concepto, en su propia dirección corta (/gimnasio, /crossgym…). 720 Pilates tiene
+ * la suya en /pilates, con su paleta. Con dominio propio, proxy.ts sirve también crossgym.dominio, etc.
+ */
 export function generateStaticParams() {
-  return conceptos.filter((c) => c.href.startsWith("/conceptos/")).map((c) => ({ slug: c.slug }));
+  return conceptos.filter((c) => c.slug !== "pilates").map((c) => ({ concepto: c.slug }));
 }
 export const dynamicParams = false;
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const c = conceptoPorSlug((await params).slug);
+export async function generateMetadata({ params }: { params: Promise<{ concepto: string }> }): Promise<Metadata> {
+  const c = conceptoPorSlug((await params).concepto);
   if (!c) return {};
   return { title: c.seo.titulo, description: c.seo.descripcion, alternates: { canonical: c.href } };
 }
 
-export default async function PaginaConcepto({ params }: { params: Promise<{ slug: string }> }) {
-  const c = conceptoPorSlug((await params).slug);
-  if (!c || !c.href.startsWith("/conceptos/")) notFound();
+export default async function PaginaConcepto({ params }: { params: Promise<{ concepto: string }> }) {
+  const c = conceptoPorSlug((await params).concepto);
+  if (!c || c.slug === "pilates") notFound();
   const conPrecio = c.precio;
-  const base = `/conceptos/${c.slug}`;
+  const base = c.href;
   const prueba = `${base}?tipo=prueba&actividad=${c.actividad}#apuntate`;
 
   return (
     <>
-      <JsonLd datos={migas([["Conceptos", "/#conceptos"], [c.nombre, c.href]])} />
+      <JsonLd datos={migas([[c.nombre, c.href]])} />
       <section className="relative overflow-hidden bg-negro pt-[calc(var(--header-h)+3rem)] pb-20 sm:pb-28" aria-labelledby="titulo-concepto">
         <Ondas lineas={10} color="rgb(255 255 255 / 0.06)" />
         <div className="container-page relative grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-10">
           <div className="lg:col-span-6">
             <nav aria-label="Migas" className="hero-in etiqueta text-white/45" style={{ ["--i" as string]: 0 }}>
-              <Link href="/" className="hover:text-white">Inicio</Link> / <Link href="/#conceptos" className="hover:text-white">Conceptos</Link>
+              <Link href="/" className="hover:text-white">Inicio</Link> / <Link href="/#que-buscas" className="hover:text-white">Conceptos</Link>
             </nav>
             <p className="hero-in etiqueta mt-10 text-acento" style={{ ["--i" as string]: 1 }}>
               {c.marca}
             </p>
-            <h1 id="titulo-concepto" className="hero-in titular mt-4 text-[clamp(3.25rem,11vw,7.5rem)] [overflow-wrap:anywhere] lg:text-[clamp(4rem,6.6vw,7.5rem)]" style={{ ["--i" as string]: 2 }}>
+            <h1 id="titulo-concepto" className="hero-in titular mt-4 text-[clamp(2.1rem,3.6vw,3.1rem)] [overflow-wrap:anywhere] lg:text-[clamp(2.1rem,3.6vw,3.1rem)]" style={{ ["--i" as string]: 2 }}>
               {c.nombre}
               <span className="sr-only"> en Ourense</span>
             </h1>
@@ -79,7 +82,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
           </div>
           <div className="bg-negro py-6 sm:px-6">
             <dt className="etiqueta text-white/45">Nivel</dt>
-            <dd className="subtitular mt-3 text-[34px]">{c.nivel}</dd>
+            <dd className="subtitular mt-3 text-[28px]">{c.nivel}</dd>
           </div>
           <div className="bg-negro py-6 sm:px-6">
             <dt className="etiqueta text-white/45">Precio</dt>
@@ -87,7 +90,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
               {conPrecio ? (
                 <span className="flex items-baseline gap-1.5">
                   {conPrecio.desde && <span className="text-[14px] text-white/60">desde</span>}
-                  <span className="titular text-[64px] leading-none text-acento">{conPrecio.cifra}</span>
+                  <span className="titular text-[40px] leading-none text-acento">{conPrecio.cifra}</span>
                   <span className="text-[15px] font-semibold text-white/70">{conPrecio.unidad}</span>
                 </span>
               ) : (
@@ -103,7 +106,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
         <div className="container-page grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
             <p data-reveal className="etiqueta text-negro/50">En 720</p>
-            <h2 id="titulo-detalle" data-reveal className="titular mt-5 text-[clamp(3rem,8vw,6rem)]">
+            <h2 id="titulo-detalle" data-reveal className="titular mt-5 text-[clamp(2.1rem,3.6vw,3.1rem)]">
               Cómo es
             </h2>
             <div data-reveal className="mt-8 max-w-2xl space-y-5 text-[18px] leading-relaxed text-negro/75">
@@ -126,7 +129,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
               <Link href={c.planPago ? `/alta?plan=${c.planPago}` : `${base}?tipo=inscripcion&actividad=${c.actividad}#apuntate`} className={`${claseBoton("venta")} mt-10 w-full`}>
                 Inscríbete
               </Link>
-              <Link href="/#tarifas" className="mt-4 block text-center text-[13px] text-white/60 underline underline-offset-4 hover:text-white">
+              <Link href="/tarifas" className="mt-4 block text-center text-[13px] text-white/60 underline underline-offset-4 hover:text-white">
                 Ver todas las tarifas
               </Link>
             </div>
@@ -134,10 +137,12 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ slu
         </div>
       </section>
 
-      {c.clases.length > 0 && <Horario soloClases={c.clases} titulo={`Horario de ${c.nombre.replace(/^720 /, "")}`} numero={null} />}
+      {c.clases.length > 0 && <Horario soloClases={c.clases} titulo={`Horario de ${c.nombre.replace(/^720 /, "")}`} />}
 
       <section className="bg-white" aria-label="Lema">
-        <FraseGigante frase="Busca mejorar tu versión. Evita las comparaciones." className="py-20" />
+        <div className="py-6">
+          <Ticker frases={["Busca mejorar tu versión", "Evita las comparaciones", "Si puedes levantarlo, puedes bajarlo", "Somos una familia"]} tono="claro" grande duracion={50} />
+        </div>
       </section>
 
       <Cierre />

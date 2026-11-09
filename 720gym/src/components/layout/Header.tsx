@@ -74,7 +74,7 @@ export default function Header() {
           <div className="relative" onMouseEnter={abrirConceptos} onMouseLeave={cerrarConceptos}>
             <button
               type="button"
-              className="subtitular flex items-center gap-1 text-[17px] text-white/85 transition-colors hover:text-white"
+              className="subtitular flex items-center gap-1 text-[14px] text-white/85 transition-colors hover:text-white"
               aria-expanded={conceptosAbierto}
               aria-controls="menu-conceptos"
               onClick={() => setConceptosAbierto((v) => !v)}
@@ -83,7 +83,7 @@ export default function Header() {
             </button>
           </div>
           {navegacion.map((e) => (
-            <Link key={e.href} href={e.href} className="subtitular text-[17px] text-white/85 transition-colors hover:text-white">
+            <Link key={e.href} href={e.href} className="subtitular text-[14px] text-white/85 transition-colors hover:text-white">
               {e.nombre}
             </Link>
           ))}
@@ -124,7 +124,7 @@ export default function Header() {
             <Link key={c.href} href={c.href} className="group flex items-start justify-between gap-4 border-b border-white/8 py-4">
               <span>
                 <span className="etiqueta block text-acento">{c.marca}</span>
-                <span className="subtitular mt-1 block text-[26px] text-white">{c.nombre}</span>
+                <span className="titular mt-1 block text-[22px] text-white">{c.nombre}</span>
                 <span className="mt-1 line-clamp-1 block text-[13px] text-white/55">{c.lineas}</span>
               </span>
               <ArrowUpRight className="mt-6 size-5 shrink-0 text-white/40 transition-[transform,color] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-acento" aria-hidden />
@@ -146,14 +146,14 @@ export default function Header() {
       >
         <nav className="container-page flex min-h-full flex-col pt-4 pb-10" aria-label="Menú">
           <details className="group border-b border-white/10" open>
-            <summary className="titular flex cursor-pointer items-center justify-between py-4 text-[44px]">
+            <summary className="titular flex cursor-pointer items-center justify-between py-4 text-[28px]">
               Conceptos <ChevronDown className="size-6 transition-transform group-open:rotate-180" aria-hidden />
             </summary>
             <ul className="pb-4">
               {enlacesConceptos.map((c) => (
                 <li key={c.href}>
                   <Link href={c.href} className="flex items-center justify-between py-2.5 text-white/80">
-                    <span className="subtitular text-[24px]">{c.nombre}</span>
+                    <span className="subtitular text-[17px]">{c.nombre}</span>
                     <ArrowUpRight className="size-4 text-acento" aria-hidden />
                   </Link>
                 </li>
@@ -166,7 +166,7 @@ export default function Header() {
             </ul>
           </details>
           {navegacion.map((e) => (
-            <Link key={e.href} href={e.href} className="titular border-b border-white/10 py-4 text-[44px]">
+            <Link key={e.href} href={e.href} className="titular border-b border-white/10 py-4 text-[28px]">
               {e.nombre}
             </Link>
           ))}

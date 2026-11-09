@@ -71,7 +71,7 @@ export default function Alta() {
           <span className="mx-auto grid size-20 place-items-center rounded-full bg-white text-negro">
             <Check className="size-10" aria-hidden />
           </span>
-          <h1 className="titular mt-8 text-[clamp(3.5rem,12vw,7rem)]">Bienvenido a 720</h1>
+          <h1 className="titular mt-8 text-[clamp(2.1rem,3.6vw,3.1rem)]">Bienvenido a 720</h1>
           <p className="mx-auto mt-5 max-w-xl text-[18px] leading-relaxed text-white/70">
             {datos.nombre ? `${datos.nombre.split(" ")[0]}, tu` : "Tu"} alta en <strong className="text-white">{plan.nombre}</strong> está hecha. Te hemos enviado el recibo por email y te escribimos por WhatsApp para darte la bienvenida.
           </p>
@@ -84,7 +84,7 @@ export default function Alta() {
             ))}
           </ol>
           <div className="mt-12 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link href="/#horario" className={claseBoton("venta", true)}>
+            <Link href="/horario" className={claseBoton("venta", true)}>
               Reservar mi primera clase
             </Link>
             <a href={wa(`Hola, me acabo de dar de alta en ${plan.nombre} desde la web.`)} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno", true)}>
@@ -99,12 +99,12 @@ export default function Alta() {
   return (
     <section className="min-h-[100svh] bg-negro pt-[calc(var(--header-h)+2rem)] pb-24">
       <div className="container-page">
-        <Link href="/#tarifas" className="inline-flex items-center gap-2 text-[14px] text-white/60 hover:text-white">
+        <Link href="/tarifas" className="inline-flex items-center gap-2 text-[14px] text-white/60 hover:text-white">
           <ArrowLeft className="size-4" aria-hidden /> Ver todas las tarifas
         </Link>
         <h1 className="mt-6">
-          <span className="subtitular block text-[clamp(1.4rem,3vw,2rem)] text-white/55">En un minuto, sin papeleo.</span>
-          <span className="titular mt-1 block text-[clamp(3.5rem,11vw,8rem)]">Inscríbete</span>
+          <span className="subtitular block text-[clamp(1.05rem,1.6vw,1.3rem)] text-white/55">En un minuto, sin papeleo.</span>
+          <span className="titular mt-1 block text-[clamp(2.4rem,4.6vw,3.6rem)]">Inscríbete</span>
         </h1>
 
         <ol className="mt-8 flex gap-6 text-[13px] font-semibold" aria-label="Pasos">
@@ -151,7 +151,7 @@ export default function Alta() {
                   <span className="subtitular pr-12 text-[22px]">{p.nombre}</span>
                   <span className={cn("mt-1 text-[13px]", plan.id === p.id ? "text-negro/60" : "text-white/55")}>{p.detalle}</span>
                   <span className="mt-4 flex items-baseline gap-1">
-                    <span className="titular text-[44px] leading-none">{p.precio}</span>
+                    <span className="titular text-[28px] leading-none">{p.precio}</span>
                     <span className="text-[14px] font-semibold opacity-70">€{p.mensual ? "/mes" : ""}</span>
                   </span>
                 </label>
@@ -168,7 +168,7 @@ export default function Alta() {
                   <p className="subtitular mt-2 text-[26px]">{plan.nombre}</p>
                   <p className="text-[13px] text-white/55">{plan.mensual ? "Cuota mensual · cobro automático del 1 al 7 · cancela cuando quieras" : "Pago único"}</p>
                 </div>
-                <p className="titular shrink-0 text-[48px] leading-none">{eur(plan.precio)}</p>
+                <p className="titular shrink-0 text-[30px] leading-none">{eur(plan.precio)}</p>
               </div>
 
               {paso === "datos" ? (
@@ -245,7 +245,7 @@ export default function Alta() {
             </div>
             <p className="mt-5 text-center text-[13px] text-white/50">
               ¿Prefieres probar antes?{" "}
-              <Link href="/?tipo=prueba#apuntate" className="font-semibold text-white underline underline-offset-4">
+              <Link href="/clase-gratis" className="font-semibold text-white underline underline-offset-4">
                 Clase de prueba gratis
               </Link>{" "}
               · Dudas: <a href={`tel:${negocio.telefono}`} className="underline underline-offset-4">{negocio.telefonoVisible}</a>
