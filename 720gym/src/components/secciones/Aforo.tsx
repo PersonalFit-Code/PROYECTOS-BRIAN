@@ -1,5 +1,6 @@
 import { CalendarDays, Users, HeartHandshake, Building2 } from "lucide-react";
 import Collage from "@/components/ui/Collage";
+import { fotos } from "@/data/fotos";
 
 const iconos = [
   { Icono: CalendarDays, titulo: "365 días", texto: "Abierto todos los días del año, festivos incluidos." },
@@ -18,8 +19,8 @@ export default function Aforo() {
             tono="claro"
             espejo
             fotos={[
-              { descripcion: "Socia entrenando sola y tranquila en la sala, sin nadie esperando" },
-              { descripcion: "Fachada o entrada de 720 en la calle Río Bibei" },
+              { descripcion: fotos.racks.alt, src: fotos.racks.src },
+              { descripcion: "Fachada de 720 en la calle Río Bibei (pendiente del archivo)" },
             ]}
           />
         </div>

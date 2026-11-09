@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, CalendarClock, Euro, HelpCircle, Users } from "lucide-react";
 import IconoConcepto from "@/components/ui/IconoConcepto";
@@ -27,16 +28,22 @@ export default function Indice() {
         <ul className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 lg:grid-cols-3 lg:gap-4">
           {conceptos.map((c) => (
             <li key={c.slug} data-reveal>
-              <Link href={c.href} className="tarjeta-vidrio group flex h-full flex-col rounded-2xl p-4 sm:p-6">
+              <Link href={c.href} className="tarjeta-vidrio group relative isolate flex h-full min-h-[11rem] flex-col overflow-hidden rounded-2xl p-4 sm:min-h-[15rem] sm:p-6">
+                {c.foto && (
+                  <>
+                    <Image src={c.foto} alt="" fill sizes="(min-width:1024px) 30vw, 50vw" className="-z-20 object-cover opacity-55 transition-transform duration-700 group-hover:scale-105" />
+                    <span className="absolute inset-0 -z-10 bg-gradient-to-t from-negro via-negro/70 to-negro/20" aria-hidden />
+                  </>
+                )}
                 <span className="flex items-center justify-between">
                   <span className="grid size-10 place-items-center rounded-xl bg-white/10">
                     <IconoConcepto icono={c.icono} className="size-5" />
                   </span>
                   <ArrowUpRight className="size-4 text-white/40 transition-[transform,color] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" aria-hidden />
                 </span>
-                <span className="etiqueta mt-5 !text-[10px] text-white/45">{c.marca}</span>
+                <span className="etiqueta mt-auto pt-5 !text-[10px] text-white/55">{c.marca}</span>
                 <span className="titular mt-1 text-[20px] sm:text-[26px]">{c.nombre}</span>
-                <span className="mt-1 line-clamp-2 hidden text-[13px] leading-relaxed text-white/55 sm:block">{c.lineas}</span>
+                <span className="mt-1 line-clamp-2 hidden text-[13px] leading-relaxed text-white/70 sm:block">{c.lineas}</span>
               </Link>
             </li>
           ))}

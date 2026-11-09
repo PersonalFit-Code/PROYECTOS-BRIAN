@@ -10,7 +10,7 @@ import { negocio } from "@/data/negocio";
  * su vídeo de Instagram (un fotograma del local vacío y la sala hoy).
  */
 const ANTES: string | undefined = undefined;
-const DESPUES: string | undefined = undefined;
+const DESPUES: string | undefined = "/fotos/sala-general.webp";
 
 export default function Historia() {
   const [pos, setPos] = useState(50);

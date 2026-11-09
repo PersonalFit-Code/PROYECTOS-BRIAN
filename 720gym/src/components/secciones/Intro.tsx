@@ -1,5 +1,6 @@
 import Collage from "@/components/ui/Collage";
 import Contador from "@/components/ui/Contador";
+import { fotos } from "@/data/fotos";
 import { negocio } from "@/data/negocio";
 
 /** «Un nuevo concepto de gimnasio»: texto editorial + collage + cifras grandes y sobrias. */
@@ -46,9 +47,9 @@ export default function Intro({ pagina = false }: { pagina?: boolean }) {
           <Collage
             tono="claro"
             fotos={[
-              { descripcion: "Plano general de la sala: paredes blancas, suelo negro y máquinas rojas" },
-              { descripcion: "Socios entrenando juntos y riendo entre series" },
-              { descripcion: "Detalle del logo 720 en la pared" },
+              { descripcion: fotos.sala.alt, src: fotos.sala.src },
+              { descripcion: fotos.maquinas.alt, src: fotos.maquinas.src },
+              { descripcion: fotos.entrada.alt, src: fotos.entrada.src },
             ]}
           />
         </div>

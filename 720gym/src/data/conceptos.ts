@@ -1,4 +1,5 @@
 import type { ClaseId } from "./horario";
+import { fotos } from "./fotos";
 
 /**
  * «Conceptos» (como los llama Bodyism): una tarjeta y una página por disciplina propia de 720.
@@ -24,6 +25,8 @@ export interface Concepto {
   fotoDescripcion: string;
   fotosExtra: [string, string];
   foto?: string;
+  /** Fotos reales para el collage de su página (sustituyen a los huecos). */
+  extras?: { src: string; descripcion: string }[];
   /** Valor del desplegable «actividad» del formulario. */
   actividad: string;
   /** Plan de la pasarela para «Inscríbete» (si se puede pagar online). */
@@ -51,6 +54,8 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Sala de musculación: máquinas rojas y negras sobre suelo negro, plano vertical",
     fotosExtra: ["Detalle de mancuernas en el rack", "Socio entrenando en peso libre"],
     actividad: "gimnasio",
+    foto: fotos.maquinas.src,
+    extras: [{ src: fotos.sala.src, descripcion: fotos.sala.alt }, { src: fotos.racks.src, descripcion: fotos.racks.alt }],
     planPago: "gimnasio-libre",
     seo: { titulo: "Gimnasio con aforo limitado en Ourense", descripcion: "Gimnasio libre en Ourense por 35 €/mes: máquinas, peso libre, powerlifting y cardio, abierto los 365 días de 08:00 a 22:30 y con aforo limitado. Sin colas." },
   },
@@ -73,6 +78,8 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Entrenador corrigiendo la técnica de un socio en sentadilla, plano vertical",
     fotosExtra: ["Libreta o tablet con el plan de entrenamiento", "Entreno en pareja"],
     actividad: "personal",
+    foto: fotos.sala.src,
+    extras: [{ src: fotos.maquinas.src, descripcion: fotos.maquinas.alt }],
     planPago: "valoracion",
     seo: { titulo: "Entrenador personal en Ourense", descripcion: "Entrenador personal en Ourense: valoración inicial y plan a medida por 35 €, bonos de 10 sesiones a 27 €/sesión y entrenos en pareja o grupo desde 15 €." },
   },
@@ -136,6 +143,8 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Peso muerto con discos de competición, plano bajo y vertical",
     fotosExtra: ["Discos calibrados en el soporte", "Magnesio y barra"],
     actividad: "powerlifting",
+    foto: fotos.racks.src,
+    extras: [{ src: fotos.sala.src, descripcion: fotos.sala.alt }],
     seo: { titulo: "Powerlifting en Ourense", descripcion: "Powerlifting en Ourense: entrena sentadilla, press banca y peso muerto con racks, barras y discos de competición en 720 GYM CLUB. Desde iniciación hasta competir." },
   },
   {
@@ -156,6 +165,8 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Grupo de CrossGym con kettlebells y cajones, plano vertical",
     fotosExtra: ["Kettlebells en el suelo negro", "Pizarra con el entreno del día"],
     actividad: "crossgym",
+    foto: fotos.funcional.src,
+    extras: [{ src: fotos.racks.src, descripcion: fotos.racks.alt }],
     seo: { titulo: "CrossGym: entrenamiento funcional en Ourense", descripcion: "CrossGym 720: entrenamiento funcional de fuerza y acondicionamiento en grupo en Ourense, con la técnica por delante y adaptado a cada nivel. Clase gratis." },
   },
 ];

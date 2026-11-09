@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import Collage from "@/components/ui/Collage";
+import { fotos } from "@/data/fotos";
 import { claseBoton } from "@/components/ui/Boton";
 import { clubes } from "@/data/conceptos";
 import { wa } from "@/data/negocio";
@@ -74,7 +75,7 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
           <div className="lg:col-span-6">
             <Collage
               fotos={[
-                { descripcion: "Sala diáfana preparada para un taller o seminario" },
+                { descripcion: fotos.funcional.alt, src: fotos.funcional.src },
                 { descripcion: "Profesional dando una master class a un grupo" },
                 { descripcion: "Detalle de material (esterillas, bandas)" },
               ]}

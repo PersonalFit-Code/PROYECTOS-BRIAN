@@ -70,7 +70,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
             </div>
           </div>
           <div className="lg:col-span-6">
-            <Collage fotos={[{ descripcion: c.fotoDescripcion, src: c.foto }, { descripcion: c.fotosExtra[0] }, { descripcion: c.fotosExtra[1] }]} />
+            <Collage fotos={[{ descripcion: c.fotoDescripcion, src: c.foto }, c.extras?.[0] ?? { descripcion: c.fotosExtra[0] }, c.extras?.[1] ?? { descripcion: c.fotosExtra[1] }]} />
           </div>
         </div>
 

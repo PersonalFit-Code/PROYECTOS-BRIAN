@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Hero from "@/components/secciones/Hero";
 import PorQue from "@/components/secciones/PorQue";
 import Indice from "@/components/secciones/Indice";
+import Galeria from "@/components/secciones/Galeria";
 import { ClasesHoy } from "@/components/secciones/Horario";
 import TarifasDestacadas from "@/components/secciones/TarifasDestacadas";
 import Comunidad from "@/components/secciones/Comunidad";
@@ -23,6 +24,7 @@ export default function Inicio() {
         <Ticker frases={["Aforo limitado", "Abierto 365 días", "Pilates Reformer", "5,0 en Google", "Primera clase gratis", "Entrada diaria 5 €", "Sin matrícula en Pilates"]} />
       </div>
       <PorQue />
+      <Galeria />
       <Indice />
       <ClasesHoy />
       <TarifasDestacadas />
