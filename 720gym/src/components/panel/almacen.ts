@@ -30,11 +30,13 @@ export interface EstadoPanel {
   pagos: Record<string, (PagoCliente & { registrado: string })[]>;
   /** Bonos renovados por cliente (id → nº de renovaciones). */
   renovaciones: Record<string, number>;
+  /** Metas del mes (altas, ocupación media de clases en %, conversión de solicitudes en %). */
+  metas: { altas: number; ocupacion: number; conversion: number };
 }
 
 const CLAVE = "720panel:estado";
 const EVENTO = "720panel";
-const inicial: EstadoPanel = { objetivo: 16_000, apertura: 150, cierres: [], tareas: tareasSemilla, pagos: {}, renovaciones: {} };
+const inicial: EstadoPanel = { objetivo: 16_000, apertura: 150, cierres: [], tareas: tareasSemilla, pagos: {}, renovaciones: {}, metas: { altas: 20, ocupacion: 80, conversion: 50 } };
 
 let cacheCrudo: string | null | undefined;
 let cacheValor: EstadoPanel = inicial;

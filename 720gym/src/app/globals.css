@@ -695,3 +695,284 @@ button.tarjeta-vidrio:hover {
     transform: scale(1.14);
   }
 }
+
+/* ── Panel de gestión: vidrio ajustable (variables desde ControlVidrio) ─────────── */
+.panel-raiz {
+  --v-blur: 18px;
+  --v-opacidad: 0.5;
+  --v-saturacion: 1.3;
+  --v-borde: 0.7;
+  --v-tinte: #ffffff;
+}
+.panel-vidrio {
+  background: color-mix(in srgb, var(--v-tinte) calc(var(--v-opacidad) * 100%), transparent);
+  backdrop-filter: blur(var(--v-blur)) saturate(var(--v-saturacion));
+  -webkit-backdrop-filter: blur(var(--v-blur)) saturate(var(--v-saturacion));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff calc(var(--v-borde) * 100%), transparent),
+    inset 0 0 0 1px color-mix(in srgb, #fff calc(var(--v-borde) * 45%), transparent),
+    0 24px 60px -32px rgb(0 0 0 / 0.5);
+}
+.panel-tarjeta {
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--v-tinte) calc((var(--v-opacidad) * 0.45 + 0.5) * 100%), transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff calc(var(--v-borde) * 100%), transparent),
+    inset 0 0 0 1px rgb(14 14 15 / 0.06),
+    0 10px 30px -22px rgb(0 0 0 / 0.35);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s;
+}
+.panel-tarjeta-oscura {
+  border-radius: 20px;
+  background: rgb(14 14 15 / calc(0.8 + var(--v-opacidad) * 0.18));
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / calc(var(--v-borde) * 0.28)),
+    0 18px 40px -24px rgb(0 0 0 / 0.6);
+}
+@media (hover: hover) {
+  .panel-tarjeta:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #fff calc(var(--v-borde) * 100%), transparent),
+      inset 0 0 0 1px rgb(14 14 15 / 0.08),
+      0 22px 40px -24px rgb(0 0 0 / 0.4);
+  }
+}
+.rango-vidrio {
+  appearance: none;
+  height: 4px;
+  border-radius: 99px;
+  background: rgb(14 14 15 / 0.14);
+  accent-color: #0e0e0f;
+}
+.rango-vidrio::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0e0e0f;
+  box-shadow: 0 0 0 4px rgb(255 255 255 / 0.9);
+  cursor: pointer;
+}
+.rango-vidrio::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background: #0e0e0f;
+  box-shadow: 0 0 0 4px rgb(255 255 255 / 0.9);
+}
+@keyframes barra-crece {
+  from {
+    transform: scaleX(0);
+  }
+}
+.barra-crece {
+  transform-origin: left;
+  animation: barra-crece 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes traza-linea {
+  from {
+    stroke-dashoffset: var(--largo, 2000);
+  }
+}
+.traza-linea {
+  stroke-dasharray: var(--largo, 2000);
+  animation: traza-linea 1.2s cubic-bezier(0.3, 0.7, 0.2, 1) both;
+}
+@keyframes toast-entra {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px) scale(0.96);
+  }
+}
+.toast-entra {
+  animation: toast-entra 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes pop-entra {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+}
+.pop-entra {
+  animation: pop-entra 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .barra-crece,
+  .traza-linea,
+  .toast-entra,
+  .pop-entra {
+    animation: none;
+  }
+}
+@keyframes aparece {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes campana {
+  0%,
+  70%,
+  100% {
+    transform: rotate(0);
+  }
+  75% {
+    transform: rotate(14deg);
+  }
+  85% {
+    transform: rotate(-10deg);
+  }
+  92% {
+    transform: rotate(5deg);
+  }
+}
+/* Ventanas que flotan sobre contenido (ajustes, avisos, menú): siempre legibles, sea cual sea el preajuste. */
+.panel-vidrio.panel-flotante {
+  background: color-mix(in srgb, var(--v-tinte) calc(max(var(--v-opacidad), 0.93) * 100%), transparent);
+  backdrop-filter: blur(max(var(--v-blur), 24px)) saturate(var(--v-saturacion));
+  -webkit-backdrop-filter: blur(max(var(--v-blur), 24px)) saturate(var(--v-saturacion));
+}
+
+/* ── Portada: desplegables del móvil ─────────────────────────────────────────── */
+.plegable-cuerpo {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.plegable[data-abierto="true"] .plegable-cuerpo {
+  grid-template-rows: 1fr;
+}
+.plegable[data-abierto="false"] .plegable-cuerpo > div {
+  visibility: hidden;
+  transition: visibility 0s 0.6s;
+}
+@media (min-width: 1024px) {
+  .plegable-cuerpo {
+    grid-template-rows: 1fr;
+  }
+  .plegable[data-abierto="false"] .plegable-cuerpo > div {
+    visibility: visible;
+  }
+}
+
+/* ── Animaciones «dopamínicas» ────────────────────────────────────────────────── */
+@keyframes icono-meneo {
+  0%,
+  100% {
+    transform: rotate(0) scale(1);
+  }
+  30% {
+    transform: rotate(-12deg) scale(1.12);
+  }
+  60% {
+    transform: rotate(8deg) scale(1.08);
+  }
+}
+@keyframes icono-salta {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  /* Cualquier icono dentro de un enlace o botón se menea al pasar el ratón. */
+  a:hover > svg,
+  button:hover > svg,
+  a:hover > span > svg,
+  button:hover > span > svg,
+  summary:hover svg {
+    animation: icono-meneo 0.55s ease;
+  }
+  .icono-salta:hover,
+  .group:hover .icono-salta {
+    animation: icono-salta 0.6s ease;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .plegable[data-abierto="true"] .icono-salta {
+    animation: icono-salta 0.6s ease;
+  }
+  /* Brillo que cruza las franjas de acción cada pocos segundos. */
+  .franja-brillo {
+    background: linear-gradient(105deg, transparent 40%, rgb(255 255 255 / 0.07) 50%, transparent 60%) no-repeat;
+    background-size: 250% 100%;
+    animation: franja-brillo 5s ease-in-out infinite;
+  }
+  .cta-flotante::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    border: 1px solid rgb(255 255 255 / 0.35);
+    animation: latido 2.4s ease-out infinite;
+    pointer-events: none;
+  }
+}
+@keyframes franja-brillo {
+  0% {
+    background-position: 120% 0;
+  }
+  60%,
+  100% {
+    background-position: -120% 0;
+  }
+}
+@keyframes latido {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.18);
+    opacity: 0;
+  }
+}
+
+/* FAQ: la respuesta se despliega con altura animada (donde el navegador lo permite) y entra suave. */
+:root {
+  interpolate-size: allow-keywords;
+}
+.faq::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    content-visibility 0.45s allow-discrete;
+}
+.faq[open]::details-content {
+  block-size: auto;
+}
+.faq[open] > :not(summary) {
+  animation: faq-entra 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary {
+  list-style: none;
+  transition: padding-left 0.3s;
+}
+@media (hover: hover) {
+  .faq summary:hover {
+    padding-left: 0.5rem;
+  }
+}
+@keyframes faq-entra {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq[open] > :not(summary) {
+    animation: none;
+  }
+  .plegable-cuerpo {
+    transition: none;
+  }
+}

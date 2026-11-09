@@ -3,7 +3,7 @@
 import { useDemo, type Conversacion, type Pago, type Reserva, type Solicitud } from "@/lib/demo";
 import { sesiones, clasesHorario, type Sesion } from "@/data/horario";
 import { capacidad, claveSesion, esReservable, ocupacionBase } from "@/data/plazas";
-import { entrenadorDe, fichaBase, gastosMes, historico, ingresosMes, porEntrenador, socios, type SocioDemo } from "@/data/panel-demo";
+import { entrenadorDe, fichaBase, gastosMes, historico, ingresosMes, movimientos, porEntrenador, socios, type SocioDemo } from "@/data/panel-demo";
 import type { EstadoPanel } from "./almacen";
 import type { Filtro } from "./contexto";
 
@@ -66,3 +66,66 @@ export function ficha(s: SocioDemo, hoy: Date, panel: EstadoPanel) {
 export const sociosFiltrados = (filtro: Filtro) => socios.filter((s, i) => filtro === "Todos" || entrenadorDe(s.plan, i) === filtro);
 
 export const pesoFiltro = (filtro: Filtro) => (filtro === "Todos" ? 1 : porEntrenador[filtro].peso);
+
+/* ── Movimientos y flujo de caja (vista «Resumen», «Movimientos» e «Informes») ── */
+
+export interface MovimientoVivo {
+  id: string;
+  fecha: Date;
+  concepto: string;
+  categoria: string;
+  tipo: "Ingreso" | "Gasto";
+  importe: number;
+  metodo: string;
+  web?: boolean;
+}
+
+/** Movimientos del mes en curso: los de partida + los pagos hechos en la web (marcados «web»). */
+export function movimientosVivos(pagos: Pago[], hoy: Date): MovimientoVivo[] {
+  const a = hoy.getFullYear();
+  const m = hoy.getMonth();
+  const base: MovimientoVivo[] = movimientos.map((x) => ({ ...x, fecha: new Date(a, m, x.dia, 9 + (x.dia % 9), (x.importe * 7) % 60) }));
+  const web: MovimientoVivo[] = pagos.map((p) => ({
+    id: p.id,
+    fecha: new Date(p.creada),
+    concepto: `${p.concepto} · ${p.nombre}`,
+    categoria: "Pagos online (web)",
+    tipo: "Ingreso",
+    importe: p.importe,
+    metodo: p.metodo,
+    web: true,
+  }));
+  return [...web, ...base].sort((x, y) => y.fecha.getTime() - x.fecha.getTime());
+}
+
+export type Periodo = "semana" | "mes" | "año";
+export interface PuntoFlujo {
+  etiqueta: string;
+  ingresos: number;
+  gastos: number;
+}
+
+const diasCortos = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+const mesesCortos = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+
+/** Series del flujo de caja para semana (7 días), mes (día a día) y año (12 meses). */
+export function seriesFlujo(pagos: Pago[], hoy: Date, peso: number): Record<Periodo, PuntoFlujo[]> {
+  const lista = movimientosVivos(pagos, hoy);
+  /* Los movimientos de partida son una muestra: se escalan para que el mes cuadre con la contabilidad. */
+  const base = lista.filter((x) => !x.web);
+  const total = (t: MovimientoVivo["tipo"]) => base.filter((x) => x.tipo === t).reduce((a, x) => a + x.importe, 0) || 1;
+  const factor = { Ingreso: ingresosMes.reduce((a, x) => a + x.importe, 0) / total("Ingreso"), Gasto: gastosMes.reduce((a, x) => a + x.importe, 0) / total("Gasto") };
+  const hoyDia = Math.max(7, hoy.getDate());
+  const dias: PuntoFlujo[] = Array.from({ length: hoyDia }, (_, i) => {
+    const d = new Date(hoy.getFullYear(), hoy.getMonth(), i + 1);
+    const delDia = lista.filter((x) => x.fecha.getMonth() === d.getMonth() && x.fecha.getDate() === i + 1);
+    const suma = (t: MovimientoVivo["tipo"]) => Math.round(delDia.filter((x) => x.tipo === t).reduce((a, x) => a + x.importe * (x.web ? 1 : factor[t] * peso), 0));
+    return { etiqueta: `${diasCortos[d.getDay()]} ${i + 1}`, ingresos: suma("Ingreso"), gastos: suma("Gasto") };
+  });
+  const año = cuentas(pagos).serie.map((h) => ({ etiqueta: h.mes, ingresos: Math.round(h.ingresos * peso), gastos: Math.round(h.gastos * peso) }));
+  return {
+    semana: dias.slice(-7),
+    mes: dias.map((p, i) => ({ ...p, etiqueta: `${i + 1} ${mesesCortos[hoy.getMonth()]}` })),
+    año,
+  };
+}

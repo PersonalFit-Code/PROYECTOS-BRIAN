@@ -12,7 +12,9 @@ export interface ContextoPanel {
   filtro: Filtro;
   abrirFicha: (socioId: string) => void;
   imprimir: (d: Documento) => void;
+  /** Aviso breve abajo (toast). */
+  avisar: (texto: string) => void;
 }
 
-export const Contexto = createContext<ContextoPanel>({ filtro: "Todos", abrirFicha: () => {}, imprimir: () => {} });
+export const Contexto = createContext<ContextoPanel>({ filtro: "Todos", abrirFicha: () => {}, imprimir: () => {}, avisar: () => {} });
 export const usePanelCtx = () => useContext(Contexto);

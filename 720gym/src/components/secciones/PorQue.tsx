@@ -13,7 +13,7 @@ const tarjetas = [
 
 export default function PorQue() {
   return (
-    <section className="relative bg-negro py-16 sm:py-24" aria-labelledby="titulo-porque">
+    <section id="por-que" className="relative scroll-mt-20 bg-negro py-16 sm:py-24" aria-labelledby="titulo-porque">
       <div className="container-page">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>

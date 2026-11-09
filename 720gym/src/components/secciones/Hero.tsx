@@ -1,50 +1,54 @@
-import Image from "next/image";
-import Link from "next/link";
+import { ChevronDown, MapPin } from "lucide-react";
+import { HeroSection } from "@/components/ui/hero-section-4";
+import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import { fotos } from "@/data/fotos";
-import { MapPin } from "lucide-react";
-import FondoMarca from "@/components/ui/FondoMarca";
-import DeslizaInscribete from "@/components/ui/DeslizaInscribete";
-import { claseBoton } from "@/components/ui/Boton";
+import { wa } from "@/data/negocio";
 import { enlacePrueba } from "@/components/layout/navegacion";
 
 /**
- * Portada v3: medidas contenidas (Gymshark), titular en minúsculas, fondo con el degradado y el
- * «720» del logo. Cuando lleguen las fotos o el vídeo de la sala, van detrás con un velo oscuro.
+ * Portada limpia (hero-section-4): foto de la sala a pantalla completa, un titular, una frase y dos
+ * botones (inscribirse / clase gratis). Debajo, WhatsApp. Nada más: el resto se despliega bajando.
  */
 export default function Hero() {
   return (
-    <section className="relative flex min-h-[88svh] flex-col overflow-hidden bg-negro pt-[var(--header-h)] lg:min-h-[78svh]" aria-labelledby="titulo-portada">
-      {/* Foto real de la sala con velo: legible a la izquierda, la sala se ve a la derecha. */}
-      <div className="absolute inset-0" aria-hidden>
-        <Image src={fotos.sala.grande} alt="" fill priority sizes="100vw" className="fondo-vivo object-cover object-[60%_50%] saturate-[0.9]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-negro via-negro/55 to-negro/10 lg:bg-gradient-to-r lg:from-negro/95 lg:via-negro/50 lg:to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-negro to-transparent" />
-      </div>
-      <FondoMarca agua={false} className="opacity-30" />
-      {/* Enunciado pegado a la izquierda (margen mínimo) y, abajo a la derecha, el deslizador. */}
-      <div className="relative flex flex-1 flex-col justify-end gap-8 px-5 pb-10 sm:px-8 lg:flex-row lg:items-end lg:justify-between lg:px-12 lg:pb-16">
-        <div className="max-w-xl">
-          <p className="hero-in etiqueta flex items-center gap-2 text-white/70" style={{ ["--i" as string]: 0 }}>
+    <div className="relative">
+      <HeroSection
+        aria-labelledby="titulo-portada"
+        imageUrl={fotos.sala.grande}
+        eyebrow={
+          <span className="vidrio inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-semibold tracking-wide text-white/90">
             <MapPin className="size-3.5" aria-hidden /> Centro privado de entrenamiento · Ourense
-          </p>
-          <h1 id="titulo-portada" className="hero-in titular mt-4 text-[clamp(2.6rem,5.4vw,4rem)]" style={{ ["--i" as string]: 1 }}>
-            Entrena. Cuídate. <span className="texto-logo">Crece.</span>
+          </span>
+        }
+        title={
+          <span id="titulo-portada">
+            Entrena. Cuídate. Crece.
             <span className="sr-only"> 720 GYM CLUB, gimnasio con aforo limitado en Ourense.</span>
-          </h1>
-          <p className="hero-in mt-4 max-w-md text-[15px] leading-relaxed text-white/75 sm:text-[16px]" style={{ ["--i" as string]: 2 }}>
-            Un club de entrenamiento con aforo limitado, abierto los 365 días. Fuerza, Pilates Reformer y comunidad en el centro de Ourense.
-          </p>
-          <div className="hero-in mt-7" style={{ ["--i" as string]: 3 }}>
-            <Link href={enlacePrueba} className={claseBoton("contorno")}>
-              Prueba una clase gratis
-            </Link>
-          </div>
-        </div>
-
-        <div className="hero-in w-full sm:max-w-md lg:w-[26rem]" style={{ ["--i" as string]: 4 }}>
-          <DeslizaInscribete />
-        </div>
-      </div>
-    </section>
+          </span>
+        }
+        subtitle="Un club con aforo limitado, abierto los 365 días. Fuerza, Pilates Reformer y comunidad en el centro de Ourense."
+        primaryButtonText="Inscríbete ahora"
+        primaryButtonHref="/alta"
+        secondaryButtonText="Prueba una clase gratis"
+        secondaryButtonHref={enlacePrueba}
+        extra={
+          <a
+            href={wa("Hola, quiero información para apuntarme a 720 GYM CLUB.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 text-[14px] font-semibold text-white/85 underline-offset-4 transition hover:text-white hover:underline"
+          >
+            <span className="grid size-8 place-items-center rounded-full bg-[#25d366] text-white transition group-hover:scale-110 group-hover:rotate-[-8deg]">
+              <IconoWhatsApp className="size-4" />
+            </span>
+            ¿Dudas? Escríbenos por WhatsApp
+          </a>
+        }
+      />
+      <a href="#por-que" className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1 text-[11px] font-semibold tracking-[0.2em] text-white/60 uppercase transition hover:text-white sm:flex" aria-label="Bajar a la siguiente sección">
+        Descubre 720
+        <ChevronDown className="size-5 animate-bounce" aria-hidden />
+      </a>
+    </div>
   );
 }

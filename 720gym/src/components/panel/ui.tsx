@@ -34,7 +34,7 @@ export function hace(iso: string, ahora: Date) {
 }
 
 export function Tarjeta({ children, className, oscura = false }: { children: ReactNode; className?: string; oscura?: boolean }) {
-  return <div className={cn("min-w-0 p-5 sm:p-6", oscura ? "bg-negro text-white" : "bg-white text-negro ring-1 ring-black/[0.06]", className)}>{children}</div>;
+  return <div className={cn("min-w-0 p-5 sm:p-6", oscura ? "panel-tarjeta-oscura" : "panel-tarjeta text-negro", className)}>{children}</div>;
 }
 
 export function TituloBloque({ children, accion }: { children: ReactNode; accion?: ReactNode }) {
@@ -157,8 +157,10 @@ export function BarrasMensuales({ datos }: { datos: { mes: string; ingresos: num
   );
 }
 
+/* Las celdas que empiezan por = + - @ se escapan para que la hoja de cálculo no las ejecute como fórmula. */
+const celda = (c: string | number) => (typeof c === "number" ? String(c).replace(".", ",") : `"${(/^\s*[=+\-@]/.test(c) ? "'" : "") + c.replace(/"/g, '""')}"`);
 export function descargarCSV(nombre: string, filas: (string | number)[][]) {
-  const csv = filas.map((f) => f.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(";")).join("\n");
+  const csv = filas.map((f) => f.map(celda).join(";")).join("\r\n");
   const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -170,6 +172,6 @@ export function descargarCSV(nombre: string, filas: (string | number)[][]) {
   URL.revokeObjectURL(url);
 }
 
-export const botonPanel = "inline-flex h-10 items-center justify-center gap-2 px-4 text-[13px] font-semibold transition active:scale-[0.98]";
+export const botonPanel = "inline-flex h-10 items-center justify-center gap-2 rounded-full px-4 text-[13px] font-semibold transition active:scale-[0.98]";
 export const botonNegro = cn(botonPanel, "bg-negro text-white hover:bg-pizarra");
-export const botonClaro = cn(botonPanel, "bg-white text-negro ring-1 ring-black/10 hover:ring-black/30");
+export const botonClaro = cn(botonPanel, "bg-white/80 text-negro ring-1 ring-black/10 hover:bg-white hover:ring-black/30");

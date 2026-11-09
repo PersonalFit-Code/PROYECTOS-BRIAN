@@ -6,6 +6,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BotonWhatsApp from "@/components/layout/BotonWhatsApp";
 import Revelados from "@/components/ui/Revelados";
+import CtaFlotante from "@/components/layout/CtaFlotante";
+import FranjaPie from "@/components/layout/FranjaPie";
 import BarraMovil from "@/components/layout/BarraMovil";
 import Asistente from "@/components/layout/Asistente";
 import { negocio } from "@/data/negocio";
@@ -92,8 +94,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
         <Header />
         <main id="main">{children}</main>
+        <FranjaPie />
         <Footer />
         <BotonWhatsApp />
+        <CtaFlotante />
         <BarraMovil />
         <Asistente />
         <Revelados />
