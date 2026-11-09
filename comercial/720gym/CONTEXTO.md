@@ -47,6 +47,10 @@ No tienen web. Todo vive en un **enlace de Instagram (Beacons) con unos 15 boton
 
 Para quien no los conoce es un laberinto: no se ven horarios, tarifas ni fotos en un solo sitio, y Google no tiene una web que enseñar.
 
+## Lo que salió en la llamada
+- **Su gran pregunta:** si la web se puede hacer **totalmente a su gusto**. La maqueta tiene que verse claramente hecha para ellos (su logo, sus colores, sus submarcas y sus fotos), nada de plantilla genérica. En la reunión les diremos que todo se ajusta con ellos.
+- **El dolor que les planteamos:** hoy, para informarse o inscribirse, la gente tiene que entrar en Instagram, abrir el enlace y elegir entre 15 botones. Seguramente casi nadie llega al final, y desde Google no encuentran nada. La web lo resuelve: una sola dirección, todo claro y la inscripción en 2 toques.
+
 ## Lo que queremos construir
 Una **web única, rápida y preciosa** que lo reúna todo y convierta visitas en altas:
 1. **Portada potente:**
