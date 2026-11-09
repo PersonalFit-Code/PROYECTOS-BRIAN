@@ -81,6 +81,24 @@ Una **web única, rápida y preciosa** que lo reúna todo y convierta visitas en
 - Tipografía condensada potente para titulares y una limpia para textos.
 - Micro-animaciones suaves y perfecto en móvil, que es donde entra el 90 % de la gente desde Instagram.
 
+## Referencia principal de diseño: bodyism.com
+Brian quiere una web **en la línea de https://www.bodyism.com**. Qué tomar de ella:
+- **Sensación boutique y premium:** mucho aire, maquetación editorial y nada recargado. Encaja con su dosier, donde se definen como «gimnasio exclusivo y privado».
+- **Composición de fotos superpuestas:** collages de 2 o 3 fotos que se solapan junto al texto, en vez de una foto cuadrada aislada.
+- **Cifras grandes y sobrias** junto al texto (en Bodyism: «20+ años», «5 pilares»). Para 720: **+1.000 m²**, **365 días**, **aforo limitado** y **5,0 ★ en Google**.
+- **Tarjetas de «conceptos»:** una por disciplina, con una foto vertical grande, el nombre y dos líneas. Para 720: Gimnasio libre, Entrenamiento personal, 720 Pilates, 720 Yoga, Powerlifting y CrossGym.
+- **Una frase gigante en movimiento** que cruza la pantalla, como su «be kind to yourself». Para 720: *«Aquí entrenas a tu ritmo, rodeado de gente como tú»* o *«Si puedes levantarlo, puedes bajarlo»*.
+- **Cinta de logos** al final: en 720, los de sus submarcas y clubes (720 Pilates, Burgas, Andaruê, Mambises…).
+- **Menú limpio** con desplegable de «Conceptos» (disciplinas).
+- **Titulares grandes con mucho contraste de tamaños.**
+
+Qué **no** copiar:
+- Los tonos beige y el turquesa: aquí mandan su logo y sus colores.
+- La letra serif: 720 es stencil y condensada.
+- El popup de descuento.
+
+**La fusión:** estructura y elegancia de Bodyism + identidad de 720 (logo stencil, negro y blanco, acento naranja o rojo, y fotos dentro de las letras «720GYM» en la portada). Secciones claras con mucho aire, alternadas con bloques negros potentes.
+
 ## Referencias de nuestro propio trabajo (para el nivel de acabado)
 - **Hungceed (maqueta):** https://hungceed-maqueta.vercel.app. Fíjate en la organización por categorías, la tipografía en mayúsculas y la barra de confianza.
 - **Burdin Gym (Ander):** contexto y borrador en `comercial/burdin/` del repositorio `PROYECTOS-BRIAN`. Fíjate en:
