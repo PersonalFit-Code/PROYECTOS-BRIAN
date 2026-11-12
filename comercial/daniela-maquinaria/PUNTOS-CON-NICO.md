@@ -1,6 +1,6 @@
 # Reunión con Nico · Propuesta de Daniela
 
-Objetivo: salir con la propuesta cerrada para enviarla mañana.
+Objetivo: cerrar el alcance, cómo lo hacemos y cómo nos organizamos. Los precios, más adelante.
 
 ## 1. Repaso rápido del cliente (5 min)
 - Equipo de 3: Daniela (ventas, presupuestos, restauración), Dani (transporte) y Ramón (importación y transporte).
@@ -30,12 +30,7 @@ Objetivo: salir con la propuesta cerrada para enviarla mañana.
 - [ ] **Plazos realistas:** primera entrega en 2 semanas y entrega total en 6-8.
 
 ## 4. Precio
-- [ ] **Pago único de cada opción.** Mi propuesta: Esencial 1.900–2.400 € y Completa 3.200–3.900 €. Fijar cifras exactas.
-- [ ] **Cuota mensual.** Mi propuesta: 79–99 € y 129–149 €. Qué incluye: alojamiento, base de datos, fotos y vídeos, WhatsApp, copias, soporte y cambios.
-- [ ] **Forma de pago:** ¿50 % al empezar y 50 % a la entrega, o por fases?
-- [ ] **¿30 días de cuota gratis** tras la entrega? Desarrollo gratis no.
-- [ ] **Permanencia mínima** de la cuota (por ejemplo, 6 o 12 meses).
-- [ ] **Cambios extra:** ¿precio por hora o por presupuesto?
+Se deja para más adelante.
 
 ## 5. Nosotros como Neuronode (lo más importante antes de cobrar)
 - [ ] **Quién factura:** Neuronode como sociedad, o uno de los dos como autónomo y luego repartimos. **Hay que estar dados de alta antes del primer cobro.**
@@ -50,7 +45,7 @@ Objetivo: salir con la propuesta cerrada para enviarla mañana.
 - [ ] **Marca Neuronode:** ¿tenemos logo y colores para la propuesta en PDF?
 
 ## 6. Próximos pasos
-- [ ] Cerrar precios y alcance **hoy**.
+- [ ] Cerrar el alcance **hoy**. Los precios, más adelante.
 - [ ] Brian prepara el PDF con la marca de Neuronode y se lo envía a Daniela **mañana**.
 - [ ] Proponerle una llamada de 15 min para repasarla, con día y hora.
 - [ ] Si dice que sí: contrato sencillo o aceptación por escrito, cobro del 50 % y sesión de arranque.
