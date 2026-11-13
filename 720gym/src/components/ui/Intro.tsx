@@ -5,7 +5,9 @@ import { useEffect } from "react";
 /**
  * Introducción de la portada: pantalla negra con el «720» recortado; por las letras se ve la foto
  * real del hero (está debajo), las letras crecen hasta que la foto llena la pantalla y aparece el
- * hero sin corte. Una vez por sesión, nunca con «reducir movimiento», y se salta con un toque.
+ * hero sin corte. Técnica: capa negra con el texto en blanco y `mix-blend-mode: multiply` (lo blanco
+ * deja ver lo de debajo) y zoom con transform de CSS. Funciona igual en Safari de iPhone, donde las
+ * máscaras SVG animadas no se repintan bien. Una vez por sesión, nunca con «reducir movimiento», y se salta con un toque.
  * La decide el script de <head> (atributo data-intro) para que no haya parpadeo.
  */
 function terminar() {
@@ -32,17 +34,7 @@ export default function Intro() {
       onClick={terminar}
       onAnimationEnd={(e) => e.animationName === "intro-sale" && terminar()}
     >
-      <svg className="block size-full">
-        <defs>
-          <mask id="intro-mascara" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
-            <rect width="100%" height="100%" fill="white" />
-            <text x="50%" y="50%" textAnchor="middle" dominantBaseline="central" fill="black" className="intro-texto marca">
-              720
-            </text>
-          </mask>
-        </defs>
-        <rect width="100%" height="100%" fill="#0e0e0f" mask="url(#intro-mascara)" />
-      </svg>
+      <span className="intro-texto marca">720</span>
     </div>
   );
 }

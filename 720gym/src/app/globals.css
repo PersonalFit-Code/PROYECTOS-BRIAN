@@ -1011,27 +1011,36 @@ button.tarjeta-vidrio:hover {
   overflow: hidden;
 }
 :root[data-intro] .intro {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   inset: 0;
   z-index: 200;
   cursor: pointer;
-  background: #0e0e0f;
+  overflow: hidden;
+  background: #000;
+  /* Multiplicar: lo negro tapa, lo blanco deja ver el hero de debajo (texto «recortado»). */
+  mix-blend-mode: multiply;
+  -webkit-tap-highlight-color: transparent;
 }
-/* Mientras cargan la letra y la foto, solo negro: así el movimiento arranca sin saltos. */
+/* Mientras cargan la letra y la foto, solo negro (el texto, negro sobre negro, no se ve). */
 .intro-texto {
-  font-size: min(56vw, 64vh);
-  transform-box: fill-box;
+  display: block;
+  font-size: min(62vw, 64vh);
+  line-height: 0.82;
+  color: #000;
   transform-origin: 50% 50%;
-  opacity: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  user-select: none;
 }
 :root[data-intro-ya] .intro {
-  background: transparent;
   animation: intro-sale 0.14s 0.78s linear forwards;
 }
 /* Un único movimiento de menos de un segundo: arranca legible y acelera sin pausa. */
 :root[data-intro-ya] .intro-texto {
-  opacity: 1;
+  color: #fff;
   animation: intro-zoom 0.92s cubic-bezier(0.62, 0, 0.88, 0.14) both;
 }
 @keyframes intro-zoom {
