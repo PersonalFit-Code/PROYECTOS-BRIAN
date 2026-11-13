@@ -165,8 +165,8 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Grupo de CrossGym con kettlebells y cajones, plano vertical",
     fotosExtra: ["Kettlebells en el suelo negro", "Pizarra con el entreno del día"],
     actividad: "crossgym",
-    foto: fotos.funcional.src,
-    extras: [{ src: fotos.racks.src, descripcion: fotos.racks.alt }],
+    foto: fotos.pista.src,
+    extras: [{ src: fotos.funcional.src, descripcion: fotos.funcional.alt }, { src: fotos.racks.src, descripcion: fotos.racks.alt }],
     seo: { titulo: "CrossGym: entrenamiento funcional en Ourense", descripcion: "CrossGym 720: entrenamiento funcional de fuerza y acondicionamiento en grupo en Ourense, con la técnica por delante y adaptado a cada nivel. Clase gratis." },
   },
 ];

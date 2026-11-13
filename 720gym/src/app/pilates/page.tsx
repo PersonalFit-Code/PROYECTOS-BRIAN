@@ -10,6 +10,7 @@ import Horario from "@/components/secciones/Horario";
 import Apuntate from "@/components/secciones/Apuntate";
 import Normas from "@/components/ui/Normas";
 import TuPlan from "@/components/secciones/TuPlan";
+import Resenas from "@/components/secciones/Resenas";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { pilates, wa } from "@/data/negocio";
 import { condicionesPilates, tarifasPilates } from "@/data/tarifas";
@@ -195,6 +196,7 @@ export default function PaginaPilates() {
           </p>
         </div>
       </section>
+      <Resenas tema="pilates" titulo="Lo que dicen de 720 Pilates" />
       <TuPlan />
     </div>
   );

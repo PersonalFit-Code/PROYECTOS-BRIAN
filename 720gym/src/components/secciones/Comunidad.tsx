@@ -50,9 +50,10 @@ export default function Comunidad({ resumen = false }: { resumen?: boolean }) {
                 </span>
               </span>
             </div>
-            <p className="mt-5 border-t border-negro/10 pt-5 text-[13px] leading-relaxed text-negro/60">
-              Aquí irán tres reseñas reales de Google, copiadas tal cual con nombre y fecha (pendiente de elegirlas con vosotros).
-            </p>
+            <figure className="mt-5 border-t border-negro/10 pt-5">
+              <blockquote className="text-[15px] leading-relaxed text-negro/80">«Buscaba un gimnasio no masificado, completo, con buen ambiente y lo encontré. Luego el trato con Brais y Pablo espectacular desde el primer momento.»</blockquote>
+              <figcaption className="mt-2 text-[12px] text-negro/55">Ruben M. · Reseña de Google</figcaption>
+            </figure>
             <a href={negocio.google.url} target="_blank" rel="noopener noreferrer" className="group mt-4 inline-flex items-center gap-1 text-[14px] font-semibold">
               Leer las reseñas en Google <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
             </a>

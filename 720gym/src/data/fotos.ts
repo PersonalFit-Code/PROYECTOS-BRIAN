@@ -11,5 +11,6 @@ export const fotos = {
   /* Generadas con IA (ilustrativas, para la maqueta): fondos y detalles, no la sala real. */
   iaDiscos: { src: "/fotos/ia-discos.webp", grande: "/fotos/ia-discos.webp", alt: "Discos de colores en un soporte" },
   iaBarra: { src: "/fotos/ia-barra.webp", grande: "/fotos/ia-barra.webp", alt: "Barra con discos en un rack y mancuernas rojas al fondo" },
-  entrada: { src: "/fotos/entrada-720gym.webp", grande: "/fotos/entrada-720gym.webp", alt: "Rótulo 720GYM sobre la puerta de la sala" },
+  entrada: { src: "/fotos/entrada-720gym.webp", grande: "/fotos/entrada-720gym.webp", alt: "Rótulo 720GYM sobre la puerta de la sala de peso libre" },
+  pista: { src: "/fotos/pista-funcional.webp", grande: "/fotos/pista-funcional-grande.webp", alt: "Pista de tartán rojo y césped con el logo 720 GYM CLUB en la pared y la zona de 720 Pilates al fondo" },
 } as const;

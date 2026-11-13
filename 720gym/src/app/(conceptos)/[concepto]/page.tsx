@@ -10,6 +10,10 @@ import Apuntate from "@/components/secciones/Apuntate";
 import Conceptos from "@/components/secciones/Conceptos";
 import Normas from "@/components/ui/Normas";
 import TuPlan from "@/components/secciones/TuPlan";
+import Resenas from "@/components/secciones/Resenas";
+import type { Tema } from "@/data/resenas";
+
+const temaResenas: Record<string, Tema | undefined> = { gimnasio: "gimnasio", powerlifting: "fuerza" };
 import Cierre from "@/components/secciones/Cierre";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { conceptoPorSlug, conceptos } from "@/data/conceptos";
@@ -143,6 +147,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
         <Normas className="py-12" />
       </section>
 
+      <Resenas tema={temaResenas[c.slug]} />
       <Cierre />
       <Apuntate actividadInicial={c.actividad} orden={null} />
       <Conceptos excluir={c.slug} />

@@ -10,6 +10,7 @@ import Comunidad from "@/components/secciones/Comunidad";
 import Cierre from "@/components/secciones/Cierre";
 import Linea from "@/components/ui/Linea";
 import TuPlan from "@/components/secciones/TuPlan";
+import Resenas from "@/components/secciones/Resenas";
 import PlegableMovil from "@/components/ui/PlegableMovil";
 import FranjaCta from "@/components/ui/FranjaCta";
 
@@ -41,6 +42,7 @@ export default function Inicio() {
       <PlegableMovil titulo="Tarifas" resumen="Desde 35 €/mes · elige tu plan" icono={<Euro className="size-5" aria-hidden />}>
         <TarifasDestacadas />
       </PlegableMovil>
+      <Resenas />
       <FranjaCta frase="Aforo limitado: asegura tu plaza" detalle="Pocas personas por franja, a propósito. Entra antes de que se llene." boton="Quiero mi plaza" clara />
       <PlegableMovil titulo="Comunidad" resumen="Clubes y gente que tira de ti" icono={<Users className="size-5" aria-hidden />}>
         <Comunidad resumen />
