@@ -5,6 +5,26 @@ cliente: 720 GYM CLUB
 fecha: Noviembre de 2026
 formato: horizontal
 ---
+<style>
+/* Lámina 01: cifras, tira de fotos y cuentas de Instagram */
+.cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin: 0 0 4mm; }
+.cifras .cifra-c { border-radius: 3mm; padding: 4mm 4.5mm 3.6mm; background: var(--lila); border: 1px solid #e3ddff; }
+.cifras .cifra-c b { display: block; font-family: "Montserrat"; font-weight: 800; font-size: 22pt; line-height: 1; color: var(--indigo); }
+.cifras .cifra-c span { display: block; margin-top: 1.6mm; font-size: 8.8pt; line-height: 1.35; color: var(--texto); }
+.tira { display: grid; grid-template-columns: 1.55fr .62fr 1.2fr; gap: 3mm; height: 60mm; margin: 0 0 4mm; }
+.tira figure { margin: 0; position: relative; overflow: hidden; border-radius: 3mm; }
+.tira img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tira figcaption { position: absolute; left: 2.4mm; bottom: 2.2mm; background: rgba(255,255,255,.92); border-radius: 1.4mm; padding: .7mm 2mm; font-family: "Montserrat"; font-weight: 700; font-size: 6.4pt; letter-spacing: .14em; text-transform: uppercase; color: var(--negro); }
+.redes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+.redes .red { border: 1px solid var(--linea); border-radius: 3mm; padding: 3mm 3.4mm; }
+.redes .red .h { font-family: "Montserrat"; font-weight: 700; font-size: 8.4pt; color: var(--negro); }
+.redes .red .n { font-family: "Montserrat"; font-weight: 800; font-size: 15pt; color: var(--indigo); margin-top: 1mm; line-height: 1; }
+.redes .red .n small { font-size: 7pt; font-weight: 600; color: var(--suave); letter-spacing: .06em; }
+.redes .red p { margin: 1.4mm 0 0; font-size: 8pt; line-height: 1.35; color: var(--suave); }
+.nota-redes { margin: 3mm 0 0; font-size: 9pt; color: var(--texto); }
+.nota-redes b { color: var(--indigo); }
+.fuente { margin: 1.6mm 0 0; font-size: 6.8pt; color: var(--suave); letter-spacing: .04em; }
+</style>
 <section class="portada">
   <div class="arriba">
     <p class="etiqueta">Presentación de la demo · Web, IA y gestión</p>
@@ -17,17 +37,25 @@ formato: horizontal
 </section>
 
 <h2><span class="n">01</span>Lo que ya tenéis</h2>
-<p>720 tiene lo más difícil: un centro que la gente recomienda. La web solo tiene que enseñarlo y convertir esa confianza en altas.</p>
-<div class="destacado"><p class="cifra">5,0 ★ · 64 reseñas en Google</p><p>Grupos reducidos, trato cercano y unas instalaciones que sorprenden. Es lo que repiten los socios, y es el mejor argumento de venta.</p></div>
-<div class="rejilla tres">
-  <div class="tarjeta"><span class="num">ESPACIO</span><h3>Instalaciones de verdad</h3><p>Sala de musculación, peso libre y powerlifting, pista de tartán y césped, 720 Pilates y salas para clubes.</p></div>
-  <div class="tarjeta"><span class="num">EQUIPO</span><h3>Brais, Bea y Pablo</h3><p>Los socios los nombran en las reseñas: el trato personal es la diferencia frente a un gimnasio de cadena.</p></div>
-  <div class="tarjeta"><span class="num">MODELO</span><h3>Aforo limitado, 365 días</h3><p>Nada masificado y abierto todos los días del año: una propuesta clara que hay que comunicar bien.</p></div>
+<p>720 tiene lo más difícil: un centro que la gente recomienda y una comunidad que ya os sigue en redes. La web solo tiene que convertir esa confianza en altas.</p>
+<div class="cifras">
+  <div class="cifra-c"><b>5,0 ★</b><span>64 reseñas en Google: grupos reducidos, trato cercano e instalaciones que sorprenden.</span></div>
+  <div class="cifra-c"><b>1.878</b><span>seguidores entre las cuatro cuentas de Instagram de 720.</span></div>
+  <div class="cifra-c"><b>13.345</b><span>reproducciones del reel «Antes y después» de la obra.</span></div>
 </div>
-<div class="rejilla">
-  <div class="tarjeta"><p>«Buscaba un gimnasio no masificado, completo, con buen ambiente y lo encontré. Luego el trato con Brais y Pablo espectacular desde el primer momento.»</p><p class="meta" style="margin-top:2mm">Ruben M. · Reseña de Google</p></div>
-  <div class="tarjeta"><p>«Si buscas un gimnasio en Ourense con grupos reducidos y atención personalizada 720 Gym Club cumplirá tus expectativas. Bea, instructora de pilates es maravillosa.»</p><p class="meta" style="margin-top:2mm">Maria F. · Reseña de Google</p></div>
+<div class="tira">
+  <figure><img src="img/f-pista.jpg" alt="Pista de tartán y césped"><figcaption>Pista y zona funcional</figcaption></figure>
+  <figure><img src="img/f-rotulo.jpg" alt="Rótulo 720GYM" style="object-position:50% 20%"><figcaption>Peso libre</figcaption></figure>
+  <figure><img src="img/f-sala.jpg" alt="Sala de musculación"><figcaption>Sala de musculación</figcaption></figure>
 </div>
+<div class="redes">
+  <div class="red"><div class="h">@720gym</div><div class="n">1.159 <small>SEGUIDORES</small></div><p>Reels de la sala y de la gente: 1.700–4.300 reproducciones.</p></div>
+  <div class="red"><div class="h">@720pilates</div><div class="n">441 <small>SEGUIDORES</small></div><p>Las clases de Bea: Reformer, Wall Unit e hipopresivos.</p></div>
+  <div class="red"><div class="h">@720powerliftingou</div><div class="n">173 <small>SEGUIDORES</small></div><p>Club y competiciones, con vídeos de hasta 5.355 reproducciones.</p></div>
+  <div class="red"><div class="h">@720_yoga</div><div class="n">105 <small>SEGUIDORES</small></div><p>Yoga, talleres y eventos solidarios en Ourense.</p></div>
+</div>
+<p class="nota-redes">Las redes ya generan interés. <b>La web lo convierte:</b> cada cuenta enlaza a su propia página (pilates.720gym…, powerlifting.720gym…) con reserva y alta en un toque.</p>
+<p class="fuente">Datos públicos de Instagram y Google consultados el 13/11/2026.</p>
 
 <h2><span class="n">02</span>Dónde se escapan clientes</h2>
 <p>El interés existe; lo que falla es el camino. Cada paso de más entre «me interesa» y «me apunto» es gente que se queda por el camino.</p>
