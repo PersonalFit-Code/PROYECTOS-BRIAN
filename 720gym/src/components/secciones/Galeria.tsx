@@ -17,11 +17,11 @@ import { cn } from "@/lib/utils";
 type Icono = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
 /* Ocho piezas para cuatro recuadros (dos son encuadres de detalle): así nunca se repite una a la vista. */
 const piezas: { id: string; src: string; grande: string; alt: string; titulo: string; texto: string; href: string; Icono: Icono; encuadre?: string; pos?: string }[] = [
-  { id: "pista", ...fotos.pista, titulo: "La pista", texto: "Tartán, césped y espacio de sobra", href: "/crossgym", Icono: Flame as Icono },
+  { id: "sala", ...fotos.sala, titulo: "La sala", texto: "+1.000 m² sin agobios", href: "/gimnasio", Icono: Ruler as Icono },
   { id: "maquinas", ...fotos.maquinas, titulo: "Máquinas guiadas", texto: "Multiestación y poleas", href: "/gimnasio", Icono: Dumbbell as Icono },
   { id: "entrada", ...fotos.entrada, titulo: "Bienvenido a 720", texto: "Sala de peso libre", href: "/club", Icono: Dumbbell as Icono, pos: "object-[50%_18%]" },
   { id: "racks", ...fotos.racks, titulo: "Racks y peso libre", texto: "Material de competición", href: "/powerlifting", Icono: BarraDiscos },
-  { id: "sala", ...fotos.sala, titulo: "La sala", texto: "+1.000 m² sin agobios", href: "/gimnasio", Icono: Ruler as Icono },
+  { id: "pista", ...fotos.pista, titulo: "La pista", texto: "Tartán, césped y espacio de sobra", href: "/crossgym", Icono: Flame as Icono },
   { id: "funcional", ...fotos.funcional, titulo: "Zona funcional", texto: "CrossGym y acrobacia", href: "/crossgym", Icono: Flame as Icono },
   { id: "kettlebells", ...fotos.funcional, alt: "Kettlebells y cuerda en la zona funcional", titulo: "Kettlebells y cuerda", texto: "Entreno funcional", href: "/crossgym", Icono: Kettlebell, encuadre: "scale-[1.7] origin-[14%_68%]" },
   { id: "racks-sala", ...fotos.sala, alt: "Racks de la sala principal", titulo: "Racks de la sala", texto: "Sentadilla, banca y peso muerto", href: "/powerlifting", Icono: BarraDiscos, encuadre: "scale-[1.6] origin-[92%_45%]" },

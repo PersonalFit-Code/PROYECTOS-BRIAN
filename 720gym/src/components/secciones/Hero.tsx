@@ -16,7 +16,8 @@ export default function Hero() {
       <Intro />
       <HeroSection
         aria-labelledby="titulo-portada"
-        imageUrl={fotos.sala.grande}
+        imageUrl={fotos.pista.grande}
+        imageClassName="object-[64%_50%] lg:object-center"
         title={
           <span id="titulo-portada">
             Entrena. Cuídate. Crece.
