@@ -43,3 +43,8 @@ con la clase `pendiente` sale en amarillo: hay que rellenarlo antes de enviar.
   asistente y panel de gestión). Capturas de la demo en `img/` (se rehacen con la demo en marcha).
   Demo: 720gym-club.vercel.app. **Faltan**: cuotas mensuales de Clientes y Pro, horas de cambios incluidas,
   uso de IA incluido y plazo de entrega.
+- `clientes/720gym/presentacion-demo.pdf` (15 láminas, horizontal): la presentación para Brais. Fortalezas
+  (5,0 en Google, reseñas), dónde se escapan clientes, la solución en un recorrido, la web (intro, conceptos,
+  horario, reseñas), la máquina de inscripciones (test y alta con pago), el asistente con IA, el CRM, las fichas
+  y la IA para la gerencia, cada problema con su solución, planes y próximos pasos. Capturas `img/p-*.jpg`
+  hechas con la versión compilada de la demo. **Faltan** (en amarillo): cuotas de Clientes y Pro y el uso de IA incluido.

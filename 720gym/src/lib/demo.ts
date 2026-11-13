@@ -175,7 +175,10 @@ export function guardarPago(p: Omit<Pago, "id" | "creada">): Pago {
 export function guardarFicha(f: Omit<FichaLead, "id" | "creada">): FichaLead {
   const lista = leer<FichaLead>("fichas");
   const previa = lista.find((x) => x.conversacion === f.conversacion);
-  const completa: FichaLead = { ...previa, ...f, id: previa?.id ?? nuevoId(), creada: new Date().toISOString() };
+  /* La temperatura no baja dentro de la misma conversación (quien ya pagó sigue siendo «caliente»). */
+  const orden = { frio: 0, templado: 1, caliente: 2 } as const;
+  const temperatura = previa && orden[previa.temperatura] > orden[f.temperatura] ? previa.temperatura : f.temperatura;
+  const completa: FichaLead = { ...previa, ...f, temperatura, id: previa?.id ?? nuevoId(), creada: new Date().toISOString() };
   escribir("fichas", [...lista.filter((x) => x.conversacion !== f.conversacion), completa]);
   return completa;
 }

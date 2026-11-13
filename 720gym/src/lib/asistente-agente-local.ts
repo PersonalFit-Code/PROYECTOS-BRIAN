@@ -102,11 +102,14 @@ export async function responderConAcciones(texto: string, e: EstadoLocal, conver
   }
 
   // Avisos a la gerencia: quejas, salud y ventas grandes.
-  if (!e.avisado && /queja|mal servicio|reclam|lesion|dolor|operad|embaraz|bono\s*(de\s*)?1[05]|pareja|grupo de|alquil|empresa/.test(t)) {
+  if (!e.avisado && /queja|mal servicio|reclam|lesion|dolor|opera[dcr]|embaraz|bono\s*(de\s*)?1[05]|pareja|grupo de|alquil|empresa/.test(t)) {
     e.avisado = true;
-    const motivo = /queja|reclam|mal servicio/.test(t) ? "queja" : /lesion|dolor|operad|embaraz/.test(t) ? "lesion_o_salud" : "venta_grande";
+    const motivo = /queja|reclam|mal servicio/.test(t) ? "queja" : /lesion|dolor|opera[dcr]|embaraz/.test(t) ? "lesion_o_salud" : "venta_grande";
     const r = await ejecutar("avisar_gerente", { motivo, urgencia: motivo === "queja" ? "alta" : "normal", resumen: `Mensaje del cliente: «${texto.slice(0, 200)}»`, nombre: e.nombre ?? "", telefono: e.telefono ?? "" }, conversacion);
     if (r.hecho) hechos.push(r.hecho);
+    if (e.nombre || e.telefono) {
+      await ejecutar("guardar_ficha_cliente", { nombre: e.nombre ?? "", telefono: e.telefono ?? "", objetivo: motivo === "lesion_o_salud" ? "Volver a entrenar tras una lesión u operación" : motivo === "queja" ? "Queja" : "Venta grande", disponibilidad: "", plan_recomendado: motivo === "lesion_o_salud" ? "Valoración inicial + entrenamiento personal" : "", temperatura: motivo === "queja" ? "frio" : "templado", siguiente_paso: motivo === "lesion_o_salud" ? "Llamar para ofrecer la valoración inicial con el entrenador" : "Llamar hoy", idioma: "español", resumen: texto.slice(0, 160) }, conversacion);
+    }
     if (motivo === "lesion_o_salud") {
       return { texto: "Gracias por contármelo. Con molestias o lesiones lo mejor es empezar con una valoración con nuestro entrenador, que adapta todo a ti. Ya he avisado al equipo y te escribirán por WhatsApp.", acciones: [{ etiqueta: "Reservar valoración", href: "/alta?plan=valoracion", venta: true }], hechos };
     }
