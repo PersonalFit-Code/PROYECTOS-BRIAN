@@ -226,7 +226,7 @@ corriente. Si algún día entra una tarta con licor, este bloque se reabre.
 | Mapa atribuido | — | ✅ | Es el iframe oficial de Google Maps |
 | Emblema de **Lamborghini** en una tarta | Ley 17/2001 de Marcas | ✅ **decidido por Luisa (27/10)** | `assets/tarta-tematica.*`, en portada y galería |
 | **Totoro** (Studio Ghibli) y **ROBLOX** | TRLPI / Marcas | ✅ **decidido por Luisa (27/10)** | `assets/tarta-06.*` y `tarta-08.*` |
-| **Nutella** y globos de **Nintendo** al fondo | Marcas | ✅ **decidido por Luisa (27/10)** | `assets/pastelera.*` y `assets/og-image.jpg` |
+| **Nutella** y globos de **Nintendo** al fondo | Marcas | ✅ **decidido por Luisa (27/10)** | `assets/pastelera.*` (desde el 16/11 ya no en `og-image.jpg`) |
 | **Dragon Ball**, escudo del **FC Barcelona**, casco **LS2** con el nombre «Efren 50» | Marcas / RGPD (nombre del cliente) | ✅ **aprobado por Luisa (27/10)** | `assets/tarta-20.*`, `tarta-21.*` (también en el carrusel) y `tarta-22.*` |
 
 Dejo constancia de una matización honesta: fotografiar una tarta que una clienta encargó con un
@@ -247,7 +247,7 @@ comercial propio, y la decisión de dejarlo o no es de Luisa, no mía.
 | Punto | Norma (sin verificar) | Estado | Dónde está |
 |---|---|---|---|
 | Cara reconocible en la web | LO 1/1982 arts. 2 y 7.5 | ✅ **concedido** | `assets/pastelera.webp`, en «Quiénes somos» |
-| **La misma cara en la imagen que se comparte** | LO 1/1982 | ✅ **concedido** | `assets/og-image.jpg`: es lo que sale al pegar el enlace en WhatsApp |
+| ~~La misma cara en la imagen que se comparte~~ | LO 1/1982 | ✅ **ya no aplica (16/11)** | Luisa pidió no salir en `assets/og-image.jpg` (la vista previa de WhatsApp). Ahora lleva la foto del mostrador con globos de la inauguración, sin personas |
 | Nombres de criaturas en las tartas | RGPD / LO 1/1982 | ✅ **concedido** | `tarta-04` («Rita 4 años»), `tarta-05` («Jonathan»), `tarta-08` («Santiago») |
 
 > **19/10/2026 — Brian comunica que todos los permisos están concedidos.** Las fotos se
