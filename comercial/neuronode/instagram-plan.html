@@ -1,0 +1,230 @@
+<title>Plan Instagram neuro·node</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Quicksand:wght@500;600;700&display=swap">
+<style>
+/* Layout: cabecera de marca, luego bloques apilados (base, flujo semanal, calendario por semanas) */
+:root{
+  --bg:#ffffff; --fg:#14121c; --mut:#5d5a6b; --line:#e7e4f2; --soft:#f5f3ff;
+  --brand:#6447FA; --brand-ink:#ffffff; --azul:#2E8BFF; --violeta:#7B2FF2;
+  --p-caso:#6447FA; --p-antes:#E2556F; --p-consejo:#1F9D74; --p-equipo:#D9822B;
+  --card:#ffffff; --ok:#1F9D74;
+  --f-tit:"Montserrat",system-ui,sans-serif; --f-txt:"Quicksand",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#100e18; --fg:#f1effa; --mut:#a9a5bd; --line:#2a2640; --soft:#1a1630; --card:#161325;
+  --brand:#8a73ff; --p-caso:#8a73ff; --p-antes:#f07a90; --p-consejo:#3cc495; --p-equipo:#f0a65a; --ok:#3cc495; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#100e18; --fg:#f1effa; --mut:#a9a5bd; --line:#2a2640; --soft:#1a1630; --card:#161325;
+  --brand:#8a73ff; --p-caso:#8a73ff; --p-antes:#f07a90; --p-consejo:#3cc495; --p-equipo:#f0a65a; --ok:#3cc495; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-txt);font-weight:500;font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-tit);text-wrap:balance;margin:0}
+header{padding-block:40px 28px;border-bottom:1px solid var(--line)}
+.marca{display:flex;align-items:center;gap:10px;font-family:var(--f-tit);font-weight:800;font-size:18px;letter-spacing:-.01em}
+.marca i{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--azul),var(--violeta))}
+h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-.02em;margin-top:18px;line-height:1.1}
+h1 span{color:var(--brand)}
+.intro{max-width:64ch;color:var(--mut);margin:14px 0 0;font-size:17px}
+.datos{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.dato{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600}
+.dato b{font-family:var(--f-tit);color:var(--brand)}
+.progreso{margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.barra{flex:1;min-width:200px;height:10px;border-radius:99px;background:var(--soft);overflow:hidden}
+.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--azul),var(--violeta));transition:width .4s}
+.estado{font-size:13px;color:var(--mut)}
+section{padding-block:36px 8px}
+.eti{font-family:var(--f-tit);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand)}
+h2{font-size:26px;font-weight:800;margin-top:6px;letter-spacing:-.01em}
+.sub{color:var(--mut);margin:8px 0 0;max-width:64ch}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px;margin-top:20px}
+.bloque{border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--card);min-width:0}
+.bloque h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.bloque p{margin:0;color:var(--mut)}
+.bio{font-family:var(--f-txt);font-weight:600;background:var(--soft);border-radius:12px;padding:14px 16px;margin-top:10px;line-height:1.5;white-space:pre-line}
+.pilares{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px;margin-top:20px}
+.pilar{border-radius:16px;padding:18px;border:1px solid var(--line);border-left:5px solid var(--c);background:var(--card)}
+.pilar h3{font-size:16px;font-weight:700;color:var(--c)}
+.pilar p{margin:6px 0 0;color:var(--mut);font-size:15px}
+.pilar small{display:block;margin-top:8px;font-weight:700;font-size:13px}
+ul.lista{margin:10px 0 0;padding-left:18px;color:var(--mut)} ul.lista li{margin:4px 0}
+/* flujo semanal */
+.flujo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px;margin-top:20px}
+.dia{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--card)}
+.dia .d{font-family:var(--f-tit);font-weight:800;font-size:15px}
+.dia .q{font-size:12px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.dia p{margin:8px 0 0;font-size:14.5px;color:var(--mut)}
+/* calendario */
+.semana{margin-top:26px}
+.semana-cab{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:2px solid var(--fg);padding-bottom:8px}
+.semana-cab h3{font-size:19px;font-weight:800}
+.semana-cab span{color:var(--mut);font-size:14px;font-weight:600}
+.post{display:grid;grid-template-columns:auto 92px 1fr;gap:16px;align-items:start;padding:16px 4px;border-bottom:1px solid var(--line)}
+.post .fecha{font-family:var(--f-tit);font-weight:700;font-size:14px;line-height:1.25;font-variant-numeric:tabular-nums}
+.post .fecha small{display:block;color:var(--mut);font-weight:600;font-size:12px}
+.post h4{font-family:var(--f-tit);font-size:16px;font-weight:700;margin:0}
+.post .meta{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.chip{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;border:1px solid var(--line)}
+.chip.p{color:var(--c);border-color:var(--c)}
+.post p{margin:4px 0 0;color:var(--mut);font-size:15px;max-width:70ch}
+.post p b{color:var(--fg)}
+.post .cta{font-style:italic}
+.check{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;border:2px solid var(--line);background:var(--card);cursor:pointer;margin-top:2px;padding:0}
+.check svg{width:18px;height:18px;opacity:0;color:var(--brand-ink)}
+.check[aria-pressed="true"]{background:var(--ok);border-color:var(--ok)}
+.check[aria-pressed="true"] svg{opacity:1}
+.check:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.post.hecho h4{text-decoration:line-through;color:var(--mut)}
+.historias{margin-top:12px;font-size:14px;color:var(--mut);background:var(--soft);border-radius:12px;padding:12px 14px}
+.historias b{color:var(--fg)}
+.tarea{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.tarea span{min-width:0}
+.aviso{margin-top:22px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--soft);font-size:15px}
+.aviso b{color:var(--brand)}
+@media (max-width:560px){.post{grid-template-columns:auto 1fr}.post .fecha{grid-column:2}.post .cuerpo{grid-column:1 / -1}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="marca"><i></i>neuro·node</div>
+  <h1>Plan de Instagram para <span>@neuro_node</span></h1>
+  <p class="intro">Cuatro semanas para arrancar la cuenta: qué publicar, cuándo y quién hace cada cosa. Marca cada tarea al terminarla. Lo que marquéis Brian o Nico lo veréis los dos.</p>
+  <div class="datos">
+    <span class="dato"><b>3</b> publicaciones por semana</span>
+    <span class="dato"><b>5</b> días de historias</span>
+    <span class="dato">23 nov – 20 dic 2026</span>
+    <span class="dato">Tono informativo, sin precios</span>
+  </div>
+  <div class="progreso"><div class="barra" aria-hidden="true"><i id="barra"></i></div><span class="estado" id="estado">Cargando el progreso compartido…</span></div>
+</header>
+
+<section aria-labelledby="t-base">
+  <div class="eti">Antes de publicar</div>
+  <h2 id="t-base">La base de la cuenta</h2>
+  <p class="sub">Hablamos a dos públicos a la vez: dueños de negocios locales (restaurantes, gimnasios, tiendas) y empresas con procesos que automatizar. A los dos les duele lo mismo: tiempo perdido en tareas repetitivas y clientes que se escapan.</p>
+  <div class="rejilla">
+    <div class="bloque">
+      <h3>Bio (150 caracteres máx.)</h3>
+      <div class="bio">neuro·node · Consultora tecnológica
+Webs, apps e IA a medida para negocios y empresas
+Brian &amp; Nico · Ourense
+↓ Casos reales</div>
+      <p style="margin-top:10px">Enlace: neuro-node.com</p>
+    </div>
+    <div class="bloque">
+      <h3>Destacadas</h3>
+      <ul class="lista">
+        <li><b>Casos</b>: Tixola, Bin &amp; Cami…</li>
+        <li><b>Quiénes</b>: Brian y Nico</li>
+        <li><b>Cómo trabajamos</b>: los 4 pasos</li>
+        <li><b>Consejos</b>: los carruseles útiles</li>
+      </ul>
+      <p style="margin-top:8px">Portadas en violeta #6447FA con un icono blanco de línea, todas iguales.</p>
+    </div>
+    <div class="bloque">
+      <h3>Reglas de la casa</h3>
+      <ul class="lista">
+        <li>Hora fija: <b>13:30</b> o <b>20:30</b></li>
+        <li>Responder todo en la primera hora</li>
+        <li>Permiso del cliente antes de enseñar su caso</li>
+        <li>Sin precios ni «contrátanos» hasta estar de alta</li>
+        <li>Datos reales; si falta uno, no se inventa</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pilares">
+    <div class="pilar" style="--c:var(--p-caso)"><h3>Casos reales</h3><p>Un cliente, su problema y lo que le montamos.</p><small>1 por semana</small></div>
+    <div class="pilar" style="--c:var(--p-antes)"><h3>Antes y después</h3><p>El dolor en 3 segundos y la solución en pantalla. Formato Reel.</p><small>1 cada semana o dos</small></div>
+    <div class="pilar" style="--c:var(--p-consejo)"><h3>Consejos útiles</h3><p>Carruseles que la gente guarda: qué automatizar, Google, WhatsApp, IA.</p><small>1 por semana</small></div>
+    <div class="pilar" style="--c:var(--p-equipo)"><h3>Detrás de neuro·node</h3><p>Brian y Nico, cómo trabajáis, el día a día. Da confianza.</p><small>1 cada dos semanas</small></div>
+  </div>
+
+  <div style="margin-top:22px">
+    <div class="eti" style="margin-bottom:4px">Puesta a punto</div>
+    <div id="setup"></div>
+  </div>
+</section>
+
+<section aria-labelledby="t-flujo">
+  <div class="eti">Workflow</div>
+  <h2 id="t-flujo">Así va cada semana</h2>
+  <p class="sub">Unas 3 horas en total. Brian crea y publica; Nico revisa lo técnico y aporta casos. Los dos respondéis mensajes.</p>
+  <div class="flujo">
+    <div class="dia"><div class="d">Lunes</div><div class="q">Planificar y publicar</div><p>15 min juntos: repasar la semana y cerrar textos. Publicar el post del día.</p></div>
+    <div class="dia"><div class="d">Martes</div><div class="q">Crear</div><p>Brian diseña los posts de miércoles y viernes. Nico los revisa antes de la noche.</p></div>
+    <div class="dia"><div class="d">Miércoles</div><div class="q">Publicar</div><p>Publicar y responder en la primera hora. Compartir en historias.</p></div>
+    <div class="dia"><div class="d">Jueves</div><div class="q">Recoger material</div><p>Capturas de proyectos, fotos trabajando, pedir permiso a clientes para la semana siguiente.</p></div>
+    <div class="dia"><div class="d">Viernes</div><div class="q">Publicar y medir</div><p>Publicar. Apuntar alcance, guardados, compartidos y mensajes de la semana.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="t-cal">
+  <div class="eti">Calendario</div>
+  <h2 id="t-cal">Las 4 primeras semanas</h2>
+  <p class="sub">El día de lanzamiento se suben 3 publicaciones seguidas para que la primera fila del perfil quede completa.</p>
+  <div id="calendario"></div>
+  <div class="aviso"><b>Para medir cada viernes:</b> cuentas alcanzadas, guardados y compartidos (dicen qué gusta de verdad), visitas al perfil y mensajes recibidos. Al final de las 4 semanas, repetimos lo que mejor funcionó.</div>
+</section>
+</div>
+
+<script>
+var ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
+var P={caso:['Caso real','--p-caso'],antes:['Antes y después','--p-antes'],consejo:['Consejo útil','--p-consejo'],equipo:['Detrás de neuro·node','--p-equipo']};
+var SETUP=[
+ ['s-perfil','Cambiar a cuenta profesional, poner foto (logo) y la bio de arriba'],
+ ['s-enlace','Poner neuro-node.com en el enlace del perfil'],
+ ['s-portadas','Crear las 4 portadas de destacadas'],
+ ['s-permisos','Confirmar permiso de Tixola y Bin & Cami para enseñar sus casos'],
+ ['s-fotos','Hacer 3-4 fotos de Brian y Nico trabajando (para «Quiénes somos»)']
+];
+var SEM=[
+ {n:'Semana 1 · Lanzamiento',f:'23 – 29 nov',h:'<b>Historias:</b> lunes «¡Arrancamos!» + compartir los 3 posts · miércoles encuesta «¿Qué te quita más tiempo en tu negocio?» · viernes caja de preguntas.',
+  posts:[
+  ['w1a','Lun 23','13:30','Hola, somos neuro·node','Carrusel','equipo','Quiénes somos, desde dónde trabajamos (Ourense) y qué hacemos: webs, apps, IA y automatización para negocios y empresas.','Cuéntanos en comentarios a qué se dedica tu negocio.'],
+  ['w1b','Lun 23','13:35','Brian y Nico','Foto','equipo','Una foto real de los dos trabajando. Texto corto: quién hace qué y por qué montasteis neuro·node.','¿Nos conocías ya?'],
+  ['w1c','Lun 23','13:40','Qué hacemos, en 4 tarjetas','Carrusel','consejo','Webs que venden · Apps de gestión a medida · Asistentes con IA · Automatizaciones. Una tarjeta por servicio, con un ejemplo real cada una.','Guárdalo para cuando lo necesites.'],
+  ['w1d','Mié 25','20:30','Encargar una tarta era un chat infinito','Reel','antes','Reel 1 de Bin & Cami (encargos): ya está hecho en comercial/marca-personal/bincami-reels.','¿En tu negocio también se pierde el tiempo así?'],
+  ['w1e','Vie 27','13:30','5 tareas que tu negocio puede automatizar ya','Carrusel','consejo','Responder preguntas repetidas, pedir reseñas, recordar citas, avisar de pedidos, pasar datos a una hoja. Una por tarjeta, con el tiempo que ahorra.','¿Cuál harías primero?']]},
+ {n:'Semana 2',f:'30 nov – 6 dic',h:'<b>Historias:</b> lunes detrás de cámaras (pantalla de trabajo) · miércoles compartir el Reel con encuesta · viernes «Consejo rápido» en 3 historias.',
+  posts:[
+  ['w2a','Lun 30','20:30','Tixola: de la pizarra al bolsillo','Reel','caso','Montaje de los 3 vídeos de Tixola (carta, vinoteca y camarero virtual) en un Reel de 20-25 s.','¿Qué te ha gustado más: la carta, los vinos o el camarero?'],
+  ['w2b','Mié 2','13:30','La vitrina, vista desde casa','Reel','antes','Reel 3 de Bin & Cami (mostrador).','¿Tu escaparate se ve desde el móvil?'],
+  ['w2c','Vie 4','13:30','Cómo trabajamos, en 4 pasos','Carrusel','equipo','1 · Escuchamos el problema · 2 · Proponemos la solución · 3 · Lo construimos contigo · 4 · Lo mantenemos y mejoramos.','¿Qué paso te genera más dudas?']]},
+ {n:'Semana 3',f:'7 – 13 dic',h:'<b>Historias:</b> lunes encuesta sobre Google · miércoles mini tutorial de la ficha de Google · viernes repost de comentarios y respuestas.',
+  posts:[
+  ['w3a','Lun 7','20:30','«¿Llegáis para el sábado?» Todos los días','Reel','antes','Reel 2 de Bin & Cami (fechas).','¿Cuántas veces respondes tú lo mismo cada semana?'],
+  ['w3b','Mié 9','13:30','Tu ficha de Google: 6 cosas que revisar hoy','Carrusel','consejo','Horario real, fotos recientes, categoría, enlace a la web, responder reseñas, botón de WhatsApp. Con capturas de ejemplo.','Guárdalo y revísalo esta semana.'],
+  ['w3c','Vie 11','13:30','Un día en neuro·node','Reel','equipo','Clips cortos de un día real: llamada con cliente, diseño, revisión con Nico. Sin hablar a cámara, con texto encima.','¿Qué quieres ver la próxima vez?']]},
+ {n:'Semana 4',f:'14 – 20 dic',h:'<b>Historias:</b> lunes caja de preguntas sobre IA · miércoles responder 3 preguntas · viernes resumen del mes y gracias.',
+  posts:[
+  ['w4a','Lun 14','20:30','3 cosas que le robaban horas a esta pastelería','Reel','caso','Reel 4 de Bin & Cami (resumen).','¿Cuál de las 3 te pasa a ti?'],
+  ['w4b','Mié 16','13:30','IA en tu negocio, sin humo: 4 usos reales','Carrusel','consejo','Atender WhatsApp, preparar presupuestos, resumir correos, clasificar pedidos. Qué hace y qué no hace, explicado sencillo. Pensado también para empresas.','¿Lo usarías? Te leemos.'],
+  ['w4c','Vie 18','13:30','Lo que aprendimos montando neuro·node','Carrusel','equipo','Cierre de año: 5 aprendizajes con clientes reales. Cercano y honesto.','Cuéntanos tu aprendizaje del año.']]}
+];
+function row(id,html){return '<div class="tarea" data-id="'+id+'"><button class="check" type="button" aria-pressed="false" aria-label="Marcar como hecho" data-id="'+id+'">'+ICON+'</button><span>'+html+'</span></div>'}
+document.getElementById('setup').innerHTML=SETUP.map(function(s){return row(s[0],s[1])}).join('');
+document.getElementById('calendario').innerHTML=SEM.map(function(s){
+ return '<div class="semana"><div class="semana-cab"><h3>'+s.n+'</h3><span>'+s.f+'</span></div>'+
+ s.posts.map(function(p){var pl=P[p[5]];
+  return '<div class="post" data-id="'+p[0]+'"><button class="check" type="button" aria-pressed="false" aria-label="Marcar «'+p[3]+'» como publicado" data-id="'+p[0]+'">'+ICON+'</button>'+
+  '<div class="fecha">'+p[1]+'<small>'+p[2]+'</small></div><div class="cuerpo"><h4>'+p[3]+'</h4><div class="meta"><span class="chip">'+p[4]+'</span><span class="chip p" style="--c:var('+pl[1]+')">'+pl[0]+'</span></div><p>'+p[6]+'</p><p class="cta">Para comentar: «'+p[7]+'»</p></div></div>'}).join('')+
+ '<div class="historias">'+s.h+'</div></div>'}).join('');
+
+var estado={},db=null,ids=[].slice.call(document.querySelectorAll('.check')).map(function(b){return b.dataset.id});
+function pinta(){var n=0;document.querySelectorAll('.check').forEach(function(b){var v=!!estado[b.dataset.id];if(v)n++;b.setAttribute('aria-pressed',v);var r=b.closest('.post,.tarea');if(r)r.classList.toggle('hecho',v)});
+ document.getElementById('barra').style.width=(n/ids.length*100)+'%';
+ document.getElementById('estado').textContent=n+' de '+ids.length+' tareas hechas'+(db?'':' (solo en este navegador)');}
+function local(){try{estado=JSON.parse(localStorage.getItem('nn-plan')||'{}')}catch(e){estado={}}pinta()}
+document.addEventListener('click',function(e){var b=e.target.closest('.check');if(!b)return;var id=b.dataset.id,v=!estado[id];estado[id]=v;pinta();
+ if(db){db.collection('hecho').doc(id).set({hecho:v,cuando:new Date().toISOString()}).catch(function(){estado[id]=!v;pinta();document.getElementById('estado').textContent='No se pudo guardar. Prueba otra vez.'})}
+ else{try{localStorage.setItem('nn-plan',JSON.stringify(estado))}catch(err){}}});
+local();
+(async function(){var c=window.claude&&window.claude.use?await window.claude.use('db'):null;if(!c){pinta();return}db=c;
+ var t=setTimeout(function(){document.getElementById('estado').textContent='El progreso compartido tarda en cargar.'},10000);
+ db.collection('hecho').onSnapshot(function(s){clearTimeout(t);estado={};s.docs.forEach(function(d){var x=d.data();if(x&&x.hecho)estado[d.id]=true});pinta()},
+  function(){clearTimeout(t);db=null;local()});})();
+</script>
