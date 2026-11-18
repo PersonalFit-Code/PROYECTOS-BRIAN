@@ -298,9 +298,24 @@ def clean(t):
 YELLOW, GREEN, RED, WHITE = "&H00E6FF&", "&H7AFF3D&", "&H2A2AF0&", "&HFFFFFF&"
 
 
+BAD = re.compile(
+    r"(?i)^(mother)?(fuck\w*|shit\w*|bitch\w*|ass(hole)?s?|dick\w*|pussy|nigg\w*|hoe?s|cunt\w*"
+    r"|put[ao]s?|putada\w*|joder\w*|jod[aeio]\w*|co[ñn]o|mierda\w*|cabr[oó]n\w*|gilipollas|polla\w*"
+    r"|cojon\w*|hostia\w*|ostia\w*|maric[oó]n\w*|zorra\w*|chochit?o?s?)$")
+
+
+def censor(word):
+    """Tapa palabrotas dejando la inicial: FUCKING -> F******."""
+    core = word.strip("¿¡?!.,;:\"'")
+    if core and BAD.match(core):
+        return word.replace(core, core[0] + "*" * (len(core) - 1))
+    return word
+
+
 def cap_text(t):
     """Texto de subtitulo: mayusculas, sin comas ni puntos finales (se conservan ? y !)."""
-    return clean(t).upper().strip().rstrip(".,;:").lstrip("¿¡") or clean(t).upper()
+    t = censor(clean(t).upper().strip())
+    return t.rstrip(".,;:").lstrip("¿¡") or t
 
 
 def hook_text(hook, width=17):
