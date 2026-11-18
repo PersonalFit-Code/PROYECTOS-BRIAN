@@ -236,9 +236,10 @@ def scan(args):
         end = min(dur, start + args.len)
         words, lang = transcribe(src, start, end, args.lang, args.model)
         text = " ".join(w["w"] for w in words)
-        print(f"[{k}] {hms(t)} score={score:.1f} :: {text[:120]}", file=sys.stderr)
+        speech = round(sum(w["e"] - w["s"] for w in words) / max(end - start, 1), 2)   # fraccion del clip con voz
+        print(f"[{k}] {hms(t)} score={score:.1f} voz={speech:.0%} :: {text[:120]}", file=sys.stderr)
         cands.append({
-            "id": k, "keep": True, "peak": round(t, 2), "score": round(score, 2),
+            "id": k, "keep": True, "peak": round(t, 2), "score": round(score, 2), "speech": speech,
             "start": round(start, 2), "end": round(end, 2),
             "teaser": False,           # True = abre con 1.5 s del pico (queda forzado; desactivado)
             "hook": "",                # texto grande arriba (lo escribe el editor)
@@ -482,16 +483,69 @@ def even_words(segments):
     return out
 
 
+def tighten(src, start, end, words, max_gap=1.3, keep=0.3):
+    """Parte [start,end] en trozos sin tiempos muertos.
+
+    Un hueco se corta solo si nadie habla en el Y ADEMAS el audio esta por debajo del
+    nivel habitual del clip (asi no se cortan persecuciones, explosiones ni musica alta)."""
+    hop = 0.25
+    raw = subprocess.check_output(["ffmpeg", "-v", "error", "-ss", f"{start:.3f}", "-t", f"{end - start:.3f}",
+                                   "-i", str(src), "-vn", "-ac", "1", "-ar", "16000", "-f", "s16le", "-"])
+    x = np.frombuffer(raw, dtype=np.int16).astype(np.float32) / 32768.0
+    n = int(16000 * hop)
+    db = np.array([20 * np.log10(np.sqrt(np.mean(x[i:i + n] ** 2)) + 1e-6) for i in range(0, max(len(x) - n, 1), n)])
+    if len(db) == 0:
+        return [(start, end)]
+    quiet = np.percentile(db, 45)
+    ws = sorted((w["s"], w["e"]) for w in words if w["e"] > start and w["s"] < end)
+    edges = [start] + [t for w in ws for t in w] + [end]
+    cuts = []
+    for i in range(0, len(edges), 2):               # huecos entre palabras (y al principio/final)
+        g0, g1 = edges[i], edges[i + 1]
+        if g1 - g0 <= max_gap:
+            continue
+        seg = db[int((g0 - start) / hop):max(int((g1 - start) / hop), int((g0 - start) / hop) + 1)]
+        if len(seg) and float(np.mean(seg)) <= quiet:
+            c0 = g0 + (0 if i == 0 else keep)
+            c1 = g1 - (0.45 if i == 0 else keep) if i < len(edges) - 2 else g1
+            if c1 - c0 > 0.4:
+                cuts.append((c0, c1))
+    pieces, t = [], start
+    for c0, c1 in cuts:
+        if c0 - t > 0.25:
+            pieces.append((t, c0))
+        t = c1
+    if end - t > 0.25:
+        pieces.append((t, end))
+    if len(pieces) > 1:                              # sin fragmentos sueltos de menos de 1 s
+        pieces = [p for p in pieces if p[1] - p[0] >= 1.0] or pieces
+    return pieces or [(start, end)]
+
+
+def out_time(t, pieces):
+    """Segundo del clip final que corresponde al segundo t de la fuente."""
+    off = 0.0
+    for a, b in pieces:
+        if t <= b:
+            return off + max(0.0, t - a)
+        off += b - a
+    return off
+
+
 def render_clip(meta, c, outdir, lang_suffix=""):
     src = meta["source"]
     layout = meta.get("layout", "blur")
     pieces = []
     if c.get("teaser"):
         pieces.append((max(0.0, c["peak"] - 0.4), c["peak"] + 1.1))
-    pieces.append((c["start"], c["end"]))
+    teaser_len = pieces[0][1] - pieces[0][0] if pieces else 0.0
+    if c.get("tighten", True) and not c.get("subs"):   # "tighten": false conserva silencios (tension, cinematica)
+        body = tighten(src, c["start"], c["end"], c.get("words", []))
+    else:
+        body = [(c["start"], c["end"])]
+    pieces += body
     total = sum(b - a for a, b in pieces)
-    teaser_len = pieces[0][1] - pieces[0][0] if len(pieces) > 1 else 0.0
-    peak_out = teaser_len + (c["peak"] - c["start"])   # momento del pico en el clip final
+    peak_out = teaser_len + out_time(c["peak"], body)   # momento del pico en el clip final
 
     if c.get("subs"):                 # traduccion: [{"s","e","text"}] en tiempo de fuente
         words = map_words(even_words(c["subs"]), pieces)

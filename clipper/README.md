@@ -65,3 +65,12 @@ mkdir -p clipper/assets/emoji && cp package/img/apple/64/*.png clipper/assets/em
 ```
 
 Sin esa carpeta, los emojis del título no se dibujan.
+
+## Sin tiempos muertos
+
+Al renderizar, el programa corta los huecos de más de 1,3 s en los que nadie habla **y** el audio está por
+debajo del nivel habitual del clip. No toca persecuciones, explosiones ni música alta. Para conservar un
+silencio a propósito (tensión, cinemática), pon `"tighten": false` en ese candidato.
+
+`scan` muestra `voz=NN%`: la parte del clip en la que alguien habla. Por debajo del 35 % casi nunca compensa,
+salvo que la acción en pantalla lo justifique.
