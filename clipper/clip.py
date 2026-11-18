@@ -412,7 +412,7 @@ def hook_png(text, path, size=66, max_w=900):
 
 
 def build_ass(words_out, hook, total, layout, path):
-    cap_y = 800 if layout == "split" else 1420   # split: justo bajo la camara; el titulo va en el tercio inferior
+    cap_y = 1430                       # tercio inferior, por encima de los botones de TikTok/Shorts
     hook_y = 300 if layout == "blur" else 770
     head = f"""[Script Info]
 ScriptType: v4.00+
@@ -526,7 +526,7 @@ def render_clip(meta, c, outdir, lang_suffix=""):
     if c.get("hook"):
         hp = hook_png(c["hook"], outdir / f"{stem}_hook.png")
         cmd += ["-i", str(hp)]
-        hy = 1330 if layout == "split" else 300
+        hy = 640 if layout == "split" else 300   # split: sobre la union camara/juego, sin tapar la accion
         fc += f"[v1][{nin}:v]overlay=x=(W-w)/2:y={hy}-h/2[v1h];[v1h]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
         nin += 1
     else:
