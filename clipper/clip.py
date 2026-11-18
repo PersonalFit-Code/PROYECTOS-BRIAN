@@ -307,8 +307,9 @@ def hook_text(hook, width=17):
     """Titular en caja blanca; *asi* (o cifras y dinero) se resalta en rojo."""
     lines, line, n, emph = [], [], 0, False
     for raw in clean(hook).upper().split():
-        start, end = raw.startswith("*"), raw.endswith("*")
-        word = raw.strip("*")
+        start = raw.lstrip("¿¡\"'(").startswith("*")
+        end = raw.rstrip("?!.,;:\"')").endswith("*")
+        word = raw.replace("*", "")
         if not word:
             continue
         hot = emph or start
