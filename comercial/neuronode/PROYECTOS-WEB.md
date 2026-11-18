@@ -35,11 +35,11 @@ web/public/proyectos/
 4. Pásale las tomas a Claude en VS Code. Él las recorta, las une y las comprime.
 
 ## 3. Textos de cada proyecto (sin cifras inventadas)
-**Personal Fit · Centro de entrenamiento personal**
-CRM a medida con dos paneles, uno para la dirección y otro para los monitores. Reservas, calendario y clientes en un solo sitio. Además, una app de entrenamiento que registra el progreso de cada cliente: marcas, RM y evolución.
+**Personal Fit · Centro de entrenamiento personal** (enfoque: gestión pura y rendimiento del cliente)
+Toda la gestión del centro en un solo sistema: un panel para la dirección y otro para los monitores, con reservas, calendario y clientes al día. Y una app centrada en el rendimiento de cada cliente: sus marcas, sus RM y su evolución, sesión a sesión.
 - Panel de dirección y panel de monitores
 - Reservas y calendario compartidos
-- App de entrenamiento con métricas y RM
+- App de rendimiento: progreso, RM y métricas
 
 **Tixola · Tapería y vinoteca (Ourense)**
 Carta digital siempre al día, vinoteca con sus vinos y un camarero virtual que responde a los clientes desde el móvil.
@@ -47,11 +47,11 @@ Carta digital siempre al día, vinoteca con sus vinos y un camarero virtual que 
 - Vinoteca
 - Camarero virtual con IA
 
-**Bin & Cami Cakes · Pastelería**
-Encargos ordenados y con fecha de entrega, sin perderse en WhatsApp, y una vitrina que se ve desde el móvil.
+**Bin & Cami Cakes · Pastelería** (enfoque: visibilidad y marketing)
+Antes, sus tartas solo se veían en WhatsApp e Instagram. Ahora tienen un escaparate online cuidado, que se encuentra en Google, enseña cada creación y recoge encargos con fecha.
+- Escaparate online de sus tartas
+- Reseñas y confianza a la vista
 - Encargos con fecha de entrega
-- Disponibilidad clara
-- Mostrador online
 
 **Agente de voz con IA** (servicio de neuro·node)
 Atiende llamadas 24/7: responde dudas, filtra y agenda citas por teléfono, con voz natural.
