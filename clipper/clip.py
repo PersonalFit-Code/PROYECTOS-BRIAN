@@ -231,8 +231,8 @@ def scan(args):
     peaks = find_peaks(db, hop, args.n, args.len)
     cands = []
     for k, (t, score) in enumerate(peaks, 1):
-        # el pico cae al ~65% del clip: hay contexto antes y el remate al final
-        start = max(0.0, t - args.len * 0.65)
+        # sin adelanto del pico: el clip arranca unos segundos antes de la accion y sigue de corrido
+        start = max(0.0, t - args.len * 0.4)
         end = min(dur, start + args.len)
         words, lang = transcribe(src, start, end, args.lang, args.model)
         text = " ".join(w["w"] for w in words)
@@ -240,7 +240,7 @@ def scan(args):
         cands.append({
             "id": k, "keep": True, "peak": round(t, 2), "score": round(score, 2),
             "start": round(start, 2), "end": round(end, 2),
-            "teaser": True,            # abre con 1.5 s del pico (gancho visual)
+            "teaser": False,           # True = abre con 1.5 s del pico (queda forzado; desactivado)
             "hook": "",                # texto grande arriba (lo escribe el editor)
             "title": "", "description": "", "hashtags": [],
             "lang": lang, "words": words,
@@ -519,7 +519,7 @@ def pick(args):
         a, b = [float(x) for x in rng.split("-")]
         peak = float(pk) if pk else a + (b - a) * 0.65
         cands.append({"id": k, "keep": True, "peak": peak, "score": 0, "start": a, "end": b,
-                      "teaser": True, "hook": "", "title": "", "description": "", "hashtags": [],
+                      "teaser": False, "hook": "", "title": "", "description": "", "hashtags": [],
                       "lang": tr["lang"],
                       "words": [w for w in tr["words"] if w["s"] >= a - 0.1 and w["e"] <= b + 0.1]})
     meta = {"source": str(src), "duration": probe_duration(src), "layout": "split", "cam": args.cam,

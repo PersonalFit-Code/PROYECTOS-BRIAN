@@ -2,7 +2,7 @@
 
 Convierte un directo de Twitch (o un `.mp4`) en clips verticales 1080x1920 con:
 
-- **Gancho visual**: abre con 1,5 s del momento fuerte y un texto grande en caja roja.
+- **Gancho visual**: texto grande en caja blanca desde el primer fotograma; el clip arranca unos segundos antes de la acción, sin adelantar el momento fuerte.
 - **Subtítulos palabra a palabra** (Whisper), con la palabra activa en amarillo y un efecto pop.
 - **Zoom** en el pico de emoción.
 - **Titular** en caja blanca; marca con `*asteriscos*` la parte que va en rojo.
