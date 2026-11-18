@@ -378,8 +378,14 @@ def hook_png(text, path, size=66, max_w=900):
     import math
     n_lines = max(1, math.ceil(width(text) / max_w))
     target = min(max_w, width(text) / n_lines * 1.12)     # lineas equilibradas, sin palabra suelta
+    words = []
+    for word in text.split():                       # los emojis nunca se quedan solos en una linea
+        if words and not EMOJI_SEQ.sub("", word).strip():
+            words[-1] += "\u00a0" + word
+        else:
+            words.append(word)
     lines, cur = [], ""
-    for word in text.split():
+    for word in words:
         trial = (cur + " " + word).strip()
         if cur and width(trial) > target:
             lines.append(cur)
