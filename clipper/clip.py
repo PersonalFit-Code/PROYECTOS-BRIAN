@@ -339,8 +339,80 @@ def hook_text(hook, width=17):
     return "\\N".join(lines)
 
 
+ASSETS = HERE / "assets"
+EMOJI_SEQ = re.compile(
+    "((?:[\U0001F1E6-\U0001F1FF]{2})|(?:[\U0001F000-\U0001FAFF\u2600-\u27BF\u2B00-\u2BFF\u2190-\u21FF\u2300-\u23FF]"
+    "[\uFE0F\U0001F3FB-\U0001F3FF]?(?:\u200D[\U0001F000-\U0001FAFF\u2600-\u27BF][\uFE0F]?)*))")
+
+
+def _emoji_png(seq):
+    """Imagen del emoji (set de Apple en clipper/assets/emoji; ver README)."""
+    cps = [f"{ord(ch):x}" for ch in seq]
+    for name in ("-".join(cps), "-".join(x for x in cps if x != "fe0f"), "-".join(cps) + "-fe0f"):
+        f = ASSETS / "emoji" / f"{name}.png"
+        if f.exists():
+            return f
+    return None
+
+
+def hook_png(text, path, size=66, max_w=900):
+    """Titulo estilo TikTok/Instagram: caja blanca redondeada, letra negra, emojis a color."""
+    from PIL import Image, ImageDraw, ImageFont
+    text = text.replace("*", "").replace("{", "(").replace("}", ")").strip()
+    font = ImageFont.truetype(str(FONTS / "TikTokSans-Bold.ttf"), size)
+    em = int(size * 1.08)
+
+    def tokens(line):
+        out = []
+        for part in EMOJI_SEQ.split(line):
+            if not part:
+                continue
+            f = _emoji_png(part) if EMOJI_SEQ.fullmatch(part) else None
+            out.append(("e", f) if f else ("t", part))
+        return out
+
+    def width(line):
+        return sum(em + 4 if k == "e" else font.getlength(v) for k, v in tokens(line))
+
+    import math
+    n_lines = max(1, math.ceil(width(text) / max_w))
+    target = min(max_w, width(text) / n_lines * 1.12)     # lineas equilibradas, sin palabra suelta
+    lines, cur = [], ""
+    for word in text.split():
+        trial = (cur + " " + word).strip()
+        if cur and width(trial) > target:
+            lines.append(cur)
+            cur = word
+        else:
+            cur = trial
+    if cur:
+        lines.append(cur)
+    padx, pady, lh, rad = 34, 16, int(size * 1.34), 26
+    ws = [width(l) for l in lines]
+    Wd = int(max(ws) + 2 * padx)
+    Hd = lh * len(lines) + 2 * pady
+    img = Image.new("RGBA", (Wd, Hd), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for i, w in enumerate(ws):                    # una caja por linea; se funden entre si
+        x0 = (Wd - w) / 2 - padx
+        d.rounded_rectangle([x0, i * lh, x0 + w + 2 * padx, i * lh + lh + 2 * pady], rad, fill=(255, 255, 255, 255))
+    for i, line in enumerate(lines):
+        x = (Wd - ws[i]) / 2
+        y = pady + i * lh
+        for k, v in tokens(line):
+            if k == "e":
+                e = Image.open(v).convert("RGBA").resize((em, em), Image.LANCZOS)
+                img.alpha_composite(e, (int(x) + 2, int(y + (lh - em) / 2)))
+                x += em + 4
+            else:
+                d.text((x, y + (lh - size) / 2 - size * 0.12), v, font=font, fill=(17, 17, 17, 255))
+                x += font.getlength(v)
+    img.save(path)
+    return path
+
+
 def build_ass(words_out, hook, total, layout, path):
-    cap_y = 1400                       # por encima de la zona de botones y texto de TikTok/Shorts
+    cap_y = 800 if layout == "split" else 1420   # split: justo bajo la camara; el titulo va en el tercio inferior
     hook_y = 300 if layout == "blur" else 770
     head = f"""[Script Info]
 ScriptType: v4.00+
@@ -351,14 +423,14 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Anton,132,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,0,0,0,0,100,100,2,0,1,10,6,5,40,40,0,1
+Style: Cap,TikTok Sans Light ExtraBold,96,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,0,0,0,0,100,100,0,0,1,8,4,5,40,40,0,1
 Style: Hook,Anton,90,&H00101010,&H00101010,&H00FFFFFF,&H00000000,0,0,0,0,100,100,1,0,3,22,0,5,60,60,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     ev = []
-    if hook:
+    if hook and False:   # el titulo ahora es una imagen (hook_png)
         ev.append(f"Dialogue: 1,{ass_time(0)},{ass_time(total)},Hook,,0,0,0,,"
                   f"{{\\pos(540,{hook_y})\\fscx70\\fscy70\\t(0,120,\\fscx106\\fscy106)\\t(120,220,\\fscx100\\fscy100)}}"
                   + hook_text(hook))
@@ -450,13 +522,21 @@ def render_clip(meta, c, outdir, lang_suffix=""):
                f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=24:2,eq=brightness=-0.18[bg];"
                f"[b]scale=1440:810,crop=1080:810,{zp}:s=1080x810[fg];"
                f"[bg][fg]overlay=0:(H-h)/2-80[v1];")
-    fc += f"[v1]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
+    nin = n
+    if c.get("hook"):
+        hp = hook_png(c["hook"], outdir / f"{stem}_hook.png")
+        cmd += ["-i", str(hp)]
+        hy = 1330 if layout == "split" else 300
+        fc += f"[v1][{nin}:v]overlay=x=(W-w)/2:y={hy}-h/2[v1h];[v1h]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
+        nin += 1
+    else:
+        fc += f"[v1]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
     voice = c.get("voice")
     if voice and Path(voice).exists():   # voz en off al arrancar: baja el audio original mientras suena
         vd = probe_duration(voice) + 0.15
         cmd += ["-i", str(voice)]
         fc += (f"[ac]volume='if(lt(t,{vd:.2f}),0.22,1)':eval=frame[duck];"
-               f"[{n}:a]aresample=48000,volume=1.8[vo];"
+               f"[{nin}:a]aresample=48000,volume=1.8[vo];"
                f"[duck][vo]amix=inputs=2:duration=first:normalize=0[am];"
                f"[am]loudnorm=I=-14:TP=-1.5:LRA=11[aout]")
     else:

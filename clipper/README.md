@@ -51,3 +51,17 @@ pico, para que haya contexto antes y el remate llegue al final.
 Twitch sirve los VOD desde varios hosts `*.cloudfront.net`. Si un canal nuevo falla con
 "connect_rejected", hay que añadir su host a la lista de hosts permitidos del entorno.
 El host se ve con `yt-dlp -g <url del VOD>`.
+
+## Título estilo TikTok/Instagram
+
+El título (`hook`) se dibuja como imagen: caja blanca redondeada, TikTok Sans en negro y emojis a color.
+Escríbelo como frase normal, con 1-2 emojis al final: `Rubius se pone a pescar en GTA 6 🎣😭`.
+
+Los emojis usan el set de Apple, que no se guarda en el repo. Para instalarlo:
+
+```bash
+npm pack emoji-datasource-apple && tar xzf emoji-datasource-apple-*.tgz package/img/apple/64
+mkdir -p clipper/assets/emoji && cp package/img/apple/64/*.png clipper/assets/emoji/
+```
+
+Sin esa carpeta, los emojis del título no se dibujan.

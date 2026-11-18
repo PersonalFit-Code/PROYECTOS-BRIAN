@@ -3,3 +3,4 @@ output/
 *.mp4
 *.ass
 __pycache__/
+assets/
