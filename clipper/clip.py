@@ -384,16 +384,22 @@ def hook_png(text, path, size=66, max_w=900):
             words[-1] += "\u00a0" + word
         else:
             words.append(word)
-    lines, cur = [], ""
-    for word in words:
-        trial = (cur + " " + word).strip()
-        if cur and width(trial) > target:
-            lines.append(cur)
-            cur = word
-        else:
-            cur = trial
-    if cur:
-        lines.append(cur)
+    def wrap_to(limit):
+        out, cur = [], ""
+        for word in words:
+            trial = (cur + " " + word).strip()
+            if cur and width(trial) > limit:
+                out.append(cur)
+                cur = word
+            else:
+                cur = trial
+        return out + ([cur] if cur else [])
+
+    lines = wrap_to(target)
+    for f in (1.25, 1.4, 1.6):                      # si sobra una linea corta, ensancha hasta que encaje
+        if len(lines) <= n_lines:
+            break
+        lines = wrap_to(min(max_w * 1.06, width(text) / n_lines * f))
     padx, pady, lh, rad = 34, 16, int(size * 1.34), 26
     ws = [width(l) for l in lines]
     Wd = int(max(ws) + 2 * padx)
