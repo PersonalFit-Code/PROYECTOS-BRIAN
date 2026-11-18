@@ -415,7 +415,7 @@ def render(args):
         meta["layout"] = args.layout
     if args.cam:
         meta["cam"] = args.cam
-    outdir = path.parent / "clips"
+    outdir = path.parent / ("clips" if path.stem == "candidates" else path.stem)
     outdir.mkdir(exist_ok=True)
     for c in meta["candidates"]:
         if not c.get("keep", True) or (args.only and c["id"] not in args.only):
@@ -425,6 +425,47 @@ def render(args):
         for lang, tr in (c.get("translations") or {}).items():
             cc = dict(c, hook=tr.get("hook", c.get("hook", "")), subs=tr["subs"])
             print(render_clip(meta, cc, outdir, f"_{lang}"))
+
+# ---------------------------------------------------------------- transcripcion completa + seleccion manual
+def transcript(args):
+    """Transcribe la fuente entera para elegir momentos leyendo (humor, frases, charla con el chat)."""
+    src = Path(args.source).resolve()
+    dur = probe_duration(src)
+    words, lang = transcribe(src, 0, dur, args.lang, args.model)
+    (src.parent / "transcript.json").write_text(json.dumps({"lang": lang, "words": words}, ensure_ascii=False))
+    lines, cur, t0 = [], [], None
+    for w in words:
+        if t0 is None:
+            t0 = w["s"]
+        cur.append(w["w"])
+        if w["e"] - t0 >= 10:
+            lines.append(f"[{int(t0)}] " + " ".join(cur))
+            cur, t0 = [], None
+    if cur:
+        lines.append(f"[{int(t0)}] " + " ".join(cur))
+    out = src.parent / "transcript.txt"
+    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(out)
+
+
+def pick(args):
+    """Crea candidates.json a partir de tramos elegidos a mano: inicio-fin@pico (segundos)."""
+    src = Path(args.source).resolve()
+    tr = json.loads((src.parent / "transcript.json").read_text())
+    cands = []
+    for k, spec in enumerate(args.clips, 1):
+        rng, _, pk = spec.partition("@")
+        a, b = [float(x) for x in rng.split("-")]
+        peak = float(pk) if pk else a + (b - a) * 0.65
+        cands.append({"id": k, "keep": True, "peak": peak, "score": 0, "start": a, "end": b,
+                      "teaser": True, "hook": "", "title": "", "description": "", "hashtags": [],
+                      "lang": tr["lang"],
+                      "words": [w for w in tr["words"] if w["s"] >= a - 0.1 and w["e"] <= b + 0.1]})
+    meta = {"source": str(src), "duration": probe_duration(src), "layout": "split", "cam": args.cam,
+            "candidates": cands}
+    out = src.parent / (args.name + ".json")
+    out.write_text(json.dumps(meta, ensure_ascii=False, indent=1))
+    print(out)
 
 
 def main():
@@ -448,8 +489,18 @@ def main():
     p.add_argument("--only", type=int, nargs="*")
     p.add_argument("--layout", choices=["blur", "split"])
     p.add_argument("--cam", help="facecam x,y,w,h en fracciones (layout split)")
+    p = sub.add_parser("transcript", help="transcribe la fuente entera (para elegir momentos de humor leyendo)")
+    p.add_argument("source")
+    p.add_argument("--lang", default=None)
+    p.add_argument("--model", default="small")
+    p = sub.add_parser("pick", help="crea candidatos a mano: inicio-fin@pico en segundos")
+    p.add_argument("source")
+    p.add_argument("clips", nargs="+")
+    p.add_argument("--cam")
+    p.add_argument("--name", default="picked")
     a = ap.parse_args()
-    {"latest": lambda: latest(a.channel), "scan": lambda: scan(a), "render": lambda: render(a)}[a.cmd]()
+    {"latest": lambda: latest(a.channel), "scan": lambda: scan(a), "render": lambda: render(a),
+     "transcript": lambda: transcript(a), "pick": lambda: pick(a)}[a.cmd]()
 
 
 if __name__ == "__main__":
