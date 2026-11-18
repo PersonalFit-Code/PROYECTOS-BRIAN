@@ -271,12 +271,14 @@ def wrap(text, width):
     return "\\N".join(out)
 
 
-def chunk_words(words, max_words=3, max_chars=18, gap=0.45):
+def chunk_words(words, max_words=2, max_chars=14, gap=0.4):
+    """Trozos cortos (1-2 palabras): se leen de un vistazo en el movil."""
     chunks, cur = [], []
     for w in words:
         if cur and (len(cur) >= max_words
                     or sum(len(x["w"]) + 1 for x in cur) + len(w["w"]) > max_chars
-                    or w["s"] - cur[-1]["e"] > gap):
+                    or w["s"] - cur[-1]["e"] > gap
+                    or cur[-1]["w"].rstrip()[-1:] in ".?!"):
             chunks.append(cur)
             cur = []
         cur.append(w)
@@ -293,42 +295,78 @@ def clean(t):
     return t.replace("{", "(").replace("}", ")").replace("\\", "")
 
 
+YELLOW, GREEN, RED, WHITE = "&H00E6FF&", "&H7AFF3D&", "&H2A2AF0&", "&HFFFFFF&"
+
+
+def cap_text(t):
+    """Texto de subtitulo: mayusculas, sin comas ni puntos finales (se conservan ? y !)."""
+    return clean(t).upper().strip().rstrip(".,;:").lstrip("¿¡") or clean(t).upper()
+
+
+def hook_text(hook, width=17):
+    """Titular en caja blanca; *asi* (o cifras y dinero) se resalta en rojo."""
+    lines, line, n, emph = [], [], 0, False
+    for raw in clean(hook).upper().split():
+        start, end = raw.startswith("*"), raw.endswith("*")
+        word = raw.strip("*")
+        if not word:
+            continue
+        hot = emph or start
+        emph = (emph or start) and not end
+        if line and n + len(word) + 1 > width:
+            lines.append(" ".join(line))
+            line, n = [], 0
+        line.append(f"{{\\c{RED}}}{word}{{\\c&H101010&}}" if hot else word)
+        n += len(word) + 1
+    if line:
+        lines.append(" ".join(line))
+    return "\\N".join(lines)
+
+
 def build_ass(words_out, hook, total, layout, path):
-    cap_y = 1480 if layout == "blur" else 1560
-    hook_y = 300 if layout == "blur" else 760
+    cap_y = 1400                       # por encima de la zona de botones y texto de TikTok/Shorts
+    hook_y = 300 if layout == "blur" else 770
     head = f"""[Script Info]
 ScriptType: v4.00+
 PlayResX: {W}
 PlayResY: {H}
 WrapStyle: 2
+ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Anton,104,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,1,0,1,7,3,5,40,40,0,1
-Style: Hook,Anton,84,&H00FFFFFF,&H00FFFFFF,&H001A1AE6,&H00000000,0,0,0,0,100,100,1,0,3,20,0,5,60,60,0,1
+Style: Cap,Anton,132,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,0,0,0,0,100,100,2,0,1,10,6,5,40,40,0,1
+Style: Hook,Anton,90,&H00101010,&H00101010,&H00FFFFFF,&H00000000,0,0,0,0,100,100,1,0,3,22,0,5,60,60,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     ev = []
     if hook:
-        h = wrap(clean(hook).upper(), 20)
         ev.append(f"Dialogue: 1,{ass_time(0)},{ass_time(total)},Hook,,0,0,0,,"
-                  f"{{\\pos(540,{hook_y})\\fscx80\\fscy80\\t(0,150,\\fscx100\\fscy100)}}{h}")
-    for ch in chunk_words(words_out):
-        ch_end = ch[-1]["e"] + 0.15
+                  f"{{\\pos(540,{hook_y})\\fscx70\\fscy70\\t(0,120,\\fscx106\\fscy106)\\t(120,220,\\fscx100\\fscy100)}}"
+                  + hook_text(hook))
+    chunks = chunk_words(sorted(words_out, key=lambda w: w["s"]))
+    for k, ch in enumerate(chunks):
+        ch_end = ch[-1]["e"] + 0.12
+        if k + 1 < len(chunks):          # nunca dos subtitulos a la vez en pantalla
+            ch_end = min(ch_end, chunks[k + 1][0]["s"])
+        texts = [cap_text(x["w"]) for x in ch]
         for i, w in enumerate(ch):
             s = w["s"]
-            e = ch[i + 1]["s"] if i + 1 < len(ch) else ch_end
+            e = min(ch[i + 1]["s"], ch_end) if i + 1 < len(ch) else ch_end
             if e <= s:
                 continue
             parts = []
-            for j, x in enumerate(ch):
-                t = clean(x["w"]).upper()
-                parts.append("{\\c&H00E5FF&}" + t + "{\\c&HFFFFFF&}" if j == i else t)
-            pop = "\\fscx112\\fscy112\\t(0,90,\\fscx100\\fscy100)" if i == 0 else ""
+            for j, t in enumerate(texts):
+                if j == i:      # palabra activa: color + rebote propio
+                    col = GREEN if re.search(r"[\d$€]", t) else YELLOW
+                    parts.append(f"{{\\c{col}\\fscx122\\fscy122\\t(0,110,\\fscx108\\fscy108)}}{t}"
+                                 f"{{\\c{WHITE}\\fscx100\\fscy100}}")
+                else:
+                    parts.append(t)
             ev.append(f"Dialogue: 0,{ass_time(s)},{ass_time(e)},Cap,,0,0,0,,"
-                      f"{{\\pos(540,{cap_y}){pop}}}" + " ".join(parts))
+                      f"{{\\pos(540,{cap_y})\\blur0.6}}" + " ".join(parts))
     Path(path).write_text(head + "\n".join(ev) + "\n", encoding="utf-8")
 
 
@@ -396,9 +434,7 @@ def render_clip(meta, c, outdir, lang_suffix=""):
                f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=24:2,eq=brightness=-0.18[bg];"
                f"[b]scale=1440:810,crop=1080:810,{zp}:s=1080x810[fg];"
                f"[bg][fg]overlay=0:(H-h)/2-80[v1];")
-    fc += (f"color=c=0xFFE500:s={W}x16:d={total:.3f}:r={FPS}[pb];"
-           f"[v1][pb]overlay=x='-w+w*t/{total:.3f}':y=H-16:shortest=1[v2];"
-           f"[v2]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
+    fc += (f"[v1]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
            f"[ac]loudnorm=I=-14:TP=-1.5:LRA=11[aout]")
     out = outdir / f"{stem}.mp4"
     cmd += ["-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",

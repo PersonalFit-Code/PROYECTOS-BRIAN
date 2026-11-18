@@ -5,7 +5,7 @@ Convierte un directo de Twitch (o un `.mp4`) en clips verticales 1080x1920 con:
 - **Gancho visual**: abre con 1,5 s del momento fuerte y un texto grande en caja roja.
 - **Subtítulos palabra a palabra** (Whisper), con la palabra activa en amarillo y un efecto pop.
 - **Zoom** en el pico de emoción.
-- **Barra de progreso** abajo, para que la gente aguante hasta el final.
+- **Titular** en caja blanca; marca con `*asteriscos*` la parte que va en rojo.
 - **Audio normalizado** a -14 LUFS, el volumen de referencia de TikTok y YouTube.
 - Formato `split` (cámara arriba y juego abajo) o `blur` (juego centrado con fondo desenfocado).
 
