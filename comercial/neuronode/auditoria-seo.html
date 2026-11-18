@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Auditoría SEO neuro-node.com</title>
+<style>
+@font-face{font-family:Montserrat;font-weight:500;src:url(fonts/fontsource-montserrat/files/montserrat-latin-500-normal.woff2)}
+@font-face{font-family:Montserrat;font-weight:600;src:url(fonts/fontsource-montserrat/files/montserrat-latin-600-normal.woff2)}
+@font-face{font-family:Montserrat;font-weight:700;src:url(fonts/fontsource-montserrat/files/montserrat-latin-700-normal.woff2)}
+@font-face{font-family:Montserrat;font-weight:800;src:url(fonts/fontsource-montserrat/files/montserrat-latin-800-normal.woff2)}
+@font-face{font-family:Quicksand;font-weight:500;src:url(fonts/fontsource-quicksand/files/quicksand-latin-500-normal.woff2)}
+@font-face{font-family:Quicksand;font-weight:600;src:url(fonts/fontsource-quicksand/files/quicksand-latin-600-normal.woff2)}
+@font-face{font-family:Quicksand;font-weight:700;src:url(fonts/fontsource-quicksand/files/quicksand-latin-700-normal.woff2)}
+@page{size:A4;margin:0}
+:root{--b:#6447FA;--az:#2E8BFF;--vi:#7B2FF2;--fg:#15131f;--mut:#5b5870;--line:#e8e5f3;--soft:#f5f3ff;--ok:#178a62;--okb:#e6f6ef;--av:#b25e09;--avb:#fff3e2;--ko:#c2283b;--kob:#fdebee}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Quicksand,sans-serif;font-weight:500;color:var(--fg);font-size:10.5pt;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pag{width:210mm;height:297mm;padding:18mm 17mm 16mm;position:relative;page-break-after:always;overflow:hidden;background:#fff}
+.pag:last-child{page-break-after:auto}
+h1,h2,h3,.mont{font-family:Montserrat,sans-serif}
+.cab{display:flex;justify-content:space-between;align-items:center;font-family:Montserrat;font-weight:700;font-size:9pt;color:var(--mut);margin-bottom:10mm}
+.logo{display:flex;align-items:center;gap:7px;font-family:Montserrat;font-weight:800;font-size:12pt;color:var(--fg);letter-spacing:-.01em}
+.logo i{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--az),var(--vi))}
+.pie{position:absolute;left:17mm;right:17mm;bottom:9mm;display:flex;justify-content:space-between;font-size:8pt;color:var(--mut);border-top:1px solid var(--line);padding-top:3mm}
+.eti{font-family:Montserrat;font-weight:700;font-size:8pt;letter-spacing:.16em;text-transform:uppercase;color:var(--b)}
+h2{font-size:21pt;font-weight:800;letter-spacing:-.02em;margin:2mm 0 3mm;line-height:1.15}
+.sub{color:var(--mut);max-width:150mm;margin-bottom:7mm}
+svg.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* portada */
+.portada{background:#fff}
+.portada .franja{position:absolute;inset:0 0 auto 0;height:118mm;background:linear-gradient(140deg,#1b1640 0%,#2a1d6e 55%,#4a2bd0 100%);color:#fff;padding:20mm 17mm}
+.portada .franja .logo{color:#fff}
+.portada h1{font-size:30pt;font-weight:800;line-height:1.05;letter-spacing:-.025em;margin-top:22mm;max-width:150mm}
+.portada h1 span{display:inline-block;white-space:nowrap;padding-bottom:2px;background:linear-gradient(90deg,#8fc3ff,#c9a8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.portada .franja p{margin-top:6mm;font-size:12pt;color:#d9d4f7;max-width:140mm}
+.deco{position:absolute;right:-20mm;top:20mm;width:110mm;opacity:.25}
+.datos-portada{position:absolute;top:132mm;left:17mm;right:17mm}
+.nota{display:grid;grid-template-columns:60mm 1fr;gap:10mm;align-items:center}
+.medidor{width:60mm}
+.veredicto h3{font-size:16pt;font-weight:800;margin-bottom:2mm}
+.veredicto p{color:var(--mut)}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:12mm}
+.meta div{border:1px solid var(--line);border-radius:10px;padding:5mm}
+.meta b{display:block;font-family:Montserrat;font-weight:700;font-size:8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--b);margin-bottom:1.5mm}
+.aviso{margin-top:9mm;display:flex;gap:4mm;background:var(--soft);border-radius:10px;padding:5mm 6mm;color:var(--fg);font-size:9.5pt}
+.aviso svg{color:var(--b);margin-top:1px}
+/* tarjetas */
+.prio{display:grid;gap:3.5mm}.card p{font-size:9.6pt}
+.card{border:1px solid var(--line);border-radius:12px;padding:4.5mm 5mm;display:grid;grid-template-columns:13mm 1fr;gap:5mm;align-items:start}
+.num{width:13mm;height:13mm;border-radius:10px;background:linear-gradient(135deg,var(--az),var(--vi));color:#fff;display:grid;place-items:center;font-family:Montserrat;font-weight:800;font-size:15pt}
+.card h3{font-size:12.5pt;font-weight:700;margin-bottom:1.5mm}
+.card p{color:var(--mut)}
+.chip{display:inline-flex;align-items:center;gap:4px;font-family:Montserrat;font-weight:700;font-size:7.5pt;border-radius:99px;padding:2px 9px;margin-top:2.5mm}
+.alta{background:var(--kob);color:var(--ko)}.media{background:var(--avb);color:var(--av)}.baja{background:var(--okb);color:var(--ok)}
+.bien-lista{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-top:3mm}
+.bien-lista div{background:var(--okb);border-radius:10px;padding:3.5mm;color:#0f5c41;font-size:9.5pt;display:flex;gap:3mm}
+.bien-lista svg{color:var(--ok)}
+h3.sec{font-size:12pt;font-weight:700;margin:9mm 0 3mm;display:flex;align-items:center;gap:3mm}
+h3.sec svg{color:var(--b)}
+/* tablas */
+table{width:100%;border-collapse:collapse;font-size:8.8pt}
+th{font-family:Montserrat;font-weight:700;font-size:7.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);text-align:left;padding:2.5mm 2.5mm;border-bottom:2px solid var(--fg)}
+td{padding:2mm 2.5mm;border-bottom:1px solid var(--line);vertical-align:top}
+td b{font-weight:700}
+.estado{display:inline-flex;align-items:center;gap:4px;font-family:Montserrat;font-weight:700;font-size:7.5pt;border-radius:99px;padding:2px 8px;white-space:nowrap}
+.e-ok{background:var(--okb);color:var(--ok)}.e-av{background:var(--avb);color:var(--av)}.e-ko{background:var(--kob);color:var(--ko)}
+.estado svg{width:11px;height:11px;stroke-width:2.6}
+.puntos{display:inline-flex;gap:3px;vertical-align:middle}
+.puntos i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.puntos.op i.on{background:var(--b)}
+.puntos.di i.on{background:#9a96ad}
+.kw{font-weight:700;white-space:nowrap}.tkw td{padding:1.7mm 2mm;font-size:8.4pt}
+.tag{font-size:7.5pt;font-family:Montserrat;font-weight:600;color:var(--mut)}
+/* huecos */
+.huecos{display:grid;grid-template-columns:repeat(2,1fr);gap:4mm}
+.hueco{border:1px solid var(--line);border-radius:12px;padding:5mm;display:flex;gap:4mm}
+.ico{width:10mm;height:10mm;border-radius:9px;background:var(--soft);color:var(--b);display:grid;place-items:center;flex:none}
+.hueco h4{font-family:Montserrat;font-size:10pt;font-weight:700;margin-bottom:1mm}
+.hueco p{color:var(--mut);font-size:9pt}
+.gana{font-family:Montserrat;font-weight:700;font-size:8pt}
+.gana.nos{color:var(--ok)}.gana.ellos{color:var(--ko)}
+/* plan */
+.plan{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
+.col h3{font-size:12pt;font-weight:800;display:flex;gap:3mm;align-items:center;margin-bottom:4mm}
+.col h3 svg{color:var(--b)}
+.tarea{display:flex;gap:3.5mm;padding:3.5mm 0;border-bottom:1px solid var(--line)}
+.caja{width:4.5mm;height:4.5mm;border:1.6px solid var(--b);border-radius:4px;flex:none;margin-top:1mm}
+.tarea b{display:block;font-weight:700}
+.tarea span{font-size:8.5pt;color:var(--mut)}
+.cierre{margin-top:9mm;border-radius:14px;padding:7mm 8mm;background:linear-gradient(135deg,#1b1640,#4a2bd0);color:#fff;display:flex;gap:6mm;align-items:center}
+.cierre svg{width:30px;height:30px;color:#c9a8ff}
+.cierre h3{font-size:13pt;font-weight:800;margin-bottom:1mm}
+.cierre p{color:#d9d4f7;font-size:9.5pt}
+</style></head><body>
+
+<!-- SVG iconos -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-alerta" viewBox="0 0 24 24"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4M12 17.5v.5"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></symbol>
+<symbol id="i-titulo" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></symbol>
+<symbol id="i-lupa" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+<symbol id="i-capas" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="i-rayo" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+<symbol id="i-codigo" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></symbol>
+<symbol id="i-enlace" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+<symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol>
+<symbol id="i-movil" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></symbol>
+<symbol id="i-robot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 4v4M9 13v1M15 13v1"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+<symbol id="i-sector" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="i-estrella" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+<symbol id="i-balanza" viewBox="0 0 24 24"><path d="M12 4v16M6 20h12M5 8h14"/><path d="M5 8l-3 6a3 3 0 0 0 6 0zM19 8l-3 6a3 3 0 0 0 6 0z"/></symbol>
+<symbol id="i-euro" viewBox="0 0 24 24"><path d="M17 6.5A7 7 0 1 0 17 17.5"/><path d="M4 10h9M4 14h9"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+<symbol id="i-diana" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="i-flecha" viewBox="0 0 24 24"><path d="M4 16l5-5 4 4 7-7M15 8h5v5"/></symbol>
+</defs></svg>
+
+<!-- 1 PORTADA -->
+<section class="pag portada">
+  <div class="franja">
+    <svg class="deco" viewBox="0 0 200 200" fill="none" stroke="#fff" stroke-width="1.2">
+      <circle cx="40" cy="60" r="5" fill="#fff"/><circle cx="110" cy="30" r="4" fill="#fff"/><circle cx="160" cy="90" r="6" fill="#fff"/><circle cx="90" cy="120" r="5" fill="#fff"/><circle cx="150" cy="170" r="4" fill="#fff"/><circle cx="40" cy="160" r="4" fill="#fff"/>
+      <path d="M40 60L110 30L160 90L90 120L40 60M90 120L150 170L160 90M90 120L40 160"/>
+    </svg>
+    <div class="logo"><i></i>neuro·node</div>
+    <h1>Auditoría SEO de <span>neuro-node.com</span></h1>
+    <p>Cómo nos encuentra hoy Google, qué falla y qué hacer para conseguir más visitas de clientes que ya buscan lo que ofrecemos.</p>
+  </div>
+  <div class="datos-portada">
+    <div class="nota">
+      <svg class="medidor" viewBox="0 0 200 120">
+        <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#2E8BFF"/><stop offset="1" stop-color="#7B2FF2"/></linearGradient></defs>
+        <path d="M20 105 A80 80 0 0 1 180 105" stroke="#ece9f7" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <path d="M20 105 A80 80 0 0 1 150 45" stroke="url(#g)" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <text x="100" y="92" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="30" fill="#15131f">6,5</text>
+        <text x="100" y="112" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#5b5870">sobre 10 · estimación</text>
+      </svg>
+      <div class="veredicto">
+        <div class="eti">Valoración</div>
+        <h3>Buena base técnica, falta trabajo de contenido</h3>
+        <p>La web carga rápido y está bien construida. El problema es que solo tiene 3 páginas y Google parece conocer solo la portada, con un título antiguo.</p>
+      </div>
+    </div>
+    <div class="meta">
+      <div><b>Para</b>Nico</div>
+      <div><b>Preparado por</b>Brian Carbajal</div>
+      <div><b>Fecha</b>18 de noviembre de 2026</div>
+    </div>
+    <div class="aviso"><svg class="i"><use href="#i-info"/></svg><div><b>Límite de este informe.</b> No tenemos datos de volumen de búsqueda ni de posiciones (Ahrefs y Similarweb están instalados pero sin autorizar). La dificultad y la oportunidad de las palabras clave son estimaciones a partir de lo que sale hoy en Google. La nota de 6,5 es orientativa.</div></div>
+  </div>
+  <div class="pie"><span>neuro·node · Auditoría SEO</span><span>1</span></div>
+</section>
+
+<!-- 2 RESUMEN -->
+<section class="pag">
+  <div class="cab"><div class="logo"><i></i>neuro·node</div><span>Resumen</span></div>
+  <div class="eti">Lo más importante</div>
+  <h2>Las tres prioridades</h2>
+  <p class="sub">Si solo hacemos tres cosas, que sean estas. Las dos primeras se resuelven en menos de una hora.</p>
+  <div class="prio">
+    <div class="card"><div class="num">1</div><div><h3>El título nuevo de la portada pierde las palabras clave</h3><p>En la rama nueva pasó de «Responde en WhatsApp e Instagram…» a «Cada mensaje, respondido. Cada interesado, con cita.». Es un buen lema, pero no dice IA, WhatsApp ni citas, que es lo que busca la gente. Propuesta: <b>«Asistente de IA para WhatsApp e Instagram que agenda citas»</b> en el título de Google, y el lema se queda en la página.</p><span class="chip alta">Impacto alto · antes del PR</span></div></div>
+    <div class="card"><div class="num">2</div><div><h3>Comprobar la indexación en Google Search Console</h3><p>Al buscar site:neuro-node.com solo aparece la portada, y con un título viejo («Un sistema que no duerme»). Hay que enviar el sitemap y pedir que indexe las 3 páginas.</p><span class="chip alta">Impacto alto · 15 minutos</span></div></div>
+    <div class="card"><div class="num">3</div><div><h3>Crear páginas por sector y por búsqueda</h3><p>Los competidores tienen páginas para cada tipo de cliente (fisioterapeutas, psicólogos, gimnasios…). Nosotros, no. Son búsquedas con poca competencia y gente con intención de contratar.</p><span class="chip media">Impacto alto · este trimestre</span></div></div>
+  </div>
+  <h3 class="sec"><svg class="i"><use href="#i-check"/></svg>Lo que ya está bien</h3>
+  <div class="bien-lista">
+    <div><svg class="i"><use href="#i-rayo"/></svg><span>Responde en 0,1–0,3 s y la portada pesa 11 KB comprimida</span></div>
+    <div><svg class="i"><use href="#i-codigo"/></svg><span>Se lee sin JavaScript, así Google la entiende entera</span></div>
+    <div><svg class="i"><use href="#i-doc"/></svg><span>Preguntas frecuentes con datos estructurados en las 3 páginas</span></div>
+    <div><svg class="i"><use href="#i-enlace"/></svg><span>Ningún enlace roto y canónicas correctas</span></div>
+    <div><svg class="i"><use href="#i-movil"/></svg><span>Bien en móvil, sin scroll lateral a 375 px</span></div>
+    <div><svg class="i"><use href="#i-estrella"/></svg><span>Casos reales con cifras, que los competidores no tienen</span></div>
+  </div>
+  <div class="pie"><span>neuro·node · Auditoría SEO</span><span>2</span></div>
+</section>
+
+<!-- 3 TÉCNICA + PÁGINAS -->
+<section class="pag">
+  <div class="cab"><div class="logo"><i></i>neuro·node</div><span>Técnica y páginas</span></div>
+  <div class="eti">Comprobaciones técnicas</div>
+  <h2>Cómo está la web por dentro</h2>
+  <table>
+    <tr><th style="width:30%">Comprobación</th><th style="width:14%">Estado</th><th>Detalle</th></tr>
+    <tr><td><b>Velocidad del servidor</b></td><td><span class="estado e-ok"><svg class="i"><use href="#i-check"/></svg>Bien</span></td><td>Responde en 0,1 a 0,3 s.</td></tr>
+    <tr><td><b>www → dominio principal</b></td><td><span class="estado e-ok"><svg class="i"><use href="#i-check"/></svg>Bien</span></td><td>Redirige con 301.</td></tr>
+    <tr><td><b>HTTP → HTTPS</b></td><td><span class="estado e-ko"><svg class="i"><use href="#i-x"/></svg>Falla</span></td><td>http://neuro-node.com responde sin redirigir. Se arregla en Cloudflare activando «Always Use HTTPS».</td></tr>
+    <tr><td><b>Página 404</b></td><td><span class="estado e-ok"><svg class="i"><use href="#i-check"/></svg>Bien</span></td><td>Devuelve un 404 real y no se indexa.</td></tr>
+    <tr><td><b>robots.txt y sitemap</b></td><td><span class="estado e-ok"><svg class="i"><use href="#i-check"/></svg>Bien</span></td><td>/gracias excluida. El sitemap lista las 3 páginas (falta la fecha de actualización).</td></tr>
+    <tr><td><b>Robots de IA</b></td><td><span class="estado e-av"><svg class="i"><use href="#i-alerta"/></svg>Aviso</span></td><td>Cloudflare bloquea GPTBot, ClaudeBot y Google-Extended. Puede quitarnos presencia en las respuestas de los asistentes de IA. Decisión nuestra.</td></tr>
+    <tr><td><b>Datos estructurados</b></td><td><span class="estado e-ok"><svg class="i"><use href="#i-check"/></svg>Bien</span></td><td>Organización, web y preguntas frecuentes. Falta el de Servicio y enlazar las redes (sameAs).</td></tr>
+    <tr><td><b>Indexación</b></td><td><span class="estado e-av"><svg class="i"><use href="#i-alerta"/></svg>Aviso</span></td><td>Solo sale la portada, con título viejo. Confirmar en Search Console.</td></tr>
+    <tr><td><b>Contenido</b></td><td><span class="estado e-av"><svg class="i"><use href="#i-alerta"/></svg>Aviso</span></td><td>3 páginas de 1.100–1.400 palabras. Sin blog ni guías.</td></tr>
+  </table>
+  <div class="aviso" style="margin-top:7mm"><svg class="i"><use href="#i-escudo"/></svg><div><b>Lo único que falla de verdad es HTTP → HTTPS</b>, y se arregla con un interruptor en Cloudflare. El resto son avisos: cosas que mejorar, no errores.</div></div>
+  <div class="pie"><span>neuro·node · Auditoría SEO</span><span>3</span></div>
+</section>
+
+<section class="pag">
+  <div class="cab"><div class="logo"><i></i>neuro·node</div><span>Páginas</span></div>
+  <div class="eti">Página por página</div>
+  <h2>Problemas en cada página</h2>
+  <p class="sub">Títulos y descripciones demasiado largos o sin las palabras que busca la gente. Son cambios de texto, rápidos de hacer.</p>
+  <table>
+    <tr><th style="width:17%">Página</th><th>Problema</th><th style="width:11%">Gravedad</th><th style="width:31%">Arreglo</th></tr>
+    <tr><td><b>Portada</b></td><td>Título nuevo sin palabras clave (es un lema).</td><td><span class="chip alta" style="margin:0">Alta</span></td><td>Título con «IA», «WhatsApp» y «citas».</td></tr>
+    <tr><td><b>Portada</b></td><td>El titular principal (H1) y los subtítulos no nombran IA, WhatsApp ni citas.</td><td><span class="chip media" style="margin:0">Media</span></td><td>Meter la etiqueta de encima en el H1 y retocar 2–3 subtítulos.</td></tr>
+    <tr><td><b>Portada</b></td><td>La intro de 2 s puede empeorar la medida de velocidad.</td><td><span class="chip media" style="margin:0">Media</span></td><td>Medir con PageSpeed tras publicar.</td></tr>
+    <tr><td><b>/consultas</b></td><td>Descripción de 205 caracteres (Google corta en ~160). H1 sin «WhatsApp» ni «citas».</td><td><span class="chip media" style="margin:0">Media</span></td><td>Acortar y empezar por «citas por WhatsApp».</td></tr>
+    <tr><td><b>/infoproductores</b></td><td>Título de 74 caracteres (se corta en ~60) y descripción de 175.</td><td><span class="chip media" style="margin:0">Media</span></td><td>Acortar ambos.</td></tr>
+    <tr><td><b>Portada</b></td><td>16 de 22 imágenes sin carga diferida.</td><td><span class="chip baja" style="margin:0">Baja</span></td><td>Carga diferida en las de abajo.</td></tr>
+  </table>
+  <h3 class="sec"><svg class="i"><use href="#i-titulo"/></svg>Cómo se ve hoy en Google y cómo debería verse</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5mm">
+    <div style="border:1px solid var(--line);border-radius:12px;padding:5mm"><span class="estado e-ko"><svg class="i"><use href="#i-x"/></svg>Hoy</span><p style="margin-top:3mm;font-size:8pt;color:#188038">neuro-node.com</p><p style="font-family:Arial;font-size:12pt;color:#1a0dab">Un sistema que no duerme | neuro·node</p><p style="font-size:8.5pt;color:var(--mut)">Título antiguo, sin decir qué hacemos ni para quién.</p></div>
+    <div style="border:1px solid var(--line);border-radius:12px;padding:5mm"><span class="estado e-ok"><svg class="i"><use href="#i-check"/></svg>Propuesta</span><p style="margin-top:3mm;font-size:8pt;color:#188038">neuro-node.com</p><p style="font-family:Arial;font-size:12pt;color:#1a0dab">Asistente de IA para WhatsApp e Instagram que agenda citas | neuro·node</p><p style="font-size:8.5pt;color:var(--mut)">Dice qué es, dónde funciona y qué consigue.</p></div>
+  </div>
+  <div class="pie"><span>neuro·node · Auditoría SEO</span><span>4</span></div>
+</section>
+
+<!-- 4 PALABRAS CLAVE -->
+<section class="pag">
+  <div class="cab"><div class="logo"><i></i>neuro·node</div><span>Palabras clave</span></div>
+  <div class="eti">Oportunidades</div>
+  <h2>Lo que busca la gente y dónde ponerlo</h2>
+  <p class="sub">Hoy no aparecemos en las primeras posiciones para ninguna. Las de dificultad baja y oportunidad alta son las primeras a por las que ir.</p>
+  <table class="tkw">
+    <tr><th style="width:39%">Palabra clave</th><th style="width:11%">Dificultad</th><th style="width:12%">Oportunidad</th><th style="width:11%">Intención</th><th style="width:27%">Dónde ponerla</th></tr>
+    <tr><td class="kw">chatbot WhatsApp para fisioterapeutas</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td class="tag">Comercial</td><td>Página nueva por sector</td></tr>
+    <tr><td class="kw">chatbot WhatsApp para psicólogos</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td class="tag">Comercial</td><td>Página nueva por sector</td></tr>
+    <tr><td class="kw">chatbot WhatsApp para nutricionistas</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td class="tag">Comercial</td><td>Página nueva por sector</td></tr>
+    <tr><td class="kw">chatbot WhatsApp para gimnasios</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td class="tag">Comercial</td><td>Página nueva (caso Personal Fit)</td></tr>
+    <tr><td class="kw">carta digital con IA para restaurantes</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td class="tag">Comercial</td><td>Página nueva (caso Tixola)</td></tr>
+    <tr><td class="kw">setter IA para infoproductores</td><td><span class="puntos di"><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td class="tag">Comercial</td><td>/infoproductores</td></tr>
+    <tr><td class="kw">agendar citas por WhatsApp automáticamente</td><td><span class="puntos di"><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td class="tag">Comercial</td><td>/consultas</td></tr>
+    <tr><td class="kw">chatbot WhatsApp para clínicas</td><td><span class="puntos di"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td class="tag">Comercial</td><td>/consultas</td></tr>
+    <tr><td class="kw">asistente IA WhatsApp citas</td><td><span class="puntos di"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td class="tag">Comercial</td><td>Portada</td></tr>
+    <tr><td class="kw">qué es un setter de IA</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i></i></span></td><td class="tag">Informativa</td><td>Artículo</td></tr>
+    <tr><td class="kw">cualificar leads por DM de Instagram</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i></i></span></td><td class="tag">Informativa</td><td>Artículo</td></tr>
+    <tr><td class="kw">alternativa a ManyChat con IA</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i></i></span></td><td class="tag">Comercial</td><td>Página de comparación</td></tr>
+    <tr><td class="kw">reducir citas perdidas en clínica</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i></i></span></td><td class="tag">Informativa</td><td>Artículo</td></tr>
+    <tr><td class="kw">CRM a medida para centro de entrenamiento</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i></i></span></td><td class="tag">Comercial</td><td>Caso Personal Fit</td></tr>
+    <tr><td class="kw">setter IA Instagram</td><td><span class="puntos di"><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i></i></span></td><td class="tag">Comercial</td><td>/infoproductores</td></tr>
+    <tr><td class="kw">recordatorios de citas por WhatsApp</td><td><span class="puntos di"><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i></i></span></td><td class="tag">Comercial</td><td>/consultas o artículo</td></tr>
+    <tr><td class="kw">cuánto cuesta un chatbot de WhatsApp</td><td><span class="puntos di"><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i class="on"></i><i></i></span></td><td class="tag">Comercial</td><td>Artículo sobre precio</td></tr>
+    <tr><td class="kw">web para pastelería con encargos online</td><td><span class="puntos di"><i class="on"></i><i></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i></i><i></i></span></td><td class="tag">Comercial</td><td>Caso Bin &amp; Cami</td></tr>
+    <tr><td class="kw">agente de voz IA para clínicas</td><td><span class="puntos di"><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="puntos op"><i class="on"></i><i></i><i></i></span></td><td class="tag">Comercial</td><td>Solo cuando lo vendamos</td></tr>
+  </table>
+  <p style="margin-top:4mm;font-size:8.5pt;color:var(--mut)">Puntos: uno = baja, tres = alta. Estimaciones sin herramienta de volumen de búsqueda.</p>
+  <div class="pie"><span>neuro·node · Auditoría SEO</span><span>5</span></div>
+</section>
+
+<!-- 5 HUECOS + COMPETIDORES -->
+<section class="pag">
+  <div class="cab"><div class="logo"><i></i>neuro·node</div><span>Contenido y competencia</span></div>
+  <div class="eti">Huecos de contenido</div>
+  <h2>Qué páginas nos faltan</h2>
+  <div class="huecos">
+    <div class="hueco"><div class="ico"><svg class="i"><use href="#i-sector"/></svg></div><div><h4>Páginas por sector</h4><p>Fisioterapia, psicología, nutrición, gimnasios y hostelería. Medio día por página con la plantilla actual.</p><span class="chip alta">Prioridad alta</span></div></div>
+    <div class="hueco"><div class="ico"><svg class="i"><use href="#i-estrella"/></svg></div><div><h4>Páginas de caso</h4><p>Personal Fit, Tixola y Bin &amp; Cami. Ya tenemos vídeos y textos. De 1 a 2 horas cada una.</p><span class="chip alta">Prioridad alta</span></div></div>
+    <div class="hueco"><div class="ico"><svg class="i"><use href="#i-doc"/></svg></div><div><h4>Artículos que responden preguntas</h4><p>Qué es un setter de IA, cuánto cuesta, cómo cualificar por DM. Tarda meses en notarse.</p><span class="chip media">Prioridad media</span></div></div>
+    <div class="hueco"><div class="ico"><svg class="i"><use href="#i-balanza"/></svg></div><div><h4>Comparaciones</h4><p>Frente a ManyChat y frente a contratar a un setter. Medio día cada una.</p><span class="chip media">Prioridad media</span></div></div>
+    <div class="hueco"><div class="ico"><svg class="i"><use href="#i-euro"/></svg></div><div><h4>Página de precios</h4><p>O de «cómo se calcula». La pregunta ya está en las frecuentes, pero no tiene página propia.</p><span class="chip baja">Prioridad baja</span></div></div>
+    <div class="hueco"><div class="ico"><svg class="i"><use href="#i-enlace"/></svg></div><div><h4>Enlaces desde los clientes</h4><p>Que Tixola, Personal Fit y Bin &amp; Cami enlacen a neuro·node desde sus webs.</p><span class="chip media">Prioridad media</span></div></div>
+  </div>
+  <h3 class="sec"><svg class="i"><use href="#i-diana"/></svg>Frente a la competencia</h3>
+  <table>
+    <tr><th style="width:30%">Aspecto</th><th>neuro-node.com</th><th>setterapp.ai</th><th>clinicsay.com</th><th style="width:13%">Gana</th></tr>
+    <tr><td><b>Páginas por sector</b></td><td>No</td><td>Sí</td><td>Sí (por función)</td><td class="gana ellos">Ellos</td></tr>
+    <tr><td><b>Blog o guías</b></td><td>No</td><td>No lo vimos</td><td>Sí</td><td class="gana ellos">clinicsay</td></tr>
+    <tr><td><b>Palabra clave en título y H1</b></td><td>Parcial</td><td>Sí</td><td>Sí</td><td class="gana ellos">Ellos</td></tr>
+    <tr><td><b>Preguntas frecuentes</b></td><td>Sí, con datos estructurados</td><td>Sí</td><td>No lo vimos</td><td class="gana">Empate</td></tr>
+    <tr><td><b>Casos reales con cifras</b></td><td>Sí (Inma, Alejandro)</td><td>Cifras agregadas</td><td>No lo vimos</td><td class="gana nos">Nosotros</td></tr>
+    <tr><td><b>Velocidad y técnica</b></td><td>Muy buena</td><td>Sin medir</td><td>Sin medir</td><td class="gana">Sin datos</td></tr>
+  </table>
+  <p style="margin-top:3mm;font-size:8.5pt;color:var(--mut)">Otros que aparecen en nuestras búsquedas: whatsetter.com, setsmart.io, talqo.es y whato.app.</p>
+  <div class="pie"><span>neuro·node · Auditoría SEO</span><span>6</span></div>
+</section>
+
+<!-- 6 PLAN -->
+<section class="pag">
+  <div class="cab"><div class="logo"><i></i>neuro·node</div><span>Plan de acción</span></div>
+  <div class="eti">Siguientes pasos</div>
+  <h2>Plan de acción</h2>
+  <p class="sub">Primero lo rápido, que ya da resultado. Después, el contenido, que es lo que nos hará crecer en Google.</p>
+  <div class="plan">
+    <div class="col">
+      <h3><svg class="i"><use href="#i-rayo"/></svg>Esta semana</h3>
+      <div class="tarea"><div class="caja"></div><div><b>Palabras clave en el título de la portada</b><span>Impacto alto · en la rama actual, antes del PR</span></div></div>
+      <div class="tarea"><div class="caja"></div><div><b>Activar «Always Use HTTPS» en Cloudflare</b><span>Impacto medio · quien tenga acceso al panel</span></div></div>
+      <div class="tarea"><div class="caja"></div><div><b>Search Console: enviar el sitemap y pedir la indexación</b><span>Impacto alto · 15 minutos</span></div></div>
+      <div class="tarea"><div class="caja"></div><div><b>Acortar títulos y descripciones de /infoproductores y /consultas</b><span>Impacto medio</span></div></div>
+      <div class="tarea"><div class="caja"></div><div><b>Redes de la empresa en los datos y fecha en el sitemap</b><span>Impacto bajo</span></div></div>
+    </div>
+    <div class="col">
+      <h3><svg class="i"><use href="#i-cal"/></svg>Este trimestre</h3>
+      <div class="tarea"><div class="caja"></div><div><b>Tres páginas de caso</b><span>Con lo que ya hay en «Proyectos en acción» · impacto alto, esfuerzo bajo</span></div></div>
+      <div class="tarea"><div class="caja"></div><div><b>Entre 4 y 6 páginas por sector</b><span>Impacto alto</span></div></div>
+      <div class="tarea"><div class="caja"></div><div><b>Un blog pequeño con 5 o 6 artículos</b><span>Impacto medio · tarda meses en notarse</span></div></div>
+      <div class="tarea"><div class="caja"></div><div><b>Decidir si desbloqueamos los robots de IA</b><span>En el panel de Cloudflare</span></div></div>
+      <div class="tarea"><div class="caja"></div><div><b>Enlaces desde las webs de nuestros clientes</b><span>Tixola, Personal Fit y Bin &amp; Cami</span></div></div>
+    </div>
+  </div>
+  <div class="cierre"><svg class="i"><use href="#i-flecha"/></svg><div><h3>Lo que necesito de ti, Nico</h3><p>Acceso a Cloudflare y a Google Search Console (o hacerlo tú), y tu opinión sobre el título de la portada y los robots de IA. Con eso, lo de esta semana queda hecho.</p></div></div>
+  <div class="pie"><span>neuro·node · Auditoría SEO</span><span>7</span></div>
+</section>
+</body></html>
