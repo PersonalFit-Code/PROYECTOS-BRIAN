@@ -434,8 +434,17 @@ def render_clip(meta, c, outdir, lang_suffix=""):
                f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=24:2,eq=brightness=-0.18[bg];"
                f"[b]scale=1440:810,crop=1080:810,{zp}:s=1080x810[fg];"
                f"[bg][fg]overlay=0:(H-h)/2-80[v1];")
-    fc += (f"[v1]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
-           f"[ac]loudnorm=I=-14:TP=-1.5:LRA=11[aout]")
+    fc += f"[v1]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
+    voice = c.get("voice")
+    if voice and Path(voice).exists():   # voz en off al arrancar: baja el audio original mientras suena
+        vd = probe_duration(voice) + 0.15
+        cmd += ["-i", str(voice)]
+        fc += (f"[ac]volume='if(lt(t,{vd:.2f}),0.22,1)':eval=frame[duck];"
+               f"[{n}:a]aresample=48000,volume=1.8[vo];"
+               f"[duck][vo]amix=inputs=2:duration=first:normalize=0[am];"
+               f"[am]loudnorm=I=-14:TP=-1.5:LRA=11[aout]")
+    else:
+        fc += "[ac]loudnorm=I=-14:TP=-1.5:LRA=11[aout]"
     out = outdir / f"{stem}.mp4"
     cmd += ["-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
             "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p",
