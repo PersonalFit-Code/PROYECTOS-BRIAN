@@ -1,5 +1,7 @@
 # neuro·node: contexto completo para actualizar la web
 
+> **Actualización 18 nov 2026:** Nico y Brian se presentan como socios que hacen lo mismo y se complementan, no como dos líneas de servicio distintas. Los pasos actuales están en `PASOS-WEB.md`.
+
 > Para Brian. La parte final («Prompt para VS Code») se copia tal cual al chat de Claude dentro de Visual Studio Code, con el repositorio de la web abierto.
 > Lo marcado como **[PENDIENTE]** hay que confirmarlo con Nico antes de publicar.
 
