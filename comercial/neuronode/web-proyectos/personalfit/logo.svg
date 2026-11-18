@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Personal Fit">
+  <!-- El símbolo de Personal Fit, redibujado como trazado (23/09/2026).
+       No es el PNG de la web: ese es el logotipo COMPLETO con las letras, y a
+       16 px las letras son un borrón. Aquí va sólo el símbolo.
+       Las coordenadas ya están al 70% y centradas: los móviles recortan el
+       icono a círculo, y a sangre se comería las dos puntas de abajo.
+       Fondo negro dentro del fichero a propósito: el símbolo es BLANCO, así
+       que sobre transparente desaparece en modo claro. -->
+  <rect width="100" height="100" fill="#000000"/>
+  <path fill="#ffffff" fill-rule="evenodd"
+        d="M58.4 19.2 L85 80.8 L20.6 80.8 Z
+           M38.8 80.8 L66.8 80.8 L56.3 55.6 Z"/>
+</svg>
