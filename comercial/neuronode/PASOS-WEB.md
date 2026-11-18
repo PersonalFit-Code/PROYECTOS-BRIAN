@@ -49,7 +49,7 @@ No cambies nada todavía.
 ```
 Seguimos en la rama "brian/portada-y-perfil". Si no estamos en ella, avísame.
 
-Quiero que la sección "Quién está detrás" muestre a los dos socios, Nico y yo. Hacemos lo mismo, pero nos complementamos: él pone la estrategia comercial y yo la parte técnica y de construcción.
+Quiero que la sección "Quién está detrás" muestre a los dos socios, Nico y yo. Hacemos lo mismo, pero nos complementamos: él convierte las conversaciones en ventas y yo me encargo de que lleguen (web, redes y marketing).
 
 Cambios:
 1. Título de la sección: "Dos socios. Estrategia y tecnología en el mismo equipo."
@@ -63,7 +63,10 @@ Cambios:
      - Nombre: "Brian Carbajal".
      - Cargo: "Co-Founder · neuro·node".
      - Título: "Tech Partner | Desarrollo e IA".
-     - Texto: "Me encargo de que el sistema funcione de verdad en el día a día. Construyo y conecto los asistentes de IA con WhatsApp, Instagram, la agenda y las herramientas que ya usa cada negocio. Los pruebo con conversaciones reales antes de activarlos y los mantengo afinados mes a mes. Mi enfoque: entender cómo trabaja cada negocio antes de tocar nada, y construir solo lo que le ahorra tiempo o le trae clientes."
+     - Texto, en 3 párrafos como el de Nico:
+       - "Ayudo a negocios y profesionales a que les encuentren, les entiendan y les escriban."
+       - "Diseño webs claras y rápidas, pensadas para el móvil, y llevo las redes sociales con contenido que explica lo que haces sin sonar a anuncio. Todo conectado con el asistente de IA: quien llega desde tu web o tu Instagram recibe respuesta al momento y termina con una cita en tu agenda."
+       - "Mi enfoque une diseño, marketing y tecnología: entender cómo trabaja cada negocio antes de tocar nada y construir solo lo que le trae clientes."
 3. El bloque "Qué incluye trabajar conmigo" pasa a llamarse "Qué incluye trabajar con nosotros". Los 4 puntos se quedan igual, pero debajo de las dos tarjetas.
 4. Mi foto todavía no está. Usa la ruta de imagen "brian.webp", en la misma carpeta que la foto de Nico. Mientras no exista, muestra un círculo con el mismo tamaño y fondo que la foto de Nico, con mis iniciales "BC". Texto alternativo: "Brian Carbajal, Co-Founder de neuro·node".
 
