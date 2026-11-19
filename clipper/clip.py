@@ -300,7 +300,7 @@ YELLOW, GREEN, RED, WHITE = "&H00E6FF&", "&H7AFF3D&", "&H2A2AF0&", "&HFFFFFF&"
 
 
 BAD = re.compile(
-    r"(?i)^(mother)?(fuck\w*|shit\w*|bitch\w*|ass(hole)?s?|dick\w*|pussy|nigg\w*|hoe?s|cunt\w*"
+    r"(?i)^(mother)?(fuck\w*|(bull)?shit\w*|bitch\w*|ass(hole)?s?|dick\w*|pussy|nigg\w*|hoe?s|cunt\w*"
     r"|put[ao]s?|putada\w*|joder\w*|jod[aeio]\w*|co[ñn]o|mierda\w*|cabr[oó]n\w*|gilipollas|polla\w*"
     r"|cojon\w*|hostia\w*|ostia\w*|maric[oó]n\w*|zorra\w*|chochit?o?s?)$")
 
