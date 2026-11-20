@@ -34,7 +34,7 @@ Una tarea programada busca en la web los 5 mejores momentos nuevos de GTA 6 de l
 
 ## 4. Plan de edición por clip
 
-- **Duración:** 15-30 s como objetivo. Máximo 40 s, y 45 s solo si es una persecución.
+- **Duración:** 15-30 s. **Máximo 30 s, sin excepciones** (decisión del 20 de noviembre: los Shorts largos retienen peor). Si el momento es más largo, se corta en dos trozos o se queda solo el tramo con el remate.
 - **Segundo 0-2:** frena el scroll. Tiene que haber acción o una frase en ese momento. Nada de teaser ni de esperas.
 - **Texto en pantalla:** el título en la caja blanca (gancho de 5-9 palabras que nombra al streamer y lo que se ve) y subtítulos palabra a palabra.
 - **Crédito en pantalla:** siempre `twitch.tv/<canal>` (render `--credit`, o `"credit"` en la spec de mk.py).
