@@ -6,7 +6,7 @@ Página de clips de GTA 6 sin rostro. Objetivo: ser la página más rápida y fi
 
 | Campo | Valor |
 |---|---|
-| Cuentas | TikTok (hollybrian), Instagram Reels `viceclipsgta_` (ViceClips, solo español), YouTube Shorts "Vice Clips" |
+| Cuentas | TikTok (hollybrian): clips de Kai Cenat para Content Rewards. Instagram Reels `viceclipsgta_` (ViceClips) y YouTube Shorts "Vice Clips": **solo streamers hispanos** (Kai Cenat no va ni a IG ni a YouTube) |
 | Zona horaria | Europe/Madrid |
 | Monetización | Content Rewards: "Kai Cenat - $10,000 GTA 6 Pool Campaign" (solo clips de Kai Cenat jugando GTA 6). Más adelante, TikTok Creator Rewards y YouTube Partner |
 | Herramientas | `clipper/clip.py` (scan, transcript, pick, render), `mk.py` para clips elegidos a mano, tandas automáticas cada hora |
@@ -57,9 +57,9 @@ Una tarea programada busca en la web los 5 mejores momentos nuevos de GTA 6 de l
 
 | Contenido | Franja 1 | Franja 2 | Franja 3 |
 |---|---|---|---|
-| Kai Cenat / inglés (público de EE. UU.) | 12:00 ET = 18:00 ES | 17:00 ET = 23:00 ES | 21:00 ET = 03:00 ES (programado) |
+| Kai Cenat, solo TikTok (público de EE. UU.) | 12:00 ET = 18:00 ES | 17:00 ET = 23:00 ES | 21:00 ET = 03:00 ES (programado) |
 | Streamers españoles (IG viceclipsgta_) | 14:00 ES | 19:00 ES | 22:00 ES |
-| YouTube Shorts "Vice Clips" (5 al día, programados) | 12:00 · 15:00 · 18:00 | 20:00 ES | 22:00 ES |
+| YouTube Shorts "Vice Clips", solo hispanos (5 al día, programados) | 12:00 · 15:00 · 18:00 | 20:00 ES | 22:00 ES |
 
 Las franjas de madrugada se programan desde la app: TikTok tiene programador en la web e Instagram lo permite al publicar. Cada mañana el radar entrega la tabla del día con los clips pendientes ya asignados a cada franja.
 
