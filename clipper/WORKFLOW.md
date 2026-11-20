@@ -81,3 +81,12 @@ Las franjas de madrugada se programan desde la app: TikTok tiene programador en 
 
 Requisitos y cifras orientativos: comprueba en cada programa los vigentes.
 Evitar: vender "guías de trucos" con contenido no oficial y cualquier cosa que prometa jugar antes o versiones piratas.
+
+**Plantilla de DM para una marca gaming:**
+```
+Hola, equipo de [marca] 👋
+Soy el creador de ViceClips (@viceclipsgta_), una página de clips de GTA 6 en TikTok, Reels y Shorts.
+Últimos 30 días: [X] visualizaciones, [Y] seguidores, [Z] % de audiencia de 18-34 años de España/LatAm.
+Os propongo una mención integrada en un clip de GTA 6 (producto en pantalla y enlace en la bio 48 h) por [precio] €.
+Si os encaja, os paso el kit de medios con estadísticas y ejemplos. ¡Gracias!
+```
