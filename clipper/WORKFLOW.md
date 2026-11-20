@@ -59,6 +59,7 @@ Una tarea programada busca en la web los 5 mejores momentos nuevos de GTA 6 de l
 |---|---|---|---|
 | Kai Cenat / inglés (público de EE. UU.) | 12:00 ET = 18:00 ES | 17:00 ET = 23:00 ES | 21:00 ET = 03:00 ES (programado) |
 | Streamers españoles (IG viceclipsgta_) | 14:00 ES | 19:00 ES | 22:00 ES |
+| YouTube Shorts "Vice Clips" (5 al día, programados) | 12:00 · 15:00 · 18:00 | 20:00 ES | 22:00 ES |
 
 Las franjas de madrugada se programan desde la app: TikTok tiene programador en la web e Instagram lo permite al publicar. Cada mañana el radar entrega la tabla del día con los clips pendientes ya asignados a cada franja.
 
