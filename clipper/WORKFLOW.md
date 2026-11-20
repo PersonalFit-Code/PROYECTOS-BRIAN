@@ -61,3 +61,23 @@ Una tarea programada busca en la web los 5 mejores momentos nuevos de GTA 6 de l
 | Streamers españoles (IG viceclipsgta_) | 14:00 ES | 19:00 ES | 22:00 ES |
 
 Las franjas de madrugada se programan desde la app: TikTok tiene programador en la web e Instagram lo permite al publicar. Cada mañana el radar entrega la tabla del día con los clips pendientes ya asignados a cada franja.
+
+## 6. Crecer con comentarios
+
+- **Primera hora después de publicar:** responde a todos los comentarios, mejor con una pregunta para que sigan hablando, y fija el mejor.
+- **Comentar en cuentas grandes de GTA 6** (Rockstar, páginas de noticias, clippers grandes y los streamers): 5-10 comentarios al día, útiles o graciosos y nunca "sígueme". Banco de respuestas en `clipper/RESPUESTAS.md`.
+- **Preguntas que se repiten en tus comentarios:** cada una es un post. Apúntalas en el informe semanal.
+- **Informe de los domingos (20:40):** tú pegas los números de la semana (visualizaciones, comentarios, compartidos y seguidores nuevos por post) y sale qué ha funcionado y por qué, qué publicar más y qué dejar de hacer.
+
+## 7. Monetización (de la más rápida a la más grande)
+
+| # | Vía | Cuándo | Cuánto | Primer paso |
+|---|---|---|---|---|
+| 1 | Content Rewards / Whop (campañas de clips: Kai Cenat y otras) | Ya | Pago por cada 1.000 visualizaciones, según la campaña | Enviar cada clip de Kai publicado y buscar 1-2 campañas más de GTA 6 o de streamers |
+| 2 | Editar clips para streamers pequeños o medianos | Ya (el portfolio son nuestros clips) | 50-150 € al mes por 10-15 clips; más adelante paquetes de 300 € o más | DM a 5 streamers de GTA 6 de 1.000 a 20.000 seguidores con 2 clips de muestra hechos con su directo |
+| 3 | Afiliados (Amazon Afiliados de mandos, auriculares y sillas; tarjetas PSN/Xbox en tiendas con programa de afiliados) | Desde unos 1.000 seguidores | Comisión del 3-10 % | Darte de alta y poner un enlace en la bio ("mi setup") |
+| 4 | Menciones pagadas o marcas gaming | Desde 5.000-10.000 seguidores o 100.000 visualizaciones al mes | Orientativo: 10-20 € por cada 10.000 visualizaciones medias por post | Kit de medios con capturas de estadísticas y DM (plantilla abajo) |
+| 5 | TikTok Creator Rewards y YouTube Partner | Requisitos de cada plataforma (TikTok: 10.000 seguidores, 100.000 visualizaciones en 30 días y vídeos de más de 1 minuto; YouTube: 1.000 suscriptores y 10 millones de visualizaciones de Shorts en 90 días) | Variable | Para Creator Rewards hay que hacer recopilatorios de más de 1 minuto ("Top 5 momentos de Kai en GTA 6") |
+
+Requisitos y cifras orientativos: comprueba en cada programa los vigentes.
+Evitar: vender "guías de trucos" con contenido no oficial y cualquier cosa que prometa jugar antes o versiones piratas.
