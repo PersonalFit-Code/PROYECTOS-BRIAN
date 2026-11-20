@@ -91,3 +91,54 @@ Soy el creador de ViceClips (@viceclipsgta_), una página de clips de GTA 6 en T
 Os propongo una mención integrada en un clip de GTA 6 (producto en pantalla y enlace en la bio 48 h) por [precio] €.
 Si os encaja, os paso el kit de medios con estadísticas y ejemplos. ¡Gracias!
 ```
+
+## 8. Estrategia para llegar a los objetivos y monetizar
+
+### Objetivos (YouTube "Vice Clips", solo hispanos)
+| Nivel | Requisito (90 días) | Qué desbloquea |
+|---|---|---|
+| YPP nivel 1 | 500 suscriptores + 3 vídeos públicos + 3 millones de visualizaciones de Shorts | Fan funding: membresías, Super Thanks, Shopping |
+| YPP completo | 1.000 suscriptores + 10 millones de visualizaciones de Shorts (o 4.000 horas de vídeos largos) | Reparto de anuncios de Shorts y de vídeos largos |
+
+Cifras orientativas: compruébalas en YouTube Studio → Ganar dinero.
+Ritmo necesario: 10 M en 90 días son unas **111.000 visualizaciones al día**, unas 22.000 por Short publicando 5 al día. Para el nivel 1 bastan unas 33.000 al día.
+
+### Riesgo número 1: "contenido reutilizado"
+YouTube rechaza del YPP los canales que solo resuben contenido ajeno sin aportar nada. Para que Vice Clips sea monetizable hay que **transformar**:
+- título propio, subtítulos, cortes y montaje en cada clip (ya se hace);
+- **voz o texto propio**: una frase de contexto o un dato en pantalla ("Dato: puedes quedarte coches robados por 8.000");
+- **recopilatorios con criterio**: "Top 5 de la semana", "Cosas que no sabías de GTA 6" y comparativas entre streamers;
+- **formatos 100 % propios**: carruseles convertidos en vídeo, rankings y explicaciones de mecánicas.
+Antes de pedir el YPP, al menos un 30-40 % de lo subido debería ser recopilatorio o explicación con aporte propio.
+
+### Plan por fases
+**Fase 1, semanas 1-2 (arranque):** 5 Shorts al día (12, 15, 18, 20 y 22 h).
+- Probar ganchos: palabra en mayúsculas o no, pregunta o afirmación, streamer al principio o "GTA 6" al principio.
+- Meta: 300-500 suscriptores y detectar qué streamer y qué formato funcionan mejor.
+- Responder todos los comentarios en la primera hora y fijar uno con pregunta.
+
+**Fase 2, semanas 3-6 (escalar lo que funciona):**
+- Doblar lo que funciona: si Rubius o AuronPlay rinden más, más clips suyos.
+- **1 vídeo largo a la semana** (8-12 min): "Lo más gracioso de GTA 6 esta semana: Rubius, AuronPlay, IlloJuan…" con rótulos propios. Suma horas de visualización, transforma el contenido y tiene un RPM mucho mayor que el de los Shorts.
+- Lista de reproducción por streamer y una general.
+- Meta: 1.000 suscriptores y 3 M de visualizaciones en 90 días, para pedir el YPP nivel 1.
+
+**Fase 3, semanas 7-12 (monetizar):**
+- Pedir el YPP completo al llegar a 10 M de visualizaciones en 90 días.
+- Afiliados en la descripción de los vídeos largos ("mi setup"), patrocinios de marcas gaming con el kit de medios y servicio de clips a streamers pequeños (§7).
+
+### KPIs semanales (informe de los domingos)
+| KPI | Meta semana 1-2 | Meta semana 3-6 |
+|---|---|---|
+| Visualizaciones medias por Short | 2.000+ | 20.000+ |
+| % "Vistos" frente a "deslizados" | 60 %+ | 70 %+ |
+| Retención media | 80 %+ | 90 %+ |
+| Suscriptores nuevos por semana | 150+ | 500+ |
+| Shorts por encima de 100.000 visualizaciones | 1 | 3+ |
+Si un formato está por debajo del 50 % de "vistos" dos semanas seguidas, se deja.
+
+### Dinero real a corto plazo (en paralelo)
+1. **TikTok y Content Rewards con Kai Cenat:** es lo único que paga ya. 3 TikToks al día y enviar cada enlace.
+2. **Servicio de clips** a streamers hispanos pequeños o medianos (50-150 € al mes cada uno), con Vice Clips como portfolio.
+3. **Más campañas en Content Rewards o Whop** de otros streamers o de GTA 6, si aparecen.
+Los ingresos de anuncios de Shorts en español son bajos (céntimos por cada 1.000 visualizaciones). El canal vale sobre todo como escaparate y para patrocinios.
