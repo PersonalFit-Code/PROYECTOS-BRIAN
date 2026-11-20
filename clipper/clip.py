@@ -356,6 +356,19 @@ def _emoji_png(seq):
     return None
 
 
+def credit_png(text, path, size=34):
+    """Credito del creador: pastilla oscura semitransparente con texto blanco (p. ej. 'twitch.tv/kaicenat')."""
+    from PIL import Image, ImageDraw, ImageFont
+    font = ImageFont.truetype(str(FONTS / "TikTokSans-Bold.ttf"), size)
+    tw = int(font.getlength(text)); px, py = 26, 12
+    im = Image.new("RGBA", (tw + 2 * px, size + 2 * py + 6), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((0, 0, im.width - 1, im.height - 1), radius=im.height // 2, fill=(0, 0, 0, 150))
+    d.text((px, py - 2), text, font=font, fill=(255, 255, 255, 235))
+    im.save(path)
+    return Path(path)
+
+
 def hook_png(text, path, size=66, max_w=900):
     """Titulo estilo TikTok/Instagram: caja blanca redondeada, letra negra, emojis a color."""
     from PIL import Image, ImageDraw, ImageFont
@@ -593,10 +606,19 @@ def render_clip(meta, c, outdir, lang_suffix=""):
         hp = hook_png(c["hook"], outdir / f"{stem}_hook.png")
         cmd += ["-i", str(hp)]
         hy = 640 if layout == "split" else 300   # split: sobre la union camara/juego, sin tapar la accion
-        fc += f"[v1][{nin}:v]overlay=x=(W-w)/2:y={hy}-h/2[v1h];[v1h]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
+        fc += f"[v1][{nin}:v]overlay=x=(W-w)/2:y={hy}-h/2[v1h];"
         nin += 1
     else:
-        fc += f"[v1]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
+        fc += "[v1]null[v1h];"
+    credit = c.get("credit") or meta.get("credit")   # credito del creador: bajo los subtitulos (1430) y por encima de la zona de texto de TikTok
+    if credit:
+        cp = credit_png(credit, outdir / f"{stem}_credit.png")
+        cmd += ["-i", str(cp)]
+        fc += f"[v1h][{nin}:v]overlay=x=(W-w)/2:y=1540[v1c];"
+        nin += 1
+    else:
+        fc += "[v1h]null[v1c];"
+    fc += f"[v1c]subtitles='{ass}':fontsdir='{FONTS}'[vout];"
     voice = c.get("voice")
     if voice and Path(voice).exists():   # voz en off al arrancar: baja el audio original mientras suena
         vd = probe_duration(voice) + 0.15
@@ -622,6 +644,8 @@ def render(args):
         meta["layout"] = args.layout
     if args.cam:
         meta["cam"] = args.cam
+    if getattr(args, "credit", None):
+        meta["credit"] = args.credit
     outdir = path.parent / ("clips" if path.stem == "candidates" else path.stem)
     outdir.mkdir(exist_ok=True)
     for c in meta["candidates"]:
@@ -696,6 +720,7 @@ def main():
     p.add_argument("--only", type=int, nargs="*")
     p.add_argument("--layout", choices=["blur", "split"])
     p.add_argument("--cam", help="facecam x,y,w,h en fracciones (layout split)")
+    p.add_argument("--credit", help="credito en pantalla, p. ej. twitch.tv/kaicenat")
     p = sub.add_parser("transcript", help="transcribe la fuente entera (para elegir momentos de humor leyendo)")
     p.add_argument("source")
     p.add_argument("--lang", default=None)
