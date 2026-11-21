@@ -28,6 +28,8 @@ export interface Guion {
   regalo: string;
   cierre: string;
   objeciones: Objecion[];
+  /** Mensaje para escribirle por Instagram, si es por donde se le contacta. */
+  mensaje: string | null;
   /** Si no cogen o piden que llames luego. */
   seguimiento: string;
   /** Verdadero si lo ha escrito el puesto de Guion para este negocio. */
@@ -60,6 +62,7 @@ const QUE_ES: Record<Sector, string> = {
   fitness: "centros de entrenamiento",
   clinica: "consultas y clínicas",
   hosteleria: "restaurantes y pastelerías",
+  infoproducto: "gente que vende formación y mentorías por llamada",
   otro: "negocios como el tuyo",
 };
 
@@ -93,6 +96,9 @@ function senalTxt(senal: Senal, n: DatosNegocio): string | null {
 }
 
 function entrada(senal: Senal, n: DatosNegocio, usted: boolean): string {
+  if (n.sector === "infoproducto") {
+    return `Soy Brian, de neuro·node. Trabajamos con ${QUE_ES.infoproducto}. Te llamo en frío, te lo digo ya: te robo medio minuto y, si no te encaja, colgamos sin más. He estado viendo tu contenido y cómo llevas a la gente a reservar llamada.`;
+  }
   const base = usted
     ? `Soy Brian, de neuro·node. Trabajamos con ${QUE_ES[n.sector]}. Le llamo en frío, se lo digo ya: le robo medio minuto y, si no le encaja, colgamos sin más.`
     : `Soy Brian, de neuro·node. Trabajamos con ${QUE_ES[n.sector]}. Te llamo en frío, te lo digo ya: te robo medio minuto y, si no te encaja, colgamos sin más.`;
@@ -118,6 +124,9 @@ function entrada(senal: Senal, n: DatosNegocio, usted: boolean): string {
 
 function pregunta(senal: Senal, n: DatosNegocio, usted: boolean): string {
   const l = lugar(n);
+  if (n.sector === "infoproducto") {
+    return "Cuando alguien te escribe por Instagram preguntando por tu programa, ¿quién le contesta y cuánto tarda en hacerlo?";
+  }
   if (n.sector === "clinica") {
     switch (senal) {
       case "web_caida":
@@ -169,6 +178,9 @@ function pregunta(senal: Senal, n: DatosNegocio, usted: boolean): string {
 }
 
 function prueba(n: DatosNegocio): string {
+  if (n.sector === "infoproducto") {
+    return "Montamos un setter con IA: contesta esos mensajes al momento, con tu forma de hablar, pregunta lo justo para saber si la persona encaja y le deja la llamada puesta en tu agenda. Tú, o tu closer, solo habláis con quien ya está filtrado.";
+  }
   if (n.sector === "clinica") {
     return "Montamos un asistente que responde esos mensajes al momento, con la información de su consulta, y deja la cita puesta en su agenda. Usted sigue con el paciente que tiene delante.";
   }
@@ -181,6 +193,9 @@ function prueba(n: DatosNegocio): string {
 }
 
 function regalo(n: DatosNegocio, usted: boolean): string {
+  if (n.sector === "infoproducto") {
+    return "Te propongo una cosa: me miro tu perfil y el camino que hace alguien desde que te escribe hasta que reserva, y te preparo tres mejoras concretas, gratis. Te las enseño en quince minutos por videollamada y te las quedas, trabajemos juntos o no.";
+  }
   return usted
     ? `Le propongo una cosa: me miro ${n.nombre} con calma y le preparo tres mejoras concretas, gratis. Se las enseño en quince minutos por videollamada y se las queda, trabajemos juntos o no.`
     : `Te propongo una cosa: me miro ${n.nombre} con calma y te preparo tres mejoras concretas, gratis. Te las enseño en quince minutos por videollamada y te las quedas, trabajemos juntos o no.`;
@@ -193,11 +208,15 @@ function cierre(n: DatosNegocio, usted: boolean): string {
 }
 
 function objeciones(senal: Senal, n: DatosNegocio, usted: boolean): Objecion[] {
+  // A un infoproductor o a un coach se le habla a él solo, no a un equipo.
+  const uno = n.sector === "infoproducto";
   const precio: Objecion = {
     dicen: "¿Cuánto cuesta?",
     contestas: usted
       ? "Depende de lo que necesite, por eso prefiero verlo quince minutos. Las tres mejoras son gratis y no le comprometen a nada."
-      : "Depende de lo que necesitéis, por eso prefiero verlo quince minutos. Las tres mejoras son gratis y no os comprometen a nada.",
+      : uno
+        ? "Depende de lo que necesites, por eso prefiero verlo quince minutos. Las tres mejoras son gratis y no te comprometen a nada."
+        : "Depende de lo que necesitéis, por eso prefiero verlo quince minutos. Las tres mejoras son gratis y no os comprometen a nada.",
   };
   const info: Objecion = {
     dicen: "Mándame información",
@@ -209,7 +228,9 @@ function objeciones(senal: Senal, n: DatosNegocio, usted: boolean): Objecion[] {
     dicen: "No me interesa",
     contestas: usted
       ? "Entendido. ¿Es porque ya lo tiene resuelto, o porque ahora no es el momento?"
-      : "Entendido. ¿Es porque ya lo tenéis resuelto, o porque ahora no es el momento?",
+      : uno
+        ? "Entendido. ¿Es porque ya lo tienes resuelto, o porque ahora no es el momento?"
+        : "Entendido. ¿Es porque ya lo tenéis resuelto, o porque ahora no es el momento?",
   };
   const tiempo: Objecion = {
     dicen: "Ahora no tengo tiempo",
@@ -217,7 +238,13 @@ function objeciones(senal: Senal, n: DatosNegocio, usted: boolean): Objecion[] {
   };
 
   const propias: Objecion[] = [];
-  if (n.sector === "clinica") {
+  if (n.sector === "infoproducto") {
+    propias.push(
+      { dicen: "Ya tengo un setter", contestas: "Perfecto, no es para quitarlo. Contesta de madrugada y los fines de semana, cuando él no está, y le pasa ya filtrados los que encajan." },
+      { dicen: "No quiero que un robot hable con mi gente", contestas: "Responde solo con lo que tú apruebes y con tu forma de escribir. Y en cuanto alguien pregunta algo fuera de eso, te pasa la conversación a ti." },
+      { dicen: "Me entran pocos mensajes", contestas: "Entonces cada uno vale más. ¿Cuántos se te quedan sin contestar el mismo día?" },
+    );
+  } else if (n.sector === "clinica") {
     propias.push(
       { dicen: "Mis pacientes no quieren hablar con una máquina", contestas: "Responde solo con la información que usted apruebe. Y en cuanto alguien pregunta algo fuera de eso, le pasa la conversación a usted." },
       { dicen: "¿Y la protección de datos?", contestas: "No improvises. «Se trata con un contrato de encargado del tratamiento, que se firma antes de empezar. Se lo explica mi socio en la videollamada.»" },
@@ -239,7 +266,11 @@ function objeciones(senal: Senal, n: DatosNegocio, usted: boolean): Objecion[] {
 export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: Partial<Guion> | null): Guion {
   const senal = detectarSenal(n, dolores);
   const usted = deUsted(n.sector);
-  const quien = n.sector === "clinica" ? "la consulta" : n.sector === "hosteleria" ? "el local" : "el centro";
+  const quien = n.sector === "clinica" ? "la consulta" : n.sector === "hosteleria" ? "el local" : n.sector === "infoproducto" ? "las ventas" : "el centro";
+  const mensaje =
+    n.sector === "infoproducto"
+      ? "Hola. Soy Brian, de neuro·node. He estado viendo tu contenido y tengo una duda: cuando alguien te escribe preguntando por tu programa, ¿le contestas tú o tienes a alguien? Te lo pregunto porque montamos setters con IA para eso. Si no te encaja, me lo dices y no te escribo más."
+      : null;
   const base: Guion = {
     senal: dolores[0] ?? senalTxt(senal, n),
     centralita: `Buenos días, soy Brian, de neuro·node. ¿Con quién hablo? … Mira, [nombre], ¿está la persona que lleva ${quien}? Si pregunta de qué es: «Es una llamada comercial, muy breve. He estado mirando ${n.nombre} y quería comentarle una cosa. Medio minuto y cuelgo».`,
@@ -249,6 +280,7 @@ export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: P
     regalo: regalo(n, usted),
     cierre: cierre(n, usted),
     objeciones: objeciones(senal, n, usted),
+    mensaje,
     seguimiento: "Si no cogen, no lo des por perdido: tres intentos, en días y horas distintas. Si te dicen «ahora no», apunta la hora que te den y llama a esa hora.",
     aMedida: false,
   };

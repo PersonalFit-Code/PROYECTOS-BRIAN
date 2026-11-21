@@ -50,6 +50,13 @@ export function GuionLlamada({ guion }: { guion: Guion }) {
         ))}
       </div>
 
+      {guion.mensaje && (
+        <div className="mt-6 rounded-xl border border-line p-3">
+          <h3 className="text-sm font-bold">Si le escribes por Instagram</h3>
+          <p className="mt-1">{guion.mensaje}</p>
+        </div>
+      )}
+
       <p className="mt-4 text-sm text-muted">{guion.seguimiento}</p>
       <p className="mt-2 text-xs text-muted">
         {guion.aMedida ? "Guion escrito a medida para este negocio." : "Guion montado con lo que sabemos del negocio. Mira su web 20 segundos antes de marcar."} Sin precios por teléfono.

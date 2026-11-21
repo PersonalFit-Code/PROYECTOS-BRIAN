@@ -5,8 +5,9 @@ Un CSV por comunidad: `lote1-<comunidad>.csv`, en UTF-8, con cabecera y separado
 Columnas, en este orden:
 `nombre,sector,subsector,comunidad,provincia,localidad,direccion,telefono,web,instagram,email_generico,fuente_url,notas`
 
-- `sector`: `fitness`, `clinica` u `hosteleria`.
-- `subsector`: por ejemplo gimnasio, entrenamiento personal, crossfit, pilates, yoga, fisioterapia, nutricion, psicologia, restaurante, pasteleria.
+- `sector`: `fitness`, `clinica`, `hosteleria` o `infoproducto` (infoproductores y coaches, para el setter con IA).
+- `subsector`: por ejemplo gimnasio, entrenamiento personal, crossfit, pilates, yoga, fisioterapia, nutricion, psicologia, restaurante, pasteleria, infoproductor, coach.
+- `comunidad`: una de las cuatro, o `Toda España` para quien vende por internet.
 - `telefono`: 9 dígitos, sin espacios ni prefijo.
 - `web` e `instagram`: dirección completa, o vacío si no tiene.
 - `email_generico`: solo direcciones genéricas del negocio (info@, hola@, contacto@). Nunca correos de personas.

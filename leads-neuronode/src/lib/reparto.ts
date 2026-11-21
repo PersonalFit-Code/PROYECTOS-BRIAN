@@ -7,7 +7,7 @@ export interface SinDia {
 }
 
 /** El fitness va primero: es donde tenemos el caso más fuerte. */
-const PRIORIDAD: Record<Sector, number> = { fitness: 0, clinica: 1, hosteleria: 2, otro: 3 };
+const PRIORIDAD: Record<Sector, number> = { fitness: 0, clinica: 1, hosteleria: 2, infoproducto: 3, otro: 4 };
 
 /**
  * Reparte los negocios sin día en los huecos libres de cada día (100 por día).

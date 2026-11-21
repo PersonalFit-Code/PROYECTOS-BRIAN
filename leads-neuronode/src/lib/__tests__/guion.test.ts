@@ -43,3 +43,11 @@ test("pastelería y restaurante usan su propio caso real", () => {
   assert.match(montarGuion({ ...base, sector: "hosteleria", subsector: "pasteleria" }).prueba, /Bin & Cami/);
   assert.match(montarGuion({ ...base, sector: "hosteleria", subsector: "restaurante" }).prueba, /Tixola/);
 });
+
+test("infoproductores y coaches: se habla del setter con IA, sin clientes inventados, y hay mensaje de Instagram", () => {
+  const g = montarGuion({ ...base, nombre: "Marta Coach", sector: "infoproducto", subsector: "coach", localidad: null, web: null, instagram: "https://instagram.com/x" });
+  assert.match(g.prueba, /setter con IA/);
+  assert.doesNotMatch(JSON.stringify(g), /Personal Fit|Tixola|Bin & Cami|lleváis|tenéis/);
+  assert.ok(g.mensaje && g.mensaje.includes("no te escribo más"));
+  assert.equal(montarGuion(base).mensaje, null);
+});

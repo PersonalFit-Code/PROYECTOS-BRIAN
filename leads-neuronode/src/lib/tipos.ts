@@ -1,11 +1,12 @@
 /** Tipos y etiquetas compartidos. Los valores coinciden con los `check` de la base de datos. */
 
-export const SECTORES = ["fitness", "clinica", "hosteleria", "otro"] as const;
+export const SECTORES = ["fitness", "clinica", "hosteleria", "infoproducto", "otro"] as const;
 export type Sector = (typeof SECTORES)[number];
 export const SECTOR_TXT: Record<Sector, string> = {
   fitness: "Fitness",
   clinica: "Clínica",
   hosteleria: "Hostelería",
+  infoproducto: "Infoproducto y coaching",
   otro: "Otro",
 };
 
@@ -56,7 +57,8 @@ export const CANAL_TXT: Record<Canal, string> = {
   visita: "Visita",
 };
 
-export const COMUNIDADES = ["Galicia", "Andalucía", "Castilla y León", "Extremadura"] as const;
+/** «Toda España» es para quien vende por internet y no depende de una zona (infoproductores y coaches). */
+export const COMUNIDADES = ["Galicia", "Andalucía", "Castilla y León", "Extremadura", "Toda España"] as const;
 
 /** Un negocio cuenta como «contactado» cuando ya no está pendiente. */
 export const esContactado = (e: Estado) => e !== "pendiente";

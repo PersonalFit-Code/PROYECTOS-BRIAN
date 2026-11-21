@@ -56,3 +56,5 @@ y Extremadura. Next.js + Supabase, con la marca neuro·node. El plan completo es
 - **Guion por negocio** (`src/lib/guion.ts`): se monta con lo que sabemos (sin web, solo Instagram, reservas a mano…). Orden: entrada personalizada, una pregunta, caso real, tres mejoras gratis y cierre con dos opciones. A las clínicas, de usted. Si se escribe uno a medida, va en `propuestas.guion` y manda sobre el automático.
 - El guion **promete tres mejoras gratis en una videollamada de 15 minutos**. Brian tiene que estar de acuerdo con cumplirlo.
 - **Falta:** diagnóstico real de los 100 del día 1 (créditos de Firecrawl), guiones a medida, los 700 negocios que faltan y la fase de propuesta visual y correo.
+
+- **Sector nuevo `infoproducto`** (infoproductores y coaches, para el setter con IA): guion propio, de tú y en singular, sin casos de cliente (no hay ninguno todavía) y con mensaje para Instagram. Comunidad «Toda España». Faltan los negocios: se buscan cuando vuelvan los créditos de Firecrawl.
