@@ -1,9 +1,9 @@
 import type { FichaPuesto } from "@/lib/oficina";
 
-/** Un puesto de la oficina: la mesa, el portátil y su personaje. Las animaciones van en globals.css. */
-export function Personaje({ f, activo }: { f: FichaPuesto; activo: boolean }) {
+/** La silla, el cuerpo y la cabeza de un personaje, en un lienzo de 200×150 con el centro en x=100. */
+export function Busto({ f }: { f: FichaPuesto }) {
   return (
-    <svg viewBox="0 0 200 150" className="puesto-svg mx-auto block w-full max-w-48" data-activo={activo ? "si" : "no"} aria-hidden>
+    <>
       {/* Silla */}
       <rect x="68" y="52" width="64" height="62" rx="12" fill="#d9d4ee" />
       {/* Cuerpo */}
@@ -42,6 +42,15 @@ export function Personaje({ f, activo }: { f: FichaPuesto; activo: boolean }) {
           <path d="M94 68 Q100 72 106 68" stroke="#15131f" strokeWidth="2" strokeLinecap="round" fill="none" />
         </g>
       </g>
+    </>
+  );
+}
+
+/** Un puesto de la oficina: la mesa, el portátil y su personaje. Las animaciones van en globals.css. */
+export function Personaje({ f, activo }: { f: FichaPuesto; activo: boolean }) {
+  return (
+    <svg viewBox="0 0 200 150" className="puesto-svg mx-auto block w-full max-w-48" data-activo={activo ? "si" : "no"} aria-hidden>
+      <Busto f={f} />
       {/* Mesa */}
       <rect x="14" y="112" width="172" height="10" rx="5" fill="#b9a98f" />
       <rect x="26" y="122" width="8" height="26" fill="#9c8c73" />

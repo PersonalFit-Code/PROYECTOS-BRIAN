@@ -58,3 +58,9 @@ y Extremadura. Next.js + Supabase, con la marca neuro·node. El plan completo es
 - **Falta:** diagnóstico real de los 100 del día 1 (créditos de Firecrawl), guiones a medida, los 700 negocios que faltan y la fase de propuesta visual y correo.
 
 - **Sector nuevo `infoproducto`** (infoproductores y coaches, para el setter con IA): guion propio, de tú y en singular, sin casos de cliente (no hay ninguno todavía) y con mensaje para Instagram. Comunidad «Toda España». Faltan los negocios: se buscan cuando vuelvan los créditos de Firecrawl.
+
+## Oficina en 3D y tanda diaria (21/11/2026)
+
+- `/oficina` es ahora una sala dibujada en diagonal (`src/components/OficinaIso.tsx`), con la librería `motion`. Seis mesas: los cinco puestos y la de Brian (llamadas). Las fichas que viajan y el número de cada tramo son los negocios que esperan para pasar a la mesa siguiente; salen de la base de datos.
+- **Tanda diaria:** tarea programada «Oficina neuro·node: tanda diaria», todos los días a las 06:43 (hora de Madrid). Se ejecuta dentro de la misma sesión de Claude en la que se creó, porque es la que tiene las conexiones con Supabase y Firecrawl. Hace diagnóstico (25 negocios), guion a medida, captación (20) y lo apunta en `actividad`. Si esa sesión se archiva, la tanda deja de funcionar y hay que volver a programarla.
+- La tanda no llama, no escribe a nadie, no borra y no publica.

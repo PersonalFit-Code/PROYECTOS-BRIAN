@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PausaMovimiento } from "@/components/PausaMovimiento";
-import { Personaje } from "@/components/Personaje";
+import { OficinaIso, type DatosPuesto, type Lugar, type Tramo } from "@/components/OficinaIso";
 import { Card, Progreso, Titulo, claseBoton } from "@/components/ui";
 import { cx, fechaHora } from "@/lib/formato";
 import { PUESTO, PUESTOS, esPuesto, type EstadoPuesto, type Puesto } from "@/lib/oficina";
@@ -82,48 +82,52 @@ export default async function Oficina({ searchParams }: { searchParams: Promise<
     },
   };
 
+  // Lo que espera para pasar de una mesa a la siguiente: es lo que se ve viajar en la oficina.
+  const porLlamar = lista.filter((x) => x.estado === "pendiente").length;
+  const tramos: Tramo[] = [
+    { de: "captacion", a: "diagnostico", esperan: total - conDiagnostico },
+    { de: "diagnostico", a: "guion", esperan: Math.max(0, conDiagnostico - aMedida) },
+    { de: "guion", a: "tu", esperan: porLlamar },
+    { de: "tu", a: "oferta", esperan: quieren.size - conOferta },
+    { de: "oferta", a: "diseno", esperan: Math.max(0, conOferta - conDiseno) },
+  ];
+  const enEscena = {
+    ...Object.fromEntries(PUESTOS.map((p) => [p, { activo: estado[p].activo, frase: estado[p].frase }])),
+    tu: { activo: porLlamar > 0, frase: `${n(porLlamar)} negocios por llamar` },
+  } as Record<Lugar, DatosPuesto>;
+
   const apuntes = ((diario ?? []) as { id: string; puesto: Puesto; texto: string; creado: string }[]).filter((a) => !elegido || a.puesto === elegido);
 
   return (
     <>
-      <Titulo sub="Cinco puestos, cada uno con su parte del trabajo. Toca uno para ver qué lleva." acciones={<PausaMovimiento />}>
+      <Titulo sub="Cada mesa hace su parte y se la pasa a la siguiente. El número de cada tramo son los negocios que esperan." acciones={<PausaMovimiento />}>
         Oficina
       </Titulo>
 
-      <section aria-label="Puestos de la oficina" className="oficina overflow-hidden rounded-3xl border border-line p-3 sm:p-5">
-        <div className="mb-4 flex h-14 items-center justify-between gap-3 px-1" aria-hidden>
-          <span className="font-[family-name:var(--font-titulo)] text-lg font-extrabold tracking-tight">
-            neuro<span className="text-brand">·</span>node
-          </span>
-          <span className="oficina-ventana hidden h-10 w-40 rounded-lg border-4 border-white sm:block" />
-          <span className="oficina-ventana h-10 w-24 rounded-lg border-4 border-white sm:w-40" />
-        </div>
+      <OficinaIso puestos={enEscena} tramos={tramos} elegido={elegido} />
 
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {PUESTOS.map((p) => {
-            const f = PUESTO[p];
-            const e = estado[p];
-            const sel = elegido === p;
-            return (
-              <li key={p} className="last:col-span-2 sm:last:col-span-1">
-                <Link
-                  href={sel ? "/oficina" : `/oficina?puesto=${p}#detalle`}
-                  scroll={false}
-                  aria-current={sel ? "true" : undefined}
-                  data-activo={e.activo ? "si" : "no"}
-                  className={cx("puesto flex h-full flex-col rounded-2xl border bg-bg/90 p-3", sel ? "border-brand ring-2 ring-brand" : "border-line")}
-                >
-                  <span className="bocadillo relative mb-2 block rounded-xl border border-line bg-bg px-2.5 py-1.5 text-sm leading-snug font-bold">{e.frase}</span>
-                  <Personaje f={f} activo={e.activo} />
-                  <span className="mt-1 block font-[family-name:var(--font-titulo)] font-bold">{f.nombre}</span>
-                  <span className="block text-sm text-muted">{f.cargo}</span>
-                  <span className={cx("mt-2 inline-flex w-fit rounded-full px-2.5 py-0.5 text-xs font-bold", e.activo ? "tono-marca" : "tono-gris")}>{e.activo ? "Con trabajo" : "Esperando"}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+      <ul aria-label="Puestos de la oficina" className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+        {PUESTOS.map((p) => {
+          const e = estado[p];
+          const sel = elegido === p;
+          return (
+            <li key={p} className="last:col-span-2 sm:last:col-span-1">
+              <Link
+                href={sel ? "/oficina" : `/oficina?puesto=${p}#detalle`}
+                scroll={false}
+                aria-current={sel ? "true" : undefined}
+                className={cx("puesto flex h-full flex-col rounded-2xl border bg-bg p-3", sel ? "border-brand ring-2 ring-brand" : "border-line")}
+              >
+                <span className="font-[family-name:var(--font-titulo)] font-bold">
+                  {PUESTO[p].nombre} <span className="font-[family-name:var(--font-sans)] text-sm font-medium text-muted">· {PUESTO[p].cargo}</span>
+                </span>
+                <span className="mt-1 text-sm leading-snug">{e.frase}</span>
+                <span className={cx("mt-2 inline-flex w-fit rounded-full px-2.5 py-0.5 text-xs font-bold", e.activo ? "tono-marca" : "tono-gris")}>{e.activo ? "Con trabajo" : "Esperando"}</span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
 
       <div id="detalle" className="mt-5 grid scroll-mt-4 gap-4 lg:grid-cols-2">
         <Card className="p-5">
@@ -175,7 +179,7 @@ export default async function Oficina({ searchParams }: { searchParams: Promise<
       </div>
 
       <p className="mt-4 text-sm text-muted">
-        Los puestos no trabajan solos dentro de esta web: el trabajo se lanza en las sesiones con Claude y aquí se ve el resultado guardado.
+        Los puestos trabajan en una tanda diaria, cada mañana, y aquí se ve lo que dejaron hecho. Las llamadas las haces tú.
       </p>
     </>
   );

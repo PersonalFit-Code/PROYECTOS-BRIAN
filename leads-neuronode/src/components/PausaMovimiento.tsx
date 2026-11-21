@@ -17,9 +17,14 @@ function suscribir(aviso: () => void) {
 }
 const leer = () => window.localStorage.getItem(CLAVE) === "1";
 
+/** Verdadero si la persona ha pulsado «Parar animación» en este navegador. */
+export function useOficinaQuieta(): boolean {
+  return useSyncExternalStore(suscribir, leer, () => false);
+}
+
 /** Botón para parar las animaciones de la oficina. La elección se recuerda en este navegador. */
 export function PausaMovimiento() {
-  const quieta = useSyncExternalStore(suscribir, leer, () => false);
+  const quieta = useOficinaQuieta();
 
   useEffect(() => {
     document.documentElement.toggleAttribute("data-oficina-quieta", quieta);
