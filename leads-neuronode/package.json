@@ -1,0 +1,37 @@
+{
+  "name": "leads-neuronode",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Leads neuro·node: seguimiento de negocios a contactar, con su diagnóstico, propuesta e historial — Next.js + Supabase",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test \"src/**/__tests__/*.test.ts\""
+  },
+  "dependencies": {
+    "@fontsource/montserrat": "^5.2.5",
+    "@fontsource/quicksand": "^5.2.5",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.118.0",
+    "lucide-react": "^1.52.0",
+    "next": "16.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "^16.3.8",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
+  }
+}

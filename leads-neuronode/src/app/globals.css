@@ -1,0 +1,86 @@
+@import "tailwindcss";
+@import "@fontsource/montserrat/600.css";
+@import "@fontsource/montserrat/700.css";
+@import "@fontsource/montserrat/800.css";
+@import "@fontsource/quicksand/500.css";
+@import "@fontsource/quicksand/600.css";
+@import "@fontsource/quicksand/700.css";
+
+/*
+ * Marca neuro·node: violeta #6447FA, degradado azul → violeta solo en acentos, fondo blanco y
+ * texto casi negro. Montserrat para títulos y Quicksand para el texto, siempre con peso 500 o más.
+ */
+:root {
+  --bg: #ffffff;
+  --side: #faf9ff;
+  --fg: #15131f;
+  --muted: #5b5870;
+  --line: #e8e5f3;
+  --soft: #f5f3ff;
+  --brand: #6447fa;
+  --azul: #2e8bff;
+  --violeta: #7b2ff2;
+  --ok: #178a62;
+  --ok-bg: #e6f6ef;
+  --warn: #9a5208;
+  --warn-bg: #fff3e2;
+  --bad: #c2283b;
+  --bad-bg: #fdebee;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-side: var(--side);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-soft: var(--soft);
+  --color-brand: var(--brand);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --font-sans: "Quicksand", system-ui, sans-serif;
+  --font-titulo: "Montserrat", system-ui, sans-serif;
+}
+
+html {
+  background: var(--bg);
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1.5;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--font-titulo);
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Etiquetas de estado */
+.tono-gris { background: #efedf5; color: #45425a; }
+.tono-ambar { background: var(--warn-bg); color: var(--warn); }
+.tono-verde { background: var(--ok-bg); color: var(--ok); }
+.tono-marca { background: var(--soft); color: #4a2fd6; }
+.tono-rojo { background: var(--bad-bg); color: var(--bad); }
+
+.degradado {
+  background: linear-gradient(90deg, var(--azul), var(--violeta));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
