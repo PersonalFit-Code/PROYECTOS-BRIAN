@@ -39,3 +39,11 @@ y Extremadura. Next.js + Supabase, con la marca neuro·node. El plan completo es
 1. Copiar `.env.example` a `.env.local` y rellenar las claves de Supabase.
 2. `npm install`
 3. `npm run dev` y abrir http://localhost:3000
+
+## Publicación (21/11/2026)
+
+- Publicada en **https://leads-neuronode.vercel.app** (proyecto `leads-neuronode`, equipo de Brian en Vercel, servidor en Frankfurt).
+- Vercel no pudo enlazar el repositorio para publicar solo con cada cambio (`repo_no_access`). Cada versión nueva se publica a mano desde la rama `claude/life-plan-app-design-mtq0cw`.
+- Variables puestas en Vercel: `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+- Se quitó la protección de Vercel (pedía cuenta de Vercel para ver la web): la app ya tiene su propio acceso.
+- **Falta:** crear los usuarios de Brian y Nico y añadirlos a la tabla `equipo`; borrar el usuario de prueba; cerrar el registro público en Supabase.
