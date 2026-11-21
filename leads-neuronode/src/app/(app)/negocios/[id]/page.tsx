@@ -2,8 +2,10 @@ import { AtSign, ArrowLeft, Globe, Mail, MapPin, Phone, ShieldCheck } from "luci
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { GuionLlamada } from "@/components/GuionLlamada";
 import { AreaTexto, Boton, Card, EtiquetaEstado } from "@/components/ui";
 import { enlaceSeguro, fechaHora, telefonoBonito, webCorta } from "@/lib/formato";
+import { montarGuion, type Guion } from "@/lib/guion";
 import { getSesion } from "@/lib/sesion";
 import { CANAL_TXT, ESTADO_TXT, SECTOR_TXT, type Contacto, type Diagnostico, type Negocio, type Propuesta } from "@/lib/tipos";
 import { FormContacto } from "./FormContacto";
@@ -37,6 +39,7 @@ export default async function Ficha({ params }: { params: Promise<{ id: string }
   if (!negocio) notFound();
   const n = negocio as Negocio;
   const p = propuesta as Propuesta | null;
+  const guion = montarGuion(n, ((dolores ?? []) as Diagnostico[]).map((d) => d.dolor), p?.guion as Partial<Guion> | null);
   const web = enlaceSeguro(n.web);
   const ig = enlaceSeguro(n.instagram);
   const fuente = enlaceSeguro(n.fuente_url);
@@ -129,30 +132,21 @@ export default async function Ficha({ params }: { params: Promise<{ id: string }
           )}
         </Bloque>
 
-        <Bloque titulo="Qué decirle">
-          {p?.guion_llamada || p?.mensaje_corto ? (
-            <div className="space-y-4">
-              {p.guion_llamada && (
-                <div>
-                  <h3 className="text-sm font-bold text-muted">Guion de llamada</h3>
-                  <p className="whitespace-pre-line">{p.guion_llamada}</p>
-                </div>
-              )}
-              {p.mensaje_corto && (
-                <div>
-                  <h3 className="text-sm font-bold text-muted">Mensaje corto</h3>
-                  <p className="whitespace-pre-line">{p.mensaje_corto}</p>
-                </div>
-              )}
-            </div>
-          ) : (
-            <p className="text-muted">Todavía no hay guion para este negocio.</p>
-          )}
-        </Bloque>
-
         <Bloque titulo="Apuntar un contacto">
           <FormContacto negocioId={n.id} />
         </Bloque>
+
+        <div className="lg:col-span-2">
+          <Bloque titulo="Guion de la llamada">
+            <GuionLlamada guion={guion} />
+            {p?.mensaje_corto && (
+              <div className="mt-5 border-t border-line pt-4">
+                <h3 className="text-sm font-bold text-muted">Mensaje corto</h3>
+                <p className="whitespace-pre-line">{p.mensaje_corto}</p>
+              </div>
+            )}
+          </Bloque>
+        </div>
 
         <Bloque titulo="Historial">
           {(contactos ?? []).length === 0 ? (

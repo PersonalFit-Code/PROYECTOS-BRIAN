@@ -1,14 +1,14 @@
 "use client";
 
-import { BarChart3, Building2, LogOut, PhoneCall, Upload } from "lucide-react";
+import { Armchair, BarChart3, Building2, PhoneCall, Upload } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { salir } from "@/app/login/acciones";
 import { cx } from "@/lib/formato";
 
 const ENLACES = [
   { href: "/", txt: "Hoy", Icono: PhoneCall },
+  { href: "/oficina", txt: "Oficina", Icono: Armchair },
   { href: "/negocios", txt: "Negocios", Icono: Building2 },
   { href: "/panel", txt: "Panel", Icono: BarChart3 },
   { href: "/importar", txt: "Importar", Icono: Upload },
@@ -19,7 +19,7 @@ function activo(ruta: string, href: string) {
 }
 
 /** Barra lateral en escritorio y barra inferior en el móvil. */
-export function Nav({ email }: { email: string }) {
+export function Nav() {
   const ruta = usePathname();
   return (
     <>
@@ -43,15 +43,6 @@ export function Nav({ email }: { email: string }) {
             </Link>
           ))}
         </nav>
-        <p className="mb-2 truncate text-xs text-muted" title={email}>
-          {email}
-        </p>
-        <form action={salir}>
-          <button className="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 font-bold text-muted hover:bg-soft hover:text-fg">
-            <LogOut className="size-5" aria-hidden />
-            Salir
-          </button>
-        </form>
       </aside>
 
       <nav aria-label="Principal" className="fixed inset-x-0 bottom-0 z-20 flex border-t border-line bg-bg pb-[env(safe-area-inset-bottom)] md:hidden">

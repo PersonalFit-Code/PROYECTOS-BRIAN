@@ -3,8 +3,8 @@ import { sinLogin } from "@/lib/sinLogin";
 import { updateSession } from "@/lib/supabase/proxy-session";
 
 /**
- * Toda la app es privada. Sin sesión, cualquier página manda a /login; las rutas de API responden
- * ellas mismas.
+ * Toda la app es privada. Sin sesión, cualquier página manda a /login. Se entra abriendo el enlace
+ * de acceso del equipo (/entrar/<llave>).
  */
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -13,7 +13,7 @@ export async function proxy(request: NextRequest) {
   if (sinLogin()) return res;
 
   const { response, logueado } = await updateSession(request, res);
-  const publica = pathname === "/login" || pathname.startsWith("/api/");
+  const publica = pathname === "/login" || pathname.startsWith("/entrar/") || pathname.startsWith("/api/");
   if (!logueado && !publica) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";

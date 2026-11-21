@@ -84,3 +84,70 @@ h3 {
     animation: none !important;
   }
 }
+
+/* ---------- Oficina ---------- */
+.oficina {
+  background:
+    linear-gradient(#f3f0ff 0 0) top / 100% 5.5rem no-repeat,
+    repeating-linear-gradient(90deg, #f6f1e7 0 3.5rem, #f1ebdf 3.5rem 7rem);
+}
+.oficina-ventana {
+  background: linear-gradient(180deg, #cfe6ff, #eaf4ff);
+}
+.puesto {
+  transition: translate 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+.puesto:hover {
+  translate: 0 -3px;
+  box-shadow: 0 10px 24px -14px rgb(100 71 250 / 0.55);
+}
+.bocadillo::after {
+  content: "";
+  position: absolute;
+  left: 1.5rem;
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+  rotate: 45deg;
+  background: inherit;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+@keyframes of-teclear {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -5px; }
+}
+@keyframes of-respirar {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -1.5px; }
+}
+@keyframes of-asentir {
+  0%, 100% { rotate: 0deg; }
+  50% { rotate: 2.5deg; }
+}
+@keyframes of-parpadeo {
+  0%, 94%, 100% { scale: 1 1; }
+  97% { scale: 1 0.1; }
+}
+@keyframes of-luz {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+@keyframes of-flotar {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -3px; }
+}
+
+/* El movimiento solo corre si la persona no ha pedido menos movimiento ni ha pulsado «Parar». */
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-oficina-quieta]) {
+    .p-cuerpo { animation: of-respirar 3.6s ease-in-out infinite; }
+    .p-cabeza { transform-box: fill-box; transform-origin: 50% 100%; animation: of-asentir 5s ease-in-out infinite; }
+    .p-ojos { transform-box: fill-box; transform-origin: center; animation: of-parpadeo 4.5s linear infinite; }
+    .puesto-svg[data-activo="si"] .p-mano-i { animation: of-teclear 0.42s ease-in-out infinite; }
+    .puesto-svg[data-activo="si"] .p-mano-d { animation: of-teclear 0.42s ease-in-out 0.21s infinite; }
+    .puesto-svg[data-activo="si"] .p-luz { animation: of-luz 1.8s ease-in-out infinite; }
+    .puesto[data-activo="si"] .bocadillo { animation: of-flotar 3s ease-in-out infinite; }
+  }
+}

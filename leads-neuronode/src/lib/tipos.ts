@@ -96,6 +96,8 @@ export interface Diagnostico {
 export interface Propuesta {
   negocio_id: string;
   guion_llamada: string | null;
+  /** Guion a medida, por partes (ver lib/guion.ts). */
+  guion: Record<string, unknown> | null;
   mensaje_corto: string | null;
   correo_asunto: string | null;
   correo_cuerpo: string | null;

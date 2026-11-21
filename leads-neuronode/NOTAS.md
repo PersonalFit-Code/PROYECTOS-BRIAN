@@ -47,3 +47,12 @@ y Extremadura. Next.js + Supabase, con la marca neuro·node. El plan completo es
 - Variables puestas en Vercel: `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 - Se quitó la protección de Vercel (pedía cuenta de Vercel para ver la web): la app ya tiene su propio acceso.
 - **Falta:** crear los usuarios de Brian y Nico y añadirlos a la tabla `equipo`; borrar el usuario de prueba; cerrar el registro público en Supabase.
+
+## Oficina, guiones y acceso sin contraseña (21/11/2026)
+
+- **Acceso:** ya no hay usuario ni contraseña. Se entra abriendo el enlace del equipo, `/entrar/<llave>`. La llave y la cuenta compartida están en las variables de Vercel (`ACCESO_LLAVE`, `ACCESO_EMAIL`, `ACCESO_CLAVE`), no en el código. Para cambiar el enlace basta con cambiar `ACCESO_LLAVE` y volver a publicar.
+- `src/app/login/LoginForm.tsx` y `src/app/login/acciones.ts` ya no se usan. No se han borrado: falta el visto bueno de Brian.
+- **Oficina** (`/oficina`): cinco puestos (Leo captación, Dora diagnóstico, Gus guion, Olga oferta, Dani diseño). Las cifras salen de la base de datos y el diario, de la tabla `actividad`. Los puestos no trabajan solos: el trabajo se hace en las sesiones con Claude y se apunta en `actividad`.
+- **Guion por negocio** (`src/lib/guion.ts`): se monta con lo que sabemos (sin web, solo Instagram, reservas a mano…). Orden: entrada personalizada, una pregunta, caso real, tres mejoras gratis y cierre con dos opciones. A las clínicas, de usted. Si se escribe uno a medida, va en `propuestas.guion` y manda sobre el automático.
+- El guion **promete tres mejoras gratis en una videollamada de 15 minutos**. Brian tiene que estar de acuerdo con cumplirlo.
+- **Falta:** diagnóstico real de los 100 del día 1 (créditos de Firecrawl), guiones a medida, los 700 negocios que faltan y la fase de propuesta visual y correo.
