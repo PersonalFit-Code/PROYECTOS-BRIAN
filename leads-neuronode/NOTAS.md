@@ -62,5 +62,7 @@ y Extremadura. Next.js + Supabase, con la marca neuro·node. El plan completo es
 ## Oficina en 3D y tanda diaria (21/11/2026)
 
 - `/oficina` es ahora una sala dibujada en diagonal (`src/components/OficinaIso.tsx`), con la librería `motion`. Seis mesas: los cinco puestos y la de Brian (llamadas). Las fichas que viajan y el número de cada tramo son los negocios que esperan para pasar a la mesa siguiente; salen de la base de datos.
-- **Tanda diaria:** tarea programada «Oficina neuro·node: tanda diaria», todos los días a las 06:43 (hora de Madrid). Se ejecuta dentro de la misma sesión de Claude en la que se creó, porque es la que tiene las conexiones con Supabase y Firecrawl. Hace diagnóstico (25 negocios), guion a medida, captación (20) y lo apunta en `actividad`. Si esa sesión se archiva, la tanda deja de funcionar y hay que volver a programarla.
+- **Tanda diaria:** tarea programada «Oficina neuro·node: tanda diaria», todos los días a las 00:43 (hora de Madrid), justo después de que se renueven los créditos de Firecrawl (00:25). Se ejecuta dentro de la misma sesión de Claude en la que se creó, porque es la que tiene las conexiones con Supabase y Firecrawl. Hace diagnóstico (25 negocios), guion a medida, captación (20) y lo apunta en `actividad`. Si esa sesión se archiva, la tanda deja de funcionar y hay que volver a programarla.
 - La tanda no llama, no escribe a nadie, no borra y no publica.
+
+- **Lote 2 (22/11):** 40 infoproductores y coaches cargados (`comercial/neuronode/leads/lote2-infoproducto.csv`), sin día asignado. Salen de extractos de búsqueda: falta abrir cada web para completar Instagram, correo y teléfono. Los créditos diarios de Firecrawl dan para unas 18 búsquedas: es el límite real de la tanda.
