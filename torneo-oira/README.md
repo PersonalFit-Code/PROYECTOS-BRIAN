@@ -4,6 +4,7 @@ Torneo open de fútbol 8, 32 equipos, 26–28 de diciembre de 2026 en el campo d
 
 | Documento | Para qué |
 |---|---|
+| [plan-torneo-oira.pdf](plan-torneo-oira.pdf) | Resumen visual del plan en 8 páginas, para enseñar (fuente: `plan-torneo-oira.html`) |
 | [01-consulta-cmd.md](01-consulta-cmd.md) | Qué preguntar al Consello Municipal de Deportes y borrador de solicitud del campo |
 | [02-presupuesto.md](02-presupuesto.md) / [.csv](02-presupuesto.csv) | Gastos, escenarios de inscripción y punto de equilibrio |
 | [03-bases-y-reglamento.md](03-bases-y-reglamento.md) | Bases para publicar |
