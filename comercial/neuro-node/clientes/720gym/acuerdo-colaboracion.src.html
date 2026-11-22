@@ -11,7 +11,7 @@ formato: vertical
   /* ===== Portada a sangre: la primera página no lleva márgenes, cabecera ni pie ===== */
   @page :first { margin: 0; @top-left { content: none; border: 0; } @top-right { content: none; border: 0; } @bottom-left { content: none; border: 0; } @bottom-right { content: none; border: 0; } }
   .tapa { position: relative; width: 210mm; height: 296.5mm; overflow: hidden; background: #050507; color: #fff; break-after: page; }
-  .tapa .foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .tapa .foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 38% 40%; }
   .tapa .velo { position: absolute; inset: 0; background:
       linear-gradient(180deg, rgba(5,5,7,.55) 0%, rgba(5,5,7,.15) 22%, rgba(5,5,7,.35) 45%, rgba(5,5,7,.92) 66%, #050507 82%),
       radial-gradient(120% 60% at 100% 100%, rgba(100,71,250,.38), transparent 60%),
@@ -74,7 +74,7 @@ formato: vertical
   .mosaico .m-hero { grid-row: 1 / 3; } .mosaico .m-hero img { object-position: 50% 30%; }
   .mosaico .m-movil { grid-row: 1 / 3; }
   .mosaico .m-a img { object-position: 50% 42%; } .mosaico .m-b img { object-position: 50% 30%; }
-  .mosaico figcaption { position: absolute; left: 1.8mm; bottom: 1.8mm; background: rgba(0,0,0,.72); color: #fff; font-family: "Montserrat"; font-weight: 600; font-size: 5.6pt; letter-spacing: .18em; text-transform: uppercase; padding: .8mm 1.8mm; border-radius: 1mm; }
+  .mosaico figcaption { position: absolute; left: 1.8mm; bottom: 1.8mm; background: rgba(0,0,0,.72); color: #fff; font-family: "Montserrat"; font-weight: 600; font-size: 6.2pt; letter-spacing: .16em; text-transform: uppercase; padding: .8mm 1.8mm; border-radius: 1mm; }
   .valor { display: flex; justify-content: space-between; align-items: center; gap: 4mm; border-left: 1.2mm solid var(--indigo); background: var(--lila); border-radius: 0 3mm 3mm 0; padding: 3mm 5mm; margin: 0 0 4mm; font-size: 9.4pt; break-inside: avoid; }
   .valor b { font-family: "Montserrat"; }
 
@@ -156,12 +156,12 @@ formato: vertical
   .firmas { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
   .firma { border: 1px solid var(--linea); border-radius: 3mm; padding: 4mm 5mm 3mm; }
   .firma .campo { display: flex; align-items: flex-end; height: 8mm; border-bottom: 1px solid #cfcdd3; font-size: 7.6pt; color: var(--suave); padding-bottom: .8mm; }
-  .firma .campo.alto { height: 11mm; }
+  .firma .campo.alto { height: 22mm; }
   .cierre { margin-top: 12mm; } .cierre img.iso { height: 14mm; } .cierre img.word { height: 5mm; margin: 2mm auto 2.5mm; }
 </style>
 
 <section class="tapa">
-  <img class="foto" src="img/portada-pista.jpg" alt="">
+  <img class="foto" src="img/portada-funcional.jpg" alt="">
   <div class="velo"></div>
   <div class="contenido">
     <div class="barra">
@@ -185,9 +185,9 @@ formato: vertical
       <h1>La web de 720, a cambio de contar quién la ha hecho</h1>
       <p class="sub">neuro·node entrega a 720 GYM CLUB su web pública sin coste de implantación. A cambio, 720 da a conocer el trabajo de neuro·node en sus redes y como caso de éxito.</p>
       <div class="claves">
-        <div class="clave"><b>Web propia</b><span>Sin coste de implantación</span></div>
+        <div class="clave"><b>Web propia</b><span>Sin coste inicial</span></div>
         <div class="clave"><b>6 meses</b><span>De colaboración</span></div>
-        <div class="clave"><b>Difusión</b><span>Contenido orgánico de 720</span></div>
+        <div class="clave"><b>Difusión</b><span>Contenido de 720</span></div>
       </div>
     </div>
     <div class="pie"><span>Entre <b>720 GYM CLUB</b> y <b>neuro·node</b></span><span>Confidencial</span></div>
@@ -218,7 +218,7 @@ formato: vertical
       </ul>
     </div>
   </div>
-  <p class="nota"><b>Fuera del acuerdo:</b> panel de gestión, asistente con IA, pago online y reservas con plazas. Las condiciones económicas de este acuerdo son confidenciales.</p>
+  <p class="nota"><b>Fuera del acuerdo:</b> panel de gestión, asistente con IA, pago online y reservas con plazas.</p>
 </section>
 
 <section class="sec entera">
@@ -294,7 +294,7 @@ formato: vertical
     <div class="etapa">
       <div class="cab"><span>Siempre</span><b>Permanente</b></div>
       <ul>
-        <li><b>Comisión por recomendación</b>Por cada venta que llegue a través de Brais, cobra el <strong>10 %</b>, también después de los 6 meses.</li>
+        <li><b>Comisión por recomendación</b>Por cada venta que llegue a través de Brais, cobra el <strong>10 %</strong>, también después de los 6 meses.</li>
         <li><b>«Web creada por neuro·node»</b>En el pie de la web, con enlace a neuro-node.com.</li>
         <li><b>Caso de éxito</b>Capturas, logo y resultados de la web en la web, presentaciones y anuncios de neuro·node.</li>
       </ul>
