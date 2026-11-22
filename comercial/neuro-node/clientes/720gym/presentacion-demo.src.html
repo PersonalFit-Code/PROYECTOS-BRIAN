@@ -3,9 +3,75 @@ titulo: 720 GYM CLUB · Web, IA y gestión
 tipo: Presentación · Demo
 cliente: 720 GYM CLUB
 fecha: Noviembre de 2026
-formato: horizontal
+formato: vertical
 ---
 <style>
+  @font-face { font-family: "Stencil720"; src: url({{recursos}}/fuentes/stencil.woff2) format("woff2"); font-weight: 100 900; }
+
+  /* ===== Portada a sangre: la primera página no lleva márgenes, cabecera ni pie ===== */
+  @page :first { margin: 0; @top-left { content: none; border: 0; } @top-right { content: none; border: 0; } @bottom-left { content: none; border: 0; } @bottom-right { content: none; border: 0; } }
+  .tapa { position: relative; width: 210mm; height: 296.5mm; overflow: hidden; background: #050507; color: #fff; break-after: page; }
+  .tapa .foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .tapa .velo { position: absolute; inset: 0; background:
+      linear-gradient(180deg, rgba(5,5,7,.55) 0%, rgba(5,5,7,.15) 22%, rgba(5,5,7,.35) 45%, rgba(5,5,7,.92) 66%, #050507 82%),
+      radial-gradient(120% 60% at 100% 100%, rgba(100,71,250,.38), transparent 60%),
+      radial-gradient(80% 40% at 0% 100%, rgba(54,173,251,.18), transparent 60%); }
+  .tapa .contenido { position: absolute; inset: 0; padding: 16mm 17mm 14mm; display: flex; flex-direction: column; }
+  .tapa .barra { display: flex; justify-content: space-between; align-items: center; }
+  .tapa .barra span { font-family: "Montserrat"; font-weight: 600; font-size: 7pt; letter-spacing: .32em; text-transform: uppercase; color: rgba(255,255,255,.8); }
+  .tapa .centro { margin-top: auto; }
+  .tapa .etq { font-family: "Montserrat"; font-weight: 600; font-size: 9pt; letter-spacing: .42em; text-transform: uppercase; color: #fff; margin: 0 0 7mm; display: flex; align-items: center; gap: 4mm; }
+  .tapa .etq::before { content: ""; width: 12mm; height: .7mm; border-radius: 1mm; background: linear-gradient(90deg, var(--azul), var(--indigo), var(--morado)); }
+  .tapa .sello { display: flex; align-items: center; gap: 8mm; margin: 0 0 9mm; }
+  .tapa .l720 { height: 46mm; width: 46mm; overflow: visible; }
+  .tapa .por { font-family: "Montserrat"; font-weight: 200; font-size: 54pt; line-height: 1; background: linear-gradient(135deg, var(--azul), var(--indigo) 55%, var(--morado)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .tapa .nn { display: flex; flex-direction: column; align-items: flex-start; gap: 3.5mm; }
+  .tapa .nn .iso { height: 24mm; }
+  .tapa .nn .word { height: 9.4mm; }
+  .tapa h1 { color: #fff; font-size: 23pt; line-height: 1.12; max-width: 160mm; margin: 0 0 4mm; }
+  .tapa .sub { font-size: 11.2pt; line-height: 1.55; color: rgba(255,255,255,.78); max-width: 150mm; margin: 0 0 9mm; }
+  .tapa .claves { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; margin: 0 0 10mm; }
+  .tapa .clave { border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.05); border-radius: 3mm; padding: 4mm 4.5mm 3.6mm; }
+  .tapa .clave b { display: block; font-family: "Montserrat"; font-weight: 800; font-size: 17pt; color: #fff; line-height: 1.05; }
+  .tapa .clave span { font-family: "Montserrat"; font-weight: 600; font-size: 6.6pt; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.62); }
+  .tapa .pie { display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.18); padding-top: 4mm; font-family: "Montserrat"; font-weight: 600; font-size: 6.8pt; letter-spacing: .24em; text-transform: uppercase; color: rgba(255,255,255,.62); }
+  .tapa .pie b { color: #fff; }
+
+  /* ===== Cuerpo: flujo continuo, sin láminas forzadas ===== */
+  .sec { margin: 0 0 7mm; }
+  .sec > h2 { display: flex; align-items: baseline; gap: 3mm; margin: 0 0 1.5mm; font-size: 15pt; }
+  .sec > h2 .n { font-size: 15pt; margin: 0; }
+  .sec > .intro { font-size: 10.2pt; color: var(--suave); margin: 0 0 3.5mm; max-width: 150mm; }
+  .sec h3 { margin: 0 0 1mm; }
+  .arranque, .sec.entera { break-inside: avoid; }
+
+  /* Vertical: recorridos en fila, imágenes más contenidas */
+  .sec .recorrido { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; padding: 3.5mm 0 0; margin: 0 0 3mm; }
+  .sec .recorrido::before { left: 0; right: 0; top: 1.4mm; bottom: auto; width: auto; height: .7mm; background: linear-gradient(90deg, var(--azul), var(--indigo), var(--morado)); }
+  .sec .recorrido .paso { margin: 0; padding: 4.5mm 3.6mm 3.4mm; border: 1px solid var(--linea); border-radius: 3mm; background: #fff; }
+  .sec .recorrido .paso::before { left: 3.6mm; top: -2.4mm; }
+  .sec .recorrido .paso h3 { font-size: 9.2pt; } .sec .recorrido .paso p { font-size: 8.5pt; line-height: 1.4; }
+  .sec .tira { height: 40mm; }
+  .sec .cifras .cifra-c { padding: 3.2mm 4mm 3mm; } .sec .cifras .cifra-c b { font-size: 19pt; }
+  .sec .redes .red p { font-size: 7.6pt; }
+  .sec table.datos tbody td { padding: 1.8mm 3mm; } .sec table.datos thead th { padding: 2mm 3mm; } .sec table.datos { font-size: 8.8pt; }
+  .sec .captura img.h-alto { height: 70mm; } .sec .captura.movil img { height: 70mm; }
+  .sec .mosaico { height: 80mm; }
+  .sec .captura img.h-max { height: 76mm; }
+  .sec .capturas.tres img { height: 64mm; }
+  .sec .captura img.h-crm { max-height: 60mm; width: 100%; object-fit: cover; object-position: top; }
+  .arranque, .sec .rejilla, .sec .antes-despues .ad, .sec .redes, .sec .cifras, .sec .recorrido, .sec .opciones, .sec .flujo { break-inside: avoid; }
+  .sec .antes-despues { gap: 3mm; }
+  .sec .antes-despues .ad { padding: 3.6mm 4.5mm; min-height: 0; }
+  .sec .antes-despues .hoy { margin: 0 0 1.6mm; font-size: 8.8pt; } .sec .antes-despues .ahora { font-size: 9.6pt; }
+  .sec table.compacta tbody td { padding: 1.1mm 3mm; }
+  .sec .cierre { margin-top: 6mm; } .sec .cierre img.iso { height: 11mm; } .sec .cierre img.word { height: 5mm; margin: 2mm auto 2.5mm; }
+  .sec .rejilla .tarjeta { padding: 3mm 3.6mm 2.8mm; }
+  .sec .opcion .sello { white-space: nowrap; }
+  .sec .opciones { margin-top: 4mm !important; }
+  .sec .destacado.suave { margin: 0 0 4mm; padding: 3mm 4.5mm; font-size: 9.4pt; }
+  .sec .rejilla { margin: 3mm 0 0; }
+  .sec .tarjeta p { font-size: 8.8pt; }
 /* Lámina 01: cifras, tira de fotos y cuentas de Instagram */
 .cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin: 0 0 4mm; }
 .cifras .cifra-c { border-radius: 3mm; padding: 4mm 4.5mm 3.6mm; background: var(--lila); border: 1px solid #e3ddff; }
@@ -52,23 +118,49 @@ formato: horizontal
 .antes-despues .ahora { margin: 0; font-size: 11pt; line-height: 1.4; color: var(--negro); padding-left: 5mm; position: relative; }
 .antes-despues .ahora::before { content: "✓"; position: absolute; left: 0; color: var(--indigo); font-weight: 700; }
 </style>
-<section class="portada">
-  <div class="arriba">
-    <p class="etiqueta">Presentación de la demo · Web, IA y gestión</p>
-    <h1>De un enlace de Instagram a una máquina de inscripciones</h1>
-    <p class="subtitulo">Lo que hoy está repartido entre Instagram, PDF, formularios y varios WhatsApp, en una sola web que informa, reserva, cobra y avisa. Con un asistente que trabaja 24/7 y un CRM donde la gerencia ve todo al momento.</p>
-    <p class="meta">{{fecha}} · neuro·node · Demo: 720gym-club.vercel.app</p>
-    <img class="nodos" src="img/p-hero.jpg" alt="Portada de la nueva web de 720 con la pista de fondo" style="border-radius:3mm;border:1px solid #e6e4ea;width:100%">
+<section class="tapa">
+  <img class="foto" src="img/portada-pista.jpg" alt="">
+  <div class="velo"></div>
+  <div class="contenido">
+    <div class="barra">
+      <img src="{{recursos}}/wordmark-blanco.png" alt="neuro·node" style="height:5.4mm">
+      <span>{{fecha}}</span>
+    </div>
+    <div class="centro">
+      <p class="etq">Presentación de la demo</p>
+      <div class="sello">
+        <svg class="l720" viewBox="0 0 80 80" aria-label="720 GYM CLUB">
+          <text x="0" y="35" font-family="Stencil720" font-weight="800" font-size="44" textLength="80" lengthAdjust="spacingAndGlyphs" fill="#fff">720</text>
+          <text x="0.5" y="68" font-family="Stencil720" font-weight="800" font-size="40" textLength="79" lengthAdjust="spacingAndGlyphs" fill="#fff">GYM</text>
+          <text x="79" y="79" text-anchor="end" font-family="Montserrat" font-weight="800" font-size="7.6" letter-spacing="1.4" fill="#fff">CLUB</text>
+        </svg>
+        <div class="por">×</div>
+        <div class="nn">
+          <img class="iso" src="{{recursos}}/iso-blanco.png" alt="">
+          <img class="word" src="{{recursos}}/wordmark-blanco.png" alt="neuro·node">
+        </div>
+      </div>
+      <h1>De un enlace de Instagram a una máquina de inscripciones</h1>
+      <p class="sub">Lo que hoy está repartido entre Instagram, PDF, formularios y varios WhatsApp, en una sola web que informa, reserva y lleva a WhatsApp. Con un asistente que trabaja 24/7 y un CRM donde la gerencia ve todo al momento.</p>
+      <div class="claves">
+        <div class="clave"><b>Web</b><span>Toda la oferta de 720</span></div>
+        <div class="clave"><b>Asistente</b><span>Atiende 24/7</span></div>
+        <div class="clave"><b>CRM</b><span>La gerencia lo ve todo</span></div>
+      </div>
+    </div>
+    <div class="pie"><span>Preparado para <b>Brais · 720 GYM CLUB</b></span><span>Demo · 720gym-club.vercel.app</span></div>
   </div>
-  <div class="preparado"><span>Preparado para <b>Brais · {{cliente}}</b></span><span>Por <b>neuro·node</b></span></div>
 </section>
 
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">01</span>Lo que ya tenéis</h2>
-<p>720 tiene lo más difícil: un centro que la gente recomienda y una comunidad que ya os sigue en redes. La web solo tiene que convertir esa confianza en altas.</p>
+<p class="intro">720 tiene lo más difícil: un centro que la gente recomienda y una comunidad que ya os sigue en redes. La web solo tiene que convertir esa confianza en altas.</p>
 <div class="cifras">
   <div class="cifra-c"><b>5,0 ★</b><span>64 reseñas en Google: grupos reducidos, trato cercano e instalaciones que sorprenden.</span></div>
   <div class="cifra-c"><b>1.878</b><span>seguidores entre las cuatro cuentas de Instagram de 720.</span></div>
   <div class="cifra-c"><b>13.345</b><span>reproducciones del reel «Antes y después» de la obra.</span></div>
+</div>
 </div>
 <div class="tira">
   <figure><img src="img/f-pista.jpg" alt="Pista de tartán y césped"><figcaption>Pista y zona funcional</figcaption></figure>
@@ -83,15 +175,18 @@ formato: horizontal
 </div>
 <p class="nota-redes">Las redes ya generan interés. <b>La web lo convierte:</b> cada cuenta enlaza a su propia página (pilates.720gym…, powerlifting.720gym…) con reserva y alta en un toque.</p>
 <p class="fuente">Datos públicos de Instagram y Google consultados el 13/11/2026.</p>
+</section>
 
-
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">02</span>Dónde se escapan clientes</h2>
-<p>El interés existe; lo que falla es el camino. Cada paso de más entre «me interesa» y «me apunto» es gente que se queda por el camino.</p>
+<p class="intro">El interés existe; lo que falla es el camino. Cada paso de más entre «me interesa» y «me apunto» es gente que se queda por el camino.</p>
 <div class="flujo">
   <p class="flujo-t">Hoy, para apuntarse</p>
   <div class="pasos"><span>Instagram</span><i>→</i><span>Enlace de la bio</span><i>→</i><span>15 botones</span><i>→</i><span>Formulario o WhatsApp</span><i>→</i><span class="malo">Esperar respuesta</span></div>
   <p class="flujo-t bien">Con la web de 720</p>
   <div class="pasos"><span>Google o Instagram</span><i>→</i><span>Web 720</span><i>→</i><span class="ok">Se apunta por WhatsApp o reserva</span></div>
+</div>
 </div>
 <table class="datos">
   <thead><tr><th style="width:27%">Hoy</th><th>Qué provoca</th><th style="width:12%" class="c">Prioridad</th></tr></thead>
@@ -103,109 +198,150 @@ formato: horizontal
     <tr><td>Quien pregunta no deja rastro</td><td>Una duda a las once de la noche no queda registrada: nadie puede volver a escribirle.</td><td class="c">Media</td></tr>
   </tbody>
 </table>
+</section>
 
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">03</span>La solución, de un vistazo</h2>
-<p>Un solo recorrido, del primer clic al nuevo socio, con la gerencia viéndolo todo en el móvil.</p>
+<p class="intro">Un solo recorrido, del primer clic al nuevo socio, con la gerencia viéndolo todo en el móvil.</p>
 <div class="recorrido" style="grid-template-columns:repeat(4,1fr)">
   <div class="paso"><p class="cuando">1 · Llega</p><h3>Desde Google o Instagram</h3><p>Una web rápida con toda la oferta de 720 en una dirección.</p></div>
   <div class="paso"><p class="cuando">2 · Decide</p><h3>Test, reseñas y asistente</h3><p>Plan y precio en 30 segundos y dudas resueltas al momento.</p></div>
   <div class="paso"><p class="cuando">3 · Se apunta</p><h3>Reserva o escribe</h3><p>Un toque abre WhatsApp con el plan y el precio ya escritos.</p></div>
-  <div class="paso"><p class="cuando">4 · La gerencia lo ve</p><h3>Ficha en el CRM</h3><p>Con su objetivo, el siguiente paso y aviso si es urgente.</p></div>
+  <div class="paso"><p class="cuando">4 · Gerencia</p><h3>Ficha en el CRM</h3><p>Con su objetivo, el siguiente paso y aviso si es urgente.</p></div>
+</div>
 </div>
 <div class="cifras" style="margin-top:7mm">
   <div class="cifra-c"><b>1</b><span>dirección en lugar del enlace de Instagram, los formularios, los PDF y los WhatsApp sueltos.</span></div>
   <div class="cifra-c"><b>24/7</b><span>atención: el asistente responde, reserva y prepara altas de noche y en festivos.</span></div>
   <div class="cifra-c"><b>0</b><span>esperas: reservas, solicitudes y fichas entran en el panel en cuanto ocurren.</span></div>
 </div>
+</section>
 
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">04</span>La primera impresión</h2>
-<p>Una entrada con identidad: el 720 se abre y aparece la pista. Después, un mensaje claro y dos botones, inscribirse o probar gratis.</p>
+<p class="intro">Una entrada con identidad: el 720 se abre y aparece la pista. Después, un mensaje claro y dos botones, inscribirse o probar gratis.</p>
 <div class="destacado suave"><p>Pensada primero para el móvil, que es por donde llega la mayoría desde Instagram.</p></div>
 <div class="capturas" style="grid-template-columns:1.75fr 1fr;align-items:end">
   <figure class="captura"><img src="img/p-intro.jpg" alt="Intro con el 720 recortado" class="h-alto"><figcaption>Intro · el 720 se abre hacia la pista</figcaption></figure>
   <figure class="captura movil"><img src="img/p-hero-movil.jpg" alt="Portada en el móvil"><figcaption>Portada en el móvil</figcaption></figure>
 </div>
+</div>
 
+</section>
+
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">05</span>Todo 720 en una web</h2>
-<p>Sustituye al enlace de Instagram, a los PDF y a los formularios. Cada disciplina tiene su página y el horario muestra las plazas libres.</p>
+<p class="intro">Sustituye al enlace de Instagram, a los PDF y a los formularios. Cada disciplina tiene su página y el horario muestra las plazas libres.</p>
 <div class="destacado suave"><p>Cada submarca con su dirección (pilates.720gym…), tarifas legibles en el móvil y SEO local para aparecer en Google en Ourense.</p></div>
 <div class="mosaico">
   <figure><img src="img/p-concepto.jpg" alt="Página de CrossGym"><figcaption>Una página por disciplina</figcaption></figure>
   <figure><img src="img/p-indice.jpg" alt="Índice de disciplinas"><figcaption>Todas las disciplinas</figcaption></figure>
   <figure><img src="img/p-horario.jpg" alt="Horario con plazas"><figcaption>Horario con plazas</figcaption></figure>
 </div>
+</div>
 
+</section>
+
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">06</span>La reputación, a la vista</h2>
-<p>Las reseñas de Google trabajan para vender: reales, filtrables por tema y con un botón para apuntarse justo debajo.</p>
+<p class="intro">Las reseñas de Google trabajan para vender: reales, filtrables por tema y con un botón para apuntarse justo debajo.</p>
 <div class="destacado suave"><p>35 reseñas reales con nombre e inicial. La nota es la media de la ficha de Google.</p></div>
 <div class="capturas" style="grid-template-columns:1fr">
   <figure class="captura"><img src="img/p-resenas.jpg" alt="Reseñas reales de Google" class="h-max"><figcaption>Lo que dicen de 720 · filtros por Pilates, gimnasio, fuerza y ambiente</figcaption></figure>
 </div>
+</div>
 
+</section>
+
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">07</span>Una máquina de inscripciones</h2>
-<p>En cada sección hay una salida: inscribirse, probar gratis o escribir por WhatsApp. Nadie tiene que buscar cómo apuntarse.</p>
+<p class="intro">En cada sección hay una salida: inscribirse, probar gratis o escribir por WhatsApp. Nadie tiene que buscar cómo apuntarse.</p>
 <div class="destacado suave"><p>Cada plan abre WhatsApp con el plan y el precio ya escritos: el equipo cierra el alta en una sola conversación.</p></div>
 <div class="capturas" style="grid-template-columns:1fr 1fr">
   <figure class="captura"><img src="img/p-tuplan.jpg" alt="Test Tu plan en 30 segundos"><figcaption>Test · plan y precio en tres toques</figcaption></figure>
   <figure class="captura"><img src="img/r-tarifas.jpg" alt="Tarifas con botón de alta"><figcaption>Cada plan, a un toque de WhatsApp</figcaption></figure>
+</div>
 </div>
 <div class="rejilla tres">
   <div class="tarjeta"><span class="num">01</span><h3>Llamadas constantes</h3><p>«Inscríbete + WhatsApp» entre secciones, botón flotante y barra fija en el móvil.</p></div>
   <div class="tarjeta"><span class="num">02</span><h3>Tu plan en 30 segundos</h3><p>Recomienda el plan con su precio real y lo manda por WhatsApp.</p></div>
   <div class="tarjeta"><span class="num">03</span><h3>Reservas con plazas</h3><p>Plazas libres a la vista, reserva en un toque y recordatorio.</p></div>
 </div>
+</section>
 
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">08</span>Un asistente que hace, no solo responde</h2>
-<p>Atiende a cualquier hora y en cualquier idioma. Reserva, prepara el alta para confirmarla por WhatsApp y regala un plan de 4 semanas a cambio del teléfono.</p>
+<p class="intro">Atiende a cualquier hora y en cualquier idioma. Reserva, prepara el alta para confirmarla por WhatsApp y regala un plan de 4 semanas a cambio del teléfono.</p>
 <div class="capturas tres">
   <figure class="captura"><img src="img/p-chat-reserva.jpg" alt="El asistente reserva una clase"><figcaption>1 · Reserva una plaza</figcaption></figure>
   <figure class="captura"><img src="img/p-chat-alta.jpg" alt="El asistente prepara el alta"><figcaption>2 · Prepara el alta y la pasa a WhatsApp</figcaption></figure>
   <figure class="captura"><img src="img/p-chat-plan.jpg" alt="El asistente crea un plan"><figcaption>3 · Crea un plan de 4 semanas</figcaption></figure>
+</div>
 </div>
 <div class="rejilla tres">
   <div class="tarjeta"><span class="num">IDIOMAS</span><h3>Gallego, inglés, portugués…</h3><p>Responde en el idioma de quien escribe: gente de paso y deportistas de fuera.</p></div>
   <div class="tarjeta"><span class="num">FOTOS</span><h3>Entiende imágenes</h3><p>Una foto de su rutina y recomienda clase o plan. Nunca diagnostica: deriva a valoración.</p></div>
   <div class="tarjeta"><span class="num">AVISOS</span><h3>Avisa al equipo</h3><p>Quejas, lesiones o ventas grandes llegan a la gerencia con un resumen.</p></div>
 </div>
+</section>
 
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">09</span>El CRM de 720</h2>
-<p>Un acceso privado para la gerencia, en el móvil o en el ordenador. Lo que pasa en la web aparece al momento.</p>
+<p class="intro">Un acceso privado para la gerencia, en el móvil o en el ordenador. Lo que pasa en la web aparece al momento.</p>
 <div class="destacado suave"><p>Resumen, clientes, calendario, movimientos, contabilidad, informes, solicitudes y asistente, con filtro por entrenador.</p></div>
 <div class="capturas" style="grid-template-columns:2.7fr 1fr;align-items:center">
-  <figure class="captura"><img src="img/r-crm-resumen.jpg" alt="Resumen del CRM"><figcaption>Ingresos del mes, flujo de caja y accesos rápidos</figcaption></figure>
-  <figure class="captura movil"><img src="img/p-crm-movil.jpg" alt="CRM en el móvil" style="height:84mm"><figcaption>En el móvil</figcaption></figure>
+  <figure class="captura"><img src="img/r-crm-resumen.jpg" alt="Resumen del CRM" class="h-crm"><figcaption>Ingresos del mes, flujo de caja y accesos rápidos</figcaption></figure>
+  <figure class="captura movil"><img src="img/p-crm-movil.jpg" alt="CRM en el móvil" style="height:62mm"><figcaption>En el móvil</figcaption></figure>
+</div>
 </div>
 <div class="rejilla tres">
   <div class="tarjeta"><span class="num">01</span><h3>Socios y cobros</h3><p>Ficha de cada socio, bonos, deudas, cobros del 1 al 7 y facturas.</p></div>
   <div class="tarjeta"><span class="num">02</span><h3>Dinero claro</h3><p>Ingresos por categoría, gastos, beneficio, caja diaria y exportación CSV.</p></div>
   <div class="tarjeta"><span class="num">03</span><h3>Clases y equipo</h3><p>Ocupación de cada clase, reservas del día y reparto por entrenador.</p></div>
 </div>
+</section>
 
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">10</span>Cada contacto, una ficha</h2>
-<p>El asistente rellena solo la ficha de quien escribe: objetivo, plan que le encaja, lo «caliente» que está y qué hacer. Ningún interesado se pierde.</p>
-<div class="destacado suave"><p>Socios, cobros del 1 al 7, contabilidad, caja diaria y facturas siguen en el mismo panel.</p></div>
+<p class="intro">El asistente rellena solo la ficha de quien escribe: objetivo, plan que le encaja, lo «caliente» que está y qué hacer. Ningún interesado se pierde.</p>
 <div class="capturas" style="grid-template-columns:1fr">
-  <figure class="captura"><img src="img/r-crm-fichas.jpg" alt="Fichas de clientes potenciales"><figcaption>Clientes potenciales, avisos al equipo y planes descargados</figcaption></figure>
+  <figure class="captura"><img src="img/r-crm-fichas.jpg" alt="Fichas de clientes potenciales" class="h-crm"><figcaption>Clientes potenciales, avisos al equipo y planes descargados</figcaption></figure>
+</div>
 </div>
 <div class="rejilla tres">
   <div class="tarjeta"><span class="num">TEMPERATURA</span><h3>Caliente, templado o frío</h3><p>Primero se llama a quien está a punto de apuntarse.</p></div>
   <div class="tarjeta"><span class="num">SIGUIENTE PASO</span><h3>Qué hacer con cada uno</h3><p>«Confirmar su clase del jueves», «llamar hoy para cerrar el bono».</p></div>
   <div class="tarjeta"><span class="num">UN TOQUE</span><h3>Escribirle por WhatsApp</h3><p>Con su nombre y el mensaje ya preparado.</p></div>
 </div>
+</section>
 
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">11</span>IA para la gerencia</h2>
-<p>Preguntas en lenguaje normal sobre los datos, un informe de lo que frena a la gente y mensajes para recuperar a quien deja de venir.</p>
+<p class="intro">Preguntas en lenguaje normal sobre los datos, un informe de lo que frena a la gente y mensajes para recuperar a quien deja de venir.</p>
 <div class="capturas" style="grid-template-columns:1fr">
-  <figure class="captura"><img src="img/r-crm-ia.jpg" alt="IA para la gerencia"><figcaption>Pregúntale a tus datos · informe de conversaciones · recuperar clientes</figcaption></figure>
+  <figure class="captura"><img src="img/r-crm-ia.jpg" alt="IA para la gerencia" class="h-crm"><figcaption>Pregúntale a tus datos · informe de conversaciones · recuperar clientes</figcaption></figure>
+</div>
 </div>
 <div class="rejilla tres">
   <div class="tarjeta"><span class="num">PREGUNTA</span><h3>«¿Quién debe la cuota?»</h3><p>Cifras exactas del CRM, sin buscar en hojas ni en el banco.</p></div>
   <div class="tarjeta"><span class="num">INFORME</span><h3>Lo que frena a la gente</h3><p>Temas más preguntados, objeciones y qué hacer esa semana.</p></div>
   <div class="tarjeta"><span class="num">RECUPERAR</span><h3>Antes de la baja</h3><p>Un mensaje personal para quien lleva días sin venir, listo para WhatsApp.</p></div>
 </div>
+</section>
 
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">12</span>Cada problema, su solución</h2>
-<p>Lo que falla hoy y la pieza de la demo que lo resuelve.</p>
+<p class="intro">Lo que falla hoy y la pieza de la demo que lo resuelve.</p>
 <div class="antes-despues">
   <div class="ad"><p class="hoy">Sin web ni presencia en Google</p><p class="ahora">Web de 720 con SEO local, páginas por disciplina y reseñas reales.</p></div>
   <div class="ad"><p class="hoy">Enlace de Instagram con 15 botones</p><p class="ahora">Una sola dirección, enlazada desde cada cuenta de Instagram.</p></div>
@@ -214,10 +350,14 @@ formato: horizontal
   <div class="ad"><p class="hoy">Un WhatsApp por disciplina</p><p class="ahora">Asistente 24/7 que resuelve, reserva y deriva al equipo con un resumen.</p></div>
   <div class="ad"><p class="hoy">Quien pregunta no deja rastro</p><p class="ahora">Ficha automática en el CRM, avisos y mensajes para recuperar clientes.</p></div>
 </div>
+</div>
 
+</section>
+
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">13</span>Planes e inversión</h2>
-<p>Tres planes sobre el mismo diseño. Cada uno suma al anterior y se puede ampliar después sin rehacer nada.</p>
-<div class="destacado suave"><p>Pago único de implantación más una cuota mensual de mantenimiento. IVA no incluido.</p></div>
+<p class="intro">Tres planes sobre el mismo diseño. Cada uno suma al anterior y se puede ampliar después sin rehacer nada. Pago único de implantación más una cuota mensual de mantenimiento, IVA no incluido.</p>
 <div class="opciones tres" style="margin-top:5mm">
   <div class="opcion">
     <h3>Básico · Web</h3>
@@ -240,7 +380,7 @@ formato: horizontal
       <li>Avisos inmediatos a WhatsApp.</li>
     </ul>
   </div>
-  <div class="opcion recomendada"><span class="sello">Lo que has visto en la demo</span>
+  <div class="opcion recomendada"><span class="sello">Lo que has visto</span>
     <h3>Pro · Venta, IA y gestión</h3>
     <p class="precio">1.200 € <small>implantación</small></p>
     <p class="cuota"><span class="pendiente">+ [cuota] € / mes</span></p>
@@ -251,6 +391,7 @@ formato: horizontal
       <li>CRM con fichas, contabilidad e IA.</li>
     </ul>
   </div>
+</div>
 </div>
 <table class="datos compacta">
   <thead><tr><th>Incluido</th><th style="width:13%" class="c">Básico</th><th style="width:13%" class="c">Clientes</th><th style="width:13%" class="c">Pro</th></tr></thead>
@@ -264,14 +405,18 @@ formato: horizontal
   </tbody>
 </table>
 <p class="meta">Asistente en WhatsApp: se conecta cuando 720 tenga WhatsApp Business. Uso del servicio de IA: <span class="pendiente">[incluido hasta X conversaciones / mes]</span>.</p>
+</section>
 
+<section class="sec">
+<div class="arranque">
 <h2><span class="n">14</span>Pruébala</h2>
-<p>La demo funciona de verdad: desde el móvil o el ordenador. Lo que hagas en la web aparece al momento en el CRM del mismo navegador.</p>
+<p class="intro">La demo funciona de verdad: desde el móvil o el ordenador. Lo que hagas en la web aparece al momento en el CRM del mismo navegador.</p>
 <div class="rejilla">
   <div class="tarjeta"><span class="num">WEB</span><h3><a href="https://720gym-club.vercel.app" style="color:inherit">720gym-club.vercel.app</a></h3><p>La web completa: disciplinas, horario con plazas, tarifas, reseñas y el test «Tu plan en 30 segundos».</p></div>
   <div class="tarjeta"><span class="num">INTRO</span><h3><a href="https://720gym-club.vercel.app/?intro=1" style="color:inherit">720gym-club.vercel.app/?intro=1</a></h3><p>La entrada con el 720 que se abre hacia la pista, cada vez que se abra este enlace.</p></div>
   <div class="tarjeta"><span class="num">CRM</span><h3><a href="https://720gym-club.vercel.app/panel" style="color:inherit">720gym-club.vercel.app/panel</a></h3><p>Panel de gestión con PIN de demostración <b>0720</b>. Datos de ejemplo más lo que hagas en la web.</p></div>
   <div class="tarjeta"><span class="num">720 PILATES</span><h3><a href="https://720gym-club.vercel.app/pilates" style="color:inherit">720gym-club.vercel.app/pilates</a></h3><p>Ejemplo de página propia de una submarca, con su color y sus reseñas.</p></div>
+</div>
 </div>
 <div class="recorrido" style="grid-template-columns:repeat(3,1fr)">
   <div class="paso"><p class="cuando">1 · En la web</p><h3>Habla con el asistente</h3><p>Pídele «Reservar una clase» o «Quiero apuntarme», o un plan de 4 semanas.</p></div>
@@ -283,3 +428,4 @@ formato: horizontal
   <img class="word" src="{{recursos}}/wordmark-negro.png" alt="neuro·node">
   <p class="meta">Documento elaborado por neuro·node</p>
 </div>
+</section>
