@@ -3,6 +3,7 @@ import { ArrowUpRight, Check, Dumbbell, UserCheck } from "lucide-react";
 import { Reformer } from "@/components/ui/IconosMarca";
 import { claseBoton } from "@/components/ui/Boton";
 import { cn } from "@/lib/utils";
+import { waPlan } from "@/data/pagos";
 
 /** Tres tarifas para decidir rápido; el resto, en /tarifas. Precios del dosier 2025-26. */
 const planes = [
@@ -49,7 +50,7 @@ export default function TarifasDestacadas() {
                     </li>
                   ))}
                 </ul>
-                <Link href={`/alta?plan=${p.plan}`} className={cn(claseBoton(p.destacado ? "venta" : "contorno-oscuro"), "mt-auto w-full rounded-full")}>
+                <Link href={waPlan(p.plan)} target="_blank" rel="noopener" className={cn(claseBoton(p.destacado ? "venta" : "contorno-oscuro"), "mt-auto w-full rounded-full")}>
                   {p.destacado ? "Inscríbete" : "Elegir"}
                 </Link>
               </div>

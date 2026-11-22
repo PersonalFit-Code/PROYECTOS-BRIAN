@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { waPlan } from "@/data/pagos";
 
 /**
  * Escritorio: al pasar la portada aparece abajo a la izquierda una píldora para inscribirse
@@ -22,7 +23,9 @@ export default function CtaFlotante() {
   if (ruta.startsWith("/alta") || ruta.startsWith("/panel")) return null;
   return (
     <Link
-      href="/alta"
+      href={waPlan()}
+      target="_blank"
+      rel="noopener"
       className={cn(
         "cta-flotante vidrio-fuerte group fixed bottom-6 left-6 z-40 hidden items-center gap-3 rounded-full py-2 pr-5 pl-2 text-white transition-all duration-500 lg:flex",
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0",

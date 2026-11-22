@@ -4,7 +4,7 @@
  * Así la demo funciona igual sin conexión a la IA: todo lo que pasa aparece en el CRM.
  */
 import { clasesHorario, dias } from "@/data/horario";
-import { eur, planPorId } from "@/data/pagos";
+import { eur, planPorId, waPlan } from "@/data/pagos";
 import { ejecutar, plazasLibres, type AccionChat } from "@/lib/asistente-ejecutor";
 import { responderLocal } from "@/lib/asistente-local";
 
@@ -95,7 +95,7 @@ export async function responderConAcciones(texto: string, e: EstadoLocal, conver
   if (conImagen) {
     return {
       texto: "¡Gracias por la foto! Para analizarla al detalle necesito la conexión con la IA, que en esta demo está apagada. Si me cuentas qué entrenas y qué quieres conseguir, te recomiendo plan ahora mismo.",
-      acciones: [{ etiqueta: "Valoración inicial 35 €", href: "/alta?plan=valoracion", venta: true }],
+      acciones: [{ etiqueta: "Valoración inicial 35 €", href: waPlan("valoracion"), venta: true }],
       sugerencias: ["Quiero ganar fuerza", "Quiero ponerme en forma", "Me interesa Pilates"],
       hechos,
     };
@@ -111,7 +111,7 @@ export async function responderConAcciones(texto: string, e: EstadoLocal, conver
       await ejecutar("guardar_ficha_cliente", { nombre: e.nombre ?? "", telefono: e.telefono ?? "", objetivo: motivo === "lesion_o_salud" ? "Volver a entrenar tras una lesión u operación" : motivo === "queja" ? "Queja" : "Venta grande", disponibilidad: "", plan_recomendado: motivo === "lesion_o_salud" ? "Valoración inicial + entrenamiento personal" : "", temperatura: motivo === "queja" ? "frio" : "templado", siguiente_paso: motivo === "lesion_o_salud" ? "Llamar para ofrecer la valoración inicial con el entrenador" : "Llamar hoy", idioma: "español", resumen: texto.slice(0, 160) }, conversacion);
     }
     if (motivo === "lesion_o_salud") {
-      return { texto: "Gracias por contármelo. Con molestias o lesiones lo mejor es empezar con una valoración con nuestro entrenador, que adapta todo a ti. Ya he avisado al equipo y te escribirán por WhatsApp.", acciones: [{ etiqueta: "Reservar valoración", href: "/alta?plan=valoracion", venta: true }], hechos };
+      return { texto: "Gracias por contármelo. Con molestias o lesiones lo mejor es empezar con una valoración con nuestro entrenador, que adapta todo a ti. Ya he avisado al equipo y te escribirán por WhatsApp.", acciones: [{ etiqueta: "Reservar valoración", href: waPlan("valoracion"), venta: true }], hechos };
     }
     if (motivo === "queja") return { texto: "Siento mucho lo que me cuentas. Ya he pasado tu mensaje a la gerencia con prioridad y te escribirán hoy mismo.", acciones: [], hechos };
     hechos.push("Venta grande: el equipo te contactará");
@@ -155,11 +155,11 @@ export async function responderConAcciones(texto: string, e: EstadoLocal, conver
     const plan = planPorId(e.planId)!;
     if (!e.nombre || !e.telefono) return { texto: `Perfecto: ${plan.nombre}, ${eur(plan.precio)}${plan.mensual ? " al mes" : ""}. Para dejarte el alta lista, dime tu nombre y tu teléfono.`, acciones: [], hechos };
     const r = await ejecutar("crear_alta", { plan_id: plan.id, nombre: e.nombre, telefono: e.telefono, email: "" }, conversacion);
-    await ejecutar("guardar_ficha_cliente", { nombre: e.nombre, telefono: e.telefono, objetivo: `Alta en ${plan.nombre}`, disponibilidad: "", plan_recomendado: plan.nombre, temperatura: "caliente", siguiente_paso: "Comprobar que ha completado el pago; si no, llamarle hoy", idioma: "español", resumen: `Ha iniciado el alta en ${plan.nombre} desde el asistente.` }, conversacion);
+    await ejecutar("guardar_ficha_cliente", { nombre: e.nombre, telefono: e.telefono, objetivo: `Alta en ${plan.nombre}`, disponibilidad: "", plan_recomendado: plan.nombre, temperatura: "caliente", siguiente_paso: "Confirmar el alta por WhatsApp o llamarle hoy", idioma: "español", resumen: `Ha iniciado el alta en ${plan.nombre} desde el asistente.` }, conversacion);
     if (r.hecho) hechos.push(r.hecho);
     e.intencion = undefined;
     e.planId = undefined;
-    return { texto: `¡Listo, ${e.nombre}! Te he dejado el alta preparada con tus datos. Pulsa el botón y pagas en un minuto con tarjeta, Apple Pay o Google Pay.`, acciones: r.accion ? [r.accion] : [], hechos };
+    return { texto: `¡Listo, ${e.nombre}! Ya he avisado al equipo de tu alta. Pulsa el botón para confirmarla por WhatsApp con el plan ya escrito.`, acciones: r.accion ? [r.accion] : [], hechos };
   }
 
   // ── Plan de 4 semanas ──
@@ -178,7 +178,7 @@ export async function responderConAcciones(texto: string, e: EstadoLocal, conver
     const r = await ejecutar("crear_plan_4_semanas", { nombre: e.nombre, telefono: e.telefono, objetivo: e.objetivo, nivel: "principiante", dias_por_semana: e.dias, semanas: planLocal(e.objetivo, e.dias), consejos: ["Calienta 5-10 minutos antes de cada sesión.", "Sube el peso solo cuando la técnica sea limpia.", "Duerme bien y bebe agua: también es entrenamiento."] }, conversacion);
     if (r.hecho) hechos.push(r.hecho);
     e.intencion = undefined;
-    return { texto: `¡Aquí lo tienes, ${e.nombre}! Tu plan de 4 semanas para ${e.objetivo}, ${e.dias} días a la semana. Si quieres, el entrenador lo revisa contigo en la valoración inicial.`, acciones: [...(r.accion ? [r.accion] : []), { etiqueta: "Valoración 35 €", href: "/alta?plan=valoracion" }], hechos };
+    return { texto: `¡Aquí lo tienes, ${e.nombre}! Tu plan de 4 semanas para ${e.objetivo}, ${e.dias} días a la semana. Si quieres, el entrenador lo revisa contigo en la valoración inicial.`, acciones: [...(r.accion ? [r.accion] : []), { etiqueta: "Valoración 35 €", href: waPlan("valoracion") }], hechos };
   }
 
   // Sin intención clara: respuesta informativa de siempre + ficha si hay datos.

@@ -1,8 +1,10 @@
 /**
- * Catálogo de lo que se puede pagar online (pasarela). Precios reales del dosier 2025-26 y del PDF
- * de 720 Pilates. `mensual` = suscripción con cobro recurrente; si no, pago único.
- * Los ids van en la URL: /alta?plan=gimnasio-libre
+ * Catálogo de planes con precio. Precios reales del dosier 2025-26 y del PDF de 720 Pilates.
+ * `mensual` = cuota mensual; si no, pago único. Sin pasarela de pago: cada botón de plan abre
+ * WhatsApp con el plan elegido ya escrito (waPlan). Los de Pilates van al WhatsApp de 720 Pilates.
  */
+import { negocio, pilates, wa } from "./negocio";
+
 export interface PlanPago {
   id: string;
   nombre: string;
@@ -33,4 +35,13 @@ export const planesPago: PlanPago[] = [
 ];
 
 export const planPorId = (id?: string | null) => planesPago.find((p) => p.id === id);
+/** Enlace de WhatsApp para apuntarse a un plan (o en general, sin plan). */
+export function waPlan(id?: string | null, nombre?: string): string {
+  const p = planPorId(id);
+  const saludo = nombre ? `¡Hola! Soy ${nombre}.` : "¡Hola!";
+  if (!p) return wa(`${saludo} Quiero apuntarme a 720 GYM CLUB. ¿Me contáis cómo?`);
+  const precio = `${eur(p.precio)}${p.mensual ? "/mes" : ""}`;
+  return wa(`${saludo} Quiero apuntarme a «${p.nombre}» (${precio}). ¿Me contáis cómo seguir?`, p.grupo === "720 Pilates" ? pilates.whatsapp : negocio.whatsapp);
+}
+
 export const eur = (n: number) => `${n.toLocaleString("es-ES", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 })} €`;

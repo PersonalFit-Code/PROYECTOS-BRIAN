@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import { wa } from "@/data/negocio";
 import { preguntas } from "@/data/preguntas";
+import { waPlan } from "@/data/pagos";
 
 export default function Preguntas({ pagina = false }: { pagina?: boolean }) {
   const Titulo = pagina ? "h1" : "h2";
@@ -37,7 +38,7 @@ export default function Preguntas({ pagina = false }: { pagina?: boolean }) {
               <a href={wa("Hola, tengo una pregunta sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className="group inline-flex h-12 items-center gap-2 rounded-full bg-[#25d366] px-5 text-[14px] font-semibold transition hover:scale-[1.03] active:scale-95">
                 <IconoWhatsApp className="size-5" /> WhatsApp
               </a>
-              <Link href="/alta" className="boton-venta subtitular inline-flex h-12 items-center px-6 text-[15px]">
+              <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-12 items-center px-6 text-[15px]">
                 Inscríbete
               </Link>
             </div>

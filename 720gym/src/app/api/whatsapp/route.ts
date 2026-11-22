@@ -89,7 +89,7 @@ export async function POST(req: Request) {
           { type: "text", text: SISTEMA },
           {
             type: "text",
-            text: `CANAL: WhatsApp. Mensajes cortos, sin markdown. Para reservar plaza manda a ${web}/horario, para darse de alta a ${web}/alta, para la clase gratis a ${web}/clase-gratis. Usa avisar_gerente cuando toque y di que le escribirán pronto.`,
+            text: `CANAL: WhatsApp. Mensajes cortos, sin markdown. Para reservar plaza manda a ${web}/horario, para darse de alta que lo confirme aquí mismo indicando el plan, para la clase gratis a ${web}/clase-gratis. Usa avisar_gerente cuando toque y di que le escribirán pronto.`,
             cache_control: { type: "ephemeral" },
           },
         ],

@@ -5,7 +5,7 @@
  */
 import { clasesHorario, dias, sesiones, type ClaseId, type Dia } from "@/data/horario";
 import { capacidad, claveSesion, esReservable, ocupacionBase } from "@/data/plazas";
-import { eur, planPorId } from "@/data/pagos";
+import { eur, planPorId, waPlan } from "@/data/pagos";
 import { guardarAlerta, guardarFicha, guardarPlan, guardarReserva, guardarSolicitud, leerReservas, type AlertaGerente, type FichaLead, type PlanSemanas } from "@/lib/demo";
 import type { Accion } from "@/lib/asistente-local";
 
@@ -71,11 +71,10 @@ export async function ejecutar(nombre: string, entrada: Record<string, unknown>,
       if (t("nombre").length < 2 || digitos(entrada.telefono).length < 9) return { contenido: "Falta el nombre o el teléfono (9 cifras). Pídeselos.", error: true };
       guardarSolicitud({ tipo: "inscripcion", nombre: t("nombre"), telefono: t("telefono"), email: t("email") || undefined, plan: `${plan.nombre} · ${eur(plan.precio)}${plan.mensual ? "/mes" : ""}`, comentario: "Alta iniciada desde el asistente" });
       avisar({ tipo: "inscripcion", nombre: t("nombre"), telefono: t("telefono"), email: t("email"), plan: plan.nombre, comentario: "Alta iniciada desde el asistente" });
-      const q = new URLSearchParams({ plan: plan.id, nombre: t("nombre"), telefono: t("telefono"), ...(t("email") ? { email: t("email") } : {}) });
       return {
-        contenido: `Alta preparada: ${plan.nombre}, ${eur(plan.precio)}${plan.mensual ? " al mes" : " (pago único)"}. El cliente ya tiene el botón para pagar de forma segura con sus datos rellenados.`,
+        contenido: `Solicitud de alta registrada: ${plan.nombre}, ${eur(plan.precio)}${plan.mensual ? " al mes" : " (pago único)"}. El equipo ya tiene el aviso; el cliente tiene un botón para confirmar por WhatsApp con el plan escrito. No hay pago online: el equipo le explica las formas de pago.`,
         hecho: `Alta preparada · ${plan.nombre}`,
-        accion: { etiqueta: `Pagar ${eur(plan.precio)}${plan.mensual ? "/mes" : ""}`, href: `/alta?${q}`, venta: true },
+        accion: { etiqueta: "Confirmar por WhatsApp", href: waPlan(plan.id, t("nombre")), venta: true },
       };
     }
 

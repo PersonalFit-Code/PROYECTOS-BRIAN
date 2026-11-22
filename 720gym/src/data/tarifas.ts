@@ -12,7 +12,7 @@ export interface Tarifa {
   plan: string;
   boton: string;
   tipo: "inscripcion" | "entrada" | "prueba";
-  /** Plan de la pasarela (/alta?plan=…). */
+  /** Plan del catálogo (waPlan abre WhatsApp con este plan). */
   pagoId: string;
 }
 
@@ -57,7 +57,7 @@ export const tarifasGimnasio: Tarifa[] = [
     nombre: "Entrada libre",
     precio: "5",
     unidad: "€/día",
-    detalle: "¿Estás de paso por Ourense? Entra a entrenar un día. Pídela online en un minuto.",
+    detalle: "¿Estás de paso por Ourense? Entra a entrenar un día. Pídela por WhatsApp en un minuto.",
     incluye: ["Acceso por un día", "Sala completa"],
     plan: "Entrada diaria · 5 €",
     pagoId: "entrada-diaria",

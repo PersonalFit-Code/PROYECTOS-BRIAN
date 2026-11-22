@@ -267,7 +267,7 @@ export default function Asistente() {
                         href={a.href}
                         {...(a.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                         onClick={() => !a.href.startsWith("http") && setAbierto(false)}
-                        className="boton-info subtitular inline-flex h-9 items-center gap-1 px-3 text-[14px] text-white"
+                        className={a.venta ? "boton-venta subtitular inline-flex h-9 items-center gap-1 px-3 text-[14px]" : "boton-info subtitular inline-flex h-9 items-center gap-1 px-3 text-[14px] text-white"}
                       >
                         {a.etiqueta}
                       </a>

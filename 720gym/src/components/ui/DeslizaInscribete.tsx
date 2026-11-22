@@ -4,13 +4,14 @@ import { useRouter } from "next/navigation";
 import { useRef, useState, type PointerEvent as PE } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { waPlan } from "@/data/pagos";
 
 /**
  * «Desliza para inscribirte» (la animación que gustó en Burdin). Se arrastra el tirador hasta el
- * final y lleva a la página de alta. También funciona con un toque o con el teclado (accesible).
+ * final y abre WhatsApp para apuntarse. También funciona con un toque o con el teclado (accesible).
  */
 export default function DeslizaInscribete({
-  href = "/alta",
+  href = waPlan(),
   texto = "Desliza para inscribirte",
   className,
   tono = "oscuro",
@@ -32,7 +33,7 @@ export default function DeslizaInscribete({
   const completar = () => {
     setHecho(true);
     setX(inicio.current?.max ?? (pista.current ? pista.current.clientWidth - 60 : 0));
-    window.setTimeout(() => router.push(href), 380);
+    window.setTimeout(() => (href.startsWith("http") ? window.open(href, "_blank", "noopener") : router.push(href)), 380);
   };
 
   const bajar = (e: PE<HTMLButtonElement>) => {

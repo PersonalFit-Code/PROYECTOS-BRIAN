@@ -8,6 +8,7 @@ import IconoConcepto from "@/components/ui/IconoConcepto";
 import { cn } from "@/lib/utils";
 import { conceptos } from "@/data/conceptos";
 import { wa } from "@/data/negocio";
+import { waPlan } from "@/data/pagos";
 
 /**
  * Barra de pestañas del móvil (tipo app), siempre a mano: Inicio · Clases · Inscríbete · Tarifas ·
@@ -96,7 +97,7 @@ export default function BarraMovil() {
           <li>{pestana("/", "Inicio", Home)}</li>
           <li>{pestana("/horario", "Clases", CalendarClock)}</li>
           <li className="flex justify-center">
-            <Link href="/alta" className="boton-venta sin-flecha grid size-13 -translate-y-3 place-items-center rounded-full shadow-[0_12px_30px_-8px_rgb(0_0_0/0.7)]" aria-label="Inscríbete">
+            <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta sin-flecha grid size-13 -translate-y-3 place-items-center rounded-full shadow-[0_12px_30px_-8px_rgb(0_0_0/0.7)]" aria-label="Inscríbete">
               <Plus className="size-6" aria-hidden />
             </Link>
           </li>

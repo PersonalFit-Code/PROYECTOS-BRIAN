@@ -4,6 +4,7 @@
  * Las «acciones» son los botones que acompañan cada respuesta: siempre hay un siguiente paso.
  */
 import { negocio, pilates } from "@/data/negocio";
+import { waPlan } from "@/data/pagos";
 
 export interface Accion {
   etiqueta: string;
@@ -15,12 +16,12 @@ export interface Respuesta {
 }
 
 const A = {
-  alta: { etiqueta: "Inscribirme", href: "/alta" },
+  alta: { etiqueta: "Inscribirme", href: waPlan() },
   prueba: { etiqueta: "Clase gratis", href: "/clase-gratis" },
   tarifas: { etiqueta: "Ver tarifas", href: "/tarifas" },
   horario: { etiqueta: "Ver horario", href: "/horario" },
   pilates: { etiqueta: "720 Pilates", href: "/pilates" },
-  entrada: { etiqueta: "Entrada diaria", href: "/alta?plan=entrada-diaria" },
+  entrada: { etiqueta: "Entrada diaria", href: waPlan("entrada-diaria") },
   mapa: { etiqueta: "Cómo llegar", href: negocio.comoLlegar },
   whatsapp: { etiqueta: "WhatsApp", href: `https://wa.me/${negocio.whatsapp}` },
   personal: { etiqueta: "Entrenamiento personal", href: "/conceptos/entrenamiento-personal" },
@@ -50,13 +51,13 @@ const reglas: { claves: RegExp; r: Respuesta }[] = [
   },
   {
     claves: /entrada|un dia|de paso|turista|pase|semana/,
-    r: { texto: "Si estás de paso, la entrada libre cuesta 5 € por día y la sacas online en un minuto. Para estancias más largas tenemos pases temporales: pregúntanos y te damos precio.", acciones: [A.entrada, A.whatsapp] },
+    r: { texto: "Si estás de paso, la entrada libre cuesta 5 € por día y la pides por WhatsApp en un minuto. Para estancias más largas tenemos pases temporales: pregúntanos y te damos precio.", acciones: [A.entrada, A.whatsapp] },
   },
   {
     claves: /personal|entrenador|bono|valoraci|pareja|trio/,
     r: {
       texto: "El entrenamiento personal empieza con una sesión de valoración y plan a medida por 35 €. Después, bonos: 10 sesiones por 270 € (27 €/sesión, el recomendado). En pareja, trío o grupo de 4 el precio por persona baja hasta 15 €. Los bonos no caducan.",
-      acciones: [{ etiqueta: "Reservar valoración", href: "/alta?plan=valoracion" }, A.personal],
+      acciones: [{ etiqueta: "Reservar valoración", href: waPlan("valoracion") }, A.personal],
     },
   },
   {
@@ -92,7 +93,7 @@ const reglas: { claves: RegExp; r: Respuesta }[] = [
   },
   {
     claves: /pago|pagar|cobr|tarjeta|bizum|domicilia|cancelar|baja/,
-    r: { texto: "Puedes pagar online con tarjeta, Apple Pay o Google Pay al darte de alta. La cuota se cobra entre el día 1 y el 7 de cada mes y puedes cancelar cuando quieras.", acciones: [A.alta] },
+    r: { texto: "Te apuntas por WhatsApp y el equipo te explica las formas de pago. La cuota se cobra entre el día 1 y el 7 de cada mes y puedes cancelar cuando quieras.", acciones: [A.alta] },
   },
   {
     claves: /alquil|profesional|sala|taller|evento|720p/,

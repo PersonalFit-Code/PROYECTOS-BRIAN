@@ -7,6 +7,7 @@ import { ArrowRight, CalendarCheck, Download } from "lucide-react";
 import Logo from "@/components/ui/Logo";
 import { leerPlanes, type PlanSemanas } from "@/lib/demo";
 import { negocio } from "@/data/negocio";
+import { waPlan } from "@/data/pagos";
 
 /**
  * Plan de 4 semanas que crea el asistente. Se ve en la web y se descarga en PDF (imprimir →
@@ -52,7 +53,7 @@ export default function Plan() {
             <button type="button" onClick={() => window.print()} className="boton-barrido subtitular inline-flex h-12 items-center gap-2 bg-negro px-6 text-white [--barrido:#3a3a3e]">
               <Download className="size-4" aria-hidden /> Descargar PDF
             </button>
-            <Link href="/alta?plan=valoracion" className="boton-info subtitular inline-flex h-12 items-center gap-2 px-5 text-negro">
+            <Link href={waPlan("valoracion")} target="_blank" rel="noopener" className="boton-info subtitular inline-flex h-12 items-center gap-2 px-5 text-negro">
               Revisarlo con un entrenador
             </Link>
           </div>
@@ -102,7 +103,7 @@ export default function Plan() {
             <p className="subtitular text-[20px]">¿Lo hacemos juntos en 720?</p>
             <p className="text-[14px] text-negro/60">Prueba una clase gratis o date de alta desde 35 €/mes.</p>
           </div>
-          <Link href="/alta" className="boton-venta subtitular inline-flex h-12 items-center gap-2 px-6">
+          <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-12 items-center gap-2 px-6">
             Inscribirme <ArrowRight className="size-4" aria-hidden />
           </Link>
         </div>

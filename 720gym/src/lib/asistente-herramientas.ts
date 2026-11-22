@@ -52,7 +52,7 @@ export const herramientas: Anthropic.Beta.BetaTool[] = [
   {
     name: "crear_alta",
     description:
-      "Da de alta al cliente en un plan de pago y devuelve el enlace a la pasarela segura (tarjeta, Apple Pay, Google Pay). Pide antes nombre y teléfono.",
+      "Registra la solicitud de alta del cliente en un plan, avisa al equipo y le da un botón para confirmarla por WhatsApp con el plan escrito. No hay pago online. Pide antes nombre y teléfono.",
     strict: true,
     input_schema: obj(
       {

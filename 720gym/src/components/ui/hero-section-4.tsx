@@ -68,7 +68,9 @@ const HeroSection = React.forwardRef<HTMLElement, HeroSectionProps>(
           </motion.p>
           <motion.div className="mt-9 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-4" variants={itemVariants}>
             <Button asChild size="lg">
-              <Link href={primaryButtonHref}>{primaryButtonText}</Link>
+              <Link href={primaryButtonHref} {...(primaryButtonHref.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})}>
+                {primaryButtonText}
+              </Link>
             </Button>
             <Button asChild variant="secondary" size="lg" className="text-white">
               <Link href={secondaryButtonHref}>{secondaryButtonText}</Link>

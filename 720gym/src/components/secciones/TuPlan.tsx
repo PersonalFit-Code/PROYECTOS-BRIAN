@@ -8,7 +8,7 @@ import { ArrowLeft, ArrowRight, CalendarDays, Check, Dumbbell, Flame, Flower2, G
 import { BarraDiscos } from "@/components/ui/IconosMarca";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import Contador from "@/components/ui/Contador";
-import { eur, planPorId } from "@/data/pagos";
+import { eur, planPorId, waPlan } from "@/data/pagos";
 import { wa } from "@/data/negocio";
 import { fotos } from "@/data/fotos";
 import { cn } from "@/lib/utils";
@@ -37,7 +37,7 @@ const diasOpc: { id: Dias; texto: string; nota: string }[] = [
   { id: "3", texto: "3 o más", nota: "Voy a por todas" },
 ];
 const inicioOpc: { id: Inicio; texto: string; nota: string; Icono: Icono }[] = [
-  { id: "ya", texto: "Ya, hoy mismo", nota: "Alta online en un minuto", Icono: Zap as Icono },
+  { id: "ya", texto: "Ya, hoy mismo", nota: "Te apuntas por WhatsApp en un minuto", Icono: Zap as Icono },
   { id: "probar", texto: "Probando antes", nota: "Una clase gratis primero", Icono: Gift as Icono },
   { id: "paso", texto: "Estoy de paso", nota: "Unos días en Ourense", Icono: MapPinned as Icono },
 ];
@@ -45,7 +45,7 @@ const inicioOpc: { id: Inicio; texto: string; nota: string; Icono: Icono }[] = [
 function recomendar(o: Objetivo, d: Dias, i: Inicio): { planId?: string; titulo: string; porque: string[] } {
   if (i === "paso") {
     if (o === "pilates") return { planId: "sesion-suelta", titulo: "Una sesión suelta de Pilates", porque: ["Sin compromiso", "Reservas tu clase y vienes"] };
-    return { planId: "entrada-diaria", titulo: "Entrada de un día", porque: ["Sala completa", "La pides online en un minuto"] };
+    return { planId: "entrada-diaria", titulo: "Entrada de un día", porque: ["Sala completa", "La pides por WhatsApp en un minuto"] };
   }
   switch (o) {
     case "sala":
@@ -198,7 +198,7 @@ export default function TuPlan() {
                 Reservar mi clase gratis <ArrowRight className="size-4" aria-hidden />
               </Link>
             ) : (
-              <Link href={`/alta?plan=${plan!.id}`} className="subtitular inline-flex h-[52px] items-center justify-center gap-2 bg-negro px-6 text-[15px] text-white transition hover:gap-3 hover:bg-pizarra">
+              <Link href={waPlan(plan!.id)} target="_blank" rel="noopener" className="subtitular inline-flex h-[52px] items-center justify-center gap-2 bg-negro px-6 text-[15px] text-white transition hover:gap-3 hover:bg-pizarra">
                 Inscribirme con este plan <ArrowRight className="size-4" aria-hidden />
               </Link>
             )}
@@ -208,7 +208,7 @@ export default function TuPlan() {
           </div>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-[13px]">
             {plan && pruebaPrimero ? (
-              <Link href={`/alta?plan=${plan.id}`} className="font-semibold underline-offset-4 hover:underline">
+              <Link href={waPlan(plan.id)} target="_blank" rel="noopener" className="font-semibold underline-offset-4 hover:underline">
                 O date de alta ya con {plan.nombre} ({eur(plan.precio)})
               </Link>
             ) : (

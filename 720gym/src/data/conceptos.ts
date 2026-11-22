@@ -29,7 +29,7 @@ export interface Concepto {
   extras?: { src: string; descripcion: string }[];
   /** Valor del desplegable «actividad» del formulario. */
   actividad: string;
-  /** Plan de la pasarela para «Inscríbete» (si se puede pagar online). */
+  /** Plan del catálogo para «Inscríbete» (abre WhatsApp con este plan). */
   planPago?: string;
   seo: { titulo: string; descripcion: string };
 }

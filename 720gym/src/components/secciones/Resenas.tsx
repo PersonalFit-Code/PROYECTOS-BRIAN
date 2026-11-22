@@ -7,6 +7,7 @@ import Contador from "@/components/ui/Contador";
 import { negocio } from "@/data/negocio";
 import { resenas, type Tema } from "@/data/resenas";
 import { cn } from "@/lib/utils";
+import { waPlan } from "@/data/pagos";
 
 /**
  * Reseñas reales de Google: la nota media de la ficha arriba, filtros por tema y tarjetas que se
@@ -119,7 +120,7 @@ export default function Resenas({ tema, titulo = "Lo que dicen de 720" }: { tema
           <div data-reveal className="mt-4 flex flex-col items-center gap-3 text-center sm:flex-row">
             <p className="subtitular text-[18px]">¿Te unes a ellos?</p>
             <div className="flex gap-2">
-              <Link href="/alta" className="boton-venta subtitular inline-flex h-11 items-center px-5 text-[15px]">
+              <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-11 items-center px-5 text-[15px]">
                 Inscríbete
               </Link>
               <Link href="/clase-gratis" className="boton-info subtitular inline-flex h-11 items-center px-5 text-[15px] text-white">

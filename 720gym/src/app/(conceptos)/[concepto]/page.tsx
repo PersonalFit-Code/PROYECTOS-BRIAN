@@ -18,6 +18,7 @@ import Cierre from "@/components/secciones/Cierre";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { conceptoPorSlug, conceptos } from "@/data/conceptos";
 import { wa } from "@/data/negocio";
+import { waPlan } from "@/data/pagos";
 
 /**
  * Página de cada concepto, en su propia dirección corta (/gimnasio, /crossgym…). 720 Pilates tiene
@@ -62,7 +63,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
               {c.lineas}
             </p>
             <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap" style={{ ["--i" as string]: 4 }}>
-              <Link href={c.planPago ? `/alta?plan=${c.planPago}` : `${base}?tipo=inscripcion&actividad=${c.actividad}#apuntate`} className={claseBoton("venta", true)}>
+              <Link {...(c.planPago ? { target: "_blank", rel: "noopener" } : {})} href={c.planPago ? waPlan(c.planPago) : `${base}?tipo=inscripcion&actividad=${c.actividad}#apuntate`} className={claseBoton("venta", true)}>
                 Inscríbete
               </Link>
               <Link href={prueba} className={claseBoton("contorno", true)}>
@@ -130,7 +131,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
                   </li>
                 ))}
               </ul>
-              <Link href={c.planPago ? `/alta?plan=${c.planPago}` : `${base}?tipo=inscripcion&actividad=${c.actividad}#apuntate`} className={`${claseBoton("venta")} mt-10 w-full`}>
+              <Link {...(c.planPago ? { target: "_blank", rel: "noopener" } : {})} href={c.planPago ? waPlan(c.planPago) : `${base}?tipo=inscripcion&actividad=${c.actividad}#apuntate`} className={`${claseBoton("venta")} mt-10 w-full`}>
                 Inscríbete
               </Link>
               <Link href="/tarifas" className="mt-4 block text-center text-[13px] text-white/60 underline underline-offset-4 hover:text-white">

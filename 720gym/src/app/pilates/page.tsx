@@ -15,6 +15,7 @@ import JsonLd, { migas } from "@/components/ui/JsonLd";
 import { pilates, wa } from "@/data/negocio";
 import { condicionesPilates, tarifasPilates } from "@/data/tarifas";
 import { equipo } from "@/data/equipo";
+import { waPlan } from "@/data/pagos";
 
 export const metadata: Metadata = {
   title: { absolute: "Pilates Reformer en Ourense · 720 Pilates" },
@@ -64,7 +65,7 @@ export default function PaginaPilates() {
               ))}
             </ul>
             <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap" style={{ ["--i" as string]: 4 }}>
-              <Link href="/alta?plan=reformer-1" className={claseBoton("venta", true)}>
+              <Link href={waPlan("reformer-1")} target="_blank" rel="noopener" className={claseBoton("venta", true)}>
                 Inscríbete
               </Link>
               <Link href="/pilates?tipo=prueba&actividad=pilates#apuntate" className={claseBoton("contorno-oscuro", true)}>
@@ -160,7 +161,7 @@ export default function PaginaPilates() {
                     </li>
                   ))}
                 </ul>
-                <Link href={`/alta?plan=${g.planes[0].pagoId ?? "sesion-suelta"}`} className={`${claseBoton(i === 0 ? "venta" : "negro")} mt-6 w-full`}>
+                <Link href={waPlan(g.planes[0].pagoId ?? "sesion-suelta")} target="_blank" rel="noopener" className={`${claseBoton(i === 0 ? "venta" : "negro")} mt-6 w-full`}>
                   Inscríbete
                 </Link>
               </li>

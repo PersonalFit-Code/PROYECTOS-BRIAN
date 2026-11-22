@@ -5,6 +5,7 @@ import Intro from "@/components/ui/Intro";
 import { fotos } from "@/data/fotos";
 import { wa } from "@/data/negocio";
 import { enlacePrueba } from "@/components/layout/navegacion";
+import { waPlan } from "@/data/pagos";
 
 /**
  * Portada limpia (hero-section-4): foto de la sala a pantalla completa, un titular, una frase y dos
@@ -26,7 +27,7 @@ export default function Hero() {
         }
         subtitle="Un club con aforo limitado, abierto los 365 días. Fuerza, Pilates Reformer y comunidad en el centro de Ourense."
         primaryButtonText="Inscríbete ahora"
-        primaryButtonHref="/alta"
+        primaryButtonHref={waPlan()}
         secondaryButtonText="Prueba una clase gratis"
         secondaryButtonHref={enlacePrueba}
         extra={

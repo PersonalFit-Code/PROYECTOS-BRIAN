@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import { wa } from "@/data/negocio";
 import { cn } from "@/lib/utils";
+import { waPlan } from "@/data/pagos";
 
 /**
  * Franja corta de acción entre apartados: una frase y dos salidas (inscribirse y WhatsApp).
@@ -12,7 +13,7 @@ export default function FranjaCta({
   frase,
   detalle,
   boton = "Inscríbete",
-  href = "/alta",
+  href = waPlan(),
   mensaje = "Hola, quiero apuntarme a 720 GYM CLUB. ¿Me dais información?",
   clara = false,
 }: {
@@ -32,7 +33,7 @@ export default function FranjaCta({
           {detalle && <p className={cn("mt-0.5 text-[13.5px]", clara ? "text-negro/60" : "text-white/60")}>{detalle}</p>}
         </div>
         <div data-reveal className="grid grid-cols-[1fr_auto] gap-2 sm:flex sm:shrink-0">
-          <Link href={href} className="boton-venta subtitular inline-flex h-12 items-center justify-center gap-2 px-6 text-[15px]">
+          <Link href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})} className="boton-venta subtitular inline-flex h-12 items-center justify-center gap-2 px-6 text-[15px]">
             {boton}
           </Link>
           <a

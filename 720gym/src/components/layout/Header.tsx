@@ -13,6 +13,7 @@ import { claseBoton } from "@/components/ui/Boton";
 import { cn } from "@/lib/utils";
 import { negocio, wa } from "@/data/negocio";
 import { enlacesConceptos, navegacion, enlacePrueba } from "./navegacion";
+import { waPlan } from "@/data/pagos";
 
 /** Cabecera: transparente sobre la portada, negra al bajar. Desplegable «Conceptos». */
 export default function Header() {
@@ -99,7 +100,7 @@ export default function Header() {
           <Link href={enlacePrueba} className={cn(claseBoton("contorno"), "h-11 rounded-full max-xl:!hidden")}>
             Clase gratis
           </Link>
-          <Link href="/alta" className={cn(claseBoton("venta"), "h-11 rounded-full px-4 sm:px-5")}>
+          <Link href={waPlan()} target="_blank" rel="noopener" className={cn(claseBoton("venta"), "h-11 rounded-full px-4 sm:px-5")}>
             Inscríbete
           </Link>
           <button
@@ -206,7 +207,7 @@ export default function Header() {
             </Link>
           ))}
           <div className="mt-auto grid gap-3 pt-8">
-            <Link href="/alta" className={claseBoton("venta", true)}>
+            <Link href={waPlan()} target="_blank" rel="noopener" className={claseBoton("venta", true)}>
               Inscríbete ahora
             </Link>
             <Link href={enlacePrueba} className={claseBoton("contorno", true)}>

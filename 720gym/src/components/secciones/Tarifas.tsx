@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import { claseBoton } from "@/components/ui/Boton";
 import { cn } from "@/lib/utils";
+import { waPlan } from "@/data/pagos";
 import {
   bonos,
   condicionesGimnasio,
@@ -84,7 +85,7 @@ export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inic
                       ))}
                     </ul>
                   )}
-                  <Link href={`/alta?plan=${t.pagoId}`} className={cn(claseBoton(t.destacada ? "venta" : "contorno-oscuro"), "mt-auto w-full")}>
+                  <Link href={waPlan(t.pagoId)} target="_blank" rel="noopener" className={cn(claseBoton(t.destacada ? "venta" : "contorno-oscuro"), "mt-auto w-full")}>
                     {t.boton}
                   </Link>
                   <Link href={enlace("inscripcion", { plan: t.plan, actividad: "gimnasio" })} className="mt-3 text-center text-[13px] underline-offset-4 opacity-60 hover:underline hover:opacity-100">
@@ -131,7 +132,7 @@ export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inic
                   </li>
                 ))}
               </ul>
-              <Link href="/alta?plan=valoracion" className={cn(claseBoton("venta"), "mt-8 w-full")}>
+              <Link href={waPlan("valoracion")} target="_blank" rel="noopener" className={cn(claseBoton("venta"), "mt-8 w-full")}>
                 Reservar y pagar valoración
               </Link>
             </div>
@@ -165,9 +166,10 @@ export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inic
                     <Link
                       href={
                         modalidad === "Individual" && b.sesiones >= 5
-                          ? `/alta?plan=bono-${b.sesiones}`
+                          ? waPlan(`bono-${b.sesiones}`)
                           : enlace("inscripcion", { actividad: "personal", plan: modalidad === "Individual" ? `Bono ${b.sesiones} sesiones` : "En pareja / trío / grupo de 4" })
                       }
+                      {...(modalidad === "Individual" && b.sesiones >= 5 ? { target: "_blank", rel: "noopener" } : {})}
                       className={cn(claseBoton(b.recomendado ? "venta" : "contorno-oscuro"), "mt-4 h-10 text-[15px]")}
                     >
                       Lo quiero
@@ -195,7 +197,7 @@ export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inic
                       <li key={p.nombre} className="flex items-baseline justify-between gap-3 py-3">
                         <span className="text-[14px] text-negro/80">
                           {p.pagoId ? (
-                            <Link href={`/alta?plan=${p.pagoId}`} className="underline-offset-4 hover:underline">
+                            <Link href={waPlan(p.pagoId)} target="_blank" rel="noopener" className="underline-offset-4 hover:underline">
                               {p.nombre}
                             </Link>
                           ) : (
@@ -220,7 +222,7 @@ export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inic
                 <li>· Sesión suelta: 15 €</li>
               </ul>
               <div className="flex shrink-0 gap-3">
-                <Link href="/alta?plan=reformer-1" className={claseBoton("venta")}>
+                <Link href={waPlan("reformer-1")} target="_blank" rel="noopener" className={claseBoton("venta")}>
                   Inscríbete
                 </Link>
                 <Link href={enlace("prueba", { actividad: "pilates" })} className={claseBoton("contorno-oscuro")}>
