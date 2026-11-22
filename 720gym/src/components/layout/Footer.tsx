@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
 import MarcaAjustada from "@/components/ui/MarcaAjustada";
@@ -116,6 +117,21 @@ export default function Footer() {
               Acceso gestión
             </Link>
           </nav>
+        </div>
+      </div>
+      {/* Crédito de la web (acuerdo de colaboración con neuro·node). */}
+      <div className="relative border-t border-white/8">
+        <div className="container-page flex justify-center py-5">
+          <a
+            href="https://neuro-node.com"
+            target="_blank"
+            rel="noopener"
+            className="group inline-flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white"
+          >
+            Web creada por
+            <Image src="/marca/neuro-node-iso.png" alt="" width={18} height={18} className="h-[18px] w-auto opacity-70 transition-opacity group-hover:opacity-100" />
+            <Image src="/marca/neuro-node.png" alt="neuro·node" width={84} height={12} className="h-3 w-auto opacity-70 transition-opacity group-hover:opacity-100" />
+          </a>
         </div>
       </div>
     </footer>
