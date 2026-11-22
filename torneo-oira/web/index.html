@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Torneo de Navidad de Fútbol 8 — Oira</title>
+<style>
+:root{--bg:#0d1f17;--panel:#14291f;--line:#274536;--ink:#f1f5ee;--mut:#a9bbaf;--acc:#d8f24a;--acc-ink:#172008;--err:#ff8f7a;--ok:#7be0a4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header{padding:40px 0 24px;border-bottom:1px solid var(--line)}
+.kicker{color:var(--acc);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px}
+h1{font-size:clamp(34px,8vw,56px);line-height:1.02;margin:8px 0 12px;letter-spacing:-.02em;text-wrap:balance}
+h2{font-size:22px;margin:0 0 12px}
+.meta{color:var(--mut);font-size:18px}
+.demo{background:#5a3b00;color:#ffe3a3;padding:10px 16px;font-size:14px;text-align:center}
+section{padding:28px 0;border-bottom:1px solid var(--line)}
+.counter{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.big{font-size:64px;font-weight:800;line-height:1;color:var(--acc);font-variant-numeric:tabular-nums}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .4s}
+.price{margin-top:12px;color:var(--mut)}
+.price b{color:var(--ink)}
+ul.facts{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 20px}
+ul.facts li{padding-left:18px;position:relative}
+ul.facts li:before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--acc)}
+label{display:block;font-size:14px;color:var(--mut);margin-bottom:4px}
+input{width:100%;padding:11px 12px;border-radius:8px;border:1px solid var(--line);background:#0f2219;color:var(--ink);font:inherit}
+input:focus{outline:2px solid var(--acc);outline-offset:1px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+fieldset{border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 16px;background:var(--panel);min-width:0}
+legend{padding:0 8px;font-weight:700}
+.player{display:grid;grid-template-columns:28px 1.6fr 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.player span{color:var(--mut);font-variant-numeric:tabular-nums}
+.rowbtn{display:flex;gap:8px;margin-top:8px}
+button{font:inherit;font-weight:700;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);padding:10px 14px;cursor:pointer}
+button.primary{background:var(--acc);color:var(--acc-ink);border-color:var(--acc);width:100%;padding:14px;font-size:17px}
+button:disabled{opacity:.5;cursor:not-allowed}
+.check{display:flex;gap:10px;align-items:flex-start;margin:8px 0;color:var(--ink);font-size:15px}
+.check input{width:auto;margin-top:4px}
+.msg{padding:12px 14px;border-radius:8px;margin:12px 0;display:none}
+.msg.err{display:block;background:#3a1712;color:var(--err)}
+.done{background:var(--panel);border:1px solid var(--ok);border-radius:12px;padding:20px}
+.done h2{color:var(--ok)}
+.pay{background:#0f2219;border-radius:8px;padding:12px 14px;margin:12px 0;overflow-wrap:anywhere}
+small,.small{color:var(--mut);font-size:13px}
+footer{padding:24px 0 48px;color:var(--mut);font-size:13px}
+@media (max-width:560px){.grid{grid-template-columns:1fr}.player{grid-template-columns:22px 1fr;}.player input:nth-of-type(n+2){grid-column:2}}
+</style>
+</head>
+<body>
+<div class="demo" id="demo" hidden>MODO DEMO — sin base de datos conectada. Las inscripciones se guardan solo en este navegador.</div>
+<header><div class="wrap">
+  <div class="kicker">Fútbol 8 · Navidad 2026</div>
+  <h1 id="t-nombre"></h1>
+  <div class="meta"><span id="t-fechas"></span><br><span id="t-lugar"></span></div>
+</div></header>
+
+<main class="wrap">
+<section aria-live="polite">
+  <div class="counter">
+    <div class="big" id="libres">–</div>
+    <div><b id="libres-txt">plazas libres</b><br><span class="small">de <span id="total">32</span> equipos</span></div>
+  </div>
+  <div class="bar"><i id="barra"></i></div>
+  <div class="price" id="precio-txt"></div>
+</section>
+
+<section>
+  <ul class="facts">
+    <li>32 equipos, mínimo 3 partidos</li>
+    <li>Árbitro en todos los partidos</li>
+    <li>Premios para el podio y pack para todos</li>
+    <li>De 9 a 14 jugadores por equipo</li>
+    <li>A partir de 16 años</li>
+    <li>Plaza confirmada con el pago</li>
+  </ul>
+</section>
+
+<section id="sec-form">
+  <h2 id="form-title">Inscribe a tu equipo</h2>
+  <form id="form" novalidate>
+    <fieldset><legend>Equipo</legend>
+      <div class="grid">
+        <div><label for="nombre">Nombre del equipo</label><input id="nombre" required maxlength="40" autocomplete="off"></div>
+        <div><label for="color">Color de camiseta</label><input id="color" maxlength="30"></div>
+      </div>
+    </fieldset>
+    <fieldset><legend>Capitán</legend>
+      <div class="grid">
+        <div><label for="cnombre">Nombre y apellidos</label><input id="cnombre" required autocomplete="name"></div>
+        <div><label for="cdni">DNI / NIE</label><input id="cdni" required maxlength="12"></div>
+        <div><label for="ctel">Teléfono (WhatsApp)</label><input id="ctel" required type="tel" autocomplete="tel"></div>
+        <div><label for="cmail">Email</label><input id="cmail" required type="email" autocomplete="email"></div>
+      </div>
+    </fieldset>
+    <fieldset><legend>Jugadores (<span id="njug">9</span> de 14)</legend>
+      <p class="small" style="margin-top:0">Incluye al capitán si juega. Nombre, DNI y fecha de nacimiento: los pide el seguro.</p>
+      <div id="players"></div>
+      <div class="rowbtn"><button type="button" id="add">+ Añadir jugador</button><button type="button" id="del">− Quitar último</button></div>
+    </fieldset>
+    <label class="check"><input type="checkbox" id="c1" required><span>He leído y acepto las <a href="../03-bases-y-reglamento.md" style="color:var(--acc)">bases del torneo</a>.</span></label>
+    <label class="check"><input type="checkbox" id="c2" required><span>Todos los jugadores están en condiciones físicas para jugar y los menores de 18 traerán autorización firmada.</span></label>
+    <label class="check"><input type="checkbox" id="c3" required><span>Acepto el tratamiento de estos datos para gestionar el torneo y el seguro.</span></label>
+    <div class="msg" id="err" role="alert"></div>
+    <button class="primary" id="enviar" type="submit">Inscribir equipo</button>
+    <p class="small">Al enviar se reserva tu plaza durante 72 horas. Queda confirmada cuando recibimos el pago.</p>
+  </form>
+  <div class="done" id="done" hidden></div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <p>Contacto: <span id="t-contacto"></span></p>
+  <p>Responsable de los datos: <span id="t-resp"></span>. Se usan únicamente para organizar el torneo y contratar el seguro de los participantes, y se borran al terminar. Puedes pedir su acceso, corrección o borrado por el contacto de arriba.</p>
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

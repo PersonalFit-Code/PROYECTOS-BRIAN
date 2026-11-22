@@ -11,6 +11,7 @@ Torneo open de fútbol 8, 32 equipos, 26–28 de diciembre de 2026 en el campo d
 | [05-inscripcion.md](05-inscripcion.md) | Campos del formulario, descargo y autorización de menores |
 | [06-patrocinio.md](06-patrocinio.md) | Dossier de una página y mensaje para negocios |
 | [07-cartel-y-redes.md](07-cartel-y-redes.md) | Textos de cartel, Instagram y WhatsApp |
+| [web/](web/README.md) | Web de inscripción online con contador de plazas (sin publicar; funciona en modo demo) |
 
 ## Estado
 
