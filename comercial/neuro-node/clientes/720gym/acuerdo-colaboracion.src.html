@@ -121,7 +121,7 @@ formato: vertical
   .condiciones { margin-top: 0; }
   .firma .fila { display: grid; grid-template-columns: 1.6fr 1fr; gap: 4mm; }
   .mant { display: grid; grid-template-columns: 58mm 1fr; gap: 4mm; break-inside: avoid; }
-  .mant-precio { border-radius: 3mm; padding: 5mm 5.5mm; background: #0b0b0d; color: #fff; position: relative; overflow: hidden; }
+  .mant-precio { border-radius: 3mm; padding: 4mm 5mm; background: #0b0b0d; color: #fff; position: relative; overflow: hidden; }
   .mant-precio::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.1mm; background: linear-gradient(90deg, var(--azul), var(--indigo), var(--morado)); }
   .mant-precio .quien { color: rgba(255,255,255,.62); }
   .mant-precio .cifra { font-family: "Montserrat"; font-weight: 800; font-size: 34pt; line-height: 1; margin: 2mm 0 1.5mm; color: #fff; }
@@ -130,6 +130,17 @@ formato: vertical
   .mant-lista { border: 1px solid var(--linea); border-radius: 3mm; padding: 4.5mm 5mm 2.5mm; }
   .mant-lista ul { margin: 0; padding-left: 4.5mm; font-size: 9.2pt; line-height: 1.5; }
   .mant-lista li { margin: 0 0 1.6mm; }
+  .falta { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm; }
+  .falta-col { border: 1px solid var(--linea); border-radius: 3mm; overflow: hidden; }
+  .falta-col .cab { padding: 3.2mm 4.5mm 2.8mm; background: #0b0b0d; color: #fff; position: relative; }
+  .falta-col .cab::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: .9mm; background: linear-gradient(90deg, var(--azul), var(--indigo), var(--morado)); }
+  .falta-col .cab.clara { background: var(--lila); color: var(--negro); }
+  .falta-col .cab span { font-family: "Montserrat"; font-weight: 600; font-size: 6.6pt; letter-spacing: .24em; text-transform: uppercase; color: rgba(255,255,255,.62); }
+  .falta-col .cab.clara span { color: var(--indigo); }
+  .falta-col .cab b { display: block; font-family: "Montserrat"; font-weight: 800; font-size: 10.6pt; text-transform: uppercase; color: inherit; }
+  .falta ol { list-style: none; counter-reset: f; margin: 0; padding: 2.6mm 4.2mm 1mm; }
+  .falta li { counter-increment: f; position: relative; padding-left: 7mm; margin: 0 0 1.5mm; font-size: 8.5pt; line-height: 1.38; }
+  .falta li::before { content: counter(f); position: absolute; left: 0; top: .2mm; width: 4.6mm; height: 4.6mm; border-radius: 50%; border: 1px solid var(--indigo); color: var(--indigo); font-family: "Montserrat"; font-weight: 700; font-size: 6.6pt; line-height: 4.4mm; text-align: center; }
   .otros { display: grid; grid-template-columns: 34mm 1fr; margin: 3mm 0 0; font-size: 8.8pt; border-top: 1px solid var(--linea); break-inside: avoid; }
   .otros > * { padding: 1.5mm 0; border-bottom: 1px solid var(--linea); margin: 0; }
   .otros dt { font-family: "Montserrat"; font-weight: 600; color: var(--negro); }
@@ -145,7 +156,7 @@ formato: vertical
   .firmas { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
   .firma { border: 1px solid var(--linea); border-radius: 3mm; padding: 4mm 5mm 3mm; }
   .firma .campo { display: flex; align-items: flex-end; height: 8mm; border-bottom: 1px solid #cfcdd3; font-size: 7.6pt; color: var(--suave); padding-bottom: .8mm; }
-  .firma .campo.alto { height: 18mm; }
+  .firma .campo.alto { height: 11mm; }
   .cierre { margin-top: 12mm; } .cierre img.iso { height: 14mm; } .cierre img.word { height: 5mm; margin: 2mm auto 2.5mm; }
 </style>
 
@@ -230,7 +241,38 @@ formato: vertical
 </section>
 
 <section class="sec entera">
-  <h2><span class="n">03</span>Qué aporta 720</h2>
+  <h2><span class="n">03</span>Lo que falta para publicar</h2>
+  <p class="intro">La demo enseña cómo será la web, pero todavía no está terminada. Antes de publicarla queda trabajo por las dos partes.</p>
+  <div class="falta">
+    <div class="falta-col">
+      <div class="cab clara"><span>Necesitamos de 720</span><b>Datos y material</b></div>
+      <ol>
+        <li><b>Horario real de clases.</b> La web muestra ahora un horario de ejemplo.</li>
+        <li><b>Horario de apertura y teléfonos.</b> El dosier, Google e Instagram no coinciden.</li>
+        <li><b>Precios que faltan:</b> yoga, CrossGym y pases.</li>
+        <li><b>Fotos originales en alta calidad</b>, con permiso de uso. Las actuales salen de Instagram; faltan vestuarios, Pilates y equipo.</li>
+        <li><b>Logo oficial en vectorial.</b> El de la web es una reconstrucción provisional.</li>
+        <li><b>Datos del titular</b> (razón social y NIF) para el aviso legal, la privacidad y las cookies.</li>
+        <li><b>Dominio contratado</b> y acceso para conectarlo.</li>
+      </ol>
+    </div>
+    <div class="falta-col">
+      <div class="cab"><span>Trabajo de neuro·node</span><b>Desarrollo y puesta en marcha</b></div>
+      <ol>
+        <li><b>Retirar las piezas de la demo:</b> panel de gestión, pagos de prueba e IA, y dejar el asistente en modo básico.</li>
+        <li><b>Conectar los formularios y el test</b> para que las solicitudes lleguen de verdad a 720. Hoy solo se guardan en el navegador.</li>
+        <li><b>Revisar todos los textos</b> con 720: equipo, historia, normas y disciplinas.</li>
+        <li><b>Cambiar fotos y logo</b> por los definitivos y optimizarlos para que la web cargue rápido.</li>
+        <li><b>Completar los textos legales</b> y el aviso de cookies.</li>
+        <li><b>Publicar:</b> dominio, certificado de seguridad, alta en Google y medición de visitas y altas.</li>
+        <li><b>Pruebas finales</b> en móviles y ordenadores antes de abrirla al público.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="sec entera">
+  <h2><span class="n">04</span>Qué aporta 720</h2>
   <p class="intro">Contenido orgánico creado y publicado por 720 en sus redes, en dos tiempos, marcado como colaboración con <span class="pendiente">[@instagram de neuro·node]</span>.</p>
   <div class="etapas">
     <div class="etapa">
@@ -261,8 +303,7 @@ formato: vertical
 </section>
 
 <section class="sec entera">
-  <h2><span class="n">04</span>Mantenimiento</h2>
-  <p class="intro">La web se entrega sin coste. Para todo lo que venga después, un mantenimiento mensual sencillo.</p>
+  <h2 style="margin-bottom:3mm"><span class="n">05</span>Mantenimiento</h2>
   <div class="mant">
     <div class="mant-precio"><p class="quien">Mantenimiento</p><p class="cifra">70 €<small>/ mes</small></p><p class="iva">IVA no incluido</p></div>
     <div class="mant-lista">
@@ -274,11 +315,11 @@ formato: vertical
       </ul>
     </div>
   </div>
-  <p class="nota">Los cambios puntuales sin mantenimiento se pueden valorar caso a caso, aunque lo recomendable es el mantenimiento. Los costes de servicios de terceros (pasarela de pago, uso de IA) se facturan aparte si llegan a activarse. Los fallos técnicos de la web se corrigen siempre sin coste.</p>
+  <p class="nota">Los cambios puntuales sin mantenimiento se valoran caso a caso, aunque lo recomendable es el mantenimiento. Servicios de terceros (pasarela de pago, uso de IA), aparte si se activan.</p>
 </section>
 
 <section class="sec entera">
-  <h2 style="margin-bottom:3mm"><span class="n">05</span>Condiciones</h2>
+  <h2 style="margin-bottom:3mm"><span class="n">06</span>Condiciones</h2>
   <dl class="otros condiciones">
     <dt>Duración</dt><dd>6 meses de difusión desde la publicación de la web. Al terminar, se puede renovar.</dd>
     <dt>Dominio</dt><dd>A nombre de 720, contratado y pagado por 720 por un año.</dd>
@@ -291,7 +332,7 @@ formato: vertical
 </section>
 
 <section class="sec final">
-  <h2><span class="n">06</span>Próximos pasos</h2>
+  <h2><span class="n">07</span>Próximos pasos</h2>
   <div class="pasos">
     <div class="paso2"><p class="cuando">1 · Acuerdo</p><h3>Revisión y firma</h3><p>Ajustamos lo que haga falta de este documento y lo firmamos.</p></div>
     <div class="paso2"><p class="cuando">2 · Material</p><h3>Fotos, datos y dominio</h3><p>Fotos originales, horarios y precios confirmados, y acceso al dominio.</p></div>
@@ -309,9 +350,5 @@ formato: vertical
       <div class="campo alto">Firma</div>
     </div>
   </div>
-  <div class="cierre">
-    <img class="iso" src="{{recursos}}/iso-negro.png" alt="">
-    <img class="word" src="{{recursos}}/wordmark-negro.png" alt="neuro·node">
-    <p class="meta">Documento elaborado por neuro·node · {{fecha}}</p>
-  </div>
+  <p class="firma-doc">Documento elaborado por neuro·node · {{fecha}}</p>
 </section>
