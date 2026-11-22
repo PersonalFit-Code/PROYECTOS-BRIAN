@@ -120,6 +120,16 @@ formato: vertical
   .firma-doc { margin: 5mm 0 0; text-align: center; font-family: "Montserrat"; font-weight: 600; font-size: 6.8pt; letter-spacing: .26em; text-transform: uppercase; color: var(--suave); }
   .condiciones { margin-top: 0; }
   .firma .fila { display: grid; grid-template-columns: 1.6fr 1fr; gap: 4mm; }
+  .mant { display: grid; grid-template-columns: 58mm 1fr; gap: 4mm; break-inside: avoid; }
+  .mant-precio { border-radius: 3mm; padding: 5mm 5.5mm; background: #0b0b0d; color: #fff; position: relative; overflow: hidden; }
+  .mant-precio::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.1mm; background: linear-gradient(90deg, var(--azul), var(--indigo), var(--morado)); }
+  .mant-precio .quien { color: rgba(255,255,255,.62); }
+  .mant-precio .cifra { font-family: "Montserrat"; font-weight: 800; font-size: 34pt; line-height: 1; margin: 2mm 0 1.5mm; color: #fff; }
+  .mant-precio .cifra small { font-size: 11pt; font-weight: 600; margin-left: 1.5mm; color: rgba(255,255,255,.7); }
+  .mant-precio .iva { margin: 0; font-size: 8pt; color: rgba(255,255,255,.55); }
+  .mant-lista { border: 1px solid var(--linea); border-radius: 3mm; padding: 4.5mm 5mm 2.5mm; }
+  .mant-lista ul { margin: 0; padding-left: 4.5mm; font-size: 9.2pt; line-height: 1.5; }
+  .mant-lista li { margin: 0 0 1.6mm; }
   .otros { display: grid; grid-template-columns: 34mm 1fr; margin: 3mm 0 0; font-size: 8.8pt; border-top: 1px solid var(--linea); break-inside: avoid; }
   .otros > * { padding: 1.5mm 0; border-bottom: 1px solid var(--linea); margin: 0; }
   .otros dt { font-family: "Montserrat"; font-weight: 600; color: var(--negro); }
@@ -135,8 +145,8 @@ formato: vertical
   .firmas { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
   .firma { border: 1px solid var(--linea); border-radius: 3mm; padding: 4mm 5mm 3mm; }
   .firma .campo { display: flex; align-items: flex-end; height: 8mm; border-bottom: 1px solid #cfcdd3; font-size: 7.6pt; color: var(--suave); padding-bottom: .8mm; }
-  .firma .campo.alto { height: 10mm; }
-  .cierre { margin-top: 4mm; } .cierre img.iso { height: 11mm; } .cierre img.word { height: 5mm; margin: 2mm auto 2.5mm; }
+  .firma .campo.alto { height: 18mm; }
+  .cierre { margin-top: 12mm; } .cierre img.iso { height: 14mm; } .cierre img.word { height: 5mm; margin: 2mm auto 2.5mm; }
 </style>
 
 <section class="tapa">
@@ -145,7 +155,7 @@ formato: vertical
   <div class="contenido">
     <div class="barra">
       <img src="{{recursos}}/wordmark-blanco.png" alt="neuro·node" style="height:5.4mm">
-      <span>{{fecha}} · Borrador v2</span>
+      <span>{{fecha}} · Borrador v3</span>
     </div>
     <div class="centro">
       <p class="etq">Acuerdo de colaboración</p>
@@ -166,7 +176,7 @@ formato: vertical
       <div class="claves">
         <div class="clave"><b>Web propia</b><span>Sin coste de implantación</span></div>
         <div class="clave"><b>6 meses</b><span>De colaboración</span></div>
-        <div class="clave"><b>Contenido</b><span>En lugar de cuota mensual</span></div>
+        <div class="clave"><b>Difusión</b><span>Contenido orgánico de 720</span></div>
       </div>
     </div>
     <div class="pie"><span>Entre <b>720 GYM CLUB</b> y <b>neuro·node</b></span><span>Confidencial</span></div>
@@ -182,7 +192,7 @@ formato: vertical
       <h3>Su web, publicada</h3>
       <ul>
         <li>La web pública de la demo, con sus datos reales y su dominio.</li>
-        <li>Cambios a cambio de contenido, no de dinero.</li>
+        <li>Mantenimiento opcional para cambios y mejoras.</li>
         <li>Fallos técnicos corregidos sin coste.</li>
       </ul>
     </div>
@@ -191,13 +201,13 @@ formato: vertical
       <h3>Difusión y un caso real</h3>
       <ul>
         <li>Difusión en Instagram durante 6 meses.</li>
-        <li>Un desayuno con empresarios en 720.</li>
-        <li>Recomendaciones, con un 10 % de comisión.</li>
+        <li>Recomendación activa a quien lo necesite.</li>
+        <li>Un 10 % de comisión por cada venta.</li>
         <li>La web como caso de éxito.</li>
       </ul>
     </div>
   </div>
-  <p class="nota"><b>Fuera del acuerdo:</b> panel de gestión, asistente con IA, pagos y reservas online. Se pueden añadir más adelante como ampliación (apartado 05). Las condiciones económicas de este acuerdo son confidenciales.</p>
+  <p class="nota"><b>Fuera del acuerdo:</b> panel de gestión, asistente con IA, pagos y reservas online. Las condiciones económicas de este acuerdo son confidenciales.</p>
 </section>
 
 <section class="sec entera">
@@ -221,7 +231,7 @@ formato: vertical
 
 <section class="sec entera">
   <h2><span class="n">03</span>Qué aporta 720</h2>
-  <p class="intro">Un plan de difusión en dos tiempos. <b>neuro·node graba, edita y diseña todo el material</b>: 720 solo lo publica en colaboración con <span class="pendiente">[@instagram de neuro·node]</span> y abre sus puertas.</p>
+  <p class="intro">Contenido orgánico creado y publicado por 720 en sus redes, en dos tiempos, marcado como colaboración con <span class="pendiente">[@instagram de neuro·node]</span>.</p>
   <div class="etapas">
     <div class="etapa">
       <div class="cab"><span>Semana de publicación</span><b>Lanzamiento</b></div>
@@ -234,7 +244,7 @@ formato: vertical
     <div class="etapa">
       <div class="cab"><span>Durante 6 meses</span><b>Continuidad</b></div>
       <ul>
-        <li><b>Desayuno de empresarios en 720</b>Una mañana en el centro con contactos de Brais: neuro·node cuenta cómo una web y la IA ayudan a un negocio local. 720 pone el espacio y la invitación.</li>
+        <li><b>Recomendación activa</b>Brais presenta neuro·node a personas de su entorno que puedan necesitar una web, IA o automatizaciones.</li>
         <li><b>2 reels más en colaboración</b>Mes 2: «apuntarse en 30 segundos». Mes 6: los resultados de la web, con cifras reales.</li>
         <li><b>1 historia al mes con un dato</b>Visitas, tests o altas que ha traído la web ese mes.</li>
       </ul>
@@ -242,7 +252,7 @@ formato: vertical
     <div class="etapa">
       <div class="cab"><span>Siempre</span><b>Permanente</b></div>
       <ul>
-        <li><b>Recomendación con comisión</b>Brais recomienda neuro·node a empresarios de su entorno y cobra el <strong>10 % de cada venta</strong> que llegue a través de él.</li>
+        <li><b>Comisión por recomendación</b>Por cada venta que llegue a través de Brais, cobra el <strong>10 %</b>, también después de los 6 meses.</li>
         <li><b>«Web creada por neuro·node»</b>En el pie de la web, con enlace a neuro-node.com.</li>
         <li><b>Caso de éxito</b>Capturas, logo y resultados de la web en la web, presentaciones y anuncios de neuro·node.</li>
       </ul>
@@ -251,57 +261,37 @@ formato: vertical
 </section>
 
 <section class="sec entera">
-  <h2><span class="n">04</span>Ideas para el lanzamiento</h2>
-  <p class="intro">Acciones opcionales para multiplicar el alcance del estreno. Se eligen juntos y neuro·node prepara las piezas.</p>
-  <div class="ideas">
-    <div class="idea">
-      <p class="num">Idea 1</p>
-      <h3>Sorteo de lanzamiento</h3>
-      <p>Premio: <span class="pendiente">[1 mes de cuota en 720]</span>. Para participar hay que seguir a las dos cuentas y hacer el test de la web.</p>
-      <div class="gana"><span><b>720</b> gana seguidores y contactos que ya han elegido plan.</span><span><b>neuro·node</b> gana seguidores locales.</span></div>
-    </div>
-    <div class="idea">
-      <p class="num">Idea 2</p>
-      <h3>Oferta solo en la web</h3>
-      <p>Durante el primer mes, quien se apunte desde la web tiene una ventaja propia: <span class="pendiente">[matrícula gratis / primera semana gratis]</span>.</p>
-      <div class="gana"><span><b>720</b> llena plazas desde el primer día.</span><span><b>neuro·node</b> obtiene cifras reales de altas para el caso de éxito.</span></div>
-    </div>
-    <div class="idea">
-      <p class="num">Idea 3</p>
-      <h3>Directo Brais × Brian</h3>
-      <p>Un directo de Instagram desde las dos cuentas: «De un enlace de Instagram a una web que inscribe», con la web en pantalla y preguntas en vivo.</p>
-      <div class="gana"><span><b>720</b> enseña el centro y la web a su comunidad.</span><span><b>neuro·node</b> llega a dueños de negocio de Ourense.</span></div>
+  <h2><span class="n">04</span>Mantenimiento</h2>
+  <p class="intro">La web se entrega sin coste. Para todo lo que venga después, un mantenimiento mensual sencillo.</p>
+  <div class="mant">
+    <div class="mant-precio"><p class="quien">Mantenimiento</p><p class="cifra">70 €<small>/ mes</small></p><p class="iva">IVA no incluido</p></div>
+    <div class="mant-lista">
+      <p class="quien">Incluye</p>
+      <ul>
+        <li><b>Cualquier cambio o modificación:</b> horarios, precios, textos, fotos, avisos y promociones.</li>
+        <li><b>Implementaciones nuevas:</b> secciones, páginas y funciones nuevas en la web.</li>
+        <li><b>Soporte</b> por WhatsApp y correo, y la web siempre actualizada y segura.</li>
+      </ul>
     </div>
   </div>
+  <p class="nota">Los cambios puntuales sin mantenimiento se pueden valorar caso a caso, aunque lo recomendable es el mantenimiento. Los costes de servicios de terceros (pasarela de pago, uso de IA) se facturan aparte si llegan a activarse. Los fallos técnicos de la web se corrigen siempre sin coste.</p>
 </section>
 
 <section class="sec entera">
-  <h2><span class="n">05</span>Cambios y mejoras</h2>
-  <p class="intro">En lugar de una cuota mensual, cada cambio que pida 720 se compensa con contenido.</p>
-  <div class="canjes">
-    <div class="canje"><p class="tipo">Cambio pequeño</p><p class="ej">Horario, precio, texto, foto o un aviso temporal.</p><p class="precio"><small>A cambio de</small>1 historia con mención</p></div>
-    <div class="canje"><p class="tipo">Sección nueva</p><p class="ej">Nueva disciplina, página de un club o una promoción con su página.</p><p class="precio"><small>A cambio de</small>1 reel en colaboración</p></div>
-    <div class="canje aparte"><p class="tipo">Ampliación Pro</p><p class="ej">Pagos y reservas online, asistente con IA y panel de gestión. Tienen costes de funcionamiento propios.</p><p class="precio"><small>Presupuesto aparte</small><span class="pendiente">[importe]</span></p></div>
-  </div>
-</section>
-
-<section class="sec entera">
-  <h2 style="margin-bottom:3mm"><span class="n">06</span>Condiciones</h2>
+  <h2 style="margin-bottom:3mm"><span class="n">05</span>Condiciones</h2>
   <dl class="otros condiciones">
-    <dt>Duración</dt><dd>6 meses desde la publicación. Al terminar, se puede renovar o pasar al mantenimiento estándar.</dd>
-    <dt>Dominio</dt><dd>A nombre de 720 desde el primer día.</dd>
+    <dt>Duración</dt><dd>6 meses de difusión desde la publicación de la web. Al terminar, se puede renovar.</dd>
+    <dt>Dominio</dt><dd>A nombre de 720, contratado y pagado por 720 por un año.</dd>
     <dt>Alojamiento</dt><dd><span class="pendiente">[a cargo de 720 / incluido por neuro·node]</span></dd>
     <dt>Material</dt><dd>720 aporta las fotos originales con permiso de uso y confirma horarios, precios y contactos antes de publicar.</dd>
     <dt>Confidencialidad</dt><dd>Las condiciones económicas de este acuerdo no se comparten con terceros.</dd>
-    <dt>Salida</dt><dd>Si a los 3 meses no se ha publicado lo acordado, la web pasa al mantenimiento estándar: <span class="pendiente">[35 € / mes]</span>.</dd>
-    <dt>Facturación</dt><dd><span class="pendiente">[según indiquen las gestorías de cada parte]</span></dd>
     <dt>Textos legales</dt><dd>720 facilita los datos del titular para el aviso legal y la política de privacidad.</dd>
     <dt>Revisión</dt><dd>Cada parte puede revisar las publicaciones en las que aparece antes de que salgan.</dd>
   </dl>
 </section>
 
 <section class="sec final">
-  <h2><span class="n">07</span>Próximos pasos</h2>
+  <h2><span class="n">06</span>Próximos pasos</h2>
   <div class="pasos">
     <div class="paso2"><p class="cuando">1 · Acuerdo</p><h3>Revisión y firma</h3><p>Ajustamos lo que haga falta de este documento y lo firmamos.</p></div>
     <div class="paso2"><p class="cuando">2 · Material</p><h3>Fotos, datos y dominio</h3><p>Fotos originales, horarios y precios confirmados, y acceso al dominio.</p></div>
@@ -319,5 +309,9 @@ formato: vertical
       <div class="campo alto">Firma</div>
     </div>
   </div>
-  <p class="firma-doc">Documento elaborado por neuro·node · {{fecha}}</p>
+  <div class="cierre">
+    <img class="iso" src="{{recursos}}/iso-negro.png" alt="">
+    <img class="word" src="{{recursos}}/wordmark-negro.png" alt="neuro·node">
+    <p class="meta">Documento elaborado por neuro·node · {{fecha}}</p>
+  </div>
 </section>
