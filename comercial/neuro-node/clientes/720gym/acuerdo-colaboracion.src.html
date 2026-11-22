@@ -3,175 +3,306 @@ titulo: Acuerdo de colaboración 720 GYM CLUB × neuro·node
 tipo: Acuerdo · Colaboración
 cliente: 720 GYM CLUB
 fecha: Noviembre de 2026
-formato: horizontal
+formato: vertical
 ---
 <style>
-  .resumen { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin: 0 0 4mm; }
-  .resumen .lado { border: 1px solid var(--linea); border-radius: 3mm; padding: 4.5mm 5mm 4mm; break-inside: avoid; }
-  .resumen .lado.acento { border: 1.6px solid var(--indigo); background: var(--lila); }
-  .resumen .quien { font-family: "Montserrat"; font-weight: 700; font-size: 7.2pt; letter-spacing: .24em; text-transform: uppercase; color: var(--indigo); margin: 0 0 2mm; }
-  .resumen h3 { margin: 0 0 2mm; font-size: 11pt; text-transform: uppercase; }
-  .resumen ul { margin: 0; padding-left: 4.5mm; font-size: 9pt; line-height: 1.5; }
-  .resumen li { margin: 0 0 .8mm; }
-  .firmas { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; margin: 5mm 0 0; break-inside: avoid; }
+  @font-face { font-family: "Stencil720"; src: url({{recursos}}/fuentes/stencil.woff2) format("woff2"); font-weight: 100 900; }
+
+  /* ===== Portada a sangre: la primera página no lleva márgenes, cabecera ni pie ===== */
+  @page :first { margin: 0; @top-left { content: none; border: 0; } @top-right { content: none; border: 0; } @bottom-left { content: none; border: 0; } @bottom-right { content: none; border: 0; } }
+  .tapa { position: relative; width: 210mm; height: 296.5mm; overflow: hidden; background: #050507; color: #fff; break-after: page; }
+  .tapa .foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .tapa .velo { position: absolute; inset: 0; background:
+      linear-gradient(180deg, rgba(5,5,7,.55) 0%, rgba(5,5,7,.15) 22%, rgba(5,5,7,.35) 45%, rgba(5,5,7,.92) 66%, #050507 82%),
+      radial-gradient(120% 60% at 100% 100%, rgba(100,71,250,.38), transparent 60%),
+      radial-gradient(80% 40% at 0% 100%, rgba(54,173,251,.18), transparent 60%); }
+  .tapa .contenido { position: absolute; inset: 0; padding: 16mm 17mm 14mm; display: flex; flex-direction: column; }
+  .tapa .barra { display: flex; justify-content: space-between; align-items: center; }
+  .tapa .barra span { font-family: "Montserrat"; font-weight: 600; font-size: 7pt; letter-spacing: .32em; text-transform: uppercase; color: rgba(255,255,255,.8); }
+  .tapa .centro { margin-top: auto; }
+  .tapa .etq { font-family: "Montserrat"; font-weight: 600; font-size: 9pt; letter-spacing: .42em; text-transform: uppercase; color: #fff; margin: 0 0 7mm; display: flex; align-items: center; gap: 4mm; }
+  .tapa .etq::before { content: ""; width: 12mm; height: .7mm; border-radius: 1mm; background: linear-gradient(90deg, var(--azul), var(--indigo), var(--morado)); }
+  .tapa .sello { display: flex; align-items: center; gap: 8mm; margin: 0 0 9mm; }
+  .tapa .l720 { height: 46mm; width: 46mm; overflow: visible; }
+  .tapa .por { font-family: "Montserrat"; font-weight: 200; font-size: 54pt; line-height: 1; background: linear-gradient(135deg, var(--azul), var(--indigo) 55%, var(--morado)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .tapa .nn { display: flex; flex-direction: column; align-items: flex-start; gap: 3.5mm; }
+  .tapa .nn .iso { height: 24mm; }
+  .tapa .nn .word { height: 9.4mm; }
+  .tapa h1 { color: #fff; font-size: 23pt; line-height: 1.12; max-width: 160mm; margin: 0 0 4mm; }
+  .tapa .sub { font-size: 11.2pt; line-height: 1.55; color: rgba(255,255,255,.78); max-width: 150mm; margin: 0 0 9mm; }
+  .tapa .claves { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; margin: 0 0 10mm; }
+  .tapa .clave { border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.05); border-radius: 3mm; padding: 4mm 4.5mm 3.6mm; }
+  .tapa .clave b { display: block; font-family: "Montserrat"; font-weight: 800; font-size: 17pt; color: #fff; line-height: 1.05; }
+  .tapa .clave span { font-family: "Montserrat"; font-weight: 600; font-size: 6.6pt; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.62); }
+  .tapa .pie { display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.18); padding-top: 4mm; font-family: "Montserrat"; font-weight: 600; font-size: 6.8pt; letter-spacing: .24em; text-transform: uppercase; color: rgba(255,255,255,.62); }
+  .tapa .pie b { color: #fff; }
+
+  /* ===== Cuerpo: flujo continuo, sin láminas forzadas ===== */
+  .sec { margin: 0 0 7mm; }
+  .sec > h2 { display: flex; align-items: baseline; gap: 3mm; margin: 0 0 1.5mm; font-size: 15pt; }
+  .sec > h2 .n { font-size: 15pt; margin: 0; }
+  .sec > .intro { font-size: 10.2pt; color: var(--suave); margin: 0 0 3.5mm; max-width: 150mm; }
+  .sec h3 { margin: 0 0 1mm; }
+  .arranque, .sec.entera { break-inside: avoid; }
+
+  .cifras { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 0 0 4mm; break-inside: avoid; }
+  .cifras div { background: var(--lila); border-radius: 3mm; padding: 3.6mm 4mm 3.2mm; }
+  .cifras b { display: block; font-family: "Montserrat"; font-weight: 800; font-size: 16pt; color: var(--indigo); line-height: 1.05; }
+  .cifras span { font-size: 8.4pt; color: var(--texto); line-height: 1.35; display: block; margin-top: 1mm; }
+
+  .lados { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; break-inside: avoid; }
+  .lado { border: 1px solid var(--linea); border-radius: 3mm; padding: 3.8mm 4.6mm 2.8mm; }
+  .lado.acento { border: 1.4px solid var(--indigo); }
+  .quien { font-family: "Montserrat"; font-weight: 700; font-size: 7pt; letter-spacing: .26em; text-transform: uppercase; color: var(--indigo); margin: 0 0 1.5mm; }
+  .lado h3 { font-size: 11pt; text-transform: uppercase; margin: 0 0 2mm; }
+  .lado ul { margin: 0; padding-left: 4.5mm; font-size: 9.2pt; line-height: 1.5; }
+  .lado li { margin: 0 0 1mm; }
+  .nota { font-size: 8.6pt; color: var(--suave); margin: 2.5mm 0 0; line-height: 1.45; }
+  .nota b { color: var(--texto); }
+
+  /* Fotos: dos filas con altura fija y recorte desde arriba, para que encajen sin huecos */
+  .fotos { display: grid; gap: 3mm; margin: 0 0 3mm; }
+  .fotos.f2 img { object-position: 50% 38%; }
+  .fotos.f1 { grid-template-columns: 1fr 38mm; height: 82mm; }
+  .fotos.f2 { grid-template-columns: 1.15fr 1fr 1fr; height: 44mm; }
+  .fotos figure { margin: 0; position: relative; border-radius: 2.6mm; overflow: hidden; border: 1px solid var(--linea); background: #0b0b0d; }
+  .fotos img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; display: block; }
+  .fotos figcaption { position: absolute; left: 2mm; bottom: 2mm; background: rgba(0,0,0,.72); color: #fff; font-family: "Montserrat"; font-weight: 600; font-size: 5.8pt; letter-spacing: .18em; text-transform: uppercase; padding: .9mm 2mm; border-radius: 1mm; }
+  .mosaico { display: grid; grid-template-columns: 1fr 33mm 47mm; grid-template-rows: 1fr 1fr; gap: 2.6mm; height: 58mm; margin: 0 0 3.5mm; }
+  .mosaico figure { margin: 0; position: relative; border-radius: 2.6mm; overflow: hidden; border: 1px solid var(--linea); background: #0b0b0d; }
+  .mosaico img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; display: block; }
+  .mosaico .m-hero { grid-row: 1 / 3; } .mosaico .m-hero img { object-position: 50% 30%; }
+  .mosaico .m-movil { grid-row: 1 / 3; }
+  .mosaico .m-a img { object-position: 50% 42%; } .mosaico .m-b img { object-position: 50% 30%; }
+  .mosaico figcaption { position: absolute; left: 1.8mm; bottom: 1.8mm; background: rgba(0,0,0,.72); color: #fff; font-family: "Montserrat"; font-weight: 600; font-size: 5.6pt; letter-spacing: .18em; text-transform: uppercase; padding: .8mm 1.8mm; border-radius: 1mm; }
+  .valor { display: flex; justify-content: space-between; align-items: center; gap: 4mm; border-left: 1.2mm solid var(--indigo); background: var(--lila); border-radius: 0 3mm 3mm 0; padding: 3mm 5mm; margin: 0 0 4mm; font-size: 9.4pt; break-inside: avoid; }
+  .valor b { font-family: "Montserrat"; }
+
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+  .mini { border: 1px solid var(--linea); border-radius: 3mm; padding: 2.8mm 3.6mm 2.6mm; break-inside: avoid; }
+  .mini .num { font-family: "Montserrat"; font-weight: 800; font-size: 7.6pt; letter-spacing: .16em; color: var(--indigo); }
+  .mini h3 { font-size: 9.6pt; margin: .8mm 0 .8mm; }
+  .mini p { margin: 0; font-size: 8.6pt; line-height: 1.4; }
+
+  /* Lo que aporta 720: tres columnas con barra de color arriba */
+  .etapas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; break-inside: avoid; }
+  .etapa { border: 1px solid var(--linea); border-radius: 3mm; overflow: hidden; }
+  .etapa .cab { padding: 3.4mm 4mm 2.8mm; background: #0b0b0d; color: #fff; position: relative; }
+  .etapa .cab::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: .9mm; background: linear-gradient(90deg, var(--azul), var(--indigo), var(--morado)); }
+  .etapa .cab span { font-family: "Montserrat"; font-weight: 600; font-size: 6.6pt; letter-spacing: .24em; text-transform: uppercase; color: rgba(255,255,255,.62); }
+  .etapa .cab b { display: block; font-family: "Montserrat"; font-weight: 800; font-size: 11pt; color: #fff; text-transform: uppercase; }
+  .etapa ul { list-style: none; margin: 0; padding: 3mm 4mm 2mm; }
+  .etapa li { margin: 0 0 2.6mm; font-size: 8.7pt; line-height: 1.4; }
+  .etapa li b { display: block; font-family: "Montserrat"; font-size: 9pt; }
+
+  /* Cambios: tres «tarifas» en contenido */
+  .canjes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; break-inside: avoid; }
+  .canje { border: 1px solid var(--linea); border-radius: 3mm; padding: 4mm 4.4mm 3.6mm; }
+  .canje.aparte { background: #fafafa; border-style: dashed; }
+  .canje .tipo { font-family: "Montserrat"; font-weight: 700; font-size: 10pt; text-transform: uppercase; color: var(--negro); margin: 0 0 1mm; }
+  .canje .ej { font-size: 8.6pt; color: var(--suave); line-height: 1.4; margin: 0 0 3mm; min-height: 12mm; }
+  .canje .precio { font-family: "Montserrat"; font-weight: 800; font-size: 12pt; color: var(--indigo); margin: 0; line-height: 1.2; }
+  .canje .precio small { display: block; font-size: 6.6pt; letter-spacing: .22em; text-transform: uppercase; color: var(--suave); font-weight: 600; margin-bottom: .6mm; }
+  .linea-nota { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 3.5mm; font-size: 8.8pt; line-height: 1.5; break-inside: avoid; }
+  .linea-nota p { margin: 0; }
+
+  .tira-real { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.6mm; height: 36mm; margin: 5mm 0 0; break-inside: avoid; }
+  .tira-real figure { margin: 0; border-radius: 2.6mm; overflow: hidden; }
+  .tira-real img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tira-real p { position: absolute; left: 2.4mm; bottom: 2.4mm; margin: 0; background: rgba(0,0,0,.74); color: #fff; font-family: "Montserrat"; font-weight: 600; font-size: 6pt; letter-spacing: .2em; text-transform: uppercase; padding: 1mm 2.2mm; border-radius: 1mm; }
+  .otros { display: grid; grid-template-columns: 34mm 1fr; margin: 3mm 0 0; font-size: 8.8pt; border-top: 1px solid var(--linea); break-inside: avoid; }
+  .otros > * { padding: 1.5mm 0; border-bottom: 1px solid var(--linea); margin: 0; }
+  .otros dt { font-family: "Montserrat"; font-weight: 600; color: var(--negro); }
+
+  /* Cierre: pasos, firmas y logo juntos en la última página */
+  .final { break-inside: avoid; }
+  .pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; position: relative; padding-top: 2mm; margin: 0 0 4mm; }
+  .pasos::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: .7mm; border-radius: 1mm; background: linear-gradient(90deg, var(--azul), var(--indigo), var(--morado)); }
+  .paso2 { padding-top: 2mm; }
+  .paso2 .cuando { font-family: "Montserrat"; font-weight: 700; font-size: 7pt; letter-spacing: .22em; text-transform: uppercase; color: var(--indigo); margin: 0 0 .6mm; }
+  .paso2 h3 { font-size: 10pt; margin: 0 0 .8mm; }
+  .paso2 p { margin: 0; font-size: 8.8pt; line-height: 1.45; }
+  .firmas { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
   .firma { border: 1px solid var(--linea); border-radius: 3mm; padding: 4mm 5mm 3mm; }
-  .firma .quien { font-family: "Montserrat"; font-weight: 700; font-size: 7.2pt; letter-spacing: .24em; text-transform: uppercase; color: var(--indigo); margin: 0 0 1mm; }
-  .firma .campo { display: flex; align-items: flex-end; gap: 3mm; height: 8.5mm; border-bottom: 1px solid #cfcdd3; font-size: 8pt; color: var(--suave); padding-bottom: .8mm; }
-  .firma .campo.alto { height: 15mm; }
-  .der .captura img.h-tira { height: 44mm; width: 100%; object-fit: cover; object-position: top; }
+  .firma .campo { display: flex; align-items: flex-end; height: 8mm; border-bottom: 1px solid #cfcdd3; font-size: 7.6pt; color: var(--suave); padding-bottom: .8mm; }
+  .firma .campo.alto { height: 10mm; }
+  .cierre { margin-top: 4mm; } .cierre img.iso { height: 11mm; } .cierre img.word { height: 5mm; margin: 2mm auto 2.5mm; }
 </style>
 
-<section class="portada">
-  <div class="arriba">
-    <p class="etiqueta">Acuerdo de colaboración · Web y difusión</p>
-    <h1>La web de 720, a cambio de contar quién la ha hecho</h1>
-    <p class="subtitulo">neuro·node entrega a 720 GYM CLUB su web pública sin coste de implantación. A cambio, 720 da a conocer el trabajo de neuro·node en sus redes y como caso de éxito.</p>
-    <p class="meta">{{fecha}} · neuro·node · Versión 1.0 · Borrador</p>
-    <svg class="nodos" viewBox="0 0 680 210" width="100%" aria-hidden="true">
-      <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#36adfb"/><stop offset=".55" stop-color="#6447fa"/><stop offset="1" stop-color="#7f1eed"/></linearGradient></defs>
-      <path d="M40 150 C 140 150, 150 60, 250 60 S 380 150, 470 150 S 590 60, 640 40" fill="none" stroke="url(#g1)" stroke-width="7" stroke-linecap="round"/>
-      <circle cx="40" cy="150" r="16" fill="#36adfb"/>
-      <circle cx="250" cy="60" r="22" fill="#6447fa"/>
-      <circle cx="470" cy="150" r="22" fill="#6447fa"/>
-      <path d="M624 30 L652 34 L640 58" fill="none" stroke="#7f1eed" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-      <g font-family="Montserrat" font-weight="600" font-size="12" letter-spacing="2" fill="#6d6d75">
-        <text x="40" y="190" text-anchor="middle">WEB 720</text>
-        <text x="250" y="24" text-anchor="middle">LANZAMIENTO</text>
-        <text x="470" y="194" text-anchor="middle">CONTENIDO</text>
-        <text x="612" y="16" text-anchor="end">CASO DE ÉXITO</text>
-      </g>
-    </svg>
+<section class="tapa">
+  <img class="foto" src="img/portada-pista.jpg" alt="">
+  <div class="velo"></div>
+  <div class="contenido">
+    <div class="barra">
+      <img src="{{recursos}}/wordmark-blanco.png" alt="neuro·node" style="height:5.4mm">
+      <span>{{fecha}} · Borrador v2</span>
+    </div>
+    <div class="centro">
+      <p class="etq">Acuerdo de colaboración</p>
+      <div class="sello">
+        <svg class="l720" viewBox="0 0 80 80" aria-label="720 GYM CLUB">
+          <text x="0" y="35" font-family="Stencil720" font-weight="800" font-size="44" textLength="80" lengthAdjust="spacingAndGlyphs" fill="#fff">720</text>
+          <text x="0.5" y="68" font-family="Stencil720" font-weight="800" font-size="40" textLength="79" lengthAdjust="spacingAndGlyphs" fill="#fff">GYM</text>
+          <text x="79" y="79" text-anchor="end" font-family="Montserrat" font-weight="800" font-size="7.6" letter-spacing="1.4" fill="#fff">CLUB</text>
+        </svg>
+        <div class="por">×</div>
+        <div class="nn">
+          <img class="iso" src="{{recursos}}/iso-blanco.png" alt="">
+          <img class="word" src="{{recursos}}/wordmark-blanco.png" alt="neuro·node">
+        </div>
+      </div>
+      <h1>La web de 720, a cambio de contar quién la ha hecho</h1>
+      <p class="sub">neuro·node entrega a 720 GYM CLUB su web pública sin coste de implantación. A cambio, 720 da a conocer el trabajo de neuro·node en sus redes y como caso de éxito.</p>
+      <div class="claves">
+        <div class="clave"><b>Web propia</b><span>Sin coste de implantación</span></div>
+        <div class="clave"><b>6 meses</b><span>De colaboración</span></div>
+        <div class="clave"><b>Contenido</b><span>En lugar de cuota mensual</span></div>
+      </div>
+    </div>
+    <div class="pie"><span>Entre <b>720 GYM CLUB</b> y <b>neuro·node</b></span><span>Confidencial</span></div>
   </div>
-  <div class="preparado"><span>Entre <b>{{cliente}}</b></span><span>y <b>neuro·node</b></span></div>
 </section>
 
-<h2><span class="n">01</span>La propuesta</h2>
-<p>Un intercambio sencillo: 720 estrena web propia y neuro·node gana visibilidad y un caso real que enseñar.</p>
-<div class="destacado suave"><p>Duración de la colaboración: <b>6 meses</b> desde la publicación de la web.</p></div>
-<div class="resumen">
-  <div class="lado acento">
-    <p class="quien">720 recibe</p>
-    <h3>Su web, publicada</h3>
-    <ul>
-      <li>La web pública de la demo, adaptada y publicada con su dominio.</li>
-      <li>Sin coste de implantación ni cuota mensual.</li>
-      <li>Cambios y mejoras a cambio de contenido, no de dinero.</li>
-    </ul>
+<section class="sec entera">
+  <h2><span class="n">01</span>La propuesta</h2>
+  <p class="intro">Un intercambio sencillo: 720 estrena web propia y neuro·node gana visibilidad y un caso real que enseñar.</p>
+  <div class="lados">
+    <div class="lado acento">
+      <p class="quien">720 recibe</p>
+      <h3>Su web, publicada</h3>
+      <ul>
+        <li>La web pública de la demo, revisada con sus datos reales y publicada con su dominio.</li>
+        <li>Cambios y mejoras a cambio de contenido, no de dinero.</li>
+        <li>Los fallos técnicos, corregidos siempre sin coste.</li>
+      </ul>
+    </div>
+    <div class="lado">
+      <p class="quien">neuro·node recibe</p>
+      <h3>Difusión y un caso real</h3>
+      <ul>
+        <li>Publicaciones en colaboración en las redes de 720.</li>
+        <li>Un testimonio en vídeo de la gerencia.</li>
+        <li>Permiso para mostrar la web como caso de éxito.</li>
+        <li>Recomendación a otros negocios.</li>
+      </ul>
+    </div>
   </div>
-  <div class="lado">
-    <p class="quien">neuro·node recibe</p>
-    <h3>Difusión y un caso real</h3>
-    <ul>
-      <li>Publicaciones en colaboración en las redes de 720.</li>
-      <li>Un testimonio en vídeo de la gerencia.</li>
-      <li>Permiso para mostrar la web como caso de éxito.</li>
-      <li>Recomendación a otros negocios.</li>
-    </ul>
+  <p class="nota"><b>Fuera del acuerdo:</b> panel de gestión, asistente con IA, pagos y reservas online. Se pueden añadir más adelante como ampliación (apartado 04). Las condiciones económicas de este acuerdo son confidenciales.</p>
+</section>
+
+<section class="sec entera">
+  <h2><span class="n">02</span>Qué recibe 720</h2>
+  <p class="intro">La parte pública de la demo que ya conocéis, revisada con vuestros datos reales y lista para Google. Valor de referencia: <span class="pendiente">[700 € · plan Clientes de la propuesta]</span>.</p>
+  <div class="mosaico">
+    <figure class="m-hero"><img src="img/p-hero.jpg" alt="Portada de la web en ordenador"><figcaption>Portada · ordenador</figcaption></figure>
+    <figure class="m-movil"><img src="img/p-hero-movil.jpg" alt="Portada en el móvil"><figcaption>Móvil</figcaption></figure>
+    <figure class="m-a"><img src="img/p-tuplan.jpg" alt="Test Tu plan"><figcaption>Test «Tu plan»</figcaption></figure>
+    <figure class="m-b"><img src="img/p-resenas.jpg" alt="Reseñas"><figcaption>Reseñas reales</figcaption></figure>
   </div>
-</div>
-<table class="datos compacta">
-  <thead><tr><th style="width:34%">Punto</th><th>Acuerdo</th></tr></thead>
-  <tbody>
-    <tr><td>Implantación de la web</td><td>Sin coste para 720.</td></tr>
-    <tr><td>Mantenimiento y cambios</td><td>Se compensan con contenido (lámina 04).</td></tr>
-    <tr><td>Cómo se presenta</td><td>Como colaboración entre 720 y neuro·node. Las condiciones económicas son confidenciales.</td></tr>
-    <tr><td>Fuera del acuerdo</td><td>Panel de gestión, asistente con IA, pagos y reservas online (ampliación opcional).</td></tr>
-  </tbody>
-</table>
-
-<h2><span class="n">02</span>Qué recibe 720</h2>
-<p>La parte pública de la demo que ya conocéis, revisada con vuestros datos reales y lista para Google.</p>
-<div class="destacado suave"><p>Valor de referencia: <span class="pendiente">[700 € · plan Clientes de la propuesta]</span></p></div>
-<div class="capturas" style="grid-template-columns:1.6fr 1fr">
-  <figure class="captura"><img class="h-tira" src="img/p-hero.jpg" alt="Portada de la web"><figcaption>Portada con la pista de 720</figcaption></figure>
-  <figure class="captura"><img class="h-tira" src="img/p-tuplan.jpg" alt="Test Tu plan"><figcaption>Test «Tu plan en 30 segundos»</figcaption></figure>
-</div>
-<div class="rejilla tres">
-  <div class="tarjeta"><span class="num">A</span><h3>Web completa</h3><p>Disciplinas, horario, tarifas, historia, galería y las reseñas reales de Google.</p></div>
-  <div class="tarjeta"><span class="num">B</span><h3>Captación</h3><p>Test que recomienda plan y botones de inscripción y WhatsApp en toda la web.</p></div>
-  <div class="tarjeta"><span class="num">C</span><h3>Asistente básico</h3><p>Responde horarios, precios y dudas frecuentes y deriva al WhatsApp del equipo. Sin coste de uso.</p></div>
-  <div class="tarjeta"><span class="num">D</span><h3>Móvil primero</h3><p>Pensada para quien llega desde Instagram: rápida y con contacto a un toque.</p></div>
-  <div class="tarjeta"><span class="num">E</span><h3>SEO local</h3><p>Preparada para búsquedas como «gimnasio Ourense» o «Pilates Reformer Ourense».</p></div>
-  <div class="tarjeta"><span class="num">F</span><h3>Publicación</h3><p>Dominio propio, alta en Google y enlace nuevo en la biografía de cada cuenta.</p></div>
-</div>
-
-<h2><span class="n">03</span>Qué aporta 720</h2>
-<p>Contenido real, contado por 720, que muestre la web nueva y quién la ha hecho.</p>
-<div class="destacado suave"><p>Las publicaciones se marcan como colaboración con <span class="pendiente">[@instagram de neuro·node]</span>.</p></div>
-<table class="datos">
-  <thead><tr><th style="width:20%">Cuándo</th><th style="width:30%">Qué</th><th>Detalle</th></tr></thead>
-  <tbody>
-    <tr class="grupo"><td colspan="3">Lanzamiento</td></tr>
-    <tr><td>Semana de publicación</td><td>1 reel en colaboración</td><td>Publicado a la vez en el perfil de 720 y en el de neuro·node, enseñando la web.</td></tr>
-    <tr><td>Semana de publicación</td><td>3 o 4 historias</td><td>Con mención a neuro·node y enlace a la web.</td></tr>
-    <tr><td>Al publicar</td><td>Testimonio en vídeo</td><td>Brais, de 30 a 60 segundos: cómo era antes y qué ha cambiado.</td></tr>
-    <tr><td>Al publicar</td><td>Reseña escrita</td><td>En la ficha de Google de neuro·node.</td></tr>
-    <tr class="grupo"><td colspan="3">Durante los 6 meses</td></tr>
-    <tr><td>Cada mes</td><td>1 historia</td><td>Mencionando la web, por ejemplo al anunciar una oferta o una clase nueva.</td></tr>
-    <tr><td>Cuando se pida</td><td>Grabación en el centro</td><td>Acceso para que neuro·node grabe su propio contenido sobre el proyecto.</td></tr>
-    <tr class="grupo"><td colspan="3">Siempre</td></tr>
-    <tr><td>Pie de la web</td><td>«Web creada por neuro·node»</td><td>Con enlace a neuro-node.com.</td></tr>
-    <tr><td>Caso de éxito</td><td>Permiso de uso</td><td>Capturas, logo y resultados de la web en la web, presentaciones y anuncios de neuro·node.</td></tr>
-    <tr><td>Recomendaciones</td><td>Referidos</td><td>Por cada negocio recomendado que contrate: <span class="pendiente">[un cambio sin coste / % del proyecto]</span>.</td></tr>
-  </tbody>
-</table>
-
-<h2><span class="n">04</span>Cambios y mejoras</h2>
-<p>En lugar de una cuota mensual, cada cambio que pida 720 se compensa con contenido.</p>
-<div class="destacado suave"><p>Los fallos técnicos de la web se corrigen siempre sin coste.</p></div>
-<table class="datos">
-  <thead><tr><th style="width:26%">Tipo de cambio</th><th>Ejemplos</th><th style="width:30%">A cambio de</th></tr></thead>
-  <tbody>
-    <tr><td>Cambio pequeño</td><td>Horario, precio, texto, foto o un aviso temporal.</td><td>1 historia con mención</td></tr>
-    <tr><td>Sección o página nueva</td><td>Nueva disciplina, página de un club, una promoción con su página.</td><td>1 reel en colaboración</td></tr>
-    <tr><td>Ampliación al plan Pro</td><td>Alta y pago online, reservas con plazas, asistente con IA y panel de gestión.</td><td>Presupuesto aparte <span class="pendiente">[importe]</span></td></tr>
-  </tbody>
-</table>
-<h3>Por qué la ampliación va aparte</h3>
-<p>El panel, los pagos y la IA tienen costes de funcionamiento propios (servidor, base de datos, uso del servicio de IA y la pasarela de pago) y necesitan una puesta en marcha con los datos reales de 720. Se pueden activar en cualquier momento sobre la misma web, sin rehacer nada.</p>
-
-<h2><span class="n">05</span>Condiciones</h2>
-<p>Lo necesario para que la colaboración funcione bien para las dos partes.</p>
-<div class="rejilla tres">
-  <div class="tarjeta"><span class="num">DURACIÓN</span><h3>6 meses</h3><p>Desde la publicación. Al terminar, se puede renovar o pasar al mantenimiento estándar.</p></div>
-  <div class="tarjeta"><span class="num">DOMINIO</span><h3>A nombre de 720</h3><p>El dominio es de 720 desde el primer día.</p></div>
-  <div class="tarjeta"><span class="num">ALOJAMIENTO</span><h3>Servidor de la web</h3><p><span class="pendiente">[a cargo de 720 / incluido por neuro·node]</span></p></div>
-  <div class="tarjeta"><span class="num">MATERIAL</span><h3>Fotos y datos</h3><p>720 aporta las fotos originales con permiso de uso y confirma horarios, precios y contactos antes de publicar.</p></div>
-  <div class="tarjeta"><span class="num">CONFIDENCIAL</span><h3>Condiciones privadas</h3><p>Las condiciones económicas de este acuerdo no se comparten con terceros.</p></div>
-  <div class="tarjeta"><span class="num">SALIDA</span><h3>Si no se cumple</h3><p>Si a los 3 meses no se ha publicado lo acordado, la web pasa al mantenimiento estándar: <span class="pendiente">[35 € / mes]</span>.</p></div>
-</div>
-<table class="datos compacta">
-  <thead><tr><th style="width:30%">Otros puntos</th><th>Acuerdo</th></tr></thead>
-  <tbody>
-    <tr><td>Facturación</td><td><span class="pendiente">[según indiquen las gestorías de cada parte]</span></td></tr>
-    <tr><td>Textos legales</td><td>720 facilita los datos del titular para el aviso legal y la política de privacidad.</td></tr>
-    <tr><td>Aprobación del contenido</td><td>Cada parte puede revisar las publicaciones en las que aparece antes de que salgan.</td></tr>
-  </tbody>
-</table>
-
-<h2><span class="n">06</span>Próximos pasos</h2>
-<p>Con el acuerdo firmado, la web puede estar publicada en cuanto llegue el material.</p>
-<div class="recorrido" style="grid-template-columns:repeat(3,1fr)">
-  <div class="paso"><p class="cuando">1 · Acuerdo</p><h3>Revisión y firma</h3><p>Ajustamos lo que haga falta de este documento y lo firmamos.</p></div>
-  <div class="paso"><p class="cuando">2 · Material</p><h3>Fotos, datos y dominio</h3><p>Fotos originales, horarios y precios confirmados, y acceso al dominio.</p></div>
-  <div class="paso"><p class="cuando">3 · Lanzamiento</p><h3>Publicación y reel</h3><p>Web en línea, enlace en las biografías y reel en colaboración esa misma semana.</p></div>
-</div>
-<div class="firmas">
-  <div class="firma">
-    <p class="quien">Por 720 GYM CLUB</p>
-    <div class="campo">Nombre</div>
-    <div class="campo alto">Firma</div>
-    <div class="campo">Fecha</div>
+  <div class="grid3">
+    <div class="mini"><span class="num">A</span><h3>Web completa</h3><p>Disciplinas, horario, tarifas, historia, galería y las reseñas reales de Google.</p></div>
+    <div class="mini"><span class="num">B</span><h3>Captación</h3><p>Test que recomienda plan y botones de inscripción y WhatsApp en toda la web.</p></div>
+    <div class="mini"><span class="num">C</span><h3>Asistente básico</h3><p>Responde horarios, precios y dudas frecuentes y deriva al WhatsApp del equipo. Sin coste de uso.</p></div>
+    <div class="mini"><span class="num">D</span><h3>Móvil primero</h3><p>Pensada para quien llega desde Instagram: rápida y con contacto a un toque.</p></div>
+    <div class="mini"><span class="num">E</span><h3>SEO local</h3><p>Preparada para búsquedas como «gimnasio Ourense» o «Pilates Reformer Ourense».</p></div>
+    <div class="mini"><span class="num">F</span><h3>Publicación</h3><p>Dominio propio, alta en Google y enlace nuevo en la biografía de cada cuenta.</p></div>
   </div>
-  <div class="firma">
-    <p class="quien">Por neuro·node</p>
-    <div class="campo">Nombre</div>
-    <div class="campo alto">Firma</div>
-    <div class="campo">Fecha</div>
+</section>
+
+<section class="sec entera">
+  <h2><span class="n">03</span>Qué aporta 720</h2>
+  <p class="intro">Contenido real, contado por 720, que enseñe la web nueva y quién la ha hecho. Las publicaciones se marcan como colaboración con <span class="pendiente">[@instagram de neuro·node]</span>.</p>
+  <div class="etapas">
+    <div class="etapa">
+      <div class="cab"><span>Semana de publicación</span><b>Lanzamiento</b></div>
+      <ul>
+        <li><b>1 reel en colaboración</b>Sale a la vez en el perfil de 720 y en el de neuro·node, enseñando la web.</li>
+        <li><b>3 o 4 historias</b>Con mención a neuro·node y enlace a la web.</li>
+        <li><b>Testimonio en vídeo</b>Brais, de 30 a 60 segundos: cómo era antes y qué ha cambiado.</li>
+        <li><b>Reseña escrita</b>En la ficha de Google de neuro·node.</li>
+      </ul>
+    </div>
+    <div class="etapa">
+      <div class="cab"><span>Durante 6 meses</span><b>Continuidad</b></div>
+      <ul>
+        <li><b>1 historia al mes</b>Mencionando la web, por ejemplo al anunciar una oferta o una clase nueva.</li>
+        <li><b>Grabación en el centro</b>Acceso para que neuro·node grabe su propio contenido sobre el proyecto, cuando se pida.</li>
+      </ul>
+    </div>
+    <div class="etapa">
+      <div class="cab"><span>Siempre</span><b>Permanente</b></div>
+      <ul>
+        <li><b>«Web creada por neuro·node»</b>En el pie de la web, con enlace a neuro-node.com.</li>
+        <li><b>Caso de éxito</b>Capturas, logo y resultados de la web en la web, presentaciones y anuncios de neuro·node.</li>
+        <li><b>Referidos</b>Por cada negocio recomendado que contrate: <span class="pendiente">[un cambio sin coste / % del proyecto]</span>.</li>
+      </ul>
+    </div>
   </div>
-</div>
-<div class="cierre">
-  <img class="iso" src="{{recursos}}/iso-negro.png" alt="">
-  <img class="word" src="{{recursos}}/wordmark-negro.png" alt="neuro·node">
-  <p class="meta">Documento elaborado por neuro·node</p>
-</div>
+</section>
+
+<section class="sec entera">
+  <h2><span class="n">04</span>Cambios y mejoras</h2>
+  <p class="intro">En lugar de una cuota mensual, cada cambio que pida 720 se compensa con contenido.</p>
+  <div class="canjes">
+    <div class="canje"><p class="tipo">Cambio pequeño</p><p class="ej">Horario, precio, texto, foto o un aviso temporal.</p><p class="precio"><small>A cambio de</small>1 historia con mención</p></div>
+    <div class="canje"><p class="tipo">Sección nueva</p><p class="ej">Nueva disciplina, página de un club o una promoción con su página.</p><p class="precio"><small>A cambio de</small>1 reel en colaboración</p></div>
+    <div class="canje aparte"><p class="tipo">Ampliación Pro</p><p class="ej">Alta y pago online, reservas con plazas, asistente con IA y panel de gestión.</p><p class="precio"><small>Presupuesto aparte</small><span class="pendiente">[importe]</span></p></div>
+  </div>
+  <div class="linea-nota">
+    <p><b>Fallos técnicos:</b> se corrigen siempre sin coste y sin pedir nada a cambio.</p>
+    <p><b>Por qué la ampliación va aparte:</b> el panel, los pagos y la IA tienen costes de funcionamiento propios y se activan sobre la misma web, sin rehacer nada.</p>
+  </div>
+  <div class="tira-real">
+    <figure><img src="img/f-sala-hd.jpg" alt="Sala de 720"></figure>
+    <figure><img src="img/f-racks-hd.jpg" alt="Zona de racks"></figure>
+    <figure><img src="img/f-funcional-hd.jpg" alt="Zona funcional"></figure>
+    <p>720 por dentro: el escenario de los reels y del caso de éxito</p>
+  </div>
+</section>
+
+<section class="sec entera">
+  <h2><span class="n">05</span>Condiciones</h2>
+  <p class="intro">Lo necesario para que la colaboración funcione bien para las dos partes.</p>
+  <div class="grid3">
+    <div class="mini"><span class="num">DURACIÓN</span><h3>6 meses</h3><p>Desde la publicación. Al terminar, se puede renovar o pasar al mantenimiento estándar.</p></div>
+    <div class="mini"><span class="num">DOMINIO</span><h3>A nombre de 720</h3><p>El dominio es de 720 desde el primer día.</p></div>
+    <div class="mini"><span class="num">ALOJAMIENTO</span><h3>Servidor de la web</h3><p><span class="pendiente">[a cargo de 720 / incluido por neuro·node]</span></p></div>
+    <div class="mini"><span class="num">MATERIAL</span><h3>Fotos y datos</h3><p>720 aporta las fotos originales con permiso de uso y confirma horarios, precios y contactos antes de publicar.</p></div>
+    <div class="mini"><span class="num">CONFIDENCIAL</span><h3>Condiciones privadas</h3><p>Las condiciones económicas de este acuerdo no se comparten con terceros.</p></div>
+    <div class="mini"><span class="num">SALIDA</span><h3>Si no se cumple</h3><p>Si a los 3 meses no se ha publicado lo acordado, la web pasa al mantenimiento estándar: <span class="pendiente">[35 € / mes]</span>.</p></div>
+  </div>
+  <dl class="otros">
+    <dt>Facturación</dt><dd><span class="pendiente">[según indiquen las gestorías de cada parte]</span></dd>
+    <dt>Textos legales</dt><dd>720 facilita los datos del titular para el aviso legal y la política de privacidad.</dd>
+    <dt>Revisión</dt><dd>Cada parte puede revisar las publicaciones en las que aparece antes de que salgan.</dd>
+  </dl>
+</section>
+
+<section class="sec final">
+  <h2><span class="n">06</span>Próximos pasos</h2>
+  <p class="intro">Con el acuerdo firmado, la web puede estar publicada en cuanto llegue el material.</p>
+  <div class="pasos">
+    <div class="paso2"><p class="cuando">1 · Acuerdo</p><h3>Revisión y firma</h3><p>Ajustamos lo que haga falta de este documento y lo firmamos.</p></div>
+    <div class="paso2"><p class="cuando">2 · Material</p><h3>Fotos, datos y dominio</h3><p>Fotos originales, horarios y precios confirmados, y acceso al dominio.</p></div>
+    <div class="paso2"><p class="cuando">3 · Lanzamiento</p><h3>Publicación y reel</h3><p>Web en línea, enlace en las biografías y reel en colaboración esa misma semana.</p></div>
+  </div>
+  <div class="firmas">
+    <div class="firma">
+      <p class="quien">Por 720 GYM CLUB</p>
+      <div class="campo">Nombre</div>
+      <div class="campo alto">Firma</div>
+      <div class="campo">Fecha</div>
+    </div>
+    <div class="firma">
+      <p class="quien">Por neuro·node</p>
+      <div class="campo">Nombre</div>
+      <div class="campo alto">Firma</div>
+      <div class="campo">Fecha</div>
+    </div>
+  </div>
+  <div class="cierre">
+    <img class="iso" src="{{recursos}}/iso-negro.png" alt="">
+    <img class="word" src="{{recursos}}/wordmark-negro.png" alt="neuro·node">
+    <p class="meta">Documento elaborado por neuro·node</p>
+  </div>
+</section>
