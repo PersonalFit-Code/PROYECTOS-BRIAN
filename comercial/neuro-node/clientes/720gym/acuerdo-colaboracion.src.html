@@ -111,6 +111,15 @@ formato: vertical
   .tira-real figure { margin: 0; border-radius: 2.6mm; overflow: hidden; }
   .tira-real img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .tira-real p { position: absolute; left: 2.4mm; bottom: 2.4mm; margin: 0; background: rgba(0,0,0,.74); color: #fff; font-family: "Montserrat"; font-weight: 600; font-size: 6pt; letter-spacing: .2em; text-transform: uppercase; padding: 1mm 2.2mm; border-radius: 1mm; }
+  .ideas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; }
+  .idea { border-radius: 3mm; padding: 4mm 4.4mm 3.6mm; background: linear-gradient(160deg, #f6f4ff, #fff 70%); border: 1px solid #ddd7fd; display: flex; flex-direction: column; }
+  .idea .num { font-family: "Montserrat"; font-weight: 800; font-size: 7pt; letter-spacing: .24em; text-transform: uppercase; color: var(--indigo); margin: 0 0 1mm; }
+  .idea h3 { font-size: 10.6pt; margin: 0 0 1.5mm; }
+  .idea > p:not(.num) { font-size: 8.7pt; line-height: 1.45; margin: 0 0 3mm; }
+  .idea .gana { margin-top: auto; border-top: 1px dashed #cfc7fb; padding-top: 2.4mm; display: flex; flex-direction: column; gap: 1.2mm; font-size: 8pt; line-height: 1.35; color: var(--suave); }
+  .firma-doc { margin: 5mm 0 0; text-align: center; font-family: "Montserrat"; font-weight: 600; font-size: 6.8pt; letter-spacing: .26em; text-transform: uppercase; color: var(--suave); }
+  .condiciones { margin-top: 0; }
+  .firma .fila { display: grid; grid-template-columns: 1.6fr 1fr; gap: 4mm; }
   .otros { display: grid; grid-template-columns: 34mm 1fr; margin: 3mm 0 0; font-size: 8.8pt; border-top: 1px solid var(--linea); break-inside: avoid; }
   .otros > * { padding: 1.5mm 0; border-bottom: 1px solid var(--linea); margin: 0; }
   .otros dt { font-family: "Montserrat"; font-weight: 600; color: var(--negro); }
@@ -188,7 +197,7 @@ formato: vertical
       </ul>
     </div>
   </div>
-  <p class="nota"><b>Fuera del acuerdo:</b> panel de gestión, asistente con IA, pagos y reservas online. Se pueden añadir más adelante como ampliación (apartado 04). Las condiciones económicas de este acuerdo son confidenciales.</p>
+  <p class="nota"><b>Fuera del acuerdo:</b> panel de gestión, asistente con IA, pagos y reservas online. Se pueden añadir más adelante como ampliación (apartado 05). Las condiciones económicas de este acuerdo son confidenciales.</p>
 </section>
 
 <section class="sec entera">
@@ -218,7 +227,6 @@ formato: vertical
       <div class="cab"><span>Semana de publicación</span><b>Lanzamiento</b></div>
       <ul>
         <li><b>Reel «antes y después»</b>Del enlace con 15 botones a la web nueva, en 30 segundos. En colaboración: sale en los dos perfiles.</li>
-        <li><b>Sorteo de lanzamiento</b>Premio: <span class="pendiente">[1 mes de cuota en 720]</span>. Para participar, seguir a las dos cuentas y hacer el test de la web.</li>
         <li><b>Historias y destacada «Web»</b>Historias de estreno y una destacada fija en el perfil de 720 con mención a neuro·node.</li>
         <li><b>Cartel con QR en recepción</b>«Apúntate y reserva desde la web», con «web por neuro·node».</li>
       </ul>
@@ -243,31 +251,49 @@ formato: vertical
 </section>
 
 <section class="sec entera">
-  <h2><span class="n">04</span>Cambios y mejoras</h2>
-  <p class="intro">En lugar de una cuota mensual, cada cambio que pida 720 se compensa con contenido.</p>
-  <div class="canjes">
-    <div class="canje"><p class="tipo">Cambio pequeño</p><p class="ej">Horario, precio, texto, foto o un aviso temporal.</p><p class="precio"><small>A cambio de</small>1 historia con mención</p></div>
-    <div class="canje"><p class="tipo">Sección nueva</p><p class="ej">Nueva disciplina, página de un club o una promoción con su página.</p><p class="precio"><small>A cambio de</small>1 reel en colaboración</p></div>
-    <div class="canje aparte"><p class="tipo">Ampliación Pro</p><p class="ej">Alta y pago online, reservas con plazas, asistente con IA y panel de gestión.</p><p class="precio"><small>Presupuesto aparte</small><span class="pendiente">[importe]</span></p></div>
-  </div>
-  <div class="linea-nota">
-    <p><b>Fallos técnicos:</b> se corrigen siempre sin coste y sin pedir nada a cambio.</p>
-    <p><b>Por qué la ampliación va aparte:</b> el panel, los pagos y la IA tienen costes de funcionamiento propios y se activan sobre la misma web, sin rehacer nada.</p>
+  <h2><span class="n">04</span>Ideas para el lanzamiento</h2>
+  <p class="intro">Acciones opcionales para multiplicar el alcance del estreno. Se eligen juntos y neuro·node prepara las piezas.</p>
+  <div class="ideas">
+    <div class="idea">
+      <p class="num">Idea 1</p>
+      <h3>Sorteo de lanzamiento</h3>
+      <p>Premio: <span class="pendiente">[1 mes de cuota en 720]</span>. Para participar hay que seguir a las dos cuentas y hacer el test de la web.</p>
+      <div class="gana"><span><b>720</b> gana seguidores y contactos que ya han elegido plan.</span><span><b>neuro·node</b> gana seguidores locales.</span></div>
+    </div>
+    <div class="idea">
+      <p class="num">Idea 2</p>
+      <h3>Oferta solo en la web</h3>
+      <p>Durante el primer mes, quien se apunte desde la web tiene una ventaja propia: <span class="pendiente">[matrícula gratis / primera semana gratis]</span>.</p>
+      <div class="gana"><span><b>720</b> llena plazas desde el primer día.</span><span><b>neuro·node</b> obtiene cifras reales de altas para el caso de éxito.</span></div>
+    </div>
+    <div class="idea">
+      <p class="num">Idea 3</p>
+      <h3>Directo Brais × Brian</h3>
+      <p>Un directo de Instagram desde las dos cuentas: «De un enlace de Instagram a una web que inscribe», con la web en pantalla y preguntas en vivo.</p>
+      <div class="gana"><span><b>720</b> enseña el centro y la web a su comunidad.</span><span><b>neuro·node</b> llega a dueños de negocio de Ourense.</span></div>
+    </div>
   </div>
 </section>
 
 <section class="sec entera">
-  <h2><span class="n">05</span>Condiciones</h2>
-  <p class="intro">Lo necesario para que la colaboración funcione bien para las dos partes.</p>
-  <div class="grid3">
-    <div class="mini"><span class="num">DURACIÓN</span><h3>6 meses</h3><p>Desde la publicación. Al terminar, se puede renovar o pasar al mantenimiento estándar.</p></div>
-    <div class="mini"><span class="num">DOMINIO</span><h3>A nombre de 720</h3><p>El dominio es de 720 desde el primer día.</p></div>
-    <div class="mini"><span class="num">ALOJAMIENTO</span><h3>Servidor de la web</h3><p><span class="pendiente">[a cargo de 720 / incluido por neuro·node]</span></p></div>
-    <div class="mini"><span class="num">MATERIAL</span><h3>Fotos y datos</h3><p>720 aporta las fotos originales con permiso de uso y confirma horarios, precios y contactos antes de publicar.</p></div>
-    <div class="mini"><span class="num">CONFIDENCIAL</span><h3>Condiciones privadas</h3><p>Las condiciones económicas de este acuerdo no se comparten con terceros.</p></div>
-    <div class="mini"><span class="num">SALIDA</span><h3>Si no se cumple</h3><p>Si a los 3 meses no se ha publicado lo acordado, la web pasa al mantenimiento estándar: <span class="pendiente">[35 € / mes]</span>.</p></div>
+  <h2><span class="n">05</span>Cambios y mejoras</h2>
+  <p class="intro">En lugar de una cuota mensual, cada cambio que pida 720 se compensa con contenido.</p>
+  <div class="canjes">
+    <div class="canje"><p class="tipo">Cambio pequeño</p><p class="ej">Horario, precio, texto, foto o un aviso temporal.</p><p class="precio"><small>A cambio de</small>1 historia con mención</p></div>
+    <div class="canje"><p class="tipo">Sección nueva</p><p class="ej">Nueva disciplina, página de un club o una promoción con su página.</p><p class="precio"><small>A cambio de</small>1 reel en colaboración</p></div>
+    <div class="canje aparte"><p class="tipo">Ampliación Pro</p><p class="ej">Pagos y reservas online, asistente con IA y panel de gestión. Tienen costes de funcionamiento propios.</p><p class="precio"><small>Presupuesto aparte</small><span class="pendiente">[importe]</span></p></div>
   </div>
-  <dl class="otros">
+</section>
+
+<section class="sec entera">
+  <h2 style="margin-bottom:3mm"><span class="n">06</span>Condiciones</h2>
+  <dl class="otros condiciones">
+    <dt>Duración</dt><dd>6 meses desde la publicación. Al terminar, se puede renovar o pasar al mantenimiento estándar.</dd>
+    <dt>Dominio</dt><dd>A nombre de 720 desde el primer día.</dd>
+    <dt>Alojamiento</dt><dd><span class="pendiente">[a cargo de 720 / incluido por neuro·node]</span></dd>
+    <dt>Material</dt><dd>720 aporta las fotos originales con permiso de uso y confirma horarios, precios y contactos antes de publicar.</dd>
+    <dt>Confidencialidad</dt><dd>Las condiciones económicas de este acuerdo no se comparten con terceros.</dd>
+    <dt>Salida</dt><dd>Si a los 3 meses no se ha publicado lo acordado, la web pasa al mantenimiento estándar: <span class="pendiente">[35 € / mes]</span>.</dd>
     <dt>Facturación</dt><dd><span class="pendiente">[según indiquen las gestorías de cada parte]</span></dd>
     <dt>Textos legales</dt><dd>720 facilita los datos del titular para el aviso legal y la política de privacidad.</dd>
     <dt>Revisión</dt><dd>Cada parte puede revisar las publicaciones en las que aparece antes de que salgan.</dd>
@@ -275,8 +301,7 @@ formato: vertical
 </section>
 
 <section class="sec final">
-  <h2><span class="n">06</span>Próximos pasos</h2>
-  <p class="intro">Con el acuerdo firmado, la web puede estar publicada en cuanto llegue el material.</p>
+  <h2><span class="n">07</span>Próximos pasos</h2>
   <div class="pasos">
     <div class="paso2"><p class="cuando">1 · Acuerdo</p><h3>Revisión y firma</h3><p>Ajustamos lo que haga falta de este documento y lo firmamos.</p></div>
     <div class="paso2"><p class="cuando">2 · Material</p><h3>Fotos, datos y dominio</h3><p>Fotos originales, horarios y precios confirmados, y acceso al dominio.</p></div>
@@ -285,20 +310,14 @@ formato: vertical
   <div class="firmas">
     <div class="firma">
       <p class="quien">Por 720 GYM CLUB</p>
-      <div class="campo">Nombre</div>
+      <div class="fila"><div class="campo">Nombre</div><div class="campo">Fecha</div></div>
       <div class="campo alto">Firma</div>
-      <div class="campo">Fecha</div>
     </div>
     <div class="firma">
       <p class="quien">Por neuro·node</p>
-      <div class="campo">Nombre</div>
+      <div class="fila"><div class="campo">Nombre</div><div class="campo">Fecha</div></div>
       <div class="campo alto">Firma</div>
-      <div class="campo">Fecha</div>
     </div>
   </div>
-  <div class="cierre">
-    <img class="iso" src="{{recursos}}/iso-negro.png" alt="">
-    <img class="word" src="{{recursos}}/wordmark-negro.png" alt="neuro·node">
-    <p class="meta">Documento elaborado por neuro·node</p>
-  </div>
+  <p class="firma-doc">Documento elaborado por neuro·node · {{fecha}}</p>
 </section>
