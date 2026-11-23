@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Dumbbell, Flame, Ruler } from "lucide-react";
+import { ArrowUpRight, Dumbbell, Flame, Ruler, ShowerHead } from "lucide-react";
 import { Kettlebell } from "@/components/ui/IconosMarca";
 import type { ComponentType, SVGProps } from "react";
-import { BarraDiscos } from "@/components/ui/IconosMarca";
+import { BarraDiscos, Reformer } from "@/components/ui/IconosMarca";
 import { fotos } from "@/data/fotos";
 import { cn } from "@/lib/utils";
 
@@ -15,16 +15,18 @@ import { cn } from "@/lib/utils";
  * escalonados (no cambian todos a la vez). Se para fuera de pantalla y con «reducir movimiento».
  */
 type Icono = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
-/* Ocho piezas para cuatro recuadros (dos son encuadres de detalle): así nunca se repite una a la vista. */
+/* Diez fotos reales para cuatro recuadros: nunca se repite una a la vista. */
 const piezas: { id: string; src: string; grande: string; alt: string; titulo: string; texto: string; href: string; Icono: Icono; encuadre?: string; pos?: string }[] = [
-  { id: "sala", ...fotos.sala, titulo: "La sala", texto: "+1.000 m² sin agobios", href: "/gimnasio", Icono: Ruler as Icono },
+  { id: "pista", ...fotos.pistaVertical, titulo: "La pista", texto: "Tartán, césped y espacio de sobra", href: "/crossgym", Icono: Flame as Icono, pos: "object-[50%_42%]" },
   { id: "maquinas", ...fotos.maquinas, titulo: "Máquinas guiadas", texto: "Multiestación y poleas", href: "/gimnasio", Icono: Dumbbell as Icono },
-  { id: "entrada", ...fotos.entrada, titulo: "Bienvenido a 720", texto: "Sala de peso libre", href: "/club", Icono: Dumbbell as Icono, pos: "object-[50%_18%]" },
+  { id: "entrada", ...fotos.entrada, titulo: "Bienvenido a 720", texto: "Sala de peso libre", href: "/club", Icono: Dumbbell as Icono, pos: "object-[50%_30%]" },
   { id: "racks", ...fotos.racks, titulo: "Racks y peso libre", texto: "Material de competición", href: "/powerlifting", Icono: BarraDiscos },
-  { id: "pista", ...fotos.pista, titulo: "La pista", texto: "Tartán, césped y espacio de sobra", href: "/crossgym", Icono: Flame as Icono },
-  { id: "funcional", ...fotos.funcional, titulo: "Zona funcional", texto: "CrossGym y acrobacia", href: "/crossgym", Icono: Flame as Icono },
-  { id: "kettlebells", ...fotos.funcional, alt: "Kettlebells y cuerda en la zona funcional", titulo: "Kettlebells y cuerda", texto: "Entreno funcional", href: "/crossgym", Icono: Kettlebell, encuadre: "scale-[1.7] origin-[14%_68%]" },
-  { id: "racks-sala", ...fotos.sala, alt: "Racks de la sala principal", titulo: "Racks de la sala", texto: "Sentadilla, banca y peso muerto", href: "/powerlifting", Icono: BarraDiscos, encuadre: "scale-[1.6] origin-[92%_45%]" },
+  { id: "reformer", ...fotos.pilatesReformer, titulo: "720 Pilates", texto: "Sala de Reformer", href: "/pilates", Icono: Reformer, pos: "object-[50%_70%]" },
+  { id: "funcional", ...fotos.funcional, titulo: "Zona funcional", texto: "Cuerda, kettlebells y césped", href: "/crossgym", Icono: Kettlebell },
+  { id: "vestuarios", ...fotos.vestuarioBancos, titulo: "Vestuarios", texto: "Amplios, con duchas", href: "/club", Icono: ShowerHead as Icono, pos: "object-[50%_60%]" },
+  { id: "wall-unit", ...fotos.pilatesWallUnit, titulo: "Mat y Wall Unit", texto: "Pilates de suelo y pared", href: "/pilates", Icono: Reformer },
+  { id: "sala", ...fotos.sala, titulo: "La sala", texto: "+1.000 m² sin agobios", href: "/gimnasio", Icono: Ruler as Icono },
+  { id: "pista-pilates", ...fotos.pistaPilates, titulo: "Un espacio compartido", texto: "720 Pilates y los clubes", href: "/clubes", Icono: Flame as Icono, pos: "object-[50%_38%]" },
 ];
 const casillas = ["lg:col-span-2 lg:row-span-2", "", "", "lg:col-span-2"];
 

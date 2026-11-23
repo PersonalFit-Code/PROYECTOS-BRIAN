@@ -7,7 +7,7 @@ import FranjaCta from "@/components/ui/FranjaCta";
 const frases: Record<string, { frase: string; detalle: string }> = {
   "/horario": { frase: "¿Ya tienes tu clase?", detalle: "Inscríbete y reserva plaza desde el móvil." },
   "/tarifas": { frase: "Elige plan y empieza hoy", detalle: "Elige plan y apúntate por WhatsApp en un minuto." },
-  "/contacto": { frase: "Mejor, pásate a entrenar", detalle: "Inscríbete o pide tu clase de prueba gratis." },
+  "/contacto": { frase: "Mejor, pásate a entrenar", detalle: "Escríbenos y concertamos una visita." },
 };
 
 export default function FranjaPie() {

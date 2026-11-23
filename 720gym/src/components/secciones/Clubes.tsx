@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import Collage from "@/components/ui/Collage";
@@ -25,8 +26,12 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
         <ul className="mt-14 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
           {clubes.map((c) => (
             <li key={c.nombre} data-reveal className="flex flex-col bg-pizarra p-7">
-              <div className="grid h-28 place-items-center bg-suelo ring-1 ring-inset ring-white/8">
-                <span className="font-sans text-[22px] font-black tracking-tight text-white/80">{c.corto}</span>
+              <div className="grid h-28 place-items-center bg-black ring-1 ring-inset ring-white/8">
+                {c.logo ? (
+                  <Image src={c.logo} alt={`Logo de ${c.nombre}`} width={104} height={104} className="size-[104px] object-contain" />
+                ) : (
+                  <span className="font-sans text-[22px] font-black tracking-tight text-white/80">{c.corto}</span>
+                )}
               </div>
               <p className="etiqueta mt-6 text-acento">{c.disciplina}</p>
               <h3 className="subtitular mt-2 text-[26px]">{c.nombre}</h3>
@@ -75,8 +80,8 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
           <div className="lg:col-span-6">
             <Collage
               fotos={[
+                { descripcion: fotos.pistaPilates.alt, src: fotos.pistaPilates.src },
                 { descripcion: fotos.funcional.alt, src: fotos.funcional.src },
-                { descripcion: "Profesional dando una master class a un grupo" },
                 { descripcion: "Detalle de material (esterillas, bandas)" },
               ]}
             />

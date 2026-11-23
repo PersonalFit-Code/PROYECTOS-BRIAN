@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CalendarClock, Euro, Images, Sparkles, Users } from "lucide-react";
+import { CalendarClock, Euro, Images, Sparkles, Users, ShowerHead } from "lucide-react";
 import Hero from "@/components/secciones/Hero";
 import PorQue from "@/components/secciones/PorQue";
 import Indice from "@/components/secciones/Indice";
@@ -13,6 +13,7 @@ import TuPlan from "@/components/secciones/TuPlan";
 import Resenas from "@/components/secciones/Resenas";
 import PlegableMovil from "@/components/ui/PlegableMovil";
 import FranjaCta from "@/components/ui/FranjaCta";
+import Instalaciones from "@/components/secciones/Instalaciones";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -32,7 +33,10 @@ export default function Inicio() {
         <Linea />
         <Galeria />
       </PlegableMovil>
-      <FranjaCta frase="¿Te ves entrenando aquí?" detalle="Date de alta en un minuto o prueba antes una clase gratis." />
+      <PlegableMovil titulo="Vestuarios e instalaciones" resumen="Duchas, taquillas y acceso electrónico" icono={<ShowerHead className="size-5" aria-hidden />}>
+        <Instalaciones />
+      </PlegableMovil>
+      <FranjaCta frase="¿Te ves entrenando aquí?" detalle="Escríbenos y concertamos una visita para que conozcas el espacio." />
       <Linea />
       <Indice />
       <Linea />

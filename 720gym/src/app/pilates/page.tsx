@@ -16,6 +16,7 @@ import { pilates, wa } from "@/data/negocio";
 import { condicionesPilates, tarifasPilates } from "@/data/tarifas";
 import { equipo } from "@/data/equipo";
 import { waPlan } from "@/data/pagos";
+import { fotos } from "@/data/fotos";
 
 export const metadata: Metadata = {
   title: { absolute: "Pilates Reformer en Ourense · 720 Pilates" },
@@ -29,10 +30,10 @@ export const metadata: Metadata = {
 const paleta = { "--acento": "#F6A33B", "--acento-oscuro": "#E08A1C", "--acento-tinta": "#2E2E30" } as CSSProperties;
 
 const disciplinas = [
-  { nombre: "Reformer", texto: "La máquina estrella. Fuerza, control y postura con resistencia de muelles.", foto: "Reformer en uso, plano vertical" },
-  { nombre: "Mat", texto: "Pilates de suelo: la base del método, en estilo clásico y contemporáneo.", foto: "Clase de Mat, plano vertical" },
-  { nombre: "Wall Unit", texto: "Unidad de pared con muelles y barras para trabajar con apoyo y variedad.", foto: "Wall Unit con alumna, plano vertical" },
-  { nombre: "Hipopresivos", texto: "Suelo pélvico y reeducación postural en sesiones de 30 minutos.", foto: "Sesión de hipopresivos, plano vertical" },
+  { nombre: "Reformer", texto: "La máquina estrella. Fuerza, control y postura con resistencia de muelles.", foto: "Reformer en uso, plano vertical", src: fotos.pilatesReformer.src as string | undefined },
+  { nombre: "Mat", texto: "Pilates de suelo: la base del método, en estilo clásico y contemporáneo.", foto: "Clase de Mat, plano vertical", src: undefined },
+  { nombre: "Wall Unit", texto: "Unidad de pared con muelles y barras para trabajar con apoyo y variedad.", foto: "Wall Unit con alumna, plano vertical", src: fotos.pilatesWallUnit.src },
+  { nombre: "Hipopresivos", texto: "Suelo pélvico y reeducación postural en sesiones de 30 minutos.", foto: "Sesión de hipopresivos, plano vertical", src: undefined },
 ];
 
 const ventajas = ["Grupos reducidos", "Prueba gratuita", "Sin matrícula", "Reserva tu plaza"];
@@ -68,8 +69,8 @@ export default function PaginaPilates() {
               <Link href={waPlan("reformer-1")} target="_blank" rel="noopener" className={claseBoton("venta", true)}>
                 Inscríbete
               </Link>
-              <Link href="/pilates?tipo=prueba&actividad=pilates#apuntate" className={claseBoton("contorno-oscuro", true)}>
-                Clase gratis
+              <Link href={wa("Hola, he visto en la web la información sobre 720 Pilates y me gustaría conocer mejor la actividad. ¿Podríais orientarme sobre las modalidades disponibles y cómo realizar una primera prueba? Gracias.", pilates.whatsapp)} target="_blank" rel="noopener" className={claseBoton("contorno-oscuro", true)}>
+                Quiero conocer 720 Pilates
               </Link>
               <a href={wa("Hola, quiero información de 720 Pilates.", pilates.whatsapp)} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno-oscuro", true)}>
                 WhatsApp {pilates.whatsappVisible}
@@ -100,7 +101,7 @@ export default function PaginaPilates() {
           <ul className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {disciplinas.map((d, i) => (
               <li key={d.nombre} data-reveal className={i % 2 ? "lg:mt-14" : ""}>
-                <Foto descripcion={d.foto} tono="crema" proporcion="aspect-[3/4]" sizes="(min-width:1024px) 22vw, 90vw" />
+                <Foto src={d.src} descripcion={d.foto} tono="crema" proporcion="aspect-[3/4]" sizes="(min-width:1024px) 22vw, 90vw" />
                 <h3 className="titular mt-5 text-[28px]">{d.nombre}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-carbon/65">{d.texto}</p>
               </li>

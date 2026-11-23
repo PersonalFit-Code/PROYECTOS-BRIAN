@@ -15,6 +15,17 @@ function terminar() {
   document.documentElement.removeAttribute("data-intro-ya");
 }
 
+/** Vuelve arriba y repite la entrada del «720» (al pulsar el logo de la cabecera). */
+export function repetirIntro() {
+  const r = document.documentElement;
+  window.scrollTo({ top: 0, behavior: "instant" });
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  r.removeAttribute("data-intro-ya");
+  r.setAttribute("data-intro", "");
+  requestAnimationFrame(() => requestAnimationFrame(() => r.setAttribute("data-intro-ya", "")));
+  window.setTimeout(terminar, 2600);
+}
+
 export default function Intro() {
   useEffect(() => {
     const r = document.documentElement;

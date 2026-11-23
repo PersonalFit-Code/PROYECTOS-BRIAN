@@ -12,7 +12,7 @@ const normas = [
 export default function Normas({ tono = "claro", className }: { tono?: "claro" | "oscuro" | "crema"; className?: string }) {
   const linea = tono === "oscuro" ? "border-white/10 divide-white/10" : "border-negro/10 divide-negro/10";
   return (
-    <div className={cn("container-page", className)}>
+    <div className={cn("container-page", tono === "oscuro" ? "text-white" : tono === "crema" ? "text-carbon" : "text-negro", className)}>
       <p className={cn("etiqueta", tono === "oscuro" ? "text-white/45" : "text-negro/45")}>Nuestras normas</p>
       <ol className={cn("mt-4 grid border-y sm:grid-cols-2 sm:divide-x lg:grid-cols-4", linea, "divide-y sm:divide-y-0")}>
         {normas.map(({ Icono, texto }, i) => (

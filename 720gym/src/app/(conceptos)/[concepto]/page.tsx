@@ -40,7 +40,6 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
   if (!c || c.slug === "pilates") notFound();
   const conPrecio = c.precio;
   const base = c.href;
-  const prueba = `${base}?tipo=prueba&actividad=${c.actividad}#apuntate`;
 
   return (
     <>
@@ -66,8 +65,8 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
               <Link {...(c.planPago ? { target: "_blank", rel: "noopener" } : {})} href={c.planPago ? waPlan(c.planPago) : `${base}?tipo=inscripcion&actividad=${c.actividad}#apuntate`} className={claseBoton("venta", true)}>
                 Inscríbete
               </Link>
-              <Link href={prueba} className={claseBoton("contorno", true)}>
-                Clase gratis
+              <Link href={wa(c.conocer.mensaje)} target="_blank" rel="noopener" className={claseBoton("contorno", true)}>
+                {c.conocer.boton}
               </Link>
               <a href={wa(`Hola, quiero información de ${c.nombre} en 720 GYM CLUB.`)} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno", true)}>
                 Información

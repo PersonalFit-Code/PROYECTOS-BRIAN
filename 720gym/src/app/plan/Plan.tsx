@@ -101,7 +101,7 @@ export default function Plan() {
         <div className="no-imprimir mt-10 flex flex-col items-start gap-3 rounded-3xl bg-pared p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <div>
             <p className="subtitular text-[20px]">¿Lo hacemos juntos en 720?</p>
-            <p className="text-[14px] text-negro/60">Prueba una clase gratis o date de alta desde 35 €/mes.</p>
+            <p className="text-[14px] text-negro/60">Ven a conocer 720: escríbenos y concertamos una visita.</p>
           </div>
           <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-12 items-center gap-2 px-6">
             Inscribirme <ArrowRight className="size-4" aria-hidden />

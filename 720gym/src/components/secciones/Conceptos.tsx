@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import Foto from "@/components/ui/Foto";
-import IconoConcepto from "@/components/ui/IconoConcepto";
 import { conceptos } from "@/data/conceptos";
+import SelloConcepto from "@/components/ui/SelloConcepto";
 
 /** Tarjetas de «conceptos» (Bodyism): foto vertical grande, nombre y dos líneas. */
 export default function Conceptos({ excluir }: { excluir?: string }) {
@@ -37,9 +37,7 @@ export default function Conceptos({ excluir }: { excluir?: string }) {
                   className="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
                   sizes="(min-width:1024px) 30vw, 78vw"
                 />
-                <span className="tarjeta-vidrio absolute top-4 left-4 grid size-12 place-items-center rounded-2xl transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-3">
-                  <IconoConcepto icono={c.icono} className="size-6" />
-                </span>
+                <SelloConcepto logo={c.logo} nombre={c.nombre} className="absolute top-4 left-4 size-14 rounded-2xl text-[46px] transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-3" />
               </div>
               <div className="mt-5 flex items-start justify-between gap-4">
                 <div>

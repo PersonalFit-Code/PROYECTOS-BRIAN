@@ -6,6 +6,7 @@ import { Check } from "lucide-react";
 import { claseBoton } from "@/components/ui/Boton";
 import { cn } from "@/lib/utils";
 import { waPlan } from "@/data/pagos";
+import { wa, pilates } from "@/data/negocio";
 import {
   bonos,
   condicionesGimnasio,
@@ -24,7 +25,9 @@ const pestanas = [
 ] as const;
 type Pestana = (typeof pestanas)[number]["id"];
 
-const enlace = (tipo: string, extra: Record<string, string>) => `/clase-gratis?${new URLSearchParams({ tipo, ...extra }).toString()}`;
+/* Sin formulario: «prefiero que me llaméis» y los planes sin catálogo van a WhatsApp con el mensaje escrito. */
+const enlace = (_tipo: string, extra: Record<string, string>) =>
+  wa(`Hola, me interesa ${extra.plan ?? "apuntarme"} en 720GYM CLUB. ¿Podéis llamarme o escribirme para explicarme cómo seguir? Gracias.`, extra.actividad === "pilates" ? pilates.whatsapp : undefined);
 
 export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inicial?: Pestana; pagina?: boolean }) {
   const Titulo = pagina ? "h1" : "h2";
@@ -225,8 +228,8 @@ export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inic
                 <Link href={waPlan("reformer-1")} target="_blank" rel="noopener" className={claseBoton("venta")}>
                   Inscríbete
                 </Link>
-                <Link href={enlace("prueba", { actividad: "pilates" })} className={claseBoton("contorno-oscuro")}>
-                  Clase gratis
+                <Link href={wa("Hola, he visto en la web la información sobre 720 Pilates y me gustaría conocer mejor la actividad. ¿Podríais orientarme sobre las modalidades disponibles y cómo realizar una primera prueba? Gracias.", pilates.whatsapp)} target="_blank" rel="noopener" className={claseBoton("contorno-oscuro")}>
+                  Quiero conocer 720 Pilates
                 </Link>
               </div>
             </div>

@@ -8,7 +8,7 @@ import { preguntas } from "@/data/preguntas";
 export const metadata: Metadata = {
   title: "Preguntas frecuentes · horario, pagos y bonos",
   description:
-    "Horario de 720 GYM CLUB en Ourense, clase de prueba gratis, entrada diaria a 5 €, pagos del 1 al 7, bonos que no caducan y recuperación de clases de Pilates.",
+    "Horario de 720 GYM CLUB en Ourense, visita para conocer el centro, entrada diaria a 5 €, pagos del 1 al 7, bonos que no caducan y recuperación de clases de Pilates.",
   alternates: { canonical: "/preguntas" },
 };
 

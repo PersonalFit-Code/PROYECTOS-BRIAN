@@ -29,6 +29,10 @@ export interface Concepto {
   extras?: { src: string; descripcion: string }[];
   /** Valor del desplegable «actividad» del formulario. */
   actividad: string;
+  /** Logo de la marca o club (public/logos). Sin logo, se usa el de 720 GYM CLUB. */
+  logo?: string;
+  /** Botón «Quiero conocer…» y su mensaje de WhatsApp (texto de Brais). */
+  conocer: { boton: string; mensaje: string };
   /** Plan del catálogo para «Inscríbete» (abre WhatsApp con este plan). */
   planPago?: string;
   seo: { titulo: string; descripcion: string };
@@ -54,6 +58,7 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Sala de musculación: máquinas rojas y negras sobre suelo negro, plano vertical",
     fotosExtra: ["Detalle de mancuernas en el rack", "Socio entrenando en peso libre"],
     actividad: "gimnasio",
+    conocer: { boton: "Quiero conocer el gimnasio", mensaje: "Hola, he visto en la web la información sobre el gimnasio de 720GYM CLUB y me gustaría conocer el espacio antes de decidirme. ¿Podríamos concertar una visita para que me expliquéis cómo funciona? Gracias." },
     foto: fotos.maquinas.src,
     extras: [{ src: fotos.sala.src, descripcion: fotos.sala.alt }, { src: fotos.racks.src, descripcion: fotos.racks.alt }],
     planPago: "gimnasio-libre",
@@ -78,6 +83,8 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Entrenador corrigiendo la técnica de un socio en sentadilla, plano vertical",
     fotosExtra: ["Libreta o tablet con el plan de entrenamiento", "Entreno en pareja"],
     actividad: "personal",
+    logo: "/logos/720-entrenamiento.png",
+    conocer: { boton: "Quiero empezar", mensaje: "Hola, he visto en la web la información sobre el entrenamiento personal de 720GYM CLUB y me gustaría saber si puede encajar con lo que necesito. ¿Podríais orientarme sobre cómo funciona y cómo empezar? Gracias." },
     foto: fotos.sala.src,
     extras: [{ src: fotos.maquinas.src, descripcion: fotos.maquinas.alt }],
     planPago: "valoracion",
@@ -101,7 +108,11 @@ export const conceptos: Concepto[] = [
     clases: ["reformer", "mat", "hipopresivos"],
     fotoDescripcion: "Sala de Pilates Reformer, máquinas en fila, luz natural, plano vertical",
     fotosExtra: ["Detalle de manos en la barra del Reformer", "Clase de Mat con esterillas"],
+    foto: fotos.pilatesReformer.src,
+    extras: [{ src: fotos.pilatesWallUnit.src, descripcion: fotos.pilatesWallUnit.alt }, { src: fotos.pistaPilates.src, descripcion: fotos.pistaPilates.alt }],
     actividad: "pilates",
+    logo: "/logos/720-pilates.png",
+    conocer: { boton: "Quiero conocer 720 Pilates", mensaje: "Hola, he visto en la web la información sobre 720 Pilates y me gustaría conocer mejor la actividad. ¿Podríais orientarme sobre las modalidades disponibles y cómo realizar una primera prueba? Gracias." },
     planPago: "reformer-1",
     seo: { titulo: "Pilates Reformer en Ourense", descripcion: "720 Pilates en Ourense: Reformer, Mat, Wall Unit e Hipopresivos en grupos reducidos. Primera clase gratis, sin matrícula." },
   },
@@ -123,6 +134,8 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Clase de yoga en la sala, luz cálida, plano vertical",
     fotosExtra: ["Detalle de esterillas y bloques", "Postura de grupo"],
     actividad: "yoga",
+    logo: "/logos/720-yoga.png",
+    conocer: { boton: "Quiero conocer 720 Yoga", mensaje: "Hola, he visto en la web la información sobre 720 Yoga y me gustaría conocer mejor la actividad. ¿Podríais orientarme sobre las clases y cómo realizar una primera prueba? Gracias." },
     seo: { titulo: "Yoga en Ourense", descripcion: "Clases de yoga en Ourense en grupo reducido: movilidad, respiración y calma en 720 GYM CLUB, abierto los 365 días en la calle Río Bibei. Prueba una clase gratis." },
   },
   {
@@ -143,6 +156,8 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Peso muerto con discos de competición, plano bajo y vertical",
     fotosExtra: ["Discos calibrados en el soporte", "Magnesio y barra"],
     actividad: "powerlifting",
+    logo: "/logos/720-powerlifting.png",
+    conocer: { boton: "Quiero conocer 720 Powerlifting", mensaje: "Hola, he visto en la web la información sobre 720 Powerlifting y me gustaría conocer mejor el espacio y el club. ¿Podríais orientarme sobre cómo entrenar o formar parte de 720 Powerlifting Ourense? Gracias." },
     foto: fotos.racks.src,
     extras: [{ src: fotos.sala.src, descripcion: fotos.sala.alt }],
     seo: { titulo: "Powerlifting en Ourense", descripcion: "Powerlifting en Ourense: entrena sentadilla, press banca y peso muerto con racks, barras y discos de competición en 720 GYM CLUB. Desde iniciación hasta competir." },
@@ -165,6 +180,8 @@ export const conceptos: Concepto[] = [
     fotoDescripcion: "Grupo de CrossGym con kettlebells y cajones, plano vertical",
     fotosExtra: ["Kettlebells en el suelo negro", "Pizarra con el entreno del día"],
     actividad: "crossgym",
+    logo: "/logos/crossgym-720.png",
+    conocer: { boton: "Quiero conocer CrossGym", mensaje: "Hola, he visto en la web la información sobre CrossGym y me gustaría conocer mejor la actividad. ¿Podríais orientarme sobre las clases y cómo realizar una primera prueba? Gracias." },
     foto: fotos.pista.src,
     extras: [{ src: fotos.funcional.src, descripcion: fotos.funcional.alt }, { src: fotos.racks.src, descripcion: fotos.racks.alt }],
     seo: { titulo: "CrossGym: entrenamiento funcional en Ourense", descripcion: "CrossGym 720: entrenamiento funcional de fuerza y acondicionamiento en grupo en Ourense, con la técnica por delante y adaptado a cada nivel. Clase gratis." },
@@ -177,10 +194,10 @@ export function conceptoPorSlug(slug: string): Concepto | undefined {
 
 /** Clubes externos que entrenan dentro de 720 (cada uno con su propio contacto en su Beacons). */
 export const clubes = [
-  { nombre: "Clube Ximnasia Burgas", disciplina: "Gimnasia acrobática", corto: "BURGAS", detalle: "Acrobacia para peques y familias.", actividad: "acrobacia", clase: "acrobacia" as ClaseId },
-  { nombre: "Capoeira Ourense Andaruê", disciplina: "Capoeira", corto: "ANDARUÊ", detalle: "Arte marcial afrobrasileño con música y ritmo.", actividad: "capoeira", clase: "capoeira" as ClaseId },
-  { nombre: "Brazilian Jiu-Jitsu Mambises", disciplina: "Brazilian Jiu-Jitsu", corto: "MAMBISES", detalle: "Lucha en el suelo, técnica y estrategia.", actividad: "bjj", clase: "bjj" as ClaseId },
-  { nombre: "Halterofilia", disciplina: "Halterofilia", corto: "HALTEROFILIA", detalle: "Arrancada y dos tiempos.", actividad: "halterofilia", clase: undefined },
+  { logo: "/logos/ximnasia-burgas.png", nombre: "Clube Ximnasia Burgas", disciplina: "Gimnasia acrobática", corto: "BURGAS", detalle: "Acrobacia para peques y familias.", actividad: "acrobacia", clase: "acrobacia" as ClaseId },
+  { logo: "/logos/andarue.png", nombre: "Capoeira Ourense Andaruê", disciplina: "Capoeira", corto: "ANDARUÊ", detalle: "Arte marcial afrobrasileño con música y ritmo.", actividad: "capoeira", clase: "capoeira" as ClaseId },
+  { logo: "/logos/mambises-bjj.png", nombre: "Brazilian Jiu-Jitsu Mambises", disciplina: "Brazilian Jiu-Jitsu", corto: "MAMBISES", detalle: "Lucha en el suelo, técnica y estrategia.", actividad: "bjj", clase: "bjj" as ClaseId },
+  { logo: undefined as string | undefined, nombre: "Halterofilia", disciplina: "Halterofilia", corto: "HALTEROFILIA", detalle: "Arrancada y dos tiempos.", actividad: "halterofilia", clase: undefined },
 ];
 
 /** Opciones del desplegable «actividad» del formulario. `grupo` decide qué planes se ofrecen. */

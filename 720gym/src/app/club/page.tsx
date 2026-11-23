@@ -6,6 +6,7 @@ import Historia from "@/components/secciones/Historia";
 import Comunidad from "@/components/secciones/Comunidad";
 import Cierre from "@/components/secciones/Cierre";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
+import Instalaciones from "@/components/secciones/Instalaciones";
 
 export const metadata: Metadata = {
   title: "El club: equipo, historia y comunidad",
@@ -19,6 +20,7 @@ export default function PaginaClub() {
       <JsonLd datos={migas([["El club", "/club"]])} />
       <Intro pagina />
       <Aforo />
+      <Instalaciones />
       <Equipo />
       <Historia />
       <Comunidad />

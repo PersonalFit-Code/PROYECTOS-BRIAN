@@ -3,7 +3,7 @@
  * clave. Lo usa /api/asistente cuando no hay clave de Anthropic, y el navegador si la red falla.
  * Las «acciones» son los botones que acompañan cada respuesta: siempre hay un siguiente paso.
  */
-import { negocio, pilates } from "@/data/negocio";
+import { negocio, pilates, waVisita } from "@/data/negocio";
 import { waPlan } from "@/data/pagos";
 
 export interface Accion {
@@ -17,7 +17,7 @@ export interface Respuesta {
 
 const A = {
   alta: { etiqueta: "Inscribirme", href: waPlan() },
-  prueba: { etiqueta: "Clase gratis", href: "/clase-gratis" },
+  prueba: { etiqueta: "Concertar una visita", href: waVisita() },
   tarifas: { etiqueta: "Ver tarifas", href: "/tarifas" },
   horario: { etiqueta: "Ver horario", href: "/horario" },
   pilates: { etiqueta: "720 Pilates", href: "/pilates" },
@@ -46,7 +46,7 @@ const reglas: { claves: RegExp; r: Respuesta }[] = [
     claves: /pilates|reformer|mat\b|wall|hipopres|suelo pelvic/,
     r: {
       texto: `720 Pilates tiene Reformer, Mat, Wall Unit e Hipopresivos en grupos reducidos y por niveles. Reformer desde 55 €/mes (1 día), Mat desde 40 €/mes e Hipopresivos desde 35 €/mes. Sin matrícula y la primera clase es gratis. Su WhatsApp es el ${pilates.whatsappVisible}.`,
-      acciones: [A.pilates, { etiqueta: "Probar Pilates gratis", href: "/pilates?tipo=prueba&actividad=pilates#apuntate" }],
+      acciones: [A.pilates, { etiqueta: "Quiero conocer 720 Pilates", href: `https://wa.me/${pilates.whatsapp}` }],
     },
   },
   {
@@ -69,7 +69,7 @@ const reglas: { claves: RegExp; r: Respuesta }[] = [
   },
   {
     claves: /prueba|probar|gratis|primera clase|conocer/,
-    r: { texto: "¡Claro! Elige día y hora para tu clase de prueba gratis y te confirmamos por WhatsApp. Sin compromiso.", acciones: [A.prueba, A.alta] },
+    r: { texto: "¡Claro! Escríbenos por WhatsApp y concertamos una visita para enseñarte el espacio y explicarte cómo funciona. Sin compromiso.", acciones: [A.prueba, A.alta] },
   },
   {
     claves: /donde|direcci|llegar|ubicaci|aparca|parking|bus|calle/,

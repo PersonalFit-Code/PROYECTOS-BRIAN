@@ -4,11 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CalendarClock, Euro, Grid2x2, Home, HelpCircle, MapPin, MessageCircle, Plus, Users, X } from "lucide-react";
-import IconoConcepto from "@/components/ui/IconoConcepto";
 import { cn } from "@/lib/utils";
 import { conceptos } from "@/data/conceptos";
 import { wa } from "@/data/negocio";
 import { waPlan } from "@/data/pagos";
+import SelloConcepto from "@/components/ui/SelloConcepto";
 
 /**
  * Barra de pestañas del móvil (tipo app), siempre a mano: Inicio · Clases · Inscríbete · Tarifas ·
@@ -58,7 +58,7 @@ export default function BarraMovil() {
           {conceptos.map((c) => (
             <li key={c.slug}>
               <Link href={c.href} className="flex h-full flex-col items-center gap-2 rounded-2xl bg-white/[0.06] px-2 py-3 text-center ring-1 ring-white/10">
-                <IconoConcepto icono={c.icono} className="size-5" />
+                <SelloConcepto logo={c.logo} nombre={c.nombre} className="size-10 rounded-xl text-[32px]" />
                 <span className="text-[12px] leading-tight font-semibold">{c.nombre.replace(/^720 /, "")}</span>
               </Link>
             </li>

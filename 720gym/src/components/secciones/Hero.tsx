@@ -3,13 +3,12 @@ import { HeroSection } from "@/components/ui/hero-section-4";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import Intro from "@/components/ui/Intro";
 import { fotos } from "@/data/fotos";
-import { wa } from "@/data/negocio";
-import { enlacePrueba } from "@/components/layout/navegacion";
+import { wa, waVisita } from "@/data/negocio";
 import { waPlan } from "@/data/pagos";
 
 /**
  * Portada limpia (hero-section-4): foto de la sala a pantalla completa, un titular, una frase y dos
- * botones (inscribirse / clase gratis). Debajo, WhatsApp. Nada más: el resto se despliega bajando.
+ * botones (inscribirse / concertar una visita). Debajo, WhatsApp. Nada más: el resto se despliega bajando.
  */
 export default function Hero() {
   return (
@@ -18,6 +17,7 @@ export default function Hero() {
       <HeroSection
         aria-labelledby="titulo-portada"
         imageUrl={fotos.pista.grande}
+        imageUrlMobile={fotos.pistaVertical.grande}
         imageClassName="object-[64%_50%] lg:object-center"
         title={
           <span id="titulo-portada">
@@ -28,8 +28,8 @@ export default function Hero() {
         subtitle="Un club con aforo limitado, abierto los 365 días. Fuerza, Pilates Reformer y comunidad en el centro de Ourense."
         primaryButtonText="Inscríbete ahora"
         primaryButtonHref={waPlan()}
-        secondaryButtonText="Prueba una clase gratis"
-        secondaryButtonHref={enlacePrueba}
+        secondaryButtonText="Ven a conocer 720"
+        secondaryButtonHref={waVisita()}
         extra={
           <a
             href={wa("Hola, quiero información para apuntarme a 720 GYM CLUB.")}

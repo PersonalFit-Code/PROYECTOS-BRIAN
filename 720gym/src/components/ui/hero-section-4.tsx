@@ -22,6 +22,8 @@ interface HeroSectionProps extends Omit<React.HTMLAttributes<HTMLElement>, "titl
   secondaryButtonText: string;
   secondaryButtonHref: string;
   imageUrl: string;
+  /** Foto vertical para el móvil (si no, la misma). */
+  imageUrlMobile?: string;
   imageAlt?: string;
   /** Encuadre de la foto (p. ej. «object-[62%_50%]») para que en móvil se vea lo importante. */
   imageClassName?: string;
@@ -40,7 +42,7 @@ const itemVariants: Variants = {
 };
 
 const HeroSection = React.forwardRef<HTMLElement, HeroSectionProps>(
-  ({ className, title, subtitle, eyebrow, primaryButtonText, primaryButtonHref, secondaryButtonText, secondaryButtonHref, imageUrl, imageAlt = "", imageClassName, extra, ...props }, ref) => {
+  ({ className, title, subtitle, eyebrow, primaryButtonText, primaryButtonHref, secondaryButtonText, secondaryButtonHref, imageUrl, imageUrlMobile, imageAlt = "", imageClassName, extra, ...props }, ref) => {
     const reducir = useReducedMotion();
     /* Si la portada arranca con la intro del «720», el texto entra cuando la intro termina. */
     const [conIntro] = React.useState(() => typeof document !== "undefined" && document.documentElement.hasAttribute("data-intro"));
@@ -48,7 +50,8 @@ const HeroSection = React.forwardRef<HTMLElement, HeroSectionProps>(
       <section ref={ref} className={cn("relative isolate flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-negro", className)} {...props}>
         {/* Foto de fondo: entra con un leve acercamiento y se queda quieta (sin zoom al hacer scroll). */}
         <motion.div className="hero-fondo absolute inset-0 -z-20" initial={reducir ? false : { scale: 1.1 }} animate={{ scale: 1 }} transition={conIntro ? { duration: 0 } : { duration: 1.6, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true">
-          <Image src={imageUrl} alt={imageAlt} fill priority sizes="100vw" quality={90} className={cn("object-cover", imageClassName)} />
+          {imageUrlMobile && <Image src={imageUrlMobile} alt={imageAlt} fill priority sizes="100vw" quality={90} className="object-cover object-center sm:hidden" />}
+          <Image src={imageUrl} alt={imageAlt} fill priority sizes="100vw" quality={90} className={cn("object-cover", imageUrlMobile && "max-sm:hidden", imageClassName)} />
         </motion.div>
         {/* Velo suave para leer el texto sin apagar la foto. */}
         <div className="absolute inset-0 -z-10 bg-black/35" aria-hidden="true" />
@@ -73,7 +76,9 @@ const HeroSection = React.forwardRef<HTMLElement, HeroSectionProps>(
               </Link>
             </Button>
             <Button asChild variant="secondary" size="lg" className="text-white">
-              <Link href={secondaryButtonHref}>{secondaryButtonText}</Link>
+              <Link href={secondaryButtonHref} {...(secondaryButtonHref.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})}>
+                {secondaryButtonText}
+              </Link>
             </Button>
           </motion.div>
           {extra && (

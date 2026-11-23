@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DeslizaInscribete from "@/components/ui/DeslizaInscribete";
 import { claseBoton } from "@/components/ui/Boton";
-import { negocio, wa } from "@/data/negocio";
+import { negocio, wa, waVisita } from "@/data/negocio";
 import { fotos } from "@/data/fotos";
 
 /**
@@ -38,8 +38,8 @@ export default function Cierre() {
         <div data-reveal className="mx-auto mt-8 flex max-w-sm flex-col items-center gap-3">
           <DeslizaInscribete />
           <div className="grid w-full grid-cols-2 gap-3">
-            <Link href="/clase-gratis" className={claseBoton("contorno")}>
-              Clase gratis
+            <Link href={waVisita()} target="_blank" rel="noopener" className={claseBoton("contorno")}>
+              Concertar visita
             </Link>
             <a href={wa("Hola, quiero información sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno")}>
               Información

@@ -9,13 +9,13 @@ import { BarraDiscos } from "@/components/ui/IconosMarca";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import Contador from "@/components/ui/Contador";
 import { eur, planPorId, waPlan } from "@/data/pagos";
-import { wa } from "@/data/negocio";
+import { wa, waVisita } from "@/data/negocio";
 import { fotos } from "@/data/fotos";
 import { cn } from "@/lib/utils";
 
 /**
  * «Tu plan en 30 segundos»: tres toques y la web recomienda un plan con su precio real y la
- * salida directa (alta con el plan ya elegido, clase gratis o WhatsApp con el mensaje escrito).
+ * salida directa (alta con el plan ya elegido, visita o WhatsApp con el mensaje escrito).
  * Solo usa precios del catálogo de pagos; donde 720 aún no ha dado precio, lo dice: «pendiente».
  */
 type Icono = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
@@ -38,7 +38,7 @@ const diasOpc: { id: Dias; texto: string; nota: string }[] = [
 ];
 const inicioOpc: { id: Inicio; texto: string; nota: string; Icono: Icono }[] = [
   { id: "ya", texto: "Ya, hoy mismo", nota: "Te apuntas por WhatsApp en un minuto", Icono: Zap as Icono },
-  { id: "probar", texto: "Probando antes", nota: "Una clase gratis primero", Icono: Gift as Icono },
+  { id: "probar", texto: "Conociéndolo antes", nota: "Una visita primero", Icono: Gift as Icono },
   { id: "paso", texto: "Estoy de paso", nota: "Unos días en Ourense", Icono: MapPinned as Icono },
 ];
 
@@ -58,7 +58,7 @@ function recomendar(o: Objetivo, d: Dias, i: Inicio): { planId?: string; titulo:
       return { planId: `reformer-${d}`, titulo: `Reformer ${d === "3" ? "3" : d} ${d === "1" ? "día" : "días"}/semana`, porque: ["Grupo reducido", "Sesiones de 50 min", "Sin matrícula"] };
     default: {
       const n = objetivos.find((x) => x.id === o)!;
-      return { titulo: n.nota, porque: ["Empieza con una clase de prueba gratis", "Cuota: pendiente de confirmar con 720"] };
+      return { titulo: n.nota, porque: ["Ven a conocer el espacio y al profesor", "Te orientamos sobre el grupo que mejor encaja"] };
     }
   }
 }
@@ -179,7 +179,7 @@ export default function TuPlan() {
                 <span className="text-[15px] font-semibold text-negro/55">{plan.mensual ? "al mes" : "pago único"}</span>
               </>
             ) : (
-              <span className="rounded-full bg-black/[0.06] px-3 py-1.5 text-[14px] font-semibold text-negro/70">Cuota pendiente de confirmar · primera clase gratis</span>
+              <span className="rounded-full bg-black/[0.06] px-3 py-1.5 text-[14px] font-semibold text-negro/70">Te informamos de la cuota al conocernos</span>
             )}
           </p>
           <ul className="mt-5 grid gap-2">
@@ -194,8 +194,8 @@ export default function TuPlan() {
           </ul>
           <div className="mt-7 grid gap-2.5 sm:grid-cols-2">
             {pruebaPrimero ? (
-              <Link href={`/clase-gratis?actividad=${objetivo.actividad}`} className="subtitular inline-flex h-[52px] items-center justify-center gap-2 bg-negro px-6 text-[15px] text-white transition hover:gap-3 hover:bg-pizarra">
-                Reservar mi clase gratis <ArrowRight className="size-4" aria-hidden />
+              <Link href={waVisita()} target="_blank" rel="noopener" className="subtitular inline-flex h-[52px] items-center justify-center gap-2 bg-negro px-6 text-[15px] text-white transition hover:gap-3 hover:bg-pizarra">
+                Concertar una visita <ArrowRight className="size-4" aria-hidden />
               </Link>
             ) : (
               <Link href={waPlan(plan!.id)} target="_blank" rel="noopener" className="subtitular inline-flex h-[52px] items-center justify-center gap-2 bg-negro px-6 text-[15px] text-white transition hover:gap-3 hover:bg-pizarra">

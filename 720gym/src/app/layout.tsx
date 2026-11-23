@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s · 720 GYM CLUB",
   },
   description:
-    "Gimnasio con aforo limitado en Ourense, abierto los 365 días. Fuerza, Pilates Reformer, yoga, powerlifting y CrossGym. Prueba una clase gratis.",
+    "Gimnasio con aforo limitado en Ourense, abierto los 365 días. Fuerza, Pilates Reformer, yoga, powerlifting y CrossGym. Ven a conocernos.",
   keywords: ["gimnasio Ourense", "gimnasio aforo limitado Ourense", "Pilates Reformer Ourense", "powerlifting Ourense", "yoga Ourense", "entrada diaria gimnasio Ourense"],
   openGraph: {
     type: "website",

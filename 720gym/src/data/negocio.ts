@@ -56,6 +56,10 @@ export const pilates = {
 } as const;
 
 /** Enlace de WhatsApp con el mensaje ya escrito. */
+/** Mensaje para «ven a conocernos»: así invitan ellos en sus publicaciones (no hay clase gratis del gimnasio). */
+export const mensajeVisita = "Hola, he visto la web de 720GYM CLUB y me gustaría conocer el espacio. ¿Podríamos concertar una visita? Gracias.";
+export const waVisita = (): string => wa(mensajeVisita);
+
 export function wa(texto: string, numero: string = negocio.whatsapp): string {
   return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
 }

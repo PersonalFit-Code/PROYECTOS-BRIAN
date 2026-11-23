@@ -5,15 +5,16 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, CalendarClock, ChevronDown, Menu, X } from "lucide-react";
 import Image from "next/image";
-import IconoConcepto from "@/components/ui/IconoConcepto";
 import { Anillas, Arrancada, Berimbau, Cinturon } from "@/components/ui/IconosMarca";
 import { fotos } from "@/data/fotos";
 import Logo from "@/components/ui/Logo";
 import { claseBoton } from "@/components/ui/Boton";
 import { cn } from "@/lib/utils";
-import { negocio, wa } from "@/data/negocio";
-import { enlacesConceptos, navegacion, enlacePrueba } from "./navegacion";
+import { negocio, wa, waVisita } from "@/data/negocio";
+import { enlacesConceptos, navegacion } from "./navegacion";
 import { waPlan } from "@/data/pagos";
+import SelloConcepto from "@/components/ui/SelloConcepto";
+import { repetirIntro } from "@/components/ui/Intro";
 
 /** Cabecera: transparente sobre la portada, negra al bajar. Desplegable «Conceptos». */
 export default function Header() {
@@ -73,7 +74,18 @@ export default function Header() {
           !transparente && "vidrio vidrio-denso",
         )}
       >
-        <Link href="/" className="text-[19px]" aria-label="720 GYM CLUB, inicio">
+        <Link
+          href="/"
+          className="text-[19px]"
+          aria-label="720 GYM CLUB, inicio"
+          onClick={(e) => {
+            /* En la portada: vuelve arriba y repite la entrada del «720». Desde otra página, al llegar. */
+            if (ruta === "/") {
+              e.preventDefault();
+              repetirIntro();
+            } else window.setTimeout(repetirIntro, 350);
+          }}
+        >
           <Logo />
         </Link>
 
@@ -97,9 +109,6 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href={enlacePrueba} className={cn(claseBoton("contorno"), "h-11 rounded-full max-xl:!hidden")}>
-            Clase gratis
-          </Link>
           <Link href={waPlan()} target="_blank" rel="noopener" className={cn(claseBoton("venta"), "h-11 rounded-full px-4 sm:px-5")}>
             Inscríbete
           </Link>
@@ -131,9 +140,7 @@ export default function Header() {
             {enlacesConceptos.map((c) => (
               <li key={c.href}>
                 <Link href={c.href} className="group flex items-center gap-4 rounded-2xl p-3 transition-colors hover:bg-white/[0.07]">
-                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-white/25 to-white/[0.04] ring-1 ring-white/15 transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-3">
-                    <IconoConcepto icono={c.icono} className="size-6" />
-                  </span>
+                  <SelloConcepto logo={c.logo} nombre={c.nombre} className="size-16 rounded-2xl text-[52px] transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-3" />
                   <span className="min-w-0 flex-1">
                     <span className="etiqueta block !text-[10px] text-white/45">{c.marca}</span>
                     <span className="titular mt-0.5 block text-[21px] text-white">{c.nombre}</span>
@@ -145,13 +152,13 @@ export default function Header() {
             ))}
           </ul>
           <div className="col-span-4 flex flex-col gap-3">
-            <Link href="/clase-gratis" className="group relative isolate flex flex-1 flex-col justify-end overflow-hidden rounded-2xl p-5">
-              <Image src={fotos.sala.src} alt="" fill sizes="26rem" className="-z-20 object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Link href={waVisita()} target="_blank" rel="noopener" className="group relative isolate flex flex-1 flex-col justify-end overflow-hidden rounded-2xl p-5">
+              <Image src={fotos.racks.src} alt="" fill sizes="26rem" className="-z-20 object-cover transition-transform duration-700 group-hover:scale-105" />
               <span className="absolute inset-0 -z-10 bg-gradient-to-t from-negro via-negro/50 to-transparent" aria-hidden />
-              <span className="etiqueta !text-[10px] text-white/70">Sin compromiso</span>
-              <span className="titular mt-1 text-[24px] text-white">Prueba una clase gratis</span>
+              <span className="etiqueta !text-[10px] text-white/70">Ven a conocernos</span>
+              <span className="titular mt-1 text-[24px] text-white">Concierta una visita</span>
               <span className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-white/85">
-                Elegir día y hora <ArrowUpRight className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
+                Escríbenos por WhatsApp <ArrowUpRight className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
               </span>
             </Link>
             <Link href="/horario" className="flex items-center gap-3 rounded-2xl bg-white/[0.06] p-4 text-[14px] font-semibold ring-1 ring-white/10 transition hover:bg-white/[0.1]">
@@ -187,9 +194,7 @@ export default function Header() {
               {enlacesConceptos.map((c) => (
                 <li key={c.href}>
                   <Link href={c.href} className="flex h-full items-center gap-3 rounded-2xl bg-white/[0.05] p-3 ring-1 ring-white/10">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-white/25 to-white/[0.04] ring-1 ring-white/15">
-                      <IconoConcepto icono={c.icono} className="size-5" />
-                    </span>
+                    <SelloConcepto logo={c.logo} nombre={c.nombre} className="size-11 rounded-xl text-[36px]" />
                     <span className="subtitular text-[14px] leading-tight">{c.nombre}</span>
                   </Link>
                 </li>
@@ -209,9 +214,6 @@ export default function Header() {
           <div className="mt-auto grid gap-3 pt-8">
             <Link href={waPlan()} target="_blank" rel="noopener" className={claseBoton("venta", true)}>
               Inscríbete ahora
-            </Link>
-            <Link href={enlacePrueba} className={claseBoton("contorno", true)}>
-              Clase gratis
             </Link>
             <a href={wa("Hola, tengo una duda sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno", true)}>
               Escríbenos por WhatsApp

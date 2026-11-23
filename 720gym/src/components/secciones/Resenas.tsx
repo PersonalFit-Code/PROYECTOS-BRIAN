@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, ChevronDown, Quote, Star } from "lucide-react";
 import Contador from "@/components/ui/Contador";
-import { negocio } from "@/data/negocio";
+import { negocio, waVisita } from "@/data/negocio";
 import { resenas, type Tema } from "@/data/resenas";
 import { cn } from "@/lib/utils";
 import { waPlan } from "@/data/pagos";
@@ -123,8 +123,8 @@ export default function Resenas({ tema, titulo = "Lo que dicen de 720" }: { tema
               <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-11 items-center px-5 text-[15px]">
                 Inscríbete
               </Link>
-              <Link href="/clase-gratis" className="boton-info subtitular inline-flex h-11 items-center px-5 text-[15px] text-white">
-                Clase gratis
+              <Link href={waVisita()} target="_blank" rel="noopener" className="boton-info subtitular inline-flex h-11 items-center px-5 text-[15px] text-white">
+                Ven a conocernos
               </Link>
             </div>
           </div>
