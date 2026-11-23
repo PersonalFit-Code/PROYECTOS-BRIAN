@@ -50,6 +50,28 @@ export function GuionLlamada({ guion }: { guion: Guion }) {
         ))}
       </div>
 
+      {guion.cualificar.length > 0 && (
+        <details className="mt-6 rounded-xl border border-line p-3" open>
+          <summary className="cursor-pointer font-bold">Para saber si encaja</summary>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            {guion.cualificar.map((q) => (
+              <li key={q}>{q}</li>
+            ))}
+          </ul>
+          <p className="mt-2 text-sm text-muted">Encaja si le entran muchos mensajes, usa un asistente de IA de pago y quiere configurarlo él.</p>
+        </details>
+      )}
+      {guion.precios.length > 0 && (
+        <details className="mt-2 rounded-xl border border-line p-3">
+          <summary className="cursor-pointer font-bold">Preguntas de precio (apunta la respuesta literal)</summary>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            {guion.precios.map((q) => (
+              <li key={q}>{q}</li>
+            ))}
+          </ul>
+        </details>
+      )}
+
       {guion.mensaje && (
         <div className="mt-6 rounded-xl border border-line p-3">
           <h3 className="text-sm font-bold">Si le escribes por Instagram</h3>
@@ -59,7 +81,8 @@ export function GuionLlamada({ guion }: { guion: Guion }) {
 
       <p className="mt-4 text-sm text-muted">{guion.seguimiento}</p>
       <p className="mt-2 text-xs text-muted">
-        {guion.aMedida ? "Guion escrito a medida para este negocio." : "Guion montado con lo que sabemos del negocio. Mira su web 20 segundos antes de marcar."} Sin precios por teléfono.
+        {guion.aMedida ? "Guion escrito a medida para este negocio." : "Guion montado con lo que sabemos del negocio. Mira su web 20 segundos antes de marcar."}
+        {guion.precios.length === 0 && " Sin precios por teléfono."}
       </p>
     </div>
   );

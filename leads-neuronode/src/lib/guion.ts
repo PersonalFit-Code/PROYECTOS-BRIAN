@@ -30,6 +30,9 @@ export interface Guion {
   objeciones: Objecion[];
   /** Mensaje para escribirle por Instagram, si es por donde se le contacta. */
   mensaje: string | null;
+  /** Preguntas para saber si encaja y para validar el precio. Solo las lleva el setter con IA. */
+  cualificar: string[];
+  precios: string[];
   /** Si no cogen o piden que llames luego. */
   seguimiento: string;
   /** Verdadero si lo ha escrito el puesto de Guion para este negocio. */
@@ -62,7 +65,7 @@ const QUE_ES: Record<Sector, string> = {
   fitness: "centros de entrenamiento",
   clinica: "consultas y clínicas",
   hosteleria: "restaurantes y pastelerías",
-  infoproducto: "gente que vende formación y mentorías por llamada",
+  infoproducto: "gente que vende su programa por mensajes de Instagram y por llamada",
   otro: "negocios como el tuyo",
 };
 
@@ -97,7 +100,7 @@ function senalTxt(senal: Senal, n: DatosNegocio): string | null {
 
 function entrada(senal: Senal, n: DatosNegocio, usted: boolean): string {
   if (n.sector === "infoproducto") {
-    return `Soy Brian, de neuro·node. Trabajamos con ${QUE_ES.infoproducto}. Te llamo en frío, te lo digo ya: te robo medio minuto y, si no te encaja, colgamos sin más. He estado viendo tu contenido y cómo llevas a la gente a reservar llamada.`;
+    return `Soy Brian, de neuro·node. Trabajamos con ${QUE_ES.infoproducto}. Te llamo en frío, te lo digo ya: te robo medio minuto y, si no te encaja, colgamos sin más. He estado viendo tu contenido y cómo llevas a la gente de un mensaje a reservar la llamada.`;
   }
   const base = usted
     ? `Soy Brian, de neuro·node. Trabajamos con ${QUE_ES[n.sector]}. Le llamo en frío, se lo digo ya: le robo medio minuto y, si no le encaja, colgamos sin más.`
@@ -125,7 +128,7 @@ function entrada(senal: Senal, n: DatosNegocio, usted: boolean): string {
 function pregunta(senal: Senal, n: DatosNegocio, usted: boolean): string {
   const l = lugar(n);
   if (n.sector === "infoproducto") {
-    return "Cuando alguien te escribe por Instagram preguntando por tu programa, ¿quién le contesta y cuánto tarda en hacerlo?";
+    return "¿Cuántos mensajes directos te entran a la semana y quién los contesta hoy?";
   }
   if (n.sector === "clinica") {
     switch (senal) {
@@ -179,7 +182,7 @@ function pregunta(senal: Senal, n: DatosNegocio, usted: boolean): string {
 
 function prueba(n: DatosNegocio): string {
   if (n.sector === "infoproducto") {
-    return "Montamos un setter con IA: contesta esos mensajes al momento, con tu forma de hablar, pregunta lo justo para saber si la persona encaja y le deja la llamada puesta en tu agenda. Tú, o tu closer, solo habláis con quien ya está filtrado.";
+    return "Es tu propio setter con IA para Instagram: contesta todos tus mensajes con tu guion y tu forma de hablar, entrega tus recursos, filtra y manda a reservar la llamada. Ya está funcionando con cuentas reales. Y no hay tope de mensajes.";
   }
   if (n.sector === "clinica") {
     return "Montamos un asistente que responde esos mensajes al momento, con la información de su consulta, y deja la cita puesta en su agenda. Usted sigue con el paciente que tiene delante.";
@@ -194,7 +197,7 @@ function prueba(n: DatosNegocio): string {
 
 function regalo(n: DatosNegocio, usted: boolean): string {
   if (n.sector === "infoproducto") {
-    return "Te propongo una cosa: me miro tu perfil y el camino que hace alguien desde que te escribe hasta que reserva, y te preparo tres mejoras concretas, gratis. Te las enseño en quince minutos por videollamada y te las quedas, trabajemos juntos o no.";
+    return "Lo que lo hace distinto es que el guion es tuyo y lo cambias tú cuando quieras, sin esperar a nadie. Y estamos terminando la parte en la que se lo pides a tu asistente de IA con tus palabras. Te lo enseño funcionando en quince minutos por videollamada, con una cuenta real.";
   }
   return usted
     ? `Le propongo una cosa: me miro ${n.nombre} con calma y le preparo tres mejoras concretas, gratis. Se las enseño en quince minutos por videollamada y se las queda, trabajemos juntos o no.`
@@ -215,7 +218,7 @@ function objeciones(senal: Senal, n: DatosNegocio, usted: boolean): Objecion[] {
     contestas: usted
       ? "Depende de lo que necesite, por eso prefiero verlo quince minutos. Las tres mejoras son gratis y no le comprometen a nada."
       : uno
-        ? "Depende de lo que necesites, por eso prefiero verlo quince minutos. Las tres mejoras son gratis y no te comprometen a nada."
+        ? "Son dos cosas: nuestra cuota al mes, con todo incluido y sin tope de mensajes, y la IA, que la pagas tú aparte y a coste. (Las cifras, las del documento de Nico; apunta qué te contesta.)"
         : "Depende de lo que necesitéis, por eso prefiero verlo quince minutos. Las tres mejoras son gratis y no os comprometen a nada.",
   };
   const info: Objecion = {
@@ -240,9 +243,13 @@ function objeciones(senal: Senal, n: DatosNegocio, usted: boolean): Objecion[] {
   const propias: Objecion[] = [];
   if (n.sector === "infoproducto") {
     propias.push(
-      { dicen: "Ya tengo un setter", contestas: "Perfecto, no es para quitarlo. Contesta de madrugada y los fines de semana, cuando él no está, y le pasa ya filtrados los que encajan." },
-      { dicen: "No quiero que un robot hable con mi gente", contestas: "Responde solo con lo que tú apruebes y con tu forma de escribir. Y en cuanto alguien pregunta algo fuera de eso, te pasa la conversación a ti." },
-      { dicen: "Me entran pocos mensajes", contestas: "Entonces cada uno vale más. ¿Cuántos se te quedan sin contestar el mismo día?" },
+      { dicen: "Ya tengo una herramienta de palabra clave", contestas: "Esa entrega el recurso y se queda ahí. Esto sigue la conversación hasta la llamada." },
+      { dicen: "El bot que me montaron no hablaba como yo", contestas: "Aquí el guion es tuyo, lo ves entero y lo ajustas tú las veces que quieras." },
+      { dicen: "No soy técnico", contestas: "No hace falta. La idea es que se lo pidas a tu asistente con tus palabras. Esa parte la estamos terminando; mientras, te lo dejamos funcionando nosotros." },
+      { dicen: "¿Por qué pago aparte la IA?", contestas: "Porque así pagas el consumo real, a coste y directamente al proveedor, y no hay paquetes de mensajes." },
+      { dicen: "¿Y si lo cambio y lo estropeo?", contestas: "Cada versión del guion se guarda y vuelves a la anterior cuando quieras." },
+      { dicen: "¿Me garantizas llamadas?", contestas: "No. El bot conversa y filtra; cuántas llamadas salgan depende de tu contenido y de tu oferta. Eso no te lo voy a prometer." },
+      { dicen: "Me entran pocos mensajes", contestas: "Entonces todavía no te compensa: sin mensajes entrando, el bot no tiene con quién hablar. Si te parece, hablamos cuando tengas más volumen. (Apúntalo como «No le interesa» con esa nota.)" },
     );
   } else if (n.sector === "clinica") {
     propias.push(
@@ -262,6 +269,27 @@ function objeciones(senal: Senal, n: DatosNegocio, usted: boolean): Objecion[] {
   return [...propias, precio, info, tiempo, no];
 }
 
+/** Encaja si tiene volumen de mensajes, usa un asistente de IA de pago y quiere configurarlo él. */
+const CUALIFICAR_SETTER = [
+  "¿Cómo cierras: por mensaje o por llamada? ¿Con qué agendas?",
+  "¿Usas algún asistente de IA de pago en tu día a día? ¿Cuál y para qué?",
+  "¿Te ves ajustando tu bot tú mismo, o esperas que alguien lo lleve por ti?",
+  "¿Tienes algún recurso gratuito que ya entregues por comentario o por mensaje?",
+  "¿Qué has probado antes y qué falló?",
+];
+
+/** Para validar el precio. Las cifras no van aquí: están en el documento interno de Nico. */
+const PRECIOS_SETTER = [
+  "¿Qué pagas hoy por contestar o automatizar tus mensajes? ¿Cuánto al mes?",
+  "¿Cuántas llamadas agendas al mes desde Instagram y cuánto vale para ti una llamada agendada?",
+  "Si esto te contestara todos los mensajes y te llenara la agenda, ¿a partir de qué precio al mes te parecería caro? ¿Y a partir de cuál tan barato que desconfiarías?",
+  "La IA la pagas tú aparte, a coste, y a cambio no hay límite de mensajes. ¿Te encaja?",
+  "¿Prefieres que te lo dejemos funcionando la primera vez, o configurarlo tú desde el principio?",
+  "¿Te interesa saber qué publica tu competencia y qué le funciona? ¿Cuánto pagarías por eso al mes?",
+  "¿Usarías también el setter en WhatsApp? ¿Pagarías más por tenerlo?",
+  "¿Mensual, o anual con descuento?",
+];
+
 /** Monta el guion de un negocio. `aMedida` son las partes que haya escrito el puesto de Guion. */
 export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: Partial<Guion> | null): Guion {
   const senal = detectarSenal(n, dolores);
@@ -269,7 +297,7 @@ export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: P
   const quien = n.sector === "clinica" ? "la consulta" : n.sector === "hosteleria" ? "el local" : n.sector === "infoproducto" ? "las ventas" : "el centro";
   const mensaje =
     n.sector === "infoproducto"
-      ? "Hola. Soy Brian, de neuro·node. He estado viendo tu contenido y tengo una duda: cuando alguien te escribe preguntando por tu programa, ¿le contestas tú o tienes a alguien? Te lo pregunto porque montamos setters con IA para eso. Si no te encaja, me lo dices y no te escribo más."
+      ? "Hola. Soy Brian, de neuro·node. He estado viendo tu contenido y tengo una duda: ¿los mensajes que te entran preguntando por tu programa los contestas tú o tienes a alguien? Te lo pregunto porque hemos montado un setter con IA que habla con tu guion y que ajustas tú mismo. Si no te encaja, me lo dices y no te escribo más."
       : null;
   const base: Guion = {
     senal: dolores[0] ?? senalTxt(senal, n),
@@ -281,6 +309,8 @@ export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: P
     cierre: cierre(n, usted),
     objeciones: objeciones(senal, n, usted),
     mensaje,
+    cualificar: n.sector === "infoproducto" ? CUALIFICAR_SETTER : [],
+    precios: n.sector === "infoproducto" ? PRECIOS_SETTER : [],
     seguimiento: "Si no cogen, no lo des por perdido: tres intentos, en días y horas distintas. Si te dicen «ahora no», apunta la hora que te den y llama a esa hora.",
     aMedida: false,
   };

@@ -47,6 +47,10 @@ test("pastelería y restaurante usan su propio caso real", () => {
 test("infoproductores y coaches: se habla del setter con IA, sin clientes inventados, y hay mensaje de Instagram", () => {
   const g = montarGuion({ ...base, nombre: "Marta Coach", sector: "infoproducto", subsector: "coach", localidad: null, web: null, instagram: "https://instagram.com/x" });
   assert.match(g.prueba, /setter con IA/);
+  assert.match(g.pregunta, /mensajes directos/);
+  assert.ok(g.cualificar.length >= 5 && g.precios.length >= 8);
+  assert.doesNotMatch(JSON.stringify(g), /\d+\s?€|euros|tres mejoras/i);
+  assert.equal(montarGuion(base).cualificar.length, 0);
   assert.doesNotMatch(JSON.stringify(g), /Personal Fit|Tixola|Bin & Cami|lleváis|tenéis/);
   assert.ok(g.mensaje && g.mensaje.includes("no te escribo más"));
   assert.equal(montarGuion(base).mensaje, null);

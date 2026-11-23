@@ -154,6 +154,21 @@ Pastelería:
 
 ---
 
+## 4. Infoproductores y coaches (setter con IA)
+
+**Esto va con otro enfoque**, el del documento interno que pasó Nico (no se guarda aquí porque este repositorio es público). No es una web: es su propio setter con IA para Instagram, que habla con su guion y que ajusta él mismo.
+
+- **Filtro:** ¿le entran muchos mensajes, usa un asistente de IA de pago y quiere tocar su bot él mismo? Si no, todavía no es cliente.
+- **No es para:** negocios locales, comercio electrónico, quien lo quiere todo hecho, quien no tiene mensajes entrando, ni quien pide pagar por comisión o por cita.
+- **Aquí sí se habla de cómo se paga desde la primera conversación:** una cuota al mes con todo incluido y sin tope de mensajes, y la IA aparte, que la paga él a coste. Las cifras, las del documento de Nico.
+- **Funciona hoy:** el setter por mensajes de Instagram, la autopublicación y el radar de la competencia.
+- **Aún no:** configurarlo desde su asistente de IA y WhatsApp. Se dice que está en construcción, sin fecha.
+- **No se promete ningún resultado:** ni citas ni ventas.
+- **El bot no escribe en frío:** Instagram solo deja contestar en las 24 horas siguientes al último mensaje del lead.
+- **Si su cuenta de Instagram es nueva**, darla de alta puede llevar uno o dos días por nuestra parte.
+
+En la ficha de cada uno tienes el guion, las preguntas para cualificar y las de precio. **Apunta las respuestas de precio literales:** Nico necesita las diez primeras para decidir si la cuota aguanta.
+
 ## Qué apuntas en la app después de cada llamada
 
 - El **resultado**: sin respuesta, volver a llamar, interesado, quiere propuesta, reunión, no le interesa o no contactar.
@@ -162,7 +177,7 @@ Pastelería:
 
 ## Lo que NO puedes decir
 
-- **Precios o rangos.** Ni «desde».
+- **Precios o rangos.** Ni «desde». (Excepción: el setter con IA, donde sí se explica cómo se paga.)
 - **Clientes o resultados que no sean verdad.** Los casos son Personal Fit, Tixola y Bin & Cami. No inventes cifras.
 - **Que el agente de voz por teléfono ya está funcionando en un cliente.** Todavía no lo está.
 - **Nada sobre datos de salud** sin Nico delante.

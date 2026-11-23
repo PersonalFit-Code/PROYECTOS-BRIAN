@@ -66,3 +66,5 @@ y Extremadura. Next.js + Supabase, con la marca neuro·node. El plan completo es
 - La tanda no llama, no escribe a nadie, no borra y no publica.
 
 - **Lote 2 (22/11):** 40 infoproductores y coaches cargados (`comercial/neuronode/leads/lote2-infoproducto.csv`), sin día asignado. Salen de extractos de búsqueda: falta abrir cada web para completar Instagram, correo y teléfono. Los créditos diarios de Firecrawl dan para unas 18 búsquedas: es el límite real de la tanda.
+
+- **Setter con IA (23/11):** el guion de infoproductores y coaches sigue ahora el documento interno de Nico: producto que ya funciona, el cliente lo configura él, la IA la paga aparte y no hay tope de mensajes. La ficha enseña las preguntas para cualificar y las de precio. Ni las cifras ni la competencia van en el repositorio (es público).
