@@ -37,7 +37,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 text-[14px] font-semibold text-white/85 underline-offset-4 transition hover:text-white hover:underline"
           >
-            <span className="grid size-8 place-items-center rounded-full bg-[#25d366] text-white transition group-hover:scale-110 group-hover:rotate-[-8deg]">
+            <span className="grid size-8 place-items-center rounded-full bg-whatsapp text-white transition group-hover:scale-110 group-hover:rotate-[-8deg]">
               <IconoWhatsApp className="size-4" />
             </span>
             ¿Dudas? Escríbenos por WhatsApp

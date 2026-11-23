@@ -46,7 +46,7 @@ export default function Resenas({ tema, titulo = "Lo que dicen de 720" }: { tema
             <p data-reveal className="etiqueta text-white/55">
               Reseñas reales de Google
             </p>
-            <h2 id="titulo-resenas" data-reveal className="titular mt-4 text-[clamp(2.3rem,4.4vw,3.4rem)]">
+            <h2 id="titulo-resenas" data-reveal className="titular mt-4 text-titulo-1">
               {titulo}
             </h2>
           </div>

@@ -202,7 +202,7 @@ export default function TuPlan() {
                 Inscribirme con este plan <ArrowRight className="size-4" aria-hidden />
               </Link>
             )}
-            <a href={wa(mensaje)} target="_blank" rel="noopener noreferrer" className="group inline-flex h-[52px] items-center justify-center gap-2 rounded-full bg-[#25d366] px-5 text-[15px] font-semibold text-white transition hover:scale-[1.02] active:scale-95">
+            <a href={wa(mensaje)} target="_blank" rel="noopener noreferrer" className="group inline-flex h-[52px] items-center justify-center gap-2 rounded-full bg-whatsapp px-5 text-[15px] font-semibold text-white transition hover:scale-[1.02] active:scale-95">
               <IconoWhatsApp className="size-5 transition group-hover:rotate-[-10deg]" /> Pregúntalo por WhatsApp
             </a>
           </div>
@@ -238,7 +238,7 @@ export default function TuPlan() {
           <p data-reveal className="etiqueta text-white/55">
             Test rápido
           </p>
-          <h2 id="titulo-tuplan" data-reveal className="titular mt-4 text-[clamp(2.3rem,4.4vw,3.4rem)]">
+          <h2 id="titulo-tuplan" data-reveal className="titular mt-4 text-titulo-1">
             Tu plan en 30 segundos
           </h2>
           <p data-reveal className="mt-4 max-w-sm text-[15.5px] leading-relaxed text-white/65">

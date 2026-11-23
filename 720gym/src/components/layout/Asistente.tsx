@@ -210,7 +210,7 @@ export default function Asistente() {
           className="vidrio relative grid size-16 place-items-center rounded-full text-white transition-transform hover:scale-105"
         >
           {abierto ? <X className="size-6" /> : <MessageCircle className="size-7" />}
-          {!abierto && <span className="absolute top-1 right-1 size-3 animate-pulse rounded-full bg-[#25d366] ring-2 ring-white" aria-hidden />}
+          {!abierto && <span className="absolute top-1 right-1 size-3 animate-pulse rounded-full bg-whatsapp ring-2 ring-white" aria-hidden />}
         </button>
       </div>
 
@@ -230,7 +230,7 @@ export default function Asistente() {
           <div className="flex-1">
             <p className="subtitular text-[20px]">Asistente 720</p>
             <p className="flex items-center gap-1.5 text-[12px] text-white/55">
-              <span className="size-2 rounded-full bg-[#25d366]" aria-hidden /> En línea · reserva, alta y planes al momento
+              <span className="size-2 rounded-full bg-whatsapp" aria-hidden /> En línea · reserva, alta y planes al momento
             </p>
           </div>
           <button type="button" onClick={() => setAbierto(false)} className="grid size-10 place-items-center text-white/60 hover:text-white" aria-label="Cerrar">
@@ -246,7 +246,7 @@ export default function Asistente() {
                 <img src={m.imagen} alt="Foto enviada" className="mb-1.5 max-h-44 max-w-[70%] rounded-2xl rounded-br-md object-cover" />
               )}
               {m.hechos?.map((h) => (
-                <span key={h} className="hero-in mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-[#25d366]/15 px-3 py-1 text-[12.5px] font-semibold text-[#7ff0a8] ring-1 ring-[#25d366]/30">
+                <span key={h} className="hero-in mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-whatsapp/15 px-3 py-1 text-[12.5px] font-semibold text-[#7ff0a8] ring-1 ring-[#25d366]/30">
                   <Check className="size-3.5" aria-hidden /> {h}
                 </span>
               ))}

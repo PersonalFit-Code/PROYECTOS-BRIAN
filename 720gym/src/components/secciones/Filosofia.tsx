@@ -10,7 +10,7 @@ export default function Filosofia() {
           <p data-reveal className="etiqueta text-negro/50">
             La filosofía 720
           </p>
-          <h2 id="titulo-filosofia" data-reveal className="titular mt-4 text-[clamp(2.1rem,4.6vw,3.7rem)] leading-[0.97]">
+          <h2 id="titulo-filosofia" data-reveal className="titular mt-4 text-titulo-1 leading-[0.97]">
             No queremos ser un gimnasio donde simplemente <span className="resalte">vienes, entrenas y te vas.</span>
           </h2>
         </div>

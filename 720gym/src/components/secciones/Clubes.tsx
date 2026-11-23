@@ -19,7 +19,7 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
         <p data-reveal className="etiqueta text-white/55">
           Clubes que entrenan en 720
         </p>
-        <Titulo id="titulo-clubes" data-reveal className="titular mt-5 max-w-4xl text-[clamp(2.1rem,3.6vw,3.1rem)]">
+        <Titulo id="titulo-clubes" data-reveal className="titular mt-5 max-w-4xl text-titulo-2">
           Un centro vivo, de la mañana a la noche
           {pagina && <span className="sr-only">: clubes deportivos y alquiler de salas en Ourense</span>}
         </Titulo>
@@ -53,7 +53,7 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
           <div className="lg:col-span-6">
             <p data-reveal className="etiqueta text-white/55">720P · Espacios para profesionales</p>
             <h3 data-reveal className="mt-5">
-              <span className="titular block text-[clamp(2.1rem,3.6vw,3.1rem)]">¿Quieres un espacio para tu club?</span>
+              <span className="titular block text-titulo-2">¿Quieres un espacio para tu club?</span>
               <span className="subtitular mt-2 block text-[clamp(1.05rem,1.6vw,1.3rem)] text-acento">Aquí lo podrás tener.</span>
             </h3>
             <p data-reveal className="mt-6 max-w-lg text-[16px] leading-relaxed text-white/70">

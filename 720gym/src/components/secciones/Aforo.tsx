@@ -29,7 +29,7 @@ export default function Aforo() {
             Aforo limitado, ¿por qué?
           </p>
           <h2 id="titulo-aforo" data-reveal className="mt-6">
-            <span className="titular block text-[clamp(2.1rem,3.6vw,3.1rem)]">Exclusivo</span>
+            <span className="titular block text-titulo-2">Exclusivo</span>
             <span className="subtitular mt-1 block text-[clamp(1.05rem,1.6vw,1.3rem)] text-negro/55">y privado. Para ti.</span>
           </h2>
           <div data-reveal className="mt-8 max-w-xl space-y-5 text-[17px] leading-relaxed text-negro/75">

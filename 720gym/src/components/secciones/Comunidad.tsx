@@ -21,7 +21,7 @@ export default function Comunidad({ resumen = false }: { resumen?: boolean }) {
       <div className="container-page grid gap-10 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-6">
           <p data-reveal className="etiqueta text-negro/50">Comunidad</p>
-          <h2 id="titulo-comunidad" data-reveal className="titular mt-3 text-[clamp(1.9rem,3.2vw,2.6rem)]">
+          <h2 id="titulo-comunidad" data-reveal className="titular mt-3 text-titulo-3">
             720 también es la gente que entrena aquí
           </h2>
           <ul data-reveal className="mt-6 flex flex-wrap gap-2">

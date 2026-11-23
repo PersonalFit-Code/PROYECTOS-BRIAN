@@ -32,7 +32,7 @@ export default function CintaLogos({ className }: { className?: string; tono?: "
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_60%_at_20%_30%,rgb(255_255_255/0.07),transparent_70%),radial-gradient(40%_60%_at_85%_80%,rgb(255_255_255/0.06),transparent_70%)]" aria-hidden />
       <div className="container-page relative">
         <p className="etiqueta text-white/45">Profesionales y clubes especializados</p>
-        <h2 id="titulo-universo" className="titular mt-3 text-[clamp(1.9rem,3.2vw,2.6rem)]">
+        <h2 id="titulo-universo" className="titular mt-3 text-titulo-3">
           Todo forma parte de <span className="texto-logo">720</span>
         </h2>
 

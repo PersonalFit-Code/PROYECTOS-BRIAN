@@ -41,7 +41,7 @@ export default function FranjaCta({
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Escríbenos por WhatsApp"
-            className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#25d366] px-4 text-[14px] font-semibold text-white transition hover:scale-[1.03] active:scale-95"
+            className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-whatsapp px-4 text-[14px] font-semibold text-white transition hover:scale-[1.03] active:scale-95"
           >
             <IconoWhatsApp className="size-5 transition group-hover:rotate-[-10deg]" />
             <span className="hidden sm:inline">WhatsApp</span>

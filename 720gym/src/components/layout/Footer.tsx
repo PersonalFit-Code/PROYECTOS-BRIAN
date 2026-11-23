@@ -30,16 +30,6 @@ export default function Footer() {
                 </li>
               ))}
               <li className="pt-2">
-                <Link href="/horario" className="text-white/75 hover:text-white">
-                  Horario
-                </Link>
-              </li>
-              <li>
-                <Link href="/tarifas" className="text-white/75 hover:text-white">
-                  Tarifas
-                </Link>
-              </li>
-              <li>
                 <Link href="/club" className="text-white/75 hover:text-white">
                   El club
                 </Link>

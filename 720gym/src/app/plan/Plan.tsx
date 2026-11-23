@@ -44,7 +44,7 @@ export default function Plan() {
         <div className="flex flex-wrap items-end justify-between gap-6 border-b border-negro/10 pb-8">
           <div>
             <Logo tono="negro" className="text-[22px]" />
-            <h1 className="titular mt-6 text-[clamp(2.4rem,5vw,3.6rem)]">Tu plan de 4 semanas</h1>
+            <h1 className="titular mt-6 text-titulo-1">Tu plan de 4 semanas</h1>
             <p className="mt-2 text-[16px] text-negro/65">
               Para {plan.nombre} · {plan.objetivo} · nivel {plan.nivel} · {plan.dias_por_semana} días por semana
             </p>

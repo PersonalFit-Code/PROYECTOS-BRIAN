@@ -22,7 +22,7 @@
    * ficha. `--marca` es el que se pinta: SOLO vale en los apartados claros; la página es oscura por
    * defecto y ahí queda en un gris claro neutro, porque el naranja sobre negro rompe.
    */
-  --marca-base: #d77455;
+  --marca-base: var(--color-naranja);
   --marca: rgb(255 255 255 / 0.5);
   --acento: #ffffff;
   --acento-oscuro: #d9d9db;
@@ -85,6 +85,13 @@
 }
 
 @theme {
+  /* Naranja de 720 (el de Brais). Se usa a través de --marca; como utilidad, `border-naranja`, etc. */
+  --color-naranja: #d77455;
+  --color-whatsapp: #25d366;
+  /* Escala de titulares: tres tamaños para toda la web (más el de portada). */
+  --text-titulo-1: clamp(2.3rem, 4.6vw, 3.7rem);
+  --text-titulo-2: clamp(2.1rem, 3.6vw, 3.1rem);
+  --text-titulo-3: clamp(1.9rem, 3.2vw, 2.6rem);
   --color-negro: #0e0e0f;
   --color-suelo: #1a1a1c;
   --color-suelo-2: #232326;
@@ -218,14 +225,14 @@ body {
 }
 @media (hover: hover) {
   .ficha-clara:hover {
-    border-color: #d77455;
-    background-color: color-mix(in srgb, #d77455 8%, white);
+    border-color: var(--color-naranja);
+    background-color: color-mix(in srgb, var(--color-naranja) 8%, white);
     box-shadow: 0 20px 44px -26px rgb(215 116 85 / 0.7);
     transform: translateY(-3px);
   }
 }
 .ficha-clara:focus-within {
-  border-color: #d77455;
+  border-color: var(--color-naranja);
 }
 /* Disco de pesas: el icono va en el centro; al pasar por la ficha, gira y se pone naranja. */
 .disco {
@@ -249,11 +256,11 @@ body {
 }
 @media (hover: hover) {
   .ficha-clara:hover .disco {
-    border-color: #d77455;
+    border-color: var(--color-naranja);
     transform: rotate(90deg);
   }
   .ficha-clara:hover .disco > span {
-    background: #d77455;
+    background: var(--color-naranja);
   }
 }
 
@@ -415,6 +422,10 @@ body {
   transform: none;
 }
 
+.boton-venta,
+.boton-info {
+  border-radius: 9999px;
+}
 .boton-venta {
   color: var(--acento-tinta);
   background:

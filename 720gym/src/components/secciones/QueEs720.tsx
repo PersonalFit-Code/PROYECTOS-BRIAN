@@ -19,7 +19,7 @@ export default function QueEs720() {
             <p data-reveal className="etiqueta text-negro/50">
               Qué es 720
             </p>
-            <h2 id="titulo-que-es" data-reveal className="titular mt-4 text-[clamp(2.3rem,5vw,4rem)] leading-[0.95]">
+            <h2 id="titulo-que-es" data-reveal className="titular mt-4 text-titulo-1 leading-[0.95]">
               Un espacio. <span className="resalte">Diferentes formas</span> de entrenar.
             </h2>
           </div>

@@ -147,7 +147,7 @@ export default function Horario({
             <p data-reveal className={cn("etiqueta", cr ? "text-carbon/55" : "text-white/50")}>
               Semana tipo · reserva en un toque
             </p>
-            <Titulo id={`titulo-${id}`} data-reveal className="titular mt-3 text-[clamp(1.9rem,3.2vw,2.6rem)]">
+            <Titulo id={`titulo-${id}`} data-reveal className="titular mt-3 text-titulo-3">
               {titulo}
             </Titulo>
           </div>
@@ -256,7 +256,7 @@ export function ClasesHoy() {
         <div className="flex items-end justify-between gap-4">
           <div>
             <p data-reveal className="etiqueta text-white/50">{cuando} en 720</p>
-            <h2 id="titulo-hoy" data-reveal className="titular mt-3 text-[clamp(1.9rem,3.2vw,2.6rem)]">
+            <h2 id="titulo-hoy" data-reveal className="titular mt-3 text-titulo-3">
               Próximas clases
             </h2>
           </div>

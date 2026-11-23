@@ -15,7 +15,7 @@ export default function Intro({ pagina = false }: { pagina?: boolean }) {
           </p>
           <Titulo id="titulo-intro" data-reveal className="mt-6">
             <span className="subtitular block text-[clamp(1.05rem,1.6vw,1.3rem)] text-negro/55">Sin agobios. Sin postureo.</span>
-            <span className="titular mt-2 block text-[clamp(2.4rem,4.6vw,3.6rem)]">Tu lugar.</span>
+            <span className="titular mt-2 block text-titulo-1">Tu lugar.</span>
           </Titulo>
           <div data-reveal className="mt-8 max-w-xl space-y-5 text-[17px] leading-relaxed text-negro/75">
             <p>
@@ -37,7 +37,7 @@ export default function Intro({ pagina = false }: { pagina?: boolean }) {
               ] as [React.ReactNode, string][]
             ).map(([cifra, texto]) => (
               <div key={texto} data-reveal>
-                <dt className="titular text-[clamp(1.9rem,3vw,2.6rem)] leading-none whitespace-nowrap">{cifra}</dt>
+                <dt className="titular text-titulo-3 leading-none whitespace-nowrap">{cifra}</dt>
                 <dd className="mt-2 max-w-[18ch] text-[14px] text-negro/60">{texto}</dd>
               </div>
             ))}

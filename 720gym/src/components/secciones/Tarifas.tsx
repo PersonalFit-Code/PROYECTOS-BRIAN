@@ -44,7 +44,7 @@ export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inic
             </p>
             <Titulo id="titulo-tarifas" data-reveal className="mt-5">
               <span className="subtitular block text-[clamp(1.05rem,1.6vw,1.3rem)] text-negro/55">Claras y sin letra pequeña.</span>
-              <span className="titular mt-1 block text-[clamp(2.1rem,3.6vw,3.1rem)]">Tarifas</span>
+              <span className="titular mt-1 block text-titulo-2">Tarifas</span>
             </Titulo>
           </div>
           <div data-reveal className="no-scrollbar -mx-4 flex gap-1 overflow-x-auto px-4 sm:mx-0 sm:px-0" role="tablist" aria-label="Tipo de tarifa">

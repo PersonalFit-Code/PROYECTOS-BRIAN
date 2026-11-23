@@ -21,7 +21,7 @@ export default function Disciplinas({ id, de, etiqueta, titulo, texto, tono, gra
             <p data-reveal className={cn("etiqueta", claro ? "text-negro/50" : "text-white/50")}>
               {etiqueta}
             </p>
-            <h2 id={`titulo-${id}`} data-reveal className="titular mt-4 text-[clamp(2rem,4vw,3.2rem)] leading-[0.97]">
+            <h2 id={`titulo-${id}`} data-reveal className="titular mt-4 text-titulo-2 leading-[0.97]">
               {titulo}
             </h2>
           </div>

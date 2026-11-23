@@ -12,7 +12,7 @@ export default function Equipo() {
             </p>
             <h2 id="titulo-equipo" data-reveal className="mt-5">
               <span className="subtitular block text-[clamp(1.05rem,1.6vw,1.3rem)] text-negro/55">Caras conocidas desde el primer día.</span>
-              <span className="titular mt-1 block text-[clamp(2.1rem,3.6vw,3.1rem)]">Quién te entrena</span>
+              <span className="titular mt-1 block text-titulo-2">Quién te entrena</span>
             </h2>
           </div>
           <p data-reveal className="max-w-md text-[16px] leading-relaxed text-negro/65 lg:col-span-5 lg:justify-self-end">

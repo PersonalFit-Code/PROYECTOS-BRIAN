@@ -12,7 +12,7 @@ export default function Preguntas({ pagina = false }: { pagina?: boolean }) {
       <div className="container-page grid gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <p data-reveal className="etiqueta text-negro/50">Preguntas frecuentes</p>
-          <Titulo id="titulo-preguntas" data-reveal className="titular mt-5 text-[clamp(2.1rem,3.6vw,3.1rem)]">
+          <Titulo id="titulo-preguntas" data-reveal className="titular mt-5 text-titulo-2">
             Antes de venir
             {pagina && <span className="sr-only">: preguntas frecuentes de 720 GYM CLUB en Ourense</span>}
           </Titulo>
@@ -35,7 +35,7 @@ export default function Preguntas({ pagina = false }: { pagina?: boolean }) {
               <p className="mt-1 text-[14px] text-white/60">Pregúntanos por WhatsApp o pasa a probar una clase.</p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <a href={wa("Hola, tengo una pregunta sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className="group inline-flex h-12 items-center gap-2 rounded-full bg-[#25d366] px-5 text-[14px] font-semibold transition hover:scale-[1.03] active:scale-95">
+              <a href={wa("Hola, tengo una pregunta sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className="group inline-flex h-12 items-center gap-2 rounded-full bg-whatsapp px-5 text-[14px] font-semibold transition hover:scale-[1.03] active:scale-95">
                 <IconoWhatsApp className="size-5" /> WhatsApp
               </a>
               <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-12 items-center px-6 text-[15px]">

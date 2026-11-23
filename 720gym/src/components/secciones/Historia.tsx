@@ -21,7 +21,7 @@ export default function Historia() {
           <p data-reveal className="etiqueta text-white/55">
             Nuestra historia
           </p>
-          <h2 id="titulo-historia" data-reveal className="titular mt-5 text-[clamp(2.4rem,4.6vw,3.6rem)]">
+          <h2 id="titulo-historia" data-reveal className="titular mt-5 text-titulo-1">
             Aquí no había <span className="text-acento">nada.</span>
           </h2>
           <div data-reveal className="mt-8 max-w-md space-y-4 text-[16px] leading-relaxed text-white/70">

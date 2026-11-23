@@ -31,7 +31,7 @@ const EXT = { target: "_blank", rel: "noopener noreferrer" } as const;
 
 function Desplegable({ id, Icono, titulo, resumen, abierto, children }: { id: string; Icono: typeof Users; titulo: string; resumen?: string; abierto?: boolean; children: React.ReactNode }) {
   return (
-    <details id={id} open={abierto} className="group scroll-mt-28 overflow-hidden rounded-3xl border border-negro/10 bg-white transition-colors hover:border-[#d77455] open:shadow-[0_18px_50px_-30px_rgb(0_0_0/0.35)]">
+    <details id={id} open={abierto} className="group scroll-mt-28 overflow-hidden rounded-3xl border border-negro/10 bg-white transition-colors hover:border-naranja open:shadow-[0_18px_50px_-30px_rgb(0_0_0/0.35)]">
       <summary className="flex cursor-pointer list-none items-center gap-4 px-5 py-4 sm:px-7 sm:py-5 [&::-webkit-details-marker]:hidden">
         <Icono className="size-7 shrink-0 text-marca" strokeWidth={1.6} aria-hidden />
         <span className="min-w-0 flex-1">
@@ -206,7 +206,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
           <p data-reveal className="etiqueta text-negro/50">
             {c.marca}
           </p>
-          <h2 id="titulo-bloque" data-reveal className="titular mt-3 max-w-3xl text-[clamp(1.9rem,3.6vw,3rem)] leading-[0.98]">
+          <h2 id="titulo-bloque" data-reveal className="titular mt-3 max-w-3xl text-titulo-2 leading-[0.98]">
             {c.bloque.titulo}
           </h2>
           {c.bloque.intro && (

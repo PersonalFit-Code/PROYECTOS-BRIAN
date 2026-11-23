@@ -17,7 +17,7 @@ export default function Contacto({ pagina = false }: { pagina?: boolean }) {
           <p data-reveal className="etiqueta text-white/55">
             Contacto
           </p>
-          <Titulo id="titulo-contacto" data-reveal className="titular mt-5 text-[clamp(2.1rem,3.6vw,3.1rem)]">
+          <Titulo id="titulo-contacto" data-reveal className="titular mt-5 text-titulo-2">
             Ven a vernos
           </Titulo>
           <ul className="mt-10 space-y-6">

@@ -70,7 +70,7 @@ export default function Galeria() {
         <div className="flex items-end justify-between gap-4">
           <div>
             <p data-reveal className="etiqueta text-white/50">Calle Río Bibei 16 · Ourense</p>
-            <h2 id="titulo-galeria" data-reveal className="titular mt-3 text-[clamp(1.9rem,3.2vw,2.6rem)]">
+            <h2 id="titulo-galeria" data-reveal className="titular mt-3 text-titulo-3">
               La sala por dentro
             </h2>
           </div>
