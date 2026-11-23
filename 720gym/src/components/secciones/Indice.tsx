@@ -11,7 +11,7 @@ import SelloConcepto from "@/components/ui/SelloConcepto";
  */
 const extra = [
   { href: "/horario", titulo: "Horario y reservas", texto: "Clases de la semana con plazas libres", Icono: CalendarClock },
-  { href: "/tarifas", titulo: "Tarifas", texto: "Desde 5 € el día o 35 €/mes", Icono: Euro },
+  { href: "/tarifas", titulo: "Tarifas", texto: "Cuotas de cada actividad", Icono: Euro },
   { href: "/clubes", titulo: "Clubes y 720P", texto: "Acrobacia, capoeira, BJJ y salas", Icono: Users },
   { href: "/preguntas", titulo: "Preguntas", texto: "Pagos, bonos y cómo llegar", Icono: HelpCircle },
 ];

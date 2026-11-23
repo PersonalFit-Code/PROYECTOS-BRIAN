@@ -11,7 +11,7 @@ const SUBDOMINIOS: Record<string, string> = {
   powerlifting: "/powerlifting",
   yoga: "/yoga",
   gimnasio: "/gimnasio",
-  entrenador: "/entrenamiento-personal",
+  entrenador: "/programa-720",
 };
 
 export function proxy(request: NextRequest) {

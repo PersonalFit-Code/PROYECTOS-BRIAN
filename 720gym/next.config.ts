@@ -40,6 +40,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/conceptos/pilates", destination: "/pilates", permanent: true },
+      { source: "/entrenamiento-personal", destination: "/programa-720", permanent: true },
+      { source: "/conceptos/entrenamiento-personal", destination: "/programa-720", permanent: true },
       { source: "/conceptos/:slug", destination: "/:slug", permanent: true },
     ];
   },

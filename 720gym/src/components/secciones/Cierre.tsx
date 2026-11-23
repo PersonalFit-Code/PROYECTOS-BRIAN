@@ -33,7 +33,7 @@ export default function Cierre() {
           Tu sitio <span className="texto-logo">te espera</span>
         </h2>
         <p data-reveal className="mx-auto mt-3 max-w-md text-[15px] text-white/65">
-          Desde 35 €/mes. Sin matrícula en Pilates. Cancela cuando quieras.
+          Sin prisas y sin masificaciones. Escríbenos y concertamos una visita.
         </p>
         <div data-reveal className="mx-auto mt-8 flex max-w-sm flex-col items-center gap-3">
           <DeslizaInscribete />

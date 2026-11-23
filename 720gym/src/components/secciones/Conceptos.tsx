@@ -32,7 +32,7 @@ export default function Conceptos({ excluir }: { excluir?: string }) {
               <div className="relative overflow-hidden">
                 <Foto
                   src={c.foto}
-                  descripcion={c.fotoDescripcion}
+                  descripcion={`Foto de ${c.titulo}`}
                   proporcion="aspect-[3/4]"
                   className="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
                   sizes="(min-width:1024px) 30vw, 78vw"

@@ -20,7 +20,7 @@ export default function Aforo() {
             espejo
             fotos={[
               { descripcion: fotos.racks.alt, src: fotos.racks.src },
-              { descripcion: "Fachada de 720 en la calle Río Bibei (pendiente del archivo)" },
+              { descripcion: fotos.entrada.alt, src: fotos.entrada.src },
             ]}
           />
         </div>
@@ -42,15 +42,17 @@ export default function Aforo() {
               y disfrutar del buen ambiente, con respeto y compañerismo.
             </p>
           </div>
-          <ul className="mt-12 grid gap-x-8 gap-y-8 sm:grid-cols-2">
+          <ul className="mt-12 grid gap-3 sm:grid-cols-2">
             {iconos.map(({ Icono, titulo, texto }) => (
-              <li key={titulo} data-reveal className="flex gap-4">
-                <span className="grid size-11 shrink-0 place-items-center bg-negro text-acento">
-                  <Icono className="size-5" aria-hidden />
+              <li key={titulo} data-reveal className="ficha-clara flex items-center gap-4 rounded-3xl border border-negro/10 bg-white p-4 sm:p-5">
+                <span className="disco size-14 shrink-0">
+                  <span className="size-8">
+                    <Icono className="size-4" aria-hidden />
+                  </span>
                 </span>
                 <span>
-                  <span className="subtitular block text-[22px]">{titulo}</span>
-                  <span className="mt-1 block text-[14px] leading-relaxed text-negro/60">{texto}</span>
+                  <span className="subtitular block text-[20px] leading-tight">{titulo}</span>
+                  <span className="mt-1 block text-[13.5px] leading-relaxed text-negro/60">{texto}</span>
                 </span>
               </li>
             ))}

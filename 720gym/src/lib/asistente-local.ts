@@ -24,7 +24,7 @@ const A = {
   entrada: { etiqueta: "Entrada diaria", href: waPlan("entrada-diaria") },
   mapa: { etiqueta: "Cómo llegar", href: negocio.comoLlegar },
   whatsapp: { etiqueta: "WhatsApp", href: `https://wa.me/${negocio.whatsapp}` },
-  personal: { etiqueta: "Entrenamiento personal", href: "/conceptos/entrenamiento-personal" },
+  personal: { etiqueta: "Programa 720", href: "/programa-720" },
 } satisfies Record<string, Accion>;
 
 const normal = (t: string) =>

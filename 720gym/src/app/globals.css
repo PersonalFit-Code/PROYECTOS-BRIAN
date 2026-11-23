@@ -190,6 +190,59 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.22em;
 }
+/*
+ * Fichas sobre fondo claro: al pasar por encima se destacan con el naranja de 720 (#D77455, el que
+ * eligió Brais; siempre ese, también en las fichas de otros colores). Solo en claro: sobre el negro
+ * no queda bien.
+ */
+.ficha-clara {
+  transition:
+    border-color 0.3s,
+    background-color 0.3s,
+    box-shadow 0.35s,
+    transform 0.35s var(--ease-out-expo);
+}
+@media (hover: hover) {
+  .ficha-clara:hover {
+    border-color: #d77455;
+    background-color: color-mix(in srgb, #d77455 8%, white);
+    box-shadow: 0 20px 44px -26px rgb(215 116 85 / 0.7);
+    transform: translateY(-3px);
+  }
+}
+.ficha-clara:focus-within {
+  border-color: #d77455;
+}
+/* Disco de pesas: el icono va en el centro; al pasar por la ficha, gira y se pone naranja. */
+.disco {
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  border: 5px solid var(--color-negro);
+  background: var(--color-blanco);
+  box-shadow: inset 0 0 0 3px var(--color-blanco), inset 0 0 0 4px rgb(14 14 15 / 0.25);
+  transition:
+    border-color 0.3s,
+    transform 0.6s var(--ease-out-expo);
+}
+.disco > span {
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--color-negro);
+  color: var(--color-blanco);
+  transition: background-color 0.3s;
+}
+@media (hover: hover) {
+  .ficha-clara:hover .disco {
+    border-color: #d77455;
+    transform: rotate(90deg);
+  }
+  .ficha-clara:hover .disco > span {
+    background: #d77455;
+  }
+}
+
 /* Punto de color delante de cada etiqueta de sección (como «● DENTRO DE 720» del boceto de Brais). */
 .etiqueta:not(.panel-raiz *, .sin-punto)::before {
   content: "";

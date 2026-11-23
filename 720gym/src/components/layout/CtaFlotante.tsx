@@ -38,7 +38,7 @@ export default function CtaFlotante() {
       </span>
       <span className="leading-tight">
         <span className="subtitular block text-[15px]">Inscríbete hoy</span>
-        <span className="block text-[12px] text-white/65">Desde 35 €/mes · plazas limitadas</span>
+        <span className="block text-[12px] text-white/65">Escríbenos y ven a conocernos</span>
       </span>
       <ArrowRight className="size-4 transition group-hover:translate-x-1" aria-hidden />
     </Link>

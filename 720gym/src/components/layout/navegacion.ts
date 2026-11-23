@@ -1,6 +1,6 @@
 import { conceptos } from "@/data/conceptos";
 
-export const enlacesConceptos = conceptos.map((c) => ({ href: c.href, nombre: c.nombre, marca: c.marca, lineas: c.lineas, icono: c.icono, logo: c.logo }));
+export const enlacesConceptos = conceptos.map((c) => ({ href: c.href, nombre: c.nombre, marca: c.marca, lineas: c.lineas, logo: c.logo }));
 
 export const navegacion = [
   { href: "/horario", nombre: "Horario" },

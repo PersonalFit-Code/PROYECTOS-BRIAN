@@ -43,7 +43,7 @@ export default function Inicio() {
       <PlegableMovil titulo="Clases de hoy" resumen="Reserva tu plaza en un toque" icono={<CalendarClock className="size-5" aria-hidden />}>
         <ClasesHoy />
       </PlegableMovil>
-      <PlegableMovil titulo="Tarifas" resumen="Desde 35 €/mes · elige tu plan" icono={<Euro className="size-5" aria-hidden />}>
+      <PlegableMovil titulo="Tarifas" resumen="Cuotas del gimnasio y de cada actividad" icono={<Euro className="size-5" aria-hidden />}>
         <TarifasDestacadas />
       </PlegableMovil>
       <Resenas />
