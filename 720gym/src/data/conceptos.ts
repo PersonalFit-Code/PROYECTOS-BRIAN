@@ -52,7 +52,8 @@ export interface Concepto {
   galeria?: { src: string; alt: string }[];
   bloque: { titulo: string; intro?: string; tarjetas: { titulo: string; texto: string }[]; pasos?: boolean; nota?: string };
   destacados?: { titulo: string; texto: string }[];
-  club?: { nombre: string; texto: string };
+  /** `web`: la página propia del club (pendiente de que Brais pase los enlaces). */
+  club?: { nombre: string; texto: string; web?: string };
   niveles?: { titulo: string; intro: string; items: { titulo: string; texto: string }[] };
   equipo?: { titulo: string; personas: Persona[] };
   horarios?: { titulo: string; grupos: { titulo?: string; lineas: string[] }[]; nota?: string; destacado?: { titulo: string; texto: string }; mensaje: string };

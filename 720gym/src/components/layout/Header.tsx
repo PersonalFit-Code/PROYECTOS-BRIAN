@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, CalendarClock, ChevronDown, Menu, X } from "lucide-react";
 import Image from "next/image";
-import { Anillas, Arrancada, Berimbau, Cinturon } from "@/components/ui/IconosMarca";
 import { fotos } from "@/data/fotos";
 import Logo from "@/components/ui/Logo";
 import { claseBoton } from "@/components/ui/Boton";
@@ -165,15 +164,6 @@ export default function Header() {
               <CalendarClock className="size-5 text-white/70" aria-hidden /> Ver el horario de clases
             </Link>
           </div>
-          <Link href="/clubes" className="col-span-12 flex items-center gap-4 rounded-2xl border-t border-white/10 px-3 pt-4 text-[13px] text-white/60 hover:text-white">
-            <span className="flex gap-1.5 text-white/70" aria-hidden>
-              <Anillas className="size-4" />
-              <Berimbau className="size-4" />
-              <Cinturon className="size-4" />
-              <Arrancada className="size-4" />
-            </span>
-            Y además: gimnasia acrobática, capoeira, jiu-jitsu brasileño y halterofilia con los clubes que entrenan en 720 →
-          </Link>
         </div>
       </div>
 

@@ -255,6 +255,11 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
               <div>
                 <p className="subtitular text-[20px] leading-tight sm:text-[23px]">{c.club.nombre}</p>
                 <p className="mt-1 text-[14.5px] text-negro/65">{c.club.texto}</p>
+                {c.club.web && (
+                  <a href={c.club.web} {...EXT} className="group mt-2 inline-flex items-center gap-1.5 text-[14px] font-bold underline decoration-marca decoration-2 underline-offset-4">
+                    Visitar la web del club <ArrowRight className="size-4 text-marca transition-transform group-hover:translate-x-1" aria-hidden />
+                  </a>
+                )}
               </div>
             </div>
           )}
