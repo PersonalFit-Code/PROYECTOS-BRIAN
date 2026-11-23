@@ -67,7 +67,7 @@ export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inic
                 <li key={t.nombre} className={cn("flex flex-col p-7", t.destacada ? "bg-negro text-white" : "bg-white")}>
                   <div className="flex min-h-6 items-center justify-between gap-2">
                     <p className="etiqueta opacity-60">{t.tipo === "entrada" ? "De paso" : "Cuota"}</p>
-                    {t.etiqueta && <span className="bg-acento px-2 py-1 text-[10px] font-bold tracking-wider text-acento-tinta uppercase">{t.etiqueta}</span>}
+                    {t.etiqueta && <span className="bg-marca px-2 py-1 text-[10px] font-bold tracking-wider text-negro uppercase">{t.etiqueta}</span>}
                   </div>
                   <h3 className="subtitular mt-6 text-[28px]">{t.nombre}</h3>
                   <p className="mt-3 flex items-baseline gap-1.5">

@@ -42,7 +42,7 @@ export default function Comunidad({ resumen = false }: { resumen?: boolean }) {
               <span className="pb-1">
                 <span className="flex gap-0.5" aria-label="5 de 5 estrellas">
                   {Array.from({ length: 5 }, (_, i) => (
-                    <Star key={i} className="size-4 fill-negro text-negro" aria-hidden />
+                    <Star key={i} className="size-4 fill-marca text-marca" aria-hidden />
                   ))}
                 </span>
                 <span className="mt-1 block text-[13px] text-negro/60">

@@ -24,7 +24,7 @@ const filtros: { id: Tema | "todas"; nombre: string }[] = [
 
 function Estrellas({ className }: { className?: string }) {
   return (
-    <span className={cn("inline-flex gap-0.5", className)} aria-hidden>
+    <span className={cn("inline-flex gap-0.5 text-marca", className)} aria-hidden>
       {[0, 1, 2, 3, 4].map((i) => (
         <Star key={i} className="size-full fill-current" style={{ animationDelay: `${i * 0.08}s` }} />
       ))}

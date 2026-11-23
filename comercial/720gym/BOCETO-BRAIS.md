@@ -15,6 +15,9 @@ Las marcas `(?)` son lecturas dudosas de capturas pequeñas: **confirmar antes d
 - Dentro de 720 hay varios conceptos y Brais no los lleva todos: alquila espacios a otros profesionales y clubes.
 - Objetivo: web terminada y publicada el **viernes 27/11/2026**. Dominio: 720gymclub.es.
 - Brian no cobra los cambios.
+- **El precio va lo último.** Brais no quiere que el cliente vea el precio de primeras. Orden de cada
+  concepto: qué es → quién lo imparte → cómo se trabaja → horarios → y, al final, las cuotas. Nada de
+  «desde 35 €/mes» en la portada, en botones ni en tarjetas.
 
 ## Color de cada concepto
 
@@ -373,3 +376,48 @@ Cita: «Más que jiu-jitsu, una comunidad.» Botón: Volver a Mambises BJJ.
 - Fotos reales: las del boceto parecen generadas con IA, salvo los retratos de los profesores.
 - Permiso de cada profesor para publicar su foto, nombre y trayectoria.
 - Halterofilia aparece en la web actual y no en el boceto.
+
+---
+
+## Logos enviados por Brian (23/11/2026)
+
+Circulares, en blanco sobre negro: KME Krav Maga · Andaruê · 720 Pilates · Escola Ximnasia Burgas ·
+MB Brazilian Jiu-Jitsu · CrossGym 720 · 720 Powerlifting · **720 Wushu** · 720 Yoga · **720 Entrenamiento**.
+
+- Llegaron como imágenes dentro del chat y **no quedaron guardadas como archivos**: hay que volver a
+  pedirlas (y las fotos de los profesores) como archivos.
+- «720 Wushu» no tiene ficha en el boceto: preguntar si va en la web.
+- «720 Entrenamiento» parece la marca del gimnasio y del Programa 720: confirmar.
+
+## Tono de voz (publicaciones de Instagram de 720)
+
+Textos reales de sus publicaciones, para escribir la web como ellos hablan.
+
+> 720 también es la gente que entrena aquí.
+> Distintas edades, distintas rutinas y objetivos personales. Cada persona con su ritmo, compartiendo las ganas de entrenar y cuidarse.
+> Estos pequeños momentos forman parte de nuestro día a día: constancia, fuerza y un ambiente cercano.
+> Si ya entrenas en 720, ¿qué es lo que más valoras del club? Nos gustaría leerte en comentarios.
+> Si todavía no nos conoces y buscas gimnasio en Ourense, escríbenos y ven a descubrir nuestro espacio.
+
+> Tu rutina merece un lugar donde sentirte a gusto.
+> En 720GYM CLUB, en Ourense, cuidamos el espacio y el ambiente para que puedas centrarte en tu entrenamiento.
+> Una sala cuidada, un número limitado de socios y un trato cercano. Para quienes valoran entrenar con tranquilidad y seguir su propia rutina.
+> ¿Qué es lo que más valoras para sentirte cómodo en un gimnasio? Te leemos en comentarios.
+> Si quieres conocer nuestra sala, escríbenos por privado y concertamos una visita.
+
+> 720GYM es un espacio para entrenar a tu ritmo.
+> Sin prisas. Sin masificaciones. Con espacio para hacer tu entrenamiento y sentirte cómodo.
+> Creemos en entrenar con constancia, cuidar el proceso y disfrutar también del lugar donde lo haces.
+> Por eso apostamos por un gimnasio cercano, con aforo limitado y un ambiente donde cada persona pueda venir, entrenar y seguir avanzando a su manera.
+> Sala de musculación y peso libre. Acceso los 365 días del año. Horario de 08:00 a 22:30 h. Acceso controlado.
+> 📍 Rúa Río Bibey, 16 · Ourense
+> Si quieres conocernos, escríbenos y concertamos una visita. Ven a conocer 720.
+> Entrena. Cuídate. Sigue creciendo.
+
+**Rasgos del tono:**
+- Tranquilo y cercano, de tú. Frases cortas. Nada de gritar ni de urgencias («plazas limitadas», «hoy»).
+- Palabras que repiten: a tu ritmo, sin masificación, aforo limitado, cercano, cuidado, constancia, a su manera.
+- La llamada a la acción es siempre **«escríbenos y concertamos una visita»** / «ven a conocer 720»: invitan a conocer, no a pagar.
+- Escriben «720GYM CLUB» junto y «Rúa Río Bibey, 16».
+- Lema en redes: «Entrena. Cuídate. Sigue creciendo.» (la web dice «Entrena. Cuídate. Crece.»; el boceto, «Creciendo»): **confirmar cuál**.
+- Datos que confirman: abierto los 365 días, de 08:00 a 22:30, acceso controlado.

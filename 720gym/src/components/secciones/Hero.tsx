@@ -46,7 +46,7 @@ export default function Hero() {
       />
       <a href="#por-que" className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1 text-[11px] font-semibold tracking-[0.2em] text-white/60 uppercase transition hover:text-white sm:flex" aria-label="Bajar a la siguiente sección">
         Descubre 720
-        <ChevronDown className="size-5 animate-bounce" aria-hidden />
+        <ChevronDown className="size-5 animate-bounce text-marca" aria-hidden />
       </a>
     </div>
   );

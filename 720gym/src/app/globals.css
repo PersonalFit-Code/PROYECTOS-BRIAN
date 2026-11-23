@@ -17,6 +17,8 @@
  * sobre fondo claro (más oscuro, para llegar a 4,5:1).
  */
 :root {
+  /* Naranja 720: solo toques pequeños (puntos, flechas, estrellas, foco). Nunca fondos grandes ni titulares. */
+  --marca: #f26a1b;
   --acento: #ffffff;
   --acento-oscuro: #d9d9db;
   --acento-tinta: #0e0e0f;
@@ -56,7 +58,12 @@
  * propio elemento, así que siguen al fondo de cada sección y a la paleta de 720 Pilates. Sin
  * `inline`, la variable se resolvía una sola vez en la raíz (blanco) y desaparecía sobre blanco.
  */
+.paleta-pilates {
+  --marca: #f6a33b;
+}
+
 @theme inline {
+  --color-marca: var(--marca);
   --color-acento: var(--acento);
   --color-acento-oscuro: var(--acento-oscuro);
   --color-acento-tinta: var(--acento-tinta);
@@ -110,11 +117,11 @@ body {
   overflow-x: clip;
 }
 ::selection {
-  background: var(--acento);
-  color: var(--acento-tinta);
+  background: var(--marca);
+  color: #0e0e0f;
 }
 :focus-visible {
-  outline: 2px solid var(--acento);
+  outline: 2px solid var(--marca);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -182,6 +189,17 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.22em;
+}
+/* Punto de color delante de cada etiqueta de sección (como «● DENTRO DE 720» del boceto de Brais). */
+.etiqueta:not(.panel-raiz *, .sin-punto)::before {
+  content: "";
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  margin-right: 0.8em;
+  border-radius: 50%;
+  background: var(--marca);
+  vertical-align: 0.06em;
 }
 
 /* Letras rellenas de foto / degradado (el recurso del logo de su dosier). */
@@ -366,6 +384,7 @@ body {
   transform: translate3d(-101%, 0, 0);
 }
 .boton-venta::after {
+  color: var(--marca);
   content: "→";
   display: inline-block;
   max-width: 0;

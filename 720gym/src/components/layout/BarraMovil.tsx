@@ -35,6 +35,7 @@ export default function BarraMovil() {
       <Link href={href} className={cn("flex flex-col items-center gap-0.5 rounded-2xl py-1.5 text-[10.5px] font-semibold transition", activa ? "text-white" : "text-white/55")} aria-current={activa ? "page" : undefined}>
         <Icono className="size-5" aria-hidden />
         {etiqueta}
+        <span className={cn("h-[3px] w-4 rounded-full transition", activa ? "bg-marca" : "bg-transparent")} aria-hidden />
       </Link>
     );
   };
