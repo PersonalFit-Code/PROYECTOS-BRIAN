@@ -673,6 +673,26 @@ export const conceptos: Concepto[] = [
     clases: ["acrobacia"],
     seo: { titulo: "Gimnasia acrobática en Ourense: Escola Ximnasia Burgas", descripcion: "Escola Ximnasia Burgas en 720GYM CLUB, Ourense: gimnasia acrobática para niños desde 3 años y adultos, con grupos por edad y nivel y preparación para competición. Primera clase gratuita." },
   },
+  {
+    /* Ficha mínima: Brais solo ha pasado el logo, el teléfono y el mensaje. Faltan texto, horarios, cuotas y fotos. */
+    slug: "lucha-de-brazos",
+    href: "/lucha-de-brazos",
+    grupo: "clubes",
+    nombre: "Lucha de brazos",
+    titulo: "Lucha de brazos",
+    marca: "BRAZOS DE PEDRA",
+    color: NARANJA,
+    logo: "/logos/brazos-de-pedra.png",
+    lineas: "Lucha de brazos (pulsos) con el club Brazos de Pedra, que entrena en 720GYM CLUB.",
+    texto: "Lucha de brazos (pulsos) con el club Brazos de Pedra, que entrena en 720GYM CLUB.",
+    chips: ["Lucha de brazos", "Pulsos", "Ourense"],
+    bloque: { titulo: "Brazos de Pedra en 720", intro: "Escríbenos y acércate a ver cómo es un entrenamiento de lucha de brazos.", tarjetas: [] },
+    club: { nombre: "Brazos de Pedra", texto: "Club de lucha de brazos de Ourense que entrena en 720GYM CLUB." },
+    conocer: { boton: "Quiero conocer Brazos de Pedra", mensaje: "Hola, os escribo desde la web de 720 Gym Club. Me gustaría conocer el club Brazos de Pedra y ver cómo es un entrenamiento de lucha de brazos. ¿Cuándo podría acercarme? Gracias." },
+    whatsapp: "34686991912",
+    actividad: "pulsos",
+    seo: { titulo: "Lucha de brazos en Ourense: Brazos de Pedra", descripcion: "Brazos de Pedra, club de lucha de brazos (pulsos) de Ourense que entrena en 720GYM CLUB. Escríbenos y ven a conocer un entrenamiento." },
+  },
 ];
 
 export function conceptoPorSlug(slug: string): Concepto | undefined {
@@ -697,4 +717,5 @@ export const actividades: { id: string; nombre: string; grupo?: "gimnasio" | "pe
   { id: "kravmaga", nombre: "Krav Maga (KME)" },
   { id: "capoeira", nombre: "Capoeira (Andaruê)" },
   { id: "acrobacia", nombre: "Gimnasia acrobática (Burgas)" },
+  { id: "pulsos", nombre: "Lucha de brazos (Brazos de Pedra)" },
 ];

@@ -193,7 +193,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
               </div>
             ) : (
               <div className="grid aspect-[4/3] place-items-center rounded-[2rem] bg-black ring-1 ring-white/10">
-                <SelloConcepto logo={c.logo} nombre={c.nombre} className="size-[62%] rounded-[2rem] ring-0" />
+                <SelloConcepto logo={c.logo} nombre={c.nombre} className="aspect-square h-[82%] rounded-[2rem] ring-0" sizes="420px" />
               </div>
             )}
           </div>
@@ -214,7 +214,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
               {c.bloque.intro}
             </p>
           )}
-          <Tarjetas c={c} />
+          {c.bloque.tarjetas.length > 0 && <Tarjetas c={c} />}
           {c.bloque.nota && <p className="mt-5 text-[14.5px] text-negro/60">{c.bloque.nota}</p>}
 
           {c.destacados && (
