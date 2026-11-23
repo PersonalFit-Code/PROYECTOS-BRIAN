@@ -74,7 +74,7 @@ function credencialesCorrectas(req: Request): boolean {
  * Deja pasar o corta. Se aplica igual a ver el panel y a marcar un pedido:
  * si una cosa esta protegida, la otra tambien.
  */
-function permitido(req: Request, res: Response): boolean {
+export function permitido(req: Request, res: Response): boolean {
   if (config.panelPassword) {
     if (credencialesCorrectas(req)) return true;
     res
@@ -94,14 +94,14 @@ function permitido(req: Request, res: Response): boolean {
 }
 
 /** El negocio al que se refiere la peticion, del query o del por defecto. */
-function leerBusinessId(valor: unknown): string {
+export function leerBusinessId(valor: unknown): string {
   return typeof valor === "string" && valor.trim() !== ""
     ? valor.trim()
     : config.defaultBusinessId;
 }
 
 /** Escapa el texto antes de meterlo en el HTML: viene de una llamada real. */
-function escapar(valor: string): string {
+export function escapar(valor: string): string {
   return valor
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")

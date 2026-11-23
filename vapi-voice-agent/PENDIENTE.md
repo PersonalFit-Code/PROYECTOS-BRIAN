@@ -62,3 +62,12 @@ Para la demo basta lo de ahora: tu ordenador, ngrok y el numero gratis de Vapi.
 - [ ] El mantenimiento promete "si algo falla, me entero yo antes": hay que tener el aviso de caida del servidor antes de cobrarlo.
 - [ ] Hoja de planes del dossier: ajustar si `npm run costes` dice que no hay margen.
 - [ ] Dossier dental: repasar las afirmaciones que no se pueden comprobar.
+
+## 6. Hilderwin (Westende, Belgica) - demo de reservas
+Montado el 23-11-2026: modo "reservas", ficha en src/db/restaurantesDeEjemplo.ts, guia en GUIA-DEMO-HILDERWIN.md.
+- [ ] Primera llamada de prueba en neerlandes y en frances (comprobar que Vapi acepta el transcriptor "multi" con palabras clave y la voz flamenca).
+- [ ] Que lo escuche alguien flamenco: acento de la voz y si suena natural.
+- [ ] Preguntarles: idioma de las llamadas, que preguntan mas, que programa de reservas usan, cuantas llamadas pierden, quien decide.
+- [ ] Fechas de vacaciones escolares flamencas (en vacaciones la cena va en dos turnos, 18:00 y 20:00).
+- [ ] Alergenos y plato del dia: hoy deja recado.
+- [ ] Numero belga si sigue adelante (papeleo como el español) y contrato de encargado del tratamiento.

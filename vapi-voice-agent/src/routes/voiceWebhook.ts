@@ -2,6 +2,7 @@ import { Router, type Request, type Response } from "express";
 
 import { buildAssistant } from "../assistant";
 import { buildAssistantCitas } from "../assistantCitas";
+import { buildAssistantReservas } from "../assistantReservas";
 import {
   TOOL_BUSCAR_HUECOS,
   TOOL_RESERVAR_CITA,
@@ -11,6 +12,13 @@ import {
 import { config } from "../config";
 import { getNegocio, type Negocio } from "../db/businesses";
 import { pideCitas } from "../db/validarClinica";
+import { pideReservas, type Restaurante } from "../db/restaurante";
+import {
+  TOOL_DEJAR_RECADO,
+  TOOL_REGISTRAR_RESERVA,
+  dejarRecado,
+  registrarReserva,
+} from "../reservas/herramientas";
 import { calendarioDeGoogle } from "../google/cliente";
 import { guardarResumenLlamada } from "../db/calls";
 import {
@@ -72,6 +80,9 @@ async function ejecutarHerramienta(
   if (pideCitas(negocio)) {
     return ejecutarHerramientaCita(negocio, nombre, argumentos, callId);
   }
+  if (pideReservas(negocio)) {
+    return ejecutarHerramientaReserva(negocio, nombre, argumentos, callId, telefonoLlamada);
+  }
   return ejecutarHerramientaPedido(negocio, nombre, argumentos, callId, telefonoLlamada);
 }
 
@@ -97,6 +108,26 @@ async function ejecutarHerramientaCita(
     default:
       console.warn(`[voice-webhook] herramienta sin implementar: ${nombre}`, argumentos);
       return `La herramienta "${nombre}" no esta disponible.`;
+  }
+}
+
+/** Las dos herramientas de un restaurante con reservas. */
+async function ejecutarHerramientaReserva(
+  restaurante: Restaurante,
+  nombre: string,
+  argumentos: Record<string, unknown>,
+  callId: string,
+  telefonoLlamada: string,
+): Promise<string> {
+  const contexto = { restaurante, callId, telefonoLlamada, ahora: new Date() };
+  switch (nombre) {
+    case TOOL_REGISTRAR_RESERVA:
+      return registrarReserva(contexto, argumentos);
+    case TOOL_DEJAR_RECADO:
+      return dejarRecado(contexto, argumentos);
+    default:
+      console.warn(`[voice-webhook] herramienta sin implementar: ${nombre}`, argumentos);
+      return `The tool "${nombre}" is not available.`;
   }
 }
 
@@ -202,6 +233,12 @@ function mensajeDeTardanza(nombre: string): string {
   }
   if (nombre === TOOL_RESERVAR_CITA) {
     return "NO se ha podido poner la cita: el sistema ha tardado demasiado. Pide disculpas y dile que le llaman en seguida para confirmarsela. NO se la des por hecha.";
+  }
+  if (nombre === TOOL_REGISTRAR_RESERVA) {
+    return "The reservation could NOT be registered: the system took too long. Apologise, do NOT say it is booked, and take a message instead so the restaurant calls back.";
+  }
+  if (nombre === TOOL_DEJAR_RECADO) {
+    return "The message could NOT be saved: the system took too long. Apologise and ask the caller to call the restaurant again during opening hours.";
   }
   if (nombre === TOOL_REGISTRAR_PEDIDO) {
     return "NO se ha podido registrar el pedido: el sistema ha tardado demasiado. Pide disculpas y dile que llame ahora al restaurante para confirmarlo con una persona. No le digas que esta cerrado.";
@@ -336,7 +373,9 @@ async function atender(req: Request, res: Response): Promise<void> {
       const respuesta: VapiAssistantResponse = {
         assistant: pideCitas(negocio)
           ? buildAssistantCitas(negocio, businessId)
-          : buildAssistant(negocio, businessId, telefonoDelCliente(message)),
+          : pideReservas(negocio)
+            ? buildAssistantReservas(negocio, businessId, telefonoDelCliente(message))
+            : buildAssistant(negocio, businessId, telefonoDelCliente(message)),
       };
       res.json(respuesta);
       return;

@@ -174,6 +174,12 @@ export const config = {
   /** Velocidad al hablar, de 0,7 a 1,2. Solo ElevenLabs. */
   vozVelocidad: readVelocidad(process.env.VOZ_VELOCIDAD),
   /**
+   * Voz de ElevenLabs para los restaurantes con reservas, en lugar de la que
+   * trae su ficha. Sirve para probar otra en una demo sin tocar el codigo.
+   * Vacio = la de la ficha (en Hilderwin, una voz flamenca).
+   */
+  vozReservasId: process.env.VOZ_RESERVAS_ID?.trim() || "",
+  /**
    * Cuantas palabras tiene que decir el cliente para que el agente se calle.
    * 0 es callarse con cualquier sonido: suena muy natural con auricular, pero
    * con el manos libres el agente se oye a si mismo y se corta solo. 1 o 2 lo

@@ -355,8 +355,14 @@ export function construirVoz(opciones: {
   voiceId: string;
   modelo: string;
   velocidad: number;
+  /**
+   * Idioma que se fuerza en flash v2.5. Por defecto el castellano. null = no
+   * se fuerza ninguno, para un negocio que atiende en varios idiomas: la voz
+   * lee cada frase en el idioma en que este escrita.
+   */
+  idioma?: string | null;
 }): Record<string, unknown> {
-  const { proveedor, voiceId, modelo, velocidad } = opciones;
+  const { proveedor, voiceId, modelo, velocidad, idioma = "es" } = opciones;
   const base = { provider: proveedor, voiceId };
 
   if (proveedor !== "11labs") return base;
@@ -366,7 +372,7 @@ export function construirVoz(opciones: {
     model: modelo,
     // El idioma solo se puede forzar en flash v2.5. En los demas modelos
     // Vapi devuelve error si se manda, asi que ni se incluye.
-    ...(modelo === "eleven_flash_v2_5" ? { language: "es" } : {}),
+    ...(modelo === "eleven_flash_v2_5" && idioma ? { language: idioma } : {}),
     speed: velocidad,
     // Estos dos valores se eligen por latencia, no por gusto. En una llamada
     // el audio va en streaming: si el generador tarda mas de lo que dura el

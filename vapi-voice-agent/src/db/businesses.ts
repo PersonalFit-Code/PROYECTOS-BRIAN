@@ -14,14 +14,16 @@ import { CLINICAS_DE_EJEMPLO } from "./clinicasDeEjemplo";
 import { fallbackBusiness } from "./fallbackBusiness";
 import { EJEMPLOS } from "./negociosDeEjemplo";
 import { firestore } from "./firebase";
+import { camposQueFaltanRestaurante, esRestaurante, pideReservas, type Restaurante } from "./restaurante";
+import { RESTAURANTES_DE_EJEMPLO } from "./restaurantesDeEjemplo";
 import type { Accion, Business } from "./types";
 import { camposQueFaltanClinica, esClinica, pideCitas } from "./validarClinica";
 
 /**
- * Los dos tipos de negocio que atiende el mismo servidor. Se distinguen por el
- * campo "modo" del documento: sin el, es un negocio de pedidos.
+ * Los tres tipos de negocio que atiende el mismo servidor. Se distinguen por
+ * el campo "modo" del documento: "citas", "reservas", o sin el, pedidos.
  */
-export type Negocio = Business | Clinica;
+export type Negocio = Business | Clinica | Restaurante;
 
 const COLECCION = "businesses";
 
@@ -205,6 +207,12 @@ function esBusiness(valor: unknown): valor is Business {
  * con la carta de muestra.
  */
 export async function getNegocio(id: string): Promise<Negocio> {
+  // Los restaurantes de demostracion viven en el codigo y se piden por su id.
+  // Sin Firestore se sirven directamente; con Firestore, solo si alli no hay
+  // un documento con ese id (ver mas abajo).
+  const restauranteDemo = RESTAURANTES_DE_EJEMPLO[id.trim()];
+  if (!firestore && restauranteDemo) return restauranteDemo;
+
   if (!firestore) {
     // Sin Firestore solo se servia el negocio de respaldo, asi que no habia
     // forma de probar una llamada real contra la carta de un negocio
@@ -213,10 +221,11 @@ export async function getNegocio(id: string): Promise<Negocio> {
     // configurado esto no se mira, para que un despiste en el .env no pueda
     // tapar un negocio de verdad.
     const pedido = config.negocioDeEjemplo;
-    const deEjemplo: Negocio | undefined = EJEMPLOS[pedido] ?? CLINICAS_DE_EJEMPLO[pedido];
+    const deEjemplo: Negocio | undefined =
+      EJEMPLOS[pedido] ?? CLINICAS_DE_EJEMPLO[pedido] ?? RESTAURANTES_DE_EJEMPLO[pedido];
     if (!avisadoSinFirebase) {
       if (pedido && !deEjemplo) {
-        const hay = [...Object.keys(EJEMPLOS), ...Object.keys(CLINICAS_DE_EJEMPLO)].join(", ");
+        const hay = [...Object.keys(EJEMPLOS), ...Object.keys(CLINICAS_DE_EJEMPLO), ...Object.keys(RESTAURANTES_DE_EJEMPLO)].join(", ");
         console.warn(`NEGOCIO_DE_EJEMPLO="${pedido}" no existe. Los que hay: ${hay}.`);
       }
       console.warn(
@@ -258,6 +267,11 @@ export async function getNegocio(id: string): Promise<Negocio> {
       return fallbackBusiness;
     }
 
+    if (!documento.exists && restauranteDemo) {
+      cache.set(buscado, { negocio: restauranteDemo, expira: Date.now() + TTL_MS });
+      return restauranteDemo;
+    }
+
     if (!documento.exists) {
       // El panel pregunta cada pocos segundos: se avisa una vez por negocio
       // y la respuesta se guarda como cualquier otra, para no repetir ni el
@@ -280,6 +294,17 @@ export async function getNegocio(id: string): Promise<Negocio> {
     // El modo decide con que reglas se comprueba. Una clinica no tiene carta
     // ni gastos de envio, asi que pasarla por el validador de pedidos la
     // daria por rota siempre.
+    if (pideReservas(datos)) {
+      if (!esRestaurante(datos)) {
+        console.error(
+          `El restaurante "${buscado}" tiene datos incompletos, usando ${restauranteDemo ? "el de demostracion" : "negocio de ejemplo"}. Campos con problemas: ${camposQueFaltanRestaurante(datos).join(", ")}`,
+        );
+        return restauranteDemo ?? fallbackBusiness;
+      }
+      cache.set(buscado, { negocio: datos, expira: Date.now() + TTL_MS });
+      return datos;
+    }
+
     if (pideCitas(datos)) {
       if (!esClinica(datos)) {
         console.error(
@@ -319,8 +344,8 @@ export async function getNegocio(id: string): Promise<Negocio> {
  */
 export async function getBusiness(id: string): Promise<Business> {
   const negocio = await getNegocio(id);
-  if (pideCitas(negocio)) {
-    console.warn(`"${id}" es una clinica y se ha pedido como negocio de pedidos.`);
+  if (pideCitas(negocio) || pideReservas(negocio)) {
+    console.warn(`"${id}" no es un negocio de pedidos y se ha pedido como tal.`);
     return fallbackBusiness;
   }
   return negocio;
