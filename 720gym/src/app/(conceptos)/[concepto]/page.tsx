@@ -277,8 +277,11 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
           </div>
           <ul className="no-scrollbar mt-7 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 sm:px-6 lg:container-page lg:gap-4">
             {c.galeria.map((f) => (
-              <li key={f.src} className="relative h-64 w-[78vw] shrink-0 snap-start overflow-hidden rounded-3xl bg-suelo sm:h-80 sm:w-[44vw] lg:w-[28rem]">
-                <Image src={f.src} alt={f.alt} fill sizes="(min-width:1024px) 28rem, 78vw" className="object-cover" />
+              <li
+                key={f.src}
+                className={`relative h-64 shrink-0 snap-start overflow-hidden rounded-3xl bg-suelo sm:h-80 ${f.vertical ? "w-48 sm:w-60" : "w-[78vw] sm:w-[44vw] lg:w-[28rem]"}`}
+              >
+                <Image src={f.src} alt={f.alt} fill sizes={f.vertical ? "15rem" : "(min-width:1024px) 28rem, 78vw"} className="object-cover" />
               </li>
             ))}
           </ul>

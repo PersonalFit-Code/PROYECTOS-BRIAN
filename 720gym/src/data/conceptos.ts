@@ -49,7 +49,7 @@ export interface Concepto {
   texto: string;
   chips: string[];
   foto?: string;
-  galeria?: { src: string; alt: string }[];
+  galeria?: { src: string; alt: string; vertical?: boolean }[];
   bloque: { titulo: string; intro?: string; tarjetas: { titulo: string; texto: string }[]; pasos?: boolean; nota?: string };
   destacados?: { titulo: string; texto: string }[];
   /** `web`: la página propia del club (pendiente de que Brais pase los enlaces). */
@@ -181,7 +181,7 @@ export const conceptos: Concepto[] = [
     texto: "Dos formas de practicar Pilates en grupos reducidos, con atención cercana y ejercicios adaptados a tu nivel.",
     chips: ["Grupos reducidos", "Máximo 6 personas", "Trabajo adaptado"],
     foto: fotos.pilatesReformer.src,
-    galeria: [fotos.pilatesReformer, fotos.pilatesWallUnit, fotos.pistaPilates],
+    galeria: [fotos.pilatesClaseReformer, fotos.pilatesClaseWallUnit, fotos.pilatesClaseFitball, fotos.pilatesReformer, fotos.pilatesWallUnit, fotos.pistaPilates],
     bloque: {
       titulo: "Dos formas de practicar Pilates",
       tarjetas: [
@@ -394,13 +394,13 @@ export const conceptos: Concepto[] = [
     titulo: "Powerlifting",
     marca: "720 POWERLIFTING",
     color: NARANJA,
-    logo: "/logos/720-powerlifting.png",
+    logo: "/logos/720p.png",
     lineas: "Fuerza, técnica y progresión. Sentadilla, press de banca y peso muerto con material de competición.",
     lema: "Fuerza, técnica y progresión",
     texto: "Entrena los tres movimientos del powerlifting en un espacio preparado para mejorar tu técnica, desarrollar tu fuerza y acercarte a la competición.",
     chips: ["Sentadilla", "Press de banca", "Peso muerto"],
-    foto: fotos.racks.src,
-    galeria: [fotos.racks, fotos.sala, fotos.entrada],
+    foto: fotos.powerPortada.src,
+    galeria: [fotos.powerPesoMuerto, fotos.powerSeleccion, fotos.powerSentadilla, fotos.racks, fotos.sala, fotos.entrada],
     bloque: {
       titulo: "Los tres movimientos",
       tarjetas: [
@@ -634,12 +634,14 @@ export const conceptos: Concepto[] = [
         {
           nombre: "Yolanda García Sequeiros",
           apodo: "Yoli",
+          foto: "/fotos/equipo/yoli.webp",
           rol: "Entrenadora de gimnasia acrobática · Fisioterapeuta",
           resumen: "Vinculada a la gimnasia desde los 6 años, ha sido gimnasta en diferentes niveles de competición y se ha formado como entrenadora de gimnasia acrobática. En 720GYM dirige parte de la escuela y las clases para adultos, ayudando a cada persona a desarrollar sus capacidades, su agilidad y la confianza en su cuerpo.",
           sellos: ["Experiencia como gimnasta", "Entrenadora en todos los niveles", "Graduada en Fisioterapia"],
         },
         {
           nombre: "Iria Do Nascimento Penín",
+          foto: "/fotos/equipo/iria.webp",
           rol: "Entrenadora y jueza de gimnasia acrobática",
           resumen: "Con más de 15 años sobre el tapiz, ha competido en gimnasia acrobática y trampolín, logrando medallas en campeonatos autonómicos, nacionales e internacionales. Su forma de enseñar une progresión, confianza, disciplina y trabajo en equipo.",
           sellos: ["Más de 15 años de experiencia", "Entrenadora de gimnasia acrobática", "Jueza autonómica y nacional", "Graduada en Educación Social"],
