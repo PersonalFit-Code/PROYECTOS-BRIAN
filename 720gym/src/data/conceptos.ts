@@ -191,7 +191,10 @@ export const conceptos: Concepto[] = [
     equipo: { titulo: "Conoce a tu profesora", personas: [beaPilates] },
     horarios: {
       titulo: "Horarios de Pilates",
-      grupos: [{ lineas: ["Lunes · tarde", "Martes · mañana y tarde", "Miércoles · mañana y tarde", "Jueves · mañana y tarde"] }],
+      grupos: [
+        { titulo: "Mañana", lineas: ["Martes y jueves · 09:00 y 10:00", "Miércoles · 10:00"] },
+        { titulo: "Tarde", lineas: ["Lunes · 17:00, 18:00, 19:00, 20:00 y 21:00", "Martes y jueves · 17:00, 18:00, 19:00 y 20:00", "Miércoles · 18:00, 19:00, 20:00 y 21:00"] },
+      ],
       nota: "Los horarios y la disponibilidad pueden variar durante el curso.",
       destacado: { titulo: "Primera clase gratuita", texto: "La primera clase nos permite conocerte y valorar tu nivel. A partir de ahí, la profesora te orientará sobre la modalidad y el grupo que mejor encajan contigo." },
       mensaje: "Hola, he visto en la web los horarios de 720 Pilates y me gustaría consultar la disponibilidad. ¿Podríais orientarme sobre las modalidades y los grupos que tienen plazas actualmente? Gracias.",
@@ -302,8 +305,11 @@ export const conceptos: Concepto[] = [
       ],
     },
     horarios: {
-      titulo: "Horarios de mañana y tarde",
-      grupos: [{ lineas: ["De 08:00 a 22:30"] }],
+      titulo: "Horarios de Yoga",
+      grupos: [
+        { titulo: "Mañana", lineas: ["Lunes y miércoles · 10:00 – 11:00"] },
+        { titulo: "Tarde", lineas: ["Lunes y miércoles · 20:00 – 21:00"] },
+      ],
       nota: "Cuéntanos qué días y horas te encajan. Te informamos de las opciones de grupo y las plazas disponibles.",
       mensaje: "Hola, he visto en la web los horarios de 720 Yoga y me gustaría consultar la disponibilidad. ¿Podríais indicarme qué grupos tienen plazas actualmente? Gracias.",
     },
@@ -361,8 +367,11 @@ export const conceptos: Concepto[] = [
     },
     horarios: {
       titulo: "Horarios de CrossGym",
-      grupos: [{ lineas: ["Clases de 60 minutos en diferentes turnos de mañana y tarde"] }],
-      nota: "Las plazas se organizan mediante reserva previa y los grupos tienen un máximo de seis personas.",
+      grupos: [
+        { titulo: "Mañana", lineas: ["Lunes, miércoles y jueves · dos turnos entre las 09:00 y las 11:00"] },
+        { titulo: "Tarde", lineas: ["Lunes, miércoles y jueves · 16:30, 17:30, 18:30 y 19:30"] },
+      ],
+      nota: "Clases de 60 minutos. Las plazas se organizan mediante reserva previa y los grupos tienen un máximo de seis personas.",
       mensaje: "Hola, he visto en la web la información sobre CrossGym y me gustaría consultar la disponibilidad. ¿Podríais indicarme qué turnos tienen plazas actualmente? Gracias.",
     },
     cuotas: {
@@ -634,7 +643,8 @@ export const conceptos: Concepto[] = [
     horarios: {
       titulo: "Horarios de gimnasia acrobática",
       grupos: [
-        { titulo: "Competición", lineas: ["Miércoles y viernes · 16:30 – 20:00"] },
+        { titulo: "Psicomotricidad · 3 a 5 años", lineas: ["Lunes y jueves · 17:00 – 18:00"] },
+        { titulo: "Competición", lineas: ["Martes · 16:30 – 18:30", "Miércoles y viernes · 16:30 – 20:00"] },
         { titulo: "Escuela de iniciación", lineas: ["Martes y jueves · 18:30 – 19:30"] },
         { titulo: "Acrobacia +12 años", lineas: ["Lunes · 18:30 – 20:00"] },
         { titulo: "Acrobacia adultos +18", lineas: ["Lunes · 21:00 – 22:00", "Martes · 19:30 – 20:30"] },
