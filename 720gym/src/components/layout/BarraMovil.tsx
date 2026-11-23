@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CalendarClock, Euro, Grid2x2, Home, HelpCircle, MapPin, MessageCircle, Plus, Users, X } from "lucide-react";
+import { Grid2x2, Home, HelpCircle, MapPin, MessageCircle, Plus, Users, X, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { conceptos } from "@/data/conceptos";
 import { wa } from "@/data/negocio";
@@ -96,13 +96,13 @@ export default function BarraMovil() {
       <nav aria-label="Navegación del móvil" className="vidrio vidrio-denso fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 rounded-[1.75rem] px-2 py-1.5 lg:hidden">
         <ul className="grid grid-cols-5 items-center">
           <li>{pestana("/", "Inicio", Home)}</li>
-          <li>{pestana("/horario", "Clases", CalendarClock)}</li>
+          <li>{pestana("/#grupos-reducidos", "Actividades", Users)}</li>
           <li className="flex justify-center">
             <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta sin-flecha grid size-13 -translate-y-3 place-items-center rounded-full shadow-[0_12px_30px_-8px_rgb(0_0_0/0.7)]" aria-label="Inscríbete">
               <Plus className="size-6" aria-hidden />
             </Link>
           </li>
-          <li>{pestana("/tarifas", "Tarifas", Euro)}</li>
+          <li>{pestana("/#clubes", "Clubes", Trophy)}</li>
           <li>
             <button type="button" onClick={() => setMas((v) => !v)} aria-expanded={mas} aria-controls="panel-mas" className={cn("flex w-full flex-col items-center gap-0.5 rounded-2xl py-1.5 text-[10.5px] font-semibold transition", mas ? "text-white" : "text-white/55")}>
               {mas ? <X className="size-5" aria-hidden /> : <Grid2x2 className="size-5" aria-hidden />}

@@ -137,7 +137,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
   const c = conceptoPorSlug((await params).concepto);
   if (!c) notFound();
   const numero = c.whatsapp ?? negocio.whatsapp;
-  const color = { "--marca": c.color } as CSSProperties;
+  const color = { "--marca-base": c.color } as CSSProperties;
   const equipo = c.equipo;
   const nombres = equipo?.personas.map((p) => p.nombre).join(" · ");
 

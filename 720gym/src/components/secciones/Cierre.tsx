@@ -27,7 +27,7 @@ export default function Cierre() {
           720
         </p>
         <p data-reveal className="etiqueta mt-10 text-white/55">
-          Plazas limitadas · {negocio.horario.texto.toLowerCase()}
+          Aforo limitado · {negocio.horario.texto.toLowerCase()}
         </p>
         <h2 id="titulo-cierre" data-reveal className="titular mt-3 text-[clamp(2.2rem,4.6vw,3.4rem)]">
           Tu sitio <span className="texto-logo">te espera</span>

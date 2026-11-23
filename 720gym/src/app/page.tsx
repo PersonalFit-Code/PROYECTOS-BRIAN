@@ -1,58 +1,61 @@
 import type { Metadata } from "next";
-import { CalendarClock, Euro, Images, Sparkles, Users, ShowerHead } from "lucide-react";
 import Hero from "@/components/secciones/Hero";
-import PorQue from "@/components/secciones/PorQue";
-import Indice from "@/components/secciones/Indice";
+import QueEs720 from "@/components/secciones/QueEs720";
 import Galeria from "@/components/secciones/Galeria";
-import { ClasesHoy } from "@/components/secciones/Horario";
-import TarifasDestacadas from "@/components/secciones/TarifasDestacadas";
+import Instalaciones from "@/components/secciones/Instalaciones";
+import Disciplinas from "@/components/secciones/Disciplinas";
+import Filosofia from "@/components/secciones/Filosofia";
+import Resenas from "@/components/secciones/Resenas";
 import Comunidad from "@/components/secciones/Comunidad";
 import Cierre from "@/components/secciones/Cierre";
-import Linea from "@/components/ui/Linea";
-import TuPlan from "@/components/secciones/TuPlan";
-import Resenas from "@/components/secciones/Resenas";
-import PlegableMovil from "@/components/ui/PlegableMovil";
-import FranjaCta from "@/components/ui/FranjaCta";
-import Instalaciones from "@/components/secciones/Instalaciones";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 /**
- * Portada: el hero limpio a pantalla completa y, debajo, en el móvil cada apartado es una barra
- * que se despliega (menos scroll, más sencillo); en escritorio se ve todo abierto. Entre medias,
- * franjas de acción para que siempre haya a mano «Inscríbete» y WhatsApp.
+ * Portada: va contando 720 por apartados, alternando claro y oscuro (el naranja solo en los claros).
+ * Las disciplinas se encuentran al bajar, no hay que buscarlas en el menú. Sin precios: las cuotas
+ * están al final de cada ficha, como pidió Brais.
  */
 export default function Inicio() {
   return (
     <>
       <Hero />
-      <PlegableMovil titulo="Por qué 720" resumen="Aforo limitado y abierto los 365 días" icono={<Sparkles className="size-5" aria-hidden />}>
-        <PorQue />
-      </PlegableMovil>
-      <PlegableMovil titulo="La sala por dentro" resumen="Racks, peso libre, zona funcional" icono={<Images className="size-5" aria-hidden />}>
-        <Linea />
-        <Galeria />
-      </PlegableMovil>
-      <PlegableMovil titulo="Vestuarios e instalaciones" resumen="Duchas, taquillas y acceso electrónico" icono={<ShowerHead className="size-5" aria-hidden />}>
-        <Instalaciones />
-      </PlegableMovil>
-      <FranjaCta frase="¿Te ves entrenando aquí?" detalle="Escríbenos y concertamos una visita para que conozcas el espacio." />
-      <Linea />
-      <Indice />
-      <Linea />
-      <PlegableMovil titulo="Clases de hoy" resumen="Reserva tu plaza en un toque" icono={<CalendarClock className="size-5" aria-hidden />}>
-        <ClasesHoy />
-      </PlegableMovil>
-      <PlegableMovil titulo="Tarifas" resumen="Cuotas del gimnasio y de cada actividad" icono={<Euro className="size-5" aria-hidden />}>
-        <TarifasDestacadas />
-      </PlegableMovil>
+      <QueEs720 />
+      <Galeria />
+      <Instalaciones />
+      <Disciplinas
+        id="entrena"
+        de={["libre", "plan"]}
+        tono="oscuro"
+        grande
+        etiqueta="Por libre o con un plan"
+        titulo="Entrena a tu ritmo, sabiendo qué hacer"
+        texto="Un gimnasio de aforo limitado para entrenar con autonomía y, si lo necesitas, un entrenador que te enseña y te deja una planificación clara."
+      />
+      <Disciplinas
+        id="grupos-reducidos"
+        de={["grupos"]}
+        tono="claro"
+        etiqueta="Actividades en grupos reducidos"
+        titulo={
+          <>
+            Grupos pequeños, <span className="resalte">atención cercana</span>
+          </>
+        }
+        texto="Pilates, Hipopresivos, Yoga y CrossGym dirigidos por profesionales especializados, con trabajo adaptado a cada persona."
+      />
+      <Disciplinas
+        id="clubes"
+        de={["clubes"]}
+        tono="oscuro"
+        etiqueta="Clubes y disciplinas"
+        titulo="Todo forma parte de 720"
+        texto="Cada actividad está dirigida por profesionales especializados, buscando que cada persona entrene con criterio, seguridad y el apoyo adecuado."
+      />
+      <Filosofia />
       <Resenas />
-      <FranjaCta frase="Aforo limitado: asegura tu plaza" detalle="Pocas personas por franja, a propósito. Entra antes de que se llene." boton="Quiero mi plaza" clara />
-      <PlegableMovil titulo="Comunidad" resumen="Clubes y gente que tira de ti" icono={<Users className="size-5" aria-hidden />}>
-        <Comunidad resumen />
-      </PlegableMovil>
+      <Comunidad resumen />
       <Cierre />
-      <TuPlan />
     </>
   );
 }

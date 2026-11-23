@@ -17,8 +17,13 @@
  * sobre fondo claro (más oscuro, para llegar a 4,5:1).
  */
 :root {
-  /* Naranja 720: solo toques pequeños (puntos, flechas, estrellas, foco). Nunca fondos grandes ni titulares. */
-  --marca: #d77455;
+  /*
+   * Color de marca. `--marca-base` es el naranja de 720 (#D77455, el de Brais) o el color de cada
+   * ficha. `--marca` es el que se pinta: SOLO vale en los apartados claros; la página es oscura por
+   * defecto y ahí queda en un gris claro neutro, porque el naranja sobre negro rompe.
+   */
+  --marca-base: #d77455;
+  --marca: rgb(255 255 255 / 0.5);
   --acento: #ffffff;
   --acento-oscuro: #d9d9db;
   --acento-tinta: #0e0e0f;
@@ -58,8 +63,17 @@
  * propio elemento, así que siguen al fondo de cada sección y a la paleta de 720 Pilates. Sin
  * `inline`, la variable se resolvía una sola vez en la raíz (blanco) y desaparecía sobre blanco.
  */
-.paleta-pilates {
-  --marca: #f6a33b;
+/* Apartados y piezas claras: aquí sí va el color. */
+:is(.bg-white, .bg-pared, .bg-niebla, .bg-acero, .bg-crema, .boton-venta, .con-marca) {
+  --marca: var(--marca-base);
+}
+/* Dentro de un apartado claro, lo que vuelve a ser oscuro pierde el color (menos los botones). */
+:is(.bg-white, .bg-pared, .bg-niebla, .bg-acero) :is(.bg-negro, .bg-suelo, .bg-pizarra, .bg-black):not(.boton-venta, .con-marca) {
+  --marca: rgb(255 255 255 / 0.5);
+}
+/* Palabra destacada en naranja dentro de un titular (solo sobre claro). */
+.resalte {
+  color: var(--marca);
 }
 
 @theme inline {
