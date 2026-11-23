@@ -421,3 +421,26 @@ Textos reales de sus publicaciones, para escribir la web como ellos hablan.
 - Escriben «720GYM CLUB» junto y «Rúa Río Bibey, 16».
 - Lema en redes: «Entrena. Cuídate. Sigue creciendo.» (la web dice «Entrena. Cuídate. Crece.»; el boceto, «Creciendo»): **confirmar cuál**.
 - Datos que confirman: abierto los 365 días, de 08:00 a 22:30, acceso controlado.
+
+---
+
+## WhatsApp de cada concepto (lista de Brian, 23/11/2026)
+
+Manda sobre lo anterior. Todos los mensajes empiezan por «Hola, os escribo desde la web de 720 Gym Club.»
+
+| Concepto | Teléfono |
+|---|---|
+| Gimnasio libre | 672 00 94 51 |
+| 720 Pilates | 671 31 31 62 |
+| 720 Yoga | 672 00 94 51 |
+| 720 Hipopresivos | 671 31 31 62 |
+| 720 Powerlifting | 634 29 04 51 |
+| CrossGym | 670 61 79 70 |
+| Gimnasia acrobática · Escola Ximnasia Burgas | 605 84 59 25 |
+| Club Capoeira Andaruê | 639 61 11 04 |
+| KME Krav Maga | 672 70 81 81 |
+| Mambises Brazilian Jiu-Jitsu | 680 14 24 65 |
+| Lucha de brazos (pulsos) · Brazos de Pedra | 686 99 19 12 |
+
+**Brazos de Pedra** es un club nuevo sin ficha: falta su texto, horarios, cuotas, logo y fotos. Mensaje:
+«Hola, os escribo desde la web de 720 Gym Club. Me gustaría conocer el club Brazos de Pedra y ver cómo es un entrenamiento de lucha de brazos. ¿Cuándo podría acercarme? Gracias.»

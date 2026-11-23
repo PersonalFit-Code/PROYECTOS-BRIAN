@@ -27,8 +27,8 @@ export const negocio = {
   telefono: "+34672009451",
   telefonoVisible: "672 00 94 51",
   /** WhatsApp de dudas del dosier: aquí llegan los avisos de inscripción y clase de prueba. */
-  whatsapp: "34687831286",
-  whatsappVisible: "687 83 12 86",
+  whatsapp: "34672009451",
+  whatsappVisible: "672 00 94 51",
   telefonosDosier: ["661 16 35 89", "687 83 12 86"],
   email: "720gym@gmail.com",
   instagram: "https://www.instagram.com/720gym/",
