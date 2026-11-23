@@ -12,6 +12,7 @@ export const SECTOR_TXT: Record<Sector, string> = {
 
 export const ESTADOS = [
   "pendiente",
+  "esperando",
   "sin_respuesta",
   "volver",
   "interesado",
@@ -23,6 +24,7 @@ export const ESTADOS = [
 export type Estado = (typeof ESTADOS)[number];
 export const ESTADO_TXT: Record<Estado, string> = {
   pendiente: "Pendiente",
+  esperando: "Esperando respuesta",
   sin_respuesta: "Sin respuesta",
   volver: "Volver a llamar",
   interesado: "Interesado",
@@ -34,6 +36,7 @@ export const ESTADO_TXT: Record<Estado, string> = {
 /** Color de la etiqueta de cada estado (clases definidas en globals.css). */
 export const ESTADO_TONO: Record<Estado, string> = {
   pendiente: "tono-gris",
+  esperando: "tono-ambar",
   sin_respuesta: "tono-gris",
   volver: "tono-ambar",
   interesado: "tono-verde",
@@ -47,6 +50,8 @@ export const ESTADO_TONO: Record<Estado, string> = {
 export const RESULTADOS = ESTADOS.filter((e) => e !== "pendiente") as Exclude<Estado, "pendiente">[];
 
 export const CANALES = ["llamada", "formulario", "instagram", "whatsapp", "correo", "visita"] as const;
+/** «pipeline» no es un contacto: es un cambio de columna en el tablero, guardado para el historial. */
+export type CanalHistorial = Canal | "pipeline";
 export type Canal = (typeof CANALES)[number];
 export const CANAL_TXT: Record<Canal, string> = {
   llamada: "Llamada",
@@ -56,6 +61,7 @@ export const CANAL_TXT: Record<Canal, string> = {
   correo: "Correo",
   visita: "Visita",
 };
+export const CANAL_HISTORIAL_TXT: Record<CanalHistorial, string> = { ...CANAL_TXT, pipeline: "Movido en el pipeline" };
 
 /** «Toda España» es para quien vende por internet y no depende de una zona (infoproductores y coaches). */
 export const COMUNIDADES = ["Galicia", "Andalucía", "Castilla y León", "Extremadura", "Toda España"] as const;
@@ -110,8 +116,8 @@ export interface Propuesta {
 export interface Contacto {
   id: string;
   negocio_id: string;
-  canal: Canal;
-  resultado: Exclude<Estado, "pendiente">;
+  canal: CanalHistorial;
+  resultado: Estado;
   nota: string | null;
   proxima_fecha: string | null;
   creado: string;
@@ -120,3 +126,16 @@ export interface Contacto {
 export const DIAS_RETO = 10;
 export const POR_DIA = 100;
 export const OBJETIVO = DIAS_RETO * POR_DIA;
+
+/** Columnas del pipeline. Cada una agrupa uno o varios estados; al soltar una tarjeta se pone `destino`. */
+export const COLUMNAS = [
+  { id: "por_contactar", titulo: "Por contactar", estados: ["pendiente"], destino: "pendiente" },
+  { id: "esperando", titulo: "Esperando respuesta", estados: ["esperando", "sin_respuesta"], destino: "esperando" },
+  { id: "volver", titulo: "Volver a llamar", estados: ["volver"], destino: "volver" },
+  { id: "interesado", titulo: "Interesado", estados: ["interesado"], destino: "interesado" },
+  { id: "reunion", titulo: "Reunión", estados: ["reunion"], destino: "reunion" },
+  { id: "propuesta", titulo: "Propuesta", estados: ["quiere_propuesta"], destino: "quiere_propuesta" },
+  { id: "descartado", titulo: "Descartado", estados: ["no_interesa", "no_contactar"], destino: "no_interesa" },
+] as const satisfies readonly { id: string; titulo: string; estados: readonly Estado[]; destino: Estado }[];
+export type ColumnaId = (typeof COLUMNAS)[number]["id"];
+export const columnaDe = (e: Estado): ColumnaId => COLUMNAS.find((c) => (c.estados as readonly Estado[]).includes(e))!.id;

@@ -7,8 +7,9 @@ import { AreaTexto, Boton, Card, EtiquetaEstado } from "@/components/ui";
 import { enlaceSeguro, fechaHora, telefonoBonito, webCorta } from "@/lib/formato";
 import { montarGuion, type Guion } from "@/lib/guion";
 import { getSesion } from "@/lib/sesion";
-import { CANAL_TXT, ESTADO_TXT, SECTOR_TXT, type Contacto, type Diagnostico, type Negocio, type Propuesta } from "@/lib/tipos";
+import { CANAL_HISTORIAL_TXT, ESTADO_TXT, SECTOR_TXT, type Contacto, type Diagnostico, type Negocio, type Propuesta } from "@/lib/tipos";
 import { FormContacto } from "./FormContacto";
+import { YaEscrito } from "./YaEscrito";
 import { guardarNotas } from "./acciones";
 
 export const metadata: Metadata = { title: "Ficha" };
@@ -133,6 +134,7 @@ export default async function Ficha({ params }: { params: Promise<{ id: string }
         </Bloque>
 
         <Bloque titulo="Apuntar un contacto">
+          <YaEscrito negocioId={n.id} porDefecto={n.instagram || n.sector === "infoproducto" ? "instagram" : "whatsapp"} esperando={n.estado === "esperando"} />
           <FormContacto negocioId={n.id} />
         </Bloque>
 
@@ -157,7 +159,7 @@ export default async function Ficha({ params }: { params: Promise<{ id: string }
                 <li key={c.id} className="border-b border-line pb-3 last:border-0 last:pb-0">
                   <p className="flex flex-wrap items-baseline justify-between gap-x-3">
                     <span className="font-bold">
-                      {CANAL_TXT[c.canal]} · {ESTADO_TXT[c.resultado]}
+                      {CANAL_HISTORIAL_TXT[c.canal]} · {ESTADO_TXT[c.resultado]}
                     </span>
                     <time dateTime={c.creado} className="text-sm text-muted">
                       {fechaHora(c.creado)}

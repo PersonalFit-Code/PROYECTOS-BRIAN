@@ -9,7 +9,7 @@ import { DIAS_RETO, POR_DIA, esContactado, type Estado } from "@/lib/tipos";
 export const metadata: Metadata = { title: "Hoy" };
 
 /** Los negocios del día: primero los pendientes y los de «volver a llamar». */
-const ORDEN: Record<Estado, number> = { pendiente: 0, volver: 1, sin_respuesta: 2, interesado: 3, quiere_propuesta: 4, reunion: 5, no_interesa: 6, no_contactar: 7 };
+const ORDEN: Record<Estado, number> = { pendiente: 0, volver: 1, sin_respuesta: 2, esperando: 2, interesado: 3, quiere_propuesta: 4, reunion: 5, no_interesa: 6, no_contactar: 7 };
 
 export default async function Hoy({ searchParams }: { searchParams: Promise<{ dia?: string }> }) {
   const { db } = await getSesion();

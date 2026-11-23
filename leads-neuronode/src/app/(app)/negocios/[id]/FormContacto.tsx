@@ -21,6 +21,7 @@ export function FormContacto({ negocioId }: { negocioId: string }) {
   const pideCorreo = resultado === "quiere_propuesta";
   return (
     <form action={registrarContacto} className="grid gap-4 sm:grid-cols-2">
+      <p className="text-sm font-bold text-muted sm:col-span-2">O apúntalo con más detalle:</p>
       <input type="hidden" name="negocio_id" value={negocioId} />
       <Selector etiqueta="Canal" name="canal" defaultValue="llamada">
         {CANALES.map((c) => (

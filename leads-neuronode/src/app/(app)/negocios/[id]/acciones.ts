@@ -58,3 +58,18 @@ export async function guardarNotas(form: FormData): Promise<void> {
   comprobar(await db.from("negocios").update({ notas: textoONull(form, "notas", 600) }).eq("id", negocioId), "guardar las notas");
   revalidatePath(`/negocios/${negocioId}`);
 }
+
+/** Canales por los que se le escribe a alguien (no la llamada, que tiene resultado inmediato). */
+const CANALES_ESCRITO = ["instagram", "whatsapp", "formulario"] as const;
+
+/** «Ya le he escrito»: apunta el contacto y deja el negocio esperando respuesta, sin rellenar nada más. */
+export async function yaEscrito(negocioId: string, canal: string): Promise<void> {
+  const { db, userId } = await getSesion();
+  if (!UUID.test(negocioId) || !(CANALES_ESCRITO as readonly string[]).includes(canal)) throw new Error("Datos no válidos.");
+  comprobar(await db.from("contactos").insert({ negocio_id: negocioId, canal, resultado: "esperando", usuario: userId }), "guardar el contacto");
+  comprobar(await db.from("negocios").update({ estado: "esperando", responsable: userId }).eq("id", negocioId), "actualizar el negocio");
+  revalidatePath(`/negocios/${negocioId}`);
+  revalidatePath("/pipeline");
+  revalidatePath("/");
+  revalidatePath("/panel");
+}

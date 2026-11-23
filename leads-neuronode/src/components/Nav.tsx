@@ -1,6 +1,6 @@
 "use client";
 
-import { Armchair, BarChart3, Building2, PhoneCall, Upload } from "lucide-react";
+import { Armchair, BarChart3, Building2, Columns3, PhoneCall, Upload } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,6 +8,7 @@ import { cx } from "@/lib/formato";
 
 const ENLACES = [
   { href: "/", txt: "Hoy", Icono: PhoneCall },
+  { href: "/pipeline", txt: "Pipeline", Icono: Columns3 },
   { href: "/oficina", txt: "Oficina", Icono: Armchair },
   { href: "/negocios", txt: "Negocios", Icono: Building2 },
   { href: "/panel", txt: "Panel", Icono: BarChart3 },

@@ -68,3 +68,5 @@ y Extremadura. Next.js + Supabase, con la marca neuro·node. El plan completo es
 - **Lote 2 (22/11):** 40 infoproductores y coaches cargados (`comercial/neuronode/leads/lote2-infoproducto.csv`), sin día asignado. Salen de extractos de búsqueda: falta abrir cada web para completar Instagram, correo y teléfono. Los créditos diarios de Firecrawl dan para unas 18 búsquedas: es el límite real de la tanda.
 
 - **Setter con IA (23/11):** el guion de infoproductores y coaches sigue ahora el documento interno de Nico: producto que ya funciona, el cliente lo configura él, la IA la paga aparte y no hay tope de mensajes. La ficha enseña las preguntas para cualificar y las de precio. Ni las cifras ni la competencia van en el repositorio (es público).
+
+- **Pipeline (23/11):** `/pipeline`, tablero por sector con 7 columnas (Por contactar, Esperando respuesta, Volver a llamar, Interesado, Reunión, Propuesta, Descartado). Se arrastra en el ordenador y se usa «Mover a» en el móvil. Cada movimiento queda en `contactos` con canal `pipeline`. Estado nuevo `esperando`. Botón «Ya le he escrito» en la ficha (Instagram, WhatsApp o formulario).
