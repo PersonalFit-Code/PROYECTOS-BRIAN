@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 /** Vista previa al compartir el enlace por WhatsApp o redes. */
-export const alt = "720 GYM CLUB · Entrena. Cuídate. Crece.";
+export const alt = "720 GYM CLUB · Entrena. Cuídate. Sigue creciendo.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -25,7 +25,7 @@ export default function Imagen() {
           >
             720 GYM
           </div>
-          <div style={{ display: "flex", fontSize: 64, fontWeight: 800, marginTop: 24 }}>Entrena. Cuídate. Crece.</div>
+          <div style={{ display: "flex", fontSize: 64, fontWeight: 800, marginTop: 24 }}>Entrena. Cuídate. Sigue creciendo.</div>
         </div>
         <div style={{ display: "flex", fontSize: 28, color: "rgba(255,255,255,0.75)" }}>365 días · Aforo limitado · Pilates Reformer · 5,0 en Google (64 reseñas)</div>
       </div>

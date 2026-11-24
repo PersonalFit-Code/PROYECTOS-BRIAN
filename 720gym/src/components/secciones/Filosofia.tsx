@@ -27,7 +27,7 @@ export default function Filosofia() {
         <p data-reveal className="titular flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-negro/10 pt-8 text-[clamp(1.7rem,4vw,3rem)] leading-none">
           <span>Entrena.</span>
           <span>Cuídate.</span>
-          <span className="resalte">Crece.</span>
+          <span className="resalte">Sigue creciendo.</span>
         </p>
       </div>
     </section>

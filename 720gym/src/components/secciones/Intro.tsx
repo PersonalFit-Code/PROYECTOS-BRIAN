@@ -14,7 +14,7 @@ export default function Intro({ pagina = false }: { pagina?: boolean }) {
             Un nuevo concepto de gimnasio
           </p>
           <Titulo id="titulo-intro" data-reveal className="mt-6">
-            <span className="subtitular block text-[clamp(1.05rem,1.6vw,1.3rem)] text-negro/55">Sin agobios. Sin postureo.</span>
+            <span className="subtitular block text-[clamp(1.05rem,1.6vw,1.3rem)] text-negro/55">Sin agobios. A tu ritmo.</span>
             <span className="titular mt-2 block text-titulo-1">Tu lugar.</span>
           </Titulo>
           <div data-reveal className="mt-8 max-w-xl space-y-5 text-[17px] leading-relaxed text-negro/75">

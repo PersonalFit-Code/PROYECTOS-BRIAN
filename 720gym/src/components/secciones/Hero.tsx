@@ -21,11 +21,11 @@ export default function Hero() {
         imageClassName="object-[64%_50%] lg:object-center"
         title={
           <span id="titulo-portada">
-            Entrena. Cuídate. Crece.
+            Entrena. Cuídate. Sigue&nbsp;creciendo.
             <span className="sr-only"> 720 GYM CLUB, gimnasio con aforo limitado en Ourense.</span>
           </span>
         }
-        subtitle="Un club con aforo limitado, abierto los 365 días. Fuerza, Pilates Reformer y comunidad en el centro de Ourense."
+        subtitle="Un club con aforo limitado, abierto los 365 días. Sala de musculación, clases en grupo reducido y clubes deportivos bajo un mismo techo, en Ourense."
         primaryButtonText="Inscríbete ahora"
         primaryButtonHref={waPlan()}
         secondaryButtonText="Ven a conocer 720"

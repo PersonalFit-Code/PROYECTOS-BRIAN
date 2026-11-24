@@ -189,11 +189,6 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href="/clubes" className="block py-2.5 text-[14px] text-white/55">
-                  Clubes: acrobacia, capoeira, BJJ…
-                </Link>
-              </li>
             </ul>
           </details>
           {navegacion.map((e) => (

@@ -14,7 +14,7 @@ export default function Footer() {
           <p className="mt-6 max-w-xs text-[15px] leading-relaxed text-white/60">
             Centro privado de entrenamiento en Ourense. Fuerza, salud y comunidad, con aforo limitado.
           </p>
-          <p className="titular texto-logo mt-6 text-[26px]">Entrena. Cuídate. Crece.</p>
+          <p className="titular texto-logo mt-6 text-[26px]">Entrena. Cuídate. Sigue creciendo.</p>
         </div>
         <div className="relative grid gap-10 sm:grid-cols-3 lg:col-span-8">
           {/* El «720» llena de arriba abajo el recuadro de las columnas (de Conceptos a Contacto), centrado. */}
