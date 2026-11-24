@@ -278,7 +278,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "yoga",
-    instagram: "720gym",
+    instagram: "720_yoga",
     href: "/yoga",
     grupo: "grupos",
     nombre: "720 Yoga",
@@ -336,7 +336,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "crossgym",
-    instagram: "720gym",
+    instagram: "crossgym_garage",
     href: "/crossgym",
     grupo: "grupos",
     nombre: "CrossGym",
@@ -693,6 +693,7 @@ export const conceptos: Concepto[] = [
   {
     /* Texto de Brais (24/11/2026). Faltan horarios, cuotas, nombres de los profesores y fotos. */
     slug: "lucha-de-brazos",
+    instagram: "brazosdepedra",
     href: "/lucha-de-brazos",
     grupo: "clubes",
     nombre: "Lucha de brazos",
