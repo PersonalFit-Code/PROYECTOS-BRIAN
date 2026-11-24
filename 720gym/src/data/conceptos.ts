@@ -405,7 +405,7 @@ export const conceptos: Concepto[] = [
     titulo: "Powerlifting",
     marca: "720 POWERLIFTING",
     color: NARANJA,
-    logo: "/sellos/720-powerlifting.png",
+    logo: "/sellos/720-powerlifting-disco.png",
     lineas: "Fuerza, técnica y progresión. Sentadilla, press de banca y peso muerto con material de competición.",
     lema: "Fuerza, técnica y progresión",
     texto: "Entrena los tres movimientos del powerlifting en un espacio preparado para mejorar tu técnica, desarrollar tu fuerza y acercarte a la competición.",
