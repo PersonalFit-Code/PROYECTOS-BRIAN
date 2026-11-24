@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { Clock } from "lucide-react";
+import { Clock, Info } from "lucide-react";
+import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import { conceptos } from "@/data/conceptos";
 import { diasSemana, sesionesSemana, type DiaSemana, type SesionSemana } from "@/data/horario-semanal";
-import { negocio } from "@/data/negocio";
+import { negocio, wa } from "@/data/negocio";
 import { cn } from "@/lib/utils";
 
 /**
@@ -60,6 +61,25 @@ export default function HorarioSemana() {
           <Clock className="size-5 text-white/60" aria-hidden />
           Gimnasio: {negocio.horario.texto.toLowerCase()}, los 365 días del año.
         </p>
+        </div>
+
+        {/* Aviso: los horarios cambian; mejor consultar antes de venir */}
+        <div className="mt-5 flex flex-col gap-3 rounded-2xl bg-white/[0.06] p-4 ring-1 ring-white/10 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+          <p className="flex items-start gap-3 text-[14.5px] leading-snug text-white/85">
+            <Info className="mt-0.5 size-5 shrink-0 text-white/60" aria-hidden />
+            <span>
+              <strong className="font-bold text-white">Los horarios pueden cambiar durante el curso.</strong> Antes de venir, consúltanos: te confirmamos el
+              horario y las plazas de la actividad que te interesa.
+            </span>
+          </p>
+          <a
+            href={wa("Hola, os escribo desde la web de 720 Gym Club. Me gustaría confirmar el horario y las plazas de una actividad. Gracias.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-whatsapp px-4 text-[14px] font-semibold text-white transition hover:scale-[1.03]"
+          >
+            <IconoWhatsApp className="size-4" /> Consultar horario
+          </a>
         </div>
 
         {/* Filtro por actividad, con su color */}
@@ -122,7 +142,7 @@ export default function HorarioSemana() {
         </div>
 
         <p className="mt-6 max-w-2xl text-[13.5px] leading-relaxed text-white/55">
-          Los grupos y la disponibilidad pueden variar durante el curso. Escríbenos y te decimos qué plazas hay en la actividad que te interesa.
+          Horarios orientativos: los grupos, las horas y la disponibilidad pueden cambiar. Consulta siempre antes de venir.
         </p>
       </div>
     </section>
