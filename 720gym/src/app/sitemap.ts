@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${URL_SITIO}/horario`, lastModified: hoy, changeFrequency: "weekly", priority: 0.9 },
     { url: `${URL_SITIO}/club`, lastModified: hoy, changeFrequency: "monthly", priority: 0.7 },
     { url: `${URL_SITIO}/contacto`, lastModified: hoy, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${URL_SITIO}/720p`, lastModified: hoy, changeFrequency: "monthly", priority: 0.7 },
     { url: `${URL_SITIO}/clubes`, lastModified: hoy, changeFrequency: "monthly", priority: 0.6 },
     { url: `${URL_SITIO}/preguntas`, lastModified: hoy, changeFrequency: "monthly", priority: 0.6 },
   ];

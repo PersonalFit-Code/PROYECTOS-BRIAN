@@ -36,7 +36,12 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/clubes" className="text-white/75 hover:text-white">
-                  Clubes y espacios para profesionales
+                  Clubes asociados
+                </Link>
+              </li>
+              <li>
+                <Link href="/720p" className="text-white/75 hover:text-white">
+                  720P · Espacios para profesionales
                 </Link>
               </li>
               <li>

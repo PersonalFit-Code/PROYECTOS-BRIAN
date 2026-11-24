@@ -68,7 +68,8 @@ export default function BarraMovil() {
           {[
             ["/horario", "Horarios", CalendarClock],
             ["/club", "El club", Users],
-            ["/clubes", "Clubes y espacios", Users],
+            ["/clubes", "Clubes asociados", Users],
+            ["/720p", "720P · Profesionales", Users],
             ["/preguntas", "Preguntas", HelpCircle],
             ["/contacto", "Cómo llegar", MapPin],
           ].map(([href, t, I]) => {

@@ -1,16 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import Collage from "@/components/ui/Collage";
-import { fotos } from "@/data/fotos";
-import { claseBoton } from "@/components/ui/Boton";
 import { clubes } from "@/data/conceptos";
 import { wa } from "@/data/negocio";
 
-const usos = ["Cursos", "Eventos", "Entrenamientos grupales", "Talleres", "Master class", "Seminarios", "Clinics"];
-const talleres = ["Pilates", "Yoga", "Defensa personal", "Wushu", "Nutrición", "Acrobacias", "Baile"];
 
-/** Clubes que entrenan en 720 + espacios para profesionales (720P). */
+/** Clubes que entrenan en 720, con enlace a 720P (espacios para profesionales). */
 export default function Clubes({ pagina = false }: { pagina?: boolean }) {
   const Titulo = pagina ? "h1" : "h2";
   return (
@@ -48,46 +43,18 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
           ))}
         </ul>
 
-        {/* 720P · profesionales */}
-        <div id="profesionales" className="mt-28 grid gap-16 lg:grid-cols-12 lg:items-center lg:gap-10">
-          <div className="lg:col-span-6">
-            <Image data-reveal src="/sellos/720p.png" alt="Logo de 720P" width={88} height={88} className="size-[88px] rounded-2xl ring-1 ring-white/15" />
-            <p data-reveal className="etiqueta mt-6 text-white/55">720P · Espacios para profesionales</p>
-            <h3 data-reveal className="mt-5">
-              <span className="titular block text-titulo-2">¿Quieres un espacio para tu club?</span>
-              <span className="subtitular mt-2 block text-[clamp(1.05rem,1.6vw,1.3rem)] text-acento">Aquí lo podrás tener.</span>
-            </h3>
-            <p data-reveal className="mt-6 max-w-lg text-[16px] leading-relaxed text-white/70">
-              Entrenadores, terapeutas e instructores: alquila sala dentro de 720 para tu actividad, con un centro de {">"}1.000 m², horario amplio y una
-              comunidad que ya entrena aquí.
-            </p>
-            <ul data-reveal className="mt-8 flex flex-wrap gap-2">
-              {usos.map((u) => (
-                <li key={u} className="bg-suelo px-3 py-2 text-[13px] text-white/80">
-                  {u}
-                </li>
-              ))}
-            </ul>
-            <p data-reveal className="mt-6 text-[13px] text-white/50">Talleres que ya se han hecho o se hacen: {talleres.join(" · ")} y más.</p>
-            <div data-reveal className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <a href={wa("Hola, soy profesional y me interesa alquilar un espacio en 720 (720P).")} target="_blank" rel="noopener noreferrer" className={claseBoton("acento", true)}>
-                Consultar disponibilidad
-              </a>
-              <Link href="/contacto" className={claseBoton("contorno", true)}>
-                Ven a verlo
-              </Link>
-            </div>
-          </div>
-          <div className="lg:col-span-6">
-            <Collage
-              fotos={[
-                { descripcion: fotos.pistaPilates.alt, src: fotos.pistaPilates.src },
-                { descripcion: fotos.funcional.alt, src: fotos.funcional.src },
-                { descripcion: "Detalle de material (esterillas, bandas)" },
-              ]}
-            />
-          </div>
-        </div>
+        {/* 720P tiene su propia página */}
+        <Link href="/720p" id="profesionales" data-reveal className="group mt-16 flex flex-col gap-5 rounded-[2rem] bg-white/[0.05] p-6 ring-1 ring-white/10 transition hover:bg-white/[0.08] sm:flex-row sm:items-center sm:gap-7 sm:p-8">
+          <Image src="/sellos/720p-logo.png" alt="Logo de 720P" width={96} height={96} className="size-20 shrink-0 rounded-2xl ring-1 ring-white/15 sm:size-24" />
+          <span className="min-w-0 flex-1">
+            <span className="etiqueta block text-white/55">720P · Espacios para profesionales</span>
+            <span className="titular mt-2 block text-titulo-3">¿Quieres un espacio para tu actividad?</span>
+            <span className="mt-1 block text-[15px] text-white/65">Alquila una sala o el centro entero para tus clases, cursos, talleres o eventos.</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 text-[15px] font-bold">
+            Ver 720P <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
+          </span>
+        </Link>
       </div>
     </section>
   );

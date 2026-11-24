@@ -5,16 +5,16 @@ import CintaLogos from "@/components/ui/CintaLogos";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Clubes y alquiler de espacios en Ourense",
+  title: "Clubes asociados de 720 GYM CLUB en Ourense",
   description:
-    "Gimnasia acrobática, capoeira, jiu-jitsu brasileño y halterofilia en 720 GYM CLUB, Ourense. Con 720P alquilas sala para tus clases, talleres o eventos.",
+    "Clubes que entrenan en 720 GYM CLUB, Ourense: Brazilian Jiu-Jitsu, Krav Maga, Capoeira, gimnasia acrobática y lucha de brazos. Escribe directamente a cada club.",
   alternates: { canonical: "/clubes" },
 };
 
 export default function PaginaClubes() {
   return (
     <>
-      <JsonLd datos={migas([["Clubes y espacios para profesionales", "/clubes"]])} />
+      <JsonLd datos={migas([["Clubes asociados", "/clubes"]])} />
       <Clubes pagina />
       <Cierre />
       <CintaLogos />

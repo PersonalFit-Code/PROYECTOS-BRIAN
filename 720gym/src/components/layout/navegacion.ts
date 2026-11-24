@@ -4,6 +4,7 @@ export const enlacesConceptos = conceptos.map((c) => ({ href: c.href, nombre: c.
 
 export const navegacion = [
   { href: "/#clubes", nombre: "Clubes asociados" },
+  { href: "/720p", nombre: "720P" },
   { href: "/horario", nombre: "Horarios" },
   { href: "/club", nombre: "El club" },
   { href: "/contacto", nombre: "Contacto" },
