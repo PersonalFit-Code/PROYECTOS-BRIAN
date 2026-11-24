@@ -26,7 +26,8 @@ export const sesionesSemana: SesionSemana[] = [
   // 720 Hipopresivos
   ...varias([M, J], [["16:30", "17:00"]], "hipopresivos"),
   // 720 Yoga
-  ...varias([L, X], [["10:00", "11:00"], ["20:00", "21:00"]], "yoga"),
+  ...varias([L], [["09:30", "10:30"], ["20:15", "21:15"]], "yoga"),
+  ...varias([X], [["19:15", "20:15"], ["20:15", "21:15"]], "yoga"),
   // CrossGym
   ...varias([L, X, J], [["09:00", "11:00"]], "crossgym", "Dos turnos"),
   ...varias([L, X, J], [["16:30", "17:30"], ["17:30", "18:30"], ["18:30", "19:30"], ["19:30", "20:30"]], "crossgym"),

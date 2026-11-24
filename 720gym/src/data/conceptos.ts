@@ -317,8 +317,8 @@ export const conceptos: Concepto[] = [
     horarios: {
       titulo: "Horarios de Yoga",
       grupos: [
-        { titulo: "Mañana", lineas: ["Lunes y miércoles · 10:00 – 11:00"] },
-        { titulo: "Tarde", lineas: ["Lunes y miércoles · 20:00 – 21:00"] },
+        { titulo: "Lunes", lineas: ["09:30 – 10:30", "20:15 – 21:15"] },
+        { titulo: "Miércoles", lineas: ["19:15 – 20:15", "20:15 – 21:15"] },
       ],
       nota: "Cuéntanos qué días y horas te encajan. Te informamos de las opciones de grupo y las plazas disponibles.",
       mensaje: "Hola, he visto en la web los horarios de 720 Yoga y me gustaría consultar la disponibilidad. ¿Podríais indicarme qué grupos tienen plazas actualmente? Gracias.",
