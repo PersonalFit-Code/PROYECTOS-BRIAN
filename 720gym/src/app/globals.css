@@ -1187,3 +1187,14 @@ button.tarjeta-vidrio:hover {
     radial-gradient(70% 55% at 15% 40%, rgb(255 255 255 / 0.6), transparent 70%),
     linear-gradient(180deg, #e8e8eb 0%, #f2f2f4 50%, #e8e8eb 100%);
 }
+
+/* Galería «720 por dentro»: la foto que llega a un recuadro entra con fundido y un leve acercamiento. */
+@keyframes entra-foto {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+.entra-foto {
+  animation: entra-foto 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}

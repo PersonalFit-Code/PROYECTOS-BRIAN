@@ -87,6 +87,14 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
+            {/* Crédito de la web (acuerdo de colaboración con neuro·node), también en el hueco de la columna. */}
+            <a href="https://neuro-node.com" target="_blank" rel="noopener" className="group mt-10 inline-flex flex-col gap-3 rounded-2xl border border-white/10 bg-black/40 px-5 py-4 transition-colors hover:border-white/25">
+              <span className="text-[10.5px] font-semibold tracking-[0.22em] text-white/50 uppercase">Web creada por</span>
+              <span className="flex items-center gap-3">
+                <Image src="/marca/neuro-node-iso.png" alt="" width={30} height={30} className="h-[30px] w-auto opacity-85 transition-opacity group-hover:opacity-100" />
+                <Image src="/marca/neuro-node.png" alt="neuro·node" width={126} height={18} className="h-[18px] w-auto opacity-85 transition-opacity group-hover:opacity-100" />
+              </span>
+            </a>
           </div>
         </div>
       </div>
