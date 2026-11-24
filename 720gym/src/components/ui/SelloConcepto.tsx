@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { TRAZO_720GYM } from "./Logo";
 
 /**
  * Logo de la disciplina o del club en su recuadro negro (los logos que pasó Brais, blanco sobre
- * negro, todos de 150 × 150). Sin logo propio, «720 GYM» dibujado con la misma letra y las mismas
- * proporciones que los demás para que todos pesen igual en el recuadro.
+ * negro, todos de 150 × 150). Sin logo propio, «720GYM» con las letras reales del rótulo, ocupando
+ * el mismo ancho que los demás para que todos pesen igual en el recuadro.
  */
 export default function SelloConcepto({ logo, nombre, className, sizes = "96px" }: { logo?: string; nombre: string; className?: string; sizes?: string }) {
   return (
@@ -12,13 +13,8 @@ export default function SelloConcepto({ logo, nombre, className, sizes = "96px" 
       {logo ? (
         <Image src={logo} alt={`Logo de ${nombre}`} fill sizes={sizes} className="object-cover" />
       ) : (
-        <svg viewBox="0 0 150 150" className="size-full" role="img" aria-label="720 GYM" fill="#fff">
-          <text x="43" y="83" className="marca" fontSize="54" textLength="64" lengthAdjust="spacingAndGlyphs">
-            720
-          </text>
-          <text x="43.5" y="107" className="marca" fontSize="27" textLength="63" lengthAdjust="spacingAndGlyphs">
-            GYM
-          </text>
+        <svg viewBox="-80 -353 1160 1000" className="size-full" role="img" aria-label="720 GYM" fill="#fff">
+          <path fillRule="evenodd" d={TRAZO_720GYM} />
         </svg>
       )}
     </span>
