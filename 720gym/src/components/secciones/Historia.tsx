@@ -33,7 +33,7 @@ export default function Historia() {
           </div>
           <a
             data-reveal
-            href={negocio.instagram}
+            href="https://www.instagram.com/reel/Dd16RzrKhXV/"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 inline-flex items-center gap-3 text-[15px] font-semibold text-white hover:text-acento"
@@ -41,7 +41,7 @@ export default function Historia() {
             <span className="grid size-11 place-items-center rounded-full bg-acento text-acento-tinta">
               <Play className="size-4 fill-current" aria-hidden />
             </span>
-            Ver más en nuestro Instagram
+            Ver el antes y el después en Instagram
           </a>
         </div>
 

@@ -96,7 +96,7 @@ export default function Header() {
               aria-controls="menu-conceptos"
               onClick={() => setConceptosAbierto((v) => !v)}
             >
-              Formas de entrenar <ChevronDown className={cn("size-4 transition-transform", conceptosAbierto && "rotate-180")} aria-hidden />
+              Actividades <ChevronDown className={cn("size-4 transition-transform", conceptosAbierto && "rotate-180")} aria-hidden />
             </button>
           </div>
           {navegacion.map((e) => (
@@ -178,7 +178,7 @@ export default function Header() {
         <nav className="container-page flex min-h-full flex-col pt-4 pb-10" aria-label="Menú">
           <details className="group border-b border-white/10" open>
             <summary className="titular flex cursor-pointer items-center justify-between py-4 text-[28px]">
-              Formas de entrenar <ChevronDown className="size-6 transition-transform group-open:rotate-180" aria-hidden />
+              Actividades <ChevronDown className="size-6 transition-transform group-open:rotate-180" aria-hidden />
             </summary>
             <ul className="grid grid-cols-2 gap-2 pb-4">
               {enlacesConceptos.map((c) => (

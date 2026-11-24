@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Grid2x2, Home, HelpCircle, MapPin, Plus, Users, X, Trophy } from "lucide-react";
+import { CalendarClock, Grid2x2, Home, HelpCircle, MapPin, Plus, Users, X, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { conceptos } from "@/data/conceptos";
 import { wa, waVisita } from "@/data/negocio";
@@ -52,7 +52,7 @@ export default function BarraMovil() {
           mas ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0",
         )}
       >
-        <p className="etiqueta px-1 text-white/50">Formas de entrenar</p>
+        <p className="etiqueta px-1 text-white/50">Actividades</p>
         <ul className="mt-3 grid grid-cols-3 gap-2">
           {conceptos.map((c) => (
             <li key={c.slug}>
@@ -66,6 +66,7 @@ export default function BarraMovil() {
         <p className="etiqueta mt-5 px-1 text-white/50">El club</p>
         <ul className="mt-3 grid grid-cols-2 gap-2">
           {[
+            ["/horario", "Horarios", CalendarClock],
             ["/club", "El club", Users],
             ["/clubes", "Clubes y espacios", Users],
             ["/preguntas", "Preguntas", HelpCircle],

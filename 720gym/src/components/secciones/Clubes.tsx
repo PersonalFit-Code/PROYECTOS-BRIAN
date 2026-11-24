@@ -51,7 +51,8 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
         {/* 720P · profesionales */}
         <div id="profesionales" className="mt-28 grid gap-16 lg:grid-cols-12 lg:items-center lg:gap-10">
           <div className="lg:col-span-6">
-            <p data-reveal className="etiqueta text-white/55">720P · Espacios para profesionales</p>
+            <Image data-reveal src="/logos/720p.png" alt="Logo de 720P" width={88} height={88} className="size-[88px] rounded-2xl ring-1 ring-white/15" />
+            <p data-reveal className="etiqueta mt-6 text-white/55">720P · Espacios para profesionales</p>
             <h3 data-reveal className="mt-5">
               <span className="titular block text-titulo-2">¿Quieres un espacio para tu club?</span>
               <span className="subtitular mt-2 block text-[clamp(1.05rem,1.6vw,1.3rem)] text-acento">Aquí lo podrás tener.</span>

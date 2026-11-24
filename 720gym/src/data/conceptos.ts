@@ -60,6 +60,8 @@ export interface Concepto {
   cuotas?: { titulo: string; grupos: { titulo?: string; filas: [string, string][]; nota?: string }[]; notas?: string[]; boton?: { texto: string; mensaje: string } };
   notaFinal?: string;
   conocer: { boton: string; mensaje: string };
+  /** Instagram de la actividad o del club (comprobado; si no se conoce, no se pone). */
+  instagram?: string;
   /** WhatsApp de este concepto (por defecto, el de 720). */
   whatsapp?: string;
   enlace?: { pregunta: string; texto: string; href: string };
@@ -91,6 +93,7 @@ const beaHipopresivos: Persona = {
 export const conceptos: Concepto[] = [
   {
     slug: "gimnasio",
+    instagram: "720gym",
     href: "/gimnasio",
     grupo: "libre",
     nombre: "Gimnasio",
@@ -129,6 +132,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "programa-720",
+    instagram: "720gym",
     href: "/programa-720",
     grupo: "plan",
     nombre: "Programa 720",
@@ -170,6 +174,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "pilates",
+    instagram: "720pilates",
     href: "/pilates",
     grupo: "grupos",
     nombre: "720 Pilates",
@@ -226,6 +231,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "hipopresivos",
+    instagram: "720pilates",
     href: "/hipopresivos",
     grupo: "grupos",
     nombre: "720 Hipopresivos",
@@ -272,6 +278,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "yoga",
+    instagram: "720gym",
     href: "/yoga",
     grupo: "grupos",
     nombre: "720 Yoga",
@@ -329,6 +336,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "crossgym",
+    instagram: "720gym",
     href: "/crossgym",
     grupo: "grupos",
     nombre: "CrossGym",
@@ -390,13 +398,14 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "powerlifting",
+    instagram: "720gym",
     href: "/powerlifting",
     grupo: "clubes",
     nombre: "720 Powerlifting",
     titulo: "Powerlifting",
     marca: "720 POWERLIFTING",
     color: NARANJA,
-    logo: "/logos/720p.png",
+    logo: "/logos/720-powerlifting.png",
     lineas: "Fuerza, técnica y progresión. Sentadilla, press de banca y peso muerto con material de competición.",
     lema: "Fuerza, técnica y progresión",
     texto: "Entrena los tres movimientos del powerlifting en un espacio preparado para mejorar tu técnica, desarrollar tu fuerza y acercarte a la competición.",
@@ -424,13 +433,14 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "brazilian-jiu-jitsu",
+    instagram: "mambises.bjj",
     href: "/brazilian-jiu-jitsu",
     grupo: "clubes",
     nombre: "Brazilian Jiu-Jitsu",
     titulo: "Brazilian Jiu-Jitsu",
     marca: "MAMBISES BJJ",
     color: "#0b4ea2",
-    logo: "/logos/mambises-bjj.png",
+    logo: "/logos/mambises.png",
     lineas: "Técnica. Control. Evolución. Clases para adultos y niños con Mambises Brazilian Jiu-Jitsu.",
     lema: "Técnica. Control. Evolución.",
     texto: "Clases de Brazilian Jiu-Jitsu para adultos y niños, basadas en la técnica, la estrategia y el aprendizaje progresivo.",
@@ -495,6 +505,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "krav-maga",
+    instagram: "kmekravmaga",
     href: "/krav-maga",
     grupo: "clubes",
     nombre: "Krav Maga",
@@ -547,6 +558,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "capoeira",
+    instagram: "capoeira_ourense",
     href: "/capoeira",
     grupo: "clubes",
     nombre: "Capoeira",
@@ -598,6 +610,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "gimnasia-acrobatica",
+    instagram: "clubeximnasiaburgas",
     href: "/gimnasia-acrobatica",
     grupo: "clubes",
     nombre: "Gimnasia acrobática",

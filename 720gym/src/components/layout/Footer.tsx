@@ -20,7 +20,7 @@ export default function Footer() {
           {/* El «720» llena de arriba abajo el recuadro de las columnas (de Conceptos a Contacto), centrado. */}
           <MarcaAjustada className="pointer-events-none absolute inset-0 -z-0 h-full w-full" />
           <div className="relative">
-            <p className="etiqueta text-white/45">Formas de entrenar</p>
+            <p className="etiqueta text-white/45">Actividades</p>
             <ul className="mt-4 space-y-2 text-[15px]">
               {enlacesConceptos.map((c) => (
                 <li key={c.href}>

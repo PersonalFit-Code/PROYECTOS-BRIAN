@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, CalendarClock, Camera, Coins, Plus, Quote, Users } from "lucide-react";
+import { ArrowRight, AtSign, CalendarClock, Camera, Coins, Plus, Quote, Users } from "lucide-react";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import SelloConcepto from "@/components/ui/SelloConcepto";
@@ -182,6 +182,12 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
                 </a>
               )}
             </div>
+            {c.instagram && (
+              <a href={`https://www.instagram.com/${c.instagram}/`} {...EXT} className="hero-in group mt-5 inline-flex items-center gap-2 text-[14.5px] font-semibold text-white/75 hover:text-white" style={{ ["--i" as string]: 6 }}>
+                <AtSign className="size-4 text-white/55 group-hover:text-white" aria-hidden />
+                Síguenos en Instagram: {c.instagram}
+              </a>
+            )}
           </div>
           <div className="lg:col-span-6">
             {c.foto ? (
@@ -258,6 +264,11 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
                 {c.club.web && (
                   <a href={c.club.web} {...EXT} className="group mt-2 inline-flex items-center gap-1.5 text-[14px] font-bold underline decoration-marca decoration-2 underline-offset-4">
                     Visitar la web del club <ArrowRight className="size-4 text-marca transition-transform group-hover:translate-x-1" aria-hidden />
+                  </a>
+                )}
+                {c.instagram && (
+                  <a href={`https://www.instagram.com/${c.instagram}/`} {...EXT} className="group mt-2 flex items-center gap-1.5 text-[14px] font-bold underline decoration-marca decoration-2 underline-offset-4">
+                    Instagram del club: @{c.instagram} <ArrowRight className="size-4 text-marca transition-transform group-hover:translate-x-1" aria-hidden />
                   </a>
                 )}
               </div>
