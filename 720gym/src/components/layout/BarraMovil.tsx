@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Grid2x2, Home, HelpCircle, MapPin, MessageCircle, Plus, Users, X, Trophy } from "lucide-react";
+import { Grid2x2, Home, HelpCircle, MapPin, Plus, Users, X, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { conceptos } from "@/data/conceptos";
-import { wa } from "@/data/negocio";
-import { waPlan } from "@/data/pagos";
+import { wa, waVisita } from "@/data/negocio";
 import SelloConcepto from "@/components/ui/SelloConcepto";
 
 /**
@@ -53,7 +52,7 @@ export default function BarraMovil() {
           mas ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0",
         )}
       >
-        <p className="etiqueta px-1 text-white/50">Conceptos</p>
+        <p className="etiqueta px-1 text-white/50">Formas de entrenar</p>
         <ul className="mt-3 grid grid-cols-3 gap-2">
           {conceptos.map((c) => (
             <li key={c.slug}>
@@ -68,7 +67,7 @@ export default function BarraMovil() {
         <ul className="mt-3 grid grid-cols-2 gap-2">
           {[
             ["/club", "El club", Users],
-            ["/clubes", "Clubes y 720P", Users],
+            ["/clubes", "Clubes y espacios", Users],
             ["/preguntas", "Preguntas", HelpCircle],
             ["/contacto", "Cómo llegar", MapPin],
           ].map(([href, t, I]) => {
@@ -82,12 +81,9 @@ export default function BarraMovil() {
             );
           })}
         </ul>
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          <button type="button" onClick={() => (setMas(false), window.dispatchEvent(new Event("abrir-asistente")))} className="flex items-center justify-center gap-2 rounded-full bg-white px-3 py-3 text-[13px] font-semibold text-negro">
-            <MessageCircle className="size-4" aria-hidden /> Pregunta al asistente
-          </button>
-          <a href={wa("Hola, quiero información sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className="vidrio-verde flex items-center justify-center gap-2 rounded-full px-3 py-3 text-[13px] font-semibold text-white">
-            WhatsApp
+        <div className="mt-4 grid gap-2">
+          <a href={wa("Hola, os escribo desde la web de 720 Gym Club. Me gustaría que me orientaseis sobre lo que busco. Gracias.")} target="_blank" rel="noopener noreferrer" className="vidrio-verde flex items-center justify-center gap-2 rounded-full px-3 py-3 text-[13px] font-semibold text-white">
+            Cuéntanos qué buscas por WhatsApp
           </a>
         </div>
       </div>
@@ -98,7 +94,7 @@ export default function BarraMovil() {
           <li>{pestana("/", "Inicio", Home)}</li>
           <li>{pestana("/#grupos-reducidos", "Actividades", Users)}</li>
           <li className="flex justify-center">
-            <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta sin-flecha grid size-13 -translate-y-3 place-items-center rounded-full shadow-[0_12px_30px_-8px_rgb(0_0_0/0.7)]" aria-label="Inscríbete">
+            <Link href={waVisita()} target="_blank" rel="noopener" className="boton-venta sin-flecha grid size-13 -translate-y-3 place-items-center rounded-full shadow-[0_12px_30px_-8px_rgb(0_0_0/0.7)]" aria-label="Ven a conocer 720">
               <Plus className="size-6" aria-hidden />
             </Link>
           </li>

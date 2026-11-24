@@ -4,8 +4,8 @@ import { negocio } from "./negocio";
 export const preguntas = [
   { p: "¿Qué horario tiene 720 GYM CLUB?", r: `${negocio.horario.texto}, los 365 días del año, festivos incluidos.` },
   { p: "¿Puedo conocer el centro antes de apuntarme?", r: "Sí. Escríbenos por WhatsApp y concertamos una visita para enseñarte el espacio y explicarte cómo funciona. En 720 Pilates la primera clase es gratuita y no hay matrícula." },
-  { p: "¿Puedo entrenar un solo día si estoy de paso por Ourense?", r: "Sí: la entrada libre cuesta 5 € por día y la pides por WhatsApp en un minuto. Para estancias más largas tenemos pases temporales." },
-  { p: "¿Qué significa aforo limitado?", r: "Que el número de socios es el justo para que disfrutes del material sin esperas ni masificaciones. Nunca estará lleno." },
+  { p: "¿Puedo entrenar un solo día si estoy de paso por Ourense?", r: "Sí: la entrada libre cuesta 5 € por día y la pides por WhatsApp. Para estancias más largas tenemos pases temporales." },
+  { p: "¿Qué significa aforo limitado?", r: "Limitamos el número de socios para cuidar la ocupación de la sala y que puedas entrenar con comodidad." },
   { p: "¿Cuándo se paga la cuota?", r: "El pago mensual se hace entre el día 1 y el 7, tanto en el gimnasio como en 720 Pilates." },
   { p: "¿Caducan los bonos de entrenamiento personal?", r: "No. Los bonos no caducan. Para cambiar o cancelar una sesión, avisa con 24 h. La cuota del gimnasio va incluida durante tus sesiones." },
   { p: "Si falto a una clase de Pilates, ¿la pierdo?", r: "No: las clases de Pilates se recuperan dentro del mismo mes." },

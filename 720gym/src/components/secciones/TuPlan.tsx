@@ -25,10 +25,10 @@ type Inicio = "ya" | "probar" | "paso";
 
 const objetivos: { id: Objetivo; texto: string; nota: string; Icono: Icono; actividad: string; href: string }[] = [
   { id: "sala", texto: "Entrenar a mi aire", nota: "Sala, máquinas y peso libre", Icono: Dumbbell as Icono, actividad: "gimnasio", href: "/gimnasio" },
-  { id: "guia", texto: "Que me guíen", nota: "Entrenador personal", Icono: UserCheck as Icono, actividad: "personal", href: "/entrenamiento-personal" },
+  { id: "guia", texto: "Aprender a entrenar", nota: "Programa 720", Icono: UserCheck as Icono, actividad: "personal", href: "/programa-720" },
   { id: "pilates", texto: "Pilates y postura", nota: "Reformer en grupo reducido", Icono: Flower2 as Icono, actividad: "pilates", href: "/pilates" },
-  { id: "fuerza", texto: "Fuerza de verdad", nota: "Powerlifting", Icono: BarraDiscos, actividad: "powerlifting", href: "/powerlifting" },
-  { id: "crossgym", texto: "Sudar en grupo", nota: "CrossGym", Icono: Flame as Icono, actividad: "crossgym", href: "/crossgym" },
+  { id: "fuerza", texto: "Powerlifting", nota: "Fuerza y técnica", Icono: BarraDiscos, actividad: "powerlifting", href: "/powerlifting" },
+  { id: "crossgym", texto: "Entrenar en grupo", nota: "CrossGym", Icono: Flame as Icono, actividad: "crossgym", href: "/crossgym" },
   { id: "yoga", texto: "Moverme y soltar", nota: "Yoga", Icono: Sun as Icono, actividad: "yoga", href: "/yoga" },
 ];
 const diasOpc: { id: Dias; texto: string; nota: string }[] = [
@@ -37,7 +37,7 @@ const diasOpc: { id: Dias; texto: string; nota: string }[] = [
   { id: "3", texto: "3 o más", nota: "Voy a por todas" },
 ];
 const inicioOpc: { id: Inicio; texto: string; nota: string; Icono: Icono }[] = [
-  { id: "ya", texto: "Ya, hoy mismo", nota: "Te apuntas por WhatsApp en un minuto", Icono: Zap as Icono },
+  { id: "ya", texto: "Ya, hoy mismo", nota: "Escríbenos y te orientamos", Icono: Zap as Icono },
   { id: "probar", texto: "Conociéndolo antes", nota: "Una visita primero", Icono: Gift as Icono },
   { id: "paso", texto: "Estoy de paso", nota: "Unos días en Ourense", Icono: MapPinned as Icono },
 ];
@@ -199,7 +199,7 @@ export default function TuPlan() {
               </Link>
             ) : (
               <Link href={waPlan(plan!.id)} target="_blank" rel="noopener" className="subtitular inline-flex h-[52px] items-center justify-center gap-2 bg-negro px-6 text-[15px] text-white transition hover:gap-3 hover:bg-pizarra">
-                Inscribirme con este plan <ArrowRight className="size-4" aria-hidden />
+                Quiero conocer este plan <ArrowRight className="size-4" aria-hidden />
               </Link>
             )}
             <a href={wa(mensaje)} target="_blank" rel="noopener noreferrer" className="group inline-flex h-[52px] items-center justify-center gap-2 rounded-full bg-whatsapp px-5 text-[15px] font-semibold text-white transition hover:scale-[1.02] active:scale-95">

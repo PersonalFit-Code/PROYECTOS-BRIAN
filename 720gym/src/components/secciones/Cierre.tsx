@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import DeslizaInscribete from "@/components/ui/DeslizaInscribete";
 import { claseBoton } from "@/components/ui/Boton";
 import { negocio, wa, waVisita } from "@/data/negocio";
 import { fotos } from "@/data/fotos";
@@ -36,13 +35,15 @@ export default function Cierre() {
           Sin prisas y sin masificaciones. Escríbenos y concertamos una visita.
         </p>
         <div data-reveal className="mx-auto mt-8 flex max-w-sm flex-col items-center gap-3">
-          <DeslizaInscribete />
+          <Link href={waVisita()} target="_blank" rel="noopener" className={claseBoton("venta", true)}>
+            Ven a conocer 720
+          </Link>
           <div className="grid w-full grid-cols-2 gap-3">
-            <Link href={waVisita()} target="_blank" rel="noopener" className={claseBoton("contorno")}>
-              Concertar visita
+            <Link href="/#que-buscas" className={claseBoton("contorno")}>
+              Actividades
             </Link>
-            <a href={wa("Hola, quiero información sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno")}>
-              Información
+            <a href={wa("Hola, os escribo desde la web de 720 Gym Club. Me gustaría que me orientaseis sobre lo que busco. Gracias.")} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno")}>
+              Cuéntanos qué buscas
             </a>
           </div>
         </div>

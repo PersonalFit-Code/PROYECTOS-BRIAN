@@ -143,6 +143,7 @@ export const conceptos: Concepto[] = [
     foto: fotos.racks.src,
     bloque: {
       titulo: "Empieza con un entrenador. Continúa con un plan.",
+      nota: "Partimos de una base de ejercicios y progresión, con ajustes individuales de técnica, cargas y variantes según tu nivel y tus necesidades. Te enseñamos a entrenar con autonomía y a entender lo que haces.",
       pasos: true,
       tarjetas: [
         { titulo: "Conocemos tu punto de partida", texto: "Primera sesión de 90 minutos para conocer tus objetivos, experiencia y necesidades, y comenzar con la parte práctica." },
@@ -278,7 +279,8 @@ export const conceptos: Concepto[] = [
     marca: "720 YOGA",
     color: "#6d3fd6",
     logo: "/logos/720-yoga.png",
-    lineas: "Hatha Yoga en grupos reducidos: movilidad, respiración, equilibrio y bienestar a tu ritmo.",
+    lineas: "Respira. Vive 720. Hatha Yoga en grupos reducidos: movilidad, respiración, equilibrio y bienestar a tu ritmo.",
+    lema: "Respira. Vive 720.",
     texto: "Una práctica guiada para mejorar la movilidad, la respiración, el equilibrio y el bienestar, respetando el ritmo de cada persona.",
     chips: ["Hatha Yoga", "Máximo 8 personas"],
     bloque: {
@@ -295,8 +297,8 @@ export const conceptos: Concepto[] = [
           nombre: "Lucía Aramburo",
           rol: "Profesora de Hatha Yoga · 720 Yoga",
           bio: [
-            "De pequeña la danza clásica era mi lugar seguro, y con los años di clases de aerobic y pilates. El movimiento siempre ha estado presente en mi vida.",
-            "El Yoga llegó de casualidad: fui a una clase de una compañera y, aquello que antes no había resonado conmigo, en esa sesión derrumbó mi prejuicio ante la nueva disciplina, e hizo un «click» que cambiaría muchas cosas con el tiempo. Durante el COVID, como para tanta gente, el Yoga se convirtió en un refugio.",
+            "De pequeña la danza clásica era mi lugar seguro, y con los años di clases de aeróbic y pilates. El movimiento siempre ha estado presente en mi vida.",
+            "El Yoga llegó de casualidad: fui a una clase de una compañera y, aquello que antes no había resonado conmigo, en esa sesión derrumbó mi prejuicio ante la nueva disciplina, e hizo un «clic» que cambiaría muchas cosas con el tiempo. Durante el COVID, como para tanta gente, el Yoga se convirtió en un refugio.",
             "Empecé a asistir a clases presenciales, en las cuales descubrí aquello, más allá de lo físico, que tiene el Yoga que ofrecer, y que puede ser para todo el mundo.",
             "Todo esto, y la curiosidad por algo tan enorme, me llevaron a formarme en Hatha Yoga.",
             "A día de hoy doy clases de Hatha Yoga desde la idea de compartir aquello que tanto me ha ayudado.",
@@ -378,7 +380,7 @@ export const conceptos: Concepto[] = [
     },
     cuotas: {
       titulo: "Tarifas de CrossGym",
-      grupos: [{ filas: [["1 día por semana", "35 €"], ["2 días por semana", "65 €"], ["3 días por semana", "75 €"]] }],
+      grupos: [{ filas: [["1 día por semana", "35 €/mes"], ["2 días por semana", "65 €/mes"], ["3 días por semana", "75 €/mes"]] }],
     },
     conocer: { boton: "Quiero conocer CrossGym", mensaje: "Hola, os escribo desde la web de 720 Gym Club. Me gustaría ver cómo es un entrenamiento de CrossGym. ¿Cuándo podría acercarme a conoceros? Gracias." },
     whatsapp: "34670617970",
@@ -432,13 +434,13 @@ export const conceptos: Concepto[] = [
     lineas: "Técnica. Control. Evolución. Clases para adultos y niños con Mambises Brazilian Jiu-Jitsu.",
     lema: "Técnica. Control. Evolución.",
     texto: "Clases de Brazilian Jiu-Jitsu para adultos y niños, basadas en la técnica, la estrategia y el aprendizaje progresivo.",
-    chips: ["Adultos", "Kids", "Todos los niveles"],
+    chips: ["Adultos", "Infantil", "Todos los niveles"],
     bloque: {
-      titulo: "Brazilian Jiu-Jitsu para adultos y kids",
+      titulo: "Brazilian Jiu-Jitsu para adultos e infantil",
       intro: "Dos grupos adaptados a cada etapa, con una enseñanza técnica, segura y progresiva.",
       tarjetas: [
         { titulo: "Brazilian Jiu-Jitsu adultos", texto: "Aprende posiciones, controles, escapes y finalizaciones mientras desarrollas técnica, movilidad y estrategia." },
-        { titulo: "Brazilian Jiu-Jitsu kids", texto: "Una práctica adaptada para trabajar técnica, coordinación, atención, respeto y trabajo en equipo." },
+        { titulo: "Brazilian Jiu-Jitsu infantil", texto: "Una práctica adaptada para trabajar técnica, coordinación, atención, respeto y trabajo en equipo." },
       ],
     },
     club: { nombre: "Mambises Brazilian Jiu-Jitsu", texto: "Entrena dentro de un club especializado y forma parte de una comunidad cercana." },
@@ -474,14 +476,14 @@ export const conceptos: Concepto[] = [
     horarios: {
       titulo: "Horarios de Mambises BJJ",
       grupos: [
-        { titulo: "Kids", lineas: ["Lunes · 17:00 – 18:00 · 4–12 años", "Martes y jueves · 17:00 – 18:00 · 4–6 años", "Martes y jueves · 18:00 – 19:00 · 6–12 años"] },
+        { titulo: "Infantil", lineas: ["Lunes · 17:00 – 18:00 · 4–12 años", "Martes y jueves · 17:00 – 18:00 · 4–6 años", "Martes y jueves · 18:00 – 19:00 · 6–12 años"] },
         { titulo: "Adultos +16", lineas: ["Lunes · 18:00 – 19:45", "Martes y jueves · 10:30 – 12:15", "Miércoles y viernes · 19:15 – 21:00", "Sábado · 11:30 – 13:15"] },
       ],
-      mensaje: "Hola, he visto en la web los horarios de Mambises Brazilian Jiu-Jitsu y me gustaría consultar la disponibilidad. ¿Podríais orientarme sobre los grupos de Kids y adultos que tienen plazas actualmente? Gracias.",
+      mensaje: "Hola, he visto en la web los horarios de Mambises Brazilian Jiu-Jitsu y me gustaría consultar la disponibilidad. ¿Podríais orientarme sobre los grupos infantiles y de adultos que tienen plazas actualmente? Gracias.",
     },
     cuotas: {
       titulo: "Cuotas Mambises BJJ",
-      grupos: [{ filas: [["Kids · ilimitado", "45 €/mes"], ["Adultos · ilimitado", "60 €/mes"], ["Matrícula", "30 €"]] }],
+      grupos: [{ filas: [["Infantil · ilimitado", "45 €/mes"], ["Adultos · ilimitado", "60 €/mes"], ["Matrícula", "30 €"]] }],
       notas: ["Primera clase gratuita.", "Contacta con el profesor para organizar tu primera clase."],
     },
     notaFinal: "No necesitas experiencia previa. Te acompañamos desde el primer entrenamiento.",
@@ -555,14 +557,14 @@ export const conceptos: Concepto[] = [
     lineas: "Movimiento. Ritmo. Comunidad. Capoeira para adultos y niños con el Club Capoeira Andaruê.",
     lema: "Movimiento. Ritmo. Comunidad.",
     texto: "Una práctica cultural afrobrasileña que combina movimiento, juego, lucha, música y ritmo dentro de la roda.",
-    chips: ["Adultos", "Kids", "Movimiento, música y ritmo"],
+    chips: ["Adultos", "Infantil", "Movimiento, música y ritmo"],
     foto: fotos.pistaPilates.src,
     bloque: {
-      titulo: "Capoeira para adultos y kids",
+      titulo: "Capoeira para adultos e infantil",
       intro: "Dos grupos adaptados a cada etapa, unidos por el movimiento, la música y la cultura de la capoeira.",
       tarjetas: [
         { titulo: "Capoeira adultos", texto: "Trabaja técnica, movilidad, coordinación y condición física mientras aprendes a participar en la roda." },
-        { titulo: "Capoeira kids", texto: "Una práctica adaptada para desarrollar coordinación, atención, expresión corporal, respeto y trabajo en grupo." },
+        { titulo: "Capoeira infantil", texto: "Una práctica adaptada para desarrollar coordinación, atención, expresión corporal, respeto y trabajo en grupo." },
       ],
     },
     club: { nombre: "Club Capoeira Andaruê", texto: "Entrena dentro de un club especializado y forma parte de una comunidad cercana." },
@@ -676,7 +678,7 @@ export const conceptos: Concepto[] = [
     seo: { titulo: "Gimnasia acrobática en Ourense: Escola Ximnasia Burgas", descripcion: "Escola Ximnasia Burgas en 720GYM CLUB, Ourense: gimnasia acrobática para niños desde 3 años y adultos, con grupos por edad y nivel y preparación para competición. Primera clase gratuita." },
   },
   {
-    /* Ficha mínima: Brais solo ha pasado el logo, el teléfono y el mensaje. Faltan texto, horarios, cuotas y fotos. */
+    /* Texto de Brais (24/11/2026). Faltan horarios, cuotas, nombres de los profesores y fotos. */
     slug: "lucha-de-brazos",
     href: "/lucha-de-brazos",
     grupo: "clubes",
@@ -685,15 +687,28 @@ export const conceptos: Concepto[] = [
     marca: "BRAZOS DE PEDRA",
     color: NARANJA,
     logo: "/logos/brazos-de-pedra.png",
-    lineas: "Lucha de brazos (pulsos) con el club Brazos de Pedra, que entrena en 720GYM CLUB.",
-    texto: "Lucha de brazos (pulsos) con el club Brazos de Pedra, que entrena en 720GYM CLUB.",
-    chips: ["Lucha de brazos", "Pulsos", "Ourense"],
-    bloque: { titulo: "Brazos de Pedra en 720", intro: "Escríbenos y acércate a ver cómo es un entrenamiento de lucha de brazos.", tarjetas: [] },
-    club: { nombre: "Brazos de Pedra", texto: "Club de lucha de brazos de Ourense que entrena en 720GYM CLUB." },
+    lineas: "Arm Wrestling con el club Brazos de Pedra: táctica, técnica, fuerza explosiva y resistencia.",
+    lema: "Arm Wrestling",
+    texto: "Un deporte en el que se aúnan la táctica y la técnica con la fuerza explosiva y la resistencia. Destinado a jóvenes, adultos y personas de la tercera edad.",
+    chips: ["Jóvenes", "Adultos", "Tercera edad"],
+    bloque: {
+      titulo: "Una actividad multifuncional",
+      intro: "Si bien parece que solo importa el tamaño de los bíceps, lo cierto es que aquí también se ejercitan la muñeca, el antebrazo, el hombro y la espalda.",
+      tarjetas: [
+        { titulo: "Progresos que duran", texto: "Es una actividad en la que se progresa lentamente, pero que mantiene los progresos durante mucho tiempo, ya que se ven reforzados enormemente los tendones." },
+        { titulo: "No importan los años", texto: "Los mejores del mundo en sus diversas categorías de peso se mueven por un espectro de edad que va desde los 20 años hasta los 60." },
+      ],
+    },
+    destacados: [
+      { titulo: "Técnica para prevenir lesiones", texto: "Hay profesores entre nuestras filas que pueden explicar bien la técnica y así prevenir lesiones." },
+      { titulo: "Nivel competitivo", texto: "También tenemos a un cuarto campeón de España, demostrando el gran nivel que hay en Ourense." },
+    ],
+    club: { nombre: "Brazos de Pedra", texto: "El club está formado por adolescentes, treintañeros y sexagenarios de distintos puntos de origen: latinoamericanos, portugueses y españoles." },
+    notaFinal: "Buscamos a cualquier persona apasionada por la fuerza que quiera reunirse con nosotros y, si lo desea, escalar por el mundo competitivo.",
     conocer: { boton: "Quiero conocer Brazos de Pedra", mensaje: "Hola, os escribo desde la web de 720 Gym Club. Me gustaría conocer el club Brazos de Pedra y ver cómo es un entrenamiento de lucha de brazos. ¿Cuándo podría acercarme? Gracias." },
     whatsapp: "34686991912",
     actividad: "pulsos",
-    seo: { titulo: "Lucha de brazos en Ourense: Brazos de Pedra", descripcion: "Brazos de Pedra, club de lucha de brazos (pulsos) de Ourense que entrena en 720GYM CLUB. Escríbenos y ven a conocer un entrenamiento." },
+    seo: { titulo: "Lucha de brazos en Ourense: Brazos de Pedra", descripcion: "Brazos de Pedra, club de lucha de brazos (arm wrestling) de Ourense que entrena en 720GYM CLUB: táctica, técnica, fuerza explosiva y resistencia para jóvenes, adultos y mayores." },
   },
 ];
 
@@ -704,7 +719,7 @@ export function conceptoPorSlug(slug: string): Concepto | undefined {
 /** Clubes que entrenan en 720: salen de sus fichas. */
 export const clubes = conceptos
   .filter((c) => c.club)
-  .map((c) => ({ logo: c.logo, nombre: c.club!.nombre, disciplina: c.titulo, corto: c.marca, detalle: c.lineas, actividad: c.actividad, href: c.href }));
+  .map((c) => ({ logo: c.logo, nombre: c.club!.nombre, disciplina: c.titulo, corto: c.marca, detalle: c.lineas, actividad: c.actividad, href: c.href, whatsapp: c.whatsapp, mensaje: c.conocer.mensaje }));
 
 /** Actividades del formulario único (sustituye a sus cuatro formularios de Google). */
 export const actividades: { id: string; nombre: string; grupo?: "gimnasio" | "personal" | "pilates"; pilates?: boolean }[] = [

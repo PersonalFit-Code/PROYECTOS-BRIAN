@@ -226,7 +226,7 @@ export default function Tarifas({ inicial = "gimnasio", pagina = false }: { inic
               </ul>
               <div className="flex shrink-0 gap-3">
                 <Link href={waPlan("reformer-1")} target="_blank" rel="noopener" className={claseBoton("venta")}>
-                  Inscríbete
+                  Consultar plazas
                 </Link>
                 <Link href={wa("Hola, he visto en la web la información sobre 720 Pilates y me gustaría conocer mejor la actividad. ¿Podríais orientarme sobre las modalidades disponibles y cómo realizar una primera prueba? Gracias.", pilates.whatsapp)} target="_blank" rel="noopener" className={claseBoton("contorno-oscuro")}>
                   Quiero conocer 720 Pilates

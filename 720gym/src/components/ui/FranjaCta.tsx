@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
-import { wa } from "@/data/negocio";
+import { wa, waVisita } from "@/data/negocio";
 import { cn } from "@/lib/utils";
-import { waPlan } from "@/data/pagos";
 
 /**
  * Franja corta de acción entre apartados: una frase y dos salidas (inscribirse y WhatsApp).
@@ -12,9 +11,9 @@ import { waPlan } from "@/data/pagos";
 export default function FranjaCta({
   frase,
   detalle,
-  boton = "Inscríbete",
-  href = waPlan(),
-  mensaje = "Hola, quiero apuntarme a 720 GYM CLUB. ¿Me dais información?",
+  boton = "Ven a conocer 720",
+  href = waVisita(),
+  mensaje = "Hola, os escribo desde la web de 720 Gym Club. Me gustaría que me orientaseis sobre lo que busco. Gracias.",
   clara = false,
 }: {
   frase: string;
@@ -25,7 +24,7 @@ export default function FranjaCta({
   clara?: boolean;
 }) {
   return (
-    <aside className={cn("relative overflow-hidden", clara ? "bg-pared text-negro" : "bg-negro text-white")} aria-label="Apúntate">
+    <aside className={cn("relative overflow-hidden", clara ? "bg-pared text-negro" : "bg-negro text-white")} aria-label="Ven a conocer 720">
       <div className="franja-brillo pointer-events-none absolute inset-0" aria-hidden />
       <div className="container-page relative flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:py-7">
         <div data-reveal>

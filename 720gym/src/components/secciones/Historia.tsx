@@ -41,7 +41,7 @@ export default function Historia() {
             <span className="grid size-11 place-items-center rounded-full bg-acento text-acento-tinta">
               <Play className="size-4 fill-current" aria-hidden />
             </span>
-            Ver el vídeo de la obra en Instagram
+            Ver más en nuestro Instagram
           </a>
         </div>
 

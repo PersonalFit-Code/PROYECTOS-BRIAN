@@ -7,7 +7,6 @@ import Contador from "@/components/ui/Contador";
 import { negocio, waVisita } from "@/data/negocio";
 import { resenas, type Tema } from "@/data/resenas";
 import { cn } from "@/lib/utils";
-import { waPlan } from "@/data/pagos";
 
 /**
  * Reseñas reales de Google: la nota media de la ficha arriba, filtros por tema y tarjetas que se
@@ -44,7 +43,7 @@ export default function Resenas({ tema, titulo = "Lo que dicen de 720" }: { tema
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div>
             <p data-reveal className="etiqueta text-white/55">
-              Reseñas reales de Google
+              Una selección de reseñas reales de Google
             </p>
             <h2 id="titulo-resenas" data-reveal className="titular mt-4 text-titulo-1">
               {titulo}
@@ -113,18 +112,18 @@ export default function Resenas({ tema, titulo = "Lo que dicen de 720" }: { tema
         <div className="mt-6 flex flex-col items-center gap-4">
           {lista.length > 6 && (
             <button type="button" onClick={() => setTodas(!todas)} className="boton-info subtitular inline-flex h-11 items-center gap-2 px-5 text-white">
-              {todas ? "Ver menos" : `Ver las ${lista.length} reseñas`}
+              {todas ? "Ver menos" : `Ver toda la selección (${lista.length})`}
               <ChevronDown className={cn("size-4 transition duration-300", todas && "rotate-180")} aria-hidden />
             </button>
           )}
           <div data-reveal className="mt-4 flex flex-col items-center gap-3 text-center sm:flex-row">
-            <p className="subtitular text-[18px]">¿Te unes a ellos?</p>
+            <p className="subtitular text-[18px]">¿Vienes a conocernos?</p>
             <div className="flex gap-2">
-              <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-11 items-center px-5 text-[15px]">
-                Inscríbete
+              <Link href={waVisita()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-11 items-center px-5 text-[15px]">
+                Ven a conocer 720
               </Link>
-              <Link href={waVisita()} target="_blank" rel="noopener" className="boton-info subtitular inline-flex h-11 items-center px-5 text-[15px] text-white">
-                Ven a conocernos
+              <Link href="/#que-buscas" className="boton-info subtitular inline-flex h-11 items-center px-5 text-[15px] text-white">
+                Descubre las actividades
               </Link>
             </div>
           </div>

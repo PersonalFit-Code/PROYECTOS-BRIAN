@@ -11,7 +11,6 @@ import { claseBoton } from "@/components/ui/Boton";
 import { cn } from "@/lib/utils";
 import { negocio, wa, waVisita } from "@/data/negocio";
 import { enlacesConceptos, navegacion } from "./navegacion";
-import { waPlan } from "@/data/pagos";
 import SelloConcepto from "@/components/ui/SelloConcepto";
 import { repetirIntro } from "@/components/ui/Intro";
 
@@ -97,7 +96,7 @@ export default function Header() {
               aria-controls="menu-conceptos"
               onClick={() => setConceptosAbierto((v) => !v)}
             >
-              Conceptos <ChevronDown className={cn("size-4 transition-transform", conceptosAbierto && "rotate-180")} aria-hidden />
+              Formas de entrenar <ChevronDown className={cn("size-4 transition-transform", conceptosAbierto && "rotate-180")} aria-hidden />
             </button>
           </div>
           {navegacion.map((e) => (
@@ -108,8 +107,9 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href={waPlan()} target="_blank" rel="noopener" className={cn(claseBoton("venta"), "h-11 rounded-full px-4 sm:px-5")}>
-            Inscríbete
+          <Link href={waVisita()} target="_blank" rel="noopener" className={cn(claseBoton("venta"), "h-11 rounded-full px-4 sm:px-5")}>
+            <span className="sm:hidden">Conócenos</span>
+            <span className="hidden sm:inline">Ven a conocer 720</span>
           </Link>
           <button
             type="button"
@@ -178,7 +178,7 @@ export default function Header() {
         <nav className="container-page flex min-h-full flex-col pt-4 pb-10" aria-label="Menú">
           <details className="group border-b border-white/10" open>
             <summary className="titular flex cursor-pointer items-center justify-between py-4 text-[28px]">
-              Conceptos <ChevronDown className="size-6 transition-transform group-open:rotate-180" aria-hidden />
+              Formas de entrenar <ChevronDown className="size-6 transition-transform group-open:rotate-180" aria-hidden />
             </summary>
             <ul className="grid grid-cols-2 gap-2 pb-4">
               {enlacesConceptos.map((c) => (
@@ -197,8 +197,8 @@ export default function Header() {
             </Link>
           ))}
           <div className="mt-auto grid gap-3 pt-8">
-            <Link href={waPlan()} target="_blank" rel="noopener" className={claseBoton("venta", true)}>
-              Inscríbete ahora
+            <Link href={waVisita()} target="_blank" rel="noopener" className={claseBoton("venta", true)}>
+              Ven a conocer 720
             </Link>
             <a href={wa("Hola, tengo una duda sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className={claseBoton("contorno", true)}>
               Escríbenos por WhatsApp

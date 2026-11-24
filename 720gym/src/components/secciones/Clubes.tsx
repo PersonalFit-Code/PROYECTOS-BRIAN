@@ -37,12 +37,12 @@ export default function Clubes({ pagina = false }: { pagina?: boolean }) {
               <h3 className="subtitular mt-2 text-[26px]">{c.nombre}</h3>
               <p className="mt-2 text-[14px] text-white/60">{c.detalle}</p>
               <a
-                href={wa(`Hola, quiero información de ${c.disciplina} (${c.nombre}) en 720.`)}
+                href={wa(c.mensaje, c.whatsapp)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-auto inline-flex items-center gap-1.5 pt-6 text-[14px] font-semibold text-white/85 hover:text-acento"
               >
-                Pedir información <ArrowUpRight className="size-4" aria-hidden />
+                Escribir a {c.nombre} <ArrowUpRight className="size-4" aria-hidden />
               </a>
             </li>
           ))}

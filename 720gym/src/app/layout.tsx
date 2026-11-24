@@ -6,10 +6,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BotonWhatsApp from "@/components/layout/BotonWhatsApp";
 import Revelados from "@/components/ui/Revelados";
-import CtaFlotante from "@/components/layout/CtaFlotante";
 import FranjaPie from "@/components/layout/FranjaPie";
 import BarraMovil from "@/components/layout/BarraMovil";
-import Asistente from "@/components/layout/Asistente";
 import { negocio } from "@/data/negocio";
 import { INDEXAR, URL_SITIO } from "@/lib/sitio";
 
@@ -26,7 +24,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_ES",
     siteName: "720 GYM CLUB",
-    title: "720 GYM CLUB · Entrena. Cuídate. Sigue creciendo.",
+    title: "720 GYM CLUB · Entrena. Cuídate. Creciendo.",
     description: "Club de entrenamiento con aforo limitado en Ourense, abierto los 365 días.",
   },
   robots: INDEXAR ? { index: true, follow: true } : { index: false, follow: false },
@@ -39,7 +37,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ExerciseGym",
   name: negocio.nombre,
-  slogan: "Entrena. Cuídate. Sigue creciendo.",
+  slogan: "Entrena. Cuídate. Creciendo.",
   url: URL_SITIO,
   telephone: negocio.telefono,
   email: negocio.email,
@@ -101,9 +99,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <FranjaPie />
         <Footer />
         <BotonWhatsApp />
-        <CtaFlotante />
         <BarraMovil />
-        <Asistente />
         <Revelados />
       </body>
     </html>

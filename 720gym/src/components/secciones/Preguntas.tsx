@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
-import { wa } from "@/data/negocio";
+import { wa, waVisita } from "@/data/negocio";
 import { preguntas } from "@/data/preguntas";
-import { waPlan } from "@/data/pagos";
 
 export default function Preguntas({ pagina = false }: { pagina?: boolean }) {
   const Titulo = pagina ? "h1" : "h2";
@@ -32,14 +31,14 @@ export default function Preguntas({ pagina = false }: { pagina?: boolean }) {
           <div data-reveal className="mt-10 flex flex-col gap-4 rounded-3xl bg-negro p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
               <p className="subtitular text-[20px]">¿Te queda alguna duda?</p>
-              <p className="mt-1 text-[14px] text-white/60">Pregúntanos por WhatsApp o pasa a probar una clase.</p>
+              <p className="mt-1 text-[14px] text-white/60">Pregúntanos por WhatsApp o ven a conocer el centro.</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <a href={wa("Hola, tengo una pregunta sobre 720 GYM CLUB.")} target="_blank" rel="noopener noreferrer" className="group inline-flex h-12 items-center gap-2 rounded-full bg-whatsapp px-5 text-[14px] font-semibold transition hover:scale-[1.03] active:scale-95">
                 <IconoWhatsApp className="size-5" /> WhatsApp
               </a>
-              <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-12 items-center px-6 text-[15px]">
-                Inscríbete
+              <Link href={waVisita()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-12 items-center px-6 text-[15px]">
+                Ven a conocer 720
               </Link>
             </div>
           </div>

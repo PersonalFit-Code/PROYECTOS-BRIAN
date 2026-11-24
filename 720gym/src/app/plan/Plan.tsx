@@ -104,7 +104,7 @@ export default function Plan() {
             <p className="text-[14px] text-negro/60">Ven a conocer 720: escríbenos y concertamos una visita.</p>
           </div>
           <Link href={waPlan()} target="_blank" rel="noopener" className="boton-venta subtitular inline-flex h-12 items-center gap-2 px-6">
-            Inscribirme <ArrowRight className="size-4" aria-hidden />
+            Ven a conocer 720 <ArrowRight className="size-4" aria-hidden />
           </Link>
         </div>
       </div>

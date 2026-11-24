@@ -4,7 +4,7 @@ import { fotos } from "@/data/fotos";
 
 const iconos = [
   { Icono: CalendarDays, titulo: "365 días", texto: "Abierto todos los días del año, festivos incluidos." },
-  { Icono: Users, titulo: "Socios limitados", texto: "Los justos para disfrutar del material sin esperas." },
+  { Icono: Users, titulo: "Socios limitados", texto: "Los justos para cuidar la ocupación de la sala." },
   { Icono: HeartHandshake, titulo: "Entorno familiar", texto: "Todas las edades, sin competitividad tóxica." },
   { Icono: Building2, titulo: "Espacio para tu club", texto: "Clubes, talleres y profesionales entrenan aquí." },
 ];

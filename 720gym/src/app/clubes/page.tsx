@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function PaginaClubes() {
   return (
     <>
-      <JsonLd datos={migas([["Clubes y 720P", "/clubes"]])} />
+      <JsonLd datos={migas([["Clubes y espacios para profesionales", "/clubes"]])} />
       <Clubes pagina />
       <Cierre />
       <CintaLogos />

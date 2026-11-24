@@ -14,13 +14,13 @@ export default function Footer() {
           <p className="mt-6 max-w-xs text-[15px] leading-relaxed text-white/60">
             Centro privado de entrenamiento en Ourense. Fuerza, salud y comunidad, con aforo limitado.
           </p>
-          <p className="titular texto-logo mt-6 text-[26px]">Entrena. Cuídate. Sigue creciendo.</p>
+          <p className="titular texto-logo mt-6 text-[26px]">Entrena. Cuídate. Creciendo.</p>
         </div>
         <div className="relative grid gap-10 sm:grid-cols-3 lg:col-span-8">
           {/* El «720» llena de arriba abajo el recuadro de las columnas (de Conceptos a Contacto), centrado. */}
           <MarcaAjustada className="pointer-events-none absolute inset-0 -z-0 h-full w-full" />
           <div className="relative">
-            <p className="etiqueta text-white/45">Conceptos</p>
+            <p className="etiqueta text-white/45">Formas de entrenar</p>
             <ul className="mt-4 space-y-2 text-[15px]">
               {enlacesConceptos.map((c) => (
                 <li key={c.href}>
@@ -36,7 +36,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/clubes" className="text-white/75 hover:text-white">
-                  Clubes y 720P
+                  Clubes y espacios para profesionales
                 </Link>
               </li>
               <li>
