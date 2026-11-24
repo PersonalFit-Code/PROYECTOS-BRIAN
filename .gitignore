@@ -38,3 +38,4 @@ build
 # Registros y basura del sistema
 *.log
 .DS_Store
+comercial/hilderwin/propuesta/
