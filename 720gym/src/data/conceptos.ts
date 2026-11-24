@@ -398,7 +398,7 @@ export const conceptos: Concepto[] = [
   },
   {
     slug: "powerlifting",
-    instagram: "720gym",
+    instagram: "720powerliftingou",
     href: "/powerlifting",
     grupo: "clubes",
     nombre: "720 Powerlifting",
