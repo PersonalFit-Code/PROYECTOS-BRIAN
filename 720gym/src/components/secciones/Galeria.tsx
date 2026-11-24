@@ -15,13 +15,13 @@ import { cn } from "@/lib/utils";
  * y de la oficina.
  */
 const espacios: { id: string; src: string; grande: string; alt: string; zona: string; texto: string; href: string; pos?: string; ancho?: boolean }[] = [
-  { id: "entrada", ...fotos.entrada, zona: "Entrada", texto: "Bienvenido a 720", href: "/club", pos: "object-[50%_30%]" },
+  { id: "entrada", ...fotos.fachada, zona: "Entrada", texto: "Bienvenido a 720", href: "/club" },
   { id: "vestuarios", ...fotos.vestuarioBancos, zona: "Vestuarios", texto: "Amplios, con duchas", href: "/club", pos: "object-[50%_60%]" },
   { id: "reformer", ...fotos.pilatesReformer, zona: "720 Pilates", texto: "Sala de Reformer", href: "/pilates", pos: "object-[50%_70%]" },
   { id: "wall-unit", ...fotos.pilatesWallUnit, zona: "720 Pilates", texto: "Sala de Mat y Wall Unit", href: "/pilates" },
   { id: "tatami", ...fotos.pistaPilates, zona: "Tatami", texto: "Artes marciales y capoeira", href: "/#clubes", pos: "object-[50%_38%]" },
-  { id: "funcional", ...fotos.funcional, zona: "Zona funcional", texto: "CrossGym: cuerda, kettlebells y césped", href: "/crossgym" },
-  { id: "pista", ...fotos.pistaVertical, zona: "Pista", texto: "Tartán y césped", href: "/gimnasia-acrobatica", pos: "object-[50%_42%]" },
+  { id: "funcional", ...fotos.funcional, zona: "CrossGym", texto: "Zona funcional: cuerda, kettlebells y césped", href: "/crossgym" },
+  { id: "pista", ...fotos.pistaVertical, zona: "Pista", texto: "Tapiz de gimnasia acrobática", href: "/gimnasia-acrobatica", pos: "object-[50%_42%]" },
   { id: "racks", ...fotos.racks, zona: "Gimnasio", texto: "Racks y peso libre", href: "/gimnasio" },
   { id: "maquinas", ...fotos.maquinas, zona: "Gimnasio", texto: "Máquinas guiadas y poleas", href: "/gimnasio" },
   { id: "sala", ...fotos.sala, zona: "Gimnasio", texto: "La sala de musculación", href: "/gimnasio" },

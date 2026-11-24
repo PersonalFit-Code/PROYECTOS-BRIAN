@@ -12,8 +12,8 @@ export const fotos = {
   iaDiscos: { src: "/fotos/ia-discos.webp", grande: "/fotos/ia-discos.webp", alt: "Discos de colores en un soporte" },
   iaBarra: { src: "/fotos/ia-barra.webp", grande: "/fotos/ia-barra.webp", alt: "Barra con discos en un rack y mancuernas rojas al fondo" },
   entrada: { src: "/fotos/entrada-720gym.webp", grande: "/fotos/entrada-720gym-grande.webp", alt: "Rótulo 720GYM sobre la puerta de la sala de peso libre" },
-  pista: { src: "/fotos/pista-funcional.webp", grande: "/fotos/pista-funcional-grande.webp", alt: "Pista de tartán rojo y césped con el logo 720 GYM CLUB en la pared y la zona de 720 Pilates al fondo" },
-  pistaVertical: { src: "/fotos/pista-vertical.webp", grande: "/fotos/pista-vertical-grande.webp", alt: "Pista de tartán rojo y césped con el logo 720 GYM CLUB en la pared" },
+  pista: { src: "/fotos/pista-funcional.webp", grande: "/fotos/pista-funcional-grande.webp", alt: "Pista con el tapiz de gimnasia acrobática, el logo 720 GYM CLUB en la pared y la zona de 720 Pilates al fondo" },
+  pistaVertical: { src: "/fotos/pista-vertical.webp", grande: "/fotos/pista-vertical-grande.webp", alt: "Pista con el tapiz de gimnasia acrobática y el logo 720 GYM CLUB en la pared" },
   pistaPilates: { src: "/fotos/pista-pilates.webp", grande: "/fotos/pista-pilates-grande.webp", alt: "Pista con el rótulo de 720 Pilates, el tatami azul y la bandera de Capoeira" },
   pilatesReformer: { src: "/fotos/pilates-reformer.webp", grande: "/fotos/pilates-reformer-grande.webp", alt: "Sala de 720 Pilates con las máquinas Reformer de madera" },
   pilatesWallUnit: { src: "/fotos/pilates-wall-unit.webp", grande: "/fotos/pilates-wall-unit-grande.webp", alt: "Sala de Pilates Mat y Wall Unit con colchonetas y unidades de pared" },
@@ -30,4 +30,6 @@ export const fotos = {
   powerSentadilla: { src: "/fotos/powerlifting-sentadilla.webp", grande: "/fotos/powerlifting-sentadilla-grande.webp", alt: "Levantador de 720 Powerlifting preparando una sentadilla en competición", vertical: true },
   powerPesoMuerto: { src: "/fotos/powerlifting-peso-muerto.webp", grande: "/fotos/powerlifting-peso-muerto-grande.webp", alt: "Levantador de 720 Powerlifting antes de un peso muerto en competición", vertical: true },
   powerSeleccion: { src: "/fotos/powerlifting-seleccion.webp", grande: "/fotos/powerlifting-seleccion-grande.webp", alt: "Levantadora con el equipaje de España celebrando una sentadilla en competición", vertical: true },
+  /* Fachada (24/11/2026, de Brais). */
+  fachada: { src: "/fotos/fachada-720gym.webp", grande: "/fotos/fachada-720gym-grande.webp", alt: "Fachada de 720GYM CLUB en la calle Río Bibei, con el rótulo luminoso y la entrada" },
 } as const;

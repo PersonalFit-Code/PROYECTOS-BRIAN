@@ -10,5 +10,5 @@ export const preguntas = [
   { p: "¿Caducan los bonos de entrenamiento personal?", r: "No. Los bonos no caducan. Para cambiar o cancelar una sesión, avisa con 24 h. La cuota del gimnasio va incluida durante tus sesiones." },
   { p: "Si falto a una clase de Pilates, ¿la pierdo?", r: "No: las clases de Pilates se recuperan dentro del mismo mes." },
   { p: "¿Es accesible?", r: "Sí, el centro es accesible en silla de ruedas. Y aquí entrena gente de todas las edades y todos los niveles: cada persona, a su ritmo." },
-  { p: "¿Dónde está y cómo llego?", r: `En ${negocio.direccion.completa}, bien comunicado con varias líneas de autobús y con aparcamiento fácil en la zona.` },
+  { p: "¿Dónde está y cómo llego?", r: `En ${negocio.direccion.completa}, bien comunicado con varias líneas de autobús.` },
 ];

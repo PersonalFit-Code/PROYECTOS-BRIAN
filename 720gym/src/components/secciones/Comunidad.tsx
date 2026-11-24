@@ -18,7 +18,6 @@ const valores = [
   { t: "Sin comparaciones", d: "Vienes a mejorar tu versión, no a medirte.", I: ShieldCheck },
   { t: "Atención cercana", d: "Grupos reducidos y alguien pendiente de ti.", I: UserCheck },
 ];
-const extras = ["Limpieza", "Pases para quien viene de fuera", "Fácil aparcamiento", "Accesible"];
 
 export default function Comunidad({ resumen = false }: { resumen?: boolean }) {
   return (
@@ -45,11 +44,6 @@ export default function Comunidad({ resumen = false }: { resumen?: boolean }) {
               </li>
             ))}
           </ul>
-          {!resumen && (
-            <p data-reveal className="mt-5 text-[14px] text-negro/60">
-              Y además: {extras.join(" · ")}.
-            </p>
-          )}
         </div>
 
         <div className="lg:col-span-6">

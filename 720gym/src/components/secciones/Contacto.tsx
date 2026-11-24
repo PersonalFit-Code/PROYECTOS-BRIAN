@@ -1,4 +1,4 @@
-import { MapPin, Clock, Phone, Mail, Bus, Car } from "lucide-react";
+import { MapPin, Clock, Phone, Mail, Bus } from "lucide-react";
 import { claseBoton } from "@/components/ui/Boton";
 import { negocio, pilates, wa } from "@/data/negocio";
 
@@ -8,7 +8,6 @@ export default function Contacto({ pagina = false }: { pagina?: boolean }) {
     { Icono: MapPin, titulo: "Dirección", texto: negocio.direccion.completa },
     { Icono: Clock, titulo: "Horario", texto: `${negocio.horario.texto}. ${negocio.horario.detalle}.` },
     { Icono: Bus, titulo: "Cómo llegar", texto: "Bien comunicado con varias líneas de autobús urbano." },
-    { Icono: Car, titulo: "Aparcamiento", texto: "Fácil aparcamiento en la zona." },
   ];
   return (
     <section id="contacto" className={pagina ? "bg-negro pt-[calc(var(--header-h)+3rem)] pb-16 sm:pb-24" : "bg-negro py-16 sm:py-24"} aria-labelledby="titulo-contacto">

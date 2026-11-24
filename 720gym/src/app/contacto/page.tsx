@@ -5,7 +5,7 @@ import JsonLd, { migas } from "@/components/ui/JsonLd";
 
 export const metadata: Metadata = {
   title: "Contacto y cómo llegar",
-  description: "720 GYM CLUB en Calle Río Bibei 16, Ourense. Abierto todos los días de 08:00 a 22:30. Teléfono, WhatsApp, email, mapa, autobús y aparcamiento fácil en la zona.",
+  description: "720 GYM CLUB en Calle Río Bibei 16, Ourense. Abierto todos los días de 08:00 a 22:30. Teléfono, WhatsApp, email, mapa, autobús en la zona.",
   alternates: { canonical: "/contacto" },
 };
 

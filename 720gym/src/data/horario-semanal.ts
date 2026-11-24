@@ -1,7 +1,7 @@
 /**
  * Horario semanal real del curso 2026-27 (PDF «HorarioGeneral_720_Gym_Club_2026-27» y fichas).
  * Cada sesión apunta a su actividad por `slug`; el nombre, el color y el logo salen de la ficha.
- * Pilates no trae hora de fin en el PDF. CrossGym de mañana son dos turnos entre las 09:00 y las 11:00.
+ * Pilates no trae hora de fin en el PDF. CrossGym de mañana: dos clases seguidas, 09:00–10:00 y 10:00–11:00.
  */
 export const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"] as const;
 export type DiaSemana = (typeof diasSemana)[number];
@@ -29,7 +29,7 @@ export const sesionesSemana: SesionSemana[] = [
   ...varias([L], [["09:30", "10:30"], ["20:15", "21:15"]], "yoga"),
   ...varias([X], [["19:15", "20:15"], ["20:15", "21:15"]], "yoga"),
   // CrossGym
-  ...varias([L, X, J], [["09:00", "11:00"]], "crossgym", "Dos turnos"),
+  ...varias([L, X, J], [["09:00", "10:00"], ["10:00", "11:00"]], "crossgym"),
   ...varias([L, X, J], [["16:30", "17:30"], ["17:30", "18:30"], ["18:30", "19:30"], ["19:30", "20:30"]], "crossgym"),
   // Brazilian Jiu-Jitsu
   ...varias([L], [["17:00", "18:00"]], "brazilian-jiu-jitsu", "Infantil · 4–12 años"),
