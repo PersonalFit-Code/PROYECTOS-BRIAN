@@ -41,7 +41,7 @@
 - Jerarquía clara: en la primera pantalla se entiende qué es, para quién y qué hacer (un solo botón principal).
 - Textos reales y concretos. No inventes testimonios, cifras ni logos de clientes. Si falta un dato, pon un marcador claro tipo [DATO PENDIENTE] y avísame.
 - Modo claro por defecto. Modo oscuro solo si lo pido.
-- Si el proyecto es de neuro·node, usa su marca: color principal #6447FA, degradado azul (#2E8BFF) a violeta (#7B2FF2) solo en acentos, tipografías Montserrat (títulos) y Quicksand (texto), peso 500 o más, fondo blanco y texto casi negro. Logos en la carpeta de marca que te indique.
+- Si el proyecto es de neuro·node, usa su marca: color principal #6447FA, degradado oficial azul cielo (#36ADFB) → #6447FA → violeta (#7F1EED) solo en acentos (sale de la carpeta «Marca Brian»; manda sobre esta nota), tipografías Montserrat (títulos) y Quicksand (texto), peso 500 o más, fondo blanco y texto casi negro. Logos en la carpeta de marca que te indique.
 - Si es para un cliente, pregúntame por su marca (logo, colores, tipografía) o propón una dirección y espera mi OK.
 
 ## Lista de calidad (comprobar siempre antes de entregar)

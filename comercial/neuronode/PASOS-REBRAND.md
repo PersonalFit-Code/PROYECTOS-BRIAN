@@ -100,7 +100,7 @@ Quiero que la web nueva sea brutal y profesional, nada de diseño genérico de I
 Prepara la base de diseño, sin tocar todavía los textos:
 1. Colores como variables (tokens):
    - principal #6447FA;
-   - acento en degradado de azul #2E8BFF a violeta #7B2FF2, solo en detalles;
+   - acento en el degradado oficial #36ADFB → #6447FA → #7F1EED, solo en detalles;
    - fondo blanco, texto casi negro y un violeta muy suave para fondos de sección.
    Modo claro.
 2. Tipografías: Montserrat para títulos y Quicksand para texto, peso 500 o más. Que se carguen sin bloquear la página.
