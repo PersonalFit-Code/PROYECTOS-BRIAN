@@ -124,8 +124,8 @@ function Tarjetas({ c }: { c: Concepto }) {
           {b.pasos ? (
             <span className="titular grid size-11 place-items-center rounded-full bg-pared text-[22px]">{i + 1}</span>
           ) : iconoDe(t.titulo) ? (
-            <span className="grid size-14 place-items-center rounded-2xl bg-pared">
-              <IconoConcepto texto={t.titulo} className="size-8 text-marca" />
+            <span className="grid size-16 place-items-center rounded-2xl bg-pared">
+              <IconoConcepto texto={t.titulo} className="size-10 text-marca" />
             </span>
           ) : (
             <span className="block h-1 w-10 rounded-full bg-marca" aria-hidden />
