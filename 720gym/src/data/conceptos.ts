@@ -189,7 +189,7 @@ export const conceptos: Concepto[] = [
     foto: fotos.pilatesReformer.src,
     galeria: [fotos.pilatesClaseReformer, fotos.pilatesClaseWallUnit, fotos.pilatesClaseFitball, fotos.pilatesReformer, fotos.pilatesWallUnit, fotos.pistaPilates],
     bloque: {
-      titulo: "Dos formas de practicar Pilates",
+      titulo: "Nuestras clases de Pilates",
       tarjetas: [
         { titulo: "Pilates Reformer", texto: "Trabajo sobre máquina para mejorar fuerza, control, movilidad y precisión en cada movimiento." },
         { titulo: "Pilates Mat y Wall Unit", texto: "Ejercicios en suelo y unidad de pared para trabajar control corporal, postura, movilidad y fuerza." },
