@@ -1,4 +1,5 @@
 import type { Guion } from "@/lib/guion";
+import { SecuenciaDM } from "./SecuenciaDM";
 
 const PASOS: { clave: "entrada" | "pregunta" | "prueba" | "regalo" | "cierre"; titulo: string; ayuda: string }[] = [
   { clave: "entrada", titulo: "Entrada", ayuda: "Que note que has mirado su negocio." },
@@ -8,8 +9,26 @@ const PASOS: { clave: "entrada" | "pregunta" | "prueba" | "regalo" | "cierre"; t
   { clave: "cierre", titulo: "Cierre", ayuda: "Dos opciones, no «¿cuándo te viene bien?»." },
 ];
 
-/** El guion de la llamada, paso a paso, para leerlo de un vistazo antes de marcar. */
+/** El guion de la llamada, paso a paso, para leerlo de un vistazo antes de marcar.
+ *  A infoproductores y coaches se les escribe por Instagram: la secuencia va primero y la llamada queda plegada. */
 export function GuionLlamada({ guion }: { guion: Guion }) {
+  const porDM = guion.secuenciaDM.length > 0;
+  const llamada = <Llamada guion={guion} />;
+  return porDM ? (
+    <div>
+      <SecuenciaDM pasos={guion.secuenciaDM} />
+      <details className="mt-6 rounded-xl border border-line p-3">
+        <summary className="cursor-pointer font-bold">Si prefieres llamarle</summary>
+        <div className="mt-3">{llamada}</div>
+      </details>
+    </div>
+  ) : (
+    llamada
+  );
+}
+
+function Llamada({ guion }: { guion: Guion }) {
+  const porDM = guion.secuenciaDM.length > 0;
   return (
     <div>
       {guion.senal && (
@@ -72,7 +91,7 @@ export function GuionLlamada({ guion }: { guion: Guion }) {
         </details>
       )}
 
-      {guion.mensaje && (
+      {guion.mensaje && !porDM && (
         <div className="mt-6 rounded-xl border border-line p-3">
           <h3 className="text-sm font-bold">Si le escribes por Instagram</h3>
           <p className="mt-1">{guion.mensaje}</p>

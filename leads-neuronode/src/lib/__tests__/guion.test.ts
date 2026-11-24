@@ -52,6 +52,12 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.doesNotMatch(JSON.stringify(g), /\d+\s?€|euros|tres mejoras/i);
   assert.equal(montarGuion(base).cualificar.length, 0);
   assert.doesNotMatch(JSON.stringify(g), /Personal Fit|Tixola|Bin & Cami|lleváis|tenéis/);
-  assert.ok(g.mensaje && g.mensaje.includes("no te escribo más"));
+  assert.ok(g.mensaje && g.mensaje.includes("[nombre]"));
+  assert.equal(g.secuenciaDM.length, 6);
+  assert.ok(g.secuenciaDM.some((p) => p.texto?.includes("no te escribo más")));
+  // El enlace solo aparece cuando hay interés, nunca en el primer mensaje.
+  assert.ok(!g.secuenciaDM[1].texto?.includes("enlace"));
+  assert.ok(g.secuenciaDM.every((p) => !p.texto || !/€|\$/.test(p.texto)));
   assert.equal(montarGuion(base).mensaje, null);
+  assert.equal(montarGuion(base).secuenciaDM.length, 0);
 });

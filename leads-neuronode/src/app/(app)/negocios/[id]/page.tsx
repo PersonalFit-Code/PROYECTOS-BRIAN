@@ -139,7 +139,7 @@ export default async function Ficha({ params }: { params: Promise<{ id: string }
         </Bloque>
 
         <div className="lg:col-span-2">
-          <Bloque titulo="Guion de la llamada">
+          <Bloque titulo={n.sector === "infoproducto" ? "Cómo contactarle" : "Guion de la llamada"}>
             <GuionLlamada guion={guion} />
             {p?.mensaje_corto && (
               <div className="mt-5 border-t border-line pt-4">

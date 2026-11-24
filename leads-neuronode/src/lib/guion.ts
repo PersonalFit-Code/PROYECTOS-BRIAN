@@ -17,6 +17,14 @@ export interface Objecion {
   contestas: string;
 }
 
+/** Un paso de la secuencia de mensajes por Instagram. `texto` null si es una acción, no un mensaje para copiar. */
+export interface PasoDM {
+  cuando: string;
+  titulo: string;
+  texto: string | null;
+  nota?: string;
+}
+
 export interface Guion {
   /** Lo que hemos visto y por qué le llamamos. Null si no sabemos nada concreto. */
   senal: string | null;
@@ -30,6 +38,8 @@ export interface Guion {
   objeciones: Objecion[];
   /** Mensaje para escribirle por Instagram, si es por donde se le contacta. */
   mensaje: string | null;
+  /** Secuencia de mensajes por Instagram paso a paso. Solo infoproductores y coaches. */
+  secuenciaDM: PasoDM[];
   /** Preguntas para saber si encaja y para validar el precio. Solo las lleva el setter con IA. */
   cualificar: string[];
   precios: string[];
@@ -290,15 +300,60 @@ const PRECIOS_SETTER = [
   "¿Mensual, o anual con descuento?",
 ];
 
+/**
+ * Secuencia de Instagram para infoproductores y coaches: calentar, abrir conversación sin enlace,
+ * dos seguimientos (el segundo con un regalo) y el enlace solo cuando hay interés.
+ * Los huecos entre corchetes se rellenan mirando su perfil. Sin precios ni clientes inventados.
+ */
+export function secuenciaInfoproducto(): PasoDM[] {
+  // El nombre de la cuenta no siempre es el de la persona («About Coaching»): mejor rellenarlo a mano.
+  const nombre = "[nombre]";
+  return [
+    {
+      cuando: "Día 1",
+      titulo: "Calentar",
+      texto: null,
+      nota: "Dale like a 2 o 3 publicaciones y deja un comentario con sentido en la última: algo concreto de lo que dice, nada de «buen contenido». Así, cuando le escribas, tu nombre le suena.",
+    },
+    {
+      cuando: "Día 2",
+      titulo: "Primer mensaje (sin enlace)",
+      texto: `¡Hola ${nombre}! Soy Brian, de neuro·node. Vi tu reel de [tema del reel] y lo de «comenta [palabra]». Pregunta rápida: ¿todos esos mensajes los contestas tú o tienes a alguien?`,
+      nota: "Busca un reel suyo con «comenta X» o «escríbeme» y cámbialo en los corchetes. El objetivo es que conteste, no venderle.",
+    },
+    {
+      cuando: "Si contesta",
+      titulo: "Contarle qué es",
+      texto: "Tiene sentido. Te lo pregunto porque estamos sacando un agente de IA que contesta esos mensajes con tu forma de hablar, filtra a quien encaja y le agenda la llamada. Lo conectas a la IA que ya usas. Buscamos 10 personas para probarlo gratis antes de lanzarlo. ¿Quieres que te calcule antes cuántas ventas se te pueden estar escapando por contestar tarde?",
+    },
+    {
+      cuando: "Día 4 o 5, si no contesta",
+      titulo: "Seguimiento 1",
+      texto: `Hola ${nombre}, por si se te pasó: ¿los mensajes que te llegan por tus reels los contestas tú? Te lo pregunto porque tengo algo que te puede quitar ese trabajo.`,
+    },
+    {
+      cuando: "Día 8 o 9, si sigue sin contestar",
+      titulo: "Seguimiento 2 (con regalo)",
+      texto: "Último mensaje, prometido. Te dejo algo gratis: dime tres perfiles de tu nicho y te mando qué contenido les está funcionando y qué podrías aplicar tú. Sin compromiso. Si no te interesa, no te escribo más.",
+      nota: "Si te pasa los perfiles, apúntalos en la nota de su ficha para preparar el radar.",
+    },
+    {
+      cuando: "Cuando muestra interés",
+      titulo: "El enlace",
+      texto: "Aquí lo tienes: [enlace de la web]. En 30 segundos calculas lo que se te escapa, y si te encaja te reservo una de las 10 plazas de la beta. ¿Te va bien una videollamada de 30 minutos esta semana para dejártelo montado?",
+      nota: "Pon el enlace cuando la web nueva esté publicada. Muévelo a «Interesado» en el pipeline.",
+    },
+  ];
+}
+
 /** Monta el guion de un negocio. `aMedida` son las partes que haya escrito el puesto de Guion. */
 export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: Partial<Guion> | null): Guion {
   const senal = detectarSenal(n, dolores);
   const usted = deUsted(n.sector);
   const quien = n.sector === "clinica" ? "la consulta" : n.sector === "hosteleria" ? "el local" : n.sector === "infoproducto" ? "las ventas" : "el centro";
-  const mensaje =
-    n.sector === "infoproducto"
-      ? "Hola. Soy Brian, de neuro·node. He estado viendo tu contenido y tengo una duda: ¿los mensajes que te entran preguntando por tu programa los contestas tú o tienes a alguien? Te lo pregunto porque hemos montado un setter con IA que habla con tu guion y que ajustas tú mismo. Si no te encaja, me lo dices y no te escribo más."
-      : null;
+  const secuenciaDM = n.sector === "infoproducto" ? secuenciaInfoproducto() : [];
+  // El primer mensaje de la secuencia hace de «mensaje» para las vistas que solo enseñan uno.
+  const mensaje = secuenciaDM[1]?.texto ?? null;
   const base: Guion = {
     senal: dolores[0] ?? senalTxt(senal, n),
     centralita: `Buenos días, soy Brian, de neuro·node. ¿Con quién hablo? … Mira, [nombre], ¿está la persona que lleva ${quien}? Si pregunta de qué es: «Es una llamada comercial, muy breve. He estado mirando ${n.nombre} y quería comentarle una cosa. Medio minuto y cuelgo».`,
@@ -309,6 +364,7 @@ export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: P
     cierre: cierre(n, usted),
     objeciones: objeciones(senal, n, usted),
     mensaje,
+    secuenciaDM,
     cualificar: n.sector === "infoproducto" ? CUALIFICAR_SETTER : [],
     precios: n.sector === "infoproducto" ? PRECIOS_SETTER : [],
     seguimiento: "Si no cogen, no lo des por perdido: tres intentos, en días y horas distintas. Si te dicen «ahora no», apunta la hora que te den y llama a esa hora.",

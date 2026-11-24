@@ -14,7 +14,8 @@ const PESTANAS = SECTORES.filter((s) => s !== "otro");
 export default async function Pipeline({ searchParams }: { searchParams: Promise<{ sector?: string; todas?: string }> }) {
   const { db } = await getSesion();
   const f = await searchParams;
-  const sector = PESTANAS.find((s) => s === f.sector) ?? null;
+  // Ahora el foco son infoproductores y coaches: sin pestaña elegida, se abre esa. «Todos» va con ?sector=todos.
+  const sector = f.sector === "todos" ? null : (PESTANAS.find((s) => s === f.sector) ?? "infoproducto");
   const verTodas = f.todas === "1";
 
   const base = () => {
@@ -31,10 +32,9 @@ export default async function Pipeline({ searchParams }: { searchParams: Promise
 
   const enlace = (s: Sector | null, todas = false) => {
     const sp = new URLSearchParams();
-    if (s) sp.set("sector", s);
+    sp.set("sector", s ?? "todos");
     if (todas) sp.set("todas", "1");
-    const q = sp.toString();
-    return q ? `/pipeline?${q}` : "/pipeline";
+    return `/pipeline?${sp.toString()}`;
   };
 
   return (
@@ -42,7 +42,7 @@ export default async function Pipeline({ searchParams }: { searchParams: Promise
       <Titulo sub="Arrastra cada negocio a su columna, o usa «Mover a» en el móvil. Cada cambio queda en el historial de su ficha.">Pipeline</Titulo>
 
       <nav aria-label="Sectores" className="mb-5 flex flex-wrap gap-2">
-        {[null, ...PESTANAS].map((s) => (
+        {["infoproducto" as const, ...PESTANAS.filter((x) => x !== "infoproducto"), null].map((s) => (
           <Link
             key={s ?? "todos"}
             href={enlace(s)}
