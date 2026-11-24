@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, AtSign, CalendarClock, Camera, Coins, Plus, Quote, Users } from "lucide-react";
+import IconoConcepto, { iconoDe } from "@/components/ui/IconoConcepto";
 import IconoWhatsApp from "@/components/ui/IconoWhatsApp";
 import JsonLd, { migas } from "@/components/ui/JsonLd";
 import SelloConcepto from "@/components/ui/SelloConcepto";
@@ -122,6 +123,10 @@ function Tarjetas({ c }: { c: Concepto }) {
         <li key={t.titulo} data-reveal className="ficha-clara rounded-3xl border border-negro/10 bg-white p-6 sm:p-7">
           {b.pasos ? (
             <span className="titular grid size-11 place-items-center rounded-full bg-pared text-[22px]">{i + 1}</span>
+          ) : iconoDe(t.titulo) ? (
+            <span className="grid size-14 place-items-center rounded-2xl bg-pared">
+              <IconoConcepto texto={t.titulo} className="size-8 text-marca" />
+            </span>
           ) : (
             <span className="block h-1 w-10 rounded-full bg-marca" aria-hidden />
           )}
@@ -166,7 +171,7 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
             <ul className="hero-in mt-6 flex flex-wrap gap-2" style={{ ["--i" as string]: 4 }}>
               {c.chips.map((x) => (
                 <li key={x} className="flex items-center gap-2 rounded-full bg-white/[0.07] px-4 py-2 text-[14px] font-semibold text-white/85 ring-1 ring-white/10">
-                  <span className="size-1.5 rounded-full bg-marca" aria-hidden />
+                  {iconoDe(x) ? <IconoConcepto texto={x} className="size-[18px] text-white/70" /> : <span className="size-1.5 rounded-full bg-marca" aria-hidden />}
                   {x}
                 </li>
               ))}
@@ -227,7 +232,13 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
             <ul className="mt-4 grid gap-3 sm:gap-4 md:grid-cols-2">
               {c.destacados.map((d) => (
                 <li key={d.titulo} data-reveal className="rounded-3xl bg-negro p-6 text-white sm:p-7">
-                  <span className="block h-1 w-10 rounded-full bg-marca" aria-hidden />
+                  {iconoDe(d.titulo) ? (
+                    <span className="grid size-12 place-items-center rounded-2xl bg-white/[0.08] ring-1 ring-white/10">
+                      <IconoConcepto texto={d.titulo} className="size-6 text-white" />
+                    </span>
+                  ) : (
+                    <span className="block h-1 w-10 rounded-full bg-marca" aria-hidden />
+                  )}
                   <h3 className="subtitular mt-4 text-[21px]">{d.titulo}</h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-white/70">{d.texto}</p>
                 </li>
@@ -244,7 +255,13 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
               <ul className="mt-6 grid gap-3 md:grid-cols-2">
                 {c.niveles.items.map((n) => (
                   <li key={n.titulo} data-reveal className="ficha-clara flex gap-4 rounded-3xl border border-negro/10 bg-white p-5 sm:p-6">
-                    <span className="mt-1 w-1 shrink-0 rounded-full bg-marca" aria-hidden />
+                    {iconoDe(n.titulo) ? (
+                      <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-pared">
+                        <IconoConcepto texto={n.titulo} className="size-7 text-marca" />
+                      </span>
+                    ) : (
+                      <span className="mt-1 w-1 shrink-0 rounded-full bg-marca" aria-hidden />
+                    )}
                     <span>
                       <span className="subtitular block text-[18px] leading-tight">{n.titulo}</span>
                       <span className="mt-1.5 block text-[14.5px] leading-relaxed text-negro/65">{n.texto}</span>

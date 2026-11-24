@@ -91,3 +91,41 @@ export function Kettlebell(p: P) {
     </svg>
   );
 }
+/** Sentadilla: barra sobre los hombros y piernas flexionadas */
+export function Sentadilla(p: P) {
+  return (
+    <svg {...base(p)}>
+      <circle cx="12" cy="4.5" r="1.8" />
+      <path d="M2.5 8.5h19" />
+      <path d="M4.5 6v5M19.5 6v5" />
+      <path d="M12 8.5v5.5" />
+      <path d="M12 14l-4 2.5 1.5 5M12 14l4 2.5-1.5 5" />
+    </svg>
+  );
+}
+/** Press de banca: tumbado en el banco con la barra arriba */
+export function PressBanca(p: P) {
+  return (
+    <svg {...base(p)}>
+      <path d="M2.5 6h19" />
+      <path d="M4.5 3.5v5M19.5 3.5v5" />
+      <path d="M9 6v6M15 6v6" />
+      <circle cx="6" cy="13.5" r="1.7" />
+      <path d="M8.5 14.5h9l2.5 5" />
+      <path d="M4 17.5h13M6.5 17.5V21M15 17.5V21" />
+    </svg>
+  );
+}
+/** Peso muerto: de pie con la barra a la altura de la cadera */
+export function PesoMuerto(p: P) {
+  return (
+    <svg {...base(p)}>
+      <circle cx="12" cy="4" r="1.8" />
+      <path d="M12 6.5v7" />
+      <path d="M12 8l-3.5 2.5V15M12 8l3.5 2.5V15" />
+      <path d="M2.5 15h19" />
+      <path d="M4.5 12.5v5M19.5 12.5v5" />
+      <path d="M12 13.5l-2 8M12 13.5l2 8" />
+    </svg>
+  );
+}

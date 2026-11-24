@@ -1,3 +1,4 @@
+import Banda720P from "@/components/secciones/Banda720P";
 import type { Metadata } from "next";
 import Hero from "@/components/secciones/Hero";
 import QueEs720 from "@/components/secciones/QueEs720";
@@ -52,6 +53,7 @@ export default function Inicio() {
         titulo="Todo forma parte de 720"
         texto="Cada actividad está dirigida por profesionales especializados, buscando que cada persona entrene con criterio, seguridad y el apoyo adecuado."
       />
+      <Banda720P />
       <Filosofia />
       <Resenas />
       <Comunidad resumen />
