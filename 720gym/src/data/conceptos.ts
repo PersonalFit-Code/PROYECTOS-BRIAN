@@ -453,7 +453,7 @@ export const conceptos: Concepto[] = [
         { titulo: "Brazilian Jiu-Jitsu infantil", texto: "Una práctica adaptada para trabajar técnica, coordinación, atención, respeto y trabajo en equipo." },
       ],
     },
-    club: { nombre: "Mambises Brazilian Jiu-Jitsu", texto: "Entrena dentro de un club especializado y forma parte de una comunidad cercana." },
+    club: { nombre: "Mambises Brazilian Jiu-Jitsu", texto: "Entrena dentro de un club especializado y forma parte de una comunidad cercana.", web: "https://www.mambisesbjj.com/" },
     equipo: {
       titulo: "Conoce a tu profesor",
       personas: [

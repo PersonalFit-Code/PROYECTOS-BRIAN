@@ -187,8 +187,14 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
                 </a>
               )}
             </div>
+            {c.club?.web && (
+              <a href={c.club.web} {...EXT} className="hero-in group mt-5 flex w-fit items-center gap-2 text-[14.5px] font-semibold text-white/85 hover:text-white" style={{ ["--i" as string]: 6 }}>
+                <ArrowRight className="size-4 text-white/55 group-hover:text-white" aria-hidden />
+                Web de {c.club.nombre}: {c.club.web.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
+              </a>
+            )}
             {c.instagram && (
-              <a href={`https://www.instagram.com/${c.instagram}/`} {...EXT} className="hero-in group mt-5 inline-flex items-center gap-2 text-[14.5px] font-semibold text-white/75 hover:text-white" style={{ ["--i" as string]: 6 }}>
+              <a href={`https://www.instagram.com/${c.instagram}/`} {...EXT} className={cn("hero-in group inline-flex items-center gap-2 text-[14.5px] font-semibold text-white/75 hover:text-white", c.club?.web ? "mt-2.5" : "mt-5")} style={{ ["--i" as string]: 6 }}>
                 <AtSign className="size-4 text-white/55 group-hover:text-white" aria-hidden />
                 Síguenos en Instagram: {c.instagram}
               </a>
