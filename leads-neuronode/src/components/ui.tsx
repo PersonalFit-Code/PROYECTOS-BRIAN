@@ -22,7 +22,7 @@ export function Titulo({ children, sub, acciones }: { children: ReactNode; sub?:
 
 type Variante = "primario" | "suave" | "fantasma";
 const VARIANTES: Record<Variante, string> = {
-  primario: "bg-brand text-white hover:brightness-110",
+  primario: "boton-marca bg-brand text-white hover:brightness-115",
   suave: "border border-line bg-bg text-fg hover:bg-soft",
   fantasma: "text-muted hover:bg-soft hover:text-fg",
 };

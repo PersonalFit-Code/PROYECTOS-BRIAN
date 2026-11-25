@@ -7,26 +7,30 @@
 @import "@fontsource/quicksand/700.css";
 
 /*
- * Marca neuro·node: violeta #6447FA, degradado azul → violeta solo en acentos, fondo blanco y
- * texto casi negro. Montserrat para títulos y Quicksand para el texto, siempre con peso 500 o más.
+ * Marca neuro·node, en la versión oscura de la web (la de /conectar): fondo morado casi negro,
+ * horizonte de luz con el degradado oficial (#36ADFB → #6447FA → #7F1EED), texto blanco y botones
+ * violeta. Montserrat para títulos y Quicksand para el texto, siempre con peso 500 o más.
+ * --bg es el color de las superficies (tarjetas, campos); el fondo de la página es --fondo.
  */
 :root {
-  --bg: #ffffff;
-  --side: #faf9ff;
-  --fg: #15131f;
-  --muted: #5b5870;
-  --line: #e8e5f3;
-  --soft: #f5f3ff;
+  --fondo: #0b0918;
+  --bg: #15122a;
+  --side: #0f0c21;
+  --fg: #f3f1fb;
+  --muted: #aba6c6;
+  --line: #2c2749;
+  --soft: #211c3d;
   --brand: #6447fa;
-  --azul: #2e8bff;
-  --violeta: #7b2ff2;
-  --ok: #178a62;
-  --ok-bg: #e6f6ef;
-  --warn: #9a5208;
-  --warn-bg: #fff3e2;
-  --bad: #c2283b;
-  --bad-bg: #fdebee;
-  color-scheme: light;
+  --brand-txt: #ad9fff;
+  --azul: #36adfb;
+  --violeta: #7f1eed;
+  --ok: #5fe0a5;
+  --ok-bg: rgb(95 224 165 / 0.13);
+  --warn: #ffc56b;
+  --warn-bg: rgb(255 197 107 / 0.13);
+  --bad: #ff8c9a;
+  --bad-bg: rgb(255 140 154 / 0.13);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -44,11 +48,23 @@
   --font-titulo: "Montserrat", system-ui, sans-serif;
 }
 
-html {
-  background: var(--bg);
+/* El violeta de marca no da contraste como texto sobre oscuro: el texto «de marca» va en un lila claro. */
+.text-brand,
+.hover\:text-brand:hover {
+  color: var(--brand-txt);
 }
+
+html {
+  background: var(--fondo);
+}
+/* El horizonte de luz: un arco fino con el degradado oficial y el halo debajo, fijo arriba. */
 body {
-  background: var(--bg);
+  min-height: 100dvh;
+  background:
+    radial-gradient(140% 62% at 50% -34%, transparent 61%, rgb(54 173 251 / 0.5) 61.4%, rgb(100 71 250 / 0.55) 62.2%, rgb(127 30 237 / 0.22) 64%, transparent 72%),
+    radial-gradient(90% 46% at 50% -12%, rgb(100 71 250 / 0.28), transparent 70%),
+    var(--fondo);
+  background-attachment: fixed;
   color: var(--fg);
   font-family: var(--font-sans);
   font-weight: 500;
@@ -62,20 +78,29 @@ h3 {
 }
 
 :focus-visible {
-  outline: 3px solid var(--brand);
+  outline: 3px solid var(--brand-txt);
   outline-offset: 2px;
   border-radius: 6px;
 }
 
 /* Etiquetas de estado */
-.tono-gris { background: #efedf5; color: #45425a; }
+.tono-gris { background: rgb(255 255 255 / 0.07); color: #cfcbe2; }
 .tono-ambar { background: var(--warn-bg); color: var(--warn); }
 .tono-verde { background: var(--ok-bg); color: var(--ok); }
-.tono-marca { background: var(--soft); color: #4a2fd6; }
+.tono-marca { background: rgb(100 71 250 / 0.2); color: #c7bdff; }
 .tono-rojo { background: var(--bad-bg); color: var(--bad); }
 
 .degradado {
-  background: linear-gradient(90deg, var(--azul), var(--violeta));
+  background: linear-gradient(90deg, var(--azul), var(--brand), var(--violeta));
+}
+.texto-degradado {
+  background: linear-gradient(90deg, var(--azul), #8b77ff, #a35cff);
+  background-clip: text;
+  color: transparent;
+}
+/* Botón principal: violeta sólido con un brillo suave del degradado. */
+.boton-marca {
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08) inset, 0 8px 28px -10px rgb(100 71 250 / 0.75);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -86,20 +111,15 @@ h3 {
 }
 
 /* ---------- Oficina ---------- */
-.oficina {
-  background:
-    linear-gradient(#f3f0ff 0 0) top / 100% 5.5rem no-repeat,
-    repeating-linear-gradient(90deg, #f6f1e7 0 3.5rem, #f1ebdf 3.5rem 7rem);
-}
-.oficina-ventana {
-  background: linear-gradient(180deg, #cfe6ff, #eaf4ff);
+.oficina-iso {
+  background: radial-gradient(80% 70% at 50% 0%, rgb(100 71 250 / 0.18), transparent 70%), #0e0b1f;
 }
 .puesto {
   transition: translate 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 .puesto:hover {
   translate: 0 -3px;
-  box-shadow: 0 10px 24px -14px rgb(100 71 250 / 0.55);
+  box-shadow: 0 12px 30px -14px rgb(100 71 250 / 0.8);
 }
 .bocadillo::after {
   content: "";
@@ -114,22 +134,6 @@ h3 {
   border-bottom: 1px solid var(--line);
 }
 
-@keyframes of-teclear {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -5px; }
-}
-@keyframes of-respirar {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -1.5px; }
-}
-@keyframes of-asentir {
-  0%, 100% { rotate: 0deg; }
-  50% { rotate: 2.5deg; }
-}
-@keyframes of-parpadeo {
-  0%, 94%, 100% { scale: 1 1; }
-  97% { scale: 1 0.1; }
-}
 @keyframes of-luz {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.45; }
@@ -142,11 +146,6 @@ h3 {
 /* El movimiento solo corre si la persona no ha pedido menos movimiento ni ha pulsado «Parar». */
 @media (prefers-reduced-motion: no-preference) {
   html:not([data-oficina-quieta]) {
-    .p-cuerpo { animation: of-respirar 3.6s ease-in-out infinite; }
-    .p-cabeza { transform-box: fill-box; transform-origin: 50% 100%; animation: of-asentir 5s ease-in-out infinite; }
-    .p-ojos { transform-box: fill-box; transform-origin: center; animation: of-parpadeo 4.5s linear infinite; }
-    .puesto-svg[data-activo="si"] .p-mano-i { animation: of-teclear 0.42s ease-in-out infinite; }
-    .puesto-svg[data-activo="si"] .p-mano-d { animation: of-teclear 0.42s ease-in-out 0.21s infinite; }
     .puesto-svg[data-activo="si"] .p-luz { animation: of-luz 1.8s ease-in-out infinite; }
     .puesto[data-activo="si"] .bocadillo { animation: of-flotar 3s ease-in-out infinite; }
   }

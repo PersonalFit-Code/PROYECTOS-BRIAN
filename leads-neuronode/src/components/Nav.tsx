@@ -1,6 +1,6 @@
 "use client";
 
-import { Armchair, BarChart3, Building2, Columns3, Send, Upload } from "lucide-react";
+import { Armchair, BarChart3, Columns3 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,15 +8,12 @@ import { cx } from "@/lib/formato";
 
 const ENLACES = [
   { href: "/", txt: "Oficina", Icono: Armchair },
-  { href: "/hoy", txt: "Hoy", Icono: Send },
   { href: "/pipeline", txt: "Pipeline", Icono: Columns3 },
-  { href: "/negocios", txt: "Negocios", Icono: Building2 },
   { href: "/panel", txt: "Panel", Icono: BarChart3 },
-  { href: "/importar", txt: "Importar", Icono: Upload },
 ];
 
 function activo(ruta: string, href: string) {
-  return href === "/" ? ruta === "/" : ruta.startsWith(href);
+  return href === "/" ? ruta === "/" || ruta.startsWith("/despacho") || ruta.startsWith("/negocios") || ruta.startsWith("/importar") : ruta.startsWith(href);
 }
 
 /** Barra lateral en escritorio y barra inferior en el móvil. */
@@ -26,7 +23,7 @@ export function Nav() {
     <>
       <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-line bg-side p-4 md:flex">
         <Link href="/" className="mb-8 flex items-center gap-2.5">
-          <Image src="/logo.svg" alt="" width={36} height={36} className="rounded-lg border border-line" />
+          <Image src="/logo.svg" alt="" width={36} height={36} className="rounded-lg" />
           <span className="font-[family-name:var(--font-titulo)] text-lg font-extrabold tracking-tight">
             neuro<span className="text-brand">·</span>node
           </span>

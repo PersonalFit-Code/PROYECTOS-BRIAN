@@ -47,9 +47,9 @@ export default async function Ficha({ params }: { params: Promise<{ id: string }
 
   return (
     <>
-      <Link href="/hoy" className="mb-4 inline-flex min-h-11 items-center gap-2 font-bold text-muted hover:text-brand">
+      <Link href="/despacho/guion#escribir" className="mb-4 inline-flex min-h-11 items-center gap-2 font-bold text-muted hover:text-brand">
         <ArrowLeft className="size-4" aria-hidden />
-        Para escribir hoy
+        Mensajes de Gus
       </Link>
 
       <header className="mb-6">

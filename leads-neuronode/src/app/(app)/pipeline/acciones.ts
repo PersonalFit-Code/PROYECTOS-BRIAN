@@ -32,6 +32,6 @@ export async function moverNegocio(negocioId: string, columna: ColumnaId): Promi
   revalidatePath("/pipeline");
   revalidatePath(`/negocios/${negocioId}`);
   revalidatePath("/");
-  revalidatePath("/hoy");
+  revalidatePath("/despacho/[puesto]", "page");
   revalidatePath("/panel");
 }
