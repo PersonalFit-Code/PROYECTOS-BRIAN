@@ -46,7 +46,7 @@ export function SecuenciaDM({ pasos }: { pasos: PasoDM[] }) {
               <h4 className="font-bold">{p.titulo}</h4>
               {p.texto && (
                 <div className="mt-2 flex flex-col items-start gap-2 sm:flex-row">
-                  <p className="w-full min-w-0 flex-1 rounded-lg bg-soft p-2.5 leading-snug">{p.texto}</p>
+                  <p className="w-full min-w-0 flex-1 rounded-lg bg-soft p-2.5 leading-snug whitespace-pre-line">{p.texto}</p>
                   <Copiar texto={p.texto} />
                 </div>
               )}

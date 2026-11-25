@@ -307,41 +307,38 @@ const PRECIOS_SETTER = [
  */
 export function secuenciaInfoproducto(): PasoDM[] {
   // El nombre de la cuenta no siempre es el de la persona («About Coaching»): mejor rellenarlo a mano.
+  // Directo y al grano: un mensaje que se entiende solo, una respuesta y, como mucho, un recordatorio.
   const nombre = "[nombre]";
   return [
     {
       cuando: "Día 1",
-      titulo: "Calentar",
-      texto: null,
-      nota: "Dale like a 2 o 3 publicaciones y deja un comentario con sentido en la última: algo concreto de lo que dice, nada de «buen contenido». Así, cuando le escribas, tu nombre le suena.",
-    },
-    {
-      cuando: "Día 2",
-      titulo: "Primer mensaje (sin enlace)",
-      texto: `¡Hola ${nombre}! Soy Brian, de neuro·node. Vi tu reel de [tema del reel] y lo de «comenta [palabra]». Pregunta rápida: ¿todos esos mensajes los contestas tú o tienes a alguien?`,
-      nota: "Busca un reel suyo con «comenta X» o «escríbeme» y cámbialo en los corchetes. El objetivo es que conteste, no venderle.",
+      titulo: "El mensaje",
+      texto: `Hola ${nombre}, soy Brian, de neuro·node. Vi tu publicación de [tema] con [N] comentarios pidiendo [palabra]: ¿todos esos mensajes los contestas tú uno a uno?
+
+Te lo pregunto porque hemos creado un agente de IA para coaches e infoproductores que contesta tus DMs y comentarios al momento, con tu forma de hablar, y te agenda las llamadas con quien encaja. Y no se queda ahí: te programa el contenido en Instagram, TikTok y YouTube, te enseña tus métricas y vigila a tu competencia. Lo que hoy haces con un setter, ManyChat y Metricool por separado, en un solo agente, sin límite de mensajes y conectado a tu ChatGPT o Claude.
+
+Buscamos 10 coaches para probarlo gratis antes de lanzarlo. ¿Te cuento cómo funcionaría en tu cuenta?`,
+      nota: "Rellena los corchetes con una publicación suya concreta (en su ficha, Dora apunta cuál y cuántos comentarios tiene). Antes, dale like a un par de publicaciones. Sin enlace: Instagram desconfía de los enlaces en el primer mensaje a un desconocido.",
     },
     {
       cuando: "Si contesta",
-      titulo: "Contarle qué es",
-      texto: "Tiene sentido. Te lo pregunto porque estamos sacando un agente de IA que contesta esos mensajes con tu forma de hablar, filtra a quien encaja y le agenda la llamada. Lo conectas a la IA que ya usas. Buscamos 10 personas para probarlo gratis antes de lanzarlo. ¿Quieres que te calcule antes cuántas ventas se te pueden estar escapando por contestar tarde?",
+      titulo: "Cómo funcionaría en su cuenta",
+      texto: `En tu caso, cuando alguien comente [palabra] o te escriba, el agente le contesta en segundos como lo harías tú, le hace las preguntas que tú harías para ver si encaja y, si encaja, le agenda la llamada contigo. Tú solo entras a cerrar. Mientras, tienes en el mismo sitio lo que funciona en tu contenido y en el de tu competencia, y lo programas desde ahí.
+
+Durante la beta es gratis y sin permanencia. ¿Te va bien una videollamada de 15 minutos esta semana y te lo enseño con tu cuenta?`,
+      nota: "Si pide precio: «En la beta es gratis; después tendrá precio de fundador para los 10 primeros». Sin cifras.",
     },
     {
-      cuando: "Día 4 o 5, si no contesta",
-      titulo: "Seguimiento 1",
-      texto: `Hola ${nombre}, por si se te pasó: ¿los mensajes que te llegan por tus reels los contestas tú? Te lo pregunto porque tengo algo que te puede quitar ese trabajo.`,
+      cuando: "A las 48 h, si no contesta (y último)",
+      titulo: "Un recordatorio, en una línea",
+      texto: `${nombre}, te lo resumo en una línea: un agente que contesta tus DMs al momento y te agenda las llamadas, gratis durante la beta. ¿Te interesa o lo dejo aquí?`,
+      nota: "Es el último mensaje. Si no contesta, márcalo «Sin respuesta» en el pipeline y pasa al siguiente.",
     },
     {
-      cuando: "Día 8 o 9, si sigue sin contestar",
-      titulo: "Seguimiento 2 (con regalo)",
-      texto: "Último mensaje, prometido. Te dejo algo gratis: dime tres perfiles de tu nicho y te mando qué contenido les está funcionando y qué podrías aplicar tú. Sin compromiso. Si no te interesa, no te escribo más.",
-      nota: "Si te pasa los perfiles, apúntalos en la nota de su ficha para preparar el radar.",
-    },
-    {
-      cuando: "Cuando muestra interés",
-      titulo: "El enlace",
-      texto: "Aquí lo tienes: [enlace de la web]. En 30 segundos calculas lo que se te escapa, y si te encaja te reservo una de las 10 plazas de la beta. ¿Te va bien una videollamada de 30 minutos esta semana para dejártelo montado?",
-      nota: "Pon el enlace cuando la web nueva esté publicada. Muévelo a «Interesado» en el pipeline.",
+      cuando: "Cuando dice que sí",
+      titulo: "Cerrar la llamada",
+      texto: "¡Genial! Elige el hueco que mejor te venga: [enlace de agenda]. Te lo enseño con tu cuenta y, si te encaja, te dejo una de las 10 plazas de la beta reservada.",
+      nota: "Pon el enlace de agenda cuando lo tengáis. Muévelo a «Interesado» en el pipeline.",
     },
   ];
 }
@@ -353,7 +350,7 @@ export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: P
   const quien = n.sector === "clinica" ? "la consulta" : n.sector === "hosteleria" ? "el local" : n.sector === "infoproducto" ? "las ventas" : "el centro";
   const secuenciaDM = n.sector === "infoproducto" ? secuenciaInfoproducto() : [];
   // El primer mensaje de la secuencia hace de «mensaje» para las vistas que solo enseñan uno.
-  const mensaje = secuenciaDM[1]?.texto ?? null;
+  const mensaje = secuenciaDM[0]?.texto ?? null;
   const base: Guion = {
     senal: dolores[0] ?? senalTxt(senal, n),
     centralita: `Buenos días, soy Brian, de neuro·node. ¿Con quién hablo? … Mira, [nombre], ¿está la persona que lleva ${quien}? Si pregunta de qué es: «Es una llamada comercial, muy breve. He estado mirando ${n.nombre} y quería comentarle una cosa. Medio minuto y cuelgo».`,

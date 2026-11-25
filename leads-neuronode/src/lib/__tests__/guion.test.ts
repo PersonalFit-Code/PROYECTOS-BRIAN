@@ -53,10 +53,14 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.equal(montarGuion(base).cualificar.length, 0);
   assert.doesNotMatch(JSON.stringify(g), /Personal Fit|Tixola|Bin & Cami|lleváis|tenéis/);
   assert.ok(g.mensaje && g.mensaje.includes("[nombre]"));
-  assert.equal(g.secuenciaDM.length, 6);
-  assert.ok(g.secuenciaDM.some((p) => p.texto?.includes("no te escribo más")));
+  assert.equal(g.secuenciaDM.length, 4);
+  // Directo: como mucho un recordatorio, nunca una secuencia de días.
+  assert.ok(g.secuenciaDM.some((p) => p.texto?.includes("lo dejo aquí")));
+  assert.ok(!g.secuenciaDM.some((p) => /Día [4-9]/.test(p.cuando)));
+  // El primer mensaje ya cuenta lo que lo hace distinto: todo en uno y sin límite de mensajes.
+  assert.ok(g.secuenciaDM[0].texto?.includes("en un solo agente") && g.secuenciaDM[0].texto.includes("sin límite"));
   // El enlace solo aparece cuando hay interés, nunca en el primer mensaje.
-  assert.ok(!g.secuenciaDM[1].texto?.includes("enlace"));
+  assert.ok(!/enlace|https?:/.test(g.secuenciaDM[0].texto ?? ""));
   assert.ok(g.secuenciaDM.every((p) => !p.texto || !/€|\$/.test(p.texto)));
   assert.equal(montarGuion(base).mensaje, null);
   assert.equal(montarGuion(base).secuenciaDM.length, 0);
