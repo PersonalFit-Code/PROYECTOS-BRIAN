@@ -30,6 +30,9 @@ export const fotos = {
   powerSentadilla: { src: "/fotos/powerlifting-sentadilla.webp", grande: "/fotos/powerlifting-sentadilla-grande.webp", alt: "Levantador de 720 Powerlifting preparando una sentadilla en competición", vertical: true },
   powerPesoMuerto: { src: "/fotos/powerlifting-peso-muerto.webp", grande: "/fotos/powerlifting-peso-muerto-grande.webp", alt: "Levantador de 720 Powerlifting antes de un peso muerto en competición", vertical: true },
   powerSeleccion: { src: "/fotos/powerlifting-seleccion.webp", grande: "/fotos/powerlifting-seleccion-grande.webp", alt: "Levantadora con el equipaje de España celebrando una sentadilla en competición", vertical: true },
+  /* Capoeira (25/11/2026, de Brais). */
+  capoeiraRoda: { src: "/fotos/capoeira-roda.webp", grande: "/fotos/capoeira-roda-grande.webp", alt: "Roda de capoeira infantil en 720 con el atabaque y el pandeiro" },
+  capoeiraTatami: { src: "/fotos/capoeira-tatami.webp", grande: "/fotos/capoeira-tatami-grande.webp", alt: "Entrenamiento de capoeira de adultos en el tatami de 720", vertical: true },
   /* Fachada (24/11/2026, de Brais). */
   fachada: { src: "/fotos/fachada-720gym.webp", grande: "/fotos/fachada-720gym-grande.webp", alt: "Fachada de 720GYM CLUB en la calle Río Bibei, con el rótulo luminoso y la entrada" },
 } as const;

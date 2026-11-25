@@ -529,7 +529,8 @@ export const conceptos: Concepto[] = [
     lema: "Movimiento. Ritmo. Comunidad.",
     texto: "Una práctica cultural afrobrasileña que combina movimiento, juego, lucha, música y ritmo dentro de la roda.",
     chips: ["Adultos", "Infantil", "Movimiento, música y ritmo"],
-    foto: fotos.pistaPilates.src,
+    foto: fotos.capoeiraRoda.src,
+    galeria: [fotos.capoeiraRoda, fotos.capoeiraTatami, fotos.pistaPilates],
     bloque: {
       titulo: "Capoeira para adultos e infantil",
       intro: "Dos grupos adaptados a cada etapa, unidos por el movimiento, la música y la cultura de la capoeira.",
