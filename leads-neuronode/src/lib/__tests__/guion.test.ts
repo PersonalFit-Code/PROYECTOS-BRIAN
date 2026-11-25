@@ -61,6 +61,7 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.ok(!g.secuenciaDM.some((p) => /Día [4-9]/.test(p.cuando)));
   // El primer mensaje es corto (se lee entero) y pide algo claro; el detalle va cuando contesta.
   assert.ok((g.secuenciaDM[0].texto ?? "").length < 700);
+  assert.equal((g.secuenciaDM[0].texto ?? "").match(/contenido/g)?.length, 1);
   assert.ok(g.secuenciaDM[0].texto?.includes("agente de IA") && g.secuenciaDM[0].texto.includes("gratis 30 días"));
   assert.ok(g.secuenciaDM[1].texto?.includes("en un solo agente") && g.secuenciaDM[1].texto.includes("sin límite"));
   // El enlace solo aparece cuando hay interés, nunca en el primer mensaje.
@@ -90,6 +91,8 @@ test("barbero de Ourense: se le dice que Brian también es de allí y se ofrece 
   const m = g.secuenciaDM[0].texto ?? "";
   assert.ok(m.startsWith("¡Hola Dani! Soy Brian, de neuro·node, también de Ourense.\n\nVeo que las citas te entran por DM."));
   assert.ok(m.includes("deja la cita cerrada") && !m.includes("infoproductores"));
+  // El contenido en redes va siempre, también a un barbero.
+  assert.ok(m.includes("programas tu contenido en Instagram, TikTok y YouTube"));
   assert.ok(g.secuenciaDM[1].texto?.includes("me pase un día"));
   assert.ok(g.secuenciaDM[2].texto?.includes("te cierra las citas"));
 });

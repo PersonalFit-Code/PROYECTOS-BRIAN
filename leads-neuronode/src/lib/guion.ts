@@ -348,7 +348,11 @@ export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
     dm?.solucion?.trim() ||
     (servicio
       ? "Hemos creado un agente de IA que contesta tus DMs al momento, con tu forma de hablar: resuelve dudas, da precios y huecos y deja la cita cerrada. De día y de noche."
-      : "Hemos creado un agente de IA que contesta tus DMs y comentarios al momento, con tu forma de hablar, y te agenda las llamadas con quien encaja. Y en el mismo sitio tienes tu contenido, tus métricas y un radar de tu competencia.");
+      : "Hemos creado un agente de IA que contesta tus DMs y comentarios al momento, con tu forma de hablar, y te agenda las llamadas con quien encaja.");
+  // El contenido en redes va siempre, en una frase (lo pidió Brian): es la otra mitad del producto.
+  const contenido = /contenido/i.test(solucion)
+    ? ""
+    : "\n\nY desde el mismo sitio programas tu contenido en Instagram, TikTok y YouTube, ves tus métricas y lo que le funciona a tu competencia.";
   const saludo = nombre ? `¡Hola ${nombre}!` : "¡Hola!";
   const quien = local ? `Soy Brian, de neuro·node, también de ${local}.` : "Soy Brian, de neuro·node.";
   const conNombre = (txt: string) => (nombre ? `${txt}, ${nombre}` : txt);
@@ -359,7 +363,7 @@ export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
       titulo: "El mensaje (corto y directo)",
       texto: `${saludo} ${quien}${problema ? `\n\n${problema}` : ""}
 
-${solucion}
+${solucion}${contenido}
 
 Buscamos 10 personas que lo prueben gratis 30 días. ¿Te animas?`,
       nota: problema
