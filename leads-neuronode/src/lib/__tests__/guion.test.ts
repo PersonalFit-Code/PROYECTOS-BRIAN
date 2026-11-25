@@ -57,8 +57,10 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   // Directo: como mucho un recordatorio, nunca una secuencia de días.
   assert.ok(g.secuenciaDM.some((p) => p.texto?.includes("lo dejo aquí")));
   assert.ok(!g.secuenciaDM.some((p) => /Día [4-9]/.test(p.cuando)));
-  // El primer mensaje ya cuenta lo que lo hace distinto: todo en uno y sin límite de mensajes.
-  assert.ok(g.secuenciaDM[0].texto?.includes("en un solo agente") && g.secuenciaDM[0].texto.includes("sin límite"));
+  // El primer mensaje es corto (se lee entero) y pide algo claro; el detalle va cuando contesta.
+  assert.ok((g.secuenciaDM[0].texto ?? "").length < 520);
+  assert.ok(g.secuenciaDM[0].texto?.includes("ecosistema") && g.secuenciaDM[0].texto.includes("gratis 30 días"));
+  assert.ok(g.secuenciaDM[1].texto?.includes("en un solo agente") && g.secuenciaDM[1].texto.includes("sin límite"));
   // El enlace solo aparece cuando hay interés, nunca en el primer mensaje.
   assert.ok(!/enlace|https?:/.test(g.secuenciaDM[0].texto ?? ""));
   assert.ok(g.secuenciaDM.every((p) => !p.texto || !/€|\$/.test(p.texto)));

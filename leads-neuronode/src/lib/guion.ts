@@ -312,32 +312,38 @@ export function secuenciaInfoproducto(): PasoDM[] {
   return [
     {
       cuando: "Día 1",
-      titulo: "El mensaje",
-      texto: `Hola ${nombre}, soy Brian, de neuro·node. Vi tu publicación de [tema] con [N] comentarios pidiendo [palabra]: ¿todos esos mensajes los contestas tú uno a uno?
+      titulo: "El mensaje (corto: se lee entero)",
+      texto: `¡Hola ${nombre}! Soy Brian, de neuro·node. Vi tu publicación de [tema] con [N] comentarios.
 
-Te lo pregunto porque hemos creado un agente de IA para coaches e infoproductores que contesta tus DMs y comentarios al momento, con tu forma de hablar, y te agenda las llamadas con quien encaja. Y no se queda ahí: te programa el contenido en Instagram, TikTok y YouTube, te enseña tus métricas y vigila a tu competencia. Lo que hoy haces con un setter, ManyChat y Metricool por separado, en un solo agente, sin límite de mensajes y conectado a tu ChatGPT o Claude.
+Hemos creado un ecosistema de IA para coaches e infoproductores como tú: un setter que contesta tus DMs y comentarios al momento y te agenda las llamadas, y en el mismo sitio tu contenido, tus métricas y un radar de tu competencia.
 
-Buscamos 10 coaches para probarlo gratis antes de lanzarlo. ¿Te cuento cómo funcionaría en tu cuenta?`,
-      nota: "Rellena los corchetes con una publicación suya concreta (en su ficha, Dora apunta cuál y cuántos comentarios tiene). Antes, dale like a un par de publicaciones. Sin enlace: Instagram desconfía de los enlaces en el primer mensaje a un desconocido.",
+Buscamos 10 coaches que lo prueben gratis 30 días y nos den su opinión. ¿Te apuntas?`,
+      nota: "Rellena los corchetes con una publicación suya concreta (Dora la apunta en su ficha). Si no hay ninguna clara, quita esa frase. Antes, dale like a un par de publicaciones. Sin enlace: Instagram desconfía de los enlaces en el primer mensaje a un desconocido.",
     },
     {
       cuando: "Si contesta",
-      titulo: "Cómo funcionaría en su cuenta",
-      texto: `En tu caso, cuando alguien comente [palabra] o te escriba, el agente le contesta en segundos como lo harías tú, le hace las preguntas que tú harías para ver si encaja y, si encaja, le agenda la llamada contigo. Tú solo entras a cerrar. Mientras, tienes en el mismo sitio lo que funciona en tu contenido y en el de tu competencia, y lo programas desde ahí.
+      titulo: "Contarle todo lo que lleva",
+      texto: `¡Genial! Te cuento rápido:
 
-Durante la beta es gratis y sin permanencia. ¿Te va bien una videollamada de 15 minutos esta semana y te lo enseño con tu cuenta?`,
-      nota: "Si pide precio: «En la beta es gratis; después tendrá precio de fundador para los 10 primeros». Sin cifras.",
+- Contesta tus DMs y comentarios al momento, con tu forma de hablar, y agenda llamadas solo con quien encaja en tu programa.
+- Programa tu contenido orgánico en Instagram, TikTok y YouTube.
+- Ves tus métricas y vigilas a tu competencia con un radar.
+
+Lo que hoy haces con un setter, ManyChat y Metricool por separado, en un solo agente, sin límite de mensajes y conectado a tu IA preferida (ChatGPT, Claude o la que uses).
+
+Son 30 días gratis y sin compromiso. Al terminar decides si te quedas, y si sigues entras en el pack fundador. ¿Te va bien una videollamada de 15 minutos esta semana y te lo enseño con tu cuenta?`,
+      nota: "Si pide precio: «Durante la prueba es gratis; los que se quedan entran con precio de fundador». Sin cifras.",
     },
     {
       cuando: "A las 48 h, si no contesta (y último)",
       titulo: "Un recordatorio, en una línea",
-      texto: `${nombre}, te lo resumo en una línea: un agente que contesta tus DMs al momento y te agenda las llamadas, gratis durante la beta. ¿Te interesa o lo dejo aquí?`,
+      texto: `${nombre}, te lo resumo en una línea: un setter de IA que contesta tus DMs al momento y te agenda las llamadas, gratis 30 días. ¿Te interesa o lo dejo aquí?`,
       nota: "Es el último mensaje. Si no contesta, márcalo «Sin respuesta» en el pipeline y pasa al siguiente.",
     },
     {
       cuando: "Cuando dice que sí",
       titulo: "Cerrar la llamada",
-      texto: "¡Genial! Elige el hueco que mejor te venga: [enlace de agenda]. Te lo enseño con tu cuenta y, si te encaja, te dejo una de las 10 plazas de la beta reservada.",
+      texto: "¡Perfecto! Elige el hueco que mejor te venga: [enlace de agenda]. Te lo enseño con tu cuenta y te dejo reservada una de las 10 plazas.",
       nota: "Pon el enlace de agenda cuando lo tengáis. Muévelo a «Interesado» en el pipeline.",
     },
   ];
