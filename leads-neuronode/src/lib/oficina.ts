@@ -36,7 +36,7 @@ export const PUESTO: Record<Puesto, FichaPuesto> = {
   },
   guion: {
     nombre: "Gus", cargo: "Mensajes", camiseta: "#4a3aa6", pelo: "#7a4122", piel: "#f0cdb0", peinado: "rizo",
-    hace: "Prepara la secuencia de mensajes de Instagram para cada uno: primer mensaje, respuestas y seguimientos, con tu forma de hablar.",
+    hace: "Prepara para cada uno un mensaje de Instagram corto y directo, como si lo escribieras tú: el problema que ve en su cuenta y la solución. Sin halagos. Luego la respuesta si contesta y un único recordatorio.",
     sacar: [
       { txt: "Los mensajes listos para copiar y pegar en Instagram", href: "#escribir" },
       { txt: "Cuándo mandar cada seguimiento si no contesta", href: "#escribir" },
