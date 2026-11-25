@@ -53,7 +53,7 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.equal(montarGuion(base).cualificar.length, 0);
   assert.doesNotMatch(JSON.stringify(g), /Personal Fit|Tixola|Bin & Cami|lleváis|tenéis/);
   // Sin datos de su Instagram: saludo genérico, sin corchetes que haya que rellenar a mano.
-  assert.ok(g.mensaje?.startsWith("¡Hola! ¿Qué tal? Soy Brian") && !g.mensaje.includes("["));
+  assert.ok(g.mensaje?.startsWith("¡Hola! Soy Brian") && !g.mensaje.includes("["));
   assert.equal(g.dmListo, false);
   assert.equal(g.secuenciaDM.length, 4);
   // Directo: como mucho un recordatorio, nunca una secuencia de días.
@@ -61,7 +61,7 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.ok(!g.secuenciaDM.some((p) => /Día [4-9]/.test(p.cuando)));
   // El primer mensaje es corto (se lee entero) y pide algo claro; el detalle va cuando contesta.
   assert.ok((g.secuenciaDM[0].texto ?? "").length < 700);
-  assert.ok(g.secuenciaDM[0].texto?.includes("ecosistema") && g.secuenciaDM[0].texto.includes("gratis 30 días"));
+  assert.ok(g.secuenciaDM[0].texto?.includes("agente de IA") && g.secuenciaDM[0].texto.includes("gratis 30 días"));
   assert.ok(g.secuenciaDM[1].texto?.includes("en un solo agente") && g.secuenciaDM[1].texto.includes("sin límite"));
   // El enlace solo aparece cuando hay interés, nunca en el primer mensaje.
   assert.ok(!/enlace|https?:/.test(g.secuenciaDM[0].texto ?? ""));
@@ -70,15 +70,26 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.equal(montarGuion(base).secuenciaDM.length, 0);
 });
 
-test("con lo que Gus apunta de su Instagram, el mensaje sale listo para copiar", () => {
+test("con lo que Gus apunta de su Instagram, el mensaje sale listo, directo y sin halagos", () => {
   const n = { ...base, nombre: "entrenamientomujer", sector: "infoproducto" as const, instagram: "https://instagram.com/x" };
-  const dm = { nombre: "Bea", detalle: "Me encanta cómo explicas el entrenamiento en el embarazo.", gancho: "Vi tu reel de «Comenta PREPARTO» con más de 200 comentarios.", nicho: "entrenadoras de embarazo y posparto" };
+  const dm = { nombre: "Bea", detalle: "Me encanta cómo explicas el entrenamiento.", gancho: "Y vi tu reel de «Comenta PREPARTO» con más de 200 comentarios." };
   const g = montarGuion(n, [], { dm } as never);
   assert.ok(g.dmListo);
   const m = g.secuenciaDM[0].texto ?? "";
-  assert.ok(m.startsWith("¡Hola Bea! ¿Qué tal? Soy Brian, de neuro·node.\n\nMe encanta cómo explicas"));
-  assert.ok(m.includes("Vi tu reel de «Comenta PREPARTO»") && m.includes("para entrenadoras de embarazo y posparto como tú"));
+  assert.ok(m.startsWith("¡Hola Bea! Soy Brian, de neuro·node.\n\nVi tu reel de «Comenta PREPARTO»"));
+  assert.ok(!m.includes("Me encanta"), "el halago antiguo ya no sale");
   assert.ok(g.secuenciaDM[1].texto?.startsWith("¡Genial, Bea!"));
-  assert.ok(g.secuenciaDM.every((p) => !p.texto?.includes("[nombre]")));
   assert.ok(g.secuenciaDM[2].texto?.startsWith("Bea, te lo resumo"));
+});
+
+test("barbero de Ourense: se le dice que Brian también es de allí y se ofrece pasar en persona", () => {
+  const n = { ...base, nombre: "90 Street Barber", sector: "otro" as const, instagram: "https://instagram.com/daaani_8" };
+  const dm = { nombre: "Dani", local: "Ourense", tipo: "servicio" as const, problema: "Veo que las citas te entran por DM." };
+  const g = montarGuion(n, [], { dm } as never);
+  assert.equal(g.secuenciaDM.length, 4);
+  const m = g.secuenciaDM[0].texto ?? "";
+  assert.ok(m.startsWith("¡Hola Dani! Soy Brian, de neuro·node, también de Ourense.\n\nVeo que las citas te entran por DM."));
+  assert.ok(m.includes("deja la cita cerrada") && !m.includes("infoproductores"));
+  assert.ok(g.secuenciaDM[1].texto?.includes("me pase un día"));
+  assert.ok(g.secuenciaDM[2].texto?.includes("te cierra las citas"));
 });

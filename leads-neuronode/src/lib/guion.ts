@@ -58,11 +58,20 @@ export interface Guion {
 export interface DatosDM {
   /** Nombre de pila de la persona («Bea»), no el de la cuenta. */
   nombre?: string | null;
-  /** Frase completa con una publicación suya: «Vi tu reel de "Comenta PREPARTO" con más de 200 comentarios.» */
+  /**
+   * El problema que se ve en su cuenta, dicho directo y sin halagos: «Veo que las citas te entran por
+   * DM: cada mensaje que contestas tarde es un cliente que se va a otro barbero.»
+   */
+  problema?: string | null;
+  /** Qué le soluciona el agente a él en concreto, en una o dos frases. Si falta, va la de infoproductores. */
+  solucion?: string | null;
+  /** Si es de la misma ciudad que Brian («Ourense»): se dice, porque acerca más que cualquier cumplido. */
+  local?: string | null;
+  /** «servicio» para negocios con citas (barberos, tatuadores…); si falta, infoproductor o coach. */
+  tipo?: "servicio" | "infoproducto" | null;
+  /** Antiguos: `gancho` hace de problema si no lo hay; `detalle` (el halago) ya no se usa. */
   gancho?: string | null;
-  /** Algo concreto y real que le gusta a Brian de su contenido, dicho como lo diría él. */
   detalle?: string | null;
-  /** A quién se dirige, para el «como tú»: «entrenadoras de embarazo y posparto». */
   nicho?: string | null;
 }
 
@@ -322,33 +331,49 @@ const PRECIOS_SETTER = [
  * dos seguimientos (el segundo con un regalo) y el enlace solo cuando hay interés.
  * Los huecos entre corchetes se rellenan mirando su perfil. Sin precios ni clientes inventados.
  */
+/** Quita el «Y » del principio de los ganchos antiguos, que iban detrás del halago. */
+function sinY(t: string): string {
+  const m = t.replace(/^Y\s+/, "");
+  return m.charAt(0).toUpperCase() + m.slice(1);
+}
+
 export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
-  // El nombre de la cuenta no siempre es el de la persona («About Coaching»): mejor rellenarlo a mano.
-  // Directo y al grano: un mensaje que se entiende solo, una respuesta y, como mucho, un recordatorio.
+  // Directo y sin halagos (lo pidió Brian): quién es, el problema que se ve en su cuenta, qué le
+  // soluciona y la prueba gratis. Un mensaje que se entiende solo, una respuesta y un recordatorio.
   const nombre = dm?.nombre?.trim() || null;
-  const gancho = dm?.gancho?.trim() || null;
-  const detalle = dm?.detalle?.trim() || null;
-  const nicho = dm?.nicho?.trim() || "coaches e infoproductores";
-  const saludo = nombre ? `¡Hola ${nombre}! ¿Qué tal?` : "¡Hola! ¿Qué tal?";
+  const problema = dm?.problema?.trim() || (dm?.gancho?.trim() ? sinY(dm.gancho.trim()) : null);
+  const local = dm?.local?.trim() || null;
+  const servicio = dm?.tipo === "servicio";
+  const solucion =
+    dm?.solucion?.trim() ||
+    (servicio
+      ? "Hemos creado un agente de IA que contesta tus DMs al momento, con tu forma de hablar: resuelve dudas, da precios y huecos y deja la cita cerrada. De día y de noche."
+      : "Hemos creado un agente de IA que contesta tus DMs y comentarios al momento, con tu forma de hablar, y te agenda las llamadas con quien encaja. Y en el mismo sitio tienes tu contenido, tus métricas y un radar de tu competencia.");
+  const saludo = nombre ? `¡Hola ${nombre}!` : "¡Hola!";
+  const quien = local ? `Soy Brian, de neuro·node, también de ${local}.` : "Soy Brian, de neuro·node.";
   const conNombre = (txt: string) => (nombre ? `${txt}, ${nombre}` : txt);
-  const personal = [detalle, gancho].filter(Boolean).join(" ");
+  const verlo = local ? "¿Te va bien que me pase un día y te lo enseño en 15 minutos?" : "¿Te va bien una videollamada de 15 minutos esta semana y te lo enseño con tu cuenta?";
   return [
     {
       cuando: "Día 1",
-      titulo: "El mensaje (corto: se lee entero)",
-      texto: `${saludo} Soy Brian, de neuro·node.${personal ? `\n\n${personal}` : ""}
+      titulo: "El mensaje (corto y directo)",
+      texto: `${saludo} ${quien}${problema ? `\n\n${problema}` : ""}
 
-Te escribo porque hemos creado un ecosistema de IA para ${nicho} como tú: un setter que contesta tus DMs y comentarios al momento, con tu forma de hablar, y te agenda las llamadas. Y en el mismo sitio tienes tu contenido, tus métricas y un radar de tu competencia.
+${solucion}
 
-Estamos buscando a 10 personas que lo prueben gratis 30 días y nos digan qué tal. ¿Te animas?`,
-      nota: gancho
-        ? "Listo para copiar: Gus le ha puesto su nombre, algo concreto de su contenido y una publicación suya. Léelo una vez por si quieres darle tu toque y, antes de mandarlo, dale like a un par de publicaciones."
-        : "Gus todavía no ha mirado su Instagram, así que va sin publicación concreta. Se manda igual; si añades una frase con un reel suyo, mejor. Antes, dale like a un par de publicaciones.",
+Buscamos 10 personas que lo prueben gratis 30 días. ¿Te animas?`,
+      nota: problema
+        ? "Listo para copiar: Gus le ha puesto su nombre y el problema que ha visto en su cuenta. Antes de mandarlo, dale like a un par de publicaciones."
+        : "Gus todavía no ha mirado su Instagram, así que va sin el problema concreto. Se manda igual, pero mejor si añades una frase con lo que veas en su cuenta.",
     },
     {
       cuando: "Si contesta",
-      titulo: "Contarle todo lo que lleva",
-      texto: `¡${conNombre("Genial")}! Te cuento rápido:
+      titulo: "Contarle cómo funcionaría",
+      texto: servicio
+        ? `¡${conNombre("Genial")}! En tu caso: cada vez que alguien te escriba por Instagram, el agente le contesta al momento, como lo harías tú, le da precios y huecos y le deja la cita cerrada. Tú solo te enteras de las citas nuevas. Sin límite de mensajes y conectado a tu ChatGPT o Claude. Y desde el mismo sitio puedes programar tu contenido y ver tus métricas.
+
+Son 30 días gratis y sin compromiso. ${verlo}`
+        : `¡${conNombre("Genial")}! Te cuento rápido:
 
 - Contesta tus DMs y comentarios al momento, con tu forma de hablar, y agenda llamadas solo con quien encaja en tu programa.
 - Programa tu contenido orgánico en Instagram, TikTok y YouTube.
@@ -356,20 +381,22 @@ Estamos buscando a 10 personas que lo prueben gratis 30 días y nos digan qué t
 
 Lo que hoy haces con un setter, ManyChat y Metricool por separado, en un solo agente, sin límite de mensajes y conectado a tu IA preferida (ChatGPT, Claude o la que uses).
 
-Son 30 días gratis y sin compromiso. Al terminar decides si te quedas, y si sigues entras en el pack fundador. ¿Te va bien una videollamada de 15 minutos esta semana y te lo enseño con tu cuenta?`,
+Son 30 días gratis y sin compromiso. Al terminar decides si te quedas, y si sigues entras en el pack fundador. ${verlo}`,
       nota: "Si pide precio: «Durante la prueba es gratis; los que se quedan entran con precio de fundador». Sin cifras.",
     },
     {
       cuando: "A las 48 h, si no contesta (y último)",
       titulo: "Un recordatorio, en una línea",
-      texto: `${nombre ? `${nombre}, te` : "Te"} lo resumo en una línea: un setter de IA que contesta tus DMs al momento y te agenda las llamadas, gratis 30 días. ¿Te interesa o lo dejo aquí?`,
+      texto: `${nombre ? `${nombre}, te` : "Te"} lo resumo en una línea: un agente de IA que contesta tus DMs al momento y ${servicio ? "te cierra las citas" : "te agenda las llamadas"}, gratis 30 días. ¿Te interesa o lo dejo aquí?`,
       nota: "Es el último mensaje. Si no contesta, márcalo «Sin respuesta» en el pipeline y pasa al siguiente.",
     },
     {
       cuando: "Cuando dice que sí",
-      titulo: "Cerrar la llamada",
-      texto: `¡${conNombre("Perfecto")}! Elige el hueco que mejor te venga: [enlace de agenda]. Te lo enseño con tu cuenta y te dejo reservada una de las 10 plazas.`,
-      nota: "Pon el enlace de agenda cuando lo tengáis. Muévelo a «Interesado» en el pipeline.",
+      titulo: "Quedar para enseñárselo",
+      texto: local
+        ? `¡${conNombre("Perfecto")}! Dime qué día y a qué hora te viene bien y me paso. Te lo dejo funcionando con tu cuenta y te guardo una de las 10 plazas.`
+        : `¡${conNombre("Perfecto")}! Elige el hueco que mejor te venga: [enlace de agenda]. Te lo enseño con tu cuenta y te dejo reservada una de las 10 plazas.`,
+      nota: local ? "Es de tu ciudad: mejor en persona. Muévelo a «Interesado» en el pipeline." : "Pon el enlace de agenda cuando lo tengáis. Muévelo a «Interesado» en el pipeline.",
     },
   ];
 }
@@ -380,7 +407,8 @@ export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: P
   const usted = deUsted(n.sector);
   const quien = n.sector === "clinica" ? "la consulta" : n.sector === "hosteleria" ? "el local" : n.sector === "infoproducto" ? "las ventas" : "el centro";
   const dm = (aMedida as { dm?: DatosDM } | null | undefined)?.dm ?? null;
-  const secuenciaDM = n.sector === "infoproducto" ? secuenciaInfoproducto(dm) : [];
+  // Por Instagram: infoproductores, y cualquier otro al que Gus le haya preparado el mensaje (barberos, tatuadores…).
+  const secuenciaDM = n.sector === "infoproducto" || dm ? secuenciaInfoproducto(dm) : [];
   // El primer mensaje de la secuencia hace de «mensaje» para las vistas que solo enseñan uno.
   const mensaje = secuenciaDM[0]?.texto ?? null;
   const base: Guion = {
@@ -398,7 +426,7 @@ export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: P
     precios: n.sector === "infoproducto" ? PRECIOS_SETTER : [],
     seguimiento: "Si no cogen, no lo des por perdido: tres intentos, en días y horas distintas. Si te dicen «ahora no», apunta la hora que te den y llama a esa hora.",
     aMedida: false,
-    dmListo: Boolean(dm?.nombre?.trim() && dm?.gancho?.trim()),
+    dmListo: Boolean(dm?.problema?.trim() || dm?.gancho?.trim()),
   };
   if (!aMedida) return base;
   const limpio = Object.fromEntries(Object.entries(aMedida).filter(([, v]) => (Array.isArray(v) ? v.length > 0 : typeof v === "string" && v.trim() !== "")));

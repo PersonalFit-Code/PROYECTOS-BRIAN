@@ -7,10 +7,10 @@ import { esContactado, type Estado } from "@/lib/tipos";
 /** Los negocios del día: primero los pendientes y los de «volver a llamar». */
 const ORDEN: Record<Estado, number> = { pendiente: 0, volver: 1, sin_respuesta: 2, esperando: 2, interesado: 3, quiere_propuesta: 4, reunion: 5, no_interesa: 6, no_contactar: 7 };
 
-/** A quién escribir: infoproductores y coaches, primero los pendientes. */
+/** A quién escribir por Instagram: infoproductores, coaches y negocios con citas por DM; primero los pendientes. */
 export async function ParaEscribir() {
   const { db } = await getSesion();
-  const { data } = await db.from("negocios").select("*, diagnosticos(dolor)").eq("sector", "infoproducto").order("nombre").range(0, 999);
+  const { data } = await db.from("negocios").select("*, diagnosticos(dolor)").in("sector", ["infoproducto", "otro"]).order("nombre").range(0, 999);
   const todos = (data ?? []) as NegocioConDolor[];
   const contactados = todos.filter((n) => esContactado(n.estado)).length;
   const abiertos = todos.filter((n) => n.estado !== "no_interesa" && n.estado !== "no_contactar").sort((a, b) => ORDEN[a.estado] - ORDEN[b.estado]);
