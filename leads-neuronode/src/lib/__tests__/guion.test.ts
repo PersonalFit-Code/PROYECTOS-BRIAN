@@ -53,14 +53,14 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.equal(montarGuion(base).cualificar.length, 0);
   assert.doesNotMatch(JSON.stringify(g), /Personal Fit|Tixola|Bin & Cami|lleváis|tenéis/);
   // Sin datos de su Instagram: saludo genérico, sin corchetes que haya que rellenar a mano.
-  assert.ok(g.mensaje?.startsWith("¡Hola! Soy Brian") && !g.mensaje.includes("["));
+  assert.ok(g.mensaje?.startsWith("¡Hola! ¿Qué tal? Soy Brian") && !g.mensaje.includes("["));
   assert.equal(g.dmListo, false);
   assert.equal(g.secuenciaDM.length, 4);
   // Directo: como mucho un recordatorio, nunca una secuencia de días.
   assert.ok(g.secuenciaDM.some((p) => p.texto?.includes("lo dejo aquí")));
   assert.ok(!g.secuenciaDM.some((p) => /Día [4-9]/.test(p.cuando)));
   // El primer mensaje es corto (se lee entero) y pide algo claro; el detalle va cuando contesta.
-  assert.ok((g.secuenciaDM[0].texto ?? "").length < 520);
+  assert.ok((g.secuenciaDM[0].texto ?? "").length < 700);
   assert.ok(g.secuenciaDM[0].texto?.includes("ecosistema") && g.secuenciaDM[0].texto.includes("gratis 30 días"));
   assert.ok(g.secuenciaDM[1].texto?.includes("en un solo agente") && g.secuenciaDM[1].texto.includes("sin límite"));
   // El enlace solo aparece cuando hay interés, nunca en el primer mensaje.
@@ -72,9 +72,13 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
 
 test("con lo que Gus apunta de su Instagram, el mensaje sale listo para copiar", () => {
   const n = { ...base, nombre: "entrenamientomujer", sector: "infoproducto" as const, instagram: "https://instagram.com/x" };
-  const g = montarGuion(n, [], { dm: { nombre: "Bea", gancho: "Vi tu reel de «Comenta PREPARTO» con más de 200 comentarios." } } as never);
+  const dm = { nombre: "Bea", detalle: "Me encanta cómo explicas el entrenamiento en el embarazo.", gancho: "Vi tu reel de «Comenta PREPARTO» con más de 200 comentarios.", nicho: "entrenadoras de embarazo y posparto" };
+  const g = montarGuion(n, [], { dm } as never);
   assert.ok(g.dmListo);
-  assert.ok(g.secuenciaDM[0].texto?.startsWith("¡Hola Bea! Soy Brian, de neuro·node. Vi tu reel de «Comenta PREPARTO»"));
+  const m = g.secuenciaDM[0].texto ?? "";
+  assert.ok(m.startsWith("¡Hola Bea! ¿Qué tal? Soy Brian, de neuro·node.\n\nMe encanta cómo explicas"));
+  assert.ok(m.includes("Vi tu reel de «Comenta PREPARTO»") && m.includes("para entrenadoras de embarazo y posparto como tú"));
+  assert.ok(g.secuenciaDM[1].texto?.startsWith("¡Genial, Bea!"));
   assert.ok(g.secuenciaDM.every((p) => !p.texto?.includes("[nombre]")));
   assert.ok(g.secuenciaDM[2].texto?.startsWith("Bea, te lo resumo"));
 });

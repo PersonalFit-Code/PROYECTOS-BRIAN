@@ -60,6 +60,10 @@ export interface DatosDM {
   nombre?: string | null;
   /** Frase completa con una publicación suya: «Vi tu reel de "Comenta PREPARTO" con más de 200 comentarios.» */
   gancho?: string | null;
+  /** Algo concreto y real que le gusta a Brian de su contenido, dicho como lo diría él. */
+  detalle?: string | null;
+  /** A quién se dirige, para el «como tú»: «entrenadoras de embarazo y posparto». */
+  nicho?: string | null;
 }
 
 export type Senal = "web_caida" | "sin_web" | "solo_instagram" | "reservas_a_mano" | "herramienta_externa" | "carta_pdf" | "encargos" | "nada";
@@ -323,24 +327,28 @@ export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
   // Directo y al grano: un mensaje que se entiende solo, una respuesta y, como mucho, un recordatorio.
   const nombre = dm?.nombre?.trim() || null;
   const gancho = dm?.gancho?.trim() || null;
-  const saludo = nombre ? `¡Hola ${nombre}!` : "¡Hola!";
+  const detalle = dm?.detalle?.trim() || null;
+  const nicho = dm?.nicho?.trim() || "coaches e infoproductores";
+  const saludo = nombre ? `¡Hola ${nombre}! ¿Qué tal?` : "¡Hola! ¿Qué tal?";
+  const conNombre = (txt: string) => (nombre ? `${txt}, ${nombre}` : txt);
+  const personal = [detalle, gancho].filter(Boolean).join(" ");
   return [
     {
       cuando: "Día 1",
       titulo: "El mensaje (corto: se lee entero)",
-      texto: `${saludo} Soy Brian, de neuro·node.${gancho ? ` ${gancho}` : ""}
+      texto: `${saludo} Soy Brian, de neuro·node.${personal ? `\n\n${personal}` : ""}
 
-Hemos creado un ecosistema de IA para coaches e infoproductores como tú: un setter que contesta tus DMs y comentarios al momento y te agenda las llamadas, y en el mismo sitio tu contenido, tus métricas y un radar de tu competencia.
+Te escribo porque hemos creado un ecosistema de IA para ${nicho} como tú: un setter que contesta tus DMs y comentarios al momento, con tu forma de hablar, y te agenda las llamadas. Y en el mismo sitio tienes tu contenido, tus métricas y un radar de tu competencia.
 
-Buscamos 10 coaches que lo prueben gratis 30 días y nos den su opinión. ¿Te apuntas?`,
+Estamos buscando a 10 personas que lo prueben gratis 30 días y nos digan qué tal. ¿Te animas?`,
       nota: gancho
-        ? "Listo para copiar: Gus ya le ha puesto su nombre y una publicación suya. Antes de mandarlo, dale like a un par de publicaciones."
+        ? "Listo para copiar: Gus le ha puesto su nombre, algo concreto de su contenido y una publicación suya. Léelo una vez por si quieres darle tu toque y, antes de mandarlo, dale like a un par de publicaciones."
         : "Gus todavía no ha mirado su Instagram, así que va sin publicación concreta. Se manda igual; si añades una frase con un reel suyo, mejor. Antes, dale like a un par de publicaciones.",
     },
     {
       cuando: "Si contesta",
       titulo: "Contarle todo lo que lleva",
-      texto: `¡Genial! Te cuento rápido:
+      texto: `¡${conNombre("Genial")}! Te cuento rápido:
 
 - Contesta tus DMs y comentarios al momento, con tu forma de hablar, y agenda llamadas solo con quien encaja en tu programa.
 - Programa tu contenido orgánico en Instagram, TikTok y YouTube.
@@ -360,7 +368,7 @@ Son 30 días gratis y sin compromiso. Al terminar decides si te quedas, y si sig
     {
       cuando: "Cuando dice que sí",
       titulo: "Cerrar la llamada",
-      texto: "¡Perfecto! Elige el hueco que mejor te venga: [enlace de agenda]. Te lo enseño con tu cuenta y te dejo reservada una de las 10 plazas.",
+      texto: `¡${conNombre("Perfecto")}! Elige el hueco que mejor te venga: [enlace de agenda]. Te lo enseño con tu cuenta y te dejo reservada una de las 10 plazas.`,
       nota: "Pon el enlace de agenda cuando lo tengáis. Muévelo a «Interesado» en el pipeline.",
     },
   ];
