@@ -150,3 +150,77 @@ h3 {
     .puesto[data-activo="si"] .bocadillo { animation: of-flotar 3s ease-in-out infinite; }
   }
 }
+
+/* ---------- Intro de neuro·node ----------
+ * Sin movimiento pedido (o ya vista en la sesión) no existe: el estado por defecto es oculta y la
+ * animación se activa solo dentro de «no-preference». Nunca recibe clics. */
+.intro {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-intro-vista]) .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 1.1rem;
+    pointer-events: none;
+    background: var(--fondo);
+    animation: intro-fuera 0.55s ease-in 2s forwards;
+  }
+  .intro-arco {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(130% 60% at 50% 112%, transparent 58%, rgb(54 173 251 / 0.55) 58.5%, rgb(100 71 250 / 0.6) 59.4%, rgb(127 30 237 / 0.25) 61.5%, transparent 70%),
+      radial-gradient(80% 45% at 50% 100%, rgb(100 71 250 / 0.3), transparent 70%);
+    opacity: 0;
+    animation: intro-luz 1.4s ease-out 0.3s forwards;
+  }
+  .intro-logo {
+    position: relative;
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+  .intro-trazo {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: intro-trazo 1s cubic-bezier(0.65, 0, 0.35, 1) 0.1s forwards;
+  }
+  .intro-nodo {
+    transform-box: fill-box;
+    transform-origin: center;
+    scale: 0;
+    animation: intro-nodo 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+  .intro-marca {
+    position: relative;
+    font-family: var(--font-titulo);
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    translate: 0 8px;
+    animation: intro-marca 0.6s ease-out 0.9s forwards;
+  }
+  .intro-marca span {
+    color: var(--brand-txt);
+  }
+}
+@keyframes intro-trazo {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes intro-nodo {
+  to { scale: 1; }
+}
+@keyframes intro-marca {
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes intro-luz {
+  to { opacity: 1; }
+}
+@keyframes intro-fuera {
+  to { opacity: 0; visibility: hidden; }
+}
