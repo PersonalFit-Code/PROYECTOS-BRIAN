@@ -48,6 +48,7 @@ export async function registrarContacto(form: FormData): Promise<void> {
 
   revalidatePath(`/negocios/${negocioId}`);
   revalidatePath("/");
+  revalidatePath("/hoy");
   revalidatePath("/panel");
 }
 
@@ -71,5 +72,6 @@ export async function yaEscrito(negocioId: string, canal: string): Promise<void>
   revalidatePath(`/negocios/${negocioId}`);
   revalidatePath("/pipeline");
   revalidatePath("/");
+  revalidatePath("/hoy");
   revalidatePath("/panel");
 }

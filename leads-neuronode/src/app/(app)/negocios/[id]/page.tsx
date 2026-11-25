@@ -47,9 +47,9 @@ export default async function Ficha({ params }: { params: Promise<{ id: string }
 
   return (
     <>
-      <Link href={n.dia ? `/?dia=${n.dia}` : "/negocios"} className="mb-4 inline-flex min-h-11 items-center gap-2 font-bold text-muted hover:text-brand">
+      <Link href="/hoy" className="mb-4 inline-flex min-h-11 items-center gap-2 font-bold text-muted hover:text-brand">
         <ArrowLeft className="size-4" aria-hidden />
-        {n.dia ? `Día ${n.dia}` : "Negocios"}
+        Para escribir hoy
       </Link>
 
       <header className="mb-6">

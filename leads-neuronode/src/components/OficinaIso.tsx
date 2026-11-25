@@ -48,7 +48,7 @@ const SITIO: Record<Lugar, { x: number; y: number }> = {
 };
 export const RECORRIDO: Lugar[] = ["captacion", "diagnostico", "guion", "tu", "oferta", "diseno"];
 
-const TU: FichaPuesto = { nombre: "Tú", cargo: "Llamadas", hace: "", camiseta: "#15131f", pelo: "#4a3524", piel: "#eec3a0", peinado: "corto" };
+const TU: FichaPuesto = { nombre: "Tú", cargo: "Mensajes", hace: "", camiseta: "#15131f", pelo: "#4a3524", piel: "#eec3a0", peinado: "corto", sacar: [] };
 const fichaDe = (l: Lugar) => (l === "tu" ? TU : PUESTO[l]);
 
 export interface DatosPuesto {
@@ -206,7 +206,7 @@ export function OficinaIso({ puestos, tramos, elegido }: { puestos: Record<Lugar
         return (
           <Link
             key={l}
-            href={elegido === l ? "/oficina" : `/oficina?puesto=${l}#detalle`}
+            href={elegido === l ? "/" : `/?puesto=${l}#detalle`}
             scroll={false}
             aria-current={elegido === l ? "true" : undefined}
             aria-label={`${PUESTO[l].nombre}, ${PUESTO[l].cargo}: ${puestos[l].frase}`}
