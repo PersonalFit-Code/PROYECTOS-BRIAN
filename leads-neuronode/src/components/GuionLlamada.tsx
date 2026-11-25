@@ -16,7 +16,7 @@ export function GuionLlamada({ guion }: { guion: Guion }) {
   const llamada = <Llamada guion={guion} />;
   return porDM ? (
     <div>
-      <SecuenciaDM pasos={guion.secuenciaDM} />
+      <SecuenciaDM pasos={guion.secuenciaDM} listo={guion.dmListo} />
       <details className="mt-6 rounded-xl border border-line p-3">
         <summary className="cursor-pointer font-bold">Si prefieres llamarle</summary>
         <div className="mt-3">{llamada}</div>

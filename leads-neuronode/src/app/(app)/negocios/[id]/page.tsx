@@ -138,7 +138,8 @@ export default async function Ficha({ params }: { params: Promise<{ id: string }
           <FormContacto negocioId={n.id} />
         </Bloque>
 
-        <div className="lg:col-span-2">
+        {/* A los infoproductores se les escribe por Instagram: el mensaje listo para copiar va lo primero. */}
+        <div className={n.sector === "infoproducto" ? "order-first lg:col-span-2" : "lg:col-span-2"}>
           <Bloque titulo={n.sector === "infoproducto" ? "Cómo contactarle" : "Guion de la llamada"}>
             <GuionLlamada guion={guion} />
             {p?.mensaje_corto && (

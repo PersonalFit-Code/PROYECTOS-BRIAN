@@ -52,7 +52,9 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.doesNotMatch(JSON.stringify(g), /\d+\s?€|euros|tres mejoras/i);
   assert.equal(montarGuion(base).cualificar.length, 0);
   assert.doesNotMatch(JSON.stringify(g), /Personal Fit|Tixola|Bin & Cami|lleváis|tenéis/);
-  assert.ok(g.mensaje && g.mensaje.includes("[nombre]"));
+  // Sin datos de su Instagram: saludo genérico, sin corchetes que haya que rellenar a mano.
+  assert.ok(g.mensaje?.startsWith("¡Hola! Soy Brian") && !g.mensaje.includes("["));
+  assert.equal(g.dmListo, false);
   assert.equal(g.secuenciaDM.length, 4);
   // Directo: como mucho un recordatorio, nunca una secuencia de días.
   assert.ok(g.secuenciaDM.some((p) => p.texto?.includes("lo dejo aquí")));
@@ -66,4 +68,13 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.ok(g.secuenciaDM.every((p) => !p.texto || !/€|\$/.test(p.texto)));
   assert.equal(montarGuion(base).mensaje, null);
   assert.equal(montarGuion(base).secuenciaDM.length, 0);
+});
+
+test("con lo que Gus apunta de su Instagram, el mensaje sale listo para copiar", () => {
+  const n = { ...base, nombre: "entrenamientomujer", sector: "infoproducto" as const, instagram: "https://instagram.com/x" };
+  const g = montarGuion(n, [], { dm: { nombre: "Bea", gancho: "Vi tu reel de «Comenta PREPARTO» con más de 200 comentarios." } } as never);
+  assert.ok(g.dmListo);
+  assert.ok(g.secuenciaDM[0].texto?.startsWith("¡Hola Bea! Soy Brian, de neuro·node. Vi tu reel de «Comenta PREPARTO»"));
+  assert.ok(g.secuenciaDM.every((p) => !p.texto?.includes("[nombre]")));
+  assert.ok(g.secuenciaDM[2].texto?.startsWith("Bea, te lo resumo"));
 });

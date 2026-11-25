@@ -47,6 +47,19 @@ export interface Guion {
   seguimiento: string;
   /** Verdadero si lo ha escrito el puesto de Guion para este negocio. */
   aMedida: boolean;
+  /** Verdadero si el primer mensaje ya lleva su nombre y una publicación suya: se copia y se manda tal cual. */
+  dmListo: boolean;
+}
+
+/**
+ * Lo que Gus apunta de su Instagram para el primer mensaje: cómo llamarle y una frase con una
+ * publicación concreta suya. Vive en `propuestas.guion.dm`.
+ */
+export interface DatosDM {
+  /** Nombre de pila de la persona («Bea»), no el de la cuenta. */
+  nombre?: string | null;
+  /** Frase completa con una publicación suya: «Vi tu reel de "Comenta PREPARTO" con más de 200 comentarios.» */
+  gancho?: string | null;
 }
 
 export type Senal = "web_caida" | "sin_web" | "solo_instagram" | "reservas_a_mano" | "herramienta_externa" | "carta_pdf" | "encargos" | "nada";
@@ -305,20 +318,24 @@ const PRECIOS_SETTER = [
  * dos seguimientos (el segundo con un regalo) y el enlace solo cuando hay interés.
  * Los huecos entre corchetes se rellenan mirando su perfil. Sin precios ni clientes inventados.
  */
-export function secuenciaInfoproducto(): PasoDM[] {
+export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
   // El nombre de la cuenta no siempre es el de la persona («About Coaching»): mejor rellenarlo a mano.
   // Directo y al grano: un mensaje que se entiende solo, una respuesta y, como mucho, un recordatorio.
-  const nombre = "[nombre]";
+  const nombre = dm?.nombre?.trim() || null;
+  const gancho = dm?.gancho?.trim() || null;
+  const saludo = nombre ? `¡Hola ${nombre}!` : "¡Hola!";
   return [
     {
       cuando: "Día 1",
       titulo: "El mensaje (corto: se lee entero)",
-      texto: `¡Hola ${nombre}! Soy Brian, de neuro·node. Vi tu publicación de [tema] con [N] comentarios.
+      texto: `${saludo} Soy Brian, de neuro·node.${gancho ? ` ${gancho}` : ""}
 
 Hemos creado un ecosistema de IA para coaches e infoproductores como tú: un setter que contesta tus DMs y comentarios al momento y te agenda las llamadas, y en el mismo sitio tu contenido, tus métricas y un radar de tu competencia.
 
 Buscamos 10 coaches que lo prueben gratis 30 días y nos den su opinión. ¿Te apuntas?`,
-      nota: "Rellena los corchetes con una publicación suya concreta (Dora la apunta en su ficha). Si no hay ninguna clara, quita esa frase. Antes, dale like a un par de publicaciones. Sin enlace: Instagram desconfía de los enlaces en el primer mensaje a un desconocido.",
+      nota: gancho
+        ? "Listo para copiar: Gus ya le ha puesto su nombre y una publicación suya. Antes de mandarlo, dale like a un par de publicaciones."
+        : "Gus todavía no ha mirado su Instagram, así que va sin publicación concreta. Se manda igual; si añades una frase con un reel suyo, mejor. Antes, dale like a un par de publicaciones.",
     },
     {
       cuando: "Si contesta",
@@ -337,7 +354,7 @@ Son 30 días gratis y sin compromiso. Al terminar decides si te quedas, y si sig
     {
       cuando: "A las 48 h, si no contesta (y último)",
       titulo: "Un recordatorio, en una línea",
-      texto: `${nombre}, te lo resumo en una línea: un setter de IA que contesta tus DMs al momento y te agenda las llamadas, gratis 30 días. ¿Te interesa o lo dejo aquí?`,
+      texto: `${nombre ? `${nombre}, te` : "Te"} lo resumo en una línea: un setter de IA que contesta tus DMs al momento y te agenda las llamadas, gratis 30 días. ¿Te interesa o lo dejo aquí?`,
       nota: "Es el último mensaje. Si no contesta, márcalo «Sin respuesta» en el pipeline y pasa al siguiente.",
     },
     {
@@ -354,7 +371,8 @@ export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: P
   const senal = detectarSenal(n, dolores);
   const usted = deUsted(n.sector);
   const quien = n.sector === "clinica" ? "la consulta" : n.sector === "hosteleria" ? "el local" : n.sector === "infoproducto" ? "las ventas" : "el centro";
-  const secuenciaDM = n.sector === "infoproducto" ? secuenciaInfoproducto() : [];
+  const dm = (aMedida as { dm?: DatosDM } | null | undefined)?.dm ?? null;
+  const secuenciaDM = n.sector === "infoproducto" ? secuenciaInfoproducto(dm) : [];
   // El primer mensaje de la secuencia hace de «mensaje» para las vistas que solo enseñan uno.
   const mensaje = secuenciaDM[0]?.texto ?? null;
   const base: Guion = {
@@ -372,6 +390,7 @@ export function montarGuion(n: DatosNegocio, dolores: string[] = [], aMedida?: P
     precios: n.sector === "infoproducto" ? PRECIOS_SETTER : [],
     seguimiento: "Si no cogen, no lo des por perdido: tres intentos, en días y horas distintas. Si te dicen «ahora no», apunta la hora que te den y llama a esa hora.",
     aMedida: false,
+    dmListo: Boolean(dm?.nombre?.trim() && dm?.gancho?.trim()),
   };
   if (!aMedida) return base;
   const limpio = Object.fromEntries(Object.entries(aMedida).filter(([, v]) => (Array.isArray(v) ? v.length > 0 : typeof v === "string" && v.trim() !== "")));

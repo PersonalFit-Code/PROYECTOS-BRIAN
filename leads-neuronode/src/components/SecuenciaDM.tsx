@@ -28,13 +28,15 @@ function Copiar({ texto }: { texto: string }) {
 }
 
 /** La secuencia de mensajes de Instagram, paso a paso, con cuándo mandar cada uno. */
-export function SecuenciaDM({ pasos }: { pasos: PasoDM[] }) {
+export function SecuenciaDM({ pasos, listo }: { pasos: PasoDM[]; listo: boolean }) {
   return (
     <section aria-labelledby="secuencia-dm">
       <h3 id="secuencia-dm" className="mb-1 text-lg font-bold">
         Por Instagram, paso a paso
       </h3>
-      <p className="mb-4 text-sm text-muted">Sin enlace hasta que muestre interés. Rellena lo que va entre corchetes mirando su perfil.</p>
+      <p className="mb-4 text-sm text-muted">
+        {listo ? "Gus ya lo ha personalizado con su nombre y una publicación suya: copia y manda." : "Se puede mandar tal cual. Sin enlace hasta que muestre interés."}
+      </p>
       <ol className="space-y-3">
         {pasos.map((p, i) => (
           <li key={p.titulo} className="grid grid-cols-[2rem_1fr] gap-x-3">
