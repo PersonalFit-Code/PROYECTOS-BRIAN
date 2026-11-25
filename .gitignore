@@ -39,3 +39,6 @@ build
 *.log
 .DS_Store
 comercial/hilderwin/propuesta/
+
+# Notas internas de neuro·node (competencia, casos de clientes): no se suben al repo público
+comercial/neuronode/privado/
