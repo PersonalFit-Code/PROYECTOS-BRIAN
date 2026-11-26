@@ -337,6 +337,9 @@ function sinY(t: string): string {
   return m.charAt(0).toUpperCase() + m.slice(1);
 }
 
+/** La web de neuro·node: va en todos los mensajes (lo pidió Brian el 26/11). */
+export const WEB = "neuro-node.com";
+
 export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
   // Directo y sin halagos (lo pidió Brian): quién es, el problema que se ve en su cuenta, qué le
   // soluciona y la prueba gratis. Un mensaje que se entiende solo, una respuesta y un recordatorio.
@@ -344,29 +347,29 @@ export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
   const problema = dm?.problema?.trim() || (dm?.gancho?.trim() ? sinY(dm.gancho.trim()) : null);
   const local = dm?.local?.trim() || null;
   const servicio = dm?.tipo === "servicio";
+  // Corto (lo pidió Brian: con mucho texto parece spam): como mucho 4 párrafos breves, y la web siempre.
   const solucion =
     dm?.solucion?.trim() ||
     (servicio
-      ? "Hemos lanzado neuro·node, un ecosistema completo para negocios que venden por chat. Dentro tienes un agente de IA que contesta tus DMs al momento, con tu forma de hablar, da precios y huecos y cierra las citas en tu calendario. De día y de noche."
-      : "Hemos lanzado neuro·node, un ecosistema completo para infoproductores y coaches. Dentro tienes un agente de IA que responde tus DMs y comentarios al momento, con tu forma de hablar, y cierra las llamadas en tu calendario con quien encaja.");
-  // El contenido en redes va siempre, en una frase (lo pidió Brian): es la otra mitad del producto.
-  const contenido = /contenido/i.test(solucion)
-    ? ""
-    : "\n\nY además tus métricas de Instagram, TikTok y YouTube, la programación de tu contenido y un radar que te dice qué le funciona a tu competencia. Lo que hoy se hace con un setter y tres herramientas distintas, todo en un solo sitio.";
+      ? "Hemos lanzado neuro·node, un ecosistema para negocios que venden por chat: su agente de IA contesta tus DMs al momento, con tu forma de hablar, y te cierra las citas en el calendario."
+      : "Hemos lanzado neuro·node, un ecosistema para infoproductores y coaches: su agente de IA responde tus DMs y comentarios al momento, con tu forma de hablar, y te cierra las llamadas en el calendario.");
+  // El contenido en redes va siempre, en una frase: es la otra mitad del producto.
+  const contenido = /contenido/i.test(solucion) ? "" : "Además tienes tus métricas, la programación de tu contenido y un radar de tu competencia, todo en un sitio. ";
   const saludo = nombre ? `¡Hola ${nombre}!` : "¡Hola!";
   const quien = local ? `Soy Brian, de neuro·node, también de ${local}.` : "Soy Brian, de neuro·node.";
   const conNombre = (txt: string) => (nombre ? `${txt}, ${nombre}` : txt);
-  const verlo = local ? "¿Te va bien que me pase un día y te lo enseño en 15 minutos?" : "¿Te va bien una videollamada de 15 minutos esta semana y te lo enseño con tu cuenta?";
+  const verlo = local ? "¿Te va bien que me pase un día y te lo enseño en 15 minutos?" : "¿Te va bien una llamada de 15 minutos esta semana y te lo enseño con tu cuenta?";
   return [
     {
       cuando: "Día 1",
       titulo: "El mensaje (corto y directo)",
-      texto: `${saludo} ${quien}${problema ? `\n\n${problema}` : ""}
+      texto: `${saludo} ${quien}${problema ? ` ${problema}` : ""}
 
-${solucion}${contenido}
+${solucion}
 
-Estamos eligiendo a los primeros 10 testers: lo pruebas gratis 30 días. Si esto tiene sentido para ti, podemos agendar una llamada sin ningún tipo de compromiso.
+${contenido}Lo tienes aquí: ${WEB}
 
+Estamos eligiendo a los primeros 10 testers, con 30 días gratis. Si tiene sentido para ti, agendamos una llamada sin compromiso.
 Un saludo.`,
       nota: problema
         ? "Listo para copiar: Gus le ha puesto su nombre y el problema que ha visto en su cuenta. Antes de mandarlo, dale like a un par de publicaciones."
@@ -376,32 +379,31 @@ Un saludo.`,
       cuando: "Si contesta",
       titulo: "Contarle cómo funcionaría",
       texto: servicio
-        ? `¡${conNombre("Genial")}! En tu caso: cada vez que alguien te escriba por Instagram, el agente le contesta al momento, como lo harías tú, le da precios y huecos y le deja la cita cerrada. Tú solo te enteras de las citas nuevas. Sin límite de mensajes y conectado a tu ChatGPT o Claude. Y desde el mismo sitio puedes programar tu contenido y ver tus métricas.
+        ? `¡${conNombre("Genial")}! En tu caso, cada vez que alguien te escriba, el agente le contesta al momento como lo harías tú, le da precios y huecos y le deja la cita cerrada. Tú solo cortas.
+
+Sin límite de mensajes, y desde el mismo sitio programas tu contenido y ves tus métricas. Todo aquí: ${WEB}
 
 Son 30 días gratis y sin compromiso. ${verlo}`
-        : `¡${conNombre("Genial")}! Te cuento rápido:
+        : `¡${conNombre("Genial")}! En tu caso, el agente contesta tus DMs y comentarios al momento, como lo harías tú, y solo te agenda llamadas con quien encaja en tu programa.
 
-- Contesta tus DMs y comentarios al momento, con tu forma de hablar, y agenda llamadas solo con quien encaja en tu programa.
-- Programa tu contenido orgánico en Instagram, TikTok y YouTube.
-- Ves tus métricas y vigilas a tu competencia con un radar.
+Además programas tu contenido en Instagram, TikTok y YouTube, ves tus métricas y vigilas a tu competencia. Lo que hoy haces con un setter, ManyChat y Metricool, en un solo sitio y sin límite de mensajes: ${WEB}
 
-Lo que hoy haces con un setter, ManyChat y Metricool por separado, en un solo agente, sin límite de mensajes y conectado a tu IA preferida (ChatGPT, Claude o la que uses).
-
-Son 30 días gratis y sin compromiso. Al terminar decides si te quedas, y si sigues entras en el pack fundador. ${verlo}`,
-      nota: "Si pide precio: «Durante la prueba es gratis; los que se quedan entran con precio de fundador». Sin cifras.",
+Son 30 días gratis y sin compromiso; si sigues, entras en el pack fundador. ${verlo}`,
+      nota: "Si pide precio: «Durante la prueba es gratis; los 10 primeros en contratar entran en el pack fundador». Sin cifras.",
     },
     {
       cuando: "A las 48 h, si no contesta (y último)",
       titulo: "Un recordatorio, en una línea",
-      texto: `${nombre ? `${nombre}, te` : "Te"} lo resumo en una línea: un ecosistema con un agente de IA que contesta tus DMs al momento y ${servicio ? "te cierra las citas" : "te agenda las llamadas"}, más tus métricas, tu contenido y tu competencia en un solo sitio. Gratis 30 días. ¿Te guardo una plaza o lo dejo aquí?`,
+      texto: `${nombre ? `${nombre}, te` : "Te"} lo resumo: un ecosistema con un agente de IA que contesta tus DMs al momento y ${servicio ? "te cierra las citas" : "te agenda las llamadas"}, gratis 30 días. Lo tienes aquí: ${WEB}
+Si te encaja, agendamos una llamada; si no, lo dejo aquí. Un saludo.`,
       nota: "Es el último mensaje. Si no contesta, márcalo «Sin respuesta» en el pipeline y pasa al siguiente.",
     },
     {
       cuando: "Cuando dice que sí",
       titulo: "Quedar para enseñárselo",
       texto: local
-        ? `¡${conNombre("Perfecto")}! Dime qué día y a qué hora te viene bien y me paso. Te lo dejo funcionando con tu cuenta y te guardo una de las 10 plazas.`
-        : `¡${conNombre("Perfecto")}! Elige el hueco que mejor te venga: [enlace de agenda]. Te lo enseño con tu cuenta y te dejo reservada una de las 10 plazas.`,
+        ? `¡${conNombre("Perfecto")}! Dime qué día y a qué hora te viene bien y me paso. Te lo dejo funcionando con tu cuenta y te guardo una de las 10 plazas. Mientras, puedes echarle un ojo aquí: ${WEB}`
+        : `¡${conNombre("Perfecto")}! Elige el hueco que mejor te venga: [enlace de agenda]. Te lo enseño con tu cuenta y te dejo reservada una de las 10 plazas. Mientras, puedes echarle un ojo aquí: ${WEB}`,
       nota: local ? "Es de tu ciudad: mejor en persona. Muévelo a «Interesado» en el pipeline." : "Pon el enlace de agenda cuando lo tengáis. Muévelo a «Interesado» en el pipeline.",
     },
   ];

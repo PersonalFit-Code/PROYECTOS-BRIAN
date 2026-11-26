@@ -35,7 +35,7 @@ export function SecuenciaDM({ pasos, listo }: { pasos: PasoDM[]; listo: boolean 
         Por Instagram, paso a paso
       </h3>
       <p className="mb-4 text-sm text-muted">
-        {listo ? "Gus ya lo ha personalizado con su nombre y una publicación suya: copia y manda." : "Se puede mandar tal cual. Sin enlace hasta que muestre interés."}
+        {listo ? "Gus ya lo ha personalizado con su nombre y una publicación suya: copia y manda." : "Se puede mandar tal cual. Con la web incluida."}
       </p>
       <ol className="space-y-3">
         {pasos.map((p, i) => (
