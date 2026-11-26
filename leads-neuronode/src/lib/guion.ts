@@ -347,12 +347,12 @@ export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
   const solucion =
     dm?.solucion?.trim() ||
     (servicio
-      ? "Hemos creado un agente de IA que contesta tus DMs al momento, con tu forma de hablar: resuelve dudas, da precios y huecos y deja la cita cerrada. De día y de noche."
-      : "Hemos creado un agente de IA que contesta tus DMs y comentarios al momento, con tu forma de hablar, y te agenda las llamadas con quien encaja.");
+      ? "Hemos lanzado neuro·node, un ecosistema completo para negocios que venden por chat. Dentro tienes un agente de IA que contesta tus DMs al momento, con tu forma de hablar, da precios y huecos y cierra las citas en tu calendario. De día y de noche."
+      : "Hemos lanzado neuro·node, un ecosistema completo para infoproductores y coaches. Dentro tienes un agente de IA que responde tus DMs y comentarios al momento, con tu forma de hablar, y cierra las llamadas en tu calendario con quien encaja.");
   // El contenido en redes va siempre, en una frase (lo pidió Brian): es la otra mitad del producto.
   const contenido = /contenido/i.test(solucion)
     ? ""
-    : "\n\nY desde el mismo sitio programas tu contenido en Instagram, TikTok y YouTube, ves tus métricas y lo que le funciona a tu competencia.";
+    : "\n\nY además tus métricas de Instagram, TikTok y YouTube, la programación de tu contenido y un radar que te dice qué le funciona a tu competencia. Lo que hoy se hace con un setter y tres herramientas distintas, todo en un solo sitio.";
   const saludo = nombre ? `¡Hola ${nombre}!` : "¡Hola!";
   const quien = local ? `Soy Brian, de neuro·node, también de ${local}.` : "Soy Brian, de neuro·node.";
   const conNombre = (txt: string) => (nombre ? `${txt}, ${nombre}` : txt);
@@ -365,7 +365,7 @@ export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
 
 ${solucion}${contenido}
 
-Buscamos 10 personas que lo prueben gratis 30 días. ¿Te animas?`,
+Estamos eligiendo a los primeros 10 testers: lo pruebas gratis 30 días. ¿Te guardo una plaza?`,
       nota: problema
         ? "Listo para copiar: Gus le ha puesto su nombre y el problema que ha visto en su cuenta. Antes de mandarlo, dale like a un par de publicaciones."
         : "Gus todavía no ha mirado su Instagram, así que va sin el problema concreto. Se manda igual, pero mejor si añades una frase con lo que veas en su cuenta.",
@@ -391,7 +391,7 @@ Son 30 días gratis y sin compromiso. Al terminar decides si te quedas, y si sig
     {
       cuando: "A las 48 h, si no contesta (y último)",
       titulo: "Un recordatorio, en una línea",
-      texto: `${nombre ? `${nombre}, te` : "Te"} lo resumo en una línea: un agente de IA que contesta tus DMs al momento y ${servicio ? "te cierra las citas" : "te agenda las llamadas"}, gratis 30 días. ¿Te interesa o lo dejo aquí?`,
+      texto: `${nombre ? `${nombre}, te` : "Te"} lo resumo en una línea: un ecosistema con un agente de IA que contesta tus DMs al momento y ${servicio ? "te cierra las citas" : "te agenda las llamadas"}, más tus métricas, tu contenido y tu competencia en un solo sitio. Gratis 30 días. ¿Te guardo una plaza o lo dejo aquí?`,
       nota: "Es el último mensaje. Si no contesta, márcalo «Sin respuesta» en el pipeline y pasa al siguiente.",
     },
     {
