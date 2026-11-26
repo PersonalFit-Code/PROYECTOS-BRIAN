@@ -60,7 +60,8 @@ test("infoproductores y coaches: se habla del setter con IA, sin clientes invent
   assert.ok(g.secuenciaDM.some((p) => p.texto?.includes("lo dejo aquí")));
   assert.ok(!g.secuenciaDM.some((p) => /Día [4-9]/.test(p.cuando)));
   // El primer mensaje es corto (se lee entero) y pide algo claro; el detalle va cuando contesta.
-  assert.ok((g.secuenciaDM[0].texto ?? "").length < 800);
+  assert.ok((g.secuenciaDM[0].texto ?? "").length < 850);
+  assert.ok(g.secuenciaDM[0].texto?.endsWith("sin ningún tipo de compromiso.\n\nUn saludo."));
   assert.equal((g.secuenciaDM[0].texto ?? "").match(/contenido/g)?.length, 1);
   assert.ok(g.secuenciaDM[0].texto?.includes("ecosistema") && g.secuenciaDM[0].texto.includes("gratis 30 días"));
   assert.ok(g.secuenciaDM[1].texto?.includes("en un solo agente") && g.secuenciaDM[1].texto.includes("sin límite"));

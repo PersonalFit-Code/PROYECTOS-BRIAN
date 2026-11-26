@@ -365,7 +365,9 @@ export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
 
 ${solucion}${contenido}
 
-Estamos eligiendo a los primeros 10 testers: lo pruebas gratis 30 días. ¿Te guardo una plaza?`,
+Estamos eligiendo a los primeros 10 testers: lo pruebas gratis 30 días. Si esto tiene sentido para ti, podemos agendar una llamada sin ningún tipo de compromiso.
+
+Un saludo.`,
       nota: problema
         ? "Listo para copiar: Gus le ha puesto su nombre y el problema que ha visto en su cuenta. Antes de mandarlo, dale like a un par de publicaciones."
         : "Gus todavía no ha mirado su Instagram, así que va sin el problema concreto. Se manda igual, pero mejor si añades una frase con lo que veas en su cuenta.",
