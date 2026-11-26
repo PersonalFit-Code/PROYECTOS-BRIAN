@@ -351,12 +351,12 @@ export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
   const solucion =
     dm?.solucion?.trim() ||
     (servicio
-      ? "Hemos lanzado neuro·node, un ecosistema para negocios que venden por chat: su agente de IA contesta tus DMs al momento, con tu forma de hablar, y te cierra las citas en el calendario."
-      : "Hemos lanzado neuro·node, un ecosistema para infoproductores y coaches: su agente de IA responde tus DMs y comentarios al momento, con tu forma de hablar, y te cierra las llamadas en el calendario.");
+      ? "Te escribo porque hemos desarrollado un ecosistema para negocios que venden por chat, como es tu caso, en el que un agente de IA hace de setter: responde tus mensajes como si fueras tú, da precios y huecos y cierra las citas en tu calendario."
+      : "Te escribo porque hemos desarrollado un ecosistema para infoproductores y coaches, como es tu caso, en el que un agente de IA hace de setter de ventas: responde tus mensajes como si fueras tú y agenda las llamadas con quien encaja.");
   // El contenido en redes va siempre, en una frase: es la otra mitad del producto.
-  const contenido = /contenido/i.test(solucion) ? "" : "Además tienes tus métricas, la programación de tu contenido y un radar de tu competencia, todo en un sitio. ";
+  const contenido = /contenido/i.test(solucion) ? "" : "Y dentro de todo eso, unificado: estrategias de contenido orgánico, tus métricas y un radar de competencia. ";
   const saludo = nombre ? `¡Hola ${nombre}!` : "¡Hola!";
-  const quien = local ? `Soy Brian, de neuro·node, también de ${local}.` : "Soy Brian, de neuro·node.";
+  const quien = local ? `Mi nombre es Brian, de neuro·node, también de ${local}.` : "Mi nombre es Brian, de neuro·node.";
   const conNombre = (txt: string) => (nombre ? `${txt}, ${nombre}` : txt);
   const verlo = local ? "¿Te va bien que me pase un día y te lo enseño en 15 minutos?" : "¿Te va bien una llamada de 15 minutos esta semana y te lo enseño con tu cuenta?";
   return [
@@ -367,9 +367,9 @@ export function secuenciaInfoproducto(dm?: DatosDM | null): PasoDM[] {
 
 ${solucion}
 
-${contenido}Lo tienes aquí: ${WEB}
+${contenido}Te dejo la web por si quieres echarle un ojo: ${WEB}
 
-Estamos eligiendo a los primeros 10 testers, con 30 días gratis. Si tiene sentido para ti, agendamos una llamada sin compromiso.
+Estamos buscando 10 testers para validar el producto, así que no pagarías nada durante la beta de 30 días. Si esto tiene sentido para ti, agendamos una llamada y lo comentamos (sin compromiso).
 Un saludo.`,
       nota: problema
         ? "Listo para copiar: Gus le ha puesto su nombre y el problema que ha visto en su cuenta. Antes de mandarlo, dale like a un par de publicaciones."
