@@ -1,5 +1,5 @@
 ---
-titulo: Guía rápida para publicar la web en 720gymclub.es
+titulo: Guía rápida para conectar 720gymclub.es con la web
 tipo: Guía rápida
 cliente: 720 GYM CLUB
 fecha: Noviembre de 2026
@@ -7,12 +7,12 @@ formato: vertical
 ---
 <style>
   .intro-guia { font-size: 11pt; line-height: 1.55; margin: 0 0 5mm; max-width: 160mm; }
-  .paso { border: 1px solid var(--linea); border-radius: 3mm; padding: 4mm 6mm 3mm; margin: 0 0 3.5mm; break-inside: avoid; }
-  .paso h2 { margin: 0 0 2.5mm; font-size: 13.5pt; display: flex; align-items: baseline; gap: 3mm; }
+  .paso { border: 1px solid var(--linea); border-radius: 3mm; padding: 3.2mm 6mm 2.4mm; margin: 0 0 3mm; break-inside: avoid; }
+  .paso h2 { margin: 0 0 1.6mm; font-size: 13.5pt; display: flex; align-items: baseline; gap: 3mm; }
   .paso h2 .n { margin: 0; }
-  .paso ul { margin: 0; padding-left: 5mm; font-size: 10.2pt; line-height: 1.6; }
+  .paso ul { margin: 0 0 1mm; padding-left: 5mm; font-size: 10pt; line-height: 1.5; }
   .paso li { margin: 0 0 .6mm; }
-  .paso p { font-size: 10.2pt; line-height: 1.6; margin: 0 0 2mm; }
+  .paso p { font-size: 10pt; line-height: 1.5; margin: 0 0 1.6mm; }
   .o { font-family: "Montserrat"; font-weight: 700; font-size: 8pt; letter-spacing: .24em; text-transform: uppercase; color: var(--indigo); margin: 2mm 0 1mm; }
   table.dns { width: 100%; border-collapse: collapse; font-size: 9.6pt; margin: 1mm 0 2mm; }
   table.dns th { text-align: left; font-family: "Montserrat"; font-weight: 700; font-size: 7.4pt; letter-spacing: .14em; text-transform: uppercase; color: var(--suave); border-bottom: 1px solid var(--linea); padding: 1.6mm 2mm; }
@@ -21,37 +21,44 @@ formato: vertical
   .fin b { color: var(--indigo); }
 </style>
 
-<h1>Publicar la web en 720gymclub.es</h1>
-<p class="intro-guia">Brais, la web ya está lista. Para que se vea en <b>720gymclub.es</b> solo hacen falta tres pasos por tu parte. Del resto me encargo yo.</p>
+<h1>Conectar 720gymclub.es</h1>
+<p class="intro-guia">Brais, con el dominio ya comprado en GoDaddy, estos son los pasos para que la web se vea en <b>720gymclub.es</b>. Los marcados con <b>«lo hago yo»</b> no tienes que tocarlos.</p>
 
 <div class="paso">
-  <h2><span class="n">1</span>Compra el dominio en GoDaddy</h2>
+  <h2><span class="n">1</span>Vercel · lo hago yo</h2>
   <ul>
-    <li>Entra en <b>godaddy.com</b> y busca <b>720gymclub.es</b> (unos 7 € el primer año y 11 € al año después).</li>
-    <li>Regístralo a nombre de <b>720GYM CLUB SL</b>, con el NIF <b>B24758161</b>.</li>
-    <li>Compra <b>solo el dominio</b>: no hace falta correo, web, hosting ni ningún extra que te ofrezcan.</li>
-    <li>Deja activada la <b>renovación automática</b> para que no caduque.</li>
+    <li>Añado <b>720gymclub.es</b> como dirección principal de la web.</li>
+    <li>Añado <b>www.720gymclub.es</b> para que lleve a la misma dirección, sin duplicados en Google.</li>
   </ul>
 </div>
 
 <div class="paso">
-  <h2><span class="n">2</span>Dame acceso o añade dos registros</h2>
-  <p class="o">Opción A · La más cómoda</p>
-  <p>En tu cuenta de GoDaddy: <b>Configuración de la cuenta → Acceso delegado → Invitar</b>. Invítame con el correo que te paso por WhatsApp y marca el acceso a <b>Productos y dominios</b>. Con eso lo configuro yo.</p>
-  <p class="o">Opción B · Si prefieres hacerlo tú</p>
-  <p>Ve a <b>Mis productos → 720gymclub.es → DNS</b>. Borra el registro <b>A</b> que pone «Aparcado» y el <b>CNAME</b> «www» si lo hay. Después añade estos dos:</p>
+  <h2><span class="n">2</span>GoDaddy · tú, o yo con tu acceso</h2>
+  <p>Entra en <b>Mis productos → 720gymclub.es → DNS → Registros DNS</b>.</p>
+  <p class="o">Borra</p>
+  <ul>
+    <li>El registro <b>A</b> con nombre <b>@</b> que pone «Aparcado».</li>
+    <li>El registro <b>CNAME</b> con nombre <b>www</b>, si existe.</li>
+  </ul>
+  <p class="o">Añade estos dos</p>
   <table class="dns">
-    <tr><th>Tipo</th><th>Nombre</th><th>Valor</th></tr>
-    <tr><td>A</td><td>@</td><td>216.198.79.1</td></tr>
-    <tr><td>CNAME</td><td>www</td><td>49a7895186e5f3c6.vercel-dns-017.com</td></tr>
+    <tr><th>Tipo</th><th>Nombre</th><th>Valor</th><th>TTL</th></tr>
+    <tr><td>A</td><td>@</td><td>216.198.79.1</td><td>1 hora</td></tr>
+    <tr><td>CNAME</td><td>www</td><td>49a7895186e5f3c6.vercel-dns-017.com</td><td>1 hora</td></tr>
   </table>
+  <p>Los <b>nameservers</b> de GoDaddy se dejan como están. Si prefieres que lo haga yo, dame <b>acceso delegado</b> en tu cuenta (Configuración de la cuenta → Acceso delegado → Invitar).</p>
 </div>
 
 <div class="paso">
-  <h2><span class="n">3</span>Avísame</h2>
-  <p>Mándame un WhatsApp cuando lo tengas. En un rato la web estará en <b>720gymclub.es</b>, con el candado de seguridad (https) y lista para aparecer en Google.</p>
+  <h2><span class="n">3</span>Comprobación · lo hago yo</h2>
+  <p>Cuando GoDaddy aplica los cambios, la web se conecta sola. Suele tardar entre 5 minutos y 1 hora (como mucho, 24 horas). El candado de seguridad (https) se activa automáticamente.</p>
+</div>
+
+<div class="paso">
+  <h2><span class="n">4</span>Abrir la web a Google · lo hago yo</h2>
+  <p>Configuro la web con su dirección definitiva y activo que Google pueda encontrarla. Después la vuelvo a publicar.</p>
 </div>
 
 <div class="fin">
-  <b>Lo que hago yo:</b> conectar el dominio con la web, activar la seguridad, abrirla a Google y darla de alta en Google Search Console. Cuando esté publicada, solo quedará poner el enlace en la ficha de Google Maps y en las biografías de Instagram.
+  <b>5 · Al terminar:</b> la doy de alta en Google Search Console (puede que te pida añadir un registro más en GoDaddy, igual que los anteriores). Y queda poner <b>720gymclub.es</b> en la ficha de Google Maps y en las biografías de Instagram de 720 y de los clubes.
 </div>
