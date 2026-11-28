@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Hilderwin · Agente de voz · Neuro Node</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Dossier A4 para imprimir a PDF. Marca Neuro Node: #6447FA, degradado sólo en acentos, Montserrat + Quicksand, fondo blanco. */
+@page { size: A4; margin: 0; }
+:root{
+  --acento:#6447FA; --oscuro:#2A1A57; --tinta:#16131F; --texto:#3A3743; --suave:#615e6c;
+  --linea:#E6E1F3; --claro:#F4F1FF; --cielo:#36ADFB; --violeta:#7F1EED;
+  --mar:#2f6fb5; --arena:#F3E7D3; --verde:#1f8a5b; --rojo:#c2413a;
+  --deg:linear-gradient(90deg,#36ADFB,#6447FA 55%,#7F1EED);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff}
+body{font-family:Quicksand,Arial,sans-serif;font-weight:500;color:var(--texto);font-size:10.4pt;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+h1,h2,h3{font-family:Montserrat,Arial,sans-serif;color:var(--tinta);margin:0;text-wrap:balance}
+p,li{text-wrap:pretty}
+.hoja{width:210mm;height:297mm;padding:16mm 17mm 14mm;position:relative;overflow:hidden;break-after:page;display:flex;flex-direction:column}
+.hoja:last-child{break-after:auto}
+.cab{display:flex;justify-content:space-between;align-items:center;font-size:8.4pt;color:var(--suave);margin-bottom:9mm}
+.marca{display:flex;align-items:center;gap:2.4mm;font-family:Montserrat,sans-serif;font-weight:700;color:var(--tinta);font-size:10pt}
+.marca svg{width:7mm;height:7mm}
+.num{font-family:Montserrat,sans-serif;font-weight:800;font-size:30pt;line-height:1;background:var(--deg);-webkit-background-clip:text;background-clip:text;color:transparent}
+.epi{font-family:Montserrat,sans-serif;font-size:8.4pt;font-weight:700;letter-spacing:1.6pt;text-transform:uppercase;color:var(--acento);margin:0 0 2.5mm}
+h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
+.entrada{font-size:12pt;line-height:1.45;color:var(--texto);margin:0 0 7mm;max-width:160mm}
+.pie{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:7.8pt;color:var(--suave);padding-top:5mm;border-top:1px solid var(--linea)}
+.puntos{display:flex;gap:1.6mm}.puntos i{width:2mm;height:2mm;border-radius:50%;background:var(--linea)}.puntos i.on{background:var(--acento)}
+.nota{font-size:8.4pt;color:var(--suave);margin:3mm 0 0}
+.tarj{border:1px solid var(--linea);border-radius:4mm;padding:5mm;background:#fff}
+.rejilla{display:grid;gap:4mm}
+.r2{grid-template-columns:1fr 1fr}.r3{grid-template-columns:1fr 1fr 1fr}
+.tarj h3{font-size:11pt;margin:2.5mm 0 1.2mm}
+.tarj p{margin:0;font-size:9.4pt;color:var(--suave)}
+.ico{width:10mm;height:10mm;border-radius:50%;background:var(--claro);display:grid;place-items:center}
+.ico svg{width:5.4mm;height:5.4mm;stroke:var(--acento);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dato{font-family:Montserrat,sans-serif;font-weight:800;font-size:20pt;color:var(--tinta);line-height:1}
+.dato small{font-size:9pt;color:var(--acento);font-weight:700}
+.fuente{font-size:7.6pt;color:var(--suave);margin-top:2mm}
+.marcar{background:linear-gradient(transparent 62%,#E4DCFF 62%)}
+/* portada */
+.portada{padding:0}
+.portada .arriba{padding:16mm 17mm 0}
+.portada h1{font-size:33pt;line-height:1.06;letter-spacing:-1pt;margin:14mm 0 6mm;max-width:165mm}
+.portada h1 span{background:var(--deg);-webkit-background-clip:text;background-clip:text;color:transparent}
+.portada .sub{font-size:13pt;max-width:150mm;margin:0;color:var(--texto)}
+.portada .dibujo{margin-top:auto}
+.portada .dibujo svg{display:block;width:210mm;height:auto}
+.portada .firma{position:absolute;left:17mm;right:17mm;bottom:12mm;display:flex;justify-content:space-between;font-size:8.6pt;color:#fff}
+/* semana */
+.semana{display:grid;grid-template-columns:repeat(7,1fr);gap:2mm;margin-bottom:6mm}
+.dia{border:1px solid var(--linea);border-radius:3mm;padding:3mm 2mm;text-align:center;font-size:8.4pt}
+.dia b{display:block;font-family:Montserrat,sans-serif;font-size:10pt;color:var(--tinta);margin-bottom:1.5mm}
+.dia .t{display:block;border-radius:1.5mm;background:var(--claro);color:var(--oscuro);padding:1mm 0;margin-top:1mm;font-weight:600}
+.dia.cerrado{background:#faf7f2;border-style:dashed}
+.dia.cerrado .t{background:none;color:var(--rojo)}
+/* conversación */
+.tel{border:1px solid var(--linea);border-radius:6mm;overflow:hidden;background:#fbfaff}
+.tel .barra{background:var(--oscuro);color:#fff;padding:3mm 5mm;font-size:8.6pt;display:flex;justify-content:space-between;align-items:center}
+.tel .barra b{font-family:Montserrat,sans-serif}
+.msgs{padding:5mm;display:flex;flex-direction:column;gap:2.6mm}
+.m{max-width:78%;padding:2.6mm 3.6mm;border-radius:3.5mm;font-size:9.3pt;line-height:1.4}
+.m small{display:block;font-size:7pt;letter-spacing:1pt;text-transform:uppercase;font-weight:700;margin-bottom:.6mm;opacity:.75}
+.m.c{background:#fff;border:1px solid var(--linea);align-self:flex-start}
+.m.a{background:var(--acento);color:#fff;align-self:flex-end}
+.aviso{margin:0 5mm 5mm;border:1px solid #cdebd9;background:#f1fbf5;border-radius:3.5mm;padding:3.2mm 4mm;font-size:9pt;color:#14533a;display:flex;gap:3mm;align-items:flex-start}
+.aviso svg{flex:none;width:5mm;height:5mm;stroke:var(--verde);fill:none;stroke-width:2}
+/* comparar */
+.comp{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.comp .col{border-radius:4mm;padding:5mm;border:1px solid var(--linea)}
+.comp .sin{background:#fdf6f5}.comp .con{background:#f3fbf6}
+.comp h3{font-size:10.5pt;display:flex;align-items:center;gap:2mm;margin-bottom:2.5mm}
+.comp ul{margin:0;padding-left:4.5mm;font-size:9.3pt}.comp li{margin-bottom:1.6mm}
+.x{color:var(--rojo)}.ok{color:var(--verde)}
+.cuenta{display:flex;align-items:center;gap:6mm;border-radius:4mm;padding:5mm 6mm;background:var(--claro);margin-top:5mm}
+.cuenta .grande{font-family:Montserrat,sans-serif;font-weight:800;font-size:24pt;color:var(--oscuro);white-space:nowrap}
+/* beta */
+.beta{border-radius:5mm;padding:6mm;background:linear-gradient(135deg,#2A1A57,#4B2FC9);color:#F4F1FF}
+.beta h3{color:#fff;font-size:15pt;margin-bottom:2mm}
+.beta p{margin:0;font-size:10pt;color:#DCD4FF}
+.chip{display:inline-block;font-family:Montserrat,sans-serif;font-size:7.6pt;font-weight:700;letter-spacing:1.4pt;text-transform:uppercase;background:rgba(255,255,255,.14);color:#fff;padding:1.2mm 3mm;border-radius:10mm;margin-bottom:3mm}
+.lista{margin:0;padding:0;list-style:none}
+.lista li{display:flex;gap:2.6mm;align-items:flex-start;margin-bottom:2.2mm;font-size:9.6pt}
+.lista li svg{flex:none;width:4.6mm;height:4.6mm;margin-top:.5mm;stroke:var(--acento);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-bottom:6mm}
+.paso{border:1px solid var(--linea);border-radius:4mm;padding:5mm;position:relative}
+.paso .n{font-family:Montserrat,sans-serif;font-weight:800;font-size:18pt;color:var(--acento);line-height:1}
+.paso h3{font-size:10.6pt;margin:2mm 0 1mm}.paso p{margin:0;font-size:9pt;color:var(--suave)}
+.preg{counter-reset:p;margin:0;padding:0;list-style:none}
+.preg li{counter-increment:p;display:flex;gap:3mm;padding:2.6mm 0;border-bottom:1px solid var(--linea);font-size:9.8pt}
+.preg li::before{content:counter(p);flex:none;width:6mm;height:6mm;border-radius:50%;background:var(--claro);color:var(--acento);font-family:Montserrat,sans-serif;font-weight:700;font-size:8.4pt;display:grid;place-items:center}
+.contacto{margin-top:6mm;border-radius:4mm;padding:5mm 6mm;border:1.5px solid var(--acento);display:flex;justify-content:space-between;align-items:center;gap:5mm}
+.contacto b{font-family:Montserrat,sans-serif;color:var(--tinta);font-size:11pt}
+</style>
+</head>
+<body>
+
+<!-- Logo de Neuro Node simplificado: nodos y flecha -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="dg" x1="0" x2="1"><stop offset="0" stop-color="#36ADFB"/><stop offset=".55" stop-color="#6447FA"/><stop offset="1" stop-color="#7F1EED"/></linearGradient>
+    <symbol id="logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="url(#dg)"/><g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24 9 8l8 11 3-2 4-9"/><path d="m21 8 3 0 0 3"/></g><g fill="#fff"><circle cx="8" cy="24" r="2.2"/><circle cx="9" cy="8" r="2.2"/><circle cx="17" cy="19" r="2.2"/></g></symbol>
+    <symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+  </defs>
+</svg>
+
+<!-- 1 · PORTADA -->
+<section class="hoja portada">
+  <div class="arriba">
+    <div class="cab" style="margin:0"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span>Propuesta para Restaurant Hilderwin · Westende</span></div>
+    <h1>Que ninguna mesa se pierda porque el teléfono sonaba <span>en pleno servicio</span></h1>
+    <p class="sub">Un agente de voz que coge las llamadas de Hilderwin cuando vosotros no podéis: contesta en neerlandés, francés, inglés o alemán, toma las reservas y os deja el aviso.</p>
+  </div>
+  <div class="dibujo">
+    <svg viewBox="0 0 840 560" role="img" aria-label="Una cazuela de mejillones humeante junto al paseo marítimo de Westende, con un teléfono sonando">
+      <defs>
+        <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#EEF6FF"/></linearGradient>
+        <linearGradient id="mar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fb7ef"/><stop offset="1" stop-color="#3d7fc6"/></linearGradient>
+        <linearGradient id="olla" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b3550"/><stop offset="1" stop-color="#16131F"/></linearGradient>
+        <linearGradient id="noche" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2A1A57"/><stop offset="1" stop-color="#4B2FC9"/></linearGradient>
+      </defs>
+      <rect width="840" height="560" fill="url(#cielo)"/>
+      <circle cx="690" cy="110" r="46" fill="#FFE7A8"/>
+      <!-- mar y paseo -->
+      <path d="M0 250 Q210 236 420 250 T840 248 V330 H0Z" fill="url(#mar)"/>
+      <path d="M0 270 Q120 262 240 272 T480 270 T720 272 T840 268" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none"/>
+      <path d="M0 296 Q140 288 280 298 T560 296 T840 296" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none"/>
+      <path d="M0 322 H840 V400 H0Z" fill="#F3E7D3"/>
+      <!-- casetas de playa -->
+      <g>
+        <g transform="translate(70 262)"><path d="M0 26 L22 8 L44 26 V62 H0Z" fill="#fff" stroke="#d8cde9"/><rect x="0" y="30" width="44" height="32" fill="#36ADFB"/><rect x="0" y="30" width="44" height="6" fill="#fff" opacity=".6"/><rect x="15" y="40" width="14" height="22" fill="#fff" opacity=".9"/></g>
+        <g transform="translate(128 262)"><path d="M0 26 L22 8 L44 26 V62 H0Z" fill="#fff" stroke="#d8cde9"/><rect x="0" y="30" width="44" height="32" fill="#7F1EED"/><rect x="15" y="40" width="14" height="22" fill="#fff" opacity=".9"/></g>
+        <g transform="translate(186 262)"><path d="M0 26 L22 8 L44 26 V62 H0Z" fill="#fff" stroke="#d8cde9"/><rect x="0" y="30" width="44" height="32" fill="#6447FA"/><rect x="15" y="40" width="14" height="22" fill="#fff" opacity=".9"/></g>
+      </g>
+      <!-- mesa -->
+      <path d="M0 400 H840 V560 H0Z" fill="url(#noche)"/>
+      <ellipse cx="300" cy="438" rx="250" ry="34" fill="#000" opacity=".18"/>
+      <!-- cazuela de mejillones -->
+      <g transform="translate(160 300)">
+        <path d="M30 80 Q140 30 250 80" fill="none" stroke="#fff" stroke-opacity=".0"/>
+        <g opacity=".55" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none">
+          <path d="M100 20 q-14 -26 4 -48 q18 -22 2 -46"/><path d="M150 14 q-14 -26 4 -48 q18 -22 2 -46"/><path d="M200 20 q-14 -26 4 -48"/>
+        </g>
+        <!-- mejillones asomando -->
+        <g>
+          <path d="M60 78 q30 -50 66 -8 q-30 22 -66 8z" fill="#22213a"/><path d="M60 78 q30 -50 66 -8" fill="none" stroke="#5d5a8a" stroke-width="3"/>
+          <path d="M110 70 q40 -56 80 -6 q-38 26 -80 6z" fill="#1c1b30"/><path d="M110 70 q40 -56 80 -6" fill="none" stroke="#6c68a0" stroke-width="3"/>
+          <path d="M170 76 q32 -46 70 -4 q-34 20 -70 4z" fill="#26243f"/><path d="M170 76 q32 -46 70 -4" fill="none" stroke="#5d5a8a" stroke-width="3"/>
+          <path d="M95 82 q20 -30 50 -6" fill="#f2a46b"/><path d="M160 84 q22 -26 48 -4" fill="#f2a46b"/>
+        </g>
+        <!-- olla -->
+        <path d="M30 80 H270 L256 168 Q150 196 44 168Z" fill="url(#olla)"/>
+        <rect x="22" y="72" width="256" height="16" rx="8" fill="#2c2840"/>
+        <path d="M30 100 q-26 0 -26 16 q0 16 26 14" fill="none" stroke="#2c2840" stroke-width="10" stroke-linecap="round"/>
+        <path d="M270 100 q26 0 26 16 q0 16 -26 14" fill="none" stroke="#2c2840" stroke-width="10" stroke-linecap="round"/>
+        <path d="M60 110 Q150 126 240 110" stroke="#fff" stroke-opacity=".08" stroke-width="8" fill="none"/>
+      </g>
+      <!-- cucurucho de patatas -->
+      <g transform="translate(500 330)">
+        <path d="M0 20 L60 20 L40 110 L20 110Z" fill="#fff"/><path d="M0 20 L60 20 L40 110 L20 110Z" fill="none" stroke="#e7e0f5"/>
+        <g fill="#F6C451"><rect x="6" y="-10" width="9" height="40" rx="3" transform="rotate(-10 10 10)"/><rect x="20" y="-18" width="9" height="46" rx="3"/><rect x="34" y="-12" width="9" height="42" rx="3" transform="rotate(8 38 10)"/><rect x="46" y="-4" width="8" height="34" rx="3" transform="rotate(16 50 10)"/></g>
+      </g>
+      <!-- teléfono sonando -->
+      <g transform="translate(620 300)">
+        <g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".85"><path d="M78 -10 q22 16 22 42"/><path d="M92 -32 q38 26 38 70"/></g>
+        <rect x="0" y="0" width="86" height="150" rx="16" fill="#fff"/>
+        <rect x="8" y="16" width="70" height="104" rx="8" fill="#F4F1FF"/>
+        <circle cx="43" cy="56" r="20" fill="url(#dg)"/>
+        <path d="M35 49c2 6 7 11 13 13l3-3 5 2v6c-12 0-24-12-24-24h6l2 5z" fill="#fff"/>
+        <rect x="18" y="88" width="50" height="8" rx="4" fill="#d9d2f7"/><rect x="26" y="102" width="34" height="6" rx="3" fill="#e7e2fb"/>
+        <rect x="30" y="132" width="26" height="6" rx="3" fill="#e7e2fb"/>
+      </g>
+    </svg>
+  </div>
+  <div class="firma"><span>Preparado por Brian Carbajal · Neuro Node · neuro-node.com</span><span>Noviembre de 2026</span></div>
+</section>
+
+<!-- 2 · LO QUE HEMOS VISTO -->
+<section class="hoja">
+  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">01</span></div>
+  <p class="epi">Lo que hemos visto en vuestra web</p>
+  <h2>Un restaurante que funciona, y un teléfono que no siempre se puede coger</h2>
+  <p class="entrada">Antes de proponeros nada, hemos mirado cómo trabajáis. Todo lo de esta hoja sale de hilderwin.be.</p>
+
+  <div class="semana">
+    <div class="dia"><b>Lun</b>Reservas<span class="t">12:00–13:30</span><span class="t">18:00–20:00</span></div>
+    <div class="dia cerrado"><b>Mar</b><span class="t">Cerrado</span></div>
+    <div class="dia cerrado"><b>Mié</b><span class="t">Cerrado</span></div>
+    <div class="dia"><b>Jue</b>Reservas<span class="t">12:00–13:30</span><span class="t">18:00–20:00</span></div>
+    <div class="dia"><b>Vie</b>Reservas<span class="t">12:00–13:30</span><span class="t">18:00–20:00</span></div>
+    <div class="dia"><b>Sáb</b>Reservas<span class="t">12:00–13:30</span><span class="t">18:00 y 20:00</span></div>
+    <div class="dia"><b>Dom</b>Reservas<span class="t">12:00–13:30</span><span class="t">18:00–20:00</span></div>
+  </div>
+
+  <div class="rejilla r2">
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M14 20c0-2.5 1.5-4.5 4-4.5s3 1.5 3 4.5"/></svg></div>
+      <h3>Más de 8 personas: sólo por teléfono</h3><p>La reserva online llega hasta 8. Los grupos, que son las mesas más grandes, tienen que llamar.</p></div>
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></div>
+      <h3>Vuestra web, en cuatro idiomas</h3><p>Neerlandés, francés, inglés y alemán. En la costa, quien llama también puede hablar cualquiera de los cuatro.</p></div>
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+      <h3>Cocina de 12 a 14 y de 18 a 21</h3><p>Justo cuando más llaman, todo el equipo está en sala y en cocina.</p></div>
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 8h16v12H4zM4 8l2-4h12l2 4M12 8v12M9 4c0 2 3 4 3 4s3-2 3-4"/></svg></div>
+      <h3>Normas que el cliente debe saber</h3><p>Una mesa, una cuenta. Pasados 15 minutos no se garantiza la mesa. El pescado es fresco y algunos platos cambian. Y vendéis vales regalo.</p></div>
+  </div>
+  <p class="fuente">Fuente: hilderwin.be, consultada el 23/11/2026. En vacaciones escolares flamencas, los turnos de noche son a las 18:00 y a las 20:00.</p>
+
+  <div class="pie"><span>Neuro Node · Propuesta para Hilderwin</span><span class="puntos"><i></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span></div>
+</section>
+
+<!-- 3 · EL DOLOR -->
+<section class="hoja">
+  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">02</span></div>
+  <p class="epi">El problema</p>
+  <h2>El teléfono suena cuando nadie puede cogerlo</h2>
+  <p class="entrada">No es falta de ganas: es que cuando más llaman, más lleno está el restaurante. Y la llamada que no se coge no vuelve: esa familia reserva en el sitio de al lado.</p>
+
+  <svg viewBox="0 0 700 150" style="width:100%;height:auto;margin-bottom:6mm" role="img" aria-label="Un día en Hilderwin: el teléfono suena en los momentos de servicio">
+    <rect x="0" y="60" width="700" height="30" rx="15" fill="#F4F1FF"/>
+    <!-- 10:00 a 23:00 => 13 h; 700px -> 53.8px/h -->
+    <rect x="107.7" y="60" width="107.7" height="30" fill="#6447FA" opacity=".85"/>
+    <rect x="430.8" y="60" width="161.5" height="30" fill="#6447FA" opacity=".85"/>
+    <text x="161" y="80" text-anchor="middle" font-family="Montserrat" font-size="13" font-weight="700" fill="#fff">Servicio</text>
+    <text x="511" y="80" text-anchor="middle" font-family="Montserrat" font-size="13" font-weight="700" fill="#fff">Servicio</text>
+    <g font-family="Quicksand" font-size="12" fill="#615e6c" text-anchor="middle">
+      <text x="0" y="112" text-anchor="start">10:00</text><text x="107.7" y="112">12:00</text><text x="215.4" y="112">14:00</text><text x="430.8" y="112">18:00</text><text x="592.3" y="112">21:00</text><text x="700" y="112" text-anchor="end">23:00</text>
+    </g>
+    <!-- llamadas -->
+    <g fill="#c2413a">
+      <g transform="translate(135 22)"><circle r="13"/><path d="M-5 -4c1 4 4 7 8 8l2-2 3 1v4c-8 0-14-6-14-14h4l1 3z" fill="#fff" transform="translate(-2 -2)"/></g>
+      <g transform="translate(190 30)"><circle r="13"/><path d="M-5 -4c1 4 4 7 8 8l2-2 3 1v4c-8 0-14-6-14-14h4l1 3z" fill="#fff" transform="translate(-2 -2)"/></g>
+      <g transform="translate(460 24)"><circle r="13"/><path d="M-5 -4c1 4 4 7 8 8l2-2 3 1v4c-8 0-14-6-14-14h4l1 3z" fill="#fff" transform="translate(-2 -2)"/></g>
+      <g transform="translate(520 34)"><circle r="13"/><path d="M-5 -4c1 4 4 7 8 8l2-2 3 1v4c-8 0-14-6-14-14h4l1 3z" fill="#fff" transform="translate(-2 -2)"/></g>
+      <g transform="translate(570 20)"><circle r="13"/><path d="M-5 -4c1 4 4 7 8 8l2-2 3 1v4c-8 0-14-6-14-14h4l1 3z" fill="#fff" transform="translate(-2 -2)"/></g>
+    </g>
+    <text x="350" y="142" text-anchor="middle" font-family="Quicksand" font-size="12" fill="#615e6c">Llamadas de ejemplo: caen justo cuando estáis sirviendo. Y martes y miércoles, todo el día.</text>
+  </svg>
+
+  <div class="comp">
+    <div class="col sin"><h3><span class="x">✕</span> Hoy, cuando nadie puede coger</h3>
+      <ul><li>La llamada se queda sin contestar o salta el buzón.</li><li>Un grupo de 10 no puede reservar online: si no os pilla, se va.</li><li>Martes y miércoles nadie contesta.</li><li>Preguntas que se repiten (horario, aparcamiento, vales) interrumpen el servicio.</li></ul></div>
+    <div class="col con"><h3><span class="ok">✓</span> Con el agente de Neuro Node</h3>
+      <ul><li>Contesta siempre, al primer tono, en el idioma de quien llama.</li><li>Toma los datos del grupo y os los manda al momento para confirmar.</li><li>Atiende también los días de cierre y fuera de hora.</li><li>Resuelve las preguntas frecuentes sin interrumpir a nadie.</li></ul></div>
+  </div>
+
+  <div class="cuenta">
+    <div class="grande">370 €</div>
+    <p style="margin:0;font-size:9.8pt">Es lo que vale <b>una sola mesa de 10 con el menú de la casa (37 €)</b>. Si se pierde una a la semana porque nadie coge el teléfono, son <span class="marcar"><b>unos 1.480 € al mes</b></span>. Es una cuenta de ejemplo: cuántas llamadas perdéis lo sabéis vosotros, no nosotros.</p>
+  </div>
+
+  <div class="pie"><span>Neuro Node · Propuesta para Hilderwin</span><span class="puntos"><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i></span></div>
+</section>
+
+<!-- 4 · UNA LLAMADA -->
+<section class="hoja">
+  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">03</span></div>
+  <p class="epi">Una llamada de principio a fin</p>
+  <h2>Sábado, 13:10. La cocina a tope. Llama un grupo de diez.</h2>
+  <p class="entrada">Así contestaría el agente, con vuestros horarios y vuestras normas. En la versión real, la conversación va en el idioma de quien llama: aquí está en español para que se lea.</p>
+
+  <div class="tel">
+    <div class="barra"><b>Restaurant Hilderwin</b><span>Agente de Neuro Node · llamada en curso</span></div>
+    <div class="msgs">
+      <div class="m a"><small>Agente</small>Restaurant Hilderwin, buenas tardes. ¿En qué le puedo ayudar?</div>
+      <div class="m c"><small>Cliente</small>Hola, queríamos reservar para diez personas este sábado por la noche.</div>
+      <div class="m a"><small>Agente</small>Con mucho gusto. El sábado por la noche hay dos turnos: a las 18:00 y a las 20:00. ¿Cuál les viene mejor?</div>
+      <div class="m c"><small>Cliente</small>A las 20:00. ¿Podemos pagar por separado?</div>
+      <div class="m a"><small>Agente</small>En Hilderwin cada mesa lleva una sola cuenta. Para grupos grandes os recomendamos elegir entre pocos platos, así sale todo a la vez. ¿A nombre de quién lo apunto y en qué teléfono os confirmamos?</div>
+      <div class="m c"><small>Cliente</small>A nombre de Peeters, al 0470 12 34 56.</div>
+      <div class="m a"><small>Agente</small>Perfecto. Le paso la reserva al equipo y le confirman por mensaje. Si llegan más de 15 minutos tarde no podemos garantizar la mesa. ¡Hasta el sábado!</div>
+    </div>
+    <div class="aviso"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span><b>Aviso que os llega al momento:</b> Reserva · sábado 20:00 · 10 personas · Peeters · 0470 12 34 56 · «quieren cuentas separadas: ya se les ha explicado la norma». Con un toque la confirmáis.</span></div>
+  </div>
+  <p class="nota">Nombre, teléfono y conversación son de ejemplo. Los horarios, turnos y normas son los de vuestra web.</p>
+
+  <div class="pie"><span>Neuro Node · Propuesta para Hilderwin</span><span class="puntos"><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i></span></div>
+</section>
+
+<!-- 5 · QUÉ HACE -->
+<section class="hoja">
+  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">04</span></div>
+  <p class="epi">Qué hace el agente</p>
+  <h2>Lo que hoy os interrumpe, lo contesta él</h2>
+  <p class="entrada">Lo montamos con vuestra carta, vuestros horarios y vuestras normas. Lo que no sepa, no se lo inventa: os lo deja apuntado.</p>
+
+  <div class="rejilla r3">
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div><h3>Reservas</h3><p>Toma día, turno, personas, nombre y teléfono, también de grupos de más de 8, y os lo manda para confirmar.</p></div>
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h3"/></svg></div><h3>Carta y menús</h3><p>Menú de la casa, gourmet y de lenguado, mejillones de temporada, platos del día, opciones vegetarianas.</p></div>
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Horarios y cierre</h3><p>Qué días abrís, hasta qué hora hay cocina, turnos del sábado y de vacaciones escolares.</p></div>
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><h3>Cómo llegar</h3><p>Priorijlaan 14, junto al tennisput, a 200 m del paseo. Dónde aparcar.</p></div>
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8v12M3 12h18M12 8c-2-4-6-4-6-1s6 1 6 1 6 2 6-1-4-3-6 1"/></svg></div><h3>Vales regalo</h3><p>Cómo comprarlos online o en el local, y que valen dos años.</p></div>
+    <div class="tarj"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 10h8M8 13h5"/></svg></div><h3>Aviso de lo demás</h3><p>Alérgenos dudosos, eventos, quejas o lo que no sepa: os deja el mensaje con nombre y teléfono.</p></div>
+  </div>
+
+  <div class="rejilla r2" style="margin-top:6mm">
+    <div class="tarj" style="background:#fbfaff"><h3 style="margin-top:0">Habla como vosotros</h3><p>Neerlandés (flamenco), francés, inglés y alemán. Cambia de idioma solo, según quién llame. Trato amable y breve, como en sala.</p></div>
+    <div class="tarj" style="background:#fdf8f7"><h3 style="margin-top:0">Lo que no hace</h3><p>No cobra, no cambia vuestra carta ni vuestros precios y no confirma un grupo sin vosotros. Vosotros decidís siempre.</p></div>
+  </div>
+
+  <div class="pie"><span>Neuro Node · Propuesta para Hilderwin</span><span class="puntos"><i></i><i></i><i></i><i></i><i class="on"></i><i></i><i></i></span></div>
+</section>
+
+<!-- 6 · LA BETA -->
+<section class="hoja">
+  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">05</span></div>
+  <p class="epi">La propuesta</p>
+  <h2>Os proponemos ser de los primeros: una beta gratis</h2>
+  <p class="entrada">Os lo decimos claro: este agente todavía no está funcionando en ningún restaurante. Por eso os ofrecemos montarlo con vosotros, gratis, y ajustarlo hasta que funcione como queréis.</p>
+
+  <div class="beta">
+    <span class="chip">Beta para Hilderwin</span>
+    <h3>30 días gratis, sin compromiso</h3>
+    <p>Lo dejamos montado con vuestra carta y vuestras normas, lo probáis con llamadas de verdad y, si no os convence, se quita y no pasa nada.</p>
+  </div>
+
+  <div class="rejilla r2" style="margin-top:6mm">
+    <div class="tarj"><h3 style="margin-top:0">Lo que hacemos nosotros</h3>
+      <ul class="lista">
+        <li><svg viewBox="0 0 24 24"><use href="#i-ok"/></svg>Cargamos vuestra carta, horarios, turnos y normas.</li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-ok"/></svg>Lo configuramos para que coja sólo cuando vosotros no podéis (o cuando queráis).</li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-ok"/></svg>Revisamos las llamadas con vosotros cada semana y lo ajustamos.</li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-ok"/></svg>Os enseñamos a ver avisos y reservas en el móvil.</li>
+      </ul></div>
+    <div class="tarj"><h3 style="margin-top:0">Lo que os pedimos</h3>
+      <ul class="lista">
+        <li><svg viewBox="0 0 24 24"><use href="#i-ok"/></svg>Una llamada de 20 minutos para conocer cómo trabajáis.</li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-ok"/></svg>Que nos digáis con sinceridad qué falla y qué no.</li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-ok"/></svg>Si os gusta, poder contarlo como caso real (sólo con vuestro permiso).</li>
+      </ul></div>
+  </div>
+
+  <div class="tarj" style="margin-top:6mm;background:#fbfaff">
+    <h3 style="margin-top:0">Privacidad, como manda la ley europea</h3>
+    <p>Al empezar cada llamada se avisa de que contesta un asistente. Los datos de vuestros clientes son vuestros: firmamos el contrato de encargado del tratamiento y no los usamos para nada más.</p>
+  </div>
+  <p class="nota">Después de la beta, si queréis seguir, os pasamos una cuota mensual cerrada. Antes de empezar sabréis el precio exacto.</p>
+
+  <div class="pie"><span>Neuro Node · Propuesta para Hilderwin</span><span class="puntos"><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i></span></div>
+</section>
+
+<!-- 7 · CÓMO EMPEZAMOS -->
+<section class="hoja">
+  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">06</span></div>
+  <p class="epi">Cómo empezamos</p>
+  <h2>Tres pasos y en unas semanas lo tenéis cogiendo llamadas</h2>
+
+  <div class="pasos">
+    <div class="paso"><div class="n">1</div><h3>Hablamos 20 minutos</h3><p>Por videollamada o teléfono. Nos contáis cómo trabajáis y qué os preguntan más.</p></div>
+    <div class="paso"><div class="n">2</div><h3>Lo montamos</h3><p>Con vuestra carta y vuestras normas. Lo probáis vosotros llamando antes de activarlo.</p></div>
+    <div class="paso"><div class="n">3</div><h3>30 días de prueba</h3><p>Con llamadas reales. Lo revisamos juntos cada semana y decidís si seguir.</p></div>
+  </div>
+
+  <p class="epi">Lo que nos falta saber</p>
+  <ul class="preg">
+    <li>¿En qué idioma os llaman más: neerlandés, francés, inglés o alemán?</li>
+    <li>¿Qué es lo que más os preguntan por teléfono?</li>
+    <li>¿Vuestra reserva online la lleva algún programa? Si se puede, el agente apuntará las reservas directamente en él.</li>
+    <li>¿En qué momentos se os quedan más llamadas sin coger, y cuántas más o menos?</li>
+    <li>¿Con quién de vosotros hablamos para decidirlo?</li>
+  </ul>
+
+  <div class="contacto">
+    <div><b>Brian Carbajal</b><br><span style="font-size:9.4pt;color:var(--suave)">Neuro Node · neuro-node.com · [teléfono / correo de Brian]</span></div>
+    <svg width="44" height="44"><use href="#logo"/></svg>
+  </div>
+
+  <div class="pie"><span>Neuro Node · Propuesta para Hilderwin</span><span class="puntos"><i></i><i></i><i></i><i></i><i></i><i></i><i class="on"></i></span></div>
+</section>
+
+</body>
+</html>
