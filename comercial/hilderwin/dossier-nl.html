@@ -83,9 +83,14 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 .comp ul{margin:0;padding-left:4.5mm;font-size:9.3pt}.comp li{margin-bottom:1.6mm}
 .x{color:var(--rojo)}.ok{color:var(--verde)}
 .cuenta{display:flex;align-items:center;gap:6mm;border-radius:4mm;padding:5mm 6mm;background:var(--claro);margin-top:5mm}
+.precios{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-top:2.5mm}
+.precios div{border:1.5px solid var(--acento);border-radius:4mm;padding:4mm}
+.precios span{display:block;font-size:8.4pt;font-weight:700;color:var(--acento);text-transform:uppercase;letter-spacing:1pt}
+.precios b{display:block;font-family:Montserrat,sans-serif;font-size:17pt;color:var(--tinta);margin:1mm 0}
+.precios small{font-size:8.4pt;color:var(--suave);line-height:1.35;display:block}
 .cuenta .grande{font-family:Montserrat,sans-serif;font-weight:800;font-size:24pt;color:var(--oscuro);white-space:nowrap}
 /* beta */
-.beta{border-radius:5mm;padding:6mm;background:linear-gradient(135deg,#2A1A57,#4B2FC9);color:#F4F1FF}
+.beta{border-radius:5mm;padding:5mm 6mm;background:linear-gradient(135deg,#2A1A57,#4B2FC9);color:#F4F1FF}
 .beta h3{color:#fff;font-size:15pt;margin-bottom:2mm}
 .beta p{margin:0;font-size:10pt;color:#DCD4FF}
 .chip{display:inline-block;font-family:Montserrat,sans-serif;font-size:7.6pt;font-weight:700;letter-spacing:1.4pt;text-transform:uppercase;background:rgba(255,255,255,.14);color:#fff;padding:1.2mm 3mm;border-radius:10mm;margin-bottom:3mm}
@@ -257,6 +262,10 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
     <div class="grande">370 €</div>
     <p style="margin:0;font-size:9.8pt">Zoveel is <b>één enkele tafel van 10 met het huismenu (37 €)</b> waard. Loopt er één per week verloren omdat niemand opneemt, dan is dat <span class="marcar"><b>zo’n 1.480 € per maand</b></span>. Dit is een rekenvoorbeeld: hoeveel oproepen jullie missen, weten jullie beter dan wij.</p>
   </div>
+  <div class="cuenta" style="margin-top:3mm;background:#f3fbf6">
+    <div class="grande" style="color:#14533a">0,40–0,50 €</div>
+    <p style="margin:0;font-size:9.8pt">Zoveel kost <b>elke oproep</b> die de assistent beantwoordt. Levert één oproep <b>één enkele maaltijd</b> op (een huismenu kost 37 €), dan is hij <span class="marcar"><b>zo’n 80 keer</b></span> terugverdiend.</p>
+  </div>
 
   <div class="pie"><span>Neuro Node · Voorstel voor Hilderwin</span><span class="puntos"><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i></span></div>
 </section>
@@ -323,7 +332,7 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
     <p>We zetten hem op met jullie kaart en jullie afspraken, jullie testen hem met echte oproepen, en overtuigt hij niet, dan halen we hem weg. Geen probleem.</p>
   </div>
 
-  <div class="rejilla r2" style="margin-top:6mm">
+  <div class="rejilla r2" style="margin-top:4mm">
     <div class="tarj"><h3 style="margin-top:0">Wat wij doen</h3>
       <ul class="lista">
         <li><svg viewBox="0 0 24 24"><use href="#i-ok"/></svg>We laden jullie kaart, uren, shiften en afspraken in.</li>
@@ -339,11 +348,15 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
       </ul></div>
   </div>
 
-  <div class="tarj" style="margin-top:6mm;background:#fbfaff">
+  <div class="tarj" style="margin-top:4mm;padding:4mm 5mm;background:#fbfaff">
     <h3 style="margin-top:0">Privacy, zoals de Europese wet het wil</h3>
     <p>Bij het begin van elk gesprek hoort de beller dat een assistent opneemt. De gegevens van jullie klanten zijn van jullie: we tekenen een verwerkersovereenkomst en gebruiken ze voor niets anders.</p>
   </div>
-  <p class="nota">Willen jullie na de proef verdergaan, dan krijgen jullie een vaste maandprijs. Voor we beginnen, kennen jullie de exacte prijs.</p>
+  <div class="precios">
+    <div><span>Installatie</span><b>800 €</b><small>eenmalig, als jullie na de proef verdergaan</small></div>
+    <div><span>Onderhoud</span><b>100 €/maand</b><small>bijsturen, kaartwijzigingen en ondersteuning</small></div>
+    <div><span>Verbruik</span><b>0,40–0,50 €</b><small>per oproep, plus de hosting: jullie betalen dat rechtstreeks, zonder marge voor ons</small></div>
+  </div>
 
   <div class="pie"><span>Neuro Node · Voorstel voor Hilderwin</span><span class="puntos"><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i></span></div>
 </section>
@@ -370,7 +383,7 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
   </ul>
 
   <div class="contacto">
-    <div><b>Brian Carbajal</b><br><span style="font-size:9.4pt;color:var(--suave)">Neuro Node · neuro-node.com · [telefoon / e-mail van Brian]</span></div>
+    <div><b>Brian Carbajal</b><br><span style="font-size:9.4pt;color:var(--suave)">Neuro Node · neuro-node.com · via WhatsApp, wanneer jullie willen</span></div>
     <img src="marca/simbolo.png" alt="" style="height:16mm;width:auto">
   </div>
 

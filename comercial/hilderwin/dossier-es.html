@@ -83,9 +83,14 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 .comp ul{margin:0;padding-left:4.5mm;font-size:9.3pt}.comp li{margin-bottom:1.6mm}
 .x{color:var(--rojo)}.ok{color:var(--verde)}
 .cuenta{display:flex;align-items:center;gap:6mm;border-radius:4mm;padding:5mm 6mm;background:var(--claro);margin-top:5mm}
+.precios{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-top:2.5mm}
+.precios div{border:1.5px solid var(--acento);border-radius:4mm;padding:4mm}
+.precios span{display:block;font-size:8.4pt;font-weight:700;color:var(--acento);text-transform:uppercase;letter-spacing:1pt}
+.precios b{display:block;font-family:Montserrat,sans-serif;font-size:17pt;color:var(--tinta);margin:1mm 0}
+.precios small{font-size:8.4pt;color:var(--suave);line-height:1.35;display:block}
 .cuenta .grande{font-family:Montserrat,sans-serif;font-weight:800;font-size:24pt;color:var(--oscuro);white-space:nowrap}
 /* beta */
-.beta{border-radius:5mm;padding:6mm;background:linear-gradient(135deg,#2A1A57,#4B2FC9);color:#F4F1FF}
+.beta{border-radius:5mm;padding:5mm 6mm;background:linear-gradient(135deg,#2A1A57,#4B2FC9);color:#F4F1FF}
 .beta h3{color:#fff;font-size:15pt;margin-bottom:2mm}
 .beta p{margin:0;font-size:10pt;color:#DCD4FF}
 .chip{display:inline-block;font-family:Montserrat,sans-serif;font-size:7.6pt;font-weight:700;letter-spacing:1.4pt;text-transform:uppercase;background:rgba(255,255,255,.14);color:#fff;padding:1.2mm 3mm;border-radius:10mm;margin-bottom:3mm}
@@ -257,6 +262,10 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
     <div class="grande">370 €</div>
     <p style="margin:0;font-size:9.8pt">Es lo que vale <b>una sola mesa de 10 con el menú de la casa (37 €)</b>. Si se pierde una a la semana porque nadie coge el teléfono, son <span class="marcar"><b>unos 1.480 € al mes</b></span>. Es una cuenta de ejemplo: cuántas llamadas perdéis lo sabéis vosotros, no nosotros.</p>
   </div>
+  <div class="cuenta" style="margin-top:3mm;background:#f3fbf6">
+    <div class="grande" style="color:#14533a">0,40–0,50 €</div>
+    <p style="margin:0;font-size:9.8pt">Es lo que cuesta <b>cada llamada</b> que atiende el agente. Con que una llamada acabe en <b>una sola comida</b> (un menú de la casa son 37 €), ya se ha pagado <span class="marcar"><b>unas 80 veces</b></span>.</p>
+  </div>
 
   <div class="pie"><span>Neuro Node · Propuesta para Hilderwin</span><span class="puntos"><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i></span></div>
 </section>
@@ -323,7 +332,7 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
     <p>Lo dejamos montado con vuestra carta y vuestras normas, lo probáis con llamadas de verdad y, si no os convence, se quita y no pasa nada.</p>
   </div>
 
-  <div class="rejilla r2" style="margin-top:6mm">
+  <div class="rejilla r2" style="margin-top:4mm">
     <div class="tarj"><h3 style="margin-top:0">Lo que hacemos nosotros</h3>
       <ul class="lista">
         <li><svg viewBox="0 0 24 24"><use href="#i-ok"/></svg>Cargamos vuestra carta, horarios, turnos y normas.</li>
@@ -339,11 +348,15 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
       </ul></div>
   </div>
 
-  <div class="tarj" style="margin-top:6mm;background:#fbfaff">
+  <div class="tarj" style="margin-top:4mm;padding:4mm 5mm;background:#fbfaff">
     <h3 style="margin-top:0">Privacidad, como manda la ley europea</h3>
     <p>Al empezar cada llamada se avisa de que contesta un asistente. Los datos de vuestros clientes son vuestros: firmamos el contrato de encargado del tratamiento y no los usamos para nada más.</p>
   </div>
-  <p class="nota">Después de la beta, si queréis seguir, os pasamos una cuota mensual cerrada. Antes de empezar sabréis el precio exacto.</p>
+  <div class="precios">
+    <div><span>Instalación</span><b>800 €</b><small>un solo pago, si seguís después de la prueba</small></div>
+    <div><span>Mantenimiento</span><b>100 €/mes</b><small>ajustes, cambios de carta y soporte</small></div>
+    <div><span>Consumo</span><b>0,40–0,50 €</b><small>por llamada, más el alojamiento: lo pagáis directamente, sin margen nuestro</small></div>
+  </div>
 
   <div class="pie"><span>Neuro Node · Propuesta para Hilderwin</span><span class="puntos"><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i></span></div>
 </section>
@@ -370,7 +383,7 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
   </ul>
 
   <div class="contacto">
-    <div><b>Brian Carbajal</b><br><span style="font-size:9.4pt;color:var(--suave)">Neuro Node · neuro-node.com · [teléfono / correo de Brian]</span></div>
+    <div><b>Brian Carbajal</b><br><span style="font-size:9.4pt;color:var(--suave)">Neuro Node · neuro-node.com · por WhatsApp, cuando queráis</span></div>
     <img src="marca/simbolo.png" alt="" style="height:16mm;width:auto">
   </div>
 
