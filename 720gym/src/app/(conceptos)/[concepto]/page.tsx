@@ -253,11 +253,13 @@ export default async function PaginaConcepto({ params }: { params: Promise<{ con
           )}
 
           {c.niveles && (
-            <div className="mt-12">
-              <h3 data-reveal className="titular text-[clamp(1.5rem,2.6vw,2.1rem)]">
-                {c.niveles.titulo}
-              </h3>
-              <p className="mt-2 max-w-3xl text-[15.5px] text-negro/65">{c.niveles.intro}</p>
+            <div className={c.niveles.titulo ? "mt-12" : "mt-2"}>
+              {c.niveles.titulo && (
+                <h3 data-reveal className="titular text-[clamp(1.5rem,2.6vw,2.1rem)]">
+                  {c.niveles.titulo}
+                </h3>
+              )}
+              {c.niveles.intro && <p className="mt-2 max-w-3xl text-[15.5px] text-negro/65">{c.niveles.intro}</p>}
               <ul className="mt-6 grid gap-3 md:grid-cols-2">
                 {c.niveles.items.map((n) => (
                   <li key={n.titulo} data-reveal className="ficha-clara flex gap-4 rounded-3xl border border-negro/10 bg-white p-5 sm:p-6">

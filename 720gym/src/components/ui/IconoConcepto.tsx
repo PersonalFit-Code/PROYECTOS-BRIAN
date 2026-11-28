@@ -1,6 +1,6 @@
 import { createElement, type ComponentType, type SVGProps } from "react";
 import {
-  Accessibility, Activity, AudioLines, Baby, CalendarDays, ChartNoAxesColumnIncreasing, ClipboardList, Clock, Dumbbell, Flower2, GraduationCap, HeartPulse,
+  Activity, AudioLines, Baby, CalendarDays, ChartNoAxesColumnIncreasing, ClipboardList, Clock, Dumbbell, Flower2, GraduationCap, HeartPulse,
   Hourglass, KeyRound, Layers, PersonStanding, Shield, ShieldCheck, TrendingUp, Trophy, User, UserCheck, Users, Wind,
 } from "lucide-react";
 import { BarraDiscos, Berimbau, Cinturon, Kettlebell, PesoMuerto, PressBanca, Reformer, Sentadilla } from "./IconosMarca";
@@ -27,6 +27,7 @@ const reglas: [RegExp, Icono][] = [
   [/música|ritmo/i, AudioLines],
   [/capoeira adultos/i, Berimbau],
   [/jiu-jitsu adultos/i, Cinturon],
+  [/acroadultos|para adultos/i, PersonStanding],
   [/infantil|niños|kids|psicomotricidad/i, Baby],
   [/escuela/i, GraduationCap],
   [/competi|campe/i, Trophy],
@@ -43,7 +44,6 @@ const reglas: [RegExp, Icono][] = [
   [/duran/i, TrendingUp],
   [/años|tercera edad/i, Hourglass],
   [/grupos reducidos|aforo|máximo|ourense|equipo/i, Users],
-  [/para adultos|gimnasia para adultos/i, Accessibility],
   [/adultos|jóvenes/i, User],
 ];
 

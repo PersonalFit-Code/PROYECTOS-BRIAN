@@ -54,7 +54,7 @@ export interface Concepto {
   destacados?: { titulo: string; texto: string }[];
   /** `web`: la página propia del club (pendiente de que Brais pase los enlaces). */
   club?: { nombre: string; texto: string; web?: string };
-  niveles?: { titulo: string; intro: string; items: { titulo: string; texto: string }[] };
+  niveles?: { titulo?: string; intro?: string; items: { titulo: string; texto: string }[] };
   equipo?: { titulo: string; personas: Persona[] };
   horarios?: { titulo: string; grupos: { titulo?: string; lineas: string[] }[]; nota?: string; destacado?: { titulo: string; texto: string }; mensaje: string };
   cuotas?: { titulo: string; grupos: { titulo?: string; filas: [string, string][]; nota?: string }[]; notas?: string[]; boton?: { texto: string; mensaje: string } };
@@ -140,7 +140,7 @@ export const conceptos: Concepto[] = [
     titulo: "Programa 720",
     marca: "720 ENTRENAMIENTO",
     color: NARANJA,
-    logo: "/sellos/720-entrenamiento.png",
+    logo: "/sellos/programa-720.png",
     lineas: "Entrena con autonomía, sabiendo qué hacer: dos sesiones con un entrenador y una planificación clara.",
     lema: "Entrena con autonomía, sabiendo qué hacer",
     texto: "Te enseñamos a realizar correctamente el calentamiento, los ejercicios y los estiramientos, y te entregamos una planificación clara para que sepas qué hacer en cada sesión.",
@@ -443,50 +443,39 @@ export const conceptos: Concepto[] = [
     marca: "ESCOLA XIMNASIA BURGAS",
     color: "#f5b800",
     logo: "/sellos/ximnasia-burgas.png",
-    lineas: "Fuerza. Equilibrio. Equipo. Un grupo para cada edad con la Escola Ximnasia Burgas.",
-    lema: "Fuerza. Equilibrio. Equipo.",
-    texto: "Una disciplina que combina acrobacias y trabajo en equipo con un aprendizaje progresivo.",
-    chips: ["Para niños", "Para adultos", "Aprendizaje progresivo"],
-    bloque: {
-      titulo: "Un grupo para cada edad",
-      intro: "Propuestas adaptadas a diferentes edades, objetivos y niveles de práctica.",
-      tarjetas: [
-        { titulo: "Gimnasia para niños", texto: "Una actividad progresiva para desarrollar coordinación, fuerza, flexibilidad, confianza y trabajo en equipo." },
-        { titulo: "Gimnasia para adultos", texto: "Una práctica adaptada para mejorar movilidad, fuerza, equilibrio y control corporal." },
-      ],
-      nota: "El club también ofrece preparación para quienes quieran avanzar hacia la competición.",
-    },
+    lineas: "Acrobacias, fuerza, equilibrio, coordinación y trabajo en equipo con la Escola Ximnasia Burgas.",
+    texto: "Una modalidad que combina acrobacias, fuerza, equilibrio, coordinación y trabajo en equipo.",
+    chips: ["Para niños", "Para adultos"],
+    bloque: { titulo: "Grupos adaptados a cada etapa, según la edad y el nivel", tarjetas: [] },
     club: { nombre: "Escola Ximnasia Burgas", texto: "Entrena dentro de un club especializado y forma parte de un equipo cercano." },
     niveles: {
-      titulo: "Grupos adaptados a cada etapa",
-      intro: "Las clases se organizan por edad y nivel para aprender de forma progresiva, segura y divertida.",
       items: [
-        { titulo: "Psicomotricidad · de 3 a 5 años", texto: "Control corporal, coordinación, fuerza y flexibilidad mientras desarrollan confianza y habilidades sociales." },
-        { titulo: "Escuela de gimnasia · desde 6 años", texto: "Iniciación a la gimnasia, la acrobática y el trampolín. Aprendizaje de colocación, técnica y elementos básicos." },
-        { titulo: "Gimnasia para adultos · desde 18 años", texto: "No necesitas experiencia previa. Mejora movilidad, agilidad, fuerza y control corporal con acrobacias individuales y en grupo." },
-        { titulo: "Competición", texto: "Preparación para niveles escolar y nacional de gimnasia acrobática y trampolín." },
+        { titulo: "Psicomotricidad · de 3 a 5 años", texto: "Trabajamos control corporal y coordinación a través del juego a la vez que desarrollan confianza y habilidades sociales." },
+        { titulo: "Escuela de gimnasia · desde 6 años", texto: "Iniciación a la gimnasia acrobática y el trampolín. Aprendizaje de colocación, técnica y elementos básicos." },
+        { titulo: "Acroadultos · desde 16 años", texto: "No necesitas experiencia previa. Mejora movilidad, agilidad, fuerza y control corporal con acrobacias individuales y en grupo." },
+        { titulo: "Competición autonómica y nacional", texto: "Preparación para niveles escolar, nacional e internacional de gimnasia acrobática y trampolín." },
       ],
     },
     equipo: {
       titulo: "Conoce al equipo",
       personas: [
-        { nombre: "Isaura Hermida Pérez", rol: "Entrenadora principal de gimnasia acrobática" },
+        { nombre: "Isaura Hermida Pérez", rol: "Entrenadora principal de gimnasia acrobática", sellos: ["Entrenadora de gimnasia acrobática, trampolín, rítmica y artística"] },
         {
           nombre: "Yolanda García Sequeiros",
           apodo: "Yoli",
           foto: "/fotos/equipo/yoli.webp",
           rol: "Entrenadora de gimnasia acrobática · Fisioterapeuta",
           resumen: "Vinculada a la gimnasia desde los 6 años, ha sido gimnasta en diferentes niveles de competición y se ha formado como entrenadora de gimnasia acrobática. En 720GYM dirige parte de la escuela y las clases para adultos, ayudando a cada persona a desarrollar sus capacidades, su agilidad y la confianza en su cuerpo.",
-          sellos: ["Experiencia como gimnasta", "Entrenadora en todos los niveles", "Graduada en Fisioterapia"],
+          sellos: ["Experiencia como gimnasta", "Entrenadora de gimnasia acrobática", "Graduada en Fisioterapia"],
         },
         {
           nombre: "Iria Do Nascimento Penín",
           foto: "/fotos/equipo/iria.webp",
           rol: "Entrenadora y jueza de gimnasia acrobática",
           resumen: "Con más de 15 años sobre el tapiz, ha competido en gimnasia acrobática y trampolín, logrando medallas en campeonatos autonómicos, nacionales e internacionales. Su forma de enseñar une progresión, confianza, disciplina y trabajo en equipo.",
-          sellos: ["Más de 15 años de experiencia", "Entrenadora de gimnasia acrobática", "Jueza autonómica y nacional", "Graduada en Educación Social"],
+          sellos: ["Experiencia como gimnasta", "Entrenadora de gimnasia acrobática", "Más de 15 años de experiencia", "Jueza autonómica y nacional", "Graduada en Educación Social"],
         },
-        { nombre: "Luis Sánchez Botana", rol: "Entrenador de gimnasia acrobática" },
+        { nombre: "Luis Sánchez Botana", rol: "Entrenador de gimnasia acrobática", sellos: ["Experiencia como gimnasta", "Entrenador de gimnasia trampolín"] },
       ],
     },
     horarios: {
@@ -501,12 +490,16 @@ export const conceptos: Concepto[] = [
       mensaje: "Hola, he visto en la web los horarios de Escola Ximnasia Burgas y me gustaría consultar la disponibilidad. ¿Podríais orientarme sobre los grupos que tienen plazas actualmente? Gracias.",
     },
     cuotas: {
-      titulo: "Cuotas de gimnasia acrobática",
+      titulo: "Cuotas de la Escuela de gimnasia",
       grupos: [
         { titulo: "1 hora por semana", filas: [["Al mes", "15 €"], ["Al trimestre", "45 €"], ["Curso completo · octubre–junio", "135 €"]] },
         { titulo: "2 horas por semana", filas: [["Al mes", "25 €"], ["Al trimestre", "70 €"], ["Curso completo · octubre–junio", "200 €"]] },
       ],
-      notas: ["Primera clase gratuita."],
+      notas: [
+        "Estas cuotas son las de la Escuela de gimnasia.",
+        "Psicomotricidad, Acroadultos y Competición tienen cuotas propias: consúltalas sin compromiso.",
+        "Primera clase gratuita.",
+      ],
     },
     notaFinal: "Consulta el grupo que mejor encaja según la edad y el nivel.",
     conocer: { boton: "Quiero conocer Gimnasia Acrobática", mensaje: "Hola, os escribo desde la web de 720 Gym Club. Me gustaría conocer vuestras clases de gimnasia acrobática. ¿Podéis contarme cómo organizáis los grupos por edades y cuándo podría pasar a conoceros? Gracias." },
@@ -694,7 +687,7 @@ export const conceptos: Concepto[] = [
     seo: { titulo: "Krav Maga en Ourense: KME", descripcion: "KME Krav Maga en 720GYM CLUB, Ourense: defensa personal civil y entrenamiento operativo para profesionales de la seguridad. Primera clase gratuita." },
   },
   {
-    /* Texto de Brais (24/11/2026). Faltan horarios, cuotas, nombres de los profesores y fotos. */
+    /* Texto de Brais (24/11/2026) y fotos del 27/11. Faltan horarios, cuotas y nombres de los profesores. */
     slug: "lucha-de-brazos",
     instagram: "brazosdepedra",
     href: "/lucha-de-brazos",
@@ -708,6 +701,8 @@ export const conceptos: Concepto[] = [
     lema: "Arm Wrestling",
     texto: "Un deporte en el que se aúnan la táctica y la técnica con la fuerza explosiva y la resistencia. Destinado a jóvenes, adultos y personas de la tercera edad.",
     chips: ["Jóvenes", "Adultos", "Tercera edad"],
+    foto: fotos.brazosMesa.src,
+    galeria: [fotos.brazosMesa, fotos.brazosAgarre, fotos.brazosSala, fotos.brazosPolea],
     bloque: {
       titulo: "Una actividad multifuncional",
       intro: "Si bien parece que solo importa el tamaño de los bíceps, lo cierto es que aquí también se ejercitan la muñeca, el antebrazo, el hombro y la espalda.",

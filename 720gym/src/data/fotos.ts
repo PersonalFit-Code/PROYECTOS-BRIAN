@@ -33,6 +33,11 @@ export const fotos = {
   /* Capoeira (25/11/2026, de Brais). */
   capoeiraRoda: { src: "/fotos/capoeira-roda.webp", grande: "/fotos/capoeira-roda-grande.webp", alt: "Roda de capoeira infantil en 720 con el atabaque y el pandeiro" },
   capoeiraTatami: { src: "/fotos/capoeira-tatami.webp", grande: "/fotos/capoeira-tatami-grande.webp", alt: "Entrenamiento de capoeira de adultos en el tatami de 720", vertical: true },
+  /* Brazos de Pedra (27/11/2026, de Brais). */
+  brazosMesa: { src: "/fotos/brazos-mesa-720.webp", grande: "/fotos/brazos-mesa-720-grande.webp", alt: "Pulso en la mesa de lucha de brazos de 720 con la camiseta de 720", vertical: true },
+  brazosAgarre: { src: "/fotos/brazos-agarre.webp", grande: "/fotos/brazos-agarre-grande.webp", alt: "Agarre en la mesa de lucha de brazos de Brazos de Pedra", vertical: true },
+  brazosSala: { src: "/fotos/brazos-sala.webp", grande: "/fotos/brazos-sala-grande.webp", alt: "Entrenamiento de lucha de brazos en la sala de musculación de 720", vertical: true },
+  brazosPolea: { src: "/fotos/brazos-polea.webp", grande: "/fotos/brazos-polea-grande.webp", alt: "Trabajo específico de lucha de brazos con polea", vertical: true },
   /* Fachada (24/11/2026, de Brais). */
   fachada: { src: "/fotos/fachada-720gym.webp", grande: "/fotos/fachada-720gym-grande.webp", alt: "Fachada de 720GYM CLUB en la calle Río Bibei, con el rótulo luminoso y la entrada" },
 } as const;
