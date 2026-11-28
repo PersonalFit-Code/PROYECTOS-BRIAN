@@ -1,6 +1,6 @@
 # Hilderwin (Westende, Bélgica) · agente de voz
 
-Contacto llegado por la madre de Brian, que es clienta del restaurante (23/11/2026). Les interesó el agente que contesta las llamadas, no el rediseño de la web.
+Contacto llegado a través de Rudy, amigo de la madre de Brian (23/11/2026). El primer mensaje va «de parte de Rudy». Les interesó el agente que contesta las llamadas, no el rediseño de la web.
 
 ## El restaurante (datos públicos de su web, 23/11/2026)
 
