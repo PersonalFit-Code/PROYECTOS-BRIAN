@@ -30,3 +30,8 @@
   - foto de Brian con IA (`web/public/marca/brian.jpg`, 220×220);
   - el PR para que Nico lo revise.
 - Para más adelante: el botón «↑» del móvil se superpone al texto. Ya pasaba antes de estos cambios.
+
+## Sesión del 28/11/2026 (borrador para revisar con Nico)
+- Hecho, todo en borrador: diapositivas de precios, idea de hero con órbita animada, plan para reducir el scroll con bloques de pestañas, reposicionamiento como ecosistema y nuevo perfil de lead (5.000–100.000 seguidores).
+- El detalle y los prompts para VS Code están en la carpeta privada (`privado/borrador-noche-2026-11-28.md`), que no va al repositorio.
+- Siguiente paso: decidir con Nico precios, hero, estructura de la web y nombre exacto de la marca («Neuro Node»).
