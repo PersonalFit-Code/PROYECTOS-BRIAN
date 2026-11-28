@@ -24,6 +24,12 @@ p,li{text-wrap:pretty}
 .cab{display:flex;justify-content:space-between;align-items:center;font-size:8.4pt;color:var(--suave);margin-bottom:9mm}
 .marca{display:flex;align-items:center;gap:2.4mm;font-family:Montserrat,sans-serif;font-weight:700;color:var(--tinta);font-size:10pt}
 .marca svg{width:7mm;height:7mm}
+.logo{height:5.2mm;width:auto;display:block}
+.portada .logo{height:7mm}
+.datos{display:flex;gap:4mm;margin-top:9mm}
+.datos div{flex:1;border:1px solid var(--linea);border-radius:4mm;padding:4mm 5mm;background:#fff}
+.datos b{display:block;font-family:Montserrat,sans-serif;font-size:17pt;color:var(--tinta);line-height:1.1}
+.datos span{font-size:9pt;color:var(--suave)}
 .num{font-family:Montserrat,sans-serif;font-weight:800;font-size:30pt;line-height:1;background:var(--deg);-webkit-background-clip:text;background-clip:text;color:transparent}
 .epi{font-family:Montserrat,sans-serif;font-size:8.4pt;font-weight:700;letter-spacing:1.6pt;text-transform:uppercase;color:var(--acento);margin:0 0 2.5mm}
 h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
@@ -111,9 +117,10 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 <!-- 1 · PORTADA -->
 <section class="hoja portada">
   <div class="arriba">
-    <div class="cab" style="margin:0"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span>Propuesta para Restaurant Hilderwin · Westende</span></div>
+    <div class="cab" style="margin:0"><img class="logo" src="marca/logo-texto.png" alt="Neuro Node"><span>Propuesta para Restaurant Hilderwin · Westende</span></div>
     <h1>Que ninguna mesa se pierda porque el teléfono sonaba <span>en pleno servicio</span></h1>
     <p class="sub">Un agente de voz que coge las llamadas de Hilderwin cuando vosotros no podéis: contesta en neerlandés, francés, inglés o alemán, toma las reservas y os deja el aviso.</p>
+    <div class="datos"><div><b>4 idiomas</b><span>neerlandés, francés, inglés y alemán</span></div><div><b>Siempre</b><span>también en servicio y en días de cierre</span></div><div><b>1 semana</b><span>y lo tenéis funcionando</span></div></div>
   </div>
   <div class="dibujo">
     <svg viewBox="0 0 840 560" role="img" aria-label="Una cazuela de mejillones humeante junto al paseo marítimo de Westende, con un teléfono sonando">
@@ -181,7 +188,7 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 
 <!-- 2 · LO QUE HEMOS VISTO -->
 <section class="hoja">
-  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">01</span></div>
+  <div class="cab"><img class="logo" src="marca/logo-texto.png" alt="Neuro Node"><span class="num">01</span></div>
   <p class="epi">Lo que hemos visto en vuestra web</p>
   <h2>Un restaurante que funciona, y un teléfono que no siempre se puede coger</h2>
   <p class="entrada">Antes de proponeros nada, hemos mirado cómo trabajáis. Todo lo de esta hoja sale de hilderwin.be.</p>
@@ -213,7 +220,7 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 
 <!-- 3 · EL DOLOR -->
 <section class="hoja">
-  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">02</span></div>
+  <div class="cab"><img class="logo" src="marca/logo-texto.png" alt="Neuro Node"><span class="num">02</span></div>
   <p class="epi">El problema</p>
   <h2>El teléfono suena cuando nadie puede cogerlo</h2>
   <p class="entrada">No es falta de ganas: es que cuando más llaman, más lleno está el restaurante. Y la llamada que no se coge no vuelve: esa familia reserva en el sitio de al lado.</p>
@@ -256,7 +263,7 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 
 <!-- 4 · UNA LLAMADA -->
 <section class="hoja">
-  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">03</span></div>
+  <div class="cab"><img class="logo" src="marca/logo-texto.png" alt="Neuro Node"><span class="num">03</span></div>
   <p class="epi">Una llamada de principio a fin</p>
   <h2>Sábado, 13:10. La cocina a tope. Llama un grupo de diez.</h2>
   <p class="entrada">Así contestaría el agente, con vuestros horarios y vuestras normas. En la versión real, la conversación va en el idioma de quien llama: aquí está en español para que se lea.</p>
@@ -281,7 +288,7 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 
 <!-- 5 · QUÉ HACE -->
 <section class="hoja">
-  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">04</span></div>
+  <div class="cab"><img class="logo" src="marca/logo-texto.png" alt="Neuro Node"><span class="num">04</span></div>
   <p class="epi">Qué hace el agente</p>
   <h2>Lo que hoy os interrumpe, lo contesta él</h2>
   <p class="entrada">Lo montamos con vuestra carta, vuestros horarios y vuestras normas. Lo que no sepa, no se lo inventa: os lo deja apuntado.</p>
@@ -305,10 +312,10 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 
 <!-- 6 · LA BETA -->
 <section class="hoja">
-  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">05</span></div>
+  <div class="cab"><img class="logo" src="marca/logo-texto.png" alt="Neuro Node"><span class="num">05</span></div>
   <p class="epi">La propuesta</p>
   <h2>Os proponemos ser de los primeros: una beta gratis</h2>
-  <p class="entrada">Os lo decimos claro: este agente todavía no está funcionando en ningún restaurante. Por eso os ofrecemos montarlo con vosotros, gratis, y ajustarlo hasta que funcione como queréis.</p>
+  <p class="entrada">Ya lo hemos montado para restaurantes en Ourense, y en Bélgica seríais los primeros. Por eso os ofrecemos montarlo con vosotros, gratis, y ajustarlo hasta que funcione como queréis.</p>
 
   <div class="beta">
     <span class="chip">Beta para Hilderwin</span>
@@ -343,13 +350,13 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 
 <!-- 7 · CÓMO EMPEZAMOS -->
 <section class="hoja">
-  <div class="cab"><span class="marca"><svg><use href="#logo"/></svg>Neuro Node</span><span class="num">06</span></div>
+  <div class="cab"><img class="logo" src="marca/logo-texto.png" alt="Neuro Node"><span class="num">06</span></div>
   <p class="epi">Cómo empezamos</p>
-  <h2>Tres pasos y en unas semanas lo tenéis cogiendo llamadas</h2>
+  <h2>Tres pasos y en una semana lo tenéis cogiendo llamadas</h2>
 
   <div class="pasos">
     <div class="paso"><div class="n">1</div><h3>Hablamos 20 minutos</h3><p>Por videollamada o teléfono. Nos contáis cómo trabajáis y qué os preguntan más.</p></div>
-    <div class="paso"><div class="n">2</div><h3>Lo montamos</h3><p>Con vuestra carta y vuestras normas. Lo probáis vosotros llamando antes de activarlo.</p></div>
+    <div class="paso"><div class="n">2</div><h3>Lo montamos en una semana</h3><p>Con vuestra carta y vuestras normas. Lo probáis vosotros llamando antes de activarlo.</p></div>
     <div class="paso"><div class="n">3</div><h3>30 días de prueba</h3><p>Con llamadas reales. Lo revisamos juntos cada semana y decidís si seguir.</p></div>
   </div>
 
@@ -364,7 +371,7 @@ h2{font-size:21pt;line-height:1.15;letter-spacing:-.4pt;margin-bottom:4mm}
 
   <div class="contacto">
     <div><b>Brian Carbajal</b><br><span style="font-size:9.4pt;color:var(--suave)">Neuro Node · neuro-node.com · [teléfono / correo de Brian]</span></div>
-    <svg width="44" height="44"><use href="#logo"/></svg>
+    <img src="marca/simbolo.png" alt="" style="height:16mm;width:auto">
   </div>
 
   <div class="pie"><span>Neuro Node · Propuesta para Hilderwin</span><span class="puntos"><i></i><i></i><i></i><i></i><i></i><i></i><i class="on"></i></span></div>
